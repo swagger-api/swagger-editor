@@ -5,20 +5,12 @@ angular.module('koknusApp')
     $scope.editor = null;
     $scope.editingLanguage = 'yml';
 
-    // function getCodeFromEditor(editor){
-    //   $scope.code = editor.getSession().getValue();
-    // }
-
-    // function setCodeToEditor(editor){
-    //   editor.getSession().setValue($scope.code);
-    // }
-
     $scope.aceLoaded = function(editor) {
       $scope.editor = editor;
     };
 
     $scope.aceChanged = function(editor) {
-      getCodeFromEditor(editor);
+      // TODO
     };
 
     $scope.switchToLanguage = function(language){
