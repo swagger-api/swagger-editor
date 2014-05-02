@@ -5,20 +5,14 @@
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width">
     <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
-    <!-- build:css styles/vendor.css -->
     <!-- bower:css -->
     <!-- endbower -->
-    <!-- endbuild -->
     <!-- build:css({.tmp,app}) styles/main.css -->
     <link rel="stylesheet" href="styles/main.css">
     <!-- endbuild -->
   </head>
   <body ng-app="koknusApp">
-
-    <!-- Add your site or application content here -->
     <div class="container" ng-view=""></div>
-
-    <!-- Google Analytics: change UA-XXXXX-X to be your site's ID -->
      <script>
        (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
@@ -29,10 +23,13 @@
        ga('send', 'pageview');
     </script>
 
-    <!-- build:js scripts/vendor.js -->
+    <!-- build:js scripts/libs.js -->
     <script src="libs/yaml.js"></script>
     <script src="bower_components/ace-builds/src-min-noconflict/ace.js"></script>
-    <!-- bower:js -->
+    <script src="bower_components/ace-builds/src-min-noconflict/theme-twilight.js"></script>
+    <script src="bower_components/ace-builds/src-min-noconflict/mode-yaml.js"></script>
+    <!-- endbuild -->
+    <!-- build:js scripts/vendor.js -->
     <script src="bower_components/es5-shim/es5-shim.js"></script>
     <script src="bower_components/angular/angular.js"></script>
     <script src="bower_components/json3/lib/json3.min.js"></script>
@@ -40,13 +37,12 @@
     <script src="bower_components/angular-cookies/angular-cookies.js"></script>
     <script src="bower_components/angular-sanitize/angular-sanitize.js"></script>
     <script src="bower_components/angular-route/angular-route.js"></script>
-    <!-- endbower -->
     <script src="bower_components/angular-ui-ace/ui-ace.js"></script>
     <!-- endbuild -->
 
-        <!-- build:js({.tmp,app}) scripts/scripts.js -->
-        <script src="scripts/app.js"></script>
-        <script src="scripts/controllers/main.js"></script>
-        <!-- endbuild -->
+    <!-- build:js({.tmp,app}) scripts/scripts.js -->
+    <script src="scripts/app.js"></script>
+    <script src="scripts/controllers/main.js"></script>
+    <!-- endbuild -->
 </body>
 </html>
