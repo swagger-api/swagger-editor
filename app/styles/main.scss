@@ -1,5 +1,43 @@
 @import "reset";
+@import "header";
+@import "editor";
 
-html, body { height: 100vh; }
+html, body {
+  height: 100vh;
+  font-family: sans-serif;
+}
 
-.ace_editor { height: 100vh; }
+
+/*
+  Layout
+*/
+
+header.main-header {
+  max-height: 40px;
+}
+
+main.container {
+  display: flex;
+
+
+  .pane {
+    height: calc(100vh - 40px);
+    flex: 1;
+
+    &.ace {
+      display: flex;
+      flex-direction: column;
+      header.editor {
+        height: 20px;
+      }
+      .editor-wrapper {
+        flex: auto;
+      }
+    }
+
+    &.preview {
+    }
+  }
+
+
+}
