@@ -1,4 +1,4 @@
-<header class="main-header"><h1>Phonics</h1></header><main class="container"><div class="ace pane"><header class="editor"><a ng-click="switchToLanguage('yml')" ng-class="{active: editingLanguage == 'yml'}">YML</a> <a ng-click="switchToLanguage('json')" ng-class="{active: editingLanguage == 'json'}">JSON</a></header><div class="editor-wrapper" ui-ace="{
+<header class="main-header"><h1>Phonics</h1></header><main class="container"><div class="ace pane ace-editor"><header class="editor"><a ng-click="switchToLanguage('yaml')" ng-class="{active: editingLanguage == 'yaml'}">YAML</a> <a ng-click="switchToLanguage('json')" ng-class="{active: editingLanguage == 'json'}">JSON</a></header><div class="editor-error-message" ng-show="!!editorErrorMessage.length"><pre>{{editorErrorMessage}}</pre></div><div class="editor-wrapper" ui-ace="{
       useWrapMode : true,
       showGutter: true,
       theme:'twilight',
