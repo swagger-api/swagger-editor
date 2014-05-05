@@ -1,7 +1,6 @@
 'use strict';
 
-angular.module('koknusApp')
-  .controller('MainCtrl', function ($scope) {
+PhonicsApp.controller('MainCtrl', function ($scope) {
     $scope.editor = null;
     $scope.editingLanguage = 'yml';
 
