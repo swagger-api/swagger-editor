@@ -24,12 +24,24 @@ function annotateYAMLErrors(editor){
 function annotateJSONErrors(editor){
   var errorMessage = null;
   var value = editor.getSession().getValue();
+  var line = 0;
   try {
     jsonlint.parse(value);
   } catch (jsonParseError){
     errorMessage = jsonParseError.message;
+    try {
+      line = parseInt(errorMessage.split('\n')[0]
+        .replace('Parse error on line ', '').replace(':', ''), 10);
+    } catch (e) {}
+    editor.getSession().setAnnotations([{
+      row: line,
+      column: 0,
+      text: errorMessage,
+      type: 'error'
+    }]);
     return errorMessage;
   }
+  editor.getSession().clearAnnotations();
   return errorMessage;
 }
 
