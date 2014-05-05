@@ -3,6 +3,8 @@
 Coming soon!
 
 
+## [View App](http://apigee.github.io/phonics/dist/#/)
+
 ## Running Locally
 
 * Make sure you have NodeJS installed
