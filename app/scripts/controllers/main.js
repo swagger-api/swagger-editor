@@ -1,12 +1,12 @@
 'use strict';
 /* global jsyaml */
+/* global jsonlint */
 
 function annotateYAMLErrors(editor){
   var errorMessage = null;
   var value = editor.getSession().getValue();
-  var json = null;
   try {
-    json = jsyaml.load(value);
+    jsyaml.load(value);
   } catch(yamlLoadError) {
     errorMessage = yamlLoadError.message.replace('JS-YAML: ', '');
     editor.getSession().setAnnotations([{
@@ -21,6 +21,18 @@ function annotateYAMLErrors(editor){
   return errorMessage;
 }
 
+function annotateJSONErrors(editor){
+  var errorMessage = null;
+  var value = editor.getSession().getValue();
+  try {
+    jsonlint.parse(value);
+  } catch (jsonParseError){
+    errorMessage = jsonParseError.message;
+    return errorMessage;
+  }
+  return errorMessage;
+}
+
 PhonicsApp.controller('MainCtrl', function ($scope) {
   $scope.editor = null;
   $scope.editingLanguage = 'yaml';
@@ -31,7 +43,13 @@ PhonicsApp.controller('MainCtrl', function ($scope) {
   };
 
   $scope.aceChanged = function() {
-    var error = annotateYAMLErrors($scope.editor);
+    var error = null;
+    if($scope.editingLanguage === 'yaml') {
+      error = annotateYAMLErrors($scope.editor);
+    }
+    if($scope.editingLanguage === 'json') {
+      error = annotateJSONErrors($scope.editor);
+    }
     if(!error) {
       $scope.editorErrorMessage = '';
     }
@@ -41,6 +59,10 @@ PhonicsApp.controller('MainCtrl', function ($scope) {
     var currentValue = $scope.editor.getSession().getValue();
     var newValue = null;
     if(language === 'yaml'){
+      $scope.editorErrorMessage = annotateJSONErrors($scope.editor);
+      if ($scope.editorErrorMessage) {
+        return;
+      }
       newValue = JSON.parse(currentValue);
       newValue = jsyaml.dump(newValue);
     }
