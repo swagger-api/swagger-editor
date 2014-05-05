@@ -1,7 +1,7 @@
 'use strict';
 /* global jsyaml */
 
-function annotateErrors(editor){
+function annotateYAMLErrors(editor){
   var errorMessage = null;
   var value = editor.getSession().getValue();
   var json = null;
@@ -31,7 +31,7 @@ PhonicsApp.controller('MainCtrl', function ($scope) {
   };
 
   $scope.aceChanged = function() {
-    var error = annotateErrors($scope.editor);
+    var error = annotateYAMLErrors($scope.editor);
     if(!error) {
       $scope.editorErrorMessage = '';
     }
@@ -45,7 +45,11 @@ PhonicsApp.controller('MainCtrl', function ($scope) {
       newValue = jsyaml.dump(newValue);
     }
     if(language === 'json'){
-      $scope.editorErrorMessage = annotateErrors($scope.editor);
+      $scope.editorErrorMessage = annotateYAMLErrors($scope.editor);
+      if ($scope.editorErrorMessage) {
+        return;
+      }
+      newValue = jsyaml.load(currentValue);
       newValue = JSON.stringify(newValue, null, 2);
     }
     if($scope.editorErrorMessage) {
