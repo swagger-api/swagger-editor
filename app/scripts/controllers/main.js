@@ -23,7 +23,7 @@ function annotateYAMLErrors(editor){
 
 PhonicsApp.controller('MainCtrl', function ($scope) {
   $scope.editor = null;
-  $scope.editingLanguage = 'yml';
+  $scope.editingLanguage = 'yaml';
   $scope.editorErrorMessage = '';
 
   $scope.aceLoaded = function(editor) {
@@ -40,7 +40,7 @@ PhonicsApp.controller('MainCtrl', function ($scope) {
   $scope.switchToLanguage = function(language){
     var currentValue = $scope.editor.getSession().getValue();
     var newValue = null;
-    if(language === 'yml'){
+    if(language === 'yaml'){
       newValue = JSON.parse(currentValue);
       newValue = jsyaml.dump(newValue);
     }
@@ -56,6 +56,7 @@ PhonicsApp.controller('MainCtrl', function ($scope) {
       return;
     }
     $scope.editingLanguage = language;
+    $scope.editor.getSession().setMode(language);
     $scope.editor.getSession().setValue(newValue);
   };
 
