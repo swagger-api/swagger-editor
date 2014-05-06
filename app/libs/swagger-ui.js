@@ -250,7 +250,6 @@
       $(this.el).html(Handlebars.templates.main(this.model));
       resources = {};
       counter = 0;
-      console.log('hi');
       _ref4 = this.model.apisArray;
       for (_i = 0, _len = _ref4.length; _i < _len; _i++) {
         resource = _ref4[_i];

@@ -410,13 +410,14 @@ module.exports = function (grunt) {
       }
     },
 
-    uglifyjs: {
-      options: {
-        mangle: {
-          except: [ "angular", "PhonicsApp", "SwaggerUi", "swaggerUi" ]
-        }
-      }
-    }
+    /* No need for options for uglifyjs for now... */
+    // uglifyjs: {
+    //   options: {
+    //     mangle: {
+    //       except: [ "angular", "PhonicsApp", "SwaggerUi", "swaggerUi" ]
+    //     }
+    //   }
+    // }
   });
 
   grunt.registerTask('compile-swagger', ['coffee:compile', 'handlebars:compile']);
