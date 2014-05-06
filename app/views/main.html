@@ -201,8 +201,48 @@ models:
         format: int64
     </div>
   </div>
-  <div class="preview pane">
-    <h1>Swagger-ui preview (coming soon!)</h1>
-    <code-editor></code-editor>
+  <div class="preview pane swagger-preview">
+    <div class="swagger-section">
+      <div id="swagger-ui-container" class="swagger-ui-wrap"></div>
+    </div>
   </div>
+  <script type="text/javascript">
+    $(function () {
+      window.swaggerUi = new SwaggerUi({
+      url: "http://petstore.swagger.wordnik.com/api/api-docs",
+      dom_id: "swagger-ui-container",
+      supportedSubmitMethods: ['get', 'post', 'put', 'delete'],
+      onComplete: function(swaggerApi, swaggerUi){
+        log("Loaded SwaggerUI");
+
+        if(typeof initOAuth == "function") {
+          /*
+          initOAuth({
+            clientId: "your-client-id",
+            realm: "your-realms",
+            appName: "your-app-name"
+          });
+          */
+        }
+        $('pre code').each(function(i, e) {
+          hljs.highlightBlock(e)
+        });
+      },
+      onFailure: function(data) {
+        log("Unable to Load SwaggerUI");
+      },
+      docExpansion: "none"
+    });
+
+    $('#input_apiKey').change(function() {
+      var key = $('#input_apiKey')[0].value;
+      log("key: " + key);
+      if(key && key.trim() != "") {
+        log("added key " + key);
+        window.authorizations.add("key", new ApiKeyAuthorization("api_key", key, "query"));
+      }
+    })
+    window.swaggerUi.load();
+  });
+  </script>
 </main>
