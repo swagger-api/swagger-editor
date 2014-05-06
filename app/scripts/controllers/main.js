@@ -45,10 +45,21 @@ function annotateJSONErrors(editor){
   return errorMessage;
 }
 
+function buildDocs(jsonString){
+  if(!swaggerUi) return;
+
+  swaggerUi.load(jsonString);
+  swaggerUi.render();
+}
+
 PhonicsApp.controller('MainCtrl', ['$scope', function ($scope) {
   $scope.editor = null;
   $scope.editingLanguage = 'yaml';
   $scope.editorErrorMessage = '';
+  window.swaggerUi = new SwaggerUi({
+    'dom_id': 'swagger-ui-container',
+    supportedSubmitMethods: ['get', 'post', 'put', 'delete']
+  });
 
   $scope.aceLoaded = function(editor) {
     $scope.editor = editor;
@@ -56,15 +67,21 @@ PhonicsApp.controller('MainCtrl', ['$scope', function ($scope) {
 
   $scope.aceChanged = function() {
     var error = null;
+    var jsonString = null;
+
     if($scope.editingLanguage === 'yaml') {
       error = annotateYAMLErrors($scope.editor);
+      jsonString = JSON.stringify(jsyaml.parse($scope.editor.getSession().getValue()));
     }
     if($scope.editingLanguage === 'json') {
       error = annotateJSONErrors($scope.editor);
+      jsonString = $scope.editor.getSession().getValue();
     }
     if(!error) {
       $scope.editorErrorMessage = '';
     }
+
+    buildDocs(jsonString);
   };
 
   $scope.switchToLanguage = function(language){
