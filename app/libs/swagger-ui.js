@@ -17,6 +17,8 @@
 
     SwaggerUi.prototype.api = null;
 
+    SwaggerUi.prototype.json = null;
+
     SwaggerUi.prototype.headerView = null;
 
     SwaggerUi.prototype.mainView = null;
@@ -40,15 +42,9 @@
       this.options.progress = function(d) {
         return _this.showMessage(d);
       };
-      this.options.failure = function(d) {
+      return this.options.failure = function(d) {
         return _this.onLoadFailure(d);
       };
-      this.headerView = new HeaderView({
-        el: $('#header')
-      });
-      return this.headerView.on('update-swagger-ui', function(data) {
-        return _this.updateSwaggerUi(data);
-      });
     };
 
     SwaggerUi.prototype.updateSwaggerUi = function(data) {
@@ -56,20 +52,24 @@
       return this.load();
     };
 
-    SwaggerUi.prototype.load = function() {
-      var url, _ref1;
-      if ((_ref1 = this.mainView) != null) {
-        _ref1.clear();
+    SwaggerUi.prototype.load = function(jsonString) {
+      var json, url, _ref1;
+      if (!jsonString) {
+        if ((_ref1 = this.mainView) != null) {
+          _ref1.clear();
+        }
+        url = this.options.url;
+        if (url.indexOf("http") !== 0) {
+          url = this.buildUrl(window.location.href.toString(), url);
+        }
+        this.options.url = url;
+        this.api = new SwaggerApi(this.options);
+        this.api.build();
+        return this.api;
+      } else {
+        json = JSON.parse(jsonString);
+        return this.api = SwaggerApi.prototype.buildFromSpec(json);
       }
-      url = this.options.url;
-      if (url.indexOf("http") !== 0) {
-        url = this.buildUrl(window.location.href.toString(), url);
-      }
-      this.options.url = url;
-      this.headerView.update(url);
-      this.api = new SwaggerApi(this.options);
-      this.api.build();
-      return this.api;
     };
 
     SwaggerUi.prototype.render = function() {
@@ -250,6 +250,7 @@
       $(this.el).html(Handlebars.templates.main(this.model));
       resources = {};
       counter = 0;
+      console.log('hi');
       _ref4 = this.model.apisArray;
       for (_i = 0, _len = _ref4.length; _i < _len; _i++) {
         resource = _ref4[_i];

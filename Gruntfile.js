@@ -53,7 +53,8 @@ module.exports = function (grunt) {
         files: ['Gruntfile.js']
       },
       coffee: {
-        files: ['<%= yeoman.app %>/{,*/}*.coffee', '<%= yeoman.app %>/swagger-ui/main/coffeescript/*.coffee'],
+        files: ['<%= yeoman.app %>/{,*/}*.coffee', '<%= yeoman.app %>/swagger-ui/main/coffeescript/*.coffee',
+        '<%= yeoman.app %>/swagger-ui/main/coffeescript/views/*.coffee'],
         tasks: ['coffee:compile']
       },
       handlebars: {

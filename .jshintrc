@@ -20,6 +20,7 @@
   "smarttabs": true,
   "globals": {
     "angular": false,
-    "PhonicsApp": false
+    "PhonicsApp": false,
+    "SwaggerUi": false
   }
 }

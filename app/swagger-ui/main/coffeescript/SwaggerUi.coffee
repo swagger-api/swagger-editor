@@ -6,6 +6,7 @@ class SwaggerUi extends Backbone.Router
   # Attributes
   options: null
   api: null
+  json: null
   headerView: null
   mainView: null
 
@@ -26,36 +27,38 @@ class SwaggerUi extends Backbone.Router
     @options.progress = (d) => @showMessage(d)
     @options.failure = (d) => @onLoadFailure(d)
 
-    # Create view to handle the header inputs
-    @headerView = new HeaderView({el: $('#header')})
-
-    # Event handler for when the baseUrl/apiKey is entered by user
-    @headerView.on 'update-swagger-ui', (data) => @updateSwaggerUi(data)
-
   # Event handler for when url/key is received from user
   updateSwaggerUi: (data) ->
     @options.url = data.url
     @load()
 
   # Create an api and render
-  load: ->
+  load: (jsonString)->
+    unless jsonString
     # Initialize the API object
-    @mainView?.clear()
-    url = @options.url
-    if url.indexOf("http") isnt 0
-      url = @buildUrl(window.location.href.toString(), url)
+      @mainView?.clear()
+      url = @options.url
+      if url.indexOf("http") isnt 0
+        url = @buildUrl(window.location.href.toString(), url)
 
-    @options.url = url
-    @headerView.update(url)
-    @api = new SwaggerApi(@options)
-    @api.build()
-    @api
+      @options.url = url
+      @api = new SwaggerApi(@options)
+      @api.build()
+      return @api
+    else
+      json = JSON.parse(jsonString)
+      return @api = SwaggerApi.prototype.buildFromSpec(json)
+
+
 
   # This is bound to success handler for SwaggerApi
   #  so it gets called when SwaggerApi completes loading
   render:() ->
     @showMessage('Finished Loading Resource Information. Rendering Swagger UI...')
-    @mainView = new MainView({model: @api, el: $('#' + @dom_id)}).render()
+    @mainView = new MainView({
+      model: @api,
+      el: $('#' + @dom_id)
+    }).render()
     @showMessage()
     switch @options.docExpansion
       when "full" then Docs.expandOperationsForResource('')
