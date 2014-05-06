@@ -35,7 +35,7 @@ module.exports = function (grunt) {
         tasks: ['bowerInstall']
       },
       js: {
-        files: ['<%= yeoman.app %>/scripts/{,*/}*.js'],
+        files: ['<%= yeoman.app %>/scripts/{,*/}*.js', '<%= yeoman.app %>/libs/{,*/}*.js'],
         tasks: ['newer:jshint:all'],
         options: {
           livereload: true
@@ -53,11 +53,11 @@ module.exports = function (grunt) {
         files: ['Gruntfile.js']
       },
       coffee: {
-        files: ['<%= yeoman.app %>/{,*/}*.coffee'],
+        files: ['<%= yeoman.app %>/{,*/}*.coffee', '<%= yeoman.app %>/swagger-ui/main/coffeescript/*.coffee'],
         tasks: ['coffee:compile']
       },
       handlebars: {
-        files: ['<%= yeoman.app %>/{,*/}*.handlebars'],
+        files: ['<%= yeoman.app %>/{,*/}*.handlebars', '<%= yeoman.app %>/swagger-ui/main/template/*.handlebars'],
         tasks: ['handlebars:compile']
       },
       livereload: {
