@@ -8,7 +8,7 @@ window.PhonicsApp = angular.module('PhonicsApp', [
   'ui.ace'
 ]);
 
-PhonicsApp.config(function ($routeProvider) {
+PhonicsApp.config(['$routeProvider', function ($routeProvider) {
     $routeProvider
       .when('/', {
         templateUrl: 'views/main.html',
@@ -17,4 +17,4 @@ PhonicsApp.config(function ($routeProvider) {
       .otherwise({
         redirectTo: '/'
       });
-  });
+  }]);

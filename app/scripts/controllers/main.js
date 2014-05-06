@@ -45,7 +45,7 @@ function annotateJSONErrors(editor){
   return errorMessage;
 }
 
-PhonicsApp.controller('MainCtrl', function ($scope) {
+PhonicsApp.controller('MainCtrl', ['$scope', function ($scope) {
   $scope.editor = null;
   $scope.editingLanguage = 'yaml';
   $scope.editorErrorMessage = '';
@@ -94,6 +94,6 @@ PhonicsApp.controller('MainCtrl', function ($scope) {
     $scope.editor.getSession().setValue(newValue);
   };
 
-});
+}]);
 
 

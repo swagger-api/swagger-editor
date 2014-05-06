@@ -39,7 +39,9 @@ main.container {
 
     &.preview {
       overflow: auto;
-      padding: .5em 1em
+      .swagger-section {
+        padding: .5em 1em
+      }
     }
   }
 

@@ -11,6 +11,37 @@
     <!-- build:css({.tmp,app}) styles/main.css -->
     <link rel="stylesheet" href="styles/main.css">
     <!-- endbuild -->
+
+    <!-- build:js scripts/libs.js -->
+    <script src="libs/yaml.js"></script>
+    <script src="libs/jsonlint.js"></script>
+    <script src="libs/shred.bundle.js"></script>
+    <script src='libs/jquery-1.8.0.min.js'></script>
+    <script src='libs/jquery.slideto.min.js'></script>
+    <script src='libs/jquery.wiggle.min.js'></script>
+    <script src='libs/jquery.ba-bbq.min.js'></script>
+    <script src='libs/handlebars-1.0.0.js'></script>
+    <script src='libs/underscore-min.js'></script>
+    <script src='libs/backbone-min.js'></script>
+    <script src='libs/swagger.js'></script>
+    <script src='libs/swagger-ui.js'></script>
+    <script src='libs/highlight.7.3.pack.js'></script>
+    <script src="bower_components/ace-builds/src-min-noconflict/ace.js"></script>
+    <script src="bower_components/ace-builds/src-min-noconflict/theme-twilight.js"></script>
+    <script src="bower_components/ace-builds/src-min-noconflict/mode-yaml.js"></script>
+    <script src="bower_components/ace-builds/src-min-noconflict/mode-json.js"></script>
+    <!-- endbuild -->
+
+    <!-- build:js scripts/vendor.js -->
+    <script src="bower_components/es5-shim/es5-shim.js"></script>
+    <script src="bower_components/angular/angular.js"></script>
+    <script src="bower_components/json3/lib/json3.min.js"></script>
+    <script src="bower_components/angular-resource/angular-resource.js"></script>
+    <script src="bower_components/angular-cookies/angular-cookies.js"></script>
+    <script src="bower_components/angular-sanitize/angular-sanitize.js"></script>
+    <script src="bower_components/angular-route/angular-route.js"></script>
+    <script src="bower_components/angular-ui-ace/ui-ace.js"></script>
+    <!-- endbuild -->
   </head>
   <body ng-app="PhonicsApp">
     <div class="container" ng-view=""></div>
@@ -24,38 +55,6 @@
        ga('send', 'pageview');
     </script>
 
-    <!-- build:js scripts/libs.js -->
-    <script src="libs/yaml.js"></script>
-    <script src="libs/jsonlint.js"></script>
-    <script src="bower_components/ace-builds/src-min-noconflict/ace.js"></script>
-    <script src="bower_components/ace-builds/src-min-noconflict/theme-twilight.js"></script>
-    <script src="bower_components/ace-builds/src-min-noconflict/mode-yaml.js"></script>
-    <!-- endbuild -->
-
-    <!-- build:js scripts/swagger.js -->
-    <script src="libs/shred.bundle.js"></script>
-    <script src='libs/jquery-1.8.0.min.js'></script>
-    <script src='libs/jquery.slideto.min.js'></script>
-    <script src='libs/jquery.wiggle.min.js'></script>
-    <script src='libs/jquery.ba-bbq.min.js'></script>
-    <script src='libs/handlebars-1.0.0.js'></script>
-    <script src='libs/underscore-min.js'></script>
-    <script src='libs/backbone-min.js'></script>
-    <script src='libs/swagger.js'></script>
-    <script src='libs/swagger-ui.js'></script>
-    <script src='libs/highlight.7.3.pack.js'></script>
-    <!-- endbuild -->
-
-    <!-- build:js scripts/vendor.js -->
-    <script src="bower_components/es5-shim/es5-shim.js"></script>
-    <script src="bower_components/angular/angular.js"></script>
-    <script src="bower_components/json3/lib/json3.min.js"></script>
-    <script src="bower_components/angular-resource/angular-resource.js"></script>
-    <script src="bower_components/angular-cookies/angular-cookies.js"></script>
-    <script src="bower_components/angular-sanitize/angular-sanitize.js"></script>
-    <script src="bower_components/angular-route/angular-route.js"></script>
-    <script src="bower_components/angular-ui-ace/ui-ace.js"></script>
-    <!-- endbuild -->
 
     <!-- build:js({.tmp,app}) scripts/scripts.js -->
     <script src="scripts/app.js"></script>
