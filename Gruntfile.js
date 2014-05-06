@@ -12,9 +12,6 @@ module.exports = function (grunt) {
   // Load grunt tasks automatically
   require('load-grunt-tasks')(grunt);
 
-  grunt.loadNpmTasks('grunt-contrib-coffee');
-  grunt.loadNpmTasks('grunt-contrib-handlebars');
-
   // Time how long tasks take. Can help when optimizing build times
   require('time-grunt')(grunt);
 
@@ -409,6 +406,14 @@ module.exports = function (grunt) {
         },
         files: {
           '<%= yeoman.app %>/libs/swagger-templates.js': '<%= yeoman.app %>/swagger-ui/main/template/*.handlebars',
+        }
+      }
+    },
+
+    uglifyjs: {
+      options: {
+        mangle: {
+          except: [ "angular", "PhonicsApp", "SwaggerUi", "swaggerUi" ]
         }
       }
     }
