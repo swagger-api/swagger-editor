@@ -12,6 +12,9 @@ module.exports = function (grunt) {
   // Load grunt tasks automatically
   require('load-grunt-tasks')(grunt);
 
+  grunt.loadNpmTasks('grunt-contrib-coffee');
+  grunt.loadNpmTasks('grunt-contrib-handlebars');
+
   // Time how long tasks take. Can help when optimizing build times
   require('time-grunt')(grunt);
 
@@ -49,12 +52,22 @@ module.exports = function (grunt) {
       gruntfile: {
         files: ['Gruntfile.js']
       },
+      coffee: {
+        files: ['<%= yeoman.app %>/{,*/}*.coffee'],
+        tasks: ['coffee:compile']
+      },
+      handlebars: {
+        files: ['<%= yeoman.app %>/{,*/}*.handlebars'],
+        tasks: ['handlebars:compile']
+      },
       livereload: {
         options: {
           livereload: '<%= connect.options.livereload %>'
         },
         files: [
           '<%= yeoman.app %>/{,*/}*.html',
+          '<%= yeoman.app %>/{,*/}*.coffee',
+          '<%= yeoman.app %>/{,*/}*.handlebars',
           '.tmp/styles/{,*/}*.css',
           '<%= yeoman.app %>/images/{,*/}*.{png,jpg,jpeg,gif,webp,svg}'
         ]
@@ -371,9 +384,36 @@ module.exports = function (grunt) {
         configFile: 'karma.conf.js',
         singleRun: true
       }
+    },
+
+    coffee: {
+      compile: {
+        options: { join: true },
+        files: {
+          '<%= yeoman.app %>/libs/swagger-ui.js': [
+            '<%= yeoman.app %>/swagger-ui/main/coffeescript/SwaggerUi.coffee',
+            '<%= yeoman.app %>/swagger-ui/main/coffeescript/view/*.coffee'
+          ]
+        }
+      }
+    },
+
+    handlebars: {
+      compile: {
+        options: {
+          namespace: 'Handlebars.templates',
+          processName: function(filename){
+            return filename.replace('app/swagger-ui/main/template/', '').replace('.handlebars', '');
+          }
+        },
+        files: {
+          '<%= yeoman.app %>/libs/swagger-templates.js': '<%= yeoman.app %>/swagger-ui/main/template/*.handlebars',
+        }
+      }
     }
   });
 
+  grunt.registerTask('compile-swagger', ['coffee:compile', 'handlebars:compile']);
 
   grunt.registerTask('serve', function (target) {
     if (target === 'dist') {
@@ -383,6 +423,7 @@ module.exports = function (grunt) {
     grunt.task.run([
       'clean:server',
       'bowerInstall',
+      'compile-swagger',
       'concurrent:server',
       'autoprefixer',
       'connect:livereload',
@@ -409,6 +450,7 @@ module.exports = function (grunt) {
     'useminPrepare',
     'concurrent:dist',
     'autoprefixer',
+    'compile-swagger',
     'concat',
     'ngmin',
     'copy:dist',

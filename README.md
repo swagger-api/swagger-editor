@@ -12,3 +12,8 @@ Coming soon!
 * `npm install`
 * `bower install`
 * `grunt serve`
+
+
+
+### Problem with CoffeeScript Grunt Module
+Please update grunt-contrib-coffee's coffee-script version to `1.6.0` and run `npm install` it if you see coffee-script errors.
