@@ -1,4 +1,4 @@
-<header class="main-header"><h1>Phonics</h1></header><main class="container"><div class="ace pane ace-editor"><header class="editor"><a ng-click="switchToLanguage('yaml')" ng-class="{active: editingLanguage == 'yaml'}">YAML</a> <a ng-click="switchToLanguage('json')" ng-class="{active: editingLanguage == 'json'}">JSON</a></header><div class="editor-error-message" ng-show="!!editorErrorMessage.length"><pre>{{editorErrorMessage}}</pre></div><div class="editor-wrapper" ui-ace="{
+<header class="main-header"><h1>Swagger Editor</h1></header><main class="container"><div class="ace pane ace-editor"><header class="editor"><a ng-click="switchToLanguage('yaml')" ng-class="{active: editingLanguage == 'yaml'}">YAML</a> <a ng-click="switchToLanguage('json')" ng-class="{active: editingLanguage == 'json'}">JSON</a></header><div class="editor-error-message" ng-show="!!editorErrorMessage.length"><pre>{{editorErrorMessage}}</pre></div><div class="editor-wrapper" ui-ace="{
       useWrapMode : true,
       showGutter: true,
       theme:'twilight',
@@ -191,36 +191,8 @@ models:
       window.swaggerUi = new SwaggerUi({
       url: "http://petstore.swagger.wordnik.com/api/api-docs",
       dom_id: "swagger-ui-container",
-      supportedSubmitMethods: ['get', 'post', 'put', 'delete'],
-      onComplete: function(swaggerApi, swaggerUi){
-        log("Loaded SwaggerUI");
-
-        if(typeof initOAuth == "function") {
-          /*
-          initOAuth({
-            clientId: "your-client-id",
-            realm: "your-realms",
-            appName: "your-app-name"
-          });
-          */
-        }
-        $('pre code').each(function(i, e) {
-          hljs.highlightBlock(e)
-        });
-      },
-      onFailure: function(data) {
-        log("Unable to Load SwaggerUI");
-      },
-      docExpansion: "none"
+      supportedSubmitMethods: ['get', 'post', 'put', 'delete']
     });
 
-    $('#input_apiKey').change(function() {
-      var key = $('#input_apiKey')[0].value;
-      log("key: " + key);
-      if(key && key.trim() != "") {
-        log("added key " + key);
-        window.authorizations.add("key", new ApiKeyAuthorization("api_key", key, "query"));
-      }
-    })
     window.swaggerUi.load();
   });</script></main>
