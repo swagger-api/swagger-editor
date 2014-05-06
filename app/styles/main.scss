@@ -1,6 +1,8 @@
 @import "reset";
 @import "header";
 @import "editor";
+@import "swagger-reset";
+@import "swagger";
 
 html, body {
   height: 100vh;
@@ -36,6 +38,8 @@ main.container {
     }
 
     &.preview {
+      overflow: auto;
+      padding: .5em 1em
     }
   }
 
