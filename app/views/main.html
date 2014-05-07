@@ -1,5 +1,9 @@
 <header class="main-header">
   <h1>Swagger Editor</h1>
+  <div class="toolbar">
+    <label><input type="checkbox" ng-model="autogenDocs">Generate Docs on the fly</label>
+    <button ng-show="!autogenDocs" ng-click="generateDocs()">Generate Docs</button>
+  </div>
 </header>
 <main class="container">
   <div class="ace pane ace-editor" id="ace-editor-pane">
