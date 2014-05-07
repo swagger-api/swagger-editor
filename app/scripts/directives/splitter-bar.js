@@ -18,7 +18,8 @@ PhonicsApp.directive('splitterBar', function(){
         $('#' + $attributes.rightPane).css('width',
           window.innerWidth - x - $element.width());
       }
-      $element.on('mousedown', function(){
+      $element.on('mousedown', function(mousedownEvent){
+        mousedownEvent.preventDefault();
         $document.on('mousemove', resize);
         $document.on('mouseup', function(){
           $document.off('mousemove', resize);
