@@ -127,10 +127,15 @@ PhonicsApp.controller('MainCtrl', ['$scope', function ($scope) {
     link: function($scope, $element, $attributes){
       var $document = $(document);
       function resize(mouseMoveEvent){
-        $element.css('left', mouseMoveEvent.pageX);
-        $('#' + $attributes.leftPane).css('width', mouseMoveEvent.pageX);
+        var x = mouseMoveEvent.pageX;
+        var MIN_WIDTH = 100;
+        if( x < MIN_WIDTH || x > window.innerWidth - MIN_WIDTH) {
+          return;
+        }
+        $element.css('left', x);
+        $('#' + $attributes.leftPane).css('width', x);
         $('#' + $attributes.rightPane).css('width',
-          window.innerWidth - mouseMoveEvent.pageX - $element.width());
+          window.innerWidth - x - $element.width());
       }
       $element.on('mousedown', function(){
         $document.on('mousemove', resize);
