@@ -66,6 +66,8 @@ PhonicsApp.controller('MainCtrl', ['$scope', function ($scope) {
   $scope.editor = null;
   $scope.editingLanguage = 'yaml';
   $scope.editorErrorMessage = '';
+  $scope.autogenDocs = false;
+
   window.swaggerUi = new SwaggerUi({
     'dom_id': 'swagger-ui-container',
     supportedSubmitMethods: ['get', 'post', 'put', 'delete']
@@ -88,7 +90,12 @@ PhonicsApp.controller('MainCtrl', ['$scope', function ($scope) {
     if(!error) {
       $scope.editorErrorMessage = '';
     }
+    if($scope.autogenDocs){
+      buildDocs(getJsonString($scope.editor, $scope.editingLanguage));
+    }
+  };
 
+  $scope.generateDocs = function(){
     buildDocs(getJsonString($scope.editor, $scope.editingLanguage));
   };
 
