@@ -119,6 +119,27 @@ PhonicsApp.controller('MainCtrl', ['$scope', function ($scope) {
     $scope.editor.getSession().setValue(newValue);
   };
 
-}]);
+}]).directive('splitterBar', function(){
+  return {
+    template: '',
+    replace: false,
+    restrict: 'E',
+    link: function($scope, $element, $attributes){
+      var $document = $(document);
+      function resize(mouseMoveEvent){
+        $element.css('left', mouseMoveEvent.pageX);
+        $('#' + $attributes.leftPane).css('width', mouseMoveEvent.pageX);
+        $('#' + $attributes.rightPane).css('width',
+          window.innerWidth - mouseMoveEvent.pageX - $element.width());
+      }
+      $element.on('mousedown', function(){
+        $document.on('mousemove', resize);
+        $document.on('mouseup', function(){
+          $document.off('mousemove', resize);
+        });
+      });
+    }
+  };
+});
 
 
