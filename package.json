@@ -41,7 +41,7 @@
     "node": ">=0.10.0"
   },
   "scripts": {
-    "test": "grunt test",
+    "test": "echo 'tests are coming soon!'",
     "fix-coffee": "sh ./scripts/fix_coffee.sh"
   }
 }
