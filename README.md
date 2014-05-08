@@ -3,7 +3,7 @@
 Coming soon!
 
 
-## [View App](http://apigee.github.io/phonics/dist/#/)
+## [View App](http://apigee.github.io/phonics/)
 
 ## Running Locally
 
