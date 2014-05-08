@@ -15,6 +15,25 @@ Coming soon!
 
 
 
+## Building
+
+Just run 
+
+```
+$ grunt build
+
+```
+
+
+## Pushing to `gh-page`
+
+Just run 
+
+```
+$ grunt ship
+```
+Please do not touch `gh-pages` branch manually
+
 ### Problem with CoffeeScript Grunt Module
 
 Run this npm command to fix it: 
