@@ -45,13 +45,6 @@ function annotateJSONErrors(editor){
   return errorMessage;
 }
 
-function buildDocs(jsonString){
-  if(!swaggerUi) { return; }
-
-  swaggerUi.load(jsonString);
-  swaggerUi.render();
-}
-
 function getJsonString(editor, language){
   var jsonString = null;
   if(language === 'yaml'){
@@ -62,70 +55,94 @@ function getJsonString(editor, language){
   return jsonString;
 }
 
-PhonicsApp.controller('MainCtrl', ['$scope', function ($scope) {
-  $scope.editor = null;
-  $scope.editingLanguage = 'yaml';
-  $scope.editorErrorMessage = '';
-  $scope.autogenDocs = false;
+function buildDocs($scope){
+  if(!swaggerUi) { return; }
 
-  window.swaggerUi = new SwaggerUi({
-    'dom_id': 'swagger-ui-container',
-    supportedSubmitMethods: ['get', 'post', 'put', 'delete']
-  });
+  var jsonString = getJsonString($scope.editor, $scope.editingLanguage);
 
-  $scope.aceLoaded = function(editor) {
-    $scope.editor = editor;
-    buildDocs(getJsonString($scope.editor, $scope.editingLanguage));
-  };
+  swaggerUi.load(jsonString);
+  swaggerUi.render();
+}
 
-  $scope.aceChanged = function() {
-    var error = null;
 
-    if($scope.editingLanguage === 'yaml') {
-      error = annotateYAMLErrors($scope.editor);
-    }
-    if($scope.editingLanguage === 'json') {
-      error = annotateJSONErrors($scope.editor);
-    }
-    if(!error) {
-      $scope.editorErrorMessage = '';
-    }
-    if($scope.autogenDocs){
-      buildDocs(getJsonString($scope.editor, $scope.editingLanguage));
-    }
-  };
+function getDefaultSpecs(){
+  return $.get('/spec-files/default.yaml');
+}
 
-  $scope.generateDocs = function(){
-    buildDocs(getJsonString($scope.editor, $scope.editingLanguage));
-  };
+PhonicsApp.controller('MainCtrl', ['$scope', '$localStorage', function ($scope, $localStorage) {
+    $scope.editor = null;
+    $scope.editingLanguage = 'yaml';
+    $scope.editorErrorMessage = '';
+    $scope.autogenDocs = false;
 
-  $scope.switchToLanguage = function(language){
-    var currentValue = $scope.editor.getSession().getValue();
-    var newValue = null;
-    if(language === 'yaml'){
-      $scope.editorErrorMessage = annotateJSONErrors($scope.editor);
-      if ($scope.editorErrorMessage) {
+    window.swaggerUi = new SwaggerUi({
+      'dom_id': 'swagger-ui-container',
+      supportedSubmitMethods: ['get', 'post', 'put', 'delete']
+    });
+
+    $scope.aceLoaded = function(editor) {
+      $scope.editor = editor;
+      if($localStorage.cache){
+        editor.getSession().setValue($localStorage.cache);
+      } else {
+        return getDefaultSpecs().then(function(yaml){
+          $localStorage.cache = yaml;
+          editor.getSession().setValue(yaml);
+          buildDocs($scope);
+        });
+      }
+      buildDocs($scope);
+    };
+
+    $scope.aceChanged = function() {
+      var error = null;
+      $localStorage.cache = $scope.editor.getSession().getValue();
+
+      if($scope.editingLanguage === 'yaml') {
+        error = annotateYAMLErrors($scope.editor);
+      }
+      if($scope.editingLanguage === 'json') {
+        error = annotateJSONErrors($scope.editor);
+      }
+      if(!error) {
+        $scope.editorErrorMessage = '';
+      }
+      if($scope.autogenDocs){
+        buildDocs($scope);
+      }
+    };
+
+    $scope.generateDocs = function(){
+      buildDocs($scope);
+    };
+
+    $scope.switchToLanguage = function(language){
+      var currentValue = $scope.editor.getSession().getValue();
+      var newValue = null;
+      if(language === 'yaml'){
+        $scope.editorErrorMessage = annotateJSONErrors($scope.editor);
+        if ($scope.editorErrorMessage) {
+          return;
+        }
+        newValue = JSON.parse(currentValue);
+        newValue = jsyaml.dump(newValue);
+      }
+      if(language === 'json'){
+        $scope.editorErrorMessage = annotateYAMLErrors($scope.editor);
+        if ($scope.editorErrorMessage) {
+          return;
+        }
+        newValue = jsyaml.load(currentValue);
+        newValue = JSON.stringify(newValue, null, 2);
+      }
+      if($scope.editorErrorMessage) {
         return;
       }
-      newValue = JSON.parse(currentValue);
-      newValue = jsyaml.dump(newValue);
-    }
-    if(language === 'json'){
-      $scope.editorErrorMessage = annotateYAMLErrors($scope.editor);
-      if ($scope.editorErrorMessage) {
-        return;
-      }
-      newValue = jsyaml.load(currentValue);
-      newValue = JSON.stringify(newValue, null, 2);
-    }
-    if($scope.editorErrorMessage) {
-      return;
-    }
-    $scope.editingLanguage = language;
-    $scope.editor.getSession().setMode(language);
-    $scope.editor.getSession().setValue(newValue);
-  };
+      $scope.editingLanguage = language;
+      $scope.editor.getSession().setMode(language);
+      $scope.editor.getSession().setValue(newValue);
+    };
 
-}]);
+  }]);
 
 

@@ -5,7 +5,8 @@ window.PhonicsApp = angular.module('PhonicsApp', [
   'ngResource',
   'ngSanitize',
   'ngRoute',
-  'ui.ace'
+  'ui.ace',
+  'ngStorage'
 ]);
 
 PhonicsApp.config(['$routeProvider', function ($routeProvider) {
