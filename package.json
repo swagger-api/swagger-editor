@@ -5,7 +5,7 @@
     "jsonlint": "~1.6.0"
   },
   "devDependencies": {
-    "grunt": "~0.4.1",
+    "grunt": "~0.4.4",
     "grunt-autoprefixer": "~0.4.0",
     "grunt-bower-install": "~1.0.0",
     "grunt-concurrent": "~0.5.0",
@@ -34,12 +34,14 @@
     "karma": "~0.12.14",
     "karma-ng-html2js-preprocessor": "~0.1.0",
     "grunt-contrib-coffee": "~0.10.1",
-    "grunt-contrib-handlebars": "~0.8.0"
+    "grunt-contrib-handlebars": "~0.8.0",
+    "grunt-gh-pages": "~0.9.1"
   },
   "engines": {
     "node": ">=0.10.0"
   },
   "scripts": {
-    "test": "grunt test"
+    "test": "grunt test",
+    "fix-coffee": "sh ./scripts/fix_coffee.sh"
   }
 }

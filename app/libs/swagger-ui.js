@@ -1,14 +1,14 @@
 (function() {
-  var ContentTypeView, HeaderView, MainView, OperationView, ParameterContentTypeView, ParameterView, ResourceView, ResponseContentTypeView, SignatureView, StatusCodeView, SwaggerUi, _ref, _ref1, _ref10, _ref2, _ref3, _ref4, _ref5, _ref6, _ref7, _ref8, _ref9,
+  var ContentTypeView, HeaderView, MainView, OperationView, ParameterContentTypeView, ParameterView, ResourceView, ResponseContentTypeView, SignatureView, StatusCodeView, SwaggerUi,
     __hasProp = {}.hasOwnProperty,
     __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
 
   SwaggerUi = (function(_super) {
+
     __extends(SwaggerUi, _super);
 
     function SwaggerUi() {
-      _ref = SwaggerUi.__super__.constructor.apply(this, arguments);
-      return _ref;
+      return SwaggerUi.__super__.constructor.apply(this, arguments);
     }
 
     SwaggerUi.prototype.dom_id = "swagger_ui";
@@ -53,10 +53,10 @@
     };
 
     SwaggerUi.prototype.load = function(jsonString) {
-      var json, url, _ref1;
+      var json, url, _ref;
       if (!jsonString) {
-        if ((_ref1 = this.mainView) != null) {
-          _ref1.clear();
+        if ((_ref = this.mainView) != null) {
+          _ref.clear();
         }
         url = this.options.url;
         if (url.indexOf("http") !== 0) {
@@ -148,11 +148,11 @@
   window.SwaggerUi = SwaggerUi;
 
   ContentTypeView = (function(_super) {
+
     __extends(ContentTypeView, _super);
 
     function ContentTypeView() {
-      _ref1 = ContentTypeView.__super__.constructor.apply(this, arguments);
-      return _ref1;
+      return ContentTypeView.__super__.constructor.apply(this, arguments);
     }
 
     ContentTypeView.prototype.initialize = function() {};
@@ -174,11 +174,11 @@
   })(Backbone.View);
 
   HeaderView = (function(_super) {
+
     __extends(HeaderView, _super);
 
     function HeaderView() {
-      _ref2 = HeaderView.__super__.constructor.apply(this, arguments);
-      return _ref2;
+      return HeaderView.__super__.constructor.apply(this, arguments);
     }
 
     HeaderView.prototype.events = {
@@ -236,23 +236,23 @@
   })(Backbone.View);
 
   MainView = (function(_super) {
+
     __extends(MainView, _super);
 
     function MainView() {
-      _ref3 = MainView.__super__.constructor.apply(this, arguments);
-      return _ref3;
+      return MainView.__super__.constructor.apply(this, arguments);
     }
 
     MainView.prototype.initialize = function() {};
 
     MainView.prototype.render = function() {
-      var counter, id, resource, resources, _i, _len, _ref4;
+      var counter, id, resource, resources, _i, _len, _ref;
       $(this.el).html(Handlebars.templates.main(this.model));
       resources = {};
       counter = 0;
-      _ref4 = this.model.apisArray;
-      for (_i = 0, _len = _ref4.length; _i < _len; _i++) {
-        resource = _ref4[_i];
+      _ref = this.model.apisArray;
+      for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+        resource = _ref[_i];
         id = resource.name;
         while (typeof resources[id] !== 'undefined') {
           id = id + "_" + counter;
@@ -285,11 +285,11 @@
   })(Backbone.View);
 
   OperationView = (function(_super) {
+
     __extends(OperationView, _super);
 
     function OperationView() {
-      _ref4 = OperationView.__super__.constructor.apply(this, arguments);
-      return _ref4;
+      return OperationView.__super__.constructor.apply(this, arguments);
     }
 
     OperationView.prototype.invocationUrl = null;
@@ -340,16 +340,16 @@
     };
 
     OperationView.prototype.render = function() {
-      var contentTypeModel, isMethodSubmissionSupported, k, o, param, responseContentTypeView, responseSignatureView, signatureModel, statusCode, type, v, _i, _j, _k, _l, _len, _len1, _len2, _len3, _ref5, _ref6, _ref7, _ref8;
+      var contentTypeModel, isMethodSubmissionSupported, k, o, param, responseContentTypeView, responseSignatureView, signatureModel, statusCode, type, v, _i, _j, _k, _l, _len, _len1, _len2, _len3, _ref, _ref1, _ref2, _ref3;
       isMethodSubmissionSupported = true;
       if (!isMethodSubmissionSupported) {
         this.model.isReadOnly = true;
       }
       this.model.oauth = null;
       if (this.model.authorizations) {
-        _ref5 = this.model.authorizations;
-        for (k in _ref5) {
-          v = _ref5[k];
+        _ref = this.model.authorizations;
+        for (k in _ref) {
+          v = _ref[k];
           if (k === "oauth2") {
             if (this.model.oauth === null) {
               this.model.oauth = {};
@@ -384,9 +384,9 @@
       };
       contentTypeModel.consumes = this.model.consumes;
       contentTypeModel.produces = this.model.produces;
-      _ref6 = this.model.parameters;
-      for (_j = 0, _len1 = _ref6.length; _j < _len1; _j++) {
-        param = _ref6[_j];
+      _ref1 = this.model.parameters;
+      for (_j = 0, _len1 = _ref1.length; _j < _len1; _j++) {
+        param = _ref1[_j];
         type = param.type || param.dataType;
         if (type.toLowerCase() === 'file') {
           if (!contentTypeModel.consumes) {
@@ -399,14 +399,14 @@
         model: contentTypeModel
       });
       $('.response-content-type', $(this.el)).append(responseContentTypeView.render().el);
-      _ref7 = this.model.parameters;
-      for (_k = 0, _len2 = _ref7.length; _k < _len2; _k++) {
-        param = _ref7[_k];
+      _ref2 = this.model.parameters;
+      for (_k = 0, _len2 = _ref2.length; _k < _len2; _k++) {
+        param = _ref2[_k];
         this.addParameter(param, contentTypeModel.consumes);
       }
-      _ref8 = this.model.responseMessages;
-      for (_l = 0, _len3 = _ref8.length; _l < _len3; _l++) {
-        statusCode = _ref8[_l];
+      _ref3 = this.model.responseMessages;
+      for (_l = 0, _len3 = _ref3.length; _l < _len3; _l++) {
+        statusCode = _ref3[_l];
         this.addStatusCode(statusCode);
       }
       return this;
@@ -433,7 +433,7 @@
     };
 
     OperationView.prototype.submitOperation = function(e) {
-      var error_free, form, isFileUpload, map, o, opts, val, _i, _j, _k, _len, _len1, _len2, _ref5, _ref6, _ref7;
+      var error_free, form, isFileUpload, map, o, opts, val, _i, _j, _k, _len, _len1, _len2, _ref, _ref1, _ref2;
       if (e != null) {
         e.preventDefault();
       }
@@ -458,9 +458,9 @@
           parent: this
         };
         isFileUpload = false;
-        _ref5 = form.find("input");
-        for (_i = 0, _len = _ref5.length; _i < _len; _i++) {
-          o = _ref5[_i];
+        _ref = form.find("input");
+        for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+          o = _ref[_i];
           if ((o.value != null) && jQuery.trim(o.value).length > 0) {
             map[o.name] = o.value;
           }
@@ -468,16 +468,16 @@
             isFileUpload = true;
           }
         }
-        _ref6 = form.find("textarea");
-        for (_j = 0, _len1 = _ref6.length; _j < _len1; _j++) {
-          o = _ref6[_j];
+        _ref1 = form.find("textarea");
+        for (_j = 0, _len1 = _ref1.length; _j < _len1; _j++) {
+          o = _ref1[_j];
           if ((o.value != null) && jQuery.trim(o.value).length > 0) {
             map["body"] = o.value;
           }
         }
-        _ref7 = form.find("select");
-        for (_k = 0, _len2 = _ref7.length; _k < _len2; _k++) {
-          o = _ref7[_k];
+        _ref2 = form.find("select");
+        for (_k = 0, _len2 = _ref2.length; _k < _len2; _k++) {
+          o = _ref2[_k];
           val = this.getSelectedValue(o);
           if ((val != null) && jQuery.trim(val).length > 0) {
             map[o.name] = val;
@@ -499,20 +499,20 @@
     };
 
     OperationView.prototype.handleFileUpload = function(map, form) {
-      var bodyParam, el, headerParams, o, obj, param, _i, _j, _k, _l, _len, _len1, _len2, _len3, _ref5, _ref6, _ref7, _ref8,
+      var bodyParam, el, headerParams, o, obj, param, _i, _j, _k, _l, _len, _len1, _len2, _len3, _ref, _ref1, _ref2, _ref3,
         _this = this;
       log("it's a file upload");
-      _ref5 = form.serializeArray();
-      for (_i = 0, _len = _ref5.length; _i < _len; _i++) {
-        o = _ref5[_i];
+      _ref = form.serializeArray();
+      for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+        o = _ref[_i];
         if ((o.value != null) && jQuery.trim(o.value).length > 0) {
           map[o.name] = o.value;
         }
       }
       bodyParam = new FormData();
-      _ref6 = this.model.parameters;
-      for (_j = 0, _len1 = _ref6.length; _j < _len1; _j++) {
-        param = _ref6[_j];
+      _ref1 = this.model.parameters;
+      for (_j = 0, _len1 = _ref1.length; _j < _len1; _j++) {
+        param = _ref1[_j];
         if (param.paramType === 'form') {
           if (map[param.name] !== void 0) {
             bodyParam.append(param.name, map[param.name]);
@@ -520,17 +520,17 @@
         }
       }
       headerParams = {};
-      _ref7 = this.model.parameters;
-      for (_k = 0, _len2 = _ref7.length; _k < _len2; _k++) {
-        param = _ref7[_k];
+      _ref2 = this.model.parameters;
+      for (_k = 0, _len2 = _ref2.length; _k < _len2; _k++) {
+        param = _ref2[_k];
         if (param.paramType === 'header') {
           headerParams[param.name] = map[param.name];
         }
       }
       log(headerParams);
-      _ref8 = form.find('input[type~="file"]');
-      for (_l = 0, _len3 = _ref8.length; _l < _len3; _l++) {
-        el = _ref8[_l];
+      _ref3 = form.find('input[type~="file"]');
+      for (_l = 0, _len3 = _ref3.length; _l < _len3; _l++) {
+        el = _ref3[_l];
         bodyParam.append($(el).attr('name'), el.files[0]);
       }
       log(bodyParam);
@@ -583,14 +583,14 @@
     };
 
     OperationView.prototype.getSelectedValue = function(select) {
-      var opt, options, _i, _len, _ref5;
+      var opt, options, _i, _len, _ref;
       if (!select.multiple) {
         return select.value;
       } else {
         options = [];
-        _ref5 = select.options;
-        for (_i = 0, _len = _ref5.length; _i < _len; _i++) {
-          opt = _ref5[_i];
+        _ref = select.options;
+        for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+          opt = _ref[_i];
           if (opt.selected) {
             options.push(opt.value);
           }
@@ -678,9 +678,9 @@
         padding = '';
         indent += transitions[fromTo];
         padding = ((function() {
-          var _j, _ref5, _results;
+          var _j, _ref, _results;
           _results = [];
-          for (j = _j = 0, _ref5 = indent; 0 <= _ref5 ? _j < _ref5 : _j > _ref5; j = 0 <= _ref5 ? ++_j : --_j) {
+          for (j = _j = 0, _ref = indent; 0 <= _ref ? _j < _ref : _j > _ref; j = 0 <= _ref ? ++_j : --_j) {
             _results.push('  ');
           }
           return _results;
@@ -753,11 +753,11 @@
   })(Backbone.View);
 
   ParameterContentTypeView = (function(_super) {
+
     __extends(ParameterContentTypeView, _super);
 
     function ParameterContentTypeView() {
-      _ref5 = ParameterContentTypeView.__super__.constructor.apply(this, arguments);
-      return _ref5;
+      return ParameterContentTypeView.__super__.constructor.apply(this, arguments);
     }
 
     ParameterContentTypeView.prototype.initialize = function() {};
@@ -779,11 +779,11 @@
   })(Backbone.View);
 
   ParameterView = (function(_super) {
+
     __extends(ParameterView, _super);
 
     function ParameterView() {
-      _ref6 = ParameterView.__super__.constructor.apply(this, arguments);
-      return _ref6;
+      return ParameterView.__super__.constructor.apply(this, arguments);
     }
 
     ParameterView.prototype.initialize = function() {
@@ -868,22 +868,22 @@
   })(Backbone.View);
 
   ResourceView = (function(_super) {
+
     __extends(ResourceView, _super);
 
     function ResourceView() {
-      _ref7 = ResourceView.__super__.constructor.apply(this, arguments);
-      return _ref7;
+      return ResourceView.__super__.constructor.apply(this, arguments);
     }
 
     ResourceView.prototype.initialize = function() {};
 
     ResourceView.prototype.render = function() {
-      var counter, id, methods, operation, _i, _len, _ref8;
+      var counter, id, methods, operation, _i, _len, _ref;
       $(this.el).html(Handlebars.templates.resource(this.model));
       methods = {};
-      _ref8 = this.model.operationsArray;
-      for (_i = 0, _len = _ref8.length; _i < _len; _i++) {
-        operation = _ref8[_i];
+      _ref = this.model.operationsArray;
+      for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+        operation = _ref[_i];
         counter = 0;
         id = operation.nickname;
         while (typeof methods[id] !== 'undefined') {
@@ -915,11 +915,11 @@
   })(Backbone.View);
 
   ResponseContentTypeView = (function(_super) {
+
     __extends(ResponseContentTypeView, _super);
 
     function ResponseContentTypeView() {
-      _ref8 = ResponseContentTypeView.__super__.constructor.apply(this, arguments);
-      return _ref8;
+      return ResponseContentTypeView.__super__.constructor.apply(this, arguments);
     }
 
     ResponseContentTypeView.prototype.initialize = function() {};
@@ -941,11 +941,11 @@
   })(Backbone.View);
 
   SignatureView = (function(_super) {
+
     __extends(SignatureView, _super);
 
     function SignatureView() {
-      _ref9 = SignatureView.__super__.constructor.apply(this, arguments);
-      return _ref9;
+      return SignatureView.__super__.constructor.apply(this, arguments);
     }
 
     SignatureView.prototype.events = {
@@ -1010,11 +1010,11 @@
   })(Backbone.View);
 
   StatusCodeView = (function(_super) {
+
     __extends(StatusCodeView, _super);
 
     function StatusCodeView() {
-      _ref10 = StatusCodeView.__super__.constructor.apply(this, arguments);
-      return _ref10;
+      return StatusCodeView.__super__.constructor.apply(this, arguments);
     }
 
     StatusCodeView.prototype.initialize = function() {};

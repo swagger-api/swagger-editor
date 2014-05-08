@@ -66,7 +66,7 @@ function buildDocs($scope){
 
 
 function getDefaultSpecs(){
-  return $.get('/spec-files/default.yaml');
+  return $.get('spec-files/default.yaml');
 }
 
 PhonicsApp.controller('MainCtrl', ['$scope', '$localStorage', function ($scope, $localStorage) {

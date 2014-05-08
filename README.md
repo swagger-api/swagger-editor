@@ -16,4 +16,13 @@ Coming soon!
 
 
 ### Problem with CoffeeScript Grunt Module
-Please update grunt-contrib-coffee's coffee-script version to `1.6.0` and run `npm install` it if you see coffee-script errors.
+
+Run this npm command to fix it: 
+
+
+```
+$ npm run fix-coffee
+
+```
+
+We need to update grunt-contrib-coffee's coffee-script version to `1.6.0` and run `npm install` it if you see coffee-script errors.
