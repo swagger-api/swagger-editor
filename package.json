@@ -2,7 +2,8 @@
   "name": "koknus",
   "version": "0.0.0",
   "dependencies": {
-    "jsonlint": "~1.6.0"
+    "jsonlint": "~1.6.0",
+    "grunt-exec": "~0.4.5"
   },
   "devDependencies": {
     "grunt": "~0.4.4",

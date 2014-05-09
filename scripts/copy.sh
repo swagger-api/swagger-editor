@@ -1,0 +1,1 @@
+cp 'app/bower_components/ace-builds/src-min-noconflict/worker-json.js' 'dist/worker-json.js'

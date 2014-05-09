@@ -417,6 +417,12 @@ module.exports = function (grunt) {
         base: 'dist'
       },
       src: ['**']
+    },
+
+    exec: {
+      copy: {
+        command: 'sh scripts/copy.sh'
+      }
     }
   });
 
@@ -466,7 +472,8 @@ module.exports = function (grunt) {
     'uglify',
     'rev',
     'usemin',
-    'htmlmin'
+    'htmlmin',
+    'exec'
   ]);
 
   grunt.registerTask('default', [
