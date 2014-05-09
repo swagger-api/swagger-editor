@@ -15,6 +15,10 @@ PhonicsApp.config(['$routeProvider', function ($routeProvider) {
         templateUrl: 'views/main.html',
         controller: 'MainCtrl'
       })
+      .when('/:resource/:id', {
+        templateUrl: 'views/main.html',
+        controller: 'MainCtrl'
+      })
       .otherwise({
         redirectTo: '/'
       });
