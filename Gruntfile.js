@@ -318,6 +318,7 @@ module.exports = function (grunt) {
             '*.html',
             'views/{,*/}*.html',
             'images/{,*/}*.{webp}',
+            'images/throbber.gif',
             'fonts/*',
             'spec-files/*'
           ]
