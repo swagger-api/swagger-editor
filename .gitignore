@@ -3,4 +3,5 @@ node_modules
 .tmp
 .sass-cache
 .grunt
+dist/
 app/bower_components
