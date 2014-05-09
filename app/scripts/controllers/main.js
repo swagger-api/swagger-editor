@@ -73,7 +73,7 @@ PhonicsApp.controller('MainCtrl', ['$scope', '$localStorage', function ($scope, 
     $scope.editor = null;
     $scope.editingLanguage = 'yaml';
     $scope.editorErrorMessage = '';
-    $scope.autogenDocs = false;
+    $scope.autogenDocs = true;
 
     window.swaggerUi = new SwaggerUi({
       'dom_id': 'swagger-ui-container',
@@ -94,7 +94,7 @@ PhonicsApp.controller('MainCtrl', ['$scope', '$localStorage', function ($scope, 
       buildDocs($scope);
     };
 
-    $scope.aceChanged = function() {
+    $scope.aceChanged = _.debounce(function() {
       var error = null;
       $localStorage.cache = $scope.editor.getSession().getValue();
 
@@ -110,7 +110,7 @@ PhonicsApp.controller('MainCtrl', ['$scope', '$localStorage', function ($scope, 
       if($scope.autogenDocs){
         buildDocs($scope);
       }
-    };
+    }, 500);
 
     $scope.generateDocs = function(){
       buildDocs($scope);

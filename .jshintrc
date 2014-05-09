@@ -23,6 +23,7 @@
     "PhonicsApp": false,
     "SwaggerUi": false,
     "swaggerUi": false,
-    "$": false
+    "$": false,
+    "_": false
   }
 }
