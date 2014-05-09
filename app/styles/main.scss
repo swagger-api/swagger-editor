@@ -60,6 +60,11 @@ main.container {
       .swagger-section {
         padding: .5em 1em
       }
+      .json-section {
+        &, .editor-wrapper {
+          height: 100%;
+        }
+      }
     }
   }
 

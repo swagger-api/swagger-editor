@@ -1,6 +1,5 @@
 'use strict';
 /* global jsyaml */
-/* global jsonlint */
 
 function annotateYAMLErrors(editor){
   var errorMessage = null;
@@ -21,32 +20,10 @@ function annotateYAMLErrors(editor){
   return errorMessage;
 }
 
-function annotateJSONErrors(editor){
-  var errorMessage = null;
-  var value = editor.getSession().getValue();
-  var line = 0;
-  try {
-    jsonlint.parse(value);
-  } catch (jsonParseError){
-    errorMessage = jsonParseError.message;
-    try {
-      line = parseInt(errorMessage.split('\n')[0]
-        .replace('Parse error on line ', '').replace(':', ''), 10);
-    } catch (e) {}
-    editor.getSession().setAnnotations([{
-      row: line,
-      column: 0,
-      text: errorMessage,
-      type: 'error'
-    }]);
-    return errorMessage;
-  }
-  editor.getSession().clearAnnotations();
-  return errorMessage;
-}
 
-function getJsonString(editor, language){
-  return JSON.stringify(jsyaml.load(editor.getSession().getValue()));
+function getJsonString(editor){
+  var specsObject = jsyaml.load(editor.getSession().getValue());
+  return JSON.stringify(specsObject, null, 4);
 }
 
 function buildDocs($scope){
@@ -65,6 +42,7 @@ function getDefaultSpecs(){
 
 PhonicsApp.controller('MainCtrl', ['$scope', '$localStorage', function ($scope, $localStorage) {
     $scope.editor = null;
+    $scope.jsonPreview = null;
     $scope.previewMode = 'html';
     $scope.editorErrorMessage = '';
     $scope.autogenDocs = true;
@@ -88,6 +66,10 @@ PhonicsApp.controller('MainCtrl', ['$scope', '$localStorage', function ($scope, 
       buildDocs($scope);
     };
 
+    $scope.jsonPreviewLoaded = function(jsonPreview){
+      $scope.jsonPreview = jsonPreview;
+    };
+
     $scope.aceChanged = _.debounce(function() {
       var error = null;
       $localStorage.cache = $scope.editor.getSession().getValue();
@@ -107,6 +89,9 @@ PhonicsApp.controller('MainCtrl', ['$scope', '$localStorage', function ($scope, 
 
     $scope.switchPreviewMode = function(language){
       $scope.previewMode = language;
+      if(language === 'json'){
+        $scope.jsonPreview.getSession().setValue(getJsonString($scope.editor));
+      }
     };
 
     $scope.jsonLoaded = function(){};
