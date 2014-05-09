@@ -132,14 +132,14 @@ var Docs = {
 	expandEndpointListForResource: function(resource) {
 		var resource = Docs.escapeResourceName(resource);
 		if (resource == '') {
-			$('.resource ul.endpoints').slideDown();
+			$('.resource ul.endpoints').show();
 			return;
 		}
-		
+
 		$('li#resource_' + resource).addClass('active');
 
 		var elem = $('li#resource_' + resource + ' ul.endpoints');
-		elem.slideDown();
+		elem.show();
 	},
 
 	// Collapse resource and mark as explicitly closed
@@ -154,9 +154,9 @@ var Docs = {
 	expandOperationsForResource: function(resource) {
 		// Make sure the resource container is open..
 		Docs.expandEndpointListForResource(resource);
-		
+
 		if (resource == '') {
-			$('.resource ul.endpoints li.operation div.content').slideDown();
+			$('.resource ul.endpoints li.operation div.content').show();
 			return;
 		}
 
@@ -179,7 +179,7 @@ var Docs = {
 	},
 
 	expandOperation: function(elem) {
-		elem.slideDown();
+		elem.show();
 	},
 
 	collapseOperation: function(elem) {
