@@ -1,0 +1,14 @@
+{
+  "name": "css-stringify",
+  "repo": "visionmedia/css-stringify",
+  "version": "1.4.1",
+  "description": "CSS compiler",
+  "keywords": ["css", "stringify", "stylesheet"],
+  "scripts": [
+    "index.js",
+    "lib/compress.js",
+    "lib/identity.js",
+    "lib/compiler.js",
+    "lib/source-map-support.js"
+  ]
+}

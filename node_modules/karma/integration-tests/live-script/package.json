@@ -1,0 +1,19 @@
+{
+  "name": "live-script",
+  "private": true,
+  "version": "0.0.0",
+  "description": "",
+  "main": "",
+  "scripts": {
+    "test": "./node_modules/karma/bin/karma start karma.conf.ls --single-run"
+  },
+  "author": "",
+  "license": "MIT",
+  "devDependencies": {
+    "karma": "latest",
+    "karma-jasmine": "latest",
+    "karma-live-preprocessor": "latest",
+    "karma-firefox-launcher": "latest",
+    "LiveScript": "latest"
+  }
+}

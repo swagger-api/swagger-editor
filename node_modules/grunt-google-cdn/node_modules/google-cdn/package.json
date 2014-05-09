@@ -1,0 +1,53 @@
+{
+  "name": "google-cdn",
+  "version": "0.1.4",
+  "description": "Replaces references to resources on the Google CDN",
+  "keywords": [
+    "cdn",
+    "google"
+  ],
+  "homepage": "https://github.com/passy/google-cdn",
+  "bugs": {
+    "url": "https://github.com/passy/google-cdn/issues"
+  },
+  "author": {
+    "name": "Pascal Hartig",
+    "email": "phartig@rdrei.net",
+    "url": "http://passy.me"
+  },
+  "main": "googlecdn.js",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/passy/google-cdn.git"
+  },
+  "scripts": {
+    "test": "mocha"
+  },
+  "devDependencies": {
+    "mocha": "~1.11.0",
+    "proxyquire": "~0.4.0",
+    "chai": "~1.7.0"
+  },
+  "engines": {
+    "node": ">=0.8.0"
+  },
+  "licenses": [
+    {
+      "type": "BSD"
+    }
+  ],
+  "files": [
+    "googlecdn.js",
+    "lib/data.js",
+    "util/bower.js",
+    "util/hoist.js"
+  ],
+  "dependencies": {
+    "semver": "~2.0.0",
+    "debug": "~0.7.2"
+  },
+  "readme": "# google-cdn [![Build Status](https://secure.travis-ci.org/passy/google-cdn.png?branch=master)](http://travis-ci.org/passy/google-cdn)\n\n> Grunt task for replacing refs to resources on the [Google CDN](https://developers.google.com/speed/libraries/devguide).\n\nThis module makes it easy to replace references to your bower resources in your\napp with links to the libraries on the Google CDN.\n\n## Getting started\n\nInstall: `npm install --save google-cdn`\n\n### Example\n\n*bower.json*:\n\n```json\n{\n  \"name\": \"my-awesome-app\",\n  \"dependencies\": {\n    \"jquery\": \"~2.0.0\"\n  }\n}\n```\n\n```javascript\nvar googlecdn = require('google-cdn');\n\nvar bowerConfig = loadJSON('bower.json');\nvar markup = '<script src=\"bower_components/jquery/jquery.js\"></script>';\nvar result = googlecdn(markup, bowerConfig);\nassert.equal(result,\n  '<script src=\"//ajax.googleapis.com/ajax/libs/jquery/2.0.2/jquery.min.js\"></script>');\n```\n\n## API\n\n### googlecdn(content, bowerJson[, options])\n\nReplaces references to libraries supported by the Google CDN in `content`.\nThe library versions are inferred from the `bowerJson`.\n\n`options` is an optional object with these keys:\n\n  - `componentsPath`: defaults to `bower_components`, the path you specify in\n    your script tags to the components directory.\n\n## Grunt\n\nYou can use this module in grunt through the [grunt-google-cdn](https://github.com/btford/grunt-google-cdn)\nplugin, which this module's code is based of.\n\n## License\n\nBSD\n",
+  "readmeFilename": "readme.md",
+  "_id": "google-cdn@0.1.4",
+  "_from": "google-cdn@~0.1.0"
+}

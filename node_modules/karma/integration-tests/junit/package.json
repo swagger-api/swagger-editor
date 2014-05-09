@@ -1,0 +1,18 @@
+{
+  "name": "junit",
+  "private": true,
+  "version": "0.0.0",
+  "description": "",
+  "main": "",
+  "scripts": {
+    "test": "./node_modules/karma/bin/karma start --single-run"
+  },
+  "author": "",
+  "license": "MIT",
+  "devDependencies": {
+    "karma": "latest",
+    "karma-jasmine": "latest",
+    "karma-firefox-launcher": "latest",
+    "karma-junit-reporter": "latest"
+  }
+}
