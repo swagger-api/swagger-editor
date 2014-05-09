@@ -2,7 +2,7 @@
 'use strict';
 
 var binPath = require('./').path;
-var spawn = require('child_process').spawn;
+var spawn = require('win-spawn');
 
 spawn(binPath, process.argv.slice(2), { stdio: 'inherit' })
 	.on('exit', process.exit);

@@ -6,7 +6,7 @@
     "ace-builds": "~1.1.1"
   },
   "homepage": "https://github.com/angular-ui/ui-ace",
-  "_release": "bower",
+  "_release": "b1753143a6",
   "_resolution": {
     "type": "branch",
     "branch": "bower",

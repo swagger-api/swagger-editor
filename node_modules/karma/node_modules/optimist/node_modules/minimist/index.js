@@ -182,6 +182,3 @@ function isNumber (x) {
     return /^[-+]?(?:\d+(?:\.\d*)?|\.\d+)(e[-+]?\d+)?$/.test(x);
 }
 
-function longest (xs) {
-    return Math.max.apply(null, xs.map(function (x) { return x.length }));
-}
