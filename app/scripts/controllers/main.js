@@ -46,19 +46,13 @@ function annotateJSONErrors(editor){
 }
 
 function getJsonString(editor, language){
-  var jsonString = null;
-  if(language === 'yaml'){
-    jsonString = JSON.stringify(jsyaml.load(editor.getSession().getValue()));
-  }else{
-    jsonString = editor.getSession().getValue();
-  }
-  return jsonString;
+  return JSON.stringify(jsyaml.load(editor.getSession().getValue()));
 }
 
 function buildDocs($scope){
   if(!swaggerUi) { return; }
 
-  var jsonString = getJsonString($scope.editor, $scope.editingLanguage);
+  var jsonString = getJsonString($scope.editor);
 
   swaggerUi.load(jsonString);
   swaggerUi.render();
@@ -71,7 +65,7 @@ function getDefaultSpecs(){
 
 PhonicsApp.controller('MainCtrl', ['$scope', '$localStorage', function ($scope, $localStorage) {
     $scope.editor = null;
-    $scope.editingLanguage = 'yaml';
+    $scope.previewMode = 'html';
     $scope.editorErrorMessage = '';
     $scope.autogenDocs = true;
 
@@ -98,12 +92,7 @@ PhonicsApp.controller('MainCtrl', ['$scope', '$localStorage', function ($scope, 
       var error = null;
       $localStorage.cache = $scope.editor.getSession().getValue();
 
-      if($scope.editingLanguage === 'yaml') {
-        error = annotateYAMLErrors($scope.editor);
-      }
-      if($scope.editingLanguage === 'json') {
-        error = annotateJSONErrors($scope.editor);
-      }
+      error = annotateYAMLErrors($scope.editor);
       if(!error) {
         $scope.editorErrorMessage = '';
       }
@@ -116,32 +105,11 @@ PhonicsApp.controller('MainCtrl', ['$scope', '$localStorage', function ($scope, 
       buildDocs($scope);
     };
 
-    $scope.switchToLanguage = function(language){
-      var currentValue = $scope.editor.getSession().getValue();
-      var newValue = null;
-      if(language === 'yaml'){
-        $scope.editorErrorMessage = annotateJSONErrors($scope.editor);
-        if ($scope.editorErrorMessage) {
-          return;
-        }
-        newValue = JSON.parse(currentValue);
-        newValue = jsyaml.dump(newValue);
-      }
-      if(language === 'json'){
-        $scope.editorErrorMessage = annotateYAMLErrors($scope.editor);
-        if ($scope.editorErrorMessage) {
-          return;
-        }
-        newValue = jsyaml.load(currentValue);
-        newValue = JSON.stringify(newValue, null, 2);
-      }
-      if($scope.editorErrorMessage) {
-        return;
-      }
-      $scope.editingLanguage = language;
-      $scope.editor.getSession().setMode(language);
-      $scope.editor.getSession().setValue(newValue);
+    $scope.switchPreviewMode = function(language){
+      $scope.previewMode = language;
     };
+
+    $scope.jsonLoaded = function(){};
 
   }]);
 

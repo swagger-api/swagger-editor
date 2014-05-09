@@ -1,21 +1,4 @@
 .ace-editor{
-  header.editor{
-    text-align: right;
-    background: #333;
-    a {
-      margin-right: .3em;
-      color: #999;
-      text-decoration: none;
-      font-size: 10px;
-      cursor: pointer;
-      transition: color ease-in 100ms;
-      &.active {
-        color: #eee;
-      }
-    }
-    
-  }
-
   .editor-error-message {
     padding: .3em;
     background: #AA0A0A;

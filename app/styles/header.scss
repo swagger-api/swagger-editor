@@ -19,5 +19,19 @@ header.main-header {
       border: none;
       background: white;
     }
+
+    &.panel-switcher {
+      float: right;
+      a {
+        margin-right: .3em;
+        text-decoration: none;
+        font-size: 10px;
+        cursor: pointer;
+        transition: color ease-in 100ms;
+        &.active {
+          color: #000;
+        }
+      }
+    }
   }
 }
