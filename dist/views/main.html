@@ -1,8 +1,0 @@
-<header class="main-header"><h1>Swagger Editor</h1><div class="toolbar"><label><input type="checkbox" ng-model="autogenDocs">Generate Docs on the fly</label><button ng-show="!autogenDocs" ng-click="generateDocs()">Generate Docs</button></div></header><main class="container"><div class="ace pane ace-editor" id="ace-editor-pane"><header class="editor"><a ng-click="switchToLanguage('yaml')" ng-class="{active: editingLanguage == 'yaml'}">YAML</a> <a ng-click="switchToLanguage('json')" ng-class="{active: editingLanguage == 'json'}">JSON</a></header><div class="editor-error-message" ng-show="!!editorErrorMessage.length"><pre>{{editorErrorMessage}}</pre></div><div class="editor-wrapper" ui-ace="{
-      useWrapMode : true,
-      showGutter: true,
-      theme:'twilight',
-      mode: 'yaml',
-      onLoad: aceLoaded,
-      onChange: aceChanged
-    }"></div></div><splitter-bar class="splitter pane" left-pane="ace-editor-pane" right-pane="preview-pane"></splitter-bar><div class="preview pane swagger-preview" id="preview-pane"><div class="swagger-section"><div id="swagger-ui-container" class="swagger-ui-wrap"></div></div></div></main>
