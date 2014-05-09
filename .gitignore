@@ -1,5 +1,6 @@
 .DS_Store
 .tmp
+node_modules/grunt-newer/.cache
 .sass-cache
 .grunt
 dist/
