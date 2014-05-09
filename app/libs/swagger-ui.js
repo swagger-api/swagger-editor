@@ -4,7 +4,6 @@
     __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
 
   SwaggerUi = (function(_super) {
-
     __extends(SwaggerUi, _super);
 
     function SwaggerUi() {
@@ -24,7 +23,6 @@
     SwaggerUi.prototype.mainView = null;
 
     SwaggerUi.prototype.initialize = function(options) {
-      var _this = this;
       if (options == null) {
         options = {};
       }
@@ -36,15 +34,21 @@
         $('body').append('<div id="' + this.dom_id + '"></div>');
       }
       this.options = options;
-      this.options.success = function() {
-        return _this.render();
-      };
-      this.options.progress = function(d) {
-        return _this.showMessage(d);
-      };
-      return this.options.failure = function(d) {
-        return _this.onLoadFailure(d);
-      };
+      this.options.success = (function(_this) {
+        return function() {
+          return _this.render();
+        };
+      })(this);
+      this.options.progress = (function(_this) {
+        return function(d) {
+          return _this.showMessage(d);
+        };
+      })(this);
+      return this.options.failure = (function(_this) {
+        return function(d) {
+          return _this.onLoadFailure(d);
+        };
+      })(this);
     };
 
     SwaggerUi.prototype.updateSwaggerUi = function(data) {
@@ -73,7 +77,6 @@
     };
 
     SwaggerUi.prototype.render = function() {
-      var _this = this;
       this.showMessage('Finished Loading Resource Information. Rendering Swagger UI...');
       this.mainView = new MainView({
         model: this.api,
@@ -90,9 +93,11 @@
       if (this.options.onComplete) {
         this.options.onComplete(this.api, this);
       }
-      return setTimeout(function() {
-        return Docs.shebang();
-      }, 400);
+      return setTimeout((function(_this) {
+        return function() {
+          return Docs.shebang();
+        };
+      })(this), 400);
     };
 
     SwaggerUi.prototype.buildUrl = function(base, url) {
@@ -148,7 +153,6 @@
   window.SwaggerUi = SwaggerUi;
 
   ContentTypeView = (function(_super) {
-
     __extends(ContentTypeView, _super);
 
     function ContentTypeView() {
@@ -174,7 +178,6 @@
   })(Backbone.View);
 
   HeaderView = (function(_super) {
-
     __extends(HeaderView, _super);
 
     function HeaderView() {
@@ -236,7 +239,6 @@
   })(Backbone.View);
 
   MainView = (function(_super) {
-
     __extends(MainView, _super);
 
     function MainView() {
@@ -285,7 +287,6 @@
   })(Backbone.View);
 
   OperationView = (function(_super) {
-
     __extends(OperationView, _super);
 
     function OperationView() {
@@ -440,14 +441,15 @@
       form = $('.sandbox', $(this.el));
       error_free = true;
       form.find("input.required").each(function() {
-        var _this = this;
         $(this).removeClass("error");
         if (jQuery.trim($(this).val()) === "") {
           $(this).addClass("error");
           $(this).wiggle({
-            callback: function() {
-              return $(_this).focus();
-            }
+            callback: (function(_this) {
+              return function() {
+                return $(_this).focus();
+              };
+            })(this)
           });
           return error_free = false;
         }
@@ -499,8 +501,7 @@
     };
 
     OperationView.prototype.handleFileUpload = function(map, form) {
-      var bodyParam, el, headerParams, o, obj, param, _i, _j, _k, _l, _len, _len1, _len2, _len3, _ref, _ref1, _ref2, _ref3,
-        _this = this;
+      var bodyParam, el, headerParams, o, obj, param, _i, _j, _k, _l, _len, _len1, _len2, _len3, _ref, _ref1, _ref2, _ref3;
       log("it's a file upload");
       _ref = form.serializeArray();
       for (_i = 0, _len = _ref.length; _i < _len; _i++) {
@@ -544,15 +545,21 @@
         dataType: 'json',
         contentType: false,
         processData: false,
-        error: function(data, textStatus, error) {
-          return _this.showErrorStatus(_this.wrap(data), _this);
-        },
-        success: function(data) {
-          return _this.showResponse(data, _this);
-        },
-        complete: function(data) {
-          return _this.showCompleteStatus(_this.wrap(data), _this);
-        }
+        error: (function(_this) {
+          return function(data, textStatus, error) {
+            return _this.showErrorStatus(_this.wrap(data), _this);
+          };
+        })(this),
+        success: (function(_this) {
+          return function(data) {
+            return _this.showResponse(data, _this);
+          };
+        })(this),
+        complete: (function(_this) {
+          return function(data) {
+            return _this.showCompleteStatus(_this.wrap(data), _this);
+          };
+        })(this)
       };
       if (window.authorizations) {
         window.authorizations.apply(obj);
@@ -753,7 +760,6 @@
   })(Backbone.View);
 
   ParameterContentTypeView = (function(_super) {
-
     __extends(ParameterContentTypeView, _super);
 
     function ParameterContentTypeView() {
@@ -779,7 +785,6 @@
   })(Backbone.View);
 
   ParameterView = (function(_super) {
-
     __extends(ParameterView, _super);
 
     function ParameterView() {
@@ -868,7 +873,6 @@
   })(Backbone.View);
 
   ResourceView = (function(_super) {
-
     __extends(ResourceView, _super);
 
     function ResourceView() {
@@ -915,7 +919,6 @@
   })(Backbone.View);
 
   ResponseContentTypeView = (function(_super) {
-
     __extends(ResponseContentTypeView, _super);
 
     function ResponseContentTypeView() {
@@ -941,7 +944,6 @@
   })(Backbone.View);
 
   SignatureView = (function(_super) {
-
     __extends(SignatureView, _super);
 
     function SignatureView() {
@@ -1010,7 +1012,6 @@
   })(Backbone.View);
 
   StatusCodeView = (function(_super) {
-
     __extends(StatusCodeView, _super);
 
     function StatusCodeView() {

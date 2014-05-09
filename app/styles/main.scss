@@ -15,7 +15,10 @@ html, body {
 */
 
 header.main-header {
-  max-height: 40px;
+  max-height: 44px;
+  background-image: url("/images/swagger_small.png");
+  background-repeat: no-repeat;
+  background-position: 10px 5px;
 }
 
 main.container {

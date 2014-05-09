@@ -1,11 +1,14 @@
 header.main-header {
-  background: #FF4300;
+  background: #89bf04;
   color: #eee;
   display: flex;
 
   >h1 {
-    padding: .3em;
-    font-size: 1.5em;
+    padding: .3em .3em .3em 1.9em;
+    font-size: 24px;
+    text-transform: lowercase;
+    font-family: "Droid Sans";
+    font-weight: 700;
   }
 
   .toolbar {
