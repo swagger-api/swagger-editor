@@ -15,8 +15,7 @@ html, body {
 */
 
 header.main-header {
-  max-height: 44px;
-  background-image: url("/images/swagger_small.png");
+/*  background-image: url("/images/swagger_small.png"); */
   background-repeat: no-repeat;
   background-position: 10px 5px;
 }
@@ -36,6 +35,7 @@ main.container {
       left: 0;
       display: flex;
       flex-direction: column;
+      border-top: 3px solid #181818;
       header.editor {
         height: 20px;
       }

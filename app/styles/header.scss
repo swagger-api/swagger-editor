@@ -1,5 +1,6 @@
 header.main-header {
-  background: #89bf04;
+  padding: 10px;
+  background: #505050;
   color: #eee;
   display: flex;
 
@@ -21,7 +22,8 @@ header.main-header {
     }
 
     &.panel-switcher {
-      float: right;
+      position: absolute;
+      right: 50px;
       a {
         margin-right: .3em;
         text-decoration: none;
@@ -33,5 +35,9 @@ header.main-header {
         }
       }
     }
+  }
+  
+  .generation {
+  		display: none;
   }
 }
