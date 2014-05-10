@@ -1,6 +1,6 @@
 <header class="main-header"><h1>Swagger Editor</h1><div class="toolbar"><label><input type="checkbox" ng-model="autogenDocs">Generate Docs on the fly</label><button ng-show="!autogenDocs" ng-click="generateDocs()">Generate Docs</button></div><div class="panel-switcher toolbar"><span>Preview in</span> <a ng-click="switchPreviewMode('html')" ng-class="{active: previewMode == 'html'}">HTML</a> <a ng-click="switchPreviewMode('json')" ng-class="{active: previewMode == 'json'}">JSON</a></div></header><main class="container"><div class="ace pane ace-editor" id="ace-editor-pane"><div class="editor-error-message" ng-show="!!editorErrorMessage.length"><pre>{{editorErrorMessage}}</pre></div><div class="editor-wrapper" ui-ace="{
       useWrapMode : true,
-      theme:'dawn',
+      theme:'merbivore_soft',
       mode: 'yaml',
       onLoad: aceLoaded,
       onChange: aceChanged
