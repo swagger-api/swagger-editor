@@ -15,87 +15,167 @@
       <pre>{{editorErrorMessage}}</pre>
     </div>
     <div class="editor-wrapper" ui-ace="{
-      useWrapMode : true,
-      theme:'merbivore_soft',
-      mode: 'yaml',
-      onLoad: aceLoaded,
-      onChange: aceChanged
-    }"></div>
-  </div>
-  <splitter-bar class="splitter pane" left-pane="ace-editor-pane" right-pane="preview-pane"></splitter-bar>
-  <div class="preview pane" id="preview-pane">
-    <div class="json-section" ng-show="previewMode == 'json'">
-      <div class="editor-wrapper" readonly="true" ui-ace="{
-        useWrapMode : true,
-        theme:'dawn',
-        mode: 'json',
-        onLoad: jsonPreviewLoaded
-      }"></div>
-    </div>
-    <div class="swagger-section" ng-show="previewMode == 'html'">
-      <div id="swagger-ui-container" class="swagger-ui-wrap">
-        <div class='container' id='resources_container'>
-            <ul id='resources'>
-              <li class="resource" ng-repeat="resource in swagger.apisArray" id="resource_{{resource.name}}">
+    useWrapMode : true,
+    theme:'merbivore_soft',
+    mode: 'yaml',
+    onLoad: aceLoaded,
+    onChange: aceChanged
+  }"></div>
+</div>
+<splitter-bar class="splitter pane" left-pane="ace-editor-pane" right-pane="preview-pane"></splitter-bar>
+<div class="preview pane" id="preview-pane">
+  <div class="json-section" ng-show="previewMode == 'json'">
+    <div class="editor-wrapper" readonly="true" ui-ace="{
+    useWrapMode : true,
+    theme:'dawn',
+    mode: 'json',
+    onLoad: jsonPreviewLoaded
+  }"></div>
+</div>
+<div class="swagger-section" ng-show="previewMode == 'html'">
+  <div id="swagger-ui-container" class="swagger-ui-wrap">
+    <div class='container' id='resources_container'>
+      <ul id='resources'>
+        <li class="resource" ng-repeat="resource in swagger.apisArray" id="resource_{{resource.name}}">
+          <div class='heading'>
+            <h2>
+              <a href='#/{{resource.id}}' ng-click="Docs.toggleEndpointListForResource('{{id}}');">{{resource.name}}</a>
+              : {{resource.description}}
+            </h2>
+            <ul class='options'>
+              <li>
+                <a href='#/{{resource.id}}' id='endpointListTogger_{{resource.id}}'
+                ng-click="Docs.toggleEndpointListForResource('{{resource.id}}');">Show/Hide</a>
+              </li>
+              <li>
+                <a href='#' ng-click="Docs.collapseOperationsForResource('{{resource.id}}');">
+                  List Operations
+                </a>
+              </li>
+              <li>
+                <a href='#' ng-click="Docs.expandOperationsForResource('{{resource.id}}');">
+                  Expand Operations
+                </a>
+              </li>
+              <li>
+                <a href='{{resource.url}}'>Raw</a>
+              </li>
+            </ul>
+          </div>
+          <ul class='endpoints' id='{{resource.id}}_endpoint_list'>
+            <li class="endpoint">
+              <ul class='operations' ng-repeat="operation in resource.operationsArray">
+               <li class='{{operation.method}} operation' id='{{operation.parentId}}_{{operation.nickname}}'>
                 <div class='heading'>
-                  <h2>
-                    <a href='#/{{resource.id}}' ng-click="Docs.toggleEndpointListForResource('{{id}}');">{{resource.name}}</a>
-                     : {{resource.description}}
-                  </h2>
+                  <h3>
+                    <span class='http_method'>
+                      <a href='#/{{operation.parentId}}/{{operation.nickname}}' class="toggleOperation">{{operation.method}}</a>
+                    </span>
+                    <span class='path'>
+                      <a href='#/{{operation.parentId}}/{{operation.nickname}}' class="toggleOperation">{{operation.path}}</a>
+                    </span>
+                  </h3>
                   <ul class='options'>
                     <li>
-                      <a href='#/{{resource.id}}' id='endpointListTogger_{{resource.id}}'
-                         ng-click="Docs.toggleEndpointListForResource('{{resource.id}}');">Show/Hide</a>
-                    </li>
-                    <li>
-                      <a href='#' ng-click="Docs.collapseOperationsForResource('{{resource.id}}');">
-                        List Operations
-                      </a>
-                    </li>
-                    <li>
-                      <a href='#' ng-click="Docs.expandOperationsForResource('{{resource.id}}');">
-                        Expand Operations
-                      </a>
-                    </li>
-                    <li>
-                      <a href='{{resource.url}}'>Raw</a>
+                      <a href='#/{{operation.parentId}}/{{operation.nickname}}' class="toggleOperation">{{operation.summary}}</a>
                     </li>
                   </ul>
                 </div>
-              <ul class='endpoints' id='{{resource.id}}_endpoint_list'>
-                <li class="endpoint">
-                  <ul class='operations' ng-repeat="operation in resource.operationsArray">
-                     <li class='{{operation.method}} operation' id='{{operation.parentId}}_{{operation.nickname}}'>
-                      <div class='heading'>
-                        <h3>
-                          <span class='http_method'>
-                          <a href='#/{{operation.parentId}}/{{operation.nickname}}' class="toggleOperation">{{operation.method}}</a>
+                <div class='content' id='{{operation.parentId}}_{{operation.nickname}}_content'>
+                  <h4 ng-if="operation.notes">Implementation Notes</h4>
+                  <p ng-if="operation.notes">{{operation.notes}}</p>
+                  <div class="auth">
+                    <div ng-repeat="oauths in operation.oauth" id="api_information_panel" style="top: 526px; left: 776px; display: none;">
+                      <div ng-repeat="oauth in oauths" title='{{oauth.description}}'>{{oauth.scope}}</div>
+                    </div>
+                  </div>
+                  <div class='access'>
+                    <span class="api-ic ic-off" title="click to authenticate"></span>
+                  </div>
+                  <div class="type-wrapper" ng-if="operation.type">
+                    <h4>Response Class</h4>
+                    <p>
+                      <span class="model-signature" >
+                        <div>
+                          <div>
+                            <ul class="signature-nav">
+                              <li><a class="description-link" href="#" ng-click="TODO">Model</a></li>
+                              <li><a class="snippet-link" href="#" ng-click="TODO">Model Schema</a></li>
+                            </ul>
+                            <div>
+                              <div class="signature-container">
+                                <div class="description">
+                                  {{operation.signature}}
+                                </div>
+                                <div class="snippet">
+                                  <pre><code>{{operation.sampleJSON}}</code></pre>
+                                  <small class="notice"></small>
+                                </div>
+                              </div>
+                            </div>
                           </span>
-                          <span class='path'>
-                          <a href='#/{{operation.parentId}}/{{operation.nickname}}' class="toggleOperation">{{operation.path}}</a>
-                          </span>
-                        </h3>
-                        <ul class='options'>
-                          <li>
-                          <a href='#/{{operation.parentId}}/{{operation.nickname}}' class="toggleOperation">{{operation.summary}}</a>
-                          </li>
-                        </ul>
+                        </p>
+                        <br/>
+                        <div class="response-content-type" ></div>
                       </div>
-                      <div class='content' id='{{operation.parentId}}_{{operation.nickname}}_content'>
+                      <form accept-charset='UTF-8' class='sandbox'>
+                        <div style='margin:0;padding:0;display:inline'></div>
+                        <h4 ng-if="operation.parameters">Parameters</h4>
+                        <table ng-if="operation.parameters" class='fullwidth'>
+                          <thead>
+                            <tr>
+                              <th style="width: 100px; max-width: 100px">Parameter</th>
+                              <th style="width: 310px; max-width: 310px">Value</th>
+                              <th style="width: 200px; max-width: 200px">Description</th>
+                              <th style="width: 100px; max-width: 100px">Parameter Type</th>
+                              <th style="width: 220px; max-width: 230px">Data Type</th>
+                            </tr>
+                          </thead>
+                          <tbody class="operation-params">
 
-                        <h4 ng-if="operation.notes">Implementation Notes</h4>
-                        <p ng-if="operation.notes">{{operation.notes}}</p>
+                          </tbody>
+                        </table>
+                        <div ng-if="operation.responseMessages" style='margin:0;padding:0;display:inline'></div>
+                        <h4 ng-if="operation.responseMessages">Response Messages</h4>
+                        <table ng-if="operation.responseMessages" class='fullwidth'>
+                          <thead>
+                            <tr>
+                              <th>HTTP Status Code</th>
+                              <th>Reason</th>
+                              <th>Response Model</th>
+                            </tr>
+                          </thead>
+                          <tbody class="operation-status">
+
+                          </tbody>
+                        </table>
+                        <div ng-if="!operation.isReadOnly" class='sandbox_header'>
+                          <input class='submit' name='commit' type='button' value='Try it out!' />
+                          <a href='#' class='response_hider' style='display:none'>Hide Response</a>
+                          <img alt='Throbber' class='response_throbber' src='images/throbber.gif' style='display:none' />
+                        </div>
+                      </form>
+                      <div class='response' style='display:none'>
+                        <h4>Request URL</h4>
+                        <div class='block request_url'></div>
+                        <h4>Response Body</h4>
+                        <div class='block response_body'></div>
+                        <h4>Response Code</h4>
+                        <div class='block response_code'></div>
+                        <h4>Response Headers</h4>
+                        <div class='block response_headers'></div>
                       </div>
-                    </li>
-                  </ul>
-                </li>
-              </ul>
+                    </div>
+                  </li>
+                </ul>
               </li>
             </ul>
+          </li>
+        </ul>
 
-            <!-- Footer TODO -->
-        </div>
+        <!-- Footer TODO -->
       </div>
     </div>
   </div>
+</div>
 </main>
