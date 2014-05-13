@@ -32,7 +32,7 @@ function buildDocs($scope){
   var jsonString = getJsonString($scope.editor);
 
   swaggerUi.load(jsonString);
-  swaggerUi.render();
+  $scope.swagger = swaggerUi.api;
 }
 
 
