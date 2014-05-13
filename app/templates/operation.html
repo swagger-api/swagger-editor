@@ -27,9 +27,15 @@
     </div>
     <div class="type-wrapper" ng-if="operation.type">
       <h4>Response Class</h4>
-      <p><signature></signature></p>
+      <p><signature operation="operation" models="resource.models"></signature></p>
     </div>
-    <div class="response-content-type" ></div>
+    <div class="response-content-type" >
+      <label for="responseContentType">Response Content Type</label>
+      <select name="responseContentType">
+        <option ng-repeat="produce in operation.produces" value="{{produce}}">{{produce}}</option>
+        <option ng-if="!operation.produces || !operation.produces.length" value="application/json">application/json</option>
+      </select>
+    </div>
     <form accept-charset='UTF-8' class='sandbox'>
       <div style='margin:0;padding:0;display:inline'></div>
       <h4 ng-if="operation.parameters">Parameters</h4>
@@ -58,7 +64,6 @@
           </tr>
         </thead>
         <tbody class="operation-status">
-
         </tbody>
       </table>
       <div ng-if="!operation.isReadOnly" class='sandbox_header'>

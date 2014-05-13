@@ -2,14 +2,16 @@
   <div>
     <div>
       <ul class="signature-nav">
-        <li><a class="description-link" href="#" ng-click="TODO">Model</a></li>
-        <li><a class="snippet-link" href="#" ng-click="TODO">Model Schema</a></li>
+        <li><a class="description-link" ng-click="visibilePane = 0">Model</a></li>
+        <li><a class="snippet-link" ng-click="visibilePane = 1">Model Schema</a></li>
       </ul>
       <div>
         <div class="signature-container">
-          <div class="description">{{operation.signature}}</div>
-          <div class="snippet">
-            <pre><code>{{operation.sampleJSON}}</code></pre>
+          <div class="description" ng-show="visibilePane == 0">
+            <!-- TODO <parameter-view> -->
+          </div>
+          <div class="snippet" ng-show="visibilePane == 1">
+            <pre><code>{{sampleJSON}}</code></pre>
             <small class="notice"></small>
           </div>
         </div>
