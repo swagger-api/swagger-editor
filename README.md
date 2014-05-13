@@ -8,9 +8,9 @@ Coming soon!
 ## Running Locally
 
 * Make sure you have These dependecies installed
-** NodeJS
-** Ruby
-** Compass
+ * NodeJS
+ * Ruby
+ * Compass
 * Clone the repository
 * `npm install`
 * `bower install`
