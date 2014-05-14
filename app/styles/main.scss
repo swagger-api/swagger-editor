@@ -1,3 +1,5 @@
+$splitter-width: 4px;
+
 @import "reset";
 @import "header";
 @import "editor";
@@ -13,7 +15,6 @@ html, body {
 /*
   Layout
 */
-
 header.main-header {
 /*  background-image: url("/images/swagger_small.png"); */
   background-repeat: no-repeat;
@@ -23,7 +24,6 @@ header.main-header {
 main.container {
   position: relative;
   height: calc(100vh - 40px);
-  $splitter-width: 4px;
 
   .pane {
     position: absolute;
