@@ -4,6 +4,6 @@ PhonicsApp.directive('resource', function(){
   return {
     restrict: 'E',
     replace: true,
-    templateUrl: '/templates/resource.html'
+    templateUrl: 'templates/resource.html'
   };
 });

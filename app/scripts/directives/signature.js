@@ -19,6 +19,6 @@ PhonicsApp.directive('signature', function(){
     link: link,
     restrict: 'E',
     replace: true,
-    templateUrl: '/templates/signature.html'
+    templateUrl: 'templates/signature.html'
   };
 });
