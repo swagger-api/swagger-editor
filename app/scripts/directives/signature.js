@@ -3,15 +3,14 @@
 PhonicsApp.directive('signature', function(){
   function getSampleJSON(type, models) {
     return SwaggerOperation.prototype.getSampleJSON(type, models);
-  };
+  }
 
-  function link(scope, element, attributes){
+  function link(scope){
     scope.getSampleJSON = getSampleJSON;
     scope.visibilePane = 0;
     scope.sampleJSON = getSampleJSON(scope.operation.type, scope.models);
-    scope.signature = 'stringify';
-    scope.model = scope.models[scope.operation.type]
-  };
+    scope.model = scope.models[scope.operation.type];
+  }
 
   return {
     scope: {
