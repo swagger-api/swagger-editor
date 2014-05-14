@@ -99,6 +99,11 @@
           </tr>
         </thead>
         <tbody class="operation-status">
+            <tr ng-repeat="statusCode in operation.responseMessages">
+                <td width='15%' class='code'>{{statusCode.code}}</td>
+                <td>{{statusCode.message}}</td>
+                <td width='50%'><span class="model-signature" /></td>
+            </tr>
         </tbody>
       </table>
       <div ng-if="!operation.isReadOnly" class='sandbox_header'>
