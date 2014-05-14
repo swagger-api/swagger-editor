@@ -50,7 +50,42 @@
           </tr>
         </thead>
         <tbody class="operation-params">
-            <tr ng-repeat="parameter in operation.parameters" ng-include="'/templates/param.html'"></tr>
+          <tr ng-repeat="parameter in operation.parameters">
+            <td class='code'>
+              <strong>{{parameter.name}}</strong>
+            </td>
+            <td>
+              <div ng-if="parameter.isBody">
+                <div ng-if="parameter.isFile">
+                  <input type="file" name='{{parameter.name}}'/>
+                </div>
+                <div class="parameter-content-type"></div>
+                <div ng-if="!parameter.isFile">
+                  <textarea class='body-textarea' name='{{parameter.name}}' ng-model="parameter.defaultValue"></textarea>
+                  <div ng-if="!parameter.defaultValue">
+                    <div class="parameter-content-type"></div>
+                  </div>
+                </div>
+              </div>
+              <div ng-if="!parameter.isBody">
+                <input class='parameter' minlength='0' name='{{parameter.name}}'
+                placeholder="{{ parameter.required ? '(required)' : '' }}"
+                type='text' ng-model="parameter.defaultValue">
+              </div>
+            </td>
+            <td>
+              <strong>{{parameter.description}}</strong>
+            </td>
+            <td>
+              {{parameter.paramType}}
+            </td>
+            <td>
+              <span class="model-signature">
+                {{getSigniture(parameter)}}
+                <!-- <signature operation="operation" models="resource.models"> -->
+              </span>
+            </td>
+          </tr>
         </tbody>
       </table>
       <div ng-if="operation.responseMessages" style='margin:0;padding:0;display:inline'></div>
