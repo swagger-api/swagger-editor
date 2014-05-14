@@ -1,4 +1,6 @@
-<td class='code'>{{parameter.name}}</td>
+<td class='code'>
+  <strong>{{parameter.name}}</strong>
+</td>
 <td>
     <div ng-if="parameter.isBody">
         <div ng-if="parameter.isFile">
@@ -21,10 +23,12 @@
     </div>
 
 </td>
-<td>{{parameter.description}}</td>
+<td>
+  <strong>{{parameter.description}}</strong>
+</td>
 <td>{{parameter.paramType}}</td>
 <td>
 	<span class="model-signature">
-
+    <signature operation="operation" models="resource.models">
 	</span>
 </td>
