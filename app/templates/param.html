@@ -15,7 +15,8 @@
     </div>
 
     <div ng-if="!parameter.isBody">
-        <input class='parameter' minlength='0' name='{{parameter.name}}' placeholder=''
+        <input class='parameter' minlength='0' name='{{parameter.name}}'
+               placeholder="{{ parameter.required ? '(required)' : '' }}"
                type='text' ng-model="parameter.defaultValue" />
     </div>
 
