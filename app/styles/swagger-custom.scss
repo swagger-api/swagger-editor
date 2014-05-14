@@ -1,0 +1,10 @@
+.endpoints {
+  // TODO add animation
+  &.hidden{
+    display: none;
+  }
+
+  .content.hidden {
+    display: none;
+  }
+}
