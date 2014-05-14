@@ -50,7 +50,7 @@
           </tr>
         </thead>
         <tbody class="operation-params">
-
+            <tr ng-repeat="parameter in operation.parameters" ng-include="'/templates/param.html'"></tr>
         </tbody>
       </table>
       <div ng-if="operation.responseMessages" style='margin:0;padding:0;display:inline'></div>

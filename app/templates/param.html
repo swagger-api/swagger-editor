@@ -1,0 +1,34 @@
+<td class='code'>{{parameter.name}}</td>
+<td>
+    <div ng-if="parameter.isBody">
+        <div ng-if="parameter.isFile">
+			<input type="file" name='{{parameter.name}}'/>
+			<div class="parameter-content-type" />
+        </div>
+        <div ng-if="!parameter.isFile">
+            <div ng-if="parameter.defaultValue">
+                <textarea class='body-textarea' name='{{parameter.name}}'>{{parameter.defaultValue}}</textarea>
+            </div>
+            <div ng-if="!parameter.defaultValue">
+				<textarea class='body-textarea' name='{{parameter.name}}'></textarea>
+				<br />
+				<div class="parameter-content-type" />
+            </div>
+        </div>
+    </div>
+
+    <div ng-if="!parameter.isBody">
+        <div ng-if="parameter.defaultValue">
+            <input class='parameter' minlength='0' name='{{parameter.name}}' placeholder='' type='text' value='{{parameter.defaultValue}}'/>
+        </div>
+        <div ng-if="!parameter.defaultValue">
+            <input class='parameter' minlength='0' name='{{parameter.name}}' placeholder='' type='text' value=''/>
+        </div>
+    </div>
+
+</td>
+<td>{{parameter.description}}</td>
+<td>{{parameter.paramType}}</td>
+<td>
+	<span class="model-signature"></span>
+</td>
