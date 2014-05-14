@@ -9,7 +9,6 @@ PhonicsApp.directive('signature', function(){
     scope.getSampleJSON = getSampleJSON;
     scope.visibilePane = 0;
     scope.sampleJSON = getSampleJSON(scope.operation.type, scope.models);
-    scope.model = scope.models[scope.operation.type];
   }
 
   return {

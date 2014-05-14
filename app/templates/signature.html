@@ -7,7 +7,7 @@
       </ul>
       <div>
         <div class="signature-container">
-          <parameter-view model="model" ng-if="!!model" ng-show="visibilePane == 0"></parameter-view>
+          <parameter-view ng-repeat="model in models" model="model" ng-if="!!models" ng-show="visibilePane == 0"></parameter-view>
           <div class="snippet" ng-show="visibilePane == 1">
             <pre><code>{{sampleJSON}}</code></pre>
             <small class="notice"></small>
