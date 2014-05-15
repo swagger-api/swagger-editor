@@ -1,31 +1,32 @@
-apiVersion: 1.0.0
-swaggerVersion: "1.2"
-basePath: "http://petstore.swagger.wordnik.com/api"
-resourcePath: /pet
+apiVersion: 1.0
+swaggerVersion: 1.2
+basePath: http://localhost:8002/api
+resourcePath: /pets
 produces:
   - application/json
   - application/xml
   - text/plain
   - text/html
 apis:
-  - path: "/pet/{petId}"
+  - path: /pets/{petId}
     operations:
       - method: GET
         summary: Find pet by ID
         notes: Returns a pet based on ID
         type: Pet
         nickname: getPetById
-        authorizations: {}
+        produces:
+          - application/json
+          - application/xml
+        authorizations:
+          - oauth2
         parameters:
           - name: petId
             description: ID of pet that needs to be fetched
             required: true
-            type: integer
-            format: int64
-            paramType: path
             allowMultiple: false
-            minimum: "1.0"
-            maximum: "100000.0"
+            type: string
+            paramType: path
         responseMessages:
           - code: 400
             message: Invalid ID supplied
@@ -36,114 +37,16 @@ apis:
         notes: ""
         type: void
         nickname: deletePet
-        authorizations:
-          oauth2:
-            - scope: "write:pets"
-              description: modify pets in your account
         parameters:
           - name: petId
             description: Pet id to delete
             required: true
+            allowMultiple: false
             type: string
             paramType: path
-            allowMultiple: false
         responseMessages:
           - code: 400
             message: Invalid pet value
-      - method: PATCH
-        summary: partial updates to a pet
-        notes: ""
-        type: array
-        items:
-          $ref: Pet
-        nickname: partialUpdate
-        produces:
-          - application/json
-          - application/xml
-        consumes:
-          - application/json
-          - application/xml
-        authorizations:
-          oauth2:
-            - scope: "write:pets"
-              description: modify pets in your account
-        parameters:
-          - name: petId
-            description: ID of pet that needs to be fetched
-            required: true
-            type: string
-            paramType: path
-            allowMultiple: false
-          - name: body
-            description: Pet object that needs to be added to the store
-            required: true
-            type: Pet
-            paramType: body
-            allowMultiple: false
-        responseMessages:
-          - code: 400
-            message: Invalid tag value
-      - method: POST
-        summary: Updates a pet in the store with form data
-        notes: ""
-        type: void
-        nickname: updatePetWithForm
-        consumes:
-          - application/x-www-form-urlencoded
-        authorizations:
-          oauth2:
-            - scope: "write:pets"
-              description: modify pets in your account
-        parameters:
-          - name: petId
-            description: ID of pet that needs to be updated
-            required: true
-            type: string
-            paramType: path
-            allowMultiple: false
-          - name: name
-            description: Updated name of the pet
-            required: false
-            type: string
-            paramType: form
-            allowMultiple: false
-          - name: status
-            description: Updated status of the pet
-            required: false
-            type: string
-            paramType: form
-            allowMultiple: false
-        responseMessages:
-          - code: 405
-            message: Invalid input
-  - path: /pet/uploadImage
-    operations:
-      - method: POST
-        summary: uploads an image
-        notes: ""
-        type: void
-        nickname: uploadFile
-        consumes:
-          - multipart/form-data
-        authorizations:
-          oauth2:
-            - scope: "write:pets"
-              description: modify pets in your account
-            - scope: "read:pets"
-              description: read your pets
-        parameters:
-          - name: additionalMetadata
-            description: Additional data to pass to server
-            required: false
-            type: string
-            paramType: form
-            allowMultiple: false
-          - name: file
-            description: file to upload
-            required: false
-            type: File
-            paramType: body
-            allowMultiple: false
   - path: /pet
     operations:
       - method: POST
@@ -151,20 +54,13 @@ apis:
         notes: ""
         type: void
         nickname: addPet
-        consumes:
-          - application/json
-          - application/xml
-        authorizations:
-          oauth2:
-            - scope: "write:pets"
-              description: modify pets in your account
         parameters:
           - name: body
             description: Pet object that needs to be added to the store
             required: true
+            allowMultiple: false
             type: Pet
             paramType: body
-            allowMultiple: false
         responseMessages:
           - code: 405
             message: Invalid input
@@ -173,14 +69,13 @@ apis:
         notes: ""
         type: void
         nickname: updatePet
-        authorizations: {}
         parameters:
           - name: body
             description: Pet object that needs to be updated in the store
             required: true
+            allowMultiple: false
             type: Pet
             paramType: body
-            allowMultiple: false
         responseMessages:
           - code: 400
             message: Invalid ID supplied
@@ -188,7 +83,7 @@ apis:
             message: Pet not found
           - code: 405
             message: Validation exception
-  - path: /pet/findByStatus
+  - path: /pets/findByStatus
     operations:
       - method: GET
         summary: Finds Pets by status
@@ -197,15 +92,17 @@ apis:
         items:
           $ref: Pet
         nickname: findPetsByStatus
-        authorizations: {}
+        produces:
+          - application/json
+          - application/xml
         parameters:
           - name: status
             description: Status values that need to be considered for filter
             defaultValue: available
             required: true
+            allowMultiple: true
             type: string
             paramType: query
-            allowMultiple: true
             enum:
               - available
               - pending
@@ -213,38 +110,41 @@ apis:
         responseMessages:
           - code: 400
             message: Invalid status value
-  - path: /pet/findByTags
+  - path: /pets/findByTags
     operations:
       - method: GET
         summary: Finds Pets by tags
-        notes: "Muliple tags can be provided with comma seperated strings. Use tag1, tag2, tag3 for testing."
+        notes: Muliple tags can be provided with comma seperated strings. Use tag1, tag2, tag3 for testing.
         type: array
         items:
           $ref: Pet
         nickname: findPetsByTags
-        authorizations: {}
+        produces:
+          - application/json
+          - application/xml
         parameters:
           - name: tags
             description: Tags to filter by
             required: true
+            allowMultiple: true
             type: string
             paramType: query
-            allowMultiple: true
         responseMessages:
           - code: 400
             message: Invalid tag value
-        deprecated: "true"
+        deprecated: true
 models:
   Tag:
     id: Tag
     properties:
+      name:
+        type: string
       id:
         type: integer
         format: int64
-      name:
-        type: string
   Pet:
     id: Pet
+    description: A pet is a person's best friend
     required:
       - id
       - name
@@ -252,21 +152,12 @@ models:
       id:
         type: integer
         format: int64
-        description: unique identifier for the pet
-        minimum: "0.0"
-        maximum: "100.0"
-      category:
-        $ref: Category
-      name:
-        type: string
-      photoUrls:
-        type: array
-        items:
-          type: string
       tags:
         type: array
         items:
           $ref: Tag
+      name:
+        type: string
       status:
         type: string
         description: pet status in the store
@@ -274,11 +165,17 @@ models:
           - available
           - pending
           - sold
+      category:
+        $ref: Category
+      photoUrls:
+        type: array
+        items:
+          type: string
   Category:
     id: Category
     properties:
+      name:
+        type: string
       id:
         type: integer
         format: int64
-      name:
-        type: string
