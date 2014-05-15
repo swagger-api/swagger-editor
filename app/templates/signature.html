@@ -1,5 +1,6 @@
 <span class="model-signature" >
-  <div>
+  <span ng-if="isPrimitive">{{type}}</span>
+  <div ng-if="!isPrimitive">
     <div>
       <ul class="signature-nav">
         <li><a class="description-link" ng-click="visibilePane = 0">Model</a></li>
@@ -7,7 +8,12 @@
       </ul>
       <div>
         <div class="signature-container">
-          <parameter-view ng-repeat="model in models" model="model" ng-if="!!models" ng-show="visibilePane == 0"></parameter-view>
+          <div ng-repeat="model in models" class="description" ng-show="visibilePane == 0">
+            <strong>{{model.name}} {</strong>
+            <div ng-repeat="property in model.properties" ng-bind-html="property.toString()">
+            </div>
+            <strong>}</strong>
+          </div>
           <div class="snippet" ng-show="visibilePane == 1">
             <pre><code>{{sampleJSON}}</code></pre>
             <small class="notice"></small>

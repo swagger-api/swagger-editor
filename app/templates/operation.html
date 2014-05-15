@@ -31,7 +31,7 @@
     </div>
     <div class="type-wrapper" ng-if="operation.type">
       <h4>Response Class</h4>
-      <p><signature operation="operation" models="resource.models"></signature></p>
+      <p><signature type="operation.type" models="resource.models"></signature></p>
     </div>
     <div class="response-content-type" >
       <label for="responseContentType">Response Content Type</label>
@@ -84,10 +84,7 @@
               {{parameter.paramType}}
             </td>
             <td>
-              <span class="model-signature">
-                {{getSigniture(parameter)}}
-                <!-- <signature operation="operation" models="resource.models"> -->
-              </span>
+              <signature type="parameter.type" models="resource.models"></signature>
             </td>
           </tr>
         </tbody>
