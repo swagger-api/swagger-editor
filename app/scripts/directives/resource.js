@@ -1,21 +1,27 @@
 'use strict';
 
+function setOperationsCollapsed(scope, isCollapsed){
+  scope.resource.operationsArray.forEach(function (operation){
+    operation.collapsed = isCollapsed;
+  });
+}
+
 PhonicsApp.directive('resource', function(){
   return {
     restrict: 'E',
     replace: true,
     templateUrl: 'templates/resource.html',
-    link: function(scope, element){
+    scope: { resource: '=' },
+    link: function(scope){
       scope.collapsed = false;
-
       scope.collapseAll = function(){
         scope.collapsed = false;
-        $('.content', element).addClass('collapsed');
+        setOperationsCollapsed(scope, true);
       };
 
       scope.expandAll = function(){
         scope.collapsed = false;
-        $('.content', element).removeClass('collapsed');
+        setOperationsCollapsed(scope, false);
       };
     }
   };
