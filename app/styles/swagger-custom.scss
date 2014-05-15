@@ -1,3 +1,13 @@
+@-webkit-keyframes shake {
+  25% {
+     -webkit-transform: translateX(-5px);
+  }
+  75%{
+    -webkit-transform: translateX(5px);
+  }
+}
+
+
 .swagger-section{
   .endpoints {
     // TODO add animation
@@ -9,6 +19,12 @@
       .content.collapsed {
         display: none;
       }
+    }
+
+    .operation-params div.shake{
+      transition: 300ms -webkit-transform cubic-bezier(.87,.53,.81,1.67);
+      -webkit-animation: shake 300ms 3;
+      box-shadow: 0 0 10px red;
     }
   }
 }

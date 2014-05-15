@@ -59,7 +59,7 @@
               <strong>{{parameter.name}}</strong>
             </td>
             <td>
-              <div ng-if="parameter.isBody">
+              <div ng-if="parameter.isBody" ng-class="{shake: parameter.shake}">
                 <div ng-if="parameter.isFile">
                   <input type="file" name='{{parameter.name}}'/>
                 </div>
@@ -71,10 +71,10 @@
                   </div>
                 </div>
               </div>
-              <div ng-if="!parameter.isBody">
-                <input class='parameter' minlength='0' name='{{parameter.name}}'
+              <div ng-if="!parameter.isBody" ng-class="{shake: parameter.shake}">
+                <input class='parameter' ng-model="parameter.inputValue" minlength='0' name='{{parameter.name}}'
                 placeholder="{{ parameter.required ? '(required)' : '' }}"
-                type='text' ng-model="parameter.defaultValue">
+                type='text' ng-model="parameter.defaultValue" required="parameter.required">
               </div>
             </td>
             <td>
@@ -108,7 +108,7 @@
         </tbody>
       </table>
       <div ng-if="!operation.isReadOnly" class='sandbox_header'>
-        <input class='submit' name='commit' type='button' value='Try it out!' />
+        <button ng-click="tryIt(operation)" class='submit' name='commit' type='button'>Try it out!</button>
         <a href='#' class='response_hider' style='display:none'>Hide Response</a>
         <img alt='Throbber' class='response_throbber' src='images/throbber.gif' style='display:none' />
       </div>
