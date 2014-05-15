@@ -7,17 +7,17 @@ PhonicsApp.directive('signature', function(){
 
   function getListType(type){
     if (type && type.indexOf('[') >= 0) {
-        return type.substring(type.indexOf('[') + 1, type.indexOf(']'));
-      } else {
-        return void 0;
+      return type.substring(type.indexOf('[') + 1, type.indexOf(']'));
+    } else {
+      return void 0;
     }
-  };
+  }
 
   function isPrimitive(type, models){
     var listType = getListType(type);
     if(listType) { type = listType; }
     return typeof models[type] !== 'object';
-  };
+  }
 
   function link(scope){
     scope.getSampleJSON = getSampleJSON;
