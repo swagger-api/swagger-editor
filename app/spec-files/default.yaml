@@ -1,14 +1,14 @@
 apiVersion: 1.0
 swaggerVersion: 1.2
 basePath: http://localhost:8002/api
-resourcePath: /pet
+resourcePath: /pets
 produces:
   - application/json
   - application/xml
   - text/plain
   - text/html
 apis:
-  - path: /pet/{petId}
+  - path: /pets/{petId}
     operations:
       - method: GET
         summary: Find pet by ID
@@ -83,7 +83,7 @@ apis:
             message: Pet not found
           - code: 405
             message: Validation exception
-  - path: /pet/findByStatus
+  - path: /pets/findByStatus
     operations:
       - method: GET
         summary: Finds Pets by status
@@ -110,7 +110,7 @@ apis:
         responseMessages:
           - code: 400
             message: Invalid status value
-  - path: /pet/findByTags
+  - path: /pets/findByTags
     operations:
       - method: GET
         summary: Finds Pets by tags
