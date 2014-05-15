@@ -1,10 +1,14 @@
-.endpoints {
-  // TODO add animation
-  &.hidden{
-    display: none;
-  }
+.swagger-section{
+  .endpoints {
+    // TODO add animation
+    &.collapsed{
+      display: none;
+    }
 
-  .content.hidden {
-    display: none;
+    .endpoint {
+      .content.collapsed {
+        display: none;
+      }
+    }
   }
 }

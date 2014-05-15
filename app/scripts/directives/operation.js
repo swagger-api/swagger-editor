@@ -6,6 +6,7 @@ PhonicsApp.directive('operation', function(){
     replace: true,
     templateUrl: 'templates/operation.html',
     link: function(scope){
+      scope.collapsed = false;
       scope.getSigniture = function(parameter){
         return parameter.type;
       };

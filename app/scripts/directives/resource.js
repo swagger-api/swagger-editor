@@ -6,16 +6,16 @@ PhonicsApp.directive('resource', function(){
     replace: true,
     templateUrl: 'templates/resource.html',
     link: function(scope, element){
-      scope.show = true;
+      scope.collapsed = false;
 
       scope.collapseAll = function(){
-        scope.show = true;
-        $('.content', element).addClass('hidden');
+        scope.collapsed = false;
+        $('.content', element).addClass('collapsed');
       };
 
       scope.expandAll = function(){
-        scope.show = true;
-        $('.content', element).removeClass('hidden');
+        scope.collapsed = false;
+        $('.content', element).removeClass('collapsed');
       };
     }
   };
