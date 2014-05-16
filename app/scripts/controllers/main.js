@@ -82,10 +82,11 @@ PhonicsApp.controller('MainCtrl', ['$scope', '$localStorage', function ($scope, 
       $localStorage.cache = $scope.editor.getSession().getValue();
 
       error = annotateYAMLErrors($scope.editor);
-      if(!error) {
+      if(error) {
+        return $scope.invalidDocs = true;
+      }else{
         $scope.editorErrorMessage = '';
       }
-
       buildDocs($scope);
     };
 
