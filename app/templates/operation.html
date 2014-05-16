@@ -59,7 +59,7 @@
               <strong>{{parameter.name}}</strong>
             </td>
             <td>
-              <div ng-if="parameter.isBody" ng-class="{shake: parameter.shake}">
+              <div ng-if="parameter.paramType == 'body'" ng-class="{shake: parameter.shake}">
                 <div ng-if="parameter.isFile">
                   <input type="file" name='{{parameter.name}}'/>
                 </div>
@@ -71,7 +71,7 @@
                   </div>
                 </div>
               </div>
-              <div ng-if="!parameter.isBody" ng-class="{shake: parameter.shake}">
+              <div ng-if="!parameter.paramType == 'body'" ng-class="{shake: parameter.shake}">
                 <input class='parameter' ng-model="parameter.inputValue" minlength='0' name='{{parameter.name}}'
                 placeholder="{{ parameter.required ? '(required)' : '' }}"
                 type='text' ng-model="parameter.defaultValue" required="parameter.required">
