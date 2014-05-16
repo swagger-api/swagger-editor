@@ -1,12 +1,11 @@
-<header class="main-header"><h1>Swagger Editor</h1><div class="toolbar generation"><label><input type="checkbox" ng-model="autogenDocs">Generate Docs on the fly</label><button ng-show="!autogenDocs" ng-click="generateDocs()">Generate Docs</button></div><div class="panel-switcher toolbar"><a ng-click="switchPreviewMode('html')" ng-class="{active: previewMode == 'html'}">HTML</a> <a ng-click="switchPreviewMode('json')" ng-class="{active: previewMode == 'json'}">JSON</a></div></header><main class="container"><div class="ace pane ace-editor" id="ace-editor-pane"><div class="editor-error-message" ng-show="!!editorErrorMessage.length"><pre>{{editorErrorMessage}}</pre></div><div class="editor-wrapper" ui-ace="{
-    useWrapMode : true,
-    theme:'merbivore_soft',
-    mode: 'yaml',
-    onLoad: aceLoaded,
-    onChange: aceChanged
-  }"></div></div><splitter-bar class="splitter pane" left-pane="ace-editor-pane" right-pane="preview-pane"></splitter-bar><div class="preview pane" id="preview-pane"><div class="json-section" ng-show="previewMode == 'json'"><div class="editor-wrapper" readonly ui-ace="{
-    useWrapMode : true,
-    theme:'dawn',
-    mode: 'json',
-    onLoad: jsonPreviewLoaded
-  }"></div></div><div class="swagger-section" ng-show="previewMode == 'html'"><div id="swagger-ui-container" class="swagger-ui-wrap"><div class="container" id="resources_container"><ul id="resources"><resource ng-repeat="resource in swagger.apisArray" resource="resource"></resource></ul><!-- Footer TODO --></div></div></div></div></main>
+<header class="main-header"><h1>Swagger Editor</h1><div class="toolbar generation"><label><input type="checkbox" ng-model="autogenDocs">Generate Docs on the fly</label><button ng-show="!autogenDocs" ng-click="generateDocs()">Generate Docs</button></div><div class="panel-switcher toolbar"><a ng-click="switchPreviewMode('html')" ng-class="{active: previewMode == 'html'}">HTML</a> <a ng-click="switchPreviewMode('json')" ng-class="{active: previewMode == 'json'}">JSON</a></div></header><main class="container"><div class="ace pane ace-editor" id="ace-editor-pane"><div id="ace-editor-wrapper" class="ace-editor-wrapper"><header class="editor-header"><div class="toolbar"><section class="left"><button class="toolbar-btn" id="new">New</button><dropdown-menu label="Add"><button class="toolbar-btn menu-button">Endpoint</button> <button class="toolbar-btn menu-button">Parameter</button></dropdown-menu></section><section class="right"><button class="toolbar-btn">Reset</button> <button class="toolbar-btn">Download</button></section></div></header><div class="editor-error-message" ng-show="!!editorErrorMessage.length"><pre>{{editorErrorMessage}}</pre></div><div class="editor-wrapper" ui-ace="{
+        useWrapMode : true,
+        theme:'merbivore_soft',
+        mode: 'yaml',
+        onLoad: aceLoaded,
+        onChange: aceChanged}"></div></div><splitter-bar horizontal="" class="splitter pane" top-pane="ace-editor-wrapper" bottom-pane="help-drawer"></splitter-bar><div class="help-drawer" id="help-drawer"><div class="content"><a ng-click="close()">X</a><h1>Your YAML help is here:</h1></div></div></div><splitter-bar class="splitter pane" left-pane="ace-editor-pane" right-pane="preview-pane"></splitter-bar><div class="preview pane" id="preview-pane"><div class="json-section" ng-show="previewMode == 'json'"><div class="editor-wrapper" readonly ui-ace="{
+        useWrapMode : true,
+        theme:'dawn',
+        mode: 'json',
+        onLoad: jsonPreviewLoaded
+      }"></div></div><div class="swagger-section" ng-show="previewMode == 'html'"><div id="swagger-ui-container" class="swagger-ui-wrap"><div class="container" id="resources_container"><ul id="resources"><resource ng-repeat="resource in swagger.apisArray" resource="resource"></resource></ul><!-- Footer TODO --></div></div></div></div></main>
