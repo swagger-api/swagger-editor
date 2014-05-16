@@ -33,10 +33,15 @@ function getJsonString(editor){
 
 function buildDocs($scope){
   if(!swaggerUi) { return; }
+  $scope.invalidDocs = false;
 
   var jsonString = getJsonString($scope.editor);
 
-  swaggerUi.load(jsonString);
+  try{
+    swaggerUi.load(jsonString);
+  }catch(swaggerLoadError){
+    return $scope.invalidDocs = true;
+  }
   $scope.swagger = swaggerUi.api;
 }
 
@@ -50,6 +55,7 @@ PhonicsApp.controller('MainCtrl', ['$scope', '$localStorage', function ($scope, 
     $scope.jsonPreview = null;
     $scope.previewMode = 'html';
     $scope.editorErrorMessage = '';
+    $scope.invalidDocs = false;
 
     window.swaggerUi = new SwaggerUi({
       'dom_id': 'swagger-ui-container',
@@ -99,6 +105,11 @@ PhonicsApp.controller('MainCtrl', ['$scope', '$localStorage', function ($scope, 
     };
 
     $scope.jsonLoaded = function(){};
+
+    $scope.newProject = function(){
+      $scope.editor.getSession().setValue('');
+      buildDocs($scope);
+    };
 
   }]);
 
