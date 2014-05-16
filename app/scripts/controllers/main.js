@@ -68,11 +68,7 @@ PhonicsApp.controller('MainCtrl', ['$scope', '$localStorage', function ($scope, 
       if($localStorage.cache){
         editor.getSession().setValue($localStorage.cache);
       } else {
-        return getDefaultSpecs().then(function(yaml){
-          $localStorage.cache = yaml;
-          editor.getSession().setValue(yaml);
-          buildDocs($scope);
-        });
+        return $scope.resetSpec();
       }
       buildDocs($scope);
     };
@@ -109,6 +105,14 @@ PhonicsApp.controller('MainCtrl', ['$scope', '$localStorage', function ($scope, 
     $scope.newProject = function(){
       $scope.editor.getSession().setValue('');
       buildDocs($scope);
+    };
+
+    $scope.resetSpec = function(){
+      getDefaultSpecs().then(function(yaml){
+        $localStorage.cache = yaml;
+        $scope.editor.getSession().setValue(yaml);
+        buildDocs($scope);
+      });
     };
 
   }]);
