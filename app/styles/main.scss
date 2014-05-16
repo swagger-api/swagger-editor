@@ -43,6 +43,7 @@ main.container {
       }
       .help-drawer {
         height: 300px;
+        overflow: auto;
         .content {
           margin: 5px;
         }
