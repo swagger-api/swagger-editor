@@ -108,7 +108,7 @@
         </tbody>
       </table>
       <div ng-if="!operation.isReadOnly" class='sandbox_header'>
-        <button ng-click="tryIt(operation)" class='submit' name='commit' type='button'>Try it out!</button>
+        <button ng-click="tryIt(operation, resource.basePath)" class='submit' name='commit' type='button'>Try it out!</button>
         <a href='#' class='response_hider' style='display:none'>Hide Response</a>
         <img alt='Throbber' class='response_throbber' src='images/throbber.gif' style='display:none' />
       </div>

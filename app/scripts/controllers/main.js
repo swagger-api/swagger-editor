@@ -1,6 +1,11 @@
 'use strict';
 /* global jsyaml */
 
+// Use single curly brace for templates (used in spec)
+_.templateSettings = {
+  interpolate: /\{(.+?)\}/g
+};
+
 function annotateYAMLErrors(editor){
   var errorMessage = null;
   var value = editor.getSession().getValue();

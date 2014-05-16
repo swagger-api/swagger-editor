@@ -13,7 +13,19 @@ PhonicsApp.directive('operation', ['$timeout', function($timeout){
     return allRequiredsFilled;
   }
 
-  function tryIt(operation){
+  function makeUrl(basePath, path, parameters){
+    var url = basePath;
+    var paramsObject = {};
+    parameters.forEach(function(param){
+      if(param.paramType === 'path'){
+        paramsObject[param.name] = param.inputValue;
+      }
+    });
+    url += _.template(path)(paramsObject);
+    return url;
+  }
+
+  function tryIt(operation, basePath){
     if(!requiredFieldsAreFilled(operation)) {
       return;
     }
@@ -24,6 +36,7 @@ PhonicsApp.directive('operation', ['$timeout', function($timeout){
       return o;
     });
     $.ajax({
+      url: makeUrl(basePath, operation.path, operation.parameters),
       method: operation.method,
       data: data
     }).then(function(result){
