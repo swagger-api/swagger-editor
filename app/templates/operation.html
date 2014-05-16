@@ -19,7 +19,7 @@
     <p ng-if="operation.notes">{{operation.notes}}</p>
 
 
-      <div class="auth" ng-if="operation.authorizations.oauth2">
+      <div class="auth" ng-if="false" old-ng-if="operation.authorizations.oauth2">
           <span class="api-ic ic-error"></span>
           <div id="api_information_panel" style="position: static; display: inline-block">
               <div ng-repeat="auth in operation.authorizations.oauth2" title="{{auth.description}}">{{auth.scope}}</div>
@@ -106,7 +106,7 @@
         </tbody>
       </table>
       <div ng-if="!operation.isReadOnly" class='sandbox_header'>
-        <button ng-click="tryIt(operation, resource.basePath)" class='submit' name='commit' type='button'>Try it out!</button>
+        <button ng-if="false" ng-click="tryIt(operation, resource.basePath)" class='submit' name='commit' type='button'>Try it out!</button>
         <a href='#' class='response_hider' style='display:none'>Hide Response</a>
         <img alt='Throbber' class='response_throbber' src='images/throbber.gif' style='display:none' />
       </div>
