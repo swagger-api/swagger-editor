@@ -41,3 +41,51 @@ header.main-header {
   		display: none;
   }
 }
+
+header.editor-header {
+  .toolbar{
+    display: flex;
+    background: #eee;
+    section {
+      flex: 1;
+      display: flex;
+      &.left {
+        justify-content: flex-start;
+      }
+      &.right {
+        justify-content: flex-end;
+      }
+    }
+
+    .btn-drawer {
+      display: inline-block;
+      position: relative;
+      .buttons{
+        position: absolute;
+        width: 100%;
+        top: 100%;
+        left: 0;
+        z-index: 5;
+        background: #EEE;
+        margin: 0;
+      }
+    }
+    .toolbar-btn {
+      display: inline-block;
+      border: 1px solid gray;
+      border-radius: 3px;
+      text-align: center;
+      color: gray;
+      outline: none;
+      background: #eee;
+      min-width: 120px;
+      span {
+        font-size: .8em;
+      }
+      &.menu-button {
+        display: block;
+        border: none;
+      }
+    }
+  }
+}

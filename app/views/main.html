@@ -11,6 +11,21 @@
 </header>
 <main class="container">
   <div class="ace pane ace-editor" id="ace-editor-pane">
+    <header class="editor-header">
+      <div class="toolbar">
+        <section class="left">
+          <button class="toolbar-btn" id="new">New</button>
+          <dropdown-menu label="Add">
+            <button class="toolbar-btn menu-button">Endpoint</button>
+            <button class="toolbar-btn menu-button">Parameter</button>
+          </dropdown-menu>
+        </section>
+        <section class="right">
+          <button class="toolbar-btn">Reset</button>
+          <button class="toolbar-btn">Download</button>
+        </section>
+      </div>
+    </header>
     <div class="editor-error-message" ng-show="!!editorErrorMessage.length">
       <pre>{{editorErrorMessage}}</pre>
     </div>
@@ -31,19 +46,20 @@
   <div class="preview pane" id="preview-pane">
     <div class="json-section" ng-show="previewMode == 'json'">
       <div class="editor-wrapper" readonly="true" ui-ace="{
-      useWrapMode : true,
-      theme:'dawn',
-      mode: 'json',
-      onLoad: jsonPreviewLoaded
-    }"></div>
-  </div>
-  <div class="swagger-section" ng-show="previewMode == 'html'">
-    <div id="swagger-ui-container" class="swagger-ui-wrap">
-      <div class='container' id='resources_container'>
-        <ul id='resources'>
-          <resource ng-repeat="resource in swagger.apisArray" resource="resource"></resource>
-        </ul>
-        <!-- Footer TODO -->
+        useWrapMode : true,
+        theme:'dawn',
+        mode: 'json',
+        onLoad: jsonPreviewLoaded
+      }"></div>
+    </div>
+    <div class="swagger-section" ng-show="previewMode == 'html'">
+      <div id="swagger-ui-container" class="swagger-ui-wrap">
+        <div class='container' id='resources_container'>
+          <ul id='resources'>
+            <resource ng-repeat="resource in swagger.apisArray" resource="resource"></resource>
+          </ul>
+          <!-- Footer TODO -->
+        </div>
       </div>
     </div>
   </div>
