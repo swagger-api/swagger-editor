@@ -58,6 +58,9 @@ PhonicsApp.controller('MainCtrl', ['$scope', '$localStorage', function ($scope, 
 
     $scope.aceLoaded = function(editor) {
       $scope.editor = editor;
+      $(document).on('pane-resize', function(){
+        $scope.editor.resize();
+      });
       if($localStorage.cache){
         editor.getSession().setValue($localStorage.cache);
       } else {

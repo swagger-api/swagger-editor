@@ -29,29 +29,37 @@ main.container {
   .pane {
     position: absolute;
     height: 100%;
-    // width: calc(50% - $splitter-width / 2);
     width: calc(50% - 2px);
 
     &.ace {
       left: 0;
       display: flex;
       flex-direction: column;
-      border-top: 3px solid #181818;
       header.editor {
         height: 20px;
       }
       .editor-wrapper {
         flex: auto;
       }
+      .help-drawer {
+        height: 300px;
+      }
     }
 
     &.splitter {
-      width: $splitter-width;
+      width: 4px;
       background: black;
       left: calc(50% - 4px);
       cursor: ew-resize;
       &:hover {
         background: #C99393;
+      }
+
+      &[horizontal]{
+        width: 100%;
+        left: 0;
+        height: 4px;
+        cursor: ns-resize;
       }
     }
 
