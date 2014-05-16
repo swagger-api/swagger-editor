@@ -15,13 +15,18 @@ PhonicsApp.directive('operation', ['$timeout', function($timeout){
 
   function makeUrl(basePath, path, parameters){
     var url = basePath;
-    var paramsObject = {};
+    var pathParams = {};
+    var queryParams = {};
     parameters.forEach(function(param){
       if(param.paramType === 'path'){
-        paramsObject[param.name] = param.inputValue;
+        pathParams[param.name] = param.inputValue;
+      }
+      if(param.paramType === 'query'){
+        queryParams[param.name] = param.inputValue;
       }
     });
-    url += _.template(path)(paramsObject);
+    url += _.template(path)(pathParams);
+    url += '?' + $.param(queryParams);
     return url;
   }
 
