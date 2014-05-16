@@ -59,19 +59,17 @@
               <strong>{{parameter.name}}</strong>
             </td>
             <td>
-              <div ng-if="parameter.paramType == 'body'" ng-class="{shake: parameter.shake}">
-                <div ng-if="parameter.isFile">
-                  <input type="file" name='{{parameter.name}}'/>
-                </div>
+              <div ng-if="parameter.type == 'File'" ng-class="{shake: parameter.shake}">
+                <input type="file" name='{{parameter.name}}'/>
                 <div class="parameter-content-type"></div>
-                <div ng-if="!parameter.isFile">
-                  <textarea class='body-textarea' name='{{parameter.name}}' ng-model="parameter.defaultValue"></textarea>
-                  <div ng-if="!parameter.defaultValue">
-                    <div class="parameter-content-type"></div>
-                  </div>
+              </div>
+              <div ng-if="parameter.paramType == 'body' && parameter.type != 'File'">
+                <textarea class='body-textarea' name='{{parameter.name}}' ng-model="parameter.defaultValue"></textarea>
+                <div ng-if="!parameter.defaultValue">
+                  <div class="parameter-content-type"></div>
                 </div>
               </div>
-              <div ng-if="!parameter.paramType == 'body'" ng-class="{shake: parameter.shake}">
+              <div ng-if="parameter.paramType != 'body' && parameter.paramType != 'file'" ng-class="{shake: parameter.shake}">
                 <input class='parameter' ng-model="parameter.inputValue" minlength='0' name='{{parameter.name}}'
                 placeholder="{{ parameter.required ? '(required)' : '' }}"
                 type='text' ng-model="parameter.defaultValue" required="parameter.required">
