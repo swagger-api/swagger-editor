@@ -11,35 +11,39 @@
 </header>
 <main class="container">
   <div class="ace pane ace-editor" id="ace-editor-pane">
-    <header class="editor-header">
-      <div class="toolbar">
-        <section class="left">
-          <button class="toolbar-btn" id="new">New</button>
-          <dropdown-menu label="Add">
-            <button class="toolbar-btn menu-button">Endpoint</button>
-            <button class="toolbar-btn menu-button">Parameter</button>
-          </dropdown-menu>
-        </section>
-        <section class="right">
-          <button class="toolbar-btn">Reset</button>
-          <button class="toolbar-btn">Download</button>
-        </section>
+    <div id="ace-editor-wrapper" class="ace-editor-wrapper">
+      <header class="editor-header">
+        <div class="toolbar">
+          <section class="left">
+            <button class="toolbar-btn" id="new">New</button>
+            <dropdown-menu label="Add">
+              <button class="toolbar-btn menu-button">Endpoint</button>
+              <button class="toolbar-btn menu-button">Parameter</button>
+            </dropdown-menu>
+          </section>
+          <section class="right">
+            <button class="toolbar-btn">Reset</button>
+            <button class="toolbar-btn">Download</button>
+          </section>
+        </div>
+      </header>
+      <div class="editor-error-message" ng-show="!!editorErrorMessage.length">
+        <pre>{{editorErrorMessage}}</pre>
       </div>
-    </header>
-    <div class="editor-error-message" ng-show="!!editorErrorMessage.length">
-      <pre>{{editorErrorMessage}}</pre>
-    </div>
-    <div class="editor-wrapper" id="ace-editor-wrapper" ui-ace="{
-      useWrapMode : true,
-      theme:'merbivore_soft',
-      mode: 'yaml',
-      onLoad: aceLoaded,
-      onChange: aceChanged}">
+      <div class="editor-wrapper" ui-ace="{
+        useWrapMode : true,
+        theme:'merbivore_soft',
+        mode: 'yaml',
+        onLoad: aceLoaded,
+        onChange: aceChanged}">
+      </div>
     </div>
     <splitter-bar horizontal class="splitter pane" top-pane="ace-editor-wrapper" bottom-pane="help-drawer"></splitter-bar>
     <div class="help-drawer" id="help-drawer">
-      <a ng-click="close()">X</a>
-      <h1>Your YAML help is here:</h1>
+      <div class="content">
+        <a ng-click="close()">X</a>
+        <h1>Your YAML help is here:</h1>
+      </div>
     </div>
   </div>
   <splitter-bar class="splitter pane" left-pane="ace-editor-pane" right-pane="preview-pane"></splitter-bar>

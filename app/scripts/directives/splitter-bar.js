@@ -18,7 +18,7 @@ PhonicsApp.directive('splitterBar', function(){
           }
           $document.trigger('pane-resize');
           $element.css('top', y);
-          $('#' + $attributes.topPane).css('height', y - $element.height());
+          $('#' + $attributes.topPane).css('height', y + $element.height());
           $('#' + $attributes.bottomPane).css('height',
             $parent.height() - y);
         }else{

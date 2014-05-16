@@ -43,6 +43,14 @@ main.container {
       }
       .help-drawer {
         height: 300px;
+        .content {
+          margin: 5px;
+        }
+      }
+      .ace-editor-wrapper {
+        height: calc(100% - 300px);
+        display: flex;
+        flex-direction: column;
       }
     }
 
@@ -51,6 +59,7 @@ main.container {
       background: black;
       left: calc(50% - 4px);
       cursor: ew-resize;
+      z-index: 10;
       &:hover {
         background: #C99393;
       }
