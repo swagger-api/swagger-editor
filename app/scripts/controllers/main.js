@@ -43,6 +43,9 @@ function buildDocs($scope){
     return $scope.invalidDocs = true;
   }
   $scope.swagger = swaggerUi.api;
+  if($scope.jsonPreview) {
+    $scope.jsonPreview.getSession().setValue(jsonString);
+  }
 }
 
 
@@ -114,6 +117,19 @@ PhonicsApp.controller('MainCtrl', ['$scope', '$localStorage', function ($scope, 
         $scope.editor.getSession().setValue(yaml);
         buildDocs($scope);
       });
+    };
+
+    $scope.assignDownloadHrefs = function(){
+      var MIME_TYPE = 'text/plain';
+      // JSON
+      var bb = new Blob([$scope.jsonPreview.getSession().getValue()], {type: MIME_TYPE});
+      $scope.jsonDownloadHref = window.URL.createObjectURL(bb);
+      $scope.jsonDownloadUrl = [MIME_TYPE, 'spec.json', $scope.jsonDownloadHref].join(':');
+
+      // YAML
+      var bb = new Blob([$scope.editor.getSession().getValue()], {type: MIME_TYPE});
+      $scope.yamlDownloadHref = window.URL.createObjectURL(bb);
+      $scope.yamlDownloadUrl = [MIME_TYPE, 'spec.yaml', $scope.yamlDownloadHref].join(':');
     };
 
   }]);

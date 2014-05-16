@@ -9,7 +9,7 @@ window.PhonicsApp = angular.module('PhonicsApp', [
   'ngStorage'
 ]);
 
-PhonicsApp.config(['$routeProvider', function ($routeProvider) {
+PhonicsApp.config(['$routeProvider', '$compileProvider', function ($routeProvider, $compileProvider) {
     $routeProvider
       .when('/', {
         templateUrl: 'views/main.html',
@@ -22,4 +22,6 @@ PhonicsApp.config(['$routeProvider', function ($routeProvider) {
       .otherwise({
         redirectTo: '/'
       });
+
+      $compileProvider.aHrefSanitizationWhitelist('blob:http');
   }]);

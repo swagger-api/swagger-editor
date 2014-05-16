@@ -6,12 +6,16 @@ PhonicsApp.directive('dropdownMenu', function () {
     restrict: 'E',
     transclude: true,
     scope: {
-      label: '@'
+      label: '@',
+      onOpen: '='
     },
     link: function postLink(scope) {
       scope.open = false;
       scope.toggle = function(){
         scope.open = !scope.open;
+        if(scope.open && typeof scope.onOpen === 'function'){
+          scope.onOpen();
+        }
       };
     }
   };
