@@ -15,6 +15,7 @@ Coming soon!
 * `npm install`
 * `bower install`
 * `grunt serve`
+* `npm run fix-coffee`
 
 
 

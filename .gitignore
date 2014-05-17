@@ -4,3 +4,5 @@ node_modules/grunt-newer/.cache
 .sass-cache
 .grunt
 dist/
+node_modules
+app/bower_components
