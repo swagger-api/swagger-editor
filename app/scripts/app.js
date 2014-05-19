@@ -23,5 +23,5 @@ PhonicsApp.config(['$routeProvider', '$compileProvider', function ($routeProvide
         redirectTo: '/'
       });
 
-      $compileProvider.aHrefSanitizationWhitelist('blob:http');
+    $compileProvider.aHrefSanitizationWhitelist('blob:http');
   }]);

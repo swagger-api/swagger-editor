@@ -40,7 +40,8 @@ function buildDocs($scope){
   try{
     swaggerUi.load(jsonString);
   }catch(swaggerLoadError){
-    return $scope.invalidDocs = true;
+    $scope.invalidDocs = true;
+    return;
   }
   $scope.swagger = swaggerUi.api;
   if($scope.jsonPreview) {
@@ -67,6 +68,9 @@ PhonicsApp.controller('MainCtrl', ['$scope', '$localStorage', function ($scope, 
 
     $scope.aceLoaded = function(editor) {
       $scope.editor = editor;
+      editor.setOptions({
+        basicAutocompletion: true
+      });
       $(document).on('pane-resize', editor.resize.bind(editor));
       if($localStorage.cache){
         editor.getSession().setValue($localStorage.cache);
@@ -86,7 +90,8 @@ PhonicsApp.controller('MainCtrl', ['$scope', '$localStorage', function ($scope, 
 
       error = annotateYAMLErrors($scope.editor);
       if(error) {
-        return $scope.invalidDocs = true;
+        $scope.invalidDocs = true;
+        return;
       }else{
         $scope.editorErrorMessage = '';
       }
@@ -121,14 +126,15 @@ PhonicsApp.controller('MainCtrl', ['$scope', '$localStorage', function ($scope, 
 
     $scope.assignDownloadHrefs = function(){
       var MIME_TYPE = 'text/plain';
+
       // JSON
-      var bb = new Blob([$scope.jsonPreview.getSession().getValue()], {type: MIME_TYPE});
-      $scope.jsonDownloadHref = window.URL.createObjectURL(bb);
+      var jsonBlob = new Blob([$scope.jsonPreview.getSession().getValue()], {type: MIME_TYPE});
+      $scope.jsonDownloadHref = window.URL.createObjectURL(jsonBlob);
       $scope.jsonDownloadUrl = [MIME_TYPE, 'spec.json', $scope.jsonDownloadHref].join(':');
 
       // YAML
-      var bb = new Blob([$scope.editor.getSession().getValue()], {type: MIME_TYPE});
-      $scope.yamlDownloadHref = window.URL.createObjectURL(bb);
+      var yamlBlob = new Blob([$scope.editor.getSession().getValue()], {type: MIME_TYPE});
+      $scope.yamlDownloadHref = window.URL.createObjectURL(yamlBlob);
       $scope.yamlDownloadUrl = [MIME_TYPE, 'spec.yaml', $scope.yamlDownloadHref].join(':');
     };
 

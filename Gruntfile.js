@@ -418,13 +418,8 @@ module.exports = function (grunt) {
         base: 'dist'
       },
       src: ['**']
-    },
-
-    exec: {
-      copy: {
-        command: 'sh scripts/copy.sh'
-      }
     }
+
   });
 
   grunt.registerTask('compile-swagger', ['coffee:compile', 'handlebars:compile']);
@@ -473,8 +468,7 @@ module.exports = function (grunt) {
     'uglify',
     'rev',
     'usemin',
-    'htmlmin',
-    'exec'
+    'htmlmin'
   ]);
 
   grunt.registerTask('default', [
