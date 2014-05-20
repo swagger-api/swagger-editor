@@ -1,15 +1,35 @@
 header.main-header {
-  height: 40px;
-  background: #505050;
-  color: #eee;
+  height: 48px;
+  background: #4a4a4a;
+  color: #e4e4e4;
   display: flex;
 
+  .mktLink  {
+    width: 32px;
+    height: 32px;
+    position: absolute;
+    right: 16px;
+    top: 8px;
+    background-image: url(../images/swagger-sprite.png);
+    background-repeat: no-repeat;
+    background-position: 0px 0px;
+    &:hover {
+      transition: background-position ease 200ms;
+      background-position: 0px -33px;
+    }
+  }
+
   >h1 {
-    padding: .3em .3em .3em 1.9em;
-    font-size: 24px;
+    padding: 4px .3em 0 1em;
+    font-size: 22px;
+    line-height: 46px;
+    letter-spacing: .3px;
     text-transform: lowercase;
     font-family: "Droid Sans";
     font-weight: 700;
+    span {
+      font-weight: 300;
+    }  
   }
 
   .toolbar {
@@ -29,7 +49,7 @@ header.main-header {
         text-decoration: none;
         font-size: 10px;
         cursor: pointer;
-        transition: color ease-in 100ms;
+        transition: color ease-in-out 100ms;
         &.active {
           color: #000;
         }
@@ -38,14 +58,16 @@ header.main-header {
   }
 
   .generation {
-  		display: none;
+    display: none;
   }
 }
 
 header.editor-header {
   .toolbar{
     display: flex;
-    background: #eee;
+    height: 36px;
+    padding-left: 15px;
+    background: #252525;
     section {
       flex: 1;
       display: flex;
@@ -66,7 +88,7 @@ header.editor-header {
         top: 100%;
         left: 0;
         z-index: 5;
-        background: #EEE;
+        background: #333333;
         margin: 0;
       }
     }
@@ -75,17 +97,55 @@ header.editor-header {
       border: 1px solid gray;
       border-radius: 3px;
       text-align: center;
-      color: gray;
+      color: #808080;
+      text-decoration: none;
+      font-size: 13px;
+      margin-top: 5px;
+      height: 26px;
       outline: none;
-      background: #eee;
-      min-width: 120px;
+      cursor: pointer;
+      background: #252525;
+      min-width: 104px;
+      &:hover {
+        color: #444;
+        text-decoration: none;
+        border-radius: 3px;
+        background: #383838;
+      } 
       span {
-        font-size: .8em;
-      }
+        font-size: .5em;
+        float: right;
+        margin-right: 3px;
+        margin-top: 4px;
+      } 
+
       &.menu-button {
-        display: block;
+        display: display;
         border: none;
       }
+      &:hover {
+        color: #8a8a8a;
+        background: #3d3d3d;
+        transition: background 0.2s ease;
+      }
+      &.actionBtn {
+        color: #444;
+        line-height: 26px;
+        padding: 0;
+        margin-top: 2px;
+        text-decoration: none;
+        background: #D4D4D4;
+        border-radius: 3px 3px 0 0;
+        border: 1px solid #949494;
+        margin-bottom: -3px;
+        &:hover {
+          background: #bdbdbd;
+          color: #383838;
+        }
+        &.actionBtnBtm {
+          border-radius: 0 0 3px 3px;
+        }
+      } 
     }
   }
 }
