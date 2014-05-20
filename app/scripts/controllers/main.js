@@ -38,7 +38,6 @@ function buildapiDeclarationDocs(declraton){
   });
 
   swaggerUi.load(JSON.stringify(declraton));
-  console.log('swaggering: ', swaggerUi.api.resourcePath)
   return swaggerUi;
 }
 
