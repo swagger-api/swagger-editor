@@ -83,6 +83,7 @@ header.editor-header {
       display: inline-block;
       position: relative;
       .buttons{
+        display: none;
         position: absolute;
         width: 100%;
         top: 100%;
@@ -90,6 +91,9 @@ header.editor-header {
         z-index: 5;
         background: #333333;
         margin: 0;
+      }
+      &:hover .buttons{
+        display: block;
       }
     }
     .toolbar-btn {
