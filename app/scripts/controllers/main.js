@@ -105,10 +105,6 @@ PhonicsApp.controller('MainCtrl', ['$scope', '$localStorage', function ($scope, 
       buildDocs($scope);
     };
 
-    $scope.generateDocs = function(){
-      buildDocs($scope);
-    };
-
     $scope.switchPreviewMode = function(language){
       $scope.previewMode = language;
       if(language === 'json'){
