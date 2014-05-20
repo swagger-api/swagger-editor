@@ -1,6 +1,7 @@
 'use strict';
 
 function setOperationsCollapsed(scope, isCollapsed){
+  scope.listed = isCollapsed;
   scope.resource.operationsArray.forEach(function (operation){
     operation.collapsed = isCollapsed;
   });
