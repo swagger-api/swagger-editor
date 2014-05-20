@@ -63,7 +63,7 @@ function buildDocs($scope){
 
 
 function getDefaultSpecs(){
-  return $.get('spec-files/consolidated.yaml');
+  return $.get('spec-files/consolidated-from-json.yaml');
 }
 
 PhonicsApp.controller('MainCtrl', ['$scope', '$localStorage', function ($scope, $localStorage) {
