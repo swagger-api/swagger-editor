@@ -10,7 +10,7 @@ header.main-header {
     position: absolute;
     right: 16px;
     top: 8px;
-    background-image: url(../images/swagger-sprite.png);
+    background-image: url(/images/swagger-sprite.png);
     background-repeat: no-repeat;
     background-position: 0px 0px;
     &:hover {
@@ -29,7 +29,7 @@ header.main-header {
     font-weight: 700;
     span {
       font-weight: 300;
-    }  
+    }
   }
 
   .toolbar {
@@ -111,13 +111,13 @@ header.editor-header {
         text-decoration: none;
         border-radius: 3px;
         background: #383838;
-      } 
+      }
       span {
         font-size: .5em;
         float: right;
         margin-right: 3px;
         margin-top: 4px;
-      } 
+      }
 
       &.menu-button {
         display: display;
@@ -145,7 +145,7 @@ header.editor-header {
         &.actionBtnBtm {
           border-radius: 0 0 3px 3px;
         }
-      } 
+      }
     }
   }
 }
