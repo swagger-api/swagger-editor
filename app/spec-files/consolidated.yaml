@@ -11,7 +11,7 @@ swaggerSpecVersion: 1.2
 basePath: http://my.api.com/v1
 
 # The protocols supported by this API.
-protocols: 
+protocols:
   - http
   - https
 
@@ -34,38 +34,38 @@ license: Apache 2.0
 licenseUrl: http://www.apache.org/licenses/LICENSE-2.0.html
 
 # Declare the authorization schemes supported by your API [what are valid names?]
-authorizations: 
-  oauth2: 
-    # Specify which flow [add possible flow names]
-    type: oauth2
-      scopes: 
-        # Declare each scope with a name and description. [Need to enumerate resources?]
-        - scope: write:pets
-          description: Modify pets in your account
-        - scope: read:pets
-          description: Read your pets
-	  grantTypes: 
-	    # What are the valid grantType names?
-		implicit: 
-		  loginEndpoint: 
-			url:http://petstore.swagger.wordnik.com/oauth/dialog
-		  tokenName: access_token
-		authorization_code: 
-		  tokenRequestEndpoint: 
-			url: http://petstore.swagger.wordnik.com/oauth/requestToken
-			clientIdName: client_id
-			clientSecretName: client_secret
-		  tokenEndpoint: 
-			url: http://petstore.swagger.wordnik.com/oauth/token
-			tokenName: auth_code
+authorizations:
+oauth2:
+  # Specify which flow [add possible flow names]
+  type: oauth2
+  scopes:
+    # Declare each scope with a name and description. [Need to enumerate resources?]
+    - scope: write:pets
+      description: Modify pets in your account
+    - scope: read:pets
+      description: Read your pets
+  grantTypes:
+    # What are the valid grantType names?
+    implicit:
+      loginEndpoint:
+        url: http://petstore.swagger.wordnik.com/oauth/dialog
+      tokenName: access_token
+    authorization_code:
+      tokenRequestEndpoint:
+        url: http://petstore.swagger.wordnik.com/oauth/requestToken
+        clientIdName: client_id
+        clientSecretName: client_secret
+      tokenEndpoint:
+        url: http://petstore.swagger.wordnik.com/oauth/token
+        tokenName: auth_code
 
 # define a reusable parameter called `verbose`
 whatDoICallThisKey: &verbose
-    name: verbose
-    description: Expand the 
-    required: false
-    type: boolean
-    paramType: query
+  name: verbose
+  description: Expand the response
+  required: false
+  type: boolean
+  paramType: query
 
 # The response types produced by this API.  These can be overridden
 # in each operation
@@ -113,7 +113,7 @@ resources:
 
         # the inputs to this operation
         parameters:
-          # each parameter is named.  
+          # each parameter is named.
           - name: petId
 
             # the type of input parameter (path, query, header, body, form).  For `path`
@@ -132,26 +132,28 @@ resources:
             # The JSON schema data type for the parameter.  param types of header and query
             # must be JSON schema primitives.
             type: string
-            
-            # reference the reusable parameter called `verbose` declared above
+
+          # reference the reusable parameter called `verbose` declared above
           - <<: *verbose
 
         # an array of possible responses from the server
         responses:
             # the HTTP response code
-          - code: 400
-            # a message to describe this condition
-            message: Invalid ID supplied
-            # optionally describe a response model that can be interpreted by the client
-            responseModel: InvalidPetSuppliedResponseModel
-          - code: 404
-            message: Pet not found
+            - code: 400
+              # a message to describe this condition
+              message: Invalid ID supplied
+              # optionally describe a response model that can be interpreted by the client
+              responseModel: InvalidPetSuppliedResponseModel
+            - code: 404
+              message: Pet not found
 
 # Description of complex models consumed or produced by this API
 models:
+
   # the hash key (Tag in this case) always matches the `id` value
   Tag:
     id: Tag
+
     # properties for the model
     properties:
       name:

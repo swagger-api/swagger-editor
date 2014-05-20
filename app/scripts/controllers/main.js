@@ -31,27 +31,39 @@ function getJsonString(editor){
   return JSON.stringify(specsObject, null, 4);
 }
 
+function buildapiDeclarationDocs(declraton){
+  var swaggerUi = new SwaggerUi({
+    'dom_id': 'swagger-ui-container',
+    supportedSubmitMethods: ['get', 'post', 'put', 'delete']
+  });
+
+  swaggerUi.load(JSON.stringify(declraton));
+  return swaggerUi.api;
+}
+
 function buildDocs($scope){
-  if(!swaggerUi) { return; }
+  var json;
+
   $scope.invalidDocs = false;
-
-  var jsonString = getJsonString($scope.editor);
-
-  try{
-    swaggerUi.load(jsonString);
-  }catch(swaggerLoadError){
+  try {
+    json = jsyaml.load($scope.editor.getSession().getValue());
+  }catch(e){
     $scope.invalidDocs = true;
     return;
   }
-  $scope.swagger = swaggerUi.api;
+
+  if(json && Array.isArray(json.apiDeclarations)){
+    $scope.apiDeclarations = json.apiDeclarations.map(buildapiDeclarationDocs);
+  }
+
   if($scope.jsonPreview) {
-    $scope.jsonPreview.getSession().setValue(jsonString);
+    $scope.jsonPreview.getSession().setValue(getJsonString($scope.editor));
   }
 }
 
 
 function getDefaultSpecs(){
-  return $.get('spec-files/pet.yaml');
+  return $.get('spec-files/consolidated.yaml');
 }
 
 PhonicsApp.controller('MainCtrl', ['$scope', '$localStorage', function ($scope, $localStorage) {
@@ -60,11 +72,6 @@ PhonicsApp.controller('MainCtrl', ['$scope', '$localStorage', function ($scope, 
     $scope.previewMode = 'html';
     $scope.editorErrorMessage = '';
     $scope.invalidDocs = false;
-
-    window.swaggerUi = new SwaggerUi({
-      'dom_id': 'swagger-ui-container',
-      supportedSubmitMethods: ['get', 'post', 'put', 'delete']
-    });
 
     $scope.aceLoaded = function(editor) {
       $scope.editor = editor;
