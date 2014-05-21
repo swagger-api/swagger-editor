@@ -6,6 +6,8 @@ _.templateSettings = {
   interpolate: /\{(.+?)\}/g
 };
 
+var ENABLE_JSON_PREVIEW = false;
+
 function annotateYAMLErrors(editor){
   var errorMessage = null;
   var value = editor.getSession().getValue();
@@ -52,12 +54,11 @@ function buildDocs($scope){
     $scope.invalidDocs = true;
     return;
   }
-
   if(json && Array.isArray(json.apiDeclarations)){
     $scope.apiDeclarations = json.apiDeclarations.map(buildapiDeclarationDocs);
   }
 
-  if($scope.jsonPreview) {
+  if($scope.jsonPreview && ENABLE_JSON_PREVIEW) {
     $scope.jsonPreview.getSession().setValue(getJsonString($scope.editor));
   }
 }
