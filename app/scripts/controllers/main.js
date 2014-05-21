@@ -76,7 +76,9 @@ function getZipFile(url, json){
     data: JSON.stringify(json),
     processData: false
   }).then(function(data){
-    window.location = 'http://generator.wordnik.com/online/api/gen/download/' + data.code;
+    if (data instanceof Object && data.code){
+      window.location = 'http://generator.wordnik.com/online/api/gen/download/' + data.code;
+    }
   });
 }
 
