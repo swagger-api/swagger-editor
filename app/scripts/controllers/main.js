@@ -69,7 +69,7 @@ function getDefaultSpecs(){
 
 function getZipFile(url, json){
   $.ajax({
-    method: 'POST',
+    type: 'POST',
     contentType: 'application/json',
     url: url,
     data: json
