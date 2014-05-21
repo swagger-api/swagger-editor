@@ -64,18 +64,29 @@ function buildDocs($scope){
 
 
 function getDefaultSpecs(){
-  return $.get('spec-files/consolidated-from-json.yaml');
+  return $.get('spec-files/tonys.yaml');
 }
 
-function getZipFile(url, json){
+function getZipFile(url, jsonString){
   $.ajax({
     type: 'POST',
     contentType: 'application/json',
     url: url,
-    data: json
-  }).then(function(res){
-    var zipUrl = res.url;
-    document.body.innerHTML += '<iframe src="' + zipUrl + '" style="display: none;"></iframe>';
+    data: jsonString,
+    processData: false
+  }).then(function(binary){
+    var MIME_TYPE = 'application/zip';
+    var blob = new Blob([binary], {type: MIME_TYPE});
+    var downloadHref = window.URL.createObjectURL(blob);
+    var downloadUrl = [MIME_TYPE, 'spec.yaml', downloadHref].join(':');
+    $('<a>')
+    .attr({
+      href: downloadHref,
+      download: 'file.zip',
+      'data-downloadurl': downloadUrl
+    })
+    .text('download readd')
+    .prependTo('body');
   });
 }
 
