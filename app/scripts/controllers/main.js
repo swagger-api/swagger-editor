@@ -82,7 +82,8 @@ function getZipFile(url, json){
   });
 }
 
-PhonicsApp.controller('MainCtrl', ['$scope', '$localStorage', function ($scope, $localStorage) {
+PhonicsApp.controller('MainCtrl', ['$scope', '$localStorage', 'wrap',
+  function ($scope, $localStorage, wrap) {
     $scope.editor = null;
     $scope.jsonPreview = null;
     $scope.previewMode = 'html';
@@ -159,42 +160,10 @@ PhonicsApp.controller('MainCtrl', ['$scope', '$localStorage', function ($scope, 
 
     $scope.generateZip = function(type, kind){
       var url = 'http://generator.wordnik.com/online/api/gen/' + type + '/' + kind;
-      // FIXME how we should generate properties in this object based on document?
-      var json = {
-        opts: {
-          properties: {
-            modelPackage: 'com.reverb.models',
-            apiPackage: 'com.reverb.apis',
-            groupId: 'com.reverb.swagger',
-            artifactId: 'swagger-client',
-            artifactVersion: '1.0.0',
-          }
-        },
-        model: _.extend(jsyaml.load($scope.editor.getSession().getValue()),
-        {
-          apiVersion: '5.0.0-D0',
-          swaggerVersion: '1.2',
-          authorizations: {
-            oauth2:{
-              type: 'oauth2',
-              scopes:{
-                scope: 'write',
-                description: 'write to your albums'
-              },
-              grantTypes:{
-                implicit:{
-                  loginEndpoint:{
-                    url: 'http://petstore.swagger.wordnik.com/oauth/dialog'
-                  },
-                  tokenName: 'access_token'
-                }
-              }
-            }
-          }
-        })
-      };
-
-      getZipFile(url, json);
+      var specs = jsyaml.load($scope.editor.getSession().getValue());
+      specs = wrap.model(specs);
+      specs = wrap.opts(specs);
+      getZipFile(url, specs);
     };
 
   }]);
