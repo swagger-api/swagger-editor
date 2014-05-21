@@ -5,7 +5,7 @@ Swagger Editor lets you edit swagger specs in YAML inside your browser and previ
 
 ## View App
 
-[Click Here](http://apigee.github.io/phonics/) to see it right now.
+[Click Here](git@github.com:apigee/swagger-editor.git) to see it right now.
 
 ## Running Locally
 
