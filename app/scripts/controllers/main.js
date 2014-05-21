@@ -67,7 +67,7 @@ function getDefaultSpecs(){
   return $.get('spec-files/tonys.yaml');
 }
 
-function getZipFile(url, jsonString){
+function getZipFile(url, jsonString, fileName){
   $.ajax({
     type: 'POST',
     contentType: 'application/json',
@@ -78,22 +78,23 @@ function getZipFile(url, jsonString){
     var MIME_TYPE = 'application/zip';
     var blob = new Blob([binary], {type: MIME_TYPE});
     var downloadHref = window.URL.createObjectURL(blob);
-    var downloadUrl = [MIME_TYPE, 'file.zip', downloadHref].join(':');
+    var downloadUrl = [MIME_TYPE, fileName+'.zip', downloadHref].join(':');
+
+    // The way this is link needs to be shown is TBD
     $('<a>')
     .attr({
       href: downloadHref,
-      download: 'file.zip',
+      download: fileName+'.zip',
       'data-downloadurl': downloadUrl
     })
     .text('Download is ready. Click here to start download')
     .css('color', 'white')
 
-    // TBD
     .prependTo('#ace-editor-wrapper > header > div > section.right')
 
     .on('click', function(){
       this.style.display = 'none';
-    })
+    });
   });
 }
 
@@ -174,12 +175,12 @@ PhonicsApp.controller('MainCtrl', ['$scope', '$localStorage', function ($scope, 
 
     $scope.generateServer = function(serverType){
       var url = 'http://generator.wordnik.com/online/api/gen/servers/' + serverType;
-      getZipFile(url, getJsonString($scope.editor));
+      getZipFile(url, getJsonString($scope.editor), serverType);
     };
 
     $scope.generateClient = function(clientType){
       var url = 'http://generator.wordnik.com/online/api/gen/clients/' + clientType;
-      getZipFile(url, getJsonString($scope.editor));
+      getZipFile(url, getJsonString($scope.editor), clientType);
     };
 
   }]);
