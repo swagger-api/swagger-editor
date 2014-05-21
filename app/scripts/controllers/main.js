@@ -78,14 +78,14 @@ function getZipFile(url, jsonString){
     var MIME_TYPE = 'application/zip';
     var blob = new Blob([binary], {type: MIME_TYPE});
     var downloadHref = window.URL.createObjectURL(blob);
-    var downloadUrl = [MIME_TYPE, 'spec.yaml', downloadHref].join(':');
+    var downloadUrl = [MIME_TYPE, 'file.zip', downloadHref].join(':');
     $('<a>')
     .attr({
       href: downloadHref,
       download: 'file.zip',
       'data-downloadurl': downloadUrl
     })
-    .text('download readd')
+    .text('download ready')
     .prependTo('body');
   });
 }
