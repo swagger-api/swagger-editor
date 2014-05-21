@@ -1,11 +1,7 @@
 # Swagger Editor
 
 Swagger Editor lets you edit swagger specs in YAML inside your browser and preview documentations in real time.
-
-
-## View App
-
-[Click Here](git@github.com:apigee/swagger-editor.git) to see it right now.
+[Click Here](http://apigee.github.io/swagger-editor) to see it right now.
 
 ## Running Locally
 
