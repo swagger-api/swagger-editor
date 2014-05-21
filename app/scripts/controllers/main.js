@@ -65,7 +65,19 @@ function buildDocs($scope){
 
 
 function getDefaultSpecs(){
-  return $.get('spec-files/consolidated-from-json.yaml');
+  return $.get('spec-files/tonys.yaml');
+}
+
+function getZipFile(url, jsonString){
+  $.ajax({
+    type: 'POST',
+    contentType: 'application/json',
+    url: url,
+    data: jsonString,
+    processData: false
+  }).then(function(data){
+    window.location = 'http://generator.wordnik.com/online/api/gen/download/' + data.code;
+  });
 }
 
 PhonicsApp.controller('MainCtrl', ['$scope', '$localStorage', function ($scope, $localStorage) {
@@ -141,6 +153,16 @@ PhonicsApp.controller('MainCtrl', ['$scope', '$localStorage', function ($scope, 
       var yamlBlob = new Blob([$scope.editor.getSession().getValue()], {type: MIME_TYPE});
       $scope.yamlDownloadHref = window.URL.createObjectURL(yamlBlob);
       $scope.yamlDownloadUrl = [MIME_TYPE, 'spec.yaml', $scope.yamlDownloadHref].join(':');
+    };
+
+    $scope.generateServer = function(serverType){
+      var url = 'http://generator.wordnik.com/online/api/gen/servers/' + serverType;
+      getZipFile(url, getJsonString($scope.editor));
+    };
+
+    $scope.generateClient = function(clientType){
+      var url = 'http://generator.wordnik.com/online/api/gen/clients/' + clientType;
+      getZipFile(url, getJsonString($scope.editor));
     };
 
   }]);

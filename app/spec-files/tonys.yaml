@@ -1,0 +1,681 @@
+opts:
+  properties:
+    modelPackage: "com.reverb.models"
+    apiPackage: "com.reverb.apis"
+    groupId: "com.reverb.swagger"
+    artifactId: "swagger-server"
+    artifactVersion: "1.0.0"
+  uri: "http://petstore.swagger.wordnik.com/api/api-docs"
+model:
+  apiVersion: "5.0.0-D0"
+  swaggerVersion: "1.2"
+  authorizations:
+    oauth2:
+      type: "oauth2"
+      scopes:
+        scope: "write"
+        description: "write to your albums"
+      grantTypes:
+        implicit:
+          loginEndpoint:
+            url: "http://petstore.swagger.wordnik.com/oauth/dialog"
+          tokenName: "access_token"
+  apis:
+    -
+      path: "/users"
+      description: "Users API"
+    -
+      path: "/albums"
+      description: "Albums API"
+    -
+      path: "/sample"
+      description: "A sample API"
+  apiDeclarations:
+    -
+      apiVersion: 1
+      swaggerVersion: 1.2
+      basePath: "http://localhost:8002/api"
+      description: "Operations for with Albums"
+      resourcePath: "/albums"
+      produces:
+        - "application/json"
+        - "application/xml"
+      consumes:
+        - "application/json"
+        - "application/xml"
+      apis:
+        -
+          path: "/albums"
+          operations:
+            -
+              method: "GET"
+              summary: "Retrieve albums of the user."
+              notes: "Returns a list of all albums for the user."
+              type: "array"
+              items:
+                $ref: "Album"
+              nickname: "getAlbums"
+              parameters:
+                -
+                  name: "quality"
+                  paramType: "query"
+                  description: "The quality of the album"
+                  type: "string"
+                  enum:
+                    - "good"
+                    - "bad"
+                    - "terrible"
+                  required: true
+                -
+                  name: "limit"
+                  description: "The maximum number of records to return.  Depending on the data, less values may be returned"
+                  required: false
+                  type: "integer"
+                  format: "int64"
+                  paramType: "query"
+                  minimum: 1
+                  maximum: 20
+                  defaultValue: 10
+                -
+                  name: "skip"
+                  description: "An offset for the first record to retrieve.  If there are less records than the skip, an empty result will be returned"
+                  required: false
+                  type: "integer"
+                  format: "int64"
+                  paramType: "query"
+                  minimum: 0
+                  defaultValue: 0
+            -
+              method: "POST"
+              summary: "Create a new album."
+              notes: "Create a new album for the logged in user and returns its ID."
+              type: "ID"
+              nickname: "createAlbum"
+              parameters:
+                -
+                  name: "body"
+                  description: "The new album to be created."
+                  required: true
+                  type: "InputAlbum"
+                  paramType: "body"
+              responseMessages:
+                -
+                  code: 400
+                  message: "Invalid input."
+        -
+          path: "/albums/{albumId}"
+          operations:
+            -
+              method: "GET"
+              summary: "Retrieve a specific album."
+              notes: "Returns a specific album of the logged-in user."
+              type: "Album"
+              nickname: "getAlbum"
+              parameters:
+                -
+                  name: "albumId"
+                  description: "The ID of the album to retrieve."
+                  required: true
+                  type: "integer"
+                  format: "int64"
+                  paramType: "path"
+              responseMessages:
+                -
+                  code: 404
+                  message: "Album not found."
+            -
+              method: "DELETE"
+              summary: "Deletes an album."
+              notes: "Deletes an album for the logged-in user."
+              type: "void"
+              nickname: "deleteAlbum"
+              parameters:
+                -
+                  name: "albumId"
+                  description: "The ID of the album to retrieve."
+                  required: true
+                  type: "integer"
+                  format: "int64"
+                  paramType: "path"
+              responseMessages:
+                -
+                  code: 404
+                  message: "Album not found."
+            -
+              method: "PATCH"
+              summary: "Updates an album."
+              notes: "Updates an album for the logged-in user."
+              type: "void"
+              nickname: "updateAlbum"
+              parameters:
+                -
+                  name: "albumId"
+                  description: "The ID of the album to retrieve."
+                  required: true
+                  type: "integer"
+                  format: "int64"
+                  paramType: "path"
+                -
+                  name: "body"
+                  description: "The updated album."
+                  required: true
+                  type: "InputAlbum"
+                  paramType: "body"
+              responseMessages:
+                -
+                  code: 404
+                  message: "Album not found."
+        -
+          path: "/albums/{albumId}/images"
+          operations:
+            -
+              method: "GET"
+              summary: "Retrieve images."
+              notes: "Returns a list of images in a given album."
+              type: "array"
+              items:
+                $ref: "Image"
+              nickname: "getImages"
+              parameters:
+                -
+                  name: "albumId"
+                  description: "The ID of the album to retrieve."
+                  required: true
+                  type: "integer"
+                  format: "int64"
+                  paramType: "path"
+                -
+                  name: "limit"
+                  description: "The maximum number of records to return.  Depending on the data, less values may be returned"
+                  required: false
+                  type: "integer"
+                  format: "int64"
+                  paramType: "query"
+                  minimum: 1
+                  maximum: 20
+                  defaultValue: 10
+                -
+                  name: "skip"
+                  description: "An offset for the first record to retrieve.  If there are less records than the skip, an empty result will be returned"
+                  required: false
+                  type: "integer"
+                  format: "int64"
+                  paramType: "query"
+                  minimum: 0
+                  defaultValue: 0
+        -
+          path: "/albums/{albumId}/images/{imageId}"
+          operations:
+            -
+              method: "GET"
+              summary: "Retrieve a specific image."
+              notes: "Returns a specific image from a given album of the logged-in user."
+              type: "Image"
+              nickname: "getImage"
+              parameters:
+                -
+                  name: "albumId"
+                  description: "The ID of the album to retrieve."
+                  required: true
+                  type: "integer"
+                  format: "int64"
+                  paramType: "path"
+                -
+                  name: "imageId"
+                  description: "The ID of the image to retrieve."
+                  required: true
+                  type: "integer"
+                  format: "int64"
+                  paramType: "path"
+              responseMessages:
+                -
+                  code: 404
+                  message: "Image not found."
+            -
+              method: "DELETE"
+              summary: "Deletes an image."
+              notes: "Deletes an image from an album of the logged-in user."
+              type: "void"
+              nickname: "deleteAlbum"
+              parameters:
+                -
+                  name: "albumId"
+                  description: "The ID of the album to retrieve."
+                  required: true
+                  type: "integer"
+                  format: "int64"
+                  paramType: "path"
+                -
+                  name: "imageId"
+                  description: "The ID of the image to delete."
+                  required: true
+                  type: "integer"
+                  format: "int64"
+                  paramType: "path"
+              responseMessages:
+                -
+                  code: 404
+                  message: "Image not found."
+            -
+              method: "PATCH"
+              summary: "Updates an image's metadata."
+              notes: "Updates the metadata of a specific image. The image itself cannot be updated. In order to replace it, it must be deleted and added again."
+              type: "void"
+              nickname: "updateImage"
+              parameters:
+                -
+                  name: "albumId"
+                  description: "The ID of the album to retrieve."
+                  required: true
+                  type: "integer"
+                  format: "int64"
+                  paramType: "path"
+                -
+                  name: "imageId"
+                  description: "The ID of the image to delete."
+                  required: true
+                  type: "integer"
+                  format: "int64"
+                  paramType: "path"
+                -
+                  name: "title"
+                  description: "The title of the image."
+                  required: false
+                  type: "string"
+                  paramType: "query"
+                -
+                  name: "height"
+                  description: "The height of the image."
+                  required: false
+                  type: "integer"
+                  format: "int32"
+                  minimum: 1
+                  paramType: "query"
+                -
+                  name: "width"
+                  description: "The width of the image."
+                  required: false
+                  type: "integer"
+                  format: "int32"
+                  minimum: 1
+                  paramType: "query"
+              responseMessages:
+                -
+                  code: 400
+                  message: "Either both height and width must be provided or neither."
+                -
+                  code: 404
+                  message: "Image not found."
+      models:
+        Album:
+          id: "Album"
+          description: "An object describing an album that is received from various API calls."
+          required:
+            - "id"
+            - "name"
+            - "creationDate"
+            - "owner"
+          properties:
+            id:
+              $ref: "ID"
+            name:
+              type: "string"
+            creationDate:
+              type: "string"
+              format: "date-time"
+            owner:
+              type: "string"
+        ID:
+          id: "ID"
+          description: "A general identifier object."
+          required:
+            - "id"
+          properties:
+            id:
+              type: "integer"
+              format: "int64"
+              description: "A unique identifier for the album."
+        InputAlbum:
+          id: "InputAlbum"
+          description: "An object describing an album that is used to create or update albums."
+          required:
+            - "name"
+          properties:
+            name:
+              type: "string"
+        Image:
+          id: "Image"
+          description: "An object describing an image that is received from various API calls."
+          required:
+            - "id"
+            - "title"
+            - "creationDate"
+            - "url"
+          properties:
+            id:
+              $ref: "ID"
+            title:
+              type: "string"
+              description: "the title of the album"
+            creationDate:
+              type: "string"
+              format: "date-time"
+              description: "timestamp this album was created"
+            url:
+              type: "string"
+              description: "the public URL to the album"
+            dimensions:
+              $ref: "Dimensions"
+        Dimensions:
+          id: "Dimensions"
+          description: "The dimensions of an Image file."
+          required:
+            - "height"
+            - "width"
+          properties:
+            height:
+              type: "integer"
+              format: "int32"
+              minimum: 1
+              description: "height of an image"
+            width:
+              type: "integer"
+              format: "int32"
+              minimum: 1
+              description: "width of an image"
+    -
+      apiVersion: 1
+      swaggerVersion: 1.2
+      basePath: "http://localhost:8002/api"
+      description: "A sample API"
+      resourcePath: "/sample"
+      produces:
+        - "application/json"
+        - "application/xml"
+      consumes:
+        - "application/json"
+        - "application/xml"
+      apis:
+        -
+          path: "/demo"
+          operations:
+            -
+              method: "GET"
+              summary: "gets some demo items"
+              nickname: "demoGet"
+              type: "Widget"
+              parameters:
+                -
+                  name: "status"
+                  description: "the status of the demo items"
+                  paramType: "query"
+                  type: "integer"
+                  format: "int32"
+                  required: true
+                  enum:
+                    - 1
+                    - 2
+                    - 3
+                    - 4
+                  defaultValue: 1
+              responseMessages:
+                -
+                  code: 400
+                  message: "invalid status requested"
+      models:
+        Widget:
+          id: "Widget"
+          required:
+            - "width"
+            - "height"
+          properties:
+            height:
+              type: "integer"
+              format: "int32"
+              description: "the height of the widget"
+            width:
+              type: "integer"
+              format: "int32"
+              description: "the height of the widget"
+    -
+      apiVersion: 1
+      swaggerVersion: 1.2
+      basePath: "http://localhost:8002/api"
+      description: "Operations for User Accounts"
+      resourcePath: "/users"
+      produces:
+        - "application/json"
+        - "application/xml"
+      consumes:
+        - "application/json"
+        - "application/xml"
+      apis:
+        -
+          path: "/users"
+          operations:
+            -
+              method: "POST"
+              summary: "Create user"
+              notes: "Registers a new user in the system."
+              type: "void"
+              nickname: "createUser"
+              parameters:
+                -
+                  name: "body"
+                  description: "Created user object"
+                  required: true
+                  type: "InputUser"
+                  paramType: "body"
+              responseMessages:
+                -
+                  code: 400
+                  message: "Insufficient fields (must have at least username, email and password)."
+            -
+              method: "GET"
+              summary: "Retrieves users in the system."
+              notes: "Returns a list of all users in the system. This operation is allowed by admins only."
+              type: "array"
+              items:
+                $ref: "User"
+              nickname: "getUsers"
+              parameters:
+                -
+                  enum:
+                    - "good"
+                    - "bad"
+                    - "terrible"
+                  name: "status"
+                  type: "string"
+                  paramType: "query"
+                -
+                  name: "limit"
+                  description: "The maximum number of records to return.  Depending on the data, less values may be returned"
+                  required: false
+                  type: "integer"
+                  format: "int64"
+                  paramType: "query"
+                  maximum: 20
+                  defaultValue: 10
+                -
+                  name: "skip"
+                  description: "An offset for the first record to retrieve.  If there are less records than the skip, an empty result will be returned"
+                  required: false
+                  type: "integer"
+                  format: "int64"
+                  paramType: "query"
+                  minimum: 0
+                  defaultValue: 0
+              responseMessages:
+                -
+                  code: 401
+                  message: "Unauthorized request."
+        -
+          path: "/users/self"
+          operations:
+            -
+              method: "GET"
+              summary: "Get the logged-in user."
+              notes: "Get the full information about the user that's currently logged-in."
+              type: "User"
+              nickname: "getSelf"
+              parameters: []
+            -
+              method: "PUT"
+              summary: "Updates a user."
+              notes: "Updates the currently logged-in user."
+              type: "void"
+              nickname: "updateSelf"
+              parameters:
+                -
+                  name: "body"
+                  description: "Updated user object"
+                  required: true
+                  type: "InputUser"
+                  paramType: "body"
+              responseMessages:
+                -
+                  code: 400
+                  message: "Insufficient fields (must have at least email and password). Username cannot be modified."
+            -
+              method: "DELETE"
+              summary: "Delete user."
+              notes: "Deletes the account of the currently logged-in user."
+              type: "void"
+              nickname: "deleteSelf"
+        -
+          path: "/users/{username}"
+          operations:
+            -
+              method: "GET"
+              summary: "Get user by username."
+              notes: "Get a user by a username. This operation is allowed only to admins."
+              type: "User"
+              nickname: "getUser"
+              parameters:
+                -
+                  name: "username"
+                  description: "The username of the user to retrieve."
+                  required: true
+                  type: "string"
+                  paramType: "path"
+              responseMessages:
+                -
+                  code: 404
+                  message: "User not found."
+            -
+              method: "PUT"
+              summary: "Updates a user."
+              notes: "This can only be done by an admin."
+              type: "void"
+              nickname: "updateUser"
+              parameters:
+                -
+                  name: "username"
+                  description: "The username to operate on"
+                  required: true
+                  type: "string"
+                  paramType: "path"
+                -
+                  name: "body"
+                  description: "Updated user object"
+                  required: true
+                  type: "InputUser"
+                  paramType: "body"
+              responseMessages:
+                -
+                  code: 400
+                  message: "Insufficient fields (must have at least email and password). Username cannot be modified."
+            -
+              method: "DELETE"
+              summary: "Delete user"
+              notes: "This can only be done by an admin."
+              type: "void"
+              nickname: "deleteUser"
+              parameters:
+                -
+                  name: "username"
+                  description: "The username to operate on"
+                  required: true
+                  type: "string"
+                  paramType: "path"
+              responseMessages:
+                -
+                  code: 404
+                  message: "User not found"
+        -
+          path: "/users/login"
+          operations:
+            -
+              method: "POST"
+              summary: "Logs user into the system."
+              notes: null
+              type: "string"
+              nickname: "loginUser"
+              parameters:
+                -
+                  name: "username"
+                  description: "The username to operate on"
+                  required: true
+                  type: "string"
+                  paramType: "query"
+                -
+                  name: "password"
+                  description: "The password for login in clear text"
+                  required: true
+                  type: "string"
+                  format: "password"
+                  paramType: "query"
+              responseMessages:
+                -
+                  code: 400
+                  message: "Invalid username and password combination."
+        -
+          path: "/users/logout"
+          operations:
+            -
+              method: "POST"
+              summary: "Logs out current logged in user session."
+              notes: null
+              type: "void"
+              nickname: "logoutUser"
+              parameters: []
+      models:
+        User:
+          id: "User"
+          required:
+            - "username"
+            - "email"
+          properties:
+            firstName:
+              type: "string"
+            username:
+              type: "string"
+            lastName:
+              type: "string"
+            email:
+              type: "string"
+            phone:
+              type: "string"
+            userStatus:
+              type: "integer"
+              format: "int32"
+              description: "User Status"
+              enum:
+                - "1-registered"
+                - "2-active"
+                - "3-closed"
+        InputUser:
+          id: "InputUser"
+          properties:
+            firstName:
+              type: "string"
+            username:
+              type: "string"
+            lastName:
+              type: "string"
+            email:
+              type: "string"
+            password:
+              type: "string"
+            phone:
+              type: "string"
