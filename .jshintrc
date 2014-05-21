@@ -21,6 +21,7 @@
   "globals": {
     "angular": false,
     "ace": false,
+    "markdown": false,
     "PhonicsApp": false,
     "SwaggerApi": false,
     "SwaggerResource": false,

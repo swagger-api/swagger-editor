@@ -1,4 +1,4 @@
-'use strict'
+'use strict';
 
 PhonicsApp.filter('markdown', function() {
   return function markdownFilter(input){
