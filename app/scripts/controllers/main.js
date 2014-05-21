@@ -152,7 +152,7 @@ PhonicsApp.controller('MainCtrl', ['$scope', '$localStorage', function ($scope, 
         data: getJsonString($scope.editor)
       }).then(function(res){
         var zipUrl = res.url;
-        document.body.innerHTML += "<iframe src='" + zipUrl + "' style='display: none;' ></iframe>"
+        document.body.innerHTML += '<iframe src="' + zipUrl + '" style="display: none;"></iframe>';
       });
     };
 
