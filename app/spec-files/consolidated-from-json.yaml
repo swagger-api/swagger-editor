@@ -25,7 +25,7 @@ apiDeclarations:
     apiVersion: 1
     swaggerVersion: 1.2
     basePath: "http://localhost:8002/api"
-    description: "Operations for with Albums"
+    description: "Operations for Albums"
     resourcePath: "/albums"
     produces:
       - "application/json"
