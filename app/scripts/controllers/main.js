@@ -65,15 +65,15 @@ function buildDocs($scope){
 
 
 function getDefaultSpecs(){
-  return $.get('spec-files/tonys.yaml');
+  return $.get('spec-files/consolidated-from-json.yaml');
 }
 
-function getZipFile(url, jsonString){
+function getZipFile(url, json){
   $.ajax({
     type: 'POST',
     contentType: 'application/json',
     url: url,
-    data: jsonString,
+    data: JSON.stringify(json),
     processData: false
   }).then(function(data){
     window.location = 'http://generator.wordnik.com/online/api/gen/download/' + data.code;
@@ -155,14 +155,44 @@ PhonicsApp.controller('MainCtrl', ['$scope', '$localStorage', function ($scope, 
       $scope.yamlDownloadUrl = [MIME_TYPE, 'spec.yaml', $scope.yamlDownloadHref].join(':');
     };
 
-    $scope.generateServer = function(serverType){
-      var url = 'http://generator.wordnik.com/online/api/gen/servers/' + serverType;
-      getZipFile(url, getJsonString($scope.editor));
-    };
+    $scope.generateZip = function(type, kind){
+      var url = 'http://generator.wordnik.com/online/api/gen/' + type + '/' + kind;
+      // FIXME how we should generate properties in this object based on document?
+      var json = {
+        opts: {
+          properties: {
+            modelPackage: 'com.reverb.models',
+            apiPackage: 'com.reverb.apis',
+            groupId: 'com.reverb.swagger',
+            artifactId: 'swagger-client',
+            artifactVersion: '1.0.0',
+          }
+        },
+        model: _.extend(jsyaml.load($scope.editor.getSession().getValue()),
+        {
+          apiVersion: '5.0.0-D0',
+          swaggerVersion: '1.2',
+          authorizations: {
+            oauth2:{
+              type: 'oauth2',
+              scopes:{
+                scope: 'write',
+                description: 'write to your albums'
+              },
+              grantTypes:{
+                implicit:{
+                  loginEndpoint:{
+                    url: 'http://petstore.swagger.wordnik.com/oauth/dialog'
+                  },
+                  tokenName: 'access_token'
+                }
+              }
+            }
+          }
+        })
+      };
 
-    $scope.generateClient = function(clientType){
-      var url = 'http://generator.wordnik.com/online/api/gen/clients/' + clientType;
-      getZipFile(url, getJsonString($scope.editor));
+      getZipFile(url, json);
     };
 
   }]);

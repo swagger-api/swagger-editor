@@ -13,15 +13,15 @@
       <a download="spec.json" class="toolbar-btn actionBtn actionBtnBtm" downloadUrl="{{jsonDownloadUrl}}" href="{{jsonDownloadHref}}">JSON</a>
     </dropdown-menu>
     <dropdown-menu label="Get Server">
-      <a class="toolbar-btn actionBtn" ng-click="generateServer('node')">Node.js</a>
-      <a class="toolbar-btn actionBtn" ng-click="generateServer('jaxrs')">JAX-RS</a>
+      <a class="toolbar-btn actionBtn" ng-click="generateZip('servers', 'node')">Node.js</a>
+      <a class="toolbar-btn actionBtn" ng-click="generateZip('servers', 'jaxrs')">JAX-RS</a>
     </dropdown-menu>
     <dropdown-menu label="Get Client">
-      <a class="toolbar-btn actionBtn" ng-click="generateClient('android')">Android</a>
-      <a class="toolbar-btn actionBtn" ng-click="generateClient('java')">Java</a>
-      <a class="toolbar-btn actionBtn" ng-click="generateClient('php')">PHP</a>
-      <a class="toolbar-btn actionBtn" ng-click="generateClient('objc')">Objective-C</a>
-      <a class="toolbar-btn actionBtn" ng-click="generateClient('docs')">Docs</a>
+      <a class="toolbar-btn actionBtn" ng-click="generateZip('clients', 'android')">Android</a>
+      <a class="toolbar-btn actionBtn" ng-click="generateZip('clients', 'java')">Java</a>
+      <a class="toolbar-btn actionBtn" ng-click="generateZip('clients', 'php')">PHP</a>
+      <a class="toolbar-btn actionBtn" ng-click="generateZip('clients', 'objc')">Objective-C</a>
+      <a class="toolbar-btn actionBtn" ng-click="generateZip('clients', 'docs')">Docs</a>
     </dropdown-menu>
   </section>
 </div>
