@@ -53,8 +53,8 @@ function buildDocs($scope){
     return;
   }
 
-  if(json && Array.isArray(json.apiDeclarations)){
-    $scope.apiDeclarations = json.apiDeclarations.map(buildapiDeclarationDocs);
+  if(json && Array.isArray(json.model.apiDeclarations)){
+    $scope.apiDeclarations = json.model.apiDeclarations.map(buildapiDeclarationDocs);
   }
 
   if($scope.jsonPreview) {
