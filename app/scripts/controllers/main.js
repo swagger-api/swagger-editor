@@ -89,9 +89,9 @@ PhonicsApp.controller('MainCtrl', ['$scope', '$localStorage', function ($scope, 
 
     $scope.aceLoaded = function(editor) {
       $scope.editor = editor;
-      editor.setOptions({
-        basicAutocompletion: true
-      });
+      // editor.setOptions({
+      //   basicAutocompletion: true
+      // });
       $(document).on('pane-resize', editor.resize.bind(editor));
       if($localStorage.cache){
         editor.getSession().setValue($localStorage.cache);
