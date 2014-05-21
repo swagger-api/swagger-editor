@@ -67,6 +67,18 @@ function getDefaultSpecs(){
   return $.get('spec-files/consolidated-from-json.yaml');
 }
 
+function getZipFile(url, json){
+  $.ajax({
+    method: 'POST',
+    contentType: 'application/json',
+    url: url,
+    data: json
+  }).then(function(res){
+    var zipUrl = res.url;
+    document.body.innerHTML += '<iframe src="' + zipUrl + '" style="display: none;"></iframe>';
+  });
+}
+
 PhonicsApp.controller('MainCtrl', ['$scope', '$localStorage', function ($scope, $localStorage) {
     $scope.editor = null;
     $scope.jsonPreview = null;
@@ -142,18 +154,14 @@ PhonicsApp.controller('MainCtrl', ['$scope', '$localStorage', function ($scope, 
       $scope.yamlDownloadUrl = [MIME_TYPE, 'spec.yaml', $scope.yamlDownloadHref].join(':');
     };
 
-    $scope.deployTo = function(serverType){
-      var url = 'http://generator.helloreverb.com/online/api/gen/client/';
-      url += serverType;
+    $scope.generateServer = function(serverType){
+      var url = 'http://generator.wordnik.com/online/api/gen/servers/' + serverType;
+      getZipFile(url, getJsonString($scope.editor));
+    };
 
-      $.ajax({
-        method: 'POST',
-        url: url,
-        data: getJsonString($scope.editor)
-      }).then(function(res){
-        var zipUrl = res.url;
-        document.body.innerHTML += '<iframe src="' + zipUrl + '" style="display: none;"></iframe>';
-      });
+    $scope.generateClient = function(clientType){
+      var url = 'http://generator.wordnik.com/online/api/gen/clients/' + clientType;
+      getZipFile(url, getJsonString($scope.editor));
     };
 
   }]);
