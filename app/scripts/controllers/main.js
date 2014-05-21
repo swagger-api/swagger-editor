@@ -85,8 +85,15 @@ function getZipFile(url, jsonString){
       download: 'file.zip',
       'data-downloadurl': downloadUrl
     })
-    .text('download ready')
-    .prependTo('body');
+    .text('Download is ready. Click here to start download')
+    .css('color', 'white')
+
+    // TBD
+    .prependTo('#ace-editor-wrapper > header > div > section.right')
+
+    .on('click', function(){
+      this.style.display = 'none';
+    })
   });
 }
 
