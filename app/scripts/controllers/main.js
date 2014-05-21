@@ -32,13 +32,14 @@ function getJsonString(editor){
 }
 
 function buildapiDeclarationDocs(declraton){
-  var swaggerUi = new SwaggerUi({
-    'dom_id': 'swagger-ui-container',
+  var swaggerUi = null;
+  swaggerUi = new SwaggerUi({
+    'dom_id': 'swagger-ui-container-' + Math.floor(Math.random()*100),
     supportedSubmitMethods: ['get', 'post', 'put', 'delete']
   });
 
   swaggerUi.load(JSON.stringify(declraton));
-  return swaggerUi.api;
+  return _.clone(swaggerUi.api);
 }
 
 function buildDocs($scope){

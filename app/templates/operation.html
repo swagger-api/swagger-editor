@@ -16,7 +16,7 @@
   </div>
   <div class='content' ng-class="{collapsed: operation.collapsed}" id='{{operation.parentId}}_{{operation.nickname}}_content'>
     <h4 ng-if="operation.notes">Implementation Notes</h4>
-    <p ng-if="operation.notes">{{operation.notes}}</p>
+    <p ng-if="operation.notes" ng-bind-html="operation.notes | markdown"></p>
 
 
       <div class="auth" ng-if="false" old-ng-if="operation.authorizations.oauth2">

@@ -7,16 +7,13 @@
     <ul class='options'>
       <li>
         <a href='#/{{resource.id}}'
-        ng-click="collapsed = !collapsed">Show/Hide</a>
-      </li>
-      <li>
-        <a ng-click="collapseAll()">
-          List Operations
+        ng-click="collapsed = !collapsed">
+          {{collapsed ? 'Show' : 'Hide'}}
         </a>
       </li>
       <li>
-        <a ng-click="expandAll()">
-          Expand Operations
+        <a ng-click="listed ? expandAll() : collapseAll()">
+          {{listed ? 'Expand Operations' : 'List Operations'}}
         </a>
       </li>
     </ul>
