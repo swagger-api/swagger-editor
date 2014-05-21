@@ -1,16 +1,21 @@
 <div class="toolbar">
   <section class="left">
     <button class="toolbar-btn" ng-click="newProject()">New</button>
+    <button class="toolbar-btn" ng-click="resetSpec()">Reset</button>
 <!--     <dropdown-menu label="Add">
       <a class="toolbar-btn  actionBtn">Endpoint</a>
       <a class="toolbar-btn  actionBtn actionBtnBtm">Parameter</a>
     </dropdown-menu>
  -->  </section>
   <section class="right">
-    <button class="toolbar-btn" ng-click="resetSpec()">Reset</button>
     <dropdown-menu label="Download" on-open="assignDownloadHrefs">
       <a download="spec.yaml" class="toolbar-btn actionBtn" data-downloadurl="{{yamlDownloadUrl}}" href="{{yamlDownloadHref}}">YAML</a>
       <a download="spec.json" class="toolbar-btn actionBtn actionBtnBtm" downloadUrl="{{jsonDownloadUrl}}" href="{{jsonDownloadHref}}">JSON</a>
+    </dropdown-menu>
+    <dropdown-menu label="Deploy to">
+      <a class="toolbar-btn actionBtn" ng-click="deployTo('java')">Java</a>
+      <a class="toolbar-btn actionBtn" ng-click="deployTo('objc')">Objective-C</a>
+      <a class="toolbar-btn actionBtn" ng-click="deployTo('jaxrs')">JAX-RS</a>
     </dropdown-menu>
   </section>
 </div>
