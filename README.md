@@ -23,15 +23,11 @@ This will open a browser window running current development version.
 
 #### Problem with CoffeeScript Grunt Module
 
-Run this npm command to fix it: 
-
+We need to update grunt-contrib-coffee's coffee-script version to `1.6.0` to avoid some issues. If you have issues with CoffeeScript, run following npm command to fix it: 
 
 ```
 $ npm run fix-coffee
 ```
-
-We need to update grunt-contrib-coffee's coffee-script version to `1.6.0` and run `npm install` it if you see coffee-script errors.
-
 
 ## Building and publishing
 
