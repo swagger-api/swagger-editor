@@ -5,53 +5,19 @@ _.templateSettings = {
   interpolate: /\{(.+?)\}/g
 };
 
-var ENABLE_JSON_PREVIEW = false;
-
-
-
 function getJsonString(editor){
   var specsObject = jsyaml.load(editor.getSession().getValue());
   return JSON.stringify(specsObject, null, 4);
 }
-
-function buildapiDeclarationDocs(declraton){
-  var swaggerUi = null;
-  swaggerUi = new SwaggerUi({
-    'dom_id': 'swagger-ui-container-' + Math.floor(Math.random()*100),
-    supportedSubmitMethods: ['get', 'post', 'put', 'delete']
-  });
-
-  swaggerUi.load(JSON.stringify(declraton));
-  return _.clone(swaggerUi.api);
-}
-
-function buildDocs($scope){
-  var json;
-
-  $scope.invalidDocs = false;
-  try {
-    json = jsyaml.load($scope.editor.getSession().getValue());
-  }catch(e){
-    $scope.invalidDocs = true;
-    return;
-  }
-  if(json && Array.isArray(json.apiDeclarations)){
-    $scope.apiDeclarations = json.apiDeclarations.map(buildapiDeclarationDocs);
-  }
-
-  if($scope.jsonPreview && ENABLE_JSON_PREVIEW) {
-    $scope.jsonPreview.getSession().setValue(getJsonString($scope.editor));
-  }
-}
-
 
 function getDefaultSpecs(){
   return $.get('spec-files/consolidated-from-json.yaml');
 }
 
 
-PhonicsApp.controller('MainCtrl', ['$scope', '$localStorage', 'wrap', 'editorHelper', 'downloadHelper',
-  function ($scope, $localStorage, wrap, editorHelper, downloadHelper) {
+PhonicsApp.controller('MainCtrl', ['$scope', '$localStorage',
+  'wrap', 'editorHelper', 'downloadHelper', 'builderHelper',
+  function ($scope, $localStorage, wrap, editorHelper, download, builder) {
     $scope.editor = null;
     $scope.jsonPreview = null;
     $scope.previewMode = 'html';
@@ -69,7 +35,7 @@ PhonicsApp.controller('MainCtrl', ['$scope', '$localStorage', 'wrap', 'editorHel
       } else {
         return $scope.resetSpec();
       }
-      buildDocs($scope);
+      builder.buildDocs($scope);
     };
 
     $scope.jsonPreviewLoaded = function(jsonPreview){
@@ -87,7 +53,7 @@ PhonicsApp.controller('MainCtrl', ['$scope', '$localStorage', 'wrap', 'editorHel
       }else{
         $scope.editorErrorMessage = '';
       }
-      buildDocs($scope);
+      builder.buildDocs($scope);
     };
 
     $scope.switchPreviewMode = function(language){
@@ -101,14 +67,14 @@ PhonicsApp.controller('MainCtrl', ['$scope', '$localStorage', 'wrap', 'editorHel
 
     $scope.newProject = function(){
       $scope.editor.getSession().setValue('');
-      buildDocs($scope);
+      builder.buildDocs($scope);
     };
 
     $scope.resetSpec = function(){
       getDefaultSpecs().then(function(yaml){
         $localStorage.cache = yaml;
         $scope.editor.getSession().setValue(yaml);
-        buildDocs($scope);
+        builder.buildDocs($scope);
       });
     };
 
@@ -131,7 +97,7 @@ PhonicsApp.controller('MainCtrl', ['$scope', '$localStorage', 'wrap', 'editorHel
       var specs = jsyaml.load($scope.editor.getSession().getValue());
       specs = wrap.model(specs);
       specs = wrap.opts(specs);
-      downloadHelper.getZipFile(url, specs);
+      download.getZipFile(url, specs);
     };
 
   }]);
