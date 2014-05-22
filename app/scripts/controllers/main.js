@@ -23,6 +23,7 @@ PhonicsApp.controller('MainCtrl', ['$scope', '$localStorage',
     $scope.previewMode = 'html';
     $scope.editorErrorMessage = '';
     $scope.invalidDocs = false;
+    $scope.emptyDocs = false;
 
     $scope.aceLoaded = function(editor) {
       $scope.editor = editor;
@@ -40,8 +41,15 @@ PhonicsApp.controller('MainCtrl', ['$scope', '$localStorage',
     };
 
     $scope.aceChanged = function() {
+      $scope.invalidDocs = false;
+      $scope.emptyDocs = false;
       var error = null;
-      $localStorage.cache = $scope.editor.getSession().getValue();
+      var value = $scope.editor.getSession().getValue();
+      $localStorage.cache = value;
+      if(!value){
+        $scope.emptyDocs = true;
+        return;
+      }
 
       error = editorHelper.annotateYAMLErrors($scope.editor);
       if(error) {
