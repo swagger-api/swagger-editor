@@ -1,5 +1,4 @@
 'use strict';
-/* global jsyaml */
 
 // Use single curly brace for templates (used in spec)
 _.templateSettings = {
@@ -8,24 +7,6 @@ _.templateSettings = {
 
 var ENABLE_JSON_PREVIEW = false;
 
-function annotateYAMLErrors(editor){
-  var errorMessage = null;
-  var value = editor.getSession().getValue();
-  try {
-    jsyaml.load(value);
-  } catch(yamlLoadError) {
-    errorMessage = yamlLoadError.message.replace('JS-YAML: ', '');
-    editor.getSession().setAnnotations([{
-      row: yamlLoadError.mark.line,
-      column: yamlLoadError.mark.column,
-      text: errorMessage,
-      type: 'error'
-    }]);
-    return errorMessage;
-  }
-  editor.getSession().clearAnnotations();
-  return errorMessage;
-}
 
 
 function getJsonString(editor){
@@ -68,22 +49,9 @@ function getDefaultSpecs(){
   return $.get('spec-files/consolidated-from-json.yaml');
 }
 
-function getZipFile(url, json){
-  $.ajax({
-    type: 'POST',
-    contentType: 'application/json',
-    url: url,
-    data: JSON.stringify(json),
-    processData: false
-  }).then(function(data){
-    if (data instanceof Object && data.code){
-      window.location = 'http://generator.wordnik.com/online/api/gen/download/' + data.code;
-    }
-  });
-}
 
-PhonicsApp.controller('MainCtrl', ['$scope', '$localStorage', 'wrap',
-  function ($scope, $localStorage, wrap) {
+PhonicsApp.controller('MainCtrl', ['$scope', '$localStorage', 'wrap', 'editorHelper', 'downloadHelper',
+  function ($scope, $localStorage, wrap, editorHelper, downloadHelper) {
     $scope.editor = null;
     $scope.jsonPreview = null;
     $scope.previewMode = 'html';
@@ -112,7 +80,7 @@ PhonicsApp.controller('MainCtrl', ['$scope', '$localStorage', 'wrap',
       var error = null;
       $localStorage.cache = $scope.editor.getSession().getValue();
 
-      error = annotateYAMLErrors($scope.editor);
+      error = editorHelper.annotateYAMLErrors($scope.editor);
       if(error) {
         $scope.invalidDocs = true;
         return;
@@ -163,7 +131,7 @@ PhonicsApp.controller('MainCtrl', ['$scope', '$localStorage', 'wrap',
       var specs = jsyaml.load($scope.editor.getSession().getValue());
       specs = wrap.model(specs);
       specs = wrap.opts(specs);
-      getZipFile(url, specs);
+      downloadHelper.getZipFile(url, specs);
     };
 
   }]);
