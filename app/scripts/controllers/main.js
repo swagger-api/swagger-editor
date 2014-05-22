@@ -26,9 +26,6 @@ PhonicsApp.controller('MainCtrl', ['$scope', '$localStorage',
 
     $scope.aceLoaded = function(editor) {
       $scope.editor = editor;
-      // editor.setOptions({
-      //   basicAutocompletion: true
-      // });
       $(document).on('pane-resize', editor.resize.bind(editor));
       if($localStorage.cache){
         editor.getSession().setValue($localStorage.cache);
@@ -79,17 +76,7 @@ PhonicsApp.controller('MainCtrl', ['$scope', '$localStorage',
     };
 
     $scope.assignDownloadHrefs = function(){
-      var MIME_TYPE = 'text/plain';
-
-      // JSON
-      var jsonBlob = new Blob([$scope.jsonPreview.getSession().getValue()], {type: MIME_TYPE});
-      $scope.jsonDownloadHref = window.URL.createObjectURL(jsonBlob);
-      $scope.jsonDownloadUrl = [MIME_TYPE, 'spec.json', $scope.jsonDownloadHref].join(':');
-
-      // YAML
-      var yamlBlob = new Blob([$scope.editor.getSession().getValue()], {type: MIME_TYPE});
-      $scope.yamlDownloadHref = window.URL.createObjectURL(yamlBlob);
-      $scope.yamlDownloadUrl = [MIME_TYPE, 'spec.yaml', $scope.yamlDownloadHref].join(':');
+      download.assignDownloadHrefs($scope);
     };
 
     $scope.generateZip = function(type, kind){
