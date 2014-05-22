@@ -1,7 +1,7 @@
 # Swagger Editor
 
 Swagger Editor lets you edit swagger specs in YAML inside your browser and preview documentations in real time.
-[Click Here](http://apigee.github.io/swagger-editor) to see it right now.
+[Click Here](http://wordnik.github.io/swagger-editor) to see it right now.
 
 ## Running Locally
 
@@ -13,7 +13,7 @@ Swagger Editor lets you edit swagger specs in YAML inside your browser and previ
 
 #### Clone the repository and install packages
 
-    git clone git@github.com:apigee/phonics.git
+    git clone git@github.com:wordnik/phonics.git
     npm install
     bower install
     npm run fix-coffee
