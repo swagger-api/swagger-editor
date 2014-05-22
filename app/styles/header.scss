@@ -139,14 +139,17 @@ header.editor-header {
         margin-top: 2px;
         text-decoration: none;
         background: #D4D4D4;
-        border-radius: 3px 3px 0 0;
         border: 1px solid #949494;
+        border-radius: 0px;
         margin-bottom: -3px;
         &:hover {
           background: #bdbdbd;
           color: #383838;
         }
-        &.actionBtnBtm {
+        &.actionBtn:first-child {
+          border-radius: 3px 3px 0 0;
+        }
+        &.actionBtn:last-child {
           border-radius: 0 0 3px 3px;
         }
       }
