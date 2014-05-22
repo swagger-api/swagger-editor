@@ -39,6 +39,7 @@ PhonicsApp.directive('splitterBar', function(){
           $document.off('mousemove', resize);
         });
       });
+      $(window).on('resize', _.throttle(resize,300));
     }
   };
 });
