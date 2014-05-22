@@ -10,8 +10,8 @@ function getJsonString(editor){
   return JSON.stringify(specsObject, null, 4);
 }
 
-function getDefaultSpecs(){
-  return $.get('spec-files/consolidated-from-json.yaml');
+function loadPreDefinedSpecs(fileName){
+  return $.get('spec-files/' + fileName + '.yaml');
 }
 
 
@@ -68,7 +68,7 @@ PhonicsApp.controller('MainCtrl', ['$scope', '$localStorage',
     };
 
     $scope.resetSpec = function(){
-      getDefaultSpecs().then(function(yaml){
+      loadPreDefinedSpecs('default').then(function(yaml){
         $localStorage.cache = yaml;
         $scope.editor.getSession().setValue(yaml);
         builder.buildDocs($scope);
