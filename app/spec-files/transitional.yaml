@@ -1,15 +1,10 @@
 apiVersion: 1.0.0
 
-# renamed from swaggerVersion
-swaggerSpecVersion: 1.2
+# renamed from swaggerSpecVersion
+swaggerVersion: 1.2
 
 # renamed from "baseUri"
 basePath: http://petstore.swagger.wordnik.com/api
-
-# may not be needed today, but will be important eventually
-protocols: 
-  - http
-  - https
 
 # wraps these elements from the top level
 info:

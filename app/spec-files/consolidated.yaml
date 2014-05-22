@@ -10,11 +10,6 @@ swaggerSpecVersion: 1.2
 # The root path for calling this API.
 basePath: http://my.api.com/v1
 
-# The protocols supported by this API.
-protocols:
-  - http
-  - https
-
 # The title of the API
 title: Swagger Sample API
 
