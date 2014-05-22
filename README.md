@@ -1,7 +1,14 @@
 # Swagger Editor
 
-Swagger Editor lets you edit swagger specs in YAML inside your browser and preview documentations in real time.
-[Click Here](http://wordnik.github.io/swagger-editor) to see it right now.
+Swagger Editor lets you edit API specifications in YAML inside your browser and to preview documentations in real time.
+Valid Swagger JSON descriptions can then be generated and used with the full Swagger tooling (code generation, documentation, etc).
+
+[Click Here](http://wordnik.github.io/swagger-editor) to try it now.
+
+## YAML Syntax
+Expect the syntax to evolve quickly! (Note: the initial simplified syntax can be found under app/spec-files/consolidated.yaml if not available at launch.)
+
+The idea is to iterate quickly on top of the Swagger 1.2 description format. As part of the Swagger 2.0 working group, the syntax will be a first-class citizen of Swagger 2.0. Visit http://swagger.wordnik.com to learn more or to get involved.
 
 ## Running Locally
 
@@ -46,8 +53,10 @@ To copy everything in `/dist` folder to `gh-pages` branch and push it to github,
 ```
 $ grunt ship
 ```
-Please do not touch `gh-pages` branch manually
+Please do not touch `gh-pages` branch manually!
 
 
 ### Contributing
-Please use Gihub bug tracker for reporting bugs or pull requests.
+File issues in GitHub's to report bugs or issue a pull request.
+
+All contributions must grant copyright permission to this project, the source of which is declared to be under an Apache 2 license (see LICENSE).
