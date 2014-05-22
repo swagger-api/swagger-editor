@@ -22,6 +22,7 @@
     "angular": false,
     "ace": false,
     "markdown": false,
+    "jsyaml": false,
     "PhonicsApp": false,
     "SwaggerApi": false,
     "SwaggerResource": false,

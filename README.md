@@ -1,11 +1,7 @@
 # Swagger Editor
 
 Swagger Editor lets you edit swagger specs in YAML inside your browser and preview documentations in real time.
-
-
-## View App
-
-[Click Here](git@github.com:apigee/swagger-editor.git) to see it right now.
+[Click Here](http://apigee.github.io/swagger-editor) to see it right now.
 
 ## Running Locally
 
@@ -24,16 +20,26 @@ Swagger Editor lets you edit swagger specs in YAML inside your browser and previ
     grunt serve
 
 This will open a browser window running current development version.
-## Building
 
-Just run: 
+#### Problem with CoffeeScript Grunt Module
+
+We need to update grunt-contrib-coffee's coffee-script version to `1.6.0` to avoid some issues. If you have issues with CoffeeScript, run following npm command to fix it: 
+
+```
+$ npm run fix-coffee
+```
+
+## Building and publishing
+
+#### Building
+To build the project just run: 
 
 ```
 $ grunt build
 ```
 This will build a new version of the web app, ready for production in `/dist` folder
 
-## Pushing to `gh-page`
+#### Pushing to `gh-page`
 
 To copy everything in `/dist` folder to `gh-pages` branch and push it to github, just run:
 
@@ -41,17 +47,6 @@ To copy everything in `/dist` folder to `gh-pages` branch and push it to github,
 $ grunt ship
 ```
 Please do not touch `gh-pages` branch manually
-
-### Problem with CoffeeScript Grunt Module
-
-Run this npm command to fix it: 
-
-
-```
-$ npm run fix-coffee
-```
-
-We need to update grunt-contrib-coffee's coffee-script version to `1.6.0` and run `npm install` it if you see coffee-script errors.
 
 
 ### Contributing
