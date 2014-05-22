@@ -3,12 +3,14 @@
 Swagger Editor lets you edit API specifications in YAML inside your browser and to preview documentations in real time.
 Valid Swagger JSON descriptions can then be generated and used with the full Swagger tooling (code generation, documentation, etc).
 
-[Click Here](http://wordnik.github.io/swagger-editor) to try it now.
+To understand how it works, you should [try the live demo](http://wordnik.github.io/swagger-editor)!
 
 ## YAML Syntax
 Expect the syntax to evolve quickly! (Note: the initial simplified syntax can be found under app/spec-files/consolidated.yaml if not available at launch.)
 
 The idea is to iterate quickly on top of the Swagger 1.2 description format. As part of the Swagger 2.0 working group, the syntax will be a first-class citizen of Swagger 2.0. Visit http://swagger.wordnik.com to learn more or to get involved.
+
+![Screenshot of the Swagger Editor](https://blog.apigee.com/sites/blog/files/SwaggerEditor.png "Designing an API with the Swagger Editor")
 
 ## Running Locally
 
