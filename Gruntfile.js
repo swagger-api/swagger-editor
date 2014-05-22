@@ -321,7 +321,8 @@ module.exports = function (grunt) {
             'images/{,*/}*.{webp}',
             'images/throbber.gif',
             'fonts/*',
-            'spec-files/*'
+            'spec-files/*',
+            'CNAME'
           ]
         }, {
           expand: true,
