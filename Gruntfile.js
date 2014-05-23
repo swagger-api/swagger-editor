@@ -69,6 +69,10 @@ module.exports = function (grunt) {
           '.tmp/styles/{,*/}*.css',
           '<%= yeoman.app %>/images/{,*/}*.{png,jpg,jpeg,gif,webp,svg}'
         ]
+      },
+      includeSource: {
+        files: ['<%= yeoman.app %>/index.html'],
+        tasks: ['includeSource:server']
       }
     },
 
@@ -354,32 +358,6 @@ module.exports = function (grunt) {
       ]
     },
 
-    // By default, your `index.html`'s <!-- Usemin block --> will take care of
-    // minification. These next options are pre-configured if you do not wish
-    // to use the Usemin blocks.
-    // cssmin: {
-    //   dist: {
-    //     files: {
-    //       '<%= yeoman.dist %>/styles/main.css': [
-    //         '.tmp/styles/{,*/}*.css',
-    //         '<%= yeoman.app %>/styles/{,*/}*.css'
-    //       ]
-    //     }
-    //   }
-    // },
-    // uglify: {
-    //   dist: {
-    //     files: {
-    //       '<%= yeoman.dist %>/scripts/scripts.js': [
-    //         '<%= yeoman.dist %>/scripts/scripts.js'
-    //       ]
-    //     }
-    //   }
-    // },
-    // concat: {
-    //   dist: {}
-    // },
-
     // Test settings
     karma: {
       unit: {
@@ -419,6 +397,23 @@ module.exports = function (grunt) {
         base: 'dist'
       },
       src: ['**']
+    },
+
+    includeSource: {
+      options: {
+        basePath: 'app',
+        baseUrl: '/',
+      },
+      server: {
+        files: {
+          '.tmp/index.html': '<%= yeoman.app %>/index.html'
+        }
+      },
+      dist: {
+        files: {
+          '<%= yeoman.app %>/index.html': '<%= yeoman.app %>/index.html'
+        }
+      }
     }
 
   });
@@ -433,6 +428,7 @@ module.exports = function (grunt) {
     grunt.task.run([
       'clean:server',
       'bowerInstall',
+      'includeSource:dist',
       'compile-swagger',
       'concurrent:server',
       'autoprefixer',
@@ -456,6 +452,7 @@ module.exports = function (grunt) {
 
   grunt.registerTask('build', [
     'clean:dist',
+    'includeSource:dist',
     'bowerInstall',
     'useminPrepare',
     'concurrent:dist',
