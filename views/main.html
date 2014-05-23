@@ -6,9 +6,9 @@
         onChange: aceChanged}"></div></div><!-- <splitter-bar horizontal class="splitter pane" top-pane="ace-editor-wrapper" bottom-pane="help-drawer"></splitter-bar>
     <div class="help-drawer" id="help-drawer">
       <div class="content" ng-include src="'templates/yaml-help.html'"></div>
-    </div> --></div><splitter-bar class="splitter pane" left-pane="ace-editor-pane" right-pane="preview-pane"></splitter-bar><div class="preview pane" id="preview-pane"><div class="invalid-docs" ng-show="invalidDocs" ng-include="" src="'templates/invalid-docs.html'"></div><div class="json-section" ng-show="previewMode == 'json' && !invalidDocs"><div class="editor-wrapper" readonly ui-ace="{
+    </div> --></div><splitter-bar class="splitter pane" left-pane="ace-editor-pane" right-pane="preview-pane"></splitter-bar><div class="preview pane" id="preview-pane"><div class="invalid-docs" ng-show="invalidDocs" ng-include="" src="'templates/invalid-docs.html'"></div><div class="invalid-docs" ng-show="emptyDocs" ng-include="" src="'templates/empty-docs.html'"></div><div class="json-section" ng-show="previewMode == 'json' && !invalidDocs && !emptyDocs"><div class="editor-wrapper" readonly ui-ace="{
         useWrapMode : true,
         theme:'dawn',
         mode: 'json',
         onLoad: jsonPreviewLoaded
-      }"></div></div><div class="swagger-section" ng-show="previewMode == 'html' && !invalidDocs"><div id="swagger-ui-container" class="swagger-ui-wrap"><div class="container" ng-repeat="apiDeclaration in apiDeclarations"><ul id="resources"><resource ng-repeat="resource in apiDeclaration.apisArray" resource="resource"></resource></ul><!-- Footer TODO --></div></div></div></div></main>
+      }"></div></div><div class="swagger-section" ng-show="previewMode == 'html' && !invalidDocs && !emptyDocs"><div id="swagger-ui-container" class="swagger-ui-wrap"><div class="container" ng-repeat="apiDeclaration in apiDeclarations"><ul id="resources"><resource ng-repeat="resource in apiDeclaration.apisArray" resource="resource"></resource></ul><!-- Footer TODO --></div></div></div></div></main>
