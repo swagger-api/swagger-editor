@@ -72,6 +72,7 @@ PhonicsApp.controller('MainCtrl', ['$scope', '$localStorage',
 
     $scope.newProject = function(){
       $scope.editor.getSession().setValue('');
+      $scope.apiDeclarations = [];
       builder.buildDocs($scope);
     };
 
