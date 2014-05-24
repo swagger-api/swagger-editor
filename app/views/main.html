@@ -36,7 +36,7 @@
       <div id="swagger-ui-container" class="swagger-ui-wrap">
         <div class='container' ng-repeat="apiDeclaration in apiDeclarations">
           <ul id='resources'>
-            <resource ng-repeat="resource in apiDeclaration.apisArray" resource="resource"></resource>
+            <resource ng-repeat="resource in apiDeclaration.apis" resource="resource"></resource>
           </ul>
           <!-- Footer TODO -->
         </div>

@@ -1,6 +1,39 @@
 'use strict';
 
 
+function sanetizeSwaggerUiObject (swaggerUi){
+  var schema = {
+
+    apisArray: [{
+      name: true,
+      id: true,
+
+      operationsArray: [{
+        method: true,
+        parentId: true,
+        nickname: true,
+        notes: true,
+        authorizations: true,
+        type: true,
+        produces: true,
+        parameters: [{
+          type: true,
+          name: true,
+          paramType: true,
+          defaultValue: true,
+          required: true
+        }],
+        models: [{
+          name: true,
+          properties: true
+        }]
+      }]
+    }]
+  };
+
+  return _.deepPick(swaggerUi.api, schema);
+}
+
 function buildapiDeclarationDocs(declraton){
   var swaggerUi = null;
   swaggerUi = new SwaggerUi({
@@ -9,7 +42,7 @@ function buildapiDeclarationDocs(declraton){
   });
 
   swaggerUi.load(JSON.stringify(declraton));
-  return _.clone(swaggerUi.api);
+  return sanetizeSwaggerUiObject(swaggerUi);
 }
 
 PhonicsApp.value('builderHelper', {
@@ -25,7 +58,7 @@ PhonicsApp.value('builderHelper', {
       return;
     }
     if(json && Array.isArray(json.apiDeclarations)){
-      $scope.apiDeclarations = json.apiDeclarations.map(buildapiDeclarationDocs);
+      $scope.apiDeclarations = json.apiDeclarations; //.map(buildapiDeclarationDocs);
     }
   }
 });

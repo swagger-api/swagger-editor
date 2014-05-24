@@ -2,7 +2,7 @@
 
 PhonicsApp.directive('signature', function(){
   function getSampleJSON(type, models) {
-    return SwaggerOperation.prototype.getSampleJSON(type, models);
+    return '{todo: true}';
   }
 
   function getListType(type){
@@ -14,6 +14,7 @@ PhonicsApp.directive('signature', function(){
   }
 
   function isPrimitive(type, models){
+    return true; //TODO
     var listType = getListType(type);
     if(listType) { type = listType; }
     return typeof models[type] !== 'object';

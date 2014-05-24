@@ -36,7 +36,8 @@
     "karma-ng-html2js-preprocessor": "~0.1.0",
     "grunt-contrib-coffee": "~0.10.1",
     "grunt-contrib-handlebars": "~0.8.0",
-    "grunt-gh-pages": "~0.9.1"
+    "grunt-gh-pages": "~0.9.1",
+    "deep_pick": "0.0.4"
   },
   "engines": {
     "node": ">=0.10.0"
