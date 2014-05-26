@@ -34,8 +34,6 @@
     "grunt-karma": "~0.8.3",
     "karma": "~0.12.14",
     "karma-ng-html2js-preprocessor": "~0.1.0",
-    "grunt-contrib-coffee": "~0.10.1",
-    "grunt-contrib-handlebars": "~0.8.0",
     "grunt-gh-pages": "~0.9.1",
     "deep_pick": "0.0.4"
   },
@@ -43,7 +41,6 @@
     "node": ">=0.10.0"
   },
   "scripts": {
-    "test": "echo 'tests are coming soon!'",
-    "fix-coffee": "sh ./scripts/fix_coffee.sh"
+    "test": "echo 'tests are coming soon!'"
   }
 }
