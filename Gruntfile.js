@@ -49,11 +49,6 @@ module.exports = function (grunt) {
       gruntfile: {
         files: ['Gruntfile.js']
       },
-      coffee: {
-        files: ['<%= yeoman.app %>/{,*/}*.coffee', '<%= yeoman.app %>/swagger-ui/main/coffeescript/*.coffee',
-        '<%= yeoman.app %>/swagger-ui/main/coffeescript/views/*.coffee'],
-        tasks: ['coffee:compile']
-      },
       handlebars: {
         files: ['<%= yeoman.app %>/{,*/}*.handlebars', '<%= yeoman.app %>/swagger-ui/main/template/*.handlebars'],
         tasks: ['handlebars:compile']
@@ -64,7 +59,6 @@ module.exports = function (grunt) {
         },
         files: [
           '<%= yeoman.app %>/{,*/}*.html',
-          '<%= yeoman.app %>/{,*/}*.coffee',
           '<%= yeoman.app %>/{,*/}*.handlebars',
           '.tmp/styles/{,*/}*.css',
           '<%= yeoman.app %>/images/{,*/}*.{png,jpg,jpeg,gif,webp,svg}'
@@ -389,32 +383,6 @@ module.exports = function (grunt) {
       }
     },
 
-    coffee: {
-      compile: {
-        options: { join: true },
-        files: {
-          '<%= yeoman.app %>/libs/swagger-ui.js': [
-            '<%= yeoman.app %>/swagger-ui/main/coffeescript/SwaggerUi.coffee',
-            '<%= yeoman.app %>/swagger-ui/main/coffeescript/view/*.coffee'
-          ]
-        }
-      }
-    },
-
-    handlebars: {
-      compile: {
-        options: {
-          namespace: 'Handlebars.templates',
-          processName: function(filename){
-            return filename.replace('app/swagger-ui/main/template/', '').replace('.handlebars', '');
-          }
-        },
-        files: {
-          '<%= yeoman.app %>/libs/swagger-templates.js': '<%= yeoman.app %>/swagger-ui/main/template/*.handlebars',
-        }
-      }
-    },
-
     'gh-pages': {
       options: {
         base: 'dist'
@@ -424,7 +392,6 @@ module.exports = function (grunt) {
 
   });
 
-  grunt.registerTask('compile-swagger', ['coffee:compile', 'handlebars:compile']);
 
   grunt.registerTask('serve', function (target) {
     if (target === 'dist') {
@@ -434,7 +401,6 @@ module.exports = function (grunt) {
     grunt.task.run([
       'clean:server',
       'bowerInstall',
-      'compile-swagger',
       'concurrent:server',
       'autoprefixer',
       'connect:livereload',
@@ -461,7 +427,6 @@ module.exports = function (grunt) {
     'useminPrepare',
     'concurrent:dist',
     'autoprefixer',
-    'compile-swagger',
     'concat',
     'ngmin',
     'copy:dist',
