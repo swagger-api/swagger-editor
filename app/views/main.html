@@ -1,46 +1,4 @@
-<header class="main-header" ng-include src="'templates/main-header.html'"></header>
-<main ui-view class="container">
-  <div class="ace pane ace-editor" id="ace-editor-pane">
-    <div id="ace-editor-wrapper" class="ace-editor-wrapper">
-      <header class="editor-header" ng-include src="'templates/editor-header.html'">
-      </header>
-      <div class="editor-error-message" ng-show="!!editorErrorMessage.length">
-        <pre>{{editorErrorMessage}}</pre>
-      </div>
-      <div class="editor-wrapper" ui-ace="{
-        useWrapMode : true,
-        theme:'atom_dark',
-        mode: 'yaml',
-        onLoad: aceLoaded,
-        onChange: aceChanged}">
-      </div>
-    </div>
-    <!-- <splitter-bar horizontal class="splitter pane" top-pane="ace-editor-wrapper" bottom-pane="help-drawer"></splitter-bar>
-    <div class="help-drawer" id="help-drawer">
-      <div class="content" ng-include src="'templates/yaml-help.html'"></div>
-    </div> -->
-  </div>
-  <splitter-bar class="splitter pane" left-pane="ace-editor-pane" right-pane="preview-pane"></splitter-bar>
-  <div class="preview pane" id="preview-pane">
-    <div class="invalid-docs" ng-show="invalidDocs" ng-include src="'templates/invalid-docs.html'"></div>
-    <div class="invalid-docs" ng-show="emptyDocs" ng-include src="'templates/empty-docs.html'"></div>
-    <div class="json-section" ng-show="previewMode == 'json' && !invalidDocs && !emptyDocs">
-      <div class="editor-wrapper" readonly="true" ui-ace="{
-        useWrapMode : true,
-        theme:'dawn',
-        mode: 'json',
-        onLoad: jsonPreviewLoaded
-      }"></div>
-    </div>
-    <div class="swagger-section" ng-show="previewMode == 'html' && !invalidDocs && !emptyDocs">
-      <div id="swagger-ui-container" class="swagger-ui-wrap">
-        <div class='container' ng-repeat="apiDeclaration in apiDeclarations">
-          <ul id='resources'>
-            <resource ng-repeat="resource in apiDeclaration.apis" resource="resource"></resource>
-          </ul>
-          <!-- Footer TODO -->
-        </div>
-      </div>
-    </div>
-  </div>
+<header ui-view="header" class="main-header"></header>
+<main class="container">
+  <div ui-view="editor"></div>
 </main>

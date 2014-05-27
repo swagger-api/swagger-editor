@@ -1,0 +1,20 @@
+<div class="ace pane ace-editor" id="ace-editor-pane">
+  <div id="ace-editor-wrapper" class="ace-editor-wrapper">
+    <header class="editor-header" ng-include src="'templates/editor-header.html'">
+    </header>
+    <div class="editor-error-message" ng-show="!!editorErrorMessage.length">
+      <pre>{{editorErrorMessage}}</pre>
+    </div>
+    <div class="editor-wrapper" ui-ace="{
+      useWrapMode : true,
+      theme:'atom_dark',
+      mode: 'yaml',
+      onLoad: aceLoaded,
+      onChange: aceChanged}">
+    </div>
+  </div>
+  <!-- <splitter-bar horizontal class="splitter pane" top-pane="ace-editor-wrapper" bottom-pane="help-drawer"></splitter-bar>
+  <div class="help-drawer" id="help-drawer">
+    <div class="content" ng-include src="'templates/yaml-help.html'"></div>
+  </div> -->
+</div>

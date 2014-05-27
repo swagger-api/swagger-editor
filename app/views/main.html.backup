@@ -1,0 +1,23 @@
+<splitter-bar class="splitter pane" left-pane="ace-editor-pane" right-pane="preview-pane"></splitter-bar>
+<div class="preview pane" id="preview-pane">
+  <div class="invalid-docs" ng-show="invalidDocs" ng-include src="'templates/invalid-docs.html'"></div>
+  <div class="invalid-docs" ng-show="emptyDocs" ng-include src="'templates/empty-docs.html'"></div>
+  <div class="json-section" ng-show="previewMode == 'json' && !invalidDocs && !emptyDocs">
+    <div class="editor-wrapper" readonly="true" ui-ace="{
+      useWrapMode : true,
+      theme:'dawn',
+      mode: 'json',
+      onLoad: jsonPreviewLoaded
+    }"></div>
+  </div>
+  <div class="swagger-section" ng-show="previewMode == 'html' && !invalidDocs && !emptyDocs">
+    <div id="swagger-ui-container" class="swagger-ui-wrap">
+      <div class='container' ng-repeat="apiDeclaration in apiDeclarations">
+        <ul id='resources'>
+          <resource ng-repeat="resource in apiDeclaration.apis" resource="resource"></resource>
+        </ul>
+        <!-- Footer TODO -->
+      </div>
+    </div>
+  </div>
+</div>
