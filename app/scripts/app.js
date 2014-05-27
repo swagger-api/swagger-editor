@@ -4,23 +4,27 @@ window.PhonicsApp = angular.module('PhonicsApp', [
   'ngCookies',
   'ngResource',
   'ngSanitize',
-  'ngRoute',
+  'ui.router',
   'ui.ace',
   'ngStorage'
 ]);
 
-PhonicsApp.config(['$routeProvider', '$compileProvider', function ($routeProvider, $compileProvider) {
-    $routeProvider
-      .when('/', {
+PhonicsApp.config([
+  '$compileProvider',
+  '$stateProvider',
+  '$urlRouterProvider',
+  function (
+    $compileProvider,
+    $stateProvider,
+    $urlRouterProvider
+  ) {
+    $urlRouterProvider.otherwise('/main');
+
+    $stateProvider
+      .state('main', {
+        url: '/main',
         templateUrl: 'views/main.html',
         controller: 'MainCtrl'
-      })
-      .when('/:resource/:id', {
-        templateUrl: 'views/main.html',
-        controller: 'MainCtrl'
-      })
-      .otherwise({
-        redirectTo: '/'
       });
 
     $compileProvider.aHrefSanitizationWhitelist('blob:http');
