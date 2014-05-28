@@ -32,8 +32,9 @@ PhonicsApp.config([
           'editor@home': { templateUrl: 'views/editor/editor.html' },
           'preview@home': { templateUrl: 'views/preview/preview.html' }
         }
-      })
+      });
 
 
     $compileProvider.aHrefSanitizationWhitelist('blob:http');
-  }]);
+  }
+]);
