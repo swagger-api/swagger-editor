@@ -21,17 +21,18 @@ PhonicsApp.config([
     $urlRouterProvider.otherwise('/');
 
     $stateProvider
-      .state('main', {
+      .state('home', {
         url: '/',
-        templateUrl: 'views/main.html',
-        controller: 'MainCtrl',
+        views: {
+          '': {
+            templateUrl: 'views/main.html',
+            controller: 'MainCtrl'
+          },
+          'header@home': { templateUrl: 'views/header/header.html' },
+          'editor@home': { templateUrl: 'views/editor/editor.html' },
+          'preview@home': { templateUrl: 'views/preview/preview.html' }
+        }
       })
-      .state('main.header', {
-        templateUrl: 'views/header/header.html'
-      })
-      .state('main.editor', {
-        templateUrl: 'views/editor/editor.html'
-      });
 
 
     $compileProvider.aHrefSanitizationWhitelist('blob:http');
