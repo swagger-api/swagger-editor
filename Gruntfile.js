@@ -185,6 +185,7 @@ module.exports = function (grunt) {
       },
       dist: {
         options: {
+          cssDir: '<%= yeoman.dist %>/styles',
           generatedImagesDir: '<%= yeoman.dist %>/images/generated'
         }
       },
