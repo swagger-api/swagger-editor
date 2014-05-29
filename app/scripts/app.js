@@ -40,11 +40,7 @@ PhonicsApp.config([
         url: ':apiDeclaritionId',
         views: {
           'preview@home': {
-            controller: function($scope ,$stateParams){
-              $scope.apiDeclarations = [
-                $scope.$parent.apiDeclarations[$stateParams.apiDeclaritionId]
-              ];
-            },
+            controller: 'ApiDeclarationCtrl',
             templateUrl: 'views/preview/preview.html'
           }
         }
