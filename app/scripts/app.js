@@ -28,9 +28,25 @@ PhonicsApp.config([
             templateUrl: 'views/main.html',
             controller: 'MainCtrl'
           },
-          'header@home': { templateUrl: 'views/header/header.html' },
+          'header@home': {
+            templateUrl: 'views/header/header.html',
+            controller: 'HeaderCtrl'
+          },
           'editor@home': { templateUrl: 'views/editor/editor.html' },
           'preview@home': { templateUrl: 'views/preview/preview.html' }
+        }
+      })
+      .state('home.apiDeclarition', {
+        url: ':apiDeclaritionId',
+        views: {
+          'preview@home': {
+            controller: function($scope ,$stateParams){
+              $scope.apiDeclarations = [
+                $scope.$parent.apiDeclarations[$stateParams.apiDeclaritionId]
+              ];
+            },
+            templateUrl: 'views/preview/preview.html'
+          }
         }
       });
 

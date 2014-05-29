@@ -18,6 +18,7 @@ function loadPreDefinedSpecs(fileName){
 PhonicsApp.controller('MainCtrl', ['$scope', '$localStorage',
   'wrap', 'editorHelper', 'downloadHelper', 'builderHelper',
   function ($scope, $localStorage, wrap, editorHelper, download, builder) {
+    $scope.blah = '!';
     $scope.editor = null;
     $scope.jsonPreview = null;
     $scope.previewMode = 'html';
