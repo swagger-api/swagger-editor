@@ -18,80 +18,79 @@ function loadPreDefinedSpecs(fileName){
 PhonicsApp.controller('MainCtrl', ['$scope', '$localStorage',
   'wrap', 'editorHelper', 'downloadHelper', 'builderHelper',
   function ($scope, $localStorage, wrap, editorHelper, download, builder) {
-    $scope.blah = '!';
-    $scope.editor = null;
-    $scope.jsonPreview = null;
+    var editor = null;
+    var jsonPreview = null;
     $scope.previewMode = 'html';
     $scope.editorErrorMessage = '';
     $scope.invalidDocs = false;
     $scope.emptyDocs = false;
 
-    $scope.aceLoaded = function(editor) {
-      $scope.editor = editor;
+    $scope.aceLoaded = function(e) {
+      editor = e;
       $(document).on('pane-resize', editor.resize.bind(editor));
       if($localStorage.cache){
         editor.getSession().setValue($localStorage.cache);
       } else {
         return $scope.resetSpec();
       }
-      builder.buildDocs($scope);
+      builder.buildDocs($scope, editor.getSession().getValue());
     };
 
-    $scope.jsonPreviewLoaded = function(jsonPreview){
-      $scope.jsonPreview = jsonPreview;
+    $scope.jsonPreviewLoaded = function(e){
+      jsonPreview = e;
     };
 
     $scope.aceChanged = function() {
       $scope.invalidDocs = false;
       $scope.emptyDocs = false;
       var error = null;
-      var value = $scope.editor.getSession().getValue();
+      var value = editor.getSession().getValue();
       $localStorage.cache = value;
       if(!value){
         $scope.emptyDocs = true;
         return;
       }
 
-      error = editorHelper.annotateYAMLErrors($scope.editor);
+      error = editorHelper.annotateYAMLErrors(editor);
       if(error) {
         $scope.invalidDocs = true;
         return;
       }else{
         $scope.editorErrorMessage = '';
       }
-      builder.buildDocs($scope);
+      builder.buildDocs($scope, editor.getSession().getValue());
     };
 
     $scope.switchPreviewMode = function(language){
       $scope.previewMode = language;
       if(language === 'json'){
-        $scope.jsonPreview.getSession().setValue(getJsonString($scope.editor));
+        $scope.jsonPreview.getSession().setValue(getJsonString(editor));
       }
     };
 
     $scope.jsonLoaded = function(){};
 
     $scope.newProject = function(){
-      $scope.editor.getSession().setValue('');
+      editor.getSession().setValue('');
       $scope.apiDeclarations = [];
-      builder.buildDocs($scope);
+      builder.buildDocs($scope, editor.getSession().getValue());
     };
 
     $scope.resetSpec = function(){
       loadPreDefinedSpecs('default_full').then(function(yaml){
         $localStorage.cache = yaml;
-        $scope.editor.getSession().setValue(yaml);
+        editor.getSession().setValue(yaml);
         builder.buildDocs($scope);
       });
     };
 
     $scope.assignDownloadHrefs = function(){
-      download.assignDownloadHrefs($scope);
+      download.assignDownloadHrefs($scope, editor, jsonPreview);
     };
 
     $scope.generateZip = function(type, kind){
       var url = 'http://generator.wordnik.com/online/api/gen/' + type + '/' + kind;
-      var specs = jsyaml.load($scope.editor.getSession().getValue());
+      var specs = jsyaml.load(editor.getSession().getValue());
       specs = wrap.model(specs);
       specs = wrap.opts(specs);
       download.getZipFile(url, specs);
