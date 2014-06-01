@@ -34,8 +34,7 @@
     "grunt-karma": "~0.8.3",
     "karma": "~0.12.14",
     "karma-ng-html2js-preprocessor": "~0.1.0",
-    "grunt-gh-pages": "~0.9.1",
-    "deep_pick": "0.0.4"
+    "grunt-gh-pages": "~0.9.1"
   },
   "engines": {
     "node": ">=0.10.0"
