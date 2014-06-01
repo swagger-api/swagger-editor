@@ -47,6 +47,6 @@ PhonicsApp.config([
       });
 
 
-    $compileProvider.aHrefSanitizationWhitelist('blob:http');
+    $compileProvider.aHrefSanitizationWhitelist('.');
   }
 ]);
