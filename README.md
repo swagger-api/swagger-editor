@@ -22,10 +22,10 @@ The idea is to iterate quickly on top of the Swagger 1.2 description format. As 
 
 #### Clone the repository and install packages
 
-    git clone git@github.com:wordnik/phonics.git
+    git clone git@github.com:wordnik/swagger-editor.git
+    cd swagger-editor
     npm install
     bower install
-    npm run fix-coffee
     grunt serve
 
 This will open a browser window running current development version.
