@@ -30,22 +30,30 @@ PhonicsApp.controller('MainCtrl', ['$scope', '$localStorage',
       $(document).on('pane-resize', editor.resize.bind(editor));
       if($localStorage.cache){
         editor.getSession().setValue($localStorage.cache);
+        builder.buildDocs($scope, $localStorage.cache);
       } else {
-        return $scope.resetSpec();
+        $scope.resetSpec();
       }
-      builder.buildDocs($scope, editor.getSession().getValue());
     };
 
     $scope.jsonPreviewLoaded = function(e){
       jsonPreview = e;
     };
 
+    function saveToLocalStorage(value){
+      _.debounce(function(){
+        window.requestAnimationFrame(function(){
+          $localStorage.cache = value;
+        });
+      },500);
+    }
+
     $scope.aceChanged = function() {
       $scope.invalidDocs = false;
       $scope.emptyDocs = false;
       var error = null;
       var value = editor.getSession().getValue();
-      $localStorage.cache = value;
+      saveToLocalStorage(value);
       if(!value){
         $scope.emptyDocs = true;
         return;
@@ -73,14 +81,14 @@ PhonicsApp.controller('MainCtrl', ['$scope', '$localStorage',
     $scope.newProject = function(){
       editor.getSession().setValue('');
       $scope.apiDeclarations = [];
-      builder.buildDocs($scope, editor.getSession().getValue());
+      builder.buildDocs($scope, '');
     };
 
     $scope.resetSpec = function(){
       loadPreDefinedSpecs('default_full').then(function(yaml){
         $localStorage.cache = yaml;
         editor.getSession().setValue(yaml);
-        builder.buildDocs($scope);
+        builder.buildDocs($scope, editor.getSession().getValue());
       });
     };
 
