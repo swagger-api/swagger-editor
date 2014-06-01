@@ -2,13 +2,15 @@
 
 PhonicsApp.controller('ApiDeclarationCtrl',
   [
-    '$scope', '$stateParams', '$state',
-    function ApiDeclarationCtrl($scope ,$stateParams,$state){
-      var id = +$stateParams.apiDeclaritionId - 1;
-      if($scope.$parent.apiDeclarations[id]){
-        $scope.apiDeclarations = [
-          $scope.$parent.apiDeclarations[id]
-        ];
+    '$scope', '$stateParams', '$state', 'getResourceNameFilter',
+    function ApiDeclarationCtrl($scope, $stateParams, $state, getResourceName){
+      var name = $stateParams.apiDeclaritionId;
+      if(Array.isArray($scope.$parent.apiDeclarations)){
+        $scope.$parent.apiDeclarations.forEach(function(resource){
+          if(getResourceName(resource) === name){
+            $scope.apiDeclarations = [resource];
+          }
+        });
       }else{
         $state.go('home');
       }
