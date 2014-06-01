@@ -1,4 +1,4 @@
-<div class="preview pane" id="preview-pane">
+<div class="preview pane">
   <div class="invalid-docs" ng-show="invalidDocs" ng-include src="'templates/invalid-docs.html'"></div>
   <div class="invalid-docs" ng-show="emptyDocs" ng-include src="'templates/empty-docs.html'"></div>
   <div class="json-section" ng-show="previewMode == 'json' && !invalidDocs && !emptyDocs">
@@ -11,9 +11,9 @@
   </div>
   <div class="swagger-section" ng-show="previewMode == 'html' && !invalidDocs && !emptyDocs">
     <div id="swagger-ui-container" class="swagger-ui-wrap">
-      <div class='container' ng-repeat="apiDeclaration in apiDeclarations">
+      <div class='container'>
         <ul id='resources'>
-          <resource ng-repeat="resource in apiDeclaration.apis" resource="resource"></resource>
+          <resource ng-repeat="resource in apiDeclarations" resource="resource"></resource>
         </ul>
         <!-- Footer TODO -->
       </div>

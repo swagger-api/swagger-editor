@@ -1,8 +1,7 @@
 <li class="resource">
   <div class='heading'>
     <h2>
-      <a ng-click="collapsed = !collapsed">{{resource.path}}</a>
-      :
+      <a ng-click="collapsed = !collapsed">{{resource.resourcePath}}</a> : {{resource.description}}
     </h2>
     <ul class='options'>
       <li>
@@ -21,7 +20,9 @@
   <ul class='endpoints' ng-class="{collapsed: collapsed}">
     <li class="endpoint">
       <ul class='operations'>
-        <operation ng-repeat="operation in resource.operations"></operation>
+        <div ng-repeat="api in resource.apis">
+          <operation ng-repeat="operation in api.operations"></operation>
+        </div>
       </ul>
     </li>
   </ul>
