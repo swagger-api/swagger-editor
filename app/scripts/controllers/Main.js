@@ -15,9 +15,9 @@ function loadPreDefinedSpecs(fileName){
 }
 
 
-PhonicsApp.controller('MainCtrl', ['$scope', '$localStorage',
+PhonicsApp.controller('MainCtrl', ['$scope', '$rootScope', '$localStorage',
   'wrap', 'editorHelper', 'downloadHelper', 'builderHelper',
-  function ($scope, $localStorage, wrap, editorHelper, download, builder) {
+  function ($scope, $rootScope, $localStorage, wrap, editorHelper, download, builder) {
     var editor = null;
     var jsonPreview = null;
     $scope.previewMode = 'html';
@@ -25,8 +25,11 @@ PhonicsApp.controller('MainCtrl', ['$scope', '$localStorage',
     $scope.invalidDocs = false;
     $scope.emptyDocs = false;
 
-    $scope.aceLoaded = function(e) {
-      editor = e;
+    $rootScope.$on('$stateChangeStart', function(){
+      initializeEditor(editor);
+    });
+
+    function initializeEditor(editor){
       $(document).on('pane-resize', editor.resize.bind(editor));
       if($localStorage.cache){
         editor.getSession().setValue($localStorage.cache);
@@ -34,6 +37,11 @@ PhonicsApp.controller('MainCtrl', ['$scope', '$localStorage',
       } else {
         $scope.resetSpec();
       }
+    }
+
+    $scope.aceLoaded = function(e) {
+      editor = e;
+      initializeEditor(editor);
     };
 
     $scope.jsonPreviewLoaded = function(e){
