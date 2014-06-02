@@ -48,6 +48,10 @@ PhonicsApp.controller('MainCtrl', ['$scope', '$localStorage',
       },500);
     }
 
+    $scope.setEditorValue = function(value){
+      editor.getSession().setValue(value);
+    };
+
     $scope.aceChanged = function() {
       $scope.invalidDocs = false;
       $scope.emptyDocs = false;
