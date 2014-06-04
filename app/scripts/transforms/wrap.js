@@ -1,49 +1,27 @@
 'use strict';
 
-// FIXME how we should generate properties in this object based on document?
+function getResourceAndDescription(apiDeclaration){
+  return {
+    resourcePath: apiDeclaration.resourcePath,
+    description: apiDeclaration.description
+  };
+}
+
 PhonicsApp.value('wrap', {
   model: function model(specs) {
     return {
       model: {
         apiDeclarations: specs.apiDeclarations,
-        apiVersion: '5.0.0-D0',
-        swaggerVersion: '1.2',
-        authorizations: {
-          oauth2:{
-            type: 'oauth2',
-            scopes:{
-              scope: 'write',
-              description: 'write to your albums'
-            },
-            grantTypes:{
-              implicit:{
-                loginEndpoint:{
-                  url: 'http://petstore.swagger.wordnik.com/oauth/dialog'
-                },
-                tokenName: 'access_token'
-              }
-            }
-          }
-        },
-        apis: [
-          {
-            path: '/users',
-            description: 'Users API'
-          },
-          {
-            path: '/albums',
-            description: 'Albums API'
-          },
-          {
-            path: '/sample',
-            description: 'A sample API'
-          }
-        ]
+        apiVersion: specs.apiVersion,
+        swaggerVersion: specs.swaggerVersion,
+        authorizations: specs.authorizations,
+        apis: specs.apiDeclarations.map(getResourceAndDescription),
       }
     };
   },
 
   opts: function opts(specs){
+    // FIXME Swagger Specs should not include opts option
     return _.extend(specs, {
       opts:{
         properties: {
