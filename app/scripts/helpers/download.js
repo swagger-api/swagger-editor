@@ -15,11 +15,13 @@ PhonicsApp.value('downloadHelper', {
     });
   },
 
-  assignDownloadHrefs: function assignDownloadHrefs($scope, editor, jsonPreview){
+  assignDownloadHrefs: function assignDownloadHrefs($scope, editor){
     var MIME_TYPE = 'text/plain';
 
     // JSON
-    var jsonBlob = new Blob([jsonPreview.getSession().getValue()], {type: MIME_TYPE});
+    var json = jsyaml.load(editor.getSession().getValue());
+    var prettyJson = JSON.stringify(json, null, 2);
+    var jsonBlob = new Blob([prettyJson], {type: MIME_TYPE});
     $scope.jsonDownloadHref = window.URL.createObjectURL(jsonBlob);
     $scope.jsonDownloadUrl = [MIME_TYPE, 'spec.json', $scope.jsonDownloadHref].join(':');
 
