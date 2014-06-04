@@ -1,11 +1,11 @@
 <li class="resource">
   <div class='heading'>
     <h2>
-      <a href="#/{{resource | getResourceName}}">{{resource | getResourceName}}</a> : {{resource.description}}
+      <a x-href="#/{{resource | getResourceName}}">{{resource | getResourceName}}</a> : {{resource.description}}
     </h2>
     <ul class='options'>
       <li>
-        <a href='#/{{resource.id}}'
+        <a x-href='#/{{resource.id}}'
         ng-click="collapsed = !collapsed">
           {{collapsed ? 'Show' : 'Hide'}}
         </a>
