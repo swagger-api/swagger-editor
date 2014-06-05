@@ -11,8 +11,8 @@ PhonicsApp.directive('splitterBar', function(){
       function resize(mouseMoveEvent){
         var x = mouseMoveEvent.pageX - $parent.offset().left;
         var y = mouseMoveEvent.pageY - $parent.offset().top;
-        x = |x;
-        y = |y;
+        x = x || window.innerWidth / 2;
+        y = y || window.innerHeight / 2;
         var MIN_SIZE = 100;
         if('horizontal' in $attributes){
           if( y < MIN_SIZE || y > $parent.height() - MIN_SIZE) {
