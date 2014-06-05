@@ -1,0 +1,6 @@
+<div class="preview-wrapper"><div class="invalid-docs" ng-show="invalidDocs" ng-include="" src="'templates/invalid-docs.html'"></div><div class="invalid-docs" ng-show="emptyDocs" ng-include="" src="'templates/empty-docs.html'"></div><div class="json-section" ng-show="previewMode == 'json' && !invalidDocs && !emptyDocs"><div class="editor-wrapper" readonly ui-ace="{
+      useWrapMode : true,
+      theme:'dawn',
+      mode: 'json',
+      onLoad: jsonPreviewLoaded
+    }"></div></div><div class="swagger-section" ng-show="previewMode == 'html' && !invalidDocs && !emptyDocs"><div id="swagger-ui-container" class="swagger-ui-wrap"><div class="container"><ul id="resources"><resource ng-repeat="resource in apiDeclarations" resource="resource"></resource></ul><!-- Footer TODO --></div></div></div></div>

@@ -1,3 +1,25 @@
+apiVersion: 1.0.0
+swaggerVersion: 1.2
+basePath: http://petstore.swagger.wordnik.com/api
+authorizations:
+  oauth2:
+    type: 'oauth2'
+    scopes:
+      scope: 'write'
+      description: 'write to your albums'
+    grantTypes:
+      implicit:
+        loginEndpoint:
+          url: 'http://petstore.swagger.wordnik.com/oauth/dialog'
+        tokenName: 'access_token'
+info:
+  title: Petstore example API
+  description: This is a sample server Petstore server.  You can find out more about Swagger \n    at <a href=\http://swagger.wordnik.com\>http://swagger.wordnik.com</a> or on irc.freenode.net, #swagger.  For this sample,\n    you can use the api key \special-key\ to test the authorization filters
+  termsOfServiceUrl: http://helloreverb.com/terms/
+  contact: apiteam@helloreverb.com
+  license: Creative Commons 4.0 International
+  licenseUrl: http://creativecommons.org/licenses/by/4.0/
+
 apiDeclarations:
   -
     apiVersion: 1
