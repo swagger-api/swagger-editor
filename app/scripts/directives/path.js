@@ -2,19 +2,19 @@
 
 function setOperationsCollapsed(scope, isCollapsed){
   scope.listed = isCollapsed;
-  scope.resource.apis.forEach(function(api){
+  scope.path.apis.forEach(function(api){
     api.operations.forEach(function (operation){
       operation.collapsed = isCollapsed;
     });
   });
 }
 
-PhonicsApp.directive('resource', function(){
+PhonicsApp.directive('path', function(){
   return {
     restrict: 'E',
     replace: true,
-    templateUrl: 'templates/resource.html',
-    scope: { resource: '=' },
+    templateUrl: 'templates/path.html',
+    scope: { path: '=' },
     link: function(scope){
       scope.collapsed = false;
       scope.collapseAll = function(){

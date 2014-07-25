@@ -13,8 +13,8 @@ function buildDocs($scope, value){
     $scope.invalidDocs = true;
     return;
   }
-  if(json && Array.isArray(json.apiDeclarations)){
-    $scope.apiDeclarations = json.apiDeclarations;
+  if(json && json.paths){
+    $scope.paths = json.paths;
     $scope.$digest();
   }
 }
