@@ -13,7 +13,7 @@
     <div id="swagger-ui-container" class="swagger-ui-wrap">
       <div class='container'>
         <ul id='resources'>
-          <path ng-repeat="path in paths" path="path"></path>
+          <path ng-repeat="(pathName, path) in paths" path="path" path-name="pathName"></path>
         </ul>
         <!-- Footer TODO -->
       </div>

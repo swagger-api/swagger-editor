@@ -14,7 +14,10 @@ PhonicsApp.directive('path', function(){
     restrict: 'E',
     replace: true,
     templateUrl: 'templates/path.html',
-    scope: { path: '=' },
+    scope: {
+      path: '=',
+      pathName: '='
+    },
     link: function(scope){
       scope.collapsed = false;
       scope.collapseAll = function(){
