@@ -14,7 +14,23 @@
     }
   }
 
-  .hidden {
-    display: none
+  >section {
+
+    &.json {
+      font-size: .9em;
+    }
+
+    &.table {
+
+    }
+
+    &.hidden {
+      display: none
+    }
+
+    pre {
+      white-space: pre;
+      font-family: monospace;
+    }
   }
 }
