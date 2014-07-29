@@ -1,11 +1,16 @@
 'use strict';
 
 function stringifySchema (schema) {
+  if (!schema)
+    return '';
+
   var str = '';
-  if (schema.type && schema.type === 'array') {
-    str = '[' + stringifySchema(schema.items) + ']';
-  } else {
-    str = '"' + schema.type + '"';
+  if (schema.type) {
+    if (schema.type === 'array') {
+      str = '[' + stringifySchema(schema.items) + ']';
+    } else {
+      str = '"' + schema.type + '"';
+    }
   }
   if (schema.format) {
     str += '(' + schema.format + ')';

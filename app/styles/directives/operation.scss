@@ -58,7 +58,7 @@ li.operation {
     }
   }
 
-  table.params {
+  table.params, table.respns {
     width: 100%;
 
     >thead {
@@ -86,6 +86,19 @@ li.operation {
             font-weight: bold;
             font-size: 1.3em;
             white-space: pre;
+          }
+
+          span.resp-code {
+            border-radius: 3px;
+            color: white;
+            background: #333;
+            padding: 3px 8px;
+            display: inline-block;
+
+            &.green { background: green; }
+            &.red { background: red; }
+            &.blue { background: blue; }
+            &.yellow{ background: gold; }
           }
         }
       }

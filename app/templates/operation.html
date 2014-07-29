@@ -56,8 +56,28 @@
 
     <section class="responses" ng-if="operation.responses">
       <h4>Responses</h4>
-      <div></div>
-      <!-- TODO: responses -->
+      <div>
+        <table class="respns">
+          <thead>
+            <tr>
+              <th>Code</th>
+              <th>Description</th>
+              <th>Schema</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr ng-repeat="(responseCode, response) in operation.responses">
+              <td>
+                <span class="resp-code {{responseCodeClassFor(responseCode)}}">{{responseCode}}</span>
+              </td>
+              <td>{{response.description}}</td>
+              <td>
+                <schema-model schema="response.schema"></schema-model>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
     </section>
 
 
