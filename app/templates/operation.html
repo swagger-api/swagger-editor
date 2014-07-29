@@ -1,19 +1,16 @@
-<li class='{{operation.method | lowercase}} operation'>
-  <div class='heading'>
+<li class='{{operationName | lowercase}} operation'>
+  <header>
     <h3>
-      <span class='http_method'>
-        <a ng-click="operation.collapsed = !operation.collapsed" class="toggleOperation">{{operation.method}}</a>
-      </span>
-      <span class='path'>
-        <a ng-click="operation.collapsed = !operation.collapsed" class="toggleOperation">{{api.path}}</a>
+      <span class='http-method'>
+        <a ng-click="operation.collapsed = !operation.collapsed" class="toggleOperation">{{operationName | uppercase}} {{pathName}}</a>
       </span>
     </h3>
     <ul class='options'>
       <li>
-        <a ng-click="operation.collapsed = !operation.collapsed" class="toggleOperation">{{operation.summary}}</a>
+        <a ng-click="operation.collapsed = !operation.collapsed" class="toggleOperation">{{operation.description}}</a>
       </li>
     </ul>
-  </div>
+  </header>
   <div class='content' ng-class="{collapsed: operation.collapsed}" id='{{operation.parentId}}_{{operation.nickname}}_content'>
     <h4 ng-if="operation.notes">Implementation Notes</h4>
     <p ng-if="operation.notes" ng-bind-html="operation.notes | markdown"></p>

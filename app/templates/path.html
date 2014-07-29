@@ -1,12 +1,11 @@
 <li class="path">
-  <div class='heading'>
+  <header>
     <h2>
       <a href="">{{pathName}}</a>
     </h2>
     <ul class='options'>
       <li>
-        <a x-href='#/{{path.id}}'
-        ng-click="collapsed = !collapsed">
+        <a ng-click="collapsed = !collapsed">
           {{collapsed ? 'Show' : 'Hide'}}
         </a>
       </li>
@@ -16,13 +15,9 @@
         </a>
       </li>
     </ul>
-  </div>
-  <ul class='endpoints' ng-class="{collapsed: collapsed}">
-    <li class="endpoint">
-      <ul class='operations'>
-        <operation ng-repeat="operation in path"></operation>
-      </ul>
-    </li>
+  </header>
+  <ul class='operations' ng-class="{collapsed: collapsed}">
+    <operation ng-repeat="(operationName, operation) in path"></operation>
   </ul>
 </li>
 

@@ -1,0 +1,34 @@
+li.path {
+  padding-bottom: 1.2em;
+
+  >header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    h2 a {
+      font-family: monospace;
+      font-size: 2em;
+      color: #000;
+      text-decoration: none;
+      padding: .2em;
+      font-weight: bold;
+      padding: 0
+    }
+  }
+
+  ul.options {
+    display: flex;
+    a {
+      padding: 0.2em;
+      user-select: none;
+    }
+  }
+
+  ul.operations {
+
+    &.collapsed {
+      display: none;
+    }
+  }
+}

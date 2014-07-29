@@ -1,0 +1,42 @@
+@import "../colors";
+
+@mixin operation-theme($color){
+  border: 1px solid lighten($color, 10%);
+  background: lighten($color, 30%);
+  .http-method{
+    background: darken($color, 20%);
+    color: white;
+  }
+  >header {
+    background: $color;
+  }
+}
+
+li.operation {
+  $border-radius: 5px;
+
+  margin: 0.4em 0 0.8em;
+  border-radius: $border-radius;
+
+  >header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    .http-method {
+      font-size: 1.6em;
+      padding: .3em .5em;
+      display: inline-block;
+      border-top-left-radius: $border-radius;
+      font-weight: normal;
+      font-family: monospace;
+    }
+  }
+
+  @include operation-theme($http-default);
+  &.get { @include operation-theme($http-get); }
+  &.post { @include operation-theme($http-post); }
+  &.delete { @include operation-theme($http-delete); }
+  &.patch { @include operation-theme($http-patch); }
+
+}

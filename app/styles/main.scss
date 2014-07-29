@@ -1,10 +1,11 @@
 $splitter-width: 4px;
 
 @import "reset";
+@import "colors";
 @import "header";
 @import "editor";
 @import "errorMsg";
-
+@import "directives";
 
 html, body {
   height: 100vh;
