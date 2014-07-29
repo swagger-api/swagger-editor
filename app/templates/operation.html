@@ -1,12 +1,16 @@
 <li class='{{operationName | lowercase}} operation'>
   <header>
     <a class='http-method' ng-click="operation.collapsed = !operation.collapsed" class="toggleOperation">{{operationName | uppercase}} {{pathName}}</a>
-    <span class="description" ng-click="collapsed = !collapsed">{{operation.description}}</span>
+    <span class="description" ng-click="collapsed = !collapsed">
+      {{operation.summary || operation.description | limitTo: 140 }}
+    </span>
   </header>
 
-  <div class='content' ng-class="{collapsed: operation.collapsed}" id='{{operation.parentId}}_{{operation.nickname}}_content'>
-    <h4 ng-if="operation.notes">Implementation Notes</h4>
-    <p ng-if="operation.notes" ng-bind-html="operation.notes | markdown"></p>
+  <div class='content' ng-class="{collapsed: collapsed}" >
+    <div class="description" ng-if="operation.description">
+      <h4>Description</h4>
+      <p ng-bind-html="operation.description"></p>
+    </div>
 
 
       <div class="auth" ng-if="false" old-ng-if="operation.authorizations.oauth2">
