@@ -64,18 +64,15 @@ header.main-header {
 
 header.editor-header {
   .toolbar{
-    display: flex;
-    height: 36px;
-    padding-left: 15px;
+    overflow: hidden;
+    padding: 0 15px 5px 15px;
     background: #252525;
     section {
-      flex: 1;
-      display: flex;
       &.left {
-        justify-content: flex-start;
+        float: left;
       }
       &.right {
-        justify-content: flex-end;
+        float: right;
       }
     }
 
