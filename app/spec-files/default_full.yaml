@@ -51,11 +51,11 @@ paths:
           schema:
             type: array
             items:
-              $ref: #/models/Pet
+              $ref: '#/models/Pet'
         default:
           description: unexpected error
           schema:
-            $ref: #/models/Error
+            $ref: '#/models/Error'
     post:
       description: Creates a new pet in the store.  Duplicates are allowed
       operationId: addPet
@@ -65,16 +65,16 @@ paths:
           description: Pet to add to the store
           required: true
           schema:
-            $ref: #/models/NewPet
+            $ref: '#/models/NewPet'
       responses:
         200:
           description: pet response
           schema:
-            $ref: #/models/Pet
+            $ref: '#/models/Pet'
         default:
           description: unexpected error
           schema:
-            $ref: #/models/Error
+            $ref: '#/models/Error'
   /pets/{id}:
     get:
       description: Returns a user based on a single ID, if the user does not have access to the pet
@@ -91,11 +91,11 @@ paths:
         200:
           description: pet response
           schema:
-            $ref: Pet
+            $ref: '#/models/Pet'
         default:
           description: unexpected error
           schema:
-            $ref: Error
+            $ref: '#/models/Error'
     delete:
       description: deletes a single pet based on the ID supplied
       operationId: deletePet
@@ -113,7 +113,7 @@ paths:
         default:
           description: unexpected error
           schema:
-            $ref: Error
+            $ref: '#/models/Error'
 models:
   Pet:
     required:
@@ -129,7 +129,7 @@ models:
         type: string
   NewPet:
     allOf:
-      - $ref: Pet
+      - $ref: '#/models/Pet'
       - required:
           - name
         properties:
