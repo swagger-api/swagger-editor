@@ -58,4 +58,38 @@ li.operation {
     }
   }
 
+  table.params {
+    width: 100%;
+
+    thead {
+      tr {
+        border-bottom: 1px solid gray;
+      }
+      th {
+        padding: 0.3em;
+      }
+    }
+
+    tbody {
+      tr {
+        &:nth-child(odd) {
+          background: rgba(0, 0, 0, 0.05);
+        }
+        &:nth-child(even) {
+          background: rgba(255, 255, 255, 0.05);
+        }
+      }
+      td {
+        padding: 0.3em;
+
+        &.mono {
+          font-family: monospace;
+          font-weight: bold;
+          font-size: 1.3em;
+          white-space: pre;
+        }
+      }
+    }
+  }
+
 }

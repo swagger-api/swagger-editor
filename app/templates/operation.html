@@ -28,7 +28,30 @@
 
     <section class="parameters">
       <h4>Parameters</h4>
-      <div></div>
+      <div>
+        <table class="params">
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Located in</th>
+              <th>Description</th>
+              <th>Required</th>
+              <th>Schema</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr ng-repeat="parameter in operation.parameters">
+              <td class="mono">{{parameter.name}}</td>
+              <td>{{parameter.in}}</td>
+              <td>{{parameter.description}}</td>
+              <td>{{parameter.required ? 'Yes' : 'No'}}</td>
+              <td>
+                <model-schema schema="parameter.schema"></model-schema>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
     </section>
 
     <section class="responses" ng-if="operation.responses">
