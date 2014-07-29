@@ -19,17 +19,21 @@ li.operation {
   border-radius: $border-radius;
 
   >header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
+    overflow: hidden;
 
     .http-method {
       font-size: 1.6em;
-      padding: .3em .5em;
-      display: inline-block;
+      padding: .6em .5em;
+      float: left;
       border-top-left-radius: $border-radius;
       font-weight: normal;
       font-family: monospace;
+      margin-right: .4em;
+    }
+
+    .summary >span{
+      padding: .4em;
+      display: block;
     }
   }
 
