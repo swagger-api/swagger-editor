@@ -384,10 +384,19 @@ module.exports = function (grunt) {
     },
 
     'gh-pages': {
-      options: {
-        base: 'dist'
+      main: {
+        options: {
+          base: 'dist'
+        },
+        src: ['**']
       },
-      src: ['**']
+      preview: {
+        options: {
+          base: 'dist',
+          repo: 'https://github.com/mohsen1/Swagger-Editor-2-Preview.git'
+        },
+        src: ['**']
+      }
     }
 
   });
@@ -444,6 +453,6 @@ module.exports = function (grunt) {
     'build'
   ]);
 
-  grunt.registerTask('ship', ['gh-pages']);
+  grunt.registerTask('ship', ['gh-pages:main']);
 
 };
