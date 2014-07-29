@@ -1,6 +1,6 @@
 @import "../colors";
 
-@mixin operation-theme($color){
+@mixin operation-theme($color) {
   border: 1px solid lighten($color, 10%);
   background: lighten($color, 30%);
   .http-method{
@@ -11,6 +11,8 @@
     background: $color;
   }
 }
+
+
 
 li.operation {
   $border-radius: 5px;
@@ -44,15 +46,16 @@ li.operation {
   &.patch { @include operation-theme($http-patch); }
 
 
-  .description {
+  .content >section {
     margin: 1em;
 
-    >h4{
+    >h4 {
       font-size: 1.4em;
       font-weight: bold;
     }
-    >p{
+    >div {
       margin: .3em 0 .5em;
     }
   }
+
 }

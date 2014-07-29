@@ -8,28 +8,37 @@
     </div>
   </header>
 
-  <div class='content' ng-class="{collapsed: collapsed}" >
-    <div class="description" ng-if="operation.description">
+  <div class='content' ng-class="{collapsed: collapsed}">
+    <section class="description" ng-if="operation.description">
       <h4>Description</h4>
-      <p ng-bind-html="operation.description"></p>
+      <div ng-bind-html="operation.description"></div>
+    </section>
+
+    <!-- TODO: auth
+    <div class="auth" ng-if="false" old-ng-if="operation.authorizations.oauth2">
+        <span class="api-ic ic-error"></span>
+        <div id="api_information_panel" style="position: static; display: inline-block">
+            <div ng-repeat="auth in operation.authorizations.oauth2" title="{{auth.description}}">{{auth.scope}}</div>
+        </div>
     </div>
-
-
-      <div class="auth" ng-if="false" old-ng-if="operation.authorizations.oauth2">
-          <span class="api-ic ic-error"></span>
-          <div id="api_information_panel" style="position: static; display: inline-block">
-              <div ng-repeat="auth in operation.authorizations.oauth2" title="{{auth.description}}">{{auth.scope}}</div>
-          </div>
-      </div>
-
     <div class='access'>
       <span class="api-ic ic-off" title="click to authenticate"></span>
     </div>
-    <div class="type-wrapper" ng-if="operation.type">
-      <h4>Response Class</h4>
-      <p><signature type="operation.type" models="resource.models"></signature></p>
-    </div>
-    <div class="response-content-type" >
+    -->
+
+    <section class="parameters">
+      <h4>Parameters</h4>
+      <div></div>
+    </section>
+
+    <section class="responses" ng-if="operation.responses">
+      <h4>Responses</h4>
+      <div></div>
+      <!-- TODO: responses -->
+    </section>
+
+
+<!--     <div class="response-content-type" >
       <label for="responseContentType">Response Content Type</label>
       <select name="responseContentType">
         <option ng-repeat="produce in operation.produces" value="{{produce}}">{{produce}}</option>
@@ -116,5 +125,5 @@
       <div class='block response_code'></div>
       <h4>Response Headers</h4>
       <div class='block response_headers'></div>
-    </div>
+    </div> -->
 </li>
