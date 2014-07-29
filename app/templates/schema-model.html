@@ -1,3 +1,19 @@
-<div>
-  {{schema.type}}
+<div class="schema-model">
+  <header>
+    <table>
+      <thead>
+        <tr>
+          <th><a ng-click="mode = 'json'" ng-class="{active: mode === 'json'}">JSON</a></th>
+          <th><a ng-click="mode = 'table'" ng-class="{active: mode === 'table'}">Table</a></th>
+        </tr>
+      </thead>
+    </table>
+  </header>
+
+    <div class="json" ng-class="{hidden: mode === 'table'}">
+      {{JSON.stringify(schema)}}
+    </div>
+    <div class="table" ng-class="{hidden: mode === 'json'}">
+      Table
+    </div>
 </div>

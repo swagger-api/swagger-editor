@@ -1,0 +1,20 @@
+.schema-model {
+  >header {
+    a {
+      font-size: .8em;
+      padding: .2em;
+      white-space: pre;
+
+      &.active {
+        font-weight: bold
+      }
+      &:not(.active):hover {
+        background: rgba(0,0,0,0.05);
+      }
+    }
+  }
+
+  .hidden {
+    display: none
+  }
+}

@@ -9,8 +9,8 @@ PhonicsApp
       scope: {
         schema: '='
       },
-      // link: function postLink(scope, element, attrs) {
-      //   element.text('this is the schemaModel directive');
-      // }
+      link: function postLink(scope) {
+        scope.mode = 'table';
+      }
     };
   });
