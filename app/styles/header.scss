@@ -63,10 +63,11 @@ header.main-header {
 }
 
 header.editor-header {
+  background: #252525;
+
   .toolbar{
     min-height: 30px;
     padding: 0 15px 5px 15px;
-    background: #252525;
     section {
       &.left {
         float: left;
