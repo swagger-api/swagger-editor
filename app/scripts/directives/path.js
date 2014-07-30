@@ -1,14 +1,5 @@
 'use strict';
 
-function setOperationsCollapsed(scope, isCollapsed){
-  scope.listed = isCollapsed;
-  scope.path.apis.forEach(function(api){
-    api.operations.forEach(function (operation){
-      operation.collapsed = isCollapsed;
-    });
-  });
-}
-
 PhonicsApp.directive('path', function(){
   return {
     restrict: 'E',
@@ -18,16 +9,14 @@ PhonicsApp.directive('path', function(){
       path: '=',
       pathName: '='
     },
-    link: function(scope){
-      scope.collapsed = false;
-      scope.collapseAll = function(){
-        scope.collapsed = false;
-        setOperationsCollapsed(scope, true);
-      };
-
-      scope.expandAll = function(){
-        scope.collapsed = false;
-        setOperationsCollapsed(scope, false);
+    link: function (scope) {
+      scope.toggleListed = function () {
+        if(scope.pathIsHidden){
+          scope.pathIsHidden = false;
+          scope.pathIsListed = true;
+        } else {
+          scope.pathIsListed = !scope.pathIsListed;
+        }
       };
     }
   };

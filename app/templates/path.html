@@ -1,17 +1,18 @@
-<li class="path">
+<li class="path" ng-init="pathIsListed = false; pathIsHidden = false;">
   <header>
     <h2>
       <a href="">{{pathName}}</a>
     </h2>
     <ul class='options'>
       <li>
-        <a ng-click="collapsed = !collapsed">
-          {{collapsed ? 'Show' : 'Hide'}}
+        <a ng-click="pathIsHidden = !pathIsHidden">
+          {{pathIsHidden ? 'Show' : 'Hide'}}
         </a>
       </li>
       <li>
-        <a ng-click="listed ? expandAll() : collapseAll()">
-          {{listed ? 'Expand Operations' : 'List Operations'}}
+        <a ng-click="toggleListed()">
+          {{pathIsHidden ? 'List Operations' :
+            pathIsListed ? 'Expand Operations' : 'List Operations'}}
         </a>
       </li>
     </ul>

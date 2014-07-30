@@ -22,6 +22,7 @@ li.operation {
 
   >header {
     overflow: hidden;
+    cursor: pointer;
 
     .http-method {
       font-size: 1.6em;
@@ -103,6 +104,16 @@ li.operation {
         }
       }
     }
+  }
+
+  &.collapsed {
+    .content {
+      display: none;
+    }
+  }
+
+  &.hidden {
+    display: none;
   }
 
 }
