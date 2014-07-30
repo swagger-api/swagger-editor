@@ -39,7 +39,7 @@ function stringifySchema (schema) {
     // If this single keyed object just is 'type' it's not
     // custom model.
     if(key !== 'type'){
-      str += key + '{\n' +
+      str += key + ': {\n' +
         stringifySchema(schema[key]) +
         '}';
     }
@@ -51,8 +51,8 @@ function stringifySchema (schema) {
 function buildProperty(property, schema){
   var result = property + ': ' +
     stringifySchema(schema.properties[property]);
-  if(typeof schema.required === 'object' &&  schema.required[property]){
-    result += '<required>';
+  if(typeof schema.required === 'object' &&  schema.required.indexOf(property) > -1){
+    result += ' <required>';
   }
   return result;
 }
