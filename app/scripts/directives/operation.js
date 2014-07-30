@@ -27,6 +27,10 @@ PhonicsApp.directive('operation', [function(){
       scope.toggleCollapsed = function () {
         scope.collapsed = !scope.collapsed;
       };
+
+      scope.showTryOperation = function () {
+        scope.tryIsOpen = !scope.tryIsOpen;
+      };
     }
   };
 }]);

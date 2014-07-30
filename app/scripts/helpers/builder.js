@@ -15,7 +15,7 @@ function buildDocs($scope, value){
   }
   json = resolve(json);
   if(json && json.paths){
-    $scope.paths = json.paths;
+    _.extend($scope, json);
     $scope.$digest();
   }
 }

@@ -1,4 +1,4 @@
-<li class='{{operationName | lowercase}} operation' ng-class="{collapsed: pathIsListed, hidden: pathIsHidden}">
+<li class='{{operationName | lowercase}} operation' ng-class="{collapsed: pathIsListed, hidden: pathIsHidden}" ng-init="tryIsOpen = false">
   <header ng-click="toggleCollapsed()">
     <div class='http-method' ng-click="operation.collapsed = !operation.collapsed" class="toggleOperation">{{operationName | uppercase}} {{pathName}}</div>
     <div class="summary" ng-click="collapsed = !collapsed">
@@ -66,5 +66,10 @@
           </tbody>
         </table>
       </div>
+    </section>
+
+    <section class="try-operation">
+      <h4><a ng-click="showTryOperation()">Try this operation {{tryIsOpen ? '▼' : '►'}}</a></h4>
+      <try-operation operation="operation" ng-if="tryIsOpen"></try-operation>
     </section>
 </li>
