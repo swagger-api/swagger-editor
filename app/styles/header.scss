@@ -64,7 +64,7 @@ header.main-header {
 
 header.editor-header {
   .toolbar{
-    overflow: hidden;
+    min-height: 30px;
     padding: 0 15px 5px 15px;
     background: #252525;
     section {
