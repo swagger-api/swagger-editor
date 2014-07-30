@@ -1,6 +1,6 @@
 'use strict';
 
-PhonicsApp.directive('operation', ['$timeout', function($timeout){
+PhonicsApp.directive('operation', ['$timeout', function(){
   // function requiredFieldsAreFilled (operation){
   //   var allRequiredsFilled = true;
   //   operation.parameters.forEach(function(param){
@@ -54,14 +54,22 @@ PhonicsApp.directive('operation', ['$timeout', function($timeout){
     templateUrl: 'templates/operation.html',
     link: function(scope){
       scope.responseCodeClassFor = function (code) {
-        switch(~~(+code / 100)){
-          case 2: return 'green';
-          case 5: return 'red';
-          case 4: return 'yellow';
-          case 3: return 'blue';
-          default: return 'default';
+        var result = 'default';
+        switch(Math.floor(+code / 100)){
+          case 2:
+            result = 'green';
+            break;
+          case 5:
+            result = 'red';
+            break;
+          case 4:
+            result = 'yellow';
+            break;
+          case 3:
+            result = 'blue';
         }
-      }
+        return result;
+      };
     }
   };
 }]);

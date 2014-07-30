@@ -1,8 +1,9 @@
 'use strict';
 
 function stringifySchema (schema) {
-  if (!schema)
+  if (!schema) {
     return '';
+  }
 
   var str = '';
   if (schema.type) {
