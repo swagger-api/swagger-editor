@@ -97,7 +97,7 @@ PhonicsApp.controller('MainCtrl', ['$scope', '$rootScope', '$localStorage',
     };
 
     $scope.resetSpec = function(){
-      loadPreDefinedSpecs('default_full').then(function(yaml){
+      loadPreDefinedSpecs('default').then(function(yaml){
         $localStorage.cache = yaml;
         editor.getSession().setValue(yaml);
         builder.buildDocs($scope, editor.getSession().getValue());
