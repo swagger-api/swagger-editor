@@ -38,8 +38,8 @@ function resolve(json, root){
 
   var result = {};
   Object.keys(json).forEach(function (key) {
-    if(key === '$ref') {
-      return lookup(json[key], root);
+    if(json[key]['$ref']) {
+      result[key] = lookup(json[key]['$ref'], root);
     } else {
       result[key] = resolve(json[key], root);
     }
