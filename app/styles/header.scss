@@ -62,8 +62,9 @@ header.main-header {
   }
 }
 
-header.editor-header {
-  background: #252525;
+.menu-bar {
+  // background: #252525;
+  width: 100%;
 
   .toolbar{
     min-height: 30px;
