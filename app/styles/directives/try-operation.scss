@@ -69,6 +69,11 @@
   }
 
   .response {
+    .failed-bar {
+      background: red;
+      color: white;
+      padding: .3em;
+    }
     .raw-response {
       white-space: pre;
     }

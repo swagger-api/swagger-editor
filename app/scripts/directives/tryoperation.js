@@ -55,6 +55,8 @@ PhonicsApp.directive('tryOperation', function () {
 
       function makeCall() {
         scope.xhrInProgress = true;
+        scope.failed = false;
+
         $.ajax({
           url: scope.generateUrl(),
           type: scope.$parent.operationName
@@ -64,6 +66,7 @@ PhonicsApp.directive('tryOperation', function () {
         })
 
         .fail(function () {
+          scope.failed = true;
         })
 
         .always(function (resp) {

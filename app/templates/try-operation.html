@@ -50,6 +50,9 @@
 
   <h5>Response</h5>
   <div class="response">
-    <div class="raw-response raw" ng-if="responseText" ng-bind-html="responseText"></div>
+    <div class="failed-bar" ng-if="failed">Failed</div>
+    <div class="raw-response raw" ng-if="responseText">
+     <div ng-bind-html="responseText"></div>
+    </div>
   </div>
 </div>
