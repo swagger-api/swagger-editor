@@ -26,7 +26,7 @@
 
   <h5>Request</h5>
   <div class="request">
-    <div class="raw-request">
+    <div class="raw-request raw">
       <div class="line url">
         {{$parent.operationName | uppercase}} {{generateUrl()}} {{httpProtorcol}}
       </div>
@@ -41,11 +41,15 @@
         <pre ng-bind-html="paramModels.__body_param__"></pre>
       </div>
     </div>
-    <button ng-click="makeCall()" class="{{$parent.operationName}} call">Send {{$parent.operationName | uppercase}}</button>
+    <button ng-click="makeCall()" class="{{$parent.operationName}} call"
+      ng-disabled="xhrInProgress">
+      <span ng-if="xhrInProgress">Sending...</span>
+      <span ng-if="!xhrInProgress">Send {{$parent.$parent.operationName | uppercase}}</span>
+    </button>
   </div>
 
   <h5>Response</h5>
   <div class="response">
-
+    <div class="raw-response raw" ng-if="response" ng-bind-html="response"></div>
   </div>
 </div>

@@ -20,6 +20,7 @@ PhonicsApp.directive('tryOperation', function () {
       scope.generateUrl = generateUrl;
       scope.makeCall = makeCall;
       scope.getContentTypeHeaders = getContentTypeHeaders;
+      scope.xhrInProgress = false;
 
 
       function getContentTypeHeaders() {
@@ -53,7 +54,23 @@ PhonicsApp.directive('tryOperation', function () {
       }
 
       function makeCall() {
-        window.alert('TODO');
+        scope.xhrInProgress = true;
+        $.ajax({
+          url: scope.generateUrl(),
+          type: scope.$parent.operationName
+        }).done(function (resp) {
+          try {
+            scope.response = JSON.stringify(resp, null, 2);
+          } catch (e) {
+            scope.response = resp;
+          }
+          scope.xhrInProgress = false;
+          scope.$digest();
+        }).fail(function (resp) {
+          scope.response = resp;
+          scope.xhrInProgress = false;
+          scope.$digest();
+        });
       }
     }
   };

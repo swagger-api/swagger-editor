@@ -12,6 +12,16 @@
     padding: .5em 0 1em;
   }
 
+  .raw {
+    width: 100%;
+    padding: .4em;
+    background: #eee;
+    font-family: monospace;
+    border: 1px solid rgba(0,0,0,0.02);
+    margin: 1em 0;
+    word-wrap: break-word;
+  }
+
   .parameters {
     table.edit-params {
       width: 100%;
@@ -42,13 +52,6 @@
 
   .request {
     .raw-request {
-      width: 100%;
-      padding: .4em;
-      background: #eee;
-      font-family: monospace;
-      border: 1px solid rgba(0,0,0,0.02);
-      margin: 1em 0;
-      word-wrap: break-word;
     }
 
     button.call {
@@ -66,6 +69,8 @@
   }
 
   .response {
-
+    .raw-response {
+      white-space: pre;
+    }
   }
 }
