@@ -58,16 +58,28 @@ PhonicsApp.directive('tryOperation', function () {
         $.ajax({
           url: scope.generateUrl(),
           type: scope.$parent.operationName
-        }).done(function (resp) {
+        })
+
+        .done(function () {
+        })
+
+        .fail(function () {
+        })
+
+        .always(function (resp) {
+          var text;
           try {
-            scope.response = JSON.stringify(resp, null, 2);
+            text = JSON.stringify(
+              JSON.parse(resp.responseText),
+            null, 2);
           } catch (e) {
-            scope.response = resp;
+            text = resp.responseText;
           }
-          scope.xhrInProgress = false;
-          scope.$digest();
-        }).fail(function (resp) {
-          scope.response = resp;
+          if (text.indexOf('<?xml') === 0) {
+            scope.responseText = $('<div/>').text(text).html();
+          } else {
+            scope.responseText = text;
+          }
           scope.xhrInProgress = false;
           scope.$digest();
         });
