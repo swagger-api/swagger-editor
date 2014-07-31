@@ -1,3 +1,5 @@
+@import "../colors";
+
 @mixin operation-button($color) {
   background: $color;
 }
