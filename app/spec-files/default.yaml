@@ -45,6 +45,10 @@ paths:
           schema:
             type: integer
             format: int32
+        - name: custom-header
+          in: header
+          description: A custom header for testing
+          required: false
       responses:
         200:
           description: pet response

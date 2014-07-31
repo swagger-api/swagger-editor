@@ -1,0 +1,68 @@
+@mixin operation-button($color) {
+  background: $color;
+}
+.try-operation > div {
+  >h5 {
+    font-size: 1.3em;
+  }
+
+  >div {
+    padding: .5em 0 1em;
+  }
+
+  .parameters {
+    table.edit-params {
+      width: 100%;
+
+      td {
+        vertical-align: middle;
+
+        &.required-icon {
+          width: 2em;
+        }
+      }
+
+      .param-name {
+        font-family: monospace;
+        text-align: right;
+        padding: 0.3em 0.6em;
+      }
+
+      textarea, input {
+        -webkit-appearance: none;
+        border: none;
+        display: block;
+        width: 100%;
+        padding: .4em .6em
+      }
+    }
+  }
+
+  .request {
+    .raw-request {
+      width: 100%;
+      padding: .4em;
+      background: #eee;
+      font-family: monospace;
+      border: 1px solid rgba(0,0,0,0.02);
+      margin: 1em 0;
+    }
+
+    button.call {
+      font-size: 1.3em;
+      padding: 0.2em 1em;
+      display: inline-block;
+      border: none;
+      appearance: none;
+      cursor: pointer;
+      &.get { @include operation-button($http-get); }
+      &.post { @include operation-button($http-post); }
+      &.delete { @include operation-button($http-delete); }
+      &.patch { @include operation-button($http-patch); }
+    }
+  }
+
+  .response {
+
+  }
+}

@@ -1,3 +1,35 @@
 <div>
-  <h3>Try {{getHost()}}</h3>
+  <h5>Parameters</h5>
+  <div class="parameters">
+    <table class="edit-params">
+      <tbody>
+        <tr ng-repeat="(paramName, parameter) in $parent.operation.parameters">
+          <td class="required-icon"><span title="Required">{{parameter.required ? '⚑' : ''}}<span></td>
+          <td class="param-name">{{parameter.name}}</td>
+          <td>
+            <input ng-if="parameter.in !== 'body'" type="text" ng-model="paramModels[parameter.name]">
+            <textarea ng-if="parameter.in === 'body'" ng-model="paramModels[parameter.name]"></textarea>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h5>Request</h5>
+  <div class="request">
+    <div class="raw-request">
+      <div class="line url">
+        {{$parent.operationName | uppercase}} {{generateUrl()}} {{httpProtorcol}}
+      </div>
+      <div ng-repeat="(paramName, parameter) in $parent.operation.parameters" ng-if="parameter.in === 'header' && paramModels[parameter.name]">
+        {{parameter.name}}: {{paramModels[parameter.name]}}
+      </div>
+    </div>
+    <button ng-click="makeCall()" class="{{$parent.operationName}} call">Send {{$parent.operationName | uppercase}}</button>
+  </div>
+
+  <h5>Response</h5>
+  <div class="response">
+
+  </div>
 </div>

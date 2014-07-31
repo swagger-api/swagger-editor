@@ -9,10 +9,20 @@ PhonicsApp.directive('tryOperation', function () {
       operation: '='
     },
     link: function postLink(scope) {
-      scope.getHost = function  () {
+      scope.httpProtorcol = 'HTTP/1.1';
+      scope.paramModels = {};
+
+      scope.generateUrl = function  () {
+
         // FIXME: fix this insanity!
-        return scope.$parent.$parent.$parent.$parent.host;
-      }
+        var host = scope.$parent.$parent.$parent.$parent.host;
+
+        return host + scope.$parent.$parent.pathName;
+      };
+
+      scope.makeCall = function () {
+        window.alert('TODO');
+      };
     }
   };
 });
