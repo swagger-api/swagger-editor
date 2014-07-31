@@ -9,10 +9,11 @@ PhonicsApp.directive('tryOperation', function () {
       operation: '='
     },
     link: function postLink(scope) {
+      // FIXME: fix this insanity!
+      var rootScope = scope.$parent.$parent.$parent.$parent;
+
       scope.httpProtorcol = 'HTTP/1.1';
-      scope.paramModels = {
-        // '__content_type__': scope.getContentTypeHeaders()[0]
-      };
+      scope.paramModels = {};
       scope.hasBody = scope.$parent.operation.parameters.some(function (parameter) {
         return parameter.in === 'body';
       });
@@ -25,14 +26,12 @@ PhonicsApp.directive('tryOperation', function () {
         if (scope.$parent.operation.consumes) {
           return scope.$parent.operation.consumes;
         } else {
-          return scope.$parent.$parent.$parent.$parent.consumes;
+          return rootScope.consumes;
         }
       }
 
       function generateUrl () {
-
-        // FIXME: fix this insanity!
-        var host = scope.$parent.$parent.$parent.$parent.host;
+        var host = rootScope.host;
         var path = scope.$parent.$parent.pathName;
         var pathTemplate = _.template(path);
         var pathParams = scope.$parent.operation.parameters.reduce(function (pathParams, parameter) {
