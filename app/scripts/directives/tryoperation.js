@@ -11,6 +11,9 @@ PhonicsApp.directive('tryOperation', function () {
     link: function postLink(scope) {
       scope.httpProtorcol = 'HTTP/1.1';
       scope.paramModels = {};
+      scope.hasBody = scope.$parent.operation.parameters.some(function (parameter) {
+        return parameter.in === 'body';
+      });
 
       scope.generateUrl = function  () {
 
