@@ -28,14 +28,15 @@ PhonicsApp.directive('tryOperation', function () {
           return pathParams;
         }, {});
         var queryParams =  scope.$parent.operation.parameters.reduce(function (queryParams, parameter) {
-          if (parameter.in === 'query') {
+          if (parameter.in === 'query' && scope.paramModels[parameter.name]) {
             queryParams[parameter.name] = scope.paramModels[parameter.name];
           }
           return queryParams;
         }, {});
+        var queryParamsStr = $.param(queryParams);
 
 
-        return host + pathTemplate(pathParams) + $.param(queryParams);
+        return host + pathTemplate(pathParams) + (queryParamsStr ? '?' + queryParamsStr : '');
       };
 
       scope.makeCall = function () {
