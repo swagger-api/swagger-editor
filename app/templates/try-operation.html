@@ -3,6 +3,14 @@
   <div class="parameters">
     <table class="edit-params">
       <tbody>
+        <tr class="content-types">
+          <td class="param-name">
+            Content-Type
+          </td>
+          <td>
+             <select ng-init="contentType = getContentTypeHeaders()[0]" ng-model="contentType" ng-options="option as option for option in getContentTypeHeaders()"></select>
+          </td>
+        </tr>
         <tr ng-repeat="parameter in $parent.operation.parameters">
           <td class="param-name">
             <span class="required-icon" title="Required" ng-if="parameter.required">⚑</span> {{parameter.name}}
@@ -22,8 +30,11 @@
       <div class="line url">
         {{$parent.operationName | uppercase}} {{generateUrl()}} {{httpProtorcol}}
       </div>
+      <div class="content-type-header">
+        Content-Type: {{contentType}}
+      </div>
       <div ng-repeat="parameter in $parent.operation.parameters" ng-if="parameter.in === 'header' && paramModels[parameter.name]">
-        <div>{{parameter.name}}: {{paramModels[parameter.name]}}  </div>
+        <div>{{parameter.name}}: {{paramModels[parameter.name]}}</div>
       </div>
       <div ng-if="hasBody && paramModels.__body_param__">
         <div>&nbsp;</div>
