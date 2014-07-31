@@ -4,8 +4,9 @@
     <table class="edit-params">
       <tbody>
         <tr ng-repeat="parameter in $parent.operation.parameters">
-          <td class="required-icon"><span title="Required">{{parameter.required ? '⚑' : ''}}<span></td>
-          <td class="param-name">{{parameter.name}}</td>
+          <td class="param-name">
+            <span class="required-icon" title="Required" ng-if="parameter.required">⚑</span> {{parameter.name}}
+            </td>
           <td>
             <input ng-if="parameter.in !== 'body'" type="text" ng-model="paramModels[parameter.name]">
             <textarea ng-if="parameter.in === 'body'" ng-model="paramModels.__body_param__"></textarea>
@@ -26,7 +27,7 @@
       </div>
       <div ng-if="hasBody && paramModels.__body_param__">
         <div>&nbsp;</div>
-        {{paramModels.__body_param__}}
+        <pre ng-bind-html="paramModels.__body_param__"></pre>
       </div>
     </div>
     <button ng-click="makeCall()" class="{{$parent.operationName}} call">Send {{$parent.operationName | uppercase}}</button>
