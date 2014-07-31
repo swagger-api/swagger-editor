@@ -67,6 +67,13 @@ PhonicsApp.directive('tryOperation', function () {
         })
 
         .always(function (resp) {
+          if (!resp) {
+            scope.responseText = '';
+            scope.xhrInProgress = false;
+            scope.$digest();
+            return;
+          }
+
           var text;
           try {
             text = JSON.stringify(
