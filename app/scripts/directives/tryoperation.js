@@ -54,6 +54,7 @@ PhonicsApp.directive('tryOperation', function () {
       }
 
       function makeCall() {
+        scope.response = null;
         scope.xhrInProgress = true;
         scope.failed = false;
 
@@ -90,6 +91,8 @@ PhonicsApp.directive('tryOperation', function () {
           } else {
             scope.responseText = text;
           }
+
+          scope.response = resp;
           scope.xhrInProgress = false;
           scope.$digest();
         });

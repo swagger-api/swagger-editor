@@ -51,7 +51,9 @@
   <h5>Response</h5>
   <div class="response">
     <div class="failed-bar" ng-if="failed">Failed</div>
-    <div class="raw-response raw" ng-if="responseText">
+    <div class="raw-response raw" ng-if="response">
+<div class="status">{{httpProtorcol}} {{response.status}} {{response.statusText}}</div>
+<div class="resp-headers">{{response.getAllResponseHeaders()}}</div>
      <div ng-bind-html="responseText"></div>
     </div>
   </div>
