@@ -1,6 +1,8 @@
 'use strict';
 
 PhonicsApp.directive('splitterBar', ['Splitter', function (splitter){
+  var ANIMATION_DURATION = 400;
+
   function registerVerticalPanes ($element) {
     splitter.registerSide('left', $element.offsetLeft);
     splitter.registerSide('right', window.innerWidth - $element.offsetLeft - 4);
@@ -18,19 +20,29 @@ PhonicsApp.directive('splitterBar', ['Splitter', function (splitter){
       }
 
       splitter.addHideListener('left', function () {
-        $('#' + $attributes.leftPane).animate({width: 0}, 500);
+        $('#' + $attributes.leftPane).animate({width: 0}, ANIMATION_DURATION);
+        $('#' + $attributes.rightPane).animate({width: window.innerWidth}, ANIMATION_DURATION);
+        $element.hide();
       });
 
       splitter.addShowListener('left', function (width) {
-        $('#' + $attributes.leftPane).animate({width: width}, 500);
+        $('#' + $attributes.leftPane).animate({width: width}, ANIMATION_DURATION);
+        $('#' + $attributes.rightPane).animate({width: window.innerWidth - width - 4}, ANIMATION_DURATION, function () {
+          $element.show();
+        });
       });
 
       splitter.addHideListener('right', function () {
-        $('#' + $attributes.rightPane).animate({width: 0}, 500);
+        $('#' + $attributes.rightPane).animate({width: 0}, ANIMATION_DURATION);
+        $('#' + $attributes.leftPane).animate({width: window.innerWidth}, ANIMATION_DURATION);
+        $element.hide();
       });
 
       splitter.addShowListener('right', function (width) {
-        $('#' + $attributes.rightPane).animate({width: width}, 500);
+        $('#' + $attributes.rightPane).animate({width: width}, ANIMATION_DURATION);
+        $('#' + $attributes.leftPane).animate({width: window.innerWidth - width}, ANIMATION_DURATION, function () {
+          $element.show();
+        });
       });
 
       function resize(mouseMoveEvent){

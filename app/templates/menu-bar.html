@@ -5,10 +5,12 @@
     <div class="grouped-buttons">
       <button class="toolbar-btn" title="Show/Hide text editor"
         ng-click="togglePane('left')"
-        ng-class="{selected: isPaneVisible('left')}">[</button>
+        ng-class="{selected: isPaneVisible('left')}"
+        ng-disabled="!isPaneVisible('right')">[</button>
       <button class="toolbar-btn" title="Show/Hide preview"
         ng-click="togglePane('right')"
-        ng-class="{selected: isPaneVisible('right')}">]</button>
+        ng-class="{selected: isPaneVisible('right')}"
+        ng-disabled="!isPaneVisible('left')">]</button>
     </div>
 <!--     <dropdown-menu label="Add">
       <a class="toolbar-btn  actionBtn">Endpoint</a>
