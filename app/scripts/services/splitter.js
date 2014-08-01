@@ -20,6 +20,7 @@ PhonicsApp.service('Splitter', function Splitter() {
   this.registerSide = function (side, width, invisible) {
     sides[side].width = width;
     sides[side].visible = !invisible;
+    console.log(arguments);
   };
 
   this.addHideListener = function (side, fn) {
@@ -37,7 +38,7 @@ PhonicsApp.service('Splitter', function Splitter() {
   };
 
   this.showPane = function (side) {
-     sides[side].showListeners.forEach(function (listener) {
+    sides[side].showListeners.forEach(function (listener) {
       listener(sides[side].width);
     });
   };
