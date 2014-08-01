@@ -33,8 +33,8 @@
       <div class="content-type-header">
         Content-Type: {{contentType}}
       </div>
-      <div ng-repeat="parameter in $parent.operation.parameters" ng-if="parameter.in === 'header' && paramModels[parameter.name]">
-        <div>{{parameter.name}}: {{paramModels[parameter.name]}}</div>
+      <div ng-repeat="(parameterName, parameter) in getHeaderParams()">
+        <div>{{parameterName}}: {{paramModels[parameterName]}}</div>
       </div>
       <div ng-if="hasBody && paramModels.__body_param__">
         <div>&nbsp;</div>

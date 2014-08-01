@@ -21,6 +21,17 @@ PhonicsApp.directive('tryOperation', function () {
       scope.makeCall = makeCall;
       scope.getContentTypeHeaders = getContentTypeHeaders;
       scope.xhrInProgress = false;
+      scope.getHeaderParams = getHeaderParams;
+
+      function getHeaderParams() {
+        var headerParams = {};
+        scope.$parent.operation.parameters.filter(function (parameter) {
+          if (parameter.in === 'header' && scope.paramModels[parameter.name]) {
+            headerParams[parameter.name] = scope.paramModels[parameter.name];
+          }
+        });
+        return headerParams;
+      }
 
 
       function getContentTypeHeaders() {
@@ -60,10 +71,10 @@ PhonicsApp.directive('tryOperation', function () {
 
         $.ajax({
           url: scope.generateUrl(),
-          type: scope.$parent.operationName
-        })
-
-        .done(function () {
+          type: scope.$parent.operationName,
+          headers: _.extend({
+            'Content-Type': scope.contentType
+          }, getHeaderParams())
         })
 
         .fail(function () {
