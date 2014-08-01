@@ -49,7 +49,7 @@ paths:
           schema:
             type: integer
             format: int32
-        - name: custom-header
+        - name: X-Custom-Header
           in: header
           description: A custom header for testing
           required: false
