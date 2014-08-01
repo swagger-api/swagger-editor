@@ -16,8 +16,8 @@ function loadPreDefinedSpecs(fileName){
 
 
 PhonicsApp.controller('MainCtrl', ['$scope', '$rootScope', '$localStorage',
-  'wrap', 'editorHelper', 'downloadHelper', 'builderHelper',
-  function ($scope, $rootScope, $localStorage, wrap, editorHelper, download, builder) {
+  'wrap', 'editorHelper', 'downloadHelper', 'builderHelper', 'Splitter',
+  function ($scope, $rootScope, $localStorage, wrap, editorHelper, download, builder, splitter) {
     var editor = null;
     var jsonPreview = null;
     $scope.previewMode = 'html';
@@ -114,6 +114,14 @@ PhonicsApp.controller('MainCtrl', ['$scope', '$rootScope', '$localStorage',
       specs = wrap.model(specs);
       specs = wrap.opts(specs);
       download.getZipFile(url, specs);
+    };
+
+    $scope.togglePane = function (side) {
+      splitter.toggle(side);
+    };
+
+    $scope.isPaneVisible = function (side) {
+      return splitter.isVisible(side);
     };
 
   }]);

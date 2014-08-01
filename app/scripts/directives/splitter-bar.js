@@ -1,6 +1,6 @@
 'use strict';
 
-PhonicsApp.directive('splitterBar', function(){
+PhonicsApp.directive('splitterBar', ['Splitter', function (splitter){
   return {
     template: '',
     replace: false,
@@ -8,6 +8,19 @@ PhonicsApp.directive('splitterBar', function(){
     link: function($scope, $element, $attributes){
       var $document = $(document);
       var $parent = $element.parent();
+      if(!('horizontal' in $attributes)){
+        splitter.registerSide('left', $('#' + $attributes.leftPane).width());
+        splitter.registerSide('right', $('#' + $attributes.rightPane).width());
+      }
+
+      splitter.addHideListener('left', function () {
+        $('#' + $attributes.leftPane).animate({width: 0}, 500);
+      });
+
+      splitter.addShowListener('left', function (width) {
+        $('#' + $attributes.leftPane).animate({width: width}, 500);
+      });
+
       function resize(mouseMoveEvent){
         var x = mouseMoveEvent.pageX - $parent.offset().left;
         var y = mouseMoveEvent.pageY - $parent.offset().top;
@@ -23,7 +36,7 @@ PhonicsApp.directive('splitterBar', function(){
           $('#' + $attributes.topPane).css('height', y + $element.height());
           $('#' + $attributes.bottomPane).css('height',
             $parent.height() - y);
-        }else{
+        } else {
           if( x < MIN_SIZE || x > $parent.width() - MIN_SIZE) {
             return;
           }
@@ -44,4 +57,4 @@ PhonicsApp.directive('splitterBar', function(){
       $(window).on('resize', _.throttle(resize,300));
     }
   };
-});
+}]);
