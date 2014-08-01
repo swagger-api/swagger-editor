@@ -20,7 +20,6 @@ PhonicsApp.service('Splitter', function Splitter() {
   this.registerSide = function (side, width, invisible) {
     sides[side].width = width;
     sides[side].visible = !invisible;
-    console.log(arguments);
   };
 
   this.addHideListener = function (side, fn) {
