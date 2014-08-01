@@ -21,7 +21,9 @@ PhonicsApp.directive('splitterBar', ['Splitter', function (splitter){
 
       splitter.addHideListener('left', function () {
         $('#' + $attributes.leftPane).animate({width: 0}, ANIMATION_DURATION);
-        $('#' + $attributes.rightPane).animate({width: window.innerWidth}, ANIMATION_DURATION);
+        $('#' + $attributes.rightPane).animate({width: window.innerWidth}, ANIMATION_DURATION, function () {
+          $document.trigger('pane-resize');
+        });
         $element.hide();
       });
 
@@ -29,12 +31,15 @@ PhonicsApp.directive('splitterBar', ['Splitter', function (splitter){
         $('#' + $attributes.leftPane).animate({width: width}, ANIMATION_DURATION);
         $('#' + $attributes.rightPane).animate({width: window.innerWidth - width - 4}, ANIMATION_DURATION, function () {
           $element.show();
+          $document.trigger('pane-resize');
         });
       });
 
       splitter.addHideListener('right', function () {
         $('#' + $attributes.rightPane).animate({width: 0}, ANIMATION_DURATION);
-        $('#' + $attributes.leftPane).animate({width: window.innerWidth}, ANIMATION_DURATION);
+        $('#' + $attributes.leftPane).animate({width: window.innerWidth}, ANIMATION_DURATION, function(){
+          $document.trigger('pane-resize');
+        });
         $element.hide();
       });
 
@@ -42,6 +47,7 @@ PhonicsApp.directive('splitterBar', ['Splitter', function (splitter){
         $('#' + $attributes.rightPane).animate({width: width}, ANIMATION_DURATION);
         $('#' + $attributes.leftPane).animate({width: window.innerWidth - width}, ANIMATION_DURATION, function () {
           $element.show();
+          $document.trigger('pane-resize');
         });
       });
 
