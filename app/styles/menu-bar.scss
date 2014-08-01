@@ -1,5 +1,7 @@
 .menu-bar {
-  // background: #252525;
+  $border-radius: 3px;
+  $button-forn-size: 15px;
+
   width: 100%;
 
   .toolbar{
@@ -9,6 +11,7 @@
       &.left {
         float: left;
       }
+
       &.right {
         float: right;
       }
@@ -17,44 +20,78 @@
     .btn-drawer {
       display: inline-block;
       position: relative;
-      .buttons{
+
+      .buttons {
+        font-size: 0;
         display: none;
         position: absolute;
         width: 100%;
         top: 100%;
         left: 0;
         z-index: 5;
-        background: #333333;
+        margin: 0;
+
+        .toolbar-btn{
+          border-radius: 0;
+          padding-top: 0.5em;
+          padding-bottom: 0.5em;
+        }
+      }
+
+      .toolbar-btn {
+        border: none;
+        display: block;
         margin: 0;
       }
-      &:hover .buttons{
-        display: block;
+
+      &:hover {
+        >.toolbar-btn {
+          background: #000;
+        }
+        div.buttons {
+          display: block;
+
+          &, .toolbar-btn:last-child {
+            border-bottom-left-radius: $border-radius;
+            border-bottom-right-radius: $border-radius;
+          }
+        }
+      }
+
+      &:hover .drawer{
+        border-bottom-left-radius: 0;
+        border-bottom-right-radius: 0;
       }
     }
+
     .toolbar-btn {
       display: inline-block;
+      -webkit-appearance: none;
       border: 1px solid gray;
-      border-radius: 3px;
-      text-align: center;
+      border-radius: $border-radius;
+      text-align: left;
       color: #808080;
       text-decoration: none;
-      font-size: 13px;
+      font-size: $button-forn-size;
       margin-top: 5px;
-      height: 26px;
+      padding-top: 0.3em;
+      padding-bottom: 0.3em;
       outline: none;
       cursor: pointer;
       background: #252525;
-      min-width: 104px;
+      min-width: 124px;
+
       &:hover {
         color: #444;
         text-decoration: none;
-        border-radius: 3px;
+        border-radius: $border-radius;
         background: #383838;
       }
+
       span {
         font-size: .5em;
         float: right;
-        margin-right: 3px;
+        margin-right: $border-radius;
         margin-top: 4px;
       }
 
@@ -62,31 +99,11 @@
         display: display;
         border: none;
       }
+
       &:hover {
         color: #8a8a8a;
         background: #3d3d3d;
         transition: background 0.2s ease;
-      }
-      &.actionBtn {
-        color: #444;
-        line-height: 26px;
-        padding: 0;
-        margin-top: 2px;
-        text-decoration: none;
-        background: #D4D4D4;
-        border: 1px solid #949494;
-        border-radius: 0px;
-        margin-bottom: -3px;
-        &:hover {
-          background: #bdbdbd;
-          color: #383838;
-        }
-        &.actionBtn:first-child {
-          border-radius: 3px 3px 0 0;
-        }
-        &.actionBtn:last-child {
-          border-radius: 0 0 3px 3px;
-        }
       }
     }
   }
@@ -96,9 +113,10 @@
     font-size: 0;
 
     .toolbar-btn, .toolbar-btn:hover{
+      text-align: center;
       min-width: 40px;
       margin: 0;
-      font-size: 13px;
+      font-size: $button-forn-size;
       border-radius: 0;
 
       &.selected {
@@ -107,14 +125,15 @@
       }
 
       &:first-child {
-        border-top-left-radius: 3px;
-        border-bottom-left-radius: 3px;
+        border-top-left-radius: $border-radius;
+        border-bottom-left-radius: $border-radius;
       }
 
       &:last-child {
-        border-top-right-radius: 3px;
-        border-bottom-right-radius: 3px;
+        border-top-right-radius: $border-radius;
+        border-bottom-right-radius: $border-radius;
       }
     }
   }
+
 }
