@@ -56,5 +56,8 @@
 <div class="resp-headers">{{response.getAllResponseHeaders()}}</div>
      <div ng-bind-html="responseText"></div>
     </div>
+    <div class="formatted-response" ng-if="results">
+      <json-formatter json="results" open="true"></json-formatter>
+    </div>
   </div>
 </div>
