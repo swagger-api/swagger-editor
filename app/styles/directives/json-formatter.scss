@@ -1,0 +1,56 @@
+.json-formatter-row {
+  $string-color: green;
+  $number-color: blue;
+  $boolean-color: red;
+  $null-color: #2EDDE4;
+  $rotate-time: 100ms;
+  $toggler-opacity: 0.6;
+  $toggler-color: #45376F;
+  $bracket-color: blue;
+  $key-color: #00008B;
+
+  font-family: monospace;
+
+  .json-formatter-row {
+    margin-left: 1em;
+  }
+
+  .children {
+    &.empty {
+      opacity: 0.5;
+      margin-left: 1em;
+
+      &.object:after { content: "No properties"; }
+      &.array:after { content: "[]"; }
+    }
+  }
+
+  .string {
+    color: $string-color;
+    white-space: pre;
+    word-wrap: break-word;
+  }
+  .number { color: $number-color; }
+  .boolean { color: $boolean-color; }
+  .null { color: $null-color; }
+
+  .bracket { color: $bracket-color; }
+  .key { color: $key-color; }
+
+  .toggler {
+    font-size: 0.8em;
+    line-height: 1.2em;
+    vertical-align: middle;
+    opacity: 0.6;
+
+    &:after {
+      display: inline-block;
+      transition: transform $rotate-time ease-in;
+      content: "►";
+    }
+
+    &.open:after{
+      transform: rotate(90deg);
+    }
+  }
+}
