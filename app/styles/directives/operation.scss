@@ -2,7 +2,7 @@
 
 @mixin operation-theme($color) {
   border: 1px solid $color;
-  background: lighten($color, 37%);
+  background: #fff;
   .http-method{
     background: darken($color, 20%);
     color: white;
@@ -28,12 +28,12 @@ li.operation {
     cursor: pointer;
 
     .http-method {
-      font-size: 1.4em;
+      font-size: 1em;
       padding: .6em .5em;
       float: left;
       border-top-left-radius: $border-radius;
-      font-weight: normal;
-      font-family: monospace;
+      font-weight: 400;
+      font-family: "Open Sans";
       margin-right: .4em;
     }
 
@@ -54,8 +54,8 @@ li.operation {
     margin: 1em;
 
     >h4 {
-      font-size: 1.2em;
-      font-weight: 400;
+      font-size: 1em;
+      font-weight: 500;
     }
     >div {
       margin: .3em 0 .5em;
@@ -70,6 +70,8 @@ li.operation {
         border-bottom: 1px solid gray;
         >th {
           padding: 0.3em;
+          font-size: .8em;
+          font-weight: 600;
         }
       }
     }
