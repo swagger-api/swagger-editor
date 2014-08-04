@@ -70,7 +70,7 @@ PhonicsApp
         scope.mode = 'model';
 
         scope.getJson = function () {
-          return JSON.stringify(scope.schema, null, 2);
+          return scope.schema;
         };
 
         scope.getString = function () {

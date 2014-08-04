@@ -5,7 +5,7 @@
   </header>
 
   <section class="json animate-if" ng-if="mode === 'json'" >
-    <pre>{{getJson()}}</pre>
+    <json-formatter json="getJson()" open="1"></json-formatter>
   </section>
   <section class="model animate-fi" ng-if="mode === 'model'">
     <pre>{{getString()}}</pre>

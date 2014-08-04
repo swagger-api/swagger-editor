@@ -7,7 +7,8 @@ window.PhonicsApp = angular.module('PhonicsApp', [
   'ui.router',
   'ui.ace',
   'ngStorage',
-  'ngSanitize'
+  'ngSanitize',
+  'jsonFormatter'
 ]);
 
 PhonicsApp.config([

@@ -10,7 +10,8 @@
     "angular-sanitize": "1.2.15",
     "angular-route": "1.2.15",
     "ngstorage": "~0.3.0",
-    "markdown": "~0.5.0"
+    "markdown": "~0.5.0",
+    "json-formatter": "*"
   },
   "devDependencies": {
     "angular-mocks": "1.2.15",
