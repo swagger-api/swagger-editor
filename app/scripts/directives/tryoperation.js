@@ -81,8 +81,7 @@ PhonicsApp.directive('tryOperation', function () {
           scope.failed = true;
         })
 
-        .always(function (results, status, resp) {
-          scope.results = results;
+        .always(function (resp) {
           if (!resp) {
             scope.responseText = '';
             scope.xhrInProgress = false;
@@ -98,7 +97,7 @@ PhonicsApp.directive('tryOperation', function () {
           } catch (e) {
             text = resp.responseText;
           }
-          if (text && text.indexOf('<?xml') === 0) {
+          if (text.indexOf('<?xml') === 0) {
             scope.responseText = $('<div/>').text(text).html();
           } else {
             scope.responseText = text;
