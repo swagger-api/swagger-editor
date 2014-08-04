@@ -19,8 +19,7 @@
 
 li.operation {
   $border-radius: 3px;
-
-  margin: 0.4em 0 0.8em;
+  margin: 0.4em 0em 1em 1em;
   border-radius: $border-radius;
 
   >header {
@@ -28,7 +27,7 @@ li.operation {
     cursor: pointer;
 
     .http-method {
-      font-size: 1em;
+      font-size: 0.9em;
       padding: .6em .5em;
       float: left;
       border-top-left-radius: $border-radius;
@@ -40,6 +39,7 @@ li.operation {
     .summary >span{
       padding: .4em;
       display: block;
+      font-size: 0.9em;
     }
   }
 
@@ -52,13 +52,18 @@ li.operation {
 
   .content >section {
     margin: 1em;
+    font-family: "Open Sans";
+    font-size: 0.9em;
+
 
     >h4 {
       font-size: 1em;
-      font-weight: 500;
+      font-family: "Open Sans";
+      font-weight: 600;
     }
     >div {
       margin: .3em 0 .5em;
+      line-height: 120%;
     }
   }
 
@@ -78,8 +83,9 @@ li.operation {
 
     >tbody {
       >tr {
+        font-size: 0.8em;
         &:nth-child(odd) {
-          background: rgba(0, 0, 0, 0.05);
+          background: rgba(0, 0, 0, 0.03);
         }
         &:nth-child(even) {
           background: rgba(255, 255, 255, 0.05);
@@ -99,7 +105,7 @@ li.operation {
             color: white;
             background: #333;
             padding: 3px 8px;
-            font-size: .8em;
+            font-size: 1em;
             font-weight: 300;
             display: inline-block;
 
