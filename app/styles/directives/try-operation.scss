@@ -5,7 +5,7 @@
 }
 .try-operation > div {
   >h5 {
-    font-size: 1.3em;
+    font-size: 1.1em;
   }
 
   >div {
@@ -55,16 +55,18 @@
     }
 
     button.call {
-      font-size: 1.3em;
-      padding: 0.2em 1em;
+      font-size: 1em;
+      padding: 0.3em 0.8em;
       display: inline-block;
       border: none;
+      background-color: #e3e3e3;
+      border-radius: 3px;
       appearance: none;
       cursor: pointer;
-      &.get { @include operation-button($http-get); }
-      &.post { @include operation-button($http-post); }
-      &.delete { @include operation-button($http-delete); }
-      &.patch { @include operation-button($http-patch); }
+      // &.get { @include operation-button($http-get); }
+      // &.post { @include operation-button($http-post); }
+      // &.delete { @include operation-button($http-delete); }
+      // &.patch { @include operation-button($http-patch); }
     }
   }
 

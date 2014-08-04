@@ -21,6 +21,7 @@ li.operation {
   $border-radius: 3px;
   margin: 0.4em 0em 1em 1em;
   border-radius: $border-radius;
+  font-family: "Open Sans";
 
   >header {
     overflow: hidden;
@@ -32,7 +33,6 @@ li.operation {
       float: left;
       border-top-left-radius: $border-radius;
       font-weight: 400;
-      font-family: "Open Sans";
       margin-right: .4em;
     }
 
