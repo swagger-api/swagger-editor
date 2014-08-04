@@ -1,8 +1,8 @@
 @import "../colors";
 
 @mixin operation-theme($color) {
-  border: 1px solid lighten($color, 10%);
-  background: lighten($color, 30%);
+  border: 1px solid $color;
+  background: lighten($color, 37%);
   .http-method{
     background: darken($color, 20%);
     color: white;
@@ -10,12 +10,15 @@
   >header {
     background: $color;
   }
+  h4 {
+    color:$color;
+  }
 }
 
 
 
 li.operation {
-  $border-radius: 5px;
+  $border-radius: 3px;
 
   margin: 0.4em 0 0.8em;
   border-radius: $border-radius;
@@ -25,7 +28,7 @@ li.operation {
     cursor: pointer;
 
     .http-method {
-      font-size: 1.6em;
+      font-size: 1.4em;
       padding: .6em .5em;
       float: left;
       border-top-left-radius: $border-radius;
@@ -51,8 +54,8 @@ li.operation {
     margin: 1em;
 
     >h4 {
-      font-size: 1.4em;
-      font-weight: bold;
+      font-size: 1.2em;
+      font-weight: 400;
     }
     >div {
       margin: .3em 0 .5em;
@@ -83,9 +86,9 @@ li.operation {
           padding: 0.3em;
 
           &.mono {
-            font-family: monospace;
+            font-family: "source code pro";
             font-weight: bold;
-            font-size: 1.3em;
+            font-size: 1.0em;
             white-space: pre;
           }
 
@@ -94,6 +97,8 @@ li.operation {
             color: white;
             background: #333;
             padding: 3px 8px;
+            font-size: .8em;
+            font-weight: 300;
             display: inline-block;
 
             &.green { background: green; }
