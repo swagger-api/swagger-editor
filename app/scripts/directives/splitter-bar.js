@@ -30,6 +30,7 @@ PhonicsApp.directive('splitterBar', ['Splitter', function (splitter){
       splitter.addShowListener('left', function (width) {
         $('#' + $attributes.leftPane).animate({width: width}, ANIMATION_DURATION);
         $('#' + $attributes.rightPane).animate({width: window.innerWidth - width - 4}, ANIMATION_DURATION, function () {
+          $('#' + $attributes.rightPane).css('overflow', 'auto');
           $element.show();
           $document.trigger('pane-resize');
         });
@@ -46,6 +47,7 @@ PhonicsApp.directive('splitterBar', ['Splitter', function (splitter){
       splitter.addShowListener('right', function (width) {
         $('#' + $attributes.rightPane).animate({width: width}, ANIMATION_DURATION);
         $('#' + $attributes.leftPane).animate({width: window.innerWidth - width}, ANIMATION_DURATION, function () {
+          $('#' + $attributes.rightPane).css('overflow', 'auto');
           $element.show();
           $document.trigger('pane-resize');
         });
