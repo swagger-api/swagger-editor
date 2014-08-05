@@ -1,0 +1,24 @@
+// TODO: Mike, please make Modals look belong to the app
+
+.modal-dialog .modal-content {
+  border-radius: 0;
+  background: #303030;
+  color: #FFF;
+
+  .modal-header {
+
+  }
+
+  .modal-body {
+
+  }
+
+  .modal-footer {
+    .btn.btn-primary {
+      @extend .bs-button-override;
+    }
+    .btn.btn-warning {
+      @extend .bs-button-override;
+    }
+  }
+}
