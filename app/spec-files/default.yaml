@@ -127,6 +127,27 @@ paths:
           schema:
             Error:
               $ref: '#/models/Error'
+        404:
+          description: pet deleted
+        default:
+          description: unexpected error
+          schema:
+            Error:
+              $ref: '#/models/Error'
+        500:
+          description: pet deleted
+        default:
+          description: unexpected error
+          schema:
+            Error:
+              $ref: '#/models/Error'
+        302:
+          description: pet deleted
+        default:
+          description: unexpected error
+          schema:
+            Error:
+              $ref: '#/models/Error'
 models:
   Pet:
     required:
