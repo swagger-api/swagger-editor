@@ -3,6 +3,10 @@ header.main-header {
   background: #4a4a4a;
   color: #e4e4e4;
   display: flex;
+  position: fixed;
+  width: 100%;
+  height: 48px;
+  z-index: 2;
 
   .mktLink  {
     width: 32px;
