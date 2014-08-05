@@ -51,6 +51,10 @@ li.operation {
   &.post { @include operation-theme($http-post); }
   &.delete { @include operation-theme($http-delete); }
   &.patch { @include operation-theme($http-patch); }
+  &.put { @include operation-theme($http-put); }
+  &.options { @include operation-theme($http-options); }
+  &.head { @include operation-theme($http-head); }
+  &.trace { @include operation-theme($http-trace); }
 
 
   .content >section {
@@ -107,17 +111,18 @@ li.operation {
 
           span.resp-code {
             border-radius: 3px;
-            color: white;
-            background: #333;
-            padding: 3px 8px;
-            font-size: 1em;
-            font-weight: 300;
+            color: #555;
+            //background: #333;
+            padding: 3px 0;
+            font-size: 1.1em;
+            letter-spacing: 0.5px;
+            font-weight: 700;
             display: inline-block;
 
-            &.green { background: green; }
-            &.red { background: red; }
-            &.blue { background: blue; }
-            &.yellow{ background: gold; }
+            &.green { color: #13C20F; }
+            &.red { color: #D40011; }
+            &.blue { color: #0072bc; }
+            &.yellow{ color: #f39822; }
           }
         }
       }
