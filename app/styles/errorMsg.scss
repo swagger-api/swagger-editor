@@ -1,7 +1,7 @@
 .errorBox {
   position: relative;
-  font-family: monospace;
-  line-height: 130%;
+  font-family: "Source Code Pro";
+  line-height: 120%;
   max-width: 420px;
   height: 90px;
   background-color: #ffd8d8;
@@ -21,7 +21,7 @@
 }
 
 .errorTitle {
-  font-size: 15px;
+  font-size: .9em;
   background-color: #f1a0a0;
   color: #9b0000;
   padding: 10px;
@@ -31,4 +31,5 @@
 
 .error {
   padding: 10px;
+  font-size: .9em;
 }

@@ -32,7 +32,7 @@ li.operation {
       font-size: 0.9em;
       padding: .6em .5em;
       float: left;
-      border-top-left-radius: $border-radius;
+      border-top-left-radius: $border-radius - 2;
       font-weight: 400;
       margin-right: .4em;
       width: 52px;
