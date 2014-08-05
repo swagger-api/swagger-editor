@@ -3,82 +3,100 @@
 @mixin operation-button($color) {
   background: $color;
 }
-.try-operation > div {
-  >h5 {
-    font-size: 1.1em;
+.try-operation {
+
+  button.try-it {
+    border-radius: 3px;
+    background-color: #FFF;
+    border: 1px solid #777;
+    padding: 0.3em 0.5em;
+    cursor: pointer;
+    &:hover {
+      background-color: #e5e5e5;
+      transition: background-color 0.3s ease-in-out;
+    }
   }
 
   >div {
-    padding: .5em 0 1em;
-  }
+    >h5 {
+      font-size: 1.0em;
+      font-weight: 600;
 
-  .raw {
-    width: 100%;
-    padding: .4em;
-    background: #fff7e5;
-    font-family: monospace;
-    border: none;
-    margin: 1em 0;
-    word-wrap: break-word;
-  }
+    }
 
-  .parameters {
-    table.edit-params {
+    >div {
+      padding: .5em 0 1em;
+    }
+
+    .raw {
       width: 100%;
+      padding: .4em;
+      background: #fff7e5;
+      font-family: monospace;
+      border: none;
+      margin: 1em 0;
+      word-wrap: break-word;
+    }
 
-      td {
-        vertical-align: top;
+    .parameters {
+      table.edit-params {
+        width: 100%;
 
-        &.required-icon {
-          width: 2em;
+        td {
+          vertical-align: top;
+
+          &.required-icon {
+            width: 2em;
+          }
+        }
+
+        .param-name {
+          font-family: "monospace";
+          text-align: right;
+          padding: 0.3em 0.6em;
+        }
+
+        textarea, input {
+          -webkit-appearance: none;
+          border: none;
+          display: block;
+          width: 100%;
+          padding: .4em .6em
         }
       }
+    }
 
-      .param-name {
-        font-family: "monospace";
-        text-align: right;
-        padding: 0.3em 0.6em;
+    .request {
+      .raw-request {
       }
 
-      textarea, input {
-        -webkit-appearance: none;
-        border: none;
-        display: block;
-        width: 100%;
-        padding: .4em .6em
+      button.call {
+        font-size: 1em;
+        padding: 0.3em 0.8em;
+        display: inline-block;
+        border: 1px solid #D9D9D9;
+        background-color: #e3e3e3;
+        border-radius: 3px;
+        appearance: none;
+        cursor: pointer;
+        background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#FEFEFE), color-stop(50%,#f2f2f2), color-stop(100%,#f1f1f1));
+        // &.get { @include operation-button($http-get); }
+        // &.post { @include operation-button($http-post); }
+        // &.delete { @include operation-button($http-delete); }
+        // &.patch { @include operation-button($http-patch); }
       }
     }
-  }
 
-  .request {
-    .raw-request {
-    }
-
-    button.call {
-      font-size: 1em;
-      padding: 0.3em 0.8em;
-      display: inline-block;
-      border: 1px solid #D9D9D9;
-      background-color: #e3e3e3;
-      border-radius: 3px;
-      appearance: none;
-      cursor: pointer;
-      background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#FEFEFE), color-stop(50%,#f2f2f2), color-stop(100%,#f1f1f1));
-      // &.get { @include operation-button($http-get); }
-      // &.post { @include operation-button($http-post); }
-      // &.delete { @include operation-button($http-delete); }
-      // &.patch { @include operation-button($http-patch); }
-    }
-  }
-
-  .response {
-    .failed-bar {
-      background: red;
-      color: white;
-      padding: .3em;
-    }
-    .raw-response {
-      white-space: pre;
+    .response {
+      .failed-bar {
+        background: red;
+        color: white;
+        font-weight: 400;
+        padding: .3em;
+      }
+      .raw-response {
+        white-space: pre;
+      }
     }
   }
 }
