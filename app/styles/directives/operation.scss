@@ -4,11 +4,11 @@
   border: 1px solid $color;
   background: #fff;
   .http-method{
-    background: darken($color, 20%);
+    background: $color;
     color: white;
   }
   >header {
-    background: $color;
+    background: rgba($color, 0.1);
   }
   h4 {
     color:$color;
