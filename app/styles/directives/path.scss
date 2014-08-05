@@ -22,9 +22,13 @@ li.path {
     a {
       padding: 0.2em;
       user-select: none;
-      font-size: 0.9em;
+      font-size: 0.8em;
       color: #777;
-      text-decoration: underline;
+      &:hover {
+        //text-decoration: underline;
+        color: #444;
+        border-bottom: 1px dotted #555; 
+      }
     }
   }
 
