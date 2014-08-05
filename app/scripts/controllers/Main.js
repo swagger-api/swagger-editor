@@ -16,8 +16,9 @@ function loadPreDefinedSpecs(fileName){
 
 
 PhonicsApp.controller('MainCtrl', ['$scope', '$rootScope', '$localStorage',
-  'wrap', 'editorHelper', 'downloadHelper', 'builderHelper', 'Splitter',
-  function ($scope, $rootScope, $localStorage, wrap, editorHelper, download, builder, splitter) {
+  'wrap', 'editorHelper', 'downloadHelper', 'builderHelper', 'Splitter', '$modal',
+  function ($scope, $rootScope, $localStorage, wrap, editorHelper,
+    download, builder, splitter, $modal) {
     var editor = null;
     var jsonPreview = null;
     $scope.previewMode = 'html';
@@ -122,6 +123,23 @@ PhonicsApp.controller('MainCtrl', ['$scope', '$rootScope', '$localStorage',
 
     $scope.isPaneVisible = function (side) {
       return splitter.isVisible(side);
+    };
+
+    $scope.openImport = function(importType){
+      var modalInstance = $modal.open({
+        templateUrl: 'templates/import.html',
+        controller: function Ctrl($scope){},
+        size: 'large',
+        resolve: {
+          type: importType
+        }
+      });
+
+      modalInstance.result.then(function (selectedItem) {
+        $scope.selected = selectedItem;
+      }, function () {
+        // $log.info('Modal dismissed at: ' + new Date());
+      });
     };
 
   }]);

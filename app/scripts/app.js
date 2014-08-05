@@ -6,6 +6,7 @@ window.PhonicsApp = angular.module('PhonicsApp', [
   'ngSanitize',
   'ui.router',
   'ui.ace',
+  'ui.bootstrap',
   'ngStorage',
   'ngSanitize',
   'jsonFormatter'
