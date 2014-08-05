@@ -20,7 +20,7 @@ li.path {
   ul.options {
     display: flex;
     a {
-      padding: 0.2em;
+      padding: 0.3em;
       user-select: none;
       font-size: 0.8em;
       color: #777;
@@ -29,7 +29,13 @@ li.path {
         color: #444;
         border-bottom: 1px dotted #555; 
       }
+     
     }
+     li.divider {
+        color: #ccc;
+        font-weight: 300;
+
+      }
   }
 
   ul.operations {
