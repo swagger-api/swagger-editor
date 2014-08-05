@@ -1,4 +1,8 @@
 .schema-model {
+  &.hidden {
+    display: none;
+  }
+
   >header {
     a {
       font-size: .6em;
