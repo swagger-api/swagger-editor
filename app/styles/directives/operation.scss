@@ -26,6 +26,7 @@ li.operation {
   >header {
     overflow: hidden;
     cursor: pointer;
+   // background: lighten($color, 38%);
 
     .http-method {
       font-size: 0.9em;
@@ -34,6 +35,8 @@ li.operation {
       border-top-left-radius: $border-radius;
       font-weight: 400;
       margin-right: .4em;
+      width: 52px;
+      text-align: center;
     }
 
     .summary >span{
@@ -77,19 +80,21 @@ li.operation {
           padding: 0.3em;
           font-size: .8em;
           font-weight: 600;
+          background-color: #f7f7f7;
         }
       }
     }
 
     >tbody {
       >tr {
+        border-bottom: 1px solid silver;
         font-size: 0.8em;
-        &:nth-child(odd) {
-          background: rgba(0, 0, 0, 0.03);
-        }
-        &:nth-child(even) {
-          background: rgba(255, 255, 255, 0.05);
-        }
+        // &:nth-child(odd) {
+        //   background: rgba(0, 0, 0, 0.03);
+        // }
+        // &:nth-child(even) {
+        //   background: rgba(255, 255, 255, 0.05);
+        // }
         >td {
           padding: 0.3em;
 
