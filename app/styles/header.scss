@@ -1,7 +1,8 @@
+@import "colors";
+
 header.main-header {
   height: 48px;
-  background: #4a4a4a;
-  color: #e4e4e4;
+  background: $header-bg;
   display: flex;
   position: fixed;
   width: 100%;
@@ -43,21 +44,6 @@ header.main-header {
     button {
       border: none;
       background: white;
-    }
-
-    &.panel-switcher {
-      position: absolute;
-      right: 50px;
-      a {
-        margin-right: .3em;
-        text-decoration: none;
-        font-size: 10px;
-        cursor: pointer;
-        transition: color ease-in-out 100ms;
-        &.active {
-          color: #000;
-        }
-      }
     }
   }
 
