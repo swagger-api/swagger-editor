@@ -4,19 +4,6 @@
       <button class="toolbar-btn" ng-click="newProject()">New</button>
       <button class="toolbar-btn" ng-click="resetSpec()">Reset</button>
     </dropdown-menu>
-    <div class="grouped-buttons">
-      <button class="toolbar-btn" title="{{!isPaneVisisble('left') ? 'Hide' : 'Show'}} text editor"
-        ng-click="togglePane('left')"
-        ng-class="{selected: isPaneVisible('left')}"
-        ng-disabled="!isPaneVisible('right')">[</button>
-      <button class="toolbar-btn" title="{{!isPaneVisisble('right') ? 'Hide' : 'Show'}} preview"
-        ng-click="togglePane('right')"
-        ng-class="{selected: isPaneVisible('right')}"
-        ng-disabled="!isPaneVisible('left')">]</button>
-    </div>
-  </section>
-
-  <section class="right">
     <dropdown-menu label="Download" on-open="assignDownloadHrefs">
       <button download="spec.yaml" class="toolbar-btn" data-downloadurl="{{yamlDownloadUrl}}" href="{{yamlDownloadHref}}">YAML</button>
       <button download="spec.json" class="toolbar-btn" downloadUrl="{{jsonDownloadUrl}}" href="{{jsonDownloadHref}}">JSON</button>
@@ -33,5 +20,18 @@
       <button class="toolbar-btn" ng-click="generateZip('clients', 'objc')">Objective-C</button>
       <button class="toolbar-btn" ng-click="generateZip('clients', 'docs')">Docs</button>
     </dropdown-menu>
+  </section>
+
+  <section class="right">
+    <div class="grouped-buttons">
+      <button class="toolbar-btn" title="{{!isPaneVisisble('left') ? 'Hide' : 'Show'}} text editor"
+        ng-click="togglePane('left')"
+        ng-class="{selected: isPaneVisible('left')}"
+        ng-disabled="!isPaneVisible('right')">[</button>
+      <button class="toolbar-btn" title="{{!isPaneVisisble('right') ? 'Hide' : 'Show'}} preview"
+        ng-click="togglePane('right')"
+        ng-class="{selected: isPaneVisible('right')}"
+        ng-disabled="!isPaneVisible('left')">]</button>
+    </div>
   </section>
 </div>
