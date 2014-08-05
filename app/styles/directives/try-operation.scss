@@ -15,9 +15,9 @@
   .raw {
     width: 100%;
     padding: .4em;
-    background: #eee;
+    background: #fff7e5;
     font-family: monospace;
-    border: 1px solid rgba(0,0,0,0.02);
+    border: none;
     margin: 1em 0;
     word-wrap: break-word;
   }
@@ -58,11 +58,12 @@
       font-size: 1em;
       padding: 0.3em 0.8em;
       display: inline-block;
-      border: none;
+      border: 1px solid #D9D9D9;
       background-color: #e3e3e3;
       border-radius: 3px;
       appearance: none;
       cursor: pointer;
+      background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#FEFEFE), color-stop(50%,#f2f2f2), color-stop(100%,#f1f1f1));
       // &.get { @include operation-button($http-get); }
       // &.post { @include operation-button($http-post); }
       // &.delete { @include operation-button($http-delete); }
