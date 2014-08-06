@@ -16,9 +16,9 @@ function loadPreDefinedSpecs(fileName){
 
 
 PhonicsApp.controller('MainCtrl', ['$scope', '$rootScope', '$localStorage',
-  'wrap', 'editorHelper', 'downloadHelper', 'builderHelper', 'Splitter', '$modal',
+  'wrap', 'editorHelper', 'downloadHelper', 'builderHelper', 'Splitter', '$modal', 'FileLoader',
   function ($scope, $rootScope, $localStorage, wrap, editorHelper,
-    download, builder, splitter, $modal) {
+    download, builder, splitter, $modal, FileLoader) {
     var editor = null;
     var jsonPreview = null;
     $scope.previewMode = 'html';
@@ -91,6 +91,8 @@ PhonicsApp.controller('MainCtrl', ['$scope', '$rootScope', '$localStorage',
 
     $scope.jsonLoaded = function(){};
 
+
+    // TODO Move methods from here to another controller for menu bar
     $scope.newProject = function(){
       editor.getSession().setValue('');
       $scope.apiDeclarations = [];
@@ -125,20 +127,22 @@ PhonicsApp.controller('MainCtrl', ['$scope', '$rootScope', '$localStorage',
       return splitter.isVisible(side);
     };
 
-    $scope.openImport = function(importType){
+    $scope.openImport = function(){
       var modalInstance = $modal.open({
         templateUrl: 'templates/import.html',
-        controller: function Ctrl($scope){},
-        size: 'large',
-        resolve: {
-          type: importType
-        }
-      });
+        controller: function ImportController($scope){
+          var fileContent = null;
 
-      modalInstance.result.then(function (selectedItem) {
-        $scope.selected = selectedItem;
-      }, function () {
-        // $log.info('Modal dismissed at: ' + new Date());
+          $scope.fileChanged = function ($fileContent) {
+            fileContent = $fileContent;
+          };
+          $scope.ok = function () {
+            FileLoader.load(fileContent);
+          };
+
+          $scope.cancel = modalInstance.close;
+        },
+        size: 'large'
       });
     };
 
