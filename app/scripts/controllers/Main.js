@@ -89,8 +89,6 @@ PhonicsApp.controller('MainCtrl', ['$scope', '$rootScope', '$localStorage',
       }
     };
 
-    $scope.jsonLoaded = function(){};
-
 
     // TODO Move methods from here to another controller for menu bar
     $scope.newProject = function(){
@@ -137,7 +135,8 @@ PhonicsApp.controller('MainCtrl', ['$scope', '$rootScope', '$localStorage',
             fileContent = $fileContent;
           };
           $scope.ok = function () {
-            FileLoader.load(fileContent);
+            console.log(FileLoader.load(fileContent));
+            modalInstance.close();
           };
 
           $scope.cancel = modalInstance.close;
