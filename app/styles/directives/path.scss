@@ -25,11 +25,10 @@ li.path {
       font-size: 0.8em;
       color: #777;
       &:hover {
-        //text-decoration: underline;
         color: #444;
-        border-bottom: 1px dotted #555; 
+        border-bottom: 1px dotted #555;
       }
-     
+
     }
      li.divider {
         color: #ccc;

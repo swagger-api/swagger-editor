@@ -70,6 +70,7 @@
       .raw-request {
       }
 
+      // TODO: Move to buttons.scss
       button.call {
         font-size: 1em;
         padding: 0.3em 0.8em;
@@ -79,11 +80,10 @@
         border-radius: 3px;
         appearance: none;
         cursor: pointer;
-        background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#FEFEFE), color-stop(50%,#f2f2f2), color-stop(100%,#f1f1f1));
-        // &.get { @include operation-button($http-get); }
-        // &.post { @include operation-button($http-post); }
-        // &.delete { @include operation-button($http-delete); }
-        // &.patch { @include operation-button($http-patch); }
+        background: gradient(linear, left top, left bottom,
+          color-stop(0%,#FEFEFE),
+          color-stop(50%,#f2f2f2),
+          color-stop(100%,#f1f1f1));
       }
     }
 

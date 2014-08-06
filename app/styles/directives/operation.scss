@@ -3,6 +3,7 @@
 @mixin operation-theme($color) {
   border: 1px solid $color;
   background: #fff;
+
   .http-method{
     background: $color;
     color: white;
@@ -26,7 +27,6 @@ li.operation {
   >header {
     overflow: hidden;
     cursor: pointer;
-   // background: lighten($color, 38%);
 
     .http-method {
       font-size: 0.9em;
@@ -68,6 +68,7 @@ li.operation {
       font-family: "Open Sans";
       font-weight: 600;
     }
+
     >div {
       margin: .3em 0 .5em;
       line-height: 120%;
@@ -79,7 +80,7 @@ li.operation {
 
     >thead {
       >tr {
-        //border-bottom: 1px solid gray;
+
         >th {
           padding: 0.3em;
           font-size: .8em;
@@ -97,12 +98,7 @@ li.operation {
       >tr {
         border-bottom: 1px solid silver;
         font-size: 0.8em;
-        // &:nth-child(odd) {
-        //   background: rgba(0, 0, 0, 0.03);
-        // }
-        // &:nth-child(even) {
-        //   background: rgba(255, 255, 255, 0.05);
-        // }
+
         >td {
           padding: 0.3em;
 
@@ -116,13 +112,13 @@ li.operation {
           span.resp-code {
             border-radius: 3px;
             color: #555;
-            //background: #333;
             padding: 3px 0;
             font-size: 1.1em;
             letter-spacing: 0.5px;
             font-weight: 700;
             display: inline-block;
 
+            // TODO: Move colors to colors.scss
             &.green { color: #13C20F; }
             &.red { color: #D40011; }
             &.blue { color: #0072bc; }
@@ -142,5 +138,4 @@ li.operation {
   &.hidden {
     display: none;
   }
-
 }

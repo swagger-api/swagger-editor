@@ -19,17 +19,15 @@ html, body {
   Layout
 */
 header.main-header {
-/*  background-image: url("/images/swagger_small.png"); */
   background-repeat: no-repeat;
   background-position: 10px 5px;
 }
 
 main {
-  height: 100%;
-  padding-top: 48px;
   position: fixed;
-  width: 100%;
-  top: 0;
+  top: 48px;
+  bottom: 0;
+  right: 0;
   left: 0;
 
   .pane {
@@ -47,15 +45,8 @@ main {
       .editor-wrapper {
         flex: auto;
       }
-      // .help-drawer {
-      //   height: 300px;
-      //   overflow: auto;
-      //   .content {
-      //     margin: 5px;
-      //   }
-      // }
+
       .ace-editor-wrapper {
-        // height: calc(100% - 300px);
         height: 100%;
         display: flex;
         flex-direction: column;
