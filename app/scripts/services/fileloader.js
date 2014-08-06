@@ -18,7 +18,7 @@ function load(fileContent) {
   if (json) {
     return json;
   }
-  if (yaml) {
+  if (typeof yaml === 'object') {
     return yaml;
   }
   return null;

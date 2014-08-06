@@ -7,12 +7,21 @@ function buildDocs($scope, value){
   var json;
 
   $scope.invalidDocs = false;
+
+  if (!value) {
+    return;
+  }
+
   try {
     json = load(value);
-  }catch(e){
+  } catch(e) {
     $scope.invalidDocs = true;
     return;
   }
+  buildDocsWIthObject($scope, json);
+}
+
+function buildDocsWIthObject($scope, json){
   json = resolve(json);
   if(json && json.paths){
     _.extend($scope, json);
@@ -67,4 +76,5 @@ function lookup (address, root) {
 
 PhonicsApp.value('builderHelper', {
   buildDocs: _.debounce(buildDocs, 300),
+  buildDocsWIthObject: _.debounce(buildDocsWIthObject, 300)
 });

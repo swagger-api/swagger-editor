@@ -2,9 +2,11 @@
 <h3 class="modal-title">Import A File</h3>
 </div>
 <div class="modal-body">
+  <p>You can import YAML or JSON formats</p>
   <input on-read-file="fileChanged($fileContent)" type="file" ng-model="file">
+  <small ng-if="isInvalidFile()">Invalid File</small>
 </div>
 <div class="modal-footer">
-    <button class="btn btn-primary" ng-click="ok()">Import</button>
+    <button class="btn btn-primary" ng-click="ok()" ng-disabled="isInvalidFile()">Import</button>
     <button class="btn btn-warning" ng-click="cancel()">Cancel</button>
 </div>

@@ -126,17 +126,28 @@ PhonicsApp.controller('MainCtrl', ['$scope', '$rootScope', '$localStorage',
     };
 
     $scope.openImport = function(){
+      var parentScope = $scope;
       var modalInstance = $modal.open({
         templateUrl: 'templates/import.html',
         controller: function ImportController($scope){
-          var fileContent = null;
+          var results;
 
           $scope.fileChanged = function ($fileContent) {
-            fileContent = $fileContent;
+            results = FileLoader.load($fileContent);
           };
+
           $scope.ok = function () {
-            console.log(FileLoader.load(fileContent));
+            if(typeof results === 'object') {
+              builder.buildDocsWIthObject(parentScope, results);
+              var yaml = jsyaml.dump(results);
+              $localStorage.cache = yaml;
+              editor.getSession().setValue(yaml);
+            }
             modalInstance.close();
+          };
+
+          $scope.isInvalidFile = function(){
+            return results === null;
           };
 
           $scope.cancel = modalInstance.close;
