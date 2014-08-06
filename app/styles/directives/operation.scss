@@ -85,6 +85,10 @@ li.operation {
           font-size: .8em;
           font-weight: 600;
           background-color: #f7f7f7;
+
+          &:last-child {
+            min-width: 300px;
+          }
         }
       }
     }
