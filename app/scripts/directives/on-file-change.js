@@ -1,6 +1,6 @@
 'use strict';
 
-PhonicsApp.directive('onReadFile', function ($parse) {
+PhonicsApp.directive('onReadFile', ['$parse', function ($parse) {
   return {
     restrict: 'A',
     scope: false,
@@ -20,4 +20,4 @@ PhonicsApp.directive('onReadFile', function ($parse) {
       });
     }
   };
-});
+}]);
