@@ -12,7 +12,9 @@
     "ngstorage": "~0.3.0",
     "markdown": "~0.5.0",
     "json-formatter": "*",
-    "bootstrap": "3.1.0"
+    "bootstrap": "3.1.0",
+    "jquery": "1.11.1-rc2",
+    "underscore": "~1.6.0"
   },
   "devDependencies": {
     "angular-mocks": "1.2.15",
