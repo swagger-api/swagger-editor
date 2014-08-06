@@ -16,9 +16,9 @@ function loadPreDefinedSpecs(fileName){
 
 
 PhonicsApp.controller('MainCtrl', ['$scope', '$rootScope', '$localStorage',
-  'wrap', 'editorHelper', 'downloadHelper', 'builderHelper', 'Splitter', '$modal', 'FileLoader',
+  'wrap', 'editorHelper', 'downloadHelper', 'builderHelper', 'Splitter', '$modal',
   function ($scope, $rootScope, $localStorage, wrap, editorHelper,
-    download, builder, splitter, $modal, FileLoader) {
+    download, builder, splitter, $modal) {
     var editor = null;
     var jsonPreview = null;
     $scope.previewMode = 'html';
@@ -126,32 +126,9 @@ PhonicsApp.controller('MainCtrl', ['$scope', '$rootScope', '$localStorage',
     };
 
     $scope.openImport = function(){
-      var parentScope = $scope;
-      var modalInstance = $modal.open({
+      $modal.open({
         templateUrl: 'templates/import.html',
-        controller: function ImportController($scope){
-          var results;
-
-          $scope.fileChanged = function ($fileContent) {
-            results = FileLoader.load($fileContent);
-          };
-
-          $scope.ok = function () {
-            if(typeof results === 'object') {
-              builder.buildDocsWIthObject(parentScope, results);
-              var yaml = jsyaml.dump(results);
-              $localStorage.cache = yaml;
-              editor.getSession().setValue(yaml);
-            }
-            modalInstance.close();
-          };
-
-          $scope.isInvalidFile = function(){
-            return results === null;
-          };
-
-          $scope.cancel = modalInstance.close;
-        },
+        controller: 'ImportCtrl',
         size: 'large'
       });
     };
