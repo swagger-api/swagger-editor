@@ -43,7 +43,7 @@ PhonicsApp.config([
         url: ':apiDeclaritionId',
         views: {
           'preview@home': {
-            controller: 'ApiDeclarationCtrl',
+            controller: 'PreviewCtrl',
             templateUrl: 'views/preview/preview.html'
           }
         }
