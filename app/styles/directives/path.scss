@@ -27,7 +27,7 @@ li.path {
       color: #777;
       &:hover {
         color: #444;
-        border-bottom: 1px dotted #555;
+        transition: all 0.3s ease-in-out;
       }
 
     }
