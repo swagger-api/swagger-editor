@@ -4,15 +4,19 @@ PhonicsApp.service('Storage', ['$localStorage', function Storage($localStorage) 
   var storageKey = 'SwaggerEditorCache';
   var changeListeners = [];
 
-  this.save = function (specs){
+  function setSpecs(specs){
     $localStorage[storageKey] = specs;
     changeListeners.forEach(function (fn) {
       fn(specs);
     });
+  }
+
+  this.save = function (specs){
+    setSpecs(specs);
   };
 
   this.reset = function () {
-    $localStorage[storageKey] = null;
+    setSpecs(null);
   };
 
   this.load = function (){
