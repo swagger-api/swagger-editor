@@ -1,13 +1,16 @@
 // TODO: Mike, please make Modals look belong to the app
 
 @import "../buttons";
+@import "../colors";
 .modal-dialog .modal-content {
-  border-radius: 0;
+  border-radius: 3px;
   background: #303030;
   color: #FFF;
+  font-family: "Open Sans";
 
   .modal-header {
-
+    font-size: 1.2em;
+    font-weight: 400;
   }
 
   .modal-body {
@@ -20,6 +23,8 @@
     }
     .btn.btn-warning {
       @extend .bs-button-override;
+      background-color: #303030;
+      border: 1px solid $gray-dk;
     }
   }
 }
