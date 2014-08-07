@@ -1,7 +1,7 @@
 'use strict';
 
-PhonicsApp.controller('HeaderCtrl', ['$scope', 'Editor', 'Storage', 'FileLoader', '$localStorage', 'Splitter', '$modal',
-  function HeaderCtrl($scope, Editor, Storage, FileLoader, $localStorage, splitter, $modal) {
+PhonicsApp.controller('HeaderCtrl', ['$scope', 'Editor', 'Storage', 'FileLoader', 'Splitter', '$modal',
+  function HeaderCtrl($scope, Editor, Storage, FileLoader, Splitter, $modal) {
 
     function assignDownloadHrefs($scope, editor){
       var MIME_TYPE = 'text/plain';
@@ -28,6 +28,7 @@ PhonicsApp.controller('HeaderCtrl', ['$scope', 'Editor', 'Storage', 'FileLoader'
         processData: false
       }).then(function(data){
         if (data instanceof Object && data.code){
+          // TODO put fixed URL in enums
           window.location = 'http://generator.wordnik.com/online/api/gen/download/' + data.code;
         }
       });
@@ -58,11 +59,11 @@ PhonicsApp.controller('HeaderCtrl', ['$scope', 'Editor', 'Storage', 'FileLoader'
     };
 
     $scope.togglePane = function (side) {
-      splitter.toggle(side);
+      Splitter.toggle(side);
     };
 
     $scope.isPaneVisible = function (side) {
-      return splitter.isVisible(side);
+      return Splitter.isVisible(side);
     };
 
     $scope.openImport = function(){
