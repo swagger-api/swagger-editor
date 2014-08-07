@@ -17,6 +17,10 @@
     }
   }
 
+  .try-toggle {
+    font-size: .9em;
+  }
+
   >div {
     >h5 {
       font-size: 1.0em;
@@ -82,9 +86,9 @@
         appearance: none;
         cursor: pointer;
         background: gradient(linear, left top, left bottom,
-          color-stop(0%,#FEFEFE),
-          color-stop(50%,#f2f2f2),
-          color-stop(100%,#f1f1f1));
+          color-stop(0%,$gray-lt),
+          color-stop(50%,$gray-lt),
+          color-stop(100%,$gray-lt));
 
         &:hover {
           color: #333;
