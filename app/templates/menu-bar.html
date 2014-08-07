@@ -6,8 +6,8 @@
       <button class="toolbar-btn" ng-click="openImport('json')">Import</button>
     </dropdown-menu>
     <dropdown-menu label="Download" on-open="assignDownloadHrefs">
-      <button download="spec.yaml" class="toolbar-btn" data-downloadurl="{{yamlDownloadUrl}}" href="{{yamlDownloadHref}}">YAML</button>
-      <button download="spec.json" class="toolbar-btn" downloadUrl="{{jsonDownloadUrl}}" href="{{jsonDownloadHref}}">JSON</button>
+      <a download="spec.yaml" class="toolbar-btn" data-downloadurl="{{yamlDownloadUrl}}" href="{{yamlDownloadHref}}">YAML</a>
+      <a download="spec.json" class="toolbar-btn" downloadUrl="{{jsonDownloadUrl}}" href="{{jsonDownloadHref}}">JSON</a>
     </dropdown-menu>
     <dropdown-menu label="Get Server">
       <button class="toolbar-btn" ng-click="generateZip('servers', 'nodejs')">Node.js</button>

@@ -25,7 +25,7 @@ function HeaderCtrl($scope, Editor, Storage, FileLoader, Splitter, $modal) {
   };
 
   $scope.assignDownloadHrefs = function(){
-    assignDownloadHrefs($scope, Editor);
+    assignDownloadHrefs($scope, Storage);
   };
 
   $scope.generateZip = function(type, kind){
@@ -54,18 +54,18 @@ function HeaderCtrl($scope, Editor, Storage, FileLoader, Splitter, $modal) {
 }
 
 
-function assignDownloadHrefs($scope, editor){
+function assignDownloadHrefs($scope, Storage){
   var MIME_TYPE = 'text/plain';
+  var specs = Storage.load();
 
   // JSON
-  var json = jsyaml.load(editor.getSession().getValue());
-  var prettyJson = JSON.stringify(json, null, 2);
-  var jsonBlob = new Blob([prettyJson], {type: MIME_TYPE});
+  var json = JSON.stringify(specs, null, 2);
+  var jsonBlob = new Blob([json], {type: MIME_TYPE});
   $scope.jsonDownloadHref = window.URL.createObjectURL(jsonBlob);
   $scope.jsonDownloadUrl = [MIME_TYPE, 'spec.json', $scope.jsonDownloadHref].join(':');
 
   // YAML
-  var yamlBlob = new Blob([editor.getSession().getValue()], {type: MIME_TYPE});
+  var yamlBlob = new Blob([jsyaml.dump(specs)], {type: MIME_TYPE});
   $scope.yamlDownloadHref = window.URL.createObjectURL(yamlBlob);
   $scope.yamlDownloadUrl = [MIME_TYPE, 'spec.yaml', $scope.yamlDownloadHref].join(':');
 }
