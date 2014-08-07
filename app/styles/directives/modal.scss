@@ -4,27 +4,32 @@
 @import "../colors";
 .modal-dialog .modal-content {
   border-radius: 3px;
-  background: #303030;
+  background: $gray-dk;
   color: #FFF;
   font-family: "Open Sans";
+  font-weight: 300;
 
   .modal-header {
     font-size: 1.2em;
-    font-weight: 400;
+    border-bottom: 1px solid $gray-md;
   }
 
   .modal-body {
-
+    
   }
 
   .modal-footer {
+    border-top: 1px solid $gray-md;
     .btn.btn-primary {
       @extend .bs-button-override;
     }
     .btn.btn-warning {
       @extend .bs-button-override;
       background-color: #303030;
-      border: 1px solid $gray-dk;
+      border: 1px solid $gray-md;
+      &:hover {
+        background-color: darken($gray-lt, 80%);
+      }
     }
   }
 }

@@ -2,7 +2,8 @@
 <h3 class="modal-title">Import a File</h3>
 </div>
 <div class="modal-body">
-  <p>You can import YAML or JSON formats</p>
+  <p>YAML or JSON formats are accepted</p>
+  <br/>
   <input on-read-file="fileChanged($fileContent)" type="file" ng-model="file">
   <small ng-if="isInvalidFile()">Invalid File</small>
 </div>

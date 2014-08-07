@@ -17,6 +17,13 @@ $http-head: #4AE597;
 $http-trace: #BDC3C7;
 
 // Gray Colors
-$gray-lt: #E3E3E3; 
-$gray-dk: #808080;
+$gray-lt: #E3E3E3;
+$gray-md: #808080; 
+$gray-dk: #303030;
 
+// Response Code Colors
+$code-default: #555;
+$code-200: #13C20F;
+$code-300: #0072bc;
+$code-400: #f39822;
+$code-500: #D40011;

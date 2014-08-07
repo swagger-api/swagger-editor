@@ -111,18 +111,17 @@ li.operation {
 
           span.resp-code {
             border-radius: 3px;
-            color: #555;
+            color: $code-default;
             padding: 3px 0;
             font-size: 1.1em;
             letter-spacing: 0.5px;
             font-weight: 700;
             display: inline-block;
 
-            // TODO: Move colors to colors.scss
-            &.green { color: #13C20F; }
-            &.red { color: #D40011; }
-            &.blue { color: #0072bc; }
-            &.yellow{ color: #f39822; }
+            &.green { color: $code-200; }
+            &.red { color: $code-500; }
+            &.blue { color: $code-300; }
+            &.yellow{ color: $code-400; }
           }
         }
       }
