@@ -56,7 +56,7 @@ function Editor($localStorage, Validator, Storage, Builder) {
 
     annotateYAMLErrors(error && error.yamlError);
 
-    var specs = Builder.buildDocs(value);
+    var specs = Builder.buidDocs(value);
 
     Storage.save(specs);
   }
@@ -74,7 +74,6 @@ function Editor($localStorage, Validator, Storage, Builder) {
   this.setValue = setValue;
   this.aceLoaded = aceLoaded;
   this.aceChanged = aceChanged;
-  this.aceLoaded = aceLoaded;
   this.resize = resize;
   this.ready = ready;
 }

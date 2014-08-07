@@ -4,20 +4,6 @@ PhonicsApp.service('Storage', ['$localStorage', function Storage($localStorage) 
   var storageKey = 'SwaggerEditorCache';
   var changeListeners = [];
 
-
-  /*
-   * TODO: Speed up local storage with memory cache
-   * and debouncing the save operation
-   function saveToLocalStorage(value){
-      _.debounce(function() {
-        window.requestAnimationFrame(function(){
-          $localStorage.yamlCache = value;
-        });
-      }, 500);
-    }
-  */
-
-
   function setSpecs(specs){
 
     changeListeners.forEach(function (fn) {
@@ -28,7 +14,7 @@ PhonicsApp.service('Storage', ['$localStorage', function Storage($localStorage) 
       window.requestAnimationFrame(function(){
         $localStorage[storageKey] = specs;
       });
-    }, 500)();
+    }, 100)();
   }
 
   this.save = function (specs){
