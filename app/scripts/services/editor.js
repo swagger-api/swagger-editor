@@ -3,6 +3,8 @@
 PhonicsApp.service('Editor', ['$localStorage', 'Builder', 'Validator',
   function Editor($localStorage, Builder, Validator) {
     var editor = null;
+    var onReadyFns = [];
+    var that = this;
 
     function saveToLocalStorage(value){
       _.debounce(function() {
@@ -12,16 +14,6 @@ PhonicsApp.service('Editor', ['$localStorage', 'Builder', 'Validator',
       }, 500);
     }
 
-    function initializeEditor(){
-
-      if($localStorage.yamlCache){
-        setValue($localStorage.yamlCache);
-        Builder.buildDocs($localStorage.yamlCache);
-
-      } else {
-        Builder.buildDocs('');
-      }
-    }
 
 
     function annotateYAMLErrors(){
@@ -46,7 +38,10 @@ PhonicsApp.service('Editor', ['$localStorage', 'Builder', 'Validator',
       // Assign class variable `editor`
       editor = e;
 
-      initializeEditor(editor);
+      // Editor is ready
+      onReadyFns.forEach(function (fn) {
+        fn(that);
+      });
     }
 
     function setValue(value){
@@ -76,11 +71,17 @@ PhonicsApp.service('Editor', ['$localStorage', 'Builder', 'Validator',
       editor.resize();
     }
 
+    function ready(fn) {
+      if(typeof fn === 'function'){
+        onReadyFns.push(fn);
+      }
+    }
+
     this.setValue = setValue;
     this.aceLoaded = aceLoaded;
     this.aceChanged = aceChanged;
-    this.initializeEditor = initializeEditor;
     this.aceChanged = aceLoaded;
     this.resize = resize;
+    this.ready = ready;
   }
 ]);
