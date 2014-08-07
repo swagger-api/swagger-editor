@@ -26,6 +26,6 @@ PhonicsApp.service('Builder', ['Validator', 'Resolver', function Builder(Validat
     return null;
   }
 
-  this.buildDocs = _.debounce(buildDocs, 300);
-  this.buildDocsWIthObject = _.debounce(buildDocsWIthObject, 300);
+  this.buildDocs = buildDocs;
+  this.buildDocsWIthObject = buildDocsWIthObject;
 }]);
