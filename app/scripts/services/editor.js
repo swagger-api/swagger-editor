@@ -53,28 +53,16 @@ PhonicsApp.service('Editor', ['$localStorage', 'Builder', function Editor($local
   }
 
   function aceChanged(){
-    $scope.invalidDocs = false;
-    $scope.emptyDocs = false;
-    var error = null;
     var value = editor.getSession().getValue();
     saveToLocalStorage(value);
-    if(!value){
-      $scope.emptyDocs = true;
-      return;
-    }
 
-    error = Editor.annotateYAMLErrors(editor);
-    if(error) {
-      $scope.invalidDocs = true;
-      return;
-    }else{
-      $scope.editorErrorMessage = '';
-    }
-    Builder.buildDocs($scope, editor.getSession().getValue());
+    annotateYAMLErrors();
+    Builder.buildDocs(value);
   }
 
   this.setValue = setValue;
   this.aceLoaded = aceLoaded;
+  this.aceChanged = aceChanged;
   this.initializeEditor = initializeEditor;
   this.annotateYAMLErrors = annotateYAMLErrors;
   this.aceChanged = aceLoaded;
