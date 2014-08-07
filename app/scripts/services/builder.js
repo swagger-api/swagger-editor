@@ -18,7 +18,7 @@ PhonicsApp.service('Builder', ['Validator', 'Resolver', function Builder(Validat
     return buildDocsWIthObject(json);
   }
 
-  function buildDocsWIthObject($scope, json){
+  function buildDocsWIthObject(json){
     json = Resolver.resolve(json);
     if(json && json.paths){
       return json;

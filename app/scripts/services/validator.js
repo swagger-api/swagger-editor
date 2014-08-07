@@ -23,15 +23,17 @@ PhonicsApp.service('Validator', function Validator() {
     buffer = Object.create(null);
   };
 
-  this.checkYamlString = function (string) {
+  this.validateYamlString = function (string) {
     try {
       jsyaml.load(string);
     } catch(yamlLoadError) {
       var errorMessage = yamlLoadError.message.replace('JS-YAML: ', '');
       return {
-        message: errorMessage,
-        row: yamlLoadError.mark.line,
-        column: yamlLoadError.mark.column
+        yamlError: {
+          message: errorMessage,
+          row: yamlLoadError.mark.line,
+          column: yamlLoadError.mark.column
+        }
       };
     }
     return null;
