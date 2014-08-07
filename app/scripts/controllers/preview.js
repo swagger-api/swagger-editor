@@ -1,6 +1,8 @@
 'use strict';
 
-PhonicsApp.controller('PreviewCtrl', ['Storage', '$scope', function (Storage, $scope) {
+PhonicsApp.controller('PreviewCtrl', ['Storage', '$scope', PreviewCtrl]);
+
+function PreviewCtrl(Storage, $scope) {
   function update(latest){
     $scope.specs = latest;
   }
@@ -12,5 +14,4 @@ PhonicsApp.controller('PreviewCtrl', ['Storage', '$scope', function (Storage, $s
   if (stored) {
     update(stored);
   }
-
-}]);
+}

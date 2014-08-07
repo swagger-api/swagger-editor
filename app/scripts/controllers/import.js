@@ -1,7 +1,16 @@
 'use strict';
 
-PhonicsApp.controller('ImportCtrl', ['$scope', '$modalInstance', 'FileLoader', 'builderHelper', '$localStorage',
-  function ImportController($scope, $modalInstance, FileLoader, builder, $localStorage){
+PhonicsApp.controller('ImportCtrl', [
+  '$scope',
+  '$modalInstance',
+  'FileLoader',
+  '$localStorage',
+  'Storage',
+  'Editor',
+  ImportController
+]);
+
+function ImportController($scope, $modalInstance, FileLoader, $localStorage, Storage, Editor){
   var results;
 
   $scope.fileChanged = function ($fileContent) {
@@ -10,10 +19,8 @@ PhonicsApp.controller('ImportCtrl', ['$scope', '$modalInstance', 'FileLoader', '
 
   $scope.ok = function () {
     if(typeof results === 'object') {
-      builder.buildDocsWIthObject($scope.$parent, results);
-      var yaml = jsyaml.dump(results);
-      $localStorage.cache = yaml;
-      //editor.getSession().setValue(yaml);
+      Editor.setValue(results);
+      Storage.save(results);
     }
     $modalInstance.close();
   };
@@ -23,4 +30,4 @@ PhonicsApp.controller('ImportCtrl', ['$scope', '$modalInstance', 'FileLoader', '
   };
 
   $scope.cancel = $modalInstance.close;
-}]);
+}
