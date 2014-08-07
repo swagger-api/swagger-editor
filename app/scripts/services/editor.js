@@ -5,27 +5,27 @@ PhonicsApp.service('Editor', ['$localStorage', 'Builder', 'Validator',
     var editor = null;
 
     function saveToLocalStorage(value){
-      _.debounce(function(){
+      _.debounce(function() {
         window.requestAnimationFrame(function(){
           $localStorage.yamlCache = value;
         });
-      },500);
+      }, 500);
     }
 
     function initializeEditor(){
-      $(document).on('pane-resize', editor.resize.bind(editor));
+
       if($localStorage.yamlCache){
         setValue($localStorage.yamlCache);
         Builder.buildDocs($localStorage.yamlCache);
+
       } else {
-        // TODO
-        // $scope.resetSpec();
+        Builder.buildDocs('');
       }
     }
 
 
     function annotateYAMLErrors(){
-      var value = editor.getSession().getValue();
+      var value = getValue();
       var error = Validator.checkYamlString(value);
 
       if (error) {
@@ -42,7 +42,10 @@ PhonicsApp.service('Editor', ['$localStorage', 'Builder', 'Validator',
 
 
     function aceLoaded(e) {
+
+      // Assign class variable `editor`
       editor = e;
+
       initializeEditor(editor);
     }
 
@@ -50,12 +53,20 @@ PhonicsApp.service('Editor', ['$localStorage', 'Builder', 'Validator',
       editor.getSession().setValue(value);
     }
 
+    function getValue(){
+      return getValue();
+    }
+
     function aceChanged(){
-      var value = editor.getSession().getValue();
+      var value = getValue();
       saveToLocalStorage(value);
 
       annotateYAMLErrors();
       Builder.buildDocs(value);
+    }
+
+    function resize(){
+      editor.resize();
     }
 
     this.setValue = setValue;
@@ -63,5 +74,6 @@ PhonicsApp.service('Editor', ['$localStorage', 'Builder', 'Validator',
     this.aceChanged = aceChanged;
     this.initializeEditor = initializeEditor;
     this.aceChanged = aceLoaded;
+    this.resize = resize;
   }
 ]);
