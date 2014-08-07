@@ -22,4 +22,18 @@ PhonicsApp.service('Validator', function Validator() {
   this.reset = function (){
     buffer = Object.create(null);
   };
+
+  this.checkYamlString = function (string) {
+    try {
+      jsyaml.load(string);
+    } catch(yamlLoadError) {
+      var errorMessage = yamlLoadError.message.replace('JS-YAML: ', '');
+      return {
+        message: errorMessage,
+        row: yamlLoadError.mark.line,
+        column: yamlLoadError.mark.column
+      };
+    }
+    return null;
+  };
 });
