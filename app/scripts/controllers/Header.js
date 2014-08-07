@@ -1,7 +1,7 @@
 'use strict';
 
-PhonicsApp.controller('HeaderCtrl', ['$scope', 'Editor', 'Builder', 'FileLoader', '$localStorage', 'Splitter', '$modal',
-  function HeaderCtrl($scope, Editor, Builder, FileLoader, $localStorage, splitter, $modal) {
+PhonicsApp.controller('HeaderCtrl', ['$scope', 'Editor', 'Storage', 'FileLoader', '$localStorage', 'Splitter', '$modal',
+  function HeaderCtrl($scope, Editor, Storage, FileLoader, $localStorage, splitter, $modal) {
 
     function assignDownloadHrefs($scope, editor){
       var MIME_TYPE = 'text/plain';
@@ -35,14 +35,13 @@ PhonicsApp.controller('HeaderCtrl', ['$scope', 'Editor', 'Builder', 'FileLoader'
 
     $scope.newProject = function(){
       Editor.setValue('');
-      Builder.buildDocs($scope, '');
+      Storage.reset();
     };
 
     $scope.resetSpec = function(){
-      FileLoader.loadFromUrl('default').then(function(yaml){
-        $localStorage.cache = yaml;
-        Editor.getSession().setValue(yaml);
-        Builder.buildDocs($scope, Editor.getSession().getValue());
+      FileLoader.loadFromUrl('spec-files/default.yaml').then(function(yamlObject){
+        Editor.setValue(yamlObject);
+        Storage.save(yamlObject);
       });
     };
 

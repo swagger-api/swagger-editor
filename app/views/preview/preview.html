@@ -1,4 +1,4 @@
-<div class="preview-wrapper">
+<div class="preview-wrapper" ng-controller="PreviewCtrl">
   <div class="invalid-docs" ng-show="invalidDocs" ng-include src="'templates/invalid-docs.html'"></div>
   <div class="invalid-docs" ng-show="emptyDocs" ng-include src="'templates/empty-docs.html'"></div>
   <div class="json-section" ng-show="previewMode == 'json' && !invalidDocs && !emptyDocs">
@@ -9,13 +9,12 @@
       onLoad: jsonPreviewLoaded
     }"></div>
   </div>
-  <div class="swagger-section" ng-show="previewMode == 'html' && !invalidDocs && !emptyDocs">
-    <div id="swagger-ui-container" class="swagger-ui-wrap">
+  <div class="swagger-section">
+    <div class="swagger-ui-wrap">
       <div>
         <ul id='resources'>
           <path ng-repeat="(pathName, path) in paths" path="path" path-name="pathName"></path>
         </ul>
-        <!-- Footer TODO -->
       </div>
     </div>
   </div>

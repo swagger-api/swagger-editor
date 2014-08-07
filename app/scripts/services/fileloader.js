@@ -28,7 +28,9 @@ PhonicsApp.service('FileLoader', ['$http', function FileLoader($http) {
 
   // Load from URL
   this.loadFromUrl = function (url) {
-    return $http.get(url).then(load);
+    return $http.get(url).then(function (resp) {
+      return load(resp.data);
+    });
   };
 
   // Load from Local file content (string)

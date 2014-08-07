@@ -50,7 +50,14 @@ PhonicsApp.service('Editor', ['$localStorage', 'Builder', 'Validator',
     }
 
     function setValue(value){
-      editor.getSession().setValue(value);
+      if (typeof value === 'string') {
+        editor.getSession().setValue(value);
+      }
+
+      // If it's an object, convert it YAML
+      if (typeof value === 'object') {
+        setValue(jsyaml.dump(value));
+      }
     }
 
     function getValue(){
