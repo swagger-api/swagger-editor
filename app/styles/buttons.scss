@@ -6,18 +6,15 @@
 
 button.call {
   font-size: 1em;
-  padding: 0.3em 0.8em;
+  padding: 0.5em 1em;
   display: inline-block;
-  border: 1px solid #D9D9D9;
-  background-color: #e3e3e3;
+  border:1px solid $gray-lt;
+  background-color: $gray-lt;
   color: #444;
   border-radius: 3px;
   appearance: none;
   cursor: pointer;
-  background: gradient(linear, left top, left bottom,
-    color-stop(0%,$gray-lt),
-    color-stop(50%,$gray-lt),
-    color-stop(100%,$gray-lt));
+  background-image: (linear-gradient(lighten($gray-lt, 10%), darken($gray-lt, 1%))); 
 
   &:hover {
     color: #333;

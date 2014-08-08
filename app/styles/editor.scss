@@ -1,6 +1,7 @@
 .ace-editor{
 	font-family: "Source Code Pro";
- 	font-size: .9em; 
+ 	font-size: .8em;
+ 	font-weight: 300; 
   .editor-error-message {
     padding: .3em;
     background: #AA0A0A;
@@ -9,13 +10,11 @@
     pre {
 	font-size: 1em;
 	font-family: "Source Code Pro";
-	font-weight: 400;
     }
   }
+
   * {
-  	font-family: "Source Code Pro";
-  	font-size: 1em;
-  	font-weight: 400;
+  	font-family: "Source Code Pro";  	
   }
 
 }
