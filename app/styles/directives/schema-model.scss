@@ -10,7 +10,6 @@
       font-size: .9em;
       padding: .2em;
       white-space: pre;
-      //font-weight: 400;
       display: none;
 
       &.pipe {
@@ -34,9 +33,7 @@
   >section {
     &.json {
       font-size: .9em;
-      pre {
-        background: rgba(255,255,255,0.7);
-      }
+      background: $pre-bg;
     }
 
     &.ng-enter, &.ng-leave {

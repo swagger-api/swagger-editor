@@ -12,7 +12,7 @@
     padding: 0.3em 0.5em;
     cursor: pointer;
     &:hover {
-      background-color: #e5e5e5;
+      background-color: lighten($gray-md, 47%);
       transition: background-color 0.3s ease-in-out;
     }
   }
