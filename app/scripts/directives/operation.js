@@ -25,11 +25,16 @@ PhonicsApp.directive('operation', [function(){
       };
 
       scope.toggleCollapsed = function () {
-        scope.collapsed = !scope.collapsed;
+        scope.$parent.collapseList[scope.operationName] =
+          !scope.$parent.collapseList[scope.operationName];
       };
 
       scope.showTryOperation = function () {
         scope.tryIsOpen = !scope.tryIsOpen;
+      };
+
+      scope.isCollapsed = function () {
+        return scope.$parent.collapseList[scope.operationName];
       };
     }
   };

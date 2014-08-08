@@ -1,4 +1,4 @@
-<li class="path" ng-init="pathIsListed = false; pathIsHidden = false;">
+<li class="path" ng-init="pathIsHidden = false;">
   <header>
     <h2>
       <a href="">{{pathName}}</a>
@@ -13,7 +13,7 @@
       <li>
         <a ng-click="toggleListed()">
           {{pathIsHidden ? 'List Operations' :
-            pathIsListed ? 'Expand Operations' : 'List Operations'}}
+            pathIsListed() ? 'Expand Operations' : 'List Operations'}}
         </a>
       </li>
     </ul>

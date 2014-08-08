@@ -1,7 +1,7 @@
-<li class='{{operationName | lowercase}} operation' ng-class="{collapsed: pathIsListed, hidden: pathIsHidden}" ng-init="tryIsOpen = false">
+<li class='{{operationName | lowercase}} operation' ng-class="{collapsed: isCollapsed(), hidden: pathIsHidden}">
   <header ng-click="toggleCollapsed()">
-    <div class='http-method' ng-click="operation.collapsed = !operation.collapsed" class="toggleOperation">{{operationName | uppercase}}</div>
-    <div class="summary" ng-click="collapsed = !collapsed">
+    <div class='http-method' class="toggleOperation">{{operationName | uppercase}}</div>
+    <div class="summary">
       <span>
         {{operation.summary || operation.description | limitTo: 140 }}
       </span>
