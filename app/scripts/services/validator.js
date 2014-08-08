@@ -3,8 +3,18 @@
 /*
   Keeps track of current document validation
 */
-PhonicsApp.service('Validator', function Validator() {
+PhonicsApp.service('Validator', ['$http', function Validator($http) {
   var buffer = Object.create(null);
+
+  function checkAgainstJsonSchema(json, schema){
+     var isValid = tv4.validate(json, schema);
+
+     if (isValid) {
+      return null;
+     }
+
+     return tv4.error;
+  }
 
   this.setStatus = function(status, isValid) {
     buffer[status] = !!isValid;
@@ -38,4 +48,5 @@ PhonicsApp.service('Validator', function Validator() {
     }
     return null;
   };
-});
+
+}]);

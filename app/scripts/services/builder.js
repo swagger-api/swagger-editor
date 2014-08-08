@@ -1,7 +1,9 @@
 'use strict';
 
-PhonicsApp.service('Builder', ['Validator', 'Resolver', function Builder(Validator, Resolver) {
+PhonicsApp.service('Builder', ['Resolver', Builder]);
+function Builder(Resolver) {
   var load = _.memoize(jsyaml.load);
+
 
   function buildDocs(value){
     var json;
@@ -28,4 +30,4 @@ PhonicsApp.service('Builder', ['Validator', 'Resolver', function Builder(Validat
 
   this.buildDocs = buildDocs;
   this.buildDocsWIthObject = buildDocsWIthObject;
-}]);
+}
