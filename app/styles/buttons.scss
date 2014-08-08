@@ -1,3 +1,24 @@
 .bs-button-override{
   border-radius: 0;
 }
+
+button.call {
+        font-size: 1em;
+        padding: 0.3em 0.8em;
+        display: inline-block;
+        border: 1px solid #D9D9D9;
+        background-color: #e3e3e3;
+        color: #444;
+        border-radius: 3px;
+        appearance: none;
+        cursor: pointer;
+        background: gradient(linear, left top, left bottom,
+          color-stop(0%,$gray-lt),
+          color-stop(50%,$gray-lt),
+          color-stop(100%,$gray-lt));
+
+        &:hover {
+          color: #333;
+          border: 1px solid #bdbdbd;
+        }
+      }
