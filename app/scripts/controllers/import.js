@@ -29,5 +29,9 @@ function ImportController($scope, $modalInstance, FileLoader, $localStorage, Sto
     return results === null;
   };
 
+  $scope.isFileSelected = function() {
+    return !!results;
+  }
+
   $scope.cancel = $modalInstance.close;
 }
