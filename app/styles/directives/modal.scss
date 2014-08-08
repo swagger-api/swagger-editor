@@ -15,7 +15,9 @@
   }
 
   .modal-body {
-    
+    small {
+      color:lighten($code-500, 10%);
+    }
   }
 
   .modal-footer {
