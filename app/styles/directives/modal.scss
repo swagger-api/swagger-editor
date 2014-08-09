@@ -31,7 +31,7 @@
     }
     .btn.btn-warning {
       @extend .bs-button-override;
-      background-color: #303030;
+      background-color: $gray-dk;
       border: 1px solid $gray-md;
       &:hover {
         background-color: darken($gray-lt, 80%);
