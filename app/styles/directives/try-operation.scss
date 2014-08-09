@@ -43,15 +43,18 @@
     }
 
     .parameters {
+      
+      .required-icon {
+            color: red;
+          }
+      
       table.edit-params {
         width: 100%;
 
         td {
           vertical-align: top;
 
-          &.required-icon {
-            width: 2em;
-          }
+
         }
 
         .param-name {
@@ -62,7 +65,8 @@
 
         textarea, input {
           -webkit-appearance: none;
-          border: 1px solid $gray-md;
+          border: 1px solid lighten($gray-md, 20%);
+          border-radius: 2px;
           display: block;
           width: 100%;
           padding: .4em .6em

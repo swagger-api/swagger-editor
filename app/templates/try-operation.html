@@ -13,7 +13,7 @@
         </tr>
         <tr ng-repeat="parameter in $parent.operation.parameters">
           <td class="param-name">
-            <span class="required-icon" title="Required" ng-if="parameter.required">⚑</span> {{parameter.name}}
+            <span class="required-icon" title="Required" ng-if="parameter.required">*</span> {{parameter.name}}
             </td>
           <td>
             <input ng-if="parameter.in !== 'body'" type="text" ng-model="paramModels[parameter.name]">
