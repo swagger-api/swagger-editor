@@ -15,7 +15,10 @@
   }
 
   .modal-body {
-    small {
+    p {
+      margin: 1em 0;
+    }
+    .invalid {
       color:lighten($code-500, 10%);
       margin-top: .5em;
     }

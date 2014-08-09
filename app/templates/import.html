@@ -3,9 +3,8 @@
 </div>
 <div class="modal-body">
   <p>YAML or JSON formats are accepted</p>
-  <br/>
   <input on-read-file="fileChanged($fileContent)" type="file" ng-model="file">
-  <small ng-if="isInvalidFile()">Invalid File</small>
+  <p class="invalid" ng-if="isInvalidFile()">Invalid File</p>
 </div>
 <div class="modal-footer">
   <button class="btn btn-primary" ng-click="ok()" ng-disabled="isInvalidFile() || !isFileSelected()">Import</button>
