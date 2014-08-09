@@ -28,7 +28,7 @@ function Builder(Resolver, Validator) {
     if (error && error.swaggerError) {
 
       // TODO
-      // window.alert(error.swaggerError);
+      console.error(error.swaggerError);
     }
     if(json && json.paths){
       return json;
