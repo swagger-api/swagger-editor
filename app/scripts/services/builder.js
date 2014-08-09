@@ -1,11 +1,12 @@
 'use strict';
 
-PhonicsApp.service('Builder', ['Resolver', Builder]);
-function Builder(Resolver) {
+PhonicsApp.service('Builder', ['Resolver', 'Validator', Builder]);
+
+function Builder(Resolver, Validator) {
   var load = _.memoize(jsyaml.load);
 
-
   function buildDocs(value){
+
     var json;
 
     if (!value) {
@@ -22,6 +23,13 @@ function Builder(Resolver) {
 
   function buildDocsWIthObject(json){
     json = Resolver.resolve(json);
+
+    var error = Validator.validateSwagger(json);
+    if (error && error.swaggerError) {
+
+      // TODO
+      // window.alert(error.swaggerError);
+    }
     if(json && json.paths){
       return json;
     }

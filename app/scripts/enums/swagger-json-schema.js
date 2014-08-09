@@ -1,4 +1,5 @@
-PhonicsApp.value('defaultSchema',
+PhonicsApp.config( ['$provide', function ($provide) {
+  $provide.constant('defaultSchema',
 
 // Scheme JSON:
 {
@@ -472,3 +473,4 @@ PhonicsApp.value('defaultSchema',
 
 // End of Schema JSON
 );
+}]);

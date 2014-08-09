@@ -3,18 +3,11 @@
 /*
   Keeps track of current document validation
 */
-PhonicsApp.service('Validator', ['$http', function Validator($http) {
+PhonicsApp.service('Validator', ['defaultSchema', Validator]);
+
+
+function Validator(defaultSchema) {
   var buffer = Object.create(null);
-
-  function checkAgainstJsonSchema(json, schema){
-     var isValid = tv4.validate(json, schema);
-
-     if (isValid) {
-      return null;
-     }
-
-     return tv4.error;
-  }
 
   this.setStatus = function(status, isValid) {
     buffer[status] = !!isValid;
@@ -33,7 +26,7 @@ PhonicsApp.service('Validator', ['$http', function Validator($http) {
     buffer = Object.create(null);
   };
 
-  this.validateYamlString = function (string) {
+  this.validateYamlString = function validateYamlString(string) {
     try {
       jsyaml.load(string);
     } catch(yamlLoadError) {
@@ -49,4 +42,19 @@ PhonicsApp.service('Validator', ['$http', function Validator($http) {
     return null;
   };
 
-}]);
+  this.validateSwagger = function validateSwagger(json, schema){
+    schema = schema || defaultSchema;
+    var isValid = tv4.validate(json, schema);
+
+    if (isValid) {
+      return null;
+    } else {
+      return {
+        swaggerError: tv4.error
+      };
+    }
+
+    return tv4.error;
+  };
+
+}

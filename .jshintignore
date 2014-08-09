@@ -1,1 +1,2 @@
 app/scripts/analytics/google.js
+app/scripts/enums/swagger-json-schema.js

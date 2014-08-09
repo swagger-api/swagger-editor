@@ -35,6 +35,7 @@
     "SwaggerUi": false,
     "swaggerUi": false,
     "$": false,
-    "_": false
+    "_": false,
+    "tv4": false
   }
 }
