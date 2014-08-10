@@ -110,28 +110,43 @@
     display: inline-block;
     font-size: 0;
 
+    .left {
+        background-repeat: no-repeat;
+      }
+
     .toolbar-btn, .toolbar-btn:hover{
       text-align: center;
-      min-width: 40px;
+      min-width: 38px;
+      height: 24px;
       margin: 0;
       font-size: $button-font-size;
-      border-radius: 0;
-
+      border-radius: $border-radius;
+      
       &.selected {
         background: lighten($toolbar-button-bg, 7%);
-        
+
+
       }
 
       &:first-child {
-        border-top-left-radius: $border-radius;
-        border-bottom-left-radius: $border-radius;
+        border-top-right-radius: 0;
+        border-bottom-right-radius: 0;
+        background-image:url("../images/hideEditor.svg");
+        background-repeat: no-repeat;
+        background-position: 9px 0px;
       }
 
       &:last-child {
-        border-top-right-radius: $border-radius;
-        border-bottom-right-radius: $border-radius;
+        margin-left: -1px;
+        border-top-left-radius: 0;
+        border-bottom-left-radius: 0;
+        background-image:url("../images/hidePreview.svg");
+        background-repeat: no-repeat;
+        background-position: 7px 0px;
       }
+
     }
+    
   }
 
 }

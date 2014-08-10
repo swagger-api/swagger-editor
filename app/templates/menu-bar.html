@@ -28,14 +28,14 @@
 
   <section class="right">
     <div class="grouped-buttons">
-      <button class="toolbar-btn" title="{{!isPaneVisisble('left') ? 'Hide' : 'Show'}} text editor"
+      <button class="toolbar-btn left" title="{{!isPaneVisisble('left') ? 'Hide' : 'Show'}} text editor"
         ng-click="togglePane('left')"
         ng-class="{selected: isPaneVisible('left')}"
-        ng-disabled="!isPaneVisible('right')">[</button>
-      <button class="toolbar-btn" title="{{!isPaneVisisble('right') ? 'Hide' : 'Show'}} preview"
+        ng-disabled="!isPaneVisible('right')"></button>
+      <button class="toolbar-btn left" title="{{!isPaneVisisble('right') ? 'Hide' : 'Show'}} preview"
         ng-click="togglePane('right')"
         ng-class="{selected: isPaneVisible('right')}"
-        ng-disabled="!isPaneVisible('left')">]</button>
+        ng-disabled="!isPaneVisible('left')"></button>
     </div>
     <div>
       <a href="http://swagger.wordnik.com" class="mktLink ng-scope" title="Learn more about Swagger" target="_blank"></a>
