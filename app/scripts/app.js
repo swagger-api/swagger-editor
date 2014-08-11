@@ -39,8 +39,8 @@ PhonicsApp.config([
           'preview@home': { templateUrl: 'views/preview/preview.html' }
         }
       })
-      .state('home.apiDeclarition', {
-        url: ':apiDeclaritionId',
+      .state('home.operation', {
+        url: ':operationId',
         views: {
           'preview@home': {
             controller: 'PreviewCtrl',

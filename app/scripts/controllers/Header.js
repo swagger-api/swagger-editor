@@ -6,21 +6,22 @@ PhonicsApp.controller('HeaderCtrl', [
   'Storage',
   'FileLoader',
   'Splitter',
+  'Builder',
   '$modal',
   HeaderCtrl
 ]);
 
 
-function HeaderCtrl($scope, Editor, Storage, FileLoader, Splitter, $modal) {
+function HeaderCtrl($scope, Editor, Storage, FileLoader, Splitter, Builder, $modal) {
   $scope.newProject = function(){
     Editor.setValue('');
     Storage.reset();
   };
 
-  $scope.resetSpec = function(){
-    FileLoader.loadFromUrl('spec-files/default.yaml').then(function(yamlObject){
-      Editor.setValue(yamlObject);
-      Storage.save(yamlObject);
+  $scope.resetSpec = function() {
+    FileLoader.loadFromUrl('spec-files/default.yaml').then(function (value){
+      var specs = Builder.buildDocsWithObject(value);
+      Storage.save(specs);
     });
   };
 
@@ -31,7 +32,7 @@ function HeaderCtrl($scope, Editor, Storage, FileLoader, Splitter, $modal) {
   $scope.generateZip = function(type, kind){
     // TODO put the URL in enums module
     var url = 'http://generator.wordnik.com/online/api/gen/' + type + '/' + kind;
-    var specs = jsyaml.load(Editor.getSession().getValue());
+    var specs = jsyaml.load(Editor.getValue());
 
     getZipFile(url, specs);
   };

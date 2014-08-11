@@ -5,23 +5,23 @@ PhonicsApp.service('Builder', ['Resolver', 'Validator', Builder]);
 function Builder(Resolver, Validator) {
   var load = _.memoize(jsyaml.load);
 
-  function buildDocs(value){
+  function buildDocs(stringValue){
 
     var json;
 
-    if (!value) {
+    if (!stringValue) {
       return;
     }
 
     try {
-      json = load(value);
+      json = load(stringValue);
     } catch(e) {
       return null;
     }
-    return buildDocsWIthObject(json);
+    return buildDocsWithObject(json);
   }
 
-  function buildDocsWIthObject(json){
+  function buildDocsWithObject(json){
     json = Resolver.resolve(json);
 
     var error = Validator.validateSwagger(json);
@@ -37,5 +37,6 @@ function Builder(Resolver, Validator) {
   }
 
   this.buildDocs = buildDocs;
-  this.buildDocsWIthObject = buildDocsWIthObject;
+  this.buildDocsWithObject = buildDocsWithObject;
 }
+

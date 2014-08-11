@@ -1,8 +1,8 @@
 'use strict';
 
-PhonicsApp.service('Editor', ['$localStorage', 'Validator', 'Storage', 'Builder', Editor]);
+PhonicsApp.service('Editor', [Editor]);
 
-function Editor($localStorage, Validator, Storage, Builder) {
+function Editor() {
   var editor = null;
   var onReadyFns = [];
   var that = this;
@@ -50,17 +50,6 @@ function Editor($localStorage, Validator, Storage, Builder) {
     return editor.getSession().getValue();
   }
 
-  function aceChanged(){
-    var value = getValue();
-    var error = Validator.validateYamlString(value);
-
-    annotateYAMLErrors(error && error.yamlError);
-
-    var specs = Builder.buildDocs(value);
-
-    Storage.save(specs);
-  }
-
   function resize(){
     editor.resize();
   }
@@ -71,9 +60,10 @@ function Editor($localStorage, Validator, Storage, Builder) {
     }
   }
 
+  this.getValue = getValue;
   this.setValue = setValue;
   this.aceLoaded = aceLoaded;
-  this.aceChanged = aceChanged;
   this.resize = resize;
   this.ready = ready;
+  this.annotateYAMLErrors = annotateYAMLErrors;
 }
