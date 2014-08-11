@@ -121,7 +121,7 @@
       margin: 0;
       font-size: $button-font-size;
       border-radius: $border-radius;
-      
+
       &.selected {
         background: lighten($toolbar-button-bg, 7%);
 
@@ -131,7 +131,7 @@
       &:first-child {
         border-top-right-radius: 0;
         border-bottom-right-radius: 0;
-        background-image:url("../images/hideEditor.svg");
+        background-image: url(/images/hideEditor.svg);
         background-repeat: no-repeat;
         background-position: 9px 0px;
       }
@@ -140,13 +140,13 @@
         margin-left: -1px;
         border-top-left-radius: 0;
         border-bottom-left-radius: 0;
-        background-image:url("../images/hidePreview.svg");
+        background-image: url(/images/hidePreview.svg);
         background-repeat: no-repeat;
         background-position: 7px 0px;
       }
 
     }
-    
+
   }
 
 }
