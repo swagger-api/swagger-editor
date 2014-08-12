@@ -1,26 +1,37 @@
 'use strict';
 
 PhonicsApp.directive('collapseWhen', function () {
+  var TRANSITION_DURATION = 200; //ms
+
   return {
     restrict: 'A',
     link: function postLink(scope, element, attrs) {
-      var heightBuffer = null;
+      var buffer = null;
 
-      // Put height in style attribute with a delay because
-      // some elements take larger spaces when they have
-      // angular bindings.
-      // TODO: It's a hack, find a better way to wait for
-      // other angular $digest to finish
-      setTimeout(function (){
-        element.height(element.height());
-      }, 400);
+      function cleanUp(){
+        // remove style attribute after animation
+        // TDOD: just remove 'height' from style
+        setTimeout(function () {
+          element.removeAttr('style');
+        }, TRANSITION_DURATION);
+      }
+
+      // If it's collapsed initially
+      if (!attrs.collapseWhen) {
+
+      }
 
       scope.$watch(attrs.collapseWhen, function (val) {
         if (val) {
-          heightBuffer = element.height();
+          buffer = element.height();
+          element.height(buffer);
           element.height(0);
+          element.addClass('c-w-collapsed');
+          cleanUp();
         } else {
-          element.height(heightBuffer);
+          element.height(buffer);
+          element.removeClass('c-w-collapsed');
+          cleanUp();
         }
       });
     }
