@@ -10,7 +10,7 @@ PhonicsApp.directive('tryOperation', function () {
     },
     link: function postLink(scope) {
       // FIXME: fix this insanity!
-      var rootScope = scope.$parent.$parent.$parent.$parent;
+      var specs = scope.$parent.$parent.$parent.$parent.specs;
 
       scope.httpProtorcol = 'HTTP/1.1';
       scope.paramModels = {};
@@ -38,12 +38,13 @@ PhonicsApp.directive('tryOperation', function () {
         if (scope.$parent.operation.consumes) {
           return scope.$parent.operation.consumes;
         } else {
-          return rootScope.consumes;
+          return specs.consumes;
         }
       }
 
       function generateUrl () {
-        var host = rootScope.host;
+        var host = specs.host;
+        var basePath = specs.basePath;
         var path = scope.$parent.$parent.pathName;
         var pathTemplate = _.template(path);
         var pathParams = scope.$parent.operation.parameters.reduce(function (pathParams, parameter) {
@@ -61,7 +62,8 @@ PhonicsApp.directive('tryOperation', function () {
         var queryParamsStr = $.param(queryParams);
 
 
-        return host + pathTemplate(pathParams) + (queryParamsStr ? '?' + queryParamsStr : '');
+        return host + basePath + pathTemplate(pathParams) +
+          (queryParamsStr ? '?' + queryParamsStr : '');
       }
 
       function makeCall() {
