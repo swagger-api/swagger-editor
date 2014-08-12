@@ -124,8 +124,10 @@
 
       &.selected {
         background: lighten($toolbar-button-bg, 7%);
-
-
+      
+        &[disabled="disabled"] {
+          cursor: default;
+        }
       }
 
       &:first-child {
