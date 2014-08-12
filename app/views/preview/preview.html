@@ -1,9 +1,6 @@
 <div class="preview-wrapper" ng-controller="PreviewCtrl">
   <header class="paths-header" ng-if="!!specs">
-    <ul>
-      <li ng-click="toggleAllPathsListed()">{{areAllPathsListed() ? 'Expand all paths' : 'List all paths'}}
-      </li>
-    </ul>
+    <a class="all-paths-toggler" ng-click="toggleAllPathsListed()">{{areAllPathsListed() ? 'Expand all paths' : 'List all paths'}}</a>
     <ng-include src="'templates/specs-info.html'"></ng-include>
 
   </header>
