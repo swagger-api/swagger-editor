@@ -13,6 +13,7 @@
     <div class="swagger-ui-wrap">
       <div>
         <header class="paths-header" ng-if="!!specs">
+          <ng-include src="'templates/specs-info.html'"></ng-include>
           <ul>
             <li>
               <button ng-click="toggleAllPathsListed()">{{areAllPathsListed() ? 'Exapnd all paths' : 'List all paths'}}</button>

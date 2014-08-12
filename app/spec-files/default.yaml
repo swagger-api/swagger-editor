@@ -2,7 +2,8 @@ swagger: 2.0
 info:
   title: Petstore Sample API
   description: A sample API that uses a petstore as an example to demonstrate features in the swagger-2.0 specification
-  title: Petstore Sample API
+  version: 1.0.0
+  termsOfService: Do whatever you want with this
   contact:
     name: Wordnik API Team
   license:
