@@ -13,9 +13,22 @@
     padding: 0.3em 0.5em;
     cursor: pointer;
     outline: none;
+    width: 145px;
+    transition-property: width, padding;
+    transition-duration: 200ms;
+    transition-timing-function: ease-in-out;
+    white-space: pre;
+
     &:hover {
       background-color: lighten($gray-md, 47%);
       transition: background-color 0.3s ease-in-out;
+    }
+
+    &.trying {
+      width: 0;
+      border: none;
+      overflow: hidden;
+      padding: 0;
     }
   }
 
@@ -24,7 +37,7 @@
     cursor: pointer;
     position: absolute;
     top: 6px;
-    left: 140px;
+    left: 150px;
     transition: left ease-in-out 300ms;
 
     &:after {
