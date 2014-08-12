@@ -4,8 +4,9 @@
 <div class="modal-body">
   <!-- TODO: Use bootstrap form markup -->
   <p>URL</p>
-  <input type="text" ng-model="url">
+  <input type="text" ng-model="url" ng-blur="fetch(url)">
   <p class="error" ng-if="error">{{error}}</p>
+  <p class="can-import" ng-if="canImport">✔ Valid URL</p>
 </div>
 <div class="modal-footer">
   <button class="btn btn-primary" ng-click="ok()" ng-disabled="!canImport">Import</button>

@@ -13,7 +13,9 @@ PhonicsApp.controller('UrlImportCtrl', [
 function FileImportCtrl($scope, $modalInstance, FileLoader, $localStorage, Storage, Editor){
   var results;
 
-  $scope.$watch('url', function (url) {
+  $scope.url = null;
+
+  $scope.fetch = function(url) {
     if (typeof url === 'string' && url.indexOf('http') > -1) {
       FileLoader.loadFromUrl(url).then(function (data) {
         results = data;
@@ -23,7 +25,7 @@ function FileImportCtrl($scope, $modalInstance, FileLoader, $localStorage, Stora
         $scope.canImport = false;
       });
     }
-  });
+  }
 
   $scope.ok = function () {
     if(typeof results === 'object') {

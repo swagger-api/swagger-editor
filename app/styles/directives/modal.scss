@@ -22,6 +22,11 @@
       color:lighten($code-500, 10%);
       margin-top: .5em;
     }
+
+    input {
+      // TODO: colors
+      color: black;
+    }
   }
 
   .modal-footer {
