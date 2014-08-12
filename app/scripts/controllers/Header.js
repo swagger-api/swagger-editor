@@ -21,6 +21,7 @@ function HeaderCtrl($scope, Editor, Storage, FileLoader, Splitter, Builder, $mod
   $scope.resetSpec = function() {
     FileLoader.loadFromUrl('spec-files/default.yaml').then(function (value){
       var specs = Builder.buildDocsWithObject(value);
+      Editor.setValue(specs);
       Storage.save(specs);
     });
   };

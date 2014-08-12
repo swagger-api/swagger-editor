@@ -12,10 +12,5 @@ function EditorCtrl($scope, Editor, Builder, Storage) {
     Storage.save(specs);
   };
 
-  Storage.addChangeListener(function (specs){
-    var yaml = jsyaml.dump(specs);
-    Editor.setValue(yaml);
-  });
-
   $(document).on('pane-resize', Editor.resize.bind(Editor));
 }
