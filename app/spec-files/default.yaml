@@ -11,6 +11,8 @@ info:
     url: http://github.com/gruntjs/grunt/blob/master/LICENSE-MIT
 host: petstore.swagger.wordnik.com
 basePath: /api
+consumes: 
+  - application/json
 paths:
   /user/createWithList:
     post:

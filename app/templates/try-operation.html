@@ -3,7 +3,7 @@
   <div class="parameters">
     <table class="edit-params">
       <tbody>
-        <tr class="content-types">
+        <tr class="content-types" ng-if="getContentTypeHeaders().length">
           <td class="param-name">
             Content-Type
           </td>
@@ -30,7 +30,7 @@
       <div class="line url">
         {{$parent.operationName | uppercase}} {{generateUrl()}} {{httpProtorcol}}
       </div>
-      <div class="content-type-header">
+      <div class="content-type-header" ng-if="getContentTypeHeaders().length">
         Content-Type: {{contentType}}
       </div>
       <div ng-repeat="(parameterName, parameter) in getHeaderParams()">
