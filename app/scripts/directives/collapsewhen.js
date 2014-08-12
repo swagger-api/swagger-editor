@@ -17,8 +17,12 @@ PhonicsApp.directive('collapseWhen', function () {
       }
 
       // If it's collapsed initially
-      if (!attrs.collapseWhen) {
-
+      if (attrs.collapseWhen) {
+        var clone = element.clone();
+        clone.removeAttr('style');
+        clone.appendTo('body');
+        buffer = clone.height();
+        clone.remove();
       }
 
       scope.$watch(attrs.collapseWhen, function (val) {

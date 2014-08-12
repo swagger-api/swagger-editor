@@ -19,7 +19,7 @@
       </li>
     </ul>
   </header>
-  <ul class='operations' ng-class="{collapsed: collapsed, hidden: pathIsListed()}">
+  <ul class='operations' collapse-when="pathIsListed()" >
     <operation ng-repeat="(operationName, operation) in path"></operation>
   </ul>
 </li>

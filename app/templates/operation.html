@@ -1,4 +1,4 @@
-<li class='{{operationName | lowercase}} operation' ng-class="{collapsed: isCollapsed()}">
+<li class='{{operationName | lowercase}} operation'>
   <header ng-click="toggleCollapsed()">
     <div class='http-method' class="toggleOperation">{{operationName | uppercase}}</div>
     <div class="summary">
@@ -8,7 +8,7 @@
     </div>
   </header>
 
-  <div class='content' ng-class="{collapsed: collapsed}">
+  <div class='content' collapse-when="isCollapsed()">
     <section class="description" ng-if="operation.description">
       <h4>Description</h4>
       <div ng-bind-html="operation.description"></div>

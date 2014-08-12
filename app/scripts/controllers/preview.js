@@ -1,8 +1,8 @@
 'use strict';
 
-PhonicsApp.controller('PreviewCtrl', ['Storage', '$scope', '$element', PreviewCtrl]);
+PhonicsApp.controller('PreviewCtrl', ['Storage', '$scope', PreviewCtrl]);
 
-function PreviewCtrl(Storage, $scope, $element) {
+function PreviewCtrl(Storage, $scope) {
   function update(latest){
     $scope.specs = latest;
   }
