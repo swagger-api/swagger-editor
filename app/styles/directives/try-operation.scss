@@ -4,6 +4,7 @@
   background: $color;
 }
 .try-operation {
+  position: relative;
 
   button.try-it {
     border-radius: 3px;
@@ -11,6 +12,7 @@
     border: 1px solid #777;
     padding: 0.3em 0.5em;
     cursor: pointer;
+    outline: none;
     &:hover {
       background-color: lighten($gray-md, 47%);
       transition: background-color 0.3s ease-in-out;
@@ -18,8 +20,34 @@
   }
 
   .try-toggle {
-    font-size: .9em;
+    font-size: 1.2em;
     cursor: pointer;
+    position: absolute;
+    top: 6px;
+    left: 140px;
+    transition: left ease-in-out 300ms;
+
+    &:after {
+      content: "▶";
+    }
+
+
+    &.is-open {
+      left: 98%;
+
+      &:after {
+        content: "×";
+        padding: 0 .2em;
+        display: inline-block;
+      }
+
+      &:hover {
+        // TODO: colors
+        background: red;
+        color: white;
+        border-radius: 3px;
+      }
+    }
   }
 
   >div {
