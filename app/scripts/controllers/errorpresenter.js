@@ -3,7 +3,7 @@
 PhonicsApp.controller('ErrorPresenterCtrl', function ($scope) {
 
   $scope.getError = function (){
-    return  $scope.$parent.specs && $scope.$parent.specs.error;
+    return $scope.$parent.error;
   };
 
   $scope.getType = function () {
@@ -20,7 +20,8 @@ PhonicsApp.controller('ErrorPresenterCtrl', function ($scope) {
     var error = $scope.getError();
 
     if (error.swaggerError) {
-      return error.message;
+      return error.swaggerError.message +
+      ' at ' + error.swaggerError.schemaPath;
     }
 
 

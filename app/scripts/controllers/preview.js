@@ -5,6 +5,7 @@ PhonicsApp.controller('PreviewCtrl', ['Storage', '$scope', PreviewCtrl]);
 function PreviewCtrl(Storage, $scope) {
   function update(latest){
     $scope.specs = latest && latest.specs;
+    $scope.error = latest && latest.error;
   }
 
   // When stuff in localstorage changes, update

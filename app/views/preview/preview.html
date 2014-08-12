@@ -2,9 +2,9 @@
   <div class="error-presenter" ng-controller="ErrorPresenterCtrl">
     <div class="error" ng-if="getError()">
       <h4>{{getType()}}</h4>
-      <pre>{{getDescription()}}</pre>
+      <p>{{getDescription()}}</p>
       <p>Details:</p>
-      <json-formatter json="getError()"></json-formatter>
+      <json-formatter json="getError()" open="1"></json-formatter>
     </div>
   </div>
   <header class="paths-header" ng-if="!!specs">
