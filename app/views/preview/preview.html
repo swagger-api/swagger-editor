@@ -1,19 +1,17 @@
 <div class="preview-wrapper" ng-controller="PreviewCtrl">
   <div class="swagger-section">
     <div class="swagger-ui-wrap">
-      <div>
-        <header class="paths-header" ng-if="!!specs">
-          <ul>
-            <li ng-click="toggleAllPathsListed()">{{areAllPathsListed() ? 'Expand all paths' : 'List all paths'}}
-            </li>
-          </ul>
-          <ng-include src="'templates/specs-info.html'"></ng-include>
-
-        </header>
+      <header class="paths-header" ng-if="!!specs">
         <ul>
-          <path ng-repeat="(pathName, path) in specs.paths" path="path" path-name="pathName"></path>
+          <li ng-click="toggleAllPathsListed()">{{areAllPathsListed() ? 'Expand all paths' : 'List all paths'}}
+          </li>
         </ul>
-      </div>
+        <ng-include src="'templates/specs-info.html'"></ng-include>
+
+      </header>
+      <ul>
+        <path ng-repeat="(pathName, path) in specs.paths" path="path" path-name="pathName"></path>
+      </ul>
     </div>
   </div>
 </div>
