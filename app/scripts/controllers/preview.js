@@ -1,8 +1,8 @@
 'use strict';
 
-PhonicsApp.controller('PreviewCtrl', ['Storage', '$scope', PreviewCtrl]);
+PhonicsApp.controller('PreviewCtrl', ['Storage', '$scope', '$element', PreviewCtrl]);
 
-function PreviewCtrl(Storage, $scope) {
+function PreviewCtrl(Storage, $scope, $element) {
   function update(latest){
     $scope.specs = latest;
   }
@@ -44,6 +44,15 @@ function PreviewCtrl(Storage, $scope) {
     var allListed = $scope.areAllPathsListed();
     for (var pathName in $scope.pathListedStatus) {
       $scope.pathListedStatus[pathName] = !allListed;
+    }
+  };
+
+  $scope.toggleInfoHidden = function () {
+    $scope.hideInfo= !$scope.hideInfo;
+    if ($scope.hideInfo) {
+      $element.find('.info-container').height($element.find('.info-container').height());
+    } else {
+      $element.find('.info-container').removeAttr('style');
     }
   };
 

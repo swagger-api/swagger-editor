@@ -76,23 +76,8 @@ main {
       overflow: auto;
       .swagger-section {
         padding: .5em 1em;
-
-        .paths-header {
-          background-color: #fafafa;
-          padding: 5px;
-          margin-bottom: 1em;
-
-          h1 {
-            font-weight: 700;
-          }
-          
-          p {
-            font-size: .9em;
-            font-weight: 300;
-          }
-
-        }
       }
+
       .json-section {
         &, .editor-wrapper {
           height: 100%;
