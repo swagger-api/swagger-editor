@@ -1,4 +1,5 @@
 .paths-header {
+  font-family: "Open Sans";
   background-color: #fafafa;
   padding: 5px;
   margin-bottom: 1em;
@@ -11,20 +12,34 @@
       overflow: hidden;
     }
   }
-  button {
+  li {
     float: right;
+    cursor: pointer;
+    font-size: .9em;
+    &:hover {
+      text-decoration: underline;
+    }
   }
 
   h1 {
     font-size: 1.2em;
     font-weight: 400;
+    width: 80%;
   }
 
   p {
     font-size: .9em;
     font-weight: 300;
     line-height: 1.2em;
+    width: 80%;
     margin-top: .4em;
+  }
+
+  h4 {
+    margin-top: .4em;
+    > span {
+      font-weight: 300;
+    }
   }
 
 }
