@@ -1,8 +1,15 @@
 <div class="preview-wrapper" ng-controller="PreviewCtrl">
+  <div class="error-presenter" ng-controller="ErrorPresenterCtrl">
+    <div class="error" ng-if="getError()">
+      <h4>{{getType()}}</h4>
+      <pre>{{getDescription()}}</pre>
+      <p>Details:</p>
+      <json-formatter json="getError()"></json-formatter>
+    </div>
+  </div>
   <header class="paths-header" ng-if="!!specs">
     <a class="all-paths-toggler" ng-click="toggleAllPathsListed()">{{areAllPathsListed() ? 'Expand all paths' : 'List all paths'}}</a>
     <ng-include src="'templates/specs-info.html'"></ng-include>
-
   </header>
   <ul>
     <path ng-repeat="(pathName, path) in specs.paths" path="path" path-name="pathName"></path>

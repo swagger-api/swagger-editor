@@ -1,0 +1,16 @@
+.error-presenter {
+  background: lighten(red, 40%);
+
+  h4 {
+    background: red;
+    color: white;
+  }
+
+  pre {
+    padding: .4em;
+    white-space: pre;
+    font-family: "Source Code Pro";
+    background: lighten(red, 40%);
+    word-wrap: normal;
+  }
+}

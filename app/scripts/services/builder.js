@@ -18,22 +18,19 @@ function Builder(Resolver, Validator) {
     } catch(e) {
       return null;
     }
-    return buildDocsWithObject(json);
+    return buildDocsWithObject(json.specs);
   }
 
   function buildDocsWithObject(json){
     json = Resolver.resolve(json);
-
+    var result = { specs: json };
     var error = Validator.validateSwagger(json);
-    if (error && error.swaggerError) {
 
-      // TODO
-      console.error(error.swaggerError);
+    if (error && error.swaggerError) {
+      result.error = error;
     }
-    if(json && json.paths){
-      return json;
-    }
-    return null;
+
+    return result;
   }
 
   this.buildDocs = buildDocs;
