@@ -70,7 +70,7 @@
 
     <section class="try-operation">
       <button class="try-it" ng-click="showTryOperation()">Try this operation</button>
-      <span class="try-toggle">{{tryIsOpen ? '▼' : '►'}}</span>
+      <span class="try-toggle" ng-click="showTryOperation()">{{tryIsOpen ? '▼' : '►'}}</span>
       <try-operation operation="operation" ng-if="tryIsOpen"></try-operation>
     </section>
 </li>
