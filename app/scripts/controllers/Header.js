@@ -8,11 +8,12 @@ PhonicsApp.controller('HeaderCtrl', [
   'Splitter',
   'Builder',
   '$modal',
+  'defaults',
   HeaderCtrl
 ]);
 
 
-function HeaderCtrl($scope, Editor, Storage, FileLoader, Splitter, Builder, $modal) {
+function HeaderCtrl($scope, Editor, Storage, FileLoader, Splitter, Builder, $modal, defaults) {
   $scope.newProject = function(){
     Editor.setValue('');
     Storage.reset();
@@ -31,8 +32,8 @@ function HeaderCtrl($scope, Editor, Storage, FileLoader, Splitter, Builder, $mod
   };
 
   $scope.generateZip = function(type, kind){
-    // TODO put the URL in enums module
-    var url = 'http://generator.wordnik.com/online/api/gen/' + type + '/' + kind;
+    var urlTemplate = _.template(defaults.apiGenUrl);
+    var url = urlTemplate({type: type, kind: kind});
     var specs = jsyaml.load(Editor.getValue());
 
     getZipFile(url, specs);
@@ -62,36 +63,33 @@ function HeaderCtrl($scope, Editor, Storage, FileLoader, Splitter, Builder, $mod
     });
   };
 
-}
+  function assignDownloadHrefs($scope, Storage){
+    var MIME_TYPE = 'text/plain';
+    var specs = Storage.load();
 
+    // JSON
+    var json = JSON.stringify(specs, null, 2);
+    var jsonBlob = new Blob([json], {type: MIME_TYPE});
+    $scope.jsonDownloadHref = window.URL.createObjectURL(jsonBlob);
+    $scope.jsonDownloadUrl = [MIME_TYPE, 'spec.json', $scope.jsonDownloadHref].join(':');
 
-function assignDownloadHrefs($scope, Storage){
-  var MIME_TYPE = 'text/plain';
-  var specs = Storage.load();
+    // YAML
+    var yamlBlob = new Blob([jsyaml.dump(specs)], {type: MIME_TYPE});
+    $scope.yamlDownloadHref = window.URL.createObjectURL(yamlBlob);
+    $scope.yamlDownloadUrl = [MIME_TYPE, 'spec.yaml', $scope.yamlDownloadHref].join(':');
+  }
 
-  // JSON
-  var json = JSON.stringify(specs, null, 2);
-  var jsonBlob = new Blob([json], {type: MIME_TYPE});
-  $scope.jsonDownloadHref = window.URL.createObjectURL(jsonBlob);
-  $scope.jsonDownloadUrl = [MIME_TYPE, 'spec.json', $scope.jsonDownloadHref].join(':');
-
-  // YAML
-  var yamlBlob = new Blob([jsyaml.dump(specs)], {type: MIME_TYPE});
-  $scope.yamlDownloadHref = window.URL.createObjectURL(yamlBlob);
-  $scope.yamlDownloadUrl = [MIME_TYPE, 'spec.yaml', $scope.yamlDownloadHref].join(':');
-}
-
-function getZipFile(url, json){
-  $.ajax({
-    type: 'POST',
-    contentType: 'application/json',
-    url: url,
-    data: JSON.stringify(json),
-    processData: false
-  }).then(function(data){
-    if (data instanceof Object && data.code){
-      // TODO put fixed URL in enums
-      window.location = 'http://generator.wordnik.com/online/api/gen/download/' + data.code;
-    }
-  });
+  function getZipFile(url, json){
+    $.ajax({
+      type: 'POST',
+      contentType: 'application/json',
+      url: url,
+      data: JSON.stringify(json),
+      processData: false
+    }).then(function(data){
+      if (data instanceof Object && data.code){
+        window.location = defaults.downloadZipUrl + data.code;
+      }
+    });
+  }
 }
