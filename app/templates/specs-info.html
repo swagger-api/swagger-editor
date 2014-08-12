@@ -1,7 +1,7 @@
 <h1>
-  <a ng-click="toggleInfoHidden()">{{specs.info.title}}</a>
+  <a ng-click="hideInfo = !hideInfo">{{specs.info.title}}</a>
 </h1>
-<div class="info-container" ng-class="{collapsed: hideInfo}" ng-ani>
+<div class="info-container" collapse-when="hideInfo" ng-ani>
   <p>{{specs.info.description}}</p>
   <p>Version {{specs.info.version}}</p>
   <div ng-if="specs.info.termsOfService">
@@ -13,3 +13,4 @@
     <a href="{{specs.info.license.url}}">{{specs.info.license.url}}</a>
   </div>
 </div>
+

@@ -46,14 +46,4 @@ function PreviewCtrl(Storage, $scope, $element) {
       $scope.pathListedStatus[pathName] = !allListed;
     }
   };
-
-  $scope.toggleInfoHidden = function () {
-    $scope.hideInfo= !$scope.hideInfo;
-    if ($scope.hideInfo) {
-      $element.find('.info-container').height($element.find('.info-container').height());
-    } else {
-      $element.find('.info-container').removeAttr('style');
-    }
-  };
-
 }

@@ -3,15 +3,6 @@
   padding: 5px;
   margin-bottom: 1em;
 
-  .info-container {
-    transition: height ease-in .3s;
-
-    &.collapsed {
-      height: 0 !important;
-      overflow: hidden;
-    }
-  }
-
   h1 {
     font-weight: 700;
   }
