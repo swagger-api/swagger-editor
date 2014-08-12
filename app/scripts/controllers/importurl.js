@@ -25,7 +25,7 @@ function FileImportCtrl($scope, $modalInstance, FileLoader, $localStorage, Stora
         $scope.canImport = false;
       });
     }
-  }
+  };
 
   $scope.ok = function () {
     if(typeof results === 'object') {
