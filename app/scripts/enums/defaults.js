@@ -1,5 +1,5 @@
 PhonicsApp.config( ['$provide', function ($provide) {
-  $provide.constant('defaults', 
+  $provide.constant('defaults',
 
   // BEGIN-DEFAUNTAS-JSON
   {
