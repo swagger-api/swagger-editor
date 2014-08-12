@@ -17,7 +17,7 @@ PhonicsApp.directive('path', function(){
 
       // Initialize collapseList
       Object.keys(scope.path).forEach(function (operationName) {
-        scope.collapseList[operationName] = false;
+        scope.collapseList[operationName] = true;
       });
 
       scope.toggleOperationListed = function () {
