@@ -12,7 +12,7 @@
   <div class="swagger-section">
     <div class="swagger-ui-wrap">
       <div>
-        <header class="paths-header">
+        <header class="paths-header" ng-if="!!specs">
           <ul>
             <li>
               <button ng-click="toggleAllPathsListed()">{{areAllPathsListed() ? 'Exapnd all paths' : 'List all paths'}}</button>

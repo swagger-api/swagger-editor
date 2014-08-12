@@ -16,8 +16,12 @@ function PreviewCtrl(Storage, $scope) {
   }
 
   $scope.pathListedStatus = Object.create(null);
-  Object.keys($scope.specs.paths).forEach(function (pathName){
-    $scope.pathListedStatus[pathName] = true;
+  $scope.$watch('specs', function (){
+    if ($scope.specs && $scope.specs.paths){
+      Object.keys($scope.specs.paths).forEach(function (pathName){
+        $scope.pathListedStatus[pathName] = true;
+      });
+    }
   });
 
   $scope.setAllPathsListed = function (value){
