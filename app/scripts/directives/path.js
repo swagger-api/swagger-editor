@@ -20,25 +20,35 @@ PhonicsApp.directive('path', function(){
         scope.collapseList[operationName] = false;
       });
 
-      scope.toggleListed = function () {
-        if(scope.pathIsHidden){
-          scope.pathIsHidden = false;
-          scope.setPathIsListed(true);
+      scope.toggleOperationListed = function () {
+
+        if(scope.pathIsListed()){
+          scope.$parent.pathListedStatus[scope.pathName] = false;
+          scope.setOperationsListed(true);
         } else {
-          scope.setPathIsListed(!scope.pathIsListed());
+          scope.setOperationsListed(!scope.operationsAreListed());
         }
       };
 
-      scope.pathIsListed = function () {
+      scope.operationsAreListed = function () {
         return Object.keys(scope.collapseList).reduce(function (memory, operationName) {
           return scope.collapseList[operationName] && memory;
         }, true);
       };
 
-      scope.setPathIsListed = function (value) {
+      scope.setOperationsListed = function (value) {
         Object.keys(scope.collapseList).forEach(function (operationName) {
           scope.collapseList[operationName] = value;
         });
+      };
+
+      scope.pathIsListed = function (){
+        return scope.$parent.isPathListed(scope.pathName);
+      };
+
+      scope.togglePathListed = function() {
+        scope.$parent.pathListedStatus[scope.pathName] =
+          !scope.$parent.pathListedStatus[scope.pathName];
       };
     }
   };

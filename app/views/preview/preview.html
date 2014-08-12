@@ -12,7 +12,14 @@
   <div class="swagger-section">
     <div class="swagger-ui-wrap">
       <div>
-        <ul id='resources'>
+        <header class="paths-header">
+          <ul>
+            <li>
+              <button ng-click="toggleAllPathsListed()">{{areAllPathsListed() ? 'Exapnd all paths' : 'List all paths'}}</button>
+            </li>
+          </ul>
+        </header>
+        <ul>
           <path ng-repeat="(pathName, path) in specs.paths" path="path" path-name="pathName"></path>
         </ul>
       </div>
