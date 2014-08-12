@@ -46,13 +46,22 @@ function HeaderCtrl($scope, Editor, Storage, FileLoader, Splitter, Builder, $mod
     return Splitter.isVisible(side);
   };
 
-  $scope.openImport = function(){
+  $scope.openImportFile = function(){
     $modal.open({
-      templateUrl: 'templates/import.html',
-      controller: 'ImportCtrl',
+      templateUrl: 'templates/file-import.html',
+      controller: 'FileImportCtrl',
       size: 'large'
     });
   };
+
+  $scope.openImportUrl = function(){
+    $modal.open({
+      templateUrl: 'templates/url-import.html',
+      controller: 'UrlImportCtrl',
+      size: 'large'
+    });
+  };
+
 }
 
 

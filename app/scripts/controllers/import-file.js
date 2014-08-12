@@ -1,16 +1,16 @@
 'use strict';
 
-PhonicsApp.controller('ImportCtrl', [
+PhonicsApp.controller('FileImportCtrl', [
   '$scope',
   '$modalInstance',
   'FileLoader',
   '$localStorage',
   'Storage',
   'Editor',
-  ImportController
+  FileImportCtrl
 ]);
 
-function ImportController($scope, $modalInstance, FileLoader, $localStorage, Storage, Editor){
+function FileImportCtrl($scope, $modalInstance, FileLoader, $localStorage, Storage, Editor){
   var results;
 
   $scope.fileChanged = function ($fileContent) {
