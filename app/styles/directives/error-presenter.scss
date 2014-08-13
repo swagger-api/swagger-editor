@@ -9,7 +9,17 @@
     background: lighten($code-500, 10%);
     color: white;
     margin: 0 -10px 0 -10px;
-    padding: 5px;
+    padding: 5px 10px;
+  }
+
+  p {
+    line-height: 120%;
+    margin-top: 10px;
+    font-size: .9em;
+  }
+
+  .error {
+    padding-bottom: 10px;
   }
 
   pre {
