@@ -42,7 +42,7 @@ function Editor() {
 
     // If it's an object, convert it YAML
     if (typeof value === 'object') {
-      setValue(jsyaml.dump(value));
+      setValue( jsyaml.dump( angular.copy(value) ) );
     }
   }
 

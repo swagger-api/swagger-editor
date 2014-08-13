@@ -33,7 +33,7 @@ PhonicsApp.service('Resolver', function Resolver() {
 
   function lookup (address, root) {
     if(address.indexOf('#/') !== 0) {
-      throw new Error('Can not lookup ' + address + ' in ' + JSON.stringify(root));
+      throw new Error('Can not lookup ' + address + ' in ' + angular.toJson(root));
     }
     var path = address.substring(2).split('/');
     var current = root;
@@ -41,7 +41,7 @@ PhonicsApp.service('Resolver', function Resolver() {
     while(path.length){
       key = path.shift();
       if (!current[key]) {
-        throw new Error('Can not lookup ' + key + ' in ' + JSON.stringify(current));
+        throw new Error('Can not lookup ' + key + ' in ' + angular.toJson(current));
       }
       current = current[key];
     }

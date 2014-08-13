@@ -77,7 +77,7 @@ function HeaderCtrl($scope, Editor, Storage, Splitter, Builder, $modal, $statePa
     var specs = Storage.load('specs');
 
     // JSON
-    var json = JSON.stringify(specs, null, 2);
+    var json = angular.toJson(specs, null, 2);
     var jsonBlob = new Blob([json], {type: MIME_TYPE});
     $scope.jsonDownloadHref = window.URL.createObjectURL(jsonBlob);
     $scope.jsonDownloadUrl = [MIME_TYPE, 'spec.json', $scope.jsonDownloadHref].join(':');
@@ -93,7 +93,7 @@ function HeaderCtrl($scope, Editor, Storage, Splitter, Builder, $modal, $statePa
       type: 'POST',
       contentType: 'application/json',
       url: url,
-      data: JSON.stringify(json),
+      data: angular.toJson(json),
       processData: false
     }).then(function(data){
       if (data instanceof Object && data.code){
