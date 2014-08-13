@@ -35,19 +35,15 @@ function Router($compileProvider, $stateProvider, $urlRouterProvider) {
     .state('home.path', {
       url: '/paths?path',
       views: {
-        '': {
-          templateUrl: 'views/main.html',
-          controller: 'MainCtrl'
-        },
-        'header@home': {
+        'header': {
           templateUrl: 'views/header/header.html',
           controller: 'HeaderCtrl'
         },
-        'editor@home': {
+        'editor': {
           templateUrl: 'views/editor/editor.html',
           controller: 'EditorCtrl'
         },
-        'preview@home': {
+        'preview': {
           templateUrl: 'views/preview/preview.html',
           controller: 'PreviewCtrl'
         }

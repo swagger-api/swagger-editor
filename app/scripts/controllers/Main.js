@@ -1,11 +1,7 @@
 'use strict';
 
-PhonicsApp.controller('MainCtrl', ['$scope', '$rootScope', 'Editor', 'Storage', MainCtrl]);
+PhonicsApp.controller('MainCtrl', ['$rootScope', 'Editor', MainCtrl]);
 
-function MainCtrl($scope, $rootScope, Editor, Storage) {
+function MainCtrl($rootScope, Editor) {
   $rootScope.$on('$stateChangeStart', Editor.initializeEditor);
-
-  Editor.ready(function () {
-    Editor.setValue(Storage.load('specs'));
-  });
 }
