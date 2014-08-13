@@ -3,30 +3,28 @@
 .error-presenter {
   background: lighten($code-500, 50%);
   font-family: "Open Sans";
-  padding: 0 10px;
 
   h4 {
     background: lighten($code-500, 10%);
     color: white;
-    margin: 0 -10px 0 -10px;
-    padding: 5px 10px;
+    cursor: pointer;
+    padding: .3em;
   }
 
-  p {
-    line-height: 120%;
-    margin-top: 10px;
-    font-size: .9em;
+  .details {
+    padding: .5em .3em;
+
+    p {
+      line-height: 120%;
+      font-size: .9em;
+    }
+
+    pre {
+      white-space: pre;
+      font-family: "Source Code Pro";
+      background: lighten(red, 20%);
+      word-wrap: normal;
+    }
   }
 
-  .error {
-    padding-bottom: 10px;
-  }
-
-  pre {
-    padding: .4em;
-    white-space: pre;
-    font-family: "Source Code Pro";
-    background: lighten(red, 20%);
-    word-wrap: normal;
-  }
 }
