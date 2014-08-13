@@ -16,7 +16,9 @@ function Builder(Resolver, Validator) {
     try {
       json = load(stringValue);
     } catch(e) {
-      return null;
+      return {
+        yamlError: e
+      };
     }
     return buildDocsWithObject(json.specs);
   }

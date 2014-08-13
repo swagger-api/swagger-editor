@@ -30,7 +30,7 @@ function FileImportCtrl($scope, $modalInstance, FileLoader, $localStorage, Stora
   $scope.ok = function () {
     if(typeof results === 'object') {
       Editor.setValue(results);
-      Storage.save(results);
+      Storage.save('spevs', results);
     }
     $modalInstance.close();
   };

@@ -9,7 +9,7 @@ function EditorCtrl($scope, Editor, Builder, Storage) {
     var value = Editor.getValue();
     var specs = Builder.buildDocs(value);
 
-    Storage.save(specs);
+    Storage.save('specs', specs);
   };
 
   $(document).on('pane-resize', Editor.resize.bind(Editor));

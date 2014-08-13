@@ -2,36 +2,43 @@
 
 PhonicsApp.service('Storage', ['$localStorage', function Storage($localStorage) {
   var storageKey = 'SwaggerEditorCache';
-  var changeListeners = [];
+  var changeListeners = {};
 
-  function setSpecs(specs){
+  function setSpecs(key, value){
 
-    changeListeners.forEach(function (fn) {
-      fn(specs);
+    changeListeners[key].forEach(function (fn) {
+      fn(value);
     });
 
     _.debounce(function() {
       window.requestAnimationFrame(function(){
-        $localStorage[storageKey] = specs;
+        $localStorage[storageKey][key] = value;
       });
     }, 100)();
   }
 
-  this.save = function (specs){
-    setSpecs(specs);
+  this.save = function (key, value){
+    setSpecs(key, value);
   };
 
   this.reset = function () {
-    setSpecs(null);
+    $localStorage[storageKey] = null;
   };
 
-  this.load = function (){
-    return $localStorage[storageKey];
+  this.load = function (key){
+    if (!key){
+      return $localStorage[storageKey];
+    }
+
+    return $localStorage[storageKey][key];
   };
 
-  this.addChangeListener = function (fn) {
+  this.addChangeListener = function (key, fn) {
     if (typeof fn === 'function') {
-      changeListeners.push(fn);
+      if (!changeListeners[key]) {
+        changeListeners[key] = [];
+      }
+      changeListeners[key].push(fn);
     }
   };
 }]);

@@ -23,7 +23,7 @@ function HeaderCtrl($scope, Editor, Storage, FileLoader, Splitter, Builder, $mod
     FileLoader.loadFromUrl('spec-files/default.yaml').then(function (value){
       var result = Builder.buildDocsWithObject(value);
       Editor.setValue(result.specs);
-      Storage.save(result);
+      Storage.save('specs', result);
     });
   };
 
