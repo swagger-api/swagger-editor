@@ -4,7 +4,6 @@ PhonicsApp.controller('HeaderCtrl', [
   '$scope',
   'Editor',
   'Storage',
-  'FileLoader',
   'Splitter',
   'Builder',
   '$modal',
@@ -13,19 +12,10 @@ PhonicsApp.controller('HeaderCtrl', [
 ]);
 
 
-function HeaderCtrl($scope, Editor, Storage, FileLoader, Splitter, Builder, $modal, defaults) {
+function HeaderCtrl($scope, Editor, Storage, Splitter, Builder, $modal, defaults) {
   $scope.newProject = function(){
     Editor.setValue('');
     Storage.reset();
-  };
-
-  $scope.resetSpec = function() {
-    FileLoader.loadFromUrl('spec-files/default.yaml').then(function (value){
-      var result = Builder.buildDocsWithObject(value);
-      Editor.setValue(result.specs);
-      Storage.save('specs', result.specs);
-      Storage.save('error', result.error);
-    });
   };
 
   $scope.assignDownloadHrefs = function(){
@@ -60,6 +50,14 @@ function HeaderCtrl($scope, Editor, Storage, FileLoader, Splitter, Builder, $mod
     $modal.open({
       templateUrl: 'templates/url-import.html',
       controller: 'UrlImportCtrl',
+      size: 'large'
+    });
+  };
+
+  $scope.openExamples = function(){
+    $modal.open({
+      templateUrl: 'templates/open-examples.html',
+      controller: 'OpenExamplesCtrl',
       size: 'large'
     });
   };

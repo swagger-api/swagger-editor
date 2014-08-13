@@ -4,7 +4,8 @@ PhonicsApp.config( ['$provide', function ($provide) {
   // BEGIN-DEFAUNTAS-JSON
   {
    downloadZipUrl: 'http://generator.wordnik.com/online/api/gen/download/',
-   apiGenUrl: 'http://generator.wordnik.com/online/api/gen/{type}/{kind}'
+   apiGenUrl: 'http://generator.wordnik.com/online/api/gen/{type}/{kind}',
+   exampleFiles: ['default.yaml']
   }
   // END-DEFAULTS-JSON
 

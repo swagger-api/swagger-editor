@@ -1,5 +1,5 @@
 {
-  "name": "koknus",
+  "name": "phonics",
   "version": "0.0.0",
   "dependencies": {
     "jsonlint": "~1.6.0",
