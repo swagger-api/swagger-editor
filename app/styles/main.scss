@@ -73,7 +73,10 @@ main {
     &.preview {
       right: 0;
       overflow: auto;
-      padding: .5em 1em;
+
+      .preview-wrapper {
+        margin: .5em 1em;
+      }
     }
   }
 
