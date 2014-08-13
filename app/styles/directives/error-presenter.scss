@@ -8,17 +8,22 @@
     background: lighten($code-500, 10%);
     color: white;
     cursor: pointer;
-    padding: .3em;
+    padding: .3em .5em;
     margin: 0;
   }
 
   .details {
-    padding: .5em .3em;
+    padding: .5em;
 
-    p {
-      line-height: 120%;
-      font-size: .9em;
+    h5 {
+      font-weight: 600;
+      margin-bottom: .3em;
     }
+
+  p {
+    line-height: 125%;
+    font-size: .9em;
+  }
 
     pre {
       white-space: pre;
@@ -32,5 +37,4 @@
       padding-bottom: 0;
     }
   }
-
 }

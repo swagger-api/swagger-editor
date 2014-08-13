@@ -1,12 +1,12 @@
 <div class="preview-wrapper" ng-controller="PreviewCtrl">
   <div class="error-presenter" ng-controller="ErrorPresenterCtrl">
     <div class="error" ng-if="getError()">
-      <header>
-        <h4 ng-click="hideError = !hideError">{{getType()}}</h4>
+      <header class="error-header" ng-click="hideError = !hideError">
+          <h4 >{{getType()}}</h4>
       </header>
       <div class="details" collapse-when="hideError">
         <p>{{getDescription()}}</p>
-        <h5>Details:</h5>
+        <h5>Details</h5>
         <json-formatter json="getError()" open="1"></json-formatter>
       </div>
     </div>
