@@ -6,14 +6,22 @@ li.path {
     align-items: center;
     justify-content: space-between;
 
-    h2 a {
+    h2  {
       font-family: "Open Sans";
-      font-size: .8em;
-      color: #333;
-      text-decoration: none;
-      padding: .2em;
+      font-size: 1.2em;
       font-weight: 600;
-      padding: 0
+      padding: 0;
+      margin-bottom: 5px;
+      margin-top: 3px;
+
+      a {
+        color: #333;
+        text-decoration: none;
+
+          &:hover {
+          cursor: pointer;
+        }
+      }
     }
   }
 
@@ -28,6 +36,7 @@ li.path {
       &:hover {
         color: #444;
         transition: all 0.3s ease-in-out;
+        cursor: pointer;
       }
 
     }
