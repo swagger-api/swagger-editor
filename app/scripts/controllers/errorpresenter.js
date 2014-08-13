@@ -5,7 +5,7 @@ PhonicsApp.controller('ErrorPresenterCtrl', ['$scope', function ($scope) {
   $scope.getError = function (){
     var error = $scope.$parent.error;
 
-    if (error.swaggerError) {
+    if (error && error.swaggerError) {
       delete error.swaggerError.stack;
     }
 
