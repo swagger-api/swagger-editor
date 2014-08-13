@@ -3,7 +3,13 @@
 PhonicsApp.controller('ErrorPresenterCtrl', ['$scope', function ($scope) {
 
   $scope.getError = function (){
-    return $scope.$parent.error;
+    var error = $scope.$parent.error;
+
+    if (error.swaggerError) {
+      delete error.swaggerError.stack;
+    }
+
+    return error;
   };
 
   $scope.getType = function () {
