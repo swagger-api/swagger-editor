@@ -5,7 +5,7 @@ PhonicsApp.config([
   '$stateProvider',
   '$urlRouterProvider',
   Router
-  ]);
+]);
 
 function Router($compileProvider, $stateProvider, $urlRouterProvider) {
   $urlRouterProvider.otherwise('/');
