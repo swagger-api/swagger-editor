@@ -9,8 +9,11 @@
   font-family: "Open Sans";
   font-weight: 300;
 
-  .modal-header {
+  .modal-title {
     font-size: 1.2em;
+  }
+
+  .modal-header {
     border-bottom: 1px solid $gray-md;
   }
 
@@ -18,14 +21,15 @@
     p {
       margin: 1em 0;
     }
+
     .invalid {
       color:lighten($code-500, 10%);
       margin-top: .5em;
     }
 
     input {
-      // TODO: colors
       color: black;
+      padding: 0.2em;
     }
   }
 
