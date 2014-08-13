@@ -1,9 +1,8 @@
 'use strict';
 
-PhonicsApp.controller('EditorCtrl', ['$scope', 'Editor', 'Builder', 'Storage', EditorCtrl]);
+PhonicsApp.controller('EditorCtrl', ['$scope', '$stateParams', 'Editor', 'Builder', 'Storage', EditorCtrl]);
 
-function EditorCtrl($scope, Editor, Builder, Storage) {
-  $scope.editorErrorMessage = '';
+function EditorCtrl($scope, $stateParams, Editor, Builder, Storage) {
   $scope.aceLoaded = Editor.aceLoaded;
   $scope.aceChanged = function(){
     var value = Editor.getValue();
