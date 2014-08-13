@@ -47,10 +47,12 @@ li.path {
 
     }
 
-     li.divider {
-        color: #ccc;
-        font-weight: 300;
-      }
+    li + li:after, li:first-child:after {
+      content: "|";
+    }
+    li:last-child:after {
+      display: none;
+    }
   }
 
   ul.operations {

@@ -9,7 +9,6 @@
           {{pathIsListed() ? 'Show' : 'Hide'}}
         </a>
       </li>
-      <li class="divider">|</li>
       <li>
         <a ng-click="toggleOperationListed($event)">
           {{pathIsListed() ? 'List' :
@@ -17,7 +16,6 @@
           Operation
         </a>
       </li>
-      <li class="divider">|</li>
       <li ng-if="!isSingle">
         <a href="{{getEditPath(pathName)}}">Edit This Path</a>
       </li>
