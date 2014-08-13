@@ -46,11 +46,14 @@
 
 
     &.is-open {
-      left: 98%;
+      left: 0%;
 
       &:after {
-        content: "×";
-        padding: 0 .2em;
+        content: "close ×";
+        border-radius: 3px;
+        border: 1px solid gray;
+        font-size: 1em;
+        padding: .3em .5em;
         display: inline-block;
       }
 
@@ -67,7 +70,10 @@
     >h5 {
       font-size: 1.0em;
       font-weight: 600;
-
+      
+      &:first-child {
+        margin-top: 25px;
+      }
     }
 
     >div {
