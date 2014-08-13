@@ -7,12 +7,22 @@ PhonicsApp.controller('HeaderCtrl', [
   'Splitter',
   'Builder',
   '$modal',
+  '$stateParams',
   'defaults',
   HeaderCtrl
 ]);
 
 
-function HeaderCtrl($scope, Editor, Storage, Splitter, Builder, $modal, defaults) {
+function HeaderCtrl($scope, Editor, Storage, Splitter, Builder, $modal, $stateParams, defaults) {
+  $scope.getBreadcrumbs = function(){
+    if ($stateParams.path) {
+      return [
+        { active: true, name: $stateParams.path }
+      ];
+    }
+    return [];
+  };
+
   $scope.newProject = function(){
     Editor.setValue('');
     Storage.reset();

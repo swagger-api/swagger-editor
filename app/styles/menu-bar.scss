@@ -4,16 +4,13 @@
   $border-radius: 3px;
   $button-font-size: 15px;
   font-family: "Open Sans";
-
   width: 100%;
 
   .toolbar{
     min-height: 30px;
     padding: 0 15px 5px 15px;
     section {
-      &.left {
-        float: left;
-      }
+      float: left;
 
       &.right {
         float: right;
@@ -124,7 +121,7 @@
 
       &.selected {
         background: lighten($toolbar-button-bg, 7%);
-      
+
         &[disabled="disabled"] {
           cursor: default;
         }
@@ -150,5 +147,10 @@
     }
 
   }
+}
 
+.breadcrumbs .breadcrumb {
+  // TODO: colors
+  background: none;
+  color: white;
 }
