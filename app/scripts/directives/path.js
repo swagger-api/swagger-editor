@@ -15,6 +15,10 @@ PhonicsApp.directive('path', function(){
       // in path level so we can manipulate them from path level
       scope.collapseList =  Object.create(null);
 
+      scope.getEditPath = function (pathName) {
+        return '#/paths?path=' + window.encodeURIComponent(pathName);
+      };
+
       // Initialize collapseList
       Object.keys(scope.path).forEach(function (operationName) {
         scope.collapseList[operationName] = true;

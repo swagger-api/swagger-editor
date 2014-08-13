@@ -1,10 +1,19 @@
 'use strict';
 
-PhonicsApp.controller('PreviewCtrl', ['Storage', '$scope', PreviewCtrl]);
+PhonicsApp.controller('PreviewCtrl', [
+  'Storage',
+  '$scope',
+  '$stateParams',
+  PreviewCtrl
+]);
 
-function PreviewCtrl(Storage, $scope) {
+function PreviewCtrl(Storage, $scope, $stateParams) {
   function updateSpecs(latest){
-    $scope.specs = latest;
+    if ($stateParams.path && latest.paths[$stateParams.path]) {
+      $scope.specs = { paths: _.pick(latest.paths, $stateParams.path) };
+    } else {
+      $scope.specs = latest;
+    }
   }
   function updateError(latest){
     $scope.error = latest;

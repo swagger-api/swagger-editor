@@ -1,5 +1,4 @@
 <div class="preview-wrapper">
-  {{awesomeThings}}
   <div class="error-presenter" ng-controller="ErrorPresenterCtrl">
     <div class="error" ng-if="getError()">
       <header class="error-header" ng-click="hideError = !hideError">
@@ -12,7 +11,7 @@
       </div>
     </div>
   </div>
-  <header class="paths-header" ng-if="!!specs">
+  <header class="paths-header" ng-if="!!specs.info">
     <a class="all-paths-toggler" ng-click="toggleAllPathsListed()">{{areAllPathsListed() ? 'Expand all paths' : 'List all paths'}}</a>
     <ng-include src="'templates/specs-info.html'"></ng-include>
   </header>
