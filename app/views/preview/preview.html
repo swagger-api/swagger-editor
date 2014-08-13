@@ -1,4 +1,5 @@
-<div class="preview-wrapper" ng-controller="PreviewCtrl">
+<div class="preview-wrapper">
+  {{awesomeThings}}
   <div class="error-presenter" ng-controller="ErrorPresenterCtrl">
     <div class="error" ng-if="getError()">
       <header class="error-header" ng-click="hideError = !hideError">
