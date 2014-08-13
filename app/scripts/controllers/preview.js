@@ -26,7 +26,9 @@ function PreviewCtrl(Storage, $scope) {
   $scope.$watch('specs', function (){
     if ($scope.specs && $scope.specs.paths){
       Object.keys($scope.specs.paths).forEach(function (pathName){
-        $scope.pathListedStatus[pathName] = true;
+        if (typeof $scope.pathListedStatus[pathName] === 'undefined') {
+          $scope.pathListedStatus[pathName] = true;
+        }
       });
     }
   });
