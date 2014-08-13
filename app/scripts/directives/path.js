@@ -7,7 +7,8 @@ PhonicsApp.directive('path', function(){
     templateUrl: 'templates/path.html',
     scope: {
       path: '=',
-      pathName: '='
+      pathName: '=',
+      isSingle: '='
     },
     link: function (scope) {
 
@@ -21,7 +22,7 @@ PhonicsApp.directive('path', function(){
 
       // Initialize collapseList
       Object.keys(scope.path).forEach(function (operationName) {
-        scope.collapseList[operationName] = true;
+        scope.collapseList[operationName] = !scope.isSingle;
       });
 
       scope.toggleOperationListed = function ($event) {

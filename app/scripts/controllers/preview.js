@@ -11,6 +11,7 @@ function PreviewCtrl(Storage, $scope, $stateParams) {
   function updateSpecs(latest){
     if ($stateParams.path && latest.paths[$stateParams.path]) {
       $scope.specs = { paths: _.pick(latest.paths, $stateParams.path) };
+      $scope.isSinglePath = true;
     } else {
       $scope.specs = latest;
     }
@@ -36,7 +37,7 @@ function PreviewCtrl(Storage, $scope, $stateParams) {
     if ($scope.specs && $scope.specs.paths){
       Object.keys($scope.specs.paths).forEach(function (pathName){
         if (typeof $scope.pathListedStatus[pathName] === 'undefined') {
-          $scope.pathListedStatus[pathName] = true;
+          $scope.pathListedStatus[pathName] = !$scope.isSinglePath;
         }
       });
     }

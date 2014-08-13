@@ -16,6 +16,6 @@
     <ng-include src="'templates/specs-info.html'"></ng-include>
   </header>
   <ul>
-    <path ng-repeat="(pathName, path) in specs.paths" path="path" path-name="pathName"></path>
+    <path ng-repeat="(pathName, path) in specs.paths" path="path" path-name="pathName" is-single="isSinglePath"></path>
   </ul>
 </div>
