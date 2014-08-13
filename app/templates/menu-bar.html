@@ -5,10 +5,8 @@
       <button class="toolbar-btn" ng-click="openExamples()">Open Example</button>
       <button class="toolbar-btn" ng-click="openImportUrl()">Import URL</button>
       <button class="toolbar-btn" ng-click="openImportFile()">Import File</button>
-    </dropdown-menu>
-    <dropdown-menu label="Download" on-open="assignDownloadHrefs">
-      <a download="spec.yaml" class="toolbar-btn" data-downloadurl="{{yamlDownloadUrl}}" href="{{yamlDownloadHref}}">YAML</a>
-      <a download="spec.json" class="toolbar-btn" downloadUrl="{{jsonDownloadUrl}}" href="{{jsonDownloadHref}}">JSON</a>
+      <a download="spec.yaml" class="toolbar-btn" data-downloadurl="{{yamlDownloadUrl}}" href="{{yamlDownloadHref}}">Download YAML</a>
+      <a download="spec.json" class="toolbar-btn" downloadUrl="{{jsonDownloadUrl}}" href="{{jsonDownloadHref}}">Download JSON</a>
     </dropdown-menu>
 
     <!-- Server generation is not working with version 2 yet.
