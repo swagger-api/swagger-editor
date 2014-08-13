@@ -7,9 +7,10 @@ function EditorCtrl($scope, Editor, Builder, Storage) {
   $scope.aceLoaded = Editor.aceLoaded;
   $scope.aceChanged = function(){
     var value = Editor.getValue();
-    var specs = Builder.buildDocs(value);
+    var result = Builder.buildDocs(value);
 
-    Storage.save('specs', specs);
+    Storage.save('specs', result.specs);
+    Storage.save('error', result.error);
   };
 
   $(document).on('pane-resize', Editor.resize.bind(Editor));

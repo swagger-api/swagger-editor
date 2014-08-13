@@ -20,7 +20,7 @@ function Builder(Resolver, Validator) {
         yamlError: e
       };
     }
-    return buildDocsWithObject(json.specs);
+    return buildDocsWithObject(json);
   }
 
   function buildDocsWithObject(json){
