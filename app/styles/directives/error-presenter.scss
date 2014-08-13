@@ -4,11 +4,12 @@
   background: lighten($code-500, 50%);
   font-family: "Open Sans";
 
-  h4 {
+  header h4 {
     background: lighten($code-500, 10%);
     color: white;
     cursor: pointer;
     padding: .3em;
+    margin: 0;
   }
 
   .details {
@@ -24,6 +25,11 @@
       font-family: "Source Code Pro";
       background: lighten(red, 20%);
       word-wrap: normal;
+    }
+
+    &.c-w-collapsed {
+      padding-top: 0;
+      padding-bottom: 0;
     }
   }
 
