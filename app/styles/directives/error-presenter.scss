@@ -1,16 +1,22 @@
+@import "colors";
+
 .error-presenter {
-  background: lighten(red, 40%);
+  background: lighten($code-500, 40%);
+  font-family: "Open Sans";
+  padding: 0 10px;
 
   h4 {
-    background: red;
+    background: lighten($code-500, 10%);
     color: white;
+    margin: 0 -10px 0 -10px;
+    padding: 5px;
   }
 
   pre {
     padding: .4em;
     white-space: pre;
     font-family: "Source Code Pro";
-    background: lighten(red, 40%);
+    background: lighten(red, 20%);
     word-wrap: normal;
   }
 }
