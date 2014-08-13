@@ -38,8 +38,7 @@
 
         .toolbar-btn{
           border-radius: 0;
-          padding-top: 0.5em;
-          padding-bottom: 0.5em;
+          padding: 0.5em;
         }
       }
 
@@ -84,7 +83,7 @@
       outline: none;
       cursor: pointer;
       background: $toolbar-button-bg;
-      min-width: 124px;
+      min-width: 140px;
 
       &:hover {
         text-decoration: none;
