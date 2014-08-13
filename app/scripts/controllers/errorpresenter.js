@@ -1,6 +1,6 @@
 'use strict';
 
-PhonicsApp.controller('ErrorPresenterCtrl', function ($scope) {
+PhonicsApp.controller('ErrorPresenterCtrl', ['$scope', function ($scope) {
 
   $scope.getError = function (){
     return $scope.$parent.error;
@@ -27,4 +27,4 @@ PhonicsApp.controller('ErrorPresenterCtrl', function ($scope) {
 
     return error;
   };
-});
+}]);
