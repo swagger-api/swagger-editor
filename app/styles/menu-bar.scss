@@ -153,4 +153,8 @@
   // TODO: colors
   background: none;
   color: white;
+
+  > li + li:before {
+    content: "▶";
+  }
 }
