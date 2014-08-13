@@ -1,17 +1,17 @@
 <li class="path">
-  <header>
+  <header ng-click="togglePathListed($event)">
     <h2>
-      <a ng-click="togglePathListed()">{{pathName}}</a>
+      <a>{{pathName}}</a>
     </h2>
     <ul class='options'>
       <li>
-        <a ng-click="togglePathListed()">
+        <a ng-click="togglePathListed($event)">
           {{pathIsListed() ? 'Show' : 'Hide'}}
         </a>
       </li>
       <li class="divider">|</li>
       <li>
-        <a ng-click="toggleOperationListed()">
+        <a ng-click="toggleOperationListed($event)">
           {{pathIsListed() ? 'List' :
             operationsAreListed() ? 'Expand' : 'List'}}
           Operation

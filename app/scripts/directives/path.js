@@ -20,7 +20,8 @@ PhonicsApp.directive('path', function(){
         scope.collapseList[operationName] = true;
       });
 
-      scope.toggleOperationListed = function () {
+      scope.toggleOperationListed = function ($event) {
+        $event.stopPropagation();
 
         if(scope.pathIsListed()){
           scope.$parent.pathListedStatus[scope.pathName] = false;
@@ -46,7 +47,8 @@ PhonicsApp.directive('path', function(){
         return scope.$parent.isPathListed(scope.pathName);
       };
 
-      scope.togglePathListed = function() {
+      scope.togglePathListed = function ($event) {
+        $event.stopPropagation();
         scope.$parent.pathListedStatus[scope.pathName] =
           !scope.$parent.pathListedStatus[scope.pathName];
       };
