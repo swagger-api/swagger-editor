@@ -23,7 +23,8 @@ function HeaderCtrl($scope, Editor, Storage, FileLoader, Splitter, Builder, $mod
     FileLoader.loadFromUrl('spec-files/default.yaml').then(function (value){
       var result = Builder.buildDocsWithObject(value);
       Editor.setValue(result.specs);
-      Storage.save('specs', result);
+      Storage.save('specs', result.specs);
+      Storage.save('error', result.error);
     });
   };
 
@@ -65,7 +66,7 @@ function HeaderCtrl($scope, Editor, Storage, FileLoader, Splitter, Builder, $mod
 
   function assignDownloadHrefs($scope, Storage){
     var MIME_TYPE = 'text/plain';
-    var specs = Storage.load();
+    var specs = Storage.load('specs');
 
     // JSON
     var json = JSON.stringify(specs, null, 2);

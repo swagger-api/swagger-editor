@@ -2,23 +2,22 @@
 
 PhonicsApp.service('Storage', ['$localStorage', function Storage($localStorage) {
   var storageKey = 'SwaggerEditorCache';
-  var changeListeners = {};
+  var changeListeners =  Object.create(null);
 
-  function setSpecs(key, value){
+  $localStorage[storageKey] = $localStorage[storageKey] || Object.create(null);
 
-    changeListeners[key].forEach(function (fn) {
-      fn(value);
-    });
+  this.save = function (key, value){
+    if (Array.isArray(changeListeners[key])) {
+      changeListeners[key].forEach(function (fn) {
+        fn(value);
+      });
+    }
 
     _.debounce(function() {
       window.requestAnimationFrame(function(){
         $localStorage[storageKey][key] = value;
       });
     }, 100)();
-  }
-
-  this.save = function (key, value){
-    setSpecs(key, value);
   };
 
   this.reset = function () {

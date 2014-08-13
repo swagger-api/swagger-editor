@@ -6,6 +6,6 @@ function MainCtrl($scope, $rootScope, Editor, Storage) {
   $rootScope.$on('$stateChangeStart', Editor.initializeEditor);
 
   Editor.ready(function () {
-    Editor.setValue(Storage.load());
+    Editor.setValue(Storage.load('specs'));
   });
 }

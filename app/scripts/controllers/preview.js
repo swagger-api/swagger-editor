@@ -3,17 +3,23 @@
 PhonicsApp.controller('PreviewCtrl', ['Storage', '$scope', PreviewCtrl]);
 
 function PreviewCtrl(Storage, $scope) {
-  function update(latest){
-    $scope.specs = latest && latest.specs;
-    $scope.error = latest && latest.error;
+  function updateSpecs(latest){
+    $scope.specs = latest;
+  }
+  function updateError(latest){
+    $scope.error = latest;
   }
 
-  // When stuff in localstorage changes, update
-  Storage.addChangeListener(update);
+  Storage.addChangeListener('specs', updateSpecs);
+  Storage.addChangeListener('error', updateError);
 
-  var stored = Storage.load();
-  if (stored) {
-    update(stored);
+  var storedSpecs = Storage.load('specs');
+  if (storedSpecs) {
+    updateSpecs(storedSpecs);
+  }
+  var storedError = Storage.load('error');
+  if (storedError) {
+    updateError(storedError);
   }
 
   $scope.pathListedStatus = Object.create(null);
