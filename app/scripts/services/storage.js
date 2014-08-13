@@ -21,7 +21,7 @@ PhonicsApp.service('Storage', ['$localStorage', function Storage($localStorage) 
   };
 
   this.reset = function () {
-    $localStorage[storageKey] = null;
+    $localStorage[storageKey] = Object.create(null);
   };
 
   this.load = function (key){
