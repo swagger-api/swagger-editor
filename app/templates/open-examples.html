@@ -3,7 +3,7 @@
 </div>
 <div class="modal-body">
   <p>Pick one of the examples</p>
-  <select ng-options="file for file in files" ng-model="selectedFile"></select>
+  <select ng-options="file for file in files" ng-model="selectedFile" autofocus></select>
 </div>
 <div class="modal-footer">
   <button class="btn btn-primary" ng-click="open(selectedFile)">Open</button>
