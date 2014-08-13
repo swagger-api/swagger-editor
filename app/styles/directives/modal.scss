@@ -48,3 +48,14 @@
     }
   }
 }
+
+
+body{
+  transition: -webkit-filter 800ms ease-in;
+
+  &.modal-open {
+    main {
+      -webkit-filter: blur(4px);
+    }
+  }
+}
