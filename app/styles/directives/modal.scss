@@ -3,11 +3,11 @@
 @import "fonts";
 
 .modal-dialog .modal-content {
+  @extend .sw-font;
   border-radius: 3px;
   background: $gray-dk;
   color: #FFF;
-  font-family: "Open Sans";
-  font-weight: 300;
+  
 
   .modal-title {
     font-size: 1.2em;

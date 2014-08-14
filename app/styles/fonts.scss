@@ -1,23 +1,23 @@
 .monospace {
-
+	font-family: "Source Code Pro";
 }
 
 .pre {
 
 }
 
-.sans {
+.sw-font {
 	font-family: "Open Sans";
 	font-weight: 400;
 }
 
-.sans-heavy {
-	@extend .sans;
+.sw-font-heavy {
+	@extend .sw-font;
 	font-weight: 700;
 }
 
-.sans-med {
-	@extend .sans;
+.sw-font-med {
+	@extend .sw-font;
 	font-weight: 600;
 }
 
@@ -26,7 +26,7 @@
 // 	font-weight: 400;
 // }
 
-.sans-light {
-	@extend .sans;
+.sw-font-light {
+	@extend .sw-font;
 	font-weight: 300;
 }

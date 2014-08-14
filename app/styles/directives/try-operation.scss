@@ -64,7 +64,7 @@
   >div {
     >h5 {
       font-size: 1.0em;
-      font-weight: 600;
+      @extend .sw-font-light;
       
       &:first-child {
         margin-top: 25px;
@@ -126,7 +126,7 @@
       .failed-bar {
         background: $sw-error-header;
         color: white;
-        font-weight: 400;
+        @extend .sw-font-light;
         padding: .3em;
       }
       .raw-response {

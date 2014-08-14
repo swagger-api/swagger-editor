@@ -11,9 +11,8 @@ li.path {
     cursor: pointer;
 
     h2  {
-      font-family: "Open Sans";
+      @extend .sw-font;
       font-size: 1.2em;
-      font-weight: 400;
       padding: 0;
       margin-bottom: 5px;
       margin-top: 3px;
@@ -30,7 +29,7 @@ li.path {
   }
 
   ul.options {
-    font-family: "Open Sans";
+    @extend .sw-font;
     display: flex;
     a {
       padding: 0.3em;
@@ -49,7 +48,7 @@ li.path {
     li + li:after, li:first-child:after {
       content: "|";
       color: $gray-lt;
-      font-weight: 300;
+      @extend .sw-font-light;
     }
     li:last-child:after {
       display: none;

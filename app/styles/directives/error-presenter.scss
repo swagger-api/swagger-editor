@@ -3,7 +3,7 @@
 
 .error-presenter {
   background: lighten($sw-error-header, 41%);
-  font-family: "Open Sans";
+  @extend .sw-font;
 
   header {
     background: $sw-error-header;
@@ -14,7 +14,7 @@
     h4 {
       display: inline-block;
       padding: 0em .5em;
-      font-weight: 300;
+      @extend .sw-font-light;
     }
   }
 
@@ -22,7 +22,7 @@
     padding: .5em;
 
     h5 {
-      font-weight: 600;
+      @extend .sw-font-med;
       margin-bottom: .3em;
     }
 

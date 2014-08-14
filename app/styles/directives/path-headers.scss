@@ -1,7 +1,8 @@
 @import "colors";
+@import "fonts";
 
 .paths-header {
-  font-family: "Open Sans";
+  @extend .sw-font;
   background-color: lighten($gray-lt, 9%);
   padding: 5px;
   margin-bottom: 1em;
@@ -25,7 +26,7 @@
 
   h1 {
     font-size: 1.2em;
-    font-weight: 400;
+    @extend .sw-font-light;
     width: 80%;
     margin-top: 0px;
     &:hover {
@@ -35,7 +36,7 @@
 
   p {
     font-size: .9em;
-    font-weight: 300;
+    @extend .sw-font-light;
     line-height: 1.2em;
     width: 80%;
   }

@@ -4,7 +4,7 @@
 .menu-bar {
   $border-radius: 3px;
   $button-font-size: 15px;
-  font-family: "Open Sans";
+  @extend .sw-font;
   width: 100%;
 
   .toolbar{
