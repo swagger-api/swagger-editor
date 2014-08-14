@@ -25,11 +25,11 @@ PhonicsApp.controller('ErrorPresenterCtrl', ['$scope', function ($scope) {
   $scope.getDescription = function () {
     var error = $scope.getError();
 
-    if (error.swaggerError && typeof error.swaggerError.dataPath == 'string') {
+    if (error.swaggerError && typeof error.swaggerError.dataPath === 'string') {
       return error.swaggerError.message +
       ' at ' + error.swaggerError.dataPath
       .replace(/\//g, '▹')
-      .replace(/~1/g, '/')
+      .replace(/~1/g, '/');
     }
 
 
