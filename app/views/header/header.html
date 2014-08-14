@@ -36,12 +36,14 @@
     </section>
 
     <section class="right">
-      <div class="grouped-buttons">
-        <button class="toolbar-btn left" title="{{!isPaneVisisble('left') ? 'Hide' : 'Show'}} text editor"
+      <div class="btn-group">
+        <button type="button" class="btn btn-default left" title="{{!isPaneVisisble('left') ? 'Hide' : 'Show'}} text editor"
           ng-click="togglePane('left')"
           ng-class="{selected: isPaneVisible('left')}"
-          ng-disabled="!isPaneVisible('right')"></button>
-        <button class="toolbar-btn left" title="{{!isPaneVisisble('right') ? 'Hide' : 'Show'}} preview"
+          ng-disabled="!isPaneVisible('right')"></button>          
+        <button type="button" class="btn btn-default left" title="{{!isPaneVisisble('right') ? 'Hide' : 'Show'}} preview"
+          ></button>
+        <button type="button" class="btn btn-default left" title="{{!isPaneVisisble('right') ? 'Hide' : 'Show'}} preview"
           ng-click="togglePane('right')"
           ng-class="{selected: isPaneVisible('right')}"
           ng-disabled="!isPaneVisible('left')"></button>

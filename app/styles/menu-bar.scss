@@ -66,7 +66,7 @@
       }
     }
 
-    .toolbar-btn {
+    .toolbar-btn, .btn-default {
       display: inline-block;
       -webkit-appearance: none;
       border: 1px solid $gray-md;
@@ -103,7 +103,7 @@
     }
   }
 
-  .grouped-buttons {
+  .grouped-buttons, .btn-group {
     display: inline-block;
     font-size: 0;
 
@@ -111,7 +111,7 @@
         background-repeat: no-repeat;
       }
 
-    .toolbar-btn, .toolbar-btn:hover{
+    .toolbar-btn, .toolbar-btn:hover, .btn-default {
       text-align: center;
       min-width: 38px;
       height: 24px;
