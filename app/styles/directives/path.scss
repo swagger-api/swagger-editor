@@ -38,8 +38,9 @@ li.path {
       color: $gray-md;
       &:hover {
         color: $gray-dk;
-        transition: all 0.3s ease-in-out;
+        transition: all 0.2s ease-in-out;
         cursor: pointer;
+        text-decoration: none;
       }
 
     }
@@ -47,6 +48,7 @@ li.path {
     li + li:after, li:first-child:after {
       content: "|";
       color: $gray-lt;
+      font-weight: 300;
     }
     li:last-child:after {
       display: none;

@@ -53,8 +53,7 @@
       }
 
       &:hover {
-        // TODO: colors
-        background: red;
+        background: $sw-error-header;
         color: white;
         border-radius: 3px;
       }
@@ -88,7 +87,7 @@
     .parameters {
       
       .required-icon {
-            color: $code-500;
+            color: $sw-error-header;
           }
       
       table.edit-params {
@@ -124,7 +123,7 @@
 
     .response {
       .failed-bar {
-        background: red;
+        background: $sw-error-header;
         color: white;
         font-weight: 400;
         padding: .3em;
