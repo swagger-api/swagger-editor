@@ -1,4 +1,4 @@
-.monospace {
+.editor-font {
 	font-family: "Source Code Pro";
 }
 
@@ -20,11 +20,6 @@
 	@extend .sw-font;
 	font-weight: 600;
 }
-
-// .sans-semibold {
-// 	@extend .sans;
-// 	font-weight: 400;
-// }
 
 .sw-font-light {
 	@extend .sw-font;
