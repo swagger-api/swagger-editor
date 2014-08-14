@@ -118,11 +118,13 @@
       margin: 0;
       font-size: $button-font-size;
       background: lighten($gray-dk, 70%);
+      background-image:url(/images/centerPanes.svg);
+      background-repeat: no-repeat;
+      background-position: center 0px;
       border-radius: $border-radius;
 
       &.selected {
         background: lighten($toolbar-button-bg, 7%);
-
         &[disabled="disabled"] {
           cursor: default;
         }
