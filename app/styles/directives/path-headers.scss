@@ -1,6 +1,8 @@
+@import "colors";
+
 .paths-header {
   font-family: "Open Sans";
-  background-color: #fafafa;
+  background-color: lighten($gray-lt, 9%);
   padding: 5px;
   margin-bottom: 1em;
 

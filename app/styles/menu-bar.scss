@@ -155,6 +155,16 @@
   color: white;
 
   > li + li:before {
-    content: "▶";
+    content: ">";
   }
+  
+    li > a {
+      color: white;
+
+      &:hover {
+      color: $http-get;
+      text-decoration: none;
+    }
+  }
+  
 }
