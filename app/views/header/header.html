@@ -29,7 +29,7 @@
     <section class="breadcrumbs">
       <ol class="breadcrumb">
         <li><a href="#">All Paths</a></li>
-        <li ng-repeat="entry in getBreadcrumbs()" ng-class="{active: entry.active}">
+        <li ng-repeat="entry in breadcrumbs" ng-class="{active: entry.active}">
           {{entry.name}}
         </li>
       </ol>
@@ -40,7 +40,7 @@
         <button type="button" class="btn btn-default left" title="{{!isPaneVisisble('left') ? 'Hide' : 'Show'}} text editor"
           ng-click="togglePane('left')"
           ng-class="{selected: isPaneVisible('left')}"
-          ng-disabled="!isPaneVisible('right')"></button>          
+          ng-disabled="!isPaneVisible('right')"></button>
         <button type="button" class="btn btn-default left" title="{{!isPaneVisisble('right') ? 'Hide' : 'Show'}} preview"
           ></button>
         <button type="button" class="btn btn-default left" title="{{!isPaneVisisble('right') ? 'Hide' : 'Show'}} preview"

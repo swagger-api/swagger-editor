@@ -14,14 +14,12 @@ PhonicsApp.controller('HeaderCtrl', [
 
 
 function HeaderCtrl($scope, Editor, Storage, Splitter, Builder, $modal, $stateParams, defaults) {
-  $scope.getBreadcrumbs = function(){
-    if ($stateParams.path) {
-      return [
-        { active: true, name: $stateParams.path }
-      ];
-    }
-    return [];
-  };
+
+  if ($stateParams.path) {
+    $scope.breadcrumbs  = [{ active: true, name: $stateParams.path }];
+  } else {
+    $scope.breadcrumbs  = [];
+  }
 
   $scope.newProject = function(){
     Editor.setValue('');
