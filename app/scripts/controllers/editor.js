@@ -6,12 +6,12 @@ function EditorCtrl($scope, $stateParams, Editor, Builder, Storage) {
   $scope.aceLoaded = Editor.aceLoaded;
   $scope.aceChanged = function(){
     var result;
+    var value = Editor.getValue();
 
     if (!$stateParams.path) {
-      var value = Editor.getValue();
       result = Builder.buildDocs(value);
     } else {
-      // Builder.updatePath(....)
+      result = Builder.updatePath(value, $stateParams.path, Storage.load('specs'));
     }
 
     Storage.save('specs', result.specs);

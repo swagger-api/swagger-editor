@@ -35,7 +35,32 @@ function Builder(Resolver, Validator) {
     return result;
   }
 
+  /*
+   * Gets a path JSON object and Specs, finds the path in the
+   * specs JSON and updates it
+  */
+  function updatePath(path, pathName, specs){
+    var json;
+    var error = null;
+
+    try {
+      json = load(path);
+    } catch(e) {
+      error = { yamlError: e };
+    }
+
+    if (!error){
+      specs.paths[pathName] = json;
+    }
+
+    return {
+      specs: specs,
+      error: error
+    };
+  }
+
   this.buildDocs = buildDocs;
   this.buildDocsWithObject = buildDocsWithObject;
+  this.updatePath = updatePath;
 }
 
