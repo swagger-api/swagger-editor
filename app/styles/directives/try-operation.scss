@@ -9,7 +9,7 @@
   button.try-it {
     border-radius: 3px;
     background-color: #FFF;
-    border: 1px solid #777;
+    border: 1px solid $gray-md;
     padding: 0.3em 0.5em;
     cursor: pointer;
     outline: none;
@@ -40,18 +40,13 @@
     left: 150px;
     transition: left ease-in-out 300ms;
 
-    &:after {
-      content: "▶";
-    }
-
-
     &.is-open {
       left: 0%;
 
       &:after {
         content: "close ×";
         border-radius: 3px;
-        border: 1px solid gray;
+        border: 1px solid $gray-md;
         font-size: 1em;
         padding: .3em .5em;
         display: inline-block;

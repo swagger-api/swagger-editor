@@ -1,18 +1,19 @@
 @import "colors";
 
 .error-presenter {
-  background: lighten($code-500, 50%);
+  background: lighten($sw-error-header, 41%);
   font-family: "Open Sans";
 
   header {
-    background: lighten($code-500, 10%);
+    background: $sw-error-header;
     color: white;
     cursor: pointer;
     margin: 0;
 
     h4 {
       display: inline-block;
-      padding: .1em .5em;
+      padding: 0em .5em;
+      font-weight: 300;
     }
   }
 
@@ -32,7 +33,6 @@
     pre {
       white-space: pre;
       font-family: "Source Code Pro";
-      background: lighten(red, 20%);
       word-wrap: normal;
     }
 

@@ -17,7 +17,8 @@ button.call {
   background-image: (linear-gradient(lighten($gray-lt, 10%), darken($gray-lt, 1%))); 
 
   &:hover {
-    color: #333;
-    border: 1px solid #bdbdbd;
+    color: $gray-dk;
+    border: 1px solid $gray-md;
+    transition: border 0.2s ease-in-out;
   }
 }

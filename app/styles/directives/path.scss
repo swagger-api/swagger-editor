@@ -1,3 +1,5 @@
+@import "colors";
+
 li.path {
   padding-bottom: 1.2em;
 
@@ -16,7 +18,7 @@ li.path {
       margin-top: 3px;
 
       a {
-        color: #333;
+        color: $gray-dk;
         text-decoration: none;
 
           &:hover {
@@ -33,9 +35,9 @@ li.path {
       padding: 0.3em;
       user-select: none;
       font-size: 0.8em;
-      color: #777;
+      color: $gray-md;
       &:hover {
-        color: #444;
+        color: $gray-dk;
         transition: all 0.3s ease-in-out;
         cursor: pointer;
       }
@@ -44,6 +46,7 @@ li.path {
 
     li + li:after, li:first-child:after {
       content: "|";
+      color: $gray-lt;
     }
     li:last-child:after {
       display: none;
