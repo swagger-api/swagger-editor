@@ -1,8 +1,9 @@
 @import "fonts";
 
 .ace-editor{
+  @extend .editor-font;
  	font-size: .8em;
- 	font-weight: 300; 
+ 	//font-weight: 300; 
   .editor-error-message {
     padding: .3em;
     background: #AA0A0A;
@@ -10,12 +11,11 @@
     max-height: 5.6em;
     pre {
 	font-size: 1em;
-	font-family: "Source Code Pro";
     }
   }
 
   * {
-  	font-family: "Source Code Pro";  	
+  	@extend .editor-font;
   }
 
 }
