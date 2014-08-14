@@ -26,9 +26,12 @@
       margin-bottom: .3em;
     }
 
-  p {
+  pre {
+    @extend .pre-font;
+    white-space: nowrap;
     line-height: 125%;
     font-size: .9em;
+    background: none;
   }
 
     pre {

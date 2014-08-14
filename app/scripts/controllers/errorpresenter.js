@@ -19,6 +19,10 @@ PhonicsApp.controller('ErrorPresenterCtrl', ['$scope', function ($scope) {
       return 'Swagger Error';
     }
 
+    if (error.yamlError) {
+      return 'YAML Syntax Error';
+    }
+
     return 'Unknown Error';
   };
 
@@ -27,11 +31,14 @@ PhonicsApp.controller('ErrorPresenterCtrl', ['$scope', function ($scope) {
 
     if (error.swaggerError && typeof error.swaggerError.dataPath === 'string') {
       return error.swaggerError.message +
-      ' at ' + error.swaggerError.dataPath
-      .replace(/\//g, ' ▹ ')
-      .replace(/~1/g, '/');
+        ' at ' + error.swaggerError.dataPath.replace(/\//g, ' ▹ ').replace(/~1/g, '/');
     }
 
+    if (error.yamlError) {
+      return error.yamlError.message.replace('JS-YAML: ', '').replace(/./, function (a) {
+        return a.toUpperCase();
+      });
+    }
 
     return error;
   };
