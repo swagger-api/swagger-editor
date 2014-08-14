@@ -1,0 +1,32 @@
+.monospace {
+
+}
+
+.pre {
+
+}
+
+.sans {
+	font-family: "Open Sans";
+	font-weight: 400;
+}
+
+.sans-heavy {
+	@extend .sans;
+	font-weight: 700;
+}
+
+.sans-med {
+	@extend .sans;
+	font-weight: 600;
+}
+
+// .sans-semibold {
+// 	@extend .sans;
+// 	font-weight: 400;
+// }
+
+.sans-light {
+	@extend .sans;
+	font-weight: 300;
+}
