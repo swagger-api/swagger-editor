@@ -41,6 +41,12 @@
   }
 
   h4 {
+    margin-bottom: 0;
+    font-size: 1em;
+    
+    &:last-child {
+      margin-bottom: 0;
+    }
     > span {
       font-weight: 300;
     }
