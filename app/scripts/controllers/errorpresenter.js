@@ -30,8 +30,11 @@ PhonicsApp.controller('ErrorPresenterCtrl', ['$scope', function ($scope) {
     var error = $scope.getError();
 
     if (error.swaggerError && typeof error.swaggerError.dataPath === 'string') {
+
+      // TODO: find a badass regex that can handle ' ▹ ' case without two replaces
       return error.swaggerError.message +
-        ' at ' + error.swaggerError.dataPath.replace(/\//g, ' ▹ ').replace(/~1/g, '/');
+        ' at\n' + error.swaggerError.dataPath.replace(/\//g, ' ▹ ')
+        .replace(' ▹ ', '').replace(/~1/g, '/');
     }
 
     if (error.yamlError) {
