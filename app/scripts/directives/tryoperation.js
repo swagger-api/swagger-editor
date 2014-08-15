@@ -46,8 +46,9 @@ PhonicsApp.directive('tryOperation', function () {
       }
 
       function generateUrl () {
-        var host = specs.host;
-        var basePath = specs.basePath;
+        var protocol = window.location.protocol;
+        var host = specs.host || window.location.host;
+        var basePath = specs.basePath || '';
         var path = scope.$parent.$parent.pathName;
         var pathTemplate = _.template(path);
         var params = scope.hasParams ? scope.$parent.operation.parameters : [];
@@ -66,7 +67,7 @@ PhonicsApp.directive('tryOperation', function () {
         var queryParamsStr = $.param(queryParams);
 
 
-        return host + basePath + pathTemplate(pathParams) +
+        return protocol + '//' + host + basePath + pathTemplate(pathParams) +
           (queryParamsStr ? '?' + queryParamsStr : '');
       }
 
