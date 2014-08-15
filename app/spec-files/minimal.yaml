@@ -2,10 +2,6 @@ swagger: 2.0
 info:
   version: 1.0.0
   title: petstore
-host: example.com
-basePath: /api
-schemes:
-  - http
 paths:
   /users:
     get:
