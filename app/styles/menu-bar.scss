@@ -112,9 +112,9 @@
         background-repeat: no-repeat;
       }
 
-    .toolbar-btn, .toolbar-btn:hover, .btn-default {
+    .toolbar-btn, .btn-default {
       text-align: center;
-      min-width: 38px;
+      min-width: 34px;
       height: 24px;
       margin: 0;
       font-size: $button-font-size;
@@ -125,31 +125,31 @@
       border-radius: $border-radius;
 
       &.selected {
-        background: lighten($toolbar-button-bg, 7%);
+        background: red;
         &[disabled="disabled"] {
           cursor: default;
         }
       }
 
       &:first-child {
+        border-right-width: 0;
         border-top-right-radius: 0;
         border-bottom-right-radius: 0;
         background-image: url(/images/hideEditor.svg);
         background-repeat: no-repeat;
-        background-position: 9px 0px;
+        background-position: 5px 0px;
       }
 
       &:last-child {
-        margin-left: -1px;
+        border-left-width: 0;
         border-top-left-radius: 0;
         border-bottom-left-radius: 0;
         background-image:url(/images/hidePreview.svg);
         background-repeat: no-repeat;
-        background-position: 7px 0px;
+        background-position: 4px 0px;
       }
 
     }
-
   }
 }
 
