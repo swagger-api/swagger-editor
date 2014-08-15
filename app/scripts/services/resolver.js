@@ -22,7 +22,7 @@ PhonicsApp.service('Resolver', function Resolver() {
 
     var result = {};
     Object.keys(json).forEach(function (key) {
-      if(ngular.isObjec(json[key]) && json[key].$ref) {
+      if(angular.isObject(json[key]) && json[key].$ref) {
         result[key] = lookup(json[key].$ref, root);
       } else {
         result[key] = resolve(json[key], root);
