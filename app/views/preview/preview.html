@@ -11,11 +11,11 @@
       </div>
     </div>
   </div>
-  <header class="paths-header" ng-if="!!specs.info">
+  <header class="paths-header" ng-if="!!specs.info && !error.yamlError">
     <a class="all-paths-toggler" ng-click="toggleAllPathsListed()">{{areAllPathsListed() ? 'Expand all paths' : 'List all paths'}}</a>
     <ng-include src="'templates/specs-info.html'"></ng-include>
   </header>
-  <ul>
+  <ul ng-if="!error.yamlError">
     <path ng-repeat="(pathName, path) in specs.paths" path="path" path-name="pathName" is-single="isSinglePath"></path>
   </ul>
 </div>
