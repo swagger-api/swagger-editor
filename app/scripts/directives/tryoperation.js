@@ -14,7 +14,8 @@ PhonicsApp.directive('tryOperation', function () {
 
       scope.httpProtorcol = 'HTTP/1.1';
       scope.paramModels = {};
-      scope.hasBody = scope.$parent.operation.parameters.some(function (parameter) {
+      scope.hasParams = Array.isArray(scope.$parent.operation.parameters);
+      scope.hasBody = scope.hasParams && scope.$parent.operation.parameters.some(function (parameter) {
         return parameter.in === 'body';
       });
       scope.generateUrl = generateUrl;
@@ -25,11 +26,13 @@ PhonicsApp.directive('tryOperation', function () {
 
       function getHeaderParams() {
         var headerParams = {};
-        scope.$parent.operation.parameters.filter(function (parameter) {
-          if (parameter.in === 'header' && scope.paramModels[parameter.name]) {
-            headerParams[parameter.name] = scope.paramModels[parameter.name];
-          }
-        });
+        if (scope.hasParams) {
+          scope.$parent.operation.parameters.filter(function (parameter) {
+            if (parameter.in === 'header' && scope.paramModels[parameter.name]) {
+              headerParams[parameter.name] = scope.paramModels[parameter.name];
+            }
+          });
+        }
         return headerParams;
       }
 
@@ -47,13 +50,14 @@ PhonicsApp.directive('tryOperation', function () {
         var basePath = specs.basePath;
         var path = scope.$parent.$parent.pathName;
         var pathTemplate = _.template(path);
-        var pathParams = scope.$parent.operation.parameters.reduce(function (pathParams, parameter) {
+        var params = scope.hasParams ? scope.$parent.operation.parameters : [];
+        var pathParams = params.reduce(function (pathParams, parameter) {
           if (parameter.in === 'path') {
             pathParams[parameter.name] = scope.paramModels[parameter.name];
           }
           return pathParams;
         }, {});
-        var queryParams =  scope.$parent.operation.parameters.reduce(function (queryParams, parameter) {
+        var queryParams =  params.reduce(function (queryParams, parameter) {
           if (parameter.in === 'query' && scope.paramModels[parameter.name]) {
             queryParams[parameter.name] = scope.paramModels[parameter.name];
           }
