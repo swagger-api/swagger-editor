@@ -14,7 +14,7 @@ function EditorCtrl($scope, $stateParams, Editor, Builder, Storage) {
       result = Builder.updatePath(value, $stateParams.path, Storage.load('specs'));
     }
 
-    Storage.save('specs', result.specs);  
+    Storage.save('specs', result.specs);
     Storage.save('error', result.error);
   };
 
@@ -22,8 +22,8 @@ function EditorCtrl($scope, $stateParams, Editor, Builder, Storage) {
   Editor.ready(function () {
     var specs = Storage.load('specs');
 
-    if ($stateParams.path && specs.paths[$stateParams.path]) {
-      Editor.setValue(specs.paths[$stateParams.path]);
+    if ($stateParams.path) {
+      Editor.setValue( Builder.getPath(specs, $stateParams.path) );
     } else {
       Editor.setValue(specs);
     }

@@ -2,15 +2,16 @@
 
 PhonicsApp.controller('PreviewCtrl', [
   'Storage',
+  'Builder',
   '$scope',
   '$stateParams',
   PreviewCtrl
 ]);
 
-function PreviewCtrl(Storage, $scope, $stateParams) {
+function PreviewCtrl(Storage, Builder, $scope, $stateParams) {
   function updateSpecs(latest){
-    if ($stateParams.path && latest.paths[$stateParams.path]) {
-      $scope.specs = { paths: _.pick(latest.paths, $stateParams.path) };
+    if ($stateParams.path) {
+      $scope.specs = { paths: Builder.getPath(latest, $stateParams.path) };
       $scope.isSinglePath = true;
     } else {
       $scope.specs = latest;

@@ -51,7 +51,7 @@ function Builder(Resolver, Validator) {
     }
 
     if (!error){
-      specs.paths[pathName] = json;
+      specs.paths[pathName] = json[pathName];
     }
 
     return {
@@ -60,8 +60,17 @@ function Builder(Resolver, Validator) {
     };
   }
 
+  /*
+   * Returns one path that matches pathName
+   * Returns error object if there is schema incomparability issues
+  */
+  function getPath(specs, path){
+    return _.pick(specs.paths, path);
+  }
+
   this.buildDocs = buildDocs;
   this.buildDocsWithObject = buildDocsWithObject;
   this.updatePath = updatePath;
+  this.getPath = getPath;
 }
 
