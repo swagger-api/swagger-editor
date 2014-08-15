@@ -104,7 +104,7 @@ PhonicsApp.directive('tryOperation', function () {
           } catch (e) {
             text = resp.responseText;
           }
-          if (text.indexOf('<?xml') === 0) {
+          if (angular.isString(text) && text.indexOf('<?xml') === 0) {
             scope.responseText = $('<div/>').text(text).html();
           } else {
             scope.responseText = text;
