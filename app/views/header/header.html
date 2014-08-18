@@ -43,10 +43,10 @@
           ng-disabled="!isPaneVisible('left')"
 
           ></button>
-        <button type="button" class="btn btn-default left" title="{{!isPaneVisisble('right', 'left') ? 'Hide' : 'Show'}} preview"
-          ng-click="togglePane('left')"
+        <button type="button" class="btn btn-default left" title="{{!isPaneVisisble('split') ? 'Hide' : 'Show'}} preview"
+          ng-click="togglePane('split')"
           ng-class="{selected: isPaneVisible('left')}"
-          ng-disabled="!isPaneVisible('right')"
+          ng-disabled="!isPaneVisible('split')"
           ></button>
         <button type="button" class="btn btn-default left" title="{{!isPaneVisisble('right') ? 'Hide' : 'Show'}} preview"
           ng-click="togglePane('right')"

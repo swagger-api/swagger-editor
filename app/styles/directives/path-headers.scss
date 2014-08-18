@@ -48,6 +48,7 @@
     @extend .sw-font-light;
     line-height: 1.2em;
     float: left;
+    margin-bottom: 1em;
     //width: 80%;
   }
 
@@ -59,7 +60,7 @@
       margin-bottom: 0;
     }
     > span {
-      font-weight: 300;
+      @extend .sw-font-light;
     }
   }
 
