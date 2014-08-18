@@ -21,7 +21,7 @@ var config = {
 
 if (process.env.TRAVIS_BUILD_NUMBER) {
   config.sauceUser = 'mohsen1';
-  config.sauceKey = '3b58e66f-370c-4fb7-9161-a7b5de09cb0a';
+  config.sauceKey = process.env.SAUCE_ACCESS_KEY;
 }
 
 exports.config = config;
