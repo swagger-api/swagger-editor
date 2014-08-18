@@ -1,6 +1,7 @@
 'use strict';
 
 var config = {
+  baseUrl: 'http://localhost:8282/',
 
   capabilities: {
     'browserName': 'chrome',

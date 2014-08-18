@@ -416,6 +416,10 @@ module.exports = function (grunt) {
       },
       'serve-dist': {
         command: './node_modules/http-server/bin/http-server -p 8090 &'
+      },
+      sleep: {
+        // Sleep for Travis and SauceLabs get ready
+        command: 'sh scripts/sleep.sh'
       }
     },
 

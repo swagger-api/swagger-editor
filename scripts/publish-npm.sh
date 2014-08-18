@@ -1,3 +1,5 @@
+#!/usr/bin/env bash
+
 rm dist/package.json
 cp scripts/npm.json dist/package.json
 cd dist
