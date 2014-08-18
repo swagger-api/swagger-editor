@@ -4,6 +4,6 @@ node_js:
 install: gem install compass
 before_script:
   - 'npm install'
-  - 'grunt build'
+  - './node_modules/bower/bin/bower install'
 rvm:
   - 2.0.0
