@@ -8,7 +8,7 @@
 
  describe('Console tests', function () {
   it('should load the app', function () {
-    browser.get('http://localhost:9000');
+    browser.get('http://127.0.0.1:8282');
     expect(browser.getTitle()).toContain('Swagger Editor');
   });
 
