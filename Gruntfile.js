@@ -474,6 +474,7 @@ module.exports = function (grunt) {
     'connect:test',
     // 'karma' // TODO
     'http-server',
+    'shell:sleep',
     'protractor'
   ]);
 
