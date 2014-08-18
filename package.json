@@ -1,6 +1,6 @@
 {
   "name": "phonics",
-  "version": "2.0.1",
+  "version": "2.0.3",
   "repository": "https://github.com/wordnik/swagger-editor.git",
   "dependencies": {
     "jsonlint": "~1.6.0",
@@ -42,6 +42,6 @@
     "node": ">=0.10.0"
   },
   "scripts": {
-    "test": "echo 'tests are coming soon!'"
+    "test": "grunt build"
   }
 }
