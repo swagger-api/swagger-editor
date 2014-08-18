@@ -413,6 +413,9 @@ module.exports = function (grunt) {
     shell: {
       'publish-npm': {
         command: 'sh scripts/publish-npm.sh'
+      },
+      'serve-dist': {
+        command: './node_modules/http-server/bin/http-server -p 8090 &'
       }
     },
 
@@ -452,7 +455,8 @@ module.exports = function (grunt) {
     'concurrent:test',
     'autoprefixer',
     'connect:test',
-    'karma'
+    // 'karma' // TODO
+    'protractor'
   ]);
 
   grunt.registerTask('build', [
