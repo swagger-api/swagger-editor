@@ -1,16 +1,18 @@
-<h1>
-  <a ng-click="hideInfo = !hideInfo">{{specs.info.title}}</a>
-</h1>
-<div class="info-container" collapse-when="hideInfo" ng-ani>
-  <p>{{specs.info.description}}</p>
-  <h4>Version <span>{{specs.info.version}}</span></h4>
-  <div ng-if="specs.info.termsOfService">
-    <h4>Terms of service</h4>
-    <p>{{specs.info.termsOfService}}</p>
-  </div>
-  <div ng-if="license">
-    <h4>{{specs.info.license.name}}</h4>
-    <a href="{{specs.info.license.url}}">{{specs.info.license.url}}</a>
+<div class="descContainer">
+  <h1>
+    <a ng-click="hideInfo = !hideInfo">{{specs.info.title}}</a>
+  </h1>
+  <div class="info-container" collapse-when="hideInfo" ng-ani>
+    <p>{{specs.info.description}}</p>
+    <h4>Version <span>{{specs.info.version}}</span></h4>
+    <div ng-if="specs.info.termsOfService">
+      <h4>Terms of service</h4>
+      <p>{{specs.info.termsOfService}}</p>
+    </div>
+    <div ng-if="license">
+      <h4>{{specs.info.license.name}}</h4>
+      <a href="{{specs.info.license.url}}">{{specs.info.license.url}}</a>
+    </div>
   </div>
 </div>
 

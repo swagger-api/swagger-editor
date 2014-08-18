@@ -7,13 +7,20 @@
   padding: 5px;
   margin-bottom: 1em;
 
+  .viewExpand {
+      display: table-cell;
+      float: right;
+    }
+
   .info-container {
     transition: height ease-in .3s;
+    display: table;
 
     &.collapsed {
       height: 0 !important;
       overflow: hidden;
     }
+
   }
   .all-paths-toggler {
     float: right;
@@ -27,7 +34,8 @@
   h1 {
     font-size: 1.2em;
     @extend .sw-font-light;
-    width: 80%;
+    display: table-cell;
+    //width: 80%;
     margin-top: 0px;
     &:hover {
       cursor: pointer;
@@ -36,9 +44,11 @@
 
   p {
     font-size: .9em;
+    display: table-cell;
     @extend .sw-font-light;
     line-height: 1.2em;
-    width: 80%;
+    float: left;
+    //width: 80%;
   }
 
   h4 {
