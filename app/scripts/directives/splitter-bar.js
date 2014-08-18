@@ -12,7 +12,7 @@ PhonicsApp.directive('splitterBar', ['Splitter', function (splitter){
     template: '',
     replace: false,
     restrict: 'E',
-    link: function($scope, $element, $attributes){
+    link: function ($scope, $element, $attributes){
       var $document = $(document);
       var $parent = $element.parent();
       if(!('horizontal' in $attributes)){
@@ -38,7 +38,7 @@ PhonicsApp.directive('splitterBar', ['Splitter', function (splitter){
 
       splitter.addHideListener('right', function () {
         $('#' + $attributes.rightPane).animate({width: 0}, ANIMATION_DURATION);
-        $('#' + $attributes.leftPane).animate({width: window.innerWidth}, ANIMATION_DURATION, function(){
+        $('#' + $attributes.leftPane).animate({width: window.innerWidth}, ANIMATION_DURATION, function (){
           $document.trigger('pane-resize');
         });
         $element.hide();
@@ -80,10 +80,10 @@ PhonicsApp.directive('splitterBar', ['Splitter', function (splitter){
           registerVerticalPanes($element.get(0));
         }
       }
-      $element.on('mousedown', function(mousedownEvent){
+      $element.on('mousedown', function (mousedownEvent){
         mousedownEvent.preventDefault();
         $document.on('mousemove', resize);
-        $document.on('mouseup', function(){
+        $document.on('mouseup', function (){
           $document.off('mousemove', resize);
         });
       });

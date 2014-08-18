@@ -16,7 +16,7 @@ function OpenExamplesCtrl(FileLoader, Builder, Storage, Editor, defaults, $scope
   $scope.files = defaults.exampleFiles;
   $scope.selectedFile = defaults.exampleFiles[0];
 
-  $scope.open = function(file) {
+  $scope.open = function (file) {
     FileLoader.loadFromUrl('spec-files/' + file).then(function (value){
       var result = Builder.buildDocsWithObject(value);
       Editor.setValue(result.specs);

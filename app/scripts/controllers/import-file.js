@@ -25,11 +25,11 @@ function FileImportCtrl($scope, $modalInstance, FileLoader, $localStorage, Stora
     $modalInstance.close();
   };
 
-  $scope.isInvalidFile = function(){
+  $scope.isInvalidFile = function (){
     return results === null;
   };
 
-  $scope.isFileSelected = function() {
+  $scope.isFileSelected = function () {
     return !!results;
   };
 

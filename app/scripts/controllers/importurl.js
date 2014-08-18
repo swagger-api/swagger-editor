@@ -15,12 +15,12 @@ function FileImportCtrl($scope, $modalInstance, FileLoader, $localStorage, Stora
 
   $scope.url = null;
 
-  $scope.fetch = function(url) {
+  $scope.fetch = function (url) {
     if (typeof url === 'string' && url.indexOf('http') > -1) {
       FileLoader.loadFromUrl(url).then(function (data) {
         results = data;
         $scope.canImport = true;
-      }, function(error) {
+      }, function (error) {
         $scope.error = error;
         $scope.canImport = false;
       });

@@ -13,8 +13,8 @@ PhonicsApp.service('Storage', ['$localStorage', function Storage($localStorage) 
       });
     }
 
-    _.debounce(function() {
-      window.requestAnimationFrame(function(){
+    _.debounce(function () {
+      window.requestAnimationFrame(function (){
         $localStorage[storageKey][key] = value;
       });
     }, 100)();

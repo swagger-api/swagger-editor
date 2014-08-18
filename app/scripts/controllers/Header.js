@@ -12,7 +12,6 @@ PhonicsApp.controller('HeaderCtrl', [
   HeaderCtrl
 ]);
 
-
 function HeaderCtrl($scope, Editor, Storage, Splitter, Builder, $modal, $stateParams, defaults) {
 
   if ($stateParams.path) {
@@ -21,16 +20,16 @@ function HeaderCtrl($scope, Editor, Storage, Splitter, Builder, $modal, $statePa
     $scope.breadcrumbs  = [];
   }
 
-  $scope.newProject = function(){
+  $scope.newProject = function (){
     Editor.setValue('');
     Storage.reset();
   };
 
-  $scope.assignDownloadHrefs = function(){
+  $scope.assignDownloadHrefs = function (){
     assignDownloadHrefs($scope, Storage);
   };
 
-  $scope.generateZip = function(type, kind){
+  $scope.generateZip = function (type, kind){
     var urlTemplate = _.template(defaults.apiGenUrl);
     var url = urlTemplate({type: type, kind: kind});
     var specs = jsyaml.load(Editor.getValue());
@@ -46,7 +45,7 @@ function HeaderCtrl($scope, Editor, Storage, Splitter, Builder, $modal, $statePa
     return Splitter.isVisible(side);
   };
 
-  $scope.openImportFile = function(){
+  $scope.openImportFile = function (){
     $modal.open({
       templateUrl: 'templates/file-import.html',
       controller: 'FileImportCtrl',
@@ -54,7 +53,7 @@ function HeaderCtrl($scope, Editor, Storage, Splitter, Builder, $modal, $statePa
     });
   };
 
-  $scope.openImportUrl = function(){
+  $scope.openImportUrl = function (){
     $modal.open({
       templateUrl: 'templates/url-import.html',
       controller: 'UrlImportCtrl',
@@ -62,7 +61,7 @@ function HeaderCtrl($scope, Editor, Storage, Splitter, Builder, $modal, $statePa
     });
   };
 
-  $scope.openExamples = function(){
+  $scope.openExamples = function (){
     $modal.open({
       templateUrl: 'templates/open-examples.html',
       controller: 'OpenExamplesCtrl',
@@ -93,7 +92,7 @@ function HeaderCtrl($scope, Editor, Storage, Splitter, Builder, $modal, $statePa
       url: url,
       data: angular.toJson(json),
       processData: false
-    }).then(function(data){
+    }).then(function (data){
       if (data instanceof Object && data.code){
         window.location = defaults.downloadZipUrl + data.code;
       }

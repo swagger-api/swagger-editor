@@ -1,6 +1,6 @@
 'use strict';
 
-PhonicsApp.filter('markdown', function() {
+PhonicsApp.filter('markdown', function () {
   return function markdownFilter(input){
     var output = null;
     if(input.indexOf('\n') > -1){

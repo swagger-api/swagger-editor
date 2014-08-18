@@ -9,11 +9,11 @@ PhonicsApp.service('Validator', ['defaultSchema', Validator]);
 function Validator(defaultSchema) {
   var buffer = Object.create(null);
 
-  this.setStatus = function(status, isValid) {
+  this.setStatus = function (status, isValid) {
     buffer[status] = !!isValid;
   };
 
-  this.isValid = function() {
+  this.isValid = function () {
     for (var key in buffer) {
       if (!buffer[key]) {
         return {valid: false, reason: key};
