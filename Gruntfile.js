@@ -400,6 +400,14 @@ module.exports = function (grunt) {
         },
         src: ['**']
       }
+    },
+
+    jscs: {
+      src: '<%= yeoman.app %>/scripts/**/*.js',
+      options: {
+        config: '.jscsrc',
+        requireCurlyBraces: [ 'if' ]
+      }
     }
 
   });
