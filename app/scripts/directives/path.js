@@ -1,6 +1,6 @@
 'use strict';
 
-PhonicsApp.directive('path', function (){
+PhonicsApp.directive('path', function () {
   return {
     restrict: 'E',
     replace: true,
@@ -28,7 +28,7 @@ PhonicsApp.directive('path', function (){
       scope.toggleOperationListed = function ($event) {
         $event.stopPropagation();
 
-        if(scope.pathIsListed()){
+        if(scope.pathIsListed()) {
           scope.$parent.pathListedStatus[scope.pathName] = false;
           scope.setOperationsListed(true);
         } else {
@@ -48,7 +48,7 @@ PhonicsApp.directive('path', function (){
         });
       };
 
-      scope.pathIsListed = function (){
+      scope.pathIsListed = function () {
         return scope.$parent.isPathListed(scope.pathName);
       };
 

@@ -2,7 +2,7 @@
 
 PhonicsApp.controller('ErrorPresenterCtrl', ['$scope', function ($scope) {
 
-  $scope.getError = function (){
+  $scope.getError = function () {
     var error = $scope.$parent.error;
 
     if (error && error.swaggerError) {

@@ -9,7 +9,7 @@ function load(fileContent) {
   try {
     json = JSON.parse(fileContent);
   } catch (jsonError) {}
-  if (!json){
+  if (!json) {
     try {
       yaml = jsyaml.load(fileContent);
     } catch (yamlError) {}

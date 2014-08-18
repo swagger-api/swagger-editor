@@ -10,7 +10,7 @@ PhonicsApp.controller('UrlImportCtrl', [
   FileImportCtrl
 ]);
 
-function FileImportCtrl($scope, $modalInstance, FileLoader, $localStorage, Storage, Editor){
+function FileImportCtrl($scope, $modalInstance, FileLoader, $localStorage, Storage, Editor) {
   var results;
 
   $scope.url = null;

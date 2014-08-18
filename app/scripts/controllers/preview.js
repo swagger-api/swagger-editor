@@ -9,7 +9,7 @@ PhonicsApp.controller('PreviewCtrl', [
 ]);
 
 function PreviewCtrl(Storage, Builder, $scope, $stateParams) {
-  function updateSpecs(latest){
+  function updateSpecs(latest) {
     if ($stateParams.path) {
       $scope.specs = { paths: Builder.getPath(latest, $stateParams.path) };
       $scope.isSinglePath = true;
@@ -17,7 +17,7 @@ function PreviewCtrl(Storage, Builder, $scope, $stateParams) {
       $scope.specs = latest;
     }
   }
-  function updateError(latest){
+  function updateError(latest) {
     $scope.error = latest;
   }
 
@@ -34,9 +34,9 @@ function PreviewCtrl(Storage, Builder, $scope, $stateParams) {
   }
 
   $scope.pathListedStatus = Object.create(null);
-  $scope.$watch('specs', function (){
-    if ($scope.specs && $scope.specs.paths){
-      Object.keys($scope.specs.paths).forEach(function (pathName){
+  $scope.$watch('specs', function () {
+    if ($scope.specs && $scope.specs.paths) {
+      Object.keys($scope.specs.paths).forEach(function (pathName) {
         if (typeof $scope.pathListedStatus[pathName] === 'undefined') {
           $scope.pathListedStatus[pathName] = !$scope.isSinglePath;
         }
@@ -44,7 +44,7 @@ function PreviewCtrl(Storage, Builder, $scope, $stateParams) {
     }
   });
 
-  $scope.setAllPathsListed = function (value){
+  $scope.setAllPathsListed = function (value) {
     for (var pathName in $scope.pathListedStatus) {
       $scope.pathListedStatus[pathName] = value;
     }

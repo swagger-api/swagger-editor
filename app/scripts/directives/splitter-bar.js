@@ -1,6 +1,6 @@
 'use strict';
 
-PhonicsApp.directive('splitterBar', ['Splitter', function (splitter){
+PhonicsApp.directive('splitterBar', ['Splitter', function (splitter) {
   var ANIMATION_DURATION = 400;
 
   function registerVerticalPanes ($element) {
@@ -12,10 +12,10 @@ PhonicsApp.directive('splitterBar', ['Splitter', function (splitter){
     template: '',
     replace: false,
     restrict: 'E',
-    link: function ($scope, $element, $attributes){
+    link: function ($scope, $element, $attributes) {
       var $document = $(document);
       var $parent = $element.parent();
-      if(!('horizontal' in $attributes)){
+      if(!('horizontal' in $attributes)) {
         registerVerticalPanes($element.get(0));
       }
 
@@ -38,7 +38,7 @@ PhonicsApp.directive('splitterBar', ['Splitter', function (splitter){
 
       splitter.addHideListener('right', function () {
         $('#' + $attributes.rightPane).animate({width: 0}, ANIMATION_DURATION);
-        $('#' + $attributes.leftPane).animate({width: window.innerWidth}, ANIMATION_DURATION, function (){
+        $('#' + $attributes.leftPane).animate({width: window.innerWidth}, ANIMATION_DURATION, function () {
           $document.trigger('pane-resize');
         });
         $element.hide();
@@ -53,13 +53,13 @@ PhonicsApp.directive('splitterBar', ['Splitter', function (splitter){
         });
       });
 
-      function resize(mouseMoveEvent){
+      function resize(mouseMoveEvent) {
         var x = mouseMoveEvent.pageX - $parent.offset().left;
         var y = mouseMoveEvent.pageY - $parent.offset().top;
         x = x || window.innerWidth / 2;
         y = y || window.innerHeight / 2;
         var MIN_SIZE = 100;
-        if('horizontal' in $attributes){
+        if('horizontal' in $attributes) {
           if( y < MIN_SIZE || y > $parent.height() - MIN_SIZE) {
             return;
           }
@@ -80,10 +80,10 @@ PhonicsApp.directive('splitterBar', ['Splitter', function (splitter){
           registerVerticalPanes($element.get(0));
         }
       }
-      $element.on('mousedown', function (mousedownEvent){
+      $element.on('mousedown', function (mousedownEvent) {
         mousedownEvent.preventDefault();
         $document.on('mousemove', resize);
-        $document.on('mouseup', function (){
+        $document.on('mouseup', function () {
           $document.off('mousemove', resize);
         });
       });

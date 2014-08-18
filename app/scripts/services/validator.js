@@ -22,7 +22,7 @@ function Validator(defaultSchema) {
     return {valid: true};
   };
 
-  this.reset = function (){
+  this.reset = function () {
     buffer = Object.create(null);
   };
 
@@ -42,7 +42,7 @@ function Validator(defaultSchema) {
     return null;
   };
 
-  this.validateSwagger = function validateSwagger(json, schema){
+  this.validateSwagger = function validateSwagger(json, schema) {
     schema = schema || defaultSchema;
     var isValid = tv4.validate(json, schema);
 

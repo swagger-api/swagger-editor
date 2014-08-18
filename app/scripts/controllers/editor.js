@@ -4,7 +4,7 @@ PhonicsApp.controller('EditorCtrl', ['$scope', '$stateParams', 'Editor', 'Builde
 
 function EditorCtrl($scope, $stateParams, Editor, Builder, Storage) {
   $scope.aceLoaded = Editor.aceLoaded;
-  $scope.aceChanged = function (){
+  $scope.aceChanged = function () {
     var result;
     var value = Editor.getValue();
 

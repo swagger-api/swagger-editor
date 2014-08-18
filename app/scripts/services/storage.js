@@ -6,7 +6,7 @@ PhonicsApp.service('Storage', ['$localStorage', function Storage($localStorage) 
 
   $localStorage[storageKey] = $localStorage[storageKey] || Object.create(null);
 
-  this.save = function (key, value){
+  this.save = function (key, value) {
     if (Array.isArray(changeListeners[key])) {
       changeListeners[key].forEach(function (fn) {
         fn(value);
@@ -14,7 +14,7 @@ PhonicsApp.service('Storage', ['$localStorage', function Storage($localStorage) 
     }
 
     _.debounce(function () {
-      window.requestAnimationFrame(function (){
+      window.requestAnimationFrame(function () {
         $localStorage[storageKey][key] = value;
       });
     }, 100)();
@@ -24,8 +24,8 @@ PhonicsApp.service('Storage', ['$localStorage', function Storage($localStorage) 
     $localStorage[storageKey] = Object.create(null);
   };
 
-  this.load = function (key){
-    if (!key){
+  this.load = function (key) {
+    if (!key) {
       return $localStorage[storageKey];
     }
 

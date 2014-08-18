@@ -14,7 +14,7 @@ function stringifySchema (schema) {
       str = '[' + stringifySchema(schema.items) + ']';
 
     // Otherwise use schema type solely
-    } else if(schema.type){
+    } else if(schema.type) {
       str = '"' + schema.type + '"';
     }
   }
@@ -26,7 +26,7 @@ function stringifySchema (schema) {
   // If this schema has properties and no format, build upon properties
   } else if(typeof schema.properties === 'object') {
     var propsStr = '';
-    for(var property in schema.properties){
+    for(var property in schema.properties) {
       propsStr += '  ' + buildProperty(property, schema) + '\n';
     }
     str += propsStr;
@@ -38,7 +38,7 @@ function stringifySchema (schema) {
 
     // If this single keyed object just is 'type' it's not
     // custom model.
-    if(key !== 'type'){
+    if(key !== 'type') {
       str += key + ': {\n' +
         stringifySchema(schema[key]) +
         '}';
@@ -48,10 +48,10 @@ function stringifySchema (schema) {
   return str;
 }
 
-function buildProperty(property, schema){
+function buildProperty(property, schema) {
   var result = property + ': ' +
     stringifySchema(schema.properties[property]);
-  if(typeof schema.required === 'object' &&  schema.required.indexOf(property) > -1){
+  if(typeof schema.required === 'object' &&  schema.required.indexOf(property) > -1) {
     result += ' <required>';
   }
   return result;

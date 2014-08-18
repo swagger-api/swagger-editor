@@ -8,7 +8,7 @@ PhonicsApp.directive('collapseWhen', function () {
     link: function postLink(scope, element, attrs) {
       var buffer = null;
 
-      function cleanUp(){
+      function cleanUp() {
         // remove style attribute after animation
         // TDOD: just remove 'height' from style
         setTimeout(function () {

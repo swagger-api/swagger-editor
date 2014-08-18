@@ -8,7 +8,7 @@ function Editor() {
   var that = this;
 
 
-  function annotateYAMLErrors(error){
+  function annotateYAMLErrors(error) {
 
     if (error) {
       editor.getSession().setAnnotations([{
@@ -35,7 +35,7 @@ function Editor() {
     onReadyFns = [];
   }
 
-  function setValue(value){
+  function setValue(value) {
     if (typeof value === 'string') {
       editor.getSession().setValue(value);
     }
@@ -46,16 +46,16 @@ function Editor() {
     }
   }
 
-  function getValue(){
+  function getValue() {
     return editor.getSession().getValue();
   }
 
-  function resize(){
+  function resize() {
     editor.resize();
   }
 
   function ready(fn) {
-    if(typeof fn === 'function'){
+    if(typeof fn === 'function') {
       onReadyFns.push(fn);
     }
   }

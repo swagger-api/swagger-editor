@@ -5,7 +5,7 @@ PhonicsApp.service('Builder', ['Resolver', 'Validator', Builder]);
 function Builder(Resolver, Validator) {
   var load = _.memoize(jsyaml.load);
 
-  function buildDocs(stringValue){
+  function buildDocs(stringValue) {
 
     var json;
 
@@ -24,7 +24,7 @@ function Builder(Resolver, Validator) {
     return buildDocsWithObject(json);
   }
 
-  function buildDocsWithObject(json){
+  function buildDocsWithObject(json) {
     json = Resolver.resolve(json);
     var result = { specs: json };
     var error = Validator.validateSwagger(json);
@@ -40,7 +40,7 @@ function Builder(Resolver, Validator) {
    * Gets a path JSON object and Specs, finds the path in the
    * specs JSON and updates it
   */
-  function updatePath(path, pathName, specs){
+  function updatePath(path, pathName, specs) {
     var json;
     var error = null;
 
@@ -50,7 +50,7 @@ function Builder(Resolver, Validator) {
       error = { yamlError: e };
     }
 
-    if (!error){
+    if (!error) {
       specs.paths[pathName] = json[pathName];
     }
 
@@ -64,7 +64,7 @@ function Builder(Resolver, Validator) {
    * Returns one path that matches pathName
    * Returns error object if there is schema incomparability issues
   */
-  function getPath(specs, path){
+  function getPath(specs, path) {
     return _.pick(specs.paths, path);
   }
 

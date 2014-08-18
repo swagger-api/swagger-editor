@@ -20,16 +20,16 @@ function HeaderCtrl($scope, Editor, Storage, Splitter, Builder, $modal, $statePa
     $scope.breadcrumbs  = [];
   }
 
-  $scope.newProject = function (){
+  $scope.newProject = function () {
     Editor.setValue('');
     Storage.reset();
   };
 
-  $scope.assignDownloadHrefs = function (){
+  $scope.assignDownloadHrefs = function () {
     assignDownloadHrefs($scope, Storage);
   };
 
-  $scope.generateZip = function (type, kind){
+  $scope.generateZip = function (type, kind) {
     var urlTemplate = _.template(defaults.apiGenUrl);
     var url = urlTemplate({type: type, kind: kind});
     var specs = jsyaml.load(Editor.getValue());
@@ -45,7 +45,7 @@ function HeaderCtrl($scope, Editor, Storage, Splitter, Builder, $modal, $statePa
     return Splitter.isVisible(side);
   };
 
-  $scope.openImportFile = function (){
+  $scope.openImportFile = function () {
     $modal.open({
       templateUrl: 'templates/file-import.html',
       controller: 'FileImportCtrl',
@@ -53,7 +53,7 @@ function HeaderCtrl($scope, Editor, Storage, Splitter, Builder, $modal, $statePa
     });
   };
 
-  $scope.openImportUrl = function (){
+  $scope.openImportUrl = function () {
     $modal.open({
       templateUrl: 'templates/url-import.html',
       controller: 'UrlImportCtrl',
@@ -61,7 +61,7 @@ function HeaderCtrl($scope, Editor, Storage, Splitter, Builder, $modal, $statePa
     });
   };
 
-  $scope.openExamples = function (){
+  $scope.openExamples = function () {
     $modal.open({
       templateUrl: 'templates/open-examples.html',
       controller: 'OpenExamplesCtrl',
@@ -69,7 +69,7 @@ function HeaderCtrl($scope, Editor, Storage, Splitter, Builder, $modal, $statePa
     });
   };
 
-  function assignDownloadHrefs($scope, Storage){
+  function assignDownloadHrefs($scope, Storage) {
     var MIME_TYPE = 'text/plain';
     var specs = Storage.load('specs');
 
@@ -85,15 +85,15 @@ function HeaderCtrl($scope, Editor, Storage, Splitter, Builder, $modal, $statePa
     $scope.yamlDownloadUrl = [MIME_TYPE, 'spec.yaml', $scope.yamlDownloadHref].join(':');
   }
 
-  function getZipFile(url, json){
+  function getZipFile(url, json) {
     $.ajax({
       type: 'POST',
       contentType: 'application/json',
       url: url,
       data: angular.toJson(json),
       processData: false
-    }).then(function (data){
-      if (data instanceof Object && data.code){
+    }).then(function (data) {
+      if (data instanceof Object && data.code) {
         window.location = defaults.downloadZipUrl + data.code;
       }
     });

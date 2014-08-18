@@ -10,7 +10,7 @@ PhonicsApp.controller('FileImportCtrl', [
   FileImportCtrl
 ]);
 
-function FileImportCtrl($scope, $modalInstance, FileLoader, $localStorage, Storage, Editor){
+function FileImportCtrl($scope, $modalInstance, FileLoader, $localStorage, Storage, Editor) {
   var results;
 
   $scope.fileChanged = function ($fileContent) {
@@ -25,7 +25,7 @@ function FileImportCtrl($scope, $modalInstance, FileLoader, $localStorage, Stora
     $modalInstance.close();
   };
 
-  $scope.isInvalidFile = function (){
+  $scope.isInvalidFile = function () {
     return results === null;
   };
 

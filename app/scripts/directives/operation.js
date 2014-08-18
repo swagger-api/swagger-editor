@@ -1,14 +1,14 @@
 'use strict';
 
-PhonicsApp.directive('operation', [function (){
+PhonicsApp.directive('operation', [function () {
   return {
     restrict: 'E',
     replace: true,
     templateUrl: 'templates/operation.html',
-    link: function (scope){
+    link: function (scope) {
       scope.responseCodeClassFor = function (code) {
         var result = 'default';
-        switch(Math.floor(+code / 100)){
+        switch(Math.floor(+code / 100)) {
           case 2:
             result = 'green';
             break;
