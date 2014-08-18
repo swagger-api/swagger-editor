@@ -8,7 +8,7 @@ PhonicsApp.directive('operation', [function () {
     link: function (scope) {
       scope.responseCodeClassFor = function (code) {
         var result = 'default';
-        switch(Math.floor(+code / 100)) {
+        switch (Math.floor(+code / 100)) {
           case 2:
             result = 'green';
             break;

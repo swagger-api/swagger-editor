@@ -18,12 +18,11 @@ function EditorCtrl($scope, $stateParams, Editor, Builder, Storage) {
     Storage.save('error', result.error);
   };
 
-
   Editor.ready(function () {
     var specs = Storage.load('specs');
 
     if ($stateParams.path) {
-      Editor.setValue( Builder.getPath(specs, $stateParams.path) );
+      Editor.setValue(Builder.getPath(specs, $stateParams.path));
     } else {
       Editor.setValue(specs);
     }

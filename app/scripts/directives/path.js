@@ -28,7 +28,7 @@ PhonicsApp.directive('path', function () {
       scope.toggleOperationListed = function ($event) {
         $event.stopPropagation();
 
-        if(scope.pathIsListed()) {
+        if (scope.pathIsListed()) {
           scope.$parent.pathListedStatus[scope.pathName] = false;
           scope.setOperationsListed(true);
         } else {

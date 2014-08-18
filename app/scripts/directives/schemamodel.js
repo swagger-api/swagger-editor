@@ -1,6 +1,6 @@
 'use strict';
 
-function stringifySchema (schema) {
+function stringifySchema(schema) {
   if (!schema) {
     return '';
   }
@@ -14,7 +14,7 @@ function stringifySchema (schema) {
       str = '[' + stringifySchema(schema.items) + ']';
 
     // Otherwise use schema type solely
-    } else if(schema.type) {
+    } else if (schema.type) {
       str = '"' + schema.type + '"';
     }
   }
@@ -24,7 +24,7 @@ function stringifySchema (schema) {
     str += '(' + schema.format + ')';
 
   // If this schema has properties and no format, build upon properties
-  } else if(typeof schema.properties === 'object') {
+  } else if (typeof schema.properties === 'object') {
     var propsStr = '';
     for(var property in schema.properties) {
       propsStr += '  ' + buildProperty(property, schema) + '\n';
@@ -33,12 +33,12 @@ function stringifySchema (schema) {
 
   // If it's a custom model (object wrapping an schema with a single key)
   // unwrap it and pre-pend the key
-  } else if(typeof schema === 'object' && Object.keys(schema).length === 1) {
+  } else if (typeof schema === 'object' && Object.keys(schema).length === 1) {
     var key = Object.keys(schema)[0];
 
     // If this single keyed object just is 'type' it's not
     // custom model.
-    if(key !== 'type') {
+    if (key !== 'type') {
       str += key + ': {\n' +
         stringifySchema(schema[key]) +
         '}';
@@ -51,7 +51,7 @@ function stringifySchema (schema) {
 function buildProperty(property, schema) {
   var result = property + ': ' +
     stringifySchema(schema.properties[property]);
-  if(typeof schema.required === 'object' &&  schema.required.indexOf(property) > -1) {
+  if (typeof schema.required === 'object' &&  schema.required.indexOf(property) > -1) {
     result += ' <required>';
   }
   return result;

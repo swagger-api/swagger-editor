@@ -15,7 +15,7 @@ PhonicsApp.directive('splitterBar', ['Splitter', function (splitter) {
     link: function ($scope, $element, $attributes) {
       var $document = $(document);
       var $parent = $element.parent();
-      if(!('horizontal' in $attributes)) {
+      if (!('horizontal' in $attributes)) {
         registerVerticalPanes($element.get(0));
       }
 
@@ -59,8 +59,8 @@ PhonicsApp.directive('splitterBar', ['Splitter', function (splitter) {
         x = x || window.innerWidth / 2;
         y = y || window.innerHeight / 2;
         var MIN_SIZE = 100;
-        if('horizontal' in $attributes) {
-          if( y < MIN_SIZE || y > $parent.height() - MIN_SIZE) {
+        if ('horizontal' in $attributes) {
+          if ( y < MIN_SIZE || y > $parent.height() - MIN_SIZE) {
             return;
           }
           $document.trigger('pane-resize');
@@ -69,7 +69,7 @@ PhonicsApp.directive('splitterBar', ['Splitter', function (splitter) {
           $('#' + $attributes.bottomPane).css('height',
             $parent.height() - y);
         } else {
-          if( x < MIN_SIZE || x > $parent.width() - MIN_SIZE) {
+          if ( x < MIN_SIZE || x > $parent.width() - MIN_SIZE) {
             return;
           }
           $document.trigger('pane-resize');

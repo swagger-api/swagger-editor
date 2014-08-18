@@ -55,7 +55,7 @@ function Editor() {
   }
 
   function ready(fn) {
-    if(typeof fn === 'function') {
+    if (typeof fn === 'function') {
       onReadyFns.push(fn);
     }
   }

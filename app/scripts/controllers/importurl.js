@@ -28,7 +28,7 @@ function FileImportCtrl($scope, $modalInstance, FileLoader, $localStorage, Stora
   };
 
   $scope.ok = function () {
-    if(typeof results === 'object') {
+    if (typeof results === 'object') {
       Editor.setValue(results);
       Storage.save('spevs', results);
     }
