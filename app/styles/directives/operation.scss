@@ -1,5 +1,8 @@
 @import "../colors";
 
+@import "colors";
+@import "fonts";
+
 @mixin operation-theme($color) {
   border: 1px solid $color;
   background: #fff;
@@ -22,27 +25,34 @@ li.operation {
   $border-radius: 3px;
   margin: 0.4em 0em 1em 1em;
   border-radius: $border-radius;
-  font-family: "Open Sans";
+  @extend .sw-font;
 
   >header {
     overflow: hidden;
     cursor: pointer;
+    display: table;
+    width: 100%;
+    min-height: 32px;
 
-    .http-method {
+    .http-method  {
+      @extend .sw-font-light;
       font-size: 0.9em;
       padding: .6em .5em;
+      display: table-cell;
       float: left;
       border-top-left-radius: $border-radius - 2;
-      font-weight: 400;
+      
       margin-right: .4em;
-      width: 68px;
+      min-width: 68px;
       text-align: center;
     }
 
-    .summary >span{
+    .summary {
       padding: .4em;
-      display: block;
+      display: table-cell;
       font-size: 0.8em;
+      vertical-align: middle;
+      float: left;
     }
   }
 

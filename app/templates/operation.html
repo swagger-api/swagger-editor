@@ -2,9 +2,7 @@
   <header ng-click="toggleCollapsed()">
     <div class='http-method' class="toggleOperation">{{operationName | uppercase}}</div>
     <div class="summary">
-      <span>
         {{operation.summary || operation.description | limitTo: 140 }}
-      </span>
     </div>
   </header>
 
