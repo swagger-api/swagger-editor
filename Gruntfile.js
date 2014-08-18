@@ -408,6 +408,12 @@ module.exports = function (grunt) {
         config: '.jscsrc',
         requireCurlyBraces: [ 'if' ]
       }
+    },
+
+    shell: {
+      'publish-npm': {
+        command: 'sh scripts/publish-npm.sh'
+      }
     }
 
   });
@@ -466,5 +472,6 @@ module.exports = function (grunt) {
   ]);
 
   grunt.registerTask('ship', ['gh-pages:main']);
+  grunt.registerTask('preview', ['build', 'gh-pages:preview', 'shell:publish-npm'])
 
 };
