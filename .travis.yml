@@ -3,9 +3,7 @@ node_js:
   - '0.10'
 install: gem install compass
 before_script:
-  - 'gem install compass'
   - 'npm install'
-  - 'bower install'
   - 'grunt build'
 rvm:
   - 2.0.0
