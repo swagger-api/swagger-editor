@@ -48,6 +48,6 @@
     "node": ">=0.10.0"
   },
   "scripts": {
-    "test": "./node_modules/grunt-cli/bin/grunt build"
+    "test": "sh scripts/test.sh"
   }
 }
