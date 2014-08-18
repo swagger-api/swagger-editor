@@ -414,6 +414,14 @@ module.exports = function (grunt) {
       'publish-npm': {
         command: 'sh scripts/publish-npm.sh'
       }
+    },
+
+    protractor: {
+      main: {
+        options: {
+          configFile: './test/e2e/config.js'
+        }
+      }
     }
 
   });
