@@ -5,7 +5,6 @@
 */
 PhonicsApp.service('Validator', ['defaultSchema', Validator]);
 
-
 function Validator(defaultSchema) {
   var buffer = Object.create(null);
 
@@ -29,7 +28,7 @@ function Validator(defaultSchema) {
   this.validateYamlString = function validateYamlString(string) {
     try {
       jsyaml.load(string);
-    } catch(yamlLoadError) {
+    } catch (yamlLoadError) {
       var errorMessage = yamlLoadError.message.replace('JS-YAML: ', '');
       return {
         yamlError: {

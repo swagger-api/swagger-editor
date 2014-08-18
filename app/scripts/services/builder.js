@@ -15,8 +15,8 @@ function Builder(Resolver, Validator) {
 
     try {
       json = load(stringValue);
-    } catch(e) {
-      return  {
+    } catch (e) {
+      return {
         error: { yamlError: e },
         specs: null
       };
@@ -46,7 +46,7 @@ function Builder(Resolver, Validator) {
 
     try {
       json = load(path);
-    } catch(e) {
+    } catch (e) {
       error = { yamlError: e };
     }
 
@@ -73,4 +73,3 @@ function Builder(Resolver, Validator) {
   this.updatePath = updatePath;
   this.getPath = getPath;
 }
-

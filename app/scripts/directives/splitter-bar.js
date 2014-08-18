@@ -3,7 +3,7 @@
 PhonicsApp.directive('splitterBar', ['Splitter', function (splitter) {
   var ANIMATION_DURATION = 400;
 
-  function registerVerticalPanes ($element) {
+  function registerVerticalPanes($element) {
     splitter.registerSide('left', $element.offsetLeft);
     splitter.registerSide('right', window.innerWidth - $element.offsetLeft - 4);
   }
@@ -60,7 +60,7 @@ PhonicsApp.directive('splitterBar', ['Splitter', function (splitter) {
         y = y || window.innerHeight / 2;
         var MIN_SIZE = 100;
         if ('horizontal' in $attributes) {
-          if ( y < MIN_SIZE || y > $parent.height() - MIN_SIZE) {
+          if (y < MIN_SIZE || y > $parent.height() - MIN_SIZE) {
             return;
           }
           $document.trigger('pane-resize');
@@ -69,7 +69,7 @@ PhonicsApp.directive('splitterBar', ['Splitter', function (splitter) {
           $('#' + $attributes.bottomPane).css('height',
             $parent.height() - y);
         } else {
-          if ( x < MIN_SIZE || x > $parent.width() - MIN_SIZE) {
+          if (x < MIN_SIZE || x > $parent.width() - MIN_SIZE) {
             return;
           }
           $document.trigger('pane-resize');
@@ -87,7 +87,7 @@ PhonicsApp.directive('splitterBar', ['Splitter', function (splitter) {
           $document.off('mousemove', resize);
         });
       });
-      $(window).on('resize', _.throttle(resize,300));
+      $(window).on('resize', _.throttle(resize, 300));
     }
   };
 }]);

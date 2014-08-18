@@ -1,6 +1,5 @@
 'use strict';
 
-
 PhonicsApp.service('Splitter', function Splitter() {
   var sides = {
     left: { width: null, visible: false, hideListeners: [], showListeners: []},

@@ -7,7 +7,6 @@ function Editor() {
   var onReadyFns = [];
   var that = this;
 
-
   function annotateYAMLErrors(error) {
 
     if (error) {
@@ -21,7 +20,6 @@ function Editor() {
       editor.getSession().clearAnnotations();
     }
   }
-
 
   function aceLoaded(e) {
 
@@ -42,7 +40,7 @@ function Editor() {
 
     // If it's an object, convert it YAML
     if (typeof value === 'object') {
-      setValue( jsyaml.dump( angular.copy(value) ) );
+      setValue(jsyaml.dump(angular.copy(value)));
     }
   }
 

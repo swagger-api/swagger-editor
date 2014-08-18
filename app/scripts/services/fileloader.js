@@ -1,6 +1,5 @@
 'use strict';
 
-
 function load(fileContent) {
 
   // Figure out file type

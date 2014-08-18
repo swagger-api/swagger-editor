@@ -26,7 +26,7 @@ function stringifySchema(schema) {
   // If this schema has properties and no format, build upon properties
   } else if (typeof schema.properties === 'object') {
     var propsStr = '';
-    for(var property in schema.properties) {
+    for (var property in schema.properties) {
       propsStr += '  ' + buildProperty(property, schema) + '\n';
     }
     str += propsStr;

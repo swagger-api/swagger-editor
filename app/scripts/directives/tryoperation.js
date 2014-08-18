@@ -36,7 +36,6 @@ PhonicsApp.directive('tryOperation', function () {
         return headerParams;
       }
 
-
       function getContentTypeHeaders() {
         if (scope.$parent.operation.consumes) {
           return scope.$parent.operation.consumes;
@@ -45,7 +44,7 @@ PhonicsApp.directive('tryOperation', function () {
         }
       }
 
-      function generateUrl () {
+      function generateUrl() {
         var protocol = window.location.protocol;
         var host = specs.host || window.location.host;
         var basePath = specs.basePath || '';
@@ -65,7 +64,6 @@ PhonicsApp.directive('tryOperation', function () {
           return queryParams;
         }, {});
         var queryParamsStr = $.param(queryParams);
-
 
         return protocol + '//' + host + basePath + pathTemplate(pathParams) +
           (queryParamsStr ? '?' + queryParamsStr : '');

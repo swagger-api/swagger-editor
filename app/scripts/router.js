@@ -35,15 +35,15 @@ function Router($compileProvider, $stateProvider, $urlRouterProvider) {
     .state('home.path', {
       url: '/paths?path',
       views: {
-        'header': {
+        header: {
           templateUrl: 'views/header/header.html',
           controller: 'HeaderCtrl'
         },
-        'editor': {
+        editor: {
           templateUrl: 'views/editor/editor.html',
           controller: 'EditorCtrl'
         },
-        'preview': {
+        preview: {
           templateUrl: 'views/preview/preview.html',
           controller: 'PreviewCtrl'
         }
@@ -58,7 +58,6 @@ function Router($compileProvider, $stateProvider, $urlRouterProvider) {
       //     }
       //   }
       // });
-
 
   $compileProvider.aHrefSanitizationWhitelist('.');
 }
