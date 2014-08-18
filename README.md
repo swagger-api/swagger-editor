@@ -18,6 +18,13 @@ The idea is to iterate quickly on top of the Swagger 1.2 description format. As 
  * [NodeJS](http://nodejs.org/)
  * [Ruby](https://www.ruby-lang.org/en/)
  * [Compass](http://compass-style.org/)
+ 
+```shell
+    # Make sure you have all dependencies
+    which ruby
+    which node
+    which compass
+```
 
 
 #### Clone the repository and install packages
