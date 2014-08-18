@@ -44,6 +44,6 @@
     "node": ">=0.10.0"
   },
   "scripts": {
-    "test": "grunt build"
+    "test": "./node_modules/grunt-cli/bin/grunt build"
   }
 }

@@ -5,7 +5,7 @@ node_js:
 install: gem install compass
 before_script:
   - 'gem install compass'
-  - 'npm install -g bower grunt-cli'
+  - 'npm install'
   - 'bower install'
   - 'grunt build'
 rvm:
