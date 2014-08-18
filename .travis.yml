@@ -3,7 +3,6 @@ node_js:
 - '0.10'
 install: gem install compass
 before_script:
-- curl https://gist.github.com/santiycr/5139565/raw/sauce_connect_setup.sh | bash
 - npm install
 - ./node_modules/bower/bin/bower install
 rvm:
