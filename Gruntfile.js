@@ -33,7 +33,7 @@ module.exports = function (grunt) {
       },
       js: {
         files: ['<%= yeoman.app %>/scripts/{,*/}*.js', '<%= yeoman.app %>/libs/{,*/}*.js'],
-        tasks: ['newer:jshint:all'],
+        tasks: ['newer:jshint:all', 'jscs'],
         options: {
           livereload: true
         }
@@ -444,6 +444,7 @@ module.exports = function (grunt) {
   grunt.registerTask('build', [
     'clean:dist',
     'bowerInstall',
+    'jscs',
     'useminPrepare',
     'concurrent:dist',
     'autoprefixer',
