@@ -55,6 +55,7 @@
   h4 {
     margin-bottom: 0;
     font-size: 1em;
+    @extend .sw-font-med;
     
     &:last-child {
       margin-bottom: 0;
