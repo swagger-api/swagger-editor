@@ -1,3 +1,5 @@
+'use strict';
+
 PhonicsApp.config(['$provide', function ($provide) {
   $provide.constant('defaults',
 

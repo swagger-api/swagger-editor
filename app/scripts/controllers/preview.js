@@ -24,14 +24,17 @@ function PreviewCtrl(Storage, Builder, $scope, $stateParams) {
   Storage.addChangeListener('specs', updateSpecs);
   Storage.addChangeListener('error', updateError);
 
-  var storedSpecs = Storage.load('specs');
-  if (storedSpecs) {
-    updateSpecs(storedSpecs);
-  }
-  var storedError = Storage.load('error');
-  if (storedError) {
-    updateError(storedError);
-  }
+  Storage.load('specs').then(function (storedSpecs) {
+    if (storedSpecs) {
+      updateSpecs(storedSpecs);
+    }
+  });
+
+  Storage.load('error').then(function (storedError) {
+    if (storedError) {
+      updateError(storedError);
+    }
+  });
 
   $scope.pathListedStatus = Object.create(null);
   $scope.$watch('specs', function () {

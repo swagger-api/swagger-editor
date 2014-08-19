@@ -19,13 +19,13 @@ function EditorCtrl($scope, $stateParams, Editor, Builder, Storage) {
   };
 
   Editor.ready(function () {
-    var specs = Storage.load('specs');
-
-    if ($stateParams.path) {
-      Editor.setValue(Builder.getPath(specs, $stateParams.path));
-    } else {
-      Editor.setValue(specs);
-    }
+    Storage.load('specs').then(function (specs) {
+      if ($stateParams.path) {
+        Editor.setValue(Builder.getPath(specs, $stateParams.path));
+      } else {
+        Editor.setValue(specs);
+      }
+    });
   });
 
   $(document).on('pane-resize', Editor.resize.bind(Editor));

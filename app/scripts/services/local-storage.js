@@ -1,6 +1,6 @@
 'use strict';
 
-PhonicsApp.service('LocalStorage', ['$localStorage', function LocalStorage($localStorage) {
+PhonicsApp.service('LocalStorage', ['$localStorage', '$q', function LocalStorage($localStorage, $q) {
   var storageKey = 'SwaggerEditorCache';
   var changeListeners =  Object.create(null);
 
@@ -25,9 +25,14 @@ PhonicsApp.service('LocalStorage', ['$localStorage', function LocalStorage($loca
   };
 
   this.load = function (key) {
+    var deferred = $q.defer();
     if (!key) {
-      return $localStorage[storageKey];
+      deferred.resolve($localStorage[storageKey]);
+    } else {
+      deferred.reject();
     }
+
+    return deferred.promise;
 
     return $localStorage[storageKey][key];
   };

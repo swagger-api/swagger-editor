@@ -75,18 +75,20 @@ function HeaderCtrl($scope, Editor, Storage, Splitter, Builder, $modal, $statePa
 
   function assignDownloadHrefs($scope, Storage) {
     var MIME_TYPE = 'text/plain';
-    var specs = Storage.load('specs');
 
-    // JSON
-    var json = angular.toJson(specs, null, 2);
-    var jsonBlob = new Blob([json], {type: MIME_TYPE});
-    $scope.jsonDownloadHref = window.URL.createObjectURL(jsonBlob);
-    $scope.jsonDownloadUrl = [MIME_TYPE, 'spec.json', $scope.jsonDownloadHref].join(':');
+    Storage.load('specs').then(function (specs) {
+      // JSON
+      var json = angular.toJson(specs, null, 2);
+      var jsonBlob = new Blob([json], {type: MIME_TYPE});
+      $scope.jsonDownloadHref = window.URL.createObjectURL(jsonBlob);
+      $scope.jsonDownloadUrl = [MIME_TYPE, 'spec.json', $scope.jsonDownloadHref].join(':');
 
-    // YAML
-    var yamlBlob = new Blob([jsyaml.dump(specs)], {type: MIME_TYPE});
-    $scope.yamlDownloadHref = window.URL.createObjectURL(yamlBlob);
-    $scope.yamlDownloadUrl = [MIME_TYPE, 'spec.yaml', $scope.yamlDownloadHref].join(':');
+      // YAML
+      var yamlBlob = new Blob([jsyaml.dump(specs)], {type: MIME_TYPE});
+      $scope.yamlDownloadHref = window.URL.createObjectURL(yamlBlob);
+      $scope.yamlDownloadUrl = [MIME_TYPE, 'spec.yaml', $scope.yamlDownloadHref].join(':');
+    });
+
   }
 
   function getZipFile(url, json) {

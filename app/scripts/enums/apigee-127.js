@@ -1,6 +1,5 @@
-/*
- * Apigee 127 specific defaults
-*/
+'use strict';
+
 PhonicsApp.config(['$provide', function ($provide) {
   $provide.constant('defaults',
 
