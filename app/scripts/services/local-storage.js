@@ -33,8 +33,6 @@ PhonicsApp.service('LocalStorage', ['$localStorage', '$q', function LocalStorage
     }
 
     return deferred.promise;
-
-    return $localStorage[storageKey][key];
   };
 
   this.addChangeListener = function (key, fn) {
