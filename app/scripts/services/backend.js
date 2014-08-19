@@ -11,7 +11,10 @@ function Backend($http, defaults) {
   this.reset = noop;
 
   this.load = function () {
-    return $http.get(defaults.backendEndpoint);
+    return $http.get(defaults.backendEndpoint)
+      .then(function (res) {
+        return res.data;
+      });
   };
 
   this.addChangeListener = noop;
