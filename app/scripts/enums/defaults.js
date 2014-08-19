@@ -7,7 +7,7 @@ PhonicsApp.config(['$provide', function ($provide) {
     apiGenUrl: 'http://generator.wordnik.com/online/api/gen/{type}/{kind}',
     exampleFiles: ['default.yaml', 'minimal.yaml', 'petstore.yaml', 'heroku-pets.yaml'],
     backendEndpoint: '/editor/spec',
-    useBackendForStorage: true
+    useBackendForStorage: false
   }
   // END-DEFAULTS-JSON
 
