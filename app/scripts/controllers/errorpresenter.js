@@ -23,6 +23,10 @@ PhonicsApp.controller('ErrorPresenterCtrl', ['$scope', function ($scope) {
       return 'YAML Syntax Error';
     }
 
+    if (error.resolveError) {
+      return 'Resolve Error';
+    }
+
     return 'Unknown Error';
   };
 
@@ -41,6 +45,10 @@ PhonicsApp.controller('ErrorPresenterCtrl', ['$scope', function ($scope) {
       return error.yamlError.message.replace('JS-YAML: ', '').replace(/./, function (a) {
         return a.toUpperCase();
       });
+    }
+
+    if (error.resolveError) {
+      return error.resolveError.message.replace(/ in \{.+/, '');
     }
 
     return error;

@@ -25,7 +25,14 @@ function Builder(Resolver, Validator) {
   }
 
   function buildDocsWithObject(json) {
-    json = Resolver.resolve(json);
+    try {
+      json = Resolver.resolve(json);
+    } catch (e) {
+      return {
+        error: { resolveError: e },
+        specs: null
+      };
+    }
     var result = { specs: json };
     var error = Validator.validateSwagger(json);
 
