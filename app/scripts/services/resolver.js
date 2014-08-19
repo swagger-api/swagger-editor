@@ -31,8 +31,8 @@ PhonicsApp.service('Resolver', function Resolver() {
   }
 
   function lookup(address, root) {
-    if (address.indexOf('#/') !== 0) {
-      throw new Error('Can not lookup ' + address + ' in ' + angular.toJson(root));
+    if (address.indexOf('#/') !== 0 && address.indexOf('http://') !== 0) {
+      address = '#/definitions/' + address;
     }
     var path = address.substring(2).split('/');
     var current = root;
