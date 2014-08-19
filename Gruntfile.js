@@ -421,7 +421,7 @@ module.exports = function (grunt) {
         command: 'sh scripts/replace-defaults-a127.sh'
       },
       'pusblish-npm-a127': {
-        command: 'sh scripts/pusblish-npm-a127.sh'
+        command: 'sh scripts/publish-npm-a127.sh'
       },
       'a127-restore-defaults': {
         command: 'git reset --hard'
