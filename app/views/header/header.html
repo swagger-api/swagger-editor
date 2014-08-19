@@ -1,7 +1,7 @@
 <div class="menu-bar">
   <div class="toolbar">
     <section class="left">
-      <dropdown-menu label="File" on-open="assignDownloadHrefs">
+      <dropdown-menu label="File" on-open="assignDownloadHrefs" ng-if="showFileMenu()">
         <button class="toolbar-btn" ng-click="newProject()">New</button>
         <button class="toolbar-btn" ng-click="openExamples()">Open Example</button>
         <button class="toolbar-btn" ng-click="openImportUrl()">Import URL</button>

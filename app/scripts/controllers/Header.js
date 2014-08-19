@@ -20,6 +20,10 @@ function HeaderCtrl($scope, Editor, Storage, Splitter, Builder, $modal, $statePa
     $scope.breadcrumbs  = [];
   }
 
+  $scope.showFileMenu = function () {
+    return !defaults.disableFileMenu;
+  };
+
   $scope.newProject = function () {
     Editor.setValue('');
     Storage.reset();
