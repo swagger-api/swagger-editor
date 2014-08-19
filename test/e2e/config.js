@@ -17,10 +17,17 @@ var config = {
     defaultTimeoutInterval: 30000
   },
 
-  allScriptsTimeout: 50000
+  allScriptsTimeout: 50000,
+
+  onPrepare: function () {
+    if (process.env.TRAVIS_BUILD_NUMBER) {
+      browser.sleep(10 * 1000);
+    }
+  }
 };
 
 if (process.env.TRAVIS_BUILD_NUMBER) {
+  console.log('Adding SauceLabs specific attributes.');
   config.sauceUser = 'mohsen1';
   config.sauceKey = process.env.SAUCE_ACCESS_KEY;
 }
