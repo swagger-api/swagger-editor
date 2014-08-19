@@ -416,6 +416,15 @@ module.exports = function (grunt) {
       },
       'serve-dist': {
         command: './node_modules/http-server/bin/http-server -p 8090 &'
+      },
+      'replace-defaults-a127': {
+        command: 'sh scripts/replace-defaults-a127.sh'
+      },
+      'pusblish-npm-a127': {
+        command: 'sh scripts/pusblish-npm-a127.sh'
+      },
+      'a127-restore-defaults': {
+        command: 'git reset --hard'
       }
     },
 
@@ -499,5 +508,11 @@ module.exports = function (grunt) {
 
   grunt.registerTask('ship', ['gh-pages:main']);
   grunt.registerTask('preview', ['build', 'gh-pages:preview', 'shell:publish-npm']);
+  grunt.registerTask('a127', [
+    'shell:replace-defaults-a127',
+    'build',
+    'shell:a127-restore-defaults',
+    'shell:pusblish-npm-a127'
+  ]);
 
 };
