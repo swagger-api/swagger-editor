@@ -29,7 +29,7 @@ PhonicsApp.service('LocalStorage', ['$localStorage', '$q', function LocalStorage
     if (!key) {
       deferred.resolve($localStorage[storageKey]);
     } else {
-      deferred.reject();
+      deferred.resolve($localStorage[storageKey][key]);
     }
 
     return deferred.promise;
