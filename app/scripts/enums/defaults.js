@@ -6,7 +6,7 @@ PhonicsApp.config(['$provide', function ($provide) {
     downloadZipUrl: 'http://generator.wordnik.com/online/api/gen/download/',
     apiGenUrl: 'http://generator.wordnik.com/online/api/gen/{type}/{kind}',
     exampleFiles: ['default.yaml', 'minimal.yaml', 'petstore.yaml', 'heroku-pets.yaml'],
-    xhrChangesTo: '/spec'
+    backendEndpoint: '/editor/spec'
   }
   // END-DEFAULTS-JSON
 

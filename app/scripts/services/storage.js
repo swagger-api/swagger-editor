@@ -1,6 +1,6 @@
 'use strict';
 
-PhonicsApp.service('Storage', ['$localStorage', function Storage($localStorage) {
+PhonicsApp.service('Storage', ['$localStorage', 'Backend', function Storage($localStorage, Backend) {
   var storageKey = 'SwaggerEditorCache';
   var changeListeners =  Object.create(null);
 
@@ -16,6 +16,10 @@ PhonicsApp.service('Storage', ['$localStorage', function Storage($localStorage) 
     _.debounce(function () {
       window.requestAnimationFrame(function () {
         $localStorage[storageKey][key] = value;
+
+        if (key === 'specs') {
+          Backend.put(value);
+        }
       });
     }, 100)();
   };
