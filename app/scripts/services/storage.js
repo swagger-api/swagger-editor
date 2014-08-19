@@ -1,47 +1,14 @@
 'use strict';
 
-PhonicsApp.service('Storage', ['$localStorage', 'Backend', function Storage($localStorage, Backend) {
-  var storageKey = 'SwaggerEditorCache';
-  var changeListeners =  Object.create(null);
+PhonicsApp.service('Storage', ['LocalStorage', 'Backend', 'defaults', Storage]);
 
-  $localStorage[storageKey] = $localStorage[storageKey] || Object.create(null);
+/*
+ * Determines if LocalStorage should be used for storage or a Backend
+*/
+function Storage(LocalStorage, Backend, defaults) {
+  if (defaults.useBackendForStorage) {
+    return Backend;
+  }
 
-  this.save = function (key, value) {
-    if (Array.isArray(changeListeners[key])) {
-      changeListeners[key].forEach(function (fn) {
-        fn(value);
-      });
-    }
-
-    _.debounce(function () {
-      window.requestAnimationFrame(function () {
-        $localStorage[storageKey][key] = value;
-
-        if (key === 'specs') {
-          Backend.put(value);
-        }
-      });
-    }, 100)();
-  };
-
-  this.reset = function () {
-    $localStorage[storageKey] = Object.create(null);
-  };
-
-  this.load = function (key) {
-    if (!key) {
-      return $localStorage[storageKey];
-    }
-
-    return $localStorage[storageKey][key];
-  };
-
-  this.addChangeListener = function (key, fn) {
-    if (typeof fn === 'function') {
-      if (!changeListeners[key]) {
-        changeListeners[key] = [];
-      }
-      changeListeners[key].push(fn);
-    }
-  };
-}]);
+  return LocalStorage;
+}
