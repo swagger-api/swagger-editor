@@ -5,7 +5,7 @@ PhonicsApp.service('Builder', ['Resolver', 'Validator', Builder]);
 function Builder(Resolver, Validator) {
   var load = _.memoize(jsyaml.load);
 
-  function buildDocs(stringValue) {
+  function buildDocs(stringValue, options) {
 
     var json;
 
@@ -21,17 +21,24 @@ function Builder(Resolver, Validator) {
         specs: null
       };
     }
-    return buildDocsWithObject(json);
+    return buildDocsWithObject(json, options);
   }
 
-  function buildDocsWithObject(json) {
+  function buildDocsWithObject(json, options) {
+    options = options || {};
+
+    // Validate if specs are resolvable
     try {
-      json = Resolver.resolve(json);
+      Resolver.resolve(json);
     } catch (e) {
       return {
         error: { resolveError: e },
         specs: null
       };
+    }
+
+    if (options.resolve) {
+      json = Resolver.resolve(json);
     }
     var result = { specs: json };
     var error = Validator.validateSwagger(json);

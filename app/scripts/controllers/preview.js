@@ -14,7 +14,7 @@ function PreviewCtrl(Storage, Builder, $scope, $stateParams) {
       $scope.specs = { paths: Builder.getPath(latest, $stateParams.path) };
       $scope.isSinglePath = true;
     } else {
-      $scope.specs = latest;
+      $scope.specs = Builder.buildDocsWithObject(latest, { resolve: true }).specs;
     }
   }
   function updateError(latest) {
