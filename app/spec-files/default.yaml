@@ -11,7 +11,7 @@ info:
     url: http://github.com/gruntjs/grunt/blob/master/LICENSE-MIT
 host: petstore.swagger.wordnik.com
 basePath: /api
-consumes: 
+consumes:
   - application/json
 paths:
   /user/createWithList:
@@ -47,7 +47,7 @@ paths:
           description: Pet object that needs to be added to the store
           required: false
           schema:
-            $ref: "#/definitions/Pet"
+            $ref: Pet
       responses:
         400:
           description: Invalid ID supplied
@@ -62,7 +62,7 @@ paths:
           description: Pet object that needs to be added to the store
           required: false
           schema:
-            $ref: "#/definitions/Pet"
+            $ref: Pet
       responses:
         405:
           description: Invalid input
@@ -106,7 +106,7 @@ paths:
           description: order placed for purchasing the pet
           required: false
           schema:
-            $ref: "#/definitions/Order"
+            $ref: Order
       responses:
         400:
           description: Invalid Order
@@ -146,7 +146,7 @@ paths:
           description: Updated user object
           required: false
           schema:
-            $ref: "#/definitions/User"
+            $ref: User
       responses:
         400:
           description: Invalid user supplied
@@ -183,7 +183,7 @@ paths:
           description: Created user object
           required: false
           schema:
-            $ref: "#/definitions/User"
+            $ref: User
   /user/logout:
     get: {}
   /user/login:
@@ -244,9 +244,9 @@ definitions:
       tags:
         type: array
         items:
-          $ref: "#/definitions/Tag"
+          $ref: Tag
       category:
-        $ref: "#/definitions/Category"
+        $ref: Category
       status:
         type: string
       name:
