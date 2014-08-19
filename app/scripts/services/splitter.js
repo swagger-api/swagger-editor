@@ -42,6 +42,6 @@ PhonicsApp.service('Splitter', function Splitter() {
   };
 
   this.isVisible = function (side) {
-    return sides[side].visible;
+    return sides[side] && sides[side].visible;
   };
 });
