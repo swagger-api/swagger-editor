@@ -5,12 +5,11 @@ PhonicsApp.service('Backend', ['$http', 'defaults', Backend]);
 function Backend($http, defaults) {
   var changeListeners =  Object.create(null);
   var specsBuffer = null;
-  var commit = _.throttle(_commit, 200);
+  var commit = _.throttle(commitNow, 200);
 
-  function _commit(){
+  function commitNow() {
     $http.put(defaults.backendEndpoint, specsBuffer);
   }
-
 
   this.save = function (key, value) {
     if (Array.isArray(changeListeners[key])) {
