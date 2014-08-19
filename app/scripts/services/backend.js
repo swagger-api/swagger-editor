@@ -19,7 +19,7 @@ function Backend($http, defaults) {
       });
     }
 
-    if (key === 'specs') {
+    if (key === 'specs' && value) {
       specsBuffer = value;
       commit();
     }
