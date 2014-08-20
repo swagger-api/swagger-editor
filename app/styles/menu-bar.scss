@@ -1,10 +1,10 @@
 @import "colors";
 @import "fonts";
+@import "buttons";
 
 .menu-bar {
-  $border-radius: 3px;
-  $button-font-size: 15px;
-  
+
+
   @extend .sw-font;
   width: 100%;
 
@@ -125,7 +125,6 @@
       border-radius: $border-radius;
 
       &.selected {
-        //background: red;
         &[disabled="disabled"] {
           cursor: default;
         }
@@ -161,7 +160,7 @@
   > li + li:before {
     content: ">";
   }
-  
+
     li > a {
       color: white;
 
@@ -170,5 +169,5 @@
       text-decoration: none;
     }
   }
-  
+
 }

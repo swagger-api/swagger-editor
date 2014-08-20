@@ -12,6 +12,10 @@
       float: right;
     }
 
+  .descContainer {
+    display: table-cell;
+  }
+
   .info-container {
     transition: height ease-in .3s;
     display: table;
@@ -56,7 +60,7 @@
     margin-bottom: 0;
     font-size: 1em;
     @extend .sw-font-med;
-    
+
     &:last-child {
       margin-bottom: 0;
     }

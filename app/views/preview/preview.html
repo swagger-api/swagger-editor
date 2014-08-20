@@ -13,7 +13,7 @@
   </div>
   <header class="paths-header" ng-if="!!specs.info && !error.yamlError">
     <div>
-      <div class="btn-group groupedButtons viewExpand">
+      <div class="btn-group groupedButtons viewExpand descContainer" >
           <button type="button" class="btn btn-default left" title="{{!isPaneVisisble('left') ? 'Hide' : 'Show'}} text editor"
             ng-click="togglePane('left')"
             ng-class="{selected: isPaneVisible('left')}"
