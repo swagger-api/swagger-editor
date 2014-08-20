@@ -3,12 +3,13 @@
 PhonicsApp.controller('PreviewCtrl', [
   'Storage',
   'Builder',
+  'FoldManager',
   '$scope',
   '$stateParams',
   PreviewCtrl
 ]);
 
-function PreviewCtrl(Storage, Builder, $scope, $stateParams) {
+function PreviewCtrl(Storage, Builder, FoldManager, $scope, $stateParams) {
   function updateSpecs(latest) {
     if ($stateParams.path) {
       $scope.specs = { paths: Builder.getPath(latest, $stateParams.path) };

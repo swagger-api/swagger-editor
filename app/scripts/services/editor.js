@@ -5,6 +5,7 @@ PhonicsApp.service('Editor', [Editor]);
 function Editor() {
   var editor = null;
   var onReadyFns = [];
+  var changeFoldFns = [];
   var that = this;
 
   function annotateYAMLErrors(error) {
@@ -26,11 +27,23 @@ function Editor() {
     // Assign class variable `editor`
     editor = e;
 
+    window.e = e;
+
     // Editor is ready, fire the on-ready function and flush the queue
     onReadyFns.forEach(function (fn) {
       fn(that);
     });
     onReadyFns = [];
+
+    // Hookup changeFold listeners
+    editor.getSession().changeFold(onChangeFold);
+  }
+
+  function onChangeFold() {
+    var args = arguments;
+    changeFoldFns.forEach(function (fn) {
+      fn.apply(editor, args);
+    });
   }
 
   function setValue(value) {
@@ -58,10 +71,27 @@ function Editor() {
     }
   }
 
+  function getAllFolds() {
+    var session = editor.getSession();
+    session.foldAll();
+    return session.unfold();
+  }
+
+  function getLine(l) {
+    return editor.session.getLine(l);
+  }
+
+  function changeFold(fn) {
+    changeFoldFns.push(fn);
+  }
+
   this.getValue = getValue;
   this.setValue = setValue;
   this.aceLoaded = aceLoaded;
   this.resize = resize;
   this.ready = ready;
   this.annotateYAMLErrors = annotateYAMLErrors;
+  this.getAllFolds = getAllFolds;
+  this.getLine = getLine;
+  this.changeFold = changeFold;
 }
