@@ -7,13 +7,8 @@
   padding: 5px;
   margin-bottom: 1em;
 
-  .descContainer {
-    display: table-cell;
-  }
-
   .info-container {
     transition: height ease-in .3s;
-    display: table;
 
     &.collapsed {
       height: 0 !important;
