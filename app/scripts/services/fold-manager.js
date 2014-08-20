@@ -31,9 +31,9 @@ function FoldManager(Editor) {
       }
     });
 
-    if (buffer.paths.fold) {
-      // console.log(buffer);
-    }
+    // if (buffer.paths.fold) {
+    //   // console.log(buffer);
+    // }
   });
 
   this.toggleFoldPath = function (pathName) {
