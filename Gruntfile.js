@@ -433,6 +433,14 @@ module.exports = function (grunt) {
         options: {
           configFile: './test/e2e/config.js'
         }
+      },
+      saucelabs: {
+        options: {
+          args: {
+            sauceUser: process.env.SAUCE_USERNAME,
+            sauceKey: process.env.SAUCE_ACCESS_KEY
+          }
+        }
       }
     },
 
@@ -480,6 +488,16 @@ module.exports = function (grunt) {
     // 'karma' // TODO
     'http-server',
     'protractor'
+  ]);
+
+  grunt.registerTask('travis', [
+    'clean:server',
+    'concurrent:test',
+    'autoprefixer',
+    'connect:test',
+    // 'karma' // TODO
+    'http-server',
+    'protractor:saucelabs'
   ]);
 
   grunt.registerTask('build', [

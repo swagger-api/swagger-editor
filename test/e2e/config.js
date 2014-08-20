@@ -1,6 +1,6 @@
 'use strict';
 
-var config = {
+exports.config = {
   baseUrl: 'http://localhost:8282/',
 
   capabilities: {
@@ -25,11 +25,3 @@ var config = {
     }
   }
 };
-
-if (process.env.TRAVIS_BUILD_NUMBER) {
-  console.log('Adding SauceLabs specific attributes.');
-  config.sauceUser = 'mohsen1';
-  config.sauceKey = process.env.SAUCE_ACCESS_KEY;
-}
-
-exports.config = config;

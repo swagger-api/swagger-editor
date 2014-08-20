@@ -1,14 +1,21 @@
 language: node_js
 node_js:
-- '0.10'
-install: gem install compass
-before_script:
-- npm install
-- ./node_modules/bower/bin/bower install
+  - '0.10'
 rvm:
-- 2.0.0
+  - 2.0.0
+
+install: gem install compass
+
+before_script:
+  - npm install
+  - ./node_modules/bower/bin/bower install
+
+script:
+  - ./script/travis.sh
+
 addons:
   sauce_connect: true
+
 env:
   global:
   - secure: LOcLzSfOYmwkA+Xec4MRRGtIwGvz6MlGJ6NsLbPjeuPl8qkWK8oejkAlKWfSDavTcsyQUUuAoSxrmzGdAmw7UOnQnwuoERrxCQy4DoBf1X/zaWtkbOoF3mE1S+y/Fz5VyUsMJXCVxtQ6km2J37/YlIRfJFyD/qA3asqABZEIDPk=
