@@ -1,7 +1,16 @@
-<div class="descContainer">
-  <h1>
-    <a ng-click="hideInfo = !hideInfo">{{specs.info.title}}</a>
-  </h1>
+<div class="info">
+  <header class="info-header">
+    <h1>
+      <a ng-click="hideInfo = !hideInfo">{{specs.info.title}}</a>
+    </h1>
+    <div class="collapse-togglers">
+      <button type="button" class="btn btn-default left" ng-click="toggleAllPathsListed()"
+        ng-class="{active: areAllPathsListed()}">All</button>
+      <button type="button" class="btn btn-default left"></button>
+      <button type="button" class="btn btn-default left"></button>
+    </div>
+  </header>
+
   <div class="info-container" collapse-when="hideInfo" ng-ani>
     <p>{{specs.info.description}}</p>
     <h4>Version <span>{{specs.info.version}}</span></h4>

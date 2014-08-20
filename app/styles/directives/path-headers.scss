@@ -7,11 +7,6 @@
   padding: 5px;
   margin-bottom: 1em;
 
-  .viewExpand {
-      display: table-cell;
-      float: right;
-    }
-
   .descContainer {
     display: table-cell;
   }
@@ -26,12 +21,12 @@
     }
 
   }
-  .all-paths-toggler {
-    float: right;
-    cursor: pointer;
-    font-size: .9em;
-    &:hover {
-      text-decoration: underline;
+
+  .info-header {
+    display: table;
+
+    >h1, .collapse-togglers {
+      display: table-cell;
     }
   }
 
