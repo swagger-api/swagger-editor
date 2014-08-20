@@ -32,7 +32,7 @@ function FoldManager(Editor) {
     });
 
     if (buffer.paths.fold) {
-      console.log(buffer);
+      // console.log(buffer);
     }
   });
 
