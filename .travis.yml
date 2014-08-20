@@ -11,7 +11,7 @@ before_script:
   - ./node_modules/bower/bin/bower install
 
 script:
-  - ./script/travis.sh
+  - ./scripts/travis.sh
 
 addons:
   sauce_connect: true
