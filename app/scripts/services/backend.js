@@ -4,7 +4,7 @@ PhonicsApp.service('Backend', ['$http', 'defaults', Backend]);
 
 function Backend($http, defaults) {
   var changeListeners =  Object.create(null);
-  var specsBuffer = null;
+  var buffer = Object.create(null);
   var commit = _.throttle(commitNow, 200);
 
   function commitNow(data) {
@@ -12,6 +12,10 @@ function Backend($http, defaults) {
   }
 
   this.save = function (key, value) {
+
+    // Save values in a buffer
+    buffer[key] = value;
+
     if (Array.isArray(changeListeners[key])) {
       changeListeners[key].forEach(function (fn) {
         fn(value);
@@ -24,8 +28,7 @@ function Backend($http, defaults) {
       }
     } else {
       if (key === 'specs' && value) {
-        specsBuffer = value;
-        commit(specsBuffer);
+        commit(buffer[key]);
       }
     }
 
@@ -37,6 +40,10 @@ function Backend($http, defaults) {
     return $http.get(defaults.backendEndpoint)
       .then(function (res) {
         if (defaults.useYamlBackend) {
+
+          // TODO: Wr are assuming the YAML coming from
+          // backend is valid. Validate server's YAML
+          buffer.yaml = res.data;
           return jsyaml.load(res.data);
         }
         return res.data;
