@@ -10,9 +10,6 @@ before_script:
   - npm install
   - ./node_modules/bower/bin/bower install
 
-script:
-  - ./scripts/travis.sh
-
 addons:
   sauce_connect: true
 
