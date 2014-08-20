@@ -1,8 +1,8 @@
 'use strict';
 
-PhonicsApp.service('Backend', ['$http', 'defaults', Backend]);
+PhonicsApp.service('Backend', ['$http', '$q', 'defaults', Backend]);
 
-function Backend($http, defaults) {
+function Backend($http, $q, defaults) {
   var changeListeners =  Object.create(null);
   var buffer = Object.create(null);
   var commit = _.throttle(commitNow, 200);
@@ -36,7 +36,17 @@ function Backend($http, defaults) {
 
   this.reset = noop;
 
-  this.load = function () {
+  this.load = function (key) {
+    if (key !== 'specs') {
+      var deferred = $q.defer();
+      if (!key) {
+        deferred.reject();
+      } else {
+        deferred.resolve(buffer[key]);
+      }
+      return deferred.promise;
+    }
+
     return $http.get(defaults.backendEndpoint)
       .then(function (res) {
         if (defaults.useYamlBackend) {
