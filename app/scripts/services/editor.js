@@ -36,7 +36,7 @@ function Editor() {
     onReadyFns = [];
 
     // Hookup changeFold listeners
-    editor.getSession().changeFold(onChangeFold);
+    editor.getSession().on('changeFold', onChangeFold);
   }
 
   function onChangeFold() {
