@@ -10,7 +10,8 @@ PhonicsApp.config(['$provide', function ($provide) {
     exampleFiles: ['default.yaml', 'minimal.yaml', 'petstore.yaml', 'heroku-pets.yaml'],
     backendEndpoint: '/editor/spec',
     useBackendForStorage: true,
-    disableFileMenu: true
+    disableFileMenu: true,
+    useYamlBackend: true
   }
   // END-DEFAULTS-JSON
 

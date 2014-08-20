@@ -15,6 +15,7 @@ function EditorCtrl($scope, $stateParams, Editor, Builder, Storage) {
         result = Builder.updatePath(value, $stateParams.path, specs);
       }
 
+      Storage.save('yaml', value);
       Storage.save('specs', result.specs);
       Storage.save('error', result.error);
     });

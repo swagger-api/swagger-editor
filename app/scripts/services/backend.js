@@ -7,8 +7,8 @@ function Backend($http, defaults) {
   var specsBuffer = null;
   var commit = _.throttle(commitNow, 200);
 
-  function commitNow() {
-    $http.put(defaults.backendEndpoint, specsBuffer);
+  function commitNow(data) {
+    $http.put(defaults.backendEndpoint, data);
   }
 
   this.save = function (key, value) {
@@ -18,10 +18,17 @@ function Backend($http, defaults) {
       });
     }
 
-    if (key === 'specs' && value) {
-      specsBuffer = value;
-      commit();
+    if (defaults.useYamlBackend) {
+      if (key === 'yaml' && value) {
+        commit(value);
+      }
+    } else {
+      if (key === 'specs' && value) {
+        specsBuffer = value;
+        commit(specsBuffer);
+      }
     }
+
   };
 
   this.reset = noop;
@@ -29,6 +36,9 @@ function Backend($http, defaults) {
   this.load = function () {
     return $http.get(defaults.backendEndpoint)
       .then(function (res) {
+        if (defaults.useYamlBackend) {
+          return jsyaml.load(res.data);
+        }
         return res.data;
       });
   };
