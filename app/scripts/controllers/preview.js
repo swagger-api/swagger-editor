@@ -70,4 +70,12 @@ function PreviewCtrl(Storage, Builder, FoldManager, $scope, $stateParams) {
       $scope.pathListedStatus[pathName] = !allListed;
     }
   };
+
+  $scope.toggleInfo = function () {
+    FoldManager.toggleFold('info');
+  };
+
+  $scope.isInfoCollapsed = function () {
+    return FoldManager.isFolded('info');
+  };
 }

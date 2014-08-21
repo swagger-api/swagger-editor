@@ -1,7 +1,7 @@
 <div class="info">
   <header class="info-header">
     <h1>
-      <a ng-click="hideInfo = !hideInfo">{{specs.info.title}}</a>
+      <a ng-click="toggleInfo()">{{specs.info.title}}</a>
     </h1>
     <div class="collapse-togglers">
       <button type="button" class="btn btn-default left" ng-click="toggleAllPathsListed()"
@@ -11,7 +11,7 @@
     </div>
   </header>
 
-  <div class="info-container" collapse-when="hideInfo" ng-ani>
+  <div class="info-container" collapse-when="isInfoCollapsed()" ng-ani>
     <p>{{specs.info.description}}</p>
     <h4>Version <span>{{specs.info.version}}</span></h4>
     <div ng-if="specs.info.termsOfService">

@@ -89,6 +89,14 @@ function Editor() {
     changeFoldFns.push(fn);
   }
 
+  function addFold(fold) {
+    editor.getSession().addFold(fold);
+  }
+
+  function removeFold(fold) {
+    editor.getSession().removeFold(fold);
+  }
+
   this.getValue = getValue;
   this.setValue = setValue;
   this.aceLoaded = aceLoaded;
@@ -98,4 +106,6 @@ function Editor() {
   this.getAllFolds = getAllFolds;
   this.getLine = getLine;
   this.changeFold = changeFold;
+  this.addFold = addFold;
+  this.removeFold = removeFold;
 }
