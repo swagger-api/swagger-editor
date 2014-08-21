@@ -73,8 +73,12 @@ function Editor() {
 
   function getAllFolds() {
     var session = editor.getSession();
+    var folds = null;
+
     session.foldAll();
-    return session.unfold();
+    folds = session.unfold();
+
+    return Array.isArray(folds) ? folds : [];
   }
 
   function getLine(l) {
