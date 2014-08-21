@@ -11,8 +11,13 @@
       </div>
     </div>
   </div>
-  <header class="paths-header" ng-if="!!specs.info && !error.yamlError">
-    <ng-include src="'templates/specs-info.html'"></ng-include>
+  <ng-include src="'templates/specs-info.html'"
+    ng-if="!!specs.info && !error.yamlError"></ng-include>
+  <header ng-if="!!specs.info && !error.yamlError">
+    <h1>
+      <a ng-click="toggleAllPathsListed()">{{areAllPathsListed() ? '+' : '-'}}</a>
+      Paths
+    </h1>
   </header>
   <ul ng-if="!error.yamlError">
     <path ng-repeat="(pathName, path) in specs.paths" path="path" path-name="pathName" is-single="isSinglePath"></path>

@@ -1,14 +1,17 @@
 <div class="info">
   <header class="info-header">
     <h1>
-      <a ng-click="toggleInfo()">{{specs.info.title}}</a>
+      <a ng-click="toggleInfo()">{{isInfoCollapsed() ? '+' : '-'}}</a>
+      {{specs.info.title}}
     </h1>
+    <!-- Commented out because of CSS issues (looks bad)
     <div class="collapse-togglers">
       <button type="button" class="btn btn-default left" ng-click="toggleAllPathsListed()"
         ng-class="{active: areAllPathsListed()}">All</button>
       <button type="button" class="btn btn-default left"></button>
       <button type="button" class="btn btn-default left"></button>
     </div>
+    -->
   </header>
 
   <div class="info-container" collapse-when="isInfoCollapsed()" ng-ani>
