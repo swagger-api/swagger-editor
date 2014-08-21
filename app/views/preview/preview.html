@@ -11,8 +11,10 @@
       </div>
     </div>
   </div>
+
   <ng-include src="'templates/specs-info.html'"
     ng-if="!!specs.info && !error.yamlError"></ng-include>
+
   <header ng-if="!!specs.info && !error.yamlError">
     <h1>
       <a ng-click="toggleAllPathsListed()">{{areAllPathsListed() ? '+' : '-'}}</a>
@@ -22,4 +24,17 @@
   <ul ng-if="!error.yamlError">
     <path ng-repeat="(pathName, path) in specs.paths" path="path" path-name="pathName" is-single="isSinglePath"></path>
   </ul>
+
+  <header ng-if="specs.definitions">
+    <h1>
+      <a ng-click="toggleModles()">{{true ? '+' : '-'}}</a>
+      Models
+    </h1>
+    <ul ng-if="specs.definitions">
+      <li ng-repeat="(modelName, model) in specs.definitions">
+        <h4>{{modelName}}</h4>
+        <schema-model schema="model"></schema-model>
+      </li>
+    </ul>
+  </header>
 </div>
