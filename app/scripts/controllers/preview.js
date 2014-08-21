@@ -48,6 +48,10 @@ function PreviewCtrl(Storage, Builder, FoldManager, $scope, $stateParams) {
     }
   });
 
+  FoldManager.onFoldStatusChanged(function () {
+    _.defer(function () { $scope.$apply(); });
+  });
+
   $scope.setAllPathsListed = function (value) {
     for (var pathName in $scope.pathListedStatus) {
       $scope.pathListedStatus[pathName] = value;

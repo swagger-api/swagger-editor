@@ -85,7 +85,7 @@ function Editor() {
     return editor.session.getLine(l);
   }
 
-  function changeFold(fn) {
+  function onFoldChanged(fn) {
     changeFoldFns.push(fn);
   }
 
@@ -105,7 +105,7 @@ function Editor() {
   this.annotateYAMLErrors = annotateYAMLErrors;
   this.getAllFolds = getAllFolds;
   this.getLine = getLine;
-  this.changeFold = changeFold;
+  this.onFoldChanged = onFoldChanged;
   this.addFold = addFold;
   this.removeFold = removeFold;
 }

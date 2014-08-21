@@ -11,6 +11,7 @@ function FoldManager(Editor) {
     paths: { fold: null, folded: false },
     definitions: { fold: null, folded: false }
   };
+  var changeListeners = [];
 
   Editor.ready(function () {
     var allFolds = Editor.getAllFolds();
@@ -29,11 +30,26 @@ function FoldManager(Editor) {
       if (line.trim().indexOf('definitions') === 0) {
         buffer.definitions.fold = fold;
       }
-    });
 
-    // if (buffer.paths.fold) {
-    //   // console.log(buffer);
-    // }
+      emitChanges();
+    });
+  });
+
+  function emitChanges() {
+    changeListeners.forEach(function (fn) {
+      fn();
+    });
+  }
+
+  Editor.onFoldChanged(function (change) {
+    var key = Editor.getLine(change.data.start.row).trim().replace(':', '');
+    var folded = change.action !== 'remove';
+
+    if (buffer[key]) {
+      buffer[key].folded = folded;
+    }
+
+    emitChanges();
   });
 
   this.toggleFoldPath = function (pathName) {
@@ -64,6 +80,10 @@ function FoldManager(Editor) {
 
   this.isFolded = function (key) {
     return buffer[key].folded;
+  };
+
+  this.onFoldStatusChanged = function (fn) {
+    changeListeners.push(fn);
   };
 
   /*
