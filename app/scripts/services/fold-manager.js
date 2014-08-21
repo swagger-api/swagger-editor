@@ -85,12 +85,4 @@ function FoldManager(Editor) {
   this.onFoldStatusChanged = function (fn) {
     changeListeners.push(fn);
   };
-
-  /*
-  ** Extends spec object with fold status.
-  */
-  this.extendSpecs = function (specs) {
-    // TODO: only add the `folded` values to avoid polluting the scope
-    return _.extend(specs, buffer);
-  };
 }
