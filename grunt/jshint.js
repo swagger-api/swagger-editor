@@ -5,7 +5,7 @@ module.exports = {
   },
   all: [
     'Gruntfile.js',
-    '<%= yeoman.app %>/scripts/{,*/}*.js'
+    'app/scripts/{,*/}*.js'
   ],
   test: {
     options: {

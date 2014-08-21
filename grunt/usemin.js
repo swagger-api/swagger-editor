@@ -1,7 +1,7 @@
 module.exports = {
-  html: ['<%= yeoman.dist %>/{,*/}*.html'],
-  css: ['<%= yeoman.dist %>/styles/{,*/}*.css'],
+  html: ['dist/{,*/}*.html'],
+  css: ['dist/styles/{,*/}*.css'],
   options: {
-    assetsDirs: ['<%= yeoman.dist %>']
+    assetsDirs: ['dist']
   }
 }

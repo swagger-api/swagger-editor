@@ -1,12 +1,12 @@
 module.exports = {
   options: {
-    sassDir: '<%= yeoman.app %>/styles',
+    sassDir: 'app/styles',
     cssDir: '.tmp/styles',
     generatedImagesDir: '.tmp/images/generated',
-    imagesDir: '<%= yeoman.app %>/images',
-    javascriptsDir: '<%= yeoman.app %>/scripts',
-    fontsDir: '<%= yeoman.app %>/styles/fonts',
-    importPath: '<%= yeoman.app %>/bower_components',
+    imagesDir: 'app/images',
+    javascriptsDir: 'app/scripts',
+    fontsDir: 'app/styles/fonts',
+    importPath: 'app/bower_components',
     httpImagesPath: '/images',
     httpGeneratedImagesPath: '/images/generated',
     httpFontsPath: '/styles/fonts',
@@ -16,8 +16,8 @@ module.exports = {
   },
   dist: {
     options: {
-      cssDir: '<%= yeoman.dist %>/styles',
-      generatedImagesDir: '<%= yeoman.dist %>/images/generated'
+      cssDir: 'dist/styles',
+      generatedImagesDir: 'dist/images/generated'
     }
   },
   server: {

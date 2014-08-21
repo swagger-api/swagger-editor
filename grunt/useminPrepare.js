@@ -1,7 +1,7 @@
 module.exports = {
-  html: '<%= yeoman.app %>/index.html',
+  html: 'app/index.html',
   options: {
-    dest: '<%= yeoman.dist %>',
+    dest: 'dist',
     flow: {
       html: {
         steps: {

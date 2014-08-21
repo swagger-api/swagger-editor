@@ -3,8 +3,8 @@ module.exports = {
     files: [{
       expand: true,
       dot: true,
-      cwd: '<%= yeoman.app %>',
-      dest: '<%= yeoman.dist %>',
+      cwd: 'app',
+      dest: 'dist',
       src: [
         '*.{ico,png,txt}',
         '.htaccess',
@@ -20,13 +20,13 @@ module.exports = {
     }, {
       expand: true,
       cwd: '.tmp/images',
-      dest: '<%= yeoman.dist %>/images',
+      dest: 'dist/images',
       src: ['generated/*']
     }]
   },
   styles: {
     expand: true,
-    cwd: '<%= yeoman.app %>/styles',
+    cwd: 'app/styles',
     dest: '.tmp/styles/',
     src: '{,*/}*.css'
   }

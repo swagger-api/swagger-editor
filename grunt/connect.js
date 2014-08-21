@@ -10,7 +10,7 @@ module.exports = {
       open: true,
       base: [
         '.tmp',
-        '<%= yeoman.app %>'
+        'app'
       ]
     }
   },
@@ -20,13 +20,13 @@ module.exports = {
       base: [
         '.tmp',
         'test',
-        '<%= yeoman.app %>'
+        'app'
       ]
     }
   },
   dist: {
     options: {
-      base: '<%= yeoman.dist %>'
+      base: 'dist'
     }
   }
 };

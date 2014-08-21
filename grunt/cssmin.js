@@ -1,5 +1,5 @@
 module.exports = {
   options: {
-    root: '<%= yeoman.app %>'
+    root: 'app'
   }
 };

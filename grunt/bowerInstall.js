@@ -1,10 +1,10 @@
 module.exports = {
   app: {
-    src: ['<%= yeoman.app %>/index.html'],
-    ignorePath: '<%= yeoman.app %>/'
+    src: ['app/index.html'],
+    ignorePath: 'app/'
   },
   sass: {
-    src: ['<%= yeoman.app %>/styles/{,*/}*.{scss,sass}'],
-    ignorePath: '<%= yeoman.app %>/bower_components/'
+    src: ['app/styles/{,*/}*.{scss,sass}'],
+    ignorePath: 'app/bower_components/'
   }
 };
