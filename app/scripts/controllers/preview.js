@@ -82,4 +82,12 @@ function PreviewCtrl(Storage, Builder, FoldManager, $scope, $stateParams) {
   $scope.isInfoCollapsed = function () {
     return FoldManager.isFolded('info');
   };
+
+  $scope.togglePaths = function () {
+    FoldManager.toggleFold('paths');
+  };
+
+  $scope.isPathsCollapsed = function () {
+    return FoldManager.isFolded('paths');
+  };
 }

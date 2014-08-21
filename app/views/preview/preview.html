@@ -17,11 +17,11 @@
 
   <header ng-if="!!specs.info && !error.yamlError">
     <h1>
-      <a ng-click="toggleAllPathsListed()">{{areAllPathsListed() ? '+' : '-'}}</a>
+      <a ng-click="togglePaths()">{{isPathsCollapsed() ? '+' : '-'}}</a>
       Paths
     </h1>
   </header>
-  <ul ng-if="!error.yamlError">
+  <ul ng-if="!error.yamlError" collapse-when="isPathsCollapsed()">
     <path ng-repeat="(pathName, path) in specs.paths" path="path" path-name="pathName" is-single="isSinglePath"></path>
   </ul>
 
