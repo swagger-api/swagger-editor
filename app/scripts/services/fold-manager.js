@@ -13,7 +13,9 @@ function FoldManager(Editor) {
   };
   var changeListeners = [];
 
-  Editor.ready(function () {
+  Editor.ready(rewriteBuffer);
+
+  function rewriteBuffer() {
     var allFolds = Editor.getAllFolds();
 
     allFolds.forEach(function (fold) {
@@ -33,7 +35,7 @@ function FoldManager(Editor) {
 
       emitChanges();
     });
-  });
+  }
 
   function emitChanges() {
     changeListeners.forEach(function (fn) {
@@ -85,4 +87,6 @@ function FoldManager(Editor) {
   this.onFoldStatusChanged = function (fn) {
     changeListeners.push(fn);
   };
+
+  this.reset = rewriteBuffer;
 }

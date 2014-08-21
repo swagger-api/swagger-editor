@@ -17,6 +17,8 @@ function PreviewCtrl(Storage, Builder, FoldManager, $scope, $stateParams) {
     } else {
       $scope.specs = Builder.buildDocsWithObject(latest, { resolve: true }).specs;
     }
+
+    FoldManager.reset();
   }
   function updateError(latest) {
     $scope.error = latest;
