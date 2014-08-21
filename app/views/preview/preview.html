@@ -27,10 +27,10 @@
 
   <header ng-if="specs.definitions">
     <h1>
-      <a ng-click="toggleModles()">{{true ? '+' : '-'}}</a>
+      <a ng-click="toggle('definitions')">{{isCollapsed('definitions') ? '+' : '-'}}</a>
       Models
     </h1>
-    <ul ng-if="specs.definitions">
+    <ul ng-if="specs.definitions" collapse-when="isCollapsed('definitions')">
       <li ng-repeat="(modelName, model) in specs.definitions">
         <h4>{{modelName}}</h4>
         <schema-model schema="model"></schema-model>
