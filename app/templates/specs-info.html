@@ -1,7 +1,7 @@
 <div class="info">
   <header class="info-header">
     <h1>
-      <a ng-click="toggleInfo()">{{isInfoCollapsed() ? '+' : '-'}}</a>
+      <a ng-click="toggle('info')">{{isCollapsed('info') ? '+' : '-'}}</a>
       {{specs.info.title}}
     </h1>
     <!-- Commented out because of CSS issues (looks bad)
@@ -14,7 +14,7 @@
     -->
   </header>
 
-  <div class="info-container" collapse-when="isInfoCollapsed()" ng-ani>
+  <div class="info-container" collapse-when="isCollapsed('info')" ng-ani>
     <p>{{specs.info.description}}</p>
     <h4>Version <span>{{specs.info.version}}</span></h4>
     <div ng-if="specs.info.termsOfService">
