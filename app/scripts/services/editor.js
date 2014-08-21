@@ -27,8 +27,6 @@ function Editor() {
     // Assign class variable `editor`
     editor = e;
 
-    window.e = e;
-
     // Editor is ready, fire the on-ready function and flush the queue
     onReadyFns.forEach(function (fn) {
       fn(that);
@@ -38,7 +36,7 @@ function Editor() {
     var session = editor.getSession();
 
     // Hookup changeFold listeners
-    editor.getSession().on('changeFold', onChangeFold);
+    session.on('changeFold', onChangeFold);
 
     configureSession(session);
   }
