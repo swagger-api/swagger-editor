@@ -1,22 +1,9 @@
-// Generated on 2014-05-02 using generator-angular 0.8.0
 'use strict';
-
-// # Globbing
-// for performance reasons we're only matching one level down:
-// 'test/spec/{,*/}*.js'
-// use this if you want to recursively match all subfolders:
-// 'test/spec/**/*.js'
 
 module.exports = function (grunt) {
 
-  // Load grunt tasks automatically
-  // require('load-grunt-tasks')(grunt);
-
   require('load-grunt-config')(grunt);
   require('time-grunt')(grunt);
-
-  // Define the configuration for all the tasks
-
 
 
   grunt.registerTask('serve', function (target) {
@@ -32,11 +19,6 @@ module.exports = function (grunt) {
       'connect:livereload',
       'watch'
     ]);
-  });
-
-  grunt.registerTask('server', function (target) {
-    grunt.log.warn('The `server` task has been deprecated. Use `grunt serve` to start a server.');
-    grunt.task.run(['serve:' + target]);
   });
 
   grunt.registerTask('test', [
@@ -72,12 +54,17 @@ module.exports = function (grunt) {
   ]);
 
   grunt.registerTask('ship', ['gh-pages:main']);
-  grunt.registerTask('preview', ['build', 'gh-pages:preview', 'shell:publish-npm']);
+
+  grunt.registerTask('preview', [
+    'build',
+    'gh-pages:preview',
+    'shell:publish-npm'
+  ]);
+
   grunt.registerTask('a127', [
     'shell:replace-defaults-a127',
     'build',
     'shell:a127-restore-defaults',
     'shell:pusblish-npm-a127'
   ]);
-
 };
