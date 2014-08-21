@@ -14,6 +14,10 @@
 
   it('Should not have any console errors or warnings', function () {
     browser.manage().logs().get('browser').then(function(browserLog) {
+      if (browserLog.length) {
+        console.log('\n\nBrowser console log: \n\n');
+        browserLog.forEach(console.log);
+      }
       expect(browserLog.length).toBe(0);
     });
   });
