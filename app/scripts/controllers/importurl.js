@@ -7,10 +7,11 @@ PhonicsApp.controller('UrlImportCtrl', [
   '$localStorage',
   'Storage',
   'Editor',
+  'FoldManager',
   FileImportCtrl
 ]);
 
-function FileImportCtrl($scope, $modalInstance, FileLoader, $localStorage, Storage, Editor) {
+function FileImportCtrl($scope, $modalInstance, FileLoader, $localStorage, Storage, Editor, FoldManager) {
   var results;
 
   $scope.url = null;
@@ -30,7 +31,8 @@ function FileImportCtrl($scope, $modalInstance, FileLoader, $localStorage, Stora
   $scope.ok = function () {
     if (typeof results === 'object') {
       Editor.setValue(results);
-      Storage.save('spevs', results);
+      Storage.save('specs', results);
+      FoldManager.reset();
     }
     $modalInstance.close();
   };

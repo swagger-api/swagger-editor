@@ -5,13 +5,14 @@ PhonicsApp.controller('OpenExamplesCtrl', [
   'Builder',
   'Storage',
   'Editor',
+  'FoldManager',
   'defaults',
   '$scope',
   '$modalInstance',
   OpenExamplesCtrl
 ]);
 
-function OpenExamplesCtrl(FileLoader, Builder, Storage, Editor, defaults, $scope, $modalInstance) {
+function OpenExamplesCtrl(FileLoader, Builder, Storage, Editor, FoldManager, defaults, $scope, $modalInstance) {
 
   $scope.files = defaults.exampleFiles;
   $scope.selectedFile = defaults.exampleFiles[0];
@@ -22,6 +23,7 @@ function OpenExamplesCtrl(FileLoader, Builder, Storage, Editor, defaults, $scope
       Editor.setValue(result.specs);
       Storage.save('specs', result.specs);
       Storage.save('error', result.error);
+      FoldManager.reset();
       $modalInstance.close();
     }, $modalInstance.close);
   };
