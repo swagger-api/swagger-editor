@@ -35,8 +35,12 @@ function Editor() {
     });
     onReadyFns = [];
 
+    var session = editor.getSession();
+
     // Hookup changeFold listeners
     editor.getSession().on('changeFold', onChangeFold);
+
+    configureSession(session);
   }
 
   function onChangeFold() {
@@ -44,6 +48,10 @@ function Editor() {
     changeFoldFns.forEach(function (fn) {
       fn.apply(editor, args);
     });
+  }
+
+  function configureSession(session) {
+    session.setTabSize(2);
   }
 
   function setValue(value) {
