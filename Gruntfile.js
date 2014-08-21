@@ -42,6 +42,7 @@ module.exports = function (grunt) {
     'ngmin',
     'copy:dist',
     'cssmin',
+    'uglify',
     'rev',
     'usemin',
     'htmlmin'
