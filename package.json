@@ -28,7 +28,6 @@
     "grunt-svgmin": "~0.2.0",
     "grunt-usemin": "~2.0.0",
     "jshint-stylish": "~0.1.3",
-    "load-grunt-tasks": "~0.4.0",
     "time-grunt": "~0.2.1",
     "karma-ng-scenario": "~0.1.0",
     "grunt-karma": "~0.8.3",
@@ -43,7 +42,8 @@
     "grunt-protractor-runner": "~1.1.0",
     "http-server": "~0.6.1",
     "karma-jasmine": "~0.1.5",
-    "grunt-http-server": "0.0.5"
+    "grunt-http-server": "0.0.5",
+    "load-grunt-config": "~0.13.0"
   },
   "engines": {
     "node": ">=0.10.0"
