@@ -39,7 +39,9 @@ function FoldPointFinder() {
         }
       }
     }
-    keys[keys.length - 1].end = l - 1;
+    if (keys.length && angular.isObject(keys[keys.length])) {
+      keys[keys.length - 1].end = l - 1;
+    }
     keys.forEach(function (k) {
       folds[k.key] = {start: k.start, end: k.end};
     });
