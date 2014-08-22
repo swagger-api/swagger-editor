@@ -25,7 +25,7 @@ function Editor() {
   function aceLoaded(e) {
 
     // Assign class variable `editor`
-    editor = e;
+    window.e = editor = e;
 
     // Editor is ready, fire the on-ready function and flush the queue
     onReadyFns.forEach(function (fn) {
@@ -95,12 +95,12 @@ function Editor() {
     changeFoldFns.push(fn);
   }
 
-  function addFold(fold) {
-    editor.getSession().addFold(fold);
+  function addFold(start, end) {
+    editor.getSession().foldAll(start, end);
   }
 
-  function removeFold(fold) {
-    editor.getSession().removeFold(fold);
+  function removeFold(start) {
+    editor.getSession().unfold(start);
   }
 
   this.getValue = getValue;

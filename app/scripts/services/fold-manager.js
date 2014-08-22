@@ -3,9 +3,9 @@
 /*
   Manage fold status of the paths and operations
 */
-PhonicsApp.service('FoldManager', ['Editor', FoldManager]);
+PhonicsApp.service('FoldManager', ['Editor', 'FoldPointFinder', FoldManager]);
 
-function FoldManager(Editor) {
+function FoldManager(Editor, FoldPointFinder) {
   var buffer = {
     info: { fold: null, folded: false },
     paths: { fold: null, folded: false },
@@ -16,25 +16,25 @@ function FoldManager(Editor) {
   Editor.ready(rewriteBuffer);
 
   function rewriteBuffer() {
-    var allFolds = Editor.getAllFolds();
+    buffer = FoldPointFinder.findFolds(Editor.getValue());
+    emitChanges();
 
-    allFolds.forEach(function (fold) {
-      var line = Editor.getLine(fold.start.row);
+    // allFolds.forEach(function (fold) {
+    //   var line = Editor.getLine(fold.start.row);
 
-      if (line.trim().indexOf('paths') === 0) {
-        buffer.paths.fold = fold;
-      }
+    //   if (line.trim().indexOf('paths') === 0) {
+    //     buffer.paths.fold = fold;
+    //   }
 
-      if (line.trim().indexOf('info') === 0) {
-        buffer.info.fold = fold;
-      }
+    //   if (line.trim().indexOf('info') === 0) {
+    //     buffer.info.fold = fold;
+    //   }
 
-      if (line.trim().indexOf('definitions') === 0) {
-        buffer.definitions.fold = fold;
-      }
+    //   if (line.trim().indexOf('definitions') === 0) {
+    //     buffer.definitions.fold = fold;
+    //   }
 
-      emitChanges();
-    });
+    // });
   }
 
   function emitChanges() {
@@ -54,28 +54,28 @@ function FoldManager(Editor) {
     emitChanges();
   });
 
-  this.toggleFoldPath = function (pathName) {
-    if (buffer.paths[pathName]) {
-      buffer.paths[pathName].folded = !buffer.paths[pathName].folded;
-    }
-  };
+  // this.toggleFoldPath = function (pathName) {
+  //   if (buffer.paths[pathName]) {
+  //     buffer.paths[pathName].folded = !buffer.paths[pathName].folded;
+  //   }
+  // };
 
-  this.isPathFolded = function (pathName) {
-    return buffer.paths[pathName].folded;
-  };
+  // this.isPathFolded = function (pathName) {
+  //   return buffer.paths[pathName].folded;
+  // };
 
   this.toggleFold = function (key) {
     if (!buffer[key]) {
       throw new Error('Can not toggle fold ' + key);
     }
 
-    var fold = buffer[key].fold;
+    var fold = buffer[key];
 
     if (buffer[key].folded) {
-      Editor.removeFold(fold);
+      Editor.removeFold(fold.start + 1);
       buffer[key].folded = false;
     } else {
-      Editor.addFold(fold);
+      Editor.addFold(fold.start, fold.end);
       buffer[key].folded = true;
     }
   };
