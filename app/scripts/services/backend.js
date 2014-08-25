@@ -15,10 +15,6 @@ function Backend($http, $q, defaults) {
 
   this.save = function (key, value) {
 
-    if (!value) {
-      return;
-    }
-
     // Save values in a buffer
     buffer[key] = value;
 
@@ -56,7 +52,11 @@ function Backend($http, $q, defaults) {
     return $http.get(defaults.backendEndpoint)
       .then(function (res) {
         if (defaults.useYamlBackend) {
+
+          // TODO: Wr are assuming the YAML coming from
+          // backend is valid. Validate server's YAML
           buffer.yaml = res.data;
+          return jsyaml.load(res.data);
         }
         return res.data;
       });
