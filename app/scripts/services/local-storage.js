@@ -7,6 +7,10 @@ PhonicsApp.service('LocalStorage', ['$localStorage', '$q', function LocalStorage
   $localStorage[storageKey] = $localStorage[storageKey] || Object.create(null);
 
   this.save = function (key, value) {
+    if (value === null) {
+      return;
+    }
+
     if (Array.isArray(changeListeners[key])) {
       changeListeners[key].forEach(function (fn) {
         fn(value);
