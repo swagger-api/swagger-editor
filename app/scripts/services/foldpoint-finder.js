@@ -10,11 +10,11 @@ function FoldPointFinder() {
     var lines = yamlString.split('\n');
 
     // Return up to 3 level
-    return getFolds(lines, 2);
+    return { subFolds: getFolds(lines, 2, 0) };
   };
 
   // TODO: needs refactoring
-  function getFolds(lines, level) {
+  function getFolds(lines, level, offset) {
     var folds = Object.create(null);
     var currentFold = null;
     var key, l, line, foldLines, subFolds;
@@ -33,7 +33,7 @@ function FoldPointFinder() {
 
         if (currentFold === null) {
           currentFold = {
-            start: l,
+            start: l + offset,
             end: null
           };
           folds[key] = currentFold;
@@ -41,7 +41,7 @@ function FoldPointFinder() {
           addSubFoldsAndEnd();
 
           currentFold = {
-            start: l,
+            start: l + offset,
             end: null
           };
           folds[key] = currentFold;
@@ -53,10 +53,10 @@ function FoldPointFinder() {
 
     function addSubFoldsAndEnd() {
       if (currentFold !== null) {
-        currentFold.end = l - 1;
+        currentFold.end = l - 1 + offset;
         if (level > 0) {
           foldLines = lines.slice(currentFold.start + 1, currentFold.end).map(indent);
-          subFolds = getFolds(foldLines, level - 1);
+          subFolds = getFolds(foldLines, level - 1, currentFold.start + 1);
           currentFold.subFolds = subFolds;
 
           if (!_.isEmpty(subFolds)) {
