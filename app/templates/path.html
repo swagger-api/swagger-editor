@@ -1,10 +1,10 @@
 <li class="path">
-  <header ng-click="togglePathListed($event)">
+  <header ng-click="$parent.toggle('paths', pathName)">
     <h2>
       <a>{{pathName}}</a>
     </h2>
     <ul class='options'>
-      <li ng-if="!isSingle">
+<!--       <li ng-if="!isSingle">
         <a ng-click="togglePathListed($event)">
           {{pathIsListed() ? 'Show' : 'Hide'}}
         </a>
@@ -15,13 +15,13 @@
             operationsAreListed() ? 'Expand' : 'List'}}
           Operations
         </a>
-      </li>
+      </li> -->
       <li ng-if="!isSingle">
         <a href="{{getEditPath(pathName)}}">Edit This Path</a>
       </li>
     </ul>
   </header>
-  <ul class='operations' collapse-when="pathIsListed()" >
+  <ul class='operations' collapse-when="$parent.isCollapsed('paths', pathName)" >
     <operation ng-repeat="(operationName, operation) in path"></operation>
   </ul>
 </li>

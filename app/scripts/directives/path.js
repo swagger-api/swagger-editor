@@ -24,39 +24,6 @@ PhonicsApp.directive('path', function () {
       Object.keys(scope.path).forEach(function (operationName) {
         scope.collapseList[operationName] = !scope.isSingle;
       });
-
-      scope.toggleOperationListed = function ($event) {
-        $event.stopPropagation();
-
-        if (scope.pathIsListed()) {
-          scope.$parent.pathListedStatus[scope.pathName] = false;
-          scope.setOperationsListed(true);
-        } else {
-          scope.setOperationsListed(!scope.operationsAreListed());
-        }
-      };
-
-      scope.operationsAreListed = function () {
-        return Object.keys(scope.collapseList).reduce(function (memory, operationName) {
-          return scope.collapseList[operationName] && memory;
-        }, true);
-      };
-
-      scope.setOperationsListed = function (value) {
-        Object.keys(scope.collapseList).forEach(function (operationName) {
-          scope.collapseList[operationName] = value;
-        });
-      };
-
-      scope.pathIsListed = function () {
-        return scope.$parent.isPathListed(scope.pathName);
-      };
-
-      scope.togglePathListed = function ($event) {
-        $event.stopPropagation();
-        scope.$parent.pathListedStatus[scope.pathName] =
-          !scope.$parent.pathListedStatus[scope.pathName];
-      };
     }
   };
 });

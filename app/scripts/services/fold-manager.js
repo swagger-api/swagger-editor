@@ -18,29 +18,30 @@ function FoldManager(Editor, FoldPointFinder) {
   function rewriteBuffer() {
     buffer = FoldPointFinder.findFolds(Editor.getValue());
     emitChanges();
-
-    // allFolds.forEach(function (fold) {
-    //   var line = Editor.getLine(fold.start.row);
-
-    //   if (line.trim().indexOf('paths') === 0) {
-    //     buffer.paths.fold = fold;
-    //   }
-
-    //   if (line.trim().indexOf('info') === 0) {
-    //     buffer.info.fold = fold;
-    //   }
-
-    //   if (line.trim().indexOf('definitions') === 0) {
-    //     buffer.definitions.fold = fold;
-    //   }
-
-    // });
   }
 
   function emitChanges() {
     changeListeners.forEach(function (fn) {
       fn();
     });
+  }
+
+
+  function walk(keys) {
+    var key, current = buffer;
+
+    while(keys.length) {
+      key = keys.shift();
+      if (!current.subFolds[key]) {
+        throw new Error('Can not toggle fold ' + key);
+      }
+
+      if (current.subFolds[key]) {
+        current = current.subFolds[key];
+      }
+    }
+
+    return current;
   }
 
   Editor.onFoldChanged(function (change) {
@@ -54,34 +55,24 @@ function FoldManager(Editor, FoldPointFinder) {
     emitChanges();
   });
 
-  // this.toggleFoldPath = function (pathName) {
-  //   if (buffer.paths[pathName]) {
-  //     buffer.paths[pathName].folded = !buffer.paths[pathName].folded;
-  //   }
-  // };
+  this.toggleFold = function () {
+    var keys = [].slice.call(arguments, 0);
+    var fold = walk(keys);
 
-  // this.isPathFolded = function (pathName) {
-  //   return buffer.paths[pathName].folded;
-  // };
-
-  this.toggleFold = function (key) {
-    if (!buffer[key]) {
-      throw new Error('Can not toggle fold ' + key);
-    }
-
-    var fold = buffer[key];
-
-    if (buffer[key].folded) {
+    if (fold.folded) {
       Editor.removeFold(fold.start + 1);
-      buffer[key].folded = false;
+      fold.folded = false;
     } else {
       Editor.addFold(fold.start, fold.end);
-      buffer[key].folded = true;
+      fold.folded = true;
     }
   };
 
-  this.isFolded = function (key) {
-    return buffer[key] && buffer[key].folded;
+  this.isFolded = function () {
+    var keys = [].slice.call(arguments, 0);
+    var fold = walk(keys);
+
+    return fold && fold.folded;
   };
 
   this.onFoldStatusChanged = function (fn) {
