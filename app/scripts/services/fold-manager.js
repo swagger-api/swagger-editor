@@ -81,7 +81,7 @@ function FoldManager(Editor, FoldPointFinder) {
   };
 
   this.isFolded = function (key) {
-    return buffer[key].folded;
+    return buffer[key] && buffer[key].folded;
   };
 
   this.onFoldStatusChanged = function (fn) {
