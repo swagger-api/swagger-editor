@@ -36,16 +36,7 @@ function FoldPointFinder() {
           };
           folds[key] = currentFold;
         } else {
-          currentFold.end = l - 1;
-
-          if (level > 0) {
-            foldLines = lines.slice(currentFold.start + 1, currentFold.end).map(indent);
-            subFolds = getFolds(foldLines, level - 1);
-
-            if (!_.isEmpty(subFolds)) {
-              currentFold.subFolds = subFolds;
-            }
-          }
+          addSubFoldsAndEnd();
 
           currentFold = {
             start: l,
@@ -56,12 +47,20 @@ function FoldPointFinder() {
       }
     }
 
-    if (currentFold !== null) {
-      currentFold.end = l - 1;
-      if (level > 0) {
-        foldLines = lines.slice(currentFold.start + 1, currentFold.end).map(indent);
-        subFolds = getFolds(foldLines, level - 1);
-        currentFold.subFolds = subFolds;
+    addSubFoldsAndEnd();
+
+    function addSubFoldsAndEnd(){
+      if (currentFold !== null) {
+        currentFold.end = l - 1;
+        if (level > 0) {
+          foldLines = lines.slice(currentFold.start + 1, currentFold.end).map(indent);
+          subFolds = getFolds(foldLines, level - 1);
+          currentFold.subFolds = subFolds;
+
+          if (!_.isEmpty(subFolds)) {
+            currentFold.subFolds = subFolds;
+          }
+        }
       }
     }
 
