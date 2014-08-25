@@ -25,9 +25,11 @@ function FoldPointFinder() {
       if (line.substr(0, TAB_SIZE) !== tab) {
         key = line.trim();
 
-        if (!key || key.match(/.+\:./)) { continue; }
+        if (!key || key.lastIndexOf(':') !== key.length - 1) { continue; }
 
-        key = key.replace(':', '');
+        if (key[key.length - 1] === ':') {
+          key = key.substring(0, key.length - 1);
+        }
 
         if (currentFold === null) {
           currentFold = {
@@ -49,7 +51,7 @@ function FoldPointFinder() {
 
     addSubFoldsAndEnd();
 
-    function addSubFoldsAndEnd(){
+    function addSubFoldsAndEnd() {
       if (currentFold !== null) {
         currentFold.end = l - 1;
         if (level > 0) {
