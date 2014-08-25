@@ -37,7 +37,6 @@ function PreviewCtrl(Storage, Builder, FoldManager, $scope, $stateParams) {
     }
   });
 
-
   FoldManager.onFoldStatusChanged(function () {
     _.defer(function () { $scope.$apply(); });
   });

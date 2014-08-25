@@ -6,18 +6,15 @@
 PhonicsApp.service('FoldManager', ['Editor', 'FoldPointFinder', FoldManager]);
 
 function FoldManager(Editor, FoldPointFinder) {
-  var buffer = {
-    info: { fold: null, folded: false },
-    paths: { fold: null, folded: false },
-    definitions: { fold: null, folded: false }
-  };
+  var buffer = Object.create(null);
   var changeListeners = [];
 
   Editor.ready(rewriteBuffer);
 
   function rewriteBuffer() {
-    buffer = FoldPointFinder.findFolds(Editor.getValue());
+    _.extend(buffer, FoldPointFinder.findFolds(Editor.getValue()));
     emitChanges();
+    window.buffer = buffer;
   }
 
   function emitChanges() {
@@ -26,14 +23,17 @@ function FoldManager(Editor, FoldPointFinder) {
     });
   }
 
-
   function walk(keys) {
     var key, current = buffer;
 
-    while(keys.length) {
+    if (!Array.isArray(keys) || !keys.length) {
+      throw new Error('Need path for fold in fold buffer');
+    }
+
+    while (keys.length) {
       key = keys.shift();
       if (!current.subFolds[key]) {
-        throw new Error('Can not toggle fold ' + key);
+        throw new Error('Can not toggle lookup ' + keys.join('.') + 'in fold buffer');
       } else {
         current = current.subFolds[key];
       }
