@@ -34,6 +34,7 @@ function FoldPointFinder() {
         if (currentFold === null) {
           currentFold = {
             start: l + offset,
+            folded: false,
             end: null
           };
           folds[key] = currentFold;
