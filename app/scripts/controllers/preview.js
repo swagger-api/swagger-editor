@@ -75,11 +75,7 @@ function PreviewCtrl(Storage, Builder, FoldManager, $scope, $stateParams) {
     }
   };
 
-  $scope.toggle = function (key) {
-    FoldManager.toggleFold(key);
-  };
+  $scope.toggle = FoldManager.toggleFold;
 
-  $scope.isCollapsed = function (key) {
-    return FoldManager.isFolded(key);
-  };
+  $scope.isCollapsed = FoldManager.isFolded;
 }
