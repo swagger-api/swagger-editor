@@ -14,7 +14,8 @@ function FoldPointFinder() {
   };
 
   function getFolds(lines) {
-    var keys = [], folds = {}, key, l, line;
+    var folds = {}, currentFold = null, key, l, line;
+
     for (l = 0; l < lines.length; l++) {
       line = lines[l];
 
@@ -23,28 +24,28 @@ function FoldPointFinder() {
 
         if (!key || key.match(/.+\:./)) { continue; }
 
-        if (!keys.length) {
-          keys.push({
-            key: key.replace(':', ''),
+        key = key.replace(':', '');
+
+        if (currentFold === null) {
+          currentFold = {
             start: l,
             end: null
-          });
+          };
+          folds[key] = currentFold;
         } else {
-          keys[keys.length - 1].end = l - 1;
-          keys.push({
-            key: key.replace(':', ''),
+          currentFold.end = l - 1;
+          currentFold = {
             start: l,
             end: null
-          });
+          };
+          folds[key] = currentFold;
         }
       }
     }
-    if (keys.length && angular.isObject(keys[keys.length])) {
-      keys[keys.length - 1].end = l - 1;
+
+    if (currentFold !== null) {
+      currentFold.end = l - 1;
     }
-    keys.forEach(function (k) {
-      folds[k.key] = {start: k.start, end: k.end};
-    });
 
     return folds;
   }
