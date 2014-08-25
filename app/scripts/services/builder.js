@@ -27,6 +27,13 @@ function Builder(Resolver, Validator) {
   function buildDocsWithObject(json, options) {
     options = options || {};
 
+    if (!json) {
+      return {
+        specs: null,
+        error: {emptyDocsError: { message: 'Empty Document'}}
+      };
+    }
+
     // Validate if specs are resolvable
     try {
       Resolver.resolve(json);

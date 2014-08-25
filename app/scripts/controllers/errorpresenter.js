@@ -27,11 +27,19 @@ PhonicsApp.controller('ErrorPresenterCtrl', ['$scope', function ($scope) {
       return 'Resolve Error';
     }
 
+    if (error.emptyDocsError) {
+      return 'Empty Document Error';
+    }
+
     return 'Unknown Error';
   };
 
   $scope.getDescription = function () {
     var error = $scope.getError();
+
+    if (error.emptyDocsError) {
+      return error.emptyDocsError.message;
+    }
 
     if (error.swaggerError && typeof error.swaggerError.dataPath === 'string') {
 
