@@ -37,16 +37,6 @@ function PreviewCtrl(Storage, Builder, FoldManager, $scope, $stateParams) {
     }
   });
 
-  $scope.pathListedStatus = Object.create(null);
-  $scope.$watch('specs', function () {
-    if ($scope.specs && $scope.specs.paths) {
-      Object.keys($scope.specs.paths).forEach(function (pathName) {
-        if (typeof $scope.pathListedStatus[pathName] === 'undefined') {
-          $scope.pathListedStatus[pathName] = !$scope.isSinglePath;
-        }
-      });
-    }
-  });
 
   FoldManager.onFoldStatusChanged(function () {
     _.defer(function () { $scope.$apply(); });
