@@ -56,6 +56,25 @@ function PreviewCtrl(Storage, Builder, FoldManager, $scope, $stateParams) {
     return '#/paths?path=' + window.encodeURIComponent(pathName);
   };
 
+  // TODO: Move to a service
+  $scope.responseCodeClassFor = function (code) {
+    var result = 'default';
+    switch (Math.floor(+code / 100)) {
+      case 2:
+        result = 'green';
+        break;
+      case 5:
+        result = 'red';
+        break;
+      case 4:
+        result = 'yellow';
+        break;
+      case 3:
+        result = 'blue';
+    }
+    return result;
+  };
+
   $scope.toggle = FoldManager.toggleFold;
 
   $scope.isCollapsed = FoldManager.isFolded;
