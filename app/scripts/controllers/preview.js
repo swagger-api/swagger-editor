@@ -41,12 +41,14 @@ function PreviewCtrl(Storage, Builder, FoldManager, $scope, $stateParams) {
   FoldManager.onFoldStatusChanged(function () {
     _.defer(function () { $scope.$apply(); });
   });
+  $scope.toggle = FoldManager.toggleFold;
+  $scope.isCollapsed = FoldManager.isFolded;
 
+  // TODO: Move to a service
   $scope.getEditPath = function (pathName) {
     return '#/paths?path=' + window.encodeURIComponent(pathName);
   };
 
-  // TODO: Move to a service
   $scope.responseCodeClassFor = function (code) {
     var result = 'default';
     switch (Math.floor(+code / 100)) {
@@ -65,7 +67,4 @@ function PreviewCtrl(Storage, Builder, FoldManager, $scope, $stateParams) {
     return result;
   };
 
-  $scope.toggle = FoldManager.toggleFold;
-
-  $scope.isCollapsed = FoldManager.isFolded;
 }
