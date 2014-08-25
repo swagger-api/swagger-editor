@@ -10,7 +10,10 @@ function Builder(Resolver, Validator) {
     var json;
 
     if (!stringValue) {
-      return;
+      return {
+        specs: null,
+        error: {emptyDocsError: { message: 'Empty Document'}}
+      };
     }
 
     try {
