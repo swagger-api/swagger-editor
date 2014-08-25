@@ -52,27 +52,8 @@ function PreviewCtrl(Storage, Builder, FoldManager, $scope, $stateParams) {
     _.defer(function () { $scope.$apply(); });
   });
 
-  $scope.setAllPathsListed = function (value) {
-    for (var pathName in $scope.pathListedStatus) {
-      $scope.pathListedStatus[pathName] = value;
-    }
-  };
-
-  $scope.isPathListed = function (pathName) {
-    return $scope.pathListedStatus[pathName];
-  };
-
-  $scope.areAllPathsListed = function () {
-    return Object.keys($scope.pathListedStatus).reduce(function (memory, pathName) {
-      return $scope.pathListedStatus[pathName] && memory;
-    }, true);
-  };
-
-  $scope.toggleAllPathsListed = function () {
-    var allListed = $scope.areAllPathsListed();
-    for (var pathName in $scope.pathListedStatus) {
-      $scope.pathListedStatus[pathName] = !allListed;
-    }
+  $scope.getEditPath = function (pathName) {
+    return '#/paths?path=' + window.encodeURIComponent(pathName);
   };
 
   $scope.toggle = FoldManager.toggleFold;
