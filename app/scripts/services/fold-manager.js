@@ -34,9 +34,7 @@ function FoldManager(Editor, FoldPointFinder) {
       key = keys.shift();
       if (!current.subFolds[key]) {
         throw new Error('Can not toggle fold ' + key);
-      }
-
-      if (current.subFolds[key]) {
+      } else {
         current = current.subFolds[key];
       }
     }

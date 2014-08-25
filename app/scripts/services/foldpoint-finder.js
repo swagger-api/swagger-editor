@@ -25,6 +25,10 @@ function FoldPointFinder() {
       if (line.substr(0, TAB_SIZE) !== tab) {
         key = line.trim();
 
+        if ((key[0] === '"') && (key[key.length - 2] === '"') && (key[key.length - 1] === ':')) {
+          key = key.substring(1, key.length - 2) + ':';
+        }
+
         if (!key || key.lastIndexOf(':') !== key.length - 1) { continue; }
 
         if (key[key.length - 1] === ':') {
