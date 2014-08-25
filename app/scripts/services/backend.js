@@ -8,7 +8,9 @@ function Backend($http, $q, defaults) {
   var commit = _.throttle(commitNow, 200);
 
   function commitNow(data) {
-    $http.put(defaults.backendEndpoint, data);
+    if (!buffer.error && buffer.specs) {
+      $http.put(defaults.backendEndpoint, data);
+    }
   }
 
   this.save = function (key, value) {
