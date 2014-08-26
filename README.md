@@ -12,7 +12,7 @@ Expect the syntax to evolve quickly! (Note: the initial simplified syntax can be
 
 The idea is to iterate quickly on top of the Swagger 1.2 description format. As part of the Swagger 2.0 working group, the syntax will be a first-class citizen of Swagger 2.0. Visit http://swagger.wordnik.com to learn more or to get involved.
 
-![Screenshot of the Swagger Editor](https://blog.apigee.com/sites/blog/files/SwaggerEditor.png "Designing an API with the Swagger Editor")
+![Screenshot of the Swagger Editor](https://raw.githubusercontent.com/wordnik/swagger-editor/master/app/images/swagger-editor2.png "Designing an API with the Swagger Editor")
 
 ## Running Locally
 
