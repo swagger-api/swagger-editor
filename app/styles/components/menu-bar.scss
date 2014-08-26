@@ -15,20 +15,18 @@
       a.dropdown-icon {
       background-image: url(/images/swagger-sprite.png);
       background-repeat: no-repeat;
-      background-position: 0px 0px;
+      background-position: 4px 0px;
       height: 32px;
       margin-top: 0;
       display: block;
-      width: 40px;
-      color: white;
+      width: 44px;
 
-      &:hover {
-        background-image: url(/images/swagger-sprite.png);
-        background-position: 0px -33px;
-      }
+        &:hover {
+          background-image: url(/images/swagger-sprite.png);
+          background-position: 4px -33px;
+        }
       }
     }
-
 
   .dropdown:hover .dropdown-menu {
       display: block;
@@ -45,8 +43,6 @@
       }
 
     li {
-
-
 
       a {
           color: $toolbar-button-color;
@@ -102,7 +98,7 @@
       }
     }
 
-    .toolbar-btn, .btn-default {
+    .btn-default {
       display: inline-block;
       -webkit-appearance: none;
       border: 1px solid $gray-md;
@@ -129,60 +125,13 @@
         font-size: .5em;
         float: right;
         margin-right: $border-radius;
-        margin-top: 4px;
+        margin-top: 8px;
       }
 
       &.menu-button {
         display: display;
         border: none;
       }
-    }
-  }
-
-  .grouped-buttons, .btn-group {
-    display: inline-block;
-    font-size: 0;
-
-    .left {
-        background-repeat: no-repeat;
-      }
-
-    .toolbar-btn, .btn-default {
-      text-align: center;
-      min-width: 34px;
-      height: 24px;
-      margin: 0;
-      font-size: $button-font-size;
-      background: lighten($gray-dk, 70%);
-      background-image:url(/images/centerPanes.svg);
-      background-repeat: no-repeat;
-      background-position: center 0px;
-      border-radius: $border-radius;
-
-      &.selected {
-        &[disabled="disabled"] {
-          cursor: default;
-        }
-      }
-
-      &:first-child {
-        border-right-width: 0;
-        border-top-right-radius: 0;
-        border-bottom-right-radius: 0;
-        background-image: url(/images/hideEditor.svg);
-        background-repeat: no-repeat;
-        background-position: 5px 0px;
-      }
-
-      &:last-child {
-        border-left-width: 0;
-        border-top-left-radius: 0;
-        border-bottom-left-radius: 0;
-        background-image:url(/images/hidePreview.svg);
-        background-repeat: no-repeat;
-        background-position: 4px 0px;
-      }
-
     }
   }
 }

@@ -10,7 +10,7 @@
           <li role="presentation"><a ng-click="newProject()" role="menuitem" tabindex="-1" href="#">New</a></li>
           <li role="presentation"><a ng-click="openExamples()" role="menuitem" tabindex="-1" href="#">Open Example...</a></li>
           <li role="presentation"><a ng-click="openImportUrl()" role="menuitem" tabindex="-1" href="#">Import URL...</a></li>
-          <li role="presentation"><a g-click="openImportFile()" role="menuitem" tabindex="-1" href="#">Import File...</a></li>
+          <li role="presentation"><a ng-click="openImportFile()" role="menuitem" tabindex="-1" href="#">Import File...</a></li>
           <li role="presentation"><a download="spec.yaml" data-downloadurl="{{yamlDownloadUrl}}" href="{{yamlDownloadHref}}" role="menuitem" tabindex="-1" href="#">Download YAML</a></li>
           <li role="presentation"><a download="spec.json" downloadUrl="{{jsonDownloadUrl}}" href="{{jsonDownloadHref}}" role="menuitem" tabindex="-1" href="#">Download JSON</a></li>
         </ul>
@@ -46,7 +46,7 @@
           <li role="presentation"><a role="menuitem" tabindex="-1" href="#">YAML Documentation</a></li>
           <li role="presentation"><a role="menuitem" tabindex="-1" href="http://swagger.wordnik.com/" target="_blank">About Swagger</a></li>
           <li role="presentation" class="divider"></li>
-          <li role="presentation"><a role="menuitem" tabindex="-1" href="#">About this editor...</a></li>
+          <li role="presentation"><a ng-click="openAboutEditor()" role="menuitem" tabindex="-1" href="#">About this editor...</a></li>
         </ul>
       </div>
     </section>

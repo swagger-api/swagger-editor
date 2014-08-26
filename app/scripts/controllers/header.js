@@ -65,6 +65,14 @@ function HeaderCtrl($scope, Editor, Storage, Splitter, Builder, $modal, $statePa
     });
   };
 
+  $scope.openAboutEditor = function () {
+    $modal.open({
+      templateUrl: 'templates/editor-about.html',
+      controller: 'UrlImportCtrl',
+      size: 'large'
+    });
+  };
+
   $scope.openExamples = function () {
     $modal.open({
       templateUrl: 'templates/open-examples.html',
