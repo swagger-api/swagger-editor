@@ -62,7 +62,14 @@
 
       &.right {
         float: right;
-        //margin-right: 20px;
+
+        ul.dropdown-menu {
+          min-width: 210px;
+
+          .newWindow {
+            float: right;
+          }
+        }
       }
 
     }
