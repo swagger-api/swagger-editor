@@ -2,13 +2,59 @@
 @import "../fonts";
 @import "../buttons";
 
+
 .menu-bar {
 
 
   @extend .sw-font;
   width: 100%;
 
-  .toolbar{
+//dropdown styling
+   .dropdown {
+
+      a.dropdown-icon {
+      background-image: url(/images/swagger-sprite.png);
+      background-repeat: no-repeat;
+      background-position: 4px 0px;
+      height: 32px;
+      margin-top: 0;
+      display: block;
+      width: 44px;
+
+        &:hover {
+          background-image: url(/images/swagger-sprite.png);
+          background-position: 4px -33px;
+        }
+      }
+    }
+
+  .dropdown:hover .dropdown-menu {
+      display: block;
+  }
+
+  ul.dropdown-menu  {
+    border-radius: $border-radius;
+    color: $toolbar-button-color;
+    background: $toolbar-button-bg;
+    font-size: $button-font-size;
+
+    .divider {
+        background-color: $gray-md;
+      }
+
+    li {
+
+      a {
+          color: $toolbar-button-color;
+
+        &:hover {
+          background: lighten($toolbar-button-bg, 10%);
+        }
+      }
+    }
+  }
+
+  .toolbar {
     min-height: 30px;
     padding: 0 15px 5px 15px;
     section {
@@ -16,30 +62,22 @@
 
       &.right {
         float: right;
-        margin-right: 120px;
+
+        ul.dropdown-menu {
+          min-width: 210px;
+
+          .newWindow {
+            float: right;
+          }
+        }
       }
+
     }
 
     .btn-drawer {
       display: inline-block;
       position: relative;
       margin-right: 0.4em;
-
-      .buttons {
-        font-size: 0;
-        display: none;
-        position: absolute;
-        width: 100%;
-        top: 100%;
-        left: 0;
-        z-index: 5;
-        margin: 0;
-
-        .toolbar-btn{
-          border-radius: 0;
-          padding: 0.5em;
-        }
-      }
 
       .toolbar-btn {
         border: none;
@@ -67,7 +105,7 @@
       }
     }
 
-    .toolbar-btn, .btn-default {
+    .btn-default {
       display: inline-block;
       -webkit-appearance: none;
       border: 1px solid $gray-md;
@@ -76,7 +114,7 @@
       color: $toolbar-button-color;
       text-decoration: none;
       font-size: $button-font-size;
-      margin-top: 5px;
+      //margin-top: 5px;
       padding-top: 0.3em;
       padding-bottom: 0.3em;
       outline: none;
@@ -94,60 +132,13 @@
         font-size: .5em;
         float: right;
         margin-right: $border-radius;
-        margin-top: 4px;
+        margin-top: 8px;
       }
 
       &.menu-button {
         display: display;
         border: none;
       }
-    }
-  }
-
-  .grouped-buttons, .btn-group {
-    display: inline-block;
-    font-size: 0;
-
-    .left {
-        background-repeat: no-repeat;
-      }
-
-    .toolbar-btn, .btn-default {
-      text-align: center;
-      min-width: 34px;
-      height: 24px;
-      margin: 0;
-      font-size: $button-font-size;
-      background: lighten($gray-dk, 70%);
-      background-image:url(/images/centerPanes.svg);
-      background-repeat: no-repeat;
-      background-position: center 0px;
-      border-radius: $border-radius;
-
-      &.selected {
-        &[disabled="disabled"] {
-          cursor: default;
-        }
-      }
-
-      &:first-child {
-        border-right-width: 0;
-        border-top-right-radius: 0;
-        border-bottom-right-radius: 0;
-        background-image: url(/images/hideEditor.svg);
-        background-repeat: no-repeat;
-        background-position: 5px 0px;
-      }
-
-      &:last-child {
-        border-left-width: 0;
-        border-top-left-radius: 0;
-        border-bottom-left-radius: 0;
-        background-image:url(/images/hidePreview.svg);
-        background-repeat: no-repeat;
-        background-position: 4px 0px;
-      }
-
     }
   }
 }
@@ -169,5 +160,6 @@
       text-decoration: none;
     }
   }
+
 
 }
