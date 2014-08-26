@@ -100,7 +100,10 @@ function Editor() {
   }
 
   function removeFold(start) {
-    editor.getSession().unfold(start);
+    // TODO: Depth of unfolding is hard-coded to 100 but we need
+    // to have depth as a parameter and/or having smarter way of
+    // handling subfolds
+    editor.getSession().unfold(start, 100);
   }
 
   this.getValue = getValue;
