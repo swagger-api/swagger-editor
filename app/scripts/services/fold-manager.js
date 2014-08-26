@@ -28,19 +28,14 @@ function FoldManager(Editor, FoldPointFinder) {
   }
 
   function walk(keys) {
-    var key, current = buffer;
+    var current = buffer;
 
     if (!Array.isArray(keys) || !keys.length) {
       throw new Error('Need path for fold in fold buffer');
     }
 
     while (keys.length) {
-      key = keys.shift();
-      if (!current.subFolds[key]) {
-        throw new Error('Can not toggle lookup ' + keys.join('.') + 'in fold buffer');
-      } else {
-        current = current.subFolds[key];
-      }
+      current = current.subFolds[keys.shift()];
     }
 
     return current;

@@ -185,7 +185,11 @@ paths:
           schema:
             $ref: User
   /user/logout:
-    get: {}
+    get:
+      responses:
+        -
+          200:
+            description: Logs you out
   /user/login:
     get:
       parameters:
