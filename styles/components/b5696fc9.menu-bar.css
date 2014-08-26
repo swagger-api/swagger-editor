@@ -162,72 +162,101 @@ button.call:hover {
   background-position: 4px 0px;
 }
 
-/* line 5, ../../../app/styles/components/menu-bar.scss */
+/* line 6, ../../../app/styles/components/menu-bar.scss */
 .menu-bar {
   width: 100%;
 }
-/* line 11, ../../../app/styles/components/menu-bar.scss */
+/* line 15, ../../../app/styles/components/menu-bar.scss */
+.menu-bar .dropdown a.dropdown-icon {
+  background-image: url(/images/0c4b3f48.swagger-sprite.png);
+  background-repeat: no-repeat;
+  background-position: 4px 0px;
+  height: 32px;
+  margin-top: 0;
+  display: block;
+  width: 44px;
+}
+/* line 24, ../../../app/styles/components/menu-bar.scss */
+.menu-bar .dropdown a.dropdown-icon:hover {
+  background-image: url(/images/0c4b3f48.swagger-sprite.png);
+  background-position: 4px -33px;
+}
+/* line 31, ../../../app/styles/components/menu-bar.scss */
+.menu-bar .dropdown:hover .dropdown-menu {
+  display: block;
+}
+/* line 35, ../../../app/styles/components/menu-bar.scss */
+.menu-bar ul.dropdown-menu {
+  border-radius: 3px;
+  color: gray;
+  background: #222222;
+  font-size: 15px;
+}
+/* line 41, ../../../app/styles/components/menu-bar.scss */
+.menu-bar ul.dropdown-menu .divider {
+  background-color: gray;
+}
+/* line 47, ../../../app/styles/components/menu-bar.scss */
+.menu-bar ul.dropdown-menu li a {
+  color: gray;
+}
+/* line 50, ../../../app/styles/components/menu-bar.scss */
+.menu-bar ul.dropdown-menu li a:hover {
+  background: #3c3c3c;
+}
+/* line 57, ../../../app/styles/components/menu-bar.scss */
 .menu-bar .toolbar {
   min-height: 30px;
   padding: 0 15px 5px 15px;
 }
-/* line 14, ../../../app/styles/components/menu-bar.scss */
+/* line 60, ../../../app/styles/components/menu-bar.scss */
 .menu-bar .toolbar section {
   float: left;
 }
-/* line 17, ../../../app/styles/components/menu-bar.scss */
+/* line 63, ../../../app/styles/components/menu-bar.scss */
 .menu-bar .toolbar section.right {
   float: right;
-  margin-right: 120px;
 }
-/* line 23, ../../../app/styles/components/menu-bar.scss */
+/* line 66, ../../../app/styles/components/menu-bar.scss */
+.menu-bar .toolbar section.right ul.dropdown-menu {
+  min-width: 210px;
+}
+/* line 69, ../../../app/styles/components/menu-bar.scss */
+.menu-bar .toolbar section.right ul.dropdown-menu .newWindow {
+  float: right;
+}
+/* line 77, ../../../app/styles/components/menu-bar.scss */
 .menu-bar .toolbar .btn-drawer {
   display: inline-block;
   position: relative;
   margin-right: 0.4em;
 }
-/* line 28, ../../../app/styles/components/menu-bar.scss */
-.menu-bar .toolbar .btn-drawer .buttons {
-  font-size: 0;
-  display: none;
-  position: absolute;
-  width: 100%;
-  top: 100%;
-  left: 0;
-  z-index: 5;
-  margin: 0;
-}
-/* line 38, ../../../app/styles/components/menu-bar.scss */
-.menu-bar .toolbar .btn-drawer .buttons .toolbar-btn {
-  border-radius: 0;
-  padding: 0.5em;
-}
-/* line 44, ../../../app/styles/components/menu-bar.scss */
+/* line 82, ../../../app/styles/components/menu-bar.scss */
 .menu-bar .toolbar .btn-drawer .toolbar-btn {
   border: none;
   display: block;
   margin: 0;
 }
-/* line 51, ../../../app/styles/components/menu-bar.scss */
+/* line 89, ../../../app/styles/components/menu-bar.scss */
 .menu-bar .toolbar .btn-drawer:hover > .toolbar-btn {
   background: #000;
 }
-/* line 54, ../../../app/styles/components/menu-bar.scss */
+/* line 92, ../../../app/styles/components/menu-bar.scss */
 .menu-bar .toolbar .btn-drawer:hover div.buttons {
   display: block;
 }
-/* line 57, ../../../app/styles/components/menu-bar.scss */
+/* line 95, ../../../app/styles/components/menu-bar.scss */
 .menu-bar .toolbar .btn-drawer:hover div.buttons, .menu-bar .toolbar .btn-drawer:hover div.buttons .toolbar-btn:last-child {
   border-bottom-left-radius: 3px;
   border-bottom-right-radius: 3px;
 }
-/* line 64, ../../../app/styles/components/menu-bar.scss */
+/* line 102, ../../../app/styles/components/menu-bar.scss */
 .menu-bar .toolbar .btn-drawer:hover .drawer {
   border-bottom-left-radius: 0;
   border-bottom-right-radius: 0;
 }
-/* line 70, ../../../app/styles/components/menu-bar.scss */
-.menu-bar .toolbar .toolbar-btn, .menu-bar .toolbar .btn-default {
+/* line 108, ../../../app/styles/components/menu-bar.scss */
+.menu-bar .toolbar .btn-default {
   display: inline-block;
   -webkit-appearance: none;
   border: 1px solid gray;
@@ -236,7 +265,6 @@ button.call:hover {
   color: gray;
   text-decoration: none;
   font-size: 15px;
-  margin-top: 5px;
   padding-top: 0.3em;
   padding-bottom: 0.3em;
   outline: none;
@@ -244,83 +272,39 @@ button.call:hover {
   background: #222222;
   min-width: 140px;
 }
-/* line 87, ../../../app/styles/components/menu-bar.scss */
-.menu-bar .toolbar .toolbar-btn:hover, .menu-bar .toolbar .btn-default:hover {
+/* line 125, ../../../app/styles/components/menu-bar.scss */
+.menu-bar .toolbar .btn-default:hover {
   text-decoration: none;
   border-radius: 3px;
   background: #3c3c3c;
 }
-/* line 93, ../../../app/styles/components/menu-bar.scss */
-.menu-bar .toolbar .toolbar-btn span, .menu-bar .toolbar .btn-default span {
+/* line 131, ../../../app/styles/components/menu-bar.scss */
+.menu-bar .toolbar .btn-default span {
   font-size: .5em;
   float: right;
   margin-right: 3px;
-  margin-top: 4px;
+  margin-top: 8px;
 }
-/* line 100, ../../../app/styles/components/menu-bar.scss */
-.menu-bar .toolbar .toolbar-btn.menu-button, .menu-bar .toolbar .btn-default.menu-button {
+/* line 138, ../../../app/styles/components/menu-bar.scss */
+.menu-bar .toolbar .btn-default.menu-button {
   display: display;
   border: none;
 }
-/* line 107, ../../../app/styles/components/menu-bar.scss */
-.menu-bar .grouped-buttons, .menu-bar .btn-group {
-  display: inline-block;
-  font-size: 0;
-}
-/* line 111, ../../../app/styles/components/menu-bar.scss */
-.menu-bar .grouped-buttons .left, .menu-bar .btn-group .left {
-  background-repeat: no-repeat;
-}
-/* line 115, ../../../app/styles/components/menu-bar.scss */
-.menu-bar .grouped-buttons .toolbar-btn, .menu-bar .grouped-buttons .btn-default, .menu-bar .btn-group .toolbar-btn, .menu-bar .btn-group .btn-default {
-  text-align: center;
-  min-width: 34px;
-  height: 24px;
-  margin: 0;
-  font-size: 15px;
-  background: #e6e6e6;
-  background-image: url(/images/6fd12c26.centerPanes.svg);
-  background-repeat: no-repeat;
-  background-position: center 0px;
-  border-radius: 3px;
-}
-/* line 128, ../../../app/styles/components/menu-bar.scss */
-.menu-bar .grouped-buttons .toolbar-btn.selected[disabled="disabled"], .menu-bar .grouped-buttons .btn-default.selected[disabled="disabled"], .menu-bar .btn-group .toolbar-btn.selected[disabled="disabled"], .menu-bar .btn-group .btn-default.selected[disabled="disabled"] {
-  cursor: default;
-}
-/* line 133, ../../../app/styles/components/menu-bar.scss */
-.menu-bar .grouped-buttons .toolbar-btn:first-child, .menu-bar .grouped-buttons .btn-default:first-child, .menu-bar .btn-group .toolbar-btn:first-child, .menu-bar .btn-group .btn-default:first-child {
-  border-right-width: 0;
-  border-top-right-radius: 0;
-  border-bottom-right-radius: 0;
-  background-image: url(/images/8759a4e5.hideEditor.svg);
-  background-repeat: no-repeat;
-  background-position: 5px 0px;
-}
-/* line 142, ../../../app/styles/components/menu-bar.scss */
-.menu-bar .grouped-buttons .toolbar-btn:last-child, .menu-bar .grouped-buttons .btn-default:last-child, .menu-bar .btn-group .toolbar-btn:last-child, .menu-bar .btn-group .btn-default:last-child {
-  border-left-width: 0;
-  border-top-left-radius: 0;
-  border-bottom-left-radius: 0;
-  background-image: url(/images/550a9701.hidePreview.svg);
-  background-repeat: no-repeat;
-  background-position: 4px 0px;
-}
 
-/* line 155, ../../../app/styles/components/menu-bar.scss */
+/* line 146, ../../../app/styles/components/menu-bar.scss */
 .breadcrumbs .breadcrumb {
   background: none;
   color: white;
 }
-/* line 160, ../../../app/styles/components/menu-bar.scss */
+/* line 151, ../../../app/styles/components/menu-bar.scss */
 .breadcrumbs .breadcrumb > li + li:before {
   content: ">";
 }
-/* line 164, ../../../app/styles/components/menu-bar.scss */
+/* line 155, ../../../app/styles/components/menu-bar.scss */
 .breadcrumbs .breadcrumb li > a {
   color: white;
 }
-/* line 167, ../../../app/styles/components/menu-bar.scss */
+/* line 158, ../../../app/styles/components/menu-bar.scss */
 .breadcrumbs .breadcrumb li > a:hover {
   color: #2392f7;
   text-decoration: none;
