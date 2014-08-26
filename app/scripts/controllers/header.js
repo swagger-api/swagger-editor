@@ -24,6 +24,10 @@ function HeaderCtrl($scope, Editor, Storage, Splitter, Builder, $modal, $statePa
     return !defaults.disableFileMenu;
   };
 
+  $scope.showHeaderBranding = function () {
+    return defaults.headerBranding;
+  };
+
   $scope.newProject = function () {
     Editor.setValue('');
     Storage.reset();

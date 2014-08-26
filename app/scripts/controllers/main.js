@@ -1,7 +1,10 @@
 'use strict';
 
-PhonicsApp.controller('MainCtrl', ['$rootScope', 'Editor', MainCtrl]);
+PhonicsApp.controller('MainCtrl', ['$rootScope', 'Editor', 'defaults', MainCtrl]);
 
-function MainCtrl($rootScope, Editor) {
+function MainCtrl($rootScope, Editor, defaults) {
   $rootScope.$on('$stateChangeStart', Editor.initializeEditor);
+
+  // TODO: find a better way to add the branding class (grunt html template)
+  $('body').addClass(defaults.brandingCssClass);
 }
