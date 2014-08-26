@@ -15,7 +15,7 @@ function FoldManager(Editor, FoldPointFinder) {
   ** Update buffer with changes from editor
   */
   function refreshBuffer() {
-    _.extend(buffer, FoldPointFinder.findFolds(Editor.getValue()));
+    _.defaults(buffer, FoldPointFinder.findFolds(Editor.getValue()));
     emitChanges();
   }
 
@@ -90,8 +90,11 @@ function FoldManager(Editor, FoldPointFinder) {
     var folded = change.action !== 'remove';
     var fold = scan(buffer, row);
 
-    fold.folded = folded;
+    if (fold) {
+      fold.folded = folded;
+    }
 
+    refreshBuffer();
     emitChanges();
   });
 
@@ -109,6 +112,8 @@ function FoldManager(Editor, FoldPointFinder) {
       Editor.addFold(fold.start, fold.end);
       fold.folded = true;
     }
+
+    refreshBuffer();
   };
 
   /*
