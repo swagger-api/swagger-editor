@@ -68,6 +68,7 @@ function HeaderCtrl($scope, Editor, Storage, Splitter, Builder, $modal, $statePa
   $scope.openAboutEditor = function () {
     $modal.open({
       templateUrl: 'templates/editor-about.html',
+      // TODO: Replace with general controller for popups
       controller: 'UrlImportCtrl',
       size: 'large'
     });
