@@ -2,13 +2,46 @@
 @import "../fonts";
 @import "../buttons";
 
+
 .menu-bar {
 
 
   @extend .sw-font;
   width: 100%;
 
-  .toolbar{
+//dropdown styling
+
+
+
+  .dropdown:hover .dropdown-menu {
+      display: block;
+  }
+
+  ul.dropdown-menu  {
+    border-radius: $border-radius;
+    color: $toolbar-button-color;
+    background: $toolbar-button-bg;
+    font-size: $button-font-size;
+
+    .divider {
+        background-color: $gray-md;
+      }
+
+    li {
+
+
+
+      a {
+          color: $toolbar-button-color;
+
+        &:hover {
+          background: lighten($toolbar-button-bg, 10%);
+        }
+      }
+    }
+  }
+
+  .toolbar {
     min-height: 30px;
     padding: 0 15px 5px 15px;
     section {
@@ -18,28 +51,13 @@
         float: right;
         margin-right: 120px;
       }
+
     }
 
     .btn-drawer {
       display: inline-block;
       position: relative;
       margin-right: 0.4em;
-
-      .buttons {
-        font-size: 0;
-        display: none;
-        position: absolute;
-        width: 100%;
-        top: 100%;
-        left: 0;
-        z-index: 5;
-        margin: 0;
-
-        .toolbar-btn{
-          border-radius: 0;
-          padding: 0.5em;
-        }
-      }
 
       .toolbar-btn {
         border: none;
@@ -76,7 +94,7 @@
       color: $toolbar-button-color;
       text-decoration: none;
       font-size: $button-font-size;
-      margin-top: 5px;
+      //margin-top: 5px;
       padding-top: 0.3em;
       padding-bottom: 0.3em;
       outline: none;
@@ -169,5 +187,6 @@
       text-decoration: none;
     }
   }
+
 
 }
