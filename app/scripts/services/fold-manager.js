@@ -15,7 +15,7 @@ function FoldManager(Editor, FoldPointFinder) {
   ** Update buffer with changes from editor
   */
   function refreshBuffer() {
-    _.defaults(buffer, FoldPointFinder.findFolds(Editor.getValue()));
+    _.defaults(FoldPointFinder.findFolds(Editor.getValue()), buffer);
     emitChanges();
   }
 
@@ -47,8 +47,8 @@ function FoldManager(Editor, FoldPointFinder) {
     }
 
     while (keys.length) {
-      if (!current && !current.subFolds) {
-        break;
+      if (!current || !current.subFolds) {
+        return null;
       }
       current = current.subFolds[keys.shift()];
     }

@@ -13,7 +13,7 @@ function FoldPointFinder() {
     var lines = yamlString.split('\n');
 
     // Return up to 3 level
-    return { subFolds: getFolds(lines, 5, 0) };
+    return { subFolds: getFolds(lines, 2, 0) };
   };
 
   /*
