@@ -11,22 +11,34 @@ function FoldManager(Editor, FoldPointFinder) {
 
   Editor.ready(renewBuffer);
 
+  /*
+  ** Update buffer with changes from editor
+  */
   function refreshBuffer() {
     _.extend(buffer, FoldPointFinder.findFolds(Editor.getValue()));
     emitChanges();
   }
 
+  /*
+  ** Flush buffer and put new value in the buffer
+  */
   function renewBuffer() {
     buffer = FoldPointFinder.findFolds(Editor.getValue());
     emitChanges();
   }
 
+  /*
+  ** Let event listeners know there was a change in fold status
+  */
   function emitChanges() {
     changeListeners.forEach(function (fn) {
       fn();
     });
   }
 
+  /*
+  ** Walk the buffer tree for a given path
+  */
   function walk(keys) {
     var current = buffer;
 
@@ -67,6 +79,9 @@ function FoldManager(Editor, FoldPointFinder) {
     return result;
   }
 
+  /*
+  ** Listen to fold changes in editor and reflect it in buffer
+  */
   Editor.onFoldChanged(function (change) {
     var row = change.data.start.row;
     var folded = change.action !== 'remove';
@@ -77,6 +92,9 @@ function FoldManager(Editor, FoldPointFinder) {
     emitChanges();
   });
 
+  /*
+  ** Toggle a fold status and reflect it in the editor
+  */
   this.toggleFold = function () {
     var keys = [].slice.call(arguments, 0);
     var fold = walk(keys);
@@ -90,6 +108,9 @@ function FoldManager(Editor, FoldPointFinder) {
     }
   };
 
+  /*
+  ** Return status of a fold with given path parameters
+  */
   this.isFolded = function () {
     var keys = [].slice.call(arguments, 0);
     var fold = walk(keys);
@@ -97,10 +118,14 @@ function FoldManager(Editor, FoldPointFinder) {
     return fold && fold.folded;
   };
 
+  /*
+  ** Fold status change listener installer
+  */
   this.onFoldStatusChanged = function (fn) {
     changeListeners.push(fn);
   };
 
+  // Expose the methods externally
   this.reset = renewBuffer;
   this.refresh = refreshBuffer;
 }
