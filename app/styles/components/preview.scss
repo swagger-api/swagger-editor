@@ -1,7 +1,14 @@
+@import "../colors";
+@import "../fonts";
+
 .section-header {
-  a { cursor: pointer; }
-  span.arrow {
-    font-size: .5em;
-    color: lighten(black, 50%);
+  a { cursor: pointer;
+	color: $gray-dk;
+	@extend .sw-font;
+
+	&:hover {
+		text-decoration: none;
+		border-bottom: 1px dotted silver;
+	}
   }
 }
