@@ -1,0 +1,121 @@
+@import "colors";
+@import "fonts";
+@import "buttons";
+
+
+.menu-bar {
+
+
+  @extend .sw-font;
+  width: 100%;
+
+//dropdown menu styling
+
+
+  button.dropdown-icon {
+    background-image: url(/images/swagger-sprite.png);
+    background-repeat: no-repeat;
+    background-position: 5px 0px;
+  }
+
+  .dropdown:hover .dropdown-menu {
+    display: block;
+  }
+
+  ul.dropdown-menu  {
+    border-radius: $border-radius;
+    color: $toolbar-button-color;
+    background: $toolbar-button-bg;
+    font-size: $button-font-size;
+
+
+    .divider {
+        background-color: $gray-md;
+      }
+
+    li {
+
+      a {
+          color: $toolbar-button-color;
+
+        &:hover {
+          background: lighten($toolbar-button-bg, 10%);
+        }
+      }
+    }
+  }
+
+  .toolbar {
+    min-height: 30px;
+    padding: 0 15px 5px 15px;
+    section {
+      float: left;
+
+      &.right {
+        float: right;
+        margin-right: 20px;
+
+      }
+
+    }
+
+    }
+
+    .toolbar-btn, .btn-default {
+      // display: inline-block;
+      -webkit-appearance: none;
+      border: 1px solid $gray-md;
+      // border-radius: $border-radius;
+      text-align: left;
+      color: $toolbar-button-color;
+      text-decoration: none;
+      font-size: $button-font-size;
+      //margin-top: 5px;
+      padding-top: 0.3em;
+      padding-bottom: 0.3em;
+      outline: none;
+      cursor: pointer;
+      background: $toolbar-button-bg;
+      min-width: 140px;
+
+      // &:hover {
+      //   text-decoration: none;
+      //   border-radius: $border-radius;
+      //   background: lighten($toolbar-button-bg, 10%);
+      // }
+
+      span {
+        font-size: .5em;
+        float: right;
+        margin-right: $border-radius;
+        margin-top: 4px;
+      }
+
+      &.menu-button {
+        display: display;
+        border: none;
+      }
+    }
+  }
+
+
+.breadcrumbs .breadcrumb {
+  // TODO: colors
+  background: none;
+  color: white;
+
+  > li + li:before {
+    content: ">";
+  }
+
+    li > a {
+      color: white;
+
+      &:hover {
+      color: $http-get;
+      text-decoration: none;
+    }
+  }
+
+
+}
