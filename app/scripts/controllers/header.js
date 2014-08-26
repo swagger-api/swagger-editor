@@ -78,7 +78,7 @@ function HeaderCtrl($scope, Editor, Storage, Splitter, Builder, $modal, $statePa
 
     Storage.load('specs').then(function (specs) {
       // JSON
-      var json = angular.toJson(specs, null, 2);
+      var json = angular.toJson(specs, true);
       var jsonBlob = new Blob([json], {type: MIME_TYPE});
       $scope.jsonDownloadHref = window.URL.createObjectURL(jsonBlob);
       $scope.jsonDownloadUrl = [MIME_TYPE, 'spec.json', $scope.jsonDownloadHref].join(':');
