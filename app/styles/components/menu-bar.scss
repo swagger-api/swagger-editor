@@ -10,7 +10,24 @@
   width: 100%;
 
 //dropdown styling
+   .dropdown {
 
+      a.dropdown-icon {
+      background-image: url(/images/swagger-sprite.png);
+      background-repeat: no-repeat;
+      background-position: 0px 0px;
+      height: 32px;
+      margin-top: 0;
+      display: block;
+      width: 40px;
+      color: white;
+
+      &:hover {
+        background-image: url(/images/swagger-sprite.png);
+        background-position: 0px -33px;
+      }
+      }
+    }
 
 
   .dropdown:hover .dropdown-menu {
@@ -49,7 +66,7 @@
 
       &.right {
         float: right;
-        margin-right: 120px;
+        //margin-right: 20px;
       }
 
     }

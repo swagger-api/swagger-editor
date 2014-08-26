@@ -1,14 +1,6 @@
 <div class="menu-bar">
   <div class="toolbar">
     <section class="left">
-      <!-- <dropdown-menu label="File" on-open="assignDownloadHrefs" ng-if="showFileMenu()">
-        <button class="toolbar-btn" ng-click="newProject()">New</button>
-        <button class="toolbar-btn" ng-click="openExamples()">Open Example</button>
-        <button class="toolbar-btn" ng-click="openImportUrl()">Import URL</button>
-        <button class="toolbar-btn" ng-click="openImportFile()">Import File</button>
-        <a download="spec.yaml" class="toolbar-btn" data-downloadurl="{{yamlDownloadUrl}}" href="{{yamlDownloadHref}}">Download YAML</a>
-        <a download="spec.json" class="toolbar-btn" downloadUrl="{{jsonDownloadUrl}}" href="{{jsonDownloadHref}}">Download JSON</a>
-      </dropdown-menu> -->
       <div class="dropdown">
         <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown">
           File
@@ -38,7 +30,6 @@
       </dropdown-menu>
      -->
     </section>
-
     <section class="breadcrumbs">
       <ol class="breadcrumb">
         <li><a href="#">All Paths</a></li>
@@ -49,16 +40,15 @@
     </section>
     <section class="right">
       <div class="dropdown">
-        <button class="btn btn-default dropdown-toggle dropdown-icon" type="button" id="dropdownMenu1" data-toggle="dropdown">
-        </button>
+        <a class=" dropdown-icon" id="dropdownMenu1" data-toggle="dropdown">
+        </a>
         <ul class="dropdown-menu dropdown-menu-right" on-open="assignDownloadHrefs" ng-if="showFileMenu()" role="menu" aria-labelledby="dropdownMenu1">
           <li role="presentation"><a role="menuitem" tabindex="-1" href="#">YAML Documentation</a></li>
           <li role="presentation"><a role="menuitem" tabindex="-1" href="http://swagger.wordnik.com/" target="_blank">About Swagger</a></li>
           <li role="presentation" class="divider"></li>
-          <li role="presentation"><a role="menuitem" tabindex="-1" href="#">About this editor</a></li>
+          <li role="presentation"><a role="menuitem" tabindex="-1" href="#">About this editor...</a></li>
         </ul>
       </div>
     </section>
-
   </div>
 </div>
