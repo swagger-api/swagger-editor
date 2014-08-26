@@ -91,7 +91,7 @@ function FoldPointFinder() {
       if (level > 0) {
 
         // Get fold lines and remove the indent in
-        foldLines = lines.slice(currentFold.start + 1, currentFold.end).map(indent);
+        foldLines = lines.slice(currentFold.start + 1 - offset, currentFold.end - offset).map(indent);
 
         // Get subFolds recursively
         subFolds = getFolds(foldLines, level - 1, currentFold.start + 1);
