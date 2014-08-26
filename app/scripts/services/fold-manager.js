@@ -47,6 +47,9 @@ function FoldManager(Editor, FoldPointFinder) {
     }
 
     while (keys.length) {
+      if (!current && !current.subFolds) {
+        break;
+      }
       current = current.subFolds[keys.shift()];
     }
 
