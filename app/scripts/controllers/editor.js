@@ -1,8 +1,8 @@
 'use strict';
 
-PhonicsApp.controller('EditorCtrl', ['$scope', '$stateParams', 'Editor', 'Builder', 'Storage', EditorCtrl]);
+PhonicsApp.controller('EditorCtrl', ['$scope', '$stateParams', 'Editor', 'Builder', 'Storage', 'FoldManager', EditorCtrl]);
 
-function EditorCtrl($scope, $stateParams, Editor, Builder, Storage) {
+function EditorCtrl($scope, $stateParams, Editor, Builder, Storage, FoldManager) {
   $scope.aceLoaded = Editor.aceLoaded;
   $scope.aceChanged = function () {
     Storage.load('specs').then(function (specs) {
@@ -18,6 +18,8 @@ function EditorCtrl($scope, $stateParams, Editor, Builder, Storage) {
       Storage.save('yaml', value);
       Storage.save('specs', result.specs);
       Storage.save('error', result.error);
+
+      FoldManager.refresh();
     });
   };
 
