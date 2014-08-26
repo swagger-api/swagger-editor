@@ -1,0 +1,10 @@
+/* line 1, ../../../app/styles/components/collapse-when.scss */
+[collapse-when] {
+  height: auto;
+  overflow-y: hidden;
+  transition: height ease-out 200ms;
+}
+/* line 6, ../../../app/styles/components/collapse-when.scss */
+[collapse-when].c-w-collapsed {
+  height: 0;
+}

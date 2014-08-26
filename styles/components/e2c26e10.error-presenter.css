@@ -1,0 +1,74 @@
+/* line 1, ../../../app/styles/fonts.scss */
+.editor-font {
+  font-family: "Source Code Pro";
+  font-weight: 300;
+}
+
+/* line 6, ../../../app/styles/fonts.scss */
+.pre-font, .error-presenter .details pre {
+  font-family: monospace;
+}
+
+/* line 10, ../../../app/styles/fonts.scss */
+.sw-font, .sw-font-heavy, .sw-font-med, .error-presenter .details h5, .sw-font-light, .error-presenter header h4, .error-presenter {
+  font-family: "Open Sans";
+  font-weight: 400;
+}
+
+/* line 15, ../../../app/styles/fonts.scss */
+.sw-font-heavy {
+  font-weight: 700;
+}
+
+/* line 20, ../../../app/styles/fonts.scss */
+.sw-font-med, .error-presenter .details h5 {
+  font-weight: 600;
+}
+
+/* line 25, ../../../app/styles/fonts.scss */
+.sw-font-light, .error-presenter header h4 {
+  font-weight: 300;
+}
+
+/* line 4, ../../../app/styles/components/error-presenter.scss */
+.error-presenter {
+  background: #ffd9dc;
+}
+/* line 8, ../../../app/styles/components/error-presenter.scss */
+.error-presenter header {
+  background: #ff081c;
+  color: white;
+  cursor: pointer;
+  margin: 0;
+}
+/* line 14, ../../../app/styles/components/error-presenter.scss */
+.error-presenter header h4 {
+  display: inline-block;
+  padding: 0em .5em;
+}
+/* line 21, ../../../app/styles/components/error-presenter.scss */
+.error-presenter .details {
+  padding: .5em;
+}
+/* line 24, ../../../app/styles/components/error-presenter.scss */
+.error-presenter .details h5 {
+  margin-bottom: .3em;
+}
+/* line 29, ../../../app/styles/components/error-presenter.scss */
+.error-presenter .details pre {
+  white-space: nowrap;
+  line-height: 125%;
+  font-size: .9em;
+  background: none;
+}
+/* line 37, ../../../app/styles/components/error-presenter.scss */
+.error-presenter .details pre {
+  white-space: pre;
+  font-family: "Source Code Pro";
+  word-wrap: normal;
+}
+/* line 43, ../../../app/styles/components/error-presenter.scss */
+.error-presenter .details.c-w-collapsed {
+  padding-top: 0;
+  padding-bottom: 0;
+}

@@ -1,0 +1,47 @@
+/* line 1, ../../../app/styles/fonts.scss */
+.editor-font, .ace-editor, .ace-editor * {
+  font-family: "Source Code Pro";
+  font-weight: 300;
+}
+
+/* line 6, ../../../app/styles/fonts.scss */
+.pre-font {
+  font-family: monospace;
+}
+
+/* line 10, ../../../app/styles/fonts.scss */
+.sw-font, .sw-font-heavy, .sw-font-med, .sw-font-light {
+  font-family: "Open Sans";
+  font-weight: 400;
+}
+
+/* line 15, ../../../app/styles/fonts.scss */
+.sw-font-heavy {
+  font-weight: 700;
+}
+
+/* line 20, ../../../app/styles/fonts.scss */
+.sw-font-med {
+  font-weight: 600;
+}
+
+/* line 25, ../../../app/styles/fonts.scss */
+.sw-font-light {
+  font-weight: 300;
+}
+
+/* line 3, ../../../app/styles/components/editor.scss */
+.ace-editor {
+  font-size: .8em;
+}
+/* line 6, ../../../app/styles/components/editor.scss */
+.ace-editor .editor-error-message {
+  padding: .3em;
+  background: #AA0A0A;
+  color: white;
+  max-height: 5.6em;
+}
+/* line 11, ../../../app/styles/components/editor.scss */
+.ace-editor .editor-error-message pre {
+  font-size: 1em;
+}

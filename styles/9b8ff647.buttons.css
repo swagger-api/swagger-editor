@@ -1,0 +1,131 @@
+@charset "UTF-8";
+/* line 6, ../../app/styles/buttons.scss */
+.bs-button-override {
+  border-radius: 0;
+}
+
+/* line 10, ../../app/styles/buttons.scss */
+button {
+  border-radius: 3px;
+  cursor: pointer;
+  border: 1px solid gray;
+}
+
+/* line 17, ../../app/styles/buttons.scss */
+button.try-it {
+  background-color: #FFF;
+  border: 1px solid gray;
+  padding: 0.3em 0.5em;
+  outline: none;
+  width: 145px;
+  transition-property: width, padding;
+  transition-duration: 200ms;
+  transition-timing-function: ease-in-out;
+  white-space: pre;
+}
+/* line 28, ../../app/styles/buttons.scss */
+button.try-it:hover {
+  background-color: #f8f8f8;
+  transition: background-color 0.3s ease-in-out;
+}
+/* line 33, ../../app/styles/buttons.scss */
+button.try-it.trying {
+  width: 0;
+  border: none;
+  overflow: hidden;
+  padding: 0;
+}
+
+/* line 41, ../../app/styles/buttons.scss */
+.try-toggle {
+  font-size: 1em;
+  cursor: pointer;
+  position: absolute;
+  top: 6px;
+  left: 150px;
+  transition: left ease-in-out 300ms;
+}
+/* line 49, ../../app/styles/buttons.scss */
+.try-toggle.is-open {
+  left: 0%;
+}
+/* line 52, ../../app/styles/buttons.scss */
+.try-toggle.is-open:after {
+  content: "close ×";
+  border-radius: 3px;
+  border: 1px solid gray;
+  font-size: 1em;
+  padding: .3em .5em;
+  display: inline-block;
+}
+/* line 61, ../../app/styles/buttons.scss */
+.try-toggle.is-open:hover {
+  background: #ff081c;
+  color: white;
+  border-radius: 3px;
+}
+
+/* line 69, ../../app/styles/buttons.scss */
+button.call {
+  font-size: 1em;
+  padding: 0.5em 1em;
+  display: inline-block;
+  border: 1px solid #e3e3e3;
+  background-color: #e3e3e3;
+  color: #444;
+  border-radius: 3px;
+  appearance: none;
+  cursor: pointer;
+  background-image: linear-gradient(#fcfcfc, #e0e0e0);
+}
+/* line 81, ../../app/styles/buttons.scss */
+button.call:hover {
+  color: #333333;
+  border: 1px solid gray;
+  transition: border 0.2s ease-in-out;
+}
+
+/* line 88, ../../app/styles/buttons.scss */
+.grouped-buttons, .btn-group {
+  display: inline-block;
+  font-size: 0;
+}
+/* line 92, ../../app/styles/buttons.scss */
+.grouped-buttons .left, .btn-group .left {
+  background-repeat: no-repeat;
+}
+/* line 96, ../../app/styles/buttons.scss */
+.grouped-buttons .toolbar-btn, .grouped-buttons .btn-default, .btn-group .toolbar-btn, .btn-group .btn-default {
+  text-align: center;
+  min-width: 34px;
+  height: 24px;
+  margin: 0;
+  font-size: 15px;
+  background: #e6e6e6;
+  background-image: url(/images/6fd12c26.centerPanes.svg);
+  background-repeat: no-repeat;
+  background-position: center 0px;
+  border-radius: 3px;
+}
+/* line 110, ../../app/styles/buttons.scss */
+.grouped-buttons .toolbar-btn.selected[disabled="disabled"], .grouped-buttons .btn-default.selected[disabled="disabled"], .btn-group .toolbar-btn.selected[disabled="disabled"], .btn-group .btn-default.selected[disabled="disabled"] {
+  cursor: default;
+}
+/* line 115, ../../app/styles/buttons.scss */
+.grouped-buttons .toolbar-btn:first-child, .grouped-buttons .btn-default:first-child, .btn-group .toolbar-btn:first-child, .btn-group .btn-default:first-child {
+  border-right-width: 0;
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+  background-image: url(/images/8759a4e5.hideEditor.svg);
+  background-repeat: no-repeat;
+  background-position: 5px 0px;
+}
+/* line 124, ../../app/styles/buttons.scss */
+.grouped-buttons .toolbar-btn:last-child, .grouped-buttons .btn-default:last-child, .btn-group .toolbar-btn:last-child, .btn-group .btn-default:last-child {
+  border-left-width: 0;
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+  background-image: url(/images/550a9701.hidePreview.svg);
+  background-repeat: no-repeat;
+  background-position: 4px 0px;
+}

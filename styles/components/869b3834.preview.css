@@ -1,0 +1,9 @@
+/* line 2, ../../../app/styles/components/preview.scss */
+.section-header a {
+  cursor: pointer;
+}
+/* line 3, ../../../app/styles/components/preview.scss */
+.section-header span.arrow {
+  font-size: .5em;
+  color: gray;
+}

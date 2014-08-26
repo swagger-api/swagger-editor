@@ -1,1 +1,38 @@
-<h1>Swagger <span>Editor</span></h1><a href="http://swagger.wordnik.com" class="mktLink" title="Learn more about Swagger" target="_blank"></a>
+<div class="menu-bar"><div class="toolbar"><section class="left"><dropdown-menu label="File" on-open="assignDownloadHrefs" ng-if="showFileMenu()"><button class="toolbar-btn" ng-click="newProject()">New</button> <button class="toolbar-btn" ng-click="openExamples()">Open Example</button> <button class="toolbar-btn" ng-click="openImportUrl()">Import URL</button> <button class="toolbar-btn" ng-click="openImportFile()">Import File</button> <a download="spec.yaml" class="toolbar-btn" data-downloadurl="{{yamlDownloadUrl}}" href="{{yamlDownloadHref}}">Download YAML</a> <a download="spec.json" class="toolbar-btn" downloadurl="{{jsonDownloadUrl}}" href="{{jsonDownloadHref}}">Download JSON</a></dropdown-menu><!-- Server generation is not working with version 2 yet.
+      <dropdown-menu label="Get Server">
+        <button class="toolbar-btn" ng-click="generateZip('servers', 'nodejs')">Node.js</button>
+        <button class="toolbar-btn" ng-click="generateZip('servers', 'jaxrs')">JAX-RS</button>
+        <button class="toolbar-btn" ng-click="generateZip('servers', 'scalatra')">Scalatra</button>
+      </dropdown-menu>
+      <dropdown-menu label="Get Client">
+        <button class="toolbar-btn" ng-click="generateZip('clients', 'android')">Android</button>
+        <button class="toolbar-btn" ng-click="generateZip('clients', 'java')">Java</button>
+        <button class="toolbar-btn" ng-click="generateZip('clients', 'php')">PHP</button>
+        <button class="toolbar-btn" ng-click="generateZip('clients', 'objc')">Objective-C</button>
+        <button class="toolbar-btn" ng-click="generateZip('clients', 'docs')">Docs</button>
+      </dropdown-menu>
+     --></section><section class="breadcrumbs"><ol class="breadcrumb"><li><a href="#">All Paths</a></li><li ng-repeat="entry in breadcrumbs" ng-class="{active: entry.active}">{{entry.name}}</li></ol></section><!-- Pane togglers are commented. TODO: fix togglers and figure out what middle button should do.
+    <section class="right">
+      <div class="btn-group">
+        <button type="button" class="btn btn-default left" title="{{!isPaneVisisble('left') ? 'Hide' : 'Show'}} text editor"
+          ng-click="togglePane('left')"
+          ng-class="{selected: isPaneVisible('left')}"
+          ng-disabled="!isPaneVisible('left')"
+
+          ></button>
+        <button type="button" class="btn btn-default left" title="{{!isPaneVisisble('split') ? 'Hide' : 'Show'}} preview"
+          ng-click="togglePane('split')"
+          ng-class="{selected: isPaneVisible('left')}"
+          ng-disabled="!isPaneVisible('split')"
+          ></button>
+        <button type="button" class="btn btn-default left" title="{{!isPaneVisisble('right') ? 'Hide' : 'Show'}} preview"
+          ng-click="togglePane('right')"
+          ng-class="{selected: isPaneVisible('right')}"
+          ng-disabled="!isPaneVisible('right')"
+          ></button>
+      </div>
+      <div>
+        <a href="http://swagger.wordnik.com" class="mktLink ng-scope" title="Learn more about Swagger" target="_blank"></a>
+      </div>
+    </section>
+    --></div></div>

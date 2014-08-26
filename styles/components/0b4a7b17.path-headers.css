@@ -1,0 +1,82 @@
+/* line 1, ../../../app/styles/fonts.scss */
+.editor-font {
+  font-family: "Source Code Pro";
+  font-weight: 300;
+}
+
+/* line 6, ../../../app/styles/fonts.scss */
+.pre-font {
+  font-family: monospace;
+}
+
+/* line 10, ../../../app/styles/fonts.scss */
+.sw-font, .sw-font-heavy, .sw-font-med, .paths-header h4, .sw-font-light, .paths-header h1, .paths-header p, .paths-header h4 > span, .paths-header {
+  font-family: "Open Sans";
+  font-weight: 400;
+}
+
+/* line 15, ../../../app/styles/fonts.scss */
+.sw-font-heavy {
+  font-weight: 700;
+}
+
+/* line 20, ../../../app/styles/fonts.scss */
+.sw-font-med, .paths-header h4 {
+  font-weight: 600;
+}
+
+/* line 25, ../../../app/styles/fonts.scss */
+.sw-font-light, .paths-header h1, .paths-header p, .paths-header h4 > span {
+  font-weight: 300;
+}
+
+/* line 4, ../../../app/styles/components/path-headers.scss */
+.paths-header {
+  background-color: #fafafa;
+  padding: 5px;
+  margin-bottom: 1em;
+}
+/* line 10, ../../../app/styles/components/path-headers.scss */
+.paths-header .info-container {
+  transition: height ease-in .3s;
+}
+/* line 13, ../../../app/styles/components/path-headers.scss */
+.paths-header .info-container.collapsed {
+  height: 0 !important;
+  overflow: hidden;
+}
+/* line 20, ../../../app/styles/components/path-headers.scss */
+.paths-header .info-header {
+  display: table;
+}
+/* line 23, ../../../app/styles/components/path-headers.scss */
+.paths-header .info-header > h1, .paths-header .info-header .collapse-togglers {
+  display: table-cell;
+}
+/* line 28, ../../../app/styles/components/path-headers.scss */
+.paths-header h1 {
+  font-size: 1.2em;
+  display: table-cell;
+  margin-top: 0px;
+}
+/* line 34, ../../../app/styles/components/path-headers.scss */
+.paths-header h1:hover {
+  cursor: pointer;
+}
+/* line 39, ../../../app/styles/components/path-headers.scss */
+.paths-header p {
+  font-size: .9em;
+  display: table-cell;
+  line-height: 1.2em;
+  float: left;
+  margin-bottom: 1em;
+}
+/* line 49, ../../../app/styles/components/path-headers.scss */
+.paths-header h4 {
+  margin-bottom: 0;
+  font-size: 1em;
+}
+/* line 54, ../../../app/styles/components/path-headers.scss */
+.paths-header h4:last-child {
+  margin-bottom: 0;
+}

@@ -1,0 +1,80 @@
+/* line 1, ../../../app/styles/fonts.scss */
+.editor-font {
+  font-family: "Source Code Pro";
+  font-weight: 300;
+}
+
+/* line 6, ../../../app/styles/fonts.scss */
+.pre-font, .schema-model > section pre {
+  font-family: monospace;
+}
+
+/* line 10, ../../../app/styles/fonts.scss */
+.sw-font, .sw-font-heavy, .sw-font-med, .sw-font-light {
+  font-family: "Open Sans";
+  font-weight: 400;
+}
+
+/* line 15, ../../../app/styles/fonts.scss */
+.sw-font-heavy {
+  font-weight: 700;
+}
+
+/* line 20, ../../../app/styles/fonts.scss */
+.sw-font-med {
+  font-weight: 600;
+}
+
+/* line 25, ../../../app/styles/fonts.scss */
+.sw-font-light {
+  font-weight: 300;
+}
+
+/* line 5, ../../../app/styles/components/schema-model.scss */
+.schema-model.hidden {
+  display: none;
+}
+/* line 11, ../../../app/styles/components/schema-model.scss */
+.schema-model > header span, .schema-model > header a {
+  font-size: .9em;
+  padding: .2em;
+  white-space: pre;
+  display: none;
+}
+/* line 17, ../../../app/styles/components/schema-model.scss */
+.schema-model > header span.pipe, .schema-model > header a.pipe {
+  color: #cacaca;
+}
+/* line 22, ../../../app/styles/components/schema-model.scss */
+.schema-model > header span.active, .schema-model > header a.active {
+  display: inline-block;
+  font-weight: 700;
+}
+/* line 28, ../../../app/styles/components/schema-model.scss */
+.schema-model > header span:hover, .schema-model > header a:hover {
+  background: rgba(255, 255, 255, 0.5);
+  cursor: pointer;
+}
+/* line 36, ../../../app/styles/components/schema-model.scss */
+.schema-model > section.json {
+  font-size: .9em;
+  background: #fff7e5;
+}
+/* line 41, ../../../app/styles/components/schema-model.scss */
+.schema-model > section.ng-enter, .schema-model > section.ng-leave {
+  transition: all cubic-bezier(0.25, 0.46, 0.45, 0.94) 0.5s;
+}
+/* line 44, ../../../app/styles/components/schema-model.scss */
+.schema-model > section.ng-leave, .schema-model > section.ng-enter.ng-enter-active {
+  opacity: 1;
+}
+/* line 48, ../../../app/styles/components/schema-model.scss */
+.schema-model > section.ng-enter, .schema-model > section.ng-leave.ng-leave-active {
+  opacity: 0;
+}
+/* line 53, ../../../app/styles/components/schema-model.scss */
+.schema-model > section pre {
+  white-space: pre;
+  padding: 0.2em;
+  background: #fff7e5;
+}

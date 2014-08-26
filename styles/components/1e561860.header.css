@@ -1,0 +1,54 @@
+/* line 3, ../../../app/styles/components/header.scss */
+header.main-header {
+  height: 48px;
+  background: #4a4a4a;
+  display: flex;
+  position: fixed;
+  width: 100%;
+  height: 48px;
+  z-index: 2;
+}
+/* line 12, ../../../app/styles/components/header.scss */
+header.main-header .mktLink {
+  width: 32px;
+  height: 32px;
+  position: absolute;
+  right: 16px;
+  top: 8px;
+  background-image: url(/images/0c4b3f48.swagger-sprite.png);
+  background-repeat: no-repeat;
+  background-position: 0px 0px;
+}
+/* line 21, ../../../app/styles/components/header.scss */
+header.main-header .mktLink:hover {
+  transition: background-position ease 200ms;
+  background-position: 0px -33px;
+}
+/* line 27, ../../../app/styles/components/header.scss */
+header.main-header > h1 {
+  padding: 4px .3em 0 1em;
+  font-size: 22px;
+  line-height: 46px;
+  letter-spacing: .3px;
+  text-transform: lowercase;
+  font-family: "Droid Sans";
+  font-weight: 700;
+}
+/* line 35, ../../../app/styles/components/header.scss */
+header.main-header > h1 span {
+  font-weight: 300;
+}
+/* line 40, ../../../app/styles/components/header.scss */
+header.main-header .toolbar {
+  padding: .8em;
+  font-size: .8em;
+}
+/* line 44, ../../../app/styles/components/header.scss */
+header.main-header .toolbar button {
+  border: none;
+  background: white;
+}
+/* line 50, ../../../app/styles/components/header.scss */
+header.main-header .generation {
+  display: none;
+}
