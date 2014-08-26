@@ -54,11 +54,9 @@ module.exports = function (grunt) {
     'build'
   ]);
 
-  grunt.registerTask('ship', ['gh-pages:main']);
-
-  grunt.registerTask('preview', [
+  grunt.registerTask('ship', [
     'build',
-    'gh-pages:preview',
+    'gh-pages',
     'shell:publish-npm'
   ]);
 
