@@ -9,10 +9,15 @@ function FoldManager(Editor, FoldPointFinder) {
   var buffer = Object.create(null);
   var changeListeners = [];
 
-  Editor.ready(rewriteBuffer);
+  Editor.ready(renewBuffer);
 
-  function rewriteBuffer() {
+  function refreshBuffer() {
     _.extend(buffer, FoldPointFinder.findFolds(Editor.getValue()));
+    emitChanges();
+  }
+
+  function renewBuffer() {
+    buffer = FoldPointFinder.findFolds(Editor.getValue());
     emitChanges();
   }
 
@@ -76,5 +81,6 @@ function FoldManager(Editor, FoldPointFinder) {
     changeListeners.push(fn);
   };
 
-  this.reset = rewriteBuffer;
+  this.reset = renewBuffer;
+  this.refresh = refreshBuffer;
 }
