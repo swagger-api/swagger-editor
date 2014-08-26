@@ -24,14 +24,10 @@ function Backend($http, $q, defaults) {
       });
     }
 
-    if (defaults.useYamlBackend) {
-      if (key === 'yaml' && value) {
-        commit(value);
-      }
-    } else {
-      if (key === 'specs' && value) {
-        commit(buffer[key]);
-      }
+    if (defaults.useYamlBackend && (key === 'yaml' && value)) {
+      commit(value);
+    } else if (key === 'specs' && value) {
+      commit(buffer[key]);
     }
 
   };
@@ -39,7 +35,7 @@ function Backend($http, $q, defaults) {
   this.reset = noop;
 
   this.load = function (key) {
-    if (key !== 'specs') {
+    if (key !== 'yaml') {
       var deferred = $q.defer();
       if (!key) {
         deferred.reject();
@@ -52,11 +48,8 @@ function Backend($http, $q, defaults) {
     return $http.get(defaults.backendEndpoint)
       .then(function (res) {
         if (defaults.useYamlBackend) {
-
-          // TODO: Wr are assuming the YAML coming from
-          // backend is valid. Validate server's YAML
           buffer.yaml = res.data;
-          return jsyaml.load(res.data);
+          return buffer.yaml;
         }
         return res.data;
       });

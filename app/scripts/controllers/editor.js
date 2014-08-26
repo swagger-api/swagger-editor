@@ -22,7 +22,7 @@ function EditorCtrl($scope, $stateParams, Editor, Builder, Storage) {
   };
 
   Editor.ready(function () {
-    Storage.load('specs').then(function (specs) {
+    Storage.load('yaml').then(function (specs) {
       if ($stateParams.path) {
         Editor.setValue(Builder.getPath(specs, $stateParams.path));
       } else {
