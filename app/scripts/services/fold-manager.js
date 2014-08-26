@@ -41,13 +41,38 @@ function FoldManager(Editor, FoldPointFinder) {
     return current;
   }
 
-  Editor.onFoldChanged(function (change) {
-    var key = Editor.getLine(change.data.start.row).trim().replace(':', '');
-    var folded = change.action !== 'remove';
+  /*
+  ** Beneath first search for the fold that has the same start
+  */
+  function scan(current, start) {
+    var result = null;
+    var node, fold;
 
-    if (buffer[key]) {
-      buffer[key].folded = folded;
+    if (current.start === start) {
+      return current;
     }
+
+    if (angular.isObject(current.subFolds)) {
+      for (var k in current.subFolds) {
+        if (angular.isObject(current.subFolds)) {
+          node = current.subFolds[k];
+          fold = scan(node, start);
+          if (fold) {
+            result = fold;
+          }
+        }
+      }
+    }
+
+    return result;
+  }
+
+  Editor.onFoldChanged(function (change) {
+    var row = change.data.start.row;
+    var folded = change.action !== 'remove';
+    var fold = scan(buffer, row);
+
+    fold.folded = folded;
 
     emitChanges();
   });
