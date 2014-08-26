@@ -14,7 +14,6 @@ function FoldManager(Editor, FoldPointFinder) {
   function rewriteBuffer() {
     _.extend(buffer, FoldPointFinder.findFolds(Editor.getValue()));
     emitChanges();
-    window.buffer = buffer;
   }
 
   function emitChanges() {

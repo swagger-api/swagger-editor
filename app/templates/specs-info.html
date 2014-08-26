@@ -1,9 +1,9 @@
 <div class="info">
   <header class="info-header">
-    <h1>
-      <a ng-click="toggle('info')">{{isCollapsed('info') ? '+' : '-'}}</a>
-      {{specs.info.title}}
-    </h1>
+    <h3 class="section-header">
+      <span class="arrow">{{isCollapsed('info') ? '▶' : '▼'}}</span>
+      <a ng-click="toggle('info')">Information Details</a>
+    </h3>
     <!-- Commented out because of CSS issues (looks bad)
     <div class="collapse-togglers">
       <button type="button" class="btn btn-default left" ng-click="toggleAllPathsListed()"
@@ -15,6 +15,7 @@
   </header>
 
   <div class="info-container" collapse-when="isCollapsed('info')" ng-ani>
+    <h3>{{specs.info.title}}</h3>
     <p>{{specs.info.description}}</p>
     <h4>Version <span>{{specs.info.version}}</span></h4>
     <div ng-if="specs.info.termsOfService">
