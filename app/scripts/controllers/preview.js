@@ -66,4 +66,12 @@ function PreviewCtrl(Storage, Builder, FoldManager, $scope, $stateParams) {
     return result;
   };
 
+  /*
+  ** Determines if a key is a vendor extension key
+  ** Vendor extensions always start with `x-`
+  */
+  $scope.isVendorExtension = function (key) {
+    return key.substring(0, 2).toLowerCase() === 'x-';
+  };
+
 }
