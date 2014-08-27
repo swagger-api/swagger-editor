@@ -133,6 +133,13 @@ function FoldManager(Editor, FoldPointFinder) {
     changeListeners.push(fn);
   };
 
+  /*
+  ** return row for a path
+  */
+  this.rowFor = function () {
+    // TODO
+  };
+
   // Expose the methods externally
   this.reset = renewBuffer;
   this.refresh = refreshBuffer;
