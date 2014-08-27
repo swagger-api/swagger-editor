@@ -5,7 +5,7 @@ PhonicsApp.service('Backend', ['$http', '$q', 'defaults', Backend]);
 function Backend($http, $q, defaults) {
   var changeListeners =  Object.create(null);
   var buffer = Object.create(null);
-  var commit = _.throttle(commitNow, 200);
+  var commit = _.throttle(commitNow, 200, {leading: false, trailing: true});
 
   function commitNow(data) {
     if (!buffer.error && buffer.specs) {
