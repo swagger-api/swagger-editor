@@ -10,7 +10,7 @@ PhonicsApp.service('SpecsSorter', ['FoldManager', function SpecsSorter(FoldManag
   /*
   ** Sort paths, operations and responses based on their fold position
   */
-  this.sort = function(specs) {
+  this.sort = function (specs) {
     var paths = _.clone(specs.paths);
     var results = _.omit(specs, 'paths');
     var pathsArray = [];
@@ -25,7 +25,6 @@ PhonicsApp.service('SpecsSorter', ['FoldManager', function SpecsSorter(FoldManag
     pathsArray = pathsArray.sort(pathComparator);
 
     results.paths = pathsArray;
-
 
     /*
     ** Compare two paths based on their fold position
