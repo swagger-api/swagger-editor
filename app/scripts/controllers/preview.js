@@ -6,10 +6,11 @@ PhonicsApp.controller('PreviewCtrl', [
   'FoldManager',
   '$scope',
   '$stateParams',
+  'defaults',
   PreviewCtrl
 ]);
 
-function PreviewCtrl(Storage, Builder, FoldManager, $scope, $stateParams) {
+function PreviewCtrl(Storage, Builder, FoldManager, $scope, $stateParams, defaults) {
   function updateSpecs(latest) {
     if ($stateParams.path) {
       $scope.specs = { paths: Builder.getPath(latest, $stateParams.path) };
@@ -25,7 +26,8 @@ function PreviewCtrl(Storage, Builder, FoldManager, $scope, $stateParams) {
   Storage.addChangeListener('specs', updateSpecs);
   Storage.addChangeListener('error', updateError);
 
-  Storage.load('specs').then(function (storedSpecs) {
+  var resource = defaults.useBackendForStorage ? 'yaml' : 'specs';
+  Storage.load(resource).then(function (storedSpecs) {
     if (storedSpecs) {
       updateSpecs(storedSpecs);
     }
