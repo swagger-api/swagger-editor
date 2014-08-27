@@ -30,8 +30,6 @@ function EditorCtrl($scope, $stateParams, Editor, Builder, Storage, FoldManager)
       } else {
         Editor.setValue(specs);
       }
-
-      FoldManager.reset();
     });
   });
 
