@@ -1,12 +1,1 @@
-<li class="path"><header ng-click="$parent.toggle('paths', pathName)"><h2><a>{{pathName}}</a></h2><ul class="options"><!--       <li ng-if="!isSingle">
-        <a ng-click="togglePathListed($event)">
-          {{pathIsListed() ? 'Show' : 'Hide'}}
-        </a>
-      </li>
-      <li>
-        <a ng-click="toggleOperationListed($event)">
-          {{pathIsListed() ? 'List' :
-            operationsAreListed() ? 'Expand' : 'List'}}
-          Operations
-        </a>
-      </li> --><li ng-if="!isSingle"><a href="{{getEditPath(pathName)}}">Edit This Path</a></li></ul></header><ul class="operations" collapse-when="$parent.isCollapsed('paths', pathName)"><operation ng-repeat="(operationName, operation) in path"></operation></ul></li>
+<li class="path"><header ng-click="$parent.toggle('paths', pathName)"><h2><a>{{pathName}}</a></h2><ul class="options"><li ng-if="!isSingle"><a href="{{getEditPath(pathName)}}">Edit This Path</a></li></ul></header><ul class="operations" collapse-when="$parent.isCollapsed('paths', pathName)"><operation ng-repeat="(operationName, operation) in path" ng-if="!isVendorExtension(operationName)"></operation></ul></li>
