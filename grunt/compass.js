@@ -14,12 +14,6 @@ module.exports = {
     assetCacheBuster: false,
     raw: 'Sass::Script::Number.precision = 10\n'
   },
-  dist: {
-    options: {
-      cssDir: 'dist/styles',
-      generatedImagesDir: 'dist/images/generated'
-    }
-  },
   server: {
     options: {
       debugInfo: true
