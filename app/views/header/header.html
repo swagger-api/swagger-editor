@@ -2,7 +2,7 @@
   <div class="toolbar">
     <section class="left">
       <div ng-include="'templates/branding-left.html'" ng-if="showHeaderBranding()"></div>
-      <div class="dropdown">
+      <div class="dropdown" ng-if="showFileMenu()">
         <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" id="fileMenu">
           File
           <span class="caret"></span>
