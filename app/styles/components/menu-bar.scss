@@ -13,7 +13,7 @@
    .dropdown {
 
       a.dropdown-icon {
-      background-image: url(/images/swagger-sprite.png);
+      background-image: image-url("swagger-sprite.png");
       background-repeat: no-repeat;
       background-position: 4px 0px;
       height: 32px;
@@ -22,7 +22,7 @@
       width: 44px;
 
         &:hover {
-          background-image: url(/images/swagger-sprite.png);
+          background-image: image-url("swagger-sprite.png");
           background-position: 4px -33px;
         }
       }
@@ -66,8 +66,12 @@
         ul.dropdown-menu {
           min-width: 210px;
 
-          .newWindow {
+          span.new-window {
             float: right;
+            background: image-url("newWindow.png");
+            width: 8px;
+            height: 8px;
+            display: block;
           }
         }
       }
