@@ -1,0 +1,56 @@
+@import "colors";
+
+header.main-header {
+  height: 48px;
+  background: $header-bg;
+  display: flex;
+  position: fixed;
+  width: 100%;
+  height: 48px;
+  z-index: 2;
+
+  .mktLink  {
+    width: 32px;
+    height: 32px;
+    position: absolute;
+    right: 16px;
+    top: 8px;
+    background-image: url(/images/swagger-sprite.png);
+    background-repeat: no-repeat;
+    background-position: 0px 0px;
+    &:hover {
+      transition: background-position ease 200ms;
+      background-position: 0px -33px;
+    }
+  }
+
+  >h1 {
+    padding: 4px .3em 0 1em;
+    font-size: 22px;
+    line-height: 46px;
+    letter-spacing: .3px;
+    text-transform: lowercase;
+    font-family: "Droid Sans";
+    font-weight: 700;
+    span {
+      font-weight: 300;
+    }
+  }
+
+  .toolbar {
+    padding: .8em;
+    font-size: .8em;
+
+    button {
+      border: none;
+      background: white;
+    }
+  }
+
+  .generation {
+    display: none;
+  }
+}
+
+
+

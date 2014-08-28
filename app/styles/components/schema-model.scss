@@ -2,12 +2,15 @@
 @import "../fonts";
 
 .schema-model {
+  margin-left: 14px;
+  border-radius: none;
+
   &.hidden {
     display: none;
   }
 
   >header {
-   
+
     span, a {
       font-size: .9em;
       padding: .2em;
@@ -17,7 +20,7 @@
       &.pipe {
       color: darken($gray-lt, 10%);
       }
-      
+
 
       &.active {
         display: inline-block;
@@ -28,14 +31,17 @@
       &:hover {
         background: rgba(255,255,255,0.5);
         cursor: pointer;
-      }    
+      }
     }
   }
 
   >section {
-    &.json {
+
+    &.json, &.model {
       font-size: .9em;
       background: $pre-bg;
+      padding: 0.4em;
+      border-radius: none;
     }
 
     &.ng-enter, &.ng-leave {
@@ -53,8 +59,11 @@
     pre {
       @extend .pre-font;
       white-space: pre;
-      padding: 0.2em;
+      padding: 0.4em 0;
       background: $pre-bg;
+      border: none;
+      border-radius: none;
+      margin-bottom: 0;
     }
   }
 }

@@ -1,7 +1,25 @@
-.section-header {
-  a { cursor: pointer; }
-  span.arrow {
-    font-size: .5em;
-    color: lighten(black, 50%);
+@import "../colors";
+@import "../fonts";
+
+.preview.pane {
+  @extend .sw-font;
+
+  .section-header {
+    a { cursor: pointer;
+      color: $gray-dk;
+
+      &:hover {
+        text-decoration: none;
+        border-bottom: 1px dotted silver;
+      }
+    }
+  }
+
+  .section-content {
+    margin-left: 10px;
+
+    li {
+      margin-bottom: 20px;
+    }
   }
 }

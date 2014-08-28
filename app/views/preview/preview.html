@@ -17,7 +17,6 @@
 
   <header ng-if="!!specs.info && !error.yamlError">
     <h3 class="section-header">
-      <span class="arrow">{{isCollapsed('paths') ? '▶' : '▼'}}</span>
       <a ng-click="toggle('paths')">Paths</a>
     </h3>
   </header>
@@ -27,14 +26,14 @@
 
   <header ng-if="specs.definitions">
     <h3 class="section-header">
-      <span class="arrow">{{isCollapsed('definitions') ? '▶' : '▼'}}</span>
+      <!-- <span class="arrow">{{isCollapsed('definitions') ? '▶' : '▼'}}</span> -->
       <a ng-click="toggle('definitions')">Models</a>
     </h3>
-    <ul ng-if="specs.definitions" collapse-when="isCollapsed('definitions')">
+  </header>
+   <ul class="section-content" ng-if="specs.definitions" collapse-when="isCollapsed('definitions')">
       <li ng-repeat="(modelName, model) in specs.definitions">
         <h4>{{modelName}}</h4>
         <schema-model schema="model"></schema-model>
       </li>
     </ul>
-  </header>
 </div>
