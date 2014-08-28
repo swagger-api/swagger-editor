@@ -1,20 +1,19 @@
 @import "colors";
 @import "fonts";
 
-.paths-header {
+.info {
   @extend .sw-font;
-  background-color: lighten($gray-lt, 9%);
-  padding: 5px;
   margin-bottom: 1em;
 
   .info-container {
+    background-color: lighten($gray-lt, 9%);
+    padding: 0 10px;
     transition: height ease-in .3s;
 
     &.collapsed {
       height: 0 !important;
       overflow: hidden;
     }
-
   }
 
   .info-header {
@@ -29,8 +28,8 @@
     font-size: 1.2em;
     @extend .sw-font-light;
     display: table-cell;
-    //width: 80%;
     margin-top: 0px;
+
     &:hover {
       cursor: pointer;
     }
@@ -43,7 +42,6 @@
     line-height: 1.2em;
     float: left;
     margin-bottom: 1em;
-    //width: 80%;
   }
 
   h4 {

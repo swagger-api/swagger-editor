@@ -1,14 +1,25 @@
 @import "../colors";
 @import "../fonts";
 
-.section-header {
-  a { cursor: pointer;
-	color: $gray-dk;
-	@extend .sw-font;
+.preview.pane {
+  @extend .sw-font;
 
-	&:hover {
-		text-decoration: none;
-		border-bottom: 1px dotted silver;
-	}
+  .section-header {
+    a { cursor: pointer;
+      color: $gray-dk;
+
+      &:hover {
+        text-decoration: none;
+        border-bottom: 1px dotted silver;
+      }
+    }
+  }
+
+  .section-content {
+    margin-left: 10px;
+
+    li {
+      margin-bottom: 20px;
+    }
   }
 }
