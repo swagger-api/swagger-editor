@@ -112,6 +112,11 @@ li.operation {
         >td {
           padding: 0.3em;
 
+          // remove margin for schema in operation tables
+          .schema-model {
+            margin-left: 0;
+          }
+
           &.mono {
             font-family: "source code pro";
             font-weight: bold;
