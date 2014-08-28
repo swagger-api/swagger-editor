@@ -20,14 +20,7 @@ window.PhonicsApp = angular.module('PhonicsApp', [
 
 'use strict';
 
-PhonicsApp.config([
-  '$compileProvider',
-  '$stateProvider',
-  '$urlRouterProvider',
-  Router
-]);
-
-function Router($compileProvider, $stateProvider, $urlRouterProvider) {
+PhonicsApp.config(function Router($compileProvider, $stateProvider, $urlRouterProvider) {
   $urlRouterProvider.otherwise('/');
 
   $stateProvider
@@ -80,34 +73,20 @@ function Router($compileProvider, $stateProvider, $urlRouterProvider) {
       // });
 
   $compileProvider.aHrefSanitizationWhitelist('.');
-}
+});
 
 'use strict';
 
-PhonicsApp.controller('MainCtrl', ['$rootScope', 'Editor', 'defaults', MainCtrl]);
-
-function MainCtrl($rootScope, Editor, defaults) {
+PhonicsApp.controller('MainCtrl', function MainCtrl($rootScope, Editor, defaults) {
   $rootScope.$on('$stateChangeStart', Editor.initializeEditor);
 
   // TODO: find a better way to add the branding class (grunt html template)
   $('body').addClass(defaults.brandingCssClass);
-}
+});
 
 'use strict';
 
-PhonicsApp.controller('HeaderCtrl', [
-  '$scope',
-  'Editor',
-  'Storage',
-  'Splitter',
-  'Builder',
-  '$modal',
-  '$stateParams',
-  'defaults',
-  HeaderCtrl
-]);
-
-function HeaderCtrl($scope, Editor, Storage, Splitter, Builder, $modal, $stateParams, defaults) {
+PhonicsApp.controller('HeaderCtrl', function HeaderCtrl($scope, Editor, Storage, Splitter, Builder, $modal, $stateParams, defaults) {
 
   if ($stateParams.path) {
     $scope.breadcrumbs  = [{ active: true, name: $stateParams.path }];
@@ -212,7 +191,7 @@ function HeaderCtrl($scope, Editor, Storage, Splitter, Builder, $modal, $statePa
       }
     });
   }
-}
+});
 
 'use strict';
 
@@ -419,6 +398,12 @@ function stringifySchema(schema) {
 }
 
 function buildProperty(property, schema) {
+
+  // ignore vendor extensions
+  if (property.toLowerCase().indexOf('x-') === 0) {
+    return '';
+  }
+
   var result = property + ': ' +
     stringifySchema(schema.properties[property]);
   if (typeof schema.required === 'object' &&  schema.required.indexOf(property) > -1) {
@@ -692,7 +677,7 @@ function load(fileContent) {
   return null;
 }
 
-PhonicsApp.service('FileLoader', ['$http', function FileLoader($http) {
+PhonicsApp.service('FileLoader', function FileLoader($http) {
 
   // Load from URL
   this.loadFromUrl = function (url) {
@@ -703,22 +688,11 @@ PhonicsApp.service('FileLoader', ['$http', function FileLoader($http) {
 
   // Load from Local file content (string)
   this.load = load;
-}]);
+});
 
 'use strict';
 
-PhonicsApp.controller('FileImportCtrl', [
-  '$scope',
-  '$modalInstance',
-  'FileLoader',
-  '$localStorage',
-  'Storage',
-  'Editor',
-  'FoldManager',
-  FileImportCtrl
-]);
-
-function FileImportCtrl($scope, $modalInstance, FileLoader, $localStorage, Storage, Editor, FoldManager) {
+PhonicsApp.controller('FileImportCtrl', function FileImportCtrl($scope, $modalInstance, FileLoader, $localStorage, Storage, Editor, FoldManager) {
   var results;
 
   $scope.fileChanged = function ($fileContent) {
@@ -743,30 +717,29 @@ function FileImportCtrl($scope, $modalInstance, FileLoader, $localStorage, Stora
   };
 
   $scope.cancel = $modalInstance.close;
-}
+});
 
 'use strict';
 
-PhonicsApp.service('Editor', [Editor]);
-
-function Editor() {
+PhonicsApp.service('Editor', function Editor() {
   var editor = null;
   var onReadyFns = [];
   var changeFoldFns = [];
   var that = this;
 
   function annotateYAMLErrors(error) {
-
-    if (error) {
+    if (error && error.mark && error.reason) {
       editor.getSession().setAnnotations([{
-        row: error.row,
-        column: error.column,
-        text: error.message,
+        row: error.mark.line,
+        column: error.mark.column,
+        text: error.reason,
         type: 'error'
       }]);
-    } else {
-      editor.getSession().clearAnnotations();
     }
+  }
+
+  function clearAnnotation() {
+    editor.getSession().clearAnnotations();
   }
 
   function aceLoaded(e) {
@@ -859,18 +832,17 @@ function Editor() {
   this.resize = resize;
   this.ready = ready;
   this.annotateYAMLErrors = annotateYAMLErrors;
+  this.clearAnnotation = clearAnnotation;
   this.getAllFolds = getAllFolds;
   this.getLine = getLine;
   this.onFoldChanged = onFoldChanged;
   this.addFold = addFold;
   this.removeFold = removeFold;
-}
+});
 
 'use strict';
 
-PhonicsApp.service('Builder', ['Resolver', 'Validator', Builder]);
-
-function Builder(Resolver, Validator) {
+PhonicsApp.service('Builder', function Builder(Resolver, Validator) {
   var load = _.memoize(jsyaml.load);
 
   function buildDocs(stringValue, options) {
@@ -964,16 +936,14 @@ function Builder(Resolver, Validator) {
   this.buildDocsWithObject = buildDocsWithObject;
   this.updatePath = updatePath;
   this.getPath = getPath;
-}
+});
 
 'use strict';
 
 /*
   Keeps track of current document validation
 */
-PhonicsApp.service('Validator', ['defaultSchema', Validator]);
-
-function Validator(defaultSchema) {
+PhonicsApp.service('Validator', function Validator(defaultSchema) {
   var buffer = Object.create(null);
 
   this.setStatus = function (status, isValid) {
@@ -1023,17 +993,14 @@ function Validator(defaultSchema) {
 
     return tv4.error;
   };
-
-}
+});
 
 'use strict';
 
 /*
   Manage fold status of the paths and operations
 */
-PhonicsApp.service('FoldManager', ['Editor', 'FoldPointFinder', FoldManager]);
-
-function FoldManager(Editor, FoldPointFinder) {
+PhonicsApp.service('FoldManager', function FoldManager(Editor, FoldPointFinder) {
   var buffer = Object.create(null);
   var changeListeners = [];
 
@@ -1050,9 +1017,12 @@ function FoldManager(Editor, FoldPointFinder) {
   /*
   ** Flush buffer and put new value in the buffer
   */
-  function renewBuffer() {
-    buffer = FoldPointFinder.findFolds(Editor.getValue());
-    emitChanges();
+  function renewBuffer(value) {
+    value = value || Editor.getValue();
+    if (angular.isString(value)) {
+      buffer = FoldPointFinder.findFolds(value);
+      emitChanges();
+    }
   }
 
   /*
@@ -1067,8 +1037,8 @@ function FoldManager(Editor, FoldPointFinder) {
   /*
   ** Walk the buffer tree for a given path
   */
-  function walk(keys) {
-    var current = buffer;
+  function walk(keys, current) {
+    current = buffer;
 
     if (!Array.isArray(keys) || !keys.length) {
       throw new Error('Need path for fold in fold buffer');
@@ -1108,6 +1078,49 @@ function FoldManager(Editor, FoldPointFinder) {
     }
 
     return result;
+  }
+
+  /*
+  ** Scan the specs tree and extend objects with order value
+  ** We use 'x-row' as an order indication so rendered will ignore it
+  ** because it's a vendor extension
+  */
+  function extendSpecs(specs, path) {
+    var fold = null;
+    var key;
+
+    if (!path) {
+      path = [];
+    } else {
+      path = _.clone(path);
+    }
+
+    // Only apply order value to objects
+    if (angular.isObject(specs)) {
+
+      // For each object in this object
+      for (key in specs) {
+
+        // Ignore prototype keys
+        if (specs.hasOwnProperty(key)) {
+
+          // add key to path and try looking up the tree with this path
+          // for the fold corresponding the same object
+          fold = walk(path.concat(key));
+
+          // If fold exists append it to the object and push the key to path
+          if (fold) {
+            specs[key]['x-row'] = fold.start;
+          }
+
+          // Recessively do this until the end of the tree
+          specs[key] = extendSpecs(specs[key], path.concat(key));
+        }
+      }
+    }
+
+    // Return modified object
+    return specs;
   }
 
   /*
@@ -1164,13 +1177,12 @@ function FoldManager(Editor, FoldPointFinder) {
   // Expose the methods externally
   this.reset = renewBuffer;
   this.refresh = refreshBuffer;
-}
+  this.extendSpecs = extendSpecs;
+});
 
 'use strict';
 
-PhonicsApp.service('FoldPointFinder', [FoldPointFinder]);
-
-function FoldPointFinder() {
+PhonicsApp.service('FoldPointFinder', function FoldPointFinder() {
   var TAB_SIZE = 2;
   var tab = '  ';
 
@@ -1278,7 +1290,7 @@ function FoldPointFinder() {
   function indent(l) {
     return l.substring(TAB_SIZE);
   }
-}
+});
 
 'use strict';
 
@@ -1334,9 +1346,7 @@ PhonicsApp.service('Resolver', function Resolver() {
 
 'use strict';
 
-PhonicsApp.controller('EditorCtrl', ['$scope', '$stateParams', 'Editor', 'Builder', 'Storage', 'FoldManager', EditorCtrl]);
-
-function EditorCtrl($scope, $stateParams, Editor, Builder, Storage, FoldManager) {
+PhonicsApp.controller('EditorCtrl', function EditorCtrl($scope, $stateParams, Editor, Builder, Storage, FoldManager) {
   $scope.aceLoaded = Editor.aceLoaded;
   $scope.aceChanged = function () {
     Storage.load('specs').then(function (specs) {
@@ -1353,6 +1363,12 @@ function EditorCtrl($scope, $stateParams, Editor, Builder, Storage, FoldManager)
       Storage.save('specs', result.specs);
       Storage.save('error', result.error);
 
+      if (result.error && result.error.yamlError) {
+        Editor.annotateYAMLErrors(result.error.yamlError);
+      } else {
+        Editor.clearAnnotation();
+      }
+
       FoldManager.refresh();
     });
   };
@@ -1365,32 +1381,26 @@ function EditorCtrl($scope, $stateParams, Editor, Builder, Storage, FoldManager)
         Editor.setValue(yaml);
       }
 
+      FoldManager.reset(yaml);
       Storage.save('yaml', yaml);
-      FoldManager.reset();
     });
   });
 
   $(document).on('pane-resize', Editor.resize.bind(Editor));
-}
+});
 
 'use strict';
 
-PhonicsApp.controller('PreviewCtrl', [
-  'Storage',
-  'Builder',
-  'FoldManager',
-  '$scope',
-  '$stateParams',
-  PreviewCtrl
-]);
-
-function PreviewCtrl(Storage, Builder, FoldManager, $scope, $stateParams) {
+PhonicsApp.controller('PreviewCtrl', function PreviewCtrl(Storage, Builder, FoldManager, $scope, $stateParams) {
   function updateSpecs(latest) {
+    var specs = null;
+
     if ($stateParams.path) {
       $scope.specs = { paths: Builder.getPath(latest, $stateParams.path) };
       $scope.isSinglePath = true;
     } else {
-      $scope.specs = Builder.buildDocs(latest, { resolve: true }).specs;
+      specs = Builder.buildDocs(latest, { resolve: true }).specs;
+      $scope.specs = FoldManager.extendSpecs(specs);
     }
   }
   function updateError(latest) {
@@ -1437,26 +1447,24 @@ function PreviewCtrl(Storage, Builder, FoldManager, $scope, $stateParams) {
     return key.substring(0, 2).toLowerCase() === 'x-';
   };
 
-}
+});
 
 'use strict';
-
-PhonicsApp.service('Storage', ['LocalStorage', 'Backend', 'defaults', Storage]);
 
 /*
  * Determines if LocalStorage should be used for storage or a Backend
 */
-function Storage(LocalStorage, Backend, defaults) {
+PhonicsApp.service('Storage', function Storage(LocalStorage, Backend, defaults) {
   if (defaults.useBackendForStorage) {
     return Backend;
   }
 
   return LocalStorage;
-}
+});
 
 'use strict';
 
-PhonicsApp.service('LocalStorage', ['$localStorage', '$q', function LocalStorage($localStorage, $q) {
+PhonicsApp.service('LocalStorage', function LocalStorage($localStorage, $q) {
   var storageKey = 'SwaggerEditorCache';
   var changeListeners =  Object.create(null);
 
@@ -1503,7 +1511,7 @@ PhonicsApp.service('LocalStorage', ['$localStorage', '$q', function LocalStorage
       changeListeners[key].push(fn);
     }
   };
-}]);
+});
 
 PhonicsApp.config( ['$provide', function ($provide) {
   $provide.constant('defaultSchema',
@@ -2050,18 +2058,7 @@ PhonicsApp.directive('collapseWhen', function () {
 
 'use strict';
 
-PhonicsApp.controller('UrlImportCtrl', [
-  '$scope',
-  '$modalInstance',
-  'FileLoader',
-  '$localStorage',
-  'Storage',
-  'Editor',
-  'FoldManager',
-  FileImportCtrl
-]);
-
-function FileImportCtrl($scope, $modalInstance, FileLoader, $localStorage, Storage, Editor, FoldManager) {
+PhonicsApp.controller('UrlImportCtrl', function FileImportCtrl($scope, $modalInstance, FileLoader, $localStorage, Storage, Editor, FoldManager) {
   var results;
 
   $scope.url = null;
@@ -2088,11 +2085,11 @@ function FileImportCtrl($scope, $modalInstance, FileLoader, $localStorage, Stora
   };
 
   $scope.cancel = $modalInstance.close;
-}
+});
 
 'use strict';
 
-PhonicsApp.controller('ErrorPresenterCtrl', ['$scope', function ($scope) {
+PhonicsApp.controller('ErrorPresenterCtrl', function ($scope) {
 
   $scope.getError = function () {
     var error = $scope.$parent.error;
@@ -2153,23 +2150,11 @@ PhonicsApp.controller('ErrorPresenterCtrl', ['$scope', function ($scope) {
 
     return error;
   };
-}]);
+});
 
 'use strict';
 
-PhonicsApp.controller('OpenExamplesCtrl', [
-  'FileLoader',
-  'Builder',
-  'Storage',
-  'Editor',
-  'FoldManager',
-  'defaults',
-  '$scope',
-  '$modalInstance',
-  OpenExamplesCtrl
-]);
-
-function OpenExamplesCtrl(FileLoader, Builder, Storage, Editor, FoldManager, defaults, $scope, $modalInstance) {
+PhonicsApp.controller('OpenExamplesCtrl', function OpenExamplesCtrl(FileLoader, Builder, Storage, Editor, FoldManager, defaults, $scope, $modalInstance) {
 
   $scope.files = defaults.exampleFiles;
   $scope.selectedFile = defaults.exampleFiles[0];
@@ -2186,13 +2171,11 @@ function OpenExamplesCtrl(FileLoader, Builder, Storage, Editor, FoldManager, def
   };
 
   $scope.cancel = $modalInstance.close;
-}
+});
 
 'use strict';
 
-PhonicsApp.service('Backend', ['$http', '$q', 'defaults', Backend]);
-
-function Backend($http, $q, defaults) {
+PhonicsApp.service('Backend', function Backend($http, $q, defaults) {
   var changeListeners =  Object.create(null);
   var buffer = Object.create(null);
   var commit = _.throttle(commitNow, 200, {leading: false, trailing: true});
@@ -2253,8 +2236,6 @@ function Backend($http, $q, defaults) {
       changeListeners[key].push(fn);
     }
   };
-}
 
-function noop() {
-
-}
+  function noop() {}
+});
