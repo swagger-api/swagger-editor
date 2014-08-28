@@ -1,0 +1,2260 @@
+// Use single curly brace for templates (used in spec)
+_.templateSettings = {
+  interpolate: /\{(.+?)\}/g
+};
+
+'use strict';
+
+window.PhonicsApp = angular.module('PhonicsApp', [
+  'ngCookies',
+  'ngResource',
+  'ngSanitize',
+  'ui.router',
+  'ui.ace',
+  'ui.bootstrap',
+  'ngStorage',
+  'ngSanitize',
+  'jsonFormatter',
+  'hc.marked'
+]);
+
+'use strict';
+
+PhonicsApp.config([
+  '$compileProvider',
+  '$stateProvider',
+  '$urlRouterProvider',
+  Router
+]);
+
+function Router($compileProvider, $stateProvider, $urlRouterProvider) {
+  $urlRouterProvider.otherwise('/');
+
+  $stateProvider
+  .state('home', {
+    url: '',
+    views: {
+      '': {
+        templateUrl: 'views/main.html',
+        controller: 'MainCtrl'
+      },
+      'header@home': {
+        templateUrl: 'views/header/header.html',
+        controller: 'HeaderCtrl'
+      },
+      'editor@home': {
+        templateUrl: 'views/editor/editor.html',
+        controller: 'EditorCtrl'
+      },
+      'preview@home': {
+        templateUrl: 'views/preview/preview.html',
+        controller: 'PreviewCtrl'
+      }
+    }
+  })
+    .state('home.path', {
+      url: '/paths?path',
+      views: {
+        header: {
+          templateUrl: 'views/header/header.html',
+          controller: 'HeaderCtrl'
+        },
+        editor: {
+          templateUrl: 'views/editor/editor.html',
+          controller: 'EditorCtrl'
+        },
+        preview: {
+          templateUrl: 'views/preview/preview.html',
+          controller: 'PreviewCtrl'
+        }
+      }
+    });
+      // .state('home.path.operation', {
+      //   url: ':operationId',
+      //   views: {
+      //     'preview@home.path.operation': {
+      //       controller: 'PreviewCtrl',
+      //       templateUrl: 'views/preview/preview.html'
+      //     }
+      //   }
+      // });
+
+  $compileProvider.aHrefSanitizationWhitelist('.');
+}
+
+'use strict';
+
+PhonicsApp.controller('MainCtrl', ['$rootScope', 'Editor', 'defaults', MainCtrl]);
+
+function MainCtrl($rootScope, Editor, defaults) {
+  $rootScope.$on('$stateChangeStart', Editor.initializeEditor);
+
+  // TODO: find a better way to add the branding class (grunt html template)
+  $('body').addClass(defaults.brandingCssClass);
+}
+
+'use strict';
+
+PhonicsApp.controller('HeaderCtrl', [
+  '$scope',
+  'Editor',
+  'Storage',
+  'Splitter',
+  'Builder',
+  '$modal',
+  '$stateParams',
+  'defaults',
+  HeaderCtrl
+]);
+
+function HeaderCtrl($scope, Editor, Storage, Splitter, Builder, $modal, $stateParams, defaults) {
+
+  if ($stateParams.path) {
+    $scope.breadcrumbs  = [{ active: true, name: $stateParams.path }];
+  } else {
+    $scope.breadcrumbs  = [];
+  }
+
+  $scope.showFileMenu = function () {
+    return !defaults.disableFileMenu;
+  };
+
+  $scope.showHeaderBranding = function () {
+    return defaults.headerBranding;
+  };
+
+  $scope.newProject = function () {
+    Editor.setValue('');
+    Storage.reset();
+  };
+
+  $scope.assignDownloadHrefs = function () {
+    assignDownloadHrefs($scope, Storage);
+  };
+
+  $scope.generateZip = function (type, kind) {
+    var urlTemplate = _.template(defaults.apiGenUrl);
+    var url = urlTemplate({type: type, kind: kind});
+    var specs = jsyaml.load(Editor.getValue());
+
+    getZipFile(url, specs);
+  };
+
+  $scope.togglePane = function (side) {
+    Splitter.toggle(side);
+  };
+
+  $scope.isPaneVisible = function (side) {
+    return Splitter.isVisible(side);
+  };
+
+  $scope.openImportFile = function () {
+    $modal.open({
+      templateUrl: 'templates/file-import.html',
+      controller: 'FileImportCtrl',
+      size: 'large'
+    });
+  };
+
+  $scope.openImportUrl = function () {
+    $modal.open({
+      templateUrl: 'templates/url-import.html',
+      controller: 'UrlImportCtrl',
+      size: 'large'
+    });
+  };
+
+  $scope.openAboutEditor = function () {
+    $modal.open({
+      templateUrl: 'templates/editor-about.html',
+      // TODO: Replace with general controller for popups
+      controller: 'UrlImportCtrl',
+      size: 'large'
+    });
+  };
+
+  $scope.openExamples = function () {
+    $modal.open({
+      templateUrl: 'templates/open-examples.html',
+      controller: 'OpenExamplesCtrl',
+      size: 'large'
+    });
+  };
+
+  function assignDownloadHrefs($scope, Storage) {
+    var MIME_TYPE = 'text/plain';
+
+    Storage.load('specs').then(function (specs) {
+      // JSON
+      var json = angular.toJson(specs, true);
+      var jsonBlob = new Blob([json], {type: MIME_TYPE});
+      $scope.jsonDownloadHref = window.URL.createObjectURL(jsonBlob);
+      $scope.jsonDownloadUrl = [MIME_TYPE, 'spec.json', $scope.jsonDownloadHref].join(':');
+
+      // YAML
+      var yamlBlob = new Blob([jsyaml.dump(specs)], {type: MIME_TYPE});
+      $scope.yamlDownloadHref = window.URL.createObjectURL(yamlBlob);
+      $scope.yamlDownloadUrl = [MIME_TYPE, 'spec.yaml', $scope.yamlDownloadHref].join(':');
+    });
+
+  }
+
+  function getZipFile(url, json) {
+    $.ajax({
+      type: 'POST',
+      contentType: 'application/json',
+      url: url,
+      data: angular.toJson(json),
+      processData: false
+    }).then(function (data) {
+      if (data instanceof Object && data.code) {
+        window.location = defaults.downloadZipUrl + data.code;
+      }
+    });
+  }
+}
+
+'use strict';
+
+PhonicsApp.directive('splitterBar', ['Splitter', function (splitter) {
+  var ANIMATION_DURATION = 400;
+
+  function registerVerticalPanes($element) {
+    splitter.registerSide('left', $element.offsetLeft);
+    splitter.registerSide('right', window.innerWidth - $element.offsetLeft - 4);
+  }
+
+  return {
+    template: '',
+    replace: false,
+    restrict: 'E',
+    link: function ($scope, $element, $attributes) {
+      var $document = $(document);
+      var $parent = $element.parent();
+      if (!('horizontal' in $attributes)) {
+        registerVerticalPanes($element.get(0));
+      }
+
+      splitter.addHideListener('left', function () {
+        $('#' + $attributes.leftPane).animate({width: 0}, ANIMATION_DURATION);
+        $('#' + $attributes.rightPane).animate({width: window.innerWidth}, ANIMATION_DURATION, function () {
+          $document.trigger('pane-resize');
+        });
+        $element.hide();
+      });
+
+      splitter.addShowListener('left', function (width) {
+        $('#' + $attributes.leftPane).animate({width: width}, ANIMATION_DURATION);
+        $('#' + $attributes.rightPane).animate({width: window.innerWidth - width - 4}, ANIMATION_DURATION, function () {
+          $('#' + $attributes.rightPane).css('overflow', 'auto');
+          $element.show();
+          $document.trigger('pane-resize');
+        });
+      });
+
+      splitter.addHideListener('right', function () {
+        $('#' + $attributes.rightPane).animate({width: 0}, ANIMATION_DURATION);
+        $('#' + $attributes.leftPane).animate({width: window.innerWidth}, ANIMATION_DURATION, function () {
+          $document.trigger('pane-resize');
+        });
+        $element.hide();
+      });
+
+      splitter.addShowListener('right', function (width) {
+        $('#' + $attributes.rightPane).animate({width: width}, ANIMATION_DURATION);
+        $('#' + $attributes.leftPane).animate({width: window.innerWidth - width}, ANIMATION_DURATION, function () {
+          $('#' + $attributes.rightPane).css('overflow', 'auto');
+          $element.show();
+          $document.trigger('pane-resize');
+        });
+      });
+
+      function resize(mouseMoveEvent) {
+        var x = mouseMoveEvent.pageX - $parent.offset().left;
+        var y = mouseMoveEvent.pageY - $parent.offset().top;
+        x = x || window.innerWidth / 2;
+        y = y || window.innerHeight / 2;
+        var MIN_SIZE = 100;
+        if ('horizontal' in $attributes) {
+          if (y < MIN_SIZE || y > $parent.height() - MIN_SIZE) {
+            return;
+          }
+          $document.trigger('pane-resize');
+          $element.css('top', y);
+          $('#' + $attributes.topPane).css('height', y + $element.height());
+          $('#' + $attributes.bottomPane).css('height',
+            $parent.height() - y);
+        } else {
+          if (x < MIN_SIZE || x > $parent.width() - MIN_SIZE) {
+            return;
+          }
+          $document.trigger('pane-resize');
+          $element.css('left', x);
+          $('#' + $attributes.leftPane).css('width', x);
+          $('#' + $attributes.rightPane).css('width',
+            $parent.width() - x - $element.width());
+          registerVerticalPanes($element.get(0));
+        }
+      }
+      $element.on('mousedown', function (mousedownEvent) {
+        mousedownEvent.preventDefault();
+        $document.on('mousemove', resize);
+        $document.on('mouseup', function () {
+          $document.off('mousemove', resize);
+        });
+      });
+      $(window).on('resize', _.throttle(resize, 300));
+    }
+  };
+}]);
+
+'use strict';
+
+PhonicsApp.directive('onReadFile', ['$parse', function ($parse) {
+  return {
+    restrict: 'A',
+    scope: false,
+    link: function (scope, element, attrs) {
+      var fn = $parse(attrs.onReadFile);
+
+      element.on('change', function (onChangeEvent) {
+        var reader = new FileReader();
+
+        reader.onload = function (onLoadEvent) {
+          scope.$apply(function () {
+            fn(scope, {$fileContent: onLoadEvent.target.result});
+          });
+        };
+
+        reader.readAsText((onChangeEvent.srcElement || onChangeEvent.target).files[0]);
+      });
+    }
+  };
+}]);
+
+'use strict';
+
+PhonicsApp.directive('path', function () {
+  return {
+    restrict: 'E',
+    replace: true,
+    templateUrl: 'templates/path.html',
+    scope: false
+  };
+});
+
+'use strict';
+
+PhonicsApp.directive('operation', [function () {
+  return {
+    restrict: 'E',
+    replace: true,
+    templateUrl: 'templates/operation.html',
+    scope: false
+  };
+}]);
+
+'use strict';
+
+PhonicsApp.directive('dropdownMenu', function () {
+  return {
+    templateUrl: 'templates/dropdown-menu.html',
+    restrict: 'E',
+    transclude: true,
+    scope: {
+      label: '@',
+      onOpen: '='
+    }
+  };
+});
+
+'use strict';
+
+function stringifySchema(schema) {
+  if (!schema) {
+    return '';
+  }
+
+  var str = '';
+
+  if (schema.type) {
+
+    // If it's an array, wrap it around []
+    if (schema.type === 'array') {
+      str = '[' + stringifySchema(schema.items) + ']';
+
+    // Otherwise use schema type solely
+    } else if (schema.type) {
+      str = '"' + schema.type + '"';
+    }
+  }
+
+  // If there is a format for this schema add append it
+  if (schema.format) {
+    str += '(' + schema.format + ')';
+
+  // If this schema has properties and no format, build upon properties
+  } else if (typeof schema.properties === 'object') {
+    var propsStr = '';
+    for (var property in schema.properties) {
+      propsStr += '  ' + buildProperty(property, schema) + '\n';
+    }
+    str += propsStr;
+
+  // If it's a custom model (object wrapping an schema with a single key)
+  // unwrap it and pre-pend the key
+  } else if (typeof schema === 'object' && Object.keys(schema).length === 1) {
+    var key = Object.keys(schema)[0];
+
+    // If this single keyed object just is 'type' it's not
+    // custom model.
+    if (key !== 'type') {
+      str += key + ': {\n' +
+        stringifySchema(schema[key]) +
+        '}';
+    }
+  }
+
+  return str;
+}
+
+function buildProperty(property, schema) {
+  var result = property + ': ' +
+    stringifySchema(schema.properties[property]);
+  if (typeof schema.required === 'object' &&  schema.required.indexOf(property) > -1) {
+    result += ' <required>';
+  }
+  return result;
+}
+
+PhonicsApp
+  .directive('schemaModel', function () {
+    return {
+      templateUrl: 'templates/schema-model.html',
+      restrict: 'E',
+      replace: true,
+      scope: {
+        schema: '='
+      },
+      link: function postLink(scope) {
+        scope.mode = 'model';
+
+        scope.getJson = function () {
+          return scope.schema;
+        };
+
+        scope.getString = function () {
+          return stringifySchema(scope.schema);
+        };
+      }
+    };
+  });
+
+'use strict';
+
+PhonicsApp.filter('markdown', ['marked', function (marked) {
+  return function markdownFilter(input) {
+    var output = null;
+    if (input.indexOf('\n') > -1) {
+      output = marked(input);
+    } else {
+      output = input;
+    }
+    return output;
+  };
+}]);
+
+'use strict';
+
+PhonicsApp.filter('getResourceName', function () {
+  return function getResourceNameFilter(resource) {
+    return resource.resourcePath.replace(/\//g, '');
+  };
+});
+
+'use strict';
+
+(function (i,s,o,g,r,a,m) {i['GoogleAnalyticsObject']=r;i[r]=i[r]||function () {
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+// Load the plugin.
+ga('require', 'linker');
+
+// Define which domains to autoLink.
+ga('linker:autoLink', [
+  'wordnik.github.io',
+  'apigee.github.io',
+  'swagger.wordnik.com',
+  'editor.swagger.wordnik.com'
+  ]);
+
+ga(
+  'create',
+  'UA-51231036-1',
+  'auto', {
+    'allowLinker': true
+  }
+  );
+
+ga('send', 'pageview');
+
+'use strict';
+
+PhonicsApp.directive('tryOperation', function () {
+  return {
+    templateUrl: 'templates/try-operation.html',
+    restrict: 'E',
+    replace: true,
+    scope: {
+      operation: '='
+    },
+    link: function postLink(scope) {
+      // FIXME: fix this insanity!
+      var specs = scope.$parent.$parent.$parent.$parent.specs;
+
+      scope.httpProtorcol = 'HTTP/1.1';
+      scope.paramModels = {};
+      scope.hasParams = Array.isArray(scope.$parent.operation.parameters);
+      scope.hasBody = scope.hasParams && scope.$parent.operation.parameters.some(function (parameter) {
+        return parameter.in === 'body';
+      });
+      scope.generateUrl = generateUrl;
+      scope.makeCall = makeCall;
+      scope.getContentTypeHeaders = getContentTypeHeaders;
+      scope.xhrInProgress = false;
+      scope.getHeaderParams = getHeaderParams;
+
+      function getHeaderParams() {
+        var headerParams = {};
+        if (scope.hasParams) {
+          scope.$parent.operation.parameters.filter(function (parameter) {
+            if (parameter.in === 'header' && scope.paramModels[parameter.name]) {
+              headerParams[parameter.name] = scope.paramModels[parameter.name];
+            }
+          });
+        }
+        return headerParams;
+      }
+
+      function getContentTypeHeaders() {
+        if (scope.$parent.operation.consumes) {
+          return scope.$parent.operation.consumes;
+        } else {
+          return specs.consumes;
+        }
+      }
+
+      function generateUrl() {
+        var protocol = window.location.protocol;
+        var host = specs.host || window.location.host;
+        var basePath = specs.basePath || '';
+        var path = scope.$parent.$parent.pathName;
+        var pathTemplate = _.template(path);
+        var params = scope.hasParams ? scope.$parent.operation.parameters : [];
+        var pathParams = params.reduce(function (pathParams, parameter) {
+          if (parameter.in === 'path') {
+            pathParams[parameter.name] = scope.paramModels[parameter.name];
+          }
+          return pathParams;
+        }, {});
+        var queryParams =  params.reduce(function (queryParams, parameter) {
+          if (parameter.in === 'query' && scope.paramModels[parameter.name]) {
+            queryParams[parameter.name] = scope.paramModels[parameter.name];
+          }
+          return queryParams;
+        }, {});
+        var queryParamsStr = $.param(queryParams);
+
+        return protocol + '//' + host + basePath + pathTemplate(pathParams) +
+          (queryParamsStr ? '?' + queryParamsStr : '');
+      }
+
+      function makeCall() {
+        scope.response = null;
+        scope.xhrInProgress = true;
+        scope.failed = false;
+
+        $.ajax({
+          url: scope.generateUrl(),
+          type: scope.$parent.operationName,
+          headers: _.extend({
+            'Content-Type': scope.contentType
+          }, getHeaderParams())
+        })
+
+        .fail(function () {
+          scope.failed = true;
+        })
+
+        .always(function (resp) {
+          if (!resp) {
+            scope.responseText = '';
+            scope.xhrInProgress = false;
+            scope.$digest();
+            return;
+          }
+
+          var text;
+          try {
+            text = JSON.stringify(
+              JSON.parse(resp.responseText),
+            null, 2);
+          } catch (e) {
+            text = resp.responseText;
+          }
+          if (angular.isString(text) && text.indexOf('<?xml') === 0) {
+            scope.responseText = $('<div/>').text(text).html();
+          } else {
+            scope.responseText = text;
+          }
+
+          scope.response = resp;
+          scope.xhrInProgress = false;
+          scope.$digest();
+        });
+      }
+    }
+  };
+});
+
+'use strict';
+
+PhonicsApp.service('Splitter', function Splitter() {
+  var sides = {
+    left: { width: null, visible: false, hideListeners: [], showListeners: []},
+    right: { width: null, visible: false, hideListeners: [], showListeners: []}
+  };
+  var that = this;
+
+  this.toggle = function (side) {
+    sides[side].visible = !sides[side].visible;
+    if (!sides[side].visible) {
+      that.hidePane(side);
+    } else {
+      that.showPane(side);
+    }
+  };
+
+  this.registerSide = function (side, width, invisible) {
+    sides[side].width = width;
+    sides[side].visible = !invisible;
+  };
+
+  this.addHideListener = function (side, fn) {
+    sides[side].hideListeners.push(fn);
+  };
+
+  this.addShowListener = function (side, fn) {
+    sides[side].showListeners.push(fn);
+  };
+
+  this.hidePane = function (side) {
+    sides[side].hideListeners.forEach(function (listener) {
+      listener();
+    });
+  };
+
+  this.showPane = function (side) {
+    sides[side].showListeners.forEach(function (listener) {
+      listener(sides[side].width);
+    });
+  };
+
+  this.isVisible = function (side) {
+    return sides[side] && sides[side].visible;
+  };
+});
+
+'use strict';
+
+function load(fileContent) {
+
+  // Figure out file type
+  var json = null;
+  var yaml = null;
+  try {
+    json = JSON.parse(fileContent);
+  } catch (jsonError) {}
+  if (!json) {
+    try {
+      yaml = jsyaml.load(fileContent);
+    } catch (yamlError) {}
+  }
+
+  if (json) {
+    return json;
+  }
+  if (typeof yaml === 'object') {
+    return yaml;
+  }
+  return null;
+}
+
+PhonicsApp.service('FileLoader', ['$http', function FileLoader($http) {
+
+  // Load from URL
+  this.loadFromUrl = function (url) {
+    return $http.get(url).then(function (resp) {
+      return load(resp.data);
+    });
+  };
+
+  // Load from Local file content (string)
+  this.load = load;
+}]);
+
+'use strict';
+
+PhonicsApp.controller('FileImportCtrl', [
+  '$scope',
+  '$modalInstance',
+  'FileLoader',
+  '$localStorage',
+  'Storage',
+  'Editor',
+  'FoldManager',
+  FileImportCtrl
+]);
+
+function FileImportCtrl($scope, $modalInstance, FileLoader, $localStorage, Storage, Editor, FoldManager) {
+  var results;
+
+  $scope.fileChanged = function ($fileContent) {
+    results = FileLoader.load($fileContent);
+  };
+
+  $scope.ok = function () {
+    if (typeof results === 'object') {
+      Editor.setValue(results);
+      Storage.save('specs', results);
+      FoldManager.reset();
+    }
+    $modalInstance.close();
+  };
+
+  $scope.isInvalidFile = function () {
+    return results === null;
+  };
+
+  $scope.isFileSelected = function () {
+    return !!results;
+  };
+
+  $scope.cancel = $modalInstance.close;
+}
+
+'use strict';
+
+PhonicsApp.service('Editor', [Editor]);
+
+function Editor() {
+  var editor = null;
+  var onReadyFns = [];
+  var changeFoldFns = [];
+  var that = this;
+
+  function annotateYAMLErrors(error) {
+
+    if (error) {
+      editor.getSession().setAnnotations([{
+        row: error.row,
+        column: error.column,
+        text: error.message,
+        type: 'error'
+      }]);
+    } else {
+      editor.getSession().clearAnnotations();
+    }
+  }
+
+  function aceLoaded(e) {
+
+    // Assign class variable `editor`
+    window.e = editor = e;
+
+    // Editor is ready, fire the on-ready function and flush the queue
+    onReadyFns.forEach(function (fn) {
+      fn(that);
+    });
+    onReadyFns = [];
+
+    var session = editor.getSession();
+
+    // Hookup changeFold listeners
+    session.on('changeFold', onChangeFold);
+
+    configureSession(session);
+  }
+
+  function onChangeFold() {
+    var args = arguments;
+    changeFoldFns.forEach(function (fn) {
+      fn.apply(editor, args);
+    });
+  }
+
+  function configureSession(session) {
+    session.setTabSize(2);
+  }
+
+  function setValue(value) {
+    if (typeof value === 'string') {
+      editor.getSession().setValue(value);
+    }
+
+    // If it's an object, convert it YAML
+    if (typeof value === 'object') {
+      setValue(jsyaml.dump(angular.copy(value)));
+    }
+  }
+
+  function getValue() {
+    return editor.getSession().getValue();
+  }
+
+  function resize() {
+    editor.resize();
+  }
+
+  function ready(fn) {
+    if (typeof fn === 'function') {
+      onReadyFns.push(fn);
+    }
+  }
+
+  function getAllFolds() {
+    var session = editor.getSession();
+    var folds = null;
+
+    session.foldAll();
+    folds = session.unfold();
+
+    return Array.isArray(folds) ? folds : [];
+  }
+
+  function getLine(l) {
+    return editor.session.getLine(l);
+  }
+
+  function onFoldChanged(fn) {
+    changeFoldFns.push(fn);
+  }
+
+  function addFold(start, end) {
+    editor.getSession().foldAll(start, end);
+  }
+
+  function removeFold(start) {
+    // TODO: Depth of unfolding is hard-coded to 100 but we need
+    // to have depth as a parameter and/or having smarter way of
+    // handling subfolds
+    editor.getSession().unfold(start, 100);
+  }
+
+  this.getValue = getValue;
+  this.setValue = setValue;
+  this.aceLoaded = aceLoaded;
+  this.resize = resize;
+  this.ready = ready;
+  this.annotateYAMLErrors = annotateYAMLErrors;
+  this.getAllFolds = getAllFolds;
+  this.getLine = getLine;
+  this.onFoldChanged = onFoldChanged;
+  this.addFold = addFold;
+  this.removeFold = removeFold;
+}
+
+'use strict';
+
+PhonicsApp.service('Builder', ['Resolver', 'Validator', Builder]);
+
+function Builder(Resolver, Validator) {
+  var load = _.memoize(jsyaml.load);
+
+  function buildDocs(stringValue, options) {
+
+    var json;
+
+    if (!stringValue) {
+      return {
+        specs: null,
+        error: {emptyDocsError: { message: 'Empty Document'}}
+      };
+    }
+
+    try {
+      json = load(stringValue);
+    } catch (e) {
+      return {
+        error: { yamlError: e },
+        specs: null
+      };
+    }
+    return buildDocsWithObject(json, options);
+  }
+
+  function buildDocsWithObject(json, options) {
+    options = options || {};
+
+    if (!json) {
+      return {
+        specs: null,
+        error: {emptyDocsError: { message: 'Empty Document'}}
+      };
+    }
+
+    // Validate if specs are resolvable
+    try {
+      Resolver.resolve(json);
+    } catch (e) {
+      return {
+        error: { resolveError: e },
+        specs: null
+      };
+    }
+
+    if (options.resolve) {
+      json = Resolver.resolve(json);
+    }
+    var result = { specs: json };
+    var error = Validator.validateSwagger(json);
+
+    if (error && error.swaggerError) {
+      result.error = error;
+    }
+
+    return result;
+  }
+
+  /*
+   * Gets a path JSON object and Specs, finds the path in the
+   * specs JSON and updates it
+  */
+  function updatePath(path, pathName, specs) {
+    var json;
+    var error = null;
+
+    try {
+      json = load(path);
+    } catch (e) {
+      error = { yamlError: e };
+    }
+
+    if (!error) {
+      specs.paths[pathName] = json[pathName];
+    }
+
+    return {
+      specs: specs,
+      error: error
+    };
+  }
+
+  /*
+   * Returns one path that matches pathName
+   * Returns error object if there is schema incomparability issues
+  */
+  function getPath(specs, path) {
+    return _.pick(specs.paths, path);
+  }
+
+  this.buildDocs = buildDocs;
+  this.buildDocsWithObject = buildDocsWithObject;
+  this.updatePath = updatePath;
+  this.getPath = getPath;
+}
+
+'use strict';
+
+/*
+  Keeps track of current document validation
+*/
+PhonicsApp.service('Validator', ['defaultSchema', Validator]);
+
+function Validator(defaultSchema) {
+  var buffer = Object.create(null);
+
+  this.setStatus = function (status, isValid) {
+    buffer[status] = !!isValid;
+  };
+
+  this.isValid = function () {
+    for (var key in buffer) {
+      if (!buffer[key]) {
+        return {valid: false, reason: key};
+      }
+    }
+    return {valid: true};
+  };
+
+  this.reset = function () {
+    buffer = Object.create(null);
+  };
+
+  this.validateYamlString = function validateYamlString(string) {
+    try {
+      jsyaml.load(string);
+    } catch (yamlLoadError) {
+      var errorMessage = yamlLoadError.message.replace('JS-YAML: ', '');
+      return {
+        yamlError: {
+          message: errorMessage,
+          row: yamlLoadError.mark.line,
+          column: yamlLoadError.mark.column
+        }
+      };
+    }
+    return null;
+  };
+
+  this.validateSwagger = function validateSwagger(json, schema) {
+    schema = schema || defaultSchema;
+    var isValid = tv4.validate(json, schema);
+
+    if (isValid) {
+      return null;
+    } else {
+      return {
+        swaggerError: tv4.error
+      };
+    }
+
+    return tv4.error;
+  };
+
+}
+
+'use strict';
+
+/*
+  Manage fold status of the paths and operations
+*/
+PhonicsApp.service('FoldManager', ['Editor', 'FoldPointFinder', FoldManager]);
+
+function FoldManager(Editor, FoldPointFinder) {
+  var buffer = Object.create(null);
+  var changeListeners = [];
+
+  Editor.ready(renewBuffer);
+
+  /*
+  ** Update buffer with changes from editor
+  */
+  function refreshBuffer() {
+    _.defaults(FoldPointFinder.findFolds(Editor.getValue()), buffer);
+    emitChanges();
+  }
+
+  /*
+  ** Flush buffer and put new value in the buffer
+  */
+  function renewBuffer() {
+    buffer = FoldPointFinder.findFolds(Editor.getValue());
+    emitChanges();
+  }
+
+  /*
+  ** Let event listeners know there was a change in fold status
+  */
+  function emitChanges() {
+    changeListeners.forEach(function (fn) {
+      fn();
+    });
+  }
+
+  /*
+  ** Walk the buffer tree for a given path
+  */
+  function walk(keys) {
+    var current = buffer;
+
+    if (!Array.isArray(keys) || !keys.length) {
+      throw new Error('Need path for fold in fold buffer');
+    }
+
+    while (keys.length) {
+      if (!current || !current.subFolds) {
+        return null;
+      }
+      current = current.subFolds[keys.shift()];
+    }
+
+    return current;
+  }
+
+  /*
+  ** Beneath first search for the fold that has the same start
+  */
+  function scan(current, start) {
+    var result = null;
+    var node, fold;
+
+    if (current.start === start) {
+      return current;
+    }
+
+    if (angular.isObject(current.subFolds)) {
+      for (var k in current.subFolds) {
+        if (angular.isObject(current.subFolds)) {
+          node = current.subFolds[k];
+          fold = scan(node, start);
+          if (fold) {
+            result = fold;
+          }
+        }
+      }
+    }
+
+    return result;
+  }
+
+  /*
+  ** Listen to fold changes in editor and reflect it in buffer
+  */
+  Editor.onFoldChanged(function (change) {
+    var row = change.data.start.row;
+    var folded = change.action !== 'remove';
+    var fold = scan(buffer, row);
+
+    if (fold) {
+      fold.folded = folded;
+    }
+
+    refreshBuffer();
+    emitChanges();
+  });
+
+  /*
+  ** Toggle a fold status and reflect it in the editor
+  */
+  this.toggleFold = function () {
+    var keys = [].slice.call(arguments, 0);
+    var fold = walk(keys);
+
+    if (fold.folded) {
+      Editor.removeFold(fold.start + 1);
+      fold.folded = false;
+    } else {
+      Editor.addFold(fold.start, fold.end);
+      fold.folded = true;
+    }
+
+    refreshBuffer();
+  };
+
+  /*
+  ** Return status of a fold with given path parameters
+  */
+  this.isFolded = function () {
+    var keys = [].slice.call(arguments, 0);
+    var fold = walk(keys);
+
+    return fold && fold.folded;
+  };
+
+  /*
+  ** Fold status change listener installer
+  */
+  this.onFoldStatusChanged = function (fn) {
+    changeListeners.push(fn);
+  };
+
+  // Expose the methods externally
+  this.reset = renewBuffer;
+  this.refresh = refreshBuffer;
+}
+
+'use strict';
+
+PhonicsApp.service('FoldPointFinder', [FoldPointFinder]);
+
+function FoldPointFinder() {
+  var TAB_SIZE = 2;
+  var tab = '  ';
+
+  /*
+  ** Find folds from YAML sting
+  */
+  this.findFolds = function findFolds(yamlString) {
+    var lines = yamlString.split('\n');
+
+    // Return up to 3 level
+    return { subFolds: getFolds(lines, 2, 0) };
+  };
+
+  /*
+  ** Get folds from and array of lines
+  */
+  function getFolds(lines, level, offset) {
+    var folds = Object.create(null);
+    var currentFold = null;
+    var key, l, line;
+
+    // Iterate in lines
+    for (l = 0; l < lines.length; l++) {
+      line = lines[l];
+
+      // If line is not indented it can be an object key or a key: value pair
+      if (line.substr(0, TAB_SIZE) !== tab) {
+        key = line.trim();
+
+        // Cover the case that key is quoted. Example: "/user/{userId}":
+        if ((key[0] === '"') && (key[key.length - 2] === '"') && (key[key.length - 1] === ':')) {
+          key = key.substring(1, key.length - 2) + ':';
+        }
+
+        // If colon is not the last character it's not an object key
+        if (!key || key.lastIndexOf(':') !== key.length - 1) {
+          continue;
+        }
+
+        // Omit colon character
+        if (key[key.length - 1] === ':') {
+          key = key.substring(0, key.length - 1);
+        }
+
+        // If there is no current fold in progress initiate one
+        if (currentFold === null) {
+          currentFold = {
+            start: l + offset,
+            folded: false,
+            end: null
+          };
+          folds[key] = currentFold;
+
+        // else, add middle folds recessively and close current fold in progress
+        } else {
+          addSubFoldsAndEnd(lines, l, currentFold, level, offset);
+
+          currentFold = {
+            start: l + offset,
+            end: null
+          };
+          folds[key] = currentFold;
+        }
+      }
+    }
+
+    // In case there is a current fold in progress finish it
+    addSubFoldsAndEnd(lines, l, currentFold, level, offset);
+
+    return folds;
+  }
+
+  /*
+  ** Adds subfolds and finish fold in progress
+  */
+  function addSubFoldsAndEnd(lines, l, currentFold, level, offset) {
+    var foldLines, subFolds;
+
+    // If there is a current fold, otherwise nothing to do
+    if (currentFold !== null) {
+
+      // set end property which is current line + offset
+      currentFold.end = l - 1 + offset;
+
+      // If it's not too deep
+      if (level > 0) {
+
+        // Get fold lines and remove the indent in
+        foldLines = lines.slice(currentFold.start + 1 - offset, currentFold.end - offset).map(indent);
+
+        // Get subFolds recursively
+        subFolds = getFolds(foldLines, level - 1, currentFold.start + 1);
+
+        // If results are not empty assign it
+        if (!_.isEmpty(subFolds)) {
+          currentFold.subFolds = subFolds;
+        }
+      }
+    }
+  }
+
+  /*
+  ** Removes indent of a line one tab
+  */
+  function indent(l) {
+    return l.substring(TAB_SIZE);
+  }
+}
+
+'use strict';
+
+/*
+  Resolves YAML $ref references
+*/
+PhonicsApp.service('Resolver', function Resolver() {
+  function resolve(json, root) {
+    if (!root) {
+      root = json;
+    }
+
+    if (Array.isArray(json)) {
+      return json.map(function (item) {
+        return resolve(item, root);
+      });
+    }
+
+    if (typeof json !== 'object') {
+      return json;
+    }
+
+    var result = {};
+    Object.keys(json).forEach(function (key) {
+      if (angular.isObject(json[key]) && json[key].$ref) {
+        result[key] = lookup(json[key].$ref, root);
+      } else {
+        result[key] = resolve(json[key], root);
+      }
+    });
+    return result;
+  }
+
+  function lookup(address, root) {
+    if (address.indexOf('#/') !== 0 && address.indexOf('http://') !== 0) {
+      address = '#/definitions/' + address;
+    }
+    var path = address.substring(2).split('/');
+    var current = root;
+    var key;
+    while (path.length) {
+      key = path.shift();
+      if (!current[key]) {
+        throw new Error('Can not lookup ' + key + ' in ' + angular.toJson(current));
+      }
+      current = current[key];
+    }
+    return current;
+  }
+
+  this.resolve = resolve;
+});
+
+'use strict';
+
+PhonicsApp.controller('EditorCtrl', ['$scope', '$stateParams', 'Editor', 'Builder', 'Storage', 'FoldManager', EditorCtrl]);
+
+function EditorCtrl($scope, $stateParams, Editor, Builder, Storage, FoldManager) {
+  $scope.aceLoaded = Editor.aceLoaded;
+  $scope.aceChanged = function () {
+    Storage.load('specs').then(function (specs) {
+      var result;
+      var value = Editor.getValue();
+
+      if (!$stateParams.path) {
+        result = Builder.buildDocs(value);
+      } else {
+        result = Builder.updatePath(value, $stateParams.path, specs);
+      }
+
+      Storage.save('yaml', value);
+      Storage.save('specs', result.specs);
+      Storage.save('error', result.error);
+
+      FoldManager.refresh();
+    });
+  };
+
+  Editor.ready(function () {
+    Storage.load('yaml').then(function (yaml) {
+      if ($stateParams.path) {
+        Editor.setValue(Builder.getPath(yaml, $stateParams.path));
+      } else {
+        Editor.setValue(yaml);
+      }
+
+      Storage.save('yaml', yaml);
+      FoldManager.reset();
+    });
+  });
+
+  $(document).on('pane-resize', Editor.resize.bind(Editor));
+}
+
+'use strict';
+
+PhonicsApp.controller('PreviewCtrl', [
+  'Storage',
+  'Builder',
+  'FoldManager',
+  '$scope',
+  '$stateParams',
+  PreviewCtrl
+]);
+
+function PreviewCtrl(Storage, Builder, FoldManager, $scope, $stateParams) {
+  function updateSpecs(latest) {
+    if ($stateParams.path) {
+      $scope.specs = { paths: Builder.getPath(latest, $stateParams.path) };
+      $scope.isSinglePath = true;
+    } else {
+      $scope.specs = Builder.buildDocs(latest, { resolve: true }).specs;
+    }
+  }
+  function updateError(latest) {
+    $scope.error = latest;
+  }
+
+  Storage.addChangeListener('yaml', updateSpecs);
+  Storage.addChangeListener('error', updateError);
+
+  FoldManager.onFoldStatusChanged(function () {
+    _.defer(function () { $scope.$apply(); });
+  });
+  $scope.toggle = FoldManager.toggleFold;
+  $scope.isCollapsed = FoldManager.isFolded;
+
+  // TODO: Move to a service
+  $scope.getEditPath = function (pathName) {
+    return '#/paths?path=' + window.encodeURIComponent(pathName);
+  };
+
+  $scope.responseCodeClassFor = function (code) {
+    var result = 'default';
+    switch (Math.floor(+code / 100)) {
+      case 2:
+        result = 'green';
+        break;
+      case 5:
+        result = 'red';
+        break;
+      case 4:
+        result = 'yellow';
+        break;
+      case 3:
+        result = 'blue';
+    }
+    return result;
+  };
+
+  /*
+  ** Determines if a key is a vendor extension key
+  ** Vendor extensions always start with `x-`
+  */
+  $scope.isVendorExtension = function (key) {
+    return key.substring(0, 2).toLowerCase() === 'x-';
+  };
+
+}
+
+'use strict';
+
+PhonicsApp.service('Storage', ['LocalStorage', 'Backend', 'defaults', Storage]);
+
+/*
+ * Determines if LocalStorage should be used for storage or a Backend
+*/
+function Storage(LocalStorage, Backend, defaults) {
+  if (defaults.useBackendForStorage) {
+    return Backend;
+  }
+
+  return LocalStorage;
+}
+
+'use strict';
+
+PhonicsApp.service('LocalStorage', ['$localStorage', '$q', function LocalStorage($localStorage, $q) {
+  var storageKey = 'SwaggerEditorCache';
+  var changeListeners =  Object.create(null);
+
+  $localStorage[storageKey] = $localStorage[storageKey] || Object.create(null);
+
+  this.save = function (key, value) {
+    if (value === null) {
+      return;
+    }
+
+    if (Array.isArray(changeListeners[key])) {
+      changeListeners[key].forEach(function (fn) {
+        fn(value);
+      });
+    }
+
+    _.debounce(function () {
+      window.requestAnimationFrame(function () {
+        $localStorage[storageKey][key] = value;
+      });
+    }, 100)();
+  };
+
+  this.reset = function () {
+    $localStorage[storageKey] = Object.create(null);
+  };
+
+  this.load = function (key) {
+    var deferred = $q.defer();
+    if (!key) {
+      deferred.resolve($localStorage[storageKey]);
+    } else {
+      deferred.resolve($localStorage[storageKey][key]);
+    }
+
+    return deferred.promise;
+  };
+
+  this.addChangeListener = function (key, fn) {
+    if (typeof fn === 'function') {
+      if (!changeListeners[key]) {
+        changeListeners[key] = [];
+      }
+      changeListeners[key].push(fn);
+    }
+  };
+}]);
+
+PhonicsApp.config( ['$provide', function ($provide) {
+  $provide.constant('defaultSchema',
+
+// Scheme JSON:
+{
+  "title": "A JSON Schema for Swagger 2.0 API.",
+  "$schema": "http://json-schema.org/draft-04/schema#",
+
+  "type": "object",
+  "required": [ "swagger", "info", "paths" ],
+
+  "definitions": {
+    "info": {
+      "type": "object",
+      "description": "General information about the API.",
+      "required": [ "version", "title" ],
+      "additionalProperties": false,
+      "patternProperties": {
+        "^x-": {
+          "$ref": "#/definitions/vendorExtension"
+        }
+      },
+      "properties": {
+        "version": {
+          "type": "string",
+          "description": "A semantic version number of the API."
+        },
+        "title": {
+          "type": "string",
+          "description": "A unique and precise title of the API."
+        },
+        "description": {
+          "type": "string",
+          "description": "A longer description of the API. Should be different from the title."
+        },
+        "termsOfService": {
+          "type": "string",
+          "description": "The terms of service for the API."
+        },
+        "contact": {
+          "type": "object",
+          "description": "Contact information for the owners of the API.",
+          "additionalProperties": false,
+          "properties": {
+            "name": {
+              "type": "string",
+              "description": "The identifying name of the contact person/organization."
+            },
+            "url": {
+              "type": "string",
+              "description": "The URL pointing to the contact information.",
+              "format": "uri"
+            },
+            "email": {
+              "type": "string",
+              "description": "The email address of the contact person/organization.",
+              "format": "email"
+            }
+          }
+        },
+        "license": {
+          "type": "object",
+          "required": [ "name" ],
+          "additionalProperties": false,
+          "properties": {
+            "name": {
+              "type": "string",
+              "description": "The name of the license type. It's encouraged to use an OSI compatible license."
+            },
+            "url": {
+              "type": "string",
+              "description": "The URL pointing to the license.",
+              "format": "uri"
+            }
+          }
+        }
+      }
+    },
+    "example": {
+      "type": "object",
+      "patternProperties": {
+        "^[a-z0-9-]+/[a-z0-9-+]+$": {}
+      },
+      "additionalProperties": false
+    },
+    "mimeType": {
+      "type": "string",
+      "pattern": "^[a-z0-9-]+/[a-z0-9-+]+$",
+      "description": "The MIME type of the HTTP message."
+    },
+    "operation": {
+      "type": "object",
+      "required": [ "responses" ],
+      "additionalProperties": false,
+      "patternProperties": {
+        "^x-": {
+          "$ref": "#/definitions/vendorExtension"
+        }
+      },
+      "properties": {
+        "tags": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "summary": {
+          "type": "string",
+          "description": "A brief summary of the operation."
+        },
+        "description": {
+          "type": "string",
+          "description": "A longer description of the operation, markdown is allowed."
+        },
+        "docsUrl": {
+          "type": "string",
+          "format": "uri",
+          "description": "Location of external documentation."
+        },
+        "operationId": {
+          "type": "string",
+          "description": "A friendly name of the operation"
+        },
+        "produces": {
+          "type": "array",
+          "description": "A list of MIME types the API can produce.",
+          "additionalItems": false,
+          "items": {
+            "$ref": "#/definitions/mimeType"
+          }
+        },
+        "parameters": {
+          "type": "array",
+          "description": "The parameters needed to send a valid API call.",
+          "minItems": 1,
+          "additionalItems": false,
+          "items": {
+            "$ref": "#/definitions/parameter"
+          }
+        },
+        "responses": {
+          "$ref": "#/definitions/responses"
+        },
+        "schemes": {
+          "type": "array",
+          "description": "The transfer protocol of the API.",
+          "items": {
+            "type": "string",
+            "enum": [ "http", "https", "ws", "wss" ]
+          }
+        }
+      }
+    },
+    "responses": {
+      "type": "object",
+      "description": "Response objects names can either be any valid HTTP status code or 'default'.",
+      "minProperties": 1,
+      "additionalProperties": false,
+      "patternProperties": {
+        "^([0-9]+)$|^(default)$": {
+          "$ref": "#/definitions/response"
+        },
+        "^x-": {
+          "$ref": "#/definitions/vendorExtension"
+        }
+      }
+    },
+    "response": {
+      "type": "object",
+      "required": [ "description" ],
+      "properties": {
+        "description": {
+          "type": "string"
+        },
+        "schema": {
+          "$ref": "#/definitions/schema"
+        },
+        "headers": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/serializableType"
+          }
+        },
+        "examples": {
+          "$ref": "#/definitions/example"
+        }
+      },
+      "additionalProperties": false
+    },
+    "serializableType": {
+      "properties": {
+        "type": {
+          "type": "string",
+          "enum": [ "string", "number", "boolean", "integer", "array" ]
+        },
+        "format": {
+          "type": "string"
+        },
+        "items": {
+          "type": "object"
+        },
+        "collectionFormat": {
+          "type": "string"
+        }
+      }
+    },
+    "vendorExtension": {
+      "description": "Any property starting with x- is valid.",
+      "additionalProperties": true,
+      "additionalItems": true
+    },
+    "parameter": {
+      "type": "object",
+      "required": [ "name", "in" ],
+      "oneOf": [
+        {
+          "patternProperties": {
+            "^x-": {
+              "$ref": "#/definitions/vendorExtension"
+            }
+          },
+          "properties": {
+            "name": {
+              "type": "string",
+              "description": "The name of the parameter."
+            },
+            "in": {
+              "type": "string",
+              "description": "Determines the location of the parameter.",
+              "enum": [ "query", "header", "path", "formData" ],
+              "default": "query"
+            },
+            "description": {
+              "type": "string",
+              "description": "A brief description of the parameter. This could contain examples of use."
+            },
+            "required": {
+              "type": "boolean",
+              "description": "Determines whether or not this parameter is required or optional."
+            },
+            "type": {
+              "type": "string",
+              "enum": [ "string", "number", "boolean", "integer", "array" ]
+            },
+            "format": {
+              "type": "string"
+            },
+            "items": {
+              "type": "object"
+            },
+            "collectionFormat": {
+              "type": "string"
+            }
+          },
+          "additionalProperties": false
+        },
+        {
+          "patternProperties": {
+            "^x-": {
+              "$ref": "#/definitions/vendorExtension"
+            }
+          },
+          "properties": {
+            "name": {
+              "type": "string",
+              "description": "The name of the parameter."
+            },
+            "in": {
+              "type": "string",
+              "description": "Determines the location of the parameter.",
+              "enum": [ "body" ],
+              "default": "body"
+            },
+            "description": {
+              "type": "string",
+              "description": "A brief description of the parameter. This could contain examples of use."
+            },
+            "required": {
+              "type": "boolean",
+              "description": "Determines whether or not this parameter is required or optional."
+            },
+            "schema": {
+              "$ref": "#/definitions/schema"
+            }
+          },
+          "additionalProperties": false
+        }
+      ]
+    },
+    "schema": {
+      "type": "object",
+      "description": "A deterministic version of a JSON Schema object.",
+      "patternProperties": {
+        "^x-": {
+          "$ref": "#/definitions/vendorExtension"
+        }
+      },
+      "properties": {
+        "$ref": { "type": "string" },
+        "format": { "type": "string" },
+        "title": { "$ref": "http://json-schema.org/draft-04/schema#/properties/title" },
+        "description": { "$ref": "http://json-schema.org/draft-04/schema#/properties/description" },
+        "default": { "$ref": "http://json-schema.org/draft-04/schema#/properties/default" },
+        "multipleOf": { "$ref": "http://json-schema.org/draft-04/schema#/properties/multipleOf" },
+        "maximum": { "$ref": "http://json-schema.org/draft-04/schema#/properties/maximum" },
+        "exclusiveMaximum": { "$ref": "http://json-schema.org/draft-04/schema#/properties/exclusiveMaximum" },
+        "minimum": { "$ref": "http://json-schema.org/draft-04/schema#/properties/minimum" },
+        "exclusiveMinimum": { "$ref": "http://json-schema.org/draft-04/schema#/properties/exclusiveMinimum" },
+        "maxLength": { "$ref": "http://json-schema.org/draft-04/schema#/definitions/positiveInteger" },
+        "minLength": { "$ref": "http://json-schema.org/draft-04/schema#/definitions/positiveIntegerDefault0" },
+        "pattern": { "$ref": "http://json-schema.org/draft-04/schema#/properties/pattern" },
+        "discriminator": { "type": "string" },
+        "xml": { "$ref": "#/definitions/xml"},
+        "items": {
+          "anyOf": [
+            { "$ref": "#/definitions/schema" },
+            {
+              "type": "array",
+              "minItems": 1,
+              "items": { "$ref": "#/definitions/schema" }
+            }
+          ],
+          "default": { }
+        },
+        "maxItems": { "$ref": "http://json-schema.org/draft-04/schema#/definitions/positiveInteger" },
+        "minItems": { "$ref": "http://json-schema.org/draft-04/schema#/definitions/positiveIntegerDefault0" },
+        "uniqueItems": { "$ref": "http://json-schema.org/draft-04/schema#/properties/uniqueItems" },
+        "maxProperties": { "$ref": "http://json-schema.org/draft-04/schema#/definitions/positiveInteger" },
+        "minProperties": { "$ref": "http://json-schema.org/draft-04/schema#/definitions/positiveIntegerDefault0" },
+        "required": { "$ref": "http://json-schema.org/draft-04/schema#/definitions/stringArray" },
+        "definitions": {
+          "type": "object",
+          "additionalProperties": { "$ref": "#/definitions/schema" },
+          "default": { }
+        },
+        "properties": {
+          "type": "object",
+          "additionalProperties": { "$ref": "#/definitions/schema" },
+          "default": { }
+        },
+        "enum": { "$ref": "http://json-schema.org/draft-04/schema#/properties/enum" },
+        "type": { "$ref": "http://json-schema.org/draft-04/schema#/properties/type" },
+        "allOf": {
+          "type": "array",
+          "minItems": 1,
+          "items": { "$ref": "#/definitions/schema" }
+        }
+      }
+    },
+    "xml": {
+      "properties": {
+        "namespace": { "type": "string" },
+        "prefix": { "type": "string" },
+        "attribute": { "type": "boolean" },
+        "wrapped": { "type": "boolean" }
+      },
+      "additionalProperties": false
+    }
+  },
+  "additionalProperties": false,
+  "patternProperties": {
+    "^x-": {
+      "$ref": "#/definitions/vendorExtension"
+    }
+  },
+  "properties": {
+    "swagger": {
+      "type": "number",
+      "enum": [ 2.0 ],
+      "description": "The Swagger version of this document."
+    },
+    "info": {
+      "$ref": "#/definitions/info"
+    },
+    "host": {
+      "type": "string",
+      "format": "uri",
+      "pattern": "^((?!\\:\/\/).)*$",
+      "description": "The fully qualified URI to the host of the API."
+    },
+    "basePath": {
+      "type": "string",
+      "pattern": "^/",
+      "description": "The base path to the API. Example: '/api'."
+    },
+    "schemes": {
+      "type": "array",
+      "description": "The transfer protocol of the API.",
+      "items": {
+        "type": "string",
+        "enum": [ "http", "https", "ws", "wss" ]
+      }
+    },
+    "consumes": {
+      "type": "array",
+      "description": "A list of MIME types accepted by the API.",
+      "items": {
+        "$ref": "#/definitions/mimeType"
+      }
+    },
+    "produces": {
+      "type": "array",
+      "description": "A list of MIME types the API can produce.",
+      "items": {
+        "$ref": "#/definitions/mimeType"
+      }
+    },
+    "paths": {
+      "type": "object",
+      "description": "Relative paths to the individual endpoints. They should be relative to the 'basePath'.",
+
+      "patternProperties": {
+        "^x-": {
+          "$ref": "#/definitions/vendorExtension"
+        }
+      },
+
+      "additionalProperties": {
+        "type": "object",
+        "minProperties": 1,
+        "additionalProperties": false,
+        "patternProperties": {
+          "^x-": {
+            "$ref": "#/definitions/vendorExtension"
+          }
+        },
+        "properties": {
+          "$ref": {
+            "type": "string"
+          },
+          "get": {
+            "$ref": "#/definitions/operation"
+          },
+          "put": {
+            "$ref": "#/definitions/operation"
+          },
+          "post": {
+            "$ref": "#/definitions/operation"
+          },
+          "delete": {
+            "$ref": "#/definitions/operation"
+          },
+          "options": {
+            "$ref": "#/definitions/operation"
+          },
+          "head": {
+            "$ref": "#/definitions/operation"
+          },
+          "patch": {
+            "$ref": "#/definitions/operation"
+          },
+          "parameters": {
+            "type": "array",
+            "items": {
+              "$ref": "#/definitions/parameter"
+            }
+          }
+        }
+      }
+    },
+    "definitions": {
+      "type": "object",
+      "description": "One or more JSON objects describing the schemas being consumed and produced by the API.",
+      "additionalProperties": {
+        "$ref": "#/definitions/schema"
+      }
+    },
+    "security": {
+      "type": "array"
+    }
+  }
+}
+
+// End of Schema JSON
+);
+}]);
+
+'use strict';
+
+PhonicsApp.config(['$provide', function ($provide) {
+  $provide.constant('defaults',
+
+  // BEGIN-DEFAUNTAS-JSON
+  {
+    downloadZipUrl: 'http://generator.wordnik.com/online/api/gen/download/',
+    apiGenUrl: 'http://generator.wordnik.com/online/api/gen/{type}/{kind}',
+    exampleFiles: ['default.yaml', 'minimal.yaml', 'petstore.yaml', 'heroku-pets.yaml', 'uber.yaml'],
+    backendEndpoint: '/editor/spec',
+    useBackendForStorage: false,
+    disableFileMenu: false,
+    useYamlBackend: false,
+    headerBranding: false,
+    brandingCssClass: ''
+  }
+  // END-DEFAULTS-JSON
+
+  );
+}]);
+
+'use strict';
+
+PhonicsApp.directive('collapseWhen', function () {
+  var TRANSITION_DURATION = 200; //ms
+
+  return {
+    restrict: 'A',
+    link: function postLink(scope, element, attrs) {
+      var buffer = null;
+
+      function cleanUp() {
+        // remove style attribute after animation
+        // TDOD: just remove 'height' from style
+        setTimeout(function () {
+          element.removeAttr('style');
+        }, TRANSITION_DURATION);
+      }
+
+      // If it's collapsed initially
+      if (attrs.collapseWhen) {
+        var clone = element.clone();
+        clone.removeAttr('style');
+        clone.appendTo('body');
+        buffer = clone.height();
+        clone.remove();
+      }
+
+      scope.$watch(attrs.collapseWhen, function (val) {
+        if (val) {
+          buffer = element.height();
+          element.height(buffer);
+          element.height(0);
+          element.addClass('c-w-collapsed');
+          cleanUp();
+        } else {
+          element.height(buffer);
+          element.removeClass('c-w-collapsed');
+          cleanUp();
+        }
+      });
+    }
+  };
+});
+
+'use strict';
+
+PhonicsApp.controller('UrlImportCtrl', [
+  '$scope',
+  '$modalInstance',
+  'FileLoader',
+  '$localStorage',
+  'Storage',
+  'Editor',
+  'FoldManager',
+  FileImportCtrl
+]);
+
+function FileImportCtrl($scope, $modalInstance, FileLoader, $localStorage, Storage, Editor, FoldManager) {
+  var results;
+
+  $scope.url = null;
+
+  $scope.fetch = function (url) {
+    if (typeof url === 'string' && url.indexOf('http') > -1) {
+      FileLoader.loadFromUrl(url).then(function (data) {
+        results = data;
+        $scope.canImport = true;
+      }, function (error) {
+        $scope.error = error;
+        $scope.canImport = false;
+      });
+    }
+  };
+
+  $scope.ok = function () {
+    if (typeof results === 'object') {
+      Editor.setValue(results);
+      Storage.save('specs', results);
+      FoldManager.reset();
+    }
+    $modalInstance.close();
+  };
+
+  $scope.cancel = $modalInstance.close;
+}
+
+'use strict';
+
+PhonicsApp.controller('ErrorPresenterCtrl', ['$scope', function ($scope) {
+
+  $scope.getError = function () {
+    var error = $scope.$parent.error;
+
+    if (error && error.swaggerError) {
+      delete error.swaggerError.stack;
+    }
+
+    return error;
+  };
+
+  $scope.getType = function () {
+    var error = $scope.getError();
+
+    if (error.swaggerError) {
+      return 'Swagger Error';
+    }
+
+    if (error.yamlError) {
+      return 'YAML Syntax Error';
+    }
+
+    if (error.resolveError) {
+      return 'Resolve Error';
+    }
+
+    if (error.emptyDocsError) {
+      return 'Empty Document Error';
+    }
+
+    return 'Unknown Error';
+  };
+
+  $scope.getDescription = function () {
+    var error = $scope.getError();
+
+    if (error.emptyDocsError) {
+      return error.emptyDocsError.message;
+    }
+
+    if (error.swaggerError && typeof error.swaggerError.dataPath === 'string') {
+
+      // TODO: find a badass regex that can handle ' ▹ ' case without two replaces
+      return error.swaggerError.message +
+        ' at\n' + error.swaggerError.dataPath.replace(/\//g, ' ▹ ')
+        .replace(' ▹ ', '').replace(/~1/g, '/');
+    }
+
+    if (error.yamlError) {
+      return error.yamlError.message.replace('JS-YAML: ', '').replace(/./, function (a) {
+        return a.toUpperCase();
+      });
+    }
+
+    if (error.resolveError) {
+      return error.resolveError.message.replace(/ in \{.+/, '');
+    }
+
+    return error;
+  };
+}]);
+
+'use strict';
+
+PhonicsApp.controller('OpenExamplesCtrl', [
+  'FileLoader',
+  'Builder',
+  'Storage',
+  'Editor',
+  'FoldManager',
+  'defaults',
+  '$scope',
+  '$modalInstance',
+  OpenExamplesCtrl
+]);
+
+function OpenExamplesCtrl(FileLoader, Builder, Storage, Editor, FoldManager, defaults, $scope, $modalInstance) {
+
+  $scope.files = defaults.exampleFiles;
+  $scope.selectedFile = defaults.exampleFiles[0];
+
+  $scope.open = function (file) {
+    FileLoader.loadFromUrl('spec-files/' + file).then(function (value) {
+      var result = Builder.buildDocsWithObject(value);
+      Editor.setValue(result.specs);
+      Storage.save('specs', result.specs);
+      Storage.save('error', result.error);
+      FoldManager.reset();
+      $modalInstance.close();
+    }, $modalInstance.close);
+  };
+
+  $scope.cancel = $modalInstance.close;
+}
+
+'use strict';
+
+PhonicsApp.service('Backend', ['$http', '$q', 'defaults', Backend]);
+
+function Backend($http, $q, defaults) {
+  var changeListeners =  Object.create(null);
+  var buffer = Object.create(null);
+  var commit = _.throttle(commitNow, 200, {leading: false, trailing: true});
+
+  function commitNow(data) {
+    if (!buffer.error && buffer.specs) {
+      $http.put(defaults.backendEndpoint, data);
+    }
+  }
+
+  this.save = function (key, value) {
+
+    // Save values in a buffer
+    buffer[key] = value;
+
+    if (Array.isArray(changeListeners[key])) {
+      changeListeners[key].forEach(function (fn) {
+        fn(value);
+      });
+    }
+
+    if (defaults.useYamlBackend && (key === 'yaml' && value)) {
+      commit(value);
+    } else if (key === 'specs' && value) {
+      commit(buffer[key]);
+    }
+
+  };
+
+  this.reset = noop;
+
+  this.load = function (key) {
+    if (key !== 'yaml') {
+      var deferred = $q.defer();
+      if (!key) {
+        deferred.reject();
+      } else {
+        deferred.resolve(buffer[key]);
+      }
+      return deferred.promise;
+    }
+
+    return $http.get(defaults.backendEndpoint)
+      .then(function (res) {
+        if (defaults.useYamlBackend) {
+          buffer.yaml = res.data;
+          return buffer.yaml;
+        }
+        return res.data;
+      });
+  };
+
+  this.addChangeListener = function (key, fn) {
+    if (typeof fn === 'function') {
+      if (!changeListeners[key]) {
+        changeListeners[key] = [];
+      }
+      changeListeners[key].push(fn);
+    }
+  };
+}
+
+function noop() {
+
+}
