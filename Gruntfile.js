@@ -55,7 +55,8 @@ module.exports = function (grunt) {
   grunt.registerTask('ship', [
     'build',
     'gh-pages',
-    'shell:publish-npm'
+    'shell:publish-npm',
+    'a127'
   ]);
 
   grunt.registerTask('a127', [
