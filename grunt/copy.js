@@ -11,8 +11,7 @@ module.exports = {
         '*.html',
         'views/{,*/}*.html',
         'templates/{,*/}*.html',
-        'images/{,*/}*.{webp}',
-        'images/throbber.gif',
+        'images/{,*/}*',
         'fonts/*',
         'spec-files/*',
         'CNAME'
