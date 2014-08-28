@@ -100,7 +100,7 @@ button.call {
       margin: 0;
       font-size: $button-font-size;
       background: lighten($gray-dk, 70%);
-      background-image:url(/images/centerPanes.svg);
+      background-image: image-url("centerPanes.svg");
       background-repeat: no-repeat;
       background-position: center 0px;
       border-radius: $border-radius;
@@ -116,7 +116,7 @@ button.call {
         border-right-width: 0;
         border-top-right-radius: 0;
         border-bottom-right-radius: 0;
-        background-image: url(/images/hideEditor.svg);
+        background-image: image-url("hideEditor.svg");
         background-repeat: no-repeat;
         background-position: 5px 0px;
       }
@@ -125,7 +125,7 @@ button.call {
         border-left-width: 0;
         border-top-left-radius: 0;
         border-bottom-left-radius: 0;
-        background-image:url(/images/hidePreview.svg);
+        background-image: image-url("hidePreview.svg");
         background-repeat: no-repeat;
         background-position: 4px 0px;
       }
