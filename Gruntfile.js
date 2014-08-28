@@ -39,10 +39,8 @@ module.exports = function (grunt) {
     'compass',
     'autoprefixer',
     'concat',
-    'ngmin',
     'copy:dist',
     'cssmin',
-    'uglify',
     'rev',
     'usemin',
     'htmlmin'
