@@ -23,7 +23,7 @@ module.exports = function (grunt) {
 
   grunt.registerTask('test', [
     'clean:server',
-    'compass:test',
+    'compass',
     'autoprefixer',
     'connect:test',
     // 'karma' // TODO
