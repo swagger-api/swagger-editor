@@ -22,9 +22,9 @@
 
 
 li.operation {
-  $border-radius: 3px;
+  $operation-border-radius: 3px;
   margin: 0.4em 0em 1em 1em;
-  border-radius: $border-radius;
+  border-radius: $operation-border-radius;
   @extend .sw-font;
 
   >header {
@@ -40,7 +40,7 @@ li.operation {
       padding: .6em .5em;
       display: table-cell;
       float: left;
-      border-top-left-radius: $border-radius - 2;
+      border-top-left-radius: $operation-border-radius - 2;
 
       margin-right: .4em;
       min-width: 68px;
