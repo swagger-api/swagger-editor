@@ -35,8 +35,8 @@ PhonicsApp.controller('EditorCtrl', function EditorCtrl($scope, $stateParams, Ed
         Editor.setValue(yaml);
       }
 
+      FoldManager.reset(yaml);
       Storage.save('yaml', yaml);
-      FoldManager.reset();
     });
   });
 

@@ -2,11 +2,14 @@
 
 PhonicsApp.controller('PreviewCtrl', function PreviewCtrl(Storage, Builder, FoldManager, $scope, $stateParams) {
   function updateSpecs(latest) {
+    var specs = null;
+
     if ($stateParams.path) {
       $scope.specs = { paths: Builder.getPath(latest, $stateParams.path) };
       $scope.isSinglePath = true;
     } else {
-      $scope.specs = Builder.buildDocs(latest, { resolve: true }).specs;
+      specs = Builder.buildDocs(latest, { resolve: true }).specs;
+      $scope.specs = FoldManager.extendSpecs(specs);
     }
   }
   function updateError(latest) {

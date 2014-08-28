@@ -20,9 +20,12 @@ PhonicsApp.service('FoldManager', function FoldManager(Editor, FoldPointFinder) 
   /*
   ** Flush buffer and put new value in the buffer
   */
-  function renewBuffer() {
-    buffer = FoldPointFinder.findFolds(Editor.getValue());
-    emitChanges();
+  function renewBuffer(value) {
+    value = value || Editor.getValue();
+    if (angular.isString(value)) {
+      buffer = FoldPointFinder.findFolds(value);
+      emitChanges();
+    }
   }
 
   /*
@@ -37,8 +40,8 @@ PhonicsApp.service('FoldManager', function FoldManager(Editor, FoldPointFinder) 
   /*
   ** Walk the buffer tree for a given path
   */
-  function walk(keys) {
-    var current = buffer;
+  function walk(keys, current) {
+    current = buffer;
 
     if (!Array.isArray(keys) || !keys.length) {
       throw new Error('Need path for fold in fold buffer');
@@ -78,6 +81,49 @@ PhonicsApp.service('FoldManager', function FoldManager(Editor, FoldPointFinder) 
     }
 
     return result;
+  }
+
+  /*
+  ** Scan the specs tree and extend objects with order value
+  ** We use 'x-row' as an order indication so rendered will ignore it
+  ** because it's a vendor extension
+  */
+  function extendSpecs(specs, path) {
+    var fold = null;
+    var key;
+
+    if (!path) {
+      path = [];
+    } else {
+      path = _.clone(path);
+    }
+
+    // Only apply order value to objects
+    if (angular.isObject(specs)) {
+
+      // For each object in this object
+      for (key in specs) {
+
+        // Ignore prototype keys
+        if (specs.hasOwnProperty(key)) {
+
+          // add key to path and try looking up the tree with this path
+          // for the fold corresponding the same object
+          fold = walk(path.concat(key));
+
+          // If fold exists append it to the object and push the key to path
+          if (fold) {
+            specs[key]['x-row'] = fold.start;
+          }
+
+          // Recessively do this until the end of the tree
+          specs[key] = extendSpecs(specs[key], path.concat(key));
+        }
+      }
+    }
+
+    // Return modified object
+    return specs;
   }
 
   /*
@@ -134,4 +180,5 @@ PhonicsApp.service('FoldManager', function FoldManager(Editor, FoldPointFinder) 
   // Expose the methods externally
   this.reset = renewBuffer;
   this.refresh = refreshBuffer;
+  this.extendSpecs = extendSpecs;
 });
