@@ -6,38 +6,24 @@ PhonicsApp.controller('PreviewCtrl', [
   'FoldManager',
   '$scope',
   '$stateParams',
-  'defaults',
   PreviewCtrl
 ]);
 
-function PreviewCtrl(Storage, Builder, FoldManager, $scope, $stateParams, defaults) {
+function PreviewCtrl(Storage, Builder, FoldManager, $scope, $stateParams) {
   function updateSpecs(latest) {
     if ($stateParams.path) {
       $scope.specs = { paths: Builder.getPath(latest, $stateParams.path) };
       $scope.isSinglePath = true;
     } else {
-      $scope.specs = Builder.buildDocsWithObject(latest, { resolve: true }).specs;
+      $scope.specs = Builder.buildDocs(latest, { resolve: true }).specs;
     }
   }
   function updateError(latest) {
     $scope.error = latest;
   }
 
-  Storage.addChangeListener('specs', updateSpecs);
+  Storage.addChangeListener('yaml', updateSpecs);
   Storage.addChangeListener('error', updateError);
-
-  var resource = defaults.useBackendForStorage ? 'yaml' : 'specs';
-  Storage.load(resource).then(function (storedSpecs) {
-    if (storedSpecs) {
-      updateSpecs(storedSpecs);
-    }
-  });
-
-  Storage.load('error').then(function (storedError) {
-    if (storedError) {
-      updateError(storedError);
-    }
-  });
 
   FoldManager.onFoldStatusChanged(function () {
     _.defer(function () { $scope.$apply(); });

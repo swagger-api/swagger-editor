@@ -24,13 +24,14 @@ function EditorCtrl($scope, $stateParams, Editor, Builder, Storage, FoldManager)
   };
 
   Editor.ready(function () {
-    Storage.load('yaml').then(function (specs) {
+    Storage.load('yaml').then(function (yaml) {
       if ($stateParams.path) {
-        Editor.setValue(Builder.getPath(specs, $stateParams.path));
+        Editor.setValue(Builder.getPath(yaml, $stateParams.path));
       } else {
-        Editor.setValue(specs);
+        Editor.setValue(yaml);
       }
 
+      Storage.save('yaml', yaml);
       FoldManager.reset();
     });
   });
