@@ -1,6 +1,6 @@
 {
   "name": "phonics",
-  "version": "2.0.29",
+  "version": "2.0.30",
   "repository": "https://github.com/wordnik/swagger-editor.git",
   "dependencies": {},
   "devDependencies": {
