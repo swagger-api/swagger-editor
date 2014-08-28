@@ -1,8 +1,6 @@
 'use strict';
 
-PhonicsApp.service('Builder', ['Resolver', 'Validator', Builder]);
-
-function Builder(Resolver, Validator) {
+PhonicsApp.service('Builder', function Builder(Resolver, Validator) {
   var load = _.memoize(jsyaml.load);
 
   function buildDocs(stringValue, options) {
@@ -96,4 +94,4 @@ function Builder(Resolver, Validator) {
   this.buildDocsWithObject = buildDocsWithObject;
   this.updatePath = updatePath;
   this.getPath = getPath;
-}
+});

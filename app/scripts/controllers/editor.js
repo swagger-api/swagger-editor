@@ -1,8 +1,6 @@
 'use strict';
 
-PhonicsApp.controller('EditorCtrl', ['$scope', '$stateParams', 'Editor', 'Builder', 'Storage', 'FoldManager', EditorCtrl]);
-
-function EditorCtrl($scope, $stateParams, Editor, Builder, Storage, FoldManager) {
+PhonicsApp.controller('EditorCtrl', function EditorCtrl($scope, $stateParams, Editor, Builder, Storage, FoldManager) {
   $scope.aceLoaded = Editor.aceLoaded;
   $scope.aceChanged = function () {
     Storage.load('specs').then(function (specs) {
@@ -43,4 +41,4 @@ function EditorCtrl($scope, $stateParams, Editor, Builder, Storage, FoldManager)
   });
 
   $(document).on('pane-resize', Editor.resize.bind(Editor));
-}
+});

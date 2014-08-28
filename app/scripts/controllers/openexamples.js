@@ -1,18 +1,6 @@
 'use strict';
 
-PhonicsApp.controller('OpenExamplesCtrl', [
-  'FileLoader',
-  'Builder',
-  'Storage',
-  'Editor',
-  'FoldManager',
-  'defaults',
-  '$scope',
-  '$modalInstance',
-  OpenExamplesCtrl
-]);
-
-function OpenExamplesCtrl(FileLoader, Builder, Storage, Editor, FoldManager, defaults, $scope, $modalInstance) {
+PhonicsApp.controller('OpenExamplesCtrl', function OpenExamplesCtrl(FileLoader, Builder, Storage, Editor, FoldManager, defaults, $scope, $modalInstance) {
 
   $scope.files = defaults.exampleFiles;
   $scope.selectedFile = defaults.exampleFiles[0];
@@ -29,4 +17,4 @@ function OpenExamplesCtrl(FileLoader, Builder, Storage, Editor, FoldManager, def
   };
 
   $scope.cancel = $modalInstance.close;
-}
+});

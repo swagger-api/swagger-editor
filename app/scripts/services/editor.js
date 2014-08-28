@@ -1,8 +1,6 @@
 'use strict';
 
-PhonicsApp.service('Editor', [Editor]);
-
-function Editor() {
+PhonicsApp.service('Editor', function Editor() {
   var editor = null;
   var onReadyFns = [];
   var changeFoldFns = [];
@@ -119,4 +117,4 @@ function Editor() {
   this.onFoldChanged = onFoldChanged;
   this.addFold = addFold;
   this.removeFold = removeFold;
-}
+});

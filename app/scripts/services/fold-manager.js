@@ -3,9 +3,7 @@
 /*
   Manage fold status of the paths and operations
 */
-PhonicsApp.service('FoldManager', ['Editor', 'FoldPointFinder', FoldManager]);
-
-function FoldManager(Editor, FoldPointFinder) {
+PhonicsApp.service('FoldManager', function FoldManager(Editor, FoldPointFinder) {
   var buffer = Object.create(null);
   var changeListeners = [];
 
@@ -136,4 +134,4 @@ function FoldManager(Editor, FoldPointFinder) {
   // Expose the methods externally
   this.reset = renewBuffer;
   this.refresh = refreshBuffer;
-}
+});

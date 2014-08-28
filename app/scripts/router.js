@@ -1,13 +1,6 @@
 'use strict';
 
-PhonicsApp.config([
-  '$compileProvider',
-  '$stateProvider',
-  '$urlRouterProvider',
-  Router
-]);
-
-function Router($compileProvider, $stateProvider, $urlRouterProvider) {
+PhonicsApp.config(function Router($compileProvider, $stateProvider, $urlRouterProvider) {
   $urlRouterProvider.otherwise('/');
 
   $stateProvider
@@ -60,4 +53,4 @@ function Router($compileProvider, $stateProvider, $urlRouterProvider) {
       // });
 
   $compileProvider.aHrefSanitizationWhitelist('.');
-}
+});

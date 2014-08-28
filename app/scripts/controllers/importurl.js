@@ -1,17 +1,6 @@
 'use strict';
 
-PhonicsApp.controller('UrlImportCtrl', [
-  '$scope',
-  '$modalInstance',
-  'FileLoader',
-  '$localStorage',
-  'Storage',
-  'Editor',
-  'FoldManager',
-  FileImportCtrl
-]);
-
-function FileImportCtrl($scope, $modalInstance, FileLoader, $localStorage, Storage, Editor, FoldManager) {
+PhonicsApp.controller('UrlImportCtrl', function FileImportCtrl($scope, $modalInstance, FileLoader, $localStorage, Storage, Editor, FoldManager) {
   var results;
 
   $scope.url = null;
@@ -38,4 +27,4 @@ function FileImportCtrl($scope, $modalInstance, FileLoader, $localStorage, Stora
   };
 
   $scope.cancel = $modalInstance.close;
-}
+});

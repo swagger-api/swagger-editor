@@ -3,9 +3,7 @@
 /*
   Keeps track of current document validation
 */
-PhonicsApp.service('Validator', ['defaultSchema', Validator]);
-
-function Validator(defaultSchema) {
+PhonicsApp.service('Validator', function Validator(defaultSchema) {
   var buffer = Object.create(null);
 
   this.setStatus = function (status, isValid) {
@@ -55,5 +53,4 @@ function Validator(defaultSchema) {
 
     return tv4.error;
   };
-
-}
+});

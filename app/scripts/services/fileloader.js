@@ -23,7 +23,7 @@ function load(fileContent) {
   return null;
 }
 
-PhonicsApp.service('FileLoader', ['$http', function FileLoader($http) {
+PhonicsApp.service('FileLoader', function FileLoader($http) {
 
   // Load from URL
   this.loadFromUrl = function (url) {
@@ -34,4 +34,4 @@ PhonicsApp.service('FileLoader', ['$http', function FileLoader($http) {
 
   // Load from Local file content (string)
   this.load = load;
-}]);
+});

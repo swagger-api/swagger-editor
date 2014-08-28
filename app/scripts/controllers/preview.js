@@ -1,15 +1,6 @@
 'use strict';
 
-PhonicsApp.controller('PreviewCtrl', [
-  'Storage',
-  'Builder',
-  'FoldManager',
-  '$scope',
-  '$stateParams',
-  PreviewCtrl
-]);
-
-function PreviewCtrl(Storage, Builder, FoldManager, $scope, $stateParams) {
+PhonicsApp.controller('PreviewCtrl', function PreviewCtrl(Storage, Builder, FoldManager, $scope, $stateParams) {
   function updateSpecs(latest) {
     if ($stateParams.path) {
       $scope.specs = { paths: Builder.getPath(latest, $stateParams.path) };
@@ -62,4 +53,4 @@ function PreviewCtrl(Storage, Builder, FoldManager, $scope, $stateParams) {
     return key.substring(0, 2).toLowerCase() === 'x-';
   };
 
-}
+});

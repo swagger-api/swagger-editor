@@ -1,8 +1,6 @@
 'use strict';
 
-PhonicsApp.service('FoldPointFinder', [FoldPointFinder]);
-
-function FoldPointFinder() {
+PhonicsApp.service('FoldPointFinder', function FoldPointFinder() {
   var TAB_SIZE = 2;
   var tab = '  ';
 
@@ -110,4 +108,4 @@ function FoldPointFinder() {
   function indent(l) {
     return l.substring(TAB_SIZE);
   }
-}
+});

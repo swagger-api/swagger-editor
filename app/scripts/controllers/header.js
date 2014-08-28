@@ -1,18 +1,6 @@
 'use strict';
 
-PhonicsApp.controller('HeaderCtrl', [
-  '$scope',
-  'Editor',
-  'Storage',
-  'Splitter',
-  'Builder',
-  '$modal',
-  '$stateParams',
-  'defaults',
-  HeaderCtrl
-]);
-
-function HeaderCtrl($scope, Editor, Storage, Splitter, Builder, $modal, $stateParams, defaults) {
+PhonicsApp.controller('HeaderCtrl', function HeaderCtrl($scope, Editor, Storage, Splitter, Builder, $modal, $stateParams, defaults) {
 
   if ($stateParams.path) {
     $scope.breadcrumbs  = [{ active: true, name: $stateParams.path }];
@@ -117,4 +105,4 @@ function HeaderCtrl($scope, Editor, Storage, Splitter, Builder, $modal, $statePa
       }
     });
   }
-}
+});
