@@ -9,17 +9,18 @@ function Editor() {
   var that = this;
 
   function annotateYAMLErrors(error) {
-
-    if (error) {
+    if (error && error.mark && error.reason) {
       editor.getSession().setAnnotations([{
-        row: error.row,
-        column: error.column,
-        text: error.message,
+        row: error.mark.line,
+        column: error.mark.column,
+        text: error.reason,
         type: 'error'
       }]);
-    } else {
-      editor.getSession().clearAnnotations();
     }
+  }
+
+  function clearAnnotation() {
+    editor.getSession().clearAnnotations();
   }
 
   function aceLoaded(e) {
@@ -112,6 +113,7 @@ function Editor() {
   this.resize = resize;
   this.ready = ready;
   this.annotateYAMLErrors = annotateYAMLErrors;
+  this.clearAnnotation = clearAnnotation;
   this.getAllFolds = getAllFolds;
   this.getLine = getLine;
   this.onFoldChanged = onFoldChanged;

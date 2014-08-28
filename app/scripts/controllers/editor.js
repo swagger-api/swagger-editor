@@ -19,6 +19,12 @@ function EditorCtrl($scope, $stateParams, Editor, Builder, Storage, FoldManager)
       Storage.save('specs', result.specs);
       Storage.save('error', result.error);
 
+      if (result.error && result.error.yamlError) {
+        Editor.annotateYAMLErrors(result.error.yamlError);
+      } else {
+        Editor.clearAnnotation();
+      }
+
       FoldManager.refresh();
     });
   };
