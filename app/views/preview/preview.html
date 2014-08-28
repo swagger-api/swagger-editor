@@ -31,7 +31,7 @@
     </h3>
   </header>
    <ul class="section-content" ng-if="specs.definitions" collapse-when="isCollapsed('definitions')">
-      <li ng-repeat="(modelName, model) in specs.definitions">
+      <li ng-repeat="(modelName, model) in specs.definitions" ng-if="!isVendorExtension(modelName)">
         <h4>{{modelName}}</h4>
         <schema-model schema="model"></schema-model>
       </li>

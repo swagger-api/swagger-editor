@@ -49,6 +49,12 @@ function stringifySchema(schema) {
 }
 
 function buildProperty(property, schema) {
+
+  // ignore vendor extensions
+  if (property.toLowerCase().indexOf('x-') === 0) {
+    return '';
+  }
+
   var result = property + ': ' +
     stringifySchema(schema.properties[property]);
   if (typeof schema.required === 'object' &&  schema.required.indexOf(property) > -1) {
