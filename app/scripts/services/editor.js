@@ -105,6 +105,10 @@ PhonicsApp.service('Editor', function Editor() {
     editor.getSession().unfold(start, 100);
   }
 
+  function gotoLine(line) {
+    editor.gotoLine(line + 1);
+  }
+
   this.getValue = getValue;
   this.setValue = setValue;
   this.aceLoaded = aceLoaded;
@@ -117,4 +121,5 @@ PhonicsApp.service('Editor', function Editor() {
   this.onFoldChanged = onFoldChanged;
   this.addFold = addFold;
   this.removeFold = removeFold;
+  this.gotoLine = gotoLine;
 });

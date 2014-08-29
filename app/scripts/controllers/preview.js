@@ -1,6 +1,6 @@
 'use strict';
 
-PhonicsApp.controller('PreviewCtrl', function PreviewCtrl(Storage, Builder, FoldManager, Sorter, $scope, $stateParams) {
+PhonicsApp.controller('PreviewCtrl', function PreviewCtrl(Storage, Builder, FoldManager, Sorter, Editor, $scope, $stateParams) {
   function updateSpecs(latest) {
     var specs = null;
 
@@ -33,6 +33,11 @@ PhonicsApp.controller('PreviewCtrl', function PreviewCtrl(Storage, Builder, Fold
   });
   $scope.toggle = FoldManager.toggleFold;
   $scope.isCollapsed = FoldManager.isFolded;
+
+  $scope.focusEdit = function ($event, line) {
+    $event.stopPropagation();
+    Editor.gotoLine(line);
+  };
 
   // TODO: Move to a service
   $scope.getEditPath = function (pathName) {
