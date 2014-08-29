@@ -1,6 +1,34 @@
 .apigee-127 {
 
+  section.left {
+
+    span.caret {
+        color: #FC4C02;
+        float: right;
+        margin-top: 15px;
+      }
+
+    a.dropdown-icon-apigee {
+      float: left;
+      background-image: image-url("apigee-logo.svg");
+      background-repeat: no-repeat;
+      background-position: center 0px;
+      background-size: 92px;
+      height: 30px;
+      margin-bottom: 0;
+      display: block;
+      width: 98px;
+
+
+    }
+  }
+
 	header.main-header {
-		background: gold;
+		//background: gold;
 	}
+
+  .brandRight {
+      display: none;
+  }
+
 }
