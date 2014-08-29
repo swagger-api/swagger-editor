@@ -1,6 +1,6 @@
 'use strict';
 
-PhonicsApp.controller('PreviewCtrl', function PreviewCtrl(Storage, Builder, FoldManager, $scope, $stateParams) {
+PhonicsApp.controller('PreviewCtrl', function PreviewCtrl(Storage, Builder, FoldManager, Sorter, $scope, $stateParams) {
   function updateSpecs(latest) {
     var specs = null;
 
@@ -9,7 +9,8 @@ PhonicsApp.controller('PreviewCtrl', function PreviewCtrl(Storage, Builder, Fold
       $scope.isSinglePath = true;
     } else {
       specs = Builder.buildDocs(latest, { resolve: true }).specs;
-      $scope.specs = FoldManager.extendSpecs(specs);
+      specs = FoldManager.extendSpecs(specs);
+      $scope.specs = Sorter.sort(specs);
     }
   }
   function updateError(latest) {
