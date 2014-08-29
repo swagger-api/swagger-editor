@@ -1,8 +1,19 @@
 'use strict';
 
+/*
+** Because Angular will sort hash keys alphabetically we need
+** translate hashes to arrays in order to keep the order of the
+** elements.
+** Order information is coming from FoldManager via x-row properties
+*/
 PhonicsApp.service('Sorter', function Sorter() {
+
+  // The standard order property name
   var XROW = 'x-row';
 
+  /*
+  ** Sort specs hash (paths, operations and responses)
+  */
   this.sort = function (specs) {
     if (specs && specs.paths) {
       var paths = Object.keys(specs.paths).map(function (pathName) {
@@ -20,12 +31,16 @@ PhonicsApp.service('Sorter', function Sorter() {
         return p1[XROW] - p2[XROW];
       });
 
+      // Remove array holes
       specs.paths = _.compact(paths);
     }
 
     return specs;
   };
 
+  /*
+  ** Sort operations
+  */
   function sortOperations(operations) {
     var arr;
 
@@ -34,12 +49,20 @@ PhonicsApp.service('Sorter', function Sorter() {
         return;
       }
 
-      return {
+      var operation = {
         operationName: operationName,
-        operation: operations[operationName]
+        operation: sortResponses(operations[operationName])
       };
+      operation[XROW] = operations[operationName][XROW];
     });
 
+    // Remove array holes
     return _.compact(arr);
+  }
+
+  function sortResponses(responses) {
+
+    // TODO
+    return responses;
   }
 });
