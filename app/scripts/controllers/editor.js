@@ -2,7 +2,23 @@
 
 PhonicsApp.controller('EditorCtrl', function EditorCtrl($scope, $stateParams, Editor, Builder, Storage, FoldManager) {
   $scope.aceLoaded = Editor.aceLoaded;
-  $scope.aceChanged = function () {
+  $scope.aceChanged = _.debounce(onAceChange, 1000);
+  Editor.ready(function () {
+    Storage.load('yaml').then(function (yaml) {
+      if ($stateParams.path) {
+        Editor.setValue(Builder.getPath(yaml, $stateParams.path));
+      } else {
+        Editor.setValue(yaml);
+      }
+
+      FoldManager.reset(yaml);
+      onAceChange();
+    });
+  });
+
+  $(document).on('pane-resize', Editor.resize.bind(Editor));
+
+  function onAceChange() {
     Storage.load('specs').then(function (specs) {
       var result;
       var value = Editor.getValue();
@@ -25,20 +41,5 @@ PhonicsApp.controller('EditorCtrl', function EditorCtrl($scope, $stateParams, Ed
 
       FoldManager.refresh();
     });
-  };
-
-  Editor.ready(function () {
-    Storage.load('yaml').then(function (yaml) {
-      if ($stateParams.path) {
-        Editor.setValue(Builder.getPath(yaml, $stateParams.path));
-      } else {
-        Editor.setValue(yaml);
-      }
-
-      FoldManager.reset(yaml);
-      Storage.save('yaml', yaml);
-    });
-  });
-
-  $(document).on('pane-resize', Editor.resize.bind(Editor));
+  }
 });
