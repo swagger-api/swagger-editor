@@ -677,7 +677,7 @@ PhonicsApp.service('Splitter', function Splitter() {
 PhonicsApp.service('Sorter', function Sorter() {
 
   // The standard order property name
-  var XROW = 'x-row';
+  var XDASH = 'x-';
 
   /*
   ** Sort specs hash (paths, operations and responses)
@@ -685,18 +685,18 @@ PhonicsApp.service('Sorter', function Sorter() {
   this.sort = function (specs) {
     if (specs && specs.paths) {
       var paths = Object.keys(specs.paths).map(function (pathName) {
-        if (pathName === XROW) {
+        if (pathName.toLowerCase().substring(0, 2) === XDASH) {
           return;
         }
         var path = {
           pathName: pathName,
           operations: sortOperations(specs.paths[pathName])
         };
-        path[XROW] = specs.paths[pathName][XROW];
+        path[XDASH] = specs.paths[pathName][XDASH];
 
         return path;
       }).sort(function (p1, p2) {
-        return p1[XROW] - p2[XROW];
+        return p1[XDASH] - p2[XDASH];
       });
 
       // Remove array holes
@@ -713,7 +713,7 @@ PhonicsApp.service('Sorter', function Sorter() {
     var arr;
 
     arr = Object.keys(operations).map(function (operationName) {
-      if (operationName === XROW) {
+      if (operationName.toLowerCase().substring(0, 2) === XDASH) {
         return;
       }
 
@@ -730,7 +730,7 @@ PhonicsApp.service('Sorter', function Sorter() {
 
       return operation;
     }).sort(function (o1, o2) {
-      return o1[XROW] - o2[XROW];
+      return o1[XDASH] - o2[XDASH];
     });
 
     // Remove array holes
@@ -741,7 +741,7 @@ PhonicsApp.service('Sorter', function Sorter() {
     var arr;
 
     arr = Object.keys(responses).map(function (responseName) {
-      if (responseName === XROW) {
+      if (responseName.toLowerCase().substring(0, 2) === XDASH) {
         return;
       }
 
@@ -750,12 +750,54 @@ PhonicsApp.service('Sorter', function Sorter() {
 
       return response;
     }).sort(function (r1, r2) {
-      return r1[XROW] - r2[XROW];
+      return r1[XDASH] - r2[XDASH];
     });
 
     // Remove array holes
     return _.compact(arr);
   }
+});
+
+'use strict';
+
+PhonicsApp.service('Operation', function Operation() {
+
+  /*
+  ** get a subpath for edit
+  */
+  this.getEditPath = function (pathName) {
+    return '#/paths?path=' + window.encodeURIComponent(pathName);
+  };
+
+  /*
+  ** Response CSS class for an HTTP response code
+  */
+  this.responseCodeClassFor = function (code) {
+    var result = 'default';
+    switch (Math.floor(+code / 100)) {
+      case 2:
+        result = 'green';
+        break;
+      case 5:
+        result = 'red';
+        break;
+      case 4:
+        result = 'yellow';
+        break;
+      case 3:
+        result = 'blue';
+    }
+    return result;
+  };
+
+  /*
+  ** Determines if a key is a vendor extension key
+  ** Vendor extensions always start with `x-`
+  */
+  this.isVendorExtension = function (key) {
+    return key.substring(0, 2).toLowerCase() === 'x-';
+  };
+
 });
 
 'use strict';
@@ -1507,7 +1549,7 @@ PhonicsApp.controller('EditorCtrl', function EditorCtrl($scope, $stateParams, Ed
 
 'use strict';
 
-PhonicsApp.controller('PreviewCtrl', function PreviewCtrl(Storage, Builder, FoldManager, Sorter, Editor, $scope, $stateParams) {
+PhonicsApp.controller('PreviewCtrl', function PreviewCtrl(Storage, Builder, FoldManager, Sorter, Editor, Operation, $scope, $stateParams) {
   function updateSpecs(latest) {
     var specs = null;
 
@@ -1546,37 +1588,8 @@ PhonicsApp.controller('PreviewCtrl', function PreviewCtrl(Storage, Builder, Fold
     Editor.gotoLine(line);
   };
 
-  // TODO: Move to a service
-  $scope.getEditPath = function (pathName) {
-    return '#/paths?path=' + window.encodeURIComponent(pathName);
-  };
-
-  $scope.responseCodeClassFor = function (code) {
-    var result = 'default';
-    switch (Math.floor(+code / 100)) {
-      case 2:
-        result = 'green';
-        break;
-      case 5:
-        result = 'red';
-        break;
-      case 4:
-        result = 'yellow';
-        break;
-      case 3:
-        result = 'blue';
-    }
-    return result;
-  };
-
-  /*
-  ** Determines if a key is a vendor extension key
-  ** Vendor extensions always start with `x-`
-  */
-  $scope.isVendorExtension = function (key) {
-    return key.substring(0, 2).toLowerCase() === 'x-';
-  };
-
+  // Add operation service methods directly
+  _.extend($scope, Operation);
 });
 
 'use strict';
