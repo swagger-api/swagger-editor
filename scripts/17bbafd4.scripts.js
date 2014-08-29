@@ -86,13 +86,27 @@ PhonicsApp.controller('MainCtrl', function MainCtrl($rootScope, Editor, defaults
 
 'use strict';
 
-PhonicsApp.controller('HeaderCtrl', function HeaderCtrl($scope, Editor, Storage, Splitter, Builder, $modal, $stateParams, defaults) {
+PhonicsApp.controller('HeaderCtrl', function HeaderCtrl($scope, Editor, Storage, Splitter, Builder, $modal, $stateParams, defaults, $timeout) {
 
   if ($stateParams.path) {
     $scope.breadcrumbs  = [{ active: true, name: $stateParams.path }];
   } else {
     $scope.breadcrumbs  = [];
   }
+
+  var statusTimeout;
+  Storage.addChangeListener('progress', function (progressStatus) {
+    $scope.status = progressStatus;
+
+    // Remove the status if it's "Saved" status
+    if (progressStatus === 'Saved.') {
+      statusTimeout = $timeout(function () {
+        $scope.status = null;
+      }, 1000);
+    } else {
+      $timeout.cancel(statusTimeout);
+    }
+  });
 
   $scope.showFileMenu = function () {
     return !defaults.disableFileMenu;
@@ -1439,8 +1453,12 @@ PhonicsApp.service('Resolver', function Resolver() {
 'use strict';
 
 PhonicsApp.controller('EditorCtrl', function EditorCtrl($scope, $stateParams, Editor, Builder, Storage, FoldManager) {
+  var debouncedOnAceChange = _.debounce(onAceChange, 1000);
   $scope.aceLoaded = Editor.aceLoaded;
-  $scope.aceChanged = _.debounce(onAceChange, 1000);
+  $scope.aceChanged = function () {
+    Storage.save('progress', 'Working...');
+    debouncedOnAceChange();
+  };
   Editor.ready(function () {
     Storage.load('yaml').then(function (yaml) {
       if ($stateParams.path) {
@@ -1496,9 +1514,17 @@ PhonicsApp.controller('PreviewCtrl', function PreviewCtrl(Storage, Builder, Fold
       specs = FoldManager.extendSpecs(specs);
       $scope.specs = Sorter.sort(specs);
     }
+
+    // Update progress status to "Saved"
+    Storage.save('progress', 'Saved.');
   }
-  function updateError(latest) {
-    $scope.error = latest;
+  function updateError(error) {
+    $scope.error = error;
+
+    // Update progress status to "Error" is there is an error
+    if (error) {
+      Storage.save('progress', 'Error!');
+    }
   }
 
   Storage.addChangeListener('yaml', updateSpecs);
