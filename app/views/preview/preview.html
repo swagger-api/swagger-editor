@@ -21,7 +21,7 @@
     </h3>
   </header>
   <ul ng-if="!error.yamlError" collapse-when="isCollapsed('paths')">
-    <path ng-repeat="(pathName, path) in specs.paths" ng-if="!isVendorExtension(pathName)"></path>
+    <path ng-repeat="path in specs.paths" ng-if="!isVendorExtension(path.pathName)"></path>
   </ul>
 
   <header ng-if="specs.definitions">
