@@ -27,12 +27,28 @@ li.operation {
   border-radius: $operation-border-radius;
   @extend .sw-font;
 
+  position: relative;
+
+
+
   >header {
     overflow: hidden;
     cursor: pointer;
     display: table;
     width: 100%;
     min-height: 31px;
+
+    .focus-editor {
+      position: absolute;
+      left: -25px;
+      top: 0;
+      padding: 10px;
+      display: none;
+    }
+
+    &:hover .focus-editor {
+      display: block;
+    }
 
     .http-method  {
       @extend .sw-font-light;
