@@ -932,6 +932,10 @@ PhonicsApp.service('Editor', function Editor() {
     editor.getSession().unfold(start, 100);
   }
 
+  function gotoLine(line) {
+    editor.gotoLine(line + 1);
+  }
+
   this.getValue = getValue;
   this.setValue = setValue;
   this.aceLoaded = aceLoaded;
@@ -944,6 +948,7 @@ PhonicsApp.service('Editor', function Editor() {
   this.onFoldChanged = onFoldChanged;
   this.addFold = addFold;
   this.removeFold = removeFold;
+  this.gotoLine = gotoLine;
 });
 
 'use strict';
@@ -1502,7 +1507,7 @@ PhonicsApp.controller('EditorCtrl', function EditorCtrl($scope, $stateParams, Ed
 
 'use strict';
 
-PhonicsApp.controller('PreviewCtrl', function PreviewCtrl(Storage, Builder, FoldManager, Sorter, $scope, $stateParams) {
+PhonicsApp.controller('PreviewCtrl', function PreviewCtrl(Storage, Builder, FoldManager, Sorter, Editor, $scope, $stateParams) {
   function updateSpecs(latest) {
     var specs = null;
 
@@ -1535,6 +1540,11 @@ PhonicsApp.controller('PreviewCtrl', function PreviewCtrl(Storage, Builder, Fold
   });
   $scope.toggle = FoldManager.toggleFold;
   $scope.isCollapsed = FoldManager.isFolded;
+
+  $scope.focusEdit = function ($event, line) {
+    $event.stopPropagation();
+    Editor.gotoLine(line);
+  };
 
   // TODO: Move to a service
   $scope.getEditPath = function (pathName) {
