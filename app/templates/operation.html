@@ -1,12 +1,12 @@
 <li class='{{operation.operationName | lowercase}} operation'>
-  <header ng-click="toggle('paths', pathName, operation.operationName)">
+  <header ng-click="toggle('paths', path.pathName, operation.operationName)">
     <div class='http-method' class="toggleOperation">{{operation.operationName | uppercase}}</div>
     <div class="summary">
         {{operation.summary || operation.description | limitTo: 140 }}
     </div>
   </header>
 
-  <div class='content' collapse-when="isCollapsed('paths', pathName, operation.operationName)">
+  <div class='content' collapse-when="isCollapsed('paths', path.pathName, operation.operationName)">
     <section class="description" ng-if="operation.description">
       <h4>Description</h4>
       <div ng-bind-html="operation.description"></div>
