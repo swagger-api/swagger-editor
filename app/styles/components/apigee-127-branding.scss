@@ -3,32 +3,37 @@
   section.left {
 
     span.caret {
-        color: #FC4C02;
+        color: white;
         float: right;
-        margin-top: 15px;
+        margin-top: 14px;
+        margin-left: 10px;
       }
 
     a.dropdown-icon-apigee {
-      float: left;
       background-image: image-url("apigee-logo.svg");
       background-repeat: no-repeat;
-      background-position: center 0px;
-      background-size: 92px;
+      background-position: 0 -3px;
+      background-size: 90px;
       height: 30px;
-      margin-bottom: 0;
+      width: 100px;
       display: block;
-      width: 98px;
-
-
+      cursor: pointer;
     }
   }
 
 	header.main-header {
-		//background: gold;
-	}
+
+  }
 
   .brandRight {
-      display: none;
+      //margin-right: 100px;
+      //float: right;
+      //float:left;
+
+      .btnDiv {
+        display: inline-block;
+        float: left;
+      }
   }
 
 }
