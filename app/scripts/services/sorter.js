@@ -51,9 +51,15 @@ PhonicsApp.service('Sorter', function Sorter() {
 
       var operation = {
         operationName: operationName,
-        operation: sortResponses(operations[operationName])
+        responses: sortResponses(operations[operationName])
       };
-      operation[XROW] = operations[operationName][XROW];
+
+      _.extend(operation, operations[operationName]);
+      // operation[XROW] = operations[operationName][XROW];
+
+      return operation;
+    }).sort(function (o1, o2) {
+      return o1[XROW] - o2[XROW];
     });
 
     // Remove array holes
@@ -61,8 +67,25 @@ PhonicsApp.service('Sorter', function Sorter() {
   }
 
   function sortResponses(responses) {
+    var arr;
 
-    // TODO
-    return responses;
+    arr = Object.keys(responses).map(function (responseName) {
+      if (responseName === XROW) {
+        return;
+      }
+
+      var response = {
+        responseCode: responseName,
+        response: responses[responseName]
+      };
+      response[XROW] = responses[responseName][XROW];
+
+      return response;
+    }).sort(function (r1, r2) {
+      return r1[XROW] - r2[XROW];
+    });
+
+    // Remove array holes
+    return _.compact(arr);
   }
 });
