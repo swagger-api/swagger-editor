@@ -10,7 +10,7 @@ PhonicsApp.service('Sorter', function Sorter() {
 
   // The standard order property name
   var XDASH = 'x-';
-  var XROW = 'x-row'
+  var XROW = 'x-row';
 
   /*
   ** Sort specs hash (paths, operations and responses)
