@@ -51,11 +51,14 @@ PhonicsApp.service('Sorter', function Sorter() {
 
       var operation = {
         operationName: operationName,
-        responses: sortResponses(operations[operationName])
+        responses: sortResponses(operations[operationName].responses)
       };
 
+      // Remove responses object
+      operations[operationName] = _.omit(operations[operationName], 'responses');
+
+      // Add other properties
       _.extend(operation, operations[operationName]);
-      // operation[XROW] = operations[operationName][XROW];
 
       return operation;
     }).sort(function (o1, o2) {
@@ -74,11 +77,8 @@ PhonicsApp.service('Sorter', function Sorter() {
         return;
       }
 
-      var response = {
-        responseCode: responseName,
-        response: responses[responseName]
-      };
-      response[XROW] = responses[responseName][XROW];
+      var response = _.extend({ responseCode: responseName },
+        responses[responseName]);
 
       return response;
     }).sort(function (r1, r2) {
