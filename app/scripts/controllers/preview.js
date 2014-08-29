@@ -12,9 +12,17 @@ PhonicsApp.controller('PreviewCtrl', function PreviewCtrl(Storage, Builder, Fold
       specs = FoldManager.extendSpecs(specs);
       $scope.specs = Sorter.sort(specs);
     }
+
+    // Update progress status to "Saved"
+    Storage.save('progress', 'Saved.');
   }
-  function updateError(latest) {
-    $scope.error = latest;
+  function updateError(error) {
+    $scope.error = error;
+
+    // Update progress status to "Error" is there is an error
+    if (error) {
+      Storage.save('progress', 'Error!');
+    }
   }
 
   Storage.addChangeListener('yaml', updateSpecs);
