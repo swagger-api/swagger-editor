@@ -36,6 +36,8 @@
       margin-top: 0;
       display: block;
       width: 44px;
+      cursor: pointer;
+
 
         &:hover {
           background-image: image-url("swagger-sprite.png");
@@ -167,6 +169,7 @@
   // TODO: colors
   background: none;
   color: white;
+  margin-left: 20px;
 
   > li + li:before {
     content: ">";
