@@ -28,6 +28,8 @@
     //dropdown styling
    .dropdown {
 
+     display: inline-block;
+
       a.dropdown-icon {
       background-image: image-url("swagger-sprite.png");
       background-repeat: no-repeat;

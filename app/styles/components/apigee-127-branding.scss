@@ -6,7 +6,7 @@
         color: white;
         float: right;
         margin-top: 14px;
-        margin-left: 10px;
+        //margin-left: 10px;
       }
 
     a.dropdown-icon-apigee {
@@ -29,10 +29,11 @@
       //margin-right: 100px;
       //float: right;
       //float:left;
+      display: inline-block;
 
       .btnDiv {
         display: inline-block;
-        float: left;
+        //float: left;
       }
   }
 
