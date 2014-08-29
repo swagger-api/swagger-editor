@@ -2,17 +2,17 @@
   <header ng-click="toggle('paths', pathName, operation.operationName)">
     <div class='http-method' class="toggleOperation">{{operation.operationName | uppercase}}</div>
     <div class="summary">
-        {{operation.operation.summary || operation.operation.description | limitTo: 140 }}
+        {{operation.summary || operation.description | limitTo: 140 }}
     </div>
   </header>
 
   <div class='content' collapse-when="isCollapsed('paths', pathName, operation.operationName)">
-    <section class="description" ng-if="operation.operation.description">
+    <section class="description" ng-if="operation.description">
       <h4>Description</h4>
-      <div ng-bind-html="operation.operation.description"></div>
+      <div ng-bind-html="operation.description"></div>
     </section>
 
-    <section class="parameters" ng-if="operation.operation.parameters.length">
+    <section class="parameters" ng-if="operation.parameters.length">
       <h4>Parameters</h4>
       <div>
         <table class="params">
@@ -26,7 +26,7 @@
             </tr>
           </thead>
           <tbody>
-            <tr ng-repeat="parameter in operation.operation.parameters">
+            <tr ng-repeat="parameter in operation.parameters">
               <td class="mono">{{parameter.name}}</td>
               <td>{{parameter.in}}</td>
               <td>{{parameter.description}}</td>
@@ -40,7 +40,7 @@
       </div>
     </section>
 
-    <section class="responses" ng-if="operation.operation.responses">
+    <section class="responses" ng-if="operation.responses">
       <h4>Responses</h4>
       <div>
         <table class="respns">
@@ -52,9 +52,9 @@
             </tr>
           </thead>
           <tbody>
-            <tr ng-repeat="(responseCode, response) in operation.operation.responses">
+            <tr ng-repeat="response in operation.responses">
               <td>
-                <span class="resp-code {{responseCodeClassFor(responseCode)}}">{{responseCode}}</span>
+                <span class="resp-code {{responseCodeClassFor(response.responseCode)}}">{{response.responseCode}}</span>
               </td>
               <td>{{response.description}}</td>
               <td>
@@ -70,7 +70,7 @@
     <section class="try-operation">
       <button class="try-it" ng-class="{trying: tryIsOpen}" ng-click="showTryOperation()">Try this operation</button>
       <span class="try-toggle" ng-class="{'is-open': tryIsOpen}" ng-click="showTryOperation()"></span>
-      <try-operation operation="operation.operation" ng-if="tryIsOpen"></try-operation>
+      <try-operation operation="operation" ng-if="tryIsOpen"></try-operation>
     </section>
     -->
 </li>
