@@ -654,6 +654,98 @@ PhonicsApp.service('Splitter', function Splitter() {
 
 'use strict';
 
+/*
+** Because Angular will sort hash keys alphabetically we need
+** translate hashes to arrays in order to keep the order of the
+** elements.
+** Order information is coming from FoldManager via x-row properties
+*/
+PhonicsApp.service('Sorter', function Sorter() {
+
+  // The standard order property name
+  var XROW = 'x-row';
+
+  /*
+  ** Sort specs hash (paths, operations and responses)
+  */
+  this.sort = function (specs) {
+    if (specs && specs.paths) {
+      var paths = Object.keys(specs.paths).map(function (pathName) {
+        if (pathName === XROW) {
+          return;
+        }
+        var path = {
+          pathName: pathName,
+          operations: sortOperations(specs.paths[pathName])
+        };
+        path[XROW] = specs.paths[pathName][XROW];
+
+        return path;
+      }).sort(function (p1, p2) {
+        return p1[XROW] - p2[XROW];
+      });
+
+      // Remove array holes
+      specs.paths = _.compact(paths);
+    }
+
+    return specs;
+  };
+
+  /*
+  ** Sort operations
+  */
+  function sortOperations(operations) {
+    var arr;
+
+    arr = Object.keys(operations).map(function (operationName) {
+      if (operationName === XROW) {
+        return;
+      }
+
+      var operation = {
+        operationName: operationName,
+        responses: sortResponses(operations[operationName].responses)
+      };
+
+      // Remove responses object
+      operations[operationName] = _.omit(operations[operationName], 'responses');
+
+      // Add other properties
+      _.extend(operation, operations[operationName]);
+
+      return operation;
+    }).sort(function (o1, o2) {
+      return o1[XROW] - o2[XROW];
+    });
+
+    // Remove array holes
+    return _.compact(arr);
+  }
+
+  function sortResponses(responses) {
+    var arr;
+
+    arr = Object.keys(responses).map(function (responseName) {
+      if (responseName === XROW) {
+        return;
+      }
+
+      var response = _.extend({ responseCode: responseName },
+        responses[responseName]);
+
+      return response;
+    }).sort(function (r1, r2) {
+      return r1[XROW] - r2[XROW];
+    });
+
+    // Remove array holes
+    return _.compact(arr);
+  }
+});
+
+'use strict';
+
 function load(fileContent) {
 
   // Figure out file type
@@ -1348,7 +1440,23 @@ PhonicsApp.service('Resolver', function Resolver() {
 
 PhonicsApp.controller('EditorCtrl', function EditorCtrl($scope, $stateParams, Editor, Builder, Storage, FoldManager) {
   $scope.aceLoaded = Editor.aceLoaded;
-  $scope.aceChanged = function () {
+  $scope.aceChanged = _.debounce(onAceChange, 1000);
+  Editor.ready(function () {
+    Storage.load('yaml').then(function (yaml) {
+      if ($stateParams.path) {
+        Editor.setValue(Builder.getPath(yaml, $stateParams.path));
+      } else {
+        Editor.setValue(yaml);
+      }
+
+      FoldManager.reset(yaml);
+      onAceChange();
+    });
+  });
+
+  $(document).on('pane-resize', Editor.resize.bind(Editor));
+
+  function onAceChange() {
     Storage.load('specs').then(function (specs) {
       var result;
       var value = Editor.getValue();
@@ -1371,27 +1479,12 @@ PhonicsApp.controller('EditorCtrl', function EditorCtrl($scope, $stateParams, Ed
 
       FoldManager.refresh();
     });
-  };
-
-  Editor.ready(function () {
-    Storage.load('yaml').then(function (yaml) {
-      if ($stateParams.path) {
-        Editor.setValue(Builder.getPath(yaml, $stateParams.path));
-      } else {
-        Editor.setValue(yaml);
-      }
-
-      FoldManager.reset(yaml);
-      Storage.save('yaml', yaml);
-    });
-  });
-
-  $(document).on('pane-resize', Editor.resize.bind(Editor));
+  }
 });
 
 'use strict';
 
-PhonicsApp.controller('PreviewCtrl', function PreviewCtrl(Storage, Builder, FoldManager, $scope, $stateParams) {
+PhonicsApp.controller('PreviewCtrl', function PreviewCtrl(Storage, Builder, FoldManager, Sorter, $scope, $stateParams) {
   function updateSpecs(latest) {
     var specs = null;
 
@@ -1400,7 +1493,8 @@ PhonicsApp.controller('PreviewCtrl', function PreviewCtrl(Storage, Builder, Fold
       $scope.isSinglePath = true;
     } else {
       specs = Builder.buildDocs(latest, { resolve: true }).specs;
-      $scope.specs = FoldManager.extendSpecs(specs);
+      specs = FoldManager.extendSpecs(specs);
+      $scope.specs = Sorter.sort(specs);
     }
   }
   function updateError(latest) {

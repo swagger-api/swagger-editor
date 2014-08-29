@@ -1,7 +1,7 @@
-<li class="path"><header ng-click="$parent.toggle('paths', pathName)"><h2><a>{{pathName}}</a></h2><!-- TODO: bring back "edit this path"
+<li class="path"><header ng-click="$parent.toggle('paths', path.pathName)"><h2><a>{{path.pathName}}</a></h2><!-- TODO: bring back "edit this path"
     <ul class='options'>
       <li ng-if="!isSingle">
         <a href="{{getEditPath(pathName)}}">Edit This Path</a>
       </li>
     </ul>
-    --></header><ul class="operations" collapse-when="$parent.isCollapsed('paths', pathName)"><operation ng-repeat="(operationName, operation) in path" ng-if="!isVendorExtension(operationName)"></operation></ul></li>
+    --></header><ul class="operations" collapse-when="$parent.isCollapsed('paths', path.pathName)"><operation ng-repeat="operation in path.operations" ng-if="!isVendorExtension(operation.operationName)"></operation></ul></li>
