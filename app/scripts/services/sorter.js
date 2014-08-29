@@ -10,6 +10,7 @@ PhonicsApp.service('Sorter', function Sorter() {
 
   // The standard order property name
   var XDASH = 'x-';
+  var XROW = 'x-row'
 
   /*
   ** Sort specs hash (paths, operations and responses)
@@ -24,11 +25,11 @@ PhonicsApp.service('Sorter', function Sorter() {
           pathName: pathName,
           operations: sortOperations(specs.paths[pathName])
         };
-        path[XDASH] = specs.paths[pathName][XDASH];
+        path[XROW] = specs.paths[pathName][XROW];
 
         return path;
       }).sort(function (p1, p2) {
-        return p1[XDASH] - p2[XDASH];
+        return p1[XROW] - p2[XROW];
       });
 
       // Remove array holes
@@ -62,7 +63,7 @@ PhonicsApp.service('Sorter', function Sorter() {
 
       return operation;
     }).sort(function (o1, o2) {
-      return o1[XDASH] - o2[XDASH];
+      return o1[XROW] - o2[XROW];
     });
 
     // Remove array holes
@@ -82,7 +83,7 @@ PhonicsApp.service('Sorter', function Sorter() {
 
       return response;
     }).sort(function (r1, r2) {
-      return r1[XDASH] - r2[XDASH];
+      return r1[XROW] - r2[XROW];
     });
 
     // Remove array holes
