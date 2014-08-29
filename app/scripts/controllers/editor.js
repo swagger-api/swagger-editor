@@ -1,8 +1,12 @@
 'use strict';
 
 PhonicsApp.controller('EditorCtrl', function EditorCtrl($scope, $stateParams, Editor, Builder, Storage, FoldManager) {
+  var debouncedOnAceChange = _.debounce(onAceChange, 1000);
   $scope.aceLoaded = Editor.aceLoaded;
-  $scope.aceChanged = _.debounce(onAceChange, 1000);
+  $scope.aceChanged = function () {
+    Storage.save('progress', 'Working...');
+    debouncedOnAceChange();
+  };
   Editor.ready(function () {
     Storage.load('yaml').then(function (yaml) {
       if ($stateParams.path) {

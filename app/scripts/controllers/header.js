@@ -1,12 +1,26 @@
 'use strict';
 
-PhonicsApp.controller('HeaderCtrl', function HeaderCtrl($scope, Editor, Storage, Splitter, Builder, $modal, $stateParams, defaults) {
+PhonicsApp.controller('HeaderCtrl', function HeaderCtrl($scope, Editor, Storage, Splitter, Builder, $modal, $stateParams, defaults, $timeout) {
 
   if ($stateParams.path) {
     $scope.breadcrumbs  = [{ active: true, name: $stateParams.path }];
   } else {
     $scope.breadcrumbs  = [];
   }
+
+  var statusTimeout;
+  Storage.addChangeListener('progress', function (progressStatus) {
+    $scope.status = progressStatus;
+
+    // Remove the status if it's "Saved" status
+    if (progressStatus === 'Saved.') {
+      statusTimeout = $timeout(function () {
+        $scope.status = null;
+      }, 1000);
+    } else {
+      $timeout.cancel(statusTimeout);
+    }
+  });
 
   $scope.showFileMenu = function () {
     return !defaults.disableFileMenu;
