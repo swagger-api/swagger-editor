@@ -1,0 +1,49 @@
+.apigee-127 {
+
+  section.left {
+
+    span.caret {
+        color: white;
+        float: right;
+        margin-top: 14px;
+      }
+
+    a.dropdown-icon-apigee {
+      background-image: image-url("apigee-logo.svg");
+      background-repeat: no-repeat;
+      background-position: 0 -3px;
+      background-size: 90px;
+      height: 30px;
+      width: 100px;
+      display: block;
+      cursor: pointer;
+    }
+  }
+
+	header.main-header {
+
+ }
+
+  .brandRight {
+    display: inline-block;
+    vertical-align: top;
+
+    .btnDiv {
+      display: inline-block;
+    }
+
+    .btnHelp {
+      min-width: 5em;
+      margin-right: 70px;
+      background-image: image-url("newWindow.png");
+      background-repeat: no-repeat;
+      background-position: 54px 11px;
+
+      &:hover {
+        background-image: image-url("newWindow.png");
+        background-repeat: no-repeat;
+        background-position: 54px 11px;
+      }
+    }
+  }
+}

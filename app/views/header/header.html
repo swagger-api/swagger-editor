@@ -2,7 +2,7 @@
   <div class="toolbar">
     <section class="left">
       <div ng-include="'templates/branding-left.html'" ng-if="showHeaderBranding()"></div>
-      <div class="dropdown">
+      <div class="dropdown" ng-if="showFileMenu()">
         <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" id="fileMenu">
           File
           <span class="caret"></span>
@@ -43,11 +43,11 @@
       </ol>
     </section>
     <section class="right">
-      <div ng-include="'templates/branding-right.html'" ng-if="showHeaderBranding()"></div>
+      <div class="brandRight" ng-include="'templates/branding-right.html'" ng-if="showHeaderBranding()"></div>
       <div class="dropdown">
-        <a class=" dropdown-icon" id="helpMenu" data-toggle="dropdown">
+        <a class="dropdown-icon" id="helpMenu" data-toggle="dropdown">
         </a>
-        <ul class="dropdown-menu dropdown-menu-right" on-open="assignDownloadHrefs" ng-if="showFileMenu()" role="menu" aria-labelledby="helpMenu">
+        <ul class="dropdown-menu dropdown-menu-right" on-open="assignDownloadHrefs"  role="menu" aria-labelledby="helpMenu">
           <li role="presentation"><a role="menuitem" tabindex="-1" href="#">YAML Documentation<span class="new-window"></span></a></li>
           <li role="presentation"><a role="menuitem" tabindex="-1" href="http://swagger.wordnik.com/" target="_blank">About Swagger<span class="new-window"></span></a></li>
           <li role="presentation" class="divider"></li>
