@@ -61,4 +61,14 @@ PhonicsApp.controller('ErrorPresenterCtrl', function ($scope) {
 
     return error;
   };
+
+  $scope.getLineNumber = function () {
+    var error = $scope.getError();
+
+    if (error && error.yamlError) {
+      return error.yamlError.mark.line;
+    }
+
+    return -1;
+  };
 });
