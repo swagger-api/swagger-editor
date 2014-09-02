@@ -43,8 +43,11 @@ PhonicsApp.service('Sorter', function Sorter() {
   ** Sort operations
   */
   function sortOperations(operations) {
-    var arr;
+    var arr = [];
 
+    if (!angular.isObject(operations)) {
+      return arr;
+    }
     arr = Object.keys(operations).map(function (operationName) {
       if (operationName.toLowerCase().substring(0, 2) === XDASH) {
         return;
