@@ -11,15 +11,18 @@
     width: 300px;
     left: 50%;
     margin-left: -150px;
-    background: #CFB525;
+    background: #FFD700;
     text-align: center;
     top: 10px;
     padding: 3px;
     border-radius: 4px;
-    color: #FFF;
+    color: #000;
     font-size: 13px;
     box-shadow: 5px 5px 10px rgba(105, 96, 96, 0.49);
     font-weight: bold;
+
+    &.success { background: green; }
+    &.error { background: red; }
   }
 
   @extend .sw-font;

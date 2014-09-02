@@ -10,7 +10,12 @@ PhonicsApp.controller('HeaderCtrl', function HeaderCtrl($scope, Editor, Storage,
 
   var statusTimeout;
   Storage.addChangeListener('progress', function (progressStatus) {
+    var statusClassHash = {
+      'Saved.': 'success',
+      'Error!': 'error'
+    };
     $scope.status = progressStatus;
+    $scope.statusClass = statusClassHash[progressStatus];
 
     // Remove the status if it's "Saved" status
     if (progressStatus === 'Saved.') {
