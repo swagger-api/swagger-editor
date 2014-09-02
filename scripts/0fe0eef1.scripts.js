@@ -716,8 +716,11 @@ PhonicsApp.service('Sorter', function Sorter() {
   ** Sort operations
   */
   function sortOperations(operations) {
-    var arr;
+    var arr = [];
 
+    if (!angular.isObject(operations)) {
+      return arr;
+    }
     arr = Object.keys(operations).map(function (operationName) {
       if (operationName.toLowerCase().substring(0, 2) === XDASH) {
         return;
@@ -1616,6 +1619,7 @@ PhonicsApp.service('Storage', function Storage(LocalStorage, Backend, defaults) 
 PhonicsApp.service('LocalStorage', function LocalStorage($localStorage, $q) {
   var storageKey = 'SwaggerEditorCache';
   var changeListeners =  Object.create(null);
+  var that = this;
 
   $localStorage[storageKey] = $localStorage[storageKey] || Object.create(null);
 
@@ -1638,7 +1642,9 @@ PhonicsApp.service('LocalStorage', function LocalStorage($localStorage, $q) {
   };
 
   this.reset = function () {
-    $localStorage[storageKey] = Object.create(null);
+    Object.keys($localStorage[storageKey]).forEach(function (key) {
+      that.save(key, '');
+    });
   };
 
   this.load = function (key) {
@@ -2151,10 +2157,10 @@ PhonicsApp.config(['$provide', function ($provide) {
     exampleFiles: ['default.yaml', 'minimal.yaml', 'petstore.yaml', 'heroku-pets.yaml', 'uber.yaml'],
     backendEndpoint: '/editor/spec',
     useBackendForStorage: false,
-    disableFileMenu: true,
+    disableFileMenu: false,
     useYamlBackend: false,
-    headerBranding: true,
-    brandingCssClass: 'apigee-127'
+    headerBranding: false,
+    brandingCssClass: ''
   }
   // END-DEFAULTS-JSON
 
