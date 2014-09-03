@@ -1,32 +1,26 @@
 'use strict';
 
-PhonicsApp.controller('PreviewCtrl', function PreviewCtrl(Storage, Builder, FoldManager, Sorter, Editor, Operation, $scope, $stateParams) {
-  function updateSpecs(latest) {
+PhonicsApp.controller('PreviewCtrl', function PreviewCtrl(Storage, Builder, FoldManager, Sorter, Editor, Operation, $scope) {
+  function update(latest) {
     var specs = null;
+    var result = null;
 
-    if ($stateParams.path) {
-      $scope.specs = { paths: Builder.getPath(latest, $stateParams.path) };
-      $scope.isSinglePath = true;
-    } else {
-      specs = Builder.buildDocs(latest, { resolve: true }).specs;
-      specs = FoldManager.extendSpecs(specs);
-      $scope.specs = Sorter.sort(specs);
-    }
+    result = Builder.buildDocs(latest, { resolve: true });
+    specs = FoldManager.extendSpecs(result.specs);
+    $scope.specs = Sorter.sort(specs);
 
-    // Update progress status to "Saved"
-    Storage.save('progress', 'Saved.');
-  }
-  function updateError(error) {
-    $scope.error = error;
-
-    // Update progress status to "Error" is there is an error
-    if (error) {
+    if (result.error) {
+      if (result.error.yamlError) {
+        Editor.annotateYAMLErrors(result.error.yamlError);
+      }
+      $scope.error = result.error;
       Storage.save('progress', 'Error!');
+    } else {
+      Storage.save('progress', 'Saved.');
     }
   }
 
-  Storage.addChangeListener('yaml', updateSpecs);
-  Storage.addChangeListener('error', updateError);
+  Storage.addChangeListener('yaml', update);
 
   FoldManager.onFoldStatusChanged(function () {
     _.defer(function () { $scope.$apply(); });
