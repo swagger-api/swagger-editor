@@ -48,6 +48,7 @@ PhonicsApp.service('Sorter', function Sorter() {
     if (!angular.isObject(operations)) {
       return arr;
     }
+
     arr = Object.keys(operations).map(function (operationName) {
       if (operationName.toLowerCase().substring(0, 2) === XDASH) {
         return;
@@ -74,7 +75,11 @@ PhonicsApp.service('Sorter', function Sorter() {
   }
 
   function sortResponses(responses) {
-    var arr;
+    var arr = [];
+
+    if (!angular.isObject(responses)) {
+      return arr;
+    }
 
     arr = Object.keys(responses).map(function (responseName) {
       if (responseName.toLowerCase().substring(0, 2) === XDASH) {
