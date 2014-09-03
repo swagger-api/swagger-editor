@@ -141,7 +141,6 @@
       color: $toolbar-button-color;
       text-decoration: none;
       font-size: $button-font-size;
-      //margin-top: 5px;
       padding-top: 0.3em;
       padding-bottom: 0.3em;
       outline: none;
@@ -157,9 +156,8 @@
 
       span {
         font-size: .5em;
-        float: right;
-        margin-right: $border-radius;
-        margin-top: 8px;
+        vertical-align: middle;
+        margin-left: 76px;
       }
 
       &.menu-button {
