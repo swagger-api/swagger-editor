@@ -7,10 +7,8 @@ PhonicsApp.controller('OpenExamplesCtrl', function OpenExamplesCtrl(FileLoader, 
 
   $scope.open = function (file) {
     FileLoader.loadFromUrl('spec-files/' + file).then(function (value) {
-      var result = Builder.buildDocsWithObject(value);
-      Editor.setValue(result.specs);
-      Storage.save('specs', result.specs);
-      Storage.save('error', result.error);
+      Storage.save('yaml', value);
+      Editor.setValue(value);
       FoldManager.reset();
       $modalInstance.close();
     }, $modalInstance.close);
