@@ -721,6 +721,7 @@ PhonicsApp.service('Sorter', function Sorter() {
     if (!angular.isObject(operations)) {
       return arr;
     }
+
     arr = Object.keys(operations).map(function (operationName) {
       if (operationName.toLowerCase().substring(0, 2) === XDASH) {
         return;
@@ -747,7 +748,11 @@ PhonicsApp.service('Sorter', function Sorter() {
   }
 
   function sortResponses(responses) {
-    var arr;
+    var arr = [];
+
+    if (!angular.isObject(responses)) {
+      return arr;
+    }
 
     arr = Object.keys(responses).map(function (responseName) {
       if (responseName.toLowerCase().substring(0, 2) === XDASH) {
@@ -811,27 +816,43 @@ PhonicsApp.service('Operation', function Operation() {
 
 'use strict';
 
-function load(fileContent) {
+/*
+** takes a JSON or YAML string, returns YAML string
+*/
+function load(string) {
+  var jsonError, yamlError;
 
-  // Figure out file type
-  var json = null;
-  var yaml = null;
+  if (!angular.isString(string)) {
+    throw new Error('load function only accepts a string');
+  }
+
+  // Try figuring out if it's a JSON string
   try {
-    json = JSON.parse(fileContent);
-  } catch (jsonError) {}
-  if (!json) {
-    try {
-      yaml = jsyaml.load(fileContent);
-    } catch (yamlError) {}
+    JSON.parse(string);
+  } catch (error) {
+    jsonError = error;
   }
 
-  if (json) {
-    return json;
+  // if it's a JSON string, convert it to YAML string and return it
+  if (!jsonError) {
+    return jsyaml.dump(JSON.parse(string));
   }
-  if (typeof yaml === 'object') {
-    return yaml;
+
+  // Try parsing the string as a YAML string  and capture the error
+  try {
+    jsyaml.load(string);
+  } catch (error) {
+    yamlError = error;
   }
-  return null;
+
+  // If there was no error in parsing the string as a YAML string
+  // return the original string
+  if (!yamlError) {
+    return string;
+  }
+
+  // If it was neither JSON or YAML, throw an error
+  throw new Error('load function called with an invalid string');
 }
 
 PhonicsApp.service('FileLoader', function FileLoader($http) {
@@ -857,9 +878,9 @@ PhonicsApp.controller('FileImportCtrl', function FileImportCtrl($scope, $modalIn
   };
 
   $scope.ok = function () {
-    if (typeof results === 'object') {
+    if (angular.isString(results)) {
       Editor.setValue(results);
-      Storage.save('specs', results);
+      Storage.save('yaml', results);
       FoldManager.reset();
     }
     $modalInstance.close();
@@ -1508,7 +1529,7 @@ PhonicsApp.service('Resolver', function Resolver() {
 
 'use strict';
 
-PhonicsApp.controller('EditorCtrl', function EditorCtrl($scope, $stateParams, Editor, Builder, Storage, FoldManager) {
+PhonicsApp.controller('EditorCtrl', function EditorCtrl($scope, Editor, Builder, Storage, FoldManager) {
   var debouncedOnAceChange = _.debounce(onAceChange, 1000);
   $scope.aceLoaded = Editor.aceLoaded;
   $scope.aceChanged = function () {
@@ -1517,12 +1538,7 @@ PhonicsApp.controller('EditorCtrl', function EditorCtrl($scope, $stateParams, Ed
   };
   Editor.ready(function () {
     Storage.load('yaml').then(function (yaml) {
-      if ($stateParams.path) {
-        Editor.setValue(Builder.getPath(yaml, $stateParams.path));
-      } else {
-        Editor.setValue(yaml);
-      }
-
+      Editor.setValue(yaml);
       FoldManager.reset(yaml);
       onAceChange();
     });
@@ -1531,60 +1547,38 @@ PhonicsApp.controller('EditorCtrl', function EditorCtrl($scope, $stateParams, Ed
   $(document).on('pane-resize', Editor.resize.bind(Editor));
 
   function onAceChange() {
-    Storage.load('specs').then(function (specs) {
-      var result;
-      var value = Editor.getValue();
+    var value = Editor.getValue();
 
-      if (!$stateParams.path) {
-        result = Builder.buildDocs(value);
-      } else {
-        result = Builder.updatePath(value, $stateParams.path, specs);
-      }
-
-      Storage.save('yaml', value);
-      Storage.save('specs', result.specs);
-      Storage.save('error', result.error);
-
-      if (result.error && result.error.yamlError) {
-        Editor.annotateYAMLErrors(result.error.yamlError);
-      } else {
-        Editor.clearAnnotation();
-      }
-
-      FoldManager.refresh();
-    });
+    Storage.save('yaml', value);
+    FoldManager.refresh();
   }
 });
 
 'use strict';
 
-PhonicsApp.controller('PreviewCtrl', function PreviewCtrl(Storage, Builder, FoldManager, Sorter, Editor, Operation, $scope, $stateParams) {
-  function updateSpecs(latest) {
+PhonicsApp.controller('PreviewCtrl', function PreviewCtrl(Storage, Builder, FoldManager, Sorter, Editor, Operation, $scope) {
+  function update(latest) {
     var specs = null;
+    var result = null;
 
-    if ($stateParams.path) {
-      $scope.specs = { paths: Builder.getPath(latest, $stateParams.path) };
-      $scope.isSinglePath = true;
-    } else {
-      specs = Builder.buildDocs(latest, { resolve: true }).specs;
-      specs = FoldManager.extendSpecs(specs);
-      $scope.specs = Sorter.sort(specs);
-    }
+    result = Builder.buildDocs(latest, { resolve: true });
+    specs = FoldManager.extendSpecs(result.specs);
+    $scope.specs = Sorter.sort(specs);
 
-    // Update progress status to "Saved"
-    Storage.save('progress', 'Saved.');
-  }
-  function updateError(error) {
-    $scope.error = error;
-
-    // Update progress status to "Error" is there is an error
-    if (error) {
+    if (result.error) {
+      if (result.error.yamlError) {
+        Editor.annotateYAMLErrors(result.error.yamlError);
+      } else {
+        Editor.clearAnnotation();
+      }
+      $scope.error = result.error;
       Storage.save('progress', 'Error!');
+    } else {
+      Storage.save('progress', 'Saved.');
     }
   }
 
-  Storage.addChangeListener('yaml', updateSpecs);
-  Storage.addChangeListener('error', updateError);
+  Storage.addChangeListener('yaml', update);
 
   FoldManager.onFoldStatusChanged(function () {
     _.defer(function () { $scope.$apply(); });
@@ -2231,9 +2225,9 @@ PhonicsApp.controller('UrlImportCtrl', function FileImportCtrl($scope, $modalIns
   };
 
   $scope.ok = function () {
-    if (typeof results === 'object') {
+    if (angular.isString(results)) {
+      Storage.save('yaml', results);
       Editor.setValue(results);
-      Storage.save('specs', results);
       FoldManager.reset();
     }
     $modalInstance.close();
@@ -2315,6 +2309,10 @@ PhonicsApp.controller('ErrorPresenterCtrl', function ($scope) {
 
     return -1;
   };
+
+  $scope.showLineJumpLink = function () {
+    return $scope.getLineNumber() !== -1;
+  };
 });
 
 'use strict';
@@ -2326,10 +2324,8 @@ PhonicsApp.controller('OpenExamplesCtrl', function OpenExamplesCtrl(FileLoader, 
 
   $scope.open = function (file) {
     FileLoader.loadFromUrl('spec-files/' + file).then(function (value) {
-      var result = Builder.buildDocsWithObject(value);
-      Editor.setValue(result.specs);
-      Storage.save('specs', result.specs);
-      Storage.save('error', result.error);
+      Storage.save('yaml', value);
+      Editor.setValue(value);
       FoldManager.reset();
       $modalInstance.close();
     }, $modalInstance.close);
