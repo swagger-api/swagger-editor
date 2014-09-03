@@ -38,8 +38,9 @@
   p {
     font-size: .9em;
     display: table-cell;
+    width: 100%;
     @extend .sw-font-light;
-    line-height: 1.2em;
+    line-height: 1.3em;
     float: left;
     margin-bottom: 1em;
   }
