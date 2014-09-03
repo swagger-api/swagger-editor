@@ -77,8 +77,21 @@ PhonicsApp.config(function Router($compileProvider, $stateProvider, $urlRouterPr
 
 'use strict';
 
-PhonicsApp.controller('MainCtrl', function MainCtrl($rootScope, Editor, defaults) {
+PhonicsApp.controller('MainCtrl', function MainCtrl($rootScope, Editor, Storage, FileLoader, defaults) {
   $rootScope.$on('$stateChangeStart', Editor.initializeEditor);
+
+  // If there is no saved YAML load the default YAML file
+  Storage.load('yaml').then(function (yaml) {
+    if (!yaml) {
+      var url = defaults.examplesFolder + defaults.exampleFiles[0];
+      FileLoader.loadFromUrl(url).then(function (yaml) {
+        if (yaml) {
+          Storage.save('yaml', yaml);
+          Editor.setValue(yaml);
+        }
+      });
+    }
+  });
 
   // TODO: find a better way to add the branding class (grunt html template)
   $('body').addClass(defaults.brandingCssClass);
@@ -179,18 +192,18 @@ PhonicsApp.controller('HeaderCtrl', function HeaderCtrl($scope, Editor, Storage,
     });
   };
 
-  function assignDownloadHrefs($scope, Storage) {
+  function assignDownloadHrefs() {
     var MIME_TYPE = 'text/plain';
 
-    Storage.load('specs').then(function (specs) {
+    Storage.load('yaml').then(function (yaml) {
       // JSON
-      var json = angular.toJson(specs, true);
+      var json = JSON.stringify(jsyaml.load(yaml), null, 4);
       var jsonBlob = new Blob([json], {type: MIME_TYPE});
       $scope.jsonDownloadHref = window.URL.createObjectURL(jsonBlob);
       $scope.jsonDownloadUrl = [MIME_TYPE, 'spec.json', $scope.jsonDownloadHref].join(':');
 
       // YAML
-      var yamlBlob = new Blob([jsyaml.dump(specs)], {type: MIME_TYPE});
+      var yamlBlob = new Blob([yaml], {type: MIME_TYPE});
       $scope.yamlDownloadHref = window.URL.createObjectURL(yamlBlob);
       $scope.yamlDownloadUrl = [MIME_TYPE, 'spec.yaml', $scope.yamlDownloadHref].join(':');
     });
@@ -431,6 +444,25 @@ function buildProperty(property, schema) {
   return result;
 }
 
+/*
+** Removes vendor extensions (x- keys) deeply from an object
+*/
+function removeVendorExtensions(obj) {
+  if (!angular.isObject(obj)) {
+    return obj;
+  }
+
+  var result = {};
+
+  Object.keys(obj).forEach(function (k) {
+    if (k.toLowerCase().substring(0, 2) !== 'x-') {
+      result[k] = removeVendorExtensions(obj[k]);
+    }
+  });
+
+  return result;
+}
+
 PhonicsApp
   .directive('schemaModel', function () {
     return {
@@ -442,6 +474,7 @@ PhonicsApp
       },
       link: function postLink(scope) {
         scope.mode = 'model';
+        scope.schema = removeVendorExtensions(scope.schema);
 
         scope.getJson = function () {
           return scope.schema;
@@ -2149,7 +2182,8 @@ PhonicsApp.config(['$provide', function ($provide) {
   {
     downloadZipUrl: 'http://generator.wordnik.com/online/api/gen/download/',
     apiGenUrl: 'http://generator.wordnik.com/online/api/gen/{type}/{kind}',
-    exampleFiles: ['default.yaml', 'minimal.yaml', 'petstore.yaml', 'heroku-pets.yaml', 'uber.yaml'],
+    examplesFolder: '/spec-files/',
+    exampleFiles: ['default.yaml', 'minimal.yaml', 'heroku-pets.yaml', 'uber.yaml'],
     backendEndpoint: '/editor/spec',
     useBackendForStorage: false,
     disableFileMenu: false,
