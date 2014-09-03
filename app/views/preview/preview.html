@@ -6,7 +6,7 @@
       </header>
       <div class="details" collapse-when="hideError">
         <pre>{{getDescription()}}</pre>
-        <a ng-hide="getLneNumber() === -1" ng-click="focusEdit($event, getLineNumber())">Go to line {{getLineNumber() + 1}}</a>
+        <a ng-if="showLineJumpLink()" ng-click="focusEdit($event, getLineNumber() - 1)">Go to line {{getLineNumber()}}</a>
         <h5>Details</h5>
         <json-formatter json="getError()" open="1"></json-formatter>
       </div>

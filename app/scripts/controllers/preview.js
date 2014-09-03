@@ -12,6 +12,8 @@ PhonicsApp.controller('PreviewCtrl', function PreviewCtrl(Storage, Builder, Fold
     if (result.error) {
       if (result.error.yamlError) {
         Editor.annotateYAMLErrors(result.error.yamlError);
+      } else {
+        Editor.clearAnnotation();
       }
       $scope.error = result.error;
       Storage.save('progress', 'Error!');

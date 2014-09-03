@@ -71,4 +71,8 @@ PhonicsApp.controller('ErrorPresenterCtrl', function ($scope) {
 
     return -1;
   };
+
+  $scope.showLineJumpLink = function () {
+    return $scope.getLineNumber() !== -1;
+  };
 });
