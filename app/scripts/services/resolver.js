@@ -4,7 +4,10 @@
   Resolves YAML $ref references
 */
 PhonicsApp.service('Resolver', function Resolver() {
-  function resolve(json, root) {
+  function resolve(json, root, path) {
+    if (!Array.isArray(path)) {
+      path = [];
+    }
     if (!root) {
       root = json;
     }
@@ -19,12 +22,16 @@ PhonicsApp.service('Resolver', function Resolver() {
       return json;
     }
 
+    if (!angular.isObject(json)) {
+      throw new Error('Can not resolve ' + path.join(' ▹ '));
+    }
+
     var result = {};
     Object.keys(json).forEach(function (key) {
       if (angular.isObject(json[key]) && json[key].$ref) {
         result[key] = lookup(json[key].$ref, root);
       } else {
-        result[key] = resolve(json[key], root);
+        result[key] = resolve(json[key], root, path.concat(key));
       }
     });
     return result;
