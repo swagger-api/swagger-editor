@@ -1574,6 +1574,7 @@ PhonicsApp.controller('PreviewCtrl', function PreviewCtrl(Storage, Builder, Fold
       $scope.error = result.error;
       Storage.save('progress', 'Error!');
     } else {
+      $scope.error = null;
       Storage.save('progress', 'Saved.');
     }
   }
@@ -2336,13 +2337,14 @@ PhonicsApp.controller('OpenExamplesCtrl', function OpenExamplesCtrl(FileLoader, 
 
 'use strict';
 
-PhonicsApp.service('Backend', function Backend($http, $q, defaults) {
+PhonicsApp.service('Backend', function Backend($http, $q, defaults, Builder) {
   var changeListeners =  Object.create(null);
   var buffer = Object.create(null);
   var commit = _.throttle(commitNow, 200, {leading: false, trailing: true});
 
   function commitNow(data) {
-    if (!buffer.error && buffer.specs) {
+    var result = Builder.buildDocs(data, { resolve: true });
+    if (!result.error) {
       $http.put(defaults.backendEndpoint, data);
     }
   }
