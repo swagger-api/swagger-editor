@@ -1,12 +1,13 @@
 'use strict';
 
-PhonicsApp.service('Backend', function Backend($http, $q, defaults) {
+PhonicsApp.service('Backend', function Backend($http, $q, defaults, Builder) {
   var changeListeners =  Object.create(null);
   var buffer = Object.create(null);
   var commit = _.throttle(commitNow, 200, {leading: false, trailing: true});
 
   function commitNow(data) {
-    if (!buffer.error && buffer.specs) {
+    var result = Builder.buildDocs(data, { resolve: true });
+    if (!result.error) {
       $http.put(defaults.backendEndpoint, data);
     }
   }
