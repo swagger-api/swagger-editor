@@ -3,55 +3,55 @@
     <section class="left">
       <div ng-include="'templates/branding-left.html'" ng-if="showHeaderBranding()"></div>
       <div class="dropdown" ng-if="showFileMenu()">
-        <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" id="fileMenu">
+        <button class="btn btn-default dropdown-toggle" type="button"
+          data-toggle="dropdown" id="fileMenu" ng-mouseover="assignDownloadHrefs()">
           File
           <span class="caret"></span>
         </button>
-        <ul class="dropdown-menu" ng-hover="assignDownloadHrefs" ng-if="showFileMenu()" role="menu" aria-labelledby="fileMenu">
-          <li role="presentation"><a ng-click="newProject()" role="menuitem" tabindex="-1" href="#">New</a></li>
-          <li role="presentation"><a ng-click="openExamples()" role="menuitem" tabindex="-1" href="#">Open Example&hellip;</a></li>
-          <li role="presentation"><a ng-click="openImportUrl()" role="menuitem" tabindex="-1" href="#">Import URL&hellip;</a></li>
-          <li role="presentation"><a ng-click="openImportFile()" role="menuitem" tabindex="-1" href="#">Import File&hellip;</a></li>
-          <li role="presentation"><a download="spec.yaml" data-downloadurl="{{yamlDownloadUrl}}" href="{{yamlDownloadHref}}" role="menuitem" tabindex="-1" href="#">Download YAML</a></li>
-          <li role="presentation"><a download="spec.json" downloadUrl="{{jsonDownloadUrl}}" href="{{jsonDownloadHref}}" role="menuitem" tabindex="-1" href="#">Download JSON</a></li>
+        <ul class="dropdown-menu" ng-if="showFileMenu()" role="menu" aria-labelledby="fileMenu">
+          <li role="presentation">
+            <a ng-click="newProject()" role="menuitem" tabindex="-1" href="#">New</a>
+          </li>
+          <li role="presentation">
+            <a ng-click="openExamples()" role="menuitem" tabindex="-1" href="#">Open Example&hellip;</a>
+          </li>
+          <li role="presentation">
+            <a ng-click="openImportUrl()" role="menuitem" tabindex="-1" href="#">Import URL&hellip;</a>
+          </li>
+          <li role="presentation">
+            <a ng-click="openImportFile()" role="menuitem" tabindex="-1" href="#">Import File&hellip;</a>
+          </li>
+          <li role="presentation">
+            <a download="spec.yaml" data-downloadurl="{{yamlDownloadUrl}}"
+              href="{{yamlDownloadHref}}" role="menuitem" tabindex="-1">Download YAML</a>
+          </li>
+          <li role="presentation">
+            <a download="spec.json" downloadUrl="{{jsonDownloadUrl}}"
+              href="{{jsonDownloadHref}}" role="menuitem" tabindex="-1">Download JSON</a>
+          </li>
         </ul>
       </div>
-      <!-- Server generation is not working with version 2 yet.
-      <dropdown-menu label="Get Server">
-        <button class="toolbar-btn" ng-click="generateZip('servers', 'nodejs')">Node.js</button>
-        <button class="toolbar-btn" ng-click="generateZip('servers', 'jaxrs')">JAX-RS</button>
-        <button class="toolbar-btn" ng-click="generateZip('servers', 'scalatra')">Scalatra</button>
-      </dropdown-menu>
-      <dropdown-menu label="Get Client">
-        <button class="toolbar-btn" ng-click="generateZip('clients', 'android')">Android</button>
-        <button class="toolbar-btn" ng-click="generateZip('clients', 'java')">Java</button>
-        <button class="toolbar-btn" ng-click="generateZip('clients', 'php')">PHP</button>
-        <button class="toolbar-btn" ng-click="generateZip('clients', 'objc')">Objective-C</button>
-        <button class="toolbar-btn" ng-click="generateZip('clients', 'docs')">Docs</button>
-      </dropdown-menu>
-     -->
     </section>
 
     <div class="status {{statusClass}}"  ng-if="status">{{status}}</div>
-
-<!--     <section class="breadcrumbs">
-      <ol class="breadcrumb">
-        <li><a href="#">All Paths</a></li>
-        <li ng-repeat="entry in breadcrumbs" ng-class="{active: entry.active}">
-          {{entry.name}}
-        </li>
-      </ol>
-    </section> -->
     <section class="right">
       <div class="brandRight" ng-include="'templates/branding-right.html'" ng-if="showHeaderBranding()"></div>
       <div class="dropdown">
         <a class="dropdown-icon" id="helpMenu" data-toggle="dropdown">
         </a>
         <ul class="dropdown-menu dropdown-menu-right" role="menu" aria-labelledby="helpMenu">
-          <li role="presentation"><a role="menuitem" tabindex="-1" href="#">YAML Documentation<span class="new-window"></span></a></li>
-          <li role="presentation"><a role="menuitem" tabindex="-1" href="http://swagger.wordnik.com/" target="_blank">About Swagger<span class="new-window"></span></a></li>
+          <li role="presentation">
+            <a role="menuitem" tabindex="-1" href="#">YAML Documentation<span class="new-window"></span></a>
+          </li>
+          <li role="presentation">
+            <a role="menuitem" tabindex="-1" href="http://swagger.wordnik.com/"target="_blank">
+              About Swagger<span class="new-window"></span>
+            </a>
+          </li>
           <li role="presentation" class="divider"></li>
-          <li role="presentation"><a ng-click="openAboutEditor()" role="menuitem" tabindex="-1" href="#">About this editor&hellip;</a></li>
+          <li role="presentation">
+            <a ng-click="openAboutEditor()" role="menuitem" tabindex="-1">About this editor&hellip;</a>
+          </li>
         </ul>
       </div>
     </section>
