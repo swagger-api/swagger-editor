@@ -24,12 +24,16 @@ Make sure you have all dependencies
 ruby --version
 node --version
 compass --version
+bower --version
+grunt --version
 ```
 If you don't have any of the dependencies, install them from their websites:
 
  * [NodeJS](http://nodejs.org/)
  * [Ruby](https://www.ruby-lang.org/en/)
  * [Compass](http://compass-style.org/)
+ * [Bower](http://bower.io/)
+ * [Grunt](http://gruntjs.com/)
  
 
 #### Clone the repository and install packages
