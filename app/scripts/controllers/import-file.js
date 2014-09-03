@@ -8,9 +8,9 @@ PhonicsApp.controller('FileImportCtrl', function FileImportCtrl($scope, $modalIn
   };
 
   $scope.ok = function () {
-    if (typeof results === 'object') {
+    if (angular.isString(results)) {
       Editor.setValue(results);
-      Storage.save('specs', results);
+      Storage.save('yaml', results);
       FoldManager.reset();
     }
     $modalInstance.close();
