@@ -10,10 +10,10 @@ PhonicsApp.config(['$provide', function ($provide) {
     exampleFiles: ['default.yaml', 'minimal.yaml', 'petstore.yaml', 'heroku-pets.yaml', 'uber.yaml'],
     backendEndpoint: '/editor/spec',
     useBackendForStorage: false,
-    disableFileMenu: true,
+    disableFileMenu: false,
     useYamlBackend: false,
-    headerBranding: true,
-    brandingCssClass: 'apigee-127'
+    headerBranding: false,
+    brandingCssClass: ''
   }
   // END-DEFAULTS-JSON
 
