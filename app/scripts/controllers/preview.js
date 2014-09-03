@@ -18,6 +18,7 @@ PhonicsApp.controller('PreviewCtrl', function PreviewCtrl(Storage, Builder, Fold
       $scope.error = result.error;
       Storage.save('progress', 'Error!');
     } else {
+      $scope.error = null;
       Storage.save('progress', 'Saved.');
     }
   }
