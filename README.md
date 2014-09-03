@@ -17,25 +17,30 @@ The idea is to iterate quickly on top of the Swagger 1.2 description format. As 
 ## Running Locally
 
 #### Install required dependencies on your machine
+
+Make sure you have all dependencies
+
+```shell
+ruby --version
+node --version
+compass --version
+```
+If you don't have any of the dependencies, install them from their websites:
+
  * [NodeJS](http://nodejs.org/)
  * [Ruby](https://www.ruby-lang.org/en/)
  * [Compass](http://compass-style.org/)
  
-```shell
-    # Make sure you have all dependencies
-    which ruby
-    which node
-    which compass
-```
-
 
 #### Clone the repository and install packages
 
-    git clone git@github.com:wordnik/swagger-editor.git
-    cd swagger-editor
-    npm install
-    bower install
-    grunt serve
+```shell
+git clone git@github.com:wordnik/swagger-editor.git
+cd swagger-editor
+npm install
+bower install
+grunt serve
+```
 
 This will open a browser window running current development version.
 
