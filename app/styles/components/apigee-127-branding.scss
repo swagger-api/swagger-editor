@@ -1,3 +1,5 @@
+@import "../colors";
+
 .apigee-127 {
 
   section.left {
@@ -26,6 +28,11 @@
 
     .btnDiv {
       display: inline-block;
+
+      a {
+        text-decoration: none;
+        color: $gray-md;
+      }
     }
 
     .btnHelp {
