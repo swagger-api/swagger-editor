@@ -10,6 +10,18 @@ function load(string) {
     throw new Error('load function only accepts a string');
   }
 
+  // Try figuring out if it's a JSON string
+  try {
+    JSON.parse(string);
+  } catch (error) {
+    jsonError = error;
+  }
+
+  // if it's a JSON string, convert it to YAML string and return it
+  if (!jsonError) {
+    return jsyaml.dump(JSON.parse(string));
+  }
+
   // Try parsing the string as a YAML string  and capture the error
   try {
     jsyaml.load(string);
@@ -21,18 +33,6 @@ function load(string) {
   // return the original string
   if (!yamlError) {
     return string;
-  }
-
-  // If it wasn't a YAML string, try figuring out if it's a JSON string
-  try {
-    JSON.parse(string);
-  } catch (error) {
-    jsonError = error;
-  }
-
-  // if it's a JSON string, convert it to YAML string and return it
-  if (!jsonError) {
-    return jsyaml.dump(JSON.parse(string));
   }
 
   // If it was neither JSON or YAML, throw an error
