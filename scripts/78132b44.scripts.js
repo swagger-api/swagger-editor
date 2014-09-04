@@ -958,6 +958,11 @@ PhonicsApp.service('Editor', function Editor() {
     // Assign class variable `editor`
     window.e = editor = e;
 
+    // Set editor options
+    editor.setOptions({
+      fontFamily: 'Source Code Pro'
+    });
+
     // Editor is ready, fire the on-ready function and flush the queue
     onReadyFns.forEach(function (fn) {
       fn(that);
