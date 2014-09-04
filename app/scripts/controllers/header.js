@@ -76,14 +76,8 @@ PhonicsApp.controller('HeaderCtrl', function HeaderCtrl($scope, Editor, Storage,
     });
   };
 
-  $scope.openAboutEditor = function () {
-    $modal.open({
-      templateUrl: 'templates/editor-about.html',
-      // TODO: Replace with general controller for popups
-      controller: 'UrlImportCtrl',
-      size: 'large',
-      windowClass: 'about-modal'
-    });
+  $scope.toggleAboutEditor = function (value) {
+    $scope.showAbout = value;
   };
 
   $scope.openExamples = function () {
