@@ -17,17 +17,14 @@
   }
 
   .info-header {
-    display: table;
 
     >h1, .collapse-togglers {
-      display: table-cell;
     }
   }
 
   h1 {
     font-size: 1.2em;
     @extend .sw-font-light;
-    display: table-cell;
     margin-top: 0px;
 
     &:hover {
@@ -37,11 +34,9 @@
 
   p {
     font-size: .9em;
-    display: table-cell;
     width: 100%;
     @extend .sw-font-light;
     line-height: 1.3em;
-    float: left;
     margin-bottom: 1em;
   }
 
@@ -57,5 +52,4 @@
       @extend .sw-font-light;
     }
   }
-
 }
