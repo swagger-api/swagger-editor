@@ -29,19 +29,19 @@
   width: 100%;
 
     //dropdown styling
-   .dropdown {
+    .dropdown {
 
-     display: inline-block;
+      display: inline-block;
 
       a.dropdown-icon {
-      background-image: image-url("swagger-sprite.png");
-      background-repeat: no-repeat;
-      background-position: 4px 0px;
-      height: 32px;
-      margin-top: 0;
-      display: block;
-      width: 44px;
-      cursor: pointer;
+        background-image: image-url("swagger-sprite.png");
+        background-repeat: no-repeat;
+        background-position: 4px 0px;
+        height: 32px;
+        margin-top: 0;
+        display: block;
+        width: 44px;
+        cursor: pointer;
 
 
         &:hover {
@@ -51,124 +51,116 @@
       }
     }
 
-  .dropdown:hover .dropdown-menu {
+    .dropdown:hover .dropdown-menu {
       display: block;
-  }
+    }
 
-  ul.dropdown-menu  {
-    border-radius: $border-radius;
-    color: $toolbar-button-color;
-    background: $toolbar-button-bg;
-    font-size: $button-font-size;
+    ul.dropdown-menu  {
+      border-radius: $border-radius;
+      color: $toolbar-button-color;
+      background: $toolbar-button-bg;
+      font-size: $button-font-size;
 
-    .divider {
+      .divider {
         background-color: $gray-md;
       }
 
-    li {
+      li {
 
-      a {
+        a {
           color: $toolbar-button-color;
 
+          &:hover {
+            background: lighten($toolbar-button-bg, 10%);
+          }
+        }
+      }
+    }
+
+    .toolbar {
+      min-height: 30px;
+      padding: 0 15px 5px 15px;
+      section {
+        float: left;
+
+        &.right {
+          float: right;
+
+          ul.dropdown-menu {
+            min-width: 210px;
+          }
+        }
+
+      }
+
+      .btn-drawer {
+        display: inline-block;
+        position: relative;
+        margin-right: 0.4em;
+
+        .toolbar-btn {
+          border: none;
+          display: block;
+          margin: 0;
+        }
+
         &:hover {
+          >.toolbar-btn {
+            background: #000;
+          }
+          div.buttons {
+            display: block;
+
+            &, .toolbar-btn:last-child {
+              border-bottom-left-radius: $border-radius;
+              border-bottom-right-radius: $border-radius;
+            }
+          }
+        }
+
+        &:hover .drawer{
+          border-bottom-left-radius: 0;
+          border-bottom-right-radius: 0;
+        }
+      }
+
+      .btn-default {
+        display: inline-block;
+        -webkit-appearance: none;
+        border: 1px solid $gray-md;
+        border-radius: $border-radius;
+        text-align: left;
+        color: $toolbar-button-color;
+        text-decoration: none;
+        font-size: $button-font-size;
+        padding-top: 0.3em;
+        padding-bottom: 0.3em;
+        outline: none;
+        cursor: pointer;
+        background: $toolbar-button-bg;
+        min-width: 140px;
+
+        &:hover {
+          text-decoration: none;
+          border-radius: $border-radius;
           background: lighten($toolbar-button-bg, 10%);
         }
+
+        span {
+          font-size: .5em;
+          vertical-align: middle;
+          margin-left: 76px;
+        }
+
+        &.menu-button {
+          display: display;
+          border: none;
+        }
       }
     }
   }
 
-  .toolbar {
-    min-height: 30px;
-    padding: 0 15px 5px 15px;
-    section {
-      float: left;
-
-      &.right {
-        float: right;
-
-        ul.dropdown-menu {
-          min-width: 210px;
-
-          span.new-window {
-            float: right;
-            background: image-url("newWindow.png");
-            width: 8px;
-            height: 8px;
-            display: block;
-          }
-        }
-      }
-
-    }
-
-    .btn-drawer {
-      display: inline-block;
-      position: relative;
-      margin-right: 0.4em;
-
-      .toolbar-btn {
-        border: none;
-        display: block;
-        margin: 0;
-      }
-
-      &:hover {
-        >.toolbar-btn {
-          background: #000;
-        }
-        div.buttons {
-          display: block;
-
-          &, .toolbar-btn:last-child {
-            border-bottom-left-radius: $border-radius;
-            border-bottom-right-radius: $border-radius;
-          }
-        }
-      }
-
-      &:hover .drawer{
-        border-bottom-left-radius: 0;
-        border-bottom-right-radius: 0;
-      }
-    }
-
-    .btn-default {
-      display: inline-block;
-      -webkit-appearance: none;
-      border: 1px solid $gray-md;
-      border-radius: $border-radius;
-      text-align: left;
-      color: $toolbar-button-color;
-      text-decoration: none;
-      font-size: $button-font-size;
-      padding-top: 0.3em;
-      padding-bottom: 0.3em;
-      outline: none;
-      cursor: pointer;
-      background: $toolbar-button-bg;
-      min-width: 140px;
-
-      &:hover {
-        text-decoration: none;
-        border-radius: $border-radius;
-        background: lighten($toolbar-button-bg, 10%);
-      }
-
-      span {
-        font-size: .5em;
-        vertical-align: middle;
-        margin-left: 76px;
-      }
-
-      &.menu-button {
-        display: display;
-        border: none;
-      }
-    }
-  }
-}
-
-.breadcrumbs .breadcrumb {
+  .breadcrumbs .breadcrumb {
   // TODO: colors
   background: none;
   color: white;
@@ -178,10 +170,10 @@
     content: ">";
   }
 
-    li > a {
-      color: white;
+  li > a {
+    color: white;
 
-      &:hover {
+    &:hover {
       color: $http-get;
       text-decoration: none;
     }
