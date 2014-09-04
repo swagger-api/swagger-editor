@@ -29,7 +29,7 @@ PhonicsApp.controller('HeaderCtrl', function HeaderCtrl($scope, Editor, Storage,
 
   // Show the intro if it's first time visit
   Storage.load('intro').then(function (intro) {
-    if (!intro) {
+    if (!intro && !defaults.disableNewUserIntro) {
       $scope.showAbout = true;
       Storage.save('intro', true);
     }

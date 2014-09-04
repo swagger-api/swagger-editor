@@ -11,6 +11,7 @@ PhonicsApp.config(['$provide', function ($provide) {
     backendEndpoint: '/editor/spec',
     useBackendForStorage: true,
     disableFileMenu: true,
+    disableNewUserIntro: true,
     useYamlBackend: true,
     headerBranding: true,
     brandingCssClass: 'apigee-127'
