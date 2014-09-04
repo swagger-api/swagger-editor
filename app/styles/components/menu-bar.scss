@@ -8,21 +8,26 @@
   //TODO: Everything is hardcoded. revisit
   .status {
     position: absolute;
-    width: 300px;
-    left: 50%;
-    margin-left: -150px;
-    background: #FFD700;
-    text-align: center;
+    width: 335px;
+    left: 18%;
+    text-align: left;
     top: 10px;
-    padding: 3px;
-    border-radius: 4px;
-    color: #000;
-    font-size: 13px;
-    box-shadow: 5px 5px 10px rgba(105, 96, 96, 0.49);
-    font-weight: bold;
+    padding: 7px 2px;
+    color: lighten($gray-lt, 90%);
+    font-size: 1.2em;
+    @extend .sw-font;
 
-    &.success { background: green; }
-    &.error { background: red; }
+    &.success {
+      color: darken($gray-lt, 30%);
+    }
+
+    &.error {
+      background-image: image-url("warning.svg");
+      background-repeat: no-repeat;
+      background-position: 0px 5px;
+      padding-left: 22px;
+      color: $sw-error-header;
+    }
   }
 
   @extend .sw-font;
