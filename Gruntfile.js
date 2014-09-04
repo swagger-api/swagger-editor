@@ -56,7 +56,8 @@ module.exports = function (grunt) {
     'build',
     'gh-pages',
     'shell:publish-npm',
-    'a127'
+    'a127',
+    'shell:squash'
   ]);
 
   grunt.registerTask('a127', [

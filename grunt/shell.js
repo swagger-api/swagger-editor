@@ -13,5 +13,8 @@ module.exports = {
   },
   'a127-restore-defaults': {
     command: 'git reset --hard'
+  },
+  'squash': {
+    command: 'sh scripts/squash.sh'
   }
 };
