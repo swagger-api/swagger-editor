@@ -498,20 +498,6 @@ PhonicsApp
 
 'use strict';
 
-PhonicsApp.filter('markdown', ['marked', function (marked) {
-  return function markdownFilter(input) {
-    var output = null;
-    if (input.indexOf('\n') > -1) {
-      output = marked(input);
-    } else {
-      output = input;
-    }
-    return output;
-  };
-}]);
-
-'use strict';
-
 PhonicsApp.filter('getResourceName', function () {
   return function getResourceNameFilter(resource) {
     return resource.resourcePath.replace(/\//g, '');
@@ -2295,10 +2281,10 @@ PhonicsApp.config(['$provide', function ($provide) {
 PhonicsApp.config(['$provide', function ($provide) {
   $provide.constant('strings', {
     stausMessages: {
-      '-2': 'Lost connection',
+      '-2': 'Unsaved Changes. Check your server connection',
       '-1': 'Error!',
       0: 'Working...',
-      1: 'Saved.'
+      1: 'All changes saved.'
     }
   });
 }]);
