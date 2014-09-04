@@ -77,7 +77,7 @@ PhonicsApp.config(function Router($compileProvider, $stateProvider, $urlRouterPr
 
 'use strict';
 
-PhonicsApp.controller('MainCtrl', function MainCtrl($rootScope, Editor, Storage, FileLoader, defaults) {
+PhonicsApp.controller('MainCtrl', function MainCtrl($rootScope, Editor, Storage, FileLoader, BackendHealthCheck, defaults) {
   $rootScope.$on('$stateChangeStart', Editor.initializeEditor);
 
   // If there is no saved YAML load the default YAML file
@@ -92,6 +92,8 @@ PhonicsApp.controller('MainCtrl', function MainCtrl($rootScope, Editor, Storage,
       });
     }
   });
+
+  BackendHealthCheck.startChecking();
 
   // TODO: find a better way to add the branding class (grunt html template)
   $('body').addClass(defaults.brandingCssClass);
@@ -1621,6 +1623,33 @@ PhonicsApp.service('Resolver', function Resolver() {
 
 'use strict';
 
+/*
+ * Checks for backend health and set "progress" value accordingly
+*/
+PhonicsApp.service('BackendHealthCheck', function BackendHealthCheck($http, $interval, defaults, Storage) {
+  var isHealthy = true;
+
+  this.startChecking = function () {
+    $interval(function () {
+      $http.get(window.location.href).then(
+        function onSuccess() {
+          isHealthy = true;
+        },
+        function onError() {
+          isHealthy = false;
+          Storage.save('progress', -2);
+        }
+      );
+    }, defaults.backendHelathCheckTimeout);
+  };
+
+  this.isHealthy = function () {
+    return isHealthy;
+  };
+});
+
+'use strict';
+
 PhonicsApp.controller('EditorCtrl', function EditorCtrl($scope, Editor, Builder, Storage, FoldManager) {
   var debouncedOnAceChange = _.debounce(onAceChange, 1000);
   $scope.aceLoaded = Editor.aceLoaded;
@@ -1648,8 +1677,14 @@ PhonicsApp.controller('EditorCtrl', function EditorCtrl($scope, Editor, Builder,
 
 'use strict';
 
-PhonicsApp.controller('PreviewCtrl', function PreviewCtrl(Storage, Builder, FoldManager, Sorter, Editor, Operation, $scope) {
+PhonicsApp.controller('PreviewCtrl', function PreviewCtrl(Storage, Builder, FoldManager, Sorter, Editor, Operation, BackendHealthCheck, $scope) {
   function update(latest) {
+
+    // If backend is not healthy don't update
+    if (!BackendHealthCheck.isHealthy()) {
+      return;
+    }
+
     var specs = null;
     var result = null;
 
@@ -1660,13 +1695,12 @@ PhonicsApp.controller('PreviewCtrl', function PreviewCtrl(Storage, Builder, Fold
     if (result.error) {
       if (result.error.yamlError) {
         Editor.annotateYAMLErrors(result.error.yamlError);
-      } else {
-        Editor.clearAnnotation();
       }
       $scope.error = result.error;
       Storage.save('progress', -1); // Error
     } else {
       $scope.error = null;
+      Editor.clearAnnotation();
       Storage.save('progress',  1); // Saved
     }
   }
@@ -2245,6 +2279,7 @@ PhonicsApp.config(['$provide', function ($provide) {
     exampleFiles: ['default.yaml', 'minimal.yaml', 'heroku-pets.yaml', 'uber.yaml'],
     backendEndpoint: '/editor/spec',
     useBackendForStorage: false,
+    backendHelathCheckTimeout: 5000,
     disableFileMenu: false,
     useYamlBackend: false,
     headerBranding: false,
