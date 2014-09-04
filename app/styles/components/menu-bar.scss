@@ -8,18 +8,17 @@
   //TODO: Everything is hardcoded. revisit
   .status {
     position: absolute;
-    width: 315px;
-    left: 50%;
-    margin-left: -150px;
+    width: 335px;
+    left: 18%;
     text-align: left;
     top: 10px;
     padding: 7px 2px;
-    color: $gray-lt;
-    font-size: 1.1em;
+    color: lighten($gray-lt, 90%);
+    font-size: 1.2em;
     @extend .sw-font;
 
     &.success {
-      color: $gray-md;
+      color: darken($gray-lt, 30%);
     }
 
     &.error {
