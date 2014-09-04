@@ -1,6 +1,6 @@
 'use strict';
 
-PhonicsApp.controller('MainCtrl', function MainCtrl($rootScope, Editor, Storage, FileLoader, defaults) {
+PhonicsApp.controller('MainCtrl', function MainCtrl($rootScope, Editor, Storage, FileLoader, BackendHealthCheck, defaults) {
   $rootScope.$on('$stateChangeStart', Editor.initializeEditor);
 
   // If there is no saved YAML load the default YAML file
@@ -15,6 +15,8 @@ PhonicsApp.controller('MainCtrl', function MainCtrl($rootScope, Editor, Storage,
       });
     }
   });
+
+  BackendHealthCheck.startChecking();
 
   // TODO: find a better way to add the branding class (grunt html template)
   $('body').addClass(defaults.brandingCssClass);

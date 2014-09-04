@@ -11,6 +11,7 @@ PhonicsApp.config(['$provide', function ($provide) {
     exampleFiles: ['default.yaml', 'minimal.yaml', 'heroku-pets.yaml', 'uber.yaml'],
     backendEndpoint: '/editor/spec',
     useBackendForStorage: false,
+    backendHelathCheckTimeout: 5000,
     disableFileMenu: false,
     useYamlBackend: false,
     headerBranding: false,
