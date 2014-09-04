@@ -12,13 +12,12 @@ PhonicsApp.controller('PreviewCtrl', function PreviewCtrl(Storage, Builder, Fold
     if (result.error) {
       if (result.error.yamlError) {
         Editor.annotateYAMLErrors(result.error.yamlError);
-      } else {
-        Editor.clearAnnotation();
       }
       $scope.error = result.error;
       Storage.save('progress', -1); // Error
     } else {
       $scope.error = null;
+      Editor.clearAnnotation();
       Storage.save('progress',  1); // Saved
     }
   }
