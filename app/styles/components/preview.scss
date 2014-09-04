@@ -5,7 +5,8 @@
   @extend .sw-font;
 
   .section-header {
-    a { cursor: pointer;
+    a {
+      cursor: pointer;
       color: $gray-dk;
 
       &:hover {
@@ -18,7 +19,7 @@
   .section-content {
     margin-left: 10px;
 
-    li {
+    li.path {
       margin-bottom: 20px;
     }
   }
