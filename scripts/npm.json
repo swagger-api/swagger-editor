@@ -1,6 +1,6 @@
 {
   "name": "swagger-editor",
-  "version": "2.3.5",
+  "version": "2.4.0",
   "description": "Swagger Editor Web App",
   "main": "index.html",
   "scripts": {

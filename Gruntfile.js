@@ -54,11 +54,11 @@ module.exports = function (grunt) {
 
   grunt.registerTask('ship', [
     'build',
-    'shell:publsih-npm-src',
     'gh-pages',
     'shell:publish-npm',
     'a127',
-    'shell:squash'
+    'shell:squash',
+    'shell:publsih-npm-src'
   ]);
 
   grunt.registerTask('a127', [
