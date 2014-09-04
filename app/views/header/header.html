@@ -1,4 +1,5 @@
 <div class="menu-bar">
+  <div ng-if="showAbout" ng-include="'templates/intro.html'"></div>
   <div class="toolbar">
     <section class="left">
       <div ng-include="'templates/branding-left.html'" ng-if="showHeaderBranding()"></div>
@@ -50,7 +51,7 @@
           </li>
           <li role="presentation" class="divider"></li>
           <li role="presentation">
-            <a ng-click="openAboutEditor()" role="menuitem" tabindex="-1">About this editor&hellip;</a>
+            <a ng-click="toggleAboutEditor(true)" role="menuitem" tabindex="-1">About this editor&hellip;</a>
           </li>
         </ul>
       </div>
