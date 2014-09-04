@@ -1,7 +1,13 @@
 'use strict';
 
-PhonicsApp.controller('PreviewCtrl', function PreviewCtrl(Storage, Builder, FoldManager, Sorter, Editor, Operation, $scope) {
+PhonicsApp.controller('PreviewCtrl', function PreviewCtrl(Storage, Builder, FoldManager, Sorter, Editor, Operation, BackendHealthCheck, $scope) {
   function update(latest) {
+
+    // If backend is not healthy don't update
+    if (!BackendHealthCheck.isHealthy()) {
+      return;
+    }
+
     var specs = null;
     var result = null;
 
