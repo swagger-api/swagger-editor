@@ -126,6 +126,14 @@ PhonicsApp.controller('HeaderCtrl', function HeaderCtrl($scope, Editor, Storage,
     }
   });
 
+  // Show the intro if it's first time visit
+  Storage.load('intro').then(function (intro) {
+    if (!intro) {
+      $scope.showAbout = true;
+      Storage.save('intro', true);
+    }
+  });
+
   $scope.showFileMenu = function () {
     return !defaults.disableFileMenu;
   };
@@ -175,13 +183,8 @@ PhonicsApp.controller('HeaderCtrl', function HeaderCtrl($scope, Editor, Storage,
     });
   };
 
-  $scope.openAboutEditor = function () {
-    $modal.open({
-      templateUrl: 'templates/editor-about.html',
-      // TODO: Replace with general controller for popups
-      controller: 'UrlImportCtrl',
-      size: 'large'
-    });
+  $scope.toggleAboutEditor = function (value) {
+    $scope.showAbout = value;
   };
 
   $scope.openExamples = function () {
