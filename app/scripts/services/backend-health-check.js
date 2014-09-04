@@ -8,7 +8,7 @@ PhonicsApp.service('BackendHealthCheck', function BackendHealthCheck($http, $int
   this.startChecking = function () {
     $interval(function () {
       $http.get(window.location.href).then(
-        function onSuccess() { Storage.save('progress', 1); },
+        function onSuccess() { },
         function onError() { Storage.save('progress', -2); }
       );
     }, defaults.backendHelathCheckTimeout);
