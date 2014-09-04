@@ -16,5 +16,8 @@ module.exports = {
   },
   'squash': {
     command: 'sh scripts/squash.sh'
+  },
+  'publsih-npm-src': {
+    command: 'npm version patch; npm publsih'
   }
 };
