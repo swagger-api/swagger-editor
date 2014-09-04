@@ -99,7 +99,7 @@ PhonicsApp.controller('MainCtrl', function MainCtrl($rootScope, Editor, Storage,
 
 'use strict';
 
-PhonicsApp.controller('HeaderCtrl', function HeaderCtrl($scope, Editor, Storage, Splitter, Builder, $modal, $stateParams, defaults, $timeout) {
+PhonicsApp.controller('HeaderCtrl', function HeaderCtrl($scope, Editor, Storage, Splitter, Builder, $modal, $stateParams, defaults, strings, $timeout) {
 
   if ($stateParams.path) {
     $scope.breadcrumbs  = [{ active: true, name: $stateParams.path }];
@@ -109,15 +109,19 @@ PhonicsApp.controller('HeaderCtrl', function HeaderCtrl($scope, Editor, Storage,
 
   var statusTimeout;
   Storage.addChangeListener('progress', function (progressStatus) {
-    var statusClassHash = {
-      'Saved.': 'success',
-      'Error!': 'error'
-    };
-    $scope.status = progressStatus;
-    $scope.statusClass = statusClassHash[progressStatus];
+    $scope.status = strings.stausMessages[progressStatus];
+    $scope.statusClass = null;
+
+    if (progressStatus > 0) {
+      $scope.statusClass = 'success';
+    }
+
+    if (progressStatus < 0) {
+      $scope.statusClass = 'error';
+    }
 
     // Remove the status if it's "Saved" status
-    if (progressStatus === 'Saved.') {
+    if (progressStatus > 0) {
       statusTimeout = $timeout(function () {
         $scope.status = null;
       }, 1000);
@@ -128,7 +132,7 @@ PhonicsApp.controller('HeaderCtrl', function HeaderCtrl($scope, Editor, Storage,
 
   // Show the intro if it's first time visit
   Storage.load('intro').then(function (intro) {
-    if (!intro) {
+    if (!intro && !defaults.disableNewUserIntro) {
       $scope.showAbout = true;
       Storage.save('intro', true);
     }
@@ -1621,7 +1625,7 @@ PhonicsApp.controller('EditorCtrl', function EditorCtrl($scope, Editor, Builder,
   var debouncedOnAceChange = _.debounce(onAceChange, 1000);
   $scope.aceLoaded = Editor.aceLoaded;
   $scope.aceChanged = function () {
-    Storage.save('progress', 'Working...');
+    Storage.save('progress', 0);
     debouncedOnAceChange();
   };
   Editor.ready(function () {
@@ -1660,10 +1664,10 @@ PhonicsApp.controller('PreviewCtrl', function PreviewCtrl(Storage, Builder, Fold
         Editor.clearAnnotation();
       }
       $scope.error = result.error;
-      Storage.save('progress', 'Error!');
+      Storage.save('progress', -1); // Error
     } else {
       $scope.error = null;
-      Storage.save('progress', 'Saved.');
+      Storage.save('progress',  1); // Saved
     }
   }
 
@@ -2249,6 +2253,19 @@ PhonicsApp.config(['$provide', function ($provide) {
   // END-DEFAULTS-JSON
 
   );
+}]);
+
+'use strict';
+
+PhonicsApp.config(['$provide', function ($provide) {
+  $provide.constant('strings', {
+    stausMessages: {
+      '-2': 'Lost connection',
+      '-1': 'Error!',
+      0: 'Working...',
+      1: 'Saved.'
+    }
+  });
 }]);
 
 'use strict';
