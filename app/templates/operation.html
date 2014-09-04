@@ -10,7 +10,7 @@
   <div class='content' collapse-when="isCollapsed('paths', path.pathName, operation.operationName)">
     <section class="description" ng-if="operation.description">
       <h4>Description</h4>
-      <div ng-bind-html="operation.description"></div>
+      <div marked="operation.description"></div>
     </section>
 
     <section class="parameters" ng-if="operation.parameters.length">
