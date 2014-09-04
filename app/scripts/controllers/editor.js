@@ -4,7 +4,7 @@ PhonicsApp.controller('EditorCtrl', function EditorCtrl($scope, Editor, Builder,
   var debouncedOnAceChange = _.debounce(onAceChange, 1000);
   $scope.aceLoaded = Editor.aceLoaded;
   $scope.aceChanged = function () {
-    Storage.save('progress', 'Working...');
+    Storage.save('progress', 0);
     debouncedOnAceChange();
   };
   Editor.ready(function () {

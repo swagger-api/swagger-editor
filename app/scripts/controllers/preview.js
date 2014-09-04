@@ -16,10 +16,10 @@ PhonicsApp.controller('PreviewCtrl', function PreviewCtrl(Storage, Builder, Fold
         Editor.clearAnnotation();
       }
       $scope.error = result.error;
-      Storage.save('progress', 'Error!');
+      Storage.save('progress', -1); // Error
     } else {
       $scope.error = null;
-      Storage.save('progress', 'Saved.');
+      Storage.save('progress',  1); // Saved
     }
   }
 

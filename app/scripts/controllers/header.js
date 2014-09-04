@@ -1,6 +1,6 @@
 'use strict';
 
-PhonicsApp.controller('HeaderCtrl', function HeaderCtrl($scope, Editor, Storage, Splitter, Builder, $modal, $stateParams, defaults, $timeout) {
+PhonicsApp.controller('HeaderCtrl', function HeaderCtrl($scope, Editor, Storage, Splitter, Builder, $modal, $stateParams, defaults, strings, $timeout) {
 
   if ($stateParams.path) {
     $scope.breadcrumbs  = [{ active: true, name: $stateParams.path }];
@@ -10,15 +10,19 @@ PhonicsApp.controller('HeaderCtrl', function HeaderCtrl($scope, Editor, Storage,
 
   var statusTimeout;
   Storage.addChangeListener('progress', function (progressStatus) {
-    var statusClassHash = {
-      'Saved.': 'success',
-      'Error!': 'error'
-    };
-    $scope.status = progressStatus;
-    $scope.statusClass = statusClassHash[progressStatus];
+    $scope.status = strings.stausMessages[progressStatus];
+    $scope.statusClass = null;
+
+    if (progressStatus > 0) {
+      $scope.statusClass = 'success';
+    }
+
+    if (progressStatus < 0) {
+      $scope.statusClass = 'error';
+    }
 
     // Remove the status if it's "Saved" status
-    if (progressStatus === 'Saved.') {
+    if (progressStatus > 0) {
       statusTimeout = $timeout(function () {
         $scope.status = null;
       }, 1000);
