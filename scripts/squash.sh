@@ -2,7 +2,10 @@
 
 #Squash NPM commits in one commits
 
-# grunt ship makes 4 commits
-git reset --soft HEAD~4
+#Get the version number
+$VERSION = "`git log -1 --pretty='format:%B'`"
 
-git commit -m "Update package versions to `npm view swagger-editor-src version --silent`"
+# grunt ship makes 5 commits
+git reset --soft HEAD~5
+
+git commit -m "Update package versions to $VERSION"
