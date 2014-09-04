@@ -32,8 +32,11 @@ li.operation {
   @extend .sw-font;
 
   position: relative;
-
-
+  .tooltip {
+    .tooltip-inner {
+      border-radius: 0;
+    }
+  }
 
   >header {
     overflow: hidden;
@@ -44,14 +47,21 @@ li.operation {
 
     .focus-editor {
       position: absolute;
-      left: -25px;
+      left: -21px;
       top: 0;
+      height: 24px;
+      width: 24px;
       padding: 10px;
       display: none;
     }
 
     &:hover .focus-editor {
-      display: block;
+      display: inline-block;
+      background-image: image-url("edit-pencil.svg");
+      background-repeat: no-repeat;
+      background-position: 2px 6px;
+      background-size: 20px;
+      text-decoration: none;
     }
 
     .http-method  {
