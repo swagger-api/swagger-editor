@@ -93,14 +93,13 @@ PhonicsApp
       },
       link: function postLink(scope) {
         scope.mode = 'model';
-        scope.schema = removeVendorExtensions(scope.schema);
 
         scope.getJson = function () {
-          return scope.schema;
+          return removeVendorExtensions(scope.schema);
         };
 
         scope.getString = function () {
-          return stringifySchema(scope.schema);
+          return stringifySchema(removeVendorExtensions(scope.schema));
         };
       }
     };
