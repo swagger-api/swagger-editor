@@ -10,7 +10,7 @@ PhonicsApp.config(['$provide', function ($provide) {
       servers: 'http://generator.wordnik.com/online/api/gen/servers',
       clients: 'http://generator.wordnik.com/online/api/gen/clients',
       server: 'http://generator.wordnik.com/online/api/gen/servers/{language}',
-      client: 'http://generator.wordnik.com/online/api/gen/client/{language}'
+      client: 'http://generator.wordnik.com/online/api/gen/clients/{language}'
     },
     examplesFolder: '/spec-files/',
     exampleFiles: ['default.yaml', 'minimal.yaml', 'heroku-pets.yaml', 'uber.yaml'],
