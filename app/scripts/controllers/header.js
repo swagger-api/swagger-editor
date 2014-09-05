@@ -1,6 +1,6 @@
 'use strict';
 
-PhonicsApp.controller('HeaderCtrl', function HeaderCtrl($scope, Editor, Storage, Splitter, Builder, $modal, $stateParams, defaults, strings, $timeout) {
+PhonicsApp.controller('HeaderCtrl', function HeaderCtrl($scope, Editor, Storage, Splitter, Builder, Codegen, $modal, $stateParams, defaults, strings, $timeout) {
 
   if ($stateParams.path) {
     $scope.breadcrumbs  = [{ active: true, name: $stateParams.path }];
@@ -39,6 +39,23 @@ PhonicsApp.controller('HeaderCtrl', function HeaderCtrl($scope, Editor, Storage,
     }
   });
 
+  // -- Client and Server menus
+  Codegen.getServers().then(function (servers) {
+    $scope.servers = servers;
+  });
+
+  Codegen.getClients().then(function (clinets) {
+    $scope.clinets = clinets;
+  });
+
+  $scope.getServer = function (language) {
+    Codegen.getServer(language);
+  };
+
+  $scope.getClient = function (language) {
+    Codegen.getClient(language);
+  };
+
   $scope.showFileMenu = function () {
     return !defaults.disableFileMenu;
   };
@@ -54,14 +71,6 @@ PhonicsApp.controller('HeaderCtrl', function HeaderCtrl($scope, Editor, Storage,
 
   $scope.assignDownloadHrefs = function () {
     assignDownloadHrefs($scope, Storage);
-  };
-
-  $scope.generateZip = function (type, kind) {
-    var urlTemplate = _.template(defaults.apiGenUrl);
-    var url = urlTemplate({type: type, kind: kind});
-    var specs = jsyaml.load(Editor.getValue());
-
-    getZipFile(url, specs);
   };
 
   $scope.togglePane = function (side) {
@@ -114,21 +123,6 @@ PhonicsApp.controller('HeaderCtrl', function HeaderCtrl($scope, Editor, Storage,
       var yamlBlob = new Blob([yaml], {type: MIME_TYPE});
       $scope.yamlDownloadHref = window.URL.createObjectURL(yamlBlob);
       $scope.yamlDownloadUrl = [MIME_TYPE, 'spec.yaml', $scope.yamlDownloadHref].join(':');
-    });
-
-  }
-
-  function getZipFile(url, json) {
-    $.ajax({
-      type: 'POST',
-      contentType: 'application/json',
-      url: url,
-      data: angular.toJson(json),
-      processData: false
-    }).then(function (data) {
-      if (data instanceof Object && data.code) {
-        window.location = defaults.downloadZipUrl + data.code;
-      }
     });
   }
 });
