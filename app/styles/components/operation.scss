@@ -20,9 +20,13 @@
 }
 
 
-
+ul.operations {
+  list-style-type: none;
+  padding: 0;
+}
 li.operation {
   $operation-border-radius: 3px;
+  list-style-type: none;
   margin: 0.4em 0em 1em 1em;
   border-radius: $operation-border-radius;
   @extend .sw-font;

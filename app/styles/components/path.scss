@@ -1,7 +1,13 @@
 @import "colors";
 @import "fonts";
 
+ul.paths {
+  list-style-type: none;
+  padding: 0;
+}
+
 li.path {
+  list-style-type: none;
   padding-bottom: 1.2em;
   margin-left: 14px;
 
@@ -34,6 +40,8 @@ li.path {
   ul.options {
     @extend .sw-font;
     display: flex;
+    list-style-type: none;
+
     a {
       padding: 0.3em;
       user-select: none;

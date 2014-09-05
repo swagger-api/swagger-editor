@@ -21,7 +21,7 @@
       <a ng-click="toggle('paths')">Paths</a>
     </h3>
   </header>
-  <ul ng-if="!error.yamlError" collapse-when="isCollapsed('paths')">
+  <ul class="paths" ng-if="!error.yamlError" collapse-when="isCollapsed('paths')">
     <path ng-repeat="path in specs.paths" ng-if="!isVendorExtension(path.pathName)"></path>
   </ul>
 
@@ -31,8 +31,8 @@
       <a ng-click="toggle('definitions')">Models</a>
     </h3>
   </header>
-   <ul class="section-content" ng-if="specs.definitions" collapse-when="isCollapsed('definitions')">
-      <li ng-repeat="(modelName, model) in specs.definitions" ng-if="!isVendorExtension(modelName)">
+   <ul class="section-content" ng-if="specs.definitions" collapse-when="isCollapsed('definitions')" class="models">
+      <li class="model" ng-repeat="(modelName, model) in specs.definitions" ng-if="!isVendorExtension(modelName)">
         <h4>{{modelName}}</h4>
         <schema-model schema="model"></schema-model>
       </li>
