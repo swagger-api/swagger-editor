@@ -16,8 +16,8 @@ PhonicsApp.controller('MainCtrl', function MainCtrl($rootScope, $stateParams, Ed
       var url;
 
       // If there is a url provided, override the storage with that URL
-      if ($stateParams.url) {
-        url = $stateParams.url;
+      if ($stateParams.import) {
+        url = $stateParams.import;
 
       // If there is no saved YAML either, load the default example
       } else if (!yaml) {
