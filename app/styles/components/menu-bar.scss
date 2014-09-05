@@ -7,12 +7,10 @@
 
   //TODO: Everything is hardcoded. revisit
   .status {
-    position: absolute;
+    display: inline-block;
     width: 335px;
-    left: 18%;
     text-align: left;
-    top: 10px;
-    padding: 7px 2px;
+    padding: 7px;
     color: lighten($gray-lt, 90%);
     font-size: 1.2em;
     @extend .sw-font;
