@@ -25,7 +25,7 @@ PhonicsApp.config(function Router($compileProvider, $stateProvider, $urlRouterPr
 
   $stateProvider
   .state('home', {
-    url: '?url',
+    url: '?import',
     views: {
       '': {
         templateUrl: 'views/main.html',
@@ -67,8 +67,8 @@ PhonicsApp.controller('MainCtrl', function MainCtrl($rootScope, $stateParams, Ed
       var url;
 
       // If there is a url provided, override the storage with that URL
-      if ($stateParams.url) {
-        url = $stateParams.url;
+      if ($stateParams.import) {
+        url = $stateParams.import;
 
       // If there is no saved YAML either, load the default example
       } else if (!yaml) {
@@ -2311,7 +2311,7 @@ PhonicsApp.config(['$provide', function ($provide) {
       servers: 'http://generator.wordnik.com/online/api/gen/servers',
       clients: 'http://generator.wordnik.com/online/api/gen/clients',
       server: 'http://generator.wordnik.com/online/api/gen/servers/{language}',
-      client: 'http://generator.wordnik.com/online/api/gen/client/{language}'
+      client: 'http://generator.wordnik.com/online/api/gen/clients/{language}'
     },
     examplesFolder: '/spec-files/',
     exampleFiles: ['default.yaml', 'minimal.yaml', 'heroku-pets.yaml', 'uber.yaml'],
