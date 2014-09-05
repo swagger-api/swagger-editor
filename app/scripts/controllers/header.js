@@ -40,6 +40,8 @@ PhonicsApp.controller('HeaderCtrl', function HeaderCtrl($scope, Editor, Storage,
   });
 
   // -- Client and Server menus
+  $scope.disableCodeGen = defaults.disableCodeGen;
+
   Codegen.getServers().then(function (servers) {
     $scope.servers = servers;
   });

@@ -12,6 +12,7 @@ PhonicsApp.config(['$provide', function ($provide) {
     backendHelathCheckTimeout: 5000,
     useBackendForStorage: true,
     disableFileMenu: true,
+    disableCodeGen: true,
     disableNewUserIntro: true,
     useYamlBackend: true,
     headerBranding: true,

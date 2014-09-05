@@ -33,7 +33,7 @@
         </ul>
       </div>
 
-      <div class="dropdown" ng-if="servers">
+      <div class="dropdown" ng-if="servers && !disableCodeGen">
          <button class="btn btn-default dropdown-toggle" type="button"
           data-toggle="dropdown" id="ServerMenu">
           Get Servers
@@ -46,7 +46,7 @@
         </ul>
       </div>
 
-      <div class="dropdown" ng-if="clinets">
+      <div class="dropdown" ng-if="clinets && !disableCodeGen">
          <button class="btn btn-default dropdown-toggle" type="button"
           data-toggle="dropdown" id="ClientMenu">
           Get Clients
