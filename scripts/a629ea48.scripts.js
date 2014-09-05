@@ -51,7 +51,7 @@ PhonicsApp.config(function Router($compileProvider, $stateProvider, $urlRouterPr
 
 'use strict';
 
-PhonicsApp.controller('MainCtrl', function MainCtrl($rootScope, $stateParams, Editor, Storage, FileLoader, BackendHealthCheck, defaults) {
+PhonicsApp.controller('MainCtrl', function MainCtrl($rootScope, $stateParams, $location, Editor, Storage, FileLoader, BackendHealthCheck, defaults) {
   $rootScope.$on('$stateChangeStart', Editor.initializeEditor);
   BackendHealthCheck.startChecking();
   $rootScope.$on('$stateChangeStart', loadYaml);
@@ -69,6 +69,7 @@ PhonicsApp.controller('MainCtrl', function MainCtrl($rootScope, $stateParams, Ed
       // If there is a url provided, override the storage with that URL
       if ($stateParams.import) {
         url = $stateParams.import;
+        $location.search('import', null);
 
       // If there is no saved YAML either, load the default example
       } else if (!yaml) {
