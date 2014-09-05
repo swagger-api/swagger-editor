@@ -5,7 +5,7 @@ PhonicsApp.config(function Router($compileProvider, $stateProvider, $urlRouterPr
 
   $stateProvider
   .state('home', {
-    url: '',
+    url: '?url',
     views: {
       '': {
         templateUrl: 'views/main.html',
@@ -24,33 +24,7 @@ PhonicsApp.config(function Router($compileProvider, $stateProvider, $urlRouterPr
         controller: 'PreviewCtrl'
       }
     }
-  })
-    .state('home.path', {
-      url: '/paths?path',
-      views: {
-        header: {
-          templateUrl: 'views/header/header.html',
-          controller: 'HeaderCtrl'
-        },
-        editor: {
-          templateUrl: 'views/editor/editor.html',
-          controller: 'EditorCtrl'
-        },
-        preview: {
-          templateUrl: 'views/preview/preview.html',
-          controller: 'PreviewCtrl'
-        }
-      }
-    });
-      // .state('home.path.operation', {
-      //   url: ':operationId',
-      //   views: {
-      //     'preview@home.path.operation': {
-      //       controller: 'PreviewCtrl',
-      //       templateUrl: 'views/preview/preview.html'
-      //     }
-      //   }
-      // });
+  });
 
   $compileProvider.aHrefSanitizationWhitelist('.');
 });
