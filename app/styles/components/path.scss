@@ -46,13 +46,27 @@ li.path {
       padding: 0.3em;
       user-select: none;
       font-size: 0.8em;
+      display: inline-block;
+      height: 16px;
+      width: 22px;
       color: $gray-md;
+      background-image: image-url("jump-icon.svg");
+      background-repeat: no-repeat;
+      background-position: 0px -3px;
+      background-size: 22px;
+
       &:hover {
         color: $gray-dk;
         transition: all 0.2s ease-in-out;
         cursor: pointer;
         text-decoration: none;
       }
+
+      .tooltip {
+    .tooltip-inner {
+      border-radius: 0;
+    }
+  }
 
     }
 
