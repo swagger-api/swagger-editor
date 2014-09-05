@@ -28,7 +28,7 @@ li.path {
         color: $gray-dk;
         text-decoration: none;
 
-          &:hover {
+        &:hover {
           cursor: pointer;
           border-bottom: 1px dotted silver;
 
@@ -63,10 +63,10 @@ li.path {
       }
 
       .tooltip {
-    .tooltip-inner {
-      border-radius: 0;
-    }
-  }
+        .tooltip-inner {
+          border-radius: 0;
+        }
+      }
 
     }
 
