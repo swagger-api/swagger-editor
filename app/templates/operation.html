@@ -1,6 +1,6 @@
 <li class='{{operation.operationName | lowercase}} operation'>
   <header ng-click="toggle('paths', path.pathName, operation.operationName)">
-    <a class="focus-editor" ng-click="focusEdit($event, operation['x-row'])" tooltip-placement="right" tooltip="Edit this operation"></a>
+    <a class="focus-editor" ng-click="focusEdit($event, operation['x-row'])" tooltip-placement="right" tooltip="Jump to YAML"></a>
     <div class='http-method' class="toggleOperation">{{operation.operationName | uppercase}}</div>
     <div class="summary">
         {{operation.summary || operation.description | limitTo: 140 }}
