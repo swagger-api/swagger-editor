@@ -101,7 +101,7 @@ PhonicsApp.controller('MainCtrl', function MainCtrl($rootScope, Editor, Storage,
 
 'use strict';
 
-PhonicsApp.controller('HeaderCtrl', function HeaderCtrl($scope, Editor, Storage, Splitter, Builder, $modal, $stateParams, defaults, strings, $timeout) {
+PhonicsApp.controller('HeaderCtrl', function HeaderCtrl($scope, Editor, Storage, Splitter, Builder, Codegen, $modal, $stateParams, defaults, strings, $timeout) {
 
   if ($stateParams.path) {
     $scope.breadcrumbs  = [{ active: true, name: $stateParams.path }];
@@ -140,6 +140,23 @@ PhonicsApp.controller('HeaderCtrl', function HeaderCtrl($scope, Editor, Storage,
     }
   });
 
+  // -- Client and Server menus
+  Codegen.getServers().then(function (servers) {
+    $scope.servers = servers;
+  });
+
+  Codegen.getClients().then(function (clinets) {
+    $scope.clinets = clinets;
+  });
+
+  $scope.getServer = function (language) {
+    Codegen.getServer(language);
+  };
+
+  $scope.getClient = function (language) {
+    Codegen.getClient(language);
+  };
+
   $scope.showFileMenu = function () {
     return !defaults.disableFileMenu;
   };
@@ -155,14 +172,6 @@ PhonicsApp.controller('HeaderCtrl', function HeaderCtrl($scope, Editor, Storage,
 
   $scope.assignDownloadHrefs = function () {
     assignDownloadHrefs($scope, Storage);
-  };
-
-  $scope.generateZip = function (type, kind) {
-    var urlTemplate = _.template(defaults.apiGenUrl);
-    var url = urlTemplate({type: type, kind: kind});
-    var specs = jsyaml.load(Editor.getValue());
-
-    getZipFile(url, specs);
   };
 
   $scope.togglePane = function (side) {
@@ -215,21 +224,6 @@ PhonicsApp.controller('HeaderCtrl', function HeaderCtrl($scope, Editor, Storage,
       var yamlBlob = new Blob([yaml], {type: MIME_TYPE});
       $scope.yamlDownloadHref = window.URL.createObjectURL(yamlBlob);
       $scope.yamlDownloadUrl = [MIME_TYPE, 'spec.yaml', $scope.yamlDownloadHref].join(':');
-    });
-
-  }
-
-  function getZipFile(url, json) {
-    $.ajax({
-      type: 'POST',
-      contentType: 'application/json',
-      url: url,
-      data: angular.toJson(json),
-      processData: false
-    }).then(function (data) {
-      if (data instanceof Object && data.code) {
-        window.location = defaults.downloadZipUrl + data.code;
-      }
     });
   }
 });
@@ -1635,6 +1629,55 @@ PhonicsApp.service('BackendHealthCheck', function BackendHealthCheck($http, $int
 
 'use strict';
 
+/*
+ * Code Generator service
+*/
+PhonicsApp.service('Codegen', function Codegen($http, defaults, Storage) {
+  this.getServers = function () {
+    return $http.get(defaults.codegen.servers).then(function (resp) {
+      return resp.data;
+    });
+  };
+
+  this.getClients = function () {
+    return $http.get(defaults.codegen.clients).then(function (resp) {
+      return resp.data;
+    });
+  };
+
+  this.getServer = function (language) {
+    var url = _.template(defaults.codegen.server)({
+      language: language
+    });
+
+    return Storage.load('yaml').then(function (yaml) {
+      var specs = jsyaml.load(yaml);
+
+      return $http.post(url, {swagger: specs}).then(redirect);
+    });
+  };
+
+  this.getClient = function (language) {
+    var url = _.template(defaults.codegen.client)({
+      language: language
+    });
+
+    return Storage.load('yaml').then(function (yaml) {
+      var specs = jsyaml.load(yaml);
+
+      return $http.post(url, {swagger: specs}).then(redirect);
+    });
+  };
+
+  function redirect(resp) {
+    if (angular.isObject(resp) && resp.code) {
+      window.location = resp.data.code;
+    }
+  }
+});
+
+'use strict';
+
 PhonicsApp.controller('EditorCtrl', function EditorCtrl($scope, Editor, Builder, Storage, FoldManager) {
   var debouncedOnAceChange = _.debounce(onAceChange, 1000);
   $scope.aceLoaded = Editor.aceLoaded;
@@ -2259,7 +2302,12 @@ PhonicsApp.config(['$provide', function ($provide) {
   // BEGIN-DEFAUNTAS-JSON
   {
     downloadZipUrl: 'http://generator.wordnik.com/online/api/gen/download/',
-    apiGenUrl: 'http://generator.wordnik.com/online/api/gen/{type}/{kind}',
+    codegen: {
+      servers: 'http://generator.wordnik.com/online/api/gen/servers',
+      clients: 'http://generator.wordnik.com/online/api/gen/clients',
+      server: 'http://generator.wordnik.com/online/api/gen/servers/{language}',
+      client: 'http://generator.wordnik.com/online/api/gen/client/{language}'
+    },
     examplesFolder: '/spec-files/',
     exampleFiles: ['default.yaml', 'minimal.yaml', 'heroku-pets.yaml', 'uber.yaml'],
     backendEndpoint: '/editor/spec',
