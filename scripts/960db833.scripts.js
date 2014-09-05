@@ -25,7 +25,7 @@ PhonicsApp.config(function Router($compileProvider, $stateProvider, $urlRouterPr
 
   $stateProvider
   .state('home', {
-    url: '',
+    url: '?url',
     views: {
       '': {
         templateUrl: 'views/main.html',
@@ -44,59 +44,47 @@ PhonicsApp.config(function Router($compileProvider, $stateProvider, $urlRouterPr
         controller: 'PreviewCtrl'
       }
     }
-  })
-    .state('home.path', {
-      url: '/paths?path',
-      views: {
-        header: {
-          templateUrl: 'views/header/header.html',
-          controller: 'HeaderCtrl'
-        },
-        editor: {
-          templateUrl: 'views/editor/editor.html',
-          controller: 'EditorCtrl'
-        },
-        preview: {
-          templateUrl: 'views/preview/preview.html',
-          controller: 'PreviewCtrl'
-        }
-      }
-    });
-      // .state('home.path.operation', {
-      //   url: ':operationId',
-      //   views: {
-      //     'preview@home.path.operation': {
-      //       controller: 'PreviewCtrl',
-      //       templateUrl: 'views/preview/preview.html'
-      //     }
-      //   }
-      // });
+  });
 
   $compileProvider.aHrefSanitizationWhitelist('.');
 });
 
 'use strict';
 
-PhonicsApp.controller('MainCtrl', function MainCtrl($rootScope, Editor, Storage, FileLoader, BackendHealthCheck, defaults) {
+PhonicsApp.controller('MainCtrl', function MainCtrl($rootScope, $stateParams, Editor, Storage, FileLoader, BackendHealthCheck, defaults) {
   $rootScope.$on('$stateChangeStart', Editor.initializeEditor);
-
-  // If there is no saved YAML load the default YAML file
-  Storage.load('yaml').then(function (yaml) {
-    if (!yaml) {
-      var url = defaults.examplesFolder + defaults.exampleFiles[0];
-      FileLoader.loadFromUrl(url).then(function (yaml) {
-        if (yaml) {
-          Storage.save('yaml', yaml);
-          Editor.setValue(yaml);
-        }
-      });
-    }
-  });
-
   BackendHealthCheck.startChecking();
-
+  $rootScope.$on('$stateChangeStart', loadYaml);
   // TODO: find a better way to add the branding class (grunt html template)
   $('body').addClass(defaults.brandingCssClass);
+  loadYaml();
+
+  /*
+  * Load Default or URL YAML
+  */
+  function loadYaml() {
+    Storage.load('yaml').then(function (yaml) {
+      var url;
+
+      // If there is a url provided, override the storage with that URL
+      if ($stateParams.url) {
+        url = $stateParams.url;
+
+      // If there is no saved YAML either, load the default example
+      } else if (!yaml) {
+        url = defaults.examplesFolder + defaults.exampleFiles[0];
+      }
+
+      if (url) {
+        FileLoader.loadFromUrl(url).then(function (yaml) {
+          if (yaml) {
+            Storage.save('yaml', yaml);
+            Editor.setValue(yaml);
+          }
+        });
+      }
+    });
+  }
 });
 
 'use strict';
