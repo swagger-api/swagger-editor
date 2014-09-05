@@ -7,18 +7,16 @@
 
   //TODO: Everything is hardcoded. revisit
   .status {
-    position: absolute;
+    display: inline-block;
     width: 335px;
-    left: 18%;
-    text-align: left;
-    top: 10px;
+    margin-left: 40px;
     padding: 7px 2px;
-    color: lighten($gray-lt, 90%);
+    color: darken($gray-lt, 25%);
     font-size: 1.2em;
     @extend .sw-font;
 
     &.success {
-      color: darken($gray-lt, 30%);
+      color: darken($gray-lt, 25%);
     }
 
     &.error {
