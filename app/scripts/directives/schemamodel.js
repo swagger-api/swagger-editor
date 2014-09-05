@@ -57,7 +57,7 @@ function buildProperty(property, schema) {
 
   var result = property + ': ' +
     stringifySchema(schema.properties[property]);
-  if (typeof schema.required === 'object' &&  schema.required.indexOf(property) > -1) {
+  if (angular.isObject(schema.required) && _.toArray(schema.required).indexOf(property) > -1) {
     result += ' <required>';
   }
   return result;
