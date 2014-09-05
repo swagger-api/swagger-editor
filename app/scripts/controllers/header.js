@@ -51,12 +51,23 @@ PhonicsApp.controller('HeaderCtrl', function HeaderCtrl($scope, Editor, Storage,
   });
 
   $scope.getServer = function (language) {
-    Codegen.getServer(language);
+    Codegen.getServer(language).then(noop, showCodegenError);
   };
 
   $scope.getClient = function (language) {
-    Codegen.getClient(language);
+    Codegen.getClient(language).then(noop, showCodegenError);
   };
+
+  function showCodegenError(resp) {
+    $modal.open({
+      templateUrl: 'templates/code-gen-error-modal.html',
+      controller: 'GeneralModal',
+      size: 'large',
+      resolve: {
+        data:  function () { return resp.data; }
+      }
+    });
+  }
 
   $scope.showFileMenu = function () {
     return !defaults.disableFileMenu;
@@ -126,5 +137,9 @@ PhonicsApp.controller('HeaderCtrl', function HeaderCtrl($scope, Editor, Storage,
       $scope.yamlDownloadHref = window.URL.createObjectURL(yamlBlob);
       $scope.yamlDownloadUrl = [MIME_TYPE, 'spec.yaml', $scope.yamlDownloadHref].join(':');
     });
+  }
+
+  function noop() {
+
   }
 });
