@@ -30,10 +30,13 @@ li.operation {
   margin: 0.4em 0em 1em 1em;
   border-radius: $operation-border-radius;
   @extend .sw-font;
-
   position: relative;
 
-
+  .tooltip {
+    .tooltip-inner {
+      border-radius: 0;
+    }
+  }
 
   >header {
     overflow: hidden;
@@ -44,14 +47,21 @@ li.operation {
 
     .focus-editor {
       position: absolute;
-      left: -25px;
+      left: -20px;
       top: 0;
+      height: 24px;
+      width: 24px;
       padding: 10px;
       display: none;
     }
 
     &:hover .focus-editor {
-      display: block;
+      display: inline-block;
+      background-image: image-url("jump-icon.svg");
+      background-repeat: no-repeat;
+      background-position: 0px 3px;
+      background-size: 22px;
+      text-decoration: none;
     }
 
     .http-method  {
@@ -91,7 +101,6 @@ li.operation {
     margin: 1em;
     font-family: "Open Sans";
     font-size: 0.9em;
-
 
     >h4 {
       font-size: 1em;
