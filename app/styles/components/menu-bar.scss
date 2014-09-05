@@ -11,12 +11,12 @@
     width: 335px;
     text-align: left;
     padding: 7px;
-    color: lighten($gray-lt, 90%);
+    color: darken($gray-lt, 25%);
     font-size: 1.2em;
     @extend .sw-font;
 
     &.success {
-      color: darken($gray-lt, 30%);
+      color: darken($gray-lt, 25%);
     }
 
     &.error {

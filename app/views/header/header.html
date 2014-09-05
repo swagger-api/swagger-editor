@@ -58,9 +58,10 @@
           </li>
         </ul>
       </div>
+
+      <div class="status {{statusClass}}"  ng-if="status">{{status}}</div>
     </section>
 
-    <div class="status {{statusClass}}"  ng-if="status">{{status}}</div>
     <section class="right">
       <div class="brandRight" ng-include="'templates/branding-right.html'" ng-if="showHeaderBranding()"></div>
       <div class="dropdown">
