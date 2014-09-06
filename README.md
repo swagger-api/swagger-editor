@@ -8,11 +8,15 @@ Valid Swagger JSON descriptions can then be generated and used with the full Swa
 To understand how it works, you should [try the live demo](http://wordnik.github.io/swagger-editor)!
 
 ## YAML Syntax
-Expect the syntax to evolve quickly! (Note: the initial simplified syntax can be found under app/spec-files/consolidated.yaml if not available at launch.)
-
-The idea is to iterate quickly on top of the Swagger 1.2 description format. As part of the Swagger 2.0 working group, the syntax will be a first-class citizen of Swagger 2.0. Visit http://swagger.wordnik.com to learn more or to get involved.
+YAML became a first-class citizen as part of the Swagger 2.0 working group process. Documenation for the YAML syntax will become part of the documentation of the [Swagger 2.0 spec](https://github.com/reverb/swagger-spec).
 
 ![Screenshot of the Swagger Editor](https://raw.githubusercontent.com/wordnik/swagger-editor/master/app/images/swagger-editor2.png "Designing an API with the Swagger Editor")
+
+## Tips
+You can import an existing YAML spec by using the `import` query parameter. For example:
+```
+http://editor.swagger.wordnik.com/?import=http://generator.wordnik.com/online/api/swagger.yaml
+```
 
 ## Running Locally
 
