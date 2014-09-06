@@ -112,13 +112,16 @@ PhonicsApp.controller('HeaderCtrl', function HeaderCtrl($scope, Editor, Storage,
     }
 
     // Remove the status if it's "Saved" status
-    if (progressStatus > 0) {
-      statusTimeout = $timeout(function () {
-        $scope.status = null;
-      }, 1000);
-    } else {
-      $timeout.cancel(statusTimeout);
-    }
+
+    // Comment out the removal behavior for now (A127 request)
+
+    // if (progressStatus > 0) {
+    //   statusTimeout = $timeout(function () {
+    //     $scope.status = null;
+    //   }, 1000);
+    // } else {
+    //   $timeout.cancel(statusTimeout);
+    // }
   });
 
   // Show the intro if it's first time visit
