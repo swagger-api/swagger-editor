@@ -57,7 +57,7 @@ module.exports = function (grunt) {
     'gh-pages',
     'shell:publish-npm',
     'a127',
-    'shell:publsih-npm-src',
+    'shell:publish-npm-src',
     'shell:squash'
   ]);
 
@@ -65,6 +65,6 @@ module.exports = function (grunt) {
     'shell:replace-defaults-a127',
     'build',
     'shell:a127-restore-defaults',
-    'shell:pusblish-npm-a127'
+    'shell:publish-npm-a127'
   ]);
 };

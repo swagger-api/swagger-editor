@@ -8,7 +8,7 @@ module.exports = {
   'replace-defaults-a127': {
     command: 'sh scripts/replace-defaults-a127.sh'
   },
-  'pusblish-npm-a127': {
+  'publish-npm-a127': {
     command: 'sh scripts/publish-npm-a127.sh'
   },
   'a127-restore-defaults': {
@@ -17,7 +17,7 @@ module.exports = {
   'squash': {
     command: 'sh scripts/squash.sh'
   },
-  'publsih-npm-src': {
+  'publish-npm-src': {
     command: 'npm version patch; npm publish'
   }
 };
