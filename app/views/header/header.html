@@ -2,7 +2,7 @@
   <div ng-if="showAbout" ng-include="'templates/intro.html'"></div>
   <div class="toolbar">
     <section class="left">
-      <div ng-include="'templates/branding-left.html'" ng-if="showHeaderBranding()"></div>
+      <div ng-include="'templates/branding-left.html'" ng-if="showHeaderBranding()" class="branding-3rdparty"></div>
       <div class="dropdown" ng-if="showFileMenu()">
         <button class="btn btn-default dropdown-toggle" type="button"
           data-toggle="dropdown" id="fileMenu" ng-mouseover="assignDownloadHrefs()">
