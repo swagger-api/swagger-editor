@@ -2,7 +2,7 @@ swagger: 2.0
 info:
   title: Petstore Sample API
   description: A sample API that uses a petstore as an example to demonstrate features in the swagger-2.0 specification
-  version: 1.0.0
+  version: "1.0.0"
   termsOfService: Do whatever you want with this
   contact:
     name: Wordnik API Team
@@ -30,13 +30,13 @@ paths:
           description: to test header parameter
           required: false
       responses:
-        200:
+        "200":
           description: to test 200
-        400:
+        "400":
           description: to test 400
-        300:
+        "300":
           description: to test 300
-        500:
+        "500":
           description: to test 400
         default:
           description: to test default
@@ -49,11 +49,11 @@ paths:
           schema:
             $ref: Pet
       responses:
-        400:
+        "400":
           description: Invalid ID supplied
-        404:
+        "404":
           description: Pet not found
-        405:
+        "405":
           description: Validation exception
     post:
       parameters:
@@ -64,7 +64,7 @@ paths:
           schema:
             $ref: Pet
       responses:
-        405:
+        "405":
           description: Invalid input
   /store/order/{orderId}:
     get:
@@ -75,9 +75,9 @@ paths:
           required: true
           type: string
       responses:
-        400:
+        "400":
           description: Invalid ID supplied
-        404:
+        "404":
           description: Order not found
     delete:
       parameters:
@@ -87,9 +87,9 @@ paths:
           required: true
           type: string
       responses:
-        400:
+        "400":
           description: Invalid ID supplied
-        404:
+        "404":
           description: Order not found
   /user/createWithArray:
     post:
@@ -108,7 +108,7 @@ paths:
           schema:
             $ref: Order
       responses:
-        400:
+        "400":
           description: Invalid Order
   /pet/findByStatus:
     get:
@@ -119,7 +119,7 @@ paths:
           required: false
           type: string
       responses:
-        400:
+        "400":
           description: Invalid status value
   /user/{username}:
     get:
@@ -130,9 +130,9 @@ paths:
           required: true
           type: string
       responses:
-        400:
+        "400":
           description: Invalid username supplied
-        404:
+        "404":
           description: User not found
     put:
       parameters:
@@ -148,9 +148,9 @@ paths:
           schema:
             $ref: User
       responses:
-        400:
+        "400":
           description: Invalid user supplied
-        404:
+        "404":
           description: User not found
     delete:
       parameters:
@@ -160,9 +160,9 @@ paths:
           required: true
           type: string
       responses:
-        400:
+        "400":
           description: Invalid username supplied
-        404:
+        "404":
           description: User not found
   /pet/findByTags:
     get:
@@ -173,7 +173,7 @@ paths:
           required: false
           type: string
       responses:
-        400:
+        "400":
           description: Invalid tag value
   /user:
     post:
@@ -188,7 +188,7 @@ paths:
     get:
       responses:
         -
-          200:
+          "200":
             description: Logs you out
   /user/login:
     get:
@@ -204,7 +204,7 @@ paths:
           required: false
           type: string
       responses:
-        400:
+        "400":
           description: Invalid username/password supplied
   /pet/{petId}:
     get:
@@ -215,9 +215,9 @@ paths:
           required: true
           type: string
       responses:
-        400:
+        "400":
           description: Invalid ID supplied
-        404:
+        "404":
           description: Pet not found
 definitions:
   User:

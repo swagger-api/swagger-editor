@@ -2317,16 +2317,16 @@ PhonicsApp.config(['$provide', function ($provide) {
       server: 'http://generator.wordnik.com/online/api/gen/servers/{language}',
       client: 'http://generator.wordnik.com/online/api/gen/clients/{language}'
     },
-    exampleFiles: ['default.yaml', 'minimal.yaml', 'petstore.yaml', 'heroku-pets.yaml', 'uber.yaml'],
+    examplesFolder: '/spec-files/',
+    exampleFiles: ['default.yaml', 'minimal.yaml', 'heroku-pets.yaml', 'uber.yaml'],
     backendEndpoint: '/editor/spec',
+    useBackendForStorage: false,
     backendHelathCheckTimeout: 5000,
-    useBackendForStorage: true,
-    disableFileMenu: true,
+    disableFileMenu: false,
     disableCodeGen: true,
-    disableNewUserIntro: true,
-    useYamlBackend: true,
-    headerBranding: true,
-    brandingCssClass: 'apigee-127'
+    useYamlBackend: false,
+    headerBranding: false,
+    brandingCssClass: ''
   }
   // END-DEFAULTS-JSON
 

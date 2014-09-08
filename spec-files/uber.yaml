@@ -2,7 +2,7 @@ swagger: 2
 info:
   title: Uber API
   description: Move your app forward with the Uber API
-  version: 1.0.0
+  version: "1.0.0"
 host: api.uber.com
 schemes:
   - https
@@ -34,7 +34,7 @@ paths:
       tags: 
         - Products
       responses:  
-        200:
+        "200":
           description: An array of products
           schema:
             $ref: Products
@@ -70,7 +70,7 @@ paths:
       tags: 
         - Estimates
       responses:  
-        200:
+        "200":
           description: An array of price estimates by product
           schema:
             $ref: PriceEstimates
@@ -102,7 +102,7 @@ paths:
       tags: 
         - Estimates
       responses:  
-        200:
+        "200":
           description: An array of products
           schema:
             $ref: Products
@@ -117,7 +117,7 @@ paths:
       tags: 
         - User
       responses:
-        200:
+        "200":
           description: Profile information for a user
           schema:
             $ref: Profile
@@ -141,7 +141,7 @@ paths:
       tags: 
         - User
       responses:
-        200:
+        "200":
           description: History information for the given user
           schema:
             $ref: Activities
