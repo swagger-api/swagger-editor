@@ -1,289 +1,244 @@
-swagger: 2.0
+# this is an example of the Uber API
+# as a demonstration of an API spec in YAML
+swagger: 2
 info:
-  title: Petstore Sample API
-  description: A sample API that uses a petstore as an example to demonstrate features in the swagger-2.0 specification
+  title: Uber API
+  description: Move your app forward with the Uber API
   version: "1.0.0"
-  termsOfService: Do whatever you want with this
-  contact:
-    name: Wordnik API Team
-  license:
-    name: MIT
-    url: http://github.com/gruntjs/grunt/blob/master/LICENSE-MIT
-host: petstore.swagger.wordnik.com
-basePath: /api
-consumes:
+# the domain of the service
+host: api.uber.com
+# array of all schemes that your API supports
+schemes:
+  - https
+# will be prefixed to all paths
+basePath: /v1
+produces:
   - application/json
 paths:
-  /user/createWithList:
-    post:
-      parameters:
-        - name: body
-          in: body
-          description: List of user object
-          required: false
-  /pet:
+  /products:
     get:
-      description: Just to test all response codes
+      summary: Product Types
+      description: The Products endpoint returns information about the Uber products offered at a given location. The response includes the display name and other details about each product, and lists the products in the proper display order.
       parameters:
-        - name: X-Custom-Header
-          in: header
-          description: to test header parameter
-          required: false
+        - name: latitude
+          in: query
+          description: Latitude component of location.
+          required: true
+          type: number
+        - name: longitude
+          in: query
+          description: Longitude component of location.
+          required: true
+          type: number
+      tags: 
+        - Products
+      responses:  
+        "200":
+          description: An array of products
+          schema:
+            $ref: Products
+        default:
+          description: Unexpected error
+          schema:
+            $ref: Error
+  /estimates/price:
+    get:
+      summary: Price Estimates
+      description: The Price Estimates endpoint returns an estimated price range for each product offered at a given location. The price estimate is provided as a formatted string with the full price range and the localized currency symbol.<br><br>The response also includes low and high estimates, and the [ISO 4217](http://en.wikipedia.org/wiki/ISO_4217) currency code for situations requiring currency conversion. When surge is active for a particular product, its surge_multiplier will be greater than 1, but the price estimate already factors in this multiplier.
+      parameters:
+        - name: start_latitude
+          in: query
+          description: Latitude component of start location.
+          required: true
+          type: number
+        - name: start_longitude
+          in: query
+          description: Longitude component of start location.
+          required: true
+          type: number
+        - name: end_latitude
+          in: query
+          description: Latitude component of end location.
+          required: true
+          type: number
+        - name: end_longitude
+          in: query
+          description: Longitude component of end location.
+          required: true
+          type: number
+      tags: 
+        - Estimates
+      responses:  
+        "200":
+          description: An array of price estimates by product
+          schema:
+            $ref: PriceEstimates
+        default:
+          description: Unexpected error
+          schema:
+            $ref: Error
+  /estimates/time:
+    get:
+      summary: Time Estimates
+      description: The Time Estimates endpoint returns ETAs for all products offered at a given location, with the responses expressed as integers in seconds. We recommend that this endpoint be called every minute to provide the most accurate, up-to-date ETAs.
+      parameters:
+        - name: start_latitude
+          in: query
+          description: Latitude component of start location.
+          required: true
+        - name: start_longitude
+          in: query
+          description: Longitude component of start location.
+          required: true
+        - name: customer_uuid
+          in: query
+          type: string
+          description: Unique customer identifier to be used for experience customization.
+        - name: product_id
+          in: query
+          type: string
+          description: Unique identifier representing a specific product for a given latitude & longitude.
+      tags: 
+        - Estimates
+      responses:  
+        "200":
+          description: An array of products
+          schema:
+            $ref: Products
+        default:
+          description: Unexpected error
+          schema:
+            $ref: Error
+  /me:
+    get:
+      summary: User Profile
+      description: The User Profile endpoint returns information about the Uber user that has authorized with the application.
+      tags: 
+        - User
       responses:
         "200":
-          description: to test 200
-        "400":
-          description: to test 400
-        "300":
-          description: to test 300
-        "500":
-          description: to test 400
+          description: Profile information for a user
+          schema:
+            $ref: Profile
         default:
-          description: to test default
-    put:
-      parameters:
-        - name: body
-          in: body
-          description: Pet object that needs to be added to the store
-          required: false
+          description: Unexpected error
           schema:
-            $ref: Pet
-      responses:
-        "400":
-          description: Invalid ID supplied
-        "404":
-          description: Pet not found
-        "405":
-          description: Validation exception
-    post:
-      parameters:
-        - name: body
-          in: body
-          description: Pet object that needs to be added to the store
-          required: false
-          schema:
-            $ref: Pet
-      responses:
-        "405":
-          description: Invalid input
-  /store/order/{orderId}:
+            $ref: Error
+  /history:
     get:
+      summary: User Activity
+      description: The User Activity endpoint returns data about a user's lifetime activity with Uber. The response will include pickup locations and times, dropoff locations and times, the distance of past requests, and information about which products were requested.<br><br>The history array in the response will have a maximum length based on the limit parameter. The response value count may exceed limit, therefore subsequent API requests may be necessary.
       parameters:
-        - name: orderId
-          in: path
-          description: ID of pet that needs to be fetched
-          required: true
-          type: string
-      responses:
-        "400":
-          description: Invalid ID supplied
-        "404":
-          description: Order not found
-    delete:
-      parameters:
-        - name: orderId
-          in: path
-          description: ID of the order that needs to be deleted
-          required: true
-          type: string
-      responses:
-        "400":
-          description: Invalid ID supplied
-        "404":
-          description: Order not found
-  /user/createWithArray:
-    post:
-      parameters:
-        - name: body
-          in: body
-          description: List of user object
-          required: false
-  /store/order:
-    post:
-      parameters:
-        - name: body
-          in: body
-          description: order placed for purchasing the pet
-          required: false
-          schema:
-            $ref: Order
-      responses:
-        "400":
-          description: Invalid Order
-  /pet/findByStatus:
-    get:
-      parameters:
-        - name: status
+        - name: offset
           in: query
-          description: Status values that need to be considered for filter
-          required: false
-          type: string
+          type: integer
+          description: Offset the list of returned results by this amount. Default is zero.
+        - name: limit
+          in: query
+          type: integer 
+          description: Number of items to retrieve. Default is 5, maximum is 100.
+      tags: 
+        - User
       responses:
-        "400":
-          description: Invalid status value
-  /user/{username}:
-    get:
-      parameters:
-        - name: username
-          in: path
-          description: The name that needs to be fetched. Use user1 for testing.
-          required: true
-          type: string
-      responses:
-        "400":
-          description: Invalid username supplied
-        "404":
-          description: User not found
-    put:
-      parameters:
-        - name: username
-          in: path
-          description: name that need to be deleted
-          required: true
-          type: string
-        - name: body
-          in: body
-          description: Updated user object
-          required: false
+        "200":
+          description: History information for the given user
           schema:
-            $ref: User
-      responses:
-        "400":
-          description: Invalid user supplied
-        "404":
-          description: User not found
-    delete:
-      parameters:
-        - name: username
-          in: path
-          description: The name that needs to be deleted
-          required: true
-          type: string
-      responses:
-        "400":
-          description: Invalid username supplied
-        "404":
-          description: User not found
-  /pet/findByTags:
-    get:
-      parameters:
-        - name: tags
-          in: query
-          description: Tags to filter by
-          required: false
-          type: string
-      responses:
-        "400":
-          description: Invalid tag value
-  /user:
-    post:
-      parameters:
-        - name: body
-          in: body
-          description: Created user object
-          required: false
+            $ref: Activities
+        default:
+          description: Unexpected error
           schema:
-            $ref: User
-  /user/logout:
-    get:
-      responses:
-        -
-          "200":
-            description: Logs you out
-  /user/login:
-    get:
-      parameters:
-        - name: username
-          in: query
-          description: The user name for login
-          required: false
-          type: string
-        - name: password
-          in: query
-          description: The password for login in clear text
-          required: false
-          type: string
-      responses:
-        "400":
-          description: Invalid username/password supplied
-  /pet/{petId}:
-    get:
-      parameters:
-        - name: petId
-          in: path
-          description: ID of pet that needs to be fetched
-          required: true
-          type: string
-      responses:
-        "400":
-          description: Invalid ID supplied
-        "404":
-          description: Pet not found
+            $ref: Error
 definitions:
-  User:
+  Product:
     properties:
-      id:
-        type: integer
-        format: int32
-      lastName:
+      product_id:
         type: string
-      username:
+        description: Unique identifier representing a specific product for a given latitude & longitude. For example, uberX in San Francisco will have a different product_id than uberX in Los Angeles.
+      description:
         type: string
-      phone:
+        description: Description of product.
+      display_name:
         type: string
+        description: Display name of product.
+      capacity:
+        type: string
+        description: Capacity of product. For example, 4 people.
+      image:
+        type: string
+        description: Image URL representing the product.
+  Products:
+    type: array
+    items:
+      $ref: Product
+  PriceEstimate:
+    properties:
+      product_id:
+        type: string
+        description: Unique identifier representing a specific product for a given latitude & longitude. For example, uberX in San Francisco will have a different product_id than uberX in Los Angeles
+      currency_code:
+        type: string
+        description: "[ISO 4217](http://en.wikipedia.org/wiki/ISO_4217) currency code."
+      display_name:
+        type: string
+        description: Display name of product.
+      estimate: 
+        type: string
+        description: Formatted string of estimate in local currency of the start location. Estimate could be a range, a single number (flat rate) or "Metered" for TAXI.
+      low_estimate:
+        type: number
+        description: Lower bound of the estimated price.
+      high_estimate:
+        type: number
+        description: Upper bound of the estimated price.
+      surge_multiplier:
+        type: number
+        description: Expected surge multiplier. Surge is active if surge_multiplier is greater than 1. Price estimate already factors in the surge multiplier.
+  PriceEstimates:
+    type: array
+    items:
+      $ref: PriceEstimate
+  Profile:
+    properties:
+      first_name:
+        type: string
+        description: First name of the Uber user.
+      last_name:
+        type: string
+        description: Last name of the Uber user.
       email:
         type: string
-      userStatus:
-        type: integer
-        format: int32
-      firstName:
+        description: Email address of the Uber user
+      picture:
         type: string
-      password:
+        description: Image URL of the Uber user.
+      promo_code:
         type: string
-  Pet:
+        description: Promo code of the Uber user.   
+  Activity:
     properties:
-      id:
+      uuid:
+        type: string
+        description: Unique identifier for the activity
+  Activities:
+    properties:
+      offset:
         type: integer
-        format: int32
-      tags:
+        description: Position in pagination.
+      limit:
+        type: integer
+        description: Number of items to retrieve (100 max).
+      count:
+        type: integer
+        description: Total number of items available.
+      history:
         type: array
-        items:
-          $ref: Tag
-      category:
-        $ref: Category
-      status:
-        type: string
-      name:
-        type: string
-      photoUrls:
-        type: array
-        items:
-          type: string
-  Order:
+        $ref: Activity
+  Error:
     properties:
-      id:
+      code:
         type: integer
         format: int32
-      petId:
-        type: integer
-        format: int32
-      status:
+      message:
         type: string
-      complete:
-        type: boolean
-      quantity:
-        type: integer
-        format: int32
-      shipDate:
-        type: string
-        format: date-time
-  Tag:
-    properties:
-      id:
-        type: string
-        format: in32
-  Category:
-    properties:
-      id:
-        type: string
-        format: in32
+      fields:
+        type: object
