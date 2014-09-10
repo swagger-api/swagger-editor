@@ -9,7 +9,7 @@ PhonicsApp.service('Validator', function Validator(defaultSchema, defaults, $htt
 
   function getLatestSchema() {
     if (defaults.schemaUrl) {
-      $http.get(defaults.schemaUrl).then(function (resp){
+      $http.get(defaults.schemaUrl).then(function (resp) {
         latestSchema = resp.data;
       });
     }

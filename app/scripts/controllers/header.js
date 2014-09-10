@@ -1,6 +1,6 @@
 'use strict';
 
-PhonicsApp.controller('HeaderCtrl', function HeaderCtrl($scope, Editor, Storage, Splitter, Builder, Codegen, $modal, $stateParams, defaults, strings, $timeout) {
+PhonicsApp.controller('HeaderCtrl', function HeaderCtrl($scope, Editor, Storage, Splitter, Builder, Codegen, $modal, $stateParams, defaults, strings) {
 
   if ($stateParams.path) {
     $scope.breadcrumbs  = [{ active: true, name: $stateParams.path }];
@@ -8,7 +8,7 @@ PhonicsApp.controller('HeaderCtrl', function HeaderCtrl($scope, Editor, Storage,
     $scope.breadcrumbs  = [];
   }
 
-  var statusTimeout;
+  // var statusTimeout;
   Storage.addChangeListener('progress', function (progressStatus) {
     $scope.status = strings.stausMessages[progressStatus];
     $scope.statusClass = null;
