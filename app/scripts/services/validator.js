@@ -3,8 +3,17 @@
 /*
   Keeps track of current document validation
 */
-PhonicsApp.service('Validator', function Validator(defaultSchema) {
+PhonicsApp.service('Validator', function Validator(defaultSchema, defaults, $http) {
   var buffer = Object.create(null);
+  var latestSchema;
+
+  function getLatestSchema() {
+    if (defaults.schemaUrl) {
+      $http.get(defaults.schemaUrl).then(function (resp){
+        latestSchema = resp.data;
+      });
+    }
+  }
 
   this.setStatus = function (status, isValid) {
     buffer[status] = !!isValid;
@@ -40,7 +49,10 @@ PhonicsApp.service('Validator', function Validator(defaultSchema) {
   };
 
   this.validateSwagger = function validateSwagger(json, schema) {
-    schema = schema || defaultSchema;
+    // Refresh Schema for the next time
+    getLatestSchema();
+
+    schema = schema || latestSchema || defaultSchema;
     var isValid = tv4.validate(json, schema);
 
     if (isValid) {

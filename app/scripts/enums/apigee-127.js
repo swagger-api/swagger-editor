@@ -12,6 +12,7 @@ PhonicsApp.config(['$provide', function ($provide) {
       server: 'http://generator.wordnik.com/online/api/gen/servers/{language}',
       client: 'http://generator.wordnik.com/online/api/gen/clients/{language}'
     },
+    schemaUrl: '',
     exampleFiles: ['default.yaml', 'minimal.yaml', 'petstore.yaml', 'heroku-pets.yaml', 'uber.yaml'],
     backendEndpoint: '/editor/spec',
     backendHelathCheckTimeout: 5000,
