@@ -1,6 +1,7 @@
 # Swagger Editor
 
 [![Build Status](https://travis-ci.org/wordnik/swagger-editor.svg)](https://travis-ci.org/wordnik/swagger-editor)
+[![Code Climate](https://codeclimate.com/github/wordnik/swagger-editor/badges/gpa.svg)](https://codeclimate.com/github/wordnik/swagger-editor)
 
 Swagger Editor lets you edit API specifications in YAML inside your browser and to preview documentations in real time.
 Valid Swagger JSON descriptions can then be generated and used with the full Swagger tooling (code generation, documentation, etc).
