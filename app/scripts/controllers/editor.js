@@ -19,7 +19,8 @@ PhonicsApp.controller('EditorCtrl', function EditorCtrl($scope, Editor, Builder,
 
   function onAceChange() {
     var value = Editor.getValue();
-
+    var yaml = jsyaml.load(value);
+    Storage.save(yaml.info.title, value);
     Storage.save('yaml', value);
     FoldManager.refresh();
   }
