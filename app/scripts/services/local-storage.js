@@ -8,12 +8,13 @@ PhonicsApp.service('LocalStorage', function LocalStorage($localStorage, $q) {
   $localStorage[storageKey] = $localStorage[storageKey] || Object.create(null);
 
   this.getKeys = function () {
-      var files = [];
-      for (var key in $localStorage[storageKey]) {
-          if((key!='intro')&&(key!='progress')&&(key!='yaml'))
-            files.push(key);
+    var files = [];
+    for (var key in $localStorage[storageKey]) {
+      if ((key != 'intro') && (key != 'progress') && (key != 'yaml')) {
+        files.push(key);
       }
-      return files;
+    }
+    return files;
   };
 
   this.save = function (key, value) {

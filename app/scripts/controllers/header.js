@@ -107,9 +107,9 @@ PhonicsApp.controller('HeaderCtrl', function HeaderCtrl($scope, Editor, Storage,
 
   $scope.openImportLocalStorage = function () {
     $modal.open({
-       templateUrl: 'templates/localstorage-import.html',
-       controller: 'LocalStorageImportCtrl',
-       size: 'large'
+      templateUrl: 'templates/localstorage-import.html',
+      controller: 'LocalStorageImportCtrl',
+      size: 'large'
     });
   };
 
