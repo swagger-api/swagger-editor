@@ -3,7 +3,7 @@
 
 .about-pane {
   position: fixed;
-  color: $overlay-text;
+  color: @overlay-text;
   width: 100%;
   height: 100%;
   z-index: 10;
@@ -18,9 +18,8 @@
   }
 
   h1, h3 {
-    @extend .sw-font-light;
+    .sw-font-light;
     line-height: 130%;
-
   }
 
   h1.overlay-title {
@@ -31,7 +30,7 @@
     position: absolute;
     top: 10%;
     left: 7%;
-    @extend .sw-font-light;
+    .sw-font-light;
   }
 
   .file-arrow {
@@ -40,7 +39,7 @@
     width: 80px;
     top: 3%;
     left: 2%;
-    background-image: image-url("overlay-arrow.svg");
+    background-image: url("../images/overlay-arrow.svg");
     background-repeat: no-repeat;
     background-position: 0px 0px;
     background-size: 60px;
@@ -69,8 +68,8 @@
     text-align: center;
     font-size: 1.3em;
     background: none;
-    border: 1px solid $overlay-text;
-    color: $overlay-text;
+    border: 1px solid @overlay-text;
+    color: @overlay-text;
     padding: .5em 2em;
     letter-spacing: .5px;
   }
@@ -81,11 +80,11 @@
     right: 14px;
     height: 36px;
     width: 36px;
-    color: $overlay-text;
-    @extend .sw-font-light;
+    color: @overlay-text;
+    .sw-font-light;
     background: none;
     border: none;
-    background-image: image-url("close.svg");
+    background-image: url("../images/close.svg");
     background-repeat: no-repeat;
     background-position: 0px 0px;
     background-size: 33px;

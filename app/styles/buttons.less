@@ -1,7 +1,7 @@
 @import "colors";
 
-$border-radius: 3px;
-$button-font-size: 15px;
+@border-radius: 3px;
+@button-font-size: 15px;
 
 .bs-button-override{
   border-radius: 0;
@@ -10,13 +10,13 @@ $button-font-size: 15px;
 button {
   border-radius: 3px;
   cursor: pointer;
-  border: 1px solid $gray-md;
+  border: 1px solid @gray-md;
 }
 
 
 button.try-it {
     background-color: #FFF;
-    border: 1px solid $gray-md;
+    border: 1px solid @gray-md;
     padding: 0.3em 0.5em;
     outline: none;
     width: 145px;
@@ -26,7 +26,7 @@ button.try-it {
     white-space: pre;
 
     &:hover {
-      background-color: lighten($gray-md, 47%);
+      background-color: lighten(@gray-md, 47%);
       transition: background-color 0.3s ease-in-out;
     }
 
@@ -52,14 +52,14 @@ button.try-it {
       &:after {
         content: "close ×";
         border-radius: 3px;
-        border: 1px solid $gray-md;
+        border: 1px solid @gray-md;
         font-size: 1em;
         padding: .3em .5em;
         display: inline-block;
       }
 
       &:hover {
-        background: $sw-error-header;
+        background: @sw-error-header;
         color: white;
         border-radius: 3px;
       }
@@ -70,17 +70,17 @@ button.call {
   font-size: 1em;
   padding: 0.5em 1em;
   display: inline-block;
-  border:1px solid $gray-lt;
-  background-color: $gray-lt;
+  border:1px solid @gray-lt;
+  background-color: @gray-lt;
   color: #444;
   border-radius: 3px;
   appearance: none;
   cursor: pointer;
-  background-image: (linear-gradient(lighten($gray-lt, 10%), darken($gray-lt, 1%)));
+  background-image: (linear-gradient(lighten(@gray-lt, 10%), darken(@gray-lt, 1%)));
 
   &:hover {
-    color: $gray-dk;
-    border: 1px solid $gray-md;
+    color: @gray-dk;
+    border: 1px solid @gray-md;
     transition: border 0.2s ease-in-out;
   }
 }
@@ -98,12 +98,12 @@ button.call {
       min-width: 34px;
       height: 24px;
       margin: 0;
-      font-size: $button-font-size;
-      background: lighten($gray-dk, 70%);
-      background-image: image-url("centerPanes.svg");
+      font-size: @button-font-size;
+      background: lighten(@gray-dk, 70%);
+      background-image: url("../images/centerPanes.svg");
       background-repeat: no-repeat;
       background-position: center 0px;
-      border-radius: $border-radius;
+      border-radius: @border-radius;
 
       &.selected {
         //background: red;
@@ -116,7 +116,7 @@ button.call {
         border-right-width: 0;
         border-top-right-radius: 0;
         border-bottom-right-radius: 0;
-        background-image: image-url("hideEditor.svg");
+        background-image: url("../images/hideEditor.svg");
         background-repeat: no-repeat;
         background-position: 5px 0px;
       }
@@ -125,7 +125,7 @@ button.call {
         border-left-width: 0;
         border-top-left-radius: 0;
         border-bottom-left-radius: 0;
-        background-image: image-url("hidePreview.svg");
+        background-image: url("../images/hidePreview.svg");
         background-repeat: no-repeat;
         background-position: 4px 0px;
       }

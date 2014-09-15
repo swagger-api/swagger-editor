@@ -14,7 +14,7 @@ module.exports = function (grunt) {
     grunt.task.run([
       'clean:server',
       'bowerInstall',
-      'compass:server',
+      'less:server',
       'autoprefixer',
       'connect:livereload',
       'watch'
@@ -23,7 +23,7 @@ module.exports = function (grunt) {
 
   grunt.registerTask('test', [
     'clean:server',
-    'compass',
+    'less',
     'autoprefixer',
     'connect:test',
     // 'karma' // TODO
@@ -36,7 +36,7 @@ module.exports = function (grunt) {
     'bowerInstall',
     'jscs',
     'useminPrepare',
-    'compass',
+    'less',
     'autoprefixer',
     'concat',
     'rev',

@@ -11,24 +11,24 @@
     width: 335px;
     text-align: left;
     padding: 7px;
-    color: darken($gray-lt, 25%);
+    color: darken(@gray-lt, 25%);
     font-size: 1.2em;
-    @extend .sw-font;
+    .sw-font;
 
     &.success {
-      color: darken($gray-lt, 25%);
+      color: darken(@gray-lt, 25%);
     }
 
     &.error {
-      background-image: image-url("warning.svg");
+      background-image: url("../images/warning.svg");
       background-repeat: no-repeat;
       background-position: 0px 5px;
       padding-left: 22px;
-      color: $sw-error-header;
+      color: @sw-error-header;
     }
   }
 
-  @extend .sw-font;
+  .sw-font;
   width: 100%;
 
     //dropdown styling
@@ -37,7 +37,7 @@
       display: inline-block;
 
       a.dropdown-icon {
-        background-image: image-url("swagger-sprite.png");
+        background-image: url("../images/swagger-sprite.png");
         background-repeat: no-repeat;
         background-position: 4px 0px;
         height: 32px;
@@ -48,7 +48,7 @@
 
 
         &:hover {
-          background-image: image-url("swagger-sprite.png");
+          background-image: url("../images/swagger-sprite.png");
           background-position: 4px -33px;
         }
       }
@@ -59,22 +59,22 @@
     }
 
     ul.dropdown-menu  {
-      border-radius: $border-radius;
-      color: $toolbar-button-color;
-      background: $toolbar-button-bg;
-      font-size: $button-font-size;
+      border-radius: @border-radius;
+      color: @toolbar-button-color;
+      background: @toolbar-button-bg;
+      font-size: @button-font-size;
 
       .divider {
-        background-color: $gray-md;
+        background-color: @gray-md;
       }
 
       li {
 
         a {
-          color: $toolbar-button-color;
+          color: @toolbar-button-color;
 
           &:hover {
-            background: lighten($toolbar-button-bg, 10%);
+            background: lighten(@toolbar-button-bg, 10%);
           }
         }
       }
@@ -115,8 +115,8 @@
             display: block;
 
             &, .toolbar-btn:last-child {
-              border-bottom-left-radius: $border-radius;
-              border-bottom-right-radius: $border-radius;
+              border-bottom-left-radius: @border-radius;
+              border-bottom-right-radius: @border-radius;
             }
           }
         }
@@ -130,23 +130,23 @@
       .btn-default {
         display: inline-block;
         -webkit-appearance: none;
-        border: 1px solid $gray-md;
-        border-radius: $border-radius;
+        border: 1px solid @gray-md;
+        border-radius: @border-radius;
         text-align: left;
-        color: $toolbar-button-color;
+        color: @toolbar-button-color;
         text-decoration: none;
-        font-size: $button-font-size;
+        font-size: @button-font-size;
         padding-top: 0.3em;
         padding-bottom: 0.3em;
         outline: none;
         cursor: pointer;
-        background: $toolbar-button-bg;
+        background: @toolbar-button-bg;
         min-width: 140px;
 
         &:hover {
           text-decoration: none;
-          border-radius: $border-radius;
-          background: lighten($toolbar-button-bg, 10%);
+          border-radius: @border-radius;
+          background: lighten(@toolbar-button-bg, 10%);
         }
 
         span {
@@ -160,12 +160,12 @@
           border: none;
         }
       }
-      
+
       .branding-3rdparty {
           float: left;
           margin-right: 20px;
       }
-      
+
     }
   }
 
@@ -183,7 +183,7 @@
     color: white;
 
     &:hover {
-      color: $http-get;
+      color: @http-get;
       text-decoration: none;
     }
   }

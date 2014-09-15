@@ -3,8 +3,8 @@ module.exports = {
     src: ['app/index.html'],
     ignorePath: 'app/'
   },
-  sass: {
-    src: ['app/styles/{,*/}*.{scss,sass}'],
+  less: {
+    src: ['app/styles/{,*/}*.less'],
     ignorePath: 'app/bower_components/'
   }
 };

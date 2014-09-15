@@ -18,7 +18,7 @@
       display: none;
 
       &.pipe {
-      color: darken($gray-lt, 10%);
+      color: darken(@gray-lt, 10%);
       }
 
 
@@ -39,7 +39,7 @@
 
     &.json, &.model {
       font-size: .9em;
-      background: $pre-bg;
+      background: @pre-bg;
       padding: 0.4em;
       border-radius: none;
     }
@@ -57,10 +57,10 @@
     }
 
     pre {
-      @extend .pre-font;
+      .pre-font;
       white-space: pre;
       padding: 0.4em 0;
-      background: $pre-bg;
+      background: @pre-bg;
       border: none;
       border-radius: none;
       margin-bottom: 0;

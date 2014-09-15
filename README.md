@@ -26,17 +26,13 @@ http://editor.swagger.wordnik.com/?import=http://generator.wordnik.com/online/ap
 Make sure you have all dependencies
 
 ```shell
-ruby --version
 node --version
-compass --version
 bower --version
 grunt --version
 ```
 If you don't have any of the dependencies, install them from their websites:
 
  * [NodeJS](http://nodejs.org/)
- * [Ruby](https://www.ruby-lang.org/en/)
- * [Compass](http://compass-style.org/)
  * [Bower](http://bower.io/)
  * [Grunt](http://gruntjs.com/)
  

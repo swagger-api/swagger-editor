@@ -2,11 +2,11 @@
 @import "fonts";
 
 .error-presenter {
-  background: lighten($sw-error-header, 41%);
-  @extend .sw-font;
+  background: lighten(@sw-error-header, 41%);
+  .sw-font;
 
   header {
-    background: $sw-error-header;
+    background: @sw-error-header;
     color: white;
     cursor: pointer;
     margin: 0;
@@ -14,7 +14,7 @@
     h4 {
       display: inline-block;
       padding: 0em .5em;
-      @extend .sw-font-light;
+      .sw-font-light;
     }
   }
 
@@ -22,12 +22,12 @@
     padding: .5em;
 
     h5 {
-      @extend .sw-font-med;
+      .sw-font-med;
       margin-bottom: .3em;
     }
 
   pre {
-    @extend .pre-font;
+    .pre-font;
     white-space: nowrap;
     line-height: 125%;
     font-size: .9em;
