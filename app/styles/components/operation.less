@@ -3,19 +3,19 @@
 @import "colors";
 @import "fonts";
 
-@mixin operation-theme($color) {
-  border: 1px solid $color;
+.operation-theme(@color) {
+  border: 1px solid @color;
   background: #fff;
 
   .http-method{
-    background: $color;
+    background: @color;
     color: white;
   }
   >header {
-    background: rgba($color, 0.1);
+    background: fade(@color, 10%);
   }
   h4 {
-    color:$color;
+    color:@color;
   }
 }
 
@@ -25,11 +25,11 @@ ul.operations {
   padding: 0;
 }
 li.operation {
-  $operation-border-radius: 3px;
+  .sw-font;
+  @operation-border-radius: 3px;
   list-style-type: none;
   margin: 0.4em 0em 1em 1em;
-  border-radius: $operation-border-radius;
-  @extend .sw-font;
+  border-radius: @operation-border-radius;
   position: relative;
 
   .tooltip {
@@ -57,7 +57,7 @@ li.operation {
 
     &:hover .focus-editor {
       display: inline-block;
-      background-image: image-url("jump-icon.svg");
+      background-image: url("../images/jump-icon.svg");
       background-repeat: no-repeat;
       background-position: 0px 3px;
       background-size: 22px;
@@ -65,12 +65,12 @@ li.operation {
     }
 
     .http-method  {
-      @extend .sw-font-light;
+      .sw-font-light;
       font-size: 0.9em;
       padding: .6em .5em;
       display: table-cell;
       float: left;
-      border-top-left-radius: $operation-border-radius - 2;
+      border-top-left-radius: @operation-border-radius - 2;
 
       margin-right: .4em;
       min-width: 68px;
@@ -86,15 +86,15 @@ li.operation {
     }
   }
 
-  @include operation-theme($http-default);
-  &.get { @include operation-theme($http-get); }
-  &.post { @include operation-theme($http-post); }
-  &.delete { @include operation-theme($http-delete); }
-  &.patch { @include operation-theme($http-patch); }
-  &.put { @include operation-theme($http-put); }
-  &.options { @include operation-theme($http-options); }
-  &.head { @include operation-theme($http-head); }
-  &.trace { @include operation-theme($http-trace); }
+  .operation-theme(@http-default);
+  &.get { .operation-theme(@http-get); }
+  &.post { .operation-theme(@http-post); }
+  &.delete { .operation-theme(@http-delete); }
+  &.patch { .operation-theme(@http-patch); }
+  &.put { .operation-theme(@http-put); }
+  &.options { .operation-theme(@http-options); }
+  &.head { .operation-theme(@http-head); }
+  &.trace { .operation-theme(@http-trace); }
 
 
   .content >section {
@@ -155,17 +155,17 @@ li.operation {
 
           span.resp-code {
             border-radius: 3px;
-            color: $code-default;
+            color: @code-default;
             padding: 3px 0;
             font-size: 1.1em;
             letter-spacing: 0.5px;
             font-weight: 700;
             display: inline-block;
 
-            &.green { color: $code-200; }
-            &.red { color: $code-500; }
-            &.blue { color: $code-300; }
-            &.yellow{ color: $code-400; }
+            &.green { color: @code-200; }
+            &.red { color: @code-500; }
+            &.blue { color: @code-300; }
+            &.yellow{ color: @code-400; }
           }
         }
       }

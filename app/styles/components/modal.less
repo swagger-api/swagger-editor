@@ -3,18 +3,18 @@
 @import "fonts";
 
 .modal-dialog .modal-content {
-  @extend .sw-font;
+  .sw-font;
   border-radius: 3px;
-  background: $gray-dk;
+  background: @gray-dk;
   color: #FFF;
-  
+
 
   .modal-title {
     font-size: 1.2em;
   }
 
   .modal-header {
-    border-bottom: 1px solid $gray-md;
+    border-bottom: 1px solid @gray-md;
   }
 
   .modal-body {
@@ -23,7 +23,7 @@
     }
 
     .invalid {
-      color:lighten($code-500, 10%);
+      color:lighten(@code-500, 10%);
       margin-top: .5em;
     }
 
@@ -43,16 +43,16 @@
   }
 
   .modal-footer {
-    border-top: 1px solid $gray-md;
+    border-top: 1px solid @gray-md;
     .btn.btn-primary {
-      @extend .bs-button-override;
+      .bs-button-override;
     }
     .btn.btn-warning {
-      @extend .bs-button-override;
-      background-color: $gray-dk;
-      border: 1px solid $gray-md;
+      .bs-button-override;
+      background-color: @gray-dk;
+      border: 1px solid @gray-md;
       &:hover {
-        background-color: darken($gray-lt, 80%);
+        background-color: darken(@gray-lt, 80%);
       }
     }
   }

@@ -18,14 +18,14 @@ li.path {
     cursor: pointer;
 
     h2  {
-      @extend .sw-font;
+      .sw-font;
       font-size: 1.2em;
       padding: 0;
       margin-bottom: 5px;
       margin-top: 3px;
 
       a {
-        color: $gray-dk;
+        color: @gray-dk;
         text-decoration: none;
 
         &:hover {
@@ -38,7 +38,7 @@ li.path {
   }
 
   ul.options {
-    @extend .sw-font;
+    .sw-font;
     display: flex;
     list-style-type: none;
 
@@ -49,14 +49,14 @@ li.path {
       display: inline-block;
       height: 16px;
       width: 22px;
-      color: $gray-md;
-      background-image: image-url("jump-icon.svg");
+      color: @gray-md;
+      background-image: url("../images/jump-icon.svg");
       background-repeat: no-repeat;
       background-position: 0px -3px;
       background-size: 22px;
 
       &:hover {
-        color: $gray-dk;
+        color: @gray-dk;
         transition: all 0.2s ease-in-out;
         cursor: pointer;
         text-decoration: none;
@@ -72,8 +72,8 @@ li.path {
 
     li + li:after, li:first-child:after {
       content: "|";
-      color: $gray-lt;
-      @extend .sw-font-light;
+      color: @gray-lt;
+      .sw-font-light;
     }
     li:last-child:after {
       display: none;

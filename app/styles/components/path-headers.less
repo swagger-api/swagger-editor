@@ -2,11 +2,11 @@
 @import "fonts";
 
 .info {
-  @extend .sw-font;
+  .sw-font;
   margin-bottom: 1em;
 
   .info-container {
-    background-color: lighten($gray-lt, 9%);
+    background-color: lighten(@gray-lt, 9%);
     padding: 0 10px;
     transition: height ease-in .3s;
 
@@ -24,7 +24,7 @@
 
   h1 {
     font-size: 1.2em;
-    @extend .sw-font-light;
+    .sw-font-light;
     margin-top: 0px;
 
     &:hover {
@@ -35,7 +35,7 @@
   p {
     font-size: .9em;
     width: 100%;
-    @extend .sw-font-light;
+    .sw-font-light;
     line-height: 1.3em;
     margin-bottom: 1em;
   }
@@ -43,13 +43,13 @@
   h4 {
     margin-bottom: 0;
     font-size: 1em;
-    @extend .sw-font-med;
+    .sw-font-med;
 
     &:last-child {
       margin-bottom: 0;
     }
     > span {
-      @extend .sw-font-light;
+      .sw-font-light;
     }
   }
 }

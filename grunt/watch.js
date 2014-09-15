@@ -17,9 +17,9 @@ module.exports = {
     files: ['test/spec/{,*/}*.js'],
     tasks: ['newer:jshint:test', 'karma']
   },
-  compass: {
-    files: ['app/styles/{,*/}*.{scss,sass}'],
-    tasks: ['compass:server', 'autoprefixer']
+  less: {
+    files: ['app/styles/{,*/}*.less'],
+    tasks: ['less:server', 'autoprefixer']
   },
   gruntfile: {
     files: ['Gruntfile.js']
