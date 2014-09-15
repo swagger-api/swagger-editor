@@ -90,7 +90,7 @@ PhonicsApp.controller('MainCtrl', function MainCtrl($rootScope, $stateParams, $l
 
 'use strict';
 
-PhonicsApp.controller('HeaderCtrl', function HeaderCtrl($scope, Editor, Storage, Splitter, Builder, Codegen, $modal, $stateParams, defaults, strings, $timeout) {
+PhonicsApp.controller('HeaderCtrl', function HeaderCtrl($scope, Editor, Storage, Splitter, Builder, Codegen, $modal, $stateParams, defaults, strings) {
 
   if ($stateParams.path) {
     $scope.breadcrumbs  = [{ active: true, name: $stateParams.path }];
@@ -98,7 +98,7 @@ PhonicsApp.controller('HeaderCtrl', function HeaderCtrl($scope, Editor, Storage,
     $scope.breadcrumbs  = [];
   }
 
-  var statusTimeout;
+  // var statusTimeout;
   Storage.addChangeListener('progress', function (progressStatus) {
     $scope.status = strings.stausMessages[progressStatus];
     $scope.statusClass = null;
@@ -1161,8 +1161,17 @@ PhonicsApp.service('Builder', function Builder(Resolver, Validator) {
 /*
   Keeps track of current document validation
 */
-PhonicsApp.service('Validator', function Validator(defaultSchema) {
+PhonicsApp.service('Validator', function Validator(defaultSchema, defaults, $http) {
   var buffer = Object.create(null);
+  var latestSchema;
+
+  function getLatestSchema() {
+    if (defaults.schemaUrl) {
+      $http.get(defaults.schemaUrl).then(function (resp) {
+        latestSchema = resp.data;
+      });
+    }
+  }
 
   this.setStatus = function (status, isValid) {
     buffer[status] = !!isValid;
@@ -1198,7 +1207,10 @@ PhonicsApp.service('Validator', function Validator(defaultSchema) {
   };
 
   this.validateSwagger = function validateSwagger(json, schema) {
-    schema = schema || defaultSchema;
+    // Refresh Schema for the next time
+    getLatestSchema();
+
+    schema = schema || latestSchema || defaultSchema;
     var isValid = tv4.validate(json, schema);
 
     if (isValid) {
@@ -1836,8 +1848,104 @@ PhonicsApp.config( ['$provide', function ($provide) {
 
   "type": "object",
   "required": [ "swagger", "info", "paths" ],
-
+  "additionalProperties": false,
+  "patternProperties": {
+    "^x-": {
+      "$ref": "#/definitions/vendorExtension"
+    }
+  },
+  "properties": {
+    "swagger": {
+      "type": "number",
+      "enum": [ 2.0 ],
+      "description": "The Swagger version of this document."
+    },
+    "info": {
+      "$ref": "#/definitions/info"
+    },
+    "externalDocs": {
+      "$ref": "#/definitions/externalDocs"
+    },
+    "host": {
+      "type": "string",
+      "format": "uri",
+      "pattern": "^((?!\\:\/\/).)*$",
+      "description": "The fully qualified URI to the host of the API."
+    },
+    "basePath": {
+      "type": "string",
+      "pattern": "^/",
+      "description": "The base path to the API. Example: '/api'."
+    },
+    "schemes": {
+      "type": "array",
+      "description": "The transfer protocol of the API.",
+      "items": {
+        "type": "string",
+        "enum": [ "http", "https", "ws", "wss" ]
+      }
+    },
+    "consumes": {
+      "type": "array",
+      "description": "A list of MIME types accepted by the API.",
+      "items": {
+        "$ref": "#/definitions/mimeType"
+      }
+    },
+    "produces": {
+      "type": "array",
+      "description": "A list of MIME types the API can produce.",
+      "items": {
+        "$ref": "#/definitions/mimeType"
+      }
+    },
+    "paths": {
+      "type": "object",
+      "description": "Relative paths to the individual endpoints. They must be relative to the 'basePath'.",
+      "patternProperties": {
+        "^x-": {
+          "$ref": "#/definitions/vendorExtension"
+        },
+        "^/.*[^\/]$": {
+          "$ref": "#/definitions/pathItem"
+        }
+      },
+      "additionalProperties": false
+    },
+    "definitions": {
+      "type": "object",
+      "description": "One or more JSON objects describing the schemas being consumed and produced by the API.",
+      "additionalProperties": { "$ref": "#/definitions/schema" }
+    },
+    "parameters": {
+      "type": "object",
+      "description": "One or more JSON representations for parameters",
+      "additionalProperties": { "$ref": "#/definitions/parameter" }
+    },
+    "responses": { "$ref": "#/definitions/responses" },
+    "security": { "$ref": "#/definitions/security" },
+    "tags": {
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/tag"
+      }
+    }
+  },
   "definitions": {
+    "externalDocs": {
+      "type": "object",
+      "description": "information about external documentation",
+      "required": [ "url" ],
+      "properties": {
+        "description": {
+          "type": "string"
+        },
+        "url": {
+          "type": "string",
+          "format": "uri"
+        }
+      }
+    },
     "info": {
       "type": "object",
       "description": "General information about the API.",
@@ -1859,7 +1967,7 @@ PhonicsApp.config( ['$provide', function ($provide) {
         },
         "description": {
           "type": "string",
-          "description": "A longer description of the API. Should be different from the title."
+          "description": "A longer description of the API. Should be different from the title.  Github-flavored markdown is allowed."
         },
         "termsOfService": {
           "type": "string",
@@ -1913,7 +2021,7 @@ PhonicsApp.config( ['$provide', function ($provide) {
     },
     "mimeType": {
       "type": "string",
-      "pattern": "^[a-z0-9-]+/[a-z0-9-+]+$",
+      "pattern": "^[\\sa-z0-9-+;\\.=\\/]+$",
       "description": "The MIME type of the HTTP message."
     },
     "operation": {
@@ -1938,12 +2046,10 @@ PhonicsApp.config( ['$provide', function ($provide) {
         },
         "description": {
           "type": "string",
-          "description": "A longer description of the operation, markdown is allowed."
+          "description": "A longer description of the operation, github-flavored markdown is allowed."
         },
-        "docsUrl": {
-          "type": "string",
-          "format": "uri",
-          "description": "Location of external documentation."
+        "externalDocs": {
+          "$ref": "#/definitions/externalDocs"
         },
         "operationId": {
           "type": "string",
@@ -1957,13 +2063,32 @@ PhonicsApp.config( ['$provide', function ($provide) {
             "$ref": "#/definitions/mimeType"
           }
         },
+        "consumes": {
+          "type": "array",
+          "description": "A list of MIME types the API can consume.",
+          "additionalItems": false,
+          "items": {
+            "$ref": "#/definitions/mimeType"
+          }
+        },
         "parameters": {
           "type": "array",
           "description": "The parameters needed to send a valid API call.",
           "minItems": 1,
           "additionalItems": false,
           "items": {
-            "$ref": "#/definitions/parameter"
+            "oneOf": [
+              { "$ref": "#/definitions/parameter" },
+              {
+                "type": "object",
+                "additionalProperties": false,
+                "properties": {
+                  "$ref": {
+                    "type": "string"
+                  }
+                }
+              }
+            ]
           }
         },
         "responses": {
@@ -1975,6 +2100,50 @@ PhonicsApp.config( ['$provide', function ($provide) {
           "items": {
             "type": "string",
             "enum": [ "http", "https", "ws", "wss" ]
+          }
+        },
+        "security": {
+          "$ref": "#/definitions/securityRequirement"
+        }
+      }
+    },
+    "pathItem": {
+      "type": "object",
+      "additionalProperties": false,
+      "patternProperties": {
+        "^x-": {
+          "$ref": "#/definitions/vendorExtension"
+        }
+      },
+      "properties": {
+        "$ref": {
+          "type": "string"
+        },
+        "get": {
+          "$ref": "#/definitions/operation"
+        },
+        "put": {
+          "$ref": "#/definitions/operation"
+        },
+        "post": {
+          "$ref": "#/definitions/operation"
+        },
+        "delete": {
+          "$ref": "#/definitions/operation"
+        },
+        "options": {
+          "$ref": "#/definitions/operation"
+        },
+        "head": {
+          "$ref": "#/definitions/operation"
+        },
+        "patch": {
+          "$ref": "#/definitions/operation"
+        },
+        "parameters": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/parameter"
           }
         }
       }
@@ -2019,7 +2188,7 @@ PhonicsApp.config( ['$provide', function ($provide) {
       "properties": {
         "type": {
           "type": "string",
-          "enum": [ "string", "number", "boolean", "integer", "array" ]
+          "enum": [ "string", "number", "boolean", "integer", "array", "file" ]
         },
         "format": {
           "type": "string"
@@ -2055,12 +2224,11 @@ PhonicsApp.config( ['$provide', function ($provide) {
             "in": {
               "type": "string",
               "description": "Determines the location of the parameter.",
-              "enum": [ "query", "header", "path", "formData" ],
-              "default": "query"
+              "enum": [ "query", "header", "path", "formData" ]
             },
             "description": {
               "type": "string",
-              "description": "A brief description of the parameter. This could contain examples of use."
+              "description": "A brief description of the parameter. This could contain examples of use.  Github-flavored markdown is allowed."
             },
             "required": {
               "type": "boolean",
@@ -2096,8 +2264,7 @@ PhonicsApp.config( ['$provide', function ($provide) {
             "in": {
               "type": "string",
               "description": "Determines the location of the parameter.",
-              "enum": [ "body" ],
-              "default": "body"
+              "enum": [ "body" ]
             },
             "description": {
               "type": "string",
@@ -2156,11 +2323,7 @@ PhonicsApp.config( ['$provide', function ($provide) {
         "maxProperties": { "$ref": "http://json-schema.org/draft-04/schema#/definitions/positiveInteger" },
         "minProperties": { "$ref": "http://json-schema.org/draft-04/schema#/definitions/positiveIntegerDefault0" },
         "required": { "$ref": "http://json-schema.org/draft-04/schema#/definitions/stringArray" },
-        "definitions": {
-          "type": "object",
-          "additionalProperties": { "$ref": "#/definitions/schema" },
-          "default": { }
-        },
+        "externalDocs": { "$ref": "#/definitions/externalDocs" },
         "properties": {
           "type": "object",
           "additionalProperties": { "$ref": "#/definitions/schema" },
@@ -2168,6 +2331,9 @@ PhonicsApp.config( ['$provide', function ($provide) {
         },
         "enum": { "$ref": "http://json-schema.org/draft-04/schema#/properties/enum" },
         "type": { "$ref": "http://json-schema.org/draft-04/schema#/properties/type" },
+        "example": {
+
+        },
         "allOf": {
           "type": "array",
           "minItems": 1,
@@ -2175,130 +2341,39 @@ PhonicsApp.config( ['$provide', function ($provide) {
         }
       }
     },
+    "security": {
+      "description": "defines security definitions"
+    },
+    "securityRequirement": {
+      "description": "defines a security requirement",
+      "type": "array"
+    },
     "xml": {
       "properties": {
+        "name": { "type": "string"},
         "namespace": { "type": "string" },
         "prefix": { "type": "string" },
         "attribute": { "type": "boolean" },
         "wrapped": { "type": "boolean" }
       },
       "additionalProperties": false
-    }
-  },
-  "additionalProperties": false,
-  "patternProperties": {
-    "^x-": {
-      "$ref": "#/definitions/vendorExtension"
-    }
-  },
-  "properties": {
-    "swagger": {
-      "type": "number",
-      "enum": [ 2.0 ],
-      "description": "The Swagger version of this document."
     },
-    "info": {
-      "$ref": "#/definitions/info"
-    },
-    "host": {
-      "type": "string",
-      "format": "uri",
-      "pattern": "^((?!\\:\/\/).)*$",
-      "description": "The fully qualified URI to the host of the API."
-    },
-    "basePath": {
-      "type": "string",
-      "pattern": "^/",
-      "description": "The base path to the API. Example: '/api'."
-    },
-    "schemes": {
-      "type": "array",
-      "description": "The transfer protocol of the API.",
-      "items": {
-        "type": "string",
-        "enum": [ "http", "https", "ws", "wss" ]
-      }
-    },
-    "consumes": {
-      "type": "array",
-      "description": "A list of MIME types accepted by the API.",
-      "items": {
-        "$ref": "#/definitions/mimeType"
-      }
-    },
-    "produces": {
-      "type": "array",
-      "description": "A list of MIME types the API can produce.",
-      "items": {
-        "$ref": "#/definitions/mimeType"
-      }
-    },
-    "paths": {
+    "tag": {
       "type": "object",
-      "description": "Relative paths to the individual endpoints. They should be relative to the 'basePath'.",
-
+      "properties": {
+        "externalDocs": { "$ref": "#/definitions/externalDocs" }
+      },
       "patternProperties": {
         "^x-": {
           "$ref": "#/definitions/vendorExtension"
-        }
-      },
-
-      "additionalProperties": {
-        "type": "object",
-        "minProperties": 1,
-        "additionalProperties": false,
-        "patternProperties": {
-          "^x-": {
-            "$ref": "#/definitions/vendorExtension"
-          }
         },
-        "properties": {
-          "$ref": {
-            "type": "string"
-          },
-          "get": {
-            "$ref": "#/definitions/operation"
-          },
-          "put": {
-            "$ref": "#/definitions/operation"
-          },
-          "post": {
-            "$ref": "#/definitions/operation"
-          },
-          "delete": {
-            "$ref": "#/definitions/operation"
-          },
-          "options": {
-            "$ref": "#/definitions/operation"
-          },
-          "head": {
-            "$ref": "#/definitions/operation"
-          },
-          "patch": {
-            "$ref": "#/definitions/operation"
-          },
-          "parameters": {
-            "type": "array",
-            "items": {
-              "$ref": "#/definitions/parameter"
-            }
-          }
+        "^/.*[^\/]$": {
+          "type": "string"
         }
       }
-    },
-    "definitions": {
-      "type": "object",
-      "description": "One or more JSON objects describing the schemas being consumed and produced by the API.",
-      "additionalProperties": {
-        "$ref": "#/definitions/schema"
-      }
-    },
-    "security": {
-      "type": "array"
     }
   }
 }
-
 // End of Schema JSON
 );
 }]);
@@ -2317,6 +2392,7 @@ PhonicsApp.config(['$provide', function ($provide) {
       server: 'http://generator.wordnik.com/online/api/gen/servers/{language}',
       client: 'http://generator.wordnik.com/online/api/gen/clients/{language}'
     },
+    schemaUrl: '',
     examplesFolder: '/spec-files/',
     exampleFiles: ['default.yaml', 'minimal.yaml', 'heroku-pets.yaml', 'uber.yaml'],
     backendEndpoint: '/editor/spec',
