@@ -17,11 +17,11 @@
     "angular-scenario": "1.2.15",
     "angular-ui-ace": "bower",
     "angular-ui-router": "~0.2.10",
-    "angular-marked": "Hypercubed/angular-marked#~0.0.12"
+    "angular-marked": "Hypercubed/angular-marked#~0.0.12",
+    "bootstrap-sass-official": "~3.2.0+2"
   },
   "dependencies": {
     "json-formatter": "*",
-    "lodash": "~2.4.1",
-    "bootstrap-sass-official": "~3.2.0+2"
+    "lodash": "~2.4.1"
   }
 }
