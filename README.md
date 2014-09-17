@@ -9,7 +9,7 @@ Valid Swagger JSON descriptions can then be generated and used with the full Swa
 To understand how it works, you should [try the live demo](http://wordnik.github.io/swagger-editor)!
 
 ## YAML Syntax
-YAML became a first-class citizen as part of the Swagger 2.0 working group process. Documenation for the YAML syntax will become part of the documentation of the [Swagger 2.0 spec](https://github.com/reverb/swagger-spec).
+YAML became a first-class citizen as part of the Swagger 2.0 working group process. Documentation for the YAML syntax will become part of the documentation of the [Swagger 2.0 spec](https://github.com/reverb/swagger-spec).
 
 ![Screenshot of the Swagger Editor](https://raw.githubusercontent.com/wordnik/swagger-editor/master/app/images/swagger-editor2.png "Designing an API with the Swagger Editor")
 
