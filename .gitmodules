@@ -1,3 +1,0 @@
-[submodule "server"]
-	path = server
-	url = git@github.com:mohsen1/anybin.git
