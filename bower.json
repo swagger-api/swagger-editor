@@ -18,7 +18,7 @@
     "angular-ui-ace": "bower",
     "angular-ui-router": "~0.2.10",
     "angular-marked": "Hypercubed/angular-marked#~0.0.12",
-    "bootstrap-sass-official": "^3.2.*"
+    "bootstrap": "~3.2.0"
   },
   "dependencies": {
     "json-formatter": "*",
