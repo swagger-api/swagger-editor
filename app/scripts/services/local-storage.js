@@ -43,7 +43,7 @@ PhonicsApp.service('LocalStorage', function LocalStorage($localStorage, $q) {
   };
 
   this.addChangeListener = function (key, fn) {
-    if (typeof fn === 'function') {
+    if (angular.isFunction(fn)) {
       if (!changeListeners[key]) {
         changeListeners[key] = [];
       }

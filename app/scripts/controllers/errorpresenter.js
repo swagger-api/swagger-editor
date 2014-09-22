@@ -41,7 +41,7 @@ PhonicsApp.controller('ErrorPresenterCtrl', function ($scope) {
       return error.emptyDocsError.message;
     }
 
-    if (error.swaggerError && typeof error.swaggerError.dataPath === 'string') {
+    if (error.swaggerError && angular.isString(error.swaggerError.dataPath)) {
 
       // TODO: find a badass regex that can handle ' ▹ ' case without two replaces
       return error.swaggerError.message +

@@ -57,12 +57,12 @@ PhonicsApp.service('Editor', function Editor() {
   }
 
   function setValue(value) {
-    if (typeof value === 'string') {
+    if (angular.isString(value)) {
       editor.getSession().setValue(value);
     }
 
     // If it's an object, convert it YAML
-    if (typeof value === 'object') {
+    if (angular.isObject(value)) {
       setValue(jsyaml.dump(angular.copy(value)));
     }
   }
@@ -76,7 +76,7 @@ PhonicsApp.service('Editor', function Editor() {
   }
 
   function ready(fn) {
-    if (typeof fn === 'function') {
+    if (angular.isFunction(fn)) {
       onReadyFns.push(fn);
     }
   }

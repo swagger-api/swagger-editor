@@ -6,7 +6,7 @@ PhonicsApp.controller('UrlImportCtrl', function FileImportCtrl($scope, $modalIns
   $scope.url = null;
 
   $scope.fetch = function (url) {
-    if (typeof url === 'string' && url.indexOf('http') > -1) {
+    if (angular.isString('string') && url.indexOf('http') > -1) {
       FileLoader.loadFromUrl(url).then(function (data) {
         results = data;
         $scope.canImport = true;

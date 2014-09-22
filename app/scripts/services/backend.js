@@ -55,7 +55,7 @@ PhonicsApp.service('Backend', function Backend($http, $q, defaults, Builder) {
   };
 
   this.addChangeListener = function (key, fn) {
-    if (typeof fn === 'function') {
+    if (angular.isFunction(fn)) {
       if (!changeListeners[key]) {
         changeListeners[key] = [];
       }
