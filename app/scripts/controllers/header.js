@@ -133,12 +133,12 @@ PhonicsApp.controller('HeaderCtrl', function HeaderCtrl($scope, Editor, Storage,
       var json = JSON.stringify(jsyaml.load(yaml), null, 4);
       var jsonBlob = new Blob([json], {type: MIME_TYPE});
       $scope.jsonDownloadHref = window.URL.createObjectURL(jsonBlob);
-      $scope.jsonDownloadUrl = [MIME_TYPE, 'spec.json', $scope.jsonDownloadHref].join(':');
+      $scope.jsonDownloadUrl = [MIME_TYPE, 'swagger.json', $scope.jsonDownloadHref].join(':');
 
       // YAML
       var yamlBlob = new Blob([yaml], {type: MIME_TYPE});
       $scope.yamlDownloadHref = window.URL.createObjectURL(yamlBlob);
-      $scope.yamlDownloadUrl = [MIME_TYPE, 'spec.yaml', $scope.yamlDownloadHref].join(':');
+      $scope.yamlDownloadUrl = [MIME_TYPE, 'swagger.yaml', $scope.yamlDownloadHref].join(':');
     });
   }
 
