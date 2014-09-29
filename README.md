@@ -68,7 +68,26 @@ $ grunt ship
 ```
 Please do not touch `gh-pages` branch manually!
 
+### Docker Container
 
+If you are familiar with [Docker](https://www.docker.com/), you can build a Docker image of the current code using the project's Dockerfile.
+
+```
+sudo docker build -t my-swagger-editor ~/github/swagger-editor
+```
+
+Where ~/github/swagger-editor is the path to the clone of this repo and my-swagger-editor is the tag for the image.
+
+In order to run the built image as a Docker container, use the following:
+
+```
+sudo docker run -ti -p 80:9000 my-swagger-editor
+```
+
+Where 80 is the port in the host and you can change to your environment.
+
+If you want to know more about the process to build the images, go to the [Docker Node.js Sample tutorial](https://docs.docker.com/examples/nodejs_web_app/).
+ 
 ### Contributing
 File issues in GitHub's to report bugs or issue a pull request.
 
