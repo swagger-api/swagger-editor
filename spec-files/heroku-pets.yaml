@@ -32,7 +32,7 @@ paths:
       responses:
         200:
           description: Updates the pet
-  /:petId:
+  /{petId}
     get:
       parameters:
         - name: petId
