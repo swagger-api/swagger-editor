@@ -1225,8 +1225,10 @@ exports.implement = function(proto, mixin) {
 
 });
 
-ace.define("ace/lib/keys",["require","exports","module","ace/lib/oop"], function(require, exports, module) {
+ace.define("ace/lib/keys",["require","exports","module","ace/lib/fixoldbrowsers","ace/lib/oop"], function(require, exports, module) {
 "use strict";
+
+require("./fixoldbrowsers");
 
 var oop = require("./oop");
 var Keys = (function() {
@@ -1315,7 +1317,7 @@ var Keys = (function() {
     
     (function() {
         var mods = ["cmd", "ctrl", "alt", "shift"];
-        for (var i = Math.pow(2, mods.length); i--;) {
+        for (var i = Math.pow(2, mods.length); i--;) {            
             ret.KEY_MODS[i] = mods.filter(function(x) {
                 return i & ret.KEY_MODS[x];
             }).join("-") + "-";
@@ -1582,7 +1584,7 @@ function normalizeCommandKeys(callback, e, keyCode) {
                 return;
         }
         if (keyCode === 18 || keyCode === 17) {
-            var location = e.location || e.keyLocation;
+            var location = "location" in e ? e.location : e.keyLocation;
             if (keyCode === 17 && location === 1) {
                 ts = e.timeStamp;
             } else if (keyCode === 18 && hashId === 3 && location === 2) {
@@ -1618,7 +1620,8 @@ function normalizeCommandKeys(callback, e, keyCode) {
     }
     
     if (!hashId && keyCode === 13) {
-        if (e.location || e.keyLocation === 3) {
+        var location = "location" in e ? e.location : e.keyLocation;
+        if (location === 3) {
             callback(e, hashId, -keyCode);
             if (e.defaultPrevented)
                 return;
@@ -1922,6 +1925,7 @@ var TextInput = function(parentNode, host) {
     text.spellcheck = false;
 
     text.style.opacity = "0";
+    if (useragent.isOldIE) text.style.top = "-100px";
     parentNode.insertBefore(text, parentNode.firstChild);
 
     var PLACEHOLDER = "\x01\x01";
@@ -2279,6 +2283,8 @@ var TextInput = function(parentNode, host) {
     };
     
     this.moveToMouse = function(e, bringToFront) {
+        if (!bringToFront && useragent.isOldIE)
+            return;
         if (!tempStyle)
             tempStyle = text.style.cssText;
         text.style.cssText = (bringToFront ? "z-index:100000;" : "")
@@ -2301,13 +2307,15 @@ var TextInput = function(parentNode, host) {
 
         if (host.renderer.$keepTextAreaAtCursor)
             host.renderer.$keepTextAreaAtCursor = null;
-        if (useragent.isWin)
+        if (useragent.isWin && !useragent.isOldIE)
             event.capture(host.container, move, onContextMenuClose);
     };
 
     this.onContextMenuClose = onContextMenuClose;
+    var closeTimeout;
     function onContextMenuClose() {
-        setTimeout(function () {
+        clearTimeout(closeTimeout)
+        closeTimeout = setTimeout(function () {
             if (tempStyle) {
                 text.style.cssText = tempStyle;
                 tempStyle = '';
@@ -2316,7 +2324,7 @@ var TextInput = function(parentNode, host) {
                 host.renderer.$keepTextAreaAtCursor = true;
                 host.renderer.$moveTextAreaToCursor();
             }
-        }, 0);
+        }, useragent.isOldIE ? 200 : 0);
     }
 
     var onContextMenu = function(e) {
@@ -2915,7 +2923,7 @@ function DragdropHandler(mouseHandler) {
         dataTransfer.effectAllowed = editor.getReadOnly() ? "copy" : "copyMove";
         if (useragent.isOpera) {
             editor.container.appendChild(blankImage);
-            blankImage._top = blankImage.offsetTop;
+            blankImage.scrollTop = 0;
         }
         dataTransfer.setDragImage && dataTransfer.setDragImage(blankImage, 0, 0);
         if (useragent.isOpera) {
@@ -2939,11 +2947,14 @@ function DragdropHandler(mouseHandler) {
             editor.renderer.$cursorLayer.setBlinking(true);
         }
         this.editor.unsetStyle("ace_dragging");
+        this.editor.renderer.setCursorStyle("");
     };
 
     this.onDragEnter = function(e) {
         if (editor.getReadOnly() || !canAccept(e.dataTransfer))
             return;
+        x = e.clientX;
+        y = e.clientY;
         if (!dragSelectionMarker)
             addDragMarker();
         counter++;
@@ -2954,14 +2965,14 @@ function DragdropHandler(mouseHandler) {
     this.onDragOver = function(e) {
         if (editor.getReadOnly() || !canAccept(e.dataTransfer))
             return;
+        x = e.clientX;
+        y = e.clientY;
         if (!dragSelectionMarker) {
             addDragMarker();
             counter++;
         }
         if (onMouseMoveTimer !== null)
             onMouseMoveTimer = null;
-        x = e.clientX;
-        y = e.clientY;
 
         e.dataTransfer.dropEffect = dragOperation = getDropEffect(e);
         return event.preventDefault(e);
@@ -2977,7 +2988,7 @@ function DragdropHandler(mouseHandler) {
     };
 
     this.onDrop = function(e) {
-        if (!dragSelectionMarker)
+        if (!dragCursor)
             return;
         var dataTransfer = e.dataTransfer;
         if (isInternal) {
@@ -3088,6 +3099,7 @@ function DragdropHandler(mouseHandler) {
         if (editor.isFocused())
             editor.renderer.$cursorLayer.setBlinking(false);
         clearInterval(timerId);
+        onDragInterval();
         timerId = setInterval(onDragInterval, 20);
         counter = 0;
         event.addListener(document, "mousemove", onMouseMove);
@@ -3103,6 +3115,7 @@ function DragdropHandler(mouseHandler) {
         if (editor.isFocused() && !isInternal)
             editor.renderer.$cursorLayer.setBlinking(!editor.getReadOnly());
         range = null;
+        dragCursor = null;
         counter = 0;
         autoScrollStartTime = null;
         cursorMovedTime = null;
@@ -3165,15 +3178,19 @@ function DragdropHandler(mouseHandler) {
     this.dragReadyEnd = function(e) {
         this.editor.renderer.$cursorLayer.setBlinking(!this.editor.getReadOnly());
         this.editor.unsetStyle("ace_dragging");
+        this.editor.renderer.setCursorStyle("");
         this.dragWaitEnd();
     };
 
     this.startDrag = function(){
         this.cancelDrag = false;
-        var target = this.editor.container;
+        var editor = this.editor;
+        var target = editor.container;
         target.draggable = true;
-        this.editor.renderer.$cursorLayer.setBlinking(false);
-        this.editor.setStyle("ace_dragging");
+        editor.renderer.$cursorLayer.setBlinking(false);
+        editor.setStyle("ace_dragging");
+        var cursorStyle = useragent.isWin ? "default" : "move";
+        editor.renderer.setCursorStyle(cursorStyle);
         this.setState("dragReady");
     };
 
@@ -5007,6 +5024,10 @@ var Tokenizer = function(rules) {
         if (startState && typeof startState != "string") {
             var stack = startState.slice(0);
             startState = stack[0];
+            if (startState === "#tmp") {
+                stack.shift()
+                startState = stack.shift()
+            }
         } else
             var stack = [];
 
@@ -5055,8 +5076,6 @@ var Tokenizer = function(rules) {
 
                 if (rule.next) {
                     if (typeof rule.next == "string") {
-                        if (stack.length && stack[0] == currentState && stack[1] == rule.next)
-                            stack.shift();
                         currentState = rule.next;
                     } else {
                         currentState = rule.next(currentState, stack);
@@ -5119,7 +5138,7 @@ var Tokenizer = function(rules) {
         
         if (stack.length > 1) {
             if (stack[0] !== currentState)
-                stack.unshift(currentState);
+                stack.unshift("#tmp", currentState);
         }
         return {
             tokens : tokens,
@@ -5161,7 +5180,7 @@ var TextHighlightRules = function() {
             var state = rules[key];
             for (var i = 0; i < state.length; i++) {
                 var rule = state[i];
-                if (rule.next) {
+                if (rule.next || rule.onMatch) {
                     if (typeof rule.next != "string") {
                         if (rule.nextState && rule.nextState.indexOf(prefix) !== 0)
                             rule.nextState = prefix + rule.nextState;
@@ -5169,7 +5188,6 @@ var TextHighlightRules = function() {
                         if (rule.next.indexOf(prefix) !== 0)
                             rule.next = prefix + rule.next;
                     }
-
                 }
             }
             this.$rules[prefix + key] = state;
@@ -7925,6 +7943,7 @@ function BracketMatch() {
             typeRe = new RegExp(
                 "(\\.?" +
                 token.type.replace(".", "\\.").replace("rparen", ".paren")
+                    .replace(/\b(?:end|start|begin)\b/, "")
                 + ")+"
             );
         }
@@ -7976,6 +7995,7 @@ function BracketMatch() {
             typeRe = new RegExp(
                 "(\\.?" +
                 token.type.replace(".", "\\.").replace("lparen", ".paren")
+                    .replace(/\b(?:end|start|begin)\b/, "")
                 + ")+"
             );
         }
@@ -8559,8 +8579,10 @@ var EditSession = function(text, mode) {
         try {
             this.$worker = this.$mode.createWorker(this);
         } catch (e) {
-            console.log("Could not load worker");
-            console.log(e);
+            if (typeof console == "object") {
+                console.log("Could not load worker");
+                console.log(e);
+            }    
             this.$worker = null;
         }
     };
@@ -9253,6 +9275,8 @@ var EditSession = function(text, mode) {
                 continue;
             }
             split = lastSplit + wrapLimit;
+            if (tokens[split] == CHAR_EXT)
+                split--;
             addSplit(split);
         }
         return splits;
@@ -13551,7 +13575,7 @@ var Text = function(parentEl) {
 
     this.$renderToken = function(stringBuilder, screenColumn, token, value) {
         var self = this;
-        var replaceReg = /\t|&|<|( +)|([\x00-\x1f\x80-\xa0\u1680\u180E\u2000-\u200f\u2028\u2029\u202F\u205F\u3000\uFEFF])|[\u1100-\u115F\u11A3-\u11A7\u11FA-\u11FF\u2329-\u232A\u2E80-\u2E99\u2E9B-\u2EF3\u2F00-\u2FD5\u2FF0-\u2FFB\u3000-\u303E\u3041-\u3096\u3099-\u30FF\u3105-\u312D\u3131-\u318E\u3190-\u31BA\u31C0-\u31E3\u31F0-\u321E\u3220-\u3247\u3250-\u32FE\u3300-\u4DBF\u4E00-\uA48C\uA490-\uA4C6\uA960-\uA97C\uAC00-\uD7A3\uD7B0-\uD7C6\uD7CB-\uD7FB\uF900-\uFAFF\uFE10-\uFE19\uFE30-\uFE52\uFE54-\uFE66\uFE68-\uFE6B\uFF01-\uFF60\uFFE0-\uFFE6]/g;
+        var replaceReg = /\t|&|<|( +)|([\x00-\x1f\x80-\xa0\xad\u1680\u180E\u2000-\u200f\u2028\u2029\u202F\u205F\u3000\uFEFF])|[\u1100-\u115F\u11A3-\u11A7\u11FA-\u11FF\u2329-\u232A\u2E80-\u2E99\u2E9B-\u2EF3\u2F00-\u2FD5\u2FF0-\u2FFB\u3000-\u303E\u3041-\u3096\u3099-\u30FF\u3105-\u312D\u3131-\u318E\u3190-\u31BA\u31C0-\u31E3\u31F0-\u321E\u3220-\u3247\u3250-\u32FE\u3300-\u4DBF\u4E00-\uA48C\uA490-\uA4C6\uA960-\uA97C\uAC00-\uD7A3\uD7B0-\uD7C6\uD7CB-\uD7FB\uF900-\uFAFF\uFE10-\uFE19\uFE30-\uFE52\uFE54-\uFE66\uFE68-\uFE6B\uFF01-\uFF60\uFFE0-\uFFE6]/g;
         var replaceFunc = function(c, a, b, tabIdx, idx4) {
             if (a) {
                 return self.showInvisibles ?
@@ -14203,7 +14227,7 @@ var FontMetrics = exports.FontMetrics = function(parentEl, interval) {
         document.documentElement.appendChild(el);
         var w = el.getBoundingClientRect().width;
         if (w > 0 && w < 1)
-            CHAR_COUNT = 1;
+            CHAR_COUNT = 50;
         else
             CHAR_COUNT = 100;
         el.parentNode.removeChild(el);
@@ -14256,7 +14280,7 @@ var FontMetrics = exports.FontMetrics = function(parentEl, interval) {
     };
 
     this.$measureSizes = function() {
-        if (CHAR_COUNT === 1) {
+        if (CHAR_COUNT === 50) {
             var rect = null;
             try { 
                rect = this.$measureNode.getBoundingClientRect();
@@ -14265,7 +14289,7 @@ var FontMetrics = exports.FontMetrics = function(parentEl, interval) {
             };
             var size = {
                 height: rect.height,
-                width: rect.width
+                width: rect.width / CHAR_COUNT
             };
         } else {
             var size = {
@@ -14321,9 +14345,7 @@ var EventEmitter = require("./lib/event_emitter").EventEmitter;
 var editorCss = ".ace_editor {\
 position: relative;\
 overflow: hidden;\
-font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', 'Consolas', 'source-code-pro', monospace;\
-font-size: 12px;\
-line-height: normal;\
+font: 12px/normal 'Monaco', 'Menlo', 'Ubuntu Mono', 'Consolas', 'source-code-pro', monospace;\
 direction: ltr;\
 }\
 .ace_scroller {\
@@ -14336,17 +14358,14 @@ background-color: inherit;\
 -moz-user-select: none;\
 -webkit-user-select: none;\
 user-select: none;\
+cursor: text;\
 }\
 .ace_content {\
 position: absolute;\
 -moz-box-sizing: border-box;\
 -webkit-box-sizing: border-box;\
 box-sizing: border-box;\
-cursor: text;\
 min-width: 100%;\
-}\
-.ace_dragging, .ace_dragging * {\
-cursor: move !important;\
 }\
 .ace_dragging .ace_scroller:before{\
 position: absolute;\
@@ -14502,17 +14521,14 @@ border-left: 2px solid\
 border-left-width: 1px;\
 }\
 .ace_overwrite-cursors .ace_cursor {\
-border-left-width: 0px;\
+border-left-width: 0;\
 border-bottom: 1px solid;\
 }\
 .ace_hidden-cursors .ace_cursor {\
 opacity: 0.2;\
 }\
 .ace_smooth-blinking .ace_cursor {\
--moz-transition: opacity 0.18s;\
 -webkit-transition: opacity 0.18s;\
--o-transition: opacity 0.18s;\
--ms-transition: opacity 0.18s;\
 transition: opacity 0.18s;\
 }\
 .ace_editor.ace_multiselect .ace_cursor {\
@@ -14556,8 +14572,6 @@ background-repeat: no-repeat, repeat-x;\
 background-position: center center, top left;\
 color: transparent;\
 border: 1px solid black;\
--moz-border-radius: 2px;\
--webkit-border-radius: 2px;\
 border-radius: 2px;\
 cursor: pointer;\
 pointer-events: auto;\
@@ -14577,7 +14591,6 @@ border: 1px solid gray;\
 border-radius: 1px;\
 box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);\
 color: black;\
-display: block;\
 max-width: 100%;\
 padding: 3px 4px;\
 position: fixed;\
@@ -14624,15 +14637,11 @@ background-image: url(\"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAMAAAAGCA
 .ace_fold-widget:hover {\
 border: 1px solid rgba(0, 0, 0, 0.3);\
 background-color: rgba(255, 255, 255, 0.2);\
--moz-box-shadow: 0 1px 1px rgba(255, 255, 255, 0.7);\
--webkit-box-shadow: 0 1px 1px rgba(255, 255, 255, 0.7);\
 box-shadow: 0 1px 1px rgba(255, 255, 255, 0.7);\
 }\
 .ace_fold-widget:active {\
 border: 1px solid rgba(0, 0, 0, 0.4);\
 background-color: rgba(0, 0, 0, 0.05);\
--moz-box-shadow: 0 1px 1px rgba(255, 255, 255, 0.8);\
--webkit-box-shadow: 0 1px 1px rgba(255, 255, 255, 0.8);\
 box-shadow: 0 1px 1px rgba(255, 255, 255, 0.8);\
 }\
 .ace_dark .ace_fold-widget {\
@@ -14649,8 +14658,6 @@ box-shadow: 0 1px 1px rgba(255, 255, 255, 0.2);\
 background-color: rgba(255, 255, 255, 0.1);\
 }\
 .ace_dark .ace_fold-widget:active {\
--moz-box-shadow: 0 1px 1px rgba(255, 255, 255, 0.2);\
--webkit-box-shadow: 0 1px 1px rgba(255, 255, 255, 0.2);\
 box-shadow: 0 1px 1px rgba(255, 255, 255, 0.2);\
 }\
 .ace_fold-widget.ace_invalid {\
@@ -14658,18 +14665,12 @@ background-color: #FFB4B4;\
 border-color: #DE5555;\
 }\
 .ace_fade-fold-widgets .ace_fold-widget {\
--moz-transition: opacity 0.4s ease 0.05s;\
 -webkit-transition: opacity 0.4s ease 0.05s;\
--o-transition: opacity 0.4s ease 0.05s;\
--ms-transition: opacity 0.4s ease 0.05s;\
 transition: opacity 0.4s ease 0.05s;\
 opacity: 0;\
 }\
 .ace_fade-fold-widgets:hover .ace_fold-widget {\
--moz-transition: opacity 0.05s ease 0.05s;\
 -webkit-transition: opacity 0.05s ease 0.05s;\
--o-transition: opacity 0.05s ease 0.05s;\
--ms-transition: opacity 0.05s ease 0.05s;\
 transition: opacity 0.05s ease 0.05s;\
 opacity:1;\
 }\
@@ -15244,6 +15245,14 @@ var VirtualRenderer = function(container, theme) {
             changes & this.CHANGE_H_SCROLL
         ) {
             changes |= this.$computeLayerConfig();
+            if (config.firstRow != this.layerConfig.firstRow && config.firstRowScreen == this.layerConfig.firstRowScreen) {
+                var st = this.scrollTop + (config.firstRow - this.layerConfig.firstRow) * this.lineHeight;
+                if (st > 0) {
+                    this.scrollTop = st;
+                    changes = changes | this.CHANGE_SCROLL;
+                    changes |= this.$computeLayerConfig();
+                }
+            }
             config = this.layerConfig;
             this.$updateScrollBarV();
             if (changes & this.CHANGE_H_SCROLL)
@@ -15778,11 +15787,11 @@ var VirtualRenderer = function(container, theme) {
     };
     
     this.setCursorStyle = function(style) {
-        if (this.content.style.cursor != style)
-            this.content.style.cursor = style;
+        if (this.scroller.style.cursor != style)
+            this.scroller.style.cursor = style;
     };
     this.setMouseCursor = function(cursorStyle) {
-        this.content.style.cursor = cursorStyle;
+        this.scroller.style.cursor = cursorStyle;
     };
     this.destroy = function() {
         this.$textLayer.destroy();
@@ -17881,9 +17890,9 @@ exports.LineWidgets = LineWidgets;
 
 ace.define("ace/ext/error_marker",["require","exports","module","ace/line_widgets","ace/lib/dom","ace/range"], function(require, exports, module) {
 "use strict";
-var LineWidgets = require("ace/line_widgets").LineWidgets;
-var dom = require("ace/lib/dom");
-var Range = require("ace/range").Range;
+var LineWidgets = require("../line_widgets").LineWidgets;
+var dom = require("../lib/dom");
+var Range = require("../range").Range;
 
 function binarySearch(array, needle, comparator) {
     var first = 0;
@@ -19408,7 +19417,6 @@ border: 0 none;\
 -webkit-box-sizing: border-box;\
 -moz-box-sizing: border-box;\
 box-sizing: border-box;\
-display: block;\
 float: left;\
 height: 22px;\
 outline: 0;\
@@ -19422,7 +19430,6 @@ background: #fff;\
 border: 0 none;\
 border-left: 1px solid #dcdcdc;\
 cursor: pointer;\
-display: block;\
 float: left;\
 height: 22px;\
 margin: 0;\
@@ -19455,12 +19462,9 @@ border-radius: 50%;\
 border: 0 none;\
 color: #656565;\
 cursor: pointer;\
-display: block;\
 float: right;\
-font-family: Arial;\
-font-size: 16px;\
+font: 16px/16px Arial;\
 height: 14px;\
-line-height: 16px;\
 margin: 5px 1px 9px 5px;\
 padding: 0;\
 text-align: center;\
@@ -21066,6 +21070,8 @@ var Autocomplete = function() {
             pos.left += renderer.$gutterLayer.gutterWidth;
 
             this.popup.show(pos, lineHeight);
+        } else if (keepPopupPosition && !prefix) {
+            this.detach();
         }
     };
 
@@ -21181,7 +21187,8 @@ var Autocomplete = function() {
         var prefix = util.retrievePrecedingIdentifier(line, pos.column);
 
         this.base = session.doc.createAnchor(pos.row, pos.column - prefix.length);
-
+        this.base.$insertRight = true;
+        
         var matches = [];
         var total = editor.completers.length;
         editor.completers.forEach(function(completer, i) {
@@ -21260,7 +21267,7 @@ var Autocomplete = function() {
                 return detachIfFinished();
             if (filtered.length == 1 && filtered[0].value == prefix && !filtered[0].snippet)
                 return detachIfFinished();
-            if (this.autoInsert && filtered.length == 1)
+            if (this.autoInsert && filtered.length == 1 && results.finished)
                 return this.insertMatch(filtered[0]);
 
             this.openPopup(this.editor, prefix, keepPopupPosition);
@@ -21305,7 +21312,7 @@ var FilteredList = function(array, filterText, mutateData) {
         });
         var prev = null;
         matches = matches.filter(function(item){
-            var caption = item.value || item.caption || item.snippet;
+            var caption = item.snippet || item.caption || item.value;
             if (caption === prev) return false;
             prev = caption;
             return true;
