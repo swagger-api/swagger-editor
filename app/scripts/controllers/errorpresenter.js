@@ -1,9 +1,15 @@
 'use strict';
 
 PhonicsApp.controller('ErrorPresenterCtrl', function ($scope) {
+  $scope.docsMode = false;
 
   $scope.getError = function () {
     var error = $scope.$parent.error;
+
+    // Don't show empty doc error in editor mode
+    if (error && error.emptyDocsError && !$scope.docsMode) {
+      return null;
+    }
 
     if (error && error.swaggerError) {
       delete error.swaggerError.stack;
