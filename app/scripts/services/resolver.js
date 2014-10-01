@@ -34,13 +34,8 @@ PhonicsApp.service('Resolver', function Resolver() {
     }
 
     // if json is not an object we can't resolve it. The json itself is resolved json
-    if (typeof json !== 'object') {
-      return json;
-    }
-
-    // If json is typeof object but is not a real object (null) throw resolve error
     if (!angular.isObject(json)) {
-      throw new Error('Can not resolve ' + path.join(' ▹ '));
+      return json;
     }
 
     // Initialize resolved object
@@ -51,7 +46,7 @@ PhonicsApp.service('Resolver', function Resolver() {
       if (angular.isObject(json[key]) && json[key].$ref) {
 
         // if it's a resolvable key, look it up and put it in result object
-        result[key] = lookup(json[key].$ref, root);
+        result[key] = resolve(lookup(json[key].$ref, root), root);
       } else {
 
         // otherwise recursively resolve it
