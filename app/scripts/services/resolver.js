@@ -9,15 +9,8 @@ PhonicsApp.service('Resolver', function Resolver() {
   ** gets a JSON object and recursively resolve all $ref references
   ** root object is being passed to get the actual result of the
   ** $ref reference
-  ** path is an array of keys to the current object from root.
   */
-  function resolve(json, root, path) {
-
-    // If it's first time resolve is being called there would be no path
-    // initialize it
-    if (!Array.isArray(path)) {
-      path = [];
-    }
+  function resolve(json, root) {
 
     // If it's first time resolve being called root would be the same object
     // as json
@@ -38,20 +31,16 @@ PhonicsApp.service('Resolver', function Resolver() {
       return json;
     }
 
+    if (json.$ref) {
+      return resolve(lookup(json.$ref, root), root);
+    }
+
     // Initialize resolved object
     var result = {};
 
     // For each key in json check if the key is a resolve key ($ref)
     Object.keys(json).forEach(function (key) {
-      if (angular.isObject(json[key]) && json[key].$ref) {
-
-        // if it's a resolvable key, look it up and put it in result object
-        result[key] = resolve(lookup(json[key].$ref, root), root);
-      } else {
-
-        // otherwise recursively resolve it
-        result[key] = resolve(json[key], root, path.concat(key));
-      }
+      result[key] = resolve(json[key], root);
     });
 
     return result;
