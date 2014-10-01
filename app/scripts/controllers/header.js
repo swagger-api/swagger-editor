@@ -129,8 +129,19 @@ PhonicsApp.controller('HeaderCtrl', function HeaderCtrl($scope, Editor, Storage,
     var MIME_TYPE = 'text/plain';
 
     Storage.load('yaml').then(function (yaml) {
+
       // JSON
-      var json = JSON.stringify(jsyaml.load(yaml), null, 4);
+      var json = jsyaml.load(yaml);
+
+      // swagger and version should be a string to comfort with the schema
+      if (json.swagger) {
+        json.swagger = String(json.swagger);
+      }
+      if (json.version) {
+        json.version = String(json.version);
+      }
+
+      json = JSON.stringify(json, null, 4);
       var jsonBlob = new Blob([json], {type: MIME_TYPE});
       $scope.jsonDownloadHref = window.URL.createObjectURL(jsonBlob);
       $scope.jsonDownloadUrl = [MIME_TYPE, 'swagger.json', $scope.jsonDownloadHref].join(':');
