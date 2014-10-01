@@ -14,7 +14,7 @@ PhonicsApp.config(['$provide', function ($provide) {
     },
     schemaUrl: '',
     examplesFolder: '/spec-files/',
-    exampleFiles: ['default.yaml', 'minimal.yaml', 'heroku-pets.yaml', 'uber.yaml'],
+    exampleFiles: ['default.yaml', 'minimal.yaml', 'heroku-pets.yaml', 'petstore.yaml'],
     backendEndpoint: '/editor/spec',
     useBackendForStorage: false,
     backendHelathCheckTimeout: 5000,
