@@ -11,21 +11,23 @@ PhonicsApp.controller('PreviewCtrl', function PreviewCtrl(Storage, Builder, Fold
     var specs = null;
     var result = null;
 
-    result = Builder.buildDocs(latest, { resolve: true });
-    specs = FoldManager.extendSpecs(result.specs);
-    $scope.specs = Sorter.sort(specs);
-
-    if (result.error) {
-      if (result.error.yamlError) {
-        Editor.annotateYAMLErrors(result.error.yamlError);
-      }
-      $scope.error = result.error;
-      Storage.save('progress', -1); // Error
-    } else {
+    Builder.buildDocs(latest)
+    .then(function onSuccess(result){
+      specs = FoldManager.extendSpecs(result.specs);
+      $scope.specs = Sorter.sort(specs);
       $scope.error = null;
       Editor.clearAnnotation();
       Storage.save('progress',  1); // Saved
-    }
+    }, function onFailure(result){
+      if (result.error) {
+        if (result.error.yamlError) {
+          Editor.annotateYAMLErrors(result.error.yamlError);
+        }
+        $scope.error = result.error;
+        Storage.save('progress', -1); // Error
+      }
+    });
+
   }
 
   Storage.addChangeListener('yaml', update);
