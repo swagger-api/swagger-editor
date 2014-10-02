@@ -1,6 +1,6 @@
 'use strict';
 
-PhonicsApp.service('Builder', function Builder(Resolver, Validator) {
+PhonicsApp.service('Builder', function Builder(Resolver, Validator, $q) {
   var load = _.memoize(jsyaml.load);
 
   /**
@@ -11,23 +11,28 @@ PhonicsApp.service('Builder', function Builder(Resolver, Validator) {
   */
   function buildDocs(stringValue) {
     var json;
+    var deferred = $q.defer();
 
     // If stringVlue is empty, return emptyDocsError
     if (!stringValue) {
-      return {
+      deferred.reject({
         specs: null,
         error: {emptyDocsError: {message: 'Empty Document'}}
-      };
+      });
+
+      return deferred.promise;
     }
 
     // if jsyaml is unable to load the string value return yamlError
     try {
       json = load(stringValue);
     } catch (yamlError) {
-      return {
+      deferred.reject({
         error: { yamlError: yamlError },
         specs: null
-      };
+      });
+
+      return deferred.promise;
     }
 
     // If stringValue is valid build it
