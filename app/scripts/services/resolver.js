@@ -100,7 +100,9 @@ PhonicsApp.service('Resolver', function Resolver($q, $http) {
 
       // If path was invalid and objects at this key is not valid, throw an error
       if (!current[key]) {
-        deferred.reject('Can not lookup ' + key + ' in ' + angular.toJson(current));
+        deferred.reject({
+          data: 'Can not lookup ' + key + ' in ' + angular.toJson(current)
+        });
       }
       current = current[key];
     }

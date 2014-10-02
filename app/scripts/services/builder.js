@@ -53,7 +53,10 @@ PhonicsApp.service('Builder', function Builder(Resolver, Validator, $q) {
         return result;
       }, function onFalure(resolveError) {
         return {
-          error: { resolveError: resolveError },
+          error: {
+            resolveError: resolveError.data,
+            raw: resolveError
+          },
           specs: null
         };
       });

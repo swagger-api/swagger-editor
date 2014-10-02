@@ -62,7 +62,7 @@ PhonicsApp.controller('ErrorPresenterCtrl', function ($scope) {
     }
 
     if (error.resolveError) {
-      return error.resolveError.message.replace(/ in \{.+/, '');
+      return error.resolveError;
     }
 
     return error;
