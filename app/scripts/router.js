@@ -5,10 +5,16 @@ PhonicsApp.config(function Router($compileProvider, $stateProvider, $urlRouterPr
 
   $stateProvider
   .state('home', {
-    url: '?import',
+    url: '/{mode}?import',
     views: {
       '': {
-        templateUrl: 'views/main.html',
+        templateUrl: function ($statePrams) {
+          if ($statePrams.mode === 'preview') {
+            return 'views/main-preview.html';
+          } else {
+            return 'views/main.html';
+          }
+        },
         controller: 'MainCtrl'
       },
       'header@home': {

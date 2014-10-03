@@ -1,5 +1,5 @@
 <header ui-view="header" class="main-header"></header>
-<main ng-if="!isPreviewMode">
+<main>
   <div ui-layout="{ flow : 'column', dividerSize: '5px'}">
     <div class="editor pane">
       <div ui-view="editor"></div>
@@ -8,7 +8,4 @@
       <div ui-view="preview"></div>
     </div>
   </div>
-</main>
-<main ng-if="isPreviewMode" class="preveiw-mode preview-wrapper">
-  <div ui-view="preview"></div>
 </main>
