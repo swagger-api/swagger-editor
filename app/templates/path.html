@@ -3,7 +3,7 @@
     <h2>
       <a>{{path.pathName}}</a>
     </h2>
-    <ul class='options'>
+    <ul class='options' ng-if="!isPreviewMode">
       <li>
         <a ng-click="focusEdit($event, path['x-row']) "tooltip-placement="left" tooltip="Jump to YAML"></a>
       </li>
