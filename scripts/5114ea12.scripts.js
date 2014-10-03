@@ -30,10 +30,10 @@ PhonicsApp.config(function Router($compileProvider, $stateProvider, $urlRouterPr
     views: {
       '': {
         templateUrl: function ($statePrams) {
-          if ($statePrams.mode === 'preview') {
-            return 'views/main-preview.html';
-          } else {
+          if ($statePrams.mode === 'edit') {
             return 'views/main.html';
+          } else {
+            return 'views/main-preview.html';
           }
         },
         controller: 'MainCtrl'
@@ -63,7 +63,7 @@ PhonicsApp.controller('MainCtrl', function MainCtrl($rootScope, $stateParams,
   $rootScope.$on('$stateChangeStart', Editor.initializeEditor);
   BackendHealthCheck.startChecking();
   $rootScope.$on('$stateChangeStart', loadYaml);
-  $rootScope.isPreviewMode = $stateParams.mode === 'preview';
+  $rootScope.isPreviewMode = $stateParams.mode !== 'edit';
 
   // TODO: find a better way to add the branding class (grunt html template)
   $('body').addClass(defaults.brandingCssClass);
