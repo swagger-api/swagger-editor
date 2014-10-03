@@ -4,9 +4,13 @@ PhonicsApp.controller('MainCtrl', function MainCtrl($rootScope, $stateParams, $l
   $rootScope.$on('$stateChangeStart', Editor.initializeEditor);
   BackendHealthCheck.startChecking();
   $rootScope.$on('$stateChangeStart', loadYaml);
+
   // TODO: find a better way to add the branding class (grunt html template)
   $('body').addClass(defaults.brandingCssClass);
+
   loadYaml();
+
+  // $rootScope.isPreviewMode = true;
 
   /*
   * Load Default or URL YAML

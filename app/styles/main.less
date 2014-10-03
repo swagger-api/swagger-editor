@@ -33,20 +33,15 @@ main {
     background: #5E696B;
   }
 
-  .pane {
-    &.editor {
-      >div, .editor-wrapper {
-        height: 100%;
-      }
+  .pane.editor {
+    >div, .editor-wrapper {
+      height: 100%;
     }
+  }
 
-    &.preview {
-      overflow: auto;
-
-      .preview-wrapper {
-        margin: .5em 1em;
-      }
-    }
+  .preview-wrapper {
+    overflow: auto;
+    margin: .5em 1em;
   }
 
 

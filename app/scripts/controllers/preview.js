@@ -1,10 +1,11 @@
 'use strict';
 
-PhonicsApp.controller('PreviewCtrl', function PreviewCtrl(Storage, Builder, FoldManager, Sorter, Editor, Operation, BackendHealthCheck, $scope) {
+PhonicsApp.controller('PreviewCtrl', function PreviewCtrl(Storage, Builder, FoldManager,
+  Sorter, Editor, Operation, BackendHealthCheck, $scope, $rootScope) {
   function update(latest) {
 
     // If backend is not healthy don't update
-    if (!BackendHealthCheck.isHealthy()) {
+    if (!BackendHealthCheck.isHealthy() && !$rootScope.isPreviewMode) {
       return;
     }
 
@@ -17,10 +18,14 @@ PhonicsApp.controller('PreviewCtrl', function PreviewCtrl(Storage, Builder, Fold
     var specs = FoldManager.extendSpecs(result.specs);
     $scope.specs = Sorter.sort(specs);
     $scope.error = null;
-    Editor.clearAnnotation();
     Storage.save('progress',  1); // Saved
+
+    if (!$rootScope.isPreviewMode) {
+      Editor.clearAnnotation();
+    }
+
     if (result.error) {
-      if (result.error.yamlError) {
+      if (result.error.yamlError && !$rootScope.isPreviewMode) {
         Editor.annotateYAMLErrors(result.error.yamlError);
       }
       $scope.error = result.error;
@@ -29,6 +34,11 @@ PhonicsApp.controller('PreviewCtrl', function PreviewCtrl(Storage, Builder, Fold
   }
 
   Storage.addChangeListener('yaml', update);
+
+  // If app is in preview mode, load the yaml from storage
+  if ($rootScope.isPreviewMode) {
+    Storage.load('yaml').then(update);
+  }
 
   FoldManager.onFoldStatusChanged(function () {
     _.defer(function () { $scope.$apply(); });
