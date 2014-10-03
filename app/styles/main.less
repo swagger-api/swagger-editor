@@ -28,49 +28,19 @@ main {
   right: 0;
   left: 0;
 
+  .ui-splitbar {
+    // TODO: design review the color
+    background: #5E696B;
+  }
+
   .pane {
-    position: absolute;
-    height: 100%;
-    width: calc(50% - 2px);
-
-    &.ace {
-      left: 0;
-      display: flex;
-      flex-direction: column;
-      header.editor {
-        height: 20px;
-      }
+    &.editor {
       .editor-wrapper {
-        flex: auto;
-      }
-
-      .ace-editor-wrapper {
         height: 100%;
-        display: flex;
-        flex-direction: column;
-      }
-    }
-
-    &.splitter {
-      width: 4px;
-      background: black;
-      left: calc(50% - 4px);
-      cursor: ew-resize;
-      z-index: 10;
-      &:hover {
-        background: #C99393;
-      }
-
-      &[horizontal]{
-        width: 100%;
-        left: 0;
-        height: 4px;
-        cursor: ns-resize;
       }
     }
 
     &.preview {
-      right: 0;
       overflow: auto;
 
       .preview-wrapper {

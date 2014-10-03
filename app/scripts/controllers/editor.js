@@ -15,8 +15,6 @@ PhonicsApp.controller('EditorCtrl', function EditorCtrl($scope, Editor, Builder,
     });
   });
 
-  $(document).on('pane-resize', Editor.resize.bind(Editor));
-
   function onAceChange() {
     var value = Editor.getValue();
 

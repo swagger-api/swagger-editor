@@ -1,6 +1,6 @@
 'use strict';
 
-PhonicsApp.controller('HeaderCtrl', function HeaderCtrl($scope, Editor, Storage, Splitter, Builder, Codegen, $modal, $stateParams, defaults, strings) {
+PhonicsApp.controller('HeaderCtrl', function HeaderCtrl($scope, Editor, Storage, Builder, Codegen, $modal, $stateParams, defaults, strings) {
 
   if ($stateParams.path) {
     $scope.breadcrumbs  = [{ active: true, name: $stateParams.path }];
@@ -75,14 +75,6 @@ PhonicsApp.controller('HeaderCtrl', function HeaderCtrl($scope, Editor, Storage,
 
   $scope.assignDownloadHrefs = function () {
     assignDownloadHrefs($scope, Storage);
-  };
-
-  $scope.togglePane = function (side) {
-    Splitter.toggle(side);
-  };
-
-  $scope.isPaneVisible = function (side) {
-    return Splitter.isVisible(side);
   };
 
   $scope.openImportFile = function () {

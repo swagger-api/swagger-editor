@@ -10,5 +10,6 @@ window.PhonicsApp = angular.module('PhonicsApp', [
   'ngStorage',
   'ngSanitize',
   'jsonFormatter',
-  'hc.marked'
+  'hc.marked',
+  'ui.layout'
 ]);
