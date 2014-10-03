@@ -1,11 +1,11 @@
 <header ui-view="header" class="main-header"></header>
 <main>
-  <div ui-layout="{ flow : 'column' }">
+  <div ui-layout="{ flow : 'column', dividerSize: '5px'}">
     <div ui-layout>
-      <div ui-view="editor" size="50%" class="editor pane"></div>
+      <div ui-view="editor" class="editor pane"></div>
     </div>
     <div ui-layout>
-      <div ui-view="preview" size="50%" class="preview pane"></div>
+      <div ui-view="preview" class="preview pane"></div>
     </div>
   </div>
 </main>
