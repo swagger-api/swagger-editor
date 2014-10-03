@@ -15,7 +15,8 @@ window.PhonicsApp = angular.module('PhonicsApp', [
   'ngStorage',
   'ngSanitize',
   'jsonFormatter',
-  'hc.marked'
+  'hc.marked',
+  'ui.layout'
 ]);
 
 'use strict';
@@ -25,10 +26,16 @@ PhonicsApp.config(function Router($compileProvider, $stateProvider, $urlRouterPr
 
   $stateProvider
   .state('home', {
-    url: '?import',
+    url: '/{mode}?import',
     views: {
       '': {
-        templateUrl: 'views/main.html',
+        templateUrl: function ($statePrams) {
+          if ($statePrams.mode === 'preview') {
+            return 'views/main-preview.html';
+          } else {
+            return 'views/main.html';
+          }
+        },
         controller: 'MainCtrl'
       },
       'header@home': {
@@ -51,14 +58,17 @@ PhonicsApp.config(function Router($compileProvider, $stateProvider, $urlRouterPr
 
 'use strict';
 
-PhonicsApp.controller('MainCtrl', function MainCtrl($rootScope, $stateParams, $location, Editor, Storage, FileLoader, BackendHealthCheck, defaults) {
+PhonicsApp.controller('MainCtrl', function MainCtrl($rootScope, $stateParams,
+  $location, Editor, Storage, FileLoader, BackendHealthCheck, defaults) {
   $rootScope.$on('$stateChangeStart', Editor.initializeEditor);
   BackendHealthCheck.startChecking();
   $rootScope.$on('$stateChangeStart', loadYaml);
+  $rootScope.isPreviewMode = $stateParams.mode === 'preview';
+
   // TODO: find a better way to add the branding class (grunt html template)
   $('body').addClass(defaults.brandingCssClass);
-  loadYaml();
 
+  loadYaml();
   /*
   * Load Default or URL YAML
   */
@@ -90,7 +100,7 @@ PhonicsApp.controller('MainCtrl', function MainCtrl($rootScope, $stateParams, $l
 
 'use strict';
 
-PhonicsApp.controller('HeaderCtrl', function HeaderCtrl($scope, Editor, Storage, Splitter, Builder, Codegen, $modal, $stateParams, defaults, strings) {
+PhonicsApp.controller('HeaderCtrl', function HeaderCtrl($scope, Editor, Storage, Builder, Codegen, $modal, $stateParams, defaults, strings) {
 
   if ($stateParams.path) {
     $scope.breadcrumbs  = [{ active: true, name: $stateParams.path }];
@@ -110,18 +120,6 @@ PhonicsApp.controller('HeaderCtrl', function HeaderCtrl($scope, Editor, Storage,
     if (progressStatus < 0) {
       $scope.statusClass = 'error';
     }
-
-    // Remove the status if it's "Saved" status
-
-    // Comment out the removal behavior for now (A127 request)
-
-    // if (progressStatus > 0) {
-    //   statusTimeout = $timeout(function () {
-    //     $scope.status = null;
-    //   }, 1000);
-    // } else {
-    //   $timeout.cancel(statusTimeout);
-    // }
   });
 
   // Show the intro if it's first time visit
@@ -179,14 +177,6 @@ PhonicsApp.controller('HeaderCtrl', function HeaderCtrl($scope, Editor, Storage,
     assignDownloadHrefs($scope, Storage);
   };
 
-  $scope.togglePane = function (side) {
-    Splitter.toggle(side);
-  };
-
-  $scope.isPaneVisible = function (side) {
-    return Splitter.isVisible(side);
-  };
-
   $scope.openImportFile = function () {
     $modal.open({
       templateUrl: 'templates/file-import.html',
@@ -219,8 +209,19 @@ PhonicsApp.controller('HeaderCtrl', function HeaderCtrl($scope, Editor, Storage,
     var MIME_TYPE = 'text/plain';
 
     Storage.load('yaml').then(function (yaml) {
+
       // JSON
-      var json = JSON.stringify(jsyaml.load(yaml), null, 4);
+      var json = jsyaml.load(yaml);
+
+      // swagger and version should be a string to comfort with the schema
+      if (json.swagger) {
+        json.swagger = String(json.swagger);
+      }
+      if (json.version) {
+        json.version = String(json.version);
+      }
+
+      json = JSON.stringify(json, null, 4);
       var jsonBlob = new Blob([json], {type: MIME_TYPE});
       $scope.jsonDownloadHref = window.URL.createObjectURL(jsonBlob);
       $scope.jsonDownloadUrl = [MIME_TYPE, 'swagger.json', $scope.jsonDownloadHref].join(':');
@@ -236,100 +237,6 @@ PhonicsApp.controller('HeaderCtrl', function HeaderCtrl($scope, Editor, Storage,
 
   }
 });
-
-'use strict';
-
-PhonicsApp.directive('splitterBar', ['Splitter', function (splitter) {
-  var ANIMATION_DURATION = 400;
-
-  function registerVerticalPanes($element) {
-    splitter.registerSide('left', $element.offsetLeft);
-    splitter.registerSide('right', window.innerWidth - $element.offsetLeft - 4);
-  }
-
-  return {
-    template: '',
-    replace: false,
-    restrict: 'E',
-    link: function ($scope, $element, $attributes) {
-      var $document = $(document);
-      var $parent = $element.parent();
-      if (!('horizontal' in $attributes)) {
-        registerVerticalPanes($element.get(0));
-      }
-
-      splitter.addHideListener('left', function () {
-        $('#' + $attributes.leftPane).animate({width: 0}, ANIMATION_DURATION);
-        $('#' + $attributes.rightPane).animate({width: window.innerWidth}, ANIMATION_DURATION, function () {
-          $document.trigger('pane-resize');
-        });
-        $element.hide();
-      });
-
-      splitter.addShowListener('left', function (width) {
-        $('#' + $attributes.leftPane).animate({width: width}, ANIMATION_DURATION);
-        $('#' + $attributes.rightPane).animate({width: window.innerWidth - width - 4}, ANIMATION_DURATION, function () {
-          $('#' + $attributes.rightPane).css('overflow', 'auto');
-          $element.show();
-          $document.trigger('pane-resize');
-        });
-      });
-
-      splitter.addHideListener('right', function () {
-        $('#' + $attributes.rightPane).animate({width: 0}, ANIMATION_DURATION);
-        $('#' + $attributes.leftPane).animate({width: window.innerWidth}, ANIMATION_DURATION, function () {
-          $document.trigger('pane-resize');
-        });
-        $element.hide();
-      });
-
-      splitter.addShowListener('right', function (width) {
-        $('#' + $attributes.rightPane).animate({width: width}, ANIMATION_DURATION);
-        $('#' + $attributes.leftPane).animate({width: window.innerWidth - width}, ANIMATION_DURATION, function () {
-          $('#' + $attributes.rightPane).css('overflow', 'auto');
-          $element.show();
-          $document.trigger('pane-resize');
-        });
-      });
-
-      function resize(mouseMoveEvent) {
-        var x = mouseMoveEvent.pageX - $parent.offset().left;
-        var y = mouseMoveEvent.pageY - $parent.offset().top;
-        x = x || window.innerWidth / 2;
-        y = y || window.innerHeight / 2;
-        var MIN_SIZE = 100;
-        if ('horizontal' in $attributes) {
-          if (y < MIN_SIZE || y > $parent.height() - MIN_SIZE) {
-            return;
-          }
-          $document.trigger('pane-resize');
-          $element.css('top', y);
-          $('#' + $attributes.topPane).css('height', y + $element.height());
-          $('#' + $attributes.bottomPane).css('height',
-            $parent.height() - y);
-        } else {
-          if (x < MIN_SIZE || x > $parent.width() - MIN_SIZE) {
-            return;
-          }
-          $document.trigger('pane-resize');
-          $element.css('left', x);
-          $('#' + $attributes.leftPane).css('width', x);
-          $('#' + $attributes.rightPane).css('width',
-            $parent.width() - x - $element.width());
-          registerVerticalPanes($element.get(0));
-        }
-      }
-      $element.on('mousedown', function (mousedownEvent) {
-        mousedownEvent.preventDefault();
-        $document.on('mousemove', resize);
-        $document.on('mouseup', function () {
-          $document.off('mousemove', resize);
-        });
-      });
-      $(window).on('resize', _.throttle(resize, 300));
-    }
-  };
-}]);
 
 'use strict';
 
@@ -650,54 +557,6 @@ PhonicsApp.directive('tryOperation', function () {
         });
       }
     }
-  };
-});
-
-'use strict';
-
-PhonicsApp.service('Splitter', function Splitter() {
-  var sides = {
-    left: { width: null, visible: false, hideListeners: [], showListeners: []},
-    right: { width: null, visible: false, hideListeners: [], showListeners: []}
-  };
-  var that = this;
-
-  this.toggle = function (side) {
-    sides[side].visible = !sides[side].visible;
-    if (!sides[side].visible) {
-      that.hidePane(side);
-    } else {
-      that.showPane(side);
-    }
-  };
-
-  this.registerSide = function (side, width, invisible) {
-    sides[side].width = width;
-    sides[side].visible = !invisible;
-  };
-
-  this.addHideListener = function (side, fn) {
-    sides[side].hideListeners.push(fn);
-  };
-
-  this.addShowListener = function (side, fn) {
-    sides[side].showListeners.push(fn);
-  };
-
-  this.hidePane = function (side) {
-    sides[side].hideListeners.forEach(function (listener) {
-      listener();
-    });
-  };
-
-  this.showPane = function (side) {
-    sides[side].showListeners.forEach(function (listener) {
-      listener(sides[side].width);
-    });
-  };
-
-  this.isVisible = function (side) {
-    return sides[side] && sides[side].visible;
   };
 });
 
@@ -1060,67 +919,74 @@ PhonicsApp.service('Editor', function Editor() {
 
 'use strict';
 
-PhonicsApp.service('Builder', function Builder(Resolver, Validator) {
+PhonicsApp.service('Builder', function Builder(Resolver, Validator, $q) {
   var load = _.memoize(jsyaml.load);
 
-  function buildDocs(stringValue, options) {
-
+  /**
+   * Build spec docs from a string value
+   * @param {string} stringValue - the string to make the docs from
+   * @returns {object} - Returns a promise that resolves to spec document object
+   *  or get rejected because of HTTP failures of external $refs
+  */
+  function buildDocs(stringValue) {
     var json;
+    var deferred = $q.defer();
 
+    // If stringVlue is empty, return emptyDocsError
     if (!stringValue) {
-      return {
+      deferred.reject({
         specs: null,
-        error: {emptyDocsError: { message: 'Empty Document'}}
-      };
+        error: {emptyDocsError: {message: 'Empty Document'}}
+      });
+
+      return deferred.promise;
     }
 
+    // if jsyaml is unable to load the string value return yamlError
     try {
       json = load(stringValue);
-    } catch (e) {
-      return {
-        error: { yamlError: e },
+    } catch (yamlError) {
+      deferred.reject({
+        error: { yamlError: yamlError },
         specs: null
-      };
+      });
+
+      return deferred.promise;
     }
-    return buildDocsWithObject(json, options);
+
+    // If stringValue is valid build it
+    return buildDocsWithObject(json);
   }
 
-  function buildDocsWithObject(json, options) {
-    options = options || {};
+  function buildDocsWithObject(json) {
 
-    if (!json) {
-      return {
-        specs: null,
-        error: {emptyDocsError: { message: 'Empty Document'}}
-      };
-    }
+    return Resolver.resolve(json)
+      .then(function onSuccess(resolved) {
+        var result = { specs: resolved };
+        var error = Validator.validateSwagger(resolved);
 
-    // Validate if specs are resolvable
-    try {
-      Resolver.resolve(json);
-    } catch (e) {
-      return {
-        error: { resolveError: e },
-        specs: null
-      };
-    }
+        if (error && error.swaggerError) {
+          result.error = error;
+        }
 
-    if (options.resolve) {
-      json = Resolver.resolve(json);
-    }
-    var result = { specs: json };
-    var error = Validator.validateSwagger(json);
-
-    if (error && error.swaggerError) {
-      result.error = error;
-    }
-
-    return result;
+        return result;
+      }, function onFalure(resolveError) {
+        return {
+          error: {
+            resolveError: resolveError.data,
+            raw: resolveError
+          },
+          specs: null
+        };
+      });
   }
 
-  /*
+  /**
    * Gets a path JSON object and Specs, finds the path in the
    * specs JSON and updates it
+   * @param {array} - path an array of keys to reach to an object in JSON structure
+   * @param {string} - pathName
+   * @param {object} - specs
   */
   function updatePath(path, pathName, specs) {
     var json;
@@ -1527,21 +1393,14 @@ PhonicsApp.service('FoldPointFinder', function FoldPointFinder() {
 /*
   Resolves YAML $ref references
 */
-PhonicsApp.service('Resolver', function Resolver() {
+PhonicsApp.service('Resolver', function Resolver($q, $http) {
 
   /*
   ** gets a JSON object and recursively resolve all $ref references
   ** root object is being passed to get the actual result of the
   ** $ref reference
-  ** path is an array of keys to the current object from root.
   */
-  function resolve(json, root, path) {
-
-    // If it's first time resolve is being called there would be no path
-    // initialize it
-    if (!Array.isArray(path)) {
-      path = [];
-    }
+  function resolve(json, root) {
 
     // If it's first time resolve being called root would be the same object
     // as json
@@ -1552,50 +1411,71 @@ PhonicsApp.service('Resolver', function Resolver() {
     // If json is an array, iterate in the array and apply resolve to each element
     // of the array and return it
     if (Array.isArray(json)) {
-      return json.map(function (item) {
+      return $q.all(json.map(function (item) {
         return resolve(item, root);
-      });
+      }));
     }
 
     // if json is not an object we can't resolve it. The json itself is resolved json
-    if (typeof json !== 'object') {
-      return json;
-    }
-
-    // If json is typeof object but is not a real object (null) throw resolve error
     if (!angular.isObject(json)) {
-      throw new Error('Can not resolve ' + path.join(' ▹ '));
+      var deferred = $q.defer();
+
+      deferred.resolve(json);
+
+      return deferred.promise;
     }
 
-    // Initialize resolved object
-    var result = {};
+    // If there is a `$ref` key in the json object, ignore all other keys and
+    // return resolved `$ref`
+    if (json.$ref) {
+      return lookup(json.$ref, root).then(function (result) {
+        return resolve(result, root);
+      });
+    }
+
+    // Initialize an array of promises of object keys
+    var promises = [];
 
     // For each key in json check if the key is a resolve key ($ref)
     Object.keys(json).forEach(function (key) {
-      if (angular.isObject(json[key]) && json[key].$ref) {
-
-        // if it's a resolvable key, look it up and put it in result object
-        result[key] = lookup(json[key].$ref, root);
-      } else {
-
-        // otherwise recursively resolve it
-        result[key] = resolve(json[key], root, path.concat(key));
-      }
+      promises.push(resolve(json[key], root));
     });
 
-    return result;
+    // After getting all promises resolved, rebuild the object from results of
+    // resolved promises and Object.keys of the json object. Order of the resolved
+    // promises should be the same as Object.keys of the json object
+    return $q.all(promises).then(function (resultsArr) {
+      var resultObj = {};
+
+      Object.keys(json).forEach(function (key, keyIndex) {
+        resultObj[key] = resultsArr[keyIndex];
+      });
+
+      return resultObj;
+    });
+
   }
 
-  /*
-  ** With a given JSON-Schema address and an object (root) returns
-  ** the object that $ref address is pointing too
-  ** //TODO: resolve HTTP based addresses
+  /**
+  * With a given JSON-Schema address and an object (root) returns
+  * the object that $ref address is pointing too
+  * @param {string} address - The address to lookup
+  * @root {object} root - the JSON Schema to lookup in
+  * @returns {promise} - Resolves to result of the lookup or get rejected because of
+  *   HTTP failures
   */
   function lookup(address, root) {
+    var deferred = $q.defer();
 
-    // If address is a shorthand without #definition and not a http address
-    // make the address a longhand addrsss
-    if (address.indexOf('#/') !== 0 && address.indexOf('http://') !== 0) {
+    // If it's an http lookup, GET it and resolve to it's data
+    if (/^http(s?):\/\//.test(address)) {
+      return $http.get(address).then(function (resp) {
+        return resp.data;
+      });
+    }
+
+    // If address is a shorthand without #definition make the address a longhand address
+    if (address.indexOf('#/') !== 0) {
       address = '#/definitions/' + address;
     }
 
@@ -1610,11 +1490,15 @@ PhonicsApp.service('Resolver', function Resolver() {
 
       // If path was invalid and objects at this key is not valid, throw an error
       if (!current[key]) {
-        throw new Error('Can not lookup ' + key + ' in ' + angular.toJson(current));
+        deferred.reject({
+          data: 'Can not lookup ' + key + ' in ' + angular.toJson(current)
+        });
       }
       current = current[key];
     }
-    return current;
+    deferred.resolve(current);
+
+    return deferred.promise;
   }
 
   // Expose resolve externally
@@ -1714,8 +1598,6 @@ PhonicsApp.controller('EditorCtrl', function EditorCtrl($scope, Editor, Builder,
     });
   });
 
-  $(document).on('pane-resize', Editor.resize.bind(Editor));
-
   function onAceChange() {
     var value = Editor.getValue();
 
@@ -1726,35 +1608,45 @@ PhonicsApp.controller('EditorCtrl', function EditorCtrl($scope, Editor, Builder,
 
 'use strict';
 
-PhonicsApp.controller('PreviewCtrl', function PreviewCtrl(Storage, Builder, FoldManager, Sorter, Editor, Operation, BackendHealthCheck, $scope) {
+PhonicsApp.controller('PreviewCtrl', function PreviewCtrl(Storage, Builder, FoldManager,
+  Sorter, Editor, Operation, BackendHealthCheck, $scope, $rootScope) {
   function update(latest) {
 
     // If backend is not healthy don't update
-    if (!BackendHealthCheck.isHealthy()) {
+    if (!BackendHealthCheck.isHealthy() && !$rootScope.isPreviewMode) {
       return;
     }
 
-    var specs = null;
-    var result = null;
+    // Error can come in success callback, because of recursive promises
+    // So we install same handler for error and success
+    Builder.buildDocs(latest).then(onResult, onResult);
+  }
 
-    result = Builder.buildDocs(latest, { resolve: true });
-    specs = FoldManager.extendSpecs(result.specs);
+  function onResult(result) {
+    var specs = FoldManager.extendSpecs(result.specs);
     $scope.specs = Sorter.sort(specs);
+    $scope.error = null;
+    Storage.save('progress',  1); // Saved
+
+    if (!$rootScope.isPreviewMode) {
+      Editor.clearAnnotation();
+    }
 
     if (result.error) {
-      if (result.error.yamlError) {
+      if (result.error.yamlError && !$rootScope.isPreviewMode) {
         Editor.annotateYAMLErrors(result.error.yamlError);
       }
       $scope.error = result.error;
       Storage.save('progress', -1); // Error
-    } else {
-      $scope.error = null;
-      Editor.clearAnnotation();
-      Storage.save('progress',  1); // Saved
     }
   }
 
   Storage.addChangeListener('yaml', update);
+
+  // If app is in preview mode, load the yaml from storage
+  if ($rootScope.isPreviewMode) {
+    Storage.load('yaml').then(update);
+  }
 
   FoldManager.onFoldStatusChanged(function () {
     _.defer(function () { $scope.$apply(); });
@@ -2519,7 +2411,7 @@ PhonicsApp.config(['$provide', function ($provide) {
     },
     schemaUrl: '',
     examplesFolder: '/spec-files/',
-    exampleFiles: ['default.yaml', 'minimal.yaml', 'heroku-pets.yaml', 'uber.yaml'],
+    exampleFiles: ['default.yaml', 'minimal.yaml', 'heroku-pets.yaml', 'petstore.yaml'],
     backendEndpoint: '/editor/spec',
     useBackendForStorage: false,
     backendHelathCheckTimeout: 5000,
@@ -2633,9 +2525,15 @@ PhonicsApp.controller('UrlImportCtrl', function FileImportCtrl($scope, $modalIns
 'use strict';
 
 PhonicsApp.controller('ErrorPresenterCtrl', function ($scope) {
+  $scope.docsMode = false;
 
   $scope.getError = function () {
     var error = $scope.$parent.error;
+
+    // Don't show empty doc error in editor mode
+    if (error && error.emptyDocsError && !$scope.docsMode) {
+      return null;
+    }
 
     if (error && error.swaggerError) {
       delete error.swaggerError.stack;
@@ -2688,7 +2586,7 @@ PhonicsApp.controller('ErrorPresenterCtrl', function ($scope) {
     }
 
     if (error.resolveError) {
-      return error.resolveError.message.replace(/ in \{.+/, '');
+      return error.resolveError;
     }
 
     return error;
