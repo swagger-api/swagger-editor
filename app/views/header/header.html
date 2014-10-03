@@ -11,6 +11,9 @@
         </button>
         <ul class="dropdown-menu" ng-if="showFileMenu()" role="menu" aria-labelledby="fileMenu">
           <li role="presentation">
+            <a href="{{isPreviewMode ? '#/edit' : '#/'}}" role="menuitem" tabindex="-1">{{isPreviewMode ? 'Edit' : 'Preview'}}</a>
+          </li>
+          <li role="presentation">
             <a ng-click="newProject()" role="menuitem" tabindex="-1" href="#">New</a>
           </li>
           <li role="presentation">
@@ -29,9 +32,6 @@
           <li role="presentation">
             <a download="spec.json" downloadUrl="{{jsonDownloadUrl}}"
               href="{{jsonDownloadHref}}" role="menuitem" tabindex="-1">Download JSON</a>
-          </li>
-          <li role="presentation">
-            <a href="#/preview" role="menuitem" tabindex="-1">Preview</a>
           </li>
         </ul>
       </div>
@@ -62,7 +62,7 @@
         </ul>
       </div>
 
-      <div class="status {{statusClass}}"  ng-if="status">{{status}}</div>
+      <div ng-if="!isPreviewMode" class="status {{statusClass}}"  ng-if="status">{{status}}</div>
     </section>
 
     <section class="right">

@@ -9,10 +9,10 @@ PhonicsApp.config(function Router($compileProvider, $stateProvider, $urlRouterPr
     views: {
       '': {
         templateUrl: function ($statePrams) {
-          if ($statePrams.mode === 'preview') {
-            return 'views/main-preview.html';
-          } else {
+          if ($statePrams.mode === 'edit') {
             return 'views/main.html';
+          } else {
+            return 'views/main-preview.html';
           }
         },
         controller: 'MainCtrl'
