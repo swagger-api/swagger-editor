@@ -8,4 +8,5 @@ dist/
 node_modules
 app/bower_components
 *.sublime-workspace
+.*.swp
 buttons.diff
