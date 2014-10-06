@@ -114,11 +114,15 @@ PhonicsApp.controller('HeaderCtrl', function HeaderCtrl($scope, Editor, Storage,
       var json = jsyaml.load(yaml);
 
       // swagger and version should be a string to comfort with the schema
-      if (json.swagger) {
-        json.swagger = String(json.swagger);
+      if (json.info.version) {
+        json.info.version = String(json.info.version);
       }
-      if (json.version) {
-        json.version = String(json.version);
+      if (json.swagger) {
+        if (json.swagger === 2) {
+          json.swagger = '2.0';
+        } else {
+          json.swagger = String(json.swagger);
+        }
       }
 
       json = JSON.stringify(json, null, 4);
