@@ -6,9 +6,9 @@
   </header>
 
   <section class="json animate-if" ng-if="mode === 'json'" >
-    <json-formatter json="getJson()" open="1"></json-formatter>
+    <json-formatter json="json" open="1"></json-formatter>
   </section>
-  <section class="model animate-fi" ng-if="mode === 'model'">
-    <pre>{{getString()}}</pre>
+  <section class="model animate-if" ng-if="mode === 'model'">
+    <json-schema-view schema="json"></json-schema-view>
   </section>
 </div>

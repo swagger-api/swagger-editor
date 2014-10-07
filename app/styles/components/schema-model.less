@@ -12,7 +12,6 @@
   >header {
 
     span, a {
-      font-size: .9em;
       padding: .2em;
       white-space: pre;
       display: none;
@@ -38,32 +37,8 @@
   >section {
 
     &.json, &.model {
-      font-size: .9em;
       background: @pre-bg;
       padding: 0.4em;
-      border-radius: none;
-    }
-
-    &.ng-enter, &.ng-leave {
-       transition:all cubic-bezier(0.250, 0.460, 0.450, 0.940) 0.5s;
-    }
-    &.ng-leave,
-    &.ng-enter.ng-enter-active{
-      opacity: 1
-    }
-    &.ng-enter,
-    &.ng-leave.ng-leave-active {
-      opacity: 0;
-    }
-
-    pre {
-      .pre-font;
-      white-space: pre;
-      padding: 0.4em 0;
-      background: @pre-bg;
-      border: none;
-      border-radius: none;
-      margin-bottom: 0;
     }
   }
 }
