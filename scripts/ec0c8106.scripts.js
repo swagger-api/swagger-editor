@@ -16,7 +16,8 @@ window.PhonicsApp = angular.module('PhonicsApp', [
   'ngSanitize',
   'jsonFormatter',
   'hc.marked',
-  'ui.layout'
+  'ui.layout',
+  'mohsen1.json-schema-view'
 ]);
 
 'use strict';
@@ -214,11 +215,15 @@ PhonicsApp.controller('HeaderCtrl', function HeaderCtrl($scope, Editor, Storage,
       var json = jsyaml.load(yaml);
 
       // swagger and version should be a string to comfort with the schema
-      if (json.swagger) {
-        json.swagger = String(json.swagger);
+      if (json.info.version) {
+        json.info.version = String(json.info.version);
       }
-      if (json.version) {
-        json.version = String(json.version);
+      if (json.swagger) {
+        if (json.swagger === 2) {
+          json.swagger = '2.0';
+        } else {
+          json.swagger = String(json.swagger);
+        }
       }
 
       json = JSON.stringify(json, null, 4);
@@ -300,69 +305,6 @@ PhonicsApp.directive('dropdownMenu', function () {
 
 'use strict';
 
-function stringifySchema(schema) {
-  if (!schema) {
-    return '';
-  }
-
-  var str = '';
-
-  if (schema.type) {
-
-    // If it's an array, wrap it around []
-    if (schema.type === 'array') {
-      str = '[' + stringifySchema(schema.items) + ']';
-
-    // Otherwise use schema type solely
-    } else if (schema.type) {
-      str = '"' + schema.type + '"';
-    }
-  }
-
-  // If there is a format for this schema add append it
-  if (schema.format) {
-    str += '(' + schema.format + ')';
-
-  // If this schema has properties and no format, build upon properties
-  } else if (typeof schema.properties === 'object') {
-    var propsStr = '';
-    for (var property in schema.properties) {
-      propsStr += '  ' + buildProperty(property, schema) + '\n';
-    }
-    str += propsStr;
-
-  // If it's a custom model (object wrapping an schema with a single key)
-  // unwrap it and pre-pend the key
-  } else if (typeof schema === 'object' && Object.keys(schema).length === 1) {
-    var key = Object.keys(schema)[0];
-
-    // If this single keyed object just is 'type' it's not
-    // custom model.
-    if (key !== 'type') {
-      str += key + ': {\n' +
-        stringifySchema(schema[key]) +
-        '}';
-    }
-  }
-
-  return str;
-}
-
-function buildProperty(property, schema) {
-
-  // ignore vendor extensions
-  if (property.toLowerCase().indexOf('x-') === 0) {
-    return '';
-  }
-
-  var result = property + ': ' +
-    stringifySchema(schema.properties[property]);
-  if (angular.isObject(schema.required) && _.toArray(schema.required).indexOf(property) > -1) {
-    result += ' <required>';
-  }
-  return result;
-}
-
 /*
 ** Removes vendor extensions (x- keys) deeply from an object
 */
@@ -383,7 +325,7 @@ function removeVendorExtensions(obj) {
 }
 
 PhonicsApp
-  .directive('schemaModel', function () {
+  .directive('schemaModel', function ($parse) {
     return {
       templateUrl: 'templates/schema-model.html',
       restrict: 'E',
@@ -391,16 +333,9 @@ PhonicsApp
       scope: {
         schema: '='
       },
-      link: function postLink(scope) {
-        scope.mode = 'model';
-
-        scope.getJson = function () {
-          return removeVendorExtensions(scope.schema);
-        };
-
-        scope.getString = function () {
-          return stringifySchema(removeVendorExtensions(scope.schema));
-        };
+      link: function postLink($scope, $element, $attributes) {
+        $scope.mode = 'model';
+        $scope.json = removeVendorExtensions($parse($attributes.schema)($scope.$parent));
       }
     };
   });

@@ -52851,54 +52851,18 @@ angular.module("template/typeahead/typeahead-popup.html", []).run(["$templateCac
     "");
 }]);
 
+/*!
+ * jsonformatter
+ * 
+ * Version: 0.2.0 - 2014-10-06T05:56:18.607Z
+ * License: MIT
+ */
+
+
 'use strict';
-// Source: app/scripts/factories/recursion-helper.js
-// from http://stackoverflow.com/a/18609594
-angular.module('RecursionHelper', []).factory('RecursionHelper', ['$compile', function($compile){
-  return {
-    /**
-     * Manually compiles the element, fixing the recursion loop.
-     * @param element
-     * @param [link] A post-link function, or an object with function(s)
-     * registered via pre and post properties.
-     * @returns An object containing the linking functions.
-     */
-    compile: function(element, link){
-      // Normalize the link parameter
-      if(angular.isFunction(link)){
-        link = { post: link };
-      }
 
-      // Break the recursion loop by removing the contents
-      var contents = element.contents().remove();
-      var compiledContents;
-      return {
-        pre: (link && link.pre) ? link.pre : null,
-        /**
-         * Compiles and re-adds the contents
-         */
-        post: function(scope, element){
-          // Compile the contents
-          if(!compiledContents){
-            compiledContents = $compile(contents);
-          }
-          // Re-add the compiled contents to the element
-          compiledContents(scope, function(clone){
-            element.append(clone);
-          });
-
-          // Call the post-linking function, if any
-          if(link && link.post){
-            link.post.apply(null, arguments);
-          }
-        }
-      };
-    }
-  };
-}]);
-
-// Source: app/scripts/directives/.tmp/json-formatter-tpl.js
-angular.module('jsonFormatter', ['RecursionHelper']).directive('jsonFormatter', ['RecursionHelper', function (RecursionHelper) {
+angular.module('jsonFormatter', ['RecursionHelper'])
+.directive('jsonFormatter', ['RecursionHelper', function (RecursionHelper) {
   function escapeString(str) {
     return str.replace('"', '\"');
   }
@@ -52958,7 +52922,8 @@ angular.module('jsonFormatter', ['RecursionHelper']).directive('jsonFormatter', 
     }
 
     scope.isEmptyObject = function () {
-      return scope.getKeys() && !scope.getKeys().length && scope.isOpen && !scope.isArray();
+      return scope.getKeys() && !scope.getKeys().length &&
+        scope.isOpen && !scope.isArray();
     };
 
 
@@ -53000,25 +52965,7 @@ angular.module('jsonFormatter', ['RecursionHelper']).directive('jsonFormatter', 
   }
 
   return {
-    template: '<div ng-init="isOpen = open && open > 0" class="json-formatter-row">\n' +
-    '  <a ng-click="toggleOpen()">\n' +
-    '    <span class="toggler {{isOpen ? \'open\' : \'\'}}" ng-if="isObject"></span>\n' +
-    '    <span class="key" ng-if="hasKey">{{key}}:</span>\n' +
-    '    <span class="value">\n' +
-    '      <span ng-if="isObject">\n' +
-    '        <span class="constructor-name">{{getConstructorName(json)}}</span>\n' +
-    '        <span ng-if="isArray()"><span class="bracket">[</span><span class="number">{{json.length}}</span><span class="bracket">]</span></span>\n' +
-    '      </span>\n' +
-    '      <span ng-if="!isObject" ng-click="openLink(isUrl)" class="{{type}}" ng-class="{date: isDate, url: isUrl}">{{parseValue(json)}}</span>\n' +
-    '    </span>\n' +
-    '  </a>\n' +
-    '  <div class="children" ng-if="getKeys().length && isOpen">\n' +
-    '    <json-formatter ng-repeat="key in getKeys()" json="json[key]" key="key" open="childrenOpen()"></json-formatter>\n' +
-    '  </div>\n' +
-    '  <div class="children empty object" ng-if="isEmptyObject()"></div>\n' +
-    '  <div class="children empty array" ng-if="getKeys() && !getKeys().length && isOpen && isArray()"></div>\n' +
-    '</div>\n' +
-    '',
+    templateUrl: 'json-formatter.html',
     restrict: 'E',
     replace: true,
     scope: {
@@ -53035,6 +52982,53 @@ angular.module('jsonFormatter', ['RecursionHelper']).directive('jsonFormatter', 
   };
 }]);
 
+'use strict';
+
+// from http://stackoverflow.com/a/18609594
+angular.module('RecursionHelper', []).factory('RecursionHelper', ['$compile', function($compile){
+  return {
+    /**
+     * Manually compiles the element, fixing the recursion loop.
+     * @param element
+     * @param [link] A post-link function, or an object with function(s)
+     * registered via pre and post properties.
+     * @returns An object containing the linking functions.
+     */
+    compile: function(element, link){
+      // Normalize the link parameter
+      if(angular.isFunction(link)){
+        link = { post: link };
+      }
+
+      // Break the recursion loop by removing the contents
+      var contents = element.contents().remove();
+      var compiledContents;
+      return {
+        pre: (link && link.pre) ? link.pre : null,
+        /**
+         * Compiles and re-adds the contents
+         */
+        post: function(scope, element){
+          // Compile the contents
+          if(!compiledContents){
+            compiledContents = $compile(contents);
+          }
+          // Re-add the compiled contents to the element
+          compiledContents(scope, function(clone){
+            element.append(clone);
+          });
+
+          // Call the post-linking function, if any
+          if(link && link.post){
+            link.post.apply(null, arguments);
+          }
+        }
+      };
+    }
+  };
+}]);
+
+angular.module("jsonFormatter").run(["$templateCache", function($templateCache) {$templateCache.put("json-formatter.html","<div ng-init=\"isOpen = open && open > 0\" class=\"json-formatter-row\"><a ng-click=\"toggleOpen()\"><span class=\"toggler {{isOpen ? \'open\' : \'\'}}\" ng-if=\"isObject\"></span> <span class=\"key\" ng-if=\"hasKey\">{{key}}:</span> <span class=\"value\"><span ng-if=\"isObject\"><span class=\"constructor-name\">{{getConstructorName(json)}}</span> <span ng-if=\"isArray()\"><span class=\"bracket\">[</span><span class=\"number\">{{json.length}}</span><span class=\"bracket\">]</span></span></span> <span ng-if=\"!isObject\" ng-click=\"openLink(isUrl)\" class=\"{{type}}\" ng-class=\"{date: isDate, url: isUrl}\">{{parseValue(json)}}</span></span></a><div class=\"children\" ng-if=\"getKeys().length && isOpen\"><json-formatter ng-repeat=\"key in getKeys()\" json=\"json[key]\" key=\"key\" open=\"childrenOpen()\"></json-formatter></div><div class=\"children empty object\" ng-if=\"isEmptyObject()\"></div><div class=\"children empty array\" ng-if=\"getKeys() && !getKeys().length && isOpen && isArray()\"></div></div>");}]);
 /*
 Author: Geraint Luff and others
 Year: 2013
@@ -54716,3 +54710,160 @@ angular.module('ui.layout', []).controller('uiLayoutCtrl', [
     }
   };
 });
+/*!
+ * json-schema-view
+ * https://github.com/mohsen1/json-schema-view
+ * Version: 0.3.4 - 2014-10-08T00:00:55.545Z
+ * License: MIT
+ */
+
+
+'use strict';
+
+var module = angular.module('mohsen1.json-schema-view', ['RecursionHelper']);
+
+module.directive('jsonSchemaView', function (RecursionHelper) {
+  function link($scope) {
+    $scope.isCollapsed = false;
+
+    /*
+     * Recursively walk the schema and add property 'name' to property objects
+    */
+    function addPropertyName(schema) {
+      if (!schema) {
+        return;
+      }
+      if (angular.isObject(schema.items)) {
+        addPropertyName(schema.items);
+      }
+      else if (angular.isObject(schema.properties)) {
+        Object.keys(schema.properties).forEach(function (propertyName) {
+          schema.properties[propertyName].name = propertyName;
+          addPropertyName(schema.properties[propertyName]);
+        });
+      }
+    }
+
+    addPropertyName($scope.schema);
+
+    if ($scope.schema && $scope.schema.type === 'array') {
+      $scope.isArray = true;
+      $scope.schema = $scope.schema.items;
+    }
+
+    /*
+     * Toggles the 'collapsed' state
+    */
+    $scope.toggle = function() {
+      $scope.isCollapsed = !$scope.isCollapsed;
+    };
+
+    /*
+     * Determines if a property is a primitive
+    */
+    $scope.isPrimitive = function(property){
+      return ['string', 'boolean', 'integer', 'int'].indexOf(property.type) > -1;
+    };
+  }
+  return {
+    restrict: 'E',
+    templateUrl: 'json-schema-view.html',
+    replcae: true,
+    scope: {
+      'schema': '='
+    },
+    compile: function(element) {
+
+      // Use the compile function from the RecursionHelper,
+      // And return the linking function(s) which it returns
+      return RecursionHelper.compile(element, link);
+    }
+  };
+});
+
+module.directive('primitiveProperty', function (RecursionHelper) {
+  function link($scope) {
+
+    /*
+     * Returns true if property is required in given schema
+    */
+    $scope.isRequired = function(property, schema) {
+      schema = schema || $scope.$parent.schema;
+
+      if (Array.isArray(schema.required) && property.name) {
+        return schema.required.indexOf(property.name) > -1;
+      }
+
+      return false;
+    };
+
+    /*
+     * Checks and see if an object (_obj_) has a member with _propName_ name
+    */
+    $scope.has = function(obj, propName) {
+      return Object.keys(obj).indexOf(propName) > -1;
+    };
+    }
+  return {
+    restrict: 'E',
+    templateUrl: 'primitive.html',
+    replcae: true,
+    scope: {
+      property: '='
+    },
+    compile: function(element) {
+
+      // Use the compile function from the RecursionHelper,
+      // And return the linking function(s) which it returns
+      return RecursionHelper.compile(element, link);
+    }
+  };
+});
+'use strict';
+
+// from http://stackoverflow.com/a/18609594
+angular.module('RecursionHelper', []).factory('RecursionHelper', ['$compile', function($compile){
+  return {
+    /**
+     * Manually compiles the element, fixing the recursion loop.
+     * @param element
+     * @param [link] A post-link function, or an object with function(s)
+     * registered via pre and post properties.
+     * @returns An object containing the linking functions.
+     */
+    compile: function(element, link){
+      // Normalize the link parameter
+      if(angular.isFunction(link)){
+        link = { post: link };
+      }
+
+      // Break the recursion loop by removing the contents
+      var contents = element.contents().remove();
+      var compiledContents;
+      return {
+        pre: (link && link.pre) ? link.pre : null,
+        /**
+         * Compiles and re-adds the contents
+         */
+        post: function(scope, element){
+          // Compile the contents
+          if(!compiledContents){
+            compiledContents = $compile(contents);
+          }
+          // Re-add the compiled contents to the element
+          compiledContents(scope, function(clone){
+            element.append(clone);
+          });
+
+          // Call the post-linking function, if any
+          if(link && link.post){
+            link.post.apply(null, arguments);
+          }
+        }
+      };
+    }
+  };
+}]);
+
+angular.module("mohsen1.json-schema-view").run(["$templateCache", function($templateCache) {$templateCache.put("json-schema-view.html","<div class=\"json-schema-view\" ng-class=\"{collapsed: isCollapsed}\"><a class=\"toggler\" ng-click=\"toggle()\"></a> <span class=\"title\" ng-click=\"toggle()\"><span ng-if=\"isArray\" class=\"array-of\">[</span> {{schema.title}}</span> <span class=\"opening brace\">{</span><div class=\"description\">{{schema.description}}</div><div class=\"property\" ng-repeat=\"property in schema.properties\"><span class=\"name\">{{property.name}}:</span><primitive-property ng-if=\"isPrimitive(property)\" property=\"property\"></primitive-property><json-schema-view ng-if=\"!isPrimitive(property)\" schema=\"property\"></json-schema-view></div><span class=\"closeing brace\">}</span> <span ng-if=\"isArray\" class=\"array-of\">]</span></div>");
+$templateCache.put("primitive.html","<span class=\"primitive\"><span class=\"type\">{{property.type}}</span> <span class=\"required\" ng-if=\"isRequired(property, schema)\">*</span> <span class=\"format\" ng-if=\"!isCollapsed && has(property, \'format\')\">({{property.format}})</span> <span class=\"range minimum\" ng-if=\"!isCollapsed && has(property, \'minimum\')\">minimum:{{property.minimum}}</span> <span class=\"range maximum\" ng-if=\"!isCollapsed && has(property, \'maximum\')\">maximum:{{property.maximum}}</span></span>");}]);
