@@ -68,11 +68,17 @@
       </div>
     </section>
 
-    <!-- Disable try operation for now.
     <section class="try-operation">
-      <button class="try-it" ng-class="{trying: tryIsOpen}" ng-click="showTryOperation()">Try this operation</button>
-      <span class="try-toggle" ng-class="{'is-open': tryIsOpen}" ng-click="showTryOperation()"></span>
-      <try-operation operation="operation" ng-if="tryIsOpen"></try-operation>
+      <button class="border-only try-it"
+        ng-class="{trying: isTryOpen}"
+        ng-click="toggleTry()"
+        ng-if="!isTryOpen"
+      >Try this operation</button>
+      <button class="border-only red close-try"
+        ng-class="{'is-open': isTryOpen}"
+        ng-click="toggleTry()"
+        ng-if="isTryOpen"
+      >Close</button>
+      <try-operation operation="operation" ng-if="isTryOpen"></try-operation>
     </section>
-    -->
 </li>
