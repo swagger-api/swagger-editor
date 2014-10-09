@@ -29,10 +29,13 @@ PhonicsApp.service('ASTManager', function ASTManager(Editor) {
   }
 
   /*
-  ** Walk the ast for a given path
+   * Walk the ast for a given path
+   * @param {array} path - list of keys to follow to reach to reach a node
+   * @param {object} current - only used for recursive calls
   */
   function walk(path, current) {
     var MAP_TAG = 'tag:yaml.org,2002:map';
+    var SEQ_TAG = 'tag:yaml.org,2002:seq';
 
     var key;
     current = current || ast;
@@ -47,10 +50,6 @@ PhonicsApp.service('ASTManager', function ASTManager(Editor) {
 
     key = path.shift();
 
-    if (!current) {
-      return null;
-    }
-
     // If current is a map, search in mapping tuples and find the
     // one that it's first member equals the one
     if (current.tag === MAP_TAG) {
@@ -61,6 +60,13 @@ PhonicsApp.service('ASTManager', function ASTManager(Editor) {
           return walk(path, val[1]);
         }
       }
+
+    // If current is a sequence (array), return item with index
+    // that is equal to key. `key` should be an int
+    } else if (current.tag === SEQ_TAG) {
+      key = parseInt(key, 10);
+      current = current.value[key];
+      return walk(path, current);
     }
 
     return current;

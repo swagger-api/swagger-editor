@@ -1,6 +1,6 @@
 <li class='{{operation.operationName | lowercase}} operation'>
   <header ng-click="toggle('paths', path.pathName, operation.operationName)">
-    <a class="focus-editor" ng-click="focusEdit($event, operation['x-row'])" ng-if="!isPreviewMode"
+    <a class="focus-editor" ng-click="focusEdit($event, ['paths', path.pathName, operation.operationName])" ng-if="!isPreviewMode"
       tooltip-placement="right" tooltip="Jump to YAML"></a>
     <div class='http-method' class="toggleOperation">{{operation.operationName | uppercase}}</div>
     <div class="summary">
@@ -28,8 +28,12 @@
             </tr>
           </thead>
           <tbody>
-            <tr ng-repeat="parameter in operation.parameters">
-              <td class="mono">{{parameter.name}}</td>
+            <tr ng-repeat="parameter in operation.parameters track by $index">
+              <td >
+                <a ng-click="focusEdit($event, ['paths', path.pathName, operation.operationName, 'parameters', $index], -1)">
+                  <span class="mono">{{parameter.name}}</span>
+                </a>
+              </td>
               <td>{{parameter.in}}</td>
               <td>{{parameter.description}}</td>
               <td>{{parameter.required ? 'Yes' : 'No'}}</td>
