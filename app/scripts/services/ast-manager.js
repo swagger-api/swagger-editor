@@ -5,7 +5,7 @@
  * and other meta information about the specs tree
 */
 PhonicsApp.service('ASTManager', function ASTManager(Editor) {
-  var ast = null;
+  var ast = {};
   var changeListeners = [];
 
   // When editor is ready refresh the AST from Editor value
@@ -15,7 +15,7 @@ PhonicsApp.service('ASTManager', function ASTManager(Editor) {
   ** Update ast with changes from editor
   */
   function refreshAST() {
-    _.defaults(yaml.compose(Editor.getValue()), ast);
+    ast = yaml.compose(Editor.getValue());
     emitChanges();
   }
 
@@ -32,17 +32,35 @@ PhonicsApp.service('ASTManager', function ASTManager(Editor) {
   ** Walk the ast for a given path
   */
   function walk(path, current) {
-    current = ast;
+    var MAP_TAG = 'tag:yaml.org,2002:map';
 
-    if (!Array.isArray(path) || !path.length) {
-      throw new Error('Need path for fold in the AST');
+    var key;
+    current = current || ast;
+
+    if (!Array.isArray(path)) {
+      throw new Error('Need path to find the node in the AST');
     }
 
-    while (path.length) {
-      if (!current || !current.subFolds) {
-        return null;
+    if (!path.length) {
+      return current;
+    }
+
+    key = path.shift();
+
+    if (!current) {
+      return null;
+    }
+
+    // If current is a map, search in mapping tuples and find the
+    // one that it's first member equals the one
+    if (current.tag === MAP_TAG) {
+      for (var i = 0; i < current.value.length; i++) {
+        var val = current.value[i];
+
+        if (val[0].value === key) {
+          return walk(path, val[1]);
+        }
       }
-      current = current.subFolds[path.shift()];
     }
 
     return current;
@@ -81,7 +99,8 @@ PhonicsApp.service('ASTManager', function ASTManager(Editor) {
     var node = walk(path);
 
     if (node) {
-      return node.start.row;
+      /* jshint camelcase: false */
+      return node.start_mark.line;
     }
     return null;
   }
@@ -124,10 +143,12 @@ PhonicsApp.service('ASTManager', function ASTManager(Editor) {
   ** Return status of a fold with given path parameters
   */
   this.isFolded = function () {
-    var keys = [].slice.call(arguments, 0);
-    var fold = walk(keys);
+    // FIXME:
+    return false;
+    // var keys = [].slice.call(arguments, 0);
+    // var fold = walk(keys);
 
-    return fold && fold.folded;
+    // return fold && fold.folded;
   };
 
   /*

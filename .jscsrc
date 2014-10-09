@@ -50,7 +50,7 @@
   ],
   "requireSpaceBeforeBinaryOperators": true,
   "requireSpaceAfterBinaryOperators": true,
-  "requireCamelCaseOrUpperCaseIdentifiers": true,
+  "requireCamelCaseOrUpperCaseIdentifiers": "ignoreProperties",
   "disallowKeywords": [
     "with"
   ],

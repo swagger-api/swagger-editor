@@ -50,9 +50,10 @@ PhonicsApp.controller('PreviewCtrl', function PreviewCtrl(Storage, Builder, ASTM
    * @param path {array} an array of keys into specs structure
    * that points out that specific node
   */
-  $scope.focusEdit = function ($event, line) {
+  $scope.focusEdit = function ($event, path) {
+    var line = ASTManager.lineForPath(path);
     $event.stopPropagation();
-    Editor.gotoLine(line);
+    Editor.gotoLine(line - 1);
   };
 
   // Add operation service methods directly
