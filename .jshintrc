@@ -23,6 +23,7 @@
     "ace": false,
     "markdown": false,
     "jsyaml": false,
+    "yaml": false,
     "PhonicsApp": false,
     "SwaggerApi": false,
     "SwaggerResource": false,

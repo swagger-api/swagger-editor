@@ -1,10 +1,10 @@
 'use strict';
 
 /*
-** Because Angular will sort hash keys alphabetically we need
+** Because Angular will sort hash keys alphabetically we need to
 ** translate hashes to arrays in order to keep the order of the
 ** elements.
-** Order information is coming from FoldManager via x-row properties
+** Order information is coming from ASTManager via x-row properties
 */
 PhonicsApp.service('Sorter', function Sorter() {
 
