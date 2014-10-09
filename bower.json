@@ -10,7 +10,6 @@
     "angular-sanitize": "1.2.15",
     "ngstorage": "~0.3.0",
     "jquery": "2.1.1",
-    "js-yaml": "3.0.1",
     "angular-bootstrap": "~0.11.0",
     "tv4": "~1.0.17",
     "angular-mocks": "1.2.15",
@@ -18,11 +17,12 @@
     "angular-ui-ace": "bower",
     "angular-ui-router": "~0.2.10",
     "angular-marked": "Hypercubed/angular-marked#~0.0.12",
-    "bootstrap": "~3.2.0"
+    "bootstrap": "~3.2.0",
+    "lodash": "~2.4.1",
+    "yaml-js": "git@github.com:mohsen1/yaml-js.git"
   },
   "dependencies": {
     "json-formatter": "*",
-    "lodash": "~2.4.1",
     "angular-ui-layout": "bower",
     "json-schema-view": "*"
   }
