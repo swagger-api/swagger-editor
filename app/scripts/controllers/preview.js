@@ -56,6 +56,11 @@ PhonicsApp.controller('PreviewCtrl', function PreviewCtrl(Storage, Builder, ASTM
    * that points out that specific node
   */
   $scope.focusEdit = function ($event, path, offset) {
+
+    // No focus in preview mode!
+    if ($rootScope.isPreviewMode) {
+      return;
+    }
     var line = ASTManager.lineForPath(path);
     offset = offset || 0;
     $event.stopPropagation();

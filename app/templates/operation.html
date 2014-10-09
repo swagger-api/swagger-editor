@@ -60,7 +60,9 @@
           <tbody>
             <tr ng-repeat="response in operation.responses">
               <td>
-                <span class="resp-code {{responseCodeClassFor(response.responseCode)}}">{{response.responseCode}}</span>
+                <a ng-click="focusEdit($event, ['paths', path.pathName, operation.operationName, 'responses', response.responseCode])">
+                  <span class="resp-code {{responseCodeClassFor(response.responseCode)}}">{{response.responseCode}}</span>
+                </a>
               </td>
               <td>{{response.description}}</td>
               <td>
