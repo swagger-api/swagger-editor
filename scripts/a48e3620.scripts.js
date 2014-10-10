@@ -348,6 +348,20 @@ PhonicsApp
 
 'use strict';
 
+// From http://stackoverflow.com/a/19846473/650722
+PhonicsApp.directive('stopEvent', function () {
+  return {
+    restrict: 'A',
+    link: function (scope, element) {
+      element.bind('click', function (e) {
+        e.stopPropagation();
+      });
+    }
+  };
+});
+
+'use strict';
+
 PhonicsApp.filter('getResourceName', function () {
   return function getResourceNameFilter(resource) {
     return resource.resourcePath.replace(/\//g, '');
@@ -1155,6 +1169,32 @@ PhonicsApp.service('ASTManager', function ASTManager(Editor) {
   }
 
   /*
+   * Toggles a node's fold
+   * @param {object} node - a node object
+   * @param {boolean} value - optional. if provided overrides node's folded value
+  */
+  function toggleNodeFold(node, value) {
+    /* jshint camelcase: false */
+
+    if (typeof value === 'undefined') {
+      value = node.folded;
+    } else {
+      value = !value;
+    }
+
+    // Remove the fold from the editor if node is folded
+    if (value) {
+      Editor.removeFold(node.start_mark.line);
+      node.folded = false;
+
+    // Add fold to editor if node is not folded
+    } else {
+      Editor.addFold(node.start_mark.line - 1, node.end_mark.line - 1);
+      node.folded = true;
+    }
+  }
+
+  /*
    * Listen to fold changes in editor and reflect it in the AST
    * then emit AST change event to trigger rendering in the preview
    * pane
@@ -1186,18 +1226,31 @@ PhonicsApp.service('ASTManager', function ASTManager(Editor) {
       return;
     }
 
-    // Remove the fold from the editor if node is folded
-    if (node.folded) {
-      Editor.removeFold(node.start_mark.line);
-      node.folded = false;
-
-    // Add fold to editor if node is not folded
-    } else {
-      Editor.addFold(node.start_mark.line - 1, node.end_mark.line - 1);
-      node.folded = true;
-    }
+    toggleNodeFold(node);
 
     // Let other components know changes happened
+    emitChanges();
+  };
+
+  /*
+   * Sets fold status for all direct children of a given path
+   * @param {array} path - list of strings keys pointing to a node in AST
+   * @param {boolean} value - true if all nodes should get folded, false otherwise
+  */
+  this.setFoldAll = function (path, value) {
+    var node = walk(path, ast);
+    var subNode;
+
+    for (var i = 0; i < node.value.length; i++) {
+      if (node.tag === MAP_TAG) {
+        subNode = node.value[i][1];
+      } else if (node.tag === SEQ_TAG) {
+        subNode = node.value[i];
+      }
+
+      toggleNodeFold(subNode, value);
+    }
+
     emitChanges();
   };
 
@@ -1211,6 +1264,31 @@ PhonicsApp.service('ASTManager', function ASTManager(Editor) {
     var node = walk(path, ast);
 
     return angular.isObject(node) && !!node.folded;
+  };
+
+  /*
+   * Checks to see if all direct children of a node are folded
+   * @param {array} path path - an array of string that is path to a node
+   *   in the AST
+   * @returns {boolean} - true if all nodes are folded, false, otherwise
+  */
+  this.isAllFolded = function (path) {
+    var node = walk(path);
+    var subNode;
+
+    for (var i = 0; i < node.value.length; i++) {
+      if (node.tag === MAP_TAG) {
+        subNode = node.value[i][1];
+      } else if (node.tag === SEQ_TAG) {
+        subNode = node.value[i];
+      }
+
+      if (!subNode.folded) {
+        return false;
+      }
+    }
+
+    return true;
   };
 
   /*
@@ -1492,6 +1570,10 @@ PhonicsApp.controller('PreviewCtrl', function PreviewCtrl(Storage, Builder, ASTM
   });
   $scope.toggle = ASTManager.toggleFold;
   $scope.isCollapsed = ASTManager.isFolded;
+  $scope.isAllFolded = ASTManager.isAllFolded;
+  $scope.toggleAll = function (path) {
+    ASTManager.setFoldAll(path, true);
+  };
 
   /*
    * Focuses editor to a line that represents that path beginning
