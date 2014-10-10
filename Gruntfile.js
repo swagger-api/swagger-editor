@@ -5,7 +5,6 @@ module.exports = function (grunt) {
   require('load-grunt-config')(grunt);
   require('time-grunt')(grunt);
 
-
   grunt.registerTask('serve', function (target) {
     if (target === 'dist') {
       return grunt.task.run(['build', 'connect:dist:keepalive']);
@@ -33,15 +32,16 @@ module.exports = function (grunt) {
 
   grunt.registerTask('build', [
     'clean:dist',
-    'bowerInstall',
-    'jscs',
     'useminPrepare',
     'less',
+    'concurrent:dist',
     'autoprefixer',
     'concat',
-    'rev',
+    'ngAnnotate',
     'copy:dist',
     'cssmin',
+    'uglify',
+    'rev',
     'usemin',
     'htmlmin'
   ]);

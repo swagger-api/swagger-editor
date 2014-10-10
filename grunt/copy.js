@@ -1,5 +1,5 @@
 module.exports = {
-  dist: {
+ dist: {
     files: [{
       expand: true,
       dot: true,
@@ -11,16 +11,19 @@ module.exports = {
         '*.html',
         'views/{,*/}*.html',
         'templates/{,*/}*.html',
-        'images/{,*/}*',
-        'fonts/*',
-        'spec-files/*',
-        'CNAME'
+        'images/{,*/}*.{webp}',
+        'fonts/*'
       ]
     }, {
       expand: true,
       cwd: '.tmp/images',
       dest: 'dist/images',
       src: ['generated/*']
+    }, {
+      expand: true,
+      cwd: 'bower_components/bootstrap/dist',
+      src: 'fonts/*',
+      dest: 'dist'
     }]
   },
   styles: {
