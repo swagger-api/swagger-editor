@@ -44,6 +44,10 @@ PhonicsApp.controller('PreviewCtrl', function PreviewCtrl(Storage, Builder, ASTM
   });
   $scope.toggle = ASTManager.toggleFold;
   $scope.isCollapsed = ASTManager.isFolded;
+  $scope.isAllFolded = ASTManager.isAllFolded;
+  $scope.toggleAll = function (path) {
+    ASTManager.setFoldAll(path, true);
+  };
 
   /*
    * Focuses editor to a line that represents that path beginning

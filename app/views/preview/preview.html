@@ -20,6 +20,9 @@
   <header ng-if="!!specs.info && !error.yamlError">
     <h3 class="section-header">
       <a ng-click="toggle(['paths'])">Paths</a>
+      <span class="on-hover">
+        <a ng-click="toggleAll(['paths'])" ng-hide="isAllFolded(['paths'])">List all paths</a>
+      </span>
     </h3>
   </header>
   <ul class="paths" ng-if="!error.yamlError" collapse-when="isCollapsed(['paths'])">

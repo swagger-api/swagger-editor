@@ -168,6 +168,27 @@ PhonicsApp.service('ASTManager', function ASTManager(Editor) {
   };
 
   /*
+   * Sets fold status for all direct children of a given path
+   * @param {array} path - list of strings keys pointing to a node in AST
+   * @param {boolean} value - true if all nodes should get folded, false otherwise
+  */
+  this.setFoldAll = function (path, value) {
+    var node = walk(path, ast);
+    var subNode;
+
+    for (var i = 0; i < node.value.length; i++) {
+      if (node.tag === MAP_TAG) {
+        subNode = node.value[i][1];
+      } else if (node.tag === SEQ_TAG) {
+        subNode = node.value[i];
+      }
+      subNode.folded = value;
+    }
+
+    emitChanges();
+  };
+
+  /*
    * Return status of a fold with given path parameters
    * @param {array} path - an array of string that is path to a node
    *   in the AST
@@ -177,6 +198,31 @@ PhonicsApp.service('ASTManager', function ASTManager(Editor) {
     var node = walk(path, ast);
 
     return angular.isObject(node) && !!node.folded;
+  };
+
+  /*
+   * Checks to see if all direct children of a node are folded
+   * @param {array} path path - an array of string that is path to a node
+   *   in the AST
+   * @returns {boolean} - true if all nodes are folded, false, otherwise
+  */
+  this.isAllFolded = function (path) {
+    var node = walk(path);
+    var subNode;
+
+    for (var i = 0; i < node.value.length; i++) {
+      if (node.tag === MAP_TAG) {
+        subNode = node.value[i][1];
+      } else if (node.tag === SEQ_TAG) {
+        subNode = node.value[i];
+      }
+
+      if (!subNode.folded) {
+        return false;
+      }
+    }
+
+    return true;
   };
 
   /*
