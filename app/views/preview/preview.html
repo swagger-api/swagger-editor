@@ -34,8 +34,10 @@
   </header>
    <ul class="section-content definitions" ng-if="specs.definitions" collapse-when="isCollapsed(['definitions'])" class="models">
       <li class="definition" ng-repeat="(modelName, model) in specs.definitions" ng-if="!isVendorExtension(modelName)">
-        <h4>{{modelName}}</h4>
-        <schema-model schema="model"></schema-model>
+        <h4>
+          <a ng-click="toggle(['definitions', modelName])" class="definition-title">{{modelName}}</a>
+        </h4>
+        <schema-model schema="model" collapse-when="isCollapsed(['definitions', modelName])"></schema-model>
       </li>
     </ul>
 </div>
