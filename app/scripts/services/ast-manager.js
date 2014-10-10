@@ -126,7 +126,7 @@ PhonicsApp.service('ASTManager', function ASTManager(Editor) {
    * pane
   */
   Editor.onFoldChanged(function (change) {
-    var row = change.data.start.row;
+    var row = change.data.start.row + 1;
     var folded = change.action !== 'remove';
     var node = scan(ast, row);
 
@@ -138,21 +138,33 @@ PhonicsApp.service('ASTManager', function ASTManager(Editor) {
   });
 
   /*
-  ** Toggle a fold status and reflect it in the editor
+   * Toggle a fold status and reflect it in the editor
+   * @param {array} path - an array of string that is path to a node
+   *   in the AST
   */
-  this.toggleFold = function () {
-    var keys = [].slice.call(arguments, 0);
-    var fold = walk(keys);
+  this.toggleFold = function (path) {
+    var node = walk(path, ast);
 
-    if (fold.folded) {
-      Editor.removeFold(fold.start + 1);
-      fold.folded = false;
-    } else {
-      Editor.addFold(fold.start, fold.end);
-      fold.folded = true;
+    /* jshint camelcase: false */
+
+    // Guard against when walk fails
+    if (!node || !node.start_mark) {
+      return;
     }
 
-    refreshAST();
+    // Remove the fold from the editor if node is folded
+    if (node.folded) {
+      Editor.removeFold(node.start_mark.line);
+      node.folded = false;
+
+    // Add fold to editor if node is not folded
+    } else {
+      Editor.addFold(node.start_mark.line - 1, node.end_mark.line - 1);
+      node.folded = true;
+    }
+
+    // Let other components know changes happened
+    emitChanges();
   };
 
   /*
