@@ -285,7 +285,13 @@ PhonicsApp.directive('operation', [function () {
     restrict: 'E',
     replace: true,
     templateUrl: 'templates/operation.html',
-    scope: false
+    scope: false,
+    link: function ($scope) {
+      $scope.isTryOpen = false;
+      $scope.toggleTry = function toggleTry() {
+        $scope.isTryOpen = !$scope.isTryOpen;
+      };
+    }
   };
 }]);
 
@@ -498,10 +504,10 @@ PhonicsApp.directive('tryOperation', function () {
 'use strict';
 
 /*
-** Because Angular will sort hash keys alphabetically we need
+** Because Angular will sort hash keys alphabetically we need to
 ** translate hashes to arrays in order to keep the order of the
 ** elements.
-** Order information is coming from FoldManager via x-row properties
+** Order information is coming from ASTManager via x-row properties
 */
 PhonicsApp.service('Sorter', function Sorter() {
 
@@ -694,7 +700,7 @@ PhonicsApp.service('FileLoader', function FileLoader($http) {
 
 'use strict';
 
-PhonicsApp.controller('FileImportCtrl', function FileImportCtrl($scope, $modalInstance, FileLoader, $localStorage, Storage, Editor, FoldManager) {
+PhonicsApp.controller('FileImportCtrl', function FileImportCtrl($scope, $modalInstance, FileLoader, $localStorage, Storage, Editor, ASTManager) {
   var results;
 
   $scope.fileChanged = function ($fileContent) {
@@ -705,7 +711,7 @@ PhonicsApp.controller('FileImportCtrl', function FileImportCtrl($scope, $modalIn
     if (angular.isString(results)) {
       Editor.setValue(results);
       Storage.save('yaml', results);
-      FoldManager.reset();
+      ASTManager.refresh();
     }
     $modalInstance.close();
   };
@@ -834,7 +840,7 @@ PhonicsApp.service('Editor', function Editor() {
   }
 
   function gotoLine(line) {
-    editor.gotoLine(line + 1);
+    editor.gotoLine(line);
   }
 
   this.getValue = getValue;
@@ -1029,31 +1035,24 @@ PhonicsApp.service('Validator', function Validator(defaultSchema, defaults, $htt
 'use strict';
 
 /*
-  Manage fold status of the paths and operations
+ * Manages the AST representation of the specs for fold status
+ * and other meta information about the specs tree
 */
-PhonicsApp.service('FoldManager', function FoldManager(Editor, FoldPointFinder) {
-  var buffer = Object.create(null);
+PhonicsApp.service('ASTManager', function ASTManager(Editor) {
+  var MAP_TAG = 'tag:yaml.org,2002:map';
+  var SEQ_TAG = 'tag:yaml.org,2002:seq';
+  var ast = {};
   var changeListeners = [];
 
-  Editor.ready(renewBuffer);
+  // When editor is ready refresh the AST from Editor value
+  Editor.ready(refreshAST);
 
   /*
-  ** Update buffer with changes from editor
+  ** Update ast with changes from editor
   */
-  function refreshBuffer() {
-    _.defaults(FoldPointFinder.findFolds(Editor.getValue()), buffer);
+  function refreshAST() {
+    ast = yaml.compose(Editor.getValue());
     emitChanges();
-  }
-
-  /*
-  ** Flush buffer and put new value in the buffer
-  */
-  function renewBuffer(value) {
-    value = value || Editor.getValue();
-    if (angular.isString(value)) {
-      buffer = FoldPointFinder.findFolds(value);
-      emitChanges();
-    }
   }
 
   /*
@@ -1066,136 +1065,152 @@ PhonicsApp.service('FoldManager', function FoldManager(Editor, FoldPointFinder) 
   }
 
   /*
-  ** Walk the buffer tree for a given path
+   * Walk the ast for a given path
+   * @param {array} path - list of keys to follow to reach to reach a node
+   * @param {object} current - only used for recursive calls
+   * @returns {object} - the node that path is pointing to
   */
-  function walk(keys, current) {
-    current = buffer;
+  function walk(path, current) {
+    var key;
+    current = current || ast;
 
-    if (!Array.isArray(keys) || !keys.length) {
-      throw new Error('Need path for fold in fold buffer');
+    if (!Array.isArray(path)) {
+      throw new Error('Need path to find the node in the AST');
     }
 
-    while (keys.length) {
-      if (!current || !current.subFolds) {
-        return null;
+    if (!path.length) {
+      return current;
+    }
+
+    key = path.shift();
+
+    // If current is a map, search in mapping tuples and find the
+    // one that it's first member equals the one
+    if (current.tag === MAP_TAG) {
+      for (var i = 0; i < current.value.length; i++) {
+        var val = current.value[i];
+
+        if (val[0].value === key) {
+          return walk(path, val[1]);
+        }
       }
-      current = current.subFolds[keys.shift()];
+
+    // If current is a sequence (array), return item with index
+    // that is equal to key. `key` should be an int
+    } else if (current.tag === SEQ_TAG) {
+      key = parseInt(key, 10);
+      current = current.value[key];
+      return walk(path, current);
     }
 
     return current;
   }
 
   /*
-  ** Beneath first search for the fold that has the same start
+   * Beneath first search the AST and finds the node that has the same
+   * start line number
+   * @param {object} current  - optional, AST o search in it. used for
+   *  recursive calls
+   * @returns {object} - the node that has the same start line or null
+   *  if node wasn't found
   */
   function scan(current, start) {
-    var result = null;
-    var node, fold;
+    var val;
+    current = current || ast;
 
-    if (current.start === start) {
+    if (!angular.isObject(current) || !current.value) {
       return current;
     }
 
-    if (angular.isObject(current.subFolds)) {
-      for (var k in current.subFolds) {
-        if (angular.isObject(current.subFolds)) {
-          node = current.subFolds[k];
-          fold = scan(node, start);
-          if (fold) {
-            result = fold;
-          }
-        }
+    /* jshint camelcase: false */
+    if (current.start_mark.line === start) {
+      return current;
+    }
+
+    for (var i = 0; i < current.value.length; i++) {
+      if (current.tag === MAP_TAG) {
+        val = scan(current.value[i][1], start);
+      } else if (current.tag === SEQ_TAG) {
+        val = scan(current.value[i], start);
+      }
+      if (val) {
+        return val;
       }
     }
 
-    return result;
+    return null;
   }
 
   /*
-  ** Scan the specs tree and extend objects with order value
-  ** We use 'x-row' as an order indication so rendered will ignore it
-  ** because it's a vendor extension
+   * return back line number of an specific node with given path
   */
-  function extendSpecs(specs, path) {
-    var fold = null;
-    var key;
+  function lineForPath(path) {
+    var node = walk(path);
 
-    if (!path) {
-      path = [];
-    } else {
-      path = _.clone(path);
+    if (node) {
+      /* jshint camelcase: false */
+      return node.start_mark.line;
     }
-
-    // Only apply order value to objects
-    if (angular.isObject(specs)) {
-
-      // For each object in this object
-      for (key in specs) {
-
-        // Ignore prototype keys
-        if (specs.hasOwnProperty(key)) {
-
-          // add key to path and try looking up the tree with this path
-          // for the fold corresponding the same object
-          fold = walk(path.concat(key));
-
-          // If fold exists append it to the object and push the key to path
-          if (fold) {
-            specs[key]['x-row'] = fold.start;
-          }
-
-          // Recessively do this until the end of the tree
-          specs[key] = extendSpecs(specs[key], path.concat(key));
-        }
-      }
-    }
-
-    // Return modified object
-    return specs;
+    return null;
   }
 
   /*
-  ** Listen to fold changes in editor and reflect it in buffer
+   * Listen to fold changes in editor and reflect it in the AST
+   * then emit AST change event to trigger rendering in the preview
+   * pane
   */
   Editor.onFoldChanged(function (change) {
-    var row = change.data.start.row;
+    var row = change.data.start.row + 1;
     var folded = change.action !== 'remove';
-    var fold = scan(buffer, row);
+    var node = scan(ast, row);
 
-    if (fold) {
-      fold.folded = folded;
+    if (node) {
+      node.folded = folded;
     }
 
-    refreshBuffer();
     emitChanges();
   });
 
   /*
-  ** Toggle a fold status and reflect it in the editor
+   * Toggle a fold status and reflect it in the editor
+   * @param {array} path - an array of string that is path to a node
+   *   in the AST
   */
-  this.toggleFold = function () {
-    var keys = [].slice.call(arguments, 0);
-    var fold = walk(keys);
+  this.toggleFold = function (path) {
+    var node = walk(path, ast);
 
-    if (fold.folded) {
-      Editor.removeFold(fold.start + 1);
-      fold.folded = false;
-    } else {
-      Editor.addFold(fold.start, fold.end);
-      fold.folded = true;
+    /* jshint camelcase: false */
+
+    // Guard against when walk fails
+    if (!node || !node.start_mark) {
+      return;
     }
 
-    refreshBuffer();
+    // Remove the fold from the editor if node is folded
+    if (node.folded) {
+      Editor.removeFold(node.start_mark.line);
+      node.folded = false;
+
+    // Add fold to editor if node is not folded
+    } else {
+      Editor.addFold(node.start_mark.line - 1, node.end_mark.line - 1);
+      node.folded = true;
+    }
+
+    // Let other components know changes happened
+    emitChanges();
   };
 
   /*
-  ** Return status of a fold with given path parameters
+   * Return status of a fold with given path parameters
+   * @param {array} path - an array of string that is path to a node
+   *   in the AST
+   * @return {boolean} - true if the node is folded, false otherwise
   */
-  this.isFolded = function () {
-    var keys = [].slice.call(arguments, 0);
-    var fold = walk(keys);
+  this.isFolded = function (path) {
+    var node = walk(path, ast);
 
-    return fold && fold.folded;
+    return angular.isObject(node) && !!node.folded;
   };
 
   /*
@@ -1206,121 +1221,8 @@ PhonicsApp.service('FoldManager', function FoldManager(Editor, FoldPointFinder) 
   };
 
   // Expose the methods externally
-  this.reset = renewBuffer;
-  this.refresh = refreshBuffer;
-  this.extendSpecs = extendSpecs;
-});
-
-'use strict';
-
-PhonicsApp.service('FoldPointFinder', function FoldPointFinder() {
-  var TAB_SIZE = 2;
-  var tab = '  ';
-
-  /*
-  ** Find folds from YAML sting
-  */
-  this.findFolds = function findFolds(yamlString) {
-    var lines = yamlString.split('\n');
-
-    // Return up to 3 level
-    return { subFolds: getFolds(lines, 2, 0) };
-  };
-
-  /*
-  ** Get folds from and array of lines
-  */
-  function getFolds(lines, level, offset) {
-    var folds = Object.create(null);
-    var currentFold = null;
-    var key, l, line;
-
-    // Iterate in lines
-    for (l = 0; l < lines.length; l++) {
-      line = lines[l];
-
-      // If line is not indented it can be an object key or a key: value pair
-      if (line.substr(0, TAB_SIZE) !== tab) {
-        key = line.trim();
-
-        // Cover the case that key is quoted. Example: "/user/{userId}":
-        if ((key[0] === '"') && (key[key.length - 2] === '"') && (key[key.length - 1] === ':')) {
-          key = key.substring(1, key.length - 2) + ':';
-        }
-
-        // If colon is not the last character it's not an object key
-        if (!key || key.lastIndexOf(':') !== key.length - 1) {
-          continue;
-        }
-
-        // Omit colon character
-        if (key[key.length - 1] === ':') {
-          key = key.substring(0, key.length - 1);
-        }
-
-        // If there is no current fold in progress initiate one
-        if (currentFold === null) {
-          currentFold = {
-            start: l + offset,
-            folded: false,
-            end: null
-          };
-          folds[key] = currentFold;
-
-        // else, add middle folds recessively and close current fold in progress
-        } else {
-          addSubFoldsAndEnd(lines, l, currentFold, level, offset);
-
-          currentFold = {
-            start: l + offset,
-            end: null
-          };
-          folds[key] = currentFold;
-        }
-      }
-    }
-
-    // In case there is a current fold in progress finish it
-    addSubFoldsAndEnd(lines, l, currentFold, level, offset);
-
-    return folds;
-  }
-
-  /*
-  ** Adds subfolds and finish fold in progress
-  */
-  function addSubFoldsAndEnd(lines, l, currentFold, level, offset) {
-    var foldLines, subFolds;
-
-    // If there is a current fold, otherwise nothing to do
-    if (currentFold !== null) {
-
-      // set end property which is current line + offset
-      currentFold.end = l - 1 + offset;
-
-      // If it's not too deep
-      if (level > 0) {
-
-        // Get fold lines and remove the indent in
-        foldLines = lines.slice(currentFold.start + 1 - offset, currentFold.end - offset).map(indent);
-
-        // Get subFolds recursively
-        subFolds = getFolds(foldLines, level - 1, currentFold.start + 1);
-
-        // If results are not empty assign it
-        if (!_.isEmpty(subFolds)) {
-          currentFold.subFolds = subFolds;
-        }
-      }
-    }
-  }
-
-  /*
-  ** Removes indent of a line one tab
-  */
-  function indent(l) {
-    return l.substring(TAB_SIZE);
-  }
+  this.refresh = refreshAST;
+  this.lineForPath = lineForPath;
 });
 
 'use strict';
@@ -1518,17 +1420,20 @@ PhonicsApp.service('Codegen', function Codegen($http, defaults, Storage) {
 
 'use strict';
 
-PhonicsApp.controller('EditorCtrl', function EditorCtrl($scope, Editor, Builder, Storage, FoldManager) {
+PhonicsApp.controller('EditorCtrl', function EditorCtrl($scope, Editor, Builder, Storage, ASTManager) {
   var debouncedOnAceChange = _.debounce(onAceChange, 1000);
+
   $scope.aceLoaded = Editor.aceLoaded;
+
   $scope.aceChanged = function () {
     Storage.save('progress', 0);
     debouncedOnAceChange();
   };
+
   Editor.ready(function () {
     Storage.load('yaml').then(function (yaml) {
       Editor.setValue(yaml);
-      FoldManager.reset(yaml);
+      ASTManager.refresh(yaml);
       onAceChange();
     });
   });
@@ -1537,13 +1442,13 @@ PhonicsApp.controller('EditorCtrl', function EditorCtrl($scope, Editor, Builder,
     var value = Editor.getValue();
 
     Storage.save('yaml', value);
-    FoldManager.refresh();
+    ASTManager.refresh();
   }
 });
 
 'use strict';
 
-PhonicsApp.controller('PreviewCtrl', function PreviewCtrl(Storage, Builder, FoldManager,
+PhonicsApp.controller('PreviewCtrl', function PreviewCtrl(Storage, Builder, ASTManager,
   Sorter, Editor, Operation, BackendHealthCheck, $scope, $rootScope) {
   function update(latest) {
 
@@ -1558,8 +1463,7 @@ PhonicsApp.controller('PreviewCtrl', function PreviewCtrl(Storage, Builder, Fold
   }
 
   function onResult(result) {
-    var specs = FoldManager.extendSpecs(result.specs);
-    $scope.specs = Sorter.sort(specs);
+    $scope.specs = Sorter.sort(result.specs);
     $scope.error = null;
     Storage.save('progress',  1); // Saved
 
@@ -1583,15 +1487,32 @@ PhonicsApp.controller('PreviewCtrl', function PreviewCtrl(Storage, Builder, Fold
     Storage.load('yaml').then(update);
   }
 
-  FoldManager.onFoldStatusChanged(function () {
+  ASTManager.onFoldStatusChanged(function () {
     _.defer(function () { $scope.$apply(); });
   });
-  $scope.toggle = FoldManager.toggleFold;
-  $scope.isCollapsed = FoldManager.isFolded;
+  $scope.toggle = ASTManager.toggleFold;
+  $scope.isCollapsed = ASTManager.isFolded;
 
-  $scope.focusEdit = function ($event, line) {
+  /*
+   * Focuses editor to a line that represents that path beginning
+   * @param {AngularEvent} $event - angular event
+   * @param {array} path - an array of keys into specs structure
+   * @param {int} offset - Because of some bugs in AST generated by
+   *   yaml-js, sometime generated line number is not accurate. this
+   *   is used to adjust that. FIXME: it should get removed once bugs
+   *   in yaml-js is fixed.
+   * that points out that specific node
+  */
+  $scope.focusEdit = function ($event, path, offset) {
+
+    // No focus in preview mode!
+    if ($rootScope.isPreviewMode) {
+      return;
+    }
+    var line = ASTManager.lineForPath(path);
+    offset = offset || 0;
     $event.stopPropagation();
-    Editor.gotoLine(line);
+    Editor.gotoLine(line - offset);
   };
 
   // Add operation service methods directly
@@ -2428,7 +2349,7 @@ PhonicsApp.controller('GeneralModal', function GeneralModal($scope, $modalInstan
 
 'use strict';
 
-PhonicsApp.controller('UrlImportCtrl', function FileImportCtrl($scope, $modalInstance, FileLoader, $localStorage, Storage, Editor, FoldManager) {
+PhonicsApp.controller('UrlImportCtrl', function FileImportCtrl($scope, $modalInstance, FileLoader, $localStorage, Storage, Editor, ASTManager) {
   var results;
 
   $scope.url = null;
@@ -2449,7 +2370,7 @@ PhonicsApp.controller('UrlImportCtrl', function FileImportCtrl($scope, $modalIns
     if (angular.isString(results)) {
       Storage.save('yaml', results);
       Editor.setValue(results);
-      FoldManager.reset();
+      ASTManager.refresh();
     }
     $modalInstance.close();
   };
@@ -2544,7 +2465,7 @@ PhonicsApp.controller('ErrorPresenterCtrl', function ($scope) {
 
 'use strict';
 
-PhonicsApp.controller('OpenExamplesCtrl', function OpenExamplesCtrl(FileLoader, Builder, Storage, Editor, FoldManager, defaults, $scope, $modalInstance) {
+PhonicsApp.controller('OpenExamplesCtrl', function OpenExamplesCtrl(FileLoader, Builder, Storage, Editor, ASTManager, defaults, $scope, $modalInstance) {
 
   $scope.files = defaults.exampleFiles;
   $scope.selectedFile = defaults.exampleFiles[0];
@@ -2553,7 +2474,7 @@ PhonicsApp.controller('OpenExamplesCtrl', function OpenExamplesCtrl(FileLoader, 
     FileLoader.loadFromUrl('spec-files/' + file).then(function (value) {
       Storage.save('yaml', value);
       Editor.setValue(value);
-      FoldManager.reset();
+      ASTManager.refresh();
       $modalInstance.close();
     }, $modalInstance.close);
   };
