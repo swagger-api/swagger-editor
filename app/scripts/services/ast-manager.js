@@ -5,6 +5,8 @@
  * and other meta information about the specs tree
 */
 PhonicsApp.service('ASTManager', function ASTManager(Editor) {
+  var MAP_TAG = 'tag:yaml.org,2002:map';
+  var SEQ_TAG = 'tag:yaml.org,2002:seq';
   var ast = {};
   var changeListeners = [];
 
@@ -32,11 +34,9 @@ PhonicsApp.service('ASTManager', function ASTManager(Editor) {
    * Walk the ast for a given path
    * @param {array} path - list of keys to follow to reach to reach a node
    * @param {object} current - only used for recursive calls
+   * @returns {object} - the node that path is pointing to
   */
   function walk(path, current) {
-    var MAP_TAG = 'tag:yaml.org,2002:map';
-    var SEQ_TAG = 'tag:yaml.org,2002:seq';
-
     var key;
     current = current || ast;
 
@@ -73,29 +73,38 @@ PhonicsApp.service('ASTManager', function ASTManager(Editor) {
   }
 
   /*
-  ** Beneath first search for the fold that has the same start
+   * Beneath first search the AST and finds the node that has the same
+   * start line number
+   * @param {object} current  - optional, AST o search in it. used for
+   *  recursive calls
+   * @returns {object} - the node that has the same start line or null
+   *  if node wasn't found
   */
   function scan(current, start) {
-    var result = null;
-    var node, fold;
+    var val;
+    current = current || ast;
 
-    if (current.start === start) {
+    if (!angular.isObject(current) || !current.value) {
       return current;
     }
 
-    if (angular.isObject(current.subFolds)) {
-      for (var k in current.subFolds) {
-        if (angular.isObject(current.subFolds)) {
-          node = current.subFolds[k];
-          fold = scan(node, start);
-          if (fold) {
-            result = fold;
-          }
-        }
+    /* jshint camelcase: false */
+    if (current.start_mark.line === start) {
+      return current;
+    }
+
+    for (var i = 0; i < current.value.length; i++) {
+      if (current.tag === MAP_TAG) {
+        val = scan(current.value[i][1], start);
+      } else if (current.tag === SEQ_TAG) {
+        val = scan(current.value[i], start);
+      }
+      if (val) {
+        return val;
       }
     }
 
-    return result;
+    return null;
   }
 
   /*
@@ -112,18 +121,19 @@ PhonicsApp.service('ASTManager', function ASTManager(Editor) {
   }
 
   /*
-  ** Listen to fold changes in editor and reflect it in ast
+   * Listen to fold changes in editor and reflect it in the AST
+   * then emit AST change event to trigger rendering in the preview
+   * pane
   */
   Editor.onFoldChanged(function (change) {
     var row = change.data.start.row;
     var folded = change.action !== 'remove';
-    var fold = scan(ast, row);
+    var node = scan(ast, row);
 
-    if (fold) {
-      fold.folded = folded;
+    if (node) {
+      node.folded = folded;
     }
 
-    refreshAST();
     emitChanges();
   });
 
@@ -146,15 +156,15 @@ PhonicsApp.service('ASTManager', function ASTManager(Editor) {
   };
 
   /*
-  ** Return status of a fold with given path parameters
+   * Return status of a fold with given path parameters
+   * @param {array} path - an array of string that is path to a node
+   *   in the AST
+   * @return {boolean} - true if the node is folded, false otherwise
   */
-  this.isFolded = function () {
-    // FIXME:
-    return false;
-    // var keys = [].slice.call(arguments, 0);
-    // var fold = walk(keys);
+  this.isFolded = function (path) {
+    var node = walk(path, ast);
 
-    // return fold && fold.folded;
+    return angular.isObject(node) && !!node.folded;
   };
 
   /*

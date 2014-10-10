@@ -111,7 +111,7 @@ PhonicsApp.service('Editor', function Editor() {
   }
 
   function gotoLine(line) {
-    editor.gotoLine(line + 1);
+    editor.gotoLine(line);
   }
 
   this.getValue = getValue;

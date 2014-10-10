@@ -64,7 +64,7 @@ PhonicsApp.controller('PreviewCtrl', function PreviewCtrl(Storage, Builder, ASTM
     var line = ASTManager.lineForPath(path);
     offset = offset || 0;
     $event.stopPropagation();
-    Editor.gotoLine(line - 1 - offset);
+    Editor.gotoLine(line - offset);
   };
 
   // Add operation service methods directly

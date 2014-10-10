@@ -9,7 +9,7 @@
       </li>
     </ul>
   </header>
-  <ul class='operations' collapse-when="$parent.isCollapsed('paths', path.pathName)">
+  <ul class='operations' collapse-when="$parent.isCollapsed(['paths', path.pathName])">
     <operation ng-repeat="operation in path.operations" ng-if="!isVendorExtension(operation.operationName)"></operation>
   </ul>
 </li>
