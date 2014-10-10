@@ -121,6 +121,32 @@ PhonicsApp.service('ASTManager', function ASTManager(Editor) {
   }
 
   /*
+   * Toggles a node's fold
+   * @param {object} node - a node object
+   * @param {boolean} value - optional. if provided overrides node's folded value
+  */
+  function toggleNodeFold(node, value) {
+    /* jshint camelcase: false */
+
+    if (typeof value === 'undefined') {
+      value = node.folded;
+    } else {
+      value = !value;
+    }
+
+    // Remove the fold from the editor if node is folded
+    if (value) {
+      Editor.removeFold(node.start_mark.line);
+      node.folded = false;
+
+    // Add fold to editor if node is not folded
+    } else {
+      Editor.addFold(node.start_mark.line - 1, node.end_mark.line - 1);
+      node.folded = true;
+    }
+  }
+
+  /*
    * Listen to fold changes in editor and reflect it in the AST
    * then emit AST change event to trigger rendering in the preview
    * pane
@@ -152,16 +178,7 @@ PhonicsApp.service('ASTManager', function ASTManager(Editor) {
       return;
     }
 
-    // Remove the fold from the editor if node is folded
-    if (node.folded) {
-      Editor.removeFold(node.start_mark.line);
-      node.folded = false;
-
-    // Add fold to editor if node is not folded
-    } else {
-      Editor.addFold(node.start_mark.line - 1, node.end_mark.line - 1);
-      node.folded = true;
-    }
+    toggleNodeFold(node);
 
     // Let other components know changes happened
     emitChanges();
@@ -182,7 +199,8 @@ PhonicsApp.service('ASTManager', function ASTManager(Editor) {
       } else if (node.tag === SEQ_TAG) {
         subNode = node.value[i];
       }
-      subNode.folded = value;
+
+      toggleNodeFold(subNode, value);
     }
 
     emitChanges();
