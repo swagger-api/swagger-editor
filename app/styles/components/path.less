@@ -12,13 +12,11 @@ li.path {
   margin-left: 14px;
 
   >header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    cursor: pointer;
+    position: relative;
 
     h2  {
       .sw-font;
+      display: inline-block;
       font-size: 1.2em;
       padding: 0;
       margin-bottom: 5px;
@@ -35,49 +33,49 @@ li.path {
         }
       }
     }
+
+    .on-hover {
+      display: none;
+      font-size: 14px;
+      a {
+        color: @gray-dk;
+      }
+    }
+
+    &:hover .on-hover {
+      display: inline-block;
+    }
   }
 
-  ul.options {
-    .sw-font;
-    display: flex;
-    list-style-type: none;
+  .jump-to-yaml {
+    position: absolute;
+    top: 0;
+    right: 0;
+    padding: 0.3em;
+    user-select: none;
+    font-size: 0.8em;
+    display: inline-block;
+    height: 16px;
+    width: 22px;
+    color: @gray-md;
+    background-image: url("../images/jump-icon.svg");
+    background-repeat: no-repeat;
+    background-position: 0px -3px;
+    background-size: 22px;
 
-    a {
-      padding: 0.3em;
-      user-select: none;
-      font-size: 0.8em;
-      display: inline-block;
-      height: 16px;
-      width: 22px;
-      color: @gray-md;
-      background-image: url("../images/jump-icon.svg");
-      background-repeat: no-repeat;
-      background-position: 0px -3px;
-      background-size: 22px;
+    &:hover {
+      color: @gray-dk;
+      transition: all 0.2s ease-in-out;
+      cursor: pointer;
+      text-decoration: none;
+    }
 
-      &:hover {
-        color: @gray-dk;
-        transition: all 0.2s ease-in-out;
-        cursor: pointer;
-        text-decoration: none;
+    .tooltip {
+      .tooltip-inner {
+        border-radius: 0;
       }
-
-      .tooltip {
-        .tooltip-inner {
-          border-radius: 0;
-        }
-      }
-
     }
 
-    li + li:after, li:first-child:after {
-      content: "|";
-      color: @gray-lt;
-      .sw-font-light;
-    }
-    li:last-child:after {
-      display: none;
-    }
   }
 
   ul.operations {

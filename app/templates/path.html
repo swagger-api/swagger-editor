@@ -3,11 +3,10 @@
     <h2>
       <a>{{path.pathName}}</a>
     </h2>
-    <ul class='options' ng-if="!isPreviewMode">
-      <li>
-        <a ng-click="focusEdit($event, ['paths', path.pathName]) "tooltip-placement="left" tooltip="Jump to YAML"></a>
-      </li>
-    </ul>
+    <span class="on-hover">
+      <a ng-click="toggleAll(['paths', path.pathName])" ng-hide="isAllFolded(['paths', path.pathName])" stop-event>List all operations</a>
+    </span>
+    <a class="jump-to-yaml" ng-click="focusEdit($event, ['paths', path.pathName]) "tooltip-placement="left" tooltip="Jump to YAML"></a>
   </header>
   <ul class='operations' collapse-when="$parent.isCollapsed(['paths', path.pathName])">
     <operation ng-repeat="operation in path.operations" ng-if="!isVendorExtension(operation.operationName)"></operation>
