@@ -33,6 +33,9 @@
     <h3 class="section-header">
       <!-- <span class="arrow">{{isCollapsed('definitions') ? '▶' : '▼'}}</span> -->
       <a ng-click="toggle(['definitions'])">Models</a>
+      <span class="on-hover">
+        <a ng-click="toggleAll(['definitions'])" ng-hide="isAllFolded(['definitions'])">List all models</a>
+      </span>
     </h3>
   </header>
    <ul class="section-content definitions" ng-if="specs.definitions" collapse-when="isCollapsed(['definitions'])" class="models">
