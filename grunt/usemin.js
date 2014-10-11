@@ -2,6 +2,6 @@ module.exports = {
   html: ['dist/{,*/}*.html'],
   css: ['dist/styles/{,*/}*.css'],
   options: {
-    assetsDirs: ['dist']
+    assetsDirs: ['dist', 'dist/images']
   }
 }
