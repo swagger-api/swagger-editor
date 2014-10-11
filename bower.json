@@ -25,6 +25,6 @@
   "dependencies": {
     "json-formatter": "*",
     "angular-ui-layout": "bower",
-    "json-schema-view": "*"
+    "json-schema-view": "~0.3.5"
   }
 }
