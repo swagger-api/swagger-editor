@@ -12,7 +12,9 @@ module.exports = {
         'views/{,*/}*.html',
         'templates/{,*/}*.html',
         'images/{,*/}*.{webp}',
-        'fonts/*'
+        'fonts/*',
+        'spec-files/*',
+        'CNAME'
       ]
     }, {
       expand: true,
