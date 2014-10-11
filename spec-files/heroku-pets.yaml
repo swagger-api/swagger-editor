@@ -1,0 +1,54 @@
+swagger: 2
+info:
+  version: 1.0.0
+  title: PetStore on Heroku
+host: petstore-api.herokuapp.com
+basePath: /pet
+paths:
+  /:
+    get:
+      responses:
+        200:
+          description:  List all pets
+    post:
+      parameters:
+        - name: pet
+          in: body
+          description: The pet JSON you want to post
+          schema:
+            $ref: '#/definitions/Pet'
+          required: true
+      responses:
+        200:
+          description: Make a new pet
+    put:
+      parameters:
+        - name: pet
+          in: body
+          description: The pet JSON you want to post
+          schema:
+            $ref: '#/definitions/Pet'
+          required: true
+      responses:
+        200:
+          description: Updates the pet
+  /{petId}
+    get:
+      parameters:
+        - name: petId
+          in: path
+          description: ID of the pet
+          required: true
+      responses:
+        200:
+          description: Sends the pet with pet Id
+
+definitions:
+  Pet:
+    properties:
+      name:
+        type: string
+      birthday:
+        type: integer
+        format: int32
+
