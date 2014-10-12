@@ -228,6 +228,10 @@ PhonicsApp.service('ASTManager', function ASTManager(Editor) {
     var node = walk(path);
     var subNode;
 
+    if (!node || !Array.isArray(node.value)) {
+      return false;
+    }
+
     for (var i = 0; i < node.value.length; i++) {
       if (node.tag === MAP_TAG) {
         subNode = node.value[i][1];
