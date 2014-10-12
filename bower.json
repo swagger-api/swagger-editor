@@ -23,7 +23,7 @@
     "js-yaml": "~3.2.2"
   },
   "dependencies": {
-    "json-formatter": "*",
+    "json-formatter": "~0.2.2",
     "angular-ui-layout": "bower",
     "json-schema-view": "~0.3.5"
   }
