@@ -41,6 +41,16 @@ PhonicsApp.service('Builder', function Builder(Resolver, Validator, $q) {
 
   function buildDocsWithObject(json) {
 
+    // Add `title` from object key to definitions
+    // if they are missing title
+    if (json.definitions) {
+      for (var definition in json.definitions) {
+        if (_.isEmpty(json.definitions[definition].title)) {
+          json.definitions[definition].title = definition;
+        }
+      }
+    }
+
     return Resolver.resolve(json)
       .then(function onSuccess(resolved) {
         var result = { specs: resolved };
