@@ -11,7 +11,7 @@ PhonicsApp.config(['$provide', function ($provide) {
       server: 'http://generator.wordnik.com/online/api/gen/servers/{language}',
       client: 'http://generator.wordnik.com/online/api/gen/clients/{language}'
     },
-    schemaUrl: '',
+    disableCodeGen: true,
 
     examplesFolder: '/spec-files/',
     exampleFiles: ['default.yaml', 'minimal.yaml', 'heroku-pets.yaml', 'petstore.yaml'],
@@ -22,9 +22,9 @@ PhonicsApp.config(['$provide', function ($provide) {
     useYamlBackend: false,
 
     disableFileMenu: false,
-    disableCodeGen: true,
-    headerBranding: false,
-    brandingCssClass: ''
+    headerBranding: true,
+    brandingCssClass: '',
+    schemaUrl: ''
   }
   // END-DEFAULTS-JSON
 
