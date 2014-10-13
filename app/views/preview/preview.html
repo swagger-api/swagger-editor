@@ -39,7 +39,7 @@
     </h3>
   </header>
    <ul class="section-content definitions" ng-if="specs.definitions" collapse-when="isCollapsed(['definitions'])" class="models">
-      <li class="definition" ng-repeat="(modelName, model) in specs.definitions" ng-if="!isVendorExtension(modelName)">
+      <li class="definition" ng-repeat="(modelName, model) in specs.definitions" ng-if="!isVendorExtension(modelName)" scroll-into-view-when="isInFocus(['definitions', modelName])">
         <h4>
           <a ng-click="toggle(['definitions', modelName])" class="definition-title">{{modelName}}</a>
         </h4>

@@ -1,7 +1,7 @@
 'use strict';
 
 PhonicsApp.controller('PreviewCtrl', function PreviewCtrl(Storage, Builder, ASTManager,
-  Sorter, Editor, Operation, BackendHealthCheck, $scope, $rootScope) {
+  Sorter, Editor, Operation, BackendHealthCheck, FocusedPath, $scope, $rootScope) {
   function update(latest) {
 
     // If backend is not healthy don't update
@@ -69,6 +69,15 @@ PhonicsApp.controller('PreviewCtrl', function PreviewCtrl(Storage, Builder, ASTM
     offset = offset || 0;
     $event.stopPropagation();
     Editor.gotoLine(line - offset);
+  };
+
+  /*
+   * Returns true if operation is the operation in focus
+   * in the editor
+   * @returns {boolean}
+  */
+  $scope.isInFocus = function (path) {
+    return FocusedPath.isInFocus(path);
   };
 
   // Add operation service methods directly

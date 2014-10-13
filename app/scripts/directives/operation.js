@@ -1,6 +1,6 @@
 'use strict';
 
-PhonicsApp.directive('operation', function (FocusedPath) {
+PhonicsApp.directive('operation', function () {
   return {
     restrict: 'E',
     replace: true,
@@ -10,15 +10,6 @@ PhonicsApp.directive('operation', function (FocusedPath) {
       $scope.isTryOpen = false;
       $scope.toggleTry = function toggleTry() {
         $scope.isTryOpen = !$scope.isTryOpen;
-      };
-
-      /*
-       * Returns true if operation is the operation in focus
-       * in the editor
-       * @returns {boolean}
-      */
-      $scope.isInFocus = function (path) {
-        return FocusedPath.isInFocus(path);
       };
     }
   };
