@@ -1,6 +1,6 @@
 {
   "name": "swagger-editor-for-apigee-127",
-  "version": "2.6.5",
+  "version": "2.6.6",
   "description": "Swagger Editor Web App",
   "main": "index.html",
   "scripts": {
