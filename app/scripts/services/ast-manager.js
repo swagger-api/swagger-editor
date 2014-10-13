@@ -121,6 +121,37 @@ PhonicsApp.service('ASTManager', function ASTManager(Editor) {
   }
 
   /*
+   * @param {number} line - line number to loop up
+   * @param {object} current - used for recursive call
+   * @param {array} path - used for recursive call
+   * @returns {array} - an array of strings (path) to the node
+   *   in line of the code in the editor
+  */
+  function pathForLine(line) {
+    var result = null;
+
+    function recurse(path, current) {
+      /* jshint camelcase: false */
+
+      if (current.start_mark.line === line) {
+        result = path;
+      } else {
+        for (var i = 0; i < current.value.length; i++) {
+          if (current.tag === MAP_TAG) {
+            recurse(path.concat(current.value[i][0].value), current.value[i][1]);
+          } else if (current.tag === SEQ_TAG) {
+            recurse(path.concat(i), current.value[i]);
+          }
+        }
+      }
+    }
+
+    recurse ([], ast);
+
+    return result;
+  }
+
+  /*
    * Toggles a node's fold
    * @param {object} node - a node object
    * @param {boolean} value - optional. if provided overrides node's folded value
@@ -257,4 +288,5 @@ PhonicsApp.service('ASTManager', function ASTManager(Editor) {
   // Expose the methods externally
   this.refresh = refreshAST;
   this.lineForPath = lineForPath;
+  this.pathForLine = pathForLine;
 });

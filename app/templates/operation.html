@@ -1,4 +1,4 @@
-<li class='{{operation.operationName | lowercase}} operation'>
+<li class='{{operation.operationName | lowercase}} operation' scroll-into-view-when="isInFocus(['paths', path.pathName, operation.operationName])">
   <header ng-click="toggle(['paths', path.pathName, operation.operationName])">
     <a class="focus-editor" ng-click="focusEdit($event, ['paths', path.pathName, operation.operationName])" ng-if="!isPreviewMode"
       tooltip-placement="left" tooltip="Jump to YAML"></a>

@@ -114,6 +114,10 @@ PhonicsApp.service('Editor', function Editor() {
     editor.gotoLine(line);
   }
 
+  function lineInFocus() {
+    return editor.getCursorPosition().row;
+  }
+
   this.getValue = getValue;
   this.setValue = setValue;
   this.aceLoaded = aceLoaded;
@@ -127,4 +131,5 @@ PhonicsApp.service('Editor', function Editor() {
   this.addFold = addFold;
   this.removeFold = removeFold;
   this.gotoLine = gotoLine;
+  this.lineInFocus = lineInFocus;
 });

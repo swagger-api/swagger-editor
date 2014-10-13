@@ -56,24 +56,34 @@
     <!-- endbuild -->
 
     <!-- build:js({.tmp,app}) scripts/scripts.js -->
-    <script src="scripts/config/app.config.js"></script>
     <script src="scripts/app.js"></script>
-    <script src="scripts/router.js"></script>
+    <script src="scripts/analytics/google.js"></script>
+    <script src="scripts/config/app.config.js"></script>
     <script src="scripts/controllers/main.js"></script>
     <script src="scripts/controllers/header.js"></script>
+    <script src="scripts/controllers/import-file.js"></script>
+    <script src="scripts/controllers/editor.js"></script>
+    <script src="scripts/controllers/preview.js"></script>
+    <script src="scripts/controllers/general-modal.js"></script>
+    <script src="scripts/controllers/importurl.js"></script>
+    <script src="scripts/controllers/errorpresenter.js"></script>
+    <script src="scripts/controllers/openexamples.js"></script>
     <script src="scripts/directives/on-file-change.js"></script>
     <script src="scripts/directives/path.js"></script>
     <script src="scripts/directives/operation.js"></script>
     <script src="scripts/directives/dropdownmenu.js"></script>
     <script src="scripts/directives/schemamodel.js"></script>
     <script src="scripts/directives/stop-event.js"></script>
+    <script src="scripts/directives/scroll-into-view-when.js"></script>
+    <script src="scripts/directives/collapsewhen.js"></script>
+    <script src="scripts/enums/swagger-json-schema.js"></script>
+    <script src="scripts/enums/defaults.js"></script>
+    <script src="scripts/enums/strings.js"></script>
     <script src="scripts/filters/get-resource-name-filter.js"></script>
-    <script src="scripts/analytics/google.js"></script>
     <script src="scripts/directives/tryoperation.js"></script>
     <script src="scripts/services/sorter.js"></script>
     <script src="scripts/services/operation.js"></script>
     <script src="scripts/services/fileloader.js"></script>
-    <script src="scripts/controllers/import-file.js"></script>
     <script src="scripts/services/editor.js"></script>
     <script src="scripts/services/builder.js"></script>
     <script src="scripts/services/validator.js"></script>
@@ -81,19 +91,12 @@
     <script src="scripts/services/resolver.js"></script>
     <script src="scripts/services/backend-health-check.js"></script>
     <script src="scripts/services/codegen.js"></script>
-    <script src="scripts/controllers/editor.js"></script>
-    <script src="scripts/controllers/preview.js"></script>
+    <script src="scripts/services/focused-path.js"></script>
     <script src="scripts/services/storage.js"></script>
     <script src="scripts/services/local-storage.js"></script>
-    <script src="scripts/enums/swagger-json-schema.js"></script>
-    <script src="scripts/enums/defaults.js"></script>
-    <script src="scripts/enums/strings.js"></script>
-    <script src="scripts/directives/collapsewhen.js"></script>
-    <script src="scripts/controllers/general-modal.js"></script>
-    <script src="scripts/controllers/importurl.js"></script>
-    <script src="scripts/controllers/errorpresenter.js"></script>
-    <script src="scripts/controllers/openexamples.js"></script>
     <script src="scripts/services/backend.js"></script>
+    <script src="scripts/router.js"></script>
+    <script src="scripts/plugins/jquery.scroll-into-view.js"></script>
     <!-- endbuild -->
 </body>
 </html>
