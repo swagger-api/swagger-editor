@@ -1,7 +1,8 @@
 {
   "excludeFiles": [
     "app/scripts/enums/swagger-json-schema.js",
-    "app/scripts/analytics/google.js"
+    "app/scripts/analytics/google.js",
+    "app/scripts/plugins/*.js"
   ],
   "requireCurlyBraces": [
     "if",
