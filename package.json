@@ -49,6 +49,7 @@
     "node": ">=0.10.0"
   },
   "scripts": {
-    "test": "sh scripts/test.sh"
+    "test": "sh scripts/test.sh",
+    "start": "npm install; ./node_modules/bower/bin/bower install; ./node_modules/grunt-cli/bin/grunt serve"
   }
 }

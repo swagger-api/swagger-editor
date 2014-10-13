@@ -23,18 +23,14 @@ http://editor.swagger.wordnik.com/?import=http://generator.wordnik.com/online/ap
 
 #### Install required dependencies on your machine
 
-Make sure you have all dependencies
+Make sure you have Node.js installed
 
 ```shell
 node --version
-bower --version
-grunt --version
 ```
-If you don't have any of the dependencies, install them from their websites:
+If you don't have Node.js, install it from it's websites:
 
  * [NodeJS](http://nodejs.org/)
- * [Bower](http://bower.io/)
- * [Grunt](http://gruntjs.com/)
  
 
 #### Clone the repository and install packages
@@ -42,14 +38,14 @@ If you don't have any of the dependencies, install them from their websites:
 ```shell
 git clone git@github.com:wordnik/swagger-editor.git
 cd swagger-editor
-npm install
-bower install
-grunt serve
+npm start
 ```
 
 This will open a browser window running current development version.
 
-## Building and publishing
+## Development
+
+For development it's preferred to have `grunt` installed globally on your machine.  
 
 #### Building
 To build the project just run: 
