@@ -3,26 +3,28 @@
 PhonicsApp.config(['$provide', function ($provide) {
   $provide.constant('defaults',
 
-  // BEGIN-DEFAUNTAS-JSON
+  // BEGIN-DEFAULTS-JSON
   {
-    downloadZipUrl: 'http://generator.wordnik.com/online/api/gen/download/',
     codegen: {
       servers: 'http://generator.wordnik.com/online/api/gen/servers',
       clients: 'http://generator.wordnik.com/online/api/gen/clients',
       server: 'http://generator.wordnik.com/online/api/gen/servers/{language}',
       client: 'http://generator.wordnik.com/online/api/gen/clients/{language}'
     },
-    schemaUrl: '',
+    disableCodeGen: true,
+
     examplesFolder: '/spec-files/',
     exampleFiles: ['default.yaml', 'minimal.yaml', 'heroku-pets.yaml', 'petstore.yaml'],
+
     backendEndpoint: '/editor/spec',
     useBackendForStorage: false,
     backendHelathCheckTimeout: 5000,
-    disableFileMenu: false,
-    disableCodeGen: true,
     useYamlBackend: false,
-    headerBranding: false,
-    brandingCssClass: ''
+
+    disableFileMenu: false,
+    headerBranding: true,
+    brandingCssClass: '',
+    schemaUrl: ''
   }
   // END-DEFAULTS-JSON
 
