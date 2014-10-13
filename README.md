@@ -49,6 +49,29 @@ grunt serve
 
 This will open a browser window running current development version.
 
+#### Configuration
+
+See [./docs/config.rst](./docs/config.rst)
+
+
+### Run with Docker
+
+If you are familiar with [Docker](https://www.docker.com/), a `Dockerfile` is
+provided.
+
+Build an image named `swagger-editor`
+```
+sudo docker build -t swagger-editor .
+```
+
+Run the container, using the local port 8080 (you may change this to any available
+port).
+```
+sudo docker run -ti -p 8080:9000 swagger-editor
+```
+And open [http://localhost:8080](http://localhost:8080) in your browser
+
+
 ## Building and publishing
 
 #### Building
@@ -68,30 +91,6 @@ $ grunt ship
 ```
 Please do not touch `gh-pages` branch manually!
 
-### Docker Container
-
-If you are familiar with [Docker](https://www.docker.com/), you can build a
-Docker image of the current code using the project's Dockerfile. From the root
-of the repo run:
-
-```
-sudo docker build -t my-swagger-editor .
-```
-
-Where `my-swagger-editor` is the tag for the image.
-
-To run the image as a Docker container, use the following:
-
-```
-sudo docker run -ti -p 8080:9000 my-swagger-editor
-```
-
-And open [http://localhost:8080](http://localhost:8080) in your browser. Port
-8080 in this example may be any available port.
-
-If you want to know more about the process to build the images, go to the
-[Docker Node.js Sample tutorial](https://docs.docker.com/examples/nodejs_web_app/).
- 
 ### Contributing
 File issues in GitHub's to report bugs or issue a pull request.
 
