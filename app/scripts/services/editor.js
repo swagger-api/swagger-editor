@@ -115,6 +115,9 @@ PhonicsApp.service('Editor', function Editor() {
   }
 
   function lineInFocus() {
+    if (!editor) {
+      return null;
+    }
     return editor.getCursorPosition().row;
   }
 

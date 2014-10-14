@@ -130,6 +130,10 @@ PhonicsApp.service('ASTManager', function ASTManager(Editor) {
   function pathForLine(line) {
     var result = null;
 
+    if (!line) {
+      return [];
+    }
+
     function recurse(path, current) {
       /* jshint camelcase: false */
 
