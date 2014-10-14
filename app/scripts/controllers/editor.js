@@ -13,7 +13,6 @@ PhonicsApp.controller('EditorCtrl', function EditorCtrl($scope, Editor, Builder,
   Editor.ready(function () {
     Storage.load('yaml').then(function (yaml) {
       Editor.setValue(yaml);
-      ASTManager.refresh(yaml);
       onAceChange();
     });
   });

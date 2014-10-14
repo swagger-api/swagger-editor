@@ -16,8 +16,9 @@ PhonicsApp.service('ASTManager', function ASTManager(Editor) {
   /*
   ** Update ast with changes from editor
   */
-  function refreshAST() {
-    ast = yaml.compose(Editor.getValue());
+  function refreshAST(value) {
+    value = value || Editor.getValue();
+    ast = yaml.compose(value);
     emitChanges();
   }
 
