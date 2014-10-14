@@ -62,7 +62,7 @@ $ grunt ship
 Please do not touch `gh-pages` branch manually!
 
 ###  Configuration
-See [./docs/config.rst](./docs/config.rst) and [./app/scripts/defaults.js](defaults.js)
+See [./docs/config.rst](./docs/config.rst) and [./app/scripts/enums/defaults.js](./app/scripts/enums/defaults.js)
 
 ### Run with Docker
 
