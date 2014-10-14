@@ -11,19 +11,19 @@
         </button>
         <ul class="dropdown-menu" ng-if="showFileMenu()" role="menu" aria-labelledby="fileMenu">
           <li role="presentation">
-            <a href="{{isPreviewMode ? '#/edit' : '#/'}}" role="menuitem" tabindex="-1">{{isPreviewMode ? 'Edit' : 'Preview'}}</a>
+            <a stop-event href="{{isPreviewMode ? '#/edit' : '#/'}}" role="menuitem" tabindex="-1">{{isPreviewMode ? 'Edit' : 'Preview'}}</a>
           </li>
           <li role="presentation">
-            <a ng-click="newProject()" role="menuitem" tabindex="-1" href="#">New</a>
+            <a stop-event ng-click="newProject()" role="menuitem" tabindex="-1">New</a>
           </li>
           <li role="presentation">
-            <a ng-click="openExamples()" role="menuitem" tabindex="-1" href="#">Open Example&hellip;</a>
+            <a stop-event ng-click="openExamples()" role="menuitem" tabindex="-1">Open Example&hellip;</a>
           </li>
           <li role="presentation">
-            <a ng-click="openImportUrl()" role="menuitem" tabindex="-1" href="#">Import URL&hellip;</a>
+            <a stop-event ng-click="openImportUrl()" role="menuitem" tabindex="-1">Import URL&hellip;</a>
           </li>
           <li role="presentation">
-            <a ng-click="openImportFile()" role="menuitem" tabindex="-1" href="#">Import File&hellip;</a>
+            <a stop-event ng-click="openImportFile()" role="menuitem" tabindex="-1">Import File&hellip;</a>
           </li>
           <li role="presentation">
             <a download="spec.yaml" data-downloadurl="{{yamlDownloadUrl}}"
