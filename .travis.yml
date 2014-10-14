@@ -5,7 +5,6 @@ rvm:
   - 2.0.0
 
 install:
-  - gem install compass
   - npm install
   - ./node_modules/bower/bin/bower install
 
