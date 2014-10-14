@@ -28,7 +28,9 @@ PhonicsApp.service('Editor', function Editor() {
 
     // Set editor options
     editor.setOptions({
-      fontFamily: 'Source Code Pro'
+      fontFamily: 'Source Code Pro',
+      enableBasicAutocompletion: true,
+      enableLiveAutocompletion: true
     });
 
     // Editor is ready, fire the on-ready function and flush the queue
