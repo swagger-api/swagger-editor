@@ -30,9 +30,7 @@ This project was tested with Node.js version `0.10`. Make sure you have at least
 node --version
 ```
 
- 
-
-#### Clone the repository and install packages
+#### Clone the repository and start it
 
 ```shell
 git clone git@github.com:wordnik/swagger-editor.git
@@ -64,7 +62,7 @@ $ grunt ship
 Please do not touch `gh-pages` branch manually!
 
 ###  Configuration
-See [./docs/config.rst](./docs/config.rst)
+See [./docs/config.rst](./docs/config.rst) and [./app/scripts/defaults.js](defaults.js)
 
 ### Run with Docker
 
