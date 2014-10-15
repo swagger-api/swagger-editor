@@ -1,6 +1,6 @@
 'use strict';
 
-PhonicsApp.controller('HeaderCtrl', function HeaderCtrl($scope, Editor, Storage, Builder, Codegen, $modal, $stateParams, defaults, strings) {
+PhonicsApp.controller('HeaderCtrl', function HeaderCtrl($scope, Editor, Storage, Builder, Codegen, $modal, $stateParams, $state, defaults, strings) {
 
   if ($stateParams.path) {
     $scope.breadcrumbs  = [{ active: true, name: $stateParams.path }];
@@ -69,8 +69,8 @@ PhonicsApp.controller('HeaderCtrl', function HeaderCtrl($scope, Editor, Storage,
   };
 
   $scope.newProject = function () {
-    Editor.setValue('');
-    Storage.reset();
+    Editor.setValue('swagger: 2');
+    $state.go('home', {mode: 'edit'});
   };
 
   $scope.assignDownloadHrefs = function () {
