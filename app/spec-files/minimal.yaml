@@ -1,5 +1,5 @@
 # Example YAML for the bare minimum of required elements
-swagger: 2
+swagger: '2.0'
 info:
   version: "1.0.0"
   title: petstore
