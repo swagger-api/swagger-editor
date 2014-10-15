@@ -18,8 +18,8 @@ PhonicsApp.service('Resolver', function Resolver($q, $http) {
       root = json;
     }
 
-    // If json is an array, iterate in the array and apply resolve to each element
-    // of the array and return it
+    // If json is an array, iterate in the array and apply resolve to each
+    // element of the array and return it
     if (Array.isArray(json)) {
       return $q.all(json.map(function (item) {
         return resolve(item, root);
@@ -53,8 +53,8 @@ PhonicsApp.service('Resolver', function Resolver($q, $http) {
     });
 
     // After getting all promises resolved, rebuild the object from results of
-    // resolved promises and Object.keys of the json object. Order of the resolved
-    // promises should be the same as Object.keys of the json object
+    // resolved promises and Object.keys of the json object. Order of the
+    // resolved promises should be the same as Object.keys of the json object
     return $q.all(promises).then(function (resultsArr) {
       var resultObj = {};
 
@@ -72,8 +72,8 @@ PhonicsApp.service('Resolver', function Resolver($q, $http) {
   * the object that $ref address is pointing too
   * @param {string} address - The address to lookup
   * @root {object} root - the JSON Schema to lookup in
-  * @returns {promise} - Resolves to result of the lookup or get rejected because of
-  *   HTTP failures
+  * @returns {promise} - Resolves to result of the lookup or get rejected
+  *  because of HTTP failures
   */
   function lookup(address, root) {
     var deferred = $q.defer();
@@ -85,7 +85,8 @@ PhonicsApp.service('Resolver', function Resolver($q, $http) {
       });
     }
 
-    // If address is a shorthand without #definition make the address a longhand address
+    // If address is a shorthand without #definition make the address a longhand
+    // address
     if (address.indexOf('#/') !== 0) {
       address = '#/definitions/' + address;
     }
@@ -99,7 +100,8 @@ PhonicsApp.service('Resolver', function Resolver($q, $http) {
     while (path.length) {
       key = path.shift();
 
-      // If path was invalid and objects at this key is not valid, throw an error
+      // If path was invalid and objects at this key is not valid, throw an
+      // error
       if (!current[key]) {
         deferred.reject({
           data: 'Can not lookup ' + key + ' in ' + angular.toJson(current)

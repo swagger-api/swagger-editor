@@ -69,5 +69,6 @@
   "requireLineFeedAtFileEnd": true,
   "requireCapitalizedConstructors": true,
   "requireDotNotation": true,
-  "disallowYodaConditions": true
+  "disallowYodaConditions": true,
+  "maximumLineLength": 80
 }
