@@ -13,6 +13,7 @@ module.exports = {
         'templates/{,*/}*.html',
         'images/{,*/}*.{webp}',
         'fonts/*',
+        'schema/*',
         'spec-files/*',
         'CNAME'
       ]
