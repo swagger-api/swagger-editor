@@ -1,7 +1,3 @@
-PhonicsApp.config(function ($provide) {
-  $provide.constant('defaultSchema',
-
-// Scheme JSON:
 {
   "title": "A JSON Schema for Swagger 2.0 API.",
   "id": "http://swagger.io/v2/schema.json#",
@@ -1485,6 +1481,3 @@ PhonicsApp.config(function ($provide) {
     }
   }
 }
-// End of Schema JSON
-);
-});

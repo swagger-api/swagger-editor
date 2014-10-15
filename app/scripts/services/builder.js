@@ -1,13 +1,35 @@
 'use strict';
 
-PhonicsApp.service('Builder', function Builder(Resolver, Validator, $q) {
+PhonicsApp.service('Builder', function Builder(Schema, Resolver, $q) {
   var load = _.memoize(jsyaml.load);
+
+  /*
+   * Validate against JSON Schema
+   * @param {object} json - the specs object
+   * @returns {promise} - reject with error if is not valid, resolves with null
+   *   if specs are valid
+  */
+  function validate(json) {
+    var deferred = $q.defer();
+
+    Schema.get().then(function (schema) {
+      var isValid = tv4.validate(json, schema);
+
+      if (isValid) {
+        deferred.resolve(null);
+      } else {
+        deferred.reject({ swaggerError: tv4.error });
+      }
+    });
+
+    return deferred.promise;
+  }
 
   /**
    * Build spec docs from a string value
    * @param {string} stringValue - the string to make the docs from
-   * @returns {object} - Returns a promise that resolves to spec document object
-   *  or get rejected because of HTTP failures of external $refs
+   * @returns {promise} - Returns a promise that resolves to spec document
+   *  object or get rejected because of HTTP failures of external $refs
   */
   function buildDocs(stringValue) {
     var json;
@@ -35,15 +57,9 @@ PhonicsApp.service('Builder', function Builder(Resolver, Validator, $q) {
       return deferred.promise;
     }
 
-    // If stringValue is valid build it
-    return buildDocsWithObject(json);
-  }
-
-  function buildDocsWithObject(json) {
-
     // Add `title` from object key to definitions
     // if they are missing title
-    if (json.definitions) {
+    if (json && json.definitions) {
       for (var definition in json.definitions) {
         if (_.isEmpty(json.definitions[definition].title)) {
           json.definitions[definition].title = definition;
@@ -51,25 +67,35 @@ PhonicsApp.service('Builder', function Builder(Resolver, Validator, $q) {
       }
     }
 
-    return Resolver.resolve(json)
-      .then(function onSuccess(resolved) {
+    return Resolver.resolve(json).then(
+
+      function onSuccess(resolved) {
         var result = { specs: resolved };
-        var error = Validator.validateSwagger(resolved);
+        var deferred = $q.defer();
 
-        if (error && error.swaggerError) {
-          result.error = error;
-        }
+        validate(resolved).then(
+          function () {
+            deferred.resolve(result);
+          },
+          function (error) {
+            result.error = error;
+            deferred.reject(result);
+          }
+        );
 
-        return result;
-      }, function onFalure(resolveError) {
+        return deferred.promise;
+      },
+
+      function onFalure(resolveError) {
         return {
           error: {
             resolveError: resolveError.data,
             raw: resolveError
           },
-          specs: null
+          specs: json
         };
-      });
+      }
+    );
   }
 
   /**
@@ -109,7 +135,6 @@ PhonicsApp.service('Builder', function Builder(Resolver, Validator, $q) {
   }
 
   this.buildDocs = buildDocs;
-  this.buildDocsWithObject = buildDocsWithObject;
   this.updatePath = updatePath;
   this.getPath = getPath;
 });

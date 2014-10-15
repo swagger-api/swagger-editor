@@ -29,7 +29,7 @@ PhonicsApp.config(function ($provide) {
     disableFileMenu: false,
     headerBranding: false,
     brandingCssClass: '',
-    schemaUrl: ''
+    schemaUrl: '/schema/swagger.json'
   }
   // END-DEFAULTS-JSON
 

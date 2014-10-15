@@ -18,7 +18,12 @@ PhonicsApp.service('ASTManager', function ASTManager(Editor) {
   */
   function refreshAST(value) {
     value = value || Editor.getValue();
-    ast = yaml.compose(value);
+
+    try {
+      ast = yaml.compose(value);
+    } catch (error) {
+      return console.error(error);
+    }
     emitChanges();
   }
 
@@ -40,6 +45,10 @@ PhonicsApp.service('ASTManager', function ASTManager(Editor) {
   function walk(path, current) {
     var key;
     current = current || ast;
+
+    if (!current) {
+      return current;
+    }
 
     if (!Array.isArray(path)) {
       throw new Error('Need path to find the node in the AST');
