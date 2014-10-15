@@ -38,6 +38,6 @@ module.exports = {
     expand: true,
     cwd: 'app/bower_components/ace-builds/src-min-noconflict/',
     dest: 'dist/bower_components/ace-builds/src-noconflict/',
-    src: '*.js',
+    src: '**/*.js',
   }
 };
