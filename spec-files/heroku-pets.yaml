@@ -1,4 +1,4 @@
-swagger: 2
+swagger: '2.0'
 info:
   version: 1.0.0
   title: PetStore on Heroku
@@ -32,7 +32,7 @@ paths:
       responses:
         200:
           description: Updates the pet
-  /{petId}
+  /{petId}:
     get:
       parameters:
         - name: petId

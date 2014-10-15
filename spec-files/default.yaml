@@ -1,6 +1,6 @@
 # this is an example of the Uber API
 # as a demonstration of an API spec in YAML
-swagger: 2
+swagger: '2.0'
 info:
   title: Uber API
   description: Move your app forward with the Uber API
@@ -18,7 +18,11 @@ paths:
   /products:
     get:
       summary: Product Types
-      description: The Products endpoint returns information about the Uber products offered at a given location. The response includes the display name and other details about each product, and lists the products in the proper display order.
+      description: |
+        The Products endpoint returns information about the *Uber* products
+        offered at a given location. The response includes the display name
+        and other details about each product, and lists the products in the
+        proper display order.
       parameters:
         - name: latitude
           in: query
@@ -32,9 +36,9 @@ paths:
           required: true
           type: number
           format: double
-      tags: 
+      tags:
         - Products
-      responses:  
+      responses:
         200:
           description: An array of products
           schema:
@@ -48,7 +52,15 @@ paths:
   /estimates/price:
     get:
       summary: Price Estimates
-      description: The Price Estimates endpoint returns an estimated price range for each product offered at a given location. The price estimate is provided as a formatted string with the full price range and the localized currency symbol.<br><br>The response also includes low and high estimates, and the [ISO 4217](http://en.wikipedia.org/wiki/ISO_4217) currency code for situations requiring currency conversion. When surge is active for a particular product, its surge_multiplier will be greater than 1, but the price estimate already factors in this multiplier.
+      description: |
+        The Price Estimates endpoint returns an estimated price range
+        for each product offered at a given location. The price estimate is
+        provided as a formatted string with the full price range and the localized
+        currency symbol.<br><br>The response also includes low and high estimates,
+        and the [ISO 4217](http://en.wikipedia.org/wiki/ISO_4217) currency code for
+        situations requiring currency conversion. When surge is active for a particular
+        product, its surge_multiplier will be greater than 1, but the price estimate
+        already factors in this multiplier.
       parameters:
         - name: start_latitude
           in: query
@@ -74,9 +86,9 @@ paths:
           required: true
           type: number
           format: double
-      tags: 
+      tags:
         - Estimates
-      responses:  
+      responses:
         200:
           description: An array of price estimates by product
           schema:
@@ -113,9 +125,9 @@ paths:
           in: query
           type: string
           description: Unique identifier representing a specific product for a given latitude & longitude.
-      tags: 
+      tags:
         - Estimates
-      responses:  
+      responses:
         200:
           description: An array of products
           schema:
@@ -130,7 +142,7 @@ paths:
     get:
       summary: User Profile
       description: The User Profile endpoint returns information about the Uber user that has authorized with the application.
-      tags: 
+      tags:
         - User
       responses:
         200:
@@ -154,9 +166,9 @@ paths:
         - name: limit
           in: query
           type: integer
-          format: int32 
+          format: int32
           description: Number of items to retrieve. Default is 5, maximum is 100.
-      tags: 
+      tags:
         - User
       responses:
         200:
@@ -196,7 +208,7 @@ definitions:
       display_name:
         type: string
         description: Display name of product.
-      estimate: 
+      estimate:
         type: string
         description: Formatted string of estimate in local currency of the start location. Estimate could be a range, a single number (flat rate) or "Metered" for TAXI.
       low_estimate:
@@ -224,7 +236,7 @@ definitions:
         description: Image URL of the Uber user.
       promo_code:
         type: string
-        description: Promo code of the Uber user.   
+        description: Promo code of the Uber user.
   Activity:
     properties:
       uuid:
