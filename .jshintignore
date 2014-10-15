@@ -1,4 +1,4 @@
 app/scripts/analytics/google.js
 app/scripts/enums/swagger-json-schema.js
-app/scripts/enums/defaults.js
 app/scripts/plugins/*
+app/scripts/ace/themes/theme-atom_dark.js

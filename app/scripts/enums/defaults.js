@@ -1,6 +1,6 @@
 'use strict';
 
-PhonicsApp.config(['$provide', function ($provide) {
+PhonicsApp.config(function ($provide) {
   $provide.constant('defaults',
 
   // BEGIN-DEFAULTS-JSON
@@ -29,4 +29,4 @@ PhonicsApp.config(['$provide', function ($provide) {
   // END-DEFAULTS-JSON
 
   );
-}]);
+});

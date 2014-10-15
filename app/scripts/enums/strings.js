@@ -1,6 +1,6 @@
 'use strict';
 
-PhonicsApp.config(['$provide', function ($provide) {
+PhonicsApp.config(function ($provide) {
   $provide.constant('strings', {
     stausMessages: {
       '-2': 'Unsaved Changes. Check your server connection',
@@ -9,4 +9,4 @@ PhonicsApp.config(['$provide', function ($provide) {
       1: 'All changes saved.'
     }
   });
-}]);
+});
