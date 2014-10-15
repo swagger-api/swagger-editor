@@ -3,9 +3,10 @@ module.exports = {
     'copy:styles'
   ],
   test: [
-    'copy:styles'
+    'copy:styles',
   ],
   dist: [
+    'copy:ace',
     'copy:styles',
     'imagemin',
     'svgmin'

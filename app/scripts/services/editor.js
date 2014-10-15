@@ -26,6 +26,8 @@ PhonicsApp.service('Editor', function Editor() {
     // Assign class variable `editor`
     window.e = editor = e;
 
+    ace.config.set('basePath', '/bower_components/ace-builds/src-noconflict');
+
     // Set editor options
     editor.setOptions({
       fontFamily: 'Source Code Pro',

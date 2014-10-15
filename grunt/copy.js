@@ -33,5 +33,11 @@ module.exports = {
     cwd: 'app/styles',
     dest: '.tmp/styles/',
     src: '{,*/}*.css'
+  },
+  ace: {
+    expand: true,
+    cwd: 'app/bower_components/ace-builds/src-min-noconflict/',
+    dest: 'dist/bower_components/ace-builds/src-noconflict/',
+    src: '*.js',
   }
 };
