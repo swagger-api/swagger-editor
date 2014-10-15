@@ -1,6 +1,6 @@
 'use strict';
 
-PhonicsApp.service('Editor', function Editor() {
+PhonicsApp.service('Editor', function Editor(snippets) {
   var editor = null;
   var onReadyFns = [];
   var changeFoldFns = [];
@@ -27,12 +27,15 @@ PhonicsApp.service('Editor', function Editor() {
     window.e = editor = e;
 
     ace.config.set('basePath', '/bower_components/ace-builds/src-noconflict');
+    var snippetManager = ace.require('ace/snippets').snippetManager;
+    snippetManager.register(snippets, 'yaml');
 
     // Set editor options
     editor.setOptions({
       fontFamily: 'Source Code Pro',
       enableBasicAutocompletion: true,
-      enableLiveAutocompletion: true
+      enableLiveAutocompletion: true,
+      enableSnippets: true
     });
 
     // Editor is ready, fire the on-ready function and flush the queue
