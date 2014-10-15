@@ -60,7 +60,10 @@ PhonicsApp.service('Sorter', function Sorter() {
       };
 
       // Remove responses object
-      operations[operationName] = _.omit(operations[operationName], 'responses');
+      operations[operationName] = _.omit(
+        operations[operationName],
+        'responses'
+      );
 
       // Add other properties
       _.extend(operation, operations[operationName]);

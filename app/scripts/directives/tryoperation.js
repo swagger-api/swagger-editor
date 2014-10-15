@@ -15,9 +15,10 @@ PhonicsApp.directive('tryOperation', function () {
       scope.httpProtorcol = 'HTTP/1.1';
       scope.paramModels = {};
       scope.hasParams = Array.isArray(scope.$parent.operation.parameters);
-      scope.hasBody = scope.hasParams && scope.$parent.operation.parameters.some(function (parameter) {
-        return parameter.in === 'body';
-      });
+      scope.hasBody = scope.hasParams && scope.$parent.operation.parameters
+        .some(function (parameter) {
+          return parameter.in === 'body';
+        });
       scope.generateUrl = generateUrl;
       scope.makeCall = makeCall;
       scope.getContentTypeHeaders = getContentTypeHeaders;
@@ -28,7 +29,8 @@ PhonicsApp.directive('tryOperation', function () {
         var headerParams = {};
         if (scope.hasParams) {
           scope.$parent.operation.parameters.filter(function (parameter) {
-            if (parameter.in === 'header' && scope.paramModels[parameter.name]) {
+            if (parameter.in === 'header' &&
+              scope.paramModels[parameter.name]) {
               headerParams[parameter.name] = scope.paramModels[parameter.name];
             }
           });

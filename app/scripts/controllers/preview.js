@@ -1,7 +1,8 @@
 'use strict';
 
-PhonicsApp.controller('PreviewCtrl', function PreviewCtrl(Storage, Builder, ASTManager,
-  Sorter, Editor, Operation, BackendHealthCheck, FocusedPath, $scope, $rootScope) {
+PhonicsApp.controller('PreviewCtrl', function PreviewCtrl(Storage, Builder,
+  ASTManager, Sorter, Editor, Operation, BackendHealthCheck, FocusedPath,
+  $scope, $rootScope) {
   function update(latest) {
 
     ASTManager.refresh(latest);

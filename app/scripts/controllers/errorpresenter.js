@@ -49,16 +49,17 @@ PhonicsApp.controller('ErrorPresenterCtrl', function ($scope) {
 
     if (error.swaggerError && angular.isString(error.swaggerError.dataPath)) {
 
-      // TODO: find a badass regex that can handle ' ▹ ' case without two replaces
+      //TODO: find a badass regex that can handle ' ▹ ' case without 2 replaces
       return error.swaggerError.message +
         ' at\n' + error.swaggerError.dataPath.replace(/\//g, ' ▹ ')
         .replace(' ▹ ', '').replace(/~1/g, '/');
     }
 
     if (error.yamlError) {
-      return error.yamlError.message.replace('JS-YAML: ', '').replace(/./, function (a) {
-        return a.toUpperCase();
-      });
+      return error.yamlError.message.replace('JS-YAML: ', '').replace(/./,
+        function (a) {
+          return a.toUpperCase();
+        });
     }
 
     if (error.resolveError) {

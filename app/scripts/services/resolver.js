@@ -26,7 +26,8 @@ PhonicsApp.service('Resolver', function Resolver($q, $http) {
       }));
     }
 
-    // if json is not an object we can't resolve it. The json itself is resolved json
+    // if json is not an object we can't resolve it. The json itself is resolved
+    // json
     if (!angular.isObject(json)) {
       var deferred = $q.defer();
 

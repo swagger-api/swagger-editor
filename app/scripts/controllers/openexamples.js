@@ -1,6 +1,7 @@
 'use strict';
 
-PhonicsApp.controller('OpenExamplesCtrl', function OpenExamplesCtrl(FileLoader, Builder, Storage, Editor, ASTManager, defaults, $scope, $modalInstance) {
+PhonicsApp.controller('OpenExamplesCtrl', function OpenExamplesCtrl(FileLoader,
+  Builder, Storage, Editor, ASTManager, defaults, $scope, $modalInstance) {
 
   $scope.files = defaults.exampleFiles;
   $scope.selectedFile = defaults.exampleFiles[0];

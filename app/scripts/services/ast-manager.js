@@ -143,7 +143,10 @@ PhonicsApp.service('ASTManager', function ASTManager(Editor) {
       } else {
         for (var i = 0; i < current.value.length; i++) {
           if (current.tag === MAP_TAG) {
-            recurse(path.concat(current.value[i][0].value), current.value[i][1]);
+            recurse(
+              path.concat(current.value[i][0].value),
+              current.value[i][1]
+            );
           } else if (current.tag === SEQ_TAG) {
             recurse(path.concat(i), current.value[i]);
           }
@@ -159,7 +162,8 @@ PhonicsApp.service('ASTManager', function ASTManager(Editor) {
   /*
    * Toggles a node's fold
    * @param {object} node - a node object
-   * @param {boolean} value - optional. if provided overrides node's folded value
+   * @param {boolean} value - optional. if provided overrides node's folded
+   *   value
   */
   function toggleNodeFold(node, value) {
     /* jshint camelcase: false */
@@ -223,7 +227,8 @@ PhonicsApp.service('ASTManager', function ASTManager(Editor) {
   /*
    * Sets fold status for all direct children of a given path
    * @param {array} path - list of strings keys pointing to a node in AST
-   * @param {boolean} value - true if all nodes should get folded, false otherwise
+   * @param {boolean} value - true if all nodes should get folded,
+   *  false otherwise
   */
   this.setFoldAll = function (path, value) {
     var node = walk(path, ast);

@@ -14,7 +14,12 @@ PhonicsApp.config(function ($provide) {
     disableCodeGen: true,
 
     examplesFolder: '/spec-files/',
-    exampleFiles: ['default.yaml', 'minimal.yaml', 'heroku-pets.yaml', 'petstore.yaml'],
+    exampleFiles: [
+      'default.yaml',
+      'minimal.yaml',
+      'heroku-pets.yaml',
+      'petstore.yaml'
+    ],
 
     backendEndpoint: '/editor/spec',
     useBackendForStorage: false,

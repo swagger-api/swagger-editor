@@ -75,7 +75,8 @@ PhonicsApp.service('Builder', function Builder(Resolver, Validator, $q) {
   /**
    * Gets a path JSON object and Specs, finds the path in the
    * specs JSON and updates it
-   * @param {array} - path an array of keys to reach to an object in JSON structure
+   * @param {array} - path an array of keys to reach to an object in JSON
+   *   structure
    * @param {string} - pathName
    * @param {object} - specs
   */

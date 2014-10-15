@@ -13,7 +13,13 @@ PhonicsApp.config(function ($provide) {
       client: 'http://generator.wordnik.com/online/api/gen/clients/{language}'
     },
     schemaUrl: '',
-    exampleFiles: ['default.yaml', 'minimal.yaml', 'petstore.yaml', 'heroku-pets.yaml', 'uber.yaml'],
+    exampleFiles: [
+      'default.yaml',
+      'minimal.yaml',
+      'petstore.yaml',
+      'heroku-pets.yaml',
+      'uber.yaml'
+    ],
     backendEndpoint: '/editor/spec',
     backendHelathCheckTimeout: 5000,
     useBackendForStorage: true,

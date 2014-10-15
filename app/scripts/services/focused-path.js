@@ -11,7 +11,8 @@ PhonicsApp.service('FocusedPath', function FocusedPath(ASTManager, Editor) {
   /*
    * A path is in focus if it's key or **any** sub path of it is in focus
    * @param {array} - an array of strings pointing to a node in specs tree
-   * @returns {boolean} - If path is in focus returns true otherwise returns false
+   * @returns {boolean} - If path is in focus returns true otherwise returns
+   *  false
   */
   this.isInFocus = function (path) {
     var focusedLine = Editor.lineInFocus();

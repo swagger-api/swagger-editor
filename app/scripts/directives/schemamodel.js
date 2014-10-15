@@ -30,7 +30,9 @@ PhonicsApp
       },
       link: function postLink($scope, $element, $attributes) {
         $scope.mode = 'model';
-        $scope.json = removeVendorExtensions($parse($attributes.schema)($scope.$parent));
+        $scope.json = removeVendorExtensions(
+          $parse($attributes.schema)($scope.$parent)
+        );
       }
     };
   });

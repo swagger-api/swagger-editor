@@ -1,6 +1,7 @@
 'use strict';
 
-PhonicsApp.controller('EditorCtrl', function EditorCtrl($scope, Editor, Builder, Storage, ASTManager) {
+PhonicsApp.controller('EditorCtrl', function EditorCtrl($scope, Editor, Builder,
+  Storage, ASTManager) {
   var debouncedOnAceChange = _.debounce(onAceChange, 1000);
 
   $scope.aceLoaded = Editor.aceLoaded;

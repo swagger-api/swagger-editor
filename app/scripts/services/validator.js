@@ -3,7 +3,8 @@
 /*
   Keeps track of current document validation
 */
-PhonicsApp.service('Validator', function Validator(defaultSchema, defaults, $http) {
+PhonicsApp.service('Validator', function Validator(defaultSchema, defaults,
+  $http) {
   var buffer = Object.create(null);
   var latestSchema;
 
