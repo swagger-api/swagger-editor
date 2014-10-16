@@ -4,21 +4,16 @@
  * Manages the AST representation of the specs for fold status
  * and other meta information about the specs tree
 */
-PhonicsApp.service('ASTManager', function ASTManager(Editor) {
+PhonicsApp.service('ASTManager', function ASTManager() {
   var MAP_TAG = 'tag:yaml.org,2002:map';
   var SEQ_TAG = 'tag:yaml.org,2002:seq';
   var ast = {};
   var changeListeners = [];
 
-  // When editor is ready refresh the AST from Editor value
-  Editor.ready(refreshAST);
-
   /*
   ** Update ast with changes from editor
   */
   function refreshAST(value) {
-    value = value || Editor.getValue();
-
     try {
       ast = yaml.compose(value);
     } catch (error) {
@@ -185,12 +180,22 @@ PhonicsApp.service('ASTManager', function ASTManager(Editor) {
 
     // Remove the fold from the editor if node is folded
     if (value) {
-      Editor.removeFold(node.start_mark.line);
+
+      // FIXME: don't use global e
+      // Editor.removeFold(node.start_mark.line);
+      if (window.e){
+        window.e.getSession().unfold(node.start_mark.line, 100);
+      }
       node.folded = false;
 
     // Add fold to editor if node is not folded
     } else {
-      Editor.addFold(node.start_mark.line - 1, node.end_mark.line - 1);
+      // FIXME: don't use global e
+      // Editor.addFold(node.start_mark.line - 1, node.end_mark.line - 1);
+      if (window.e) {
+        window.e.getSession().foldAll(node.start_mark.line - 1,
+          node.end_mark.line - 1);
+      }
       node.folded = true;
     }
   }
@@ -200,7 +205,7 @@ PhonicsApp.service('ASTManager', function ASTManager(Editor) {
    * then emit AST change event to trigger rendering in the preview
    * pane
   */
-  Editor.onFoldChanged(function (change) {
+  this.onFoldChanged = function onFoldChanged(change) {
     var row = change.data.start.row + 1;
     var folded = change.action !== 'remove';
     var node = scan(ast, row);
@@ -210,7 +215,7 @@ PhonicsApp.service('ASTManager', function ASTManager(Editor) {
     }
 
     emitChanges();
-  });
+  };
 
   /*
    * Toggle a fold status and reflect it in the editor
