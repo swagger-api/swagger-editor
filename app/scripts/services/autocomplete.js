@@ -5,14 +5,13 @@ PhonicsApp.service('Autocomplete', function Autocomplete(snippets, ASTManager) {
   var snippetManager = ace.require('ace/snippets').snippetManager;
   var editor = null;
 
-
   /*
    * Check if a path is match with
    * @param {array} path - path
    * @param {array} matcher - matcher
    * @returns {boolean} - true if it's match
   */
-  function isMatchPath (path, matcher) {
+  function isMatchPath(path, matcher) {
     if (!Array.isArray(path) || !Array.isArray(matcher)) {
       return false;
     }
@@ -29,7 +28,7 @@ PhonicsApp.service('Autocomplete', function Autocomplete(snippets, ASTManager) {
     return true;
   }
 
-  function filterForSnippets (pos) {
+  function filterForSnippets(pos) {
     ASTManager.refresh(editor.getValue());
     var path = ASTManager.pathForLine(pos.row);
 
@@ -39,7 +38,7 @@ PhonicsApp.service('Autocomplete', function Autocomplete(snippets, ASTManager) {
       path = [];
     }
 
-    return function filter (snippet) {
+    return function filter(snippet) {
       return isMatchPath(path, snippet.path);
     };
   }
@@ -54,7 +53,6 @@ PhonicsApp.service('Autocomplete', function Autocomplete(snippets, ASTManager) {
 
       langTools.snippetCompleter
         .getCompletions(editor, session, pos, prefix, callback);
-
 
       // Testing out
       callback(null, [

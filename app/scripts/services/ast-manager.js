@@ -183,7 +183,7 @@ PhonicsApp.service('ASTManager', function ASTManager() {
 
       // FIXME: don't use global e
       // Editor.removeFold(node.start_mark.line);
-      if (window.e){
+      if (window.e) {
         window.e.getSession().unfold(node.start_mark.line, 100);
       }
       node.folded = false;
