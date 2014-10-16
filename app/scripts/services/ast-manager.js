@@ -169,7 +169,7 @@ PhonicsApp.service('ASTManager', function ASTManager() {
    * @param {boolean} value - optional. if provided overrides node's folded
    *   value
   */
-  function toggleNodeFold(node, value) {
+  function toggleNodeFold(Editor, node, value) {
     /* jshint camelcase: false */
 
     if (typeof value === 'undefined') {
@@ -180,22 +180,12 @@ PhonicsApp.service('ASTManager', function ASTManager() {
 
     // Remove the fold from the editor if node is folded
     if (value) {
-
-      // FIXME: don't use global e
-      // Editor.removeFold(node.start_mark.line);
-      if (window.e) {
-        window.e.getSession().unfold(node.start_mark.line, 100);
-      }
+      Editor.removeFold(node.start_mark.line);
       node.folded = false;
 
     // Add fold to editor if node is not folded
     } else {
-      // FIXME: don't use global e
-      // Editor.addFold(node.start_mark.line - 1, node.end_mark.line - 1);
-      if (window.e) {
-        window.e.getSession().foldAll(node.start_mark.line - 1,
-          node.end_mark.line - 1);
-      }
+      Editor.addFold(node.start_mark.line - 1, node.end_mark.line - 1);
       node.folded = true;
     }
   }
@@ -222,7 +212,7 @@ PhonicsApp.service('ASTManager', function ASTManager() {
    * @param {array} path - an array of string that is path to a node
    *   in the AST
   */
-  this.toggleFold = function (path) {
+  this.toggleFold = function (path, Editor) {
     var node = walk(path, ast);
 
     /* jshint camelcase: false */
@@ -232,7 +222,7 @@ PhonicsApp.service('ASTManager', function ASTManager() {
       return;
     }
 
-    toggleNodeFold(node);
+    toggleNodeFold(Editor, node);
 
     // Let other components know changes happened
     emitChanges();
@@ -244,7 +234,7 @@ PhonicsApp.service('ASTManager', function ASTManager() {
    * @param {boolean} value - true if all nodes should get folded,
    *  false otherwise
   */
-  this.setFoldAll = function (path, value) {
+  this.setFoldAll = function (path, value, Editor) {
     var node = walk(path, ast);
     var subNode;
 
@@ -255,7 +245,7 @@ PhonicsApp.service('ASTManager', function ASTManager() {
         subNode = node.value[i];
       }
 
-      toggleNodeFold(subNode, value);
+      toggleNodeFold(Editor, subNode, value);
     }
 
     emitChanges();

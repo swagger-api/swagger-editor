@@ -45,11 +45,13 @@ PhonicsApp.controller('PreviewCtrl', function PreviewCtrl(Storage, Builder,
   ASTManager.onFoldStatusChanged(function () {
     _.defer(function () { $scope.$apply(); });
   });
-  $scope.toggle = ASTManager.toggleFold;
   $scope.isCollapsed = ASTManager.isFolded;
   $scope.isAllFolded = ASTManager.isAllFolded;
+  $scope.toggle = function (path) {
+    ASTManager.toggleFold(path, Editor);
+  };
   $scope.toggleAll = function (path) {
-    ASTManager.setFoldAll(path, true);
+    ASTManager.setFoldAll(path, true, Editor);
   };
 
   /*
