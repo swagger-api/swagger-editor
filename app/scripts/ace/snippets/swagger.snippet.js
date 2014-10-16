@@ -3,21 +3,19 @@
 PhonicsApp.config(function ($provide) {
   $provide.constant('snippets', [
     {
-      name: 'parameter',
-      trigger: 'param',
+      name: 'swagger',
+      trigger: 'sw',
+      path: [],
       content: [
-        '- name: ${1:parameter_name}',
-        '  in: ${2:in}',
-        '  description: ${3:description}',
-        '  schema:',
-        '    ${4:schema}',
-        '${5}'
+        'swagger: "2.0"',
+        '${1}'
       ].join('\n')
     },
 
     {
       name: 'info',
       trigger: 'info',
+      path: [],
       content: [
         'info:',
         '  version: ${1:0.0.0}',
@@ -36,8 +34,39 @@ PhonicsApp.config(function ($provide) {
     },
 
     {
+      name: 'paths',
+      trigger: 'pa',
+      path: [],
+      content: [
+        'paths:',
+        '  ${1}'
+      ].join('\n')
+    },
+
+    {
+      name: 'definitions',
+      trigger: 'def',
+      path: [],
+      content: [
+        'definitions:',
+        '  ${1}'
+      ].join('\n')
+    },
+
+    {
+      name: 'path',
+      trigger: 'path',
+      path: ['paths'],
+      content: [
+        '${1} :',
+        '  ${2}'
+      ].join('\n')
+    },
+
+    {
       name: 'operation',
       trigger: 'op',
+      path: ['paths', '*'],
       content: [
         '${1:operationName}:',
         '  summary: ${2}',
@@ -52,8 +81,23 @@ PhonicsApp.config(function ($provide) {
     },
 
     {
+      name: 'parameter',
+      trigger: 'param',
+      path: ['paths', '*', '*'],
+      content: [
+        '- name: ${1:parameter_name}',
+        '  in: ${2:in}',
+        '  description: ${3:description}',
+        '  schema:',
+        '    ${4:schema}',
+        '${5}'
+      ].join('\n')
+    },
+
+    {
       name: 'response',
       trigger: 'resp',
+      path: ['paths', '*', '*'],
       content: [
         '${1:code}:',
         '  description: ${2}',
