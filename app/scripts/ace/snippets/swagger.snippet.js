@@ -10,7 +10,8 @@ PhonicsApp.config(function ($provide) {
         '  in: ${2:in}',
         '  description: ${3:description}',
         '  schema:',
-        '    ${4:schema}'
+        '    ${4:schema}',
+        '${5}'
       ].join('\n')
     },
 
@@ -29,7 +30,8 @@ PhonicsApp.config(function ($provide) {
         '    email: ${7}',
         '  license:',
         '    name: ${8:MIT}',
-        '    url: ${9:http://opensource.org/licenses/MIT}'
+        '    url: ${9:http://opensource.org/licenses/MIT}',
+        '${10}'
       ].join('\n')
     },
 
@@ -44,7 +46,8 @@ PhonicsApp.config(function ($provide) {
         '    ${3:response}',
         '  parameters:',
         '    ${4:parameter}',
-        '  tags: ${5:[]}'
+        '  tags: ${5:[]}',
+        '${6}'
       ].join('\n')
     },
 
@@ -54,7 +57,8 @@ PhonicsApp.config(function ($provide) {
       content: [
         '${1:code}:',
         '  description: ${2}',
-        '  schema: ${3}'
+        '  schema: ${3}',
+        '${4}'
       ].join('\n')
     }
   ]);
