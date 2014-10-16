@@ -70,7 +70,7 @@ PhonicsApp.controller('HeaderCtrl', function HeaderCtrl($scope, Editor, Storage,
   };
 
   $scope.newProject = function () {
-    Editor.setValue('swagger: 2');
+    Editor.setValue('swagger: \'2.0\'');
     $state.go('home', {mode: 'edit'});
   };
 
