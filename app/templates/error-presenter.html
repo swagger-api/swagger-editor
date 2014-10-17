@@ -1,0 +1,14 @@
+<div class="error-presenter" ng-controller="ErrorPresenterCtrl">
+  <div ng-if="getError()" class="{{getErrorLevel()}}">
+    <header class="error-header" ng-click="hideError = !hideError">
+        <h4 >{{getType()}}</h4>
+    </header>
+    <div class="details" collapse-when="hideError">
+      <pre>{{getDescription()}}</pre>
+      <a ng-if="showLineJumpLink()" ng-click="focusEdit($event, getLineNumber() - 1)"
+        ng-if="!isPreviewMode">Go to line {{getLineNumber()}}</a>
+      <h5>Details</h5>
+      <json-formatter json="getError()" open="1"></json-formatter>
+    </div>
+  </div>
+</div>
