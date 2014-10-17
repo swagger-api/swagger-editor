@@ -19,8 +19,8 @@
     "json3": "~3.2.6",
     "lodash": "~2.4.1",
     "ngstorage": "~0.3.0",
-    "tv4": "~1.0.17",
-    "yaml-js": "mohsen1/yaml-js"
+    "yaml-js": "mohsen1/yaml-js",
+    "swagger-tools": "~0.6.5"
   },
   "dependencies": {
     "json-formatter": "~0.2.2",

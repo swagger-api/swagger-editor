@@ -13,12 +13,14 @@ PhonicsApp.service('Builder', function Builder(Schema, Resolver, $q) {
     var deferred = $q.defer();
 
     Schema.get().then(function (schema) {
-      var isValid = tv4.validate(json, schema);
+
+      // TODO: Use Swagger tools APIs
+      var isValid = SwaggerTools.validate(json, schema);
 
       if (isValid) {
         deferred.resolve(null);
       } else {
-        deferred.reject({ swaggerError: tv4.error });
+        deferred.reject({ swaggerError: SwaggerTools.error });
       }
     });
 
