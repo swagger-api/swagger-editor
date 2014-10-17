@@ -10,19 +10,15 @@ PhonicsApp.service('Builder', function Builder(Schema, Resolver, $q) {
    *   if specs are valid
   */
   function validate(json) {
+    /* jshint camelcase: false */
     var deferred = $q.defer();
+    var errors = SwaggerTools.specs.v2_0.validate(json);
 
-    Schema.get().then(function (schema) {
-
-      // TODO: Use Swagger tools APIs
-      var isValid = SwaggerTools.validate(json, schema);
-
-      if (isValid) {
-        deferred.resolve(null);
-      } else {
-        deferred.reject({ swaggerError: SwaggerTools.error });
-      }
-    });
+    if (!errors) {
+      deferred.resolve(null);
+    } else {
+      deferred.reject({ swaggerError: errors });
+    }
 
     return deferred.promise;
   }
