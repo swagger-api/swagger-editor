@@ -38,7 +38,7 @@ PhonicsApp.service('Resolver', function Resolver($q, $http) {
 
     // If there is a `$ref` key in the json object, ignore all other keys and
     // return resolved `$ref`
-    if (json.$ref) {
+    if (angular.isString(json.$ref)) {
       return lookup(json.$ref, root).then(function (result) {
         return resolve(result, root);
       });
@@ -75,14 +75,23 @@ PhonicsApp.service('Resolver', function Resolver($q, $http) {
   * @returns {promise} - Resolves to result of the lookup or get rejected
   *  because of HTTP failures
   */
+
+  var addressCache = {};
   function lookup(address, root) {
     var deferred = $q.defer();
 
+    if (addressCache[address]) {
+      deferred.resolve(addressCache[address]);
+      return deferred.promise;
+    }
+
     // If it's an http lookup, GET it and resolve to it's data
     if (/^http(s?):\/\//.test(address)) {
-      return $http.get(address).then(function (resp) {
-        return resp.data;
+      $http.get(address).then(function (resp) {
+        addressCache[address] = resp.data;
+        deferred.resolve(resp.data);
       });
+      return deferred.promise;
     }
 
     // If address is a shorthand without #definition make the address a longhand
@@ -109,6 +118,8 @@ PhonicsApp.service('Resolver', function Resolver($q, $http) {
       }
       current = current[key];
     }
+
+    addressCache[address] = current;
     deferred.resolve(current);
 
     return deferred.promise;
