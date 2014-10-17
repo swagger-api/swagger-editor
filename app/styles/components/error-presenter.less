@@ -2,11 +2,26 @@
 @import "fonts";
 
 .error-presenter {
-  background: lighten(@sw-error-header, 41%);
+
+  .error {
+    background: lighten(@sw-error-header, 41%);
+
+    header {
+      background: @sw-error-header;
+    }
+  }
+
+  // TODO: Colors
+  .warning {
+    background: #FDFDE0;
+
+    header {
+      background: #DFBD06;
+    }
+  }
   .sw-font;
 
   header {
-    background: @sw-error-header;
     color: white;
     cursor: pointer;
     margin: 0;

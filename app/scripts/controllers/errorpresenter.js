@@ -11,18 +11,18 @@ PhonicsApp.controller('ErrorPresenterCtrl', function ($scope) {
       return null;
     }
 
-    if (error && error.swaggerError) {
-      delete error.swaggerError.stack;
-    }
-
     return error;
   };
 
   $scope.getType = function () {
     var error = $scope.getError();
 
-    if (error.swaggerError) {
+    if (error.swaggerError && error.swaggerError.errors.length) {
       return 'Swagger Error';
+    }
+
+    if (error.swaggerError && !error.swaggerError.errors.length) {
+      return 'Swagger Warning';
     }
 
     if (error.yamlError) {
@@ -40,6 +40,15 @@ PhonicsApp.controller('ErrorPresenterCtrl', function ($scope) {
     return 'Unknown Error';
   };
 
+  function stringifySwaggerErrors(errors) {
+    return errors.map(function (error) {
+      return [
+        error.message,
+        'at ' + error.path.join(' ▹ ')
+      ].join('\n');
+    }).join('\n\n');
+  }
+
   $scope.getDescription = function () {
     var error = $scope.getError();
 
@@ -47,12 +56,14 @@ PhonicsApp.controller('ErrorPresenterCtrl', function ($scope) {
       return error.emptyDocsError.message;
     }
 
-    if (error.swaggerError && angular.isString(error.swaggerError.dataPath)) {
+    if (error.swaggerError) {
+      if (error.swaggerError.errors.length) {
+        return stringifySwaggerErrors(error.swaggerError.errors);
+      }
 
-      //TODO: find a badass regex that can handle ' ▹ ' case without 2 replaces
-      return error.swaggerError.message +
-        ' at\n' + error.swaggerError.dataPath.replace(/\//g, ' ▹ ')
-        .replace(' ▹ ', '').replace(/~1/g, '/');
+      if (error.swaggerError.warnings.length) {
+        return stringifySwaggerErrors(error.swaggerError.warnings);
+      }
     }
 
     if (error.yamlError) {
@@ -67,6 +78,16 @@ PhonicsApp.controller('ErrorPresenterCtrl', function ($scope) {
     }
 
     return error;
+  };
+
+  $scope.getErrorLevel = function () {
+    var error = $scope.getError();
+
+    if (error.swaggerError && !error.swaggerError.errors.length) {
+      return 'warning';
+    }
+
+    return 'error';
   };
 
   $scope.getLineNumber = function () {
