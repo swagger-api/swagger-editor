@@ -104,6 +104,17 @@ PhonicsApp.config(function ($provide) {
         '  schema: ${3}',
         '${4}'
       ].join('\n')
+    },
+
+    {
+      name: 'model',
+      trigger: 'mod|def',
+      path: ['definitions'],
+      content: [
+        '${1:ModelName}:',
+        '  properties:',
+        '    ${2}'
+      ]
     }
   ]);
 });
