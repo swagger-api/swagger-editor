@@ -3,25 +3,6 @@
 PhonicsApp.service('Builder', function Builder(Schema, Resolver, $q) {
   var load = _.memoize(jsyaml.load);
 
-  /*
-   * Validate against JSON Schema
-   * @param {object} json - the specs object
-   * @returns {promise} - reject with error if is not valid, resolves with null
-   *   if specs are valid
-  */
-  function validate(json) {
-    var deferred = $q.defer();
-    var errors = SwaggerTools.specs.v2.validate(json);
-
-    if (!errors) {
-      deferred.resolve(null);
-    } else {
-      deferred.reject({ swaggerError: errors });
-    }
-
-    return deferred.promise;
-  }
-
   /**
    * Build spec docs from a string value
    * @param {string} stringValue - the string to make the docs from
@@ -70,15 +51,14 @@ PhonicsApp.service('Builder', function Builder(Schema, Resolver, $q) {
         var result = { specs: resolved };
         var deferred = $q.defer();
 
-        validate(resolved).then(
-          function () {
-            deferred.resolve(result);
-          },
-          function (error) {
-            result.error = error;
-            deferred.reject(result);
-          }
-        );
+        var errors = SwaggerTools.specs.v2.validate(json);
+
+        if (!errors) {
+          deferred.resolve(result);
+        } else {
+          result.error = { swaggerError: errors };
+          deferred.reject(result);
+        }
 
         return deferred.promise;
       },
