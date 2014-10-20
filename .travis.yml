@@ -5,6 +5,7 @@ rvm:
   - 2.0.0
 
 install:
+  - npm cache clean
   - npm install
   - ./node_modules/bower/bin/bower install
 
