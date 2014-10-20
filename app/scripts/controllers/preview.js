@@ -1,7 +1,7 @@
 'use strict';
 
 PhonicsApp.controller('PreviewCtrl', function PreviewCtrl(Storage, Builder,
-  ASTManager, Sorter, Editor, Operation, BackendHealthCheck, FocusedPath,
+  ASTManager, Sorter, Editor, BackendHealthCheck, FocusedPath,
   $scope, $rootScope) {
   function update(latest) {
 
@@ -18,7 +18,7 @@ PhonicsApp.controller('PreviewCtrl', function PreviewCtrl(Storage, Builder,
   }
 
   function onResult(result) {
-    $scope.specs = Sorter.sort(result.specs);
+    $scope.specs =  Sorter.sort(result.specs);
     $scope.error = null;
     Storage.save('progress',  1); // Saved
 
@@ -85,6 +85,39 @@ PhonicsApp.controller('PreviewCtrl', function PreviewCtrl(Storage, Builder,
     return FocusedPath.isInFocus(path);
   };
 
-  // Add operation service methods directly
-  _.extend($scope, Operation);
+  /*
+  ** get a subpath for edit
+  */
+  $scope.getEditPath = function (pathName) {
+    return '#/paths?path=' + window.encodeURIComponent(pathName);
+  };
+
+  /*
+  ** Response CSS class for an HTTP response code
+  */
+  $scope.responseCodeClassFor = function (code) {
+    var result = 'default';
+    switch (Math.floor(+code / 100)) {
+      case 2:
+        result = 'green';
+        break;
+      case 5:
+        result = 'red';
+        break;
+      case 4:
+        result = 'yellow';
+        break;
+      case 3:
+        result = 'blue';
+    }
+    return result;
+  };
+
+  /*
+  ** Determines if a key is a vendor extension key
+  ** Vendor extensions always start with `x-`
+  */
+  $scope.isVendorExtension = function (key) {
+    return key.substring(0, 2).toLowerCase() === 'x-';
+  };
 });
