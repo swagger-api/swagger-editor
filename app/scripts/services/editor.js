@@ -26,7 +26,7 @@ PhonicsApp.service('Editor', function Editor(Autocomplete, ASTManager) {
     // Assign class variable `editor`
     window.e = editor = e;
 
-    ace.config.set('basePath', '/bower_components/ace-builds/src-noconflict');
+    ace.config.set('basePath', 'bower_components/ace-builds/src-noconflict');
 
     Autocomplete.init(e);
     // Set editor options
