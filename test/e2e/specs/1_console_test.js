@@ -2,7 +2,7 @@
 
 /*
  * This test file just opens the web app and examine if
- * there is any console errors or warnings.
+ * there is any console errors
  * It marks tests failed if there is any errors in console
  */
 

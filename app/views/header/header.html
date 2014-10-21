@@ -36,7 +36,7 @@
         </ul>
       </div>
 
-      <a class="btn btn-default" href="{{isPreviewMode ? '#/edit' : '#/'}}">{{isPreviewMode ? 'Edit' : 'Preview'}}</a>
+      <a id="switch-mode" class="btn btn-default" href="{{isPreviewMode ? '#/edit' : '#/'}}">{{isPreviewMode ? 'Edit' : 'Preview'}}</a>
 
       <div class="dropdown" ng-if="servers && !disableCodeGen">
          <button class="btn btn-default dropdown-toggle" type="button"
