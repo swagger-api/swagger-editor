@@ -14,11 +14,14 @@
 
   it('Should not have any console errors or warnings', function () {
     browser.manage().logs().get('browser').then(function(browserLog) {
-      if (browserLog.length) {
+      var errorLogs = browserLog.filter(function (log) {
+        return log.level.value > 900;
+      });
+      if (errorLogs.length) {
         console.log('\n\nBrowser console log: \n\n');
-        browserLog.forEach(console.log);
+        errorLogs.forEach(console.log);
       }
-      expect(browserLog.length).toBe(0);
+      expect(errorLogs.length).toBe(0);
     });
   });
 });
