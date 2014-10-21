@@ -43,6 +43,7 @@
     "karma-ng-scenario": "~0.1.0",
     "load-grunt-config": "~0.13.0",
     "protractor": "~1.0.0",
+    "swagger-tools": "^0.6.8",
     "time-grunt": "~0.2.1"
   },
   "engines": {
