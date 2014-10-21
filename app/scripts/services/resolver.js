@@ -4,6 +4,7 @@
   Resolves YAML $ref references
 */
 PhonicsApp.service('Resolver', function Resolver($q, $http) {
+  var $refCache = {};
 
   /*
   ** gets a JSON object and recursively resolve all $ref references
@@ -11,6 +12,7 @@ PhonicsApp.service('Resolver', function Resolver($q, $http) {
   ** $ref reference
   */
   function resolve(json, root) {
+    var deferred = $q.defer();
 
     // If it's first time resolve being called root would be the same object
     // as json
@@ -29,8 +31,6 @@ PhonicsApp.service('Resolver', function Resolver($q, $http) {
     // if json is not an object we can't resolve it. The json itself is resolved
     // json
     if (!angular.isObject(json)) {
-      var deferred = $q.defer();
-
       deferred.resolve(json);
 
       return deferred.promise;
@@ -39,7 +39,16 @@ PhonicsApp.service('Resolver', function Resolver($q, $http) {
     // If there is a `$ref` key in the json object, ignore all other keys and
     // return resolved `$ref`
     if (angular.isString(json.$ref)) {
+      if ($refCache[json.$ref]) {
+        var resolved = $refCache[json.$ref];
+
+        deferred.resolve(resolved);
+
+        return deferred.promises;
+      }
+
       return lookup(json.$ref, root).then(function (result) {
+        $refCache[json.$ref] = result;
         return resolve(result, root);
       });
     }
