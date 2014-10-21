@@ -20,7 +20,7 @@
     "lodash": "~2.4.1",
     "ngstorage": "~0.3.0",
     "yaml-js": "mohsen1/yaml-js",
-    "swagger-tools": "~0.6.5"
+    "swagger-tools": "~0.6.9"
   },
   "dependencies": {
     "json-formatter": "~0.2.2",
