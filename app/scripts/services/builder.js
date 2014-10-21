@@ -1,6 +1,6 @@
 'use strict';
 
-PhonicsApp.service('Builder', function Builder(Schema, Resolver, $q) {
+PhonicsApp.service('Builder', function Builder(Resolver, $q) {
   var load = _.memoize(jsyaml.load);
 
   /**
