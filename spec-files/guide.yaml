@@ -54,5 +54,5 @@ paths:
               properties:
                 name:
                   type: string
-                age:
-                  type: intiger
+                single:
+                  type: boolean
