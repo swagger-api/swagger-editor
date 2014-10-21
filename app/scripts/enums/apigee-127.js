@@ -28,6 +28,7 @@ PhonicsApp.config(function ($provide) {
     disableNewUserIntro: true,
     useYamlBackend: true,
     headerBranding: true,
+    enableTryIt: false,
     brandingCssClass: 'apigee-127'
   }
   // END-DEFAULTS-JSON

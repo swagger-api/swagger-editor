@@ -74,7 +74,7 @@
       </div>
     </section>
 
-    <section class="try-operation">
+    <section class="try-operation" ng-if="enableTryIt">
       <button class="border-only try-it"
         ng-class="{trying: isTryOpen}"
         ng-click="toggleTry()"

@@ -28,6 +28,7 @@ PhonicsApp.config(function ($provide) {
 
     disableFileMenu: false,
     headerBranding: false,
+    enableTryIt: true,
     brandingCssClass: '',
     schemaUrl: '/schema/swagger.json'
   }
