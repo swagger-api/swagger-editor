@@ -1,0 +1,58 @@
+# Example YAML for the bare minimum of required elements
+swagger: '2.0'
+
+
+# This is you document information section
+info:
+  version: "0.0.0"
+  title: <enter your title>
+
+# Describe your paths here
+paths:
+
+  # This is a path endpoint
+  /my-path:
+
+    # This is an HTTP operation
+    get:
+
+      # Describe this verb here. Note: you can use markdown
+      description: |
+        Gets `Person` objects
+
+        Optional query param of **size** determins
+        size of returned array
+
+      # This is array of this verbs parameters:
+      parameters:
+
+        # A parameter that is in query and required
+        -
+          name: size
+          in: query
+          description: Size of array
+          required: true
+          type: number
+          format: double
+
+
+      # Expected responses for this verb:
+      responses:
+
+        # Response code
+        200:
+          description: Successful response
+
+          # A schema describes your response object shape.
+          # Use JSON Schema format
+          schema:
+            title: ArrayOfPersons
+            type: array
+            items:
+              title: Person
+              type: object
+              properties:
+                name:
+                  type: string
+                age:
+                  type: intiger
