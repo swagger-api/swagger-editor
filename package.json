@@ -1,6 +1,6 @@
 {
   "name": "swagger-editor-src",
-  "version": "2.6.38",
+  "version": "2.6.39",
   "repository": "https://github.com/wordnik/swagger-editor.git",
   "dependencies": {},
   "devDependencies": {
