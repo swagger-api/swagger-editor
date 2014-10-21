@@ -1,7 +1,8 @@
 'use strict';
 
 PhonicsApp.controller('HeaderCtrl', function HeaderCtrl($scope, Editor, Storage,
-  Builder, Codegen, $modal, $stateParams, $state, defaults, strings) {
+  Builder, FileLoader, ASTManager, Codegen, $modal, $stateParams, $state,
+  defaults, strings) {
 
   if ($stateParams.path) {
     $scope.breadcrumbs  = [{ active: true, name: $stateParams.path }];
@@ -69,9 +70,14 @@ PhonicsApp.controller('HeaderCtrl', function HeaderCtrl($scope, Editor, Storage,
     return defaults.headerBranding;
   };
 
-  $scope.newProject = function () {
-    Editor.setValue('swagger: \'2.0\'');
-    $state.go('home', {mode: 'edit'});
+  $scope.newProject = function (fresh) {
+    FileLoader.loadFromUrl('spec-files/guide.yaml').then(function (value) {
+      value = fresh ? '' : value;
+      Storage.save('yaml', value);
+      Editor.setValue(value);
+      ASTManager.refresh();
+      $state.go('home', {mode: 'edit'});
+    });
   };
 
   $scope.assignDownloadHrefs = function () {
