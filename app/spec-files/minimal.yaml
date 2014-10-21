@@ -1,4 +1,5 @@
 # Example YAML for the bare minimum of required elements
+# See petstore.yaml for a more comprehensive example
 swagger: '2.0'
 info:
   version: "1.0.0"
