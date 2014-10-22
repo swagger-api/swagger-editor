@@ -6,7 +6,7 @@
 Swagger Editor lets you edit API specifications in YAML inside your browser and to preview documentations in real time.
 Valid Swagger JSON descriptions can then be generated and used with the full Swagger tooling (code generation, documentation, etc).
 
-To understand how it works, you should [try the live demo](http://swagger-api.github.io/swagger-editor)!
+To understand how it works, you should [try the live demo](http://editor.swagger.io/#/edit)!
 
 ## YAML Syntax
 YAML became a first-class citizen as part of the Swagger 2.0 working group process. Documenation for the YAML syntax will become part of the documentation of the [Swagger 2.0 spec](https://github.com/reverb/swagger-spec).
