@@ -13,7 +13,8 @@ ga('linker:autoLink', [
   'wordnik.github.io',
   'apigee.github.io',
   'swagger.wordnik.com',
-  'editor.swagger.wordnik.com'
+  'editor.swagger.wordnik.com',
+  'swagger.io'
   ]);
 
 ga(

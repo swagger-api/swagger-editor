@@ -1,5 +1,5 @@
 ###
-# swagger-editor - https://github.com/wordnik/swagger-editor/
+# swagger-editor - https://github.com/swagger-api/swagger-editor/
 #
 # Run the swagger-editor service on port 9000
 ###

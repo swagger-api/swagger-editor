@@ -1,22 +1,22 @@
 # Swagger Editor
 
-[![Build Status](https://travis-ci.org/wordnik/swagger-editor.svg?branch=master)](https://travis-ci.org/wordnik/swagger-editor)
-[![Code Climate](https://codeclimate.com/github/wordnik/swagger-editor/badges/gpa.svg)](https://codeclimate.com/github/wordnik/swagger-editor)
+[![Build Status](https://travis-ci.org/swagger-api/swagger-editor.svg?branch=master)](https://travis-ci.org/swagger-api/swagger-editor)
+[![Code Climate](https://codeclimate.com/github/swagger-api/swagger-editor/badges/gpa.svg)](https://codeclimate.com/github/swagger-api/swagger-editor)
 
 Swagger Editor lets you edit API specifications in YAML inside your browser and to preview documentations in real time.
 Valid Swagger JSON descriptions can then be generated and used with the full Swagger tooling (code generation, documentation, etc).
 
-To understand how it works, you should [try the live demo](http://wordnik.github.io/swagger-editor)!
+To understand how it works, you should [try the live demo](http://swagger-api.github.io/swagger-editor)!
 
 ## YAML Syntax
 YAML became a first-class citizen as part of the Swagger 2.0 working group process. Documenation for the YAML syntax will become part of the documentation of the [Swagger 2.0 spec](https://github.com/reverb/swagger-spec).
 
-![Screenshot of the Swagger Editor](https://raw.githubusercontent.com/wordnik/swagger-editor/master/app/images/swagger-editor2.png "Designing an API with the Swagger Editor")
+![Screenshot of the Swagger Editor](https://raw.githubusercontent.com/swagger-api/swagger-editor/master/app/images/swagger-editor2.png "Designing an API with the Swagger Editor")
 
 ## Tips
 You can import an existing YAML spec by using the `import` query parameter. For example:
 ```
-http://editor.swagger.wordnik.com/?import=http://generator.wordnik.com/online/api/swagger.yaml
+http://editor.swagger.swagger-api.com/?import=http://generator.wordnik.com/online/api/swagger.yaml
 ```
 
 ## Running Locally
@@ -33,7 +33,7 @@ node --version
 #### Clone the repository and start it
 
 ```shell
-git clone git@github.com:wordnik/swagger-editor.git
+git clone git@github.com:swagger-api/swagger-editor.git
 cd swagger-editor
 npm start
 ```
