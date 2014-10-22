@@ -1,10 +1,10 @@
 'use strict';
 
-PhonicsApp.service('Autocomplete', function Autocomplete(snippets, ASTManager) {
+PhonicsApp.service('Autocomplete', function Autocomplete(snippets, ASTManager,
+  Resolver) {
   var langTools = ace.require('ace/ext/language_tools');
   var snippetManager = ace.require('ace/snippets').snippetManager;
   var editor = null;
-
   /*
    * Check if a path is match with
    * @param {array} path - path
@@ -43,6 +43,29 @@ PhonicsApp.service('Autocomplete', function Autocomplete(snippets, ASTManager) {
     };
   }
 
+  function getKeywordsForPosition(pos) {
+    var path = ASTManager.pathForLine(pos.row);
+    schema = Resolver.resolve(schema);
+    var key;
+
+    if (!Array.isArray(path)) {
+      return [];
+    }
+
+    while (path.length && schema.properties) {
+      key = path.pop();
+      schema = schema.properties[key];
+    }
+
+    return Object.keys(schema.properties).map(function(keyword) {
+      return {
+        name: keyword,
+        value: keyword,
+        score: 300
+      };
+    });
+  }
+
   var ASTCompleter = {
     getCompletions: function (editor, session, pos, prefix, callback) {
 
@@ -54,11 +77,7 @@ PhonicsApp.service('Autocomplete', function Autocomplete(snippets, ASTManager) {
       langTools.snippetCompleter
         .getCompletions(editor, session, pos, prefix, callback);
 
-      // Testing out
-      callback(null, [
-        // {name: 'flow', value: 'fooooe', score: 300, meta: 'swagger'},
-        // {name: 'moor', value: 'loooos', score: 300, meta: 'swagger'}
-      ]);
+      callback(null, getKeywordsForPosition(pos));
     }
   };
 

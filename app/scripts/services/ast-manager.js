@@ -160,6 +160,11 @@ PhonicsApp.service('ASTManager', function ASTManager() {
 
     recurse ([], ast);
 
+    if (!result) {
+      line--;
+      recurse([], ast);
+    }
+
     return result;
   }
 
