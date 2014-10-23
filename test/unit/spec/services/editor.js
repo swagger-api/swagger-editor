@@ -3,8 +3,7 @@
 describe('Service: Editor', function () {
 
   // load the service's module
-  beforeEach(window.angular.mock.module
-('PhonicsApp'));
+  beforeEach(window.angular.mock.module('PhonicsApp'));
 
   // instantiate service
   var Editor;
