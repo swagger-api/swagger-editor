@@ -25,7 +25,7 @@ module.exports = function (grunt) {
     'less',
     'autoprefixer',
     'connect:test',
-    // 'karma' // TODO
+    'karma',
     'http-server',
     'protractor'
   ]);

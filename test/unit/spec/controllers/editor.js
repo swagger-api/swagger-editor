@@ -3,7 +3,7 @@
 describe('Controller: EditorCtrl', function () {
 
   // load the controller's module
-  beforeEach(module('koknusApp'));
+  beforeEach(window.angular.mock.module('PhonicsApp'));
 
   var EditorCtrl,
     scope;
@@ -16,7 +16,7 @@ describe('Controller: EditorCtrl', function () {
     });
   }));
 
-  it('should attach a list of awesomeThings to the scope', function () {
-    expect(scope.awesomeThings.length).toBe(3);
+  it('should have a scope', function () {
+    expect(!!scope).toBe(true);
   });
 });

@@ -3,7 +3,8 @@
 describe('Service: Resolver', function () {
 
   // load the service's module
-  beforeEach(module('koknusApp'));
+  beforeEach(window.angular.mock.module
+('PhonicsApp'));
 
   // instantiate service
   var Resolver;

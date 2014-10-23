@@ -3,7 +3,8 @@
 describe('Service: Backend', function () {
 
   // load the service's module
-  beforeEach(module('phonicsApp'));
+  beforeEach(window.angular.mock.module
+('PhonicsApp'));
 
   // instantiate service
   var Backend;

@@ -1,11 +1,11 @@
 'use strict';
 
-describe('Controller: OpenExamplesCtrl', function () {
+describe('Controller: UrlImportCtrl', function () {
 
   // load the controller's module
   beforeEach(window.angular.mock.module('PhonicsApp'));
 
-  var OpenExamplesCtrl,
+  var UrlImportCtrl,
     $modalInstance,
     scope;
 
@@ -19,7 +19,7 @@ describe('Controller: OpenExamplesCtrl', function () {
         then: jasmine.createSpy('modalInstance.result.then')
       }
     };
-    OpenExamplesCtrl = $controller('OpenExamplesCtrl', {
+    UrlImportCtrl = $controller('UrlImportCtrl', {
       $scope: scope,
       $modalInstance: $modalInstance
     });

@@ -1,19 +1,19 @@
 'use strict';
 
-describe('Service: Validator', function () {
+describe('Service: ASTManager', function () {
 
   // load the service's module
   beforeEach(window.angular.mock.module
 ('PhonicsApp'));
 
   // instantiate service
-  var Validator;
-  beforeEach(inject(function (_Validator_) {
-    Validator = _Validator_;
+  var ASTManager;
+  beforeEach(inject(function (_ASTManager_) {
+    ASTManager = _ASTManager_;
   }));
 
   it('should do something', function () {
-    expect(!!Validator).toBe(true);
+    expect(!!ASTManager).toBe(true);
   });
 
 });

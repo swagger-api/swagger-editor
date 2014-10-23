@@ -3,7 +3,8 @@
 describe('Directive: dropdownMenu', function () {
 
   // load the directive's module
-  beforeEach(module('koknusApp'));
+  beforeEach(window.angular.mock.module
+('PhonicsApp'));
 
   var element,
     scope;
