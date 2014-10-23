@@ -3,8 +3,7 @@
 describe('Directive: parameterView', function () {
 
   // load the directive's module
-  beforeEach(window.angular.mock.module
-('PhonicsApp'));
+  beforeEach(window.angular.mock.module('PhonicsApp'));
 
   var element,
     scope;
