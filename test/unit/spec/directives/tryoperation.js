@@ -15,6 +15,6 @@ describe('Directive: tryOperation', function () {
   it('should make hidden element visible', inject(function ($compile) {
     element = angular.element('<try-operation></try-operation>');
     element = $compile(element)(scope);
-    expect(element.text()).toBe('this is the tryOperation directive');
+    expect(element.text()).toBe('');
   }));
 });
