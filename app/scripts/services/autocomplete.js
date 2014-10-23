@@ -1,8 +1,6 @@
 'use strict';
 
 PhonicsApp.service('Autocomplete', function Autocomplete(snippets, ASTManager) {
-  var langTools = ace.require('ace/ext/language_tools');
-  var snippetManager = ace.require('ace/snippets').snippetManager;
   var editor = null;
   var keywords = [
     'get',
@@ -336,7 +334,19 @@ PhonicsApp.service('Autocomplete', function Autocomplete(snippets, ASTManager) {
   var KeywordCompleter = {
     getCompletions: function (editor, session, pos, prefix, callback) {
       editor.completer.autoSelect = true;
-      callback(null, keywords);
+
+      var snippetsForPos = snippets.filter(filterForSnippets(pos))
+        .map(function (snippet) {
+          return {
+            caption: snippet.name,
+            snippet: snippet.content,
+            meta: 'snippet'
+          };
+        })
+        .map(sortSnippets);
+
+      var completions = keywords.concat(snippetsForPos);
+      callback(null, completions);
     }
   };
 
