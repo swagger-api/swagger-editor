@@ -1,10 +1,267 @@
 'use strict';
 
-PhonicsApp.service('Autocomplete', function Autocomplete(snippets, ASTManager,
-  Resolver) {
+PhonicsApp.service('Autocomplete', function Autocomplete(snippets, ASTManager) {
   var langTools = ace.require('ace/ext/language_tools');
   var snippetManager = ace.require('ace/snippets').snippetManager;
   var editor = null;
+  var keywords = [
+    'get',
+    'post',
+    'delete',
+    'options',
+    'put',
+    'headers',
+    'swagger',
+    'info',
+    'host',
+    'basePath',
+    'schemes',
+    'consumes',
+    'produces',
+    'paths',
+    'definitions',
+    'parameters',
+    'responses',
+    'security',
+    'securityDefinitions',
+    'tags',
+    'externalDocs',
+    'title',
+    'version',
+    'description',
+    'termsOfService',
+    'contact',
+    'license',
+    'name',
+    'url',
+    'email',
+    'name',
+    'url',
+    'description',
+    'url',
+    'tags',
+    'summary',
+    'description',
+    'externalDocs',
+    'operationId',
+    'produces',
+    'consumes',
+    'parameters',
+    'responses',
+    'schemes',
+    'deprecated',
+    'security',
+    '$ref',
+    'get',
+    'put',
+    'post',
+    'delete',
+    'options',
+    'head',
+    'patch',
+    'parameters',
+    'description',
+    'schema',
+    'headers',
+    'examples',
+    'type',
+    'format',
+    'items',
+    'collectionFormat',
+    'default',
+    'maximum',
+    'exclusiveMaximum',
+    'minimum',
+    'exclusiveMinimum',
+    'maxLength',
+    'minLength',
+    'pattern',
+    'maxItems',
+    'minItems',
+    'uniqueItems',
+    'enum',
+    'multipleOf',
+    'description',
+    'description',
+    'name',
+    'in',
+    'required',
+    'schema',
+    'required',
+    'in',
+    'description',
+    'name',
+    'type',
+    'format',
+    'items',
+    'collectionFormat',
+    'default',
+    'maximum',
+    'exclusiveMaximum',
+    'minimum',
+    'exclusiveMinimum',
+    'maxLength',
+    'minLength',
+    'pattern',
+    'maxItems',
+    'minItems',
+    'uniqueItems',
+    'enum',
+    'multipleOf',
+    'required',
+    'in',
+    'description',
+    'name',
+    'type',
+    'format',
+    'items',
+    'collectionFormat',
+    'default',
+    'maximum',
+    'exclusiveMaximum',
+    'minimum',
+    'exclusiveMinimum',
+    'maxLength',
+    'minLength',
+    'pattern',
+    'maxItems',
+    'minItems',
+    'uniqueItems',
+    'enum',
+    'multipleOf',
+    'required',
+    'in',
+    'description',
+    'name',
+    'type',
+    'format',
+    'items',
+    'collectionFormat',
+    'default',
+    'maximum',
+    'exclusiveMaximum',
+    'minimum',
+    'exclusiveMinimum',
+    'maxLength',
+    'minLength',
+    'pattern',
+    'maxItems',
+    'minItems',
+    'uniqueItems',
+    'enum',
+    'multipleOf',
+    'required',
+    'in',
+    'description',
+    'name',
+    'type',
+    'format',
+    'items',
+    'collectionFormat',
+    'default',
+    'maximum',
+    'exclusiveMaximum',
+    'minimum',
+    'exclusiveMinimum',
+    'maxLength',
+    'minLength',
+    'pattern',
+    'maxItems',
+    'minItems',
+    'uniqueItems',
+    'enum',
+    'multipleOf',
+    'format',
+    'title',
+    'description',
+    'default',
+    'multipleOf',
+    'maximum',
+    'exclusiveMaximum',
+    'minimum',
+    'exclusiveMinimum',
+    'maxLength',
+    'minLength',
+    'pattern',
+    'maxItems',
+    'minItems',
+    'uniqueItems',
+    'maxProperties',
+    'minProperties',
+    'required',
+    'enum',
+    'type',
+    'items',
+    'allOf',
+    'properties',
+    'discriminator',
+    'readOnly',
+    'xml',
+    'externalDocs',
+    'example',
+    'type',
+    'format',
+    'items',
+    'collectionFormat',
+    'default',
+    'maximum',
+    'exclusiveMaximum',
+    'minimum',
+    'exclusiveMinimum',
+    'maxLength',
+    'minLength',
+    'pattern',
+    'maxItems',
+    'minItems',
+    'uniqueItems',
+    'enum',
+    'multipleOf',
+    'name',
+    'namespace',
+    'prefix',
+    'attribute',
+    'wrapped',
+    'name',
+    'description',
+    'externalDocs',
+    'type',
+    'description',
+    'type',
+    'name',
+    'in',
+    'description',
+    'type',
+    'flow',
+    'scopes',
+    'authorizationUrl',
+    'description',
+    'type',
+    'flow',
+    'scopes',
+    'tokenUrl',
+    'description',
+    'type',
+    'flow',
+    'scopes',
+    'tokenUrl',
+    'description',
+    'type',
+    'flow',
+    'scopes',
+    'authorizationUrl',
+    'tokenUrl',
+    'description'
+  ];
+
+  keywords = keywords.map(function (keyword) {
+    return {
+      name: keyword,
+      value: keyword,
+      score: 200,
+      meta: 'keyword'
+    };
+  });
+
   /*
    * Check if a path is match with
    * @param {array} path - path
@@ -43,46 +300,48 @@ PhonicsApp.service('Autocomplete', function Autocomplete(snippets, ASTManager,
     };
   }
 
-  function getKeywordsForPosition(pos) {
-    var path = ASTManager.pathForLine(pos.row);
-    schema = Resolver.resolve(schema);
-    var key;
+  // function getKeywordsForPosition(pos) {
+  //   var path = ASTManager.pathForLine(pos.row);
+  //   var schema = Resolver.resolve(schema);
+  //   var key;
 
-    if (!Array.isArray(path)) {
-      return [];
-    }
+  //   if (!Array.isArray(path)) {
+  //     return [];
+  //   }
 
-    while (path.length && schema.properties) {
-      key = path.pop();
-      schema = schema.properties[key];
-    }
+  //   while (path.length && schema.properties) {
+  //     key = path.pop();
+  //     schema = schema.properties[key];
+  //   }
 
-    return Object.keys(schema.properties).map(function(keyword) {
-      return {
-        name: keyword,
-        value: keyword,
-        score: 300
-      };
-    });
+  //   return Object.keys(schema.properties).map(function(keyword) {
+  //     return {
+  //       name: keyword,
+  //       value: keyword,
+  //       score: 300,
+  //       meta: 'swagger'
+  //     };
+  //   });
+  // }
+
+  /*
+   * Gives score to snippet based on their position
+   * FIXME: right now it gives 100 to any snippet.
+  */
+  function sortSnippets(snippet) {
+    snippet.score = 1000;
+    return snippet;
   }
 
-  var ASTCompleter = {
+  var KeywordCompleter = {
     getCompletions: function (editor, session, pos, prefix, callback) {
-
       editor.completer.autoSelect = true;
-
-      snippetManager.unregister(snippets, 'yaml');
-      snippetManager.register(snippets.filter(filterForSnippets(pos)), 'yaml');
-
-      langTools.snippetCompleter
-        .getCompletions(editor, session, pos, prefix, callback);
-
-      callback(null, getKeywordsForPosition(pos));
+      callback(null, keywords);
     }
   };
 
   this.init = function (e) {
     editor = e;
-    editor.completers = [ASTCompleter];
+    editor.completers = [KeywordCompleter];
   };
 });

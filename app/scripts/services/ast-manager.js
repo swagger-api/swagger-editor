@@ -17,7 +17,7 @@ PhonicsApp.service('ASTManager', function ASTManager() {
     try {
       ast = yaml.compose(value);
     } catch (error) {
-      return console.error(error);
+      return;
     }
     emitChanges();
   }
