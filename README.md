@@ -35,7 +35,19 @@ node --version
 ```shell
 git clone git@github.com:swagger-api/swagger-editor.git
 cd swagger-editor
+```
+
+##### Start on Mac and Linux
+```shell
 npm start
+```
+
+##### Start on Windows
+```shell
+npm install -g bower grunt-cli
+npm install
+bower install
+grunt serve
 ```
 
 This will open a browser window running current development version.
