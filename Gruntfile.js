@@ -27,7 +27,7 @@ module.exports = function (grunt) {
     'connect:test',
     'jshint',
     'jscs',
-    'karma',
+    'karma:unit',
     'http-server',
     'protractor'
   ]);
