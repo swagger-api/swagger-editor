@@ -25,6 +25,8 @@ module.exports = function (grunt) {
     'less',
     'autoprefixer',
     'connect:test',
+    'jshint',
+    'jscs',
     'karma',
     'http-server',
     'protractor'
