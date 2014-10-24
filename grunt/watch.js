@@ -5,7 +5,7 @@ module.exports = {
   },
   js: {
     files: ['app/scripts/{,*/}*.js', 'app/libs/{,*/}*.js'],
-    tasks: ['newer:jshint:all', 'jscs'],
+    tasks: ['jshint:all', 'jscs'],
     options: {
       livereload: true
     }
@@ -15,7 +15,7 @@ module.exports = {
   },
   jsTest: {
     files: ['test/spec/{,*/}*.js'],
-    tasks: ['newer:jshint:test', 'karma']
+    tasks: ['jshint:test', 'jscs:test', 'karma:main']
   },
   less: {
     files: ['app/styles/{,*/}*.less'],

@@ -32,6 +32,16 @@ module.exports = function (grunt) {
     'protractor'
   ]);
 
+  grunt.registerTask('test-dev',
+    'Develop unit tests. Continuously runs tests and watches for changes',
+    [
+      'jshint:test',
+      'jscs:test',
+      'karma:main',
+      'watch:jsTest'
+    ]
+  );
+
   grunt.registerTask('build', [
     'clean:dist',
     'useminPrepare',
