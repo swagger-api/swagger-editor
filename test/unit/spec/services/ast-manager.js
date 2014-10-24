@@ -37,6 +37,16 @@ describe('Service: ASTManager', function () {
       expect(ASTManager.pathForPosition(1, 0)).to.deep.equal([]);
     });
 
+
+    it('should return "info" for when pointer is at key "title"', function () {
+      expect(ASTManager.pathForPosition(2, 0)).to.deep.equal(['info']);
+      expect(ASTManager.pathForPosition(2, 4)).to.deep.equal(['info']);
+      expect(ASTManager.pathForPosition(2, 9)).to.deep.equal(['info']);
+    });
+
+    xit('should return ["info", "title"] when pointer is at value of "title"', function () {
+      expect(ASTManager.pathForPosition(2, 11)).to.deep.equal(['info', 'title']);
+    });
   });
 
 });
