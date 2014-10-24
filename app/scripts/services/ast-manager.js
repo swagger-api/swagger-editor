@@ -133,7 +133,7 @@ PhonicsApp.service('ASTManager', function ASTManager() {
    * @returns {array} - an array of strings (path) to the node
    *   in line of the code in the editor
   */
-  function pathForPosition(line, row) {
+  function pathForPosition(line) {
     var result = null;
 
     if (!line) {
