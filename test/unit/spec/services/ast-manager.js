@@ -37,16 +37,37 @@ describe('Service: ASTManager', function () {
       expect(ASTManager.pathForPosition(1, 0)).to.deep.equal([]);
     });
 
-
-    it('should return "info" for when pointer is at key "title"', function () {
+    xit('should return parent path for when pointer is at key', function () {
       expect(ASTManager.pathForPosition(2, 0)).to.deep.equal(['info']);
       expect(ASTManager.pathForPosition(2, 4)).to.deep.equal(['info']);
       expect(ASTManager.pathForPosition(2, 9)).to.deep.equal(['info']);
     });
 
-    xit('should return ["info", "title"] when pointer is at value of "title"', function () {
-      expect(ASTManager.pathForPosition(2, 11)).to.deep.equal(['info', 'title']);
+    xit('should return empty path at end of document row 0', function () {
+      expect(ASTManager.pathForPosition(7, 0)).to.deep.equal([]);
     });
+
+    xit('should return path to parent when pointer is at end of document ' +
+      'with one level of indentation',
+      function () {
+        expect(ASTManager.pathForPosition(7, 2)).to.deep.equal(['info']);
+      }
+    );
+
+    xit('should return path to parent when pointer is at end of document ' +
+      'with two level of indentation',
+      function () {
+        expect(ASTManager.pathForPosition(7, 4)).to.deep
+        .equal(['info', 'contact']);
+      }
+    );
+
+    xit('should return full path when pointer is at value',
+      function () {
+        expect(ASTManager.pathForPosition(2, 11)).to.deep
+          .equal(['info', 'title']);
+      }
+    );
   });
 
 });

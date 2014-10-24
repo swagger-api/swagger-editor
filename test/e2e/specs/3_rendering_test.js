@@ -23,7 +23,7 @@ describe('Rendering', function () {
     expectElement(element[0], element[1]);
   });
 
-  function expectElement (name, selector) {
+  function expectElement(name, selector) {
     it('should render ' + name, function () {
       expect($(selector).isPresent()).toBe(true);
     });

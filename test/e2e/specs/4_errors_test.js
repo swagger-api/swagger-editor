@@ -4,7 +4,7 @@
  * Test errors that is being presented to user
 */
 
-function setValue (value) {
+function setValue(value) {
   browser.executeScript(function (value) {
     document.querySelector('[ui-ace]').env.editor.setValue(value);
   }, value);
@@ -43,25 +43,27 @@ describe('Errors', function () {
     expect($('.error-header h4').getText()).toContain('Swagger Error');
   });
 
-  it('should show swagger warning with a document that has warnings', function () {
-    var val = [
-      'swagger: "2.0"',
-      'info:',
-      '  version: "1.0.0"',
-      '  title: Petstore',
-      'paths:',
-      '  /users:',
-      '    post:',
-      '      responses:',
-      '        200: {}',
-      'definitions:',
-      '  User: {}'
-    ].join('\n');
+  it('should show swagger warning with a document that has warnings',
+    function () {
+      var val = [
+        'swagger: "2.0"',
+        'info:',
+        '  version: "1.0.0"',
+        '  title: Petstore',
+        'paths:',
+        '  /users:',
+        '    post:',
+        '      responses:',
+        '        200: {}',
+        'definitions:',
+        '  User: {}'
+      ].join('\n');
 
-    setValue(val);
-    browser.sleep(1200);
-    expect($('.error-presenter').isPresent()).toBe(true);
-    expect($('.error-header h4').getText()).toContain('Swagger Warning');
-  });
+      setValue(val);
+      browser.sleep(1200);
+      expect($('.error-presenter').isPresent()).toBe(true);
+      expect($('.error-header h4').getText()).toContain('Swagger Warning');
+    }
+  );
 
 });
