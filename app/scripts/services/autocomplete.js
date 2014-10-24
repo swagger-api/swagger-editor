@@ -285,7 +285,7 @@ PhonicsApp.service('Autocomplete', function Autocomplete(snippets, ASTManager) {
 
   function filterForSnippets(pos) {
     ASTManager.refresh(editor.getValue());
-    var path = ASTManager.pathForLine(pos.row);
+    var path = ASTManager.pathForPosition(pos.row);
 
     // If there is no path being returned by AST Manager and only one character
     // was typed, path is root
@@ -299,7 +299,7 @@ PhonicsApp.service('Autocomplete', function Autocomplete(snippets, ASTManager) {
   }
 
   // function getKeywordsForPosition(pos) {
-  //   var path = ASTManager.pathForLine(pos.row);
+  //   var path = ASTManager.pathForPosition(pos.row);
   //   var schema = Resolver.resolve(schema);
   //   var key;
 

@@ -16,7 +16,7 @@ PhonicsApp.service('FocusedPath', function FocusedPath(ASTManager, Editor) {
   */
   this.isInFocus = function (path) {
     var focusedLine = Editor.lineInFocus();
-    var focusedPath = ASTManager.pathForLine(focusedLine);
+    var focusedPath = ASTManager.pathForPosition(focusedLine);
 
     return Array.isArray(focusedPath) &&
       _.isEqual(path, focusedPath.slice(0, path.length));
