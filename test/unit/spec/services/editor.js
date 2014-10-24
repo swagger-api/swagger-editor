@@ -12,7 +12,7 @@ describe('Service: Editor', function () {
   }));
 
   it('should do something', function () {
-    expect(!!Editor).toBe(true);
+    expect(!!Editor).to.equal(true);
   });
 
 });

@@ -15,6 +15,6 @@ describe('Directive: schemaModel', function () {
   it('should make hidden element visible', inject(function ($compile) {
     element = angular.element('<schema-model></schema-model>');
     element = $compile(element)(scope);
-    expect(element.text()).toBe('');
+    expect(element.text()).to.equal('');
   }));
 });

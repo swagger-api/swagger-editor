@@ -12,7 +12,7 @@ describe('Service: Resolver', function () {
   }));
 
   it('should do something', function () {
-    expect(!!Resolver).toBe(true);
+    expect(!!Resolver).to.equal(true);
   });
 
 });

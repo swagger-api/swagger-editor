@@ -12,7 +12,7 @@ describe('Service: Storage', function () {
   }));
 
   it('should do something', function () {
-    expect(!!Storage).toBe(true);
+    expect(!!Storage).to.equal(true);
   });
 
 });

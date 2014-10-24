@@ -12,11 +12,12 @@ describe('Controller: FileImportCtrl', function () {
   // Initialize the controller and a mock scope
   beforeEach(inject(function ($controller, $rootScope) {
     scope = $rootScope.$new();
+    var callback = sinon.spy();
     modalInstance = {                    // Create a mock object using spies
-      close: jasmine.createSpy('modalInstance.close'),
-      dismiss: jasmine.createSpy('modalInstance.dismiss'),
+      close: callback,
+      dismiss: callback,
       result: {
-        then: jasmine.createSpy('modalInstance.result.then')
+        then: callback
       }
     };
     FileImportCtrl = $controller('FileImportCtrl', {
@@ -26,7 +27,7 @@ describe('Controller: FileImportCtrl', function () {
   }));
 
   it('should have a scope', function () {
-    expect(!!scope).toBe(true);
+    expect(!!scope).to.equal(true);
 
   });
 });

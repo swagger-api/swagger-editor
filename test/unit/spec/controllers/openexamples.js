@@ -12,11 +12,14 @@ describe('Controller: OpenExamplesCtrl', function () {
   // Initialize the controller and a mock scope
   beforeEach(inject(function ($controller, $rootScope) {
     scope = $rootScope.$new();
-    $modalInstance = {                    // Create a mock object using spies
-      close: jasmine.createSpy('modalInstance.close'),
-      dismiss: jasmine.createSpy('modalInstance.dismiss'),
+
+     // Create a mock object using spies
+    var callback = sinon.spy();
+    $modalInstance = {
+      close: callback,
+      dismiss: callback,
       result: {
-        then: jasmine.createSpy('modalInstance.result.then')
+        then: callback
       }
     };
     OpenExamplesCtrl = $controller('OpenExamplesCtrl', {
@@ -26,7 +29,7 @@ describe('Controller: OpenExamplesCtrl', function () {
   }));
 
   it('should have a scope', function () {
-    expect(!!scope).toBe(true);
+    expect(!!scope).to.equal(true);
 
   });
 });

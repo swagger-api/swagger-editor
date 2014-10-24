@@ -12,7 +12,7 @@ describe('Service: Builder', function () {
   }));
 
   it('should do something', function () {
-    expect(!!Builder).toBe(true);
+    expect(!!Builder).to.equal(true);
   });
 
 });

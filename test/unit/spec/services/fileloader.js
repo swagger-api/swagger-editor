@@ -12,7 +12,7 @@ describe('Service: FileLoader', function () {
   }));
 
   it('should do something', function () {
-    expect(!!FileLoader).toBe(true);
+    expect(!!FileLoader).to.equal(true);
   });
 
 });

@@ -12,7 +12,7 @@ describe('Service: Backend', function () {
   }));
 
   it('should do something', function () {
-    expect(!!Backend).toBe(true);
+    expect(!!Backend).to.equal(true);
   });
 
 });

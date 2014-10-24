@@ -17,7 +17,7 @@ describe('Controller: PreviewCtrl', function () {
   }));
 
   it('should have a scope', function () {
-    expect(!!scope).toBe(true);
+    expect(!!scope).to.equal(true);
 
   });
 });

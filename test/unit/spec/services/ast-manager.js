@@ -12,7 +12,17 @@ describe('Service: ASTManager', function () {
   }));
 
   it('should do something', function () {
-    expect(!!ASTManager).toBe(true);
+    expect(!!ASTManager).to.equal(true);
+  });
+
+  it('#pathForPosition', function () {
+    var yaml = [
+      'swagger: 2'
+    ].join('\n');
+
+    ASTManager.refresh(yaml);
+    expect(ASTManager.pathForPosition(0, 0)).to.deep.equal([]);
+
   });
 
 });

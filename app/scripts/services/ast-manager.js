@@ -127,12 +127,13 @@ PhonicsApp.service('ASTManager', function ASTManager() {
 
   /*
    * @param {number} line - line number to loop up
+   * @param {number} row - row number to loop up
    * @param {object} current - used for recursive call
    * @param {array} path - used for recursive call
    * @returns {array} - an array of strings (path) to the node
    *   in line of the code in the editor
   */
-  function pathForLine(line) {
+  function pathForPosition(line, row) {
     var result = null;
 
     if (!line) {
@@ -307,5 +308,5 @@ PhonicsApp.service('ASTManager', function ASTManager() {
   // Expose the methods externally
   this.refresh = refreshAST;
   this.lineForPath = lineForPath;
-  this.pathForLine = pathForLine;
+  this.pathForPosition = pathForPosition;
 });
