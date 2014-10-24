@@ -42,6 +42,7 @@
     "karma-firefox-launcher": "^0.1.3",
     "karma-jasmine": "~0.1.5",
     "karma-mocha": "^0.1.9",
+    "karma-mocha-reporter": "^0.3.1",
     "karma-ng-html2js-preprocessor": "~0.1.0",
     "karma-ng-scenario": "~0.1.0",
     "karma-sinon-chai": "^0.2.0",
