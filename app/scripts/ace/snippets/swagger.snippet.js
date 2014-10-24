@@ -58,7 +58,7 @@ PhonicsApp.config(function ($provide) {
       trigger: 'path',
       path: ['paths'],
       content: [
-        '${1} :',
+        '/${1}:',
         '  ${2}'
       ].join('\n')
     },
