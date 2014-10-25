@@ -133,17 +133,24 @@ PhonicsApp.service('ASTManager', function ASTManager() {
    * @returns {array} - an array of strings (path) to the node
    *   in line of the code in the editor
   */
-  function pathForPosition(line) {
-    var result = null;
+  function pathForPosition(line, row) {
+    var result = [];
+    var start;
+    var end;
 
-    if (!line) {
-      return [];
+    if (line === undefined) {
+      return result;
     }
+
+    recurse ([], ast);
 
     function recurse(path, current) {
       /* jshint camelcase: false */
+      start = current.start_mark;
+      end = current.end_mark;
 
-      if (current.start_mark.line === line) {
+      if (start.line === line && end.line === line &&
+        start.column <= row  && end.column >= row) {
         result = path;
       } else {
         for (var i = 0; i < current.value.length; i++) {
@@ -157,13 +164,6 @@ PhonicsApp.service('ASTManager', function ASTManager() {
           }
         }
       }
-    }
-
-    recurse ([], ast);
-
-    if (!result) {
-      line--;
-      recurse([], ast);
     }
 
     return result;

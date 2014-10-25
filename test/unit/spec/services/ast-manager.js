@@ -11,22 +11,21 @@ describe('Service: ASTManager', function () {
     ASTManager = _ASTManager_;
   }));
 
-  it('should do something', function () {
-    expect(!!ASTManager).to.equal(true);
-  });
-
   describe('#pathForPosition', function () {
     var yaml;
     beforeEach(function () {
       yaml = [
-        'swagger: 2',
-        'info:',
-        '  title: Test document',
-        '  version: 0.0.1',
-        '  contact:',
-        '    name: Mohsen',
-        '    url: github.com',
-        '    email: me@example.com'
+        /*
+         0         10        20        30
+         012345678901234567890123456789012345678 */
+        'swagger: "2.0"',                   /* 0 */
+        'info:',                            /* 1 */
+        '  title: Test document',           /* 2 */
+        '  version: 0.0.1',                 /* 3 */
+        '  contact:',                       /* 4 */
+        '    name: Mohsen',                 /* 5 */
+        '    url: github.com',              /* 6 */
+        '    email: me@example.com'         /* 7 */
       ].join('\n');
 
       ASTManager.refresh(yaml);
@@ -37,24 +36,22 @@ describe('Service: ASTManager', function () {
       expect(ASTManager.pathForPosition(1, 0)).to.deep.equal([]);
     });
 
-    xit('should return parent path for when pointer is at key', function () {
-      expect(ASTManager.pathForPosition(2, 0)).to.deep.equal(['info']);
-      expect(ASTManager.pathForPosition(2, 4)).to.deep.equal(['info']);
-      expect(ASTManager.pathForPosition(2, 9)).to.deep.equal(['info']);
+    it('should return path to value when value is selected', function () {
+      expect(ASTManager.pathForPosition(0, 11)).to.deep.equal(['swagger']);
     });
 
-    xit('should return empty path at end of document row 0', function () {
+    it('should return empty path at end of document row 0', function () {
       expect(ASTManager.pathForPosition(7, 0)).to.deep.equal([]);
     });
 
-    xit('should return path to parent when pointer is at end of document ' +
+    it('should return path to parent when pointer is at end of document ' +
       'with one level of indentation',
       function () {
         expect(ASTManager.pathForPosition(7, 2)).to.deep.equal(['info']);
       }
     );
 
-    xit('should return path to parent when pointer is at end of document ' +
+    it('should return path to parent when pointer is at end of document ' +
       'with two level of indentation',
       function () {
         expect(ASTManager.pathForPosition(7, 4)).to.deep
@@ -62,12 +59,42 @@ describe('Service: ASTManager', function () {
       }
     );
 
-    xit('should return full path when pointer is at value',
+    it('should return full path when pointer is at value',
       function () {
         expect(ASTManager.pathForPosition(2, 11)).to.deep
           .equal(['info', 'title']);
       }
     );
+
+    describe('when pointer is at key with string value', function () {
+      it('should return parent path for beginning of line', function () {
+        expect(ASTManager.pathForPosition(2, 0)).to.deep.equal(['info']);
+      });
+
+      it('should return parent path for beginning of key', function () {
+        expect(ASTManager.pathForPosition(2, 4)).to.deep.equal(['info']);
+
+      });
+
+      it('should return parent path for end of key', function () {
+        expect(ASTManager.pathForPosition(2, 6)).to.deep.equal(['info']);
+      });
+    });
+
+    describe('when pointer is at key with hash value', function () {
+      it('should return parent path for beginning of line', function () {
+        expect(ASTManager.pathForPosition(1, 0)).to.deep.equal(['info']);
+      });
+
+      it('should return parent path for beginning of key', function () {
+        expect(ASTManager.pathForPosition(1, 0)).to.deep.equal(['info']);
+
+      });
+
+      it('should return parent path for end of key', function () {
+        expect(ASTManager.pathForPosition(1, 3)).to.deep.equal(['info']);
+      });
+    });
   });
 
 });

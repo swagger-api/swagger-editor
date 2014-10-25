@@ -82,7 +82,7 @@ PhonicsApp.controller('PreviewCtrl', function PreviewCtrl(Storage, Builder,
    * @returns {boolean}
   */
   $scope.isInFocus = function (path) {
-    return FocusedPath.isInFocus(path);
+    return !!path; //FocusedPath.isInFocus(path);
   };
 
   /*
