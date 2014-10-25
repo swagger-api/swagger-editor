@@ -15,17 +15,17 @@ describe('Service: ASTManager', function () {
     var yaml;
     beforeEach(function () {
       yaml = [
-        /*
-         0         10        20        30
-         012345678901234567890123456789012345678 */
-        'swagger: "2.0"',                   /* 0 */
-        'info:',                            /* 1 */
-        '  title: Test document',           /* 2 */
-        '  version: 0.0.1',                 /* 3 */
-        '  contact:',                       /* 4 */
-        '    name: Mohsen',                 /* 5 */
-        '    url: github.com',              /* 6 */
-        '    email: me@example.com'         /* 7 */
+                 /*
+                 0         10        20        30
+                 012345678901234567890123456789012345678 */
+        /* 0 */ 'swagger: "2.0"',
+        /* 1 */ 'info:',
+        /* 2 */ '  title: Test document',
+        /* 3 */ '  version: 0.0.1',
+        /* 4 */ '  contact:',
+        /* 5 */ '    name: Mohsen',
+        /* 6 */ '    url: github.com',
+        /* 7 */ '    email: me@example.com'
       ].join('\n');
 
       ASTManager.refresh(yaml);
