@@ -10,3 +10,5 @@ app/bower_components
 *.sublime-workspace
 .*.swp
 buttons.diff
+.idea
+*.iml
