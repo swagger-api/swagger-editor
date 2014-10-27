@@ -53,13 +53,23 @@ describe('Service: ASTManager', function () {
     });
 
     describe('when pointer is at end of document', function () {
-      it('with one level of indentation returns path to parent', function () {
-          expect(ASTManager.pathForPosition(7, 2)).to.deep.equal(['info']);
+      it('with 1 level of indentation returns path to parent', function () {
+        expect(ASTManager.pathForPosition(7, 2)).to.deep.equal(['info']);
       });
 
-      it('with two level of indentation returns path to parent', function () {
+      it('with 2 level of indentation returns path to parent', function () {
         expect(ASTManager.pathForPosition(7, 4)).to.deep
           .equal(['info', 'contact']);
+      });
+
+      it('with 3 level of indentation return path to parent', function () {
+        expect(ASTManager.pathForPosition(7, 6)).to.deep
+          .equal(['info', 'contact', 'email']);
+      });
+
+      it('with 4 level of indentation does the same as 3 level', function () {
+        expect(ASTManager.pathForPosition(7, 8)).to.deep
+          .equal(['info', 'contact', 'email']);
       });
     });
 

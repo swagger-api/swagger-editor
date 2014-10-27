@@ -7,6 +7,7 @@
 PhonicsApp.service('ASTManager', function ASTManager() {
   var MAP_TAG = 'tag:yaml.org,2002:map';
   var SEQ_TAG = 'tag:yaml.org,2002:seq';
+  var INDENT = 2; // TODO: make indent dynamic based on document
   var ast = {};
   var changeListeners = [];
 
@@ -134,6 +135,7 @@ PhonicsApp.service('ASTManager', function ASTManager() {
    *   in line of the code in the editor
   */
   function pathForPosition(line, row) {
+    /* jshint camelcase: false */
     var result = [];
     var start;
     var end;
@@ -145,7 +147,6 @@ PhonicsApp.service('ASTManager', function ASTManager() {
     recurse ([], ast);
 
     function recurse(path, current) {
-      /* jshint camelcase: false */
       start = current.start_mark;
       end = current.end_mark;
 
@@ -163,6 +164,20 @@ PhonicsApp.service('ASTManager', function ASTManager() {
             recurse(path.concat(i), current.value[i]);
           }
         }
+      }
+    }
+
+    // if pointer is at end of file depending on indentation, select the parent
+    // node
+    if (ast.end_mark.line === line && result.length === 0) {
+      var current = ast;
+      // Select last key of the map for each indent
+      while(row) {
+        if (current.tag === MAP_TAG) {
+          result.push(current.value[current.value.length - 1][0].value);
+          current = current.value[current.value.length - 1][1];
+        }
+        row -= INDENT;
       }
     }
 
