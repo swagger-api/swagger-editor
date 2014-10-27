@@ -16,7 +16,7 @@ paths:
     get:
       # Describe this verb here. Note: you can use markdown
       description: |
-        Gets `Person` objects
+        Gets `Person` objects.
         Optional query param of **size** determines
         size of returned array
       # This is array of GET operation parameters:
