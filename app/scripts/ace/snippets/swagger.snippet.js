@@ -64,11 +64,96 @@ PhonicsApp.config(function ($provide) {
     },
 
     {
-      name: 'operation',
-      trigger: 'op',
+      name: 'get',
+      trigger: 'get',
       path: ['paths', '*'],
       content: [
-        '${1:operationName}:',
+        '${1:get}:',
+        '  summary: ${2}',
+        '  description: ${2}',
+        '  responses:',
+        '    ${3:response}',
+        '  parameters:',
+        '    ${4:parameter}',
+        '  tags: ${5:[]}',
+        '${6}'
+      ].join('\n')
+    },
+
+    {
+      name: 'post',
+      trigger: 'post',
+      path: ['paths', '*'],
+      content: [
+        '${1:post}:',
+        '  summary: ${2}',
+        '  description: ${2}',
+        '  responses:',
+        '    ${3:response}',
+        '  parameters:',
+        '    ${4:parameter}',
+        '  tags: ${5:[]}',
+        '${6}'
+      ].join('\n')
+    },
+
+    {
+      name: 'put',
+      trigger: 'put',
+      path: ['paths', '*'],
+      content: [
+        '${1:put}:',
+        '  summary: ${2}',
+        '  description: ${2}',
+        '  responses:',
+        '    ${3:response}',
+        '  parameters:',
+        '    ${4:parameter}',
+        '  tags: ${5:[]}',
+        '${6}'
+      ].join('\n')
+    },
+
+    {
+      name: 'delete',
+      trigger: 'delete',
+      path: ['paths', '*'],
+      content: [
+        '${1:delete}:',
+        '  summary: ${2}',
+        '  description: ${2}',
+        '  responses:',
+        '    ${3:response}',
+        '  parameters:',
+        '    ${4:parameter}',
+        '  tags: ${5:[]}',
+        '${6}'
+      ].join('\n')
+    },
+
+    {
+      name: 'patch',
+      trigger: 'patch',
+      path: ['paths', '*'],
+      content: [
+        '${1:patch}:',
+        '  summary: ${2}',
+        '  description: ${2}',
+        '  responses:',
+        '    ${3:response}',
+        '  parameters:',
+        '    ${4:parameter}',
+        '  tags: ${5:[]}',
+        '${6}'
+      ].join('\n')
+    },
+
+    {
+      name: 'options',
+      trigger: 'options',
+      path: ['paths', '*'],
+      content: [
+        '${1:options}:',
         '  summary: ${2}',
         '  description: ${2}',
         '  responses:',
