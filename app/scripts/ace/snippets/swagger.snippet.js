@@ -83,7 +83,7 @@ PhonicsApp.config(function ($provide) {
     {
       name: 'post',
       trigger: 'post',
-      path: ['paths', '*'],
+      path: ['paths', '.'],
       content: [
         '${1:post}:',
         '  summary: ${2}',
@@ -100,7 +100,7 @@ PhonicsApp.config(function ($provide) {
     {
       name: 'put',
       trigger: 'put',
-      path: ['paths', '*'],
+      path: ['paths', '.'],
       content: [
         '${1:put}:',
         '  summary: ${2}',
@@ -117,7 +117,7 @@ PhonicsApp.config(function ($provide) {
     {
       name: 'delete',
       trigger: 'delete',
-      path: ['paths', '*'],
+      path: ['paths', '.'],
       content: [
         '${1:delete}:',
         '  summary: ${2}',
@@ -134,7 +134,7 @@ PhonicsApp.config(function ($provide) {
     {
       name: 'patch',
       trigger: 'patch',
-      path: ['paths', '*'],
+      path: ['paths', '.'],
       content: [
         '${1:patch}:',
         '  summary: ${2}',
@@ -151,7 +151,7 @@ PhonicsApp.config(function ($provide) {
     {
       name: 'options',
       trigger: 'options',
-      path: ['paths', '*'],
+      path: ['paths', '.'],
       content: [
         '${1:options}:',
         '  summary: ${2}',
@@ -168,7 +168,7 @@ PhonicsApp.config(function ($provide) {
     {
       name: 'parameter',
       trigger: 'param',
-      path: ['paths', '*', '*'],
+      path: ['paths', '.', '.', 'parameters'],
       content: [
         '- name: ${1:parameter_name}',
         '  in: ${2:in}',
@@ -182,7 +182,7 @@ PhonicsApp.config(function ($provide) {
     {
       name: 'response',
       trigger: 'resp',
-      path: ['paths', '*', '*'],
+      path: ['paths', '.', '.', 'responses'],
       content: [
         '${1:code}:',
         '  description: ${2}',
@@ -194,6 +194,7 @@ PhonicsApp.config(function ($provide) {
     {
       name: 'model',
       trigger: 'mod|def',
+      regex: 'mod|def',
       path: ['definitions'],
       content: [
         '${1:ModelName}:',

@@ -1,264 +1,7 @@
 'use strict';
 
-PhonicsApp.service('Autocomplete', function Autocomplete(snippets, ASTManager) {
+PhonicsApp.service('Autocomplete', function (snippets, ASTManager, KeywordMap) {
   var editor = null;
-  var keywords = [
-    'get',
-    'post',
-    'delete',
-    'options',
-    'put',
-    'headers',
-    'swagger',
-    'info',
-    'host',
-    'basePath',
-    'schemes',
-    'consumes',
-    'produces',
-    'paths',
-    'definitions',
-    'parameters',
-    'responses',
-    'security',
-    'securityDefinitions',
-    'tags',
-    'externalDocs',
-    'title',
-    'version',
-    'description',
-    'termsOfService',
-    'contact',
-    'license',
-    'name',
-    'url',
-    'email',
-    'name',
-    'url',
-    'description',
-    'url',
-    'tags',
-    'summary',
-    'description',
-    'externalDocs',
-    'operationId',
-    'produces',
-    'consumes',
-    'parameters',
-    'responses',
-    'schemes',
-    'deprecated',
-    'security',
-    '$ref',
-    'get',
-    'put',
-    'post',
-    'delete',
-    'options',
-    'head',
-    'patch',
-    'parameters',
-    'description',
-    'schema',
-    'headers',
-    'examples',
-    'type',
-    'format',
-    'items',
-    'collectionFormat',
-    'default',
-    'maximum',
-    'exclusiveMaximum',
-    'minimum',
-    'exclusiveMinimum',
-    'maxLength',
-    'minLength',
-    'pattern',
-    'maxItems',
-    'minItems',
-    'uniqueItems',
-    'enum',
-    'multipleOf',
-    'description',
-    'description',
-    'name',
-    'in',
-    'required',
-    'schema',
-    'required',
-    'in',
-    'description',
-    'name',
-    'type',
-    'format',
-    'items',
-    'collectionFormat',
-    'default',
-    'maximum',
-    'exclusiveMaximum',
-    'minimum',
-    'exclusiveMinimum',
-    'maxLength',
-    'minLength',
-    'pattern',
-    'maxItems',
-    'minItems',
-    'uniqueItems',
-    'enum',
-    'multipleOf',
-    'required',
-    'in',
-    'description',
-    'name',
-    'type',
-    'format',
-    'items',
-    'collectionFormat',
-    'default',
-    'maximum',
-    'exclusiveMaximum',
-    'minimum',
-    'exclusiveMinimum',
-    'maxLength',
-    'minLength',
-    'pattern',
-    'maxItems',
-    'minItems',
-    'uniqueItems',
-    'enum',
-    'multipleOf',
-    'required',
-    'in',
-    'description',
-    'name',
-    'type',
-    'format',
-    'items',
-    'collectionFormat',
-    'default',
-    'maximum',
-    'exclusiveMaximum',
-    'minimum',
-    'exclusiveMinimum',
-    'maxLength',
-    'minLength',
-    'pattern',
-    'maxItems',
-    'minItems',
-    'uniqueItems',
-    'enum',
-    'multipleOf',
-    'required',
-    'in',
-    'description',
-    'name',
-    'type',
-    'format',
-    'items',
-    'collectionFormat',
-    'default',
-    'maximum',
-    'exclusiveMaximum',
-    'minimum',
-    'exclusiveMinimum',
-    'maxLength',
-    'minLength',
-    'pattern',
-    'maxItems',
-    'minItems',
-    'uniqueItems',
-    'enum',
-    'multipleOf',
-    'format',
-    'title',
-    'description',
-    'default',
-    'multipleOf',
-    'maximum',
-    'exclusiveMaximum',
-    'minimum',
-    'exclusiveMinimum',
-    'maxLength',
-    'minLength',
-    'pattern',
-    'maxItems',
-    'minItems',
-    'uniqueItems',
-    'maxProperties',
-    'minProperties',
-    'required',
-    'enum',
-    'type',
-    'items',
-    'allOf',
-    'properties',
-    'discriminator',
-    'readOnly',
-    'xml',
-    'externalDocs',
-    'example',
-    'type',
-    'format',
-    'items',
-    'collectionFormat',
-    'default',
-    'maximum',
-    'exclusiveMaximum',
-    'minimum',
-    'exclusiveMinimum',
-    'maxLength',
-    'minLength',
-    'pattern',
-    'maxItems',
-    'minItems',
-    'uniqueItems',
-    'enum',
-    'multipleOf',
-    'name',
-    'namespace',
-    'prefix',
-    'attribute',
-    'wrapped',
-    'name',
-    'description',
-    'externalDocs',
-    'type',
-    'description',
-    'type',
-    'name',
-    'in',
-    'description',
-    'type',
-    'flow',
-    'scopes',
-    'authorizationUrl',
-    'description',
-    'type',
-    'flow',
-    'scopes',
-    'tokenUrl',
-    'description',
-    'type',
-    'flow',
-    'scopes',
-    'tokenUrl',
-    'description',
-    'type',
-    'flow',
-    'scopes',
-    'authorizationUrl',
-    'tokenUrl',
-    'description'
-  ];
-
-  keywords = keywords.map(function (keyword) {
-    return {
-      name: keyword,
-      value: keyword,
-      score: 200,
-      meta: 'keyword'
-    };
-  });
 
   /*
    * Check if a path is match with
@@ -276,9 +19,7 @@ PhonicsApp.service('Autocomplete', function Autocomplete(snippets, ASTManager) {
     }
 
     for (var i = 0; i < path.length; i++) {
-      if (path[i] !== matcher[i]) {
-        return false;
-      }
+      return (new RegExp(matcher[i])).test(path[i]);
     }
     return true;
   }
@@ -300,29 +41,36 @@ PhonicsApp.service('Autocomplete', function Autocomplete(snippets, ASTManager) {
     };
   }
 
-  // function getKeywordsForPosition(pos) {
-  //   var path = ASTManager.pathForPosition(pos.row);
-  //   var schema = Resolver.resolve(schema);
-  //   var key;
+  function getKeywordsForPosition(pos, callback) {
+    // pos.column is 1 more because the character is already inserted
+    var path = ASTManager.pathForPosition(pos.row, pos.column - 1);
+    var keywordsMap = KeywordMap.get();
+    var key;
 
-  //   if (!Array.isArray(path)) {
-  //     return [];
-  //   }
+    if (!Array.isArray(path)) {
+      return [];
+    }
 
-  //   while (path.length && schema.properties) {
-  //     key = path.pop();
-  //     schema = schema.properties[key];
-  //   }
+    while (path.length && angular.isObject(keywordsMap)) {
+      key = path.shift();
+      for (var k in keywordsMap) {
+        if ((new RegExp(k)).test(key)) {
+          keywordsMap = keywordsMap[k];
+          break;
+        }
+      }
+    }
 
-  //   return Object.keys(schema.properties).map(function(keyword) {
-  //     return {
-  //       name: keyword,
-  //       value: keyword,
-  //       score: 300,
-  //       meta: 'swagger'
-  //     };
-  //   });
-  // }
+    var result = Object.keys(keywordsMap).map(function (keyword) {
+      return {
+        name: keyword,
+        value: keyword,
+        score: 300,
+        meta: 'swagger'
+      };
+    });
+    callback(result);
+  }
 
   /*
    * Gives score to snippet based on their position
@@ -347,8 +95,10 @@ PhonicsApp.service('Autocomplete', function Autocomplete(snippets, ASTManager) {
         })
         .map(sortSnippets);
 
-      var completions = keywords.concat(snippetsForPos);
-      callback(null, completions);
+      getKeywordsForPosition(pos, function (keywordsForPos) {
+        callback(null, keywordsForPos.concat(snippetsForPos));
+      });
+
     }
   };
 
