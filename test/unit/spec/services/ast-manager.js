@@ -28,7 +28,7 @@ describe('Service: ASTManager', function () {
       });
     });
 
-    describe('when document is only a key value map', function  () {
+    describe('when document is only a key value map', function () {
       beforeEach(function () {
               //0123456789
         yaml = 'swagger: 2'

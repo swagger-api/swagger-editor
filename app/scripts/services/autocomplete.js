@@ -45,23 +45,33 @@ PhonicsApp.service('Autocomplete', function (snippets, ASTManager, KeywordMap) {
     // pos.column is 1 more because the character is already inserted
     var path = ASTManager.pathForPosition(pos.row, pos.column - 1);
     var keywordsMap = KeywordMap.get();
-    var key;
+    var resultKeywords = {};
 
     if (!Array.isArray(path)) {
       return [];
     }
 
-    while (path.length && angular.isObject(keywordsMap)) {
-      key = path.shift();
-      for (var k in keywordsMap) {
-        if ((new RegExp(k)).test(key)) {
-          keywordsMap = keywordsMap[k];
-          break;
-        }
+    recurse(keywordsMap, path);
+
+    function recurse(keywordsMap, path) {
+      var key = path.shift();
+
+      if (!path.length) {
+        resultKeywords = keywordsMap;
+        return;
+      }
+
+      if (angular.isObject(keywordsMap)) {
+        Object.keys(keywordsMap).forEach(function (k) {
+          var regex = new RegExp(k);
+          if (regex.test(key)) {
+            recurse(keywordsMap[k], path);
+          }
+        });
       }
     }
 
-    var result = Object.keys(keywordsMap).map(function (keyword) {
+    var result = Object.keys(resultKeywords).map(function (keyword) {
       return {
         name: keyword,
         value: keyword,
