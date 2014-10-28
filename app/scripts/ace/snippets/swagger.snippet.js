@@ -192,6 +192,19 @@ PhonicsApp.config(function ($provide) {
     },
 
     {
+      name: '200',
+      trigger: '200',
+      path: ['paths', '.', '.', 'responses'],
+      content: [
+        '200:',
+        '  description: ${1}',
+        '  schema:',
+        '    type: ${2}',
+        '${4}'
+      ].join('\n')
+    },
+
+    {
       name: 'model',
       trigger: 'mod|def',
       regex: 'mod|def',
