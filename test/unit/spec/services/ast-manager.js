@@ -25,7 +25,8 @@ describe('Service: ASTManager', function () {
         /* 4 */ '  contact:',
         /* 5 */ '    name: Mohsen',
         /* 6 */ '    url: github.com',
-        /* 7 */ '    email: me@example.com'
+        /* 7 */ '    email: me@example.com',
+        /* 8 */ '                         '
       ].join('\n');
 
       ASTManager.refresh(yaml);
@@ -44,62 +45,64 @@ describe('Service: ASTManager', function () {
       it('should return empty path at end of document row 0', function () {
         expect(ASTManager.pathForPosition(7, 0)).to.deep.equal([]);
       });
-      it('should return full path when pointer is at value',
-        function () {
-          expect(ASTManager.pathForPosition(2, 11)).to.deep
-            .equal(['info', 'title']);
-        }
-      );
+
+      it('should return full path when pointer is at value', function () {
+        expect(ASTManager.pathForPosition(2, 11)).to.deep
+          .equal(['info', 'title']);
+      });
     });
 
     describe('when pointer is at end of document', function () {
       it('with 1 level of indentation returns path to parent', function () {
-        expect(ASTManager.pathForPosition(7, 2)).to.deep.equal(['info']);
+        expect(ASTManager.pathForPosition(8, 2)).to.deep.equal(['info']);
       });
 
       it('with 2 level of indentation returns path to parent', function () {
-        expect(ASTManager.pathForPosition(7, 4)).to.deep
+        expect(ASTManager.pathForPosition(8, 4)).to.deep
           .equal(['info', 'contact']);
       });
 
       it('with 3 level of indentation return path to parent', function () {
-        expect(ASTManager.pathForPosition(7, 6)).to.deep
+        expect(ASTManager.pathForPosition(8, 6)).to.deep
           .equal(['info', 'contact', 'email']);
       });
 
       it('with 4 level of indentation does the same as 3 level', function () {
-        expect(ASTManager.pathForPosition(7, 8)).to.deep
+        expect(ASTManager.pathForPosition(8, 8)).to.deep
           .equal(['info', 'contact', 'email']);
       });
     });
 
-    xdescribe('when pointer is at key with string value', function () {
+    describe('when pointer is at key with single line value', function () {
       it('should return parent path for beginning of line', function () {
-        expect(ASTManager.pathForPosition(2, 0)).to.deep.equal(['info']);
+        expect(ASTManager.pathForPosition(2, 0)).to.deep.equal([]);
       });
 
       it('should return parent path for beginning of key', function () {
         expect(ASTManager.pathForPosition(2, 4)).to.deep.equal(['info']);
+      });
 
+      it('should return parent path for middle of key', function () {
+        expect(ASTManager.pathForPosition(2, 5)).to.deep.equal(['info']);
       });
 
       it('should return parent path for end of key', function () {
-        expect(ASTManager.pathForPosition(2, 6)).to.deep.equal(['info']);
+        expect(ASTManager.pathForPosition(2, 7)).to.deep.equal(['info']);
       });
     });
 
-    xdescribe('when pointer is at key with hash value', function () {
+    describe('when pointer is at key with multi-line value', function () {
       it('should return parent path for beginning of line', function () {
-        expect(ASTManager.pathForPosition(1, 0)).to.deep.equal(['info']);
+        expect(ASTManager.pathForPosition(1, 0)).to.deep.equal([]);
       });
 
-      it('should return parent path for beginning of key', function () {
-        expect(ASTManager.pathForPosition(1, 0)).to.deep.equal(['info']);
-
+      it('should return parent path for middle of key', function () {
+        expect(ASTManager.pathForPosition(1, 3)).to.deep.equal([]);
       });
 
-      it('should return parent path for end of key', function () {
-        expect(ASTManager.pathForPosition(1, 3)).to.deep.equal(['info']);
+      it('should return parent path for middle of a deep key', function () {
+        expect(ASTManager.pathForPosition(5, 7))
+          .to.deep.equal(['info', 'contact']);
       });
     });
   });

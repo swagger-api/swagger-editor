@@ -150,20 +150,24 @@ PhonicsApp.service('ASTManager', function ASTManager() {
       start = current.start_mark;
       end = current.end_mark;
 
+      // if node is the same line as `line` and row falls between node's start
+      // and end columns we found the node
       if (start.line === line && end.line === line &&
         start.column <= row  && end.column >= row) {
         result = path;
-      } else {
-        for (var i = 0; i < current.value.length; i++) {
-          if (current.tag === MAP_TAG) {
-            recurse(
-              path.concat(current.value[i][0].value),
-              current.value[i][1]
-            );
-          } else if (current.tag === SEQ_TAG) {
-            recurse(path.concat(i), current.value[i]);
-          }
-        }
+
+      // if this node is a map, loop throw and recurse both keys and value
+      } else if (current.tag === MAP_TAG) {
+        current.value.forEach(function (keyValuePair) {
+          recurse(path, keyValuePair[0]); // key
+          recurse(path.concat(keyValuePair[0].value), keyValuePair[1]); // value
+        });
+
+      // if this node is a sequence, loop throw values and recurse
+      } else if (current.tag === SEQ_TAG) {
+        current.value.forEach(function (value, index) {
+          recurse(path.concat(index), value);
+        });
       }
     }
 
@@ -172,7 +176,7 @@ PhonicsApp.service('ASTManager', function ASTManager() {
     if (ast.end_mark.line === line && result.length === 0) {
       var current = ast;
       // Select last key of the map for each indent
-      while(row) {
+      while (row) {
         if (current.tag === MAP_TAG) {
           result.push(current.value[current.value.length - 1][0].value);
           current = current.value[current.value.length - 1][1];
