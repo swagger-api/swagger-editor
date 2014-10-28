@@ -9,8 +9,8 @@ PhonicsApp.controller('OpenExamplesCtrl', function OpenExamplesCtrl(FileLoader,
   $scope.open = function (file) {
     FileLoader.loadFromUrl('spec-files/' + file).then(function (value) {
       Storage.save('yaml', value);
+      ASTManager.refresh(value);
       Editor.setValue(value);
-      ASTManager.refresh();
       $modalInstance.close();
     }, $modalInstance.close);
   };
