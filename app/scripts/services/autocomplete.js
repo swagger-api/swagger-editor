@@ -6,7 +6,7 @@ PhonicsApp.service('Autocomplete', function (snippets, ASTManager, KeywordMap) {
   function getPathForPosition(pos) {
     // pos.column is 1 more because the character is already inserted
     var path = ASTManager.pathForPosition(pos.row, pos.column - 1);
-    console.log(path);
+
     return path;
   }
 
