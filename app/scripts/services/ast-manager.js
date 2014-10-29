@@ -142,6 +142,7 @@ PhonicsApp.service('ASTManager', function ASTManager() {
     var start;
     var end;
     var yamlLines = yamlBuffer.split('\n');
+    var buffer = null;
 
     // If pointer is not at the end of document, strip down the rest of document
     // from below this line and use AST from the stripped document
@@ -151,19 +152,21 @@ PhonicsApp.service('ASTManager', function ASTManager() {
       !/.\: ./.test(yamlLines[line])) {
 
       // Get a copy of full YAML
-      var buffer = _.clone(yamlBuffer);
+      buffer = _.clone(yamlBuffer);
 
       // Trim down yaml to the line
-      var yaml = yamlBuffer.split('\n').splice(0, line).join('\n') + '\n';
+      var yaml = yamlLines.splice(0, line).join('\n') + '\n';
 
       // Add indentation to yaml
-      for (var i = 0; i < row; i++) {
+      var lastLine = yamlLines[line];
+      var lastLineChars = lastLine.split('');
+
+      while (lastLineChars.pop() !== ' ') {
         yaml += ' ';
       }
 
       refreshAST(yaml);
     }
-
 
     if (line === undefined) {
       return result;
@@ -215,7 +218,7 @@ PhonicsApp.service('ASTManager', function ASTManager() {
     }
 
     // Put back yamlBuffer
-    refreshAST(buffer);
+    if (buffer) { refreshAST(buffer); }
 
     return result;
   }
