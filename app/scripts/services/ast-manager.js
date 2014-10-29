@@ -176,7 +176,7 @@ PhonicsApp.service('ASTManager', function ASTManager() {
     if (ast.end_mark.line === line && result.length === 0) {
       var current = ast;
       // Select last key of the map for each indent
-      while (row) {
+      while (row > 0) {
         if (current.tag === MAP_TAG) {
           result.push(current.value[current.value.length - 1][0].value);
           current = current.value[current.value.length - 1][1];
