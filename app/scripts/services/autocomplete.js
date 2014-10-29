@@ -6,7 +6,7 @@ PhonicsApp.service('Autocomplete', function (snippets, ASTManager, KeywordMap) {
   function getPathForPosition(pos) {
     // pos.column is 1 more because the character is already inserted
     var path = ASTManager.pathForPosition(pos.row, pos.column - 1);
-
+    console.log(path);
     return path;
   }
 
@@ -31,6 +31,9 @@ PhonicsApp.service('Autocomplete', function (snippets, ASTManager, KeywordMap) {
     return true;
   }
 
+  /*
+  * Get filter function for snippets based on a position (`pos`)
+  */
   function filterForSnippets(pos) {
     ASTManager.refresh(editor.getValue());
 
@@ -47,6 +50,26 @@ PhonicsApp.service('Autocomplete', function (snippets, ASTManager, KeywordMap) {
     };
   }
 
+  /*
+   * With a given object returns child that it's key
+   * matches `key`
+  */
+  function getChild(object, key) {
+    var keys = Object.keys(object);
+    var regex;
+
+    for (var i = 0; i < keys.length; i++) {
+      regex = new RegExp(keys[i]);
+
+      if (regex.test(key)) {
+        return object[keys[i]];
+      }
+    }
+  }
+
+  /*
+   * Get array of keywords base don a position (`pos`)
+  */
   function getKeywordsForPosition(pos) {
     var path = getPathForPosition(pos);
     var keywordsMap = KeywordMap.get();
@@ -56,8 +79,8 @@ PhonicsApp.service('Autocomplete', function (snippets, ASTManager, KeywordMap) {
       return [];
     }
 
-    while (key) {
-      keywordsMap = keywordsMap[key];
+    while (key && angular.isObject(keywordsMap)) {
+      keywordsMap = getChild(keywordsMap, key);
       key = path.shift();
     }
 
