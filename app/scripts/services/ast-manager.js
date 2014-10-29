@@ -10,14 +10,14 @@ PhonicsApp.service('ASTManager', function ASTManager() {
   var INDENT = 2; // TODO: make indent dynamic based on document
   var ast = {};
   var changeListeners = [];
-  var yamlBuffer = null;
+  var yamlBuffer = '';
 
   /*
   ** Update ast with changes from editor
   */
   function refreshAST(value) {
     try {
-      yamlBuffer = value;
+      yamlBuffer = value || '';
       ast = yaml.compose(value);
     } catch (error) {
       return;
@@ -141,19 +141,29 @@ PhonicsApp.service('ASTManager', function ASTManager() {
     var result = [];
     var start;
     var end;
+    var yamlLines = yamlBuffer.split('\n');
 
-    // Get a copy of full YAML
-    var buffer = _.clone(yamlBuffer);
+    // If pointer is not at the end of document, strip down the rest of document
+    // from below this line and use AST from the stripped document
+    // We don't do this stripping when pointer is at beginning of a line
+    // or line is a key-value map
+    if (line !== yamlLines.length - 1 && row !== 0 &&
+      !/.\: ./.test(yamlLines[line])) {
 
-    // Trim down yaml to the line
-    var yaml = yamlBuffer.split('\n').splice(0, line).join('\n') + '\n';
+      // Get a copy of full YAML
+      var buffer = _.clone(yamlBuffer);
 
-    // Add indentation to yaml
-    for (var i = 0; i < row; i++) {
-      yaml += ' ';
+      // Trim down yaml to the line
+      var yaml = yamlBuffer.split('\n').splice(0, line).join('\n') + '\n';
+
+      // Add indentation to yaml
+      for (var i = 0; i < row; i++) {
+        yaml += ' ';
+      }
+
+      refreshAST(yaml);
     }
 
-    refreshAST(yaml);
 
     if (line === undefined) {
       return result;
@@ -162,6 +172,10 @@ PhonicsApp.service('ASTManager', function ASTManager() {
     recurse ([], ast);
 
     function recurse(path, current) {
+      if (!current) {
+        return;
+      }
+
       start = current.start_mark;
       end = current.end_mark;
 
@@ -188,7 +202,7 @@ PhonicsApp.service('ASTManager', function ASTManager() {
 
     // if pointer is at end of file depending on indentation, select the parent
     // node
-    if (ast.end_mark.line === line && result.length === 0) {
+    if (ast && ast.end_mark.line === line && result.length === 0) {
       var current = ast;
       // Select last key of the map for each indent
       while (row > 0) {

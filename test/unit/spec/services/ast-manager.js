@@ -127,7 +127,7 @@ describe('Service: ASTManager', function () {
         });
 
         it('should return parent path for middle of key', function () {
-          expect(ASTManager.pathForPosition(1, 3)).to.deep.equal([]);
+          expect(ASTManager.pathForPosition(2, 5)).to.deep.equal(['info']);
         });
 
         it('should return parent path for middle of a deep key', function () {
