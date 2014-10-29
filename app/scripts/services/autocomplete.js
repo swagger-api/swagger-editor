@@ -3,6 +3,13 @@
 PhonicsApp.service('Autocomplete', function (snippets, ASTManager, KeywordMap) {
   var editor = null;
 
+  function getPathForPosition(pos) {
+    // pos.column is 1 more because the character is already inserted
+    var path = ASTManager.pathForPosition(pos.row, pos.column - 1);
+
+    return path;
+  }
+
   /*
    * Check if a path is match with
    * @param {array} path - path
@@ -27,8 +34,7 @@ PhonicsApp.service('Autocomplete', function (snippets, ASTManager, KeywordMap) {
   function filterForSnippets(pos) {
     ASTManager.refresh(editor.getValue());
 
-    // pos.column is 1 more because the character is already inserted
-    var path = ASTManager.pathForPosition(pos.row, pos.column - 1);
+    var path = getPathForPosition(pos);
 
     // If there is no path being returned by AST Manager and only one character
     // was typed, path is root
@@ -42,8 +48,7 @@ PhonicsApp.service('Autocomplete', function (snippets, ASTManager, KeywordMap) {
   }
 
   function getKeywordsForPosition(pos, callback) {
-    // pos.column is 1 more because the character is already inserted
-    var path = ASTManager.pathForPosition(pos.row, pos.column - 1);
+    var path = getPathForPosition(pos);
     var keywordsMap = KeywordMap.get();
     var resultKeywords = {};
 
