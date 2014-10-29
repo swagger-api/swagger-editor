@@ -47,36 +47,21 @@ PhonicsApp.service('Autocomplete', function (snippets, ASTManager, KeywordMap) {
     };
   }
 
-  function getKeywordsForPosition(pos, callback) {
+  function getKeywordsForPosition(pos) {
     var path = getPathForPosition(pos);
     var keywordsMap = KeywordMap.get();
-    var resultKeywords = {};
+    var key = path.shift();
 
     if (!Array.isArray(path)) {
       return [];
     }
 
-    recurse(keywordsMap, path);
-
-    function recurse(keywordsMap, path) {
-      var key = path.shift();
-
-      if (!path.length) {
-        resultKeywords = keywordsMap;
-        return;
-      }
-
-      if (angular.isObject(keywordsMap)) {
-        Object.keys(keywordsMap).forEach(function (k) {
-          var regex = new RegExp(k);
-          if (regex.test(key)) {
-            recurse(keywordsMap[k], path);
-          }
-        });
-      }
+    while (key) {
+      keywordsMap = keywordsMap[key];
+      key = path.shift();
     }
 
-    var result = Object.keys(resultKeywords).map(function (keyword) {
+    var result = Object.keys(keywordsMap).map(function (keyword) {
       return {
         name: keyword,
         value: keyword,
@@ -84,7 +69,8 @@ PhonicsApp.service('Autocomplete', function (snippets, ASTManager, KeywordMap) {
         meta: 'swagger'
       };
     });
-    callback(result);
+
+    return result;
   }
 
   /*
@@ -110,10 +96,9 @@ PhonicsApp.service('Autocomplete', function (snippets, ASTManager, KeywordMap) {
         })
         .map(sortSnippets);
 
-      getKeywordsForPosition(pos, function (keywordsForPos) {
-        callback(null, keywordsForPos.concat(snippetsForPos));
-      });
+      var keywordsForPos = getKeywordsForPosition(pos);
 
+      callback(null, keywordsForPos.concat(snippetsForPos));
     }
   };
 

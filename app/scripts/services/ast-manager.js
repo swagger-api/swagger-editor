@@ -155,7 +155,7 @@ PhonicsApp.service('ASTManager', function ASTManager() {
       buffer = _.clone(yamlBuffer);
 
       // Trim down yaml to the line
-      var yaml = yamlLines.splice(0, line).join('\n') + '\n';
+      var yaml = yamlLines.slice(0, line).join('\n') + '\n';
 
       // Add indentation to yaml
       var lastLine = yamlLines[line];
