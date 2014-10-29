@@ -10,12 +10,14 @@ PhonicsApp.service('ASTManager', function ASTManager() {
   var INDENT = 2; // TODO: make indent dynamic based on document
   var ast = {};
   var changeListeners = [];
+  var yamlBuffer = null;
 
   /*
   ** Update ast with changes from editor
   */
   function refreshAST(value) {
     try {
+      yamlBuffer = value;
       ast = yaml.compose(value);
     } catch (error) {
       return;
@@ -140,6 +142,19 @@ PhonicsApp.service('ASTManager', function ASTManager() {
     var start;
     var end;
 
+    // Get a copy of full YAML
+    var buffer = _.clone(yamlBuffer);
+
+    // Trim down yaml to the line
+    var yaml = yamlBuffer.split('\n').splice(0, line).join('\n') + '\n';
+
+    // Add indentation to yaml
+    for (var i = 0; i < row; i++) {
+      yaml += ' ';
+    }
+
+    refreshAST(yaml);
+
     if (line === undefined) {
       return result;
     }
@@ -184,6 +199,9 @@ PhonicsApp.service('ASTManager', function ASTManager() {
         row -= INDENT;
       }
     }
+
+    // Put back yamlBuffer
+    refreshAST(buffer);
 
     return result;
   }
