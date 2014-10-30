@@ -18,7 +18,8 @@ PhonicsApp.config(function ($provide) {
       'default.yaml',
       'minimal.yaml',
       'heroku-pets.yaml',
-      'petstore.yaml'
+      'petstore.yaml',
+      'security.yaml'
     ],
 
     backendEndpoint: '/editor/spec',
