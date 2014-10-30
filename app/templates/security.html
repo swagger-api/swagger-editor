@@ -1,0 +1,51 @@
+<div class="security">
+  <header>
+    <h3 class="section-header">
+      <a ng-click="toggle(['security'])">Security</a>
+    </h3>
+  </header>
+
+  <div class="definitions" collapse-when="isCollapsed(['security'])">
+    <div ng-repeat="(securityDefinitionName, securityDefinition) in specs.securityDefinitions">
+      <h3>{{securityDefinitionName}}</h3>
+      <table class="table">
+        <tbody>
+          <tr ng-if="securityDefinition.name">
+            <td>Neme</td>
+            <td>{{securityDefinition.name}}</td>
+          </tr>
+          <tr ng-if="securityDefinition.in">
+            <td>In</td>
+            <td>{{securityDefinition.in}}</td>
+          </tr>
+          <tr ng-if="securityDefinition.type">
+            <td>Type</td>
+            <td>{{securityDefinition.type}}</td>
+          </tr>
+          <tr ng-if="securityDefinition.flow">
+            <td>Flow</td>
+            <td>{{securityDefinition.flow}}</td>
+          </tr>
+          <tr ng-if="securityDefinition.authorizationUrl">
+            <td>Authorization URL</td>
+            <td><a target="_blank" href="{{securityDefinition.authorizationUrl}}">{{securityDefinition.authorizationUrl}}</a></td>
+          </tr>
+          <tr ng-if="securityDefinition.tokenUrl">
+            <td>Authorization URL</td>
+            <td><a target="_blank" href="{{securityDefinition.tokenUrl}}">{{securityDefinition.tokenUrl}}</a></td>
+          </tr>
+        </tbody>
+      </table>
+      <h4 ng-if="securityDefinition.scopes">Scopes</h4>
+      <table ng-if="securityDefinition.scopes">
+        <tbody>
+          <tr ng-repeat="(scopeName, scope) in securityDefinition.scopes">
+            <td><strong>{{scopeName}}</strong></td>
+            <td>{{scope}}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+

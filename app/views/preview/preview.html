@@ -2,9 +2,10 @@
 
   <ng-include src="'templates/error-presenter.html'"
     ng-if="error"></ng-include>
-
   <ng-include src="'templates/specs-info.html'"
     ng-if="!!specs.info && !error.yamlError"></ng-include>
+  <ng-include src="'templates/security.html'"
+    ng-if="!!specs.security"></ng-include>
 
   <header ng-if="!!specs.info && !error.yamlError">
     <h3 class="section-header">
