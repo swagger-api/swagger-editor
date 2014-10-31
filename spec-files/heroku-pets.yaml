@@ -37,6 +37,7 @@ paths:
       parameters:
         - name: petId
           in: path
+          type: string
           description: ID of the pet
           required: true
       responses:
