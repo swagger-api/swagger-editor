@@ -3,33 +3,53 @@
 PhonicsApp.config(function ($provide) {
   $provide.constant('defaults',
 
-  // BEGIN-DEFAUNTAS-JSON
+  // BEGIN-DEFAULTS-JSON
   {
-    downloadZipUrl: 'http://generator.wordnik.com/online/api/gen/download/',
     codegen: {
       servers: 'http://generator.wordnik.com/online/api/gen/servers',
       clients: 'http://generator.wordnik.com/online/api/gen/clients',
       server: 'http://generator.wordnik.com/online/api/gen/servers/{language}',
       client: 'http://generator.wordnik.com/online/api/gen/clients/{language}'
     },
-    schemaUrl: '/schema/swagger.json',
+    disableCodeGen: true,
+
+    examplesFolder: '/spec-files/',
     exampleFiles: [
       'default.yaml',
       'minimal.yaml',
-      'petstore.yaml',
       'heroku-pets.yaml',
-      'uber.yaml'
+      'petstore.yaml',
+      'security.yaml'
     ],
+
+    autocompleteExtension: {
+      'x-a127-config:': Object,
+      'x-volos-resources': Object,
+      paths: {
+
+      //path
+        '.': {
+
+          // operation
+          '.': {
+            'x-swagger-router-controller': String,
+            'x-volos-authorizations': Object,
+            'x-volos-apply': Object
+          }
+        }
+      }
+    },
+
     backendEndpoint: '/editor/spec',
-    backendHelathCheckTimeout: 5000,
     useBackendForStorage: true,
-    disableFileMenu: true,
-    disableCodeGen: true,
-    disableNewUserIntro: true,
+    backendHelathCheckTimeout: 5000,
     useYamlBackend: true,
+
+    disableFileMenu: true,
     headerBranding: true,
     enableTryIt: false,
-    brandingCssClass: 'apigee-127'
+    brandingCssClass: 'apigee-127',
+    schemaUrl: '/schema/swagger.json'
   }
   // END-DEFAULTS-JSON
 

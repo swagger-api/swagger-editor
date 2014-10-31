@@ -22,6 +22,9 @@ PhonicsApp.config(function ($provide) {
       'security.yaml'
     ],
 
+    // See keyword-map.js for object format
+    autocompleteExtension: {},
+
     backendEndpoint: '/editor/spec',
     useBackendForStorage: false,
     backendHelathCheckTimeout: 5000,
