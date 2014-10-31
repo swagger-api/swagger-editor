@@ -85,6 +85,6 @@
         ng-click="toggleTry()"
         ng-if="isTryOpen"
       >Close</button>
-      <try-operation operation="operation" ng-if="isTryOpen"></try-operation>
+      <div ng-include="'templates/try-operation.html'" ng-if="isTryOpen"></div>
     </section>
 </li>
