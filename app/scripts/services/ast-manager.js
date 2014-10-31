@@ -21,7 +21,6 @@ PhonicsApp.service('ASTManager', function ASTManager() {
     try {
       yamlBuffer = value || '';
       ast = yaml.compose(value);
-      console.log(ast);
     } catch (err) {
       error = err;
     }
