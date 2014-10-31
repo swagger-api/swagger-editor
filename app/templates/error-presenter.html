@@ -1,9 +1,9 @@
 <div class="error-presenter" ng-controller="ErrorPresenterCtrl">
   <div ng-if="getError()" class="{{getErrorLevel()}}">
-    <header class="error-header" ng-click="hideError = !hideError">
+    <header class="error-header" ng-click="toggleCollapse()">
         <h4 >{{getType()}}</h4>
     </header>
-    <div class="details" collapse-when="hideError">
+    <div class="details" collapse-when="isCollapsed">
       <pre>{{getDescription()}}</pre>
       <a ng-if="showLineJumpLink()" ng-click="focusEdit($event, getLineNumber() - 1)"
         ng-if="!isPreviewMode">Go to line {{getLineNumber()}}</a>

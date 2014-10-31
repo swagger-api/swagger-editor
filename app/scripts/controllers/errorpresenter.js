@@ -1,7 +1,10 @@
 'use strict';
 
-PhonicsApp.controller('ErrorPresenterCtrl', function ($scope) {
+PhonicsApp.controller('ErrorPresenterCtrl', function ($scope, $rootScope) {
   $scope.docsMode = false;
+
+  // Collapse by default in preview mode
+  $scope.isCollapsed = $rootScope.isPreviewMode;
 
   $scope.getError = function () {
     var error = $scope.$parent.error;
@@ -103,4 +106,8 @@ PhonicsApp.controller('ErrorPresenterCtrl', function ($scope) {
   $scope.showLineJumpLink = function () {
     return $scope.getLineNumber() !== -1;
   };
+
+  $scope.toggleCollapse = function () {
+    $scope.isCollapsed = !$scope.isCollapsed;
+  }
 });
