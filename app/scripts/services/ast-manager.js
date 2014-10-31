@@ -16,13 +16,18 @@ PhonicsApp.service('ASTManager', function ASTManager() {
   ** Update ast with changes from editor
   */
   function refreshAST(value) {
+    var error = null;
+
     try {
       yamlBuffer = value || '';
       ast = yaml.compose(value);
-    } catch (error) {
-      return;
+      console.log(ast);
+    } catch (err) {
+      error = err;
     }
-    emitChanges();
+    if (!error) {
+      emitChanges();
+    }
   }
 
   /*
@@ -161,7 +166,7 @@ PhonicsApp.service('ASTManager', function ASTManager() {
       var lastLine = yamlLines[line];
       var lastLineChars = lastLine.split('');
 
-      while (lastLineChars.pop() !== ' ') {
+      while (lastLineChars.length && lastLineChars.pop() !== ' ') {
         yaml += ' ';
       }
 
