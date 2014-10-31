@@ -109,5 +109,5 @@ PhonicsApp.controller('ErrorPresenterCtrl', function ($scope, $rootScope) {
 
   $scope.toggleCollapse = function () {
     $scope.isCollapsed = !$scope.isCollapsed;
-  }
+  };
 });
