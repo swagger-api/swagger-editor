@@ -84,6 +84,10 @@ PhonicsApp.service('Autocomplete', function (snippets, ASTManager, KeywordMap) {
       key = path.shift();
     }
 
+    if (!angular.isObject(keywordsMap)) {
+      return [];
+    }
+
     var result = Object.keys(keywordsMap).map(function (keyword) {
       return {
         name: keyword,
