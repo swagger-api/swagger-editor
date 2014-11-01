@@ -61,7 +61,7 @@ PhonicsApp.service('Autocomplete', function (snippets, ASTManager, KeywordMap) {
     for (var i = 0; i < keys.length; i++) {
       regex = new RegExp(keys[i]);
 
-      if (regex.test(key)) {
+      if (regex.test(key) && object[keys[i]]) {
         return object[keys[i]];
       }
     }

@@ -6,6 +6,7 @@ PhonicsApp.service('KeywordMap', function KeywordMap(defaults) {
     info: {
       version: String,
       title: String,
+      description: String,
       contact: {
         name: String,
         url: String,
