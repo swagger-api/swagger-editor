@@ -58,7 +58,7 @@ PhonicsApp.controller('TryOperation', function ($scope) {
     }, {});
     var queryParamsStr = $.param(queryParams);
 
-    return scheme + '//' + host + basePath + pathTemplate(pathParams) +
+    return scheme + '://' + host + basePath + pathTemplate(pathParams) +
       (queryParamsStr ? '?' + queryParamsStr : '');
   }
 

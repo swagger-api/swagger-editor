@@ -28,7 +28,9 @@
   <div class="request">
     <div class="raw-request raw">
       <div class="line url">
-        {{$parent.operationName | uppercase}} {{generateUrl()}} {{httpProtorcol}}
+        {{$parent.operationName | uppercase}}
+        <a href="{{generateUrl()}}" target="_blank">{{generateUrl()}}</a>
+        {{httpProtorcol}}
       </div>
       <div class="content-type-header" ng-if="getContentTypeHeaders().length">
         Content-Type: {{contentType}}

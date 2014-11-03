@@ -20,11 +20,13 @@
     "lodash": "~2.4.1",
     "ngstorage": "~0.3.0",
     "yaml-js": "mohsen1/yaml-js",
-    "swagger-tools": "~0.6.11"
+    "swagger-tools": "~0.6.11",
+    "objectpath": "~1.0.5"
   },
   "dependencies": {
     "json-formatter": "~0.2.2",
     "angular-ui-layout": "bower",
-    "json-schema-view": "~0.3.9"
+    "json-schema-view": "~0.3.9",
+    "angular-schema-form": "~0.7.6"
   }
 }

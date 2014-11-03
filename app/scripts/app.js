@@ -12,5 +12,6 @@ window.PhonicsApp = angular.module('PhonicsApp', [
   'jsonFormatter',
   'hc.marked',
   'ui.layout',
-  'mohsen1.json-schema-view'
+  'mohsen1.json-schema-view',
+  'schemaForm'
 ]);
