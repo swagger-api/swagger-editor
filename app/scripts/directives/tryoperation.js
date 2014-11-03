@@ -16,6 +16,36 @@ PhonicsApp.controller('TryOperation', function ($scope) {
   $scope.xhrInProgress = false;
   $scope.getHeaderParams = getHeaderParams;
 
+  $scope.form = ['*'];
+
+  $scope.model = {};
+
+  if (Array.isArray($scope.operation.parameters)) {
+    $scope.parameters = $scope.operation.parameters.map(function (parameter) {
+      return _.extend(parameter, {
+        schema: schemaForParameter(parameter)
+      });
+    });
+  }
+
+  function schemaForParameter(parameter) {
+    if (parameter && parameter.schema) {
+      if (!parameter.schema.type) {
+        parameter.schema.type = 'object';
+      }
+      return parameter.schema;
+    }
+
+    return {
+      type: 'object',
+      properties: {
+        '': {
+          type: 'string'
+        }
+      }
+    };
+  }
+
   function getHeaderParams() {
     var headerParams = {};
     if ($scope.hasParams) {

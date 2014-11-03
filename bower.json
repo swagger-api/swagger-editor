@@ -21,7 +21,8 @@
     "ngstorage": "~0.3.0",
     "yaml-js": "mohsen1/yaml-js",
     "swagger-tools": "~0.6.11",
-    "objectpath": "~1.0.5"
+    "objectpath": "~1.0.5",
+    "tv4": "~1.1.4"
   },
   "dependencies": {
     "json-formatter": "~0.2.2",
