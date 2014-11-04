@@ -28,6 +28,8 @@ PhonicsApp.controller('TryOperation', function ($scope) {
   }
 
   function schemaForParameter(parameter) {
+
+    // For rendering form we need "type" key
     if (parameter && parameter.schema) {
       if (!parameter.schema.type) {
         parameter.schema.type = 'object';
@@ -45,12 +47,11 @@ PhonicsApp.controller('TryOperation', function ($scope) {
       return parameter.schema;
     }
 
+    // If parameter do not have a schema use parameter itself as schema
     return {
       type: 'object',
       properties: {
-        '': {
-          type: 'string'
-        }
+        '': parameter
       }
     };
   }
@@ -93,26 +94,32 @@ PhonicsApp.controller('TryOperation', function ($scope) {
     var scheme = 'https';
     var host = specs.host || window.location.host;
     var basePath = specs.basePath || '';
-    var path = $scope.$parent.$parent.pathName;
-    var pathTemplate = _.template(path);
-    var params = $scope.hasParams ? $scope.$parent.operation.parameters : [];
-    var pathParams = params.reduce(function (pathParams, parameter) {
-      if (parameter.in === 'path') {
-        pathParams[parameter.name] = $scope.paramModels[parameter.name];
-      }
-      return pathParams;
-    }, {});
-    var queryParams =  params.reduce(function (queryParams, parameter) {
-      if (parameter.in === 'query' && $scope.paramModels[parameter.name]) {
-        queryParams[parameter.name] = $scope.paramModels[parameter.name];
-      }
-      return queryParams;
-    }, {});
+    var pathTemplate = _.template($scope.pathName);
+    var pathParams = $scope.parameters.reduce(filterParamsFor('path'), {});
+    var queryParams = $scope.parameters.reduce(filterParamsFor('query'), {});
     var queryParamsStr = $.param(queryParams);
 
     return scheme + '://' + host + basePath + pathTemplate(pathParams) +
       (queryParamsStr ? '?' + queryParamsStr : '');
   }
+
+  function filterParamsFor(type) {
+    return function filterParams(result, param) {
+      if (param.in === type && param.model[''] &&
+        param['default'] !== param.model['']) {
+        result[param.name] = param.model[''];
+      }
+      return result;
+    };
+  }
+
+  $scope.getRequestBody = function () {
+    return $scope.parameters.map(function (param) {
+      if (param.in === 'body') {
+        return param.model;
+      }
+    })[0];
+  };
 
   function makeCall() {
     $scope.response = null;

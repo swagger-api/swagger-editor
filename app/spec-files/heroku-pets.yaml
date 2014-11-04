@@ -4,6 +4,15 @@ info:
   title: PetStore on Heroku
 host: petstore-api.herokuapp.com
 basePath: /pet
+schemes:
+  - http
+  - https
+consumes:
+  - application/json
+  - text/xml
+produces:
+  - application/json
+  - text/html
 paths:
   /:
     get:
@@ -12,6 +21,9 @@ paths:
           in: query
           description: number of pets to return
           type: integer
+          default: 10
+          minimum: 11
+          maximum: 10000
       responses:
         200:
           description:  List all pets
