@@ -7,9 +7,19 @@ basePath: /pet
 paths:
   /:
     get:
+      parameters:
+        - name: limit
+          in: query
+          description: number of pets to return
+          type: integer
       responses:
         200:
           description:  List all pets
+          schema:
+            title: Pets
+            type: array
+            items:
+              $ref: Pet
     post:
       parameters:
         - name: pet
