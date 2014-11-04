@@ -21,7 +21,8 @@ PhonicsApp.controller('TryOperation', function ($scope) {
       return _.extend(parameter, {
         schema: schemaForParameter(parameter),
         form: formForParameter(parameter),
-        model: {}
+        model: parameter.schema && parameter.schema.type === 'array' ?
+          {item: []} : {}
       });
     });
   }
@@ -30,6 +31,16 @@ PhonicsApp.controller('TryOperation', function ($scope) {
     if (parameter && parameter.schema) {
       if (!parameter.schema.type) {
         parameter.schema.type = 'object';
+      }
+
+      // Work around angular-schema-form issue handling array types
+      if (parameter.schema.type === 'array') {
+        return {
+          type: 'object',
+          properties: {
+            item: parameter.schema
+          }
+        };
       }
       return parameter.schema;
     }
@@ -44,7 +55,16 @@ PhonicsApp.controller('TryOperation', function ($scope) {
     };
   }
 
-  function formForParameter(/*parameter*/) {
+  function formForParameter(parameter) {
+    // Work around angular-schema-form issue handling array types
+    if (parameter && parameter.type === 'array') {
+      return [
+        {
+          key: 'item',
+          items: ['*']
+        }
+      ];
+    }
     return ['*'];
   }
 
