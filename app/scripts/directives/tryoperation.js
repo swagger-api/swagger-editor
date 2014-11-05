@@ -92,12 +92,17 @@ PhonicsApp.controller('TryOperation', function ($scope) {
     var scheme = 'https';
     var host = specs.host || window.location.host;
     var basePath = specs.basePath || '';
-    var pathTemplate = _.template($scope.pathName);
+    var pathTemplate = _.template($scope.path.pathName);
     var pathParams = $scope.parameters.reduce(filterParamsFor('path'), {});
     var queryParams = $scope.parameters.reduce(filterParamsFor('query'), {});
     var queryParamsStr = $.param(queryParams);
+    var pathStr = '';
 
-    return scheme + '://' + host + basePath + pathTemplate(pathParams) +
+    try {
+      pathStr = pathTemplate(pathParams);
+    } catch (e) {}
+
+    return scheme + '://' + host + basePath + pathStr +
       (queryParamsStr ? '?' + queryParamsStr : '');
   }
 
