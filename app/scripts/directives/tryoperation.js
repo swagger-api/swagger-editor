@@ -51,7 +51,7 @@ PhonicsApp.controller('TryOperation', function ($scope) {
     return {
       type: 'object',
       properties: {
-        '': parameter
+        '': _.pick(parameter, 'type', 'description')
       }
     };
   }
