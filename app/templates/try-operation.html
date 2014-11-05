@@ -11,7 +11,7 @@
         {{httpProtorcol}}
       </div>
       <div>&nbsp;</div>
-      <div>{{getRequestBody() | json}}</div>
+      <pre class="json-body">{{getRequestBody() | json}}</pre>
     </div>
     <button ng-click="makeCall()" class="{{$parent.operationName}} call"
       ng-disabled="xhrInProgress">
