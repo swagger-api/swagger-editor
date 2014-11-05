@@ -48,12 +48,10 @@ PhonicsApp.controller('TryOperation', function ($scope) {
     }
 
     // If parameter do not have a schema use parameter itself as schema
-    return {
-      type: 'object',
-      properties: {
-        '': _.pick(parameter, 'type', 'description')
-      }
-    };
+    var schema = {type: 'object', properties: {}};
+    schema.properties[parameter.name] = _.pick(parameter,
+      'type', 'description', 'required', 'format');
+    return schema;
   }
 
   function formForParameter(parameter) {
@@ -105,9 +103,9 @@ PhonicsApp.controller('TryOperation', function ($scope) {
 
   function filterParamsFor(type) {
     return function filterParams(result, param) {
-      if (param.in === type && param.model[''] &&
-        param['default'] !== param.model['']) {
-        result[param.name] = param.model[''];
+      if (param.in === type && param.model[param.name] &&
+        param['default'] !== param.model[param.name]) {
+        result[param.name] = param.model[param.name];
       }
       return result;
     };

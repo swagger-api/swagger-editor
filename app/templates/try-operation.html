@@ -2,10 +2,6 @@
   <h4>Request</h4>
   <div class="request">
     <div class="parameters" ng-repeat="parameter in parameters">
-      <h5>
-        <span>{{parameter.name}}</span>
-        <span ng-if="parameter.required" class="required">*</span>
-      </h5>
       <form sf-schema="parameter.schema" sf-form="parameter.form" sf-model="parameter.model"></form>
     </div>
     <div class="raw-request raw">
