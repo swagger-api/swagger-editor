@@ -4,12 +4,6 @@ PhonicsApp.controller('TryOperation', function ($scope) {
   var specs = $scope.$parent.specs;
 
   $scope.httpProtorcol = 'HTTP/1.1';
-  $scope.paramModels = {};
-  $scope.hasParams = Array.isArray($scope.$parent.operation.parameters);
-  $scope.hasBody = $scope.hasParams && $scope.$parent.operation.parameters
-    .some(function (parameter) {
-      return parameter.in === 'body';
-    });
   $scope.generateUrl = generateUrl;
   $scope.makeCall = makeCall;
   $scope.getContentTypeHeaders = getContentTypeHeaders;
@@ -18,16 +12,22 @@ PhonicsApp.controller('TryOperation', function ($scope) {
 
   if (Array.isArray($scope.operation.parameters)) {
     $scope.parameters = $scope.operation.parameters.map(function (parameter) {
-      return _.extend(parameter, {
+      var param = _.extend(parameter, {
         schema: schemaForParameter(parameter),
         form: formForParameter(parameter),
-        model: parameter.schema && parameter.schema.type === 'array' ?
-          {item: []} : {}
+        model: {}
       });
+
+      if (parameter.schema && parameter.schema.type === 'array') {
+        param.model[parameter.name] = [];
+      }
+
+      return param;
     });
   }
 
   function schemaForParameter(parameter) {
+    var schema;
 
     // For rendering form we need "type" key
     if (parameter && parameter.schema) {
@@ -37,18 +37,24 @@ PhonicsApp.controller('TryOperation', function ($scope) {
 
       // Work around angular-schema-form issue handling array types
       if (parameter.schema.type === 'array') {
-        return {
+        schema = {
           type: 'object',
-          properties: {
-            item: parameter.schema
-          }
+          properties: {}
         };
+
+        schema.properties[parameter.name] = parameter.schema;
+        schema.properties[parameter.name].type = 'array';
+
+        // TODO: Is this always true?
+        schema.properties[parameter.name].items.type = 'object';
+
+        return schema;
       }
       return parameter.schema;
     }
 
     // If parameter do not have a schema use parameter itself as schema
-    var schema = {type: 'object', properties: {}};
+    schema = {type: 'object', properties: {}};
     schema.properties[parameter.name] = _.pick(parameter,
       'type', 'description', 'required', 'format');
     return schema;
@@ -56,13 +62,11 @@ PhonicsApp.controller('TryOperation', function ($scope) {
 
   function formForParameter(parameter) {
     // Work around angular-schema-form issue handling array types
-    if (parameter && parameter.type === 'array') {
-      return [
-        {
-          key: 'item',
-          items: ['*']
-        }
-      ];
+    if (parameter.schema && parameter.schema.type === 'array') {
+      var form = [{key: parameter.name}];
+
+      form[0].items = [parameter.name + '[]'];
+      return form;
     }
     return ['*'];
   }
