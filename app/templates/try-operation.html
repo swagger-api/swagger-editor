@@ -20,13 +20,22 @@
     </button>
   </div>
 
-  <h5>Response</h5>
+  <h4>Response</h4>
   <div class="response">
     <div class="failed-bar" ng-if="failed">Failed</div>
-    <div class="raw-response raw" ng-if="response">
-<div class="status">{{httpProtorcol}} {{response.status}} {{response.statusText}}</div>
-<div class="resp-headers">{{response.getAllResponseHeaders()}}</div>
-     <div ng-bind-html="responseText"></div>
+    <tabset>
+      <tab heading="Rendered">
+        <h6>Headers</h6>
+        <json-formatter json="{}"></json-formatter>
+        <h6>Body</h6>
+        <json-formatter json="{}"></json-formatter>
+      </tab>
+      <tab heading="Raw">
+        <div class="status">{{httpProtorcol}} {{response.status}} {{response.statusText}}</div>
+        <div class="resp-headers">{{response.getAllResponseHeaders()}}</div>
+        <div class="raw-response raw" ng-if="response">
+      </tab>
+    </tabset>
     </div>
   </div>
 </div>
