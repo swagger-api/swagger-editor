@@ -148,7 +148,11 @@ PhonicsApp.controller('TryOperation', function ($scope) {
     var result = {};
 
     headers.split('\n').forEach(function (line) {
-      result[line.split(':')[0]] = line.split(':')[1];
+      var key = line.split(':')[0];
+      var value = line.split(':')[1];
+      if (key && angular.isString(key) && angular.isString(value)) {
+        result[key.trim()] = value.trim();
+      }
     });
 
     return result;
