@@ -21,13 +21,14 @@
 
   <h4>Response</h4>
   <div class="response" ng-if="xhr">
-    <div class="response-info">
-      <div class="status">{{textStatus | uppercase}}</div>
+    <div class="response-info" ng-class="{error: error}">
+      <span class="status-text">{{textStatus | uppercase}}</span>
+      <span ng-if="error">{{error}}</span>
     </div>
     <tabset>
       <tab heading="Rendered">
         <h6>Headers</h6>
-        <json-formatter json="xhr.headers" open="3"></json-formatter>
+        <json-formatter json="responseHeaders" open="3"></json-formatter>
         <h6>Body</h6>
         <json-formatter json="responseData" open="3"></json-formatter>
       </tab>

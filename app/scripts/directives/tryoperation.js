@@ -125,6 +125,7 @@ PhonicsApp.controller('TryOperation', function ($scope) {
     })
 
     .fail(function (jqXHR, textStatus, errorThrown) {
+      $scope.xhrInProgress = false;
       $scope.textStatus = textStatus;
       $scope.error = errorThrown;
       $scope.xhr = jqXHR;
@@ -137,8 +138,23 @@ PhonicsApp.controller('TryOperation', function ($scope) {
       $scope.xhrInProgress = false;
       $scope.responseData = data;
       $scope.xhr = jqXHR;
+      $scope.responseHeaders = getResponseHeaders(jqXHR);
 
       $scope.$digest();
     });
+  }
+
+  function parseHeaders(headers) {
+    var result = {};
+
+    headers.split('\n').forEach(function (line) {
+      result[line.split(':')[0]] = line.split(':')[1];
+    });
+
+    return result;
+  }
+
+  function getResponseHeaders(xhr) {
+    return parseHeaders(xhr.getAllResponseHeaders());
   }
 });
