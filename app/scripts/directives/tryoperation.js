@@ -6,24 +6,24 @@ PhonicsApp.controller('TryOperation', function ($scope) {
   $scope.httpProtorcol = 'HTTP/1.1';
   $scope.generateUrl = generateUrl;
   $scope.makeCall = makeCall;
-  $scope.getContentTypeHeaders = getContentTypeHeaders;
   $scope.xhrInProgress = false;
-  $scope.getHeaderParams = getHeaderParams;
 
   if (Array.isArray($scope.operation.parameters)) {
-    $scope.parameters = $scope.operation.parameters.map(function (parameter) {
-      var param = _.extend(parameter, {
-        schema: schemaForParameter(parameter),
-        form: formForParameter(parameter),
-        model: {}
-      });
+    $scope.parameters = $scope.operation.parameters.map(makeParam);
+  }
 
-      if (parameter.schema && parameter.schema.type === 'array') {
-        param.model[parameter.name] = [];
-      }
-
-      return param;
+  function makeParam(parameter) {
+    var param = _.extend(parameter, {
+      schema: schemaForParameter(parameter),
+      form: formForParameter(parameter),
+      model: {}
     });
+
+    if (parameter.schema && parameter.schema.type === 'array') {
+      param.model[parameter.name] = [];
+    }
+
+    return param;
   }
 
   function schemaForParameter(parameter) {
@@ -71,25 +71,14 @@ PhonicsApp.controller('TryOperation', function ($scope) {
     return ['*'];
   }
 
-  function getHeaderParams() {
-    var headerParams = {};
-    if ($scope.hasParams) {
-      $scope.$parent.operation.parameters.filter(function (parameter) {
-        if (parameter.in === 'header' &&
-          $scope.paramModels[parameter.name]) {
-          headerParams[parameter.name] = $scope.paramModels[parameter.name];
-        }
-      });
-    }
-    return headerParams;
-  }
-
-  function getContentTypeHeaders() {
-    if ($scope.$parent.operation.consumes) {
-      return $scope.$parent.operation.consumes;
-    } else {
-      return specs.consumes;
-    }
+  function filterParamsFor(type) {
+    return function filterParams(result, param) {
+      if (param.in === type && param.model[param.name] &&
+        param['default'] !== param.model[param.name]) {
+        result[param.name] = param.model[param.name];
+      }
+      return result;
+    };
   }
 
   function generateUrl() {
@@ -110,16 +99,6 @@ PhonicsApp.controller('TryOperation', function ($scope) {
       (queryParamsStr ? '?' + queryParamsStr : '');
   }
 
-  function filterParamsFor(type) {
-    return function filterParams(result, param) {
-      if (param.in === type && param.model[param.name] &&
-        param['default'] !== param.model[param.name]) {
-        result[param.name] = param.model[param.name];
-      }
-      return result;
-    };
-  }
-
   $scope.getRequestBody = function () {
     return $scope.parameters.map(function (param) {
       if (param.in === 'body') {
@@ -134,46 +113,31 @@ PhonicsApp.controller('TryOperation', function ($scope) {
   };
 
   function makeCall() {
-    $scope.response = null;
     $scope.xhrInProgress = true;
-    $scope.failed = false;
+    $scope.error = null;
 
     $.ajax({
       url: $scope.generateUrl(),
-      type: $scope.$parent.operationName,
-      headers: _.extend({
-        'Content-Type': $scope.contentType
-      }, getHeaderParams())
+      type: $scope.operation.operationName //,
+      // headers: _.extend({
+      //   'Content-Type': $scope.contentType
+      // }, getHeaderParams())
     })
 
-    .fail(function () {
-      $scope.failed = true;
+    .fail(function (jqXHR, textStatus, errorThrown) {
+      $scope.textStatus = textStatus;
+      $scope.error = errorThrown;
+      $scope.xhr = jqXHR;
+
+      $scope.$digest();
     })
 
-    .always(function (resp) {
-      if (!resp) {
-        $scope.responseText = '';
-        $scope.xhrInProgress = false;
-        $scope.$digest();
-        return;
-      }
-
-      var text;
-      try {
-        text = JSON.stringify(
-          JSON.parse(resp.responseText),
-        null, 2);
-      } catch (e) {
-        text = resp.responseText;
-      }
-      if (angular.isString(text) && text.indexOf('<?xml') === 0) {
-        $scope.responseText = $('<div/>').text(text).html();
-      } else {
-        $scope.responseText = text;
-      }
-
-      $scope.response = resp;
+    .done(function (data, textStatus, jqXHR) {
+      $scope.textStatus = textStatus;
       $scope.xhrInProgress = false;
+      $scope.responseData = data;
+      $scope.xhr = jqXHR;
+
       $scope.$digest();
     });
   }
