@@ -123,6 +123,11 @@ PhonicsApp.controller('TryOperation', function ($scope) {
   $scope.getRequestBody = function () {
     return $scope.parameters.map(function (param) {
       if (param.in === 'body') {
+        // part of horrible hack for json schema form
+        if (Array.isArray(param.model[param.name])) {
+          return param.model[param.name];
+        }
+
         return param.model;
       }
     })[0];
