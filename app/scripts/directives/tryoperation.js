@@ -118,10 +118,11 @@ PhonicsApp.controller('TryOperation', function ($scope) {
 
     $.ajax({
       url: $scope.generateUrl(),
-      type: $scope.operation.operationName //,
-      // headers: _.extend({
-      //   'Content-Type': $scope.contentType
-      // }, getHeaderParams())
+      type: $scope.operation.operationName,
+        // headers: _.extend({
+        //   'Content-Type': $scope.contentType
+        // }, getHeaderParams()),
+      data: $scope.getRequestBody()
     })
 
     .fail(function (jqXHR, textStatus, errorThrown) {
