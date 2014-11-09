@@ -14,9 +14,9 @@ YAML became a first-class citizen as part of the Swagger 2.0 working group proce
 ![Screenshot of the Swagger Editor](https://raw.githubusercontent.com/swagger-api/swagger-editor/master/app/images/swagger-editor2.png "Designing an API with the Swagger Editor")
 
 ## Tips
-You can import an existing YAML spec by using the `import` query parameter. For example:
+You can import an existing YAML spec by using the `import` query parameter in edit mode. For example:
 ```
-http://editor.swagger.swagger-api.com/?import=http://generator.wordnik.com/online/api/swagger.yaml
+http://editor.swagger.io/#/edit?import=http://generator.wordnik.com/online/api/swagger.yaml
 ```
 
 ## Running Locally
