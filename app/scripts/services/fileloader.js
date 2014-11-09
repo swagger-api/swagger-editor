@@ -47,9 +47,9 @@ PhonicsApp.service('FileLoader', function FileLoader($http) {
       method: 'GET',
       url: url,
       headers: {
-        'Accept': 'application/x-yaml,text/yaml,application/json,*/*'}
+        accept: 'application/x-yaml,text/yaml,application/json,*/*'
       }
-    ).then(function (resp) {
+    }).then(function (resp) {
       if (angular.isObject(resp.data)) {
         return jsyaml.dump(resp.data);
       } else {
