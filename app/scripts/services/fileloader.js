@@ -43,8 +43,18 @@ PhonicsApp.service('FileLoader', function FileLoader($http) {
 
   // Load from URL
   this.loadFromUrl = function (url) {
-    return $http.get(url).then(function (resp) {
-      return load(resp.data);
+    return $http({
+      method: 'GET',
+      url: url,
+      headers: {
+        accept: 'application/x-yaml,text/yaml,application/json,*/*'
+      }
+    }).then(function (resp) {
+      if (angular.isObject(resp.data)) {
+        return jsyaml.dump(resp.data);
+      } else {
+        return load(resp.data);
+      }
     });
   };
 
