@@ -39,8 +39,8 @@ PhonicsApp.controller('HeaderCtrl', function HeaderCtrl($scope, Editor, Storage,
     $scope.servers = servers;
   });
 
-  Codegen.getClients().then(function (clinets) {
-    $scope.clinets = clinets;
+  Codegen.getClients().then(function (clients) {
+    $scope.clients = clients;
   });
 
   $scope.getServer = function (language) {

@@ -51,14 +51,14 @@
         </ul>
       </div>
 
-      <div class="dropdown" ng-if="clinets && !disableCodeGen">
+      <div class="dropdown" ng-if="clients && !disableCodeGen">
          <button class="btn btn-default dropdown-toggle" type="button"
           data-toggle="dropdown" id="ClientMenu">
           Get Clients
           <span class="caret"></span>
         </button>
         <ul class="dropdown-menu" role="menu" aria-labelledby="ClientMenu">
-          <li ng-repeat="client in clinets" role="presentation">
+          <li ng-repeat="client in clients" role="presentation">
             <a role="menuitem" tabindex="-1" ng-click="getClient(client)">{{client}}</a>
           </li>
         </ul>
