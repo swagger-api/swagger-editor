@@ -1,16 +1,49 @@
 'use strict';
 
 PhonicsApp.service('KeywordMap', function KeywordMap(defaults) {
+  var parameter = {
+    name: String,
+    in: String,
+    description: String,
+    required: String,
+    type: String,
+    format: String
+  };
+  var response =  {
+    description: String,
+    schema: {
+      type: String
+    }
+  };
+  var operation = {
+    summary: String,
+    description: String,
+    parameters: {
+      '.': parameter
+    },
+    responses: {
+      '.': response
+    },
+    tags: {
+      // Tag index
+      '.': String
+    }
+  };
   var map = {
     swagger: String,
     info: {
       version: String,
       title: String,
       description: String,
+      termsOfService: String,
       contact: {
         name: String,
         url: String,
         email: String
+      },
+      license: {
+        name: String,
+        url: String
       }
     },
     host: String,
@@ -28,44 +61,9 @@ PhonicsApp.service('KeywordMap', function KeywordMap(defaults) {
     },
 
     paths: {
-
       //path
       '.': {
-
-        // operation
-        '.': {
-          summary: String,
-          description: String,
-          parameters: {
-
-            // parameter index
-            '.': {
-              name: String,
-              in: String,
-              description: String,
-              required: String,
-              type: String,
-              format: String
-            }
-          },
-
-          responses: {
-
-            // response code
-            '.': {
-              description: String,
-              schema: {
-                type: String
-              }
-            }
-          },
-
-          tags: {
-
-            // Tag index
-            '.': String
-          }
-        }
+        '.': operation
       }
     },
 
@@ -79,6 +77,29 @@ PhonicsApp.service('KeywordMap', function KeywordMap(defaults) {
           '.': String
         }
       }
+    },
+
+    parameters: {
+      '.': parameter
+    },
+    responses: {
+      '.': response
+    },
+    security: {
+      '.': {
+        '.': String
+      }
+    },
+    securityDefinitions: {
+      '.': {
+        '.': String
+      }
+    },
+    tags: {
+      '.': String
+    },
+    externalDocs: {
+      '.': String
     }
   };
 
