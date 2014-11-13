@@ -8,6 +8,9 @@ PhonicsApp.service('BackendHealthCheck', function BackendHealthCheck($http,
   var isHealthy = true;
 
   this.startChecking = function () {
+    if (!defaults.useBackendForStorage) {
+      return;
+    }
     $interval(function () {
       $http.get(window.location.href).then(
         function onSuccess() {
