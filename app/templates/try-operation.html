@@ -4,6 +4,18 @@
     <div class="parameters" ng-repeat="parameter in parameters">
       <form sf-schema="parameter.schema" sf-form="parameter.form" sf-model="parameter.model"></form>
     </div>
+
+    <!-- Options -->
+    <div class="body-type">
+      <label>Body format</label>
+      <select>
+        <option value="form-data">form-data</option>
+        <option value="x-www-form-urlencoded">x-www-form-urlencoded</option>
+        <option value="json">JSON</option>
+      </select>
+    </div>
+
+
     <div class="raw-request raw">
       <div class="line url">
         {{operation.operationName | uppercase}}
