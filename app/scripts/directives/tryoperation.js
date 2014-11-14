@@ -133,6 +133,13 @@ PhonicsApp.controller('TryOperation', function ($scope, formdataFilter) {
     return 'Not implemented!';
   };
 
+  $scope.getHeaders = function () {
+    return {
+      Host: $scope.specs.host || window.location.host,
+      Accept: $scope.accept || '*/*'
+    };
+  };
+
   function makeCall() {
     $scope.xhrInProgress = true;
     $scope.error = null;

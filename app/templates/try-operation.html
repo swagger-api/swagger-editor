@@ -30,15 +30,24 @@
             </select>
           </td>
         </tr>
+        <tr ng-if="specs.consumes.length">
+          <td><label>Accept</label></td>
+          <td>
+            <select ng-model="$parent.accept" ng-options="o as o for o in specs.consumes" ng-init="$parent.accept = specs.consumes[0]"></select>
+          </td>
+        </tr>
       </tbody>
     </table>
-
 
     <div class="raw-request raw">
       <div class="line url">
         {{operation.operationName | uppercase}}
         <a href="{{generateUrl()}}" target="_blank">{{generateUrl()}}</a>
         {{httpProtorcol}}
+      </div>
+      <div class="headers">
+        <div class="header" ng-repeat="(headerName, headerValue) in getHeaders()">
+        <strong>{{headerName}}</strong>: {{headerValue}}</div>
       </div>
       <pre ng-if="hasBodyParam()" class="json-body">{{getRequestBody()}}</pre>
     </div>
