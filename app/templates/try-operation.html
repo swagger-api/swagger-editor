@@ -30,10 +30,10 @@
             </select>
           </td>
         </tr>
-        <tr ng-if="specs.consumes.length">
+        <tr ng-if="getConsumes().length">
           <td><label>Accept</label></td>
           <td>
-            <select ng-model="$parent.accept" ng-options="o as o for o in specs.consumes" ng-init="$parent.accept = specs.consumes[0]"></select>
+            <select ng-model="$parent.accept" ng-options="o as o for o in getConsumes()" ng-init="$parent.accept = getConsumes()[0]"></select>
           </td>
         </tr>
       </tbody>

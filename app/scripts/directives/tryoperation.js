@@ -136,8 +136,22 @@ PhonicsApp.controller('TryOperation', function ($scope, formdataFilter) {
   $scope.getHeaders = function () {
     return {
       Host: $scope.specs.host || window.location.host,
-      Accept: $scope.accept || '*/*'
+      Accept: $scope.accept
     };
+  };
+
+  /*
+   * Because `consumes` is cascading this walks up the tree to get consumes
+  */
+  $scope.getConsumes = function () {
+    if (Array.isArray($scope.operation.consumes)) {
+      return $scope.operation.consumes;
+    } else if (Array.isArray($scope.specs.consumes)) {
+      return $scope.specs.consumes;
+    }
+
+    // By default it consumes `*/*`
+    return ['*/*'];
   };
 
   function makeCall() {
