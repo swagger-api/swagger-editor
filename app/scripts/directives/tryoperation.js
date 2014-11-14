@@ -120,6 +120,9 @@ PhonicsApp.controller('TryOperation', function ($scope, formdataFilter) {
     if ($scope.bodyFormat === 'form-data') {
       return formdataFilter(bodyModel);
     }
+    else if ($scope.bodyFormat === 'json') {
+      return JSON.stringify(bodyModel, null, 2);
+    }
 
     return 'Not implemented!';
   };
