@@ -136,7 +136,14 @@ PhonicsApp.controller('TryOperation', function ($scope, formdataFilter) {
   $scope.getHeaders = function () {
     return {
       Host: $scope.specs.host || window.location.host,
-      Accept: $scope.accept
+      Accept: $scope.accept,
+      'Accept-Encoding': 'gzip,deflate,sdch', //TODO: where this is coming from?
+      'Accept-Language': 'en-US,en;q=0.8,fa;q=0.6,sv;q=0.4', // TODO: wut?
+      'Cache-Control': 'no-cache',
+      Connection: 'keep-alive',
+      Origin: window.location.origin,
+      Referer: window.location.origin + window.location.pathname,
+      'User-Agent': window.navigator.userAgent
     };
   };
 
