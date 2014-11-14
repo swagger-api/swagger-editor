@@ -7,13 +7,10 @@
 
     <table class="options-table">
       <tbody>
-        <tr>
+        <tr ng-if="specs.schemes">
           <td><label>Scheme</label></td>
           <td>
-            <select>
-              <option>HTTP</option>
-              <option>HTTPS</option>
-            </select>
+             <select ng-model="$parent.scheme" ng-init="$parent.scheme = specs.schemes[0]" ng-options="o as o for o in specs.schemes"></select>
           </td>
         </tr>
         <tr>

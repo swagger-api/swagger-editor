@@ -82,7 +82,7 @@ PhonicsApp.controller('TryOperation', function ($scope) {
   }
 
   function generateUrl() {
-    var scheme = 'https';
+    var scheme = $scope.scheme || 'http';
     var host = specs.host || window.location.host;
     var basePath = specs.basePath || '';
     var pathTemplate = _.template($scope.path.pathName);
