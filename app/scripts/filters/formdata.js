@@ -6,17 +6,17 @@
 
 PhonicsApp.filter('formdata', function () {
   return function formdata(object) {
-    var result = '';
+    var result = [];
 
     if (angular.isObject(object)) {
       Object.keys(object).forEach(function (key) {
 
-        if (angular.isString(object[key])) {
-          result += key + ': ' + object[key];
+        if (angular.isDefined(object[key])) {
+          result.push(key + ': ' + object[key]);
         }
       });
     }
 
-    return result;
+    return result.join('\n');
   };
 });

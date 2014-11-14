@@ -1,6 +1,6 @@
 'use strict';
 
-PhonicsApp.controller('TryOperation', function ($scope) {
+PhonicsApp.controller('TryOperation', function ($scope, formdataFilter) {
   var specs = $scope.$parent.specs;
 
   $scope.httpProtorcol = 'HTTP/1.1';
@@ -99,17 +99,29 @@ PhonicsApp.controller('TryOperation', function ($scope) {
       (queryParamsStr ? '?' + queryParamsStr : '');
   }
 
+  $scope.hasBodyParam = function () {
+    return $scope.parameters.some(function (param) {
+      return param.in === 'body';
+    });
+  };
+
   $scope.getRequestBody = function () {
-    return $scope.parameters.map(function (param) {
+
+    var bodyModel = $scope.parameters.map(function (param) {
       if (param.in === 'body') {
         // part of horrible hack for json schema form
         if (Array.isArray(param.model[param.name])) {
           return param.model[param.name];
         }
-
         return param.model;
       }
     })[0];
+
+    if ($scope.bodyFormat === 'form-data') {
+      return formdataFilter(bodyModel);
+    }
+
+    return 'Not implemented!';
   };
 
   function makeCall() {
