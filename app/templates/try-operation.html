@@ -1,9 +1,16 @@
 <div ng-controller="TryOperation">
   <h4>Request</h4>
   <div class="request">
-    <div class="parameters" ng-repeat="parameter in parameters">
-      <form sf-schema="parameter.schema" sf-form="parameter.form" sf-model="parameter.model"></form>
-    </div>
+    <tabset justified="true">
+      <tab heading="Form" select="$parent.inputMode = 'form'">
+        <div class="parameters" ng-repeat="parameter in parameters">
+          <form sf-schema="parameter.schema" sf-form="parameter.form" sf-model="parameter.model"></form>
+        </div>
+      </tab>
+      <tab heading="Raw" select="$parent.inputMode = 'raw'">
+        <div class="raw-model" ng-model="$parent.rawModel" ui-ace="{useWrapMode : true, theme:'atom_dark', mode: 'json'}"></div>
+      </tab>
+    </tabset>
 
     <table class="options-table">
       <tbody>
@@ -48,7 +55,7 @@
       <span class="status-text">{{textStatus | uppercase}}</span>
       <span ng-if="error">{{error}}</span>
     </div>
-    <tabset>
+    <tabset justified="true">
       <tab heading="Rendered">
         <h6>Headers</h6>
         <json-formatter json="responseHeaders" open="3"></json-formatter>

@@ -7,6 +7,7 @@ PhonicsApp.controller('TryOperation', function ($scope, formdataFilter) {
   $scope.generateUrl = generateUrl;
   $scope.makeCall = makeCall;
   $scope.xhrInProgress = false;
+  $scope.inputMode = 'form';
 
   if (Array.isArray($scope.operation.parameters)) {
     $scope.parameters = $scope.operation.parameters.map(makeParam);
@@ -106,6 +107,10 @@ PhonicsApp.controller('TryOperation', function ($scope, formdataFilter) {
   };
 
   $scope.getRequestBody = function () {
+
+    if ($scope.inputMode === 'raw') {
+      return $scope.rawModel;
+    }
 
     var bodyModel = $scope.parameters.map(function (param) {
       if (param.in === 'body') {
