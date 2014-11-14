@@ -13,7 +13,7 @@
              <select ng-model="$parent.scheme" ng-init="$parent.scheme = specs.schemes[0]" ng-options="o as o for o in specs.schemes"></select>
           </td>
         </tr>
-        <tr>
+        <tr ng-if="getRequestBody()">
           <td><label>Body format</label></td>
           <td>
             <select>
