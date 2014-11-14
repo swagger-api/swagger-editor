@@ -130,7 +130,7 @@ PhonicsApp.controller('TryOperation', function ($scope, formdataFilter) {
       return $.param(bodyModel);
     }
 
-    return 'Not implemented!';
+    return '';
   };
 
   $scope.getHeaders = function () {
