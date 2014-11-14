@@ -5,15 +5,29 @@
       <form sf-schema="parameter.schema" sf-form="parameter.form" sf-model="parameter.model"></form>
     </div>
 
-    <!-- Options -->
-    <div class="body-type">
-      <label>Body format</label>
-      <select>
-        <option value="form-data">form-data</option>
-        <option value="x-www-form-urlencoded">x-www-form-urlencoded</option>
-        <option value="json">JSON</option>
-      </select>
-    </div>
+    <table class="options-table">
+      <tbody>
+        <tr>
+          <td><label>Scheme</label></td>
+          <td>
+            <select>
+              <option>HTTP</option>
+              <option>HTTPS</option>
+            </select>
+          </td>
+        </tr>
+        <tr>
+          <td><label>Body format</label></td>
+          <td>
+            <select>
+              <option value="form-data">form-data</option>
+              <option value="x-www-form-urlencoded">x-www-form-urlencoded</option>
+              <option value="json">JSON</option>
+            </select>
+          </td>
+        </tr>
+      </tbody>
+    </table>
 
 
     <div class="raw-request raw">
