@@ -114,11 +114,7 @@ PhonicsApp.controller('TryOperation', function ($scope, formdataFilter) {
 
     var bodyModel = $scope.parameters.map(function (param) {
       if (param.in === 'body') {
-        // part of horrible hack for json schema form
-        if (Array.isArray(param.model[param.name])) {
-          return param.model[param.name];
-        }
-        return param.model;
+        return modelOfParameter(param);
       }
     })[0];
 
@@ -134,7 +130,14 @@ PhonicsApp.controller('TryOperation', function ($scope, formdataFilter) {
   };
 
   $scope.getHeaders = function () {
-    return {
+    var headerParams = $scope.parameters.filter(function (param) {
+      return param.in === 'header';
+    }).reduce(function (obj, param) {
+      obj[param.name] = modelOfParameter(param)[param.name];
+      return obj;
+    }, {});
+
+    return _.extend(headerParams, {
       Host: $scope.specs.host || window.location.host,
       Accept: $scope.accept,
       'Accept-Encoding': 'gzip,deflate,sdch', //TODO: where this is coming from?
@@ -144,7 +147,7 @@ PhonicsApp.controller('TryOperation', function ($scope, formdataFilter) {
       Origin: window.location.origin,
       Referer: window.location.origin + window.location.pathname,
       'User-Agent': window.navigator.userAgent
-    };
+    });
   };
 
   /*
@@ -160,6 +163,17 @@ PhonicsApp.controller('TryOperation', function ($scope, formdataFilter) {
     // By default it consumes `*/*`
     return ['*/*'];
   };
+
+  /*
+   * Get model of a parameter
+  */
+  function modelOfParameter(param) {
+    // part of horrible hack for json schema form
+    if (Array.isArray(param.model[param.name])) {
+      return param.model[param.name];
+    }
+    return param.model;
+  }
 
   function makeCall() {
     $scope.xhrInProgress = true;
