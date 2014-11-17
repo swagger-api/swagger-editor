@@ -65,23 +65,6 @@ PhonicsApp.service('Editor', function Editor(Autocomplete, ASTManager) {
     session.setTabSize(2);
   }
 
-  function setValue(value) {
-    if (angular.isString(value) && editor) {
-      editor.getSession().setValue(value);
-    }
-
-    // If it's an object, convert it YAML
-    if (angular.isObject(value)) {
-      setValue(jsyaml.dump(angular.copy(value)));
-    }
-  }
-
-  function getValue() {
-    if (editor) {
-      return editor.getSession().getValue();
-    }
-  }
-
   function resize() {
     editor.resize();
   }
@@ -136,8 +119,6 @@ PhonicsApp.service('Editor', function Editor(Autocomplete, ASTManager) {
     return editor.getCursorPosition().row;
   }
 
-  this.getValue = getValue;
-  this.setValue = setValue;
   this.aceLoaded = aceLoaded;
   this.resize = resize;
   this.ready = ready;

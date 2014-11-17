@@ -1,6 +1,7 @@
 'use strict';
 
-PhonicsApp.service('Autocomplete', function (snippets, ASTManager, KeywordMap) {
+PhonicsApp.service('Autocomplete', function ($rootScope, snippets, ASTManager,
+  KeywordMap) {
   var editor = null;
 
   function getPathForPosition(pos) {
@@ -35,7 +36,7 @@ PhonicsApp.service('Autocomplete', function (snippets, ASTManager, KeywordMap) {
   * Get filter function for snippets based on a position (`pos`)
   */
   function filterForSnippets(pos) {
-    ASTManager.refresh(editor.getValue());
+    ASTManager.refresh($rootScope.editorValue);
 
     var path = getPathForPosition(pos);
 

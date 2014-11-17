@@ -1,7 +1,7 @@
 'use strict';
 
-PhonicsApp.controller('EditorCtrl', function EditorCtrl($scope, Editor, Builder,
-  Storage, ASTManager) {
+PhonicsApp.controller('EditorCtrl', function EditorCtrl($scope, $rootScope,
+  Editor, Builder, Storage, ASTManager) {
   var debouncedOnAceChange = _.debounce(onAceChange, 1000);
 
   $scope.aceLoaded = Editor.aceLoaded;
@@ -13,13 +13,13 @@ PhonicsApp.controller('EditorCtrl', function EditorCtrl($scope, Editor, Builder,
 
   Editor.ready(function () {
     Storage.load('yaml').then(function (yaml) {
-      Editor.setValue(yaml);
+      $rootScope.editorValue = yaml;
       onAceChange();
     });
   });
 
   function onAceChange() {
-    var value = Editor.getValue();
+    var value = $rootScope.editorValue;
 
     Storage.save('yaml', value);
     ASTManager.refresh();
