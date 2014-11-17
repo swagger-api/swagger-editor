@@ -83,7 +83,7 @@ PhonicsApp.controller('TryOperation', function ($scope, formdataFilter) {
   }
 
   function generateUrl() {
-    var scheme = $scope.scheme || 'http';
+    var scheme = $scope.scheme;
     var host = specs.host || window.location.host;
     var basePath = specs.basePath || '';
     var pathTemplate = _.template($scope.path.pathName);
@@ -151,17 +151,25 @@ PhonicsApp.controller('TryOperation', function ($scope, formdataFilter) {
   };
 
   /*
-   * Because `consumes` is cascading this walks up the tree to get consumes
+   * Because some properties are cascading this walks up the tree to get them
   */
-  $scope.getConsumes = function () {
-    if (Array.isArray($scope.operation.consumes)) {
-      return $scope.operation.consumes;
-    } else if (Array.isArray($scope.specs.consumes)) {
-      return $scope.specs.consumes;
+  $scope.walkToProperty = function (propertyName) {
+    var defaultProperties = {
+      consumes: ['*/*'],
+      schemes: ['http']
+    };
+
+    if (Array.isArray($scope.operation[propertyName])) {
+      return $scope.operation[propertyName];
+    } else if (Array.isArray($scope.specs[propertyName])) {
+      return $scope.specs[propertyName];
     }
 
-    // By default it consumes `*/*`
-    return ['*/*'];
+    // By default return the default property if it exists
+    if (defaultProperties[propertyName]) {
+      return defaultProperties[propertyName];
+    }
+    return undefined;
   };
 
   /*
