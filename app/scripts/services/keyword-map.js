@@ -9,6 +9,9 @@ PhonicsApp.service('KeywordMap', function KeywordMap(defaults) {
     type: String,
     format: String
   };
+  var security = {
+    '.': String
+  };
   var response =  {
     description: String,
     schema: {
@@ -18,6 +21,21 @@ PhonicsApp.service('KeywordMap', function KeywordMap(defaults) {
   var operation = {
     summary: String,
     description: String,
+    schemas: {
+      '.': String
+    },
+    externalDocs: {
+      '.': String
+    },
+    operationId: String,
+    produces: {
+      '.': String
+    },
+    consumes: {
+      '.': String
+    },
+    deprecated: Boolean,
+    security: security,
     parameters: {
       '.': parameter
     },
