@@ -1,7 +1,7 @@
 'use strict';
 
 PhonicsApp.controller('FileImportCtrl', function FileImportCtrl($scope,
-  $modalInstance, $rootScope, $localStorage,FileLoader, Storage, ASTManager) {
+  $modalInstance, $rootScope, $localStorage, FileLoader, Storage, ASTManager) {
   var results;
 
   $scope.fileChanged = function ($fileContent) {
