@@ -1,7 +1,8 @@
 'use strict';
 
-PhonicsApp.controller('OpenExamplesCtrl', function OpenExamplesCtrl(FileLoader,
-  Builder, Storage, Editor, ASTManager, defaults, $scope, $modalInstance) {
+PhonicsApp.controller('OpenExamplesCtrl', function OpenExamplesCtrl($scope,
+  $modalInstance, $rootScope, FileLoader, Builder, Storage, ASTManager,
+  defaults) {
 
   $scope.files = defaults.exampleFiles;
   $scope.selectedFile = defaults.exampleFiles[0];
@@ -10,7 +11,7 @@ PhonicsApp.controller('OpenExamplesCtrl', function OpenExamplesCtrl(FileLoader,
     FileLoader.loadFromUrl('spec-files/' + file).then(function (value) {
       Storage.save('yaml', value);
       ASTManager.refresh(value);
-      Editor.setValue(value);
+      $rootScope.editorValue = value;
       $modalInstance.close();
     }, $modalInstance.close);
   };

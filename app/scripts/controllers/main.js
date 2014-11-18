@@ -32,7 +32,7 @@ PhonicsApp.controller('MainCtrl', function MainCtrl($rootScope, $stateParams,
         FileLoader.loadFromUrl(url).then(function (yaml) {
           if (yaml) {
             Storage.save('yaml', yaml);
-            Editor.setValue(yaml);
+            $rootScope.editorValue = yaml;
           }
         });
       }
