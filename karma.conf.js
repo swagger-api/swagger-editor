@@ -36,8 +36,7 @@ module.exports = function(config) {
       'app/bower_components/angular-ui-router/release/angular-ui-router.js',
       'app/bower_components/angular-bootstrap/ui-bootstrap-tpls.js',
       'app/bower_components/json-formatter/dist/json-formatter.js',
-      // 'app/bower_components/angular-ui-layout/ui-layout.js', // TODO
-      'app/bower_components/mohsen1.ui-layout/ui-layout.js',
+      'app/bower_components/angular-ui-layout/ui-layout.js',
       'app/bower_components/json-schema-view/dist/json-schema-view.js',
       'app/bower_components/jjv/lib/jjv.js',
       'app/bower_components/spark-md5/spark-md5.js',
