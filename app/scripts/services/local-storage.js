@@ -2,10 +2,10 @@
 
 PhonicsApp.service('LocalStorage', function LocalStorage($localStorage, $q) {
   var storageKey = 'SwaggerEditorCache';
-  var changeListeners =  Object.create(null);
+  var changeListeners =  {};
   var that = this;
 
-  $localStorage[storageKey] = $localStorage[storageKey] || Object.create(null);
+  $localStorage[storageKey] = $localStorage[storageKey] || {};
 
   this.save = function (key, value) {
     if (value === null) {

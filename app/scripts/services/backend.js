@@ -1,8 +1,8 @@
 'use strict';
 
 PhonicsApp.service('Backend', function Backend($http, $q, defaults, Builder) {
-  var changeListeners =  Object.create(null);
-  var buffer = Object.create(null);
+  var changeListeners =  {};
+  var buffer = {};
   var commit = _.throttle(commitNow, 200, {leading: false, trailing: true});
 
   function commitNow(data) {
