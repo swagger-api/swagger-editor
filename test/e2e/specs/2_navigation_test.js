@@ -20,6 +20,7 @@ describe('Navigation', function () {
 
   it('should switch to edit mode when edit button was clicked', function () {
     $('#switch-mode').click();
+    $('#edit-mode').click();
     expect(browser.getCurrentUrl()).toContain('edit');
     expect($('.ace_content').isPresent()).toBe(true);
   });
