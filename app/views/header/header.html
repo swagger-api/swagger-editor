@@ -1,93 +1,109 @@
-<div class="menu-bar">
+<div class="main-header">
   <div ng-if="showAbout" ng-include="'templates/intro.html'"></div>
-  <div class="toolbar">
-    <section class="left">
-      <div ng-include="'templates/branding-left.html'" ng-if="showHeaderBranding()" class="branding-3rdparty"></div>
-      <div class="dropdown" ng-if="showFileMenu()">
-        <button class="btn btn-default dropdown-toggle" type="button"
-          data-toggle="dropdown" id="fileMenu" ng-mouseover="assignDownloadHrefs()">
-          File
-          <span class="caret"></span>
-        </button>
-        <ul class="dropdown-menu" ng-if="showFileMenu()" role="menu" aria-labelledby="fileMenu">
-          <li role="presentation">
-            <a stop-event ng-click="newProject()" role="menuitem" tabindex="-1">New</a>
-          </li>
-          <li role="presentation">
-            <a stop-event ng-click="newProject(true)" role="menuitem" tabindex="-1">Blank Project</a>
-          </li>
-          <li role="presentation">
-            <a stop-event ng-click="openExamples()" role="menuitem" tabindex="-1">Open Example&hellip;</a>
-          </li>
-          <li role="presentation">
-            <a stop-event ng-click="openImportUrl()" role="menuitem" tabindex="-1">Import URL&hellip;</a>
-          </li>
-          <li role="presentation">
-            <a stop-event ng-click="openImportFile()" role="menuitem" tabindex="-1">Import File&hellip;</a>
-          </li>
-          <li role="presentation">
-            <a download="swagger.yaml" data-downloadurl="{{yamlDownloadUrl}}"
-              href="{{yamlDownloadHref}}" role="menuitem" tabindex="-1">Download YAML</a>
-          </li>
-          <li role="presentation">
-            <a download="swagger.json" downloadUrl="{{jsonDownloadUrl}}"
-              href="{{jsonDownloadHref}}" role="menuitem" tabindex="-1">Download JSON</a>
-          </li>
-        </ul>
-      </div>
+  <span class="logo" ng-if="!showHeaderBranding()"></span>
+  <div ng-include="'templates/branding-left.html'" ng-if="showHeaderBranding()" class="branding-3rdparty"></div>
+  <section class="menu-bar">
+    <div class="file dropdown" ng-if="showFileMenu()">
+      <button class="btn btn-default dropdown-toggle" type="button"
+        data-toggle="dropdown" id="fileMenu" ng-mouseover="assignDownloadHrefs()">File
+        <span class="caret"></span>
+      </button>
+      <ul class="dropdown-menu" ng-if="showFileMenu()" role="menu" aria-labelledby="fileMenu">
+        <li role="presentation">
+          <a stop-event ng-click="newProject()" role="menuitem" tabindex="-1">New</a>
+        </li>
+        <li role="presentation">
+          <a stop-event ng-click="newProject(true)" role="menuitem" tabindex="-1">Blank Project</a>
+        </li>
+        <li role="presentation">
+          <a stop-event ng-click="openExamples()" role="menuitem" tabindex="-1">Open Example&hellip;</a>
+        </li>
+        <li role="presentation">
+          <a stop-event ng-click="openImportUrl()" role="menuitem" tabindex="-1">Import URL&hellip;</a>
+        </li>
+        <li role="presentation">
+          <a stop-event ng-click="openImportFile()" role="menuitem" tabindex="-1">Import File&hellip;</a>
+        </li>
+        <li role="presentation">
+          <a download="swagger.yaml" data-downloadurl="{{yamlDownloadUrl}}"
+            href="{{yamlDownloadHref}}" role="menuitem" tabindex="-1">Download YAML</a>
+        </li>
+        <li role="presentation">
+          <a download="swagger.json" downloadUrl="{{jsonDownloadUrl}}"
+            href="{{jsonDownloadHref}}" role="menuitem" tabindex="-1">Download JSON</a>
+        </li>
+      </ul>
+    </div>
 
-      <a id="switch-mode" class="btn btn-default" href="{{isPreviewMode ? '#/edit' : '#/'}}">{{isPreviewMode ? 'Edit' : 'Preview'}}</a>
+    <div class="mode dropdown">
+      <button id="switch-mode" class="btn btn-default dropdown-toggle">
+        Mode
+        <span class="caret"></span>
+      </button>
+      <ul class="dropdown-menu" role="menu" aria-labelledby="switch-mode">
+        <li role="presentation">
+          <a href="#/edit" role="menuitem" tabindex="-1">Editor</a>
+        </li>
+        <li role="presentation" disabled="disabled">
+          <a href="#/designer" role="menuitem" tabindex="-1">Designer</a>
+        </li>
+        <li role="presentation">
+          <a href="#/" role="menuitem" tabindex="-1">Preview</a>
+        </li>
+      </ul>
+    </div>
 
-      <div class="dropdown" ng-if="servers && !disableCodeGen">
-         <button class="btn btn-default dropdown-toggle" type="button"
-          data-toggle="dropdown" id="ServerMenu">
-          Get Servers
-          <span class="caret"></span>
-        </button>
-        <ul class="dropdown-menu" role="menu" aria-labelledby="ServerMenu">
-          <li ng-repeat="server in servers" role="presentation">
-            <a role="menuitem" tabindex="-1" ng-click="getServer(server)">{{server}}</a>
-          </li>
-        </ul>
-      </div>
+    <div class="dropdown" ng-if="servers && !disableCodeGen">
+       <button class="btn btn-default dropdown-toggle" type="button"
+        data-toggle="dropdown" id="ServerMenu">
+        Get Servers
+        <span class="caret"></span>
+      </button>
+      <ul class="dropdown-menu" role="menu" aria-labelledby="ServerMenu">
+        <li ng-repeat="server in servers" role="presentation">
+          <a role="menuitem" tabindex="-1" ng-click="getServer(server)">{{server}}</a>
+        </li>
+      </ul>
+    </div>
 
-      <div class="dropdown" ng-if="clients && !disableCodeGen">
-         <button class="btn btn-default dropdown-toggle" type="button"
-          data-toggle="dropdown" id="ClientMenu">
-          Get Clients
-          <span class="caret"></span>
-        </button>
-        <ul class="dropdown-menu" role="menu" aria-labelledby="ClientMenu">
-          <li ng-repeat="client in clients" role="presentation">
-            <a role="menuitem" tabindex="-1" ng-click="getClient(client)">{{client}}</a>
-          </li>
-        </ul>
-      </div>
+    <div class="code-gen dropdown" ng-if="clients && !disableCodeGen">
+       <button class="btn btn-default dropdown-toggle" type="button"
+        data-toggle="dropdown" id="ClientMenu">
+        Get Clients
+        <span class="caret"></span>
+      </button>
+      <ul class="dropdown-menu" role="menu" aria-labelledby="ClientMenu">
+        <li ng-repeat="client in clients" role="presentation">
+          <a role="menuitem" tabindex="-1" ng-click="getClient(client)">{{client}}</a>
+        </li>
+      </ul>
+    </div>
 
-      <div ng-if="!isPreviewMode" class="status {{statusClass}}"  ng-if="status">{{status}}</div>
-    </section>
+    <div class="help dropdown">
+      <button class="dropdown-icon btn btn-default dropdown-toggle" id="helpMenu" data-toggle="dropdown" type="button">Help
+      <span class="caret"></span>
+      </button>
+      <ul class="dropdown-menu" role="menu" aria-labelledby="helpMenu">
+        <li role="presentation">
+          <a href="https://github.com/swagger-api/swagger-editor/issues/new?labels=From%20Editor" target="_blank">Report A Bug</a>
+        </li>
+        <li role="presentation">
+          <a role="menuitem" tabindex="-1" href="http://swagger.wordnik.com/"target="_blank">Swagger Website</a>
+        </li>
+        <li role="presentation" class="divider"></li>
+        <li role="presentation">
+          <a ng-click="toggleAboutEditor(true)" role="menuitem" tabindex="-1">Show Introduction Help</a>
+        </li>
+      </ul>
+    </div>
+  </section>
 
-    <section class="right">
-
-      <div class="brandRight" ng-include="'templates/branding-right.html'" ng-if="showHeaderBranding()"></div>
-      <div class="dropdown">
-        <a class="dropdown-icon" id="helpMenu" data-toggle="dropdown">
-        </a>
-        <ul class="dropdown-menu dropdown-menu-right" role="menu" aria-labelledby="helpMenu">
-          <li role="presentation">
-            <a href="https://github.com/swagger-api/swagger-editor/issues/new?labels=From%20Editor" target="_blank">Report an issue</a>
-          </li>
-          <li role="presentation">
-            <a role="menuitem" tabindex="-1" href="http://swagger.wordnik.com/"target="_blank">
-              Swagger website
-            </a>
-          </li>
-          <li role="presentation" class="divider"></li>
-          <li role="presentation">
-            <a ng-click="toggleAboutEditor(true)" role="menuitem" tabindex="-1">Show Introduction Help</a>
-          </li>
-        </ul>
-      </div>
-    </section>
+  <section class="status-bar">
+    <div ng-if="!isPreviewMode" class="status {{statusClass}}"  ng-if="status">
+      <span class="icon"></span>
+      <span>{{status}}</span>
+    </div>
+    <div class="brandRight" ng-include="'templates/branding-right.html'" ng-if="showHeaderBranding()"></div>
+  </section>
   </div>
 </div>

@@ -1,56 +1,56 @@
 @import "../colors";
 
-header.main-header {
-  height: 48px;
+.main-header {
   background: @header-bg;
-  display: flex;
   position: fixed;
   width: 100%;
-  height: 48px;
+  height: 35px;
   z-index: 5;
-
-  .mktLink  {
-    width: 32px;
-    height: 32px;
-    position: absolute;
-    right: 16px;
-    top: 8px;
-    background-image: url("../images/swagger-sprite.png");
-    background-repeat: no-repeat;
-    background-position: 0px 0px;
-    &:hover {
-      transition: background-position ease 200ms;
-      background-position: 0px -33px;
-    }
-  }
-
-  >h1 {
-    padding: 4px .3em 0 1em;
-    font-size: 22px;
-    line-height: 46px;
-    letter-spacing: .3px;
-    text-transform: lowercase;
-    font-family: "Droid Sans";
-    font-weight: 700;
-    span {
-      font-weight: 300;
-    }
-  }
-
-  .toolbar {
-    padding: .8em;
-    font-size: .8em;
-
-    button {
-      border: none;
-      background: white;
-    }
-  }
-
-  .generation {
-    display: none;
-  }
 }
 
+span.logo {
+  background-image: url("../images/swagger-sprite.png");
+  background-repeat: no-repeat;
+  background-position: 4px -33px;
+  height: 32px;
+  margin-top: 0;
+  display: inline-block;
+  width: 44px;
+  float: left;
+}
 
+.menu-bar {
+  float: left;
+}
 
+.status-bar {
+  float: right;
+  padding: 5px 0;
+  //TODO: Everything is hardcoded. revisit
+  .status {
+    text-align: right;
+    color: darken(@gray-lt, 25%);
+
+    .icon {
+      width: 21px;
+      height: 18px;
+      vertical-align: sub;
+      display: none;
+    }
+    .sw-font;
+
+    &.success {
+      color: darken(@gray-lt, 25%);
+    }
+    &.error {
+      .icon {
+        display: inline-block;
+        background-image: url("../images/warning.svg");
+      }
+      background-repeat: no-repeat;
+      background-position: 0px 5px;
+      padding-right: 1em;
+      color: @sw-error-header;
+    }
+  }
+}

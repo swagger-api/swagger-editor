@@ -2,188 +2,36 @@
 @import "../fonts";
 @import "../buttons";
 
+.menu-bar .dropdown{
+  display: inline-block;
 
-.menu-bar {
-
-  //TODO: Everything is hardcoded. revisit
-  .status {
-    display: inline-block;
-    width: 335px;
-    text-align: left;
-    padding: 7px;
-    color: darken(@gray-lt, 25%);
-    font-size: 1.2em;
-    .sw-font;
-
-    &.success {
-      color: darken(@gray-lt, 25%);
-    }
-
-    &.error {
-      background-image: url("../images/warning.svg");
-      background-repeat: no-repeat;
-      background-position: 0px 5px;
-      padding-left: 22px;
-      color: @sw-error-header;
-    }
-  }
-
-  .sw-font;
-  width: 100%;
-
-    //dropdown styling
-    .dropdown {
-
-      display: inline-block;
-
-      a.dropdown-icon {
-        background-image: url("../images/swagger-sprite.png");
-        background-repeat: no-repeat;
-        background-position: 4px 0px;
-        height: 32px;
-        margin-top: 0;
-        display: block;
-        width: 44px;
-        cursor: pointer;
-
-
-        &:hover {
-          background-image: url("../images/swagger-sprite.png");
-          background-position: 4px -33px;
-        }
-      }
-    }
-
-
-    ul.dropdown-menu  {
-      border-radius: @border-radius;
-      color: @toolbar-button-color;
-      background: @toolbar-button-bg;
-      font-size: @button-font-size;
-
-      .divider {
-        background-color: @gray-md;
-      }
-
-      li {
-
-        a {
-          color: @toolbar-button-color;
-
-          &:hover {
-            background: lighten(@toolbar-button-bg, 10%);
-          }
-        }
-      }
-    }
-
-    .toolbar {
-      min-height: 30px;
-      padding: 0 15px 5px 15px;
-      section {
-        float: left;
-
-        &.right {
-          float: right;
-
-          ul.dropdown-menu {
-            min-width: 210px;
-          }
-        }
-
-      }
-
-      .btn-drawer {
-        display: inline-block;
-        position: relative;
-        margin-right: 0.4em;
-
-        .toolbar-btn {
-          border: none;
-          display: block;
-          margin: 0;
-        }
-
-        &:hover {
-          >.toolbar-btn {
-            background: #000;
-          }
-          div.buttons {
-            display: block;
-
-            &, .toolbar-btn:last-child {
-              border-bottom-left-radius: @border-radius;
-              border-bottom-right-radius: @border-radius;
-            }
-          }
-        }
-
-        &:hover .drawer{
-          border-bottom-left-radius: 0;
-          border-bottom-right-radius: 0;
-        }
-      }
-
-      .btn-default {
-        display: inline-block;
-        -webkit-appearance: none;
-        border: 1px solid @gray-md;
-        border-radius: @border-radius;
-        text-align: left;
-        color: @toolbar-button-color;
-        text-decoration: none;
-        font-size: @button-font-size;
-        padding-top: 0.3em;
-        padding-bottom: 0.3em;
-        outline: none;
-        cursor: pointer;
-        background: @toolbar-button-bg;
-        min-width: 140px;
-
-        &:hover {
-          text-decoration: none;
-          border-radius: @border-radius;
-          background: lighten(@toolbar-button-bg, 10%);
-        }
-
-        span {
-          font-size: .5em;
-          vertical-align: middle;
-          margin-left: 76px;
-        }
-
-        &.menu-button {
-          display: display;
-          border: none;
-        }
-      }
-
-      .branding-3rdparty {
-          float: left;
-          margin-right: 20px;
-      }
-
-    }
-  }
-
-  .breadcrumbs .breadcrumb {
-  // TODO: colors
-  background: none;
-  color: white;
-  margin-left: 20px;
-
-  > li + li:before {
-    content: ">";
-  }
-
-  li > a {
+  .dropdown-toggle {
+    border-radius: 0;
+    background: none;
+    border: none;
     color: white;
-
-    &:hover {
-      color: @http-get;
-      text-decoration: none;
-    }
   }
 
+  .dropdown-menu {
+    border-radius: 0;
+    border: none;
+    box-shadow: none;
 
+    &, * {
+      background: @header-bg;
+    }
+
+    .divider {
+      background: lighten(@header-bg, 30%);
+    }
+
+    a, button {
+      color: white;
+
+      &:hover {
+        background: darken(@header-bg, 5%);
+      }
+    }
+  }
 }
+
