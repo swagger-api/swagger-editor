@@ -173,8 +173,7 @@ PhonicsApp.config(function ($provide) {
         '- name: ${1:parameter_name}',
         '  in: ${2:in}',
         '  description: ${3:description}',
-        '  schema:',
-        '    ${4:schema}',
+        '  type: ${4:string}',
         '${5}'
       ].join('\n')
     },
