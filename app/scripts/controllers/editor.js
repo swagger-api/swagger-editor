@@ -2,7 +2,7 @@
 
 PhonicsApp.controller('EditorCtrl', function EditorCtrl($scope, $rootScope,
   Editor, Builder, Storage, ASTManager) {
-  var debouncedOnAceChange = _.debounce(onAceChange, 1000);
+  var debouncedOnAceChange = _.debounce(onAceChange, 200);
 
   $scope.aceLoaded = Editor.aceLoaded;
 
