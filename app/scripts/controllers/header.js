@@ -2,7 +2,7 @@
 
 PhonicsApp.controller('HeaderCtrl', function HeaderCtrl($scope, $modal,
   $stateParams, $state, $rootScope, Storage, Builder, FileLoader, ASTManager,
-  Codegen, defaults, strings) {
+  Editor, Codegen, defaults, strings) {
 
   if ($stateParams.path) {
     $scope.breadcrumbs  = [{ active: true, name: $stateParams.path }];
@@ -102,6 +102,10 @@ PhonicsApp.controller('HeaderCtrl', function HeaderCtrl($scope, $modal,
 
   $scope.toggleAboutEditor = function (value) {
     $scope.showAbout = value;
+  };
+
+  $scope.openEditorPreferences = function () {
+    Editor.showSettings();
   };
 
   $scope.openExamples = function () {

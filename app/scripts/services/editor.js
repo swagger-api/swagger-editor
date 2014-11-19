@@ -119,6 +119,13 @@ PhonicsApp.service('Editor', function Editor(Autocomplete, ASTManager) {
     return editor.getCursorPosition().row;
   }
 
+  function showSettings() {
+    ace.config.loadModule('ace/ext/settings_menu', function (module) {
+      module.init(editor);
+      editor.showSettingsMenu();
+    });
+  }
+
   this.aceLoaded = aceLoaded;
   this.resize = resize;
   this.ready = ready;
@@ -131,4 +138,5 @@ PhonicsApp.service('Editor', function Editor(Autocomplete, ASTManager) {
   this.removeFold = removeFold;
   this.gotoLine = gotoLine;
   this.lineInFocus = lineInFocus;
+  this.showSettings = showSettings;
 });
