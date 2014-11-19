@@ -11,6 +11,8 @@ PhonicsApp.controller('TryOperation', function ($scope, formdataFilter) {
 
   if (Array.isArray($scope.operation.parameters)) {
     $scope.parameters = $scope.operation.parameters.map(makeParam);
+  } else {
+    $scope.parameters = [];
   }
 
   function makeParam(parameter) {
