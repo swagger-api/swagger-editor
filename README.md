@@ -11,7 +11,7 @@ To understand how it works, you should [try the live demo](http://editor.swagger
 ## YAML Syntax
 YAML became a first-class citizen as part of the Swagger 2.0 working group process. Documenation for the YAML syntax will become part of the documentation of the [Swagger 2.0 spec](https://github.com/reverb/swagger-spec).
 
-![Screenshot of the Swagger Editor](https://raw.githubusercontent.com/swagger-api/swagger-editor/master/app/images/swagger-editor2.png "Designing an API with the Swagger Editor")
+![Screenshot of the Swagger Editor](app/images/screenshot.png "Designing an API with the Swagger Editor")
 
 ## Tips
 You can import an existing YAML spec by using the `import` query parameter in edit mode. For example:
