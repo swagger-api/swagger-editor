@@ -11,7 +11,6 @@ PhonicsApp.controller('FileImportCtrl', function FileImportCtrl($scope,
   $scope.ok = function () {
     if (angular.isString(results)) {
       $rootScope.editorValue = results;
-      $rootScope.$digest();
       Storage.save('yaml', results);
       ASTManager.refresh();
     }

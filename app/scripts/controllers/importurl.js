@@ -22,7 +22,6 @@ PhonicsApp.controller('UrlImportCtrl', function FileImportCtrl($scope,
     if (angular.isString(results)) {
       Storage.save('yaml', results);
       $rootScope.editorValue = results;
-      $rootScope.$digest();
       ASTManager.refresh();
     }
     $modalInstance.close();
