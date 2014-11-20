@@ -84,8 +84,15 @@ PhonicsApp.controller('TryOperation', function ($scope, formdataFilter) {
     };
   }
 
+  function getScheme() {
+    if ($scope.scheme) {
+      return $scope.scheme;
+    }
+    return $scope.walkToProperty('schemes')[0];
+  }
+
   function generateUrl() {
-    var scheme = $scope.scheme;
+    var scheme = getScheme();
     var host = specs.host || window.location.host;
     var basePath = specs.basePath || '';
     var pathTemplate = _.template($scope.path.pathName);
