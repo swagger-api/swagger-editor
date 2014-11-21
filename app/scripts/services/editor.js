@@ -145,6 +145,7 @@ PhonicsApp.service('Editor', function Editor(Autocomplete, ASTManager,
   function adjustFontSize(by) {
     if (editor) {
       editor.setOption('fontSize', editor.getOption('fontSize') + by);
+      saveEditorSettings();
     }
   }
 
