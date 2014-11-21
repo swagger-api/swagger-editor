@@ -2,13 +2,13 @@
   <h4>Request</h4>
   <div class="request">
     <tabset justified="true">
-      <tab heading="Form" select="$parent.inputMode = 'form'">
+      <tab heading="Form" select="setInputMode('form')">
         <div class="parameters" ng-repeat="parameter in parameters">
           <form sf-schema="parameter.schema" sf-form="parameter.form" sf-model="parameter.model"></form>
         </div>
       </tab>
-      <tab heading="Raw" select="$parent.inputMode = 'raw'" ng-if="hasBodyParam()">
-        <div class="raw-model" ng-model="$parent.rawModel" ui-ace="{useWrapMode : true, theme:'atom_dark', mode: 'json'}"></div>
+      <tab heading="Raw" select="setInputMode('raw')" ng-if="hasBodyParam()">
+        <div class="raw-model" ng-model="rawModel" ui-ace="{useWrapMode : true, theme:'atom_dark', mode: 'json'}"></div>
       </tab>
     </tabset>
 

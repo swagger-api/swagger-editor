@@ -7,7 +7,7 @@ PhonicsApp.controller('TryOperation', function ($scope, formdataFilter) {
   $scope.generateUrl = generateUrl;
   $scope.makeCall = makeCall;
   $scope.xhrInProgress = false;
-  $scope.inputMode = 'form';
+  $scope.rawModel = '';
 
   if (Array.isArray($scope.operation.parameters)) {
     $scope.parameters = $scope.operation.parameters.map(makeParam);
@@ -224,6 +224,10 @@ PhonicsApp.controller('TryOperation', function ($scope, formdataFilter) {
       $scope.$digest();
     });
   }
+
+  $scope.setInputMode = function (mode) {
+    $scope.inputMode = mode;
+  };
 
   function parseHeaders(headers) {
     var result = {};
