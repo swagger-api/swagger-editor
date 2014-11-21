@@ -1,7 +1,7 @@
 'use strict';
 
 PhonicsApp.service('Editor', function Editor(Autocomplete, ASTManager,
-  LocalStorage) {
+  LocalStorage, $interval) {
   var editor = null;
   var onReadyFns = [];
   var changeFoldFns = [];
@@ -139,12 +139,24 @@ PhonicsApp.service('Editor', function Editor(Autocomplete, ASTManager,
     ace.config.loadModule('ace/ext/settings_menu', function (module) {
       module.init(editor);
       editor.showSettingsMenu();
+
+      // Crazy hack to get around Ace not notifying us when settings changes
+      // Related bug in Ace:
+      // https://github.com/ajaxorg/ace/issues/2250
+      var checkInterval = $interval(function () {
+        if ($('#ace_settingsmenu').length === 0) {
+          saveEditorSettings();
+          $interval.cancel(checkInterval);
+          checkInterval = undefined;
+        }
+      }, 300);
     });
   }
 
   function adjustFontSize(by) {
     if (editor) {
-      editor.setOption('fontSize', editor.getOption('fontSize') + by);
+      var fontSize = parseInt(editor.getOption('fontSize'), 10);
+      editor.setOption('fontSize', fontSize + by);
       saveEditorSettings();
     }
   }
