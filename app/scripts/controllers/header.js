@@ -105,9 +105,8 @@ PhonicsApp.controller('HeaderCtrl', function HeaderCtrl($scope, $modal,
     $scope.showAbout = value;
   };
 
-  $scope.openEditorPreferences = function () {
-    Editor.showSettings();
-  };
+  $scope.openEditorPreferences = Editor.showSettings;
+  $scope.saveEditorSettings = Editor.saveEditorSettings;
 
   $scope.openExamples = function () {
     $modal.open({
