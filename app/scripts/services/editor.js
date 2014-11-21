@@ -142,6 +142,12 @@ PhonicsApp.service('Editor', function Editor(Autocomplete, ASTManager,
     });
   }
 
+  function adjustFontSize(by) {
+    if (editor) {
+      editor.setOption('fontSize', editor.getOption('fontSize') + by);
+    }
+  }
+
   this.aceLoaded = aceLoaded;
   this.resize = resize;
   this.ready = ready;
@@ -156,4 +162,5 @@ PhonicsApp.service('Editor', function Editor(Autocomplete, ASTManager,
   this.lineInFocus = lineInFocus;
   this.showSettings = showSettings;
   this.saveEditorSettings = saveEditorSettings;
+  this.adjustFontSize = adjustFontSize;
 });

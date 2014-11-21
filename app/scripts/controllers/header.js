@@ -107,6 +107,7 @@ PhonicsApp.controller('HeaderCtrl', function HeaderCtrl($scope, $modal,
 
   $scope.openEditorPreferences = Editor.showSettings;
   $scope.saveEditorSettings = Editor.saveEditorSettings;
+  $scope.adjustFontSize = Editor.adjustFontSize;
 
   $scope.openExamples = function () {
     $modal.open({

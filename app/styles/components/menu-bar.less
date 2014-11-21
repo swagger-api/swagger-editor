@@ -4,7 +4,6 @@
 
 .menu-bar .dropdown{
   display: inline-block;
-
   .dropdown-toggle {
     border-radius: 0;
     background: none;
@@ -19,6 +18,9 @@
 
     &, * {
       background: @header-bg;
+      user-select: none;
+      -webkit-user-select: none;
+      -ms-user-select: none;
     }
 
     .divider {
@@ -30,6 +32,34 @@
 
       &:hover {
         background: darken(@header-bg, 5%);
+      }
+    }
+  }
+
+  .font-size {
+    span {
+      background: none;
+
+      &.adjust {
+        padding: 0px 15px;
+        border: 1px solid gray;
+        border-radius: 5px;
+        margin: 0;
+        display: inline-table;
+
+        &:hover {
+          background: darken(@header-bg, 10%);
+        }
+
+        &:first-child {
+          border-top-right-radius: 0;
+          border-bottom-right-radius: 0;
+          border-right: none;
+        }
+        &:last-child {
+          border-top-left-radius: 0;
+          border-bottom-left-radius: 0;
+        }
       }
     }
   }
