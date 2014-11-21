@@ -8,7 +8,7 @@
         </div>
       </tab>
       <tab heading="Raw" select="setInputMode('raw')" ng-if="hasBodyParam()">
-        <div class="raw-model" ng-model="rawModel" ui-ace="{theme:'github', mode: 'json'}"></div>
+        <div class="raw-model" ng-model="$parent.rawModel" ui-ace="{theme:'github', mode: 'json', onChange: rawChanged}"></div>
       </tab>
     </tabset>
 

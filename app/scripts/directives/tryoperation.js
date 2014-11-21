@@ -2,12 +2,12 @@
 
 PhonicsApp.controller('TryOperation', function ($scope, formdataFilter) {
   var specs = $scope.$parent.specs;
+  var rawModel = '';
 
   $scope.httpProtorcol = 'HTTP/1.1';
   $scope.generateUrl = generateUrl;
   $scope.makeCall = makeCall;
   $scope.xhrInProgress = false;
-  $scope.rawModel = '';
 
   if (Array.isArray($scope.operation.parameters)) {
     $scope.parameters = $scope.operation.parameters.map(makeParam);
@@ -115,10 +115,15 @@ PhonicsApp.controller('TryOperation', function ($scope, formdataFilter) {
     });
   };
 
+  $scope.rawChanged = function (change) {
+    var editor = change[1];
+    rawModel = editor.getValue();
+  };
+
   $scope.getRequestBody = function () {
 
     if ($scope.inputMode === 'raw') {
-      return $scope.rawModel;
+      return rawModel;
     }
 
     var bodyModel = $scope.parameters.map(function (param) {
