@@ -69,7 +69,11 @@
         <h6>Headers</h6>
         <json-formatter json="responseHeaders" open="3"></json-formatter>
         <h6>Body</h6>
-        <json-formatter json="responseData" open="3"></json-formatter>
+        <json-formatter ng-if="isJson(responseData)" json="responseData" open="3"></json-formatter>
+        <div ng-if="isHTML(responseData)" ng-bind-html="responseData"></div>
+        <div ng-if="isPlain(responseData)">
+          {{responseData}}
+        </div>
       </tab>
       <tab heading="Pretty">
         <pre>{{prettyPrint(xhr.responseText)}}</pre>

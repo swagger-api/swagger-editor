@@ -249,6 +249,33 @@ PhonicsApp.controller('TryOperation', function ($scope, formdataFilter) {
     return input;
   };
 
+  // Returns true if response is JSON
+  $scope.isJson = function (value) {
+    var err;
+    try {
+      JSON.parse(value);
+    } catch (error) {
+      err = error;
+    }
+
+    return !err;
+  };
+
+  $scope.isHTML = function (value) {
+    var a = window.document.createElement('div');
+    a.innerHTML = value;
+    for (var c = a.childNodes, i = c.length; i--;) {
+      if (c[i].nodeType === 1) {
+        return true;
+      }
+    }
+    return false;
+  };
+
+  $scope.isPlain = function (value) {
+    return !$scope.isHTML(value) && !$scope.isJson(value);
+  };
+
   function parseHeaders(headers) {
     var result = {};
 
