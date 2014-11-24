@@ -147,7 +147,10 @@ PhonicsApp.controller('TryOperation', function ($scope, formdataFilter) {
     var headerParams = $scope.parameters.filter(function (param) {
       return param.in === 'header';
     }).reduce(function (obj, param) {
-      obj[param.name] = modelOfParameter(param)[param.name];
+      var model = modelOfParameter(param)[param.name];
+      if (model) {
+        obj[param.name] = model;
+      }
       return obj;
     }, {});
 
