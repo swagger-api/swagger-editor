@@ -71,6 +71,9 @@
         <h6>Body</h6>
         <json-formatter json="responseData" open="3"></json-formatter>
       </tab>
+      <tab heading="Pretty">
+        <pre>{{prettyPrint(xhr.responseText)}}</pre>
+      </tab>
       <tab heading="Raw">
         <div class="raw-response raw">
           <div class="status">{{httpProtorcol}} {{xhr.statusCode}} {{statusText}}</div>

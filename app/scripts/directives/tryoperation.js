@@ -240,6 +240,15 @@ PhonicsApp.controller('TryOperation', function ($scope, formdataFilter) {
     $scope.inputMode = mode;
   };
 
+  $scope.prettyPrint = function (input) {
+    // Try if it's JSON
+    try {
+      return JSON.stringify(JSON.parse(input), null, 2);
+    } catch (jsonError) {}
+
+    return input;
+  };
+
   function parseHeaders(headers) {
     var result = {};
 
