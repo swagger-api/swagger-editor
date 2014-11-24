@@ -66,7 +66,7 @@ PhonicsApp.service('Editor', function Editor(Autocomplete, ASTManager,
     if (editor) {
       LocalStorage.load('editor-settings').then(function (options) {
         if (!options) {
-          editor.setOption('theme', 'ace/theme/atom_dark')
+          editor.setOption('theme', 'ace/theme/atom_dark');
         } else {
           editor.setOptions(options);
         }
