@@ -143,8 +143,8 @@ PhonicsApp.controller('TryOperation', function ($scope, formdataFilter) {
     return '';
   };
 
-  $scope.getHeaders = function () {
-    var headerParams = $scope.parameters.filter(function (param) {
+  function getHeaderParams() {
+    return $scope.parameters.filter(function (param) {
       return param.in === 'header';
     }).reduce(function (obj, param) {
       var model = modelOfParameter(param)[param.name];
@@ -153,10 +153,14 @@ PhonicsApp.controller('TryOperation', function ($scope, formdataFilter) {
       }
       return obj;
     }, {});
+  }
+
+  $scope.getHeaders = function () {
+    var headerParams = getHeaderParams();
 
     return _.extend(headerParams, {
       Host: $scope.specs.host || window.location.host,
-      Accept: $scope.accept,
+      Accept: $scope.accepts,
       'Accept-Encoding': 'gzip,deflate,sdch', //TODO: where this is coming from?
       'Accept-Language': 'en-US,en;q=0.8,fa;q=0.6,sv;q=0.4', // TODO: wut?
       'Cache-Control': 'no-cache',
@@ -207,10 +211,9 @@ PhonicsApp.controller('TryOperation', function ($scope, formdataFilter) {
     $.ajax({
       url: $scope.generateUrl(),
       type: $scope.operation.operationName,
-        // headers: _.extend({
-        //   'Content-Type': $scope.contentType
-        // }, getHeaderParams()),
-      data: $scope.getRequestBody()
+      headers: getHeaderParams(),
+      data: $scope.getRequestBody(),
+      accepts: $scope.accepts
     })
 
     .fail(function (jqXHR, textStatus, errorThrown) {
