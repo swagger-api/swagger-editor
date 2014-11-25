@@ -120,17 +120,21 @@ PhonicsApp.controller('TryOperation', function ($scope, formdataFilter) {
     rawModel = editor.getValue();
   };
 
+  function getBodyModel() {
+    return $scope.parameters.map(function (param) {
+      if (param.in === 'body') {
+        return modelOfParameter(param);
+      }
+    })[0];
+  }
+
   $scope.getRequestBody = function () {
 
     if ($scope.inputMode === 'raw') {
       return rawModel;
     }
 
-    var bodyModel = $scope.parameters.map(function (param) {
-      if (param.in === 'body') {
-        return modelOfParameter(param);
-      }
-    })[0];
+    var bodyModel = getBodyModel();
 
     if ($scope.bodyFormat === 'form-data') {
       return formdataFilter(bodyModel);
@@ -212,7 +216,7 @@ PhonicsApp.controller('TryOperation', function ($scope, formdataFilter) {
       url: $scope.generateUrl(),
       type: $scope.operation.operationName,
       headers: getHeaderParams(),
-      data: $scope.getRequestBody(),
+      data: getBodyModel(),
       accepts: $scope.accepts
     })
 
