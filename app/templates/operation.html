@@ -9,6 +9,9 @@
   </header>
 
   <div class='content' collapse-when="isCollapsed(['paths', path.pathName, operation.operationName])">
+    <div class="tags">
+      <span class="tag tag-color-{{tagIndexFor(tag)}}" ng-repeat="tag in operation.tags">{{tag}}</span>
+    </div>
     <section class="description" ng-if="operation.description">
       <h4>Description</h4>
       <div marked="operation.description"></div>
