@@ -1,10 +1,8 @@
 'use strict';
 
 PhonicsApp.controller('PreviewCtrl', function PreviewCtrl(Storage, Builder,
-  ASTManager, Sorter, Editor, BackendHealthCheck, FocusedPath,
+  ASTManager, Sorter, Editor, BackendHealthCheck, FocusedPath, TagManager,
   $scope, $rootScope) {
-  var tags = {};
-  var tagsCount = 0;
 
   function update(latest) {
     ASTManager.refresh(latest);
@@ -22,7 +20,7 @@ PhonicsApp.controller('PreviewCtrl', function PreviewCtrl(Storage, Builder,
   function onResult(result) {
     $scope.specs =  Sorter.sort(result.specs);
     $scope.error = null;
-    resetTags();
+    TagManager.resetTags();
     Storage.save('progress',  1); // Saved
 
     if (!$rootScope.isPreviewMode) {
@@ -57,21 +55,8 @@ PhonicsApp.controller('PreviewCtrl', function PreviewCtrl(Storage, Builder,
     ASTManager.setFoldAll(path, true, Editor);
   };
 
-  // Tag manager
-  function resetTags() {
-    tags = {};
-    tagsCount = 0;
-  }
-
-  $scope.tagIndexFor = function (tag) {
-    if (!tags[tag]) {
-      tagsCount++;
-      tags[tag] = tagsCount;
-      return tagsCount;
-    }
-    return tags[tag];
-  };
-
+  $scope.tagIndexFor = TagManager.tagIndexFor;
+  $scope.getAllTags = TagManager.getAllTags;
   /*
    * Focuses editor to a line that represents that path beginning
    * @param {AngularEvent} $event - angular event

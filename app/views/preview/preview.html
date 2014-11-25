@@ -14,6 +14,9 @@
         <a ng-click="toggleAll(['paths'])" ng-hide="isAllFolded(['paths'])">List all paths</a>
       </span>
     </h3>
+    <div class="root tags">
+      <span class="tag tag-color-{{tagIndexFor(tag)}}" ng-repeat="tag in getAllTags()">{{tag}}</span>
+    </div>
   </header>
   <ul class="paths" ng-if="!error.yamlError" collapse-when="isCollapsed(['paths'])">
     <path ng-repeat="path in specs.paths" ng-if="!isVendorExtension(path.pathName)"></path>
