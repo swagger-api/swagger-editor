@@ -24,7 +24,10 @@ PhonicsApp.controller('PreviewCtrl', function PreviewCtrl(Storage, Builder,
     }
     $scope.specs =  Sorter.sort(result.specs, sortOptions);
     $scope.error = null;
+
     TagManager.resetTags();
+    TagManager.registerRootTags($scope.specs.tags);
+
     Storage.save('progress',  1); // Saved
 
     if (!$rootScope.isPreviewMode) {
