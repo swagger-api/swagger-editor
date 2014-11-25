@@ -2,7 +2,7 @@
 
 PhonicsApp.controller('PreviewCtrl', function PreviewCtrl(Storage, Builder,
   ASTManager, Sorter, Editor, BackendHealthCheck, FocusedPath, TagManager,
-  $scope, $rootScope) {
+  $scope, $rootScope, $stateParams) {
 
   function update(latest) {
     ASTManager.refresh(latest);
@@ -18,7 +18,11 @@ PhonicsApp.controller('PreviewCtrl', function PreviewCtrl(Storage, Builder,
   }
 
   function onResult(result) {
-    $scope.specs =  Sorter.sort(result.specs);
+    var sortOptions = {};
+    if (angular.isString($stateParams.tags)) {
+      sortOptions.tagsToLimitTo = $stateParams.tags.split(',');
+    }
+    $scope.specs =  Sorter.sort(result.specs, sortOptions);
     $scope.error = null;
     TagManager.resetTags();
     Storage.save('progress',  1); // Saved

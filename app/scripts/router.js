@@ -6,7 +6,7 @@ PhonicsApp.config(function Router($compileProvider, $stateProvider,
 
   $stateProvider
   .state('home', {
-    url: '/{mode}?import',
+    url: '/{mode}?import&tags',
     views: {
       '': {
         templateUrl: function ($statePrams) {

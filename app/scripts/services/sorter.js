@@ -14,7 +14,7 @@ PhonicsApp.service('Sorter', function Sorter() {
   /*
   ** Sort specs hash (paths, operations and responses)
   */
-  this.sort = function (specs) {
+  this.sort = function (specs, options) {
     if (specs && specs.paths) {
       var paths = Object.keys(specs.paths).map(function (pathName) {
         if (pathName.toLowerCase().substring(0, 2) === XDASH) {
@@ -24,6 +24,7 @@ PhonicsApp.service('Sorter', function Sorter() {
         return {
           pathName: pathName,
           operations: sortOperations(specs.paths[pathName])
+            .filter(filterForTags(options.limitToTags))
         };
       });
 
@@ -90,5 +91,26 @@ PhonicsApp.service('Sorter', function Sorter() {
 
     // Remove array holes
     return _.compact(arr);
+  }
+
+  /*
+   * Makes a function that filter out operation based on limitToTags array
+  */
+  function filterForTags(limitToTags) {
+    return function (operation) {
+      if (!limitToTags) {
+        return true;
+      }
+      if (Array.isArray(limitToTags) && Array.isArray(operation.tags)) {
+        for (var i = 0; i < limitToTags.length; i++) {
+          for (var j = 0; j < operation.tags.length; j++) {
+            if (limitToTags[i] === operation.tags[j]) {
+              return true;
+            }
+          }
+        }
+      }
+      return false;
+    };
   }
 });
