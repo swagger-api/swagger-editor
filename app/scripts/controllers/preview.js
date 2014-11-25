@@ -62,6 +62,7 @@ PhonicsApp.controller('PreviewCtrl', function PreviewCtrl(Storage, Builder,
     tags = {};
     tagsCount = 0;
   }
+
   $scope.tagIndexFor = function (tag) {
     if (!tags[tag]) {
       tagsCount++;
@@ -69,7 +70,7 @@ PhonicsApp.controller('PreviewCtrl', function PreviewCtrl(Storage, Builder,
       return tagsCount;
     }
     return tags[tag];
-  }
+  };
 
   /*
    * Focuses editor to a line that represents that path beginning
