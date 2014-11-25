@@ -58,7 +58,7 @@ PhonicsApp.controller('PreviewCtrl', function PreviewCtrl(Storage, Builder,
   };
 
   // Tag manager
-  function resetTags () {
+  function resetTags() {
     tags = {};
     tagsCount = 0;
   }
