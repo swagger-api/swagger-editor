@@ -26,7 +26,9 @@ PhonicsApp.controller('PreviewCtrl', function PreviewCtrl(Storage, Builder,
     $scope.error = null;
 
     TagManager.resetTags();
-    TagManager.registerRootTags($scope.specs.tags);
+    if (angular.isObject($scope.specs)) {
+      TagManager.registerRootTags($scope.specs.tags);
+    }
 
     Storage.save('progress',  1); // Saved
 

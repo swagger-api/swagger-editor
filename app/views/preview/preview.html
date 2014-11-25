@@ -9,7 +9,7 @@
 
   <header ng-if="!!specs.info && !error.yamlError">
     <div class="root tags">
-      <span class="tag tag-color-{{tagIndexFor(tag.name)}}" ng-repeat="tag in getAllTags()">{{tag.name}}</span>
+      <a class="tag tag-color-{{tagIndexFor(tag.name)}}" ng-repeat="tag in getAllTags()" title="{{tag.description}}">{{tag.name}}</a>
     </div>
     <h3 class="section-header">
       <a ng-click="toggle(['paths'])">Paths</a>
