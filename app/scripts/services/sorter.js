@@ -23,6 +23,7 @@ PhonicsApp.service('Sorter', function Sorter() {
 
         return {
           pathName: pathName,
+          pathParameters: specs.paths[pathName].parameters,
           operations: sortOperations(specs.paths[pathName])
             .filter(filterForTags(options.limitToTags))
         };

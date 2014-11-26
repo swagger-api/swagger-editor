@@ -9,8 +9,8 @@ PhonicsApp.controller('TryOperation', function ($scope, formdataFilter) {
   $scope.makeCall = makeCall;
   $scope.xhrInProgress = false;
 
-  if (Array.isArray($scope.operation.parameters)) {
-    $scope.parameters = $scope.operation.parameters.map(makeParam);
+  if (Array.isArray($scope.getParameters())) {
+    $scope.parameters = $scope.getParameters().map(makeParam);
   } else {
     $scope.parameters = [];
   }
