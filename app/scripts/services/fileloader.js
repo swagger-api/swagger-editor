@@ -43,6 +43,12 @@ PhonicsApp.service('FileLoader', function FileLoader($http) {
 
   // Load from URL
   this.loadFromUrl = function (url) {
+
+    // Temporarily use this service to get around non-CORSable URLs
+    if (angular.isString(url) && url.indexOf('http') > -1) {
+      url = 'https://cors-it.herokuapp.com/?url=' + url;
+    }
+
     return $http({
       method: 'GET',
       url: url,
