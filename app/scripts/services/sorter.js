@@ -46,7 +46,8 @@ PhonicsApp.service('Sorter', function Sorter() {
     }
 
     arr = Object.keys(operations).map(function (operationName) {
-      if (operationName.toLowerCase().substring(0, 2) === XDASH) {
+      if (operationName.toLowerCase().substring(0, 2) === XDASH ||
+          operationName === 'parameters') {
         return;
       }
 

@@ -81,6 +81,7 @@ PhonicsApp.service('KeywordMap', function KeywordMap(defaults) {
     paths: {
       //path
       '.': {
+        parameters: parameter,
         '.': operation
       }
     },
