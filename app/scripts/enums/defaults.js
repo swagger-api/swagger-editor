@@ -35,7 +35,8 @@ PhonicsApp.config(function ($provide) {
     headerBranding: false,
     enableTryIt: true,
     brandingCssClass: '',
-    schemaUrl: '/schema/swagger.json'
+    schemaUrl: '/schema/swagger.json',
+    importProxyUrl: 'https://cors-it.herokuapp.com/?url='
   }
   // END-DEFAULTS-JSON
 

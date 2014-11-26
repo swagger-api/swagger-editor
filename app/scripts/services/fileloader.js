@@ -39,14 +39,14 @@ function load(string) {
   throw new Error('load function called with an invalid string');
 }
 
-PhonicsApp.service('FileLoader', function FileLoader($http) {
+PhonicsApp.service('FileLoader', function FileLoader($http, defaults) {
 
   // Load from URL
   this.loadFromUrl = function (url) {
 
     // Temporarily use this service to get around non-CORSable URLs
-    if (angular.isString(url) && url.indexOf('http') > -1) {
-      url = 'https://cors-it.herokuapp.com/?url=' + url;
+    if (angular.isString(url) && url.indexOf('http') === 0) {
+      url = defaults.importProxyUrl + url;
     }
 
     return $http({
