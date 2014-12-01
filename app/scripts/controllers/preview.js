@@ -47,15 +47,15 @@ PhonicsApp.controller('PreviewCtrl', function PreviewCtrl(Storage, Builder,
 
   Storage.addChangeListener('yaml', update);
 
-  // If app is in preview mode, load the yaml from storage
-  if ($rootScope.isPreviewMode) {
-    $scope.loadLatest();
-  }
-
   $scope.loadLatest = function () {
     Storage.load('yaml').then(update);
     $rootScope.isDirty = false;
   };
+
+  // If app is in preview mode, load the yaml from storage
+  if ($rootScope.isPreviewMode) {
+    $scope.loadLatest();
+  }
 
   ASTManager.onFoldStatusChanged(function () {
     _.defer(function () { $scope.$apply(); });
