@@ -70,6 +70,10 @@
         <li role="presentation">
           <a href="#/" role="menuitem" tabindex="-1" id="preview-mode">Preview</a>
         </li>
+        <li role="presentation" class="divider" ng-if="showEditorMenuOptions()"></li>
+        <li role="presentation" ng-if="showEditorMenuOptions()">
+          <a role="menuitem" tabindex="-1" ng-click="toggleLiveRender()">{{isLiveRenderEnabled() ? 'Disable' : 'Enable'}} Live Render</a>
+        </li>
       </ul>
     </div>
 

@@ -2,7 +2,7 @@
 
 PhonicsApp.controller('HeaderCtrl', function HeaderCtrl($scope, $modal,
   $stateParams, $state, $rootScope, Storage, Builder, FileLoader, ASTManager,
-  Editor, Codegen, defaults, strings) {
+  Editor, Codegen, Preferences, defaults, strings) {
 
   if ($stateParams.path) {
     $scope.breadcrumbs  = [{ active: true, name: $stateParams.path }];
@@ -114,6 +114,21 @@ PhonicsApp.controller('HeaderCtrl', function HeaderCtrl($scope, $modal,
       controller: 'OpenExamplesCtrl',
       size: 'large'
     });
+  };
+
+  $scope.toggleLiveRender = function () {
+    Preferences.set('liveRender', !Preferences.get('liveRender'));
+  };
+
+  $scope.isLiveRenderEnabled = function () {
+    return !!Preferences.get('liveRender');
+  };
+
+  /*
+   * Should show editor related menu options?
+  */
+  $scope.showEditorMenuOptions = function () {
+    return $state.params.mode === 'edit';
   };
 
   function assignDownloadHrefs() {
