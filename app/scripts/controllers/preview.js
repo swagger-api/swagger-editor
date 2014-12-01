@@ -30,7 +30,7 @@ PhonicsApp.controller('PreviewCtrl', function PreviewCtrl(Storage, Builder,
       TagManager.registerRootTags($scope.specs.tags);
     }
 
-    Storage.save('progress',  1); // Saved
+    Storage.save('progress',  2); // All changes saved
 
     if (!$rootScope.isPreviewMode) {
       Editor.clearAnnotation();
@@ -49,8 +49,13 @@ PhonicsApp.controller('PreviewCtrl', function PreviewCtrl(Storage, Builder,
 
   // If app is in preview mode, load the yaml from storage
   if ($rootScope.isPreviewMode) {
-    Storage.load('yaml').then(update);
+    $scope.loadLatest();
   }
+
+  $scope.loadLatest = function () {
+    Storage.load('yaml').then(update);
+    $rootScope.isDirty = false;
+  };
 
   ASTManager.onFoldStatusChanged(function () {
     _.defer(function () { $scope.$apply(); });

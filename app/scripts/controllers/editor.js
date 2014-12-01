@@ -14,15 +14,16 @@ PhonicsApp.controller('EditorCtrl', function EditorCtrl($scope, $rootScope,
   Editor.ready(function () {
     Storage.load('yaml').then(function (yaml) {
       $rootScope.editorValue = yaml;
-      onAceChange();
+      onAceChange(true);
     });
   });
 
-  function onAceChange() {
+  function onAceChange(force) {
     var value = $rootScope.editorValue;
 
-    if (!Preferences.get('liveRender')) {
-      Storage.save('isDirty', true);
+    if (!Preferences.get('liveRender') && !force) {
+      $rootScope.isDirty = true;
+      Storage.save('progress',  1);
       return;
     }
 

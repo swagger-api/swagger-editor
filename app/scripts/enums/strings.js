@@ -3,10 +3,11 @@
 PhonicsApp.config(function ($provide) {
   $provide.constant('strings', {
     stausMessages: {
-      '-2': 'Unsaved Changes. Check your server connection',
+      '-2': 'Unsaved changes. Check your server connection',
       '-1': 'Error!',
       0: 'Working...',
-      1: 'All changes saved.'
+      1: 'Unsaved changes',
+      2: 'All changes saved.'
     }
   });
 });

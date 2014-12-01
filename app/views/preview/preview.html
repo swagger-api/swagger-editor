@@ -1,5 +1,7 @@
 <div class="preview-wrapper">
-
+  <div class="dirty-message" ng-if="isDirty">
+    This preview is out of date. Please <a ng-click="loadLatest()">reload</a> to see the latest.
+  </div>
   <ng-include src="'templates/error-presenter.html'"
     ng-if="error"></ng-include>
   <ng-include src="'templates/specs-info.html'"
