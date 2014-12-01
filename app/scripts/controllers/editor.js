@@ -1,7 +1,7 @@
 'use strict';
 
 PhonicsApp.controller('EditorCtrl', function EditorCtrl($scope, $rootScope,
-  Editor, Builder, Storage, ASTManager, Preferences) {
+  Editor, Builder, Storage, ASTManager) {
   var debouncedOnAceChange = _.debounce(onAceChange, 200);
 
   $scope.aceLoaded = Editor.aceLoaded;
@@ -18,14 +18,8 @@ PhonicsApp.controller('EditorCtrl', function EditorCtrl($scope, $rootScope,
     });
   });
 
-  function onAceChange(force) {
+  function onAceChange() {
     var value = $rootScope.editorValue;
-
-    if (!Preferences.get('liveRender') && !force) {
-      $rootScope.isDirty = true;
-      Storage.save('progress',  1);
-      return;
-    }
 
     Storage.save('yaml', value);
     ASTManager.refresh();

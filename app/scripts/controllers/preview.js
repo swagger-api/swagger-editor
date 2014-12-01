@@ -2,9 +2,15 @@
 
 PhonicsApp.controller('PreviewCtrl', function PreviewCtrl(Storage, Builder,
   ASTManager, Sorter, Editor, BackendHealthCheck, FocusedPath, TagManager,
-  $scope, $rootScope, $stateParams) {
+  Preferences, $scope, $rootScope, $stateParams) {
 
-  function update(latest) {
+  function update(latest, force) {
+    if (!Preferences.get('liveRender') && !force && $scope.specs) {
+      $rootScope.isDirty = true;
+      Storage.save('progress',  1);
+      return;
+    }
+
     ASTManager.refresh(latest);
 
     // If backend is not healthy don't update
@@ -18,6 +24,7 @@ PhonicsApp.controller('PreviewCtrl', function PreviewCtrl(Storage, Builder,
   }
 
   function onResult(result) {
+
     var sortOptions = {};
     if (angular.isString($stateParams.tags)) {
       sortOptions.tagsToLimitTo = $stateParams.tags.split(',');
@@ -48,7 +55,9 @@ PhonicsApp.controller('PreviewCtrl', function PreviewCtrl(Storage, Builder,
   Storage.addChangeListener('yaml', update);
 
   $scope.loadLatest = function () {
-    Storage.load('yaml').then(update);
+    Storage.load('yaml').then(function (latest) {
+      update(latest, true);
+    });
     $rootScope.isDirty = false;
   };
 
