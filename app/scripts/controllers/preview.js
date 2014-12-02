@@ -27,15 +27,14 @@ PhonicsApp.controller('PreviewCtrl', function PreviewCtrl(Storage, Builder,
 
     var sortOptions = {};
     if (angular.isString($stateParams.tags)) {
-      sortOptions.tagsToLimitTo = $stateParams.tags.split(',');
+      sortOptions.limitToTags = $stateParams.tags.split(',');
     }
+
+    // Refresh tags with an un-filtered specs to get all tags in tag manager
+    refreshTags(Sorter.sort(_.clone(result.specs), {}));
+
     $scope.specs =  Sorter.sort(result.specs, sortOptions);
     $scope.error = null;
-
-    TagManager.resetTags();
-    if (angular.isObject($scope.specs)) {
-      TagManager.registerRootTags($scope.specs.tags);
-    }
 
     Storage.save('progress',  2); // All changes saved
 
@@ -80,6 +79,15 @@ PhonicsApp.controller('PreviewCtrl', function PreviewCtrl(Storage, Builder,
 
   $scope.tagIndexFor = TagManager.tagIndexFor;
   $scope.getAllTags = TagManager.getAllTags;
+  $scope.getCurrentTags = TagManager.getCurrentTags;
+  $scope.stateParams = $stateParams;
+
+  function refreshTags(specs) {
+    if (angular.isObject(specs)) {
+      TagManager.registerTagsFromSpecs(specs);
+    }
+  }
+
   /*
    * Focuses editor to a line that represents that path beginning
    * @param {AngularEvent} $event - angular event

@@ -1,6 +1,6 @@
 'use strict';
 
-PhonicsApp.service('TagManager', function TagManager() {
+PhonicsApp.service('TagManager', function TagManager($stateParams) {
   var tags = [];
 
   function Tag(name, description) {
@@ -18,27 +18,53 @@ PhonicsApp.service('TagManager', function TagManager() {
         return i;
       }
     }
-
-    // If this is a new tag, register it and return it's index
-    registerTag(tagName);
-    return tags.length - 1;
   };
 
   this.getAllTags = function () {
     return tags;
   };
 
-  this.registerRootTags = function (rootTags) {
-    if (Array.isArray(rootTags)) {
-      rootTags.forEach(function (tag) {
+  this.registerTagsFromSpecs = function (specs) {
+    if (!angular.isObject(specs)) {
+      return;
+    }
+
+    tags = [];
+
+    if (Array.isArray(specs.tags)) {
+      specs.tags.forEach(function (tag) {
         if (angular.isString(tag.name)) {
           registerTag(tag.name, tag.description);
         }
       });
     }
+
+    if (Array.isArray(specs.paths)) {
+      specs.paths.forEach(function (path) {
+        if (Array.isArray(path.operations)) {
+          path.operations.forEach(function (operation) {
+            if (Array.isArray(operation.tags)) {
+              operation.tags.forEach(function (tagName) {
+                registerTag(tagName);
+              });
+            }
+          });
+        }
+      });
+    }
+  };
+
+  this.getCurrentTags = function () {
+    if ($stateParams.tags) {
+      return $stateParams.tags.split(',');
+    }
+    return [];
   };
 
   function registerTag(tagName, tagDescription) {
+    if (!tagName) {
+      return;
+    }
     var tagNames = tags.map(function (tag) {
       return tag.name;
     });
