@@ -157,6 +157,56 @@ PhonicsApp.service('Editor', function Editor(Autocomplete, ASTManager,
     });
   }
 
+  function resetSettings() {
+    var defaultOptions = {
+      selectionStyle: 'line',
+      highlightActiveLine: true,
+      highlightSelectedWord: true,
+      readOnly: false,
+      cursorStyle: 'ace',
+      mergeUndoDeltas: true,
+      behavioursEnabled: true,
+      wrapBehavioursEnabled: true,
+      hScrollBarAlwaysVisible: false,
+      vScrollBarAlwaysVisible: false,
+      highlightGutterLine: true,
+      animatedScroll: false,
+      showInvisibles: false,
+      showPrintMargin: true,
+      printMarginColumn: 80,
+      printMargin: 80,
+      fadeFoldWidgets: false,
+      showFoldWidgets: true,
+      showLineNumbers: true,
+      showGutter: true,
+      displayIndentGuides: true,
+      fontSize: 12,
+      fontFamily: 'Source Code Pro',
+      scrollPastEnd: 0,
+      theme: 'ace/theme/atom_dark',
+      scrollSpeed: 2,
+      dragDelay: 150,
+      dragEnabled: true,
+      focusTimout: 0,
+      tooltipFollowsMouse: true,
+      firstLineNumber: 1,
+      overwrite: false,
+      newLineMode: 'auto',
+      useWorker: true,
+      useSoftTabs: true,
+      tabSize: 2,
+      wrap: 'free',
+      mode: 'ace/mode/yaml',
+      enableMultiselect: true,
+      enableBasicAutocompletion: true,
+      enableLiveAutocompletion: true,
+      enableSnippets: true
+    };
+    if (window.confirm('Are you sure?') && editor) {
+      editor.setOptions(defaultOptions);
+    }
+  }
+
   function adjustFontSize(by) {
     if (editor) {
       var fontSize = parseInt(editor.getOption('fontSize'), 10);
@@ -180,4 +230,5 @@ PhonicsApp.service('Editor', function Editor(Autocomplete, ASTManager,
   this.showSettings = showSettings;
   this.saveEditorSettings = saveEditorSettings;
   this.adjustFontSize = adjustFontSize;
+  this.resetSettings = resetSettings;
 });
