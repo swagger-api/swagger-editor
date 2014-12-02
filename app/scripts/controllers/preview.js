@@ -31,7 +31,7 @@ PhonicsApp.controller('PreviewCtrl', function PreviewCtrl(Storage, Builder,
     }
 
     // Refresh tags with an un-filtered specs to get all tags in tag manager
-    refreshTags(Sorter.sort(_.clone(result.specs), {}));
+    refreshTags(Sorter.sort(_.cloneDeep(result.specs), {}));
 
     $scope.specs =  Sorter.sort(result.specs, sortOptions);
     $scope.error = null;
