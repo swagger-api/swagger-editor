@@ -1,5 +1,5 @@
 <li class="path">
-  <header ng-click="$parent.toggle(['paths', path.pathName])">
+  <header ng-click="$parent.toggle(['paths', path.pathName])" ng-if="path.operations.length > 0">
     <h2>
       <a>{{path.pathName}}</a>
     </h2>
