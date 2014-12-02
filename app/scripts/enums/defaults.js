@@ -47,6 +47,7 @@ PhonicsApp.config(function ($provide) {
       'minimal.yaml',
       'petstore_simple.yaml',
       'petstore_full.yaml',
+      'basic-auth.yaml',
       'security.yaml'
     ],
 
