@@ -77,6 +77,26 @@
       </div>
     </section>
 
+    <section class="security" ng-if="operation.security">
+      <h4>Security</h4>
+      <table class="security">
+        <thead>
+          <tr>
+            <th>Security Schema</th>
+            <th>Scopes</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr ng-repeat="security in operation.security">
+            <td ng-repeat="(securityName, securityValues) in security">{{securityName}}</td>
+            <td ng-repeat="(securityName, securityValues) in security">
+              <strong class="security-value" ng-repeat="value in securityValues">{{value}}</strong>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
     <section class="try-operation" ng-if="enableTryIt">
       <button class="border-only try-it"
         ng-class="{trying: isTryOpen}"
