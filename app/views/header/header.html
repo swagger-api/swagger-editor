@@ -65,13 +65,13 @@
       </button>
       <ul class="dropdown-menu" role="menu" aria-labelledby="switch-mode">
         <li role="presentation">
-          <a href="#/edit" role="menuitem" tabindex="-1" id="edit-mode">Editor</a>
+          <a ui-sref="{mode: 'edit'}" role="menuitem" tabindex="-1" id="edit-mode">Editor</a>
         </li>
         <li role="presentation" class="disabled">
           <a role="menuitem" tabindex="-1" stop-event id="design-mode">Designer</a>
         </li>
         <li role="presentation">
-          <a href="#/" role="menuitem" tabindex="-1" id="preview-mode">Preview</a>
+          <a ui-sref="{mode: ''}" role="menuitem" tabindex="-1" id="preview-mode">Preview</a>
         </li>
         <li role="presentation" class="divider" ng-if="showEditorMenuOptions()"></li>
         <li role="presentation" ng-if="showEditorMenuOptions()">
