@@ -5,9 +5,11 @@
     </h3>
   </header>
 
-  <div class="definitions" collapse-when="isCollapsed(['security'])">
+  <div class="security-definitions" collapse-when="isCollapsed(['security'])">
     <div ng-repeat="(securityDefinitionName, securityDefinition) in specs.securityDefinitions">
-      <h3>{{securityDefinitionName}}</h3>
+      <h4>{{securityDefinitionName}} <span class="type {{securityDefinition.type}}">{{securityDefinition.type}}</span></h4>
+      <p ng-if="securityDefinition.description" marked="securityDefinition.description"></p>
+
       <table class="table">
         <tbody>
           <tr ng-if="securityDefinition.name">
@@ -17,10 +19,6 @@
           <tr ng-if="securityDefinition.in">
             <td>In</td>
             <td>{{securityDefinition.in}}</td>
-          </tr>
-          <tr ng-if="securityDefinition.type">
-            <td>Type</td>
-            <td>{{securityDefinition.type}}</td>
           </tr>
           <tr ng-if="securityDefinition.flow">
             <td>Flow</td>
