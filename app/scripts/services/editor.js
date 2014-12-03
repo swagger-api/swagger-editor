@@ -204,6 +204,7 @@ PhonicsApp.service('Editor', function Editor(Autocomplete, ASTManager,
     };
     if (window.confirm('Are you sure?') && editor) {
       editor.setOptions(defaultOptions);
+      saveEditorSettings();
     }
   }
 
