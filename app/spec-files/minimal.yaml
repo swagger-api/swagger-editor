@@ -1,12 +1,11 @@
-# Example YAML for the bare minimum of required elements
-# See petstore.yaml for a more comprehensive example
+---
 swagger: '2.0'
 info:
-  version: "1.0.0"
+  version: 1.0.0
   title: petstore
 paths:
-  /users:
+  /pets:
     get:
       responses:
-        "200":
-          description:  Describe the 200 response in more detail
+        200:
+          description: Return all pets
