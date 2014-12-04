@@ -1,4 +1,4 @@
-<div class="security">
+<div class="security" ng-controller="SecurityCtrl">
   <header>
     <h3 class="section-header">
       <a ng-click="toggle(['security'])">Security</a>
@@ -7,7 +7,11 @@
 
   <div class="security-definitions" collapse-when="isCollapsed(['security'])">
     <div ng-repeat="(securityDefinitionName, securityDefinition) in specs.securityDefinitions">
-      <h4>{{securityDefinitionName}} <span class="type {{securityDefinition.type}}">{{securityDefinition.type}}</span></h4>
+      <h4>
+        {{securityDefinitionName}}
+        <span class="type {{securityDefinition.type}}">{{getHumanSecurityType(securityDefinition.type)}}</span>
+        <a ng-click="authenticate(securityDefinition)" class="authenticate">Authenticate</a>
+      </h4>
       <p ng-if="securityDefinition.description" marked="securityDefinition.description"></p>
 
       <table class="table">
