@@ -8,9 +8,10 @@
   <div class="security-definitions" collapse-when="isCollapsed(['security'])">
     <div ng-repeat="(securityDefinitionName, securityDefinition) in specs.securityDefinitions">
       <h4>
+        <span class="authenticated" style="color:green" ng-if="isAuthenticated(securityDefinition)">✓Authenticated</span>
         {{securityDefinitionName}}
         <span class="type {{securityDefinition.type}}">{{getHumanSecurityType(securityDefinition.type)}}</span>
-        <a ng-click="authenticate(securityDefinition)" class="authenticate">Authenticate</a>
+        <a ng-click="authenticate(securityDefinition)" class="authenticate">{{isAuthenticated(securityDefinition) ? 'Change authentication' : 'Authenticate'}}</a>
       </h4>
       <p ng-if="securityDefinition.description" marked="securityDefinition.description"></p>
 
