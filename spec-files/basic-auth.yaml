@@ -17,7 +17,7 @@ schemes:
 securityDefinitions:
   basicAuth:
     type: basic
-    description: HTTP Basic Authentication. Works over HTTP and HTTPS
+    description: HTTP Basic Authentication. Works over `HTTP` and `HTTPS`
 paths:
   /:
     get:
