@@ -9,7 +9,7 @@ PhonicsApp.service('AuthManager', function AuthManager() {
   this.basicAuth = function (security, options) {
     if (angular.isObject(options) && options.username && options.password) {
       options.isAuthenticated = true;
-      options.base64 = 'TODO';
+      options.base64 = window.btoa(options.username + ':' + options.password);
       securities.set(security, options);
     } else {
       throw new Error('Can not authenticate with options');
