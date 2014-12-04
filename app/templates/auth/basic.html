@@ -3,10 +3,20 @@
 </div>
 <div class="modal-body">
   {{security.description}}
-  <input type="text" ng-model="username" placeholder="username">
-  <input type="password" ng-model="password" placeholder="password">
-
-
+  <form role="form" class="form-horizontal">
+    <div class="form-group">
+      <label class="col-sm-3">User Name</label>
+      <div class="col-sm-9">
+        <input type="email" class="form-control" placeholder="User Name" ng-model="username">
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="col-sm-3">Password</label>
+      <div class="col-sm-9">
+        <input type="password" class="form-control"  placeholder="Password" ng-model="password">
+      </div>
+    </div>
+  </form>
 </div>
 <div class="modal-footer">
   <button class="btn btn-warning" ng-click="cancel()">Cancel</button>
