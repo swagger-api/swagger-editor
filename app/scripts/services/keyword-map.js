@@ -21,7 +21,7 @@ PhonicsApp.service('KeywordMap', function KeywordMap(defaults) {
   var operation = {
     summary: String,
     description: String,
-    schemas: {
+    schemes: {
       '.': String
     },
     externalDocs: {
