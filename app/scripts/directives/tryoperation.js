@@ -149,7 +149,7 @@ PhonicsApp.controller('TryOperation', function ($scope, formdataFilter,
   };
 
   function getHeaderParams() {
-    return $scope.parameters.filter(function (param) {
+    var parameters = $scope.parameters.filter(function (param) {
       return param.in === 'header';
     }).reduce(function (obj, param) {
       var model = modelOfParameter(param)[param.name];
@@ -158,20 +158,20 @@ PhonicsApp.controller('TryOperation', function ($scope, formdataFilter,
       }
       return obj;
     }, {});
+
+    // If Auth is Basic Auth extend the parameters with Authentication parameter
+    var auth = AuthManager.getAuth($scope.selectedSecurity);
+    if (auth && auth.type === 'basic') {
+      parameters = _.extend(parameters, {
+        Authorization: 'Basic ' + auth.options.base64
+      });
+    }
+
+    return parameters;
   }
 
   $scope.getHeaders = function () {
     var headerParams = getHeaderParams();
-    if ($scope.selectedSecurity !== 'None') {
-      var auth = AuthManager.getAuth($scope.selectedSecurity);
-
-      // If Auth is Basic Auth
-      if (auth && auth.type === 'basic') {
-        headerParams = _.extend(headerParams, {
-          Authentication: 'Basic ' + auth.options.base64
-        });
-      }
-    }
 
     return _.extend(headerParams, {
       Host: $scope.specs.host || window.location.host,
