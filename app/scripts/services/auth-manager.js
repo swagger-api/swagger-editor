@@ -4,19 +4,24 @@
  * Manages Authentications
 */
 PhonicsApp.service('AuthManager', function AuthManager() {
-  var securities = new Map();
+  var securities = {};
 
-  this.basicAuth = function (security, options) {
+  this.basicAuth = function (securityName, security, options) {
     if (angular.isObject(options) && options.username && options.password) {
       options.isAuthenticated = true;
       options.base64 = window.btoa(options.username + ':' + options.password);
-      securities.set(security, options);
+      options.securityName = securityName;
+      securities[securityName] = {
+        type: 'basic',
+        security: security,
+        options: options
+      };
     } else {
       throw new Error('Can not authenticate with options');
     }
   };
 
-  this.getAuth = function (security) {
-    return securities.get(security);
+  this.getAuth = function (securityName) {
+    return securities[securityName];
   };
 });

@@ -1,6 +1,7 @@
 'use strict';
 
-PhonicsApp.controller('TryOperation', function ($scope, formdataFilter) {
+PhonicsApp.controller('TryOperation', function ($scope, formdataFilter,
+  AuthManager) {
   var specs = $scope.$parent.specs;
   var rawModel = '';
 
@@ -161,6 +162,16 @@ PhonicsApp.controller('TryOperation', function ($scope, formdataFilter) {
 
   $scope.getHeaders = function () {
     var headerParams = getHeaderParams();
+    if ($scope.selectedSecurity !== 'None') {
+      var auth = AuthManager.getAuth($scope.selectedSecurity);
+
+      // If Auth is Basic Auth
+      if (auth && auth.type === 'basic') {
+        headerParams = _.extend(headerParams, {
+          Authentication: 'Basic ' + auth.options.base64
+        });
+      }
+    }
 
     return _.extend(headerParams, {
       Host: $scope.specs.host || window.location.host,
@@ -297,4 +308,14 @@ PhonicsApp.controller('TryOperation', function ($scope, formdataFilter) {
   function getResponseHeaders(xhr) {
     return parseHeaders(xhr.getAllResponseHeaders());
   }
+
+  $scope.getSecuirtyOptions = function () {
+    var none = ['None'];
+    if (Array.isArray($scope.operation.security)) {
+      return $scope.operation.security.map(function (security) {
+        return Object.keys(security)[0];
+      }).concat(none);
+    }
+    return none;
+  };
 });

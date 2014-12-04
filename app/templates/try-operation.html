@@ -36,6 +36,12 @@
             <select ng-model="$parent.accepts" ng-options="o as o for o in walkToProperty('consumes')" ng-init="$parent.accepts = walkToProperty('consumes')[0]"></select>
           </td>
         </tr>
+        <tr>
+          <td><label>Security</label></td>
+          <td>
+            <select ng-model="$parent.selectedSecurity" ng-options="o as o for o in getSecuirtyOptions()" ng-init="$parent.selectedSecurity = getSecuirtyOptions()[0]"></select>
+          </td>
+        </tr>
       </tbody>
     </table>
 
