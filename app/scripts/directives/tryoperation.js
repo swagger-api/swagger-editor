@@ -4,6 +4,7 @@ PhonicsApp.controller('TryOperation', function ($scope, formdataFilter,
   AuthManager) {
   var specs = $scope.$parent.specs;
   var rawModel = '';
+  var NONE_SECURITY = 'None';
 
   $scope.httpProtorcol = 'HTTP/1.1';
   $scope.generateUrl = generateUrl;
@@ -310,7 +311,7 @@ PhonicsApp.controller('TryOperation', function ($scope, formdataFilter,
   }
 
   $scope.getSecuirtyOptions = function () {
-    var none = ['None'];
+    var none = [NONE_SECURITY];
     if (Array.isArray($scope.operation.security)) {
       return $scope.operation.security.map(function (security) {
         return Object.keys(security)[0];
@@ -319,7 +320,7 @@ PhonicsApp.controller('TryOperation', function ($scope, formdataFilter,
     return none;
   };
   $scope.securityIsAuthenticated = function (securityName) {
-    if (securityName === 'None') {
+    if (securityName === NONE_SECURITY) {
       return true;
     }
     return AuthManager.securityIsAuthenticated(securityName);
