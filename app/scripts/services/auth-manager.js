@@ -24,4 +24,10 @@ PhonicsApp.service('AuthManager', function AuthManager() {
   this.getAuth = function (securityName) {
     return securities[securityName];
   };
+
+  this.securityIsAuthenticated = function (securityName) {
+    var auth = securities[securityName];
+
+    return auth && auth.options && auth.options.isAuthenticated;
+  };
 });

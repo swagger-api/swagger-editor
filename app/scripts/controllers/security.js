@@ -12,11 +12,7 @@ PhonicsApp.controller('SecurityCtrl', function SecurityCtrl($scope, $modal,
     return types[type];
   };
 
-  $scope.isAuthenticated = function (securityName) {
-    var auth = AuthManager.getAuth(securityName);
-
-    return auth && auth.options && auth.options.isAuthenticated;
-  };
+  $scope.isAuthenticated = AuthManager.securityIsAuthenticated;
 
   $scope.authenticate = function (securityName, security) {
     if (security.type === 'basic') {

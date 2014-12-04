@@ -318,4 +318,10 @@ PhonicsApp.controller('TryOperation', function ($scope, formdataFilter,
     }
     return none;
   };
+  $scope.securityIsAuthenticated = function (securityName) {
+    if (securityName === 'None') {
+      return true;
+    }
+    return AuthManager.securityIsAuthenticated(securityName);
+  };
 });
