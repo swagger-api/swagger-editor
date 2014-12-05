@@ -16,6 +16,12 @@ PhonicsApp.service('KeywordMap', function KeywordMap(defaults) {
     description: String,
     schema: {
       type: String
+    },
+    headers: {
+      '.': String
+    },
+    examples: {
+      '.': String
     }
   };
   var operation = {
