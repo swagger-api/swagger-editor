@@ -21,6 +21,9 @@ PhonicsApp.controller('SecurityCtrl', function SecurityCtrl($scope, $modal,
         controller: function BasicAuthAuthenticateCtrl($scope, $modalInstance) {
           $scope.cancel = $modalInstance.close;
           $scope.authenticate = function () {
+            if (!$scope.username || !$scope.password) {
+              return;
+            }
             AuthManager.basicAuth(securityName, security, {
               username: $scope.username,
               password: $scope.password
