@@ -1,0 +1,30 @@
+{
+  "codegen": {
+    "servers": "http://generator.wordnik.com/online/api/gen/servers",
+    "clients": "http://generator.wordnik.com/online/api/gen/clients",
+    "server": "http://generator.wordnik.com/online/api/gen/servers/{language}",
+    "client": "http://generator.wordnik.com/online/api/gen/clients/{language}"
+  },
+  "disableCodeGen": true,
+  "examplesFolder": "/spec-files/",
+  "exampleFiles": [
+    "default.yaml",
+    "heroku-pets.yaml",
+    "minimal.yaml",
+    "petstore_simple.yaml",
+    "petstore_full.yaml",
+    "basic-auth.yaml",
+    "security.yaml"
+  ],
+  "autocompleteExtension": {},
+  "useBackendForStorage": false,
+  "backendEndpoint": "/editor/spec",
+  "backendHelathCheckTimeout": 5000,
+  "useYamlBackend": false,
+  "disableFileMenu": false,
+  "headerBranding": false,
+  "enableTryIt": true,
+  "brandingCssClass": "",
+  "schemaUrl": "/schema/swagger.json",
+  "importProxyUrl": "https://cors-it.herokuapp.com/?url="
+}
