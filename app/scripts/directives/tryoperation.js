@@ -313,9 +313,9 @@ PhonicsApp.controller('TryOperation', function ($scope, formdataFilter,
   $scope.getSecuirtyOptions = function () {
     var none = [NONE_SECURITY];
     if (Array.isArray($scope.operation.security)) {
-      return $scope.operation.security.map(function (security) {
+      return none.concat($scope.operation.security.map(function (security) {
         return Object.keys(security)[0];
-      }).concat(none);
+      }));
     }
     return none;
   };
