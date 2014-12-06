@@ -45,15 +45,18 @@ module.exports = function(config) {
       'app/bower_components/objectpath/lib/ObjectPath.js',
       'app/bower_components/angular-schema-form/dist/schema-form.js',
       'app/bower_components/angular-schema-form/dist/bootstrap-decorator.min.js',
-      'bower_components/tv4/tv4.j',
+      'bower_components/tv4/tv4.js',
       'app/scripts/*.js',
       'app/scripts/**/*.js',
+      'test/unit/bootstrap.js',
       'test/unit/mock/**/*.js',
       'test/unit/spec/**/*.js'
     ],
 
     // list of files / patterns to exclude
-    exclude: [],
+    exclude: [
+      'app/scripts/bootstrap.js'
+    ],
 
     // web server port
     port: 8080,
