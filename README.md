@@ -75,7 +75,7 @@ Please do not touch `gh-pages` branch manually!
 
 ###  Configuration
 Swagger Editor will make an XHR GET call to `/config/defaults.json` to get it's settings before launching the app. If you are using Swagger Editor as a dependency, you can provide your own `defaults.json` at this endpoint to override default settings.
-See [./docs/config.rst](./docs/config.rst) and [defaults.guide.js](./app/config//defaults.json.guide.js)
+See [./docs/config.rst](./docs/config.rst) and [defaults.guide.js](./app/config/defaults.json.guide.js)
 
 ### Run with Docker
 
