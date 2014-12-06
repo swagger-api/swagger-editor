@@ -8,5 +8,5 @@ npm publish
 cd ..
 cp dist/package.json scripts/npm.json
 git add scripts/npm.json
-git commit -m 'Update version of NPM package'
+git commit -m 'Update version of NPM package of minfied package'
 npm version patch

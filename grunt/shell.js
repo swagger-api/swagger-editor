@@ -5,18 +5,6 @@ module.exports = {
   'serve-dist': {
     command: './node_modules/http-server/bin/http-server -p 8090 &'
   },
-  'replace-defaults-a127': {
-    command: 'sh scripts/replace-defaults-a127.sh'
-  },
-  'publish-npm-a127': {
-    command: 'sh scripts/publish-npm-a127.sh'
-  },
-  'a127-restore-defaults': {
-    command: 'git reset --hard'
-  },
-  'squash': {
-    command: 'sh scripts/squash.sh'
-  },
   'publish-npm-src': {
     command: 'npm version patch; npm publish'
   }
