@@ -9,6 +9,7 @@ module.exports = {
         '*.{ico,png,txt}',
         '.htaccess',
         '*.html',
+        'config/defaults.json',
         'views/{,*/}*.html',
         'templates/{,*/}*.html',
         'images/{,*/}*.{webp}',
@@ -17,12 +18,14 @@ module.exports = {
         'spec-files/*',
         'CNAME'
       ]
-    }, {
+    },
+    {
       expand: true,
       cwd: '.tmp/images',
       dest: 'dist/images',
       src: ['generated/*']
-    }, {
+    },
+    {
       expand: true,
       cwd: 'bower_components/bootstrap/dist',
       src: 'fonts/*',
