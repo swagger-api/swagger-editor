@@ -49,13 +49,15 @@ module.exports = function(config) {
       'app/scripts/*.js',
       'app/scripts/**/*.js',
       'test/unit/bootstrap.js',
+      'test/unit/defaults.js',
       'test/unit/mock/**/*.js',
       'test/unit/spec/**/*.js'
     ],
 
     // list of files / patterns to exclude
     exclude: [
-      'app/scripts/bootstrap.js'
+      'app/scripts/bootstrap.js',
+      'app/scripts/enums/defaults'
     ],
 
     // web server port
@@ -78,7 +80,7 @@ module.exports = function(config) {
     // - Safari (only Mac)
     // - PhantomJS
     // - IE (only Windows)
-    browsers: [process.env.TRAVIS ? 'Firefox' : 'Chrome',],
+    browsers: [process.env.TRAVIS ? 'Firefox' : 'Chrome'],
 
 
     // Continuous Integration mode
