@@ -3,14 +3,12 @@ CORS
 ====
 
 If you want to import YAML or JSON resources from other hosts, those resources should
-be served as [CORS-enabled resources](http://en.wikipedia.org/wiki/Cross-origin_resource_sharing).
+be served as `CORS-enabled resources <http://en.wikipedia.org/wiki/Cross-origin_resource_sharing>`
 
 For example, if you get an error such as
-```
-{"data":"","status":0,"config":{"method":"GET","transformRequest":[null],"transformResponse":
-[null],"url":"http://www.example.com/swagger/apis/swagger.json","headers":{"accept":
-"application/x-yaml,text/yaml,application/json,*/*"}}}
-```
+   {"data":"","status":0,"config":{"method":"GET","transformRequest":[null],"transformResponse":
+   [null],"url":"http://www.example.com/swagger/apis/swagger.json","headers":{"accept":
+   "application/x-yaml,text/yaml,application/json,*/*"}}}
 this indicates the resource is not CORS-enabled.
 
 By default, swagger-editor is configured to use a CORS-enabling
@@ -24,23 +22,21 @@ via a proxy that has access to those local resources.
 Enabling CORS in local servers
 ------------------------------
 
-The [swagger-core](https://github.com/swagger-api/swagger-core) project documents one way to enable CORS for
+The `swagger-core <https://github.com/swagger-api/swagger-core>` project documents one way to enable CORS for
 intranet servers that you can moodify. See
-[swagger-core/wiki/CORS](https://github.com/swagger-api/swagger-core/wiki/CORS)
+`swagger-core/wiki/CORS <https://github.com/swagger-api/swagger-core/wiki/CORS>`
 
 CORS proxy
 ----------
 
-One way to enable CORS for importing YAML and JSON resources into
+Another linksway to enable CORS for importing YAML and JSON resources into
 swagger-editor is to use a CORS-enabling proxy such
-as [cors-it](https://github.com/mohsen1/cors-it).
+as `cors-it <https://github.com/mohsen1/cors-it>`
 
-To configure swagger-editor to use cors-it as a proxy,
-add the following to [`config/defaults.json`:](config.rst):
+To configure swagger-editor to use a local cors-it as a proxy,
+update the setting of "importProxyUrl" in config/defaults.json
 
-```
-  "importProxyUrl": "http://yourhost:yourport/?url="
-```
+   "importProxyUrl": "http://yourhost:yourport/?url="
 
 where `yourhost` and `yourport` reflect where you
 have deployed your instance of cors-it.

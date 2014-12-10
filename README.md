@@ -89,7 +89,7 @@ For example, if you get an error such as
 "application/x-yaml,text/yaml,application/json,*/*"}}}
 ```
 this indicates the resource is not CORS-enabled.
-[./docs/cors.rst](./docs/cors.rst) for how to enable CORS.
+See [./docs/cors.rst](./docs/cors.rst) for how to enable CORS.
 
 ### Run with Docker
 
