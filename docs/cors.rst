@@ -3,7 +3,7 @@ CORS
 ====
 
 If you want to import YAML or JSON resources from other hosts, those resources should
-be served as `CORS-enabled resources http://en.wikipedia.org/wiki/Cross-origin_resource_sharing`
+be served as `CORS-enabled resources <http://en.wikipedia.org/wiki/Cross-origin_resource_sharing>`_
 
 For example, if you get an error such as
    {"data":"","status":0,"config":{"method":"GET","transformRequest":[null],"transformResponse":
@@ -22,21 +22,21 @@ via a proxy that has access to those local resources.
 Enabling CORS in local servers
 ------------------------------
 
-The `swagger-core https://github.com/swagger-api/swagger-core` project documents one way to enable CORS for
+The `swagger-core <https://github.com/swagger-api/swagger-core>`_ project documents one way to enable CORS for
 intranet servers that you can moodify. See
-`swagger-core/wiki/CORS https://github.com/swagger-api/swagger-core/wiki/CORS`
+`swagger-core/wiki/CORS <https://github.com/swagger-api/swagger-core/wiki/CORS>`_
 
 CORS proxy
 ----------
 
 Another linksway to enable CORS for importing YAML and JSON resources into
 swagger-editor is to use a CORS-enabling proxy such
-as `cors-it https://github.com/mohsen1/cors-it`
+as `cors-it <https://github.com/mohsen1/cors-it>`_
 
 To configure swagger-editor to use a local cors-it as a proxy,
 update the setting of "importProxyUrl" in config/defaults.json
 
    "importProxyUrl": "http://yourhost:yourport/?url="
 
-where `yourhost` and `yourport` reflect where you
+where yourhost and yourport reflect where you
 have deployed your instance of cors-it.
