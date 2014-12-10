@@ -77,6 +77,20 @@ Please do not touch `gh-pages` branch manually!
 Swagger Editor will make an XHR GET call to `/config/defaults.json` to get it's settings before launching the app. If you are using Swagger Editor as a dependency, you can provide your own `defaults.json` at this endpoint to override default settings.
 See [./docs/config.rst](./docs/config.rst) and [defaults.guide.js](./app/config/defaults.json.guide.js)
 
+#### CORS
+
+If you want to import YAML or JSON resources from other hosts, those resources should
+be served as [CORS-enabled resources](http://en.wikipedia.org/wiki/Cross-origin_resource_sharing).
+
+For example, if you get an error such as
+```
+{"data":"","status":0,"config":{"method":"GET","transformRequest":[null],"transformResponse":
+[null],"url":"http://www.example.com/swagger/apis/swagger.json","headers":{"accept":
+"application/x-yaml,text/yaml,application/json,*/*"}}}
+```
+this indicates the resource is not CORS-enabled.
+[./docs/cors.rst](./docs/cors.rst) for how to enable CORS.
+
 ### Run with Docker
 
 
