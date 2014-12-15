@@ -1,6 +1,6 @@
 <div class="main-header">
   <div ng-if="showAbout" ng-include="'templates/intro.html'"></div>
-  <span class="logo" ng-if="!showHeaderBranding()"></span>
+  <a href="http://swagger.io" target="_blank" class="logo" ng-if="!showHeaderBranding()"></a>
   <div ng-include="'templates/branding-left.html'" ng-if="showHeaderBranding()" class="branding-3rdparty"></div>
   <section class="menu-bar">
     <div class="file dropdown" ng-if="showFileMenu()">
@@ -115,7 +115,10 @@
           <a href="https://github.com/swagger-api/swagger-editor/issues/new?labels=From%20Editor" target="_blank">Report A Bug</a>
         </li>
         <li role="presentation">
-          <a role="menuitem" tabindex="-1" href="http://swagger.wordnik.com/"target="_blank">Swagger Website</a>
+          <a role="menuitem" tabindex="-1" href="http://swagger.io/"target="_blank">Swagger Website</a>
+        </li>
+        <li role="presentation">
+          <a role="menuitem" tabindex="-1" ng-click="openAbout()">About Swagger Editor</a>
         </li>
         <li role="presentation" class="divider"></li>
         <li role="presentation">

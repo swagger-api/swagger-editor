@@ -101,6 +101,14 @@ PhonicsApp.controller('HeaderCtrl', function HeaderCtrl($scope, $modal,
     });
   };
 
+  $scope.openAbout = function () {
+    $modal.open({
+      templateUrl: 'templates/about.html',
+      size: 'large',
+      controller: 'ModalCtrl'
+    });
+  };
+
   $scope.toggleAboutEditor = function (value) {
     $scope.showAbout = value;
   };
