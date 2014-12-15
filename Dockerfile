@@ -1,7 +1,7 @@
 ###
 # swagger-editor - https://github.com/swagger-api/swagger-editor/
 #
-# Run the swagger-editor service on port 9000
+# Run the swagger-editor service on port 80
 ###
 
 FROM    ubuntu:14.04
@@ -25,5 +25,5 @@ RUN     bower --allow-root install
 ADD     .   /runtime
 
 # The default port of the application
-EXPOSE  9000
-CMD     grunt serve
+EXPOSE  80
+CMD     grunt build; grunt connect:dist

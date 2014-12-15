@@ -105,7 +105,7 @@ sudo docker build -t swagger-editor .
 Run the container, using the local port 8080 (you may change this to any available
 port).
 ```
-sudo docker run -ti -p 8080:9000 swagger-editor
+sudo docker run -ti -p 8080:80 swagger-editor
 ```
 And open [http://localhost:8080](http://localhost:8080) in your browser
 
