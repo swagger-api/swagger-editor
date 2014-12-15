@@ -173,10 +173,11 @@ PhonicsApp.controller('TryOperation', function ($scope, formdataFilter,
 
   $scope.getHeaders = function () {
     var headerParams = getHeaderParams();
+    var content = $scope.getRequestBody();
 
-    return _.extend(headerParams, {
+    headerParams = _.extend(headerParams, {
       Host: $scope.specs.host || window.location.host,
-      Accept: $scope.accepts,
+      Accept: $scope.accepts || '*/*',
       'Accept-Encoding': 'gzip,deflate,sdch', //TODO: where this is coming from?
       'Accept-Language': 'en-US,en;q=0.8,fa;q=0.6,sv;q=0.4', // TODO: wut?
       'Cache-Control': 'no-cache',
@@ -185,6 +186,12 @@ PhonicsApp.controller('TryOperation', function ($scope, formdataFilter,
       Referer: window.location.origin + window.location.pathname,
       'User-Agent': window.navigator.userAgent
     });
+
+    if (content) {
+      headerParams['Content-Length'] = content.length;
+    }
+
+    return headerParams;
   };
 
   /*
@@ -227,9 +234,9 @@ PhonicsApp.controller('TryOperation', function ($scope, formdataFilter,
     $.ajax({
       url: $scope.generateUrl(),
       type: $scope.operation.operationName,
-      headers: getHeaderParams(),
-      data: getBodyModel(),
-      accepts: $scope.accepts
+      headers: _.omit($scope.getHeaders(), 'Host', 'Accept-Encoding',
+        'Connection', 'Origin', 'Referer', 'User-Agent', 'Cache-Control'),
+      data: getBodyModel()
     })
 
     .fail(function (jqXHR, textStatus, errorThrown) {
