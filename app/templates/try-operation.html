@@ -74,7 +74,7 @@
       <span class="status-text">{{textStatus | uppercase}}</span>
       <span ng-if="error">{{error}}</span>
     </div>
-    <tabset justified="true">
+    <tabset justified="true" class="responses-tabs">
       <tab heading="Rendered">
         <h6>Headers</h6>
         <json-formatter json="responseHeaders" open="3"></json-formatter>
