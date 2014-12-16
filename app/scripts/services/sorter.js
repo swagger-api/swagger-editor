@@ -15,6 +15,8 @@ PhonicsApp.service('Sorter', function Sorter() {
   ** Sort specs hash (paths, operations and responses)
   */
   this.sort = function (specs, options) {
+    var result = _.cloneDeep(specs);
+
     if (specs && specs.paths) {
       var paths = Object.keys(specs.paths).map(function (pathName) {
         if (pathName.toLowerCase().substring(0, 2) === XDASH) {
@@ -30,10 +32,10 @@ PhonicsApp.service('Sorter', function Sorter() {
       });
 
       // Remove array holes
-      specs.paths = _.compact(paths);
+      result.paths = _.compact(paths);
     }
 
-    return specs;
+    return result;
   };
 
   /*
