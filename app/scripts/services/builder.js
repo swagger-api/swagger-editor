@@ -62,7 +62,7 @@ PhonicsApp.service('Builder', function Builder($q) {
           });
         }
 
-        deferred.resolve({specs: resolved, swaggerError: null});
+        deferred.resolve({specs: resolved, error: null});
       });
     });
 
