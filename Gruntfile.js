@@ -12,7 +12,6 @@ module.exports = function (grunt) {
 
     grunt.task.run([
       'clean:server',
-      'bowerInstall',
       'less:server',
       'autoprefixer',
       'connect:livereload',
