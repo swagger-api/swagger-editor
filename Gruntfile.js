@@ -27,6 +27,10 @@ module.exports = function (grunt) {
     'jshint',
     'jscs',
     'karma:unit',
+    'protr'
+  ]);
+
+  grunt.registerTask('protr', 'Runs end-to-end tests.', [
     'http-server',
     'protractor'
   ]);

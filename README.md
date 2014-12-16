@@ -18,7 +18,6 @@ You can import an existing YAML spec by using the `import` query parameter in ed
 ```
 http://editor.swagger.io/#/edit?import=http://generator.wordnik.com/online/api/swagger.yaml
 ```
-
 ## Running Locally
 
 #### Install Node.js
@@ -52,62 +51,8 @@ grunt serve
 
 This will open a browser window running current development version.
 
-## Development
-
-For development it's preferred to have `grunt` installed globally on your machine.  
-
-### Building
-To build the project just run: 
-
-```
-$ grunt build
-```
-This will build a new version of the web app, ready for production in `/dist` folder
-
-### Pushing to `gh-page`
-
-To copy everything in `/dist` folder to `gh-pages` branch and push it to github, just run:
-
-```
-$ grunt ship
-```
-Please do not touch `gh-pages` branch manually!
-
-###  Configuration
-Swagger Editor will make an XHR GET call to `/config/defaults.json` to get it's settings before launching the app. If you are using Swagger Editor as a dependency, you can provide your own `defaults.json` at this endpoint to override default settings.
-See [./docs/config.rst](./docs/config.rst) and [defaults.guide.js](./app/config/defaults.json.guide.js)
-
-#### CORS
-
-If you want to import YAML or JSON resources from other hosts, those resources should
-be served as [CORS-enabled resources](http://en.wikipedia.org/wiki/Cross-origin_resource_sharing).
-
-For example, if you get an error such as
-```
-{"data":"","status":0,"config":{"method":"GET","transformRequest":[null],"transformResponse":
-[null],"url":"http://www.example.com/swagger/apis/swagger.json","headers":{"accept":
-"application/x-yaml,text/yaml,application/json,*/*"}}}
-```
-this indicates the resource is not CORS-enabled.
-See [./docs/cors.rst](./docs/cors.rst) for how to enable CORS.
-
-### Run with Docker
-
-
-If you are familiar with [Docker](https://www.docker.com/), a `Dockerfile` is
-provided.
-
-Build an image named `swagger-editor`
-```
-sudo docker build -t swagger-editor .
-```
-
-Run the container, using the local port 8080 (you may change this to any available
-port).
-```
-sudo docker run -ti -p 8080:80 swagger-editor
-```
-And open [http://localhost:8080](http://localhost:8080) in your browser
+## Development Guide
+See [**Development Guide document**](./docs/development.md)
 
 ### Contributing
 File issues in GitHub's to report bugs or issue a pull request.
