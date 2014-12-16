@@ -51,14 +51,14 @@ PhonicsApp.service('Builder', function Builder(Resolver, $q) {
         var result = { specs: resolved };
         var deferred = $q.defer();
 
-        var errors = SwaggerTools.specs.v2.validate(json);
-
-        if (!errors) {
-          deferred.resolve(result);
-        } else {
-          result.error = { swaggerError: errors };
-          deferred.reject(result);
-        }
+        SwaggerTools.specs.v2.validate(json, function (errors) {
+          if (!errors) {
+            deferred.resolve(result);
+          } else {
+            result.error = { swaggerError: errors };
+            deferred.reject(result);
+          }
+        });
 
         return deferred.promise;
       },
