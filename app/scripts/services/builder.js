@@ -1,7 +1,8 @@
 'use strict';
 
-PhonicsApp.service('Builder', function Builder(Resolver, $q) {
+PhonicsApp.service('Builder', function Builder($q) {
   var load = _.memoize(jsyaml.load);
+  var v2 = SwaggerTools.specs.v2;
 
   /**
    * Build spec docs from a string value
@@ -37,7 +38,7 @@ PhonicsApp.service('Builder', function Builder(Resolver, $q) {
 
     // Add `title` from object key to definitions
     // if they are missing title
-    if (json && json.definitions) {
+    if (json && angular.isObject(json.definitions)) {
       for (var definition in json.definitions) {
         if (_.isEmpty(json.definitions[definition].title)) {
           json.definitions[definition].title = definition;
@@ -45,34 +46,27 @@ PhonicsApp.service('Builder', function Builder(Resolver, $q) {
       }
     }
 
-    return Resolver.resolve(json).then(
-
-      function onSuccess(resolved) {
-        var result = { specs: resolved };
-        var deferred = $q.defer();
-
-        SwaggerTools.specs.v2.validate(json, function (errors) {
-          if (!errors) {
-            deferred.resolve(result);
-          } else {
-            result.error = { swaggerError: errors };
-            deferred.reject(result);
-          }
-        });
-
-        return deferred.promise;
-      },
-
-      function onFalure(resolveError) {
-        return {
-          error: {
-            resolveError: resolveError.data,
-            raw: resolveError
-          },
+    v2.resolve(json, undefined, function (resolveError, resolved) {
+      if (resolveError) {
+        return deferred.reject({
+          error: {resolveError: resolveError},
           specs: json
-        };
+        });
       }
-    );
+
+      v2.validate(resolved, function (validationError) {
+        if (validationError) {
+          return deferred.reject({
+            error: {swaggerError: validationError},
+            specs: resolved
+          });
+        }
+
+        deferred.resolve({specs: resolved, swaggerError: null});
+      });
+    });
+
+    return deferred.promise;
   }
 
   /**
