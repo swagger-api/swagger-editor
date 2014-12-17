@@ -56,6 +56,7 @@
   },
   "scripts": {
     "test": "sh scripts/test.sh",
-    "start": "npm install; ./node_modules/bower/bin/bower install; ./node_modules/grunt-cli/bin/grunt serve"
+    "prestart": "npm install",
+    "start": "node start.js"
   }
 }
