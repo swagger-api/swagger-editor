@@ -20,36 +20,15 @@ http://editor.swagger.io/#/edit?import=http://generator.wordnik.com/online/api/s
 ```
 ## Running Locally
 
-#### Install Node.js
-
-Make sure you have Node.js installed. If you don't have Node.js, install it from it's [Node.js website](http://nodejs.org/).
-This project was tested with Node.js version `0.10`. Make sure you have at least this version.
-
-```shell
-node --version
-```
-
-#### Clone the repository and start it
+Make sure you have [Node.js](http://nodejs.org/) installed. 
 
 ```shell
 git clone git@github.com:swagger-api/swagger-editor.git
 cd swagger-editor
-```
-
-##### Start on Mac and Linux
-```shell
 npm start
 ```
 
-##### Start on Windows
-```shell
-npm install -g bower grunt-cli
-npm install
-bower install
-grunt serve
-```
-
-This will open a browser window running current development version.
+That's it! This will open a browser window running current development version. It will reload the app if you make changes to source files.
 
 ## Development Guide
 See [**Development Guide document**](./docs/development.md)
