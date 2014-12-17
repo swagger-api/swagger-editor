@@ -5,14 +5,18 @@
 
 .operation-theme(@color) {
   border: 1px solid @color;
-  background: #fff;
+  background-color: #fff;
 
   .http-method{
-    background: @color;
+    background-color: @color;
     color: white;
   }
   >header {
-    background: fade(@color, 10%);
+    background-color: fade(@color, 10%);
+    @media print {
+      background-color: lighten(@color, 10%) !important;
+      -webkit-print-color-adjust: exact;
+    }
   }
   h4 {
     color:@color;
@@ -87,14 +91,14 @@ li.operation {
   }
 
   .operation-theme(@http-default);
-  &.get { .operation-theme(@http-get); }
-  &.post { .operation-theme(@http-post); }
-  &.delete { .operation-theme(@http-delete); }
-  &.patch { .operation-theme(@http-patch); }
-  &.put { .operation-theme(@http-put); }
+  &.get     { .operation-theme(@http-get);     }
+  &.post    { .operation-theme(@http-post);    }
+  &.delete  { .operation-theme(@http-delete);  }
+  &.patch   { .operation-theme(@http-patch);   }
+  &.put     { .operation-theme(@http-put);     }
   &.options { .operation-theme(@http-options); }
-  &.head { .operation-theme(@http-head); }
-  &.trace { .operation-theme(@http-trace); }
+  &.head    { .operation-theme(@http-head);    }
+  &.trace   { .operation-theme(@http-trace);   }
 
   .content >section {
     margin: 1em;

@@ -1,0 +1,22 @@
+/*
+ * We only care about printing in preview mode. Result of printing in other
+ * modes is not important.
+*/
+@media print {
+  html, body {
+    height: 100%;
+  }
+
+  // List of elements that should not be rendered for printer.
+  // This list includes elements that user interact with it.
+  .main-header,
+  .ui-splitbar,
+  .root.tags {
+    display: none;
+  }
+
+  main.preveiw-mode.preview-wrapper {
+    top: 0;
+    position: static;
+  }
+}
