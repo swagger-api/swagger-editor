@@ -18,7 +18,7 @@ PhonicsApp.service('Builder', function Builder($q) {
     if (!stringValue) {
       deferred.reject({
         specs: null,
-        errors: [{emptyDocsError: {message: 'Empty Document'}}]
+        errors: [{emptyDocsError: 'Empty Document Error'}]
       });
 
       return deferred.promise;
@@ -29,7 +29,7 @@ PhonicsApp.service('Builder', function Builder($q) {
       json = load(stringValue);
     } catch (yamlError) {
       deferred.reject({
-        errors: [{ yamlError: yamlError }],
+        errors: [{yamlError: yamlError}],
         specs: null
       });
 

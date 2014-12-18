@@ -1,14 +1,19 @@
-<div class="error-presenter" ng-controller="ErrorPresenterCtrl">
-  <div ng-if="getError()" class="{{getErrorLevel()}}">
-    <header class="error-header" ng-click="toggleCollapse()">
-        <h4 >{{getType()}}</h4>
-    </header>
-    <div class="details" collapse-when="isCollapsed">
-      <pre>{{getDescription()}}</pre>
-      <a ng-if="showLineJumpLink()" ng-click="focusEdit($event, getLineNumber() - 1)"
-        ng-if="!isPreviewMode">Go to line {{getLineNumber()}}</a>
-      <h5>Details</h5>
-      <json-formatter json="getError()" open="1"></json-formatter>
-    </div>
+<div class="error-presenter {{isOnlyWarning() ? 'warning' : 'error'}}"
+  ng-controller="ErrorPresenterCtrl">
+  <header class="error-header" ng-click="toggleCollapse()">
+    <h4>{{isOnlyWarning() ? 'Warning' : 'Error'}}</h4>
+  </header>
+  <div ng-repeat="error in getErrors()" collapse-when="isCollapsed" class="item">
+    <h5 class="{{isWarning(error) ? 'warning' : 'error'}}">
+      <span class="icon">{{isWarning(error) ? '⚠' : '✖' }}</span>
+      {{getType(error)}}
+    </h5>
+    <p class="error-description">
+      <span>{{getDescription(error)}}</span>
+    </p>
+    <a ng-click="goToLineOfError(error)"
+      ng-if="!isPreviewMode && showLineJumpLink(error)">Jump to line {{getLineNumber(error)}}</a>
+    <h6>Details</h6>
+    <json-formatter json="error" open="0"></json-formatter>
   </div>
 </div>

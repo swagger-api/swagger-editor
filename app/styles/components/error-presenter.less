@@ -2,23 +2,7 @@
 @import "fonts";
 
 .error-presenter {
-
-  .error {
-    background: lighten(@sw-error-header, 41%);
-
-    header {
-      background: @sw-error-header;
-    }
-  }
-
-  // TODO: Colors
-  .warning {
-    background: #FDFDE0;
-
-    header {
-      background: #DFBD06;
-    }
-  }
+  @warning-color: rgb(218, 132, 71);
   .sw-font;
 
   header {
@@ -33,31 +17,42 @@
     }
   }
 
-  .details {
-    padding: .5em;
+  &.error {
+    border: 1px solid @sw-error-header;
 
-    h5 {
-      .sw-font-med;
-      margin-bottom: .3em;
+    header {
+      background: @sw-error-header;
     }
-
-  pre {
-    .pre-font;
-    white-space: nowrap;
-    line-height: 125%;
-    font-size: .9em;
-    background: none;
   }
 
-    pre {
-      white-space: pre;
-      font-family: "Source Code Pro";
-      word-wrap: normal;
+  // TODO: Colors
+  &.warning {
+    border: 1 px solid @warning-color;
+
+    header {
+      background: @warning-color;
+    }
+  }
+
+  .item {
+    padding: 10px 10px 10px 25px;
+    h5 {
+      margin-bottom: 0;
+      .icon {
+        margin-left: -15px;
+      }
+
+      &.error { color: darken(@sw-error-header, 20%); }
+      &.warning { color: @warning-color; }
     }
 
-    &.c-w-collapsed {
-      padding-top: 0;
-      padding-bottom: 0;
+    h6 {
+      margin: 0;
     }
+  }
+
+  .error-description {
+    margin: 0;
+    font-family: monospace;
   }
 }
