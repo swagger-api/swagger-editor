@@ -35,6 +35,7 @@
     "SwaggerAuthorizations": false,
     "SwaggerUi": false,
     "swaggerUi": false,
+    "JsonRefs": false,
     "$": false,
     "_": false,
     "SwaggerTools": false

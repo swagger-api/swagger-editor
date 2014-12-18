@@ -46,23 +46,34 @@ PhonicsApp.service('Builder', function Builder($q) {
       }
     }
 
-    v2.resolve(json, undefined, function (resolveError, resolved) {
-      if (resolveError) {
+    v2.validate(json, function (validationError, validationResults) {
+      if (validationError) {
         return deferred.reject({
-          error: {resolveError: resolveError},
+          errorsAndWarnings: [validationError],
           specs: json
         });
       }
 
-      v2.validate(resolved, function (validationError) {
-        if (validationError) {
+      if (validationResults && validationResults.errors &&
+        validationResults.errors.length) {
+        return deferred.reject({
+          errorsAndWarnings: validationResults,
+          specs: json
+        });
+      }
+
+      JsonRefs.resolveRefs(json, function (resolveErrors) {
+        if (resolveErrors) {
           return deferred.reject({
-            error: {swaggerError: validationError},
-            specs: resolved
+            errorsAndWarnings: [resolveErrors],
+            specs: json
           });
         }
 
-        deferred.resolve({specs: resolved, error: null});
+        deferred.resolve({
+          errorsAndWarnings: validationResults,
+          specs: json
+        });
       });
     });
 
