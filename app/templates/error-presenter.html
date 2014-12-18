@@ -2,6 +2,7 @@
   ng-controller="ErrorPresenterCtrl">
   <header class="error-header" ng-click="toggleCollapse()">
     <h4>{{getTitle()}}</h4>
+    <span class="collapse-button">{{isCollapsed ? 'Open' : 'Collapse'}}</span>
   </header>
   <div ng-repeat="error in getErrors()" collapse-when="isCollapsed" class="item">
     <h5 class="{{isWarning(error) ? 'warning' : 'error'}}">
