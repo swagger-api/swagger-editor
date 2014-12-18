@@ -4,6 +4,10 @@ PhonicsApp.controller('PreviewCtrl', function PreviewCtrl(Storage, Builder,
   ASTManager, Sorter, Editor, BackendHealthCheck, FocusedPath, TagManager,
   Preferences, $scope, $rootScope, $stateParams) {
 
+  /*
+   * Reacts to updates of YAML in storage that usually triggered by editor
+   * changes
+  */
   function update(latest, force) {
     if (!Preferences.get('liveRender') && !force && $scope.specs) {
       $rootScope.isDirty = true;
@@ -20,35 +24,46 @@ PhonicsApp.controller('PreviewCtrl', function PreviewCtrl(Storage, Builder,
 
     // Error can come in success callback, because of recursive promises
     // So we install same handler for error and success
-    Builder.buildDocs(latest).then(onResult, onResult);
+    Builder.buildDocs(latest).then(onBuildSuccees, onBuildFailure);
   }
 
-  function onResult(result) {
-
+  /*
+   * General callback for builder results
+  */
+  function onBuild(result) {
     var sortOptions = {};
     if (angular.isString($stateParams.tags)) {
       sortOptions.limitToTags = $stateParams.tags.split(',');
     }
-
     // Refresh tags with an un-filtered specs to get all tags in tag manager
     refreshTags(Sorter.sort(_.cloneDeep(result.specs), {}));
+    $scope.specs = Sorter.sort(result.specs, sortOptions);
+    $scope.errors = result.errors;
+    $scope.warnings = result.warnings;
+  }
 
-    $scope.specs =  Sorter.sort(result.specs, sortOptions);
-    $scope.error = null;
-
+  /*
+   * Callback of builder success
+  */
+  function onBuildSuccees(result) {
+    onBuild(result);
+    $scope.errors = null;
     Storage.save('progress',  2); // All changes saved
 
     if (!$rootScope.isPreviewMode) {
       Editor.clearAnnotation();
     }
+  }
 
-    if (result.error) {
-      if (result.error.yamlError && !$rootScope.isPreviewMode) {
-        Editor.annotateYAMLErrors(result.error.yamlError);
-      }
-      $scope.error = result.error;
-      Storage.save('progress', -1); // Error
+  /*
+   * Callback of builder failure
+  */
+  function onBuildFailure(result) {
+    onBuild(result);
+    if (result.errors.yamlError && !$rootScope.isPreviewMode) {
+      Editor.annotateYAMLErrors(result.errors.yamlError);
     }
+    Storage.save('progress', -1); // Error
   }
 
   Storage.addChangeListener('yaml', update);

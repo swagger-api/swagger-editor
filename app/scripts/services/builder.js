@@ -18,7 +18,7 @@ PhonicsApp.service('Builder', function Builder($q) {
     if (!stringValue) {
       deferred.reject({
         specs: null,
-        error: {emptyDocsError: {message: 'Empty Document'}}
+        errors: [{emptyDocsError: {message: 'Empty Document'}}]
       });
 
       return deferred.promise;
@@ -29,7 +29,7 @@ PhonicsApp.service('Builder', function Builder($q) {
       json = load(stringValue);
     } catch (yamlError) {
       deferred.reject({
-        error: { yamlError: yamlError },
+        errors: [{ yamlError: yamlError }],
         specs: null
       });
 
@@ -49,31 +49,25 @@ PhonicsApp.service('Builder', function Builder($q) {
     v2.validate(json, function (validationError, validationResults) {
       if (validationError) {
         return deferred.reject({
-          errorsAndWarnings: [validationError],
-          specs: json
+          specs: json,
+          errors: [validationError]
         });
       }
 
       if (validationResults && validationResults.errors &&
         validationResults.errors.length) {
-        return deferred.reject({
-          errorsAndWarnings: validationResults,
-          specs: json
-        });
+        return deferred.reject(_.extend({specs: json}, validationResults));
       }
 
       JsonRefs.resolveRefs(json, function (resolveErrors) {
         if (resolveErrors) {
           return deferred.reject({
-            errorsAndWarnings: [resolveErrors],
+            errors: [resolveErrors],
             specs: json
           });
         }
 
-        deferred.resolve({
-          errorsAndWarnings: validationResults,
-          specs: json
-        });
+        deferred.resolve(_.extend({specs: json}, validationResults));
       });
     });
 
