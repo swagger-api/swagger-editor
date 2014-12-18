@@ -14,11 +14,6 @@ PhonicsApp.controller('ErrorPresenterCtrl', function ErrorPresenterCtrl($scope,
     var errors = $scope.$parent.errors || [];
     var warnings = $scope.$parent.warnings;
 
-    // Don't show empty doc error in editor mode
-    if (errors.length && errors[0].emptyDocsError) {
-      return null;
-    }
-
     if (Array.isArray(errors)) {
       errors = errors.map(function (error) {
         error.level = ERROR_LEVEL;

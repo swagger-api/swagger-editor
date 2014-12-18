@@ -12,16 +12,18 @@ function setValue(value) {
 
 describe('Errors', function () {
 
-  it('should show no error on empty document', function () {
+  it('should show an error when document is empty', function () {
     setValue('');
-    expect($('.error-presenter').isPresent()).toBe(false);
+    expect($('.error-presenter').isPresent()).toBe(true);
   });
 
   it('should show YAML syntax error with invalid YAML', function () {
     setValue('invalid:1\n  yaml:');
     browser.sleep(1200);
     expect($('.error-presenter').isPresent()).toBe(true);
-    expect($('.error-header h4').getText()).toContain('YAML Syntax');
+    expect($('.error-header h4').getText()).toContain('1 Error');
+    expect($('.error-presenter .item h5').getText())
+      .toContain('YAML Syntax Error');
   });
 
   it('should show Swagger Syntax Erorr with invalid swagger', function () {
@@ -40,7 +42,9 @@ describe('Errors', function () {
     setValue(val);
     browser.sleep(1200);
     expect($('.error-presenter').isPresent()).toBe(true);
-    expect($('.error-header h4').getText()).toContain('Swagger Error');
+    expect($('.error-header h4').getText()).toContain('1 Error');
+    expect($('.error-presenter .item h5').getText())
+      .toContain('Swagger Error');
   });
 
   it('should show swagger warning with a document that has warnings',
@@ -62,7 +66,7 @@ describe('Errors', function () {
       setValue(val);
       browser.sleep(1200);
       expect($('.error-presenter').isPresent()).toBe(true);
-      expect($('.error-header h4').getText()).toContain('Swagger Warning');
+      expect($('.error-header h4').getText()).toContain('1 Warning');
     }
   );
 
