@@ -11,11 +11,11 @@ PhonicsApp.controller('ErrorPresenterCtrl', function ErrorPresenterCtrl($scope,
   $scope.isCollapsed = $rootScope.isPreviewMode;
 
   $scope.getErrors = function () {
-    var errors = $scope.$parent.errors;
+    var errors = $scope.$parent.errors || [];
     var warnings = $scope.$parent.warnings;
 
     // Don't show empty doc error in editor mode
-    if (Array.isArray(errors) && errors[0].emptyDocsError) {
+    if (errors.length && errors[0].emptyDocsError) {
       return null;
     }
 
@@ -85,6 +85,46 @@ PhonicsApp.controller('ErrorPresenterCtrl', function ErrorPresenterCtrl($scope,
     if (error && error.yamlError) {
       Editor.gotoLine(error.yamlError.mark.line);
     }
+  };
+
+  $scope.isOnlyWarnings = function () {
+    var errors = $scope.$parent.errors || [];
+    var warnings = $scope.$parent.warnings || [];
+    return warnings.length && errors.length === 0;
+  };
+
+  $scope.getTitle = function () {
+    var errors = $scope.$parent.errors || [];
+    var warnings = $scope.$parent.warnings || [];
+
+    if (errors.length === 0) {
+      if (warnings.length === 0) {
+        return 'No Errors or Warnings';
+      }
+      if (warnings.length === 1) {
+        return '1 Warning';
+      }
+      return warnings.length + ' Warnings';
+    }
+
+    if (errors.length === 1) {
+      if (warnings.length === 0) {
+        return '1 Error';
+      }
+      if (warnings.length === 1) {
+        return '1 Error and 1 Warning';
+      }
+      return '1 Error ' + warnings.length + ' Warnings';
+    }
+
+    if (warnings.length === 0) {
+      return errors.length + ' Errors';
+    }
+    if (warnings.length === 1) {
+      return errors.length + ' Errors and  1 Warning';
+    }
+
+    return errors.length + ' Errors and ' + warnings.length + ' Warning';
   };
 
   $scope.showLineJumpLink = function (error) {

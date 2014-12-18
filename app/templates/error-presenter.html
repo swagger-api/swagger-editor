@@ -1,7 +1,7 @@
-<div class="error-presenter {{isOnlyWarning() ? 'warning' : 'error'}}"
+<div class="error-presenter {{isOnlyWarnings() ? 'warning' : 'error'}}"
   ng-controller="ErrorPresenterCtrl">
   <header class="error-header" ng-click="toggleCollapse()">
-    <h4>{{isOnlyWarning() ? 'Warning' : 'Error'}}</h4>
+    <h4>{{getTitle()}}</h4>
   </header>
   <div ng-repeat="error in getErrors()" collapse-when="isCollapsed" class="item">
     <h5 class="{{isWarning(error) ? 'warning' : 'error'}}">
