@@ -138,7 +138,9 @@ PhonicsApp.controller('TryOperation', function ($scope, formdataFilter,
 
     var bodyModel = getBodyModel();
 
-    if ($scope.contentType.indexOf('form-data') > -1) {
+    if (!$scope.contentType) {
+      return '';
+    } else if ($scope.contentType.indexOf('form-data') > -1) {
       return formdataFilter(bodyModel);
     } else if ($scope.contentType.indexOf('application/json') > -1) {
       return JSON.stringify(bodyModel, null, 2);
