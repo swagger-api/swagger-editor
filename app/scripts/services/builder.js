@@ -59,7 +59,7 @@ PhonicsApp.service('Builder', function Builder($q) {
         return deferred.reject(_.extend({specs: json}, validationResults));
       }
 
-      JsonRefs.resolveRefs(json, function (resolveErrors) {
+      JsonRefs.resolveRefs(json, function (resolveErrors, resolved) {
         if (resolveErrors) {
           return deferred.reject({
             errors: [resolveErrors],
@@ -67,7 +67,7 @@ PhonicsApp.service('Builder', function Builder($q) {
           });
         }
 
-        deferred.resolve(_.extend({specs: json}, validationResults));
+        deferred.resolve(_.extend({specs: resolved}, validationResults));
       });
     });
 
