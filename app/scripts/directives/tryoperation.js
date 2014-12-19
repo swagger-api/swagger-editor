@@ -138,11 +138,11 @@ PhonicsApp.controller('TryOperation', function ($scope, formdataFilter,
 
     var bodyModel = getBodyModel();
 
-    if ($scope.bodyFormat === 'form-data') {
+    if ($scope.contentType.indexOf('form-data') > -1) {
       return formdataFilter(bodyModel);
-    } else if ($scope.bodyFormat === 'json') {
+    } else if ($scope.contentType.indexOf('application/json') > -1) {
       return JSON.stringify(bodyModel, null, 2);
-    } else if ($scope.bodyFormat === 'x-www-form-urlencoded') {
+    } else if ($scope.contentType.indexOf('x-www-form-urlencoded') > -1) {
       return $.param(bodyModel);
     }
 
@@ -189,6 +189,7 @@ PhonicsApp.controller('TryOperation', function ($scope, formdataFilter,
 
     if (content) {
       headerParams['Content-Length'] = content.length;
+      headerParams['Content-Type'] = $scope.contentType;
     }
 
     return headerParams;
@@ -230,12 +231,13 @@ PhonicsApp.controller('TryOperation', function ($scope, formdataFilter,
   function makeCall() {
     $scope.xhrInProgress = true;
     $scope.error = null;
+    var omitHeaders = ['Host', 'Accept-Encoding', 'Connection', 'Origin',
+      'Referer', 'User-Agent', 'Cache-Control', 'Content-Length'];
 
     $.ajax({
       url: $scope.generateUrl(),
       type: $scope.operation.operationName,
-      headers: _.omit($scope.getHeaders(), 'Host', 'Accept-Encoding',
-        'Connection', 'Origin', 'Referer', 'User-Agent', 'Cache-Control'),
+      headers: _.omit($scope.getHeaders(), omitHeaders),
       data: getBodyModel()
     })
 

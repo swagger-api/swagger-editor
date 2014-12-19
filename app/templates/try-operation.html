@@ -21,17 +21,17 @@
           </td>
         </tr>
         <tr ng-if="hasBodyParam()">
-          <td><label>Body format</label></td>
+          <td><label>Content Type</label></td>
           <td>
-            <select ng-model="$parent.bodyFormat" ng-init="$parent.bodyFormat = 'form-data'">
-              <option value="form-data">form-data</option>
-              <option value="x-www-form-urlencoded">x-www-form-urlencoded</option>
-              <option value="json">JSON</option>
+            <select ng-model="$parent.contentType" ng-init="$parent.contentType = 'multipart/form-data'">
+              <option value="multipart/form-data">multipart/form-data</option>
+              <option value="application/x-www-form-urlencoded">application/x-www-form-urlencoded</option>
+              <option value="application/json">application/json</option>
             </select>
           </td>
         </tr>
         <tr ng-if="walkToProperty('consumes').length">
-          <td><label>Accepts</label></td>
+          <td><label>Accept</label></td>
           <td>
             <select ng-model="$parent.accepts" ng-options="o as o for o in walkToProperty('consumes')" ng-init="$parent.accepts = walkToProperty('consumes')[0]"></select>
           </td>
