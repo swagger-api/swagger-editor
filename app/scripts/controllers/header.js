@@ -101,6 +101,14 @@ PhonicsApp.controller('HeaderCtrl', function HeaderCtrl($scope, $modal,
     });
   };
 
+  $scope.openPasteJSON = function () {
+    $modal.open({
+      templateUrl: 'templates/paste-json.html',
+      controller: 'PasteJSONCtrl',
+      size: 'large'
+    });
+  };
+
   $scope.openAbout = function () {
     $modal.open({
       templateUrl: 'templates/about.html',
