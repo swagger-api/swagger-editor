@@ -44,11 +44,11 @@ paths:
           schema:
             type: array
             items:
-              $ref: Product
+              $ref: '#/definitions/Product'
         default:
           description: Unexpected error
           schema:
-            $ref: Error
+            $ref: '#/definitions/Error'
   /estimates/price:
     get:
       summary: Price Estimates
@@ -94,11 +94,11 @@ paths:
           schema:
             type: array
             items:
-              $ref: PriceEstimate
+              $ref: '#/definitions/PriceEstimate'
         default:
           description: Unexpected error
           schema:
-            $ref: Error
+            $ref: '#/definitions/Error'
   /estimates/time:
     get:
       summary: Time Estimates
@@ -133,11 +133,11 @@ paths:
           schema:
             type: array
             items:
-              $ref: Product
+              $ref: '#/definitions/Product'
         default:
           description: Unexpected error
           schema:
-            $ref: Error
+            $ref: '#/definitions/Error'
   /me:
     get:
       summary: User Profile
@@ -148,11 +148,11 @@ paths:
         200:
           description: Profile information for a user
           schema:
-            $ref: Profile
+            $ref: '#/definitions/Profile'
         default:
           description: Unexpected error
           schema:
-            $ref: Error
+            $ref: '#/definitions/Error'
   /history:
     get:
       summary: User Activity
@@ -174,11 +174,11 @@ paths:
         200:
           description: History information for the given user
           schema:
-            $ref: Activities
+            $ref: '#/definitions/Activities'
         default:
           description: Unexpected error
           schema:
-            $ref: Error
+            $ref: '#/definitions/Error'
 definitions:
   Product:
     properties:
@@ -258,7 +258,8 @@ definitions:
         description: Total number of items available.
       history:
         type: array
-        $ref: Activity
+        items:
+          $ref: '#/definitions/Activity'
   Error:
     properties:
       code:
