@@ -119,7 +119,7 @@ PhonicsApp.controller('ErrorPresenterCtrl', function ErrorPresenterCtrl($scope,
       return errors.length + ' Errors and  1 Warning';
     }
 
-    return errors.length + ' Errors and ' + warnings.length + ' Warning';
+    return errors.length + ' Errors and ' + warnings.length + ' Warnings';
   };
 
   $scope.showLineJumpLink = function (error) {
