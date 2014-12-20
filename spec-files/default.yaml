@@ -44,11 +44,11 @@ paths:
           schema:
             type: array
             items:
-              $ref: '#/definitions/Product'
+              $ref: Product
         default:
           description: Unexpected error
           schema:
-            $ref: '#/definitions/Error'
+            $ref: Error
   /estimates/price:
     get:
       summary: Price Estimates
@@ -94,11 +94,11 @@ paths:
           schema:
             type: array
             items:
-              $ref: '#/definitions/PriceEstimate'
+              $ref: PriceEstimate
         default:
           description: Unexpected error
           schema:
-            $ref: '#/definitions/Error'
+            $ref: Error
   /estimates/time:
     get:
       summary: Time Estimates
@@ -133,11 +133,11 @@ paths:
           schema:
             type: array
             items:
-              $ref: '#/definitions/Product'
+              $ref: Product
         default:
           description: Unexpected error
           schema:
-            $ref: '#/definitions/Error'
+            $ref: Error
   /me:
     get:
       summary: User Profile
@@ -148,11 +148,11 @@ paths:
         200:
           description: Profile information for a user
           schema:
-            $ref: '#/definitions/Profile'
+            $ref: Profile
         default:
           description: Unexpected error
           schema:
-            $ref: '#/definitions/Error'
+            $ref: Error
   /history:
     get:
       summary: User Activity
@@ -174,11 +174,11 @@ paths:
         200:
           description: History information for the given user
           schema:
-            $ref: '#/definitions/Activities'
+            $ref: Activities
         default:
           description: Unexpected error
           schema:
-            $ref: '#/definitions/Error'
+            $ref: Error
 definitions:
   Product:
     properties:
@@ -258,8 +258,7 @@ definitions:
         description: Total number of items available.
       history:
         type: array
-        items:
-          $ref: '#/definitions/Activity'
+        $ref: Activity
   Error:
     properties:
       code:
