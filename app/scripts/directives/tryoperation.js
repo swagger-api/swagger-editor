@@ -240,7 +240,8 @@ PhonicsApp.controller('TryOperation', function ($scope, formdataFilter,
       url: $scope.generateUrl(),
       type: $scope.operation.operationName,
       headers: _.omit($scope.getHeaders(), omitHeaders),
-      data: getBodyModel()
+      data: $scope.getRequestBody(),
+      contentType: $scope.contentType
     })
 
     .fail(function (jqXHR, textStatus, errorThrown) {
