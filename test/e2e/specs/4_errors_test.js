@@ -10,10 +10,10 @@ function setValue(value) {
   }, value);
 }
 
-describe('Errors', function () {
-
+describe('Error Presenter', function () {
   it('should show an error when document is empty', function () {
     setValue('');
+    browser.sleep(200);
     expect($('.error-presenter').isPresent()).toBe(true);
   });
 
