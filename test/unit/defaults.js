@@ -12,6 +12,7 @@ PhonicsApp.config(function ($provide) {
       'default.yaml',
       'heroku-pets.yaml',
       'minimal.yaml',
+      'echo.yaml',
       'petstore_simple.yaml',
       'petstore_full.yaml',
       'basic-auth.yaml',
