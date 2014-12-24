@@ -1,7 +1,7 @@
 'use strict';
 
 PhonicsApp.controller('ErrorPresenterCtrl', function ErrorPresenterCtrl($scope,
-  $rootScope, Editor) {
+  $rootScope, Editor, ASTManager) {
   var ERROR_LEVEL = 900;
   var WARNING_LEVEL = 500;
 
@@ -75,13 +75,6 @@ PhonicsApp.controller('ErrorPresenterCtrl', function ErrorPresenterCtrl($scope,
     return error;
   };
 
-  $scope.goToLineOfError = function (error) {
-
-    if (error && error.yamlError) {
-      Editor.gotoLine(error.yamlError.mark.line);
-    }
-  };
-
   $scope.isOnlyWarnings = function () {
     var errors = $scope.$parent.errors || [];
     var warnings = $scope.$parent.warnings || [];
@@ -123,11 +116,27 @@ PhonicsApp.controller('ErrorPresenterCtrl', function ErrorPresenterCtrl($scope,
   };
 
   $scope.showLineJumpLink = function (error) {
-    return error && error.yamlError;
+    return $scope.getLineNumber(error) !== null;
   };
 
   $scope.getLineNumber = function (error) {
-    return error.yamlError.mark.line;
+    var line = null;
+    if (error.yamlError) {
+      line = error.yamlError.mark.line;
+    }
+    if (error.path) {
+      if (error.path.length) {
+        line = ASTManager.lineForPath(error.path);
+      }
+    }
+    return line;
+  };
+
+  $scope.goToLineOfError = function (error) {
+    if (error) {
+      Editor.gotoLine($scope.getLineNumber(error));
+      Editor.focus();
+    }
   };
 
   $scope.isWarning = function (error) {

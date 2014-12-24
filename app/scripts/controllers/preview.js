@@ -123,6 +123,7 @@ PhonicsApp.controller('PreviewCtrl', function PreviewCtrl(Storage, Builder,
     offset = offset || 0;
     $event.stopPropagation();
     Editor.gotoLine(line - offset);
+    Editor.focus();
   };
 
   /*

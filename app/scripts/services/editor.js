@@ -216,6 +216,15 @@ PhonicsApp.service('Editor', function Editor(Autocomplete, ASTManager,
     }
   }
 
+  /*
+   * Focus editor to enable it for typing
+  */
+  function focus() {
+    if (editor) {
+      editor.focus();
+    }
+  }
+
   this.aceLoaded = aceLoaded;
   this.resize = resize;
   this.ready = ready;
@@ -232,4 +241,5 @@ PhonicsApp.service('Editor', function Editor(Autocomplete, ASTManager,
   this.saveEditorSettings = saveEditorSettings;
   this.adjustFontSize = adjustFontSize;
   this.resetSettings = resetSettings;
+  this.focus = focus;
 });
