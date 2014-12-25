@@ -8,13 +8,14 @@ Valid Swagger JSON descriptions can then be generated and used with the full Swa
 
 To understand how it works, you should [try the live demo](http://editor.swagger.io/#/edit)!
 
-## YAML Syntax
-YAML became a first-class citizen as part of the Swagger 2.0 working group process, however it has not yet been documented in the [Swagger Spec](https://github.com/swagger-api/swagger-spec/blob/master/versions/2.0.md). The editor opens with an example YAML file. For some other examples see '[Creating Swagger JSON from YAML files](https://github.com/swagger-api/swagger-codegen/wiki/Creating-Swagger-JSON-from-YAML-files)'
-
 ![Screenshot of the Swagger Editor](app/images/screenshot.png "Designing an API with the Swagger Editor")
 
-## Tips
-You can import an existing YAML spec by using the `import` query parameter in edit mode. For example:
+### YAML Syntax
+YAML became a first-class citizen as part of the Swagger 2.0 working group process, however it has not yet been documented in the [Swagger Spec](https://github.com/swagger-api/swagger-spec/blob/master/versions/2.0.md). The editor opens with an example YAML file. For some other examples see '[Creating Swagger JSON from YAML files](https://github.com/swagger-api/swagger-codegen/wiki/Creating-Swagger-JSON-from-YAML-files)'
+
+### Importing your Swagger document
+You can import both Swagger 2.0 documents into Swagger Editor. Click **File** menu and select one of import methods. You can import both YAML and JSON of Swagger 2.0 documents.
+You can also import an existing YAML or JOSN Swagger 2.0 specs document by using the `import` query parameter in edit mode. For example:
 ```
 http://editor.swagger.io/#/edit?import=http://generator.wordnik.com/online/api/swagger.yaml
 ```
