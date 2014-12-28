@@ -15,7 +15,7 @@ YAML became a first-class citizen as part of the Swagger 2.0 working group proce
 
 ### Importing your Swagger document
 You can import both Swagger 2.0 documents into Swagger Editor. Click **File** menu and select one of import methods. You can import both YAML and JSON of Swagger 2.0 documents.
-You can also import an existing YAML or JOSN Swagger 2.0 specs document by using the `import` query parameter in edit mode. For example:
+You can also import an existing YAML or JSON Swagger 2.0 specs document by using the `import` query parameter in edit mode. For example:
 ```
 http://editor.swagger.io/#/edit?import=http://generator.wordnik.com/online/api/swagger.yaml
 ```
