@@ -15,11 +15,11 @@
     "bootstrap": "~3.2.0",
     "es5-shim": "~2.1.0",
     "jquery": "2.1.1",
-    "js-yaml": "~3.2.2",
+    "js-yaml": "~3.2.5",
     "json3": "~3.2.6",
     "lodash": "~2.4.1",
     "ngstorage": "~0.3.0",
-    "yaml-js": "mohsen1/yaml-js",
+    "yaml-js": "0.1.1",
     "swagger-tools": "0.7.2",
     "objectpath": "~1.0.5",
     "harmony-collections": "Benvie/harmony-collections"
