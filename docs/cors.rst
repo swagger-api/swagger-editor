@@ -23,8 +23,7 @@ Enabling CORS in local servers
 ------------------------------
 
 The `swagger-core <https://github.com/swagger-api/swagger-core>`_ project documents one way to enable CORS for
-intranet servers that you can moodify. See
-`swagger-core/wiki/CORS <https://github.com/swagger-api/swagger-core/wiki/CORS>`_
+intranet servers that you can moodify. See https://github.com/swagger-api/swagger-ui#cors-support.
 
 CORS proxy
 ----------
