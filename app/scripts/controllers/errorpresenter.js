@@ -126,7 +126,7 @@ PhonicsApp.controller('ErrorPresenterCtrl', function ErrorPresenterCtrl($scope,
     }
     if (error.path) {
       if (error.path.length) {
-        line = ASTManager.lineForPath(error.path);
+        line = ASTManager.lineForPath(_.cloneDeep(error.path));
       }
     }
     return line;
