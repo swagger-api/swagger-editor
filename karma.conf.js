@@ -18,6 +18,7 @@ module.exports = function(config) {
       'app/bower_components/angular-sanitize/angular-sanitize.js',
       'app/bower_components/ace-builds/src-noconflict/ace.js',
       'app/bower_components/ace-builds/src-noconflict/mode-yaml.js',
+      'app/bower_components/swagger-converter/browser.js',
       'app/bower_components/ace-builds/src-noconflict/ext-language_tools.js',
       'app/bower_components/yaml-js/yaml.js',
       'app/bower_components/js-yaml/dist/js-yaml.js',

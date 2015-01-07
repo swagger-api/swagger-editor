@@ -20,9 +20,10 @@
     "lodash": "~2.4.1",
     "ngstorage": "~0.3.0",
     "yaml-js": "0.1.1",
-    "swagger-tools": "0.7.2",
-    "objectpath": "~1.0.5",
-    "harmony-collections": "Benvie/harmony-collections"
+    "swagger-tools": "0.7.4",
+    "objectpath": "~1.1.0",
+    "harmony-collections": "Benvie/harmony-collections",
+    "swagger-converter": "~0.1.0"
   },
   "dependencies": {
     "json-formatter": "~0.2.2",
