@@ -29,6 +29,6 @@
     "json-formatter": "~0.2.2",
     "angular-ui-layout": "1.0.0",
     "json-schema-view": "~0.3.9",
-    "angular-schema-form": "~0.7.6"
+    "angular-schema-form": "~0.7.9"
   }
 }
