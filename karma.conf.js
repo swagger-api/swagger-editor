@@ -46,7 +46,7 @@ module.exports = function(config) {
       'app/bower_components/traverse/traverse.js',
       'app/bower_components/swagger-tools/browser/swagger-tools.js',
       'app/bower_components/objectpath/lib/ObjectPath.js',
-      'app/bower_components/angular-schema-form/dist/schema-form.js',
+      'app/bower_components/angular-schema-form/dist/schema-form.min.js',
       'app/bower_components/angular-schema-form/dist/bootstrap-decorator.min.js',
       'bower_components/tv4/tv4.js',
       'app/scripts/*.js',
