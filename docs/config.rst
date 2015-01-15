@@ -5,6 +5,17 @@ Configuration
 
 Swagger editor is configured from the file ``app/scripts/enums/default.js``.
 
+Custom UI
+---------
+
+You can also enable `headerBranding` flag and serve `/templates/branding-left.html`
+and `/templates/branding-right.html` files to have custom header.
+
+It's possible to serve a custom CSS file at `/styles/branding.css` path to override editor's appearances.
+
+disableFileMenu
+    Set to ``true`` to disable the editor menu
+
 
 Backends
 --------
@@ -28,24 +39,7 @@ useYamlBackend
 
     .. note::
         ``Storage.save()`` is only ever called with yaml so this probably does
-        nothing if set to ``false`` 
-
-Visual Style
-------------
-
-disableFileMenu
-    Set to ``true`` to disable the editor menu
-
-headerBranding
-    Include the contents of ``app/templates/branding-left.html`` and
-    ``app/templates/branding-right.html`` in the header.
-
-brandingCssClass
-    css class to apply to the body tag
-
-    .. warning::
-        This setting is deprecated, it will be removed in a future release.
-
+        nothing if set to ``false``
 
 Code Generation
 ---------------

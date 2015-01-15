@@ -16,7 +16,8 @@ module.exports = {
         'fonts/*',
         'schema/*',
         'spec-files/*',
-        'CNAME'
+        'CNAME',
+        'styles/branding.css'
       ]
     },
     {
