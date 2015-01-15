@@ -35,13 +35,15 @@ PhonicsApp.controller('HeaderCtrl', function HeaderCtrl($scope, $modal,
   // -- Client and Server menus
   $scope.disableCodeGen = defaults.disableCodeGen;
 
-  Codegen.getServers().then(function (servers) {
-    $scope.servers = servers;
-  });
+  if (!defaults.disableCodeGen) {
+    Codegen.getServers().then(function (servers) {
+      $scope.servers = servers;
+    });
 
-  Codegen.getClients().then(function (clients) {
-    $scope.clients = clients;
-  });
+    Codegen.getClients().then(function (clients) {
+      $scope.clients = clients;
+    });
+  }
 
   $scope.getServer = function (language) {
     Codegen.getServer(language).then(noop, showCodegenError);
