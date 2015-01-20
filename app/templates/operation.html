@@ -41,7 +41,7 @@
               <td>{{parameter.description}}</td>
               <td>{{parameter.required ? 'Yes' : 'No'}}</td>
               <td>
-                <schema-model schema="parameter.schema"></schema-model>
+                <schema-model schema="getParameterSchema(parameter)"></schema-model>
               </td>
             </tr>
           </tbody>

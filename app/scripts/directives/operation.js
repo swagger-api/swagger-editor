@@ -24,6 +24,18 @@ PhonicsApp.directive('operation', function (defaults) {
 
         return $scope.operation.parameters.concat($scope.path.pathParameters);
       };
+
+      $scope.getParameterSchema = function (parameter) {
+        if (parameter.schema) {
+          return parameter.schema;
+        }
+
+        if (parameter.type === 'array') {
+          return _.pick(parameter, 'type', 'items');
+        }
+
+        return {type: parameter.type};
+      };
     }
   };
 });

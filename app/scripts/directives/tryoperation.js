@@ -24,7 +24,8 @@ PhonicsApp.controller('TryOperation', function ($scope, formdataFilter,
       model: {}
     });
 
-    if (parameter.schema && parameter.schema.type === 'array') {
+    if ((parameter.schema && parameter.schema.type === 'array') ||
+      parameter.type === 'array') {
       param.model[parameter.name] = [];
     }
 

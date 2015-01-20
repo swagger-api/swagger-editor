@@ -26,7 +26,7 @@ PhonicsApp
       restrict: 'E',
       replace: true,
       scope: {
-        schema: '='
+        schema: '&'
       },
       link: function postLink($scope, $element, $attributes) {
         $scope.mode = 'model';
