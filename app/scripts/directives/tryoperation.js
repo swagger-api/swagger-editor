@@ -111,9 +111,13 @@ PhonicsApp.controller('TryOperation', function ($scope, formdataFilter,
       (queryParamsStr ? '?' + queryParamsStr : '');
   }
 
+  function isInBodyParam(param) {
+    return param.in === 'body' || param.in === 'formData';
+  }
+
   $scope.hasBodyParam = function () {
     return $scope.parameters.some(function (param) {
-      return param.in === 'body';
+      return isInBodyParam(param);
     });
   };
 
@@ -124,7 +128,7 @@ PhonicsApp.controller('TryOperation', function ($scope, formdataFilter,
 
   function getBodyModel() {
     return $scope.parameters.map(function (param) {
-      if (param.in === 'body') {
+      if (isInBodyParam(param)) {
         return modelOfParameter(param);
       }
     })[0];
