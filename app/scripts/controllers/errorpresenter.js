@@ -102,7 +102,7 @@ PhonicsApp.controller('ErrorPresenterCtrl', function ErrorPresenterCtrl($scope,
       if (warnings.length === 1) {
         return '1 Error and 1 Warning';
       }
-      return '1 Error ' + warnings.length + ' Warnings';
+      return '1 Error and ' + warnings.length + ' Warnings';
     }
 
     if (warnings.length === 0) {
