@@ -40,9 +40,8 @@ paths:
       summary: Find pets by ID
       operationId: getPetsById
       security:
-        - githubAuth:
-            - user:read
-            - user:write
+        - githubAccessCode:
+            - user
         - internalApiKey: []
       produces:
         - application/json
@@ -53,11 +52,11 @@ paths:
           schema:
             type: array
             items:
-              $ref: Pet
+              $ref: '#/definitions/Pet'
         default:
           description: error payload
           schema:
-            $ref: ErrorModel
+            $ref: '#/definitions/ErrorModel'
 securityDefinitions:
   githubAccessCode:
     type: oauth2
