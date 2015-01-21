@@ -1,0 +1,75 @@
+---
+swagger: '2.0'
+info:
+  version: v1
+  title: Instagram API
+  description: >
+    The first version of the Instagram API is an exciting step forward towards
+    making it easier for users to have open access to their data. We created it
+    so that you can surface the amazing content Instagram users share every
+    second, in fun and innovative ways.
+
+
+    Build something great.
+  termsOfService: http://instagram.com/about/legal/terms/api
+host: api.instagram.com
+basePath: /v1
+schemes:
+  - https
+produces:
+  - application/json
+consumes:
+  - application/json
+tags:
+  - name: Users
+  - name: Relationships
+  - name: Media
+  - name: Commnts
+  - name: Likes
+  - name: Tags
+  - name: Location
+  - name: Subscribtions
+paths:
+  /users/{user-id}:
+    parameters:
+      - name: user-id
+        in: path
+        description: The user identifier number
+        type: number
+    get:
+      tags:
+        - Users
+      description: Get basic information about a user.
+      responses:
+        200:
+          description: The user object
+          schema:
+            type: object
+            properties:
+              data:
+                $ref: '#/definitions/User'
+definitions:
+  User:
+    type: object
+    properties:
+      id:
+        type: integer
+      username:
+        type: string
+      full_name:
+        type: string
+      profile_picture:
+        type: string
+      bio:
+        type: string
+      website:
+        type: string
+      counts:
+        type: object
+        properties:
+          media:
+            type: integer
+          follows:
+            type: integer
+          follwed_by:
+            type: integer
