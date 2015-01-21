@@ -58,7 +58,9 @@ paths:
         type: number
     get:
       security:
-        - api_key
+        - key: []
+        - oauth:
+          - basic
       tags:
         - Users
       description: Get basic information about a user.

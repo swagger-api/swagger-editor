@@ -45,6 +45,22 @@ PhonicsApp.service('AuthManager', function AuthManager() {
   };
 
   /*
+   * Authenticates API Key securities
+   * @param securityName {string} - name of the security
+   * @param security {object} - the security object
+   * @param options {object} - options of the security including authentication
+   * details
+  */
+  this.apiKey = function (securityName, security, options) {
+    options.isAuthenticated = true;
+    securities[securityName] = {
+      type: 'apiKey',
+      security: security,
+      options: options
+    };
+  };
+
+  /*
    * Gets a security object
    * @returns {object} the security object
   */
