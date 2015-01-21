@@ -6,7 +6,7 @@ module.exports = {
   },
   livereload: {
     options: {
-      open: true,
+      open: 'http://localhost:9000/#/edit',
       base: [
         '.tmp',
         'app'
