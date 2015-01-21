@@ -33,6 +33,23 @@ PhonicsApp.controller('SecurityCtrl', function SecurityCtrl($scope, $modal,
         },
         size: 'large'
       });
+    } else if (security.type === 'oauth2') {
+      $modal.open({
+        templateUrl: 'templates/auth/oauth2.html',
+        controller: function OAuth2AuthenticateCtrl($scope, $modalInstance) {
+          $scope.cancel = $modalInstance.close;
+          $scope.authenticate = function () {
+            if (!$scope.accessToken) {
+              return;
+            }
+            AuthManager.oAuth2(securityName, security, {
+              accessToken: $scope.accessToken
+            });
+            $modalInstance.close();
+          };
+        },
+        size: 'large'
+      });
     } else {
       window.alert('Not yet supported');
     }

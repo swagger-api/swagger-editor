@@ -6,6 +6,13 @@
 PhonicsApp.service('AuthManager', function AuthManager() {
   var securities = {};
 
+  /*
+   * Authenticates HTTP Basic Auth securities
+   * @param securityName {string} - name of the security
+   * @param security {object} - the security object
+   * @param options {object} - options of the security including authentication
+   * details
+  */
   this.basicAuth = function (securityName, security, options) {
     if (angular.isObject(options) && options.username && options.password) {
       options.isAuthenticated = true;
@@ -21,10 +28,34 @@ PhonicsApp.service('AuthManager', function AuthManager() {
     }
   };
 
+  /*
+   * Authenticates OAuth2 securities
+   * @param securityName {string} - name of the security
+   * @param security {object} - the security object
+   * @param options {object} - options of the security including authentication
+   * details
+  */
+  this.oAuth2 = function (securityName, security, options) {
+    options.isAuthenticated = true;
+    securities[securityName] = {
+      type: 'oAuth2',
+      security: security,
+      options: options
+    };
+  };
+
+  /*
+   * Gets a security object
+   * @returns {object} the security object
+  */
   this.getAuth = function (securityName) {
     return securities[securityName];
   };
 
+  /*
+   * Checks if a security is authenticated
+   * @returns {boolean} - true if security is authenticated false otherwise
+  */
   this.securityIsAuthenticated = function (securityName) {
     var auth = securities[securityName];
 
