@@ -27,7 +27,7 @@ PhonicsApp.controller('PasteJSONCtrl', function PasteJSONCtrl($scope,
     var result = jsyaml.dump(JSON.parse($scope.json));
     Storage.save('yaml', result);
     $rootScope.editorValue = result;
-    ASTManager.refresh();
+    ASTManager.refresh($rootScope.editorValue);
     $modalInstance.close();
   };
 

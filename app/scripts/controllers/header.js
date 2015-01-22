@@ -77,7 +77,7 @@ PhonicsApp.controller('HeaderCtrl', function HeaderCtrl($scope, $modal,
       value = fresh ? '' : value;
       Storage.save('yaml', value);
       $rootScope.editorValue = value;
-      ASTManager.refresh();
+      ASTManager.refresh($rootScope.editorValue);
       $state.go('home', {mode: 'edit'});
     });
   };

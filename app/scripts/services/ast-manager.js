@@ -17,9 +17,7 @@ PhonicsApp.service('ASTManager', function ASTManager() {
   */
   function refreshAST(value) {
 
-    if (!value) {
-      throw new Error('Can not refresh AST with no value');
-    }
+    value = value || '';
 
     try {
       yamlBuffer = value;

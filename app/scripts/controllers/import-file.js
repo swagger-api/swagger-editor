@@ -12,7 +12,7 @@ PhonicsApp.controller('FileImportCtrl', function FileImportCtrl($scope,
     if (angular.isString(results)) {
       $rootScope.editorValue = results;
       Storage.save('yaml', results);
-      ASTManager.refresh();
+      ASTManager.refresh($rootScope.editorValue);
     }
     $modalInstance.close();
   };
