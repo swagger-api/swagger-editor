@@ -16,16 +16,17 @@ PhonicsApp.service('ASTManager', function ASTManager() {
   ** Update ast with changes from editor
   */
   function refreshAST(value) {
-    var error = null;
+
+    if (!value) {
+      throw new Error('Can not refresh AST with no value');
+    }
 
     try {
-      yamlBuffer = value || '';
+      yamlBuffer = value;
       ast = yaml.compose(value);
-    } catch (err) {
-      error = err;
-    }
-    if (!error) {
       emitChanges();
+    } catch (err) {
+      console.warn('Failed to refresh line numbers', err);
     }
   }
 

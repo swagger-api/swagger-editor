@@ -22,6 +22,6 @@ PhonicsApp.controller('EditorCtrl', function EditorCtrl($scope, $rootScope,
     var value = $rootScope.editorValue;
 
     Storage.save('yaml', value);
-    ASTManager.refresh();
+    ASTManager.refresh($rootScope.editorValue);
   }
 });
