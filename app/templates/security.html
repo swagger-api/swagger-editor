@@ -42,7 +42,7 @@
       <h4 ng-if="securityDefinition.scopes">Scopes</h4>
       <table ng-if="securityDefinition.scopes">
         <tbody>
-          <tr ng-repeat="(scopeName, scope) in securityDefinition.scopes">
+          <tr ng-repeat="(scopeName, scope) in securityDefinition.scopes" class='scopes-table'>
             <td><strong>{{scopeName}}</strong></td>
             <td>{{scope}}</td>
           </tr>
