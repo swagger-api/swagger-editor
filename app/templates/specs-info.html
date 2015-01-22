@@ -1,7 +1,7 @@
 <div class="info">
   <header class="info-header">
     <h3 class="section-header">
-      <a ng-click="toggle(['info'])">About</a>
+      <a ng-click="toggle(['info'])">{{specs.info.title}}</a>
     </h3>
     <!-- Commented out because of CSS issues (looks bad)
     <div class="collapse-togglers">
@@ -14,7 +14,6 @@
   </header>
 
   <div class="info-container section-content" collapse-when="isCollapsed(['info'])" ng-ani>
-    <h4>{{specs.info.title}}</h4>
     <div marked="specs.info.description"></div>
     <h4>Version <span>{{specs.info.version}}</span></h4>
     <div ng-if="specs.info.termsOfService">
