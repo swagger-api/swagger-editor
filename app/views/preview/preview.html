@@ -4,7 +4,6 @@
   </div>
   <ng-include src="'templates/error-presenter.html'" ng-if="errors || warnings"></ng-include>
 
-  <ng-include src="'templates/tags.html'"></ng-include>
   <ng-include src="'templates/specs-info.html'" ng-if="!!specs.info && !error.yamlError"></ng-include>
   <ng-include src="'templates/security.html'" ng-if="specs.securityDefinitions"></ng-include>
 
@@ -16,6 +15,9 @@
       </span>
     </h3>
   </header>
+
+  <ng-include src="'templates/tags.html'"></ng-include>
+
   <ul class="paths" ng-if="!error.yamlError" collapse-when="isCollapsed(['paths'])">
     <path ng-repeat="path in specs.paths" ng-if="!isVendorExtension(path.pathName) && path.operations.length > 0"></path>
   </ul>
