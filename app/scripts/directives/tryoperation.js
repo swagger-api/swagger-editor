@@ -98,7 +98,6 @@ PhonicsApp.controller('TryOperation', function ($scope, formdataFilter,
     var scheme = getScheme();
     var host = specs.host || window.location.host;
     var basePath = specs.basePath || '';
-    var pathTemplate = _.template($scope.path.pathName);
     var pathParams = $scope.parameters.reduce(filterParamsFor('path'), {});
     var queryParams = $scope.parameters.reduce(filterParamsFor('query'), {});
 
@@ -116,9 +115,9 @@ PhonicsApp.controller('TryOperation', function ($scope, formdataFilter,
     var queryParamsStr = $.param(queryParams);
     var pathStr = '';
 
-    try {
-      pathStr = pathTemplate(pathParams);
-    } catch (e) {}
+    pathStr = $scope.path.pathName.replace(/{([^{}]+)}/g, function (match) {
+      return pathParams[match.substring(1, match.length - 1)] || match;
+    });
 
     return scheme + '://' + host + basePath + pathStr +
       (queryParamsStr ? '?' + queryParamsStr : '');
