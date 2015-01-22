@@ -3,8 +3,9 @@
 /*
  * Manages Authentications
 */
-PhonicsApp.service('AuthManager', function AuthManager() {
-  var securities = {};
+PhonicsApp.service('AuthManager', function AuthManager($sessionStorage) {
+  $sessionStorage.$default({securities: {}});
+  var securities = $sessionStorage.securities;
 
   /*
    * Authenticates HTTP Basic Auth securities
