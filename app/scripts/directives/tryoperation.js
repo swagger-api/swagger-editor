@@ -101,6 +101,18 @@ PhonicsApp.controller('TryOperation', function ($scope, formdataFilter,
     var pathTemplate = _.template($scope.path.pathName);
     var pathParams = $scope.parameters.reduce(filterParamsFor('path'), {});
     var queryParams = $scope.parameters.reduce(filterParamsFor('query'), {});
+
+    // If Auth that extend the parameters with `Authentication parameter
+    var auth = AuthManager.getAuth($scope.selectedSecurity);
+    if (auth) {
+      var authQueryParam = null;
+      if (auth.type === 'apiKey' && auth.security.in === 'query') {
+        authQueryParam = {};
+        authQueryParam[auth.security.name] = auth.options.apiKey;
+      }
+      _.extend(queryParams, authQueryParam);
+    }
+
     var queryParamsStr = $.param(queryParams);
     var pathStr = '';
 
@@ -167,12 +179,20 @@ PhonicsApp.controller('TryOperation', function ($scope, formdataFilter,
       return obj;
     }, {});
 
-    // If Auth is Basic Auth extend the parameters with Authentication parameter
+    // If Auth that extend the parameters with `Authentication parameter
     var auth = AuthManager.getAuth($scope.selectedSecurity);
-    if (auth && auth.type === 'basic') {
-      parameters = _.extend(parameters, {
-        Authorization: 'Basic ' + auth.options.base64
-      });
+    if (auth) {
+      var authHeader = null;
+      if (auth.type === 'basic') {
+        authHeader = {Authorization: 'Basic ' + auth.options.base64};
+      } else if (auth.type === 'apiKey' && auth.security.in === 'header') {
+        authHeader = {};
+        authHeader[auth.security.name] = auth.security.apiKey;
+      } else if (auth.type === 'oAuth2') {
+        authHeader = {Authorization: 'Bearer ' + auth.options.accessToken};
+      }
+
+      parameters = _.extend(parameters, authHeader);
     }
 
     return parameters;

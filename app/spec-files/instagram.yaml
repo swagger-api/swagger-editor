@@ -42,7 +42,7 @@ securityDefinitions:
   key:
     type: apiKey
     in: query
-    name: api_key
+    name: access_token
 security:
   - oauth:
     - basic
@@ -50,9 +50,9 @@ security:
     - relationships
     - likes
 paths:
-  /users/{user-id}:
+  /users/{user_id}:
     parameters:
-      - name: user-id
+      - name: user_id
         in: path
         description: The user identifier number
         type: number

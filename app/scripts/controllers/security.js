@@ -59,7 +59,7 @@ PhonicsApp.controller('SecurityCtrl', function SecurityCtrl($scope, $modal,
             if (!$scope.apiKey) {
               return;
             }
-            AuthManager.oAuth2(securityName, security, {
+            AuthManager.apiKey(securityName, security, {
               apiKey: $scope.apiKey
             });
             $modalInstance.close();
