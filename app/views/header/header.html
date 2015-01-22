@@ -70,8 +70,8 @@
         <li role="presentation">
           <a ui-sref="{mode: 'edit'}" role="menuitem" tabindex="-1" id="edit-mode">Editor</a>
         </li>
-        <li role="presentation" class="disabled">
-          <a role="menuitem" tabindex="-1" stop-event id="design-mode">Designer</a>
+        <li role="presentation">
+          <a role="menuitem" tabindex="-1" stop-event id="design-mode" ng-click="designModeTodoAlert()">Designer</a>
         </li>
         <li role="presentation">
           <a ui-sref="{mode: ''}" role="menuitem" tabindex="-1" id="preview-mode">Preview</a>

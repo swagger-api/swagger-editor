@@ -122,6 +122,11 @@ PhonicsApp.controller('HeaderCtrl', function HeaderCtrl($scope, $modal,
     $scope.showAbout = value;
   };
 
+  $scope.designModeTodoAlert = function () {
+    window.alert('Designer mode is not yet implemented. With designer you ' +
+      'would be able to edit your Swagger document using UI tools.');
+  };
+
   $scope.openEditorPreferences = Editor.showSettings;
   $scope.resetSettings = Editor.resetSettings;
   $scope.adjustFontSize = Editor.adjustFontSize;
