@@ -1,6 +1,7 @@
 'use strict';
 
-SwaggerEditor.service('Backend', function Backend($http, $q, defaults, Builder) {
+SwaggerEditor.service('Backend', function Backend($http, $q, defaults,
+  Builder) {
   var changeListeners =  {};
   var buffer = {};
   var commit = _.throttle(commitNow, 200, {leading: false, trailing: true});

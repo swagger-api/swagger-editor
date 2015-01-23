@@ -1,7 +1,7 @@
 'use strict';
 
-SwaggerEditor.service('Autocomplete', function ($rootScope, snippets, ASTManager,
-  KeywordMap) {
+SwaggerEditor.service('Autocomplete', function ($rootScope, snippets,
+  ASTManager, KeywordMap) {
   var editor = null;
 
   function getPathForPosition(pos) {

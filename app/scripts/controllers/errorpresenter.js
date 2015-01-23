@@ -1,7 +1,7 @@
 'use strict';
 
-SwaggerEditor.controller('ErrorPresenterCtrl', function ErrorPresenterCtrl($scope,
-  $rootScope, Editor, ASTManager) {
+SwaggerEditor.controller('ErrorPresenterCtrl', function ErrorPresenterCtrl(
+  $scope, $rootScope, Editor, ASTManager) {
   var ERROR_LEVEL = 900;
   var WARNING_LEVEL = 500;
 
