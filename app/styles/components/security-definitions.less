@@ -1,15 +1,42 @@
+.security-definition-theme(@color) {
+  border: 1px solid @color;
+  >header {
+    background: @color;
+  }
+}
+
 .security-definitions {
-  .type {
-    box-shadow: 1px 1px 0px #898989;
-    padding: 2px 4px;
-    display: inline-block;
-    background: #E5E5E5;
-    &.basic { background: #A8E8A1; }
-    &.apiKey { background: #A1B2E8; }
-    &.oauth2 { background: #F4B487;}
+  .security-definition {
+
+    .security-definition-theme(#E5E5E5);
+    &.basic  { .security-definition-theme(#A8E8A1); }
+    &.apiKey { .security-definition-theme(#A1B2E8); }
+    &.oauth2 { .security-definition-theme(#F4B487); }
+
+    >header, >section { padding: .4em; }
+    margin-bottom: 1em;
+
+    .security-type {
+      font-size: .7em;
+    }
+
+    .authentication {
+      float: right;
+
+      // TODO: colors
+      button {
+        background: rgb(195, 252, 195);
+        border: none;
+        padding: 0.1em 0.5em
+      }
+    }
   }
 
   .scopes-table td {
     padding-right: 1em;
+  }
+
+  tbody tr td {
+    border-width: 0;
   }
 }
