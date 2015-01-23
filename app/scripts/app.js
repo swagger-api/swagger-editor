@@ -1,6 +1,6 @@
 'use strict';
 
-window.PhonicsApp = angular.module('PhonicsApp', [
+window.SwaggerEditor = angular.module('SwaggerEditor', [
   'ngCookies',
   'ngResource',
   'ngSanitize',

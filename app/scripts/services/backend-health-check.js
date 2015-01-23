@@ -3,7 +3,7 @@
 /*
  * Checks for backend health and set "progress" value accordingly
 */
-PhonicsApp.service('BackendHealthCheck', function BackendHealthCheck($http,
+SwaggerEditor.service('BackendHealthCheck', function BackendHealthCheck($http,
   $interval, defaults, Storage) {
   var isHealthy = true;
 

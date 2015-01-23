@@ -1,6 +1,6 @@
 'use strict';
 
-PhonicsApp.controller('MainCtrl', function MainCtrl($rootScope, $stateParams,
+SwaggerEditor.controller('MainCtrl', function MainCtrl($rootScope, $stateParams,
   $location, Editor, Storage, FileLoader, BackendHealthCheck, defaults) {
   $rootScope.$on('$stateChangeStart', Editor.initializeEditor);
   BackendHealthCheck.startChecking();

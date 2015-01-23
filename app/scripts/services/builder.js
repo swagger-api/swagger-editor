@@ -1,6 +1,6 @@
 'use strict';
 
-PhonicsApp.service('Builder', function Builder($q) {
+SwaggerEditor.service('Builder', function Builder($q) {
   var load = jsyaml.load;
   var v2 = SwaggerTools.specs.v2;
 

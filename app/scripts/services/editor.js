@@ -1,6 +1,6 @@
 'use strict';
 
-PhonicsApp.service('Editor', function Editor(Autocomplete, ASTManager,
+SwaggerEditor.service('Editor', function Editor(Autocomplete, ASTManager,
   LocalStorage, $interval) {
   var editor = null;
   var onReadyFns = [];

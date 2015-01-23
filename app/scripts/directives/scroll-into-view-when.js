@@ -1,6 +1,6 @@
 'use strict';
 
-PhonicsApp.directive('scrollIntoViewWhen', function () {
+SwaggerEditor.directive('scrollIntoViewWhen', function () {
 
   return {
     restrict: 'A',

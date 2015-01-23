@@ -1,6 +1,6 @@
 'use strict';
 
-PhonicsApp.controller('PreviewCtrl', function PreviewCtrl(Storage, Builder,
+SwaggerEditor.controller('PreviewCtrl', function PreviewCtrl(Storage, Builder,
   ASTManager, Sorter, Editor, BackendHealthCheck, FocusedPath, TagManager,
   Preferences, $scope, $rootScope, $stateParams) {
 

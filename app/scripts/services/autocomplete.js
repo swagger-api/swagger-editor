@@ -1,6 +1,6 @@
 'use strict';
 
-PhonicsApp.service('Autocomplete', function ($rootScope, snippets, ASTManager,
+SwaggerEditor.service('Autocomplete', function ($rootScope, snippets, ASTManager,
   KeywordMap) {
   var editor = null;
 

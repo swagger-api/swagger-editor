@@ -4,7 +4,7 @@
  * Manages the AST representation of the specs for fold status
  * and other meta information about the specs tree
 */
-PhonicsApp.service('ASTManager', function ASTManager() {
+SwaggerEditor.service('ASTManager', function ASTManager() {
   var MAP_TAG = 'tag:yaml.org,2002:map';
   var SEQ_TAG = 'tag:yaml.org,2002:seq';
   var INDENT = 2; // TODO: make indent dynamic based on document

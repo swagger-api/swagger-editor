@@ -1,6 +1,6 @@
 'use strict';
 
-PhonicsApp.config(function ($provide) {
+SwaggerEditor.config(function ($provide) {
   $provide.constant('strings', {
     stausMessages: {
       '-2': 'Unsaved changes. Check your server connection',

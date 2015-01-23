@@ -6,7 +6,7 @@
 ** elements.
 ** Order information is coming from ASTManager via x-row properties
 */
-PhonicsApp.service('Sorter', function Sorter() {
+SwaggerEditor.service('Sorter', function Sorter() {
 
   // The standard order property name
   var XDASH = 'x-';

@@ -1,6 +1,6 @@
 'use strict';
 
-PhonicsApp.controller('SecurityCtrl', function SecurityCtrl($scope, $modal,
+SwaggerEditor.controller('SecurityCtrl', function SecurityCtrl($scope, $modal,
   AuthManager) {
   $scope.getHumanSecurityType = function (type) {
     var types = {

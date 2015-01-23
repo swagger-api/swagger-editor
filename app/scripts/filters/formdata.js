@@ -4,7 +4,7 @@
 
 'use strict';
 
-PhonicsApp.filter('formdata', function () {
+SwaggerEditor.filter('formdata', function () {
   return function formdata(object) {
     var result = [];
 

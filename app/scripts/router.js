@@ -1,6 +1,6 @@
 'use strict';
 
-PhonicsApp.config(function Router($compileProvider, $stateProvider,
+SwaggerEditor.config(function Router($compileProvider, $stateProvider,
   $urlRouterProvider) {
   $urlRouterProvider.otherwise('/');
 

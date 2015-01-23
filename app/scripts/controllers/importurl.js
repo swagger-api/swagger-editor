@@ -1,6 +1,6 @@
 'use strict';
 
-PhonicsApp.controller('UrlImportCtrl', function FileImportCtrl($scope,
+SwaggerEditor.controller('UrlImportCtrl', function FileImportCtrl($scope,
   $modalInstance, $localStorage, $rootScope, FileLoader, Storage, ASTManager) {
   var results;
 

@@ -39,7 +39,7 @@ function load(string) {
   throw new Error('load function called with an invalid string');
 }
 
-PhonicsApp.service('FileLoader', function FileLoader($http, defaults) {
+SwaggerEditor.service('FileLoader', function FileLoader($http, defaults) {
 
   // Load from URL
   this.loadFromUrl = function (url) {

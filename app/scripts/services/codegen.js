@@ -3,7 +3,7 @@
 /*
  * Code Generator service
 */
-PhonicsApp.service('Codegen', function Codegen($http, defaults, Storage) {
+SwaggerEditor.service('Codegen', function Codegen($http, defaults, Storage) {
   this.getServers = function () {
     return $http.get(defaults.codegen.servers).then(function (resp) {
       return resp.data;

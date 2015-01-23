@@ -1,6 +1,6 @@
 'use strict';
 
-PhonicsApp.service('TagManager', function TagManager($stateParams) {
+SwaggerEditor.service('TagManager', function TagManager($stateParams) {
   var tags = [];
 
   function Tag(name, description) {

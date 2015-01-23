@@ -1,6 +1,6 @@
 'use strict';
 
-PhonicsApp.directive('path', function () {
+SwaggerEditor.directive('path', function () {
   return {
     restrict: 'E',
     replace: true,

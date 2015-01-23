@@ -19,7 +19,7 @@ function removeVendorExtensions(obj) {
   return result;
 }
 
-PhonicsApp
+SwaggerEditor
   .directive('schemaModel', function ($parse) {
     return {
       templateUrl: 'templates/schema-model.html',

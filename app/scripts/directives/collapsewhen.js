@@ -1,6 +1,6 @@
 'use strict';
 
-PhonicsApp.directive('collapseWhen', function () {
+SwaggerEditor.directive('collapseWhen', function () {
   var TRANSITION_DURATION = 200; //ms
 
   return {

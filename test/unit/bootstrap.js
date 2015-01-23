@@ -4,4 +4,4 @@
 
 'use strict';
 
-angular.bootstrap(window.document, ['PhonicsApp']);
+angular.bootstrap(window.document, ['SwaggerEditor']);

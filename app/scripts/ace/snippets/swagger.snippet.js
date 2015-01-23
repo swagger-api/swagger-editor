@@ -1,6 +1,6 @@
 'use strict';
 
-PhonicsApp.config(function ($provide) {
+SwaggerEditor.config(function ($provide) {
   $provide.constant('snippets', [
     {
       name: 'swagger',

@@ -6,7 +6,7 @@
  * that are in focus in the editor line of code to focus in the editor
  * for a given path
 */
-PhonicsApp.service('FocusedPath', function FocusedPath(ASTManager, Editor) {
+SwaggerEditor.service('FocusedPath', function FocusedPath(ASTManager, Editor) {
 
   /*
    * A path is in focus if it's key or **any** sub path of it is in focus

@@ -1,6 +1,6 @@
 'use strict';
 
-PhonicsApp.service('KeywordMap', function KeywordMap(defaults) {
+SwaggerEditor.service('KeywordMap', function KeywordMap(defaults) {
   var parameter = {
     name: String,
     in: String,

@@ -1,6 +1,6 @@
 'use strict';
 
-PhonicsApp.service('LocalStorage', function LocalStorage($localStorage, $q) {
+SwaggerEditor.service('LocalStorage', function LocalStorage($localStorage, $q) {
   var storageKey = 'SwaggerEditorCache';
   var changeListeners =  {};
   var that = this;

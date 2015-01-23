@@ -21,23 +21,12 @@
   "globals": {
     "angular": false,
     "ace": false,
-    "markdown": false,
     "jsyaml": false,
     "yaml": false,
-    "PhonicsApp": false,
-    "SwaggerApi": false,
-    "SwaggerResource": false,
-    "SwaggerModel": false,
-    "SwaggerModelProperty": false,
-    "SwaggerOperation": false,
-    "SwaggerRequest": false,
-    "SwaggerHttp": false,
-    "SwaggerAuthorizations": false,
-    "SwaggerUi": false,
-    "swaggerUi": false,
     "JsonRefs": false,
     "$": false,
     "_": false,
+    "SwaggerEditor": false,
     "SwaggerTools": false
   }
 }

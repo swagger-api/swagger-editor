@@ -1,6 +1,6 @@
 'use strict';
 
-PhonicsApp.controller('ErrorPresenterCtrl', function ErrorPresenterCtrl($scope,
+SwaggerEditor.controller('ErrorPresenterCtrl', function ErrorPresenterCtrl($scope,
   $rootScope, Editor, ASTManager) {
   var ERROR_LEVEL = 900;
   var WARNING_LEVEL = 500;

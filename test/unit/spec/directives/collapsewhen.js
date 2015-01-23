@@ -3,7 +3,7 @@
 describe('Directive: collapseWhen', function () {
 
   // load the directive's module
-  beforeEach(window.angular.mock.module('PhonicsApp'));
+  beforeEach(window.angular.mock.module('SwaggerEditor'));
 
   var element,
     scope;

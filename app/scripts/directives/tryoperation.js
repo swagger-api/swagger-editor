@@ -1,6 +1,6 @@
 'use strict';
 
-PhonicsApp.controller('TryOperation', function ($scope, formdataFilter,
+SwaggerEditor.controller('TryOperation', function ($scope, formdataFilter,
   AuthManager) {
   var specs = $scope.$parent.specs;
   var rawModel = '';

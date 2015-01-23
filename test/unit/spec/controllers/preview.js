@@ -3,7 +3,7 @@
 describe('Controller: PreviewCtrl', function () {
 
   // load the controller's module
-  beforeEach(window.angular.mock.module('PhonicsApp'));
+  beforeEach(window.angular.mock.module('SwaggerEditor'));
 
   var PreviewCtrl,
     scope;

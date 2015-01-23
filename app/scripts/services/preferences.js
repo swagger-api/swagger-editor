@@ -2,12 +2,12 @@
 
 /**
  * @ngdoc service
- * @name PhonicsApp.preferences
+ * @name SwaggerEditor.preferences
  * @description
  * # preferences
  * Service in the phonicsApp.
  */
-PhonicsApp.service('Preferences', function Preferences($localStorage) {
+SwaggerEditor.service('Preferences', function Preferences($localStorage) {
   var defaultPreferences = {
 
     /*

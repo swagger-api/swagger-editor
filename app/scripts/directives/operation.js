@@ -1,6 +1,6 @@
 'use strict';
 
-PhonicsApp.directive('operation', function (defaults) {
+SwaggerEditor.directive('operation', function (defaults) {
   return {
     restrict: 'E',
     replace: true,

@@ -1,6 +1,6 @@
 'use strict';
 
-PhonicsApp.controller('OpenExamplesCtrl', function OpenExamplesCtrl($scope,
+SwaggerEditor.controller('OpenExamplesCtrl', function OpenExamplesCtrl($scope,
   $modalInstance, $rootScope, FileLoader, Builder, Storage, ASTManager,
   defaults) {
 

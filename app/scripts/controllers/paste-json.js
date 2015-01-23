@@ -1,6 +1,6 @@
 'use strict';
 
-PhonicsApp.controller('PasteJSONCtrl', function PasteJSONCtrl($scope,
+SwaggerEditor.controller('PasteJSONCtrl', function PasteJSONCtrl($scope,
   $modalInstance, $rootScope, Storage, ASTManager) {
 
   $scope.$watch('json', function (json) {

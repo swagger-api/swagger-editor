@@ -3,7 +3,7 @@
 /*
  * Manages Authentications
 */
-PhonicsApp.service('AuthManager', function AuthManager($sessionStorage) {
+SwaggerEditor.service('AuthManager', function AuthManager($sessionStorage) {
   $sessionStorage.$default({securities: {}});
   var securities = $sessionStorage.securities;
 

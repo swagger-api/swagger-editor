@@ -1,6 +1,6 @@
 'use strict';
 
-PhonicsApp.directive('onReadFile', ['$parse', function ($parse) {
+SwaggerEditor.directive('onReadFile', ['$parse', function ($parse) {
   return {
     restrict: 'A',
     scope: false,
