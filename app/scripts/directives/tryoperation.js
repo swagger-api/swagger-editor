@@ -186,7 +186,7 @@ PhonicsApp.controller('TryOperation', function ($scope, formdataFilter,
         authHeader = {Authorization: 'Basic ' + auth.options.base64};
       } else if (auth.type === 'apiKey' && auth.security.in === 'header') {
         authHeader = {};
-        authHeader[auth.security.name] = auth.security.apiKey;
+        authHeader[auth.security.name] = auth.options.apiKey;
       } else if (auth.type === 'oAuth2') {
         authHeader = {Authorization: 'Bearer ' + auth.options.accessToken};
       }
