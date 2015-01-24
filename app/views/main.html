@@ -1,5 +1,5 @@
 <header ui-view="header"></header>
-<main>
+<main ng-class="{'preview-mode': docsOnly}">
   <div ui-layout="{ flow : 'column', dividerSize: '8px'}">
     <div class="editor pane" ui-layout-container>
       <div ui-view="editor"></div>
