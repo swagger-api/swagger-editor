@@ -13,6 +13,14 @@
     <link href='http://fonts.googleapis.com/css?family=Source+Code+Pro:300,400,500,600' rel='stylesheet' type='text/css'>
     <link href='http://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700' rel='stylesheet' type='text/css'>
 
+    <!--
+      Template for loading a swagger document in docs mode.
+
+      If this template is empty or invalid Swagger Document, docs will fetch docs from local storage
+      `swagger` should be the string of Swagger document. In YAML or JSON
+     -->
+    <script type="text/x-handlebars-template" id="embedded-swagger">{{swagger}}</script>
+
   </head>
   <body class="docs-only" ng-init="docsOnly = true">
     <div class="total-wrapper" ui-view></div>
@@ -97,6 +105,7 @@
     <script src="scripts/services/keyword-map.js"></script>
     <script src="scripts/services/preferences.js"></script>
     <script src="scripts/services/auth-manager.js"></script>
+    <script src="scripts/services/embedded.js"></script>
     <script src="scripts/router.js"></script>
     <script src="scripts/plugins/jquery.scroll-into-view.js"></script>
     <!-- endbuild -->

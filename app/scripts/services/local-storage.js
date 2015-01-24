@@ -1,6 +1,7 @@
 'use strict';
 
-SwaggerEditor.service('LocalStorage', function LocalStorage($localStorage, $q) {
+SwaggerEditor.service('LocalStorage', function LocalStorage($localStorage, $q,
+  $rootScope, Embedded) {
   var storageKey = 'SwaggerEditorCache';
   var changeListeners =  {};
   var that = this;
@@ -33,7 +34,12 @@ SwaggerEditor.service('LocalStorage', function LocalStorage($localStorage, $q) {
 
   this.load = function (key) {
     var deferred = $q.defer();
-    if (!key) {
+
+    // if we are in docs only mode and load is called for `yaml` use Embedded
+    // service to get embedded document
+    if ($rootScope.docsOnly && key === 'yaml' && Embedded.get()) {
+      deferred.resolve(Embedded.get());
+    } else if (!key) {
       deferred.resolve($localStorage[storageKey]);
     } else {
       deferred.resolve($localStorage[storageKey][key]);
