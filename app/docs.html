@@ -1,7 +1,7 @@
 <!-- Docs Only -->
 <!doctype html>
   <head>
-    <title>{{title}}</title>
+    <title>___TITLE___</title>
 
     <meta charset="utf-8">
     <meta name="description" content="Swagger Editor">
@@ -15,19 +15,10 @@
     <link href='http://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700' rel='stylesheet' type='text/css'>
 
     <!--
-      Template for loading a swagger document in docs mode.
-
-      If this template is empty or invalid Swagger Document, docs will fetch docs from local storage
-      `swagger` should be the string of Swagger document. In YAML or JSON
-    -->
-    <script type="text/x-handlebars-template" id="embedded-swagger">{{swagger}}</script>
-
-
-    <!--
       Defaults for bootstrapping the app are embedded too
       Because of...
     -->
-    <script data-inlined="true" src="config/defaults.json" type="application/json" id="embedded-defaults"></script>
+    <script id="embedded-defaults">var $$embeddedDefaults = ___DEFAULTS___</script>
 
   </head>
   <body class="docs-only" ng-init="mode = 'docs-only'">
@@ -83,6 +74,7 @@
     <script data-inlined="true" src="scripts/controllers/openexamples.js"></script>
     <script data-inlined="true" src="scripts/controllers/modal.js"></script>
     <script data-inlined="true" src="scripts/controllers/security.js"></script>
+    <script data-inlined="true" src="scripts/controllers/download-docs.js"></script>
     <script data-inlined="true" src="scripts/directives/on-file-change.js"></script>
     <script data-inlined="true" src="scripts/directives/path.js"></script>
     <script data-inlined="true" src="scripts/directives/operation.js"></script>
@@ -113,5 +105,12 @@
     <script data-inlined="true" src="scripts/services/embedded.js"></script>
     <script data-inlined="true" src="scripts/router.js"></script>
     <script data-inlined="true" src="scripts/plugins/jquery.scroll-into-view.js"></script>
-</body>
+    <!--
+      Template for loading a swagger document in docs mode.
+
+      If this template is empty or invalid Swagger Document, docs will fetch docs from local storage
+      `swagger` should be the string of Swagger document. In YAML or JSON
+    -->
+    <script type="text/x-handlebars-template" id="embedded-swagger">___YAML___</script>
+  </body>
 </html>

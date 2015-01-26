@@ -17,6 +17,7 @@ SwaggerEditor.service('Codegen', function Codegen($http, defaults, Storage) {
   };
 
   this.getServer = function (language) {
+
     var url = _.template(defaults.codegen.server)({
       language: language
     });
@@ -29,6 +30,7 @@ SwaggerEditor.service('Codegen', function Codegen($http, defaults, Storage) {
   };
 
   this.getClient = function (language) {
+
     var url = _.template(defaults.codegen.client)({
       language: language
     });
