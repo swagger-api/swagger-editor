@@ -37,7 +37,7 @@ SwaggerEditor.service('LocalStorage', function LocalStorage($localStorage, $q,
 
     // if we are in docs only mode and load is called for `yaml` use Embedded
     // service to get embedded document
-    if ($rootScope.docsOnly && key === 'yaml' && Embedded.get()) {
+    if ($rootScope.mode === 'docs-only' && key === 'yaml' && Embedded.get()) {
       deferred.resolve(Embedded.get());
     } else if (!key) {
       deferred.resolve($localStorage[storageKey]);

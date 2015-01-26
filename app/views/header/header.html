@@ -74,7 +74,7 @@
           <a role="menuitem" tabindex="-1" stop-event id="design-mode" ng-click="designModeTodoAlert()">Designer</a>
         </li>
         <li role="presentation">
-          <a ui-sref="{mode: ''}" role="menuitem" tabindex="-1" id="preview-mode">Preview</a>
+          <a ui-sref="{mode: 'preview'}" role="menuitem" tabindex="-1" id="preview-mode">Preview</a>
         </li>
         <li role="presentation" class="divider" ng-if="showEditorMenuOptions()"></li>
         <li role="presentation" ng-if="showEditorMenuOptions()">
@@ -132,7 +132,7 @@
   </section>
 
   <section class="status-bar">
-    <div ng-if="!isPreviewMode" class="status {{statusClass}}"  ng-if="status">
+    <div ng-if="mode === 'preview'" class="status {{statusClass}}"  ng-if="status">
       <span class="icon"></span>
       <span>{{status}}</span>
     </div>

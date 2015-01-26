@@ -10,10 +10,10 @@ SwaggerEditor.config(function Router($compileProvider, $stateProvider,
     views: {
       '': {
         templateUrl: function ($statePrams) {
-          if ($statePrams.mode === 'edit') {
-            return 'views/main.html';
-          } else {
+          if ($statePrams.mode === 'preview') {
             return 'views/main-preview.html';
+          } else {
+            return 'views/main.html';
           }
         },
         controller: 'MainCtrl'

@@ -5,7 +5,7 @@ SwaggerEditor.controller('MainCtrl', function MainCtrl($rootScope, $stateParams,
   $rootScope.$on('$stateChangeStart', Editor.initializeEditor);
   BackendHealthCheck.startChecking();
   $rootScope.$on('$stateChangeStart', loadYaml);
-  $rootScope.isPreviewMode = $stateParams.mode !== 'edit';
+  $rootScope.mode = $stateParams.mode;
 
   // TODO: find a better way to add the branding class (grunt html template)
   $('body').addClass(defaults.brandingCssClass);

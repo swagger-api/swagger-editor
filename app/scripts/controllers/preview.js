@@ -18,7 +18,7 @@ SwaggerEditor.controller('PreviewCtrl', function PreviewCtrl(Storage, Builder,
     ASTManager.refresh(latest);
 
     // If backend is not healthy don't update
-    if (!BackendHealthCheck.isHealthy() && !$rootScope.isPreviewMode) {
+    if (!BackendHealthCheck.isHealthy() && $rootScope.mode !== 'edit') {
       return;
     }
 
@@ -50,7 +50,7 @@ SwaggerEditor.controller('PreviewCtrl', function PreviewCtrl(Storage, Builder,
     $scope.errors = null;
     Storage.save('progress',  2); // All changes saved
 
-    if (!$rootScope.isPreviewMode) {
+    if ($rootScope.mode === 'edit') {
       Editor.clearAnnotation();
     }
   }
@@ -60,7 +60,7 @@ SwaggerEditor.controller('PreviewCtrl', function PreviewCtrl(Storage, Builder,
   */
   function onBuildFailure(result) {
     onBuild(result);
-    if (result.errors.yamlError && !$rootScope.isPreviewMode) {
+    if (result.errors.yamlError && $rootScope.mode === 'edit') {
       Editor.annotateYAMLErrors(result.errors.yamlError);
     }
     Storage.save('progress', -1); // Error
@@ -76,7 +76,7 @@ SwaggerEditor.controller('PreviewCtrl', function PreviewCtrl(Storage, Builder,
   };
 
   // If app is in preview mode, load the yaml from storage
-  if ($rootScope.isPreviewMode) {
+  if ($rootScope.mode === 'preview') {
     $scope.loadLatest();
   }
 
@@ -115,13 +115,16 @@ SwaggerEditor.controller('PreviewCtrl', function PreviewCtrl(Storage, Builder,
   */
   $scope.focusEdit = function ($event, path, offset) {
 
-    // No focus in preview mode!
-    if ($rootScope.isPreviewMode) {
+    $event.stopPropagation();
+
+    // No focus in non-edit mode!
+    if ($rootScope.mode !== 'edit') {
       return;
     }
+
     var line = ASTManager.lineForPath(path);
+
     offset = offset || 0;
-    $event.stopPropagation();
     Editor.gotoLine(line - offset);
     Editor.focus();
   };
