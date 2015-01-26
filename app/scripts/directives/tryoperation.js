@@ -117,7 +117,7 @@ SwaggerEditor.controller('TryOperation', function ($scope, formdataFilter,
       _.extend(queryParams, authQueryParam);
     }
 
-    var queryParamsStr = $.param(queryParams);
+    var queryParamsStr = window.decodeURIComponent($.param(queryParams));
     var pathStr = '';
 
     pathStr = $scope.path.pathName.replace(/{([^{}]+)}/g, function (match) {
