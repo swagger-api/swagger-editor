@@ -101,6 +101,11 @@ SwaggerEditor.controller('TryOperation', function ($scope, formdataFilter,
     var pathParams = $scope.parameters.reduce(filterParamsFor('path'), {});
     var queryParams = $scope.parameters.reduce(filterParamsFor('query'), {});
 
+    // if basePath is just a single slash (`/`), ignore it
+    if (basePath === '/') {
+      basePath = '';
+    }
+
     // If Auth that extend the parameters with `Authentication parameter
     var auth = AuthManager.getAuth($scope.selectedSecurity);
     if (auth) {
