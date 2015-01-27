@@ -5,10 +5,13 @@ SwaggerEditor.controller('MainCtrl', function MainCtrl($rootScope, $stateParams,
   $rootScope.$on('$stateChangeStart', Editor.initializeEditor);
   BackendHealthCheck.startChecking();
   $rootScope.$on('$stateChangeStart', loadYaml);
-  if (!$stateParams.mode) {
-    $rootScope.mode = 'edit';
-  } else {
-    $rootScope.mode = $stateParams.mode;
+
+  if ($rootScope.mode !== 'docs-only') {
+    if (!$stateParams.mode) {
+      $rootScope.mode = 'edit';
+    } else {
+      $rootScope.mode = $stateParams.mode;
+    }
   }
 
   // TODO: find a better way to add the branding class (grunt html template)
