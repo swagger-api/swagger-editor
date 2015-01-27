@@ -2,10 +2,9 @@
 swagger: '2.0'
 info:
   version: 1.0.0
-  title: ''
+  title: Echo
   description: |
-    # Echo
-    ### Echos back every URL, method, parameter and header
+    #### Echos back every URL, method, parameter and header
     Feel free to make a path or an operation and use **Try Operation** to test it. The echo server will
     render back everything.
 schemes:

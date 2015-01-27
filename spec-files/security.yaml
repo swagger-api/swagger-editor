@@ -21,8 +21,45 @@ produces:
   - application/xml
 security:
   - githubAccessCode:
-      - user
-      - gist
+    - user
+    - user:email
+    - user:follow
+    - public_repo
+    - repo
+    - repo_deployment
+    - repo:status
+    - delete_repo
+    - notifications
+    - gist
+    - read:repo_hook
+    - write:repo_hook
+    - admin:repo_hook
+    - read:org
+    - write:org
+    - admin:org
+    - read:public_key
+    - write:public_key
+    - admin:public_key
+  - petstoreImplicit:
+    - user
+    - user:email
+    - user:follow
+    - public_repo
+    - repo
+    - repo_deployment
+    - repo:status
+    - delete_repo
+    - notifications
+    - gist
+    - read:repo_hook
+    - write:repo_hook
+    - admin:repo_hook
+    - read:org
+    - write:org
+    - admin:org
+    - read:public_key
+    - write:public_key
+    - admin:public_key
   - internalApiKey: []
 paths:
   /pets/{id}:
