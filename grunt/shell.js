@@ -1,3 +1,5 @@
+'use strict';
+
 module.exports = {
   'publish-npm': {
     command: 'sh scripts/publish-npm.sh'

@@ -1,3 +1,5 @@
+'use strict';
+
 module.exports = {
   options: {
     browsers: ['last 1 version']

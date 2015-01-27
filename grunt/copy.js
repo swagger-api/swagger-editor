@@ -1,5 +1,7 @@
+'use strict';
+
 module.exports = {
- dist: {
+  dist: {
     files: [{
       expand: true,
       dot: true,
@@ -10,8 +12,6 @@ module.exports = {
         '.htaccess',
         '*.html',
         'config/defaults.json',
-        'views/{,*/}*.html',
-        'templates/{,*/}*.html',
         'images/{,*/}*.{webp}',
         'fonts/*',
         'schema/*',

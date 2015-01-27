@@ -1,3 +1,5 @@
+'use strict';
+
 module.exports = {
   html: 'app/index.html',
   options: {
@@ -5,8 +7,8 @@ module.exports = {
     flow: {
       html: {
         steps: {
-         js: ['concat', 'uglifyjs'],
-         css: ['cssmin']
+          js: ['concat', 'uglifyjs'],
+          css: ['cssmin']
         },
         post: {}
       }

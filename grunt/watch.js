@@ -1,17 +1,23 @@
+'use strict';
+
 module.exports = {
   bower: {
     files: ['bower.json'],
     tasks: ['bowerInstall']
   },
   js: {
-    files: ['app/scripts/{,*/}*.js', 'app/libs/{,*/}*.js'],
+    files: ['app/scripts/{,*/}*.js', 'app/libs/{,*/}*.js', 'grunt/*.js'],
     tasks: ['jshint:all', 'jscs'],
     options: {
       livereload: true
     }
   },
   html: {
-    files: ['app/**/*.html']
+    files: ['app/**/*.html'],
+    tasks: ['ngtemplates'],
+    options: {
+      livereload: true
+    }
   },
   jsTest: {
     files: ['test/spec/{,*/}*.js'],

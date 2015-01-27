@@ -5,7 +5,7 @@ SwaggerEditor.controller('MainCtrl', function MainCtrl($rootScope, $stateParams,
   $rootScope.$on('$stateChangeStart', Editor.initializeEditor);
   BackendHealthCheck.startChecking();
   $rootScope.$on('$stateChangeStart', loadYaml);
-  $rootScope.mode = $stateParams.mode;
+  $rootScope.mode = $stateParams.mode ? $stateParams.mode : $rootScope.mode;
 
   // TODO: find a better way to add the branding class (grunt html template)
   $('body').addClass(defaults.brandingCssClass);
@@ -24,7 +24,7 @@ SwaggerEditor.controller('MainCtrl', function MainCtrl($rootScope, $stateParams,
         $location.search('import', null);
 
       // If there is no saved YAML either, load the default example
-      } else if (!yaml) {
+      } else if (!yaml || $rootScope.mode !== 'docs-only') {
         url = defaults.examplesFolder + defaults.exampleFiles[0];
       }
 

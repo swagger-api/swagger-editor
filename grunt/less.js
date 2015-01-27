@@ -1,3 +1,5 @@
+'use strict';
+
 module.exports = {
   options: {
     paths: 'app/styles'

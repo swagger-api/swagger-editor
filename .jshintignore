@@ -1,3 +1,4 @@
 app/scripts/analytics/google.js
 app/scripts/plugins/*
 app/scripts/ace/themes/theme-atom_dark.js
+app/scripts/templates.js

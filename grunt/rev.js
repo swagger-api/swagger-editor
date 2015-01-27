@@ -1,3 +1,5 @@
+'use strict';
+
 module.exports = {
   dist: {
     files: {
@@ -10,4 +12,4 @@ module.exports = {
       ]
     }
   }
-}
+};

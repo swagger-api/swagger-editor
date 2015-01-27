@@ -1,3 +1,5 @@
+'use strict';
+
 module.exports = {
   options: {
     jshintrc: '.jshintrc',
@@ -5,7 +7,8 @@ module.exports = {
   },
   all: [
     'Gruntfile.js',
-    'app/scripts/{,*/}*.js'
+    'app/scripts/{,*/}*.js',
+    'grunt/*.js'
   ],
   test: {
     options: {

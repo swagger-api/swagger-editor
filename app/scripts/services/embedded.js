@@ -28,7 +28,6 @@ SwaggerEditor.service('Embedded', function Embedded(defaults) {
   */
   this.get = function () {
 
-
     // if embedded swagger is not provided and the template was not parsed
     // return null for it so we can fall back to swagger document in the local
     // storage
