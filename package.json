@@ -25,7 +25,7 @@
     "grunt-gh-pages": "~0.9.1",
     "grunt-google-cdn": "~0.2.0",
     "grunt-http-server": "0.0.5",
-    "grunt-inline": "^0.3.4",
+    "grunt-inline": "mohsen1/grunt-inline",
     "grunt-jscs": "^0.8.1",
     "grunt-karma": "~0.8.3",
     "grunt-newer": "~0.6.1",
