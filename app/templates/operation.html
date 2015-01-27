@@ -1,17 +1,18 @@
 <li class='{{operation.operationName | lowercase}} operation' scroll-into-view-when="isInFocus(['paths', path.pathName, operation.operationName])">
   <header ng-click="toggle(['paths', path.pathName, operation.operationName])">
-    <a class="focus-editor" ng-click="focusEdit($event, ['paths', path.pathName, operation.operationName])" ng-if="mode === 'preview'"
-      tooltip-placement="left" tooltip="Jump to YAML"></a>
-    <div class='http-method' class="toggleOperation">{{operation.operationName | uppercase}}</div>
-    <div class="summary">
-        {{operation.summary || operation.description | limitTo: 140 }}
-    </div>
+    <a class="focus-editor" ng-click="focusEdit($event, ['paths', path.pathName, operation.operationName])"
+      ng-if="mode === 'preview'" tooltip-placement="left" tooltip="Jump to YAML"></a>
+    <div class='http-method' class="toggleOperation">{{operation.operationName | uppercase}} {{path.pathName}}</div>
   </header>
 
   <div class='content' collapse-when="isCollapsed(['paths', path.pathName, operation.operationName])">
     <div class="tags">
       <span class="tag tag-color-{{tagIndexFor(tag)}}" ng-repeat="tag in operation.tags">{{tag}}</span>
     </div>
+    <section class="summary" ng-if="operation.summary">
+      <h4>Summary</h4>
+      <p>{{operation.summary}}</p>
+    </section>
     <section class="description" ng-if="operation.description">
       <h4>Description</h4>
       <div marked="operation.description"></div>

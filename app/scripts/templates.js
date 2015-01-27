@@ -219,16 +219,17 @@ angular.module('SwaggerEditor').run(['$templateCache', function($templateCache) 
     "<li class=\"{{operation.operationName | lowercase}} operation\" scroll-into-view-when=\"isInFocus(['paths', path.pathName, operation.operationName])\">\n" +
     "  <header ng-click=\"toggle(['paths', path.pathName, operation.operationName])\">\n" +
     "    <a class=\"focus-editor\" ng-click=\"focusEdit($event, ['paths', path.pathName, operation.operationName])\" ng-if=\"mode === 'preview'\" tooltip-placement=\"left\" tooltip=\"Jump to YAML\"></a>\n" +
-    "    <div class=\"http-method\" class=\"toggleOperation\">{{operation.operationName | uppercase}}</div>\n" +
-    "    <div class=\"summary\">\n" +
-    "        {{operation.summary || operation.description | limitTo: 140 }}\n" +
-    "    </div>\n" +
+    "    <div class=\"http-method\" class=\"toggleOperation\">{{operation.operationName | uppercase}} {{path.pathName}}</div>\n" +
     "  </header>\n" +
     "\n" +
     "  <div class=\"content\" collapse-when=\"isCollapsed(['paths', path.pathName, operation.operationName])\">\n" +
     "    <div class=\"tags\">\n" +
     "      <span class=\"tag tag-color-{{tagIndexFor(tag)}}\" ng-repeat=\"tag in operation.tags\">{{tag}}</span>\n" +
     "    </div>\n" +
+    "    <section class=\"summary\" ng-if=\"operation.summary\">\n" +
+    "      <h4>Summary</h4>\n" +
+    "      <p>{{operation.summary}}</p>\n" +
+    "    </section>\n" +
     "    <section class=\"description\" ng-if=\"operation.description\">\n" +
     "      <h4>Description</h4>\n" +
     "      <div marked=\"operation.description\"></div>\n" +
