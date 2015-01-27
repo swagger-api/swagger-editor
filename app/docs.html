@@ -7,6 +7,29 @@
     <meta name="description" content="Swagger Editor">
     <meta name="viewport" content="width=device-width">
 
+    <!--
+      <script>
+        // For debugging docs-only mode uncomment these two elements (link and script) and navigate to /docs.html
+      </script>
+      <link data-inlined="true" rel="stylesheet" href="../.tmp/styles/main.css">
+      <script>window['___' + 'DEFAULTS' + '___'] = {
+        disableCodeGen: true,
+        examplesFolder: '/spec-files/',
+        exampleFiles: [],
+        autocompleteExtension: {},
+        useBackendForStorage: false,
+        backendEndpoint: '/editor/spec',
+        backendHelathCheckTimeout: 5000,
+        useYamlBackend: false,
+        disableFileMenu: false,
+        headerBranding: false,
+        enableTryIt: true,
+        brandingCssClass: '',
+        schemaUrl: '/schema/swagger.json',
+        importProxyUrl: 'https://cors-it.herokuapp.com/?url='
+      }</script>
+    -->
+
     <link data-inlined="true" rel="stylesheet" href="../.tmp/styles/main.css">
     <link rel="stylesheet" href="styles/branding.css">
 
@@ -19,6 +42,14 @@
       Because of...
     -->
     <script id="embedded-defaults">var $$embeddedDefaults = ___DEFAULTS___</script>
+
+    <!--
+      Template for loading a swagger document in docs mode.
+
+      If this template is empty or invalid Swagger Document, docs will fetch docs from local storage
+      `YAML` should be the string of Swagger document. In YAML or JSON
+    -->
+    <script type="text/x-json-yaml" id="embedded-swagger">___YAML___</script>
 
   </head>
   <body class="docs-only" ng-init="mode = 'docs-only'">
@@ -106,12 +137,5 @@
     <script data-inlined="true" src="scripts/services/embedded.js"></script>
     <script data-inlined="true" src="scripts/router.js"></script>
     <script data-inlined="true" src="scripts/plugins/jquery.scroll-into-view.js"></script>
-    <!--
-      Template for loading a swagger document in docs mode.
-
-      If this template is empty or invalid Swagger Document, docs will fetch docs from local storage
-      `swagger` should be the string of Swagger document. In YAML or JSON
-    -->
-    <script type="text/x-handlebars-template" id="embedded-swagger">___YAML___</script>
   </body>
 </html>
