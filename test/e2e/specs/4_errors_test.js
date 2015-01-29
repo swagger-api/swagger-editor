@@ -28,7 +28,7 @@ describe('Error Presenter', function () {
 
   it('should show Swagger Syntax Erorr with invalid swagger', function () {
     var val = [
-      'swagger: 2.0',
+      'swagger: 2.0.0',
       'info:',
       '  version: "1.0.0"',
       '  title: Petstore',
