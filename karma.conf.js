@@ -23,7 +23,7 @@ module.exports = function(config) {
       'app/bower_components/yaml-js/yaml.js',
       'app/bower_components/js-yaml/dist/js-yaml.js',
       'app/bower_components/jquery/dist/jquery.js',
-      'app/bower_components/lodash/dist/lodash.js',
+      'app/bower_components/lodash/lodash.js',
       'app/bower_components/es5-shim/es5-shim.js',
       'app/bower_components/angular/angular.js',
       'app/bower_components/json3/lib/json3.js',
