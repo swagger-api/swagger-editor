@@ -15,7 +15,6 @@ module.exports = function (grunt) {
       'less:server',
       'autoprefixer',
       'connect:livereload',
-      'inline',
       'watch'
     ]);
   });
