@@ -5,6 +5,11 @@
     "server": "http://generator.wordnik.com/online/api/gen/servers/{language}",
     "client": "http://generator.wordnik.com/online/api/gen/clients/{language}"
   },
+  "analytics": {
+    "google": {
+      "id": "UA-51231036-2"
+    }
+  },
   "disableCodeGen": true,
   "examplesFolder": "/spec-files/",
   "exampleFiles": [
@@ -20,7 +25,7 @@
   "autocompleteExtension": {},
   "useBackendForStorage": false,
   "backendEndpoint": "/editor/spec",
-  "backendHelathCheckTimeout": 5000,
+  "backendHealthCheckTimeout": 5000,
   "useYamlBackend": false,
   "disableFileMenu": false,
   "headerBranding": false,
