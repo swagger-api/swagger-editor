@@ -1,7 +1,12 @@
 'use strict';
 
 SwaggerEditor.controller('MainCtrl', function MainCtrl($rootScope, $stateParams,
-  $location, Editor, Storage, FileLoader, BackendHealthCheck, defaults) {
+  $location, Editor, Storage, FileLoader, BackendHealthCheck, defaults,
+  Analytics) {
+
+  Analytics.initialize();
+  Analytics.sendEvent('pageview');
+
   $rootScope.$on('$stateChangeStart', Editor.initializeEditor);
   BackendHealthCheck.startChecking();
   $rootScope.$on('$stateChangeStart', loadYaml);

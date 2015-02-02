@@ -9,6 +9,19 @@
 
 var defaults = {
   /*
+   * Analytics section is used for user tracking configurations. At the moment
+   * only Google Analytics is supported.
+  */
+  analytics: {
+    google: {
+      /*
+       * Put your Google Analytics ID here
+      */
+      id: 'YOUR_GOOGLE_ANALYTICS_ID'
+    }
+  },
+
+  /*
    * Code generator endpoints s are used for generating servers and client
    * Swagger Editor will GET list of server and client generators and POST to
    * each `server` and `client` with Swagger document in body to download the

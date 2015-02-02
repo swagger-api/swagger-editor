@@ -41,6 +41,23 @@ useYamlBackend
         ``Storage.save()`` is only ever called with yaml so this probably does
         nothing if set to ``false``
 
+Analytics
+---------
+`analytics` section in JSON configuration is used for user tracking configurations. At the moment only Google Analytics is supported.
+
+Example:
+
+```json
+analytics: {
+    google: {
+    /*
+     * Put your Google Analytics ID here
+    */
+    id: 'YOUR_GOOGLE_ANALYTICS_ID'
+  }
+}
+```
+
 Code Generation
 ---------------
 
