@@ -8,7 +8,7 @@ Valid Swagger JSON descriptions can then be generated and used with the full Swa
 
 To understand how it works, you should [try the live demo](http://editor.swagger.io/#/edit)!
 
-![Screenshot of the Swagger Editor](app/images/screenshot.png "Designing an API with the Swagger Editor")
+![Screenshot of the Swagger Editor](docs/screenshot.png "Designing an API with the Swagger Editor")
 
 ### YAML Syntax
 YAML became a first-class citizen as part of the Swagger 2.0 working group process, however it has not yet been documented in the [Swagger Spec](https://github.com/swagger-api/swagger-spec/blob/master/versions/2.0.md). The editor opens with an example YAML file. For some other examples see '[Creating Swagger JSON from YAML files](https://github.com/swagger-api/swagger-codegen/wiki/Creating-Swagger-JSON-from-YAML-files)'
