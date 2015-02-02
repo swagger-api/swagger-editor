@@ -316,7 +316,7 @@ angular.module('SwaggerEditor').run(['$templateCache', function($templateCache) 
     "    </section>\n" +
     "\n" +
     "    <section class=\"try-operation\" ng-if=\"enableTryIt\">\n" +
-    "      <button class=\"border-only try-it\" ng-class=\"{trying: isTryOpen}\" ng-click=\"toggleTry()\" ng-if=\"!isTryOpen\">Try this operation</button>\n" +
+    "      <button class=\"border-only try-it\" ng-class=\"{trying: isTryOpen}\" ng-click=\"toggleTry()\" ng-if=\"!isTryOpen\" track-event=\"try-operation\">Try this operation</button>\n" +
     "      <button class=\"border-only red close-try\" ng-class=\"{'is-open': isTryOpen}\" ng-click=\"toggleTry()\" ng-if=\"isTryOpen\">Close</button>\n" +
     "      <div ng-include=\"'templates/try-operation.html'\" ng-if=\"isTryOpen\"></div>\n" +
     "    </section>\n" +
@@ -639,33 +639,33 @@ angular.module('SwaggerEditor').run(['$templateCache', function($templateCache) 
     "      </button>\n" +
     "      <ul class=\"dropdown-menu\" ng-if=\"showFileMenu()\" role=\"menu\" aria-labelledby=\"fileMenu\">\n" +
     "        <li role=\"presentation\">\n" +
-    "          <a ng-click=\"newProject()\" role=\"menuitem\" tabindex=\"-1\" track-event=\"project new\">New</a>\n" +
+    "          <a ng-click=\"newProject()\" role=\"menuitem\" tabindex=\"-1\" track-event=\"file new\">New</a>\n" +
     "        </li>\n" +
     "        <li role=\"presentation\">\n" +
-    "          <a ng-click=\"newProject(true)\" role=\"menuitem\" tabindex=\"-1\">Blank Project</a>\n" +
+    "          <a ng-click=\"newProject(true)\" role=\"menuitem\" tabindex=\"-1\" track-event=\"file blank\">Blank Project</a>\n" +
     "        </li>\n" +
     "        <li role=\"presentation\">\n" +
-    "          <a ng-click=\"openExamples()\" role=\"menuitem\" tabindex=\"-1\">Open Example&hellip;</a>\n" +
-    "        </li>\n" +
-    "        <li role=\"presentation\" class=\"divider\"></li>\n" +
-    "        <li role=\"presentation\">\n" +
-    "          <a ng-click=\"openPasteJSON()\" role=\"menuitem\" tabindex=\"-1\">Paste JSON&hellip;</a>\n" +
-    "        </li>\n" +
-    "        <li role=\"presentation\">\n" +
-    "          <a ng-click=\"openImportUrl()\" role=\"menuitem\" tabindex=\"-1\">Import URL&hellip;</a>\n" +
-    "        </li>\n" +
-    "        <li role=\"presentation\">\n" +
-    "          <a ng-click=\"openImportFile()\" role=\"menuitem\" tabindex=\"-1\">Import File&hellip;</a>\n" +
+    "          <a ng-click=\"openExamples()\" role=\"menuitem\" tabindex=\"-1\" track-event=\"file open-example\">Open Example&hellip;</a>\n" +
     "        </li>\n" +
     "        <li role=\"presentation\" class=\"divider\"></li>\n" +
     "        <li role=\"presentation\">\n" +
-    "          <a download=\"swagger.yaml\" data-downloadurl=\"{{yamlDownloadUrl}}\" href=\"{{yamlDownloadHref}}\" role=\"menuitem\" tabindex=\"-1\">Download YAML</a>\n" +
+    "          <a ng-click=\"openPasteJSON()\" role=\"menuitem\" tabindex=\"-1\" track-event=\"file paste-json\">Paste JSON&hellip;</a>\n" +
     "        </li>\n" +
     "        <li role=\"presentation\">\n" +
-    "          <a download=\"swagger.json\" downloadurl=\"{{jsonDownloadUrl}}\" href=\"{{jsonDownloadHref}}\" role=\"menuitem\" tabindex=\"-1\">Download JSON</a>\n" +
+    "          <a ng-click=\"openImportUrl()\" role=\"menuitem\" tabindex=\"-1\" track-event=\"file import url\">Import URL&hellip;</a>\n" +
     "        </li>\n" +
     "        <li role=\"presentation\">\n" +
-    "          <a role=\"menuitem\" tabindex=\"-1\" ng-click=\"openDownloadDocs()\">Download HTML Docs</a>\n" +
+    "          <a ng-click=\"openImportFile()\" role=\"menuitem\" tabindex=\"-1\" track-event=\"file import file\">Import File&hellip;</a>\n" +
+    "        </li>\n" +
+    "        <li role=\"presentation\" class=\"divider\"></li>\n" +
+    "        <li role=\"presentation\">\n" +
+    "          <a download=\"swagger.yaml\" data-downloadurl=\"{{yamlDownloadUrl}}\" href=\"{{yamlDownloadHref}}\" role=\"menuitem\" tabindex=\"-1\" track-event=\"file download yaml\">Download YAML</a>\n" +
+    "        </li>\n" +
+    "        <li role=\"presentation\">\n" +
+    "          <a download=\"swagger.json\" downloadurl=\"{{jsonDownloadUrl}}\" href=\"{{jsonDownloadHref}}\" role=\"menuitem\" tabindex=\"-1\" track-event=\"file download json\">Download JSON</a>\n" +
+    "        </li>\n" +
+    "        <li role=\"presentation\">\n" +
+    "          <a role=\"menuitem\" tabindex=\"-1\" ng-click=\"openDownloadDocs()\" track-event=\"file download html\">Download HTML Docs</a>\n" +
     "        </li>\n" +
     "      </ul>\n" +
     "    </div>\n" +
@@ -679,14 +679,14 @@ angular.module('SwaggerEditor').run(['$templateCache', function($templateCache) 
     "        <li role=\"presentation\">\n" +
     "          <a class=\"font-size\">\n" +
     "            Font Size\n" +
-    "            <span ng-click=\"adjustFontSize(1)\" stop-event class=\"adjust\">+</span><span ng-click=\"adjustFontSize(-1)\" stop-event class=\"adjust\">–</span>\n" +
+    "            <span ng-click=\"adjustFontSize(1)\" stop-event class=\"adjust\" track-event=\"preferences font+\">+</span><span ng-click=\"adjustFontSize(-1)\" stop-event class=\"adjust\" track-event=\"preferences font-\">–</span>\n" +
     "          </a>\n" +
     "        </li>\n" +
     "        <li role=\"presentation\">\n" +
-    "          <a ng-click=\"openEditorPreferences()\" role=\"menuitem\" tabindex=\"-1\">Settings</a>\n" +
+    "          <a ng-click=\"openEditorPreferences()\" role=\"menuitem\" tabindex=\"-1\" track-event=\"preferences settings\">Settings</a>\n" +
     "        </li>\n" +
     "        <li role=\"presentation\">\n" +
-    "          <a ng-click=\"resetSettings()\" role=\"menuitem\" tabindex=\"-1\">Reset Settings</a>\n" +
+    "          <a ng-click=\"resetSettings()\" role=\"menuitem\" tabindex=\"-1\" track-event=\"preferences reset-settings\">Reset Settings</a>\n" +
     "        </li>\n" +
     "      </ul>\n" +
     "    </div>\n" +
@@ -698,17 +698,17 @@ angular.module('SwaggerEditor').run(['$templateCache', function($templateCache) 
     "      </button>\n" +
     "      <ul class=\"dropdown-menu\" role=\"menu\" aria-labelledby=\"switch-mode\">\n" +
     "        <li role=\"presentation\">\n" +
-    "          <a ui-sref=\"{mode: 'edit'}\" role=\"menuitem\" tabindex=\"-1\" id=\"edit-mode\">Editor</a>\n" +
+    "          <a ui-sref=\"{mode: 'edit'}\" role=\"menuitem\" tabindex=\"-1\" id=\"edit-mode\" track-event=\"mode edit\">Editor</a>\n" +
     "        </li>\n" +
     "        <li role=\"presentation\">\n" +
-    "          <a role=\"menuitem\" tabindex=\"-1\" stop-event id=\"design-mode\" ng-click=\"designModeTodoAlert()\">Designer</a>\n" +
+    "          <a role=\"menuitem\" tabindex=\"-1\" stop-event id=\"design-mode\" ng-click=\"designModeTodoAlert()\" track-event=\"mode designer\">Designer</a>\n" +
     "        </li>\n" +
     "        <li role=\"presentation\">\n" +
-    "          <a ui-sref=\"{mode: 'preview'}\" role=\"menuitem\" tabindex=\"-1\" id=\"preview-mode\">Preview</a>\n" +
+    "          <a ui-sref=\"{mode: 'preview'}\" role=\"menuitem\" tabindex=\"-1\" id=\"preview-mode\" track-event=\"mode preview\">Preview</a>\n" +
     "        </li>\n" +
     "        <li role=\"presentation\" class=\"divider\" ng-if=\"showEditorMenuOptions()\"></li>\n" +
     "        <li role=\"presentation\" ng-if=\"showEditorMenuOptions()\">\n" +
-    "          <a role=\"menuitem\" tabindex=\"-1\" ng-click=\"toggleLiveRender()\">{{isLiveRenderEnabled() ? 'Disable' : 'Enable'}} Live Render</a>\n" +
+    "          <a role=\"menuitem\" tabindex=\"-1\" ng-click=\"toggleLiveRender()\" track-event=\"mode toggle-live-render {{isLiveRenderEnabled()}}\">{{isLiveRenderEnabled() ? 'Disable' : 'Enable'}} Live Render</a>\n" +
     "        </li>\n" +
     "      </ul>\n" +
     "    </div>\n" +

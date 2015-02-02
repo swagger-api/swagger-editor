@@ -103,6 +103,7 @@
         ng-class="{trying: isTryOpen}"
         ng-click="toggleTry()"
         ng-if="!isTryOpen"
+        track-event="try-operation"
       >Try this operation</button>
       <button class="border-only red close-try"
         ng-class="{'is-open': isTryOpen}"

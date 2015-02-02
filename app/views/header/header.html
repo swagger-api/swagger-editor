@@ -10,35 +10,35 @@
       </button>
       <ul class="dropdown-menu" ng-if="showFileMenu()" role="menu" aria-labelledby="fileMenu">
         <li role="presentation">
-          <a ng-click="newProject()" role="menuitem" tabindex="-1" track-event="project new">New</a>
+          <a ng-click="newProject()" role="menuitem" tabindex="-1" track-event="file new">New</a>
         </li>
         <li role="presentation">
-          <a ng-click="newProject(true)" role="menuitem" tabindex="-1">Blank Project</a>
+          <a ng-click="newProject(true)" role="menuitem" tabindex="-1" track-event="file blank">Blank Project</a>
         </li>
         <li role="presentation">
-          <a ng-click="openExamples()" role="menuitem" tabindex="-1">Open Example&hellip;</a>
+          <a ng-click="openExamples()" role="menuitem" tabindex="-1" track-event="file open-example">Open Example&hellip;</a>
         </li>
         <li role="presentation" class="divider"></li>
         <li role="presentation">
-          <a ng-click="openPasteJSON()" role="menuitem" tabindex="-1">Paste JSON&hellip;</a>
+          <a ng-click="openPasteJSON()" role="menuitem" tabindex="-1" track-event="file paste-json">Paste JSON&hellip;</a>
         </li>
         <li role="presentation">
-          <a ng-click="openImportUrl()" role="menuitem" tabindex="-1">Import URL&hellip;</a>
+          <a ng-click="openImportUrl()" role="menuitem" tabindex="-1" track-event="file import url">Import URL&hellip;</a>
         </li>
         <li role="presentation">
-          <a ng-click="openImportFile()" role="menuitem" tabindex="-1">Import File&hellip;</a>
+          <a ng-click="openImportFile()" role="menuitem" tabindex="-1" track-event="file import file">Import File&hellip;</a>
         </li>
         <li role="presentation" class="divider"></li>
         <li role="presentation">
           <a download="swagger.yaml" data-downloadurl="{{yamlDownloadUrl}}"
-            href="{{yamlDownloadHref}}" role="menuitem" tabindex="-1">Download YAML</a>
+            href="{{yamlDownloadHref}}" role="menuitem" tabindex="-1" track-event="file download yaml">Download YAML</a>
         </li>
         <li role="presentation">
           <a download="swagger.json" downloadUrl="{{jsonDownloadUrl}}"
-            href="{{jsonDownloadHref}}" role="menuitem" tabindex="-1">Download JSON</a>
+            href="{{jsonDownloadHref}}" role="menuitem" tabindex="-1" track-event="file download json">Download JSON</a>
         </li>
         <li role="presentation">
-          <a role="menuitem" tabindex="-1" ng-click="openDownloadDocs()">Download HTML Docs</a>
+          <a role="menuitem" tabindex="-1" ng-click="openDownloadDocs()" track-event="file download html">Download HTML Docs</a>
         </li>
       </ul>
     </div>
@@ -52,14 +52,14 @@
         <li role="presentation">
           <a class="font-size">
             Font Size
-            <span ng-click="adjustFontSize(1)" stop-event class="adjust">+</span><span ng-click="adjustFontSize(-1)" stop-event class="adjust">–</span>
+            <span ng-click="adjustFontSize(1)" stop-event class="adjust" track-event="preferences font+">+</span><span ng-click="adjustFontSize(-1)" stop-event class="adjust" track-event="preferences font-">–</span>
           </a>
         </li>
         <li role="presentation">
-          <a ng-click="openEditorPreferences()" role="menuitem" tabindex="-1">Settings</a>
+          <a ng-click="openEditorPreferences()" role="menuitem" tabindex="-1" track-event="preferences settings">Settings</a>
         </li>
         <li role="presentation">
-          <a ng-click="resetSettings()" role="menuitem" tabindex="-1">Reset Settings</a>
+          <a ng-click="resetSettings()" role="menuitem" tabindex="-1" track-event="preferences reset-settings">Reset Settings</a>
         </li>
       </ul>
     </div>
@@ -71,17 +71,17 @@
       </button>
       <ul class="dropdown-menu" role="menu" aria-labelledby="switch-mode">
         <li role="presentation">
-          <a ui-sref="{mode: 'edit'}" role="menuitem" tabindex="-1" id="edit-mode">Editor</a>
+          <a ui-sref="{mode: 'edit'}" role="menuitem" tabindex="-1" id="edit-mode" track-event="mode edit">Editor</a>
         </li>
         <li role="presentation">
-          <a role="menuitem" tabindex="-1" stop-event id="design-mode" ng-click="designModeTodoAlert()">Designer</a>
+          <a role="menuitem" tabindex="-1" stop-event id="design-mode" ng-click="designModeTodoAlert()" track-event="mode designer">Designer</a>
         </li>
         <li role="presentation">
-          <a ui-sref="{mode: 'preview'}" role="menuitem" tabindex="-1" id="preview-mode">Preview</a>
+          <a ui-sref="{mode: 'preview'}" role="menuitem" tabindex="-1" id="preview-mode" track-event="mode preview">Preview</a>
         </li>
         <li role="presentation" class="divider" ng-if="showEditorMenuOptions()"></li>
         <li role="presentation" ng-if="showEditorMenuOptions()">
-          <a role="menuitem" tabindex="-1" ng-click="toggleLiveRender()">{{isLiveRenderEnabled() ? 'Disable' : 'Enable'}} Live Render</a>
+          <a role="menuitem" tabindex="-1" ng-click="toggleLiveRender()" track-event="mode toggle-live-render {{isLiveRenderEnabled()}}">{{isLiveRenderEnabled() ? 'Disable' : 'Enable'}} Live Render</a>
         </li>
       </ul>
     </div>
