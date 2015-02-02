@@ -21,7 +21,7 @@ SwaggerEditor.service('BackendHealthCheck', function BackendHealthCheck($http,
           Storage.save('progress', -2);
         }
       );
-    }, defaults.backendHelathCheckTimeout);
+    }, defaults.backendHealthCheckTimeout);
   };
 
   this.isHealthy = function () {

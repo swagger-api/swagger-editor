@@ -27,7 +27,7 @@ backendEndpoint
 useBackendForStorage
     Set to ``true`` to enable a backend.
 
-backendHelathCheckTimeout
+backendHealthCheckTimeout
     Timeout in millseconds of the http request to healthchecks the backend
 
     .. note::

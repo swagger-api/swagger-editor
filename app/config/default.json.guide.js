@@ -75,7 +75,7 @@ var defaults = {
    * When using a back-end, editor checks if back-end is still reachable in an
    * interval. This interval is in milliseconds
   */
-  backendHelathCheckTimeout: 5000,
+  backendHealthCheckTimeout: 5000,
 
   /*
    * When using a back-end, editor by default PUTs JSON document for Saving.
