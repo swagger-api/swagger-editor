@@ -639,7 +639,7 @@ angular.module('SwaggerEditor').run(['$templateCache', function($templateCache) 
     "      </button>\n" +
     "      <ul class=\"dropdown-menu\" ng-if=\"showFileMenu()\" role=\"menu\" aria-labelledby=\"fileMenu\">\n" +
     "        <li role=\"presentation\">\n" +
-    "          <a ng-click=\"newProject()\" role=\"menuitem\" tabindex=\"-1\">New</a>\n" +
+    "          <a ng-click=\"newProject()\" role=\"menuitem\" tabindex=\"-1\" track-event=\"project new\">New</a>\n" +
     "        </li>\n" +
     "        <li role=\"presentation\">\n" +
     "          <a ng-click=\"newProject(true)\" role=\"menuitem\" tabindex=\"-1\">Blank Project</a>\n" +

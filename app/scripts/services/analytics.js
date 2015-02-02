@@ -40,18 +40,22 @@ SwaggerEditor.service('Analytics', function Analytics(defaults) {
   };
 
   /*
-   * Expose event tracking
+   * Expose event tracking calls.
+   * This function can have unlimited number of arguments
   */
-  this.sendEvent = function (eventName) {
+  this.sendEvent = function () {
 
     if (isDisabled) {
       return;
     }
 
-    if (!angular.isString(eventName)) {
-      throw new Error('Event name should be a string');
+    if (!arguments.length) {
+      throw new Error('sendEvent was called with no arguments');
     }
 
-    window.ga('send', eventName);
+    Array.prototype.unshift.call(arguments, 'event');
+    Array.prototype.unshift.call(arguments, 'send');
+
+    window.ga.apply(window.ga, arguments);
   };
 });

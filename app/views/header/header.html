@@ -10,7 +10,7 @@
       </button>
       <ul class="dropdown-menu" ng-if="showFileMenu()" role="menu" aria-labelledby="fileMenu">
         <li role="presentation">
-          <a ng-click="newProject()" role="menuitem" tabindex="-1">New</a>
+          <a ng-click="newProject()" role="menuitem" tabindex="-1" track-event="project new">New</a>
         </li>
         <li role="presentation">
           <a ng-click="newProject(true)" role="menuitem" tabindex="-1">Blank Project</a>

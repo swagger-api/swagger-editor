@@ -5,7 +5,6 @@ SwaggerEditor.controller('MainCtrl', function MainCtrl($rootScope, $stateParams,
   Analytics) {
 
   Analytics.initialize();
-  Analytics.sendEvent('pageview');
 
   $rootScope.$on('$stateChangeStart', Editor.initializeEditor);
   BackendHealthCheck.startChecking();
