@@ -1,6 +1,6 @@
 {
   "name": "swagger-editor-src",
-  "version": "2.8.4",
+  "version": "2.9.0",
   "repository": "https://github.com/swagger-api/swagger-editor.git",
   "dependencies": {},
   "devDependencies": {
