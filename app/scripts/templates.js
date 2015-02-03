@@ -331,7 +331,7 @@ angular.module('SwaggerEditor').run(['$templateCache', function($templateCache) 
     "<div class=\"modal-body\">\n" +
     "  <div class=\"form-group\">\n" +
     "    <label>Swagger JSON</label>\n" +
-    "    <textarea class=\"form-control\" cols=\"30\" rows=\"10\" ng-model=\"json\"></textarea>\n" +
+    "    <textarea class=\"form-control\" cols=\"30\" rows=\"10\" ng-model=\"json\" ng-change=\"checkJSON(json)\"></textarea>\n" +
     "  </div>\n" +
     "  <div ng-if=\"error\">\n" +
     "    Error\n" +

@@ -3,9 +3,13 @@
 SwaggerEditor.controller('PasteJSONCtrl', function PasteJSONCtrl($scope,
   $modalInstance, $rootScope, Storage, ASTManager) {
 
-  $scope.$watch('json', function (json) {
+  var json;
+
+  $scope.checkJSON = function (newJson) {
+    $scope.canImport = false;
+
     try {
-      json = JSON.parse($scope.json);
+      json = JSON.parse(newJson);
     } catch (error) {
       $scope.error = error.message;
       $scope.canImport = false;
@@ -21,10 +25,10 @@ SwaggerEditor.controller('PasteJSONCtrl', function PasteJSONCtrl($scope,
       $scope.canImport = true;
       $scope.error = null;
     });
-  });
+  };
 
   $scope.ok = function () {
-    var result = jsyaml.dump(JSON.parse($scope.json));
+    var result = jsyaml.dump(json);
     Storage.save('yaml', result);
     $rootScope.editorValue = result;
     ASTManager.refresh($rootScope.editorValue);
