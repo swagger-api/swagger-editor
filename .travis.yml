@@ -1,7 +1,7 @@
 language: node_js
 node_js:
   - '0.10'
-  - 'iojs'
+  # - 'iojs' # iojs is not supported in nvm used in TravisCI. Commented out for now
 install:
   - export DISPLAY=:99.0
   - sh -e /etc/init.d/xvfb start
