@@ -1,7 +1,10 @@
 {
   "name": "swagger-editor",
-  "version": "2.8.2",
   "description": "Swagger Editor Web App",
+  "version": "2.8.4",
+  "repository": "https://github.com/swagger-api/swagger-editor.git",
+  "dependencies": {},
+  "devDependencies": {},
   "main": "index.html",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -10,5 +13,5 @@
     "Swagger"
   ],
   "author": "Mohsen Azimi",
-  "license": "ISC"
+  "license": "MIT"
 }

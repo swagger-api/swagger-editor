@@ -51,6 +51,7 @@
     "karma-ng-scenario": "^0.1.0",
     "karma-sinon-chai": "^0.3.0",
     "load-grunt-config": "^0.16.0",
+    "mversion": "^1.9.0",
     "protractor": "^1.6.1",
     "swagger-tools": "^0.8.1",
     "time-grunt": "^1.0.0"
