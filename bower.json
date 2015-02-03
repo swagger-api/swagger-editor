@@ -1,6 +1,6 @@
 {
   "name": "Phonics",
-  "version": "2.9.0",
+  "version": "2.9.1",
   "devDependencies": {
     "angular": "1.3.2",
     "angular-bootstrap": "0.11.0",
