@@ -11,7 +11,8 @@ sourcePackage = parse(sourcePackage);
 
 distPackage.version = sourcePackage.version;
 
-fs.writeFileSync(path.join('.', 'dist', 'package.json'));
+fs.writeFileSync(path.join('.', 'dist', 'package.json'),
+  JSON.stringify(distPackage), null, 4);
 
 
 function parse (buffer) {
