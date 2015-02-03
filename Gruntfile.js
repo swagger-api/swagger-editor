@@ -59,8 +59,7 @@ module.exports = function (grunt) {
     'uglify',
     'rev',
     'usemin',
-    'htmlmin',
-    'inline'
+    'htmlmin'
   ]);
 
   grunt.registerTask('default', [

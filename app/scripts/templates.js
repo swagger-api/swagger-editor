@@ -113,22 +113,6 @@ angular.module('SwaggerEditor').run(['$templateCache', function($templateCache) 
   );
 
 
-  $templateCache.put('templates/download-docs.html',
-    "<div class=\"modal-header\">\n" +
-    "  <h3 class=\"modal-title\">Download HTML documentation</h3>\n" +
-    "</div>\n" +
-    "<div class=\"modal-body\">\n" +
-    "  <p>Click link below to download HTML documentations.</p>\n" +
-    "  <p>The downloaded file will be self contained with everything required for this Swagger document.</p>\n" +
-    "  <p ng-if=\"!ready\">Generating document...</p>\n" +
-    "  <a ng-if=\"ready\" download=\"swagger.html\" href=\"{{downloadHref}}\" downloadurl=\"{{downloadUrl}}\" class=\"btn\">Download</a>\n" +
-    "</div>\n" +
-    "<div class=\"modal-footer\">\n" +
-    "  <button class=\"btn btn-primary\" ng-click=\"cancel()\">Close</button>\n" +
-    "</div>"
-  );
-
-
   $templateCache.put('templates/error-presenter.html',
     "<div class=\"error-presenter {{isOnlyWarnings() ? 'warning' : 'error'}}\" ng-controller=\"ErrorPresenterCtrl\">\n" +
     "  <header class=\"error-header\" ng-click=\"toggleCollapse()\">\n" +
@@ -663,9 +647,6 @@ angular.module('SwaggerEditor').run(['$templateCache', function($templateCache) 
     "        </li>\n" +
     "        <li role=\"presentation\">\n" +
     "          <a download=\"swagger.json\" downloadurl=\"{{jsonDownloadUrl}}\" href=\"{{jsonDownloadHref}}\" role=\"menuitem\" tabindex=\"-1\" track-event=\"file download json\">Download JSON</a>\n" +
-    "        </li>\n" +
-    "        <li role=\"presentation\">\n" +
-    "          <a role=\"menuitem\" tabindex=\"-1\" ng-click=\"openDownloadDocs()\" track-event=\"file download html\">Download HTML Docs</a>\n" +
     "        </li>\n" +
     "      </ul>\n" +
     "    </div>\n" +

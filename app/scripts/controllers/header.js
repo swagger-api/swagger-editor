@@ -154,14 +154,6 @@ SwaggerEditor.controller('HeaderCtrl', function HeaderCtrl($scope, $modal,
     return $state.params.mode === 'edit';
   };
 
-  $scope.openDownloadDocs = function () {
-    $modal.open({
-      templateUrl: 'templates/download-docs.html',
-      controller: 'DownloadDocsCtrl',
-      size: 'x-large'
-    });
-  };
-
   function assignDownloadHrefs() {
     var MIME_TYPE = 'text/plain';
 
