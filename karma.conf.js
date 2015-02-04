@@ -11,14 +11,17 @@ module.exports = function(config) {
 
     // list of files / patterns to load in the browser
     files: [
+
+      // AngularJS and test dependencies
       'app/bower_components/angular/angular.js',
       'app/bower_components/angular-mocks/angular-mocks.js',
       'app/bower_components/angular-resource/angular-resource.js',
       'app/bower_components/angular-cookies/angular-cookies.js',
       'app/bower_components/angular-sanitize/angular-sanitize.js',
+
+      // Bower dependencies
       'app/bower_components/ace-builds/src-noconflict/ace.js',
       'app/bower_components/ace-builds/src-noconflict/mode-yaml.js',
-      'app/bower_components/swagger-converter/browser.js',
       'app/bower_components/ace-builds/src-noconflict/ext-language_tools.js',
       'app/bower_components/yaml-js/yaml.js',
       'app/bower_components/js-yaml/dist/js-yaml.js',
@@ -39,21 +42,26 @@ module.exports = function(config) {
       'app/bower_components/json-formatter/dist/json-formatter.js',
       'app/bower_components/angular-ui-layout/ui-layout.js',
       'app/bower_components/json-schema-view/dist/json-schema-view.js',
-      'app/bower_components/spark-md5/spark-md5.js',
-      'app/bower_components/z-schema/dist/ZSchema-browser.js',
-      'app/bower_components/json-refs/browser/json-refs.js',
-      'app/bower_components/superagent/superagent.js',
-      'app/bower_components/traverse/traverse.js',
-      'app/bower_components/swagger-tools/browser/swagger-tools.js',
+      'app/bower_components/tv4/tv4.js',
       'app/bower_components/objectpath/lib/ObjectPath.js',
+      'app/bower_components/swagger-converter/browser.js',
+      'app/bower_components/spark-md5/spark-md5.js',
+      'app/bower_components/traverse/traverse.js',
+      'app/bower_components/z-schema/dist/ZSchema-browser.js',
+      'app/bower_components/superagent/superagent.js',
+      'app/bower_components/json-refs/browser/json-refs.js',
+      'app/bower_components/swagger-tools/browser/swagger-tools.js',
       'app/bower_components/angular-schema-form/dist/schema-form.js',
       'app/bower_components/angular-schema-form/dist/bootstrap-decorator.min.js',
-      'bower_components/tv4/tv4.js',
+      'app/bower_components/harmony-collections/harmony-collections.js',
+
+      // App source Code
       'app/scripts/*.js',
       'app/scripts/**/*.js',
-      'test/unit/bootstrap.js',
+
+      // Test files
       'test/unit/defaults.js',
-      'test/unit/mock/**/*.js',
+      'test/unit/bootstrap.js',
       'test/unit/spec/**/*.js'
     ],
 
