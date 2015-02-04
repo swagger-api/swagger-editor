@@ -9,11 +9,12 @@ $(function () {
     window.SwaggerEditor.$defaults = embeddedDefaults;
     angular.bootstrap(window.document, ['SwaggerEditor']);
   } else {
-    $.getJSON('/config/defaults.json').done(function (resp) {
+    var rootPath = window.location.pathname === '/' ? '' : window.location.pathname;
+    $.getJSON(rootPath + '/config/defaults.json').done(function (resp) {
       window.SwaggerEditor.$defaults = resp;
       angular.bootstrap(window.document, ['SwaggerEditor']);
     }).fail(function () {
-      console.error('Failed to load defaults.json at', '/config/defaults.json');
+      console.error('Failed to load defaults.json at', rootPath + '/config/defaults.json');
     });
   }
 });
