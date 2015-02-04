@@ -128,13 +128,9 @@ SwaggerEditor.controller('TryOperation', function ($scope, formdataFilter,
       (queryParamsStr ? '?' + queryParamsStr : '');
   }
 
-  function isInBodyParam(param) {
-    return param.in === 'body' || param.in === 'formData';
-  }
-
   $scope.hasBodyParam = function () {
     return $scope.parameters.some(function (param) {
-      return isInBodyParam(param);
+      return param.in === 'body' || param.in === 'formData';
     });
   };
 
@@ -144,11 +140,20 @@ SwaggerEditor.controller('TryOperation', function ($scope, formdataFilter,
   };
 
   function getBodyModel() {
-    return $scope.parameters.map(function (param) {
-      if (isInBodyParam(param)) {
-        return modelOfParameter(param);
+
+    // scan parameters, check for first parameter with in === 'body'. If found
+    // return model for that parameter. You
+    for (var i = 0; i < $scope.parameters.length; i++) {
+      if ($scope.parameters[i].in === 'body') {
+        return modelOfParameter($scope.parameters[i]);
       }
-    })[0];
+    }
+
+    return $scope.parameters.filter(function (param) {
+      return param.in === 'formData';
+    }).reduce(function (total, param) {
+      return _.extend(total, modelOfParameter(param));
+    }, {});
   }
 
   $scope.getRequestBody = function () {
