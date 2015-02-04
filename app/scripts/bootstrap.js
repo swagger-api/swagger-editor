@@ -14,12 +14,12 @@ $(function () {
         (window.location.pathname.length - 1)) {
       rootPath = window.location.pathname + '/../';
     }
-    $.getJSON(rootPath + '/config/defaults.json').done(function (resp) {
+    $.getJSON(rootPath + './config/defaults.json').done(function (resp) {
       window.SwaggerEditor.$defaults = resp;
       angular.bootstrap(window.document, ['SwaggerEditor']);
     }).fail(function () {
       console.error('Failed to load defaults.json at',
-        rootPath + '/config/defaults.json');
+        rootPath + './config/defaults.json');
     });
   }
 });
