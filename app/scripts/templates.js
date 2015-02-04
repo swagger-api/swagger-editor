@@ -33,7 +33,7 @@ angular.module('SwaggerEditor').run(['$templateCache', function($templateCache) 
     "  <h3 class=\"modal-title\">API Key Authentication</h3>\n" +
     "</div>\n" +
     "<div class=\"modal-body\">\n" +
-    "  <form role=\"form\" class=\"form-horizontal\" ng-submit=\"authenticate()\">\n" +
+    "  <form role=\"form\" class=\"form-horizontal\" ng-submit=\"authenticate(apiKey)\">\n" +
     "    <div class=\"form-group\">\n" +
     "      <label class=\"col-sm-3\">API Key</label>\n" +
     "      <div class=\"col-sm-9\">\n" +
@@ -44,7 +44,7 @@ angular.module('SwaggerEditor').run(['$templateCache', function($templateCache) 
     "</div>\n" +
     "<div class=\"modal-footer\">\n" +
     "  <button class=\"btn btn-warning\" ng-click=\"cancel()\">Cancel</button>\n" +
-    "  <button class=\"btn btn-primary\" ng-click=\"authenticate()\" ng-disabled=\"!apiKey\">Authenticate</button>\n" +
+    "  <button class=\"btn btn-primary\" ng-click=\"authenticate(apiKey)\" ng-disabled=\"!apiKey\">Authenticate</button>\n" +
     "</div>"
   );
 
@@ -54,7 +54,7 @@ angular.module('SwaggerEditor').run(['$templateCache', function($templateCache) 
     "  <h3 class=\"modal-title\">HTTP Basic Authentication</h3>\n" +
     "</div>\n" +
     "<div class=\"modal-body\">\n" +
-    "  <form role=\"form\" class=\"form-horizontal\" ng-submit=\"authenticate()\">\n" +
+    "  <form role=\"form\" class=\"form-horizontal\" ng-submit=\"authenticate(username, password)\">\n" +
     "    <div class=\"form-group\">\n" +
     "      <label class=\"col-sm-3\">User Name</label>\n" +
     "      <div class=\"col-sm-9\">\n" +
@@ -71,7 +71,7 @@ angular.module('SwaggerEditor').run(['$templateCache', function($templateCache) 
     "</div>\n" +
     "<div class=\"modal-footer\">\n" +
     "  <button class=\"btn btn-warning\" ng-click=\"cancel()\">Cancel</button>\n" +
-    "  <button class=\"btn btn-primary\" ng-click=\"authenticate()\" ng-disabled=\"!username || !password\">Authenticate</button>\n" +
+    "  <button class=\"btn btn-primary\" ng-click=\"authenticate(username, password)\" ng-disabled=\"!username || !password\">Authenticate</button>\n" +
     "</div>"
   );
 
@@ -82,7 +82,7 @@ angular.module('SwaggerEditor').run(['$templateCache', function($templateCache) 
     "</div>\n" +
     "<div class=\"modal-body\">\n" +
     "  <p>Please follow OAuth flow, copy access token from OAuth and paste it here.</p>\n" +
-    "  <form role=\"form\" class=\"form-horizontal\" ng-submit=\"authenticate()\">\n" +
+    "  <form role=\"form\" class=\"form-horizontal\" ng-submit=\"authenticate(accessToken)\">\n" +
     "    <div class=\"form-group\">\n" +
     "      <label class=\"col-sm-3\">Access Token</label>\n" +
     "      <div class=\"col-sm-9\">\n" +
@@ -93,7 +93,7 @@ angular.module('SwaggerEditor').run(['$templateCache', function($templateCache) 
     "</div>\n" +
     "<div class=\"modal-footer\">\n" +
     "  <button class=\"btn btn-warning\" ng-click=\"cancel()\">Cancel</button>\n" +
-    "  <button class=\"btn btn-primary\" ng-click=\"authenticate()\" ng-disabled=\"!accessToken\">Authenticate</button>\n" +
+    "  <button class=\"btn btn-primary\" ng-click=\"authenticate(accessToken)\" ng-disabled=\"!accessToken\">Authenticate</button>\n" +
     "</div>"
   );
 

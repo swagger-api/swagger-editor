@@ -20,13 +20,13 @@ SwaggerEditor.controller('SecurityCtrl', function SecurityCtrl($scope, $modal,
         templateUrl: 'templates/auth/basic.html',
         controller: function BasicAuthAuthenticateCtrl($scope, $modalInstance) {
           $scope.cancel = $modalInstance.close;
-          $scope.authenticate = function () {
-            if (!$scope.username || !$scope.password) {
+          $scope.authenticate = function (username, password) {
+            if (!username || !password) {
               return;
             }
             AuthManager.basicAuth(securityName, security, {
-              username: $scope.username,
-              password: $scope.password
+              username: username,
+              password: password
             });
             $modalInstance.close();
           };
@@ -38,12 +38,12 @@ SwaggerEditor.controller('SecurityCtrl', function SecurityCtrl($scope, $modal,
         templateUrl: 'templates/auth/oauth2.html',
         controller: function OAuth2AuthenticateCtrl($scope, $modalInstance) {
           $scope.cancel = $modalInstance.close;
-          $scope.authenticate = function () {
-            if (!$scope.accessToken) {
+          $scope.authenticate = function (accessToken) {
+            if (!accessToken) {
               return;
             }
             AuthManager.oAuth2(securityName, security, {
-              accessToken: $scope.accessToken
+              accessToken: accessToken
             });
             $modalInstance.close();
           };
@@ -55,12 +55,12 @@ SwaggerEditor.controller('SecurityCtrl', function SecurityCtrl($scope, $modal,
         templateUrl: 'templates/auth/api-key.html',
         controller: function APIKeyAuthenticateCtrl($scope, $modalInstance) {
           $scope.cancel = $modalInstance.close;
-          $scope.authenticate = function () {
-            if (!$scope.apiKey) {
+          $scope.authenticate = function (apiKey) {
+            if (!apiKey) {
               return;
             }
             AuthManager.apiKey(securityName, security, {
-              apiKey: $scope.apiKey
+              apiKey: apiKey
             });
             $modalInstance.close();
           };

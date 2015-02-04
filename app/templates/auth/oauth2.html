@@ -3,7 +3,7 @@
 </div>
 <div class="modal-body">
   <p>Please follow OAuth flow, copy access token from OAuth and paste it here.</p>
-  <form role="form" class="form-horizontal" ng-submit="authenticate()">
+  <form role="form" class="form-horizontal" ng-submit="authenticate(accessToken)">
     <div class="form-group">
       <label class="col-sm-3">Access Token</label>
       <div class="col-sm-9">
@@ -14,6 +14,6 @@
 </div>
 <div class="modal-footer">
   <button class="btn btn-warning" ng-click="cancel()">Cancel</button>
-  <button class="btn btn-primary" ng-click="authenticate()"
+  <button class="btn btn-primary" ng-click="authenticate(accessToken)"
     ng-disabled="!accessToken">Authenticate</button>
 </div>
