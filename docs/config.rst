@@ -47,7 +47,7 @@ Analytics
 
 Example:
 
-```json
+```js
 analytics: {
     google: {
     /*
