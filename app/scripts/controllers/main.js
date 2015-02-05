@@ -43,7 +43,12 @@ SwaggerEditor.controller('MainCtrl', function MainCtrl($rootScope, $stateParams,
 
       // If there is no saved YAML either, load the default example
       } else if (!yaml) {
-        url = defaults.examplesFolder + defaults.exampleFiles[0];
+        var rootPath = '';
+        if (window.location.pathname.lastIndexOf('/') !==
+          (window.location.pathname.length - 1)) {
+          rootPath = window.location.pathname + '/../';
+        }
+        url = rootPath + defaults.examplesFolder + defaults.exampleFiles[0];
       }
 
       if (url) {
