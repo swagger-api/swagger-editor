@@ -14,9 +14,20 @@ SwaggerEditor.directive('trackEvent', function (Analytics) {
     link: function ($scope, $element, $attributes) {
       $element.bind('click', function () {
         var eventName = $attributes.trackEvent;
-        if (angular.isString(eventName)) {
-          Analytics.sendEvent.apply(null, eventName.split(' '));
 
+        if (angular.isString(eventName)) {
+
+          // A Google Analytics event has three  components: event category,
+          // event action and event label;
+          // we use 'click-item' as event action for this directive
+          // an joined array of event hierarchy as event action
+          // event label is set to window.location.origin to label events with
+          // domain that they been fired from
+          var eventCategory = 'click-item';
+          var eventAction = eventName.split(' ').join('->');
+          var eventLabel = window.location.origin;
+
+          Analytics.sendEvent(eventCategory, eventAction, eventLabel);
         }
       });
     }

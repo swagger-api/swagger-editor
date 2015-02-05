@@ -41,9 +41,13 @@ SwaggerEditor.service('Analytics', function Analytics(defaults) {
 
   /*
    * Expose event tracking calls.
-   * This function can have unlimited number of arguments
+   * This function can have unlimited number of arguments but usually three
+   * arguments that are:
+   * eventCategory: The category of the event. For example: selected-example
+   * eventAction: The event action: For example: pet-store
+   * eventLabel: The event label. This can be anything you want.
   */
-  this.sendEvent = function () {
+  this.sendEvent = function (/*eventCategory, eventAction, eventLabel*/) {
 
     if (isDisabled) {
       return;
