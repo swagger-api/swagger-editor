@@ -4,8 +4,9 @@
  * Manages Authentications
 */
 SwaggerEditor.service('AuthManager', function AuthManager($sessionStorage) {
-  $sessionStorage.$default({securities: {}});
+  $sessionStorage.$default({securities: {}, securityKeys: {}});
   var securities = $sessionStorage.securities;
+  var securityKeys = $sessionStorage.securityKeys;
 
   /*
    * Authenticates HTTP Basic Auth securities
@@ -19,7 +20,8 @@ SwaggerEditor.service('AuthManager', function AuthManager($sessionStorage) {
       options.isAuthenticated = true;
       options.base64 = window.btoa(options.username + ':' + options.password);
       options.securityName = securityName;
-      securities[securityName] = {
+      var key = securityKeys[securityName];
+      securities[key] = {
         type: 'basic',
         security: security,
         options: options
@@ -38,7 +40,8 @@ SwaggerEditor.service('AuthManager', function AuthManager($sessionStorage) {
   */
   this.oAuth2 = function (securityName, security, options) {
     options.isAuthenticated = true;
-    securities[securityName] = {
+    var key = securityKeys[securityName];
+    securities[key] = {
       type: 'oAuth2',
       security: security,
       options: options
@@ -54,7 +57,8 @@ SwaggerEditor.service('AuthManager', function AuthManager($sessionStorage) {
   */
   this.apiKey = function (securityName, security, options) {
     options.isAuthenticated = true;
-    securities[securityName] = {
+    var key = securityKeys[securityName];
+    securities[key] = {
       type: 'apiKey',
       security: security,
       options: options
@@ -66,7 +70,12 @@ SwaggerEditor.service('AuthManager', function AuthManager($sessionStorage) {
    * @returns {object} the security object
   */
   this.getAuth = function (securityName) {
-    return securities[securityName];
+    var key = securityKeys[securityName];
+    if (key) {
+      return securities[key];
+    } else {
+      return {};
+    }
   };
 
   /*
@@ -74,7 +83,11 @@ SwaggerEditor.service('AuthManager', function AuthManager($sessionStorage) {
    * @returns {boolean} - true if security is authenticated false otherwise
   */
   this.securityIsAuthenticated = function (securityName) {
-    var auth = securities[securityName];
+    var auth = {};
+    var key = securityKeys[securityName];
+    if (key) {
+      auth = securities[key];
+    }
 
     return auth && auth.options && auth.options.isAuthenticated;
   };

@@ -2,8 +2,10 @@
 
 SwaggerEditor.controller('PreviewCtrl', function PreviewCtrl(Storage, Builder,
   ASTManager, Sorter, Editor, BackendHealthCheck, FocusedPath, TagManager,
-  Preferences, $scope, $rootScope, $stateParams) {
-
+  Preferences, $scope, $rootScope, $stateParams, $sessionStorage) {
+  $sessionStorage.$default({securityKeys: {}});
+  var securityKeys = $sessionStorage.securityKeys;
+  var SparkMD5 = (window.SparkMD5);
   /*
    * Reacts to updates of YAML in storage that usually triggered by editor
    * changes
@@ -38,6 +40,11 @@ SwaggerEditor.controller('PreviewCtrl', function PreviewCtrl(Storage, Builder,
     // Refresh tags with an un-filtered specs to get all tags in tag manager
     refreshTags(Sorter.sort(_.cloneDeep(result.specs), {}));
     $scope.specs = Sorter.sort(result.specs, sortOptions);
+    if ($scope.specs && $scope.specs.securityDefinitions) {
+      _.forEach($scope.specs.securityDefinitions, function (security, key) {
+        securityKeys[key] = SparkMD5.hash(JSON.stringify(security));
+      });
+    }
     $scope.errors = result.errors;
     $scope.warnings = result.warnings;
   }
