@@ -54,6 +54,7 @@ module.exports = function(config) {
       'app/bower_components/angular-schema-form/dist/schema-form.js',
       'app/bower_components/angular-schema-form/dist/bootstrap-decorator.min.js',
       'app/bower_components/harmony-collections/harmony-collections.js',
+      'app/bower_components/apply-diff/index.js',
 
       // App source Code
       'app/scripts/*.js',
