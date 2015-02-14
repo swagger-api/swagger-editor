@@ -39,7 +39,15 @@ SwaggerEditor.controller('PreviewCtrl', function PreviewCtrl(Storage, Builder,
     }
     // Refresh tags with an un-filtered specs to get all tags in tag manager
     refreshTags(Sorter.sort(_.cloneDeep(result.specs), {}));
-    $scope.specs = Sorter.sort(result.specs, sortOptions);
+
+    var newSpecs = Sorter.sort(result.specs, sortOptions);
+
+    if (angular.isObject($scope.specs)) {
+      _.applyDiff(newSpecs, $scope.specs);
+    } else {
+      $scope.specs = newSpecs;
+    }
+
     if ($scope.specs && $scope.specs.securityDefinitions) {
       _.forEach($scope.specs.securityDefinitions, function (security, key) {
         securityKeys[key] = SparkMD5.hash(JSON.stringify(security));

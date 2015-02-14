@@ -23,7 +23,8 @@
     "objectpath": "1.1.0",
     "harmony-collections": "Benvie/harmony-collections",
     "swagger-converter": "0.1.0",
-    "lodash": "3.0.0"
+    "lodash": "3.0.0",
+    "apply-diff": "~1.2.0"
   },
   "dependencies": {
     "json-formatter": "0.2.2",
