@@ -42,7 +42,7 @@ SwaggerEditor.controller('PreviewCtrl', function PreviewCtrl(Storage, Builder,
 
     var newSpecs = Sorter.sort(result.specs, sortOptions);
 
-    if (angular.isObject($scope.specs)) {
+    if (angular.isObject($scope.specs) && !_.isEmpty(newSpecs)) {
       _.applyDiff(newSpecs, $scope.specs);
     } else {
       $scope.specs = newSpecs;
