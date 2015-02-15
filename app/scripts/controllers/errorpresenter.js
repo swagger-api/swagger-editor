@@ -8,8 +8,7 @@ SwaggerEditor.controller('ErrorPresenterCtrl', function ErrorPresenterCtrl(
   $scope.docsMode = false;
 
   // Collapse by default in preview mode
-  $scope.isCollapsed = $rootScope.mode === 'preview' ||
-    $rootScope.mode === 'docs-only';
+  $scope.isCollapsed = $rootScope.mode === 'preview';
 
   $scope.getErrors = function () {
     var errors = $scope.$parent.errors || [];

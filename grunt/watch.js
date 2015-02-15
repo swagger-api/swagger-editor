@@ -14,7 +14,6 @@ module.exports = {
   },
   html: {
     files: ['app/**/*.html'],
-    tasks: ['ngtemplates'],
     options: {
       livereload: true
     }

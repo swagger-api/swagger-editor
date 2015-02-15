@@ -10,12 +10,10 @@ SwaggerEditor.controller('MainCtrl', function MainCtrl($rootScope, $stateParams,
   BackendHealthCheck.startChecking();
   $rootScope.$on('$stateChangeStart', loadYaml);
 
-  if ($rootScope.mode !== 'docs-only') {
-    if (!$stateParams.mode) {
-      $rootScope.mode = 'edit';
-    } else {
-      $rootScope.mode = $stateParams.mode;
-    }
+  if (!$stateParams.mode) {
+    $rootScope.mode = 'edit';
+  } else {
+    $rootScope.mode = $stateParams.mode;
   }
 
   // TODO: find a better way to add the branding class (grunt html template)
@@ -29,12 +27,7 @@ SwaggerEditor.controller('MainCtrl', function MainCtrl($rootScope, $stateParams,
     Storage.load('yaml').then(function (yaml) {
       var url;
 
-      // In docs-only mode
-      if (($rootScope.mode === 'docs-only') && yaml) {
-        Storage.save('yaml', yaml);
-        $rootScope.editorValue = yaml;
-        return;
-      }
+      $rootScope.editorValue = yaml;
 
       // If there is a url provided, override the storage with that URL
       if ($stateParams.import) {

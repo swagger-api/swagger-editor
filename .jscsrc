@@ -2,8 +2,7 @@
   "excludeFiles": [
     "app/scripts/analytics/google.js",
     "app/scripts/plugins/*.js",
-    "app/scripts/ace/themes/theme-atom_dark.js",
-    "app/scripts/templates.js"
+    "app/scripts/ace/themes/theme-atom_dark.js"
   ],
   "requireCurlyBraces": [
     "if",
