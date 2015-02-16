@@ -1,7 +1,7 @@
 language: node_js
 node_js:
   - '0.10'
-  - 'iojs'
+  # - 'iojs' # protractor is unstable with iojs
 install:
   - export DISPLAY=:99.0
   - sh -e /etc/init.d/xvfb start
