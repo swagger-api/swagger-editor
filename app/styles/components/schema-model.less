@@ -2,44 +2,22 @@
 @import "../fonts";
 
 .schema-model {
-  margin-left: 14px;
-  border-radius: none;
 
   &.hidden {
     display: none;
   }
 
-  >header {
+  a.toggle {
+    // TODO: hardcoded color
+    color: rgb(66, 90, 66);
+    text-decoration: none;
+    margin: 0 0.3em;
+    padding: 0 0.2em;
+    border-radius: 3px;
 
-    span, a {
-      font-size: 13px;
-      padding: .2em;
-      white-space: pre;
-      display: none;
-
-      &.pipe {
-      color: darken(@gray-lt, 10%);
-      }
-
-
-      &.active {
-        display: inline-block;
-        font-weight: 700;
-      }
-
-
-      &:hover {
-        background: rgba(255,255,255,0.5);
-        cursor: pointer;
-      }
-    }
-  }
-
-  >section {
-
-    &.json, &.model {
-      font-size: 14px;
-      padding: 0.4em;
+    &:hover {
+      background: rgb(66, 90, 66);
+      color: white;
     }
   }
 }
