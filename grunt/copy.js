@@ -13,6 +13,8 @@ module.exports = {
         '*.html',
         'config/defaults.json',
         'images/{,*/}*.{webp}',
+        'views/{,*/}*.html',
+        'templates/{,*/}*.html',
         'fonts/*',
         'schema/*',
         'spec-files/*',
