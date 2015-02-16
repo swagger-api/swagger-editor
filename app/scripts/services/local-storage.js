@@ -1,7 +1,6 @@
 'use strict';
 
-SwaggerEditor.service('LocalStorage', function LocalStorage($localStorage, $q,
-  $rootScope) {
+SwaggerEditor.service('LocalStorage', function LocalStorage($localStorage, $q) {
   var storageKey = 'SwaggerEditorCache';
   var changeListeners =  {};
   var that = this;

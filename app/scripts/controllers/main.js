@@ -27,8 +27,6 @@ SwaggerEditor.controller('MainCtrl', function MainCtrl($rootScope, $stateParams,
     Storage.load('yaml').then(function (yaml) {
       var url;
 
-      $rootScope.editorValue = yaml;
-
       // If there is a url provided, override the storage with that URL
       if ($stateParams.import) {
         url = $stateParams.import;
@@ -36,12 +34,7 @@ SwaggerEditor.controller('MainCtrl', function MainCtrl($rootScope, $stateParams,
 
       // If there is no saved YAML either, load the default example
       } else if (!yaml) {
-        var rootPath = '';
-        if (window.location.pathname.lastIndexOf('/') !==
-          (window.location.pathname.length - 1)) {
-          rootPath = window.location.pathname + '/../';
-        }
-        url = rootPath + defaults.examplesFolder + defaults.exampleFiles[0];
+        url = defaults.examplesFolder + defaults.exampleFiles[0];
       }
 
       if (url) {

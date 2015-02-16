@@ -75,10 +75,9 @@ SwaggerEditor.controller('HeaderCtrl', function HeaderCtrl($scope, $modal,
   $scope.newProject = function (fresh) {
     FileLoader.loadFromUrl('spec-files/guide.yaml').then(function (value) {
       value = fresh ? '' : value;
-      Storage.save('yaml', value);
       $rootScope.editorValue = value;
       ASTManager.refresh($rootScope.editorValue);
-      $state.go('home', {mode: 'edit'});
+      Storage.save('yaml', value);
     });
   };
 
