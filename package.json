@@ -52,7 +52,7 @@
     "load-grunt-config": "^0.16.0",
     "mversion": "^1.9.0",
     "protractor": "^1.6.1",
-    "swagger-tools": "^0.8.2",
+    "swagger-tools": "^0.8.3",
     "time-grunt": "^1.0.0"
   },
   "engines": {
