@@ -512,10 +512,10 @@ angular.module('SwaggerEditor').run(['$templateCache', function($templateCache) 
     "            </select>\n" +
     "          </td>\n" +
     "        </tr>\n" +
-    "        <tr ng-if=\"walkToProperty('consumes').length\">\n" +
+    "        <tr ng-if=\"walkToProperty('produces').length\">\n" +
     "          <td><label>Accept</label></td>\n" +
     "          <td>\n" +
-    "            <select ng-model=\"$parent.accepts\" ng-options=\"o as o for o in walkToProperty('consumes')\" ng-init=\"$parent.accepts = walkToProperty('consumes')[0]\"></select>\n" +
+    "            <select ng-model=\"$parent.accepts\" ng-options=\"o as o for o in walkToProperty('produces')\" ng-init=\"$parent.accepts = walkToProperty('produces')[0]\"></select>\n" +
     "          </td>\n" +
     "        </tr>\n" +
     "        <tr>\n" +

@@ -236,7 +236,7 @@ SwaggerEditor.controller('TryOperation', function ($scope, formdataFilter,
   */
   $scope.walkToProperty = function (propertyName) {
     var defaultProperties = {
-      consumes: ['*/*'],
+      produces: ['*/*'],
       schemes: ['http']
     };
 
