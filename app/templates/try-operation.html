@@ -30,10 +30,10 @@
             </select>
           </td>
         </tr>
-        <tr ng-if="walkToProperty('consumes').length">
+        <tr ng-if="walkToProperty('produces').length">
           <td><label>Accept</label></td>
           <td>
-            <select ng-model="$parent.accepts" ng-options="o as o for o in walkToProperty('consumes')" ng-init="$parent.accepts = walkToProperty('consumes')[0]"></select>
+            <select ng-model="$parent.accepts" ng-options="o as o for o in walkToProperty('produces')" ng-init="$parent.accepts = walkToProperty('produces')[0]"></select>
           </td>
         </tr>
         <tr>
