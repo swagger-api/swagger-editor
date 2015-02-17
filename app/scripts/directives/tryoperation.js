@@ -357,18 +357,18 @@ SwaggerEditor.controller('TryOperation', function ($scope, formdataFilter,
   }
 
   $scope.getSecurityOptions = function () {
-    var none = [NONE_SECURITY];
+    var securityOptions = [NONE_SECURITY];
     if (Array.isArray($scope.operation.security)) {
-      return none.concat($scope.operation.security.map(function (security) {
+      securityOptions = securityOptions.concat($scope.operation.security.map(function (security) {
         return Object.keys(security)[0];
       }));
     }
     if (Array.isArray($scope.specs.security)) {
-      return none.concat($scope.specs.security.map(function (security) {
+      securityOptions = securityOptions.concat($scope.specs.security.map(function (security) {
         return Object.keys(security)[0];
       }));
     }
-    return none;
+    return _.unique(securityOptions);
   };
   $scope.securityIsAuthenticated = function (securityName) {
     if (securityName === NONE_SECURITY) {
