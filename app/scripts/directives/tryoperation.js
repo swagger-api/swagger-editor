@@ -356,7 +356,7 @@ SwaggerEditor.controller('TryOperation', function ($scope, formdataFilter,
     return parseHeaders(xhr.getAllResponseHeaders());
   }
 
-  $scope.getSecuirtyOptions = function () {
+  $scope.getSecurityOptions = function () {
     var none = [NONE_SECURITY];
     if (Array.isArray($scope.operation.security)) {
       return none.concat($scope.operation.security.map(function (security) {
