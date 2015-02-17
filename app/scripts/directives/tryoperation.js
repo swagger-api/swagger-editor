@@ -356,10 +356,14 @@ SwaggerEditor.controller('TryOperation', function ($scope, formdataFilter,
     return parseHeaders(xhr.getAllResponseHeaders());
   }
 
-  $scope.getSecuirtyOptions = function () {
+  $scope.getSecurityOptions = function () {
     var none = [NONE_SECURITY];
     if (Array.isArray($scope.operation.security)) {
       return none.concat($scope.operation.security.map(function (security) {
+        return Object.keys(security)[0];
+      }));
+    } else if (Array.isArray($scope.specs.security)) {
+      return none.concat($scope.specs.security.map(function (security) {
         return Object.keys(security)[0];
       }));
     }

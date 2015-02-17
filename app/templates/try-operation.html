@@ -39,8 +39,8 @@
         <tr>
           <td><label>Security</label></td>
           <td>
-            <select ng-model="$parent.selectedSecurity" ng-init="$parent.selectedSecurity = getSecuirtyOptions()[0]">
-              <option ng-repeat="option in getSecuirtyOptions()" value="{{option}}" ng-disabled="!$parent.securityIsAuthenticated(option)">
+            <select ng-model="$parent.selectedSecurity" ng-init="$parent.selectedSecurity = getSecurityOptions()[0]">
+              <option ng-repeat="option in getSecurityOptions()" value="{{option}}" ng-disabled="!$parent.securityIsAuthenticated(option)">
                 {{option + (!$parent.securityIsAuthenticated(option) ? ' (Not authenticated)' : '')}}
               </option>
             </select>
