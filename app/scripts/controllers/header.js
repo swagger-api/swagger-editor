@@ -150,7 +150,7 @@ SwaggerEditor.controller('HeaderCtrl', function HeaderCtrl($scope, $modal,
    * Should show editor related menu options?
   */
   $scope.showEditorMenuOptions = function () {
-    return $state.params.mode === 'edit';
+    return $rootScope.mode === 'edit';
   };
 
   function assignDownloadHrefs() {
