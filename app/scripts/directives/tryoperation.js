@@ -212,7 +212,10 @@ SwaggerEditor.controller('TryOperation', function ($scope, formdataFilter,
     var content = $scope.getRequestBody();
 
     headerParams = _.extend(headerParams, {
-      Host: $scope.specs.host || window.location.host,
+      Host: ($scope.specs.host || window.location.host)
+
+        // remove port from Host header
+        .replace(/\:.+/, ''),
       Accept: $scope.accepts || '*/*',
       'Accept-Encoding': 'gzip,deflate,sdch', //TODO: where this is coming from?
       'Accept-Language': 'en-US,en;q=0.8,fa;q=0.6,sv;q=0.4', // TODO: wut?
