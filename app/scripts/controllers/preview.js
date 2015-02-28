@@ -6,6 +6,7 @@ SwaggerEditor.controller('PreviewCtrl', function PreviewCtrl(Storage, Builder,
   $sessionStorage.$default({securityKeys: {}});
   var securityKeys = $sessionStorage.securityKeys;
   var SparkMD5 = (window.SparkMD5);
+
   /*
    * Reacts to updates of YAML in storage that usually triggered by editor
    * changes
