@@ -58,6 +58,7 @@
             <tr>
               <th>Code</th>
               <th>Description</th>
+              <th ng-if="hasAResponseWithHeaders(operation.responses)">Headers</th>
               <th ng-if="hasAResponseWithSchema(operation.responses)">Schema</th>
             </tr>
           </thead>
@@ -69,6 +70,30 @@
                 </a>
               </td>
               <td marked="response.description"></td>
+              <td ng-if="hasAResponseWithHeaders(operation.responses)">
+                <table ng-if="response.headers" class="respnse-headers">
+                  <thead>
+                    <tr>
+                      <th>Name</th>
+                      <th>Description</th>
+                      <th>Type</th>
+                      <th>Details</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr ng-repeat="(headerName, header) in response.headers">
+                      <td>{{headerName}}</td>
+                      <td>{{header.description}}</td>
+                      <td>
+                        <json-formatter json="header.type"></json-formatter>
+                      </td>
+                      <td>
+                        <json-formatter json="header"></json-formatter>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </td>
               <td ng-if="hasAResponseWithSchema(operation.responses)">
                 <schema-model ng-if="response.schema" schema="response.schema"></schema-model>
               </td>
