@@ -58,7 +58,7 @@
             <tr>
               <th>Code</th>
               <th>Description</th>
-              <th>Schema</th>
+              <th ng-if="hasAResponseWithSchema(operation.responses)">Schema</th>
             </tr>
           </thead>
           <tbody>
@@ -69,8 +69,8 @@
                 </a>
               </td>
               <td marked="response.description"></td>
-              <td>
-                <schema-model schema="response.schema"></schema-model>
+              <td ng-if="hasAResponseWithSchema(operation.responses)">
+                <schema-model ng-if="response.schema" schema="response.schema"></schema-model>
               </td>
             </tr>
           </tbody>

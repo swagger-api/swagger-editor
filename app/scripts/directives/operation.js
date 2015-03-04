@@ -36,6 +36,19 @@ SwaggerEditor.directive('operation', function (defaults) {
 
         return {type: parameter.type};
       };
+
+      /*
+       * Returns true if the operation responses has at least one response with
+       * schema
+       *
+       * @param responses {array} - an array of reponses
+       * @returns boolean
+      */
+      $scope.hasAResponseWithSchema = function (responses) {
+        return responses.some(function (response) {
+          return response.schema;
+        });
+      };
     }
   };
 });
