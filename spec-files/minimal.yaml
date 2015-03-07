@@ -1,11 +1,11 @@
 ---
 swagger: '2.0'
 info:
-  version: 1.0.0
-  title: Pets Store
+  version: 0.0.0
+  title: Simple API
 paths:
-  /pets:
+  /:
     get:
       responses:
         200:
-          description: Returns all the pets
+          description: OK
