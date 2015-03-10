@@ -6,7 +6,7 @@ var grunt = require('grunt');
 bower.commands
   .install()
   .on('error', function (error) {
-    console.error(error)
+    console.error(error);
   })
   .on('end', function () {
     grunt.tasks('serve');
