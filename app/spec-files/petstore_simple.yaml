@@ -132,16 +132,16 @@ definitions:
       tag:
         type: string
   newPet:
-    allOf:
-      - $ref: '#/definitions/pet'
-      - required:
-          - name
-        properties:
-          id:
-            type: integer
-            format: int64
-          name:
-            type: string
+    - required:
+        - name
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        tag:
+          type: string
   errorModel:
     required:
       - code
