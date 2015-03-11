@@ -1,7 +1,7 @@
 <li class='{{operation.operationName | lowercase}} operation' scroll-into-view-when="isInFocus(['paths', path.pathName, operation.operationName])">
   <header ng-click="toggle(['paths', path.pathName, operation.operationName])">
     <a class="focus-editor" ng-click="focusEdit($event, ['paths', path.pathName, operation.operationName])"
-      tooltip-placement="left" tooltip="Jump to YAML"></a>
+      tooltip-placement="left" tooltip="Jump to YAML" tooltip-trigger="mouseenter"></a>
     <div class='http-method' class="toggleOperation">{{operation.operationName | uppercase}} {{path.pathName}}</div>
   </header>
 
@@ -34,7 +34,7 @@
           <tbody>
             <tr ng-repeat="parameter in getParameters() track by $index">
               <td >
-                <a ng-click="focusEdit($event, ['paths', path.pathName, operation.operationName, 'parameters', $index], -1)">
+                <a ng-click="focusEdit($event, ['paths', path.pathName, operation.operationName, 'parameters', $index], -1)" tooltip-placement="top" tooltip="Jump to YAML" tooltip-trigger="mouseenter">
                   <span class="mono">{{parameter.name}}</span>
                 </a>
               </td>
@@ -65,7 +65,7 @@
           <tbody>
             <tr ng-repeat="response in operation.responses">
               <td>
-                <a ng-click="focusEdit($event, ['paths', path.pathName, operation.operationName, 'responses', response.responseCode])">
+                <a ng-click="focusEdit($event, ['paths', path.pathName, operation.operationName, 'responses', response.responseCode])" tooltip-placement="top" tooltip="Jump to YAML" tooltip-trigger="mouseenter">
                   <span class="resp-code {{responseCodeClassFor(response.responseCode)}}">{{response.responseCode}}</span>
                 </a>
               </td>
