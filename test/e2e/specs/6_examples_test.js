@@ -6,7 +6,7 @@ describe('Example', function () {
     'PetStore on Heroku',
     'Simple API',
     'Echo',
-    'Swagger Swagger Petstore (Simple)',
+    'Swagger Petstore (Simple)',
     'Swagger Petstore',
     'Basic Auth Example',
     'Swagger Sample API'
