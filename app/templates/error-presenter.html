@@ -13,7 +13,7 @@
       <span>{{getDescription(error)}}</span>
     </p>
     <a ng-click="goToLineOfError(error)"
-      ng-if="mode === 'edit' && showLineJumpLink(error)">Jump to line {{getLineNumber(error)}}</a>
+      ng-if="showLineJumpLink(error)">Jump to line {{getLineNumber(error)}}</a>
     <h6>Details</h6>
     <json-formatter json="error" open="0"></json-formatter>
   </div>

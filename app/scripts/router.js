@@ -6,16 +6,10 @@ SwaggerEditor.config(function Router($compileProvider, $stateProvider,
 
   $stateProvider
   .state('home', {
-    url: '/{mode}?import&tags',
+    url: '/?import&tags',
     views: {
       '': {
-        templateUrl: function ($statePrams) {
-          if ($statePrams.mode === 'preview') {
-            return 'views/main-preview.html';
-          } else {
-            return 'views/main.html';
-          }
-        },
+        templateUrl: 'views/main.html',
         controller: 'MainCtrl'
       },
       'header@home': {
