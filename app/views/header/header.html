@@ -58,24 +58,6 @@
         <li role="presentation">
           <a ng-click="resetSettings()" role="menuitem" tabindex="-1" track-event="preferences reset-settings">Reset Settings</a>
         </li>
-      </ul>
-    </div>
-
-    <div class="mode dropdown">
-      <button id="switch-mode" class="btn btn-default dropdown-toggle">
-        Mode
-        <span class="caret"></span>
-      </button>
-      <ul class="dropdown-menu" role="menu" aria-labelledby="switch-mode">
-        <li role="presentation">
-          <a ui-sref="{mode: 'edit'}" role="menuitem" tabindex="-1" id="edit-mode" track-event="mode edit">Editor</a>
-        </li>
-        <li role="presentation">
-          <a role="menuitem" tabindex="-1" stop-event id="design-mode" ng-click="designModeTodoAlert()" track-event="mode designer">Designer</a>
-        </li>
-        <li role="presentation">
-          <a ui-sref="{mode: 'preview'}" role="menuitem" tabindex="-1" id="preview-mode" track-event="mode preview">Preview</a>
-        </li>
         <li role="presentation" class="divider" ng-if="showEditorMenuOptions()"></li>
         <li role="presentation" ng-if="showEditorMenuOptions()">
           <a role="menuitem" tabindex="-1" ng-click="toggleLiveRender()" track-event="mode toggle-live-render {{isLiveRenderEnabled()}}">{{isLiveRenderEnabled() ? 'Disable' : 'Enable'}} Live Render</a>
