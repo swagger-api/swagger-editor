@@ -68,12 +68,12 @@
     <div class="dropdown" ng-if="servers && !disableCodeGen">
        <button class="btn btn-default dropdown-toggle" type="button"
         data-toggle="dropdown" id="ServerMenu">
-        Get Servers
+        Generate Server
         <span class="caret"></span>
       </button>
       <ul class="dropdown-menu" role="menu" aria-labelledby="ServerMenu">
         <li ng-repeat="server in servers" role="presentation">
-          <a role="menuitem" tabindex="-1" ng-click="getServer(server)">{{server}}</a>
+          <a role="menuitem" tabindex="-1" ng-click="getSDK('server', server)" track-event="generate-server {{server}}">{{server}}</a>
         </li>
       </ul>
     </div>
@@ -81,12 +81,12 @@
     <div class="code-gen dropdown" ng-if="clients && !disableCodeGen">
        <button class="btn btn-default dropdown-toggle" type="button"
         data-toggle="dropdown" id="ClientMenu">
-        Get Clients
+        Generate Client
         <span class="caret"></span>
       </button>
       <ul class="dropdown-menu" role="menu" aria-labelledby="ClientMenu">
         <li ng-repeat="client in clients" role="presentation">
-          <a role="menuitem" tabindex="-1" ng-click="getClient(client)">{{client}}</a>
+          <a role="menuitem" tabindex="-1" ng-click="getSDK('client', client)" track-event="generate-client {{client}}">{{client}}</a>
         </li>
       </ul>
     </div>

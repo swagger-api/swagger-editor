@@ -45,12 +45,8 @@ SwaggerEditor.controller('HeaderCtrl', function HeaderCtrl($scope, $modal,
     });
   }
 
-  $scope.getServer = function (language) {
-    Codegen.getServer(language).then(noop, showCodegenError);
-  };
-
-  $scope.getClient = function (language) {
-    Codegen.getClient(language).then(noop, showCodegenError);
+  $scope.getSDK = function (type, language) {
+    Codegen.getSDK(type, language).then(noop, showCodegenError);
   };
 
   function showCodegenError(resp) {

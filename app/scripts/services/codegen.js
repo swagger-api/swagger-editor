@@ -16,35 +16,20 @@ SwaggerEditor.service('Codegen', function Codegen($http, defaults, Storage) {
     });
   };
 
-  this.getServer = function (language) {
+  this.getSDK = function (type, language) {
 
-    var url = _.template(defaults.codegen.server)({
-      language: language
-    });
+    var url = defaults.codegen[type].replace('{language}', language);
 
     return Storage.load('yaml').then(function (yaml) {
       var specs = jsyaml.load(yaml);
 
-      return $http.post(url, {swagger: specs}).then(redirect);
-    });
-  };
-
-  this.getClient = function (language) {
-
-    var url = _.template(defaults.codegen.client)({
-      language: language
-    });
-
-    return Storage.load('yaml').then(function (yaml) {
-      var specs = jsyaml.load(yaml);
-
-      return $http.post(url, {swagger: specs}).then(redirect);
+      return $http.post(url, {spec: specs}).then(redirect);
     });
   };
 
   function redirect(resp) {
-    if (angular.isObject(resp) && resp.code) {
-      window.location = resp.data.code;
+    if (angular.isObject(resp.data) && resp.data.link) {
+      window.location = resp.data.link;
     }
   }
 });
