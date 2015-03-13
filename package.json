@@ -1,6 +1,11 @@
 {
   "name": "swagger-editor-src",
   "version": "2.9.2",
+  "homepage": "https://github.com/swagger-api/swagger-editor",
+  "description": "Swagger Editor",
+  "authors": [
+    "Mohsen Azimi <me@azimi.me>"
+  ],
   "repository": "https://github.com/swagger-api/swagger-editor.git",
   "dependencies": {},
   "devDependencies": {
@@ -59,8 +64,8 @@
     "node": ">=0.10.0"
   },
   "scripts": {
-    "test": "sh scripts/test.sh",
+    "test": "webdriver-manager update; grunt build; grunt test",
     "prestart": "npm install",
-    "start": "node start.js"
+    "start": "grunt serve"
   }
 }
