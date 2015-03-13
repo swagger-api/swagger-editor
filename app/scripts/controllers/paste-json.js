@@ -15,15 +15,15 @@ SwaggerEditor.controller('PasteJSONCtrl', function PasteJSONCtrl($scope,
       $scope.canImport = false;
       return;
     }
-    SwaggerTools.specs.v2.validate(json, function (error, result) {
-      if (result && result.errors) {
-        $scope.error = result.errors;
-        $scope.canImport = false;
-        return;
-      }
 
+    SwaggerTools.specs.v2.validate(json, function (error, result) {
       $scope.canImport = true;
       $scope.error = null;
+
+      if (result && result.errors) {
+        $scope.error = result.errors;
+        return;
+      }
     });
   };
 

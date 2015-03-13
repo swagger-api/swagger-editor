@@ -10,7 +10,7 @@
     Error
     <json-formatter class="error json-formatter-dark" json="error" open="2"></json-formatter>
   </div>
-  <p class="can-import" ng-if="canImport">✔ Valid Swagger</p>
+  <p class="can-import" ng-if="!error">✔ Valid Swagger</p>
 </div>
 <div class="modal-footer">
   <button class="btn btn-warning" ng-click="cancel()">Cancel</button>
