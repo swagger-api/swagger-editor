@@ -73,7 +73,10 @@
       </button>
       <ul class="dropdown-menu" role="menu" aria-labelledby="ServerMenu">
         <li ng-repeat="server in servers" role="presentation">
-          <a role="menuitem" tabindex="-1" ng-click="getSDK('server', server)" track-event="generate-server {{server}}">{{server}}</a>
+          <a role="menuitem" tabindex="-1" ng-click="getSDK('server', server)" track-event="generate-server {{server}}">
+            {{server}}
+            <span class="badge">Alpha</span>
+          </a>
         </li>
       </ul>
     </div>
@@ -86,7 +89,10 @@
       </button>
       <ul class="dropdown-menu" role="menu" aria-labelledby="ClientMenu">
         <li ng-repeat="client in clients" role="presentation">
-          <a role="menuitem" tabindex="-1" ng-click="getSDK('client', client)" track-event="generate-client {{client}}">{{client}}</a>
+          <a role="menuitem" tabindex="-1" ng-click="getSDK('client', client)" track-event="generate-client {{client}}">
+            {{client}}
+            <span class="badge">Alpha</span>
+          </a>
         </li>
       </ul>
     </div>
