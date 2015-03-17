@@ -65,7 +65,7 @@
   },
   "scripts": {
     "test": "webdriver-manager update; grunt build; grunt test",
-    "prestart": "npm install",
+    "prestart": "npm install; bower install",
     "start": "grunt serve"
   }
 }
