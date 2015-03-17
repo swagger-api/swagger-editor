@@ -5,10 +5,7 @@ SwaggerEditor.controller('ErrorPresenterCtrl', function ErrorPresenterCtrl(
   var ERROR_LEVEL = 900;
   var WARNING_LEVEL = 500;
 
-  $scope.docsMode = false;
-
-  // Collapse by default in preview mode
-  $scope.isCollapsed = $rootScope.mode === 'preview';
+  $scope.isCollapsed = false;
 
   $scope.getErrors = function () {
     var errors = $scope.$parent.errors || [];
