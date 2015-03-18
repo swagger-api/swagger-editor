@@ -65,7 +65,9 @@
   },
   "scripts": {
     "test": "webdriver-manager update; grunt build; grunt test",
-    "prestart": "npm install; bower install",
+    "prebower-install": "npm install",
+    "bower-install": "bower install",
+    "prestart": "npm run bower-install",
     "start": "grunt serve"
   }
 }
