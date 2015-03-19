@@ -1,14 +1,16 @@
 'use strict';
 
+var port = process.env.PORT || 9000;
+
 module.exports = {
   options: {
-    port: 9000,
+    port: port,
     hostname: 'localhost',
     livereload: 35729
   },
   livereload: {
     options: {
-      open: 'http://localhost:9000/#/edit',
+      open: 'http://localhost:' + port + '/#/edit',
       base: [
         '.tmp',
         'app'
