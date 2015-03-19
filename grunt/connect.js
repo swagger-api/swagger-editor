@@ -10,7 +10,7 @@ module.exports = {
   },
   livereload: {
     options: {
-      open: 'http://localhost:' + port + '/#/edit',
+      open: 'http://localhost:' + port,
       base: [
         '.tmp',
         'app'
