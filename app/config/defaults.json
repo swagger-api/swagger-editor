@@ -10,7 +10,7 @@
       "id": "UA-51231036-1"
     }
   },
-  "disableCodeGen": false,
+  "disableCodeGen": true,
   "examplesFolder": "/spec-files/",
   "exampleFiles": [
     "default.yaml",
@@ -28,7 +28,7 @@
   "backendHealthCheckTimeout": 5000,
   "useYamlBackend": false,
   "disableFileMenu": false,
-  "headerBranding": false,
+  "headerBranding": true,
   "enableTryIt": true,
   "brandingCssClass": "",
   "schemaUrl": "/schema/swagger.json",
