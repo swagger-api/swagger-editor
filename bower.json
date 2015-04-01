@@ -19,7 +19,7 @@
     "json3": "3.2.6",
     "ngstorage": "0.3.0",
     "yaml-js": "0.1.1",
-    "swagger-tools": "0.8.1",
+    "swagger-tools": "0.8.5",
     "objectpath": "1.1.0",
     "harmony-collections": "Benvie/harmony-collections",
     "swagger-converter": "0.1.0",
