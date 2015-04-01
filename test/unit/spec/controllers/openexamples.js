@@ -13,7 +13,7 @@ describe('Controller: OpenExamplesCtrl', function () {
   beforeEach(inject(function ($controller, $rootScope) {
     scope = $rootScope.$new();
 
-     // Create a mock object using spies
+    // Create a mock object using spies
     var callback = sinon.spy();
     $modalInstance = {
       close: callback,

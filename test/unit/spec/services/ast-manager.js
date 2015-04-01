@@ -16,7 +16,7 @@ describe('Service: ASTManager', function () {
 
     describe('when document is only a key', function () {
       beforeEach(function () {
-        //      012345678
+        //    //012345678
         yaml = 'swagger: ';
         ASTManager.refresh(yaml);
       });
@@ -30,7 +30,7 @@ describe('Service: ASTManager', function () {
 
     describe('when document is only a key value map', function () {
       beforeEach(function () {
-              //0123456789
+        //    //0123456789
         yaml = 'swagger: 2'
         ASTManager.refresh(yaml);
       });
