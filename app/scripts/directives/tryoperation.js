@@ -278,8 +278,7 @@ SwaggerEditor.controller('TryOperation', function ($scope, formdataFilter,
       type: $scope.operation.operationName,
       headers: _.omit($scope.getHeaders(), omitHeaders),
       data: $scope.getRequestBody(),
-      contentType: $scope.contentType,
-      xhrFields: {withCredentials: true}
+      contentType: $scope.contentType
     })
 
     .fail(function (jqXHR, textStatus, errorThrown) {
