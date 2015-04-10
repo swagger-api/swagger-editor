@@ -27,7 +27,7 @@ SwaggerEditor.controller('HeaderCtrl', function HeaderCtrl($scope, $modal,
   // Show the intro if it's first time visit
   Storage.load('intro').then(function (intro) {
     if (!intro && !defaults.disableNewUserIntro) {
-      $scope.showAbout = true;
+      $rootScope.showAbout = true;
       Storage.save('intro', true);
     }
   });
@@ -113,8 +113,8 @@ SwaggerEditor.controller('HeaderCtrl', function HeaderCtrl($scope, $modal,
     });
   };
 
-  $scope.toggleAboutEditor = function (value) {
-    $scope.showAbout = value;
+  $rootScope.toggleAboutEditor = function (value) {
+    $rootScope.showAbout = value;
   };
 
   $scope.openEditorPreferences = Editor.showSettings;
