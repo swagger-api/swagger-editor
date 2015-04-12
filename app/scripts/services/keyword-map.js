@@ -1,6 +1,28 @@
 'use strict';
 
 SwaggerEditor.service('KeywordMap', function KeywordMap(defaults) {
+  var schemes = {
+    http: String,
+    https: String,
+    ws: String,
+    wss: String
+  };
+  var externalDocs = {
+    description: String,
+    url: String
+  };
+  var mimeTypes = {
+    'application/json': String,
+    'text/plain': String,
+    'ext/html': String,
+    'application/octet-stream': String,
+    'application/xml': String,
+    'text/xml': String
+  };
+  var header = {
+    name: String,
+    description: String
+  };
   var parameter = {
     name: String,
     in: String,
@@ -18,27 +40,23 @@ SwaggerEditor.service('KeywordMap', function KeywordMap(defaults) {
       type: String
     },
     headers: {
-      '.': String
+      '.': header
     },
-    examples: {
-      '.': String
-    }
+    examples: mimeTypes
   };
   var operation = {
     summary: String,
     description: String,
     schemes: {
-      '.': String
+      '.': schemes
     },
-    externalDocs: {
-      '.': String
-    },
+    externalDocs: externalDocs,
     operationId: String,
     produces: {
-      '.': String
+      '.': mimeTypes
     },
     consumes: {
-      '.': String
+      '.': mimeTypes
     },
     deprecated: Boolean,
     security: security,
@@ -74,14 +92,14 @@ SwaggerEditor.service('KeywordMap', function KeywordMap(defaults) {
     schemas: {
 
       // schema index (number)
-      '.': String
+      '.': schemes
     },
     basePath: String,
     produces: {
-      '.': String
+      '.': mimeTypes
     },
     consumes: {
-      '.': String
+      '.': mimeTypes
     },
 
     paths: {
@@ -121,10 +139,13 @@ SwaggerEditor.service('KeywordMap', function KeywordMap(defaults) {
       }
     },
     tags: {
-      '.': String
+      '.': {
+        name: String,
+        description: String
+      }
     },
     externalDocs: {
-      '.': String
+      '.': externalDocs
     }
   };
 
