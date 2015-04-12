@@ -11,13 +11,13 @@ SwaggerEditor.config(function ($provide) {
   */
   function makeOperationSnippet(operationName) {
     return [
-        '${1:' + operationName + '}:',
-        '  summary: ${2}',
-        '  description: ${2}',
-        '  responses:',
-        '    ${3:200\:}',
-        '      description: ${4:OK}',
-        '${6}'
+      '${1:' + operationName + '}:',
+      '  summary: ${2}',
+      '  description: ${2}',
+      '  responses:',
+      '    ${3:200\:}',
+      '      description: ${4:OK}',
+      '${6}'
     ].join('\n');
   }
 
