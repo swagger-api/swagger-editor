@@ -1,6 +1,26 @@
 'use strict';
 
 SwaggerEditor.config(function ($provide) {
+
+  /*
+   * Makes an HTTP operation snippet's content based on operation name
+   *
+   * @param operationName {string} - the HTTP verb
+   *
+   * @returns {string} - the snippet content for that operation
+  */
+  function makeOperationSnippet(operationName) {
+    return [
+        '${1:' + operationName + '}:',
+        '  summary: ${2}',
+        '  description: ${2}',
+        '  responses:',
+        '    ${3:200\:}',
+        '      description: ${4:OK}',
+        '${6}'
+    ].join('\n');
+  }
+
   $provide.constant('snippets', [
     {
       name: 'swagger',
@@ -67,102 +87,42 @@ SwaggerEditor.config(function ($provide) {
       name: 'get',
       trigger: 'get',
       path: ['paths', '*'],
-      content: [
-        '${1:get}:',
-        '  summary: ${2}',
-        '  description: ${2}',
-        '  responses:',
-        '    ${3:response}',
-        '  parameters:',
-        '    ${4:parameter}',
-        '  tags: ${5:[]}',
-        '${6}'
-      ].join('\n')
+      content: makeOperationSnippet('get')
     },
 
     {
       name: 'post',
       trigger: 'post',
       path: ['paths', '.'],
-      content: [
-        '${1:post}:',
-        '  summary: ${2}',
-        '  description: ${2}',
-        '  responses:',
-        '    ${3:response}',
-        '  parameters:',
-        '    ${4:parameter}',
-        '  tags: ${5:[]}',
-        '${6}'
-      ].join('\n')
+      content: makeOperationSnippet('post')
     },
 
     {
       name: 'put',
       trigger: 'put',
       path: ['paths', '.'],
-      content: [
-        '${1:put}:',
-        '  summary: ${2}',
-        '  description: ${2}',
-        '  responses:',
-        '    ${3:response}',
-        '  parameters:',
-        '    ${4:parameter}',
-        '  tags: ${5:[]}',
-        '${6}'
-      ].join('\n')
+      content: makeOperationSnippet('put')
     },
 
     {
       name: 'delete',
       trigger: 'delete',
       path: ['paths', '.'],
-      content: [
-        '${1:delete}:',
-        '  summary: ${2}',
-        '  description: ${2}',
-        '  responses:',
-        '    ${3:response}',
-        '  parameters:',
-        '    ${4:parameter}',
-        '  tags: ${5:[]}',
-        '${6}'
-      ].join('\n')
+      content: makeOperationSnippet('delete')
     },
 
     {
       name: 'patch',
       trigger: 'patch',
       path: ['paths', '.'],
-      content: [
-        '${1:patch}:',
-        '  summary: ${2}',
-        '  description: ${2}',
-        '  responses:',
-        '    ${3:response}',
-        '  parameters:',
-        '    ${4:parameter}',
-        '  tags: ${5:[]}',
-        '${6}'
-      ].join('\n')
+      content: makeOperationSnippet('patch')
     },
 
     {
       name: 'options',
       trigger: 'options',
       path: ['paths', '.'],
-      content: [
-        '${1:options}:',
-        '  summary: ${2}',
-        '  description: ${2}',
-        '  responses:',
-        '    ${3:response}',
-        '  parameters:',
-        '    ${4:parameter}',
-        '  tags: ${5:[]}',
-        '${6}'
-      ].join('\n')
+      content: makeOperationSnippet('options')
     },
 
     {
