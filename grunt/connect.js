@@ -32,7 +32,8 @@ module.exports = {
       keepalive: true,
       base: 'dist',
       port: 80,
-      hostname: '0.0.0.0'
+      hostname: '0.0.0.0',
+      livereload: false
     }
   }
 };
