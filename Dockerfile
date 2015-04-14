@@ -26,4 +26,4 @@ ADD     .   /runtime
 
 # The default port of the application
 EXPOSE  80
-CMD     grunt build; grunt connect:dist
+CMD     grunt serve:dist
