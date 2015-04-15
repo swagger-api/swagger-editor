@@ -21,9 +21,11 @@ RUN     npm install -g bower grunt-cli
 ADD     bower.json      /runtime/bower.json
 ADD     .bowerrc        /runtime/.bowerrc
 RUN     bower --allow-root install
+RUN 	grunt build
+
 
 ADD     .   /runtime
 
 # The default port of the application
 EXPOSE  80
-CMD     grunt serve:dist
+CMD     grunt connect:dist
