@@ -23,7 +23,8 @@ ADD     .bowerrc        /runtime/.bowerrc
 RUN     bower --allow-root install
 
 ADD     .   /runtime
+RUN 	grunt build
 
 # The default port of the application
 EXPOSE  80
-CMD     grunt build; grunt connect:dist
+CMD     grunt connect:dist
