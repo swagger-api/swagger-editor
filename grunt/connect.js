@@ -1,16 +1,17 @@
 'use strict';
 
-var port = process.env.PORT || 9000;
+var developmentPort = process.env.PORT || 9000;
+var productionPort = 8080;
 
 module.exports = {
   options: {
-    port: port,
+    port: developmentPort,
     hostname: 'localhost',
     livereload: 35729
   },
   livereload: {
     options: {
-      open: 'http://localhost:' + port,
+      open: 'http://localhost:' + developmentPort,
       base: [
         '.tmp',
         'app'
@@ -31,7 +32,8 @@ module.exports = {
     options: {
       keepalive: true,
       base: 'dist',
-      port: 80,
+      port: productionPort,
+      open: true,
       hostname: '0.0.0.0',
       livereload: false
     }

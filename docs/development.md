@@ -11,6 +11,7 @@ Simply run
 ```shell
 grunt serve
 ```
+> if you don't have `grunt` installed, you can run `npm run develop` instead.
 
 For development it's preferred to have `grunt` installed globally on your machine.  
 
@@ -53,7 +54,7 @@ sudo docker build -t swagger-editor .
 Run the container, using the local port 8080 (you may change this to any available
 port).
 ```
-sudo docker run -ti -p 8080:80 swagger-editor
+sudo docker run -ti -p 8080:8080 swagger-editor
 ```
 And open [http://localhost:8080](http://localhost:8080) in your browser
 

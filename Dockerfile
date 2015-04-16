@@ -1,7 +1,7 @@
 ###
 # swagger-editor - https://github.com/swagger-api/swagger-editor/
 #
-# Run the swagger-editor service on port 80
+# Run the swagger-editor service on port 8080
 ###
 
 FROM    ubuntu:14.04
@@ -26,5 +26,5 @@ ADD     .   /runtime
 RUN 	grunt build
 
 # The default port of the application
-EXPOSE  80
+EXPOSE  8080
 CMD     grunt connect:dist
