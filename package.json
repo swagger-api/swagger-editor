@@ -68,6 +68,7 @@
     "prebower-install": "npm install",
     "bower-install": "bower install",
     "prestart": "npm run bower-install",
-    "start": "grunt serve"
+    "start": "grunt serve",
+    "build": "grunt build"
   }
 }

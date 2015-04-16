@@ -21,6 +21,11 @@ You can also import an existing YAML or JSON Swagger 2.0 specs document by using
 ```
 http://editor.swagger.io/#/?import=http://generator.wordnik.com/online/api/swagger.yaml
 ```
+
+## Why "Try this operation" is not working?
+
+Please read the [CORS](docs/cors.md) document
+
 ## Running Locally
 
 Make sure you have [Node.js](http://nodejs.org/) installed. 
