@@ -19,7 +19,7 @@
     "json3": "3.2.6",
     "ngstorage": "0.3.0",
     "yaml-js": "0.1.1",
-    "swagger-tools": "0.8.5",
+    "swagger-tools": "0.8.6",
     "objectpath": "1.1.0",
     "harmony-collections": "Benvie/harmony-collections",
     "swagger-converter": "0.1.0",
@@ -29,7 +29,7 @@
   "dependencies": {
     "json-formatter": "0.2.7",
     "angular-ui-layout": "1.0.5",
-    "json-schema-view": "0.4.0",
+    "json-schema-view": "0.4.1",
     "angular-schema-form": "0.8.0"
   }
 }
