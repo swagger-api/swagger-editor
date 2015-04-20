@@ -1,6 +1,6 @@
 # HTTP access control (CORS) issues
 
-Swagger Editor is a web application and by it's nature is limited to [HTTP access control policy](https://developer.mozilla.org/en-US/docs/Web/HTTP/Access_control_CORS). If you can't make calls using **Try this operation** component of the editor it's very likely because the server is now allowing `swagger.io` domain make [`XHR`](https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest) (also known as AJAX) calls to it.
+Swagger Editor is a web application and by it's nature is limited to [HTTP access control policy](https://developer.mozilla.org/en-US/docs/Web/HTTP/Access_control_CORS). If you can't make calls using **Try this operation** component of the editor it's very likely because the server is not allowing `swagger.io` domain make [`XHR`](https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest) (also known as AJAX) calls to it.
 
 ## How to fix CORS issues
 
