@@ -24,7 +24,8 @@
     "harmony-collections": "Benvie/harmony-collections",
     "swagger-converter": "0.1.0",
     "lodash": "3.6.0",
-    "apply-diff": "~1.2.4"
+    "apply-diff": "~1.2.4",
+    "async": "~0.9.2"
   },
   "dependencies": {
     "json-formatter": "0.2.7",
