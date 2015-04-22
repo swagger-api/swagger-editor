@@ -152,6 +152,9 @@ SwaggerEditor.controller('HeaderCtrl', function HeaderCtrl($scope, $modal,
       // JSON
       var json = jsyaml.load(yaml);
 
+      // if YAML is JSON, convert it to YAML
+      yaml = jsyaml.dump(jsyaml.load(yaml));
+
       // swagger and version should be a string to comfort with the schema
       if (json.info.version) {
         json.info.version = String(json.info.version);
