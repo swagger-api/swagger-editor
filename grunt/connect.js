@@ -34,7 +34,7 @@ module.exports = {
       base: 'dist',
       port: productionPort,
       open: true,
-      hostname: '0.0.0.0',
+      hostname: /^win/.test(process.platform) ? 'localhost' : '0.0.0.0',
       livereload: false
     }
   }
