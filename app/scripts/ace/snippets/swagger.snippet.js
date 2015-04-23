@@ -131,7 +131,7 @@ SwaggerEditor.config(function ($provide) {
       path: ['paths', '.', '.', 'parameters'],
       content: [
         '- name: ${1:parameter_name}',
-        '  in: ${2:in}',
+        '  in: ${2:query}',
         '  description: ${3:description}',
         '  type: ${4:string}',
         '${5}'
