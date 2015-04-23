@@ -34,7 +34,13 @@ SwaggerEditor.directive('operation', function (defaults) {
           return _.pick(parameter, 'type', 'items');
         }
 
-        return {type: parameter.type};
+        var schema = {type: parameter.type};
+
+        if (parameter.format) {
+          schema.format = parameter.format;
+        }
+
+        return schema;
       };
 
       /*
