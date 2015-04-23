@@ -12,12 +12,24 @@ SwaggerEditor.service('KeywordMap', function KeywordMap(defaults) {
     url: String
   };
   var mimeTypes = {
-    'application/json': String,
     'text/plain': String,
-    'ext/html': String,
+    'text/html': String,
+    'text/xml': String,
+    'text/csv': String,
+    'application/json': String,
     'application/octet-stream': String,
     'application/xml': String,
-    'text/xml': String
+    'application/vnd.': String,
+    'application/pdf': String,
+    'audio/': String,
+    'image/jpeg': String,
+    'image/gif': String,
+    'image/png': String,
+    'multipart/form-data': String,
+    'video/avi': String,
+    'video/mpeg': String,
+    'video/ogg': String,
+    'video/mp4': String
   };
   var header = {
     name: String,
