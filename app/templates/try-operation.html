@@ -39,7 +39,7 @@
         <tr>
           <td><label>Security</label></td>
           <td>
-            <select ng-model="$parent.selectedSecurity" ng-init="$parent.selectedSecurity = getSecurityOptions()[0]">
+            <select multiple ng-model="$parent.selectedSecuries" ng-init="$parent.selectedSecuries = [getSecurityOptions()[0]]">
               <option ng-repeat="option in getSecurityOptions()" value="{{option}}" ng-disabled="!$parent.securityIsAuthenticated(option)">
                 {{option + (!$parent.securityIsAuthenticated(option) ? ' (Not authenticated)' : '')}}
               </option>

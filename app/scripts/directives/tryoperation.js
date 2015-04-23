@@ -106,16 +106,19 @@ SwaggerEditor.controller('TryOperation', function ($scope, formdataFilter,
       basePath = '';
     }
 
-    // If Auth that extend the parameters with `Authentication parameter
-    var auth = AuthManager.getAuth($scope.selectedSecurity);
-    if (auth) {
-      var authQueryParam = null;
-      if (auth.type === 'apiKey' && auth.security.in === 'query') {
-        authQueryParam = {};
-        authQueryParam[auth.security.name] = auth.options.apiKey;
+    $scope.selectedSecuries.forEach(function (selectedSecurity) {
+
+      // If Auth that extend the parameters with `Authentication parameter
+      var auth = AuthManager.getAuth(selectedSecurity);
+      if (auth) {
+        var authQueryParam = null;
+        if (auth.type === 'apiKey' && auth.security.in === 'query') {
+          authQueryParam = {};
+          authQueryParam[auth.security.name] = auth.options.apiKey;
+        }
+        _.extend(queryParams, authQueryParam);
       }
-      _.extend(queryParams, authQueryParam);
-    }
+    });
 
     var queryParamsStr = window.decodeURIComponent($.param(queryParams));
     var pathStr = '';
@@ -188,21 +191,24 @@ SwaggerEditor.controller('TryOperation', function ($scope, formdataFilter,
       return obj;
     }, {});
 
-    // If Auth that extend the parameters with `Authentication parameter
-    var auth = AuthManager.getAuth($scope.selectedSecurity);
-    if (auth) {
-      var authHeader = null;
-      if (auth.type === 'basic') {
-        authHeader = {Authorization: 'Basic ' + auth.options.base64};
-      } else if (auth.type === 'apiKey' && auth.security.in === 'header') {
-        authHeader = {};
-        authHeader[auth.security.name] = auth.options.apiKey;
-      } else if (auth.type === 'oAuth2') {
-        authHeader = {Authorization: 'Bearer ' + auth.options.accessToken};
-      }
+    $scope.selectedSecuries.forEach(function (selectedSecurity) {
 
-      parameters = _.extend(parameters, authHeader);
-    }
+      // If Auth that extend the parameters with `Authentication parameter
+      var auth = AuthManager.getAuth(selectedSecurity);
+      if (auth) {
+        var authHeader = null;
+        if (auth.type === 'basic') {
+          authHeader = {Authorization: 'Basic ' + auth.options.base64};
+        } else if (auth.type === 'apiKey' && auth.security.in === 'header') {
+          authHeader = {};
+          authHeader[auth.security.name] = auth.options.apiKey;
+        } else if (auth.type === 'oAuth2') {
+          authHeader = {Authorization: 'Bearer ' + auth.options.accessToken};
+        }
+
+        parameters = _.extend(parameters, authHeader);
+      }
+    });
 
     return parameters;
   }
