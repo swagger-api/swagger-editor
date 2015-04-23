@@ -62,7 +62,7 @@ SwaggerEditor.controller('TryOperation', function ($scope, formdataFilter,
     // If parameter do not have a schema use parameter itself as schema
     schema = {type: 'object', properties: {}};
     schema.properties[parameter.name] = _.pick(parameter,
-      'type', 'description', 'required', 'format', 'items');
+      'type', 'description', 'required', 'format', 'items', 'enum');
     return schema;
   }
 
