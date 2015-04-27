@@ -5,7 +5,10 @@ SwaggerEditor.service('Backend', function Backend($http, $q, defaults,
   var changeListeners =  {};
   var buffer = {};
   var throttleTimeout = defaults.backendThrottle || 200;
-  var commit = _.throttle(commitNow, throttleTimeout, {leading: false, trailing: true});
+  var commit = _.throttle(commitNow, throttleTimeout, {
+    leading: false,
+    trailing: true
+  });
 
   function commitNow(data) {
     var result = Builder.buildDocs(data, { resolve: true });
