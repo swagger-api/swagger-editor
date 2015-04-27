@@ -79,6 +79,11 @@ var defaults = {
   useBackendForStorage: false,
 
   /*
+   * The timeout for throttling backend calls
+  */
+  backendThrottle: 200,
+
+  /*
    * URL of the Back-end for storing swagger document. Editor will PUT and GET
    * to this URL to **Save** and **Read** the Swagger document
   */

@@ -3,7 +3,8 @@
 Configuration
 =============
 
-Swagger editor is configured from the file ``app/scripts/enums/default.js``.
+Swagger editor is configured from the file [`app/config/defaults.js`](../app/config/defaults.json).
+To learn more about this file please review [`defaults.json.guide.js`](../app/config/defaults.json.guilde.js).
 
 Custom UI
 ---------
@@ -13,28 +14,31 @@ and `/templates/branding-right.html` files to have custom header.
 
 It's possible to serve a custom CSS file at `/styles/branding.css` path to override editor's appearances.
 
-disableFileMenu
+#### `disableFileMenu`
     Set to ``true`` to disable the editor menu
 
 
 Backends
 --------
 
-backendEndpoint
+#### `backendEndpoint`
     Url to a backend which supports ``GET`` for retrieving a swagger spec to edit
     and ``PUT`` for saving it.
 
-useBackendForStorage
+#### `useBackendForStorage`
     Set to ``true`` to enable a backend.
 
-backendHealthCheckTimeout
+#### `backendHealthCheckTimeout`
     Timeout in millseconds of the http request to healthchecks the backend
 
     .. note::
         This healthcheck is actually hitting location.href, not the url
         specified by backendEndpoint
 
-useYamlBackend
+#### `backendThrottle`
+  The timeout for throttling backend calls. The default is 200 milliseconds
+
+#### `useYamlBackend`
     Set to ``true`` if the backend expects YAML, ``false`` will use JSON
 
     .. note::
@@ -61,10 +65,10 @@ analytics: {
 Code Generation
 ---------------
 
-disableCodeGen
+#### `disableCodeGen`
     Set to ``true`` to hide codegen links for clients and servers.
 
-codegen
+#### `codegen`
     An object with keys ``servers``, ``clients``, ``server``, and ``client``. Each of
     with is a url to (TODO: to what?)
 
@@ -72,10 +76,10 @@ codegen
 Examples
 --------
 
-examplesFolder
+#### `examplesFolder`
     Path to a directory with examples specs
 
-exampleFiles
+#### `exampleFiles`
     List of files in ``exampleFolder`` that contain example specs. The first file
     is used as the default document for the editor when it is opened.
 
@@ -83,6 +87,6 @@ exampleFiles
 Swagger Validation
 ------------------
 
-schemaUrl
+#### `schemaUrl`
     Url of the swagger spec schema, defaults to the schema provided in
     ``app/scripts/enums/swagger-json-schema.js``.
