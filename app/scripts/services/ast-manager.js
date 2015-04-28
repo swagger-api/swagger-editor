@@ -191,14 +191,14 @@ SwaggerEditor.service('ASTManager', function ASTManager() {
         start.column <= row  && end.column >= row) {
         result = path;
 
-      // if this node is a map, loop throw and recurse both keys and value
+      // if this node is a map, loop through and recurse both keys and value
       } else if (current.tag === MAP_TAG) {
         current.value.forEach(function (keyValuePair) {
           recurse(path, keyValuePair[0]); // key
           recurse(path.concat(keyValuePair[0].value), keyValuePair[1]); // value
         });
 
-      // if this node is a sequence, loop throw values and recurse
+      // if this node is a sequence, loop through values and recurse
       } else if (current.tag === SEQ_TAG) {
         current.value.forEach(function (value, index) {
           recurse(path.concat(index), value);

@@ -78,10 +78,7 @@ SwaggerEditor.service('KeywordMap', function KeywordMap(defaults) {
     responses: {
       '.': response
     },
-    tags: {
-      // Tag index
-      '.': String
-    }
+    tags: [String]
   };
   var map = {
     swagger: String,
@@ -100,19 +97,13 @@ SwaggerEditor.service('KeywordMap', function KeywordMap(defaults) {
         url: String
       }
     },
-    host: String,
-    schemas: {
 
-      // schema index (number)
-      '.': schemes
-    },
+    host: String,
     basePath: String,
-    produces: {
-      '.': mimeTypes
-    },
-    consumes: {
-      '.': mimeTypes
-    },
+
+    schemes: [schemes],
+    produces: [mimeTypes],
+    consumes: [mimeTypes],
 
     paths: {
       //path
@@ -126,10 +117,18 @@ SwaggerEditor.service('KeywordMap', function KeywordMap(defaults) {
 
       // Definition name
       '.': {
+        title: String,
+        description: String,
         properties: {
 
           // property name
-          '.': String
+          '.': {
+            type: String,
+            format: String,
+            description: String,
+            title: String,
+            enum: [String]
+          }
         }
       }
     },

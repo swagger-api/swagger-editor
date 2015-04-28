@@ -89,6 +89,12 @@ SwaggerEditor.service('Autocomplete', function ($rootScope, snippets,
       return [];
     }
 
+    // If keywordsMap is describing an array unwrap the inner map so we can
+    // suggest for array items
+    if (angular.isArray(keywordsMap)) {
+      keywordsMap = keywordsMap[0];
+    }
+
     var result = Object.keys(keywordsMap).map(function (keyword) {
       return {
         name: keyword,
