@@ -4,7 +4,7 @@
 <div class="modal-body">
   <div class="form-group">
     <label for="url">URL</label>
-    <input type="text" class="form-control" autofocus="true" ng-model="url" ng-change="fetch(url)">
+    <input type="text" class="form-control" autofocus="true" ng-model="url" ng-change="fetch(url)" auto-focus="200">
   </div>
   <p class="error" ng-if="error">{{error}}</p>
   <p class="can-import" ng-if="canImport">✔ Valid URL</p>
