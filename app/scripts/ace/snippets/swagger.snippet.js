@@ -21,6 +21,21 @@ SwaggerEditor.config(function ($provide) {
     ].join('\n');
   }
 
+  /*
+   * Makes an HTTP response code snippet's content based on code
+   *
+   * @param code {string} - HTTP Response Code
+   *
+   * @returns {string} - Snippet content
+  */
+  function makeResponseCodeSnippet(code) {
+    return [
+      '${1:' + code + '}:',
+      '  description: ${2}',
+      '${3}'
+    ].join('\n');
+  }
+
   $provide.constant('snippets', [
     {
       name: 'swagger',
@@ -125,6 +140,7 @@ SwaggerEditor.config(function ($provide) {
       content: makeOperationSnippet('options')
     },
 
+    // operation level parameter
     {
       name: 'parameter',
       trigger: 'param',
@@ -132,6 +148,20 @@ SwaggerEditor.config(function ($provide) {
       content: [
         '- name: ${1:parameter_name}',
         '  in: ${2:query}',
+        '  description: ${3:description}',
+        '  type: ${4:string}',
+        '${5}'
+      ].join('\n')
+    },
+
+    // path level parameter
+    {
+      name: 'parameter',
+      trigger: 'param',
+      path: ['paths', '.', 'parameters'],
+      content: [
+        '- name: ${1:parameter_name}',
+        '  in: ${2:path}',
         '  description: ${3:description}',
         '  type: ${4:string}',
         '${5}'
@@ -154,13 +184,28 @@ SwaggerEditor.config(function ($provide) {
       name: '200',
       trigger: '200',
       path: ['paths', '.', '.', 'responses'],
-      content: [
-        '200:',
-        '  description: ${1}',
-        '  schema:',
-        '    type: ${2}',
-        '${4}'
-      ].join('\n')
+      content: makeResponseCodeSnippet('200')
+    },
+
+    {
+      name: '300',
+      trigger: '300',
+      path: ['paths', '.', '.', 'responses'],
+      content: makeResponseCodeSnippet('300')
+    },
+
+    {
+      name: '400',
+      trigger: '400',
+      path: ['paths', '.', '.', 'responses'],
+      content: makeResponseCodeSnippet('400')
+    },
+
+    {
+      name: '500',
+      trigger: '500',
+      path: ['paths', '.', '.', 'responses'],
+      content: makeResponseCodeSnippet('500')
     },
 
     {
