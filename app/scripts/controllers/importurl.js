@@ -6,7 +6,10 @@ SwaggerEditor.controller('UrlImportCtrl', function FileImportCtrl($scope,
 
   $scope.url = null;
 
-  $scope.fetch = function (url) {
+  function fetch(url) {
+    $scope.error = null;
+    $scope.canImport = false;
+
     if (angular.isString('string') && url.indexOf('http') > -1) {
       FileLoader.loadFromUrl(url).then(function (data) {
         results = data;
@@ -16,7 +19,9 @@ SwaggerEditor.controller('UrlImportCtrl', function FileImportCtrl($scope,
         $scope.canImport = false;
       });
     }
-  };
+  }
+
+  $scope.fetch = _.throttle(fetch, 200);
 
   $scope.ok = function () {
     if (angular.isString(results)) {
