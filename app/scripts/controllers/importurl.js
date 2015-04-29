@@ -10,7 +10,7 @@ SwaggerEditor.controller('UrlImportCtrl', function FileImportCtrl($scope,
     $scope.error = null;
     $scope.canImport = false;
 
-    if (angular.isString('string') && url.indexOf('http') > -1) {
+    if (_.startsWith(url, 'http')) {
       FileLoader.loadFromUrl(url).then(function (data) {
         results = data;
         $scope.canImport = true;
@@ -18,6 +18,8 @@ SwaggerEditor.controller('UrlImportCtrl', function FileImportCtrl($scope,
         $scope.error = error;
         $scope.canImport = false;
       });
+    } else {
+      $scope.error = 'Invalid URL';
     }
   }
 
