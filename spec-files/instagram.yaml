@@ -122,6 +122,7 @@ security:
     - relationships
     - likes
 paths:
+
   /users/{user_id}:
     parameters:
       - name: user_id
@@ -144,6 +145,130 @@ paths:
             properties:
               data:
                 $ref: '#/definitions/User'
+
+  /users/self/feed:
+    get:
+      tags:
+        - Users
+      description: See the authenticated user's feed.
+      parameters:
+        - name: count
+          in: query
+          description: Count of media to return.
+          type: integer
+        - name: max_id
+          in: query
+          description: Return media earlier than this max_id.s
+          type: integer
+        - name: min_id
+          in: query
+          description: Return media later than this min_id.
+
+          type: integer
+      responses:
+        200:
+          description: OK
+          schema:
+            type: object
+            properties:
+              data:
+                type: array
+                items:
+                  $ref: '#/definitions/Media'
+
+  /users/{user-id}/media/recent:
+    parameters:
+      - name: user-id
+        in: path
+        description: description
+        type: integer
+    get:
+      tags:
+        - Users
+      responses:
+        200:
+          description: Get the most recent media published by a user. To get the most recent media published by the owner of the access token, you can use `self` instead of the `user-id`.
+          schema:
+            type: object
+            properties:
+              data:
+                type: array
+                items:
+                  $ref: '#/definitions/Media'
+      parameters:
+        - name: count
+          in: query
+          description: Count of media to return.
+          type: integer
+        - name: max_timestamp
+          in: query
+          description: Return media before this UNIX timestamp.
+          type: integer
+        - name: min_timestamp
+          in: query
+          description: Return media after this UNIX timestamp.
+          type: integer
+        - name: min_id
+          in: query
+          description: Return media later than this min_id.
+          type: string
+        - name: max_id
+          in: query
+          description: Return media earlier than this max_id.
+          type: string
+
+  /users/self/media/liked:
+    get:
+      tags:
+        - Users
+      description: See the list of media liked by the authenticated user. Private media is returned as long as the authenticated user has permission to view that media. Liked media lists are only available for the currently authenticated user.
+      responses:
+        200:
+          description: OK
+          schema:
+            type: object
+            properties:
+              data:
+                type: array
+                items:
+                  $ref: '#/definitions/Media'
+      parameters:
+        - name: count
+          in: query
+          description: Count of media to return.
+          type: integer
+        - name: max_like_id
+          in: query
+          description: Return media liked before this id.
+          type: integer
+
+  /users/search:
+    get:
+      tags:
+        - Users
+      description: Search for a user by name.
+      parameters:
+        - name: q
+          in: query
+          description: A query string
+          type: string
+        - name: count
+          in: query
+          description: Number of users to return.
+          type: string
+      responses:
+        200:
+          description: OK
+          schema:
+            type: object
+            properties:
+              data:
+                type: array
+                items:
+                  $ref: '#/definitions/MiniProfile'
+
+
+
 definitions:
   User:
     type: object
@@ -169,3 +294,73 @@ definitions:
             type: integer
           follwed_by:
             type: integer
+  Media:
+    type: object
+    properties:
+      created_time:
+        description: Epoc time (ms)
+        type: integer
+      type:
+        type: string
+      filter:
+        type: string
+      tags:
+        type: array
+        items: {} # TODO
+      id:
+        type: integer
+      user:
+        $ref: '#/definitions/MiniProfile'
+      users_in_photo:
+        type: array
+        items: {} # TODO
+      location:
+        $ref: '#/definitions/Location'
+      comments::
+        type: object
+        properties:
+          count:
+            type: integer
+          data:
+            type: array
+            items:
+              $ref: '#/definitions/Comment'
+      likes:
+        type: object
+        properties:
+          count:
+            type: integer
+          data:
+            type: array
+            items:
+              $ref: '#/definitions/MiniProfile'
+      images:
+        properties:
+          low_resolution:
+            $ref: '#/definitions/Image'
+          thumbnail:
+            $ref: '#/definitions/Image'
+          standard_resolution:
+            $ref: '#/definitions/Image'
+      videos: {} #TODO
+  Location: {}
+  Comment: {}
+  Image:
+    properties:
+      width:
+        type: integer
+      height:
+        type: integer
+      url:
+        type: string
+  MiniProfile:
+    description: A shorter version of User for likes array
+    properties:
+      user_name:
+        type: string
+      full_name:
+        type: string
+      id:
+        type: integer
+      profile_picture:
+        type: string # Not sure about this
