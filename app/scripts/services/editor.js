@@ -1,11 +1,13 @@
 'use strict';
 
 SwaggerEditor.service('Editor', function Editor(Autocomplete, ASTManager,
-  LocalStorage, $interval) {
+  LocalStorage, defaults, $interval) {
   var editor = null;
   var onReadyFns = [];
   var changeFoldFns = [];
   var that = this;
+  var editorOptions = defaults.editorOptions || {};
+  var defaultTheme = editorOptions.theme || 'ace/theme/atom_dark';
 
   function annotateYAMLErrors(error) {
     if (error && error.mark && error.reason) {
@@ -65,11 +67,8 @@ SwaggerEditor.service('Editor', function Editor(Autocomplete, ASTManager,
   function loadEditorSettings() {
     if (editor) {
       LocalStorage.load('editor-settings').then(function (options) {
-        if (!options) {
-          editor.setOption('theme', 'ace/theme/atom_dark');
-        } else {
-          editor.setOptions(options);
-        }
+        options = options || {theme: defaultTheme};
+        editor.setOptions(options);
       });
     }
   }
@@ -158,52 +157,8 @@ SwaggerEditor.service('Editor', function Editor(Autocomplete, ASTManager,
   }
 
   function resetSettings() {
-    var defaultOptions = {
-      selectionStyle: 'line',
-      highlightActiveLine: true,
-      highlightSelectedWord: true,
-      readOnly: false,
-      cursorStyle: 'ace',
-      mergeUndoDeltas: true,
-      behavioursEnabled: true,
-      wrapBehavioursEnabled: true,
-      hScrollBarAlwaysVisible: false,
-      vScrollBarAlwaysVisible: false,
-      highlightGutterLine: true,
-      animatedScroll: false,
-      showInvisibles: false,
-      showPrintMargin: true,
-      printMarginColumn: 80,
-      printMargin: 80,
-      fadeFoldWidgets: false,
-      showFoldWidgets: true,
-      showLineNumbers: true,
-      showGutter: true,
-      displayIndentGuides: true,
-      fontSize: 12,
-      fontFamily: 'Source Code Pro',
-      scrollPastEnd: 0,
-      theme: 'ace/theme/atom_dark',
-      scrollSpeed: 2,
-      dragDelay: 150,
-      dragEnabled: true,
-      focusTimout: 0,
-      tooltipFollowsMouse: true,
-      firstLineNumber: 1,
-      overwrite: false,
-      newLineMode: 'auto',
-      useWorker: true,
-      useSoftTabs: true,
-      tabSize: 2,
-      wrap: 'free',
-      mode: 'ace/mode/yaml',
-      enableMultiselect: true,
-      enableBasicAutocompletion: true,
-      enableLiveAutocompletion: true,
-      enableSnippets: true
-    };
     if (window.confirm('Are you sure?') && editor) {
-      editor.setOptions(defaultOptions);
+      editor.setOptions(editorOptions);
       saveEditorSettings();
     }
   }

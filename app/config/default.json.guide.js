@@ -54,6 +54,12 @@ var defaults = {
   examplesFolder: '/spec-files/',
 
   /*
+   * Ace editor options. This object will overload existing editor options.
+   * See all possible options here: http://ace.c9.io/#nav=api&api=ace
+  */
+  editorOptions: {},
+
+  /*
    * List of example files to show to user to pick from. The URL to fetch each
    * example is a combination of `examplesFolder` and file name
   */

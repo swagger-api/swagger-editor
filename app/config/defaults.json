@@ -12,6 +12,9 @@
   },
   "disableCodeGen": false,
   "examplesFolder": "/spec-files/",
+  "editorOptions": {
+    "theme": "ace/theme/atom_dark"
+  },
   "exampleFiles": [
     "default.yaml",
     "heroku-pets.yaml",

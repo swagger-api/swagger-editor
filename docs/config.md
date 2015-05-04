@@ -21,6 +21,9 @@ file you can add new controllers to Swagger Editor.
 #### `disableFileMenu`
 Set to `true` to disable the editor menu
 
+#### `editorOptions`
+Ace editor options. This object will overload existing editor options.
+See all possible options [here](http://ace.c9.io/#nav=api&api=ace)
 
 Backends
 --------
