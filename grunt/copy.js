@@ -19,7 +19,8 @@ module.exports = {
         'schema/*',
         'spec-files/*',
         'CNAME',
-        'styles/branding.css'
+        'styles/branding.css',
+        'scripts/branding.js'
       ]
     },
     {

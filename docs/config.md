@@ -14,6 +14,10 @@ and `/templates/branding-right.html` files to have custom header.
 
 It's possible to serve a custom CSS file at `/styles/branding.css` path to override editor's appearances.
 
+It's also possible to serve a custom JavaScript file at `/scirpts/branding.js` to add 
+new functionalities to Swagger Editor. Using branding HTML pieces and branding JavaScript
+file you can add new controllers to Swagger Editor.
+
 #### `disableFileMenu`
 Set to `true` to disable the editor menu
 
