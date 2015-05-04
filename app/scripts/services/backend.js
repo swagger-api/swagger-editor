@@ -1,7 +1,7 @@
 'use strict';
 
 SwaggerEditor.service('Backend', function Backend($http, $q, defaults,
-  Builder) {
+  Builder, ExternalHooks) {
   var changeListeners =  {};
   var buffer = {};
   var throttleTimeout = defaults.backendThrottle || 200;
@@ -13,7 +13,12 @@ SwaggerEditor.service('Backend', function Backend($http, $q, defaults,
   function commitNow(data) {
     var result = Builder.buildDocs(data, { resolve: true });
     if (!result.error) {
-      $http.put(defaults.backendEndpoint, data);
+      $http.put(defaults.backendEndpoint, data)
+        .then(function success() {
+          ExternalHooks.trigger('put-success', [].slice.call(arguments));
+        }, function failure() {
+          ExternalHooks.trigger('put-failure', [].slice.call(arguments));
+        });
     }
   }
 

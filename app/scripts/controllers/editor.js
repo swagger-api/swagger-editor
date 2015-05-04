@@ -1,7 +1,7 @@
 'use strict';
 
 SwaggerEditor.controller('EditorCtrl', function EditorCtrl($scope, $rootScope,
-  Editor, Builder, Storage, ASTManager) {
+  Editor, Builder, Storage, ASTManager, ExternalHooks) {
   var debouncedOnAceChange = _.debounce(onAceChange, 200);
 
   $scope.aceLoaded = Editor.aceLoaded;
@@ -23,5 +23,6 @@ SwaggerEditor.controller('EditorCtrl', function EditorCtrl($scope, $rootScope,
 
     Storage.save('yaml', value);
     ASTManager.refresh($rootScope.editorValue);
+    ExternalHooks.trigger('code-change', []);
   }
 });

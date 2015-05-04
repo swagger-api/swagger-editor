@@ -25,6 +25,28 @@ Set to `true` to disable the editor menu
 Ace editor options. This object will overload existing editor options.
 See all possible options [here](http://ace.c9.io/#nav=api&api=ace)
 
+External Hooks
+--------------
+
+Swagger Editor provides an API for executing arbitrary code on certain events.
+
+To install a hook simply use `SwaggerEditor.on()` method. `.on()` method accepts two arguments,
+the first argument is the event name and the second argument is callback function that will be invoked when 
+that event occurs.
+
+Here is a list of available event names:
+
+* `'code-change'`
+* `'put-success'`
+* `'put-failure`
+
+#### Example usage of external hooks
+```js
+SwaggerEditor.on('put-failure', function() {
+  alert('There was something wrong with saving your document.');
+});
+```
+
 Backends
 --------
 
