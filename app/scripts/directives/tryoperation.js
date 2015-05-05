@@ -151,10 +151,12 @@ SwaggerEditor.controller('TryOperation', function ($scope, formdataFilter,
         // if there is no default value select a default value based on type
         } else if (angular.isDefined(defaults[paramSchema.type])) {
 
+          var title = parameter.title;
+
           if (paramSchema.type === 'object') {
-            model.parameters[paramSchema.title] = createEmptyObject(paramSchema);
+            model.parameters[title] = createEmptyObject(paramSchema);
           } else {
-            model.parameters[paramSchema.title] = defaults[paramSchema.type];
+            model.parameters[title] = defaults[paramSchema.type];
           }
 
         // use empty string as fallback
