@@ -25,12 +25,13 @@
     "swagger-converter": "0.1.0",
     "lodash": "3.6.0",
     "apply-diff": "~1.2.4",
-    "async": "~0.9.2"
+    "async": "~0.9.2",
+    "json-editor": "~0.7.15",
+    "schema-form": "~0.0.1"
   },
   "dependencies": {
     "json-formatter": "0.2.7",
     "angular-ui-layout": "1.0.5",
-    "json-schema-view": "0.4.1",
-    "angular-schema-form": "0.8.0"
+    "json-schema-view": "0.4.1"
   }
 }
