@@ -151,7 +151,7 @@ SwaggerEditor.controller('TryOperation', function ($scope, formdataFilter,
         // if there is no default value select a default value based on type
         } else if (angular.isDefined(defaults[paramSchema.type])) {
 
-          var title = parameter.title;
+          var title = paramSchema.title;
 
           if (paramSchema.type === 'object') {
             model.parameters[title] = createEmptyObject(paramSchema);
@@ -198,6 +198,16 @@ SwaggerEditor.controller('TryOperation', function ($scope, formdataFilter,
       if (schema.items) {
         schema.type = 'array';
       }
+    }
+
+    // Swagger extended JSON Schema with a new type, file. If we see file type
+    // we are going to make it an object with a specific key
+    // TODO: Figure out file upload
+    if (schema.type === 'file') {
+      schema.type = 'object';
+      schema.properties = {
+        '__file__(not implemented yet)': {type: 'boolean'}
+      };
     }
 
     return schema;
