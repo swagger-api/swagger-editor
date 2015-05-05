@@ -1,10 +1,145 @@
 'use strict';
 
 SwaggerEditor.controller('TryOperation', function ($scope, formdataFilter,
-  AuthManager) {
+  AuthManager, SchemaForm) {
   var specs = $scope.$parent.specs;
   var rawModel = '';
   var NONE_SECURITY = 'None';
+
+  // setup SchemaForm
+  SchemaForm.options = {
+    theme: 'bootstrap3'
+  };
+
+  $scope.requestModel = makeRequestModel();
+  $scope.requestSchema = makeRequestSchema();
+
+  /*
+   * TODO
+  */
+  function makeRequestSchema() {
+
+    // base schema
+    var schema = {
+      type: 'object',
+      title: 'Request',
+      properties: {
+        scheme: {
+          type: 'string',
+          title: 'Scheme',
+
+          // Add schemes
+          enum: walkToProperty('schemes')
+        },
+        accept: {
+          type: 'string',
+          title: 'Accept',
+
+          // All possible Accept headers
+          enum: walkToProperty('produces')
+        },
+        security: {
+          title: 'Security',
+          description: 'Authenticate securities before using them.',
+          type: 'array',
+          uniqueItems: true,
+          items: {
+            type: 'string',
+
+            // All security options
+            // TODO: How to tell user some security options are not yet
+            // authenticated?
+            enum: getSecurityOptions()
+          }
+        }
+      }
+    };
+
+
+    return schema;
+  }
+
+  /*
+   * TODO
+  */
+  function makeRequestModel() {
+
+    // base model
+    var model = {
+
+      // Add first scheme as default scheme
+      scheme: [walkToProperty('schemes')[0]],
+
+      // Default Accept header is the first one
+      accept: walkToProperty('produces')[0],
+
+      // Default security option is no security
+      security: [NONE_SECURITY],
+
+    };
+
+    return model;
+  }
+
+  /*
+   * Because some properties are cascading this walks up the tree to get them
+  */
+  function walkToProperty (propertyName) {
+    var defaultProperties = {
+      produces: ['*/*'],
+      schemes: ['http']
+    };
+
+    if (Array.isArray($scope.operation[propertyName])) {
+      return $scope.operation[propertyName];
+    } else if (Array.isArray($scope.specs[propertyName])) {
+      return $scope.specs[propertyName];
+    }
+
+    // By default return the default property if it exists
+    if (defaultProperties[propertyName]) {
+      return defaultProperties[propertyName];
+    }
+    return undefined;
+  }
+
+  /*
+   * TODO
+  */
+  function getSecurityOptions() {
+    var securityOptions = [NONE_SECURITY];
+    if (Array.isArray($scope.operation.security)) {
+      securityOptions = securityOptions.concat(
+        $scope.operation.security.map(function (security) {
+          return Object.keys(security)[0];
+        })
+      );
+    }
+    if (Array.isArray($scope.specs.security)) {
+      securityOptions = securityOptions.concat(
+        $scope.specs.security.map(function (security) {
+          return Object.keys(security)[0];
+        })
+      );
+    }
+    return _.unique(securityOptions);
+  }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
   $scope.httpProtorcol = 'HTTP/1.1';
   $scope.generateUrl = generateUrl;
@@ -240,27 +375,7 @@ SwaggerEditor.controller('TryOperation', function ($scope, formdataFilter,
     return headerParams;
   };
 
-  /*
-   * Because some properties are cascading this walks up the tree to get them
-  */
-  $scope.walkToProperty = function (propertyName) {
-    var defaultProperties = {
-      produces: ['*/*'],
-      schemes: ['http']
-    };
-
-    if (Array.isArray($scope.operation[propertyName])) {
-      return $scope.operation[propertyName];
-    } else if (Array.isArray($scope.specs[propertyName])) {
-      return $scope.specs[propertyName];
-    }
-
-    // By default return the default property if it exists
-    if (defaultProperties[propertyName]) {
-      return defaultProperties[propertyName];
-    }
-    return undefined;
-  };
+  $scope.walkToProperty = walkToProperty;
 
   /*
    * Get model of a parameter
@@ -365,24 +480,7 @@ SwaggerEditor.controller('TryOperation', function ($scope, formdataFilter,
     return parseHeaders(xhr.getAllResponseHeaders());
   }
 
-  $scope.getSecurityOptions = function () {
-    var securityOptions = [NONE_SECURITY];
-    if (Array.isArray($scope.operation.security)) {
-      securityOptions = securityOptions.concat(
-        $scope.operation.security.map(function (security) {
-          return Object.keys(security)[0];
-        })
-      );
-    }
-    if (Array.isArray($scope.specs.security)) {
-      securityOptions = securityOptions.concat(
-        $scope.specs.security.map(function (security) {
-          return Object.keys(security)[0];
-        })
-      );
-    }
-    return _.unique(securityOptions);
-  };
+  $scope.getSecurityOptions = getSecurityOptions;
   $scope.securityIsAuthenticated = function (securityName) {
     if (securityName === NONE_SECURITY) {
       return true;
