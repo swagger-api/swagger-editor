@@ -4,7 +4,19 @@ SwaggerEditor.controller('TryOperation', function ($scope, formdataFilter,
   AuthManager, SchemaForm) {
   var specs = $scope.$parent.specs;
   var rawModel = '';
-  var NONE_SECURITY = 'None';
+
+  var parameters = $scope.getParameters();
+  var hasBodyParam = parameters.some(function (param) {
+    return param.in === 'body' || param.in === 'formData';
+  });
+
+  $scope.httpProtorcol = 'HTTP/1.1';
+  $scope.generateUrl = generateUrl;
+  $scope.makeCall = makeCall;
+  $scope.xhrInProgress = false;
+  $scope.parameters = parameters;
+
+  var securityOptions = getSecurityOptions();
 
   // setup SchemaForm
   SchemaForm.options = {
@@ -37,24 +49,58 @@ SwaggerEditor.controller('TryOperation', function ($scope, formdataFilter,
 
           // All possible Accept headers
           enum: walkToProperty('produces')
-        },
-        security: {
-          title: 'Security',
-          description: 'Authenticate securities before using them.',
-          type: 'array',
-          uniqueItems: true,
-          items: {
-            type: 'string',
-
-            // All security options
-            // TODO: How to tell user some security options are not yet
-            // authenticated?
-            enum: getSecurityOptions()
-          }
         }
       }
     };
 
+    // Only if there is a security definition add security property
+    if (securityOptions) {
+      schema.properties.security = {
+        title: 'Security',
+        description: 'Authenticate securities before using them.',
+        type: 'array',
+        uniqueItems: true,
+        items: {
+          type: 'string',
+
+          // All security options
+          // TODO: How to tell user some security options are not yet
+          // authenticated?
+          enum: securityOptions
+        }
+      };
+    }
+
+    // Add Content-Type header only if this operation has a body parameter
+    if (hasBodyParam) {
+      schema.properties.contentType = {
+        type: 'string',
+        title: 'Content-Type',
+        enum: [
+          'multipart/form-data',
+          'application/x-www',
+          'application/json'
+        ]
+      };
+    }
+
+    // Only if there is a parameter add the parameters property
+    if (parameters.length) {
+      schema.properties.parameters = {
+        type: 'object',
+        title: 'Parameters',
+        properties: {}
+      };
+
+      // Add a new property for each parameter
+      parameters.map(pickSchemaFromParameter).map(normalizeJSONSchema)
+      .forEach(function (paramSchema) {
+
+        // extend the parameters property with the schema
+        schema.properties.parameters
+          .properties[paramSchema.title] = paramSchema;
+      });
+    }
 
     return schema;
   }
@@ -71,14 +117,88 @@ SwaggerEditor.controller('TryOperation', function ($scope, formdataFilter,
       scheme: [walkToProperty('schemes')[0]],
 
       // Default Accept header is the first one
-      accept: walkToProperty('produces')[0],
-
-      // Default security option is no security
-      security: [NONE_SECURITY],
-
+      accept: walkToProperty('produces')[0]
     };
 
+    // if there is security options add the security property
+    if (securityOptions.length) {
+      model.security = securityOptions[0];
+    }
+
+    // Add Content-Type header only if this operation has a body parameter
+    if (hasBodyParam) {
+
+      // Default to application/json
+      model.contentType = 'application/json';
+    }
+
+    // Only if there is a parameter add the parameters default values
+    if (parameters.length) {
+      model.parameters = {};
+      parameters.map(pickSchemaFromParameter).map(normalizeJSONSchema)
+      .forEach(function (paramSchema) {
+        var defaults = {
+          object: {},
+          array: [],
+          integer: 0,
+          string: ''
+        };
+
+        // if default value is provided use it
+        if (angular.isDefined(paramSchema.default)) {
+          model.parameters[paramSchema.title] = paramSchema.default;
+
+        // if there is no default value select a default value based on type
+        } else if (angular.isDefined(defaults[paramSchema.type])) {
+
+          if (paramSchema.type === 'object') {
+            model.parameters[paramSchema.title] = createEmptyObject(paramSchema);
+          } else {
+            model.parameters[paramSchema.title] = defaults[paramSchema.type];
+          }
+
+        // use empty string as fallback
+        } else {
+          model.parameters[paramSchema.title] = '';
+        }
+      });
+    }
+
     return model;
+  }
+
+
+  /*
+   * Fills in empty gaps of a JSON Schema. This method is mostly used to
+   * normalize JSON Schema objects that are abstracted from Swagger parameters
+   *
+   * @param {object} - JSON Schema
+   *
+   * @returns {object} - Normalized JSON Schema
+  */
+  function normalizeJSONSchema(schema) {
+
+    // provide title property if it's missing.
+    if (!schema.title && angular.isString(schema.name)) {
+      schema.title = schema.name;
+    }
+
+    // if schema is missing the "type" property fill it in based on available
+    // properties
+    if (!schema.type) {
+
+      // it's an object if it has "properties" property
+      if (schema.properties) {
+        schema.type = 'object';
+      }
+
+      // it's an array if it has "items" property
+      if (schema.items) {
+        schema.type = 'array';
+      }
+    }
+
+    return schema;
   }
 
   /*
@@ -107,7 +227,7 @@ SwaggerEditor.controller('TryOperation', function ($scope, formdataFilter,
    * TODO
   */
   function getSecurityOptions() {
-    var securityOptions = [NONE_SECURITY];
+    var securityOptions = [];
     if (Array.isArray($scope.operation.security)) {
       securityOptions = securityOptions.concat(
         $scope.operation.security.map(function (security) {
@@ -129,88 +249,152 @@ SwaggerEditor.controller('TryOperation', function ($scope, formdataFilter,
 
 
 
+  /*
+   * Picks JSON Schema from parameter
+   * Since the parameter is a subset of JSON Schema we need to add
+   * the missing properties
+   *
+   * @param {object} parameter - the parameter
+   * @returns {object} - the schema
+  */
+  function pickSchemaFromParameter(parameter) {
 
+    // if parameter has a schema use it directly
+    if (parameter.schema) {
+      return parameter.schema;
 
-
-
-
-
-
-
-
-
-
-
-  $scope.httpProtorcol = 'HTTP/1.1';
-  $scope.generateUrl = generateUrl;
-  $scope.makeCall = makeCall;
-  $scope.xhrInProgress = false;
-
-  if (Array.isArray($scope.getParameters())) {
-    $scope.parameters = $scope.getParameters().map(makeParam);
-  } else {
-    $scope.parameters = [];
+    // if parameter does not have a schema, use the parameter itself as
+    // schema.
+    } else {
+      return parameter;
+    }
   }
 
-  function makeParam(parameter) {
-    var param = _.extend(parameter, {
-      schema: schemaForParameter(parameter),
-      form: formForParameter(parameter),
-      model: {}
+
+  /*
+   * Creates empty object from JSON Schema
+   *
+   * @param {object} schema - JSON Schema
+   *
+   * @returns {object} - result (empty object based on the schema)
+  */
+  function createEmptyObject(schema) {
+    if (schema.type !== 'object') {
+      throw new TypeError('schema should be an object schema.');
+    }
+
+    // TODO: expand this list
+    var defaultValues = {
+      'string': '',
+      'integer': 0
+    };
+
+    var result = {};
+
+    Object.keys(schema.properties).forEach(function (propertyName) {
+
+      // if this property is an object itself, recurse
+      if (schema.properties[propertyName].type === 'object') {
+        result[propertyName] =
+          createEmptyObject(schema.properties[propertyName]);
+
+      // otherwise use the defaultValues hash
+      } else {
+        result[propertyName] =
+          defaultValues[schema.properties[propertyName].type] || null;
+      }
     });
 
-    if ((parameter.schema && parameter.schema.type === 'array') ||
-      parameter.type === 'array') {
-      param.model[parameter.name] = [];
-    }
-
-    return param;
+    return result;
   }
 
-  function schemaForParameter(parameter) {
-    var schema;
 
-    // For rendering form we need "type" key
-    if (parameter && parameter.schema) {
-      if (!parameter.schema.type) {
-        parameter.schema.type = 'object';
-      }
 
-      // Work around angular-schema-form issue handling array types
-      if (parameter.schema.type === 'array') {
-        schema = {
-          type: 'object',
-          properties: {}
-        };
 
-        schema.properties[parameter.name] = parameter.schema;
-        schema.properties[parameter.name].type = 'array';
 
-        // TODO: Is this always true?
-        schema.properties[parameter.name].items.type = 'object';
 
-        return schema;
-      }
-      return parameter.schema;
-    }
 
-    // If parameter do not have a schema use parameter itself as schema
-    schema = {type: 'object', properties: {}};
-    schema.properties[parameter.name] = _.pick(parameter,
-      'type', 'description', 'required', 'format', 'items', 'enum');
-    return schema;
-  }
 
-  function formForParameter(parameter) {
-    // Work around angular-schema-form issue handling array types
-    if (parameter.schema && parameter.schema.type === 'array') {
-      var form = [{key: parameter.name}];
+  // --------------------------------- OLD STUFF -------------------------------
 
-      form[0].items = [parameter.name + '[]'];
-      return form;
-    }
-    return ['*'];
-  }
+
+  /*
+   * TODO
+  */
+  // function hasBodyParam() {
+  //   return $scope.parameters.some(function (param) {
+  //     return param.in === 'body' || param.in === 'formData';
+  //   });
+  // }
+
+  /*
+   * Makes the parameter object compatible with JSON Schema
+   *
+   * TODO
+   *
+   * TODO
+  */
+  // function makeParam(parameter) {
+  //   var param = _.extend(parameter, {
+  //     schema: schemaForParameter(parameter),
+  //     form: formForParameter(parameter),
+  //     model: {}
+  //   });
+
+  //   if ((parameter.schema && parameter.schema.type === 'array') ||
+  //     parameter.type === 'array') {
+  //     param.model[parameter.name] = [];
+  //   }
+
+  //   return param;
+  // }
+
+
+
+  // function schemaForParameter(parameter) {
+  //   var schema;
+
+  //   // For rendering form we need "type" key
+  //   if (parameter && parameter.schema) {
+  //     if (!parameter.schema.type) {
+  //       parameter.schema.type = 'object';
+  //     }
+
+  //     // Work around angular-schema-form issue handling array types
+  //     if (parameter.schema.type === 'array') {
+  //       schema = {
+  //         type: 'object',
+  //         properties: {}
+  //       };
+
+  //       schema.properties[parameter.name] = parameter.schema;
+  //       schema.properties[parameter.name].type = 'array';
+
+  //       // TODO: Is this always true?
+  //       schema.properties[parameter.name].items.type = 'object';
+
+  //       return schema;
+  //     }
+  //     return parameter.schema;
+  //   }
+
+  //   // If parameter do not have a schema use parameter itself as schema
+  //   schema = {type: 'object', properties: {}};
+  //   schema.properties[parameter.name] = _.pick(parameter,
+  //     'type', 'description', 'required', 'format', 'items', 'enum');
+  //   return schema;
+  // }
+
+  // function formForParameter(parameter) {
+  //   // Work around angular-schema-form issue handling array types
+  //   if (parameter.schema && parameter.schema.type === 'array') {
+  //     var form = [{key: parameter.name}];
+
+  //     form[0].items = [parameter.name + '[]'];
+  //     return form;
+  //   }
+  //   return ['*'];
+  // }
 
   function filterParamsFor(type) {
     return function filterParams(result, param) {
@@ -266,11 +450,7 @@ SwaggerEditor.controller('TryOperation', function ($scope, formdataFilter,
       (queryParamsStr ? '?' + queryParamsStr : '');
   }
 
-  $scope.hasBodyParam = function () {
-    return $scope.parameters.some(function (param) {
-      return param.in === 'body' || param.in === 'formData';
-    });
-  };
+  $scope.hasBodyParam = hasBodyParam;
 
   $scope.rawChanged = function (change) {
     var editor = change[1];
@@ -482,9 +662,6 @@ SwaggerEditor.controller('TryOperation', function ($scope, formdataFilter,
 
   $scope.getSecurityOptions = getSecurityOptions;
   $scope.securityIsAuthenticated = function (securityName) {
-    if (securityName === NONE_SECURITY) {
-      return true;
-    }
     return AuthManager.securityIsAuthenticated(securityName);
   };
 });

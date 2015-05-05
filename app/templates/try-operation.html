@@ -2,55 +2,10 @@
   <div class="request">
     <form schema-form="requestSchema" ng-model="requestModel"></form>
 
-  <tabset justified="true">
-      <tab heading="Form" select="setInputMode('form')">
-        <div class="parameters" ng-repeat="parameter in parameters">
-          <form sf-schema="parameter.schema" sf-form="parameter.form" sf-model="parameter.model"></form>
-        </div>
-      </tab>
-      <tab heading="Raw" select="setInputMode('raw')" ng-if="hasBodyParam()">
-        <div class="raw-model" ng-model="$parent.rawModel" ui-ace="{theme:'github', mode: 'json', onChange: rawChanged}"></div>
-      </tab>
-    </tabset>
+    <pre>{{requestModel | json}}</pre>
 
-    <table class="options-table">
-      <tbody>
-        <tr ng-if="specs.schemes">
-          <td><label>Scheme</label></td>
-          <td>
-             <select ng-model="$parent.scheme" ng-init="$parent.scheme = walkToProperty('schemes')[0]" ng-options="o as o for o in walkToProperty('schemes')"></select>
-          </td>
-        </tr>
-        <tr ng-if="hasBodyParam()">
-          <td><label>Content Type</label></td>
-          <td>
-            <select ng-model="$parent.contentType" ng-init="$parent.contentType = 'multipart/form-data'">
-              <option value="multipart/form-data">multipart/form-data</option>
-              <option value="application/x-www-form-urlencoded">application/x-www-form-urlencoded</option>
-              <option value="application/json">application/json</option>
-            </select>
-          </td>
-        </tr>
-        <tr ng-if="walkToProperty('produces').length">
-          <td><label>Accept</label></td>
-          <td>
-            <select ng-model="$parent.accepts" ng-options="o as o for o in walkToProperty('produces')" ng-init="$parent.accepts = walkToProperty('produces')[0]"></select>
-          </td>
-        </tr>
-        <tr>
-          <td><label>Security</label></td>
-          <td>
-            <select multiple ng-model="$parent.selectedSecuries" ng-init="$parent.selectedSecuries = [getSecurityOptions()[0]]">
-              <option ng-repeat="option in getSecurityOptions()" value="{{option}}" ng-disabled="!$parent.securityIsAuthenticated(option)">
-                {{option + (!$parent.securityIsAuthenticated(option) ? ' (Not authenticated)' : '')}}
-              </option>
-            </select>
-          </td>
-        </tr>
-      </tbody>
-    </table>
 
-    <div class="raw-request raw">
+    <!-- div class="raw-request raw">
       <div class="line url">
         {{operation.operationName | uppercase}}
         <a href="{{generateUrl()}}" target="_blank">{{generateUrl()}}</a>
@@ -97,6 +52,6 @@
         </div>
       </tab>
     </tabset>
-    </div>
+    </div> -->
   </div>
 </div>
