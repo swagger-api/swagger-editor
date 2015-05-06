@@ -95,7 +95,7 @@ SwaggerEditor.controller('TryOperation', function ($scope, formdataFilter,
         title: 'Content-Type',
         enum: [
           'multipart/form-data',
-          'application/x-www',
+          'x-www-form-urlencoded',
           'application/json'
         ]
       };
@@ -531,6 +531,7 @@ SwaggerEditor.controller('TryOperation', function ($scope, formdataFilter,
   function getRequestBody() {
 
     var bodyModel = getBodyModel();
+    var contentType = $scope.requestModel.contentType;
 
     // if bodyModel doesn't exists, don't make a request body
     if (bodyModel === undefined) {
@@ -538,19 +539,19 @@ SwaggerEditor.controller('TryOperation', function ($scope, formdataFilter,
     }
 
     // if encoding is not defined, return body model as is
-    if (!$scope.contentType) {
+    if (!contentType) {
       return bodyModel;
 
     // if body has form-data encoding use formdataFilter to encode it to string
-    } else if ($scope.contentType.indexOf('form-data') > -1) {
+    } else if (contentType.indexOf('form-data') > -1) {
       return formdataFilter(bodyModel);
 
     // if body has application/json encoding use JSON to stringify it
-    } else if ($scope.contentType.indexOf('application/json') > -1) {
+    } else if (contentType.indexOf('application/json') > -1) {
       return JSON.stringify(bodyModel, null, 2);
 
     // if encoding is x-www-form-urlencoded use jQuery.param method to stringify
-    } else if ($scope.contentType.indexOf('x-www-form-urlencoded') > -1) {
+    } else if (contentType.indexOf('x-www-form-urlencoded') > -1) {
       return $.param(bodyModel);
     }
 
