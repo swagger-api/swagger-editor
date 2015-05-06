@@ -2,32 +2,42 @@
 
 SwaggerEditor.controller('TryOperation', function ($scope, formdataFilter,
   AuthManager, SchemaForm) {
+
+  // configure SchemaForm directive
+  SchemaForm.options = {
+    theme: 'bootstrap3'
+  };
+
   var specs = $scope.$parent.specs;
   var rawModel = '';
-
   var parameters = $scope.getParameters();
-  var hasBodyParam = parameters.some(function (param) {
-    return param.in === 'body' || param.in === 'formData';
-  });
-
-  // httpProtocol is static for now we can use HTTP2 later if we wanted
-  $scope.httpProtorcol = 'HTTP/1.1';
+  var hasBodyParam = parameters.some(isBodyparameter);
+  var securityOptions = getSecurityOptions();
 
   // binds to $scope
   $scope.generateUrl = generateUrl;
   $scope.makeCall = makeCall;
   $scope.xhrInProgress = false;
   $scope.parameters = parameters;
-
-  var securityOptions = getSecurityOptions();
-
-  // setup SchemaForm
-  SchemaForm.options = {
-    theme: 'bootstrap3'
-  };
-
+  $scope.hasBodyParam = hasBodyParam; // TODO: is this necessary?
+  $scope.getHeaders = getHeaders;
   $scope.requestModel = makeRequestModel();
   $scope.requestSchema = makeRequestSchema();
+  // httpProtocol is static for now we can use HTTP2 later if we wanted
+  $scope.httpProtorcol = 'HTTP/1.1';
+  $scope.walkToProperty = walkToProperty; // TODO: is this necessary?
+  $scope.getRequestBody = getRequestBody;
+
+  /*
+   * Determines if a parameter is a body parameter.
+   *  Body parameters have an "in" property equal to "body" or "formData"
+   *
+   * @param {object} - A Swagger parameter object
+   * @returns {boolesn} - true if parameter is a body parameter, false otherwise
+  */
+  function isBodyparameter(param) {
+    return /body|formData/.test(param.in);
+  }
 
   /*
    * Makes the request schema to generate the form in the template
@@ -61,7 +71,7 @@ SwaggerEditor.controller('TryOperation', function ($scope, formdataFilter,
     };
 
     // Only if there is a security definition add security property
-    if (securityOptions) {
+    if (securityOptions.length) {
       schema.properties.security = {
         title: 'Security',
         description: 'Authenticate securities before using them.',
@@ -105,7 +115,7 @@ SwaggerEditor.controller('TryOperation', function ($scope, formdataFilter,
 
         // extend the parameters property with the schema
         schema.properties.parameters
-          .properties[paramSchema.title] = paramSchema;
+          .properties[paramSchema.name] = paramSchema;
       });
     }
 
@@ -156,12 +166,12 @@ SwaggerEditor.controller('TryOperation', function ($scope, formdataFilter,
 
         // if default value is provided use it
         if (angular.isDefined(paramSchema.default)) {
-          model.parameters[paramSchema.title] = paramSchema.default;
+          model.parameters[paramSchema.name] = paramSchema.default;
 
         // if there is no default value select a default value based on type
         } else if (angular.isDefined(defaults[paramSchema.type])) {
 
-          var title = paramSchema.title || paramSchema.name;
+          var title = paramSchema.name || paramSchema.name;
 
           if (paramSchema.type === 'object') {
             model.parameters[title] = createEmptyObject(paramSchema);
@@ -171,7 +181,7 @@ SwaggerEditor.controller('TryOperation', function ($scope, formdataFilter,
 
         // use empty string as fallback
         } else {
-          model.parameters[paramSchema.title] = '';
+          model.parameters[paramSchema.name] = '';
         }
       });
     }
@@ -282,9 +292,10 @@ SwaggerEditor.controller('TryOperation', function ($scope, formdataFilter,
   */
   function pickSchemaFromParameter(parameter) {
 
-    // if parameter has a schema use it directly
+    // if parameter has a schema populate it into the parameter so the parameter
+    // has all schema properties
     if (parameter.schema) {
-      return parameter.schema;
+      return _.omit(_.extend(parameter, parameter.schema), 'schema');
 
     // if parameter does not have a schema, use the parameter itself as
     // schema.
@@ -334,14 +345,6 @@ SwaggerEditor.controller('TryOperation', function ($scope, formdataFilter,
 
     return result;
   }
-
-  // ---------------------------------------------------------------------------
-  // ---------------------------------------------------------------------------
-  // ---------------------------------------------------------------------------
-  // ------------------------------ OLD STUFF ----------------------------------
-  // ---------------------------------------------------------------------------
-  // ---------------------------------------------------------------------------
-  // ---------------------------------------------------------------------------
 
   /*
    * Generates a filter function based on type for filtering parameters
@@ -424,93 +427,66 @@ SwaggerEditor.controller('TryOperation', function ($scope, formdataFilter,
       queryParamsStr;       // example: ?all=true
   }
 
-  $scope.hasBodyParam = hasBodyParam;
-
-  $scope.rawChanged = function (change) {
-    var editor = change[1];
-    rawModel = editor.getValue();
-  };
-
-  function getBodyModel() {
-
-    // scan parameters, check for first parameter with in === 'body'. If found
-    // return model for that parameter. You
-    for (var i = 0; i < $scope.parameters.length; i++) {
-      if ($scope.parameters[i].in === 'body') {
-        return modelOfParameter($scope.parameters[i]);
-      }
-    }
-
-    return $scope.parameters.filter(function (param) {
-      return param.in === 'formData';
-    }).reduce(function (total, param) {
-      return _.extend(total, modelOfParameter(param));
-    }, {});
-  }
-
-  $scope.getRequestBody = function () {
-
-    if ($scope.inputMode === 'raw') {
-      return rawModel;
-    }
-
-    var bodyModel = getBodyModel();
-
-    if (!$scope.contentType) {
-      return '';
-    } else if ($scope.contentType.indexOf('form-data') > -1) {
-      return formdataFilter(bodyModel);
-    } else if ($scope.contentType.indexOf('application/json') > -1) {
-      return JSON.stringify(bodyModel, null, 2);
-    } else if ($scope.contentType.indexOf('x-www-form-urlencoded') > -1) {
-      return $.param(bodyModel);
-    }
-
-    return '';
-  };
-
+  /*
+   * Returns all header parameters
+   *
+   * @returns {object} - list of all parameters that are in header
+  */
   function getHeaderParams() {
-    var parameters = $scope.parameters.filter(function (param) {
+
+    // Select header parameters from all parameters and reduce them into a
+    // single key/value hash where the key is parameter name
+    var params = parameters.filter(function (param) {
       return param.in === 'header';
     }).reduce(function (obj, param) {
-      var model = modelOfParameter(param)[param.name];
-      if (model) {
-        obj[param.name] = model;
-      }
+      obj[param.name] = param;
       return obj;
     }, {});
 
-    $scope.selectedSecuries.forEach(function (selectedSecurity) {
+    // add header based securities to list of headers
+    for (var secuirtyOption in $scope.requestModel.security) {
 
-      // If Auth that extend the parameters with `Authentication parameter
-      var auth = AuthManager.getAuth(selectedSecurity);
+      var auth = AuthManager.getAuth(secuirtyOption);
+
       if (auth) {
-        var authHeader = null;
+        var authHeader = {};
+
+        // HTTP basic authentication is always in header
         if (auth.type === 'basic') {
           authHeader = {Authorization: 'Basic ' + auth.options.base64};
+
+        // apiKey security can be in header, if it's in header use it
         } else if (auth.type === 'apiKey' && auth.security.in === 'header') {
-          authHeader = {};
           authHeader[auth.security.name] = auth.options.apiKey;
+
+        // OAuth securities are always in header
         } else if (auth.type === 'oAuth2') {
           authHeader = {Authorization: 'Bearer ' + auth.options.accessToken};
         }
 
-        parameters = _.extend(parameters, authHeader);
+        // Extend the params hash with this auth
+        params = _.extend(params, authHeader);
       }
-    });
+    }
 
-    return parameters;
+    return params;
   }
 
-  $scope.getHeaders = function () {
+  /*
+   * Returns all headers needed to be shown in request preview
+   *
+   * @returns {object} - a hash of headers key/value pairs
+  */
+  function getHeaders() {
     var headerParams = getHeaderParams();
     var content = $scope.getRequestBody();
 
-    headerParams = _.extend(headerParams, {
-      Host: ($scope.specs.host || window.location.host)
+    // get spec host or default host in the window. remove port from Host header
+    var host = ($scope.specs.host || window.location.host).replace(/\:.+/, '');
 
-        // remove port from Host header
-        .replace(/\:.+/, ''),
+    // A list of default headers that will be included in the XHR call
+    var defaultHeaders = {
+      Host: host,
       Accept: $scope.accepts || '*/*',
       'Accept-Encoding': 'gzip,deflate,sdch', //TODO: where this is coming from?
       'Accept-Language': 'en-US,en;q=0.8,fa;q=0.6,sv;q=0.4', // TODO: wut?
@@ -519,28 +495,80 @@ SwaggerEditor.controller('TryOperation', function ($scope, formdataFilter,
       Origin: window.location.origin,
       Referer: window.location.origin + window.location.pathname,
       'User-Agent': window.navigator.userAgent
-    });
+    };
 
-    if (content) {
+    headerParams = _.extend(headerParams, defaultHeaders);
+
+    // if request has a body add Content-Type and Content-Length headers
+    if (content !== null) {
       headerParams['Content-Length'] = content.length;
       headerParams['Content-Type'] = $scope.contentType;
     }
 
     return headerParams;
-  };
-
-  $scope.walkToProperty = walkToProperty;
+  }
 
   /*
-   * Get model of a parameter
+   * Gets the body parameter's current value
+   *
+   * @returns {string|object} - body parameter value
   */
-  function modelOfParameter(param) {
-    // part of horrible hack for json schema form
-    if (Array.isArray(param.model[param.name])) {
-      return param.model[param.name];
+  function getBodyModel() {
+
+    var bodyParam = parameters.filter(isBodyparameter)[0];
+    if (!bodyParam) {
+      return;
     }
-    return param.model;
+    var bodyParamName = bodyParam.name;
+    return $scope.requestModel.parameters[bodyParamName];
   }
+
+  /*
+   * Gets the request body based on current form data and other parameters
+   *
+   * @returns {string|null} - Raw request body or null if there is no body model
+  */
+  function getRequestBody() {
+
+    var bodyModel = getBodyModel();
+
+    // if bodyModel doesn't exists, don't make a request body
+    if (bodyModel === undefined) {
+      return null;
+    }
+
+    // if encoding is not defined, return body model as is
+    if (!$scope.contentType) {
+      return bodyModel;
+
+    // if body has form-data encoding use formdataFilter to encode it to string
+    } else if ($scope.contentType.indexOf('form-data') > -1) {
+      return formdataFilter(bodyModel);
+
+    // if body has application/json encoding use JSON to stringify it
+    } else if ($scope.contentType.indexOf('application/json') > -1) {
+      return JSON.stringify(bodyModel, null, 2);
+
+    // if encoding is x-www-form-urlencoded use jQuery.param method to stringify
+    } else if ($scope.contentType.indexOf('x-www-form-urlencoded') > -1) {
+      return $.param(bodyModel);
+    }
+
+    return null;
+  }
+
+  // ###########################################################################
+  // ###########################################################################
+  // ###########################################################################
+  // ################################ OLD STUFF ################################
+  // ###########################################################################
+  // ###########################################################################
+  // ###########################################################################
+
+  $scope.rawChanged = function (change) {
+    var editor = change[1];
+    rawModel = editor.getValue();
+  };
 
   function makeCall() {
     $scope.xhrInProgress = true;
