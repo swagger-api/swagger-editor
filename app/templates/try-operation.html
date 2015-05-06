@@ -5,7 +5,7 @@
     <pre>{{requestModel | json}}</pre>
 
 
-    <!-- div class="raw-request raw">
+    <div class="raw-request raw">
       <div class="line url">
         {{operation.operationName | uppercase}}
         <a href="{{generateUrl()}}" target="_blank">{{generateUrl()}}</a>
@@ -23,7 +23,7 @@
       <span ng-if="!xhrInProgress">Send Request</span>
     </button>
   </div>
-
+  <!--
   <h4>Response</h4>
   <div class="response" ng-if="xhr">
     <div class="response-info" ng-class="{error: error}">

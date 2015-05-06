@@ -10,7 +10,10 @@ SwaggerEditor.controller('TryOperation', function ($scope, formdataFilter,
     return param.in === 'body' || param.in === 'formData';
   });
 
+  // httpProtocol is static for now we can use HTTP2 later if we wanted
   $scope.httpProtorcol = 'HTTP/1.1';
+
+  // binds to $scope
   $scope.generateUrl = generateUrl;
   $scope.makeCall = makeCall;
   $scope.xhrInProgress = false;
@@ -27,7 +30,11 @@ SwaggerEditor.controller('TryOperation', function ($scope, formdataFilter,
   $scope.requestSchema = makeRequestSchema();
 
   /*
-   * TODO
+   * Makes the request schema to generate the form in the template
+   * The schema has all required attributes for making a call for this operation
+   *
+   * @returns {object} - A JSON Schema containing all properties required to
+   *   make this call
   */
   function makeRequestSchema() {
 
@@ -106,7 +113,10 @@ SwaggerEditor.controller('TryOperation', function ($scope, formdataFilter,
   }
 
   /*
-   * TODO
+   * Makes a model with empty values that conforms to the JSON Schema generated
+   *   by makeRequestSchema.
+   *
+   * @returns {object} - the model
   */
   function makeRequestModel() {
 
@@ -151,7 +161,7 @@ SwaggerEditor.controller('TryOperation', function ($scope, formdataFilter,
         // if there is no default value select a default value based on type
         } else if (angular.isDefined(defaults[paramSchema.type])) {
 
-          var title = paramSchema.title;
+          var title = paramSchema.title || paramSchema.name;
 
           if (paramSchema.type === 'object') {
             model.parameters[title] = createEmptyObject(paramSchema);
@@ -168,7 +178,6 @@ SwaggerEditor.controller('TryOperation', function ($scope, formdataFilter,
 
     return model;
   }
-
 
   /*
    * Fills in empty gaps of a JSON Schema. This method is mostly used to
@@ -215,8 +224,12 @@ SwaggerEditor.controller('TryOperation', function ($scope, formdataFilter,
 
   /*
    * Because some properties are cascading this walks up the tree to get them
+   *
+   * @param {string} propertyName
+   *
+   * @retusn {array|undefined} - list of possible properties
   */
-  function walkToProperty (propertyName) {
+  function walkToProperty(propertyName) {
     var defaultProperties = {
       produces: ['*/*'],
       schemes: ['http']
@@ -236,7 +249,9 @@ SwaggerEditor.controller('TryOperation', function ($scope, formdataFilter,
   }
 
   /*
-   * TODO
+   * Walks up the Swagger tree to find all possible security options
+   *
+   * @returns {array} - a list of security options or an empty array
   */
   function getSecurityOptions() {
     var securityOptions = [];
@@ -256,10 +271,6 @@ SwaggerEditor.controller('TryOperation', function ($scope, formdataFilter,
     }
     return _.unique(securityOptions);
   }
-
-
-
-
 
   /*
    * Picks JSON Schema from parameter
@@ -282,7 +293,6 @@ SwaggerEditor.controller('TryOperation', function ($scope, formdataFilter,
     }
   }
 
-
   /*
    * Creates empty object from JSON Schema
    *
@@ -297,11 +307,16 @@ SwaggerEditor.controller('TryOperation', function ($scope, formdataFilter,
 
     // TODO: expand this list
     var defaultValues = {
-      'string': '',
-      'integer': 0
+      string: '',
+      integer: 0
     };
 
     var result = {};
+
+    // If schema has no properties (loose schema), return the empty object
+    if (!schema.properties) {
+      return result;
+    }
 
     Object.keys(schema.properties).forEach(function (propertyName) {
 
@@ -320,94 +335,21 @@ SwaggerEditor.controller('TryOperation', function ($scope, formdataFilter,
     return result;
   }
 
-
-
-
-
-
-
-
-  // --------------------------------- OLD STUFF -------------------------------
-
+  // ---------------------------------------------------------------------------
+  // ---------------------------------------------------------------------------
+  // ---------------------------------------------------------------------------
+  // ------------------------------ OLD STUFF ----------------------------------
+  // ---------------------------------------------------------------------------
+  // ---------------------------------------------------------------------------
+  // ---------------------------------------------------------------------------
 
   /*
-   * TODO
-  */
-  // function hasBodyParam() {
-  //   return $scope.parameters.some(function (param) {
-  //     return param.in === 'body' || param.in === 'formData';
-  //   });
-  // }
-
-  /*
-   * Makes the parameter object compatible with JSON Schema
+   * Generates a filter function based on type for filtering parameters
    *
-   * TODO
+   * @param {string} type
    *
-   * TODO
+   * @return {function} - the filter function
   */
-  // function makeParam(parameter) {
-  //   var param = _.extend(parameter, {
-  //     schema: schemaForParameter(parameter),
-  //     form: formForParameter(parameter),
-  //     model: {}
-  //   });
-
-  //   if ((parameter.schema && parameter.schema.type === 'array') ||
-  //     parameter.type === 'array') {
-  //     param.model[parameter.name] = [];
-  //   }
-
-  //   return param;
-  // }
-
-
-
-  // function schemaForParameter(parameter) {
-  //   var schema;
-
-  //   // For rendering form we need "type" key
-  //   if (parameter && parameter.schema) {
-  //     if (!parameter.schema.type) {
-  //       parameter.schema.type = 'object';
-  //     }
-
-  //     // Work around angular-schema-form issue handling array types
-  //     if (parameter.schema.type === 'array') {
-  //       schema = {
-  //         type: 'object',
-  //         properties: {}
-  //       };
-
-  //       schema.properties[parameter.name] = parameter.schema;
-  //       schema.properties[parameter.name].type = 'array';
-
-  //       // TODO: Is this always true?
-  //       schema.properties[parameter.name].items.type = 'object';
-
-  //       return schema;
-  //     }
-  //     return parameter.schema;
-  //   }
-
-  //   // If parameter do not have a schema use parameter itself as schema
-  //   schema = {type: 'object', properties: {}};
-  //   schema.properties[parameter.name] = _.pick(parameter,
-  //     'type', 'description', 'required', 'format', 'items', 'enum');
-  //   return schema;
-  // }
-
-  // function formForParameter(parameter) {
-  //   // Work around angular-schema-form issue handling array types
-  //   if (parameter.schema && parameter.schema.type === 'array') {
-  //     var form = [{key: parameter.name}];
-
-  //     form[0].items = [parameter.name + '[]'];
-  //     return form;
-  //   }
-  //   return ['*'];
-  // }
-
   function filterParamsFor(type) {
     return function filterParams(result, param) {
       if (param.in === type && param.model[param.name] &&
@@ -418,48 +360,68 @@ SwaggerEditor.controller('TryOperation', function ($scope, formdataFilter,
     };
   }
 
-  function getScheme() {
-    if ($scope.scheme) {
-      return $scope.scheme;
-    }
-    return $scope.walkToProperty('schemes')[0];
-  }
-
+  /*
+   * Generates the URL for this call based on all parameters and other
+   *   conditions
+   *
+   * @returns {string} - the URL
+  */
   function generateUrl() {
-    var scheme = getScheme();
+    var requestModel = $scope.requestModel;
+    var scheme = requestModel.scheme;
     var host = specs.host || window.location.host;
     var basePath = specs.basePath || '';
-    var pathParams = $scope.parameters.reduce(filterParamsFor('path'), {});
-    var queryParams = $scope.parameters.reduce(filterParamsFor('query'), {});
+    var pathParams = parameters.reduce(filterParamsFor('path'), {});
+    var queryParams = parameters.reduce(filterParamsFor('query'), {});
+    var queryParamsStr;
+    var pathStr;
+
+    // a regex that matches mustaches in path. e.g: /{pet}
+    var pathParamRegex = /{([^{}]+)}/g;
 
     // if basePath is just a single slash (`/`), ignore it
     if (basePath === '/') {
       basePath = '';
     }
 
-    $scope.selectedSecuries.forEach(function (selectedSecurity) {
+    // if there are selected securities and they are located in the query append
+    // them to the URL
+    if (requestModel.security) {
+      for (var securityOption in requestModel.security) {
+        var auth = AuthManager.getAuth(securityOption);
 
-      // If Auth that extend the parameters with `Authentication parameter
-      var auth = AuthManager.getAuth(selectedSecurity);
-      if (auth) {
-        var authQueryParam = null;
-        if (auth.type === 'apiKey' && auth.security.in === 'query') {
-          authQueryParam = {};
+        // if auth exists and it's an api key in query, add it to query params
+        if (auth && auth.type === 'apiKey' && auth.security.in === 'query') {
+          var authQueryParam = {};
           authQueryParam[auth.security.name] = auth.options.apiKey;
+          _.extend(queryParams, authQueryParam);
         }
-        _.extend(queryParams, authQueryParam);
       }
-    });
+    }
 
-    var queryParamsStr = window.decodeURIComponent($.param(queryParams));
-    var pathStr = '';
+    // generate the query string portion of the URL based on query parameters
+    queryParamsStr = window.decodeURIComponent($.param(queryParams));
 
-    pathStr = $scope.path.pathName.replace(/{([^{}]+)}/g, function (match) {
-      return pathParams[match.substring(1, match.length - 1)] || match;
-    });
+    // fill in path parameter values inside the path
+    pathStr = $scope.path.pathName.replace(pathParamRegex,
 
-    return scheme + '://' + host + basePath + pathStr +
-      (queryParamsStr ? '?' + queryParamsStr : '');
+      // a simple replace method where it uses the available path parameter
+      // value to replace the path parameter or leave it as it is if path
+      // parameter doesn't exist.
+      function (match) {
+        return pathParams[match.substring(1, match.length - 1)] || match;
+      }
+    );
+
+    // queryParamsStr can be undefined. Fall back to empty string in that case
+    queryParamsStr = queryParamsStr || '';
+
+    // constructing the URL
+    return scheme + '://' + // example: http://
+      host +                // example: api.example.com
+      basePath +            // example: /v1
+      pathStr +             // example: /users/me
+      queryParamsStr;       // example: ?all=true
   }
 
   $scope.hasBodyParam = hasBodyParam;
