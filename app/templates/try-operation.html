@@ -1,10 +1,6 @@
 <div ng-controller="TryOperation">
   <div class="request">
     <form schema-form="requestSchema" ng-model="requestModel"></form>
-
-    <pre>{{requestModel | json}}</pre>
-
-
     <div class="raw-request raw">
       <div class="line url">
         {{operation.operationName | uppercase}}
@@ -23,8 +19,8 @@
       <span ng-if="!xhrInProgress">Send Request</span>
     </button>
   </div>
-  <!--
-  <h4>Response</h4>
+
+  <h3>Response</h3>
   <div class="response" ng-if="xhr">
     <div class="response-info" ng-class="{error: error}">
       <span class="status-text">{{textStatus | uppercase}}</span>
@@ -52,6 +48,6 @@
         </div>
       </tab>
     </tabset>
-    </div> -->
+    </div>
   </div>
 </div>

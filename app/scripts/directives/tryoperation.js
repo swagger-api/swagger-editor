@@ -9,7 +9,6 @@ SwaggerEditor.controller('TryOperation', function ($scope, formdataFilter,
   };
 
   var specs = $scope.$parent.specs;
-  var rawModel = '';
   var parameters = $scope.getParameters();
   var hasBodyParam = parameters.some(isBodyparameter);
   var securityOptions = getSecurityOptions();
@@ -558,19 +557,32 @@ SwaggerEditor.controller('TryOperation', function ($scope, formdataFilter,
     return null;
   }
 
-  // ###########################################################################
-  // ###########################################################################
-  // ###########################################################################
-  // ################################ OLD STUFF ################################
-  // ###########################################################################
-  // ###########################################################################
-  // ###########################################################################
+  /*
+   * Parse a HTTP response header string into hash of HTTP header key/values
+   * into
+   *
+   * @headers {string} - HTTP Headers
+   *
+   * @return {object} - HTTP header key/value
+  */
+  function parseHeaders(headers) {
+    var result = {};
 
-  $scope.rawChanged = function (change) {
-    var editor = change[1];
-    rawModel = editor.getValue();
-  };
+    headers.split('\n').forEach(function (line) {
+      var key = line.split(':')[0];
+      var value = line.split(':')[1];
+      if (key && angular.isString(key) && angular.isString(value)) {
+        result[key.trim()] = value.trim();
+      }
+    });
 
+    return result;
+  }
+
+  /*
+   * Makes the XHR call
+   *
+  */
   function makeCall() {
     $scope.xhrInProgress = true;
     $scope.error = null;
@@ -599,16 +611,19 @@ SwaggerEditor.controller('TryOperation', function ($scope, formdataFilter,
       $scope.xhrInProgress = false;
       $scope.responseData = data;
       $scope.xhr = jqXHR;
-      $scope.responseHeaders = getResponseHeaders(jqXHR);
+      $scope.responseHeaders = parseHeaders(jqXHR.getAllResponseHeaders());
 
       $scope.$digest();
     });
   }
 
-  $scope.setInputMode = function (mode) {
-    $scope.inputMode = mode;
-  };
-
+  /*
+   * Make pretty printed version of a JSON string
+   *
+   * @param {string} input
+   *
+   * @returns {string}
+  */
   $scope.prettyPrint = function (input) {
     // Try if it's JSON
     try {
@@ -618,7 +633,13 @@ SwaggerEditor.controller('TryOperation', function ($scope, formdataFilter,
     return input;
   };
 
-  // Returns true if response is JSON
+  /*
+   * Returns true if response is JSON
+   *
+   * @param {string} value
+   *
+   * @returns {boolean}
+  */
   $scope.isJson = function (value) {
     var err;
     try {
@@ -630,6 +651,13 @@ SwaggerEditor.controller('TryOperation', function ($scope, formdataFilter,
     return !err;
   };
 
+  /*
+   * Returns true if response is HTML
+   *
+   * @param {string} value
+   *
+   * @returns {boolean}
+  */
   $scope.isHTML = function (value) {
     var a = window.document.createElement('div');
     a.innerHTML = value;
@@ -641,30 +669,14 @@ SwaggerEditor.controller('TryOperation', function ($scope, formdataFilter,
     return false;
   };
 
+  /*
+   * Returns true if response is plain text
+   *
+   * @param {string} value
+   *
+   * @returns {boolean}
+  */
   $scope.isPlain = function (value) {
     return !$scope.isHTML(value) && !$scope.isJson(value);
-  };
-
-  function parseHeaders(headers) {
-    var result = {};
-
-    headers.split('\n').forEach(function (line) {
-      var key = line.split(':')[0];
-      var value = line.split(':')[1];
-      if (key && angular.isString(key) && angular.isString(value)) {
-        result[key.trim()] = value.trim();
-      }
-    });
-
-    return result;
-  }
-
-  function getResponseHeaders(xhr) {
-    return parseHeaders(xhr.getAllResponseHeaders());
-  }
-
-  $scope.getSecurityOptions = getSecurityOptions;
-  $scope.securityIsAuthenticated = function (securityName) {
-    return AuthManager.securityIsAuthenticated(securityName);
   };
 });
