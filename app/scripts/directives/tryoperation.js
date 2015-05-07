@@ -18,14 +18,13 @@ SwaggerEditor.controller('TryOperation', function ($scope, formdataFilter,
   $scope.makeCall = makeCall;
   $scope.xhrInProgress = false;
   $scope.parameters = parameters;
-  $scope.hasBodyParam = hasBodyParam; // TODO: is this necessary?
+  $scope.getRequestBody = getRequestBody;
+  $scope.hasBodyParam = hasBodyParam;
   $scope.getHeaders = getHeaders;
   $scope.requestModel = makeRequestModel();
   $scope.requestSchema = makeRequestSchema();
   // httpProtocol is static for now we can use HTTP2 later if we wanted
   $scope.httpProtorcol = 'HTTP/1.1';
-  $scope.walkToProperty = walkToProperty; // TODO: is this necessary?
-  $scope.getRequestBody = getRequestBody;
 
   /*
    * Determines if a parameter is a body parameter.
@@ -353,13 +352,28 @@ SwaggerEditor.controller('TryOperation', function ($scope, formdataFilter,
    * @return {function} - the filter function
   */
   function filterParamsFor(type) {
-    return function filterParams(result, param) {
-      if (param.in === type && param.model[param.name] &&
-        param['default'] !== param.model[param.name]) {
-        result[param.name] = param.model[param.name];
-      }
-      return result;
+    return function filterParams(parameter) {
+      return parameter.in === type;
     };
+  }
+
+  /*
+   * Used for generating a hash from array of parameters.
+   *   This method is used in Array#reduce method iterations
+   *
+   * @param {object} hash - the hash passed around in iterations
+   * @param {object} param - a Swagger parameter object
+   *
+   * @param {object} - complete hash from parameters to this iterations
+  */
+  function hashifyParams(hash, param) {
+    if (!hash) {
+      hash = {};
+    }
+
+    hash[param.name] = $scope.requestModel.parameters[param.name];
+
+    return hash;
   }
 
   /*
@@ -373,8 +387,10 @@ SwaggerEditor.controller('TryOperation', function ($scope, formdataFilter,
     var scheme = requestModel.scheme;
     var host = specs.host || window.location.host;
     var basePath = specs.basePath || '';
-    var pathParams = parameters.reduce(filterParamsFor('path'), {});
-    var queryParams = parameters.reduce(filterParamsFor('query'), {});
+    var pathParams = parameters.filter(filterParamsFor('path'))
+      .reduce(hashifyParams, {});
+    var queryParams = parameters.filter(filterParamsFor('query'))
+      .reduce(hashifyParams, {});
     var queryParamsStr;
     var pathStr;
 
@@ -501,7 +517,7 @@ SwaggerEditor.controller('TryOperation', function ($scope, formdataFilter,
     // if request has a body add Content-Type and Content-Length headers
     if (content !== null) {
       headerParams['Content-Length'] = content.length;
-      headerParams['Content-Type'] = $scope.contentType;
+      headerParams['Content-Type'] = $scope.requestModel.contentType;
     }
 
     return headerParams;
