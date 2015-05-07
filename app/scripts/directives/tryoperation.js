@@ -705,7 +705,8 @@ SwaggerEditor.controller('TryOperation', function ($scope, formdataFilter,
    * @returns {string}
   */
   $scope.prettyPrint = function (input) {
-    // Try if it's JSON
+
+    // Try if it's JSON and return pretty JSON
     try {
       return JSON.stringify(JSON.parse(input), null, 2);
     } catch (jsonError) {}
@@ -732,31 +733,16 @@ SwaggerEditor.controller('TryOperation', function ($scope, formdataFilter,
   };
 
   /*
-   * Returns true if response is HTML
+   * Returns true if response is specified type
    *
-   * @param {string} value
+   * @param {object} headers - response headers
+   * @param {string} type - the type to check for
    *
    * @returns {boolean}
   */
-  $scope.isHTML = function (value) {
-    var a = window.document.createElement('div');
-    a.innerHTML = value;
-    for (var c = a.childNodes, i = c.length; i--;) {
-      if (c[i].nodeType === 1) {
-        return true;
-      }
-    }
-    return false;
-  };
+  $scope.isType = function (headers, type) {
+    var regex = new RegExp(type);
 
-  /*
-   * Returns true if response is plain text
-   *
-   * @param {string} value
-   *
-   * @returns {boolean}
-  */
-  $scope.isPlain = function (value) {
-    return !$scope.isHTML(value) && !$scope.isJson(value);
+    return headers['Content-Type'] && regex.test(headers['Content-Type']);
   };
 });

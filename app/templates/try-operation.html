@@ -33,9 +33,10 @@
         <json-formatter json="responseHeaders" open="3"></json-formatter>
         <h6>Body</h6>
         <json-formatter ng-if="isJson(responseData)" json="responseData" open="3"></json-formatter>
-        <div ng-if="isHTML(responseData)" ng-bind-html="responseData"></div>
-        <div ng-if="isPlain(responseData)">
-          {{responseData}}
+        <div ng-if="isType(responseHeaders, 'html')" ng-bind-html="responseData"></div>
+        <div ng-if="isType(responseHeaders, 'plain')">
+          <h5>Plain text:</h5>
+          <pre>{{responseData}}</pre>
         </div>
       </tab>
       <tab heading="Pretty">
