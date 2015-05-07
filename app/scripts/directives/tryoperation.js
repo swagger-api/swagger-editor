@@ -579,7 +579,7 @@ SwaggerEditor.controller('TryOperation', function ($scope, formdataFilter,
       // TODO: put the mechanism of getting the file object into a method
       var bodyParamName = bodyParam.name;
       var form = new FormData();
-      var inputEl = $('input[type="file"][name*="' + bodyParamName + '"]').get(0);
+      var inputEl = $('input[type="file"][name*="' + bodyParamName + '"]')[0];
 
       if (!inputEl) {
         return 'No file is selected';
@@ -615,13 +615,12 @@ SwaggerEditor.controller('TryOperation', function ($scope, formdataFilter,
     return null;
   }
 
-   /*
-   * Returns true if this operation has a body param and that body param has
-   *  a file
-   *
-   * @returns {boolean}
-   */
-
+  /*
+  * Returns true if this operation has a body param and that body param has
+  *  a file
+  *
+  * @returns {boolean}
+  */
   function hasFileParam() {
     return getRequestBody() && getRequestBody().indexOf(FILE_TYPE) > -1;
   }
