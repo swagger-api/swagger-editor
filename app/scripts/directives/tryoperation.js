@@ -12,6 +12,7 @@ SwaggerEditor.controller('TryOperation', function ($scope, formdataFilter,
   var parameters = $scope.getParameters();
   var hasBodyParam = parameters.some(isBodyparameter);
   var securityOptions = getSecurityOptions();
+  var FILE_TYPE = ' F I L E '; // File key identifier for file types
 
   // binds to $scope
   $scope.generateUrl = generateUrl;
@@ -23,6 +24,7 @@ SwaggerEditor.controller('TryOperation', function ($scope, formdataFilter,
   $scope.getHeaders = getHeaders;
   $scope.requestModel = makeRequestModel();
   $scope.requestSchema = makeRequestSchema();
+  $scope.hasFileParam = hasFileParam();
   // httpProtocol is static for now we can use HTTP2 later if we wanted
   $scope.httpProtorcol = 'HTTP/1.1';
 
@@ -218,13 +220,11 @@ SwaggerEditor.controller('TryOperation', function ($scope, formdataFilter,
     }
 
     // Swagger extended JSON Schema with a new type, file. If we see file type
-    // we are going to make it an object with a specific key
-    // TODO: Figure out file upload
+    // we will add format: file to the schema so the form generator will render
+    // a file input
     if (schema.type === 'file') {
-      schema.type = 'object';
-      schema.properties = {
-        '__file__(not implemented yet)': {type: 'boolean'}
-      };
+      schema.type = 'string';
+      schema.format = 'file';
     }
 
     return schema;
@@ -253,6 +253,7 @@ SwaggerEditor.controller('TryOperation', function ($scope, formdataFilter,
     if (defaultProperties[propertyName]) {
       return defaultProperties[propertyName];
     }
+
     return undefined;
   }
 
@@ -263,6 +264,8 @@ SwaggerEditor.controller('TryOperation', function ($scope, formdataFilter,
   */
   function getSecurityOptions() {
     var securityOptions = [];
+
+    // operation level securities
     if (Array.isArray($scope.operation.security)) {
       securityOptions = securityOptions.concat(
         $scope.operation.security.map(function (security) {
@@ -270,6 +273,8 @@ SwaggerEditor.controller('TryOperation', function ($scope, formdataFilter,
         })
       );
     }
+
+    // root level securities
     if (Array.isArray($scope.specs.security)) {
       securityOptions = securityOptions.concat(
         $scope.specs.security.map(function (security) {
@@ -277,6 +282,7 @@ SwaggerEditor.controller('TryOperation', function ($scope, formdataFilter,
         })
       );
     }
+
     return _.unique(securityOptions);
   }
 
@@ -516,6 +522,7 @@ SwaggerEditor.controller('TryOperation', function ($scope, formdataFilter,
 
     // if request has a body add Content-Type and Content-Length headers
     if (content !== null) {
+      // TODO: handle file case
       headerParams['Content-Length'] = content.length;
       headerParams['Content-Type'] = $scope.requestModel.contentType;
     }
@@ -534,8 +541,20 @@ SwaggerEditor.controller('TryOperation', function ($scope, formdataFilter,
     if (!bodyParam) {
       return;
     }
+
     var bodyParamName = bodyParam.name;
-    return $scope.requestModel.parameters[bodyParamName];
+    var bodyParamValue =  $scope.requestModel.parameters[bodyParamName];
+
+    // if body type is file then return special result object with FILE_TYPE key
+    if (bodyParam.format === 'file') {
+      var result = {};
+
+      result[FILE_TYPE] = bodyParamValue;
+
+      return result;
+    }
+
+    return bodyParamValue;
   }
 
   /*
@@ -545,12 +564,35 @@ SwaggerEditor.controller('TryOperation', function ($scope, formdataFilter,
   */
   function getRequestBody() {
 
+    var bodyParam = parameters.filter(isBodyparameter)[0];
     var bodyModel = getBodyModel();
     var contentType = $scope.requestModel.contentType;
 
     // if bodyModel doesn't exists, don't make a request body
     if (bodyModel === undefined) {
       return null;
+    }
+
+    // if body model is a file, return a FormData instance with the file in it
+    if (bodyModel[FILE_TYPE]) {
+
+      // TODO: put the mechanism of getting the file object into a method
+      var bodyParamName = bodyParam.name;
+      var form = new FormData();
+      var inputEl = $('input[type="file"][name*="' + bodyParamName + '"]').get(0);
+
+      if (!inputEl) {
+        return 'No file is selected';
+      }
+
+      var file = inputEl.files[0];
+      if (!file) {
+        return 'No file is selected';
+      }
+
+      form.append(bodyParamName, file, file.name);
+
+      return form;
     }
 
     // if encoding is not defined, return body model as is
@@ -571,6 +613,17 @@ SwaggerEditor.controller('TryOperation', function ($scope, formdataFilter,
     }
 
     return null;
+  }
+
+   /*
+   * Returns true if this operation has a body param and that body param has
+   *  a file
+   *
+   * @returns {boolean}
+   */
+
+  function hasFileParam() {
+    return getRequestBody() && getRequestBody().indexOf(FILE_TYPE) > -1;
   }
 
   /*
