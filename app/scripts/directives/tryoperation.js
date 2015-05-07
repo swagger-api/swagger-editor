@@ -448,7 +448,7 @@ SwaggerEditor.controller('TryOperation', function ($scope, formdataFilter,
     );
 
     // queryParamsStr can be undefined. Fall back to empty string in that case
-    queryParamsStr = queryParamsStr || '';
+    queryParamsStr = queryParamsStr ? ('?' + queryParamsStr) : '';
 
     // constructing the URL
     return scheme + '://' + // example: http://
