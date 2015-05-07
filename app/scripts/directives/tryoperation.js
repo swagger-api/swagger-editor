@@ -74,15 +74,13 @@ SwaggerEditor.controller('TryOperation', function ($scope, formdataFilter,
     if (securityOptions.length) {
       schema.properties.security = {
         title: 'Security',
-        description: 'Authenticate securities before using them.',
+        description: 'Only authenticated security options are shown.',
         type: 'array',
         uniqueItems: true,
         items: {
           type: 'string',
 
           // All security options
-          // TODO: How to tell user some security options are not yet
-          // authenticated?
           enum: securityOptions
         }
       };
@@ -142,7 +140,7 @@ SwaggerEditor.controller('TryOperation', function ($scope, formdataFilter,
 
     // if there is security options add the security property
     if (securityOptions.length) {
-      model.security = securityOptions[0];
+      model.security = [securityOptions[0]];
     }
 
     // Add Content-Type header only if this operation has a body parameter
@@ -283,7 +281,11 @@ SwaggerEditor.controller('TryOperation', function ($scope, formdataFilter,
       );
     }
 
-    return _.unique(securityOptions);
+    return _.unique(securityOptions).filter(function (security) {
+
+      // only return authenticated options
+      return AuthManager.securityIsAuthenticated(security);
+    });
   }
 
   /*
@@ -465,7 +467,7 @@ SwaggerEditor.controller('TryOperation', function ($scope, formdataFilter,
     }, {});
 
     // add header based securities to list of headers
-    for (var secuirtyOption in $scope.requestModel.security) {
+    $scope.requestModel.security.forEach(function (secuirtyOption) {
 
       var auth = AuthManager.getAuth(secuirtyOption);
 
@@ -488,7 +490,7 @@ SwaggerEditor.controller('TryOperation', function ($scope, formdataFilter,
         // Extend the params hash with this auth
         params = _.extend(params, authHeader);
       }
-    }
+    });
 
     return params;
   }
