@@ -60,7 +60,10 @@ describe('Try Operation', function () {
   it('sends the request and response appears', function () {
     $('button[ng-click="makeCall()"]').click();
 
-    browser.sleep(3000); // wait for the XHR call
+    // wait for the XHR call
+    browser.wait(function () {
+      return $('.try-container .response-info').isPresent();
+    }, 3000);
 
     // renders the headers
     expect($('[json="responseHeaders"]').isPresent()).toBe(true);
