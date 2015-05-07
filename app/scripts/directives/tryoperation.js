@@ -401,6 +401,13 @@ SwaggerEditor.controller('TryOperation', function ($scope, formdataFilter,
       .reduce(hashifyParams, {});
     var queryParamsStr;
     var pathStr;
+    var isCollectionQueryParam = parameters.filter(filterParamsFor('query'))
+      .some(function (parameter) {
+
+        // if a query parameter has a collection format it doesn't matter what
+        // is it's value, it will force the URL to not use `[]` in query string
+        return parameter.items && parameter.items.collectionFormat;
+      });
 
     // a regex that matches mustaches in path. e.g: /{pet}
     var pathParamRegex = /{([^{}]+)}/g;
@@ -426,7 +433,8 @@ SwaggerEditor.controller('TryOperation', function ($scope, formdataFilter,
     }
 
     // generate the query string portion of the URL based on query parameters
-    queryParamsStr = window.decodeURIComponent($.param(queryParams));
+    queryParamsStr = window.decodeURIComponent(
+      $.param(queryParams, isCollectionQueryParam));
 
     // fill in path parameter values inside the path
     pathStr = $scope.path.pathName.replace(pathParamRegex,
