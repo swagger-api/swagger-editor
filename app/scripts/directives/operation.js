@@ -13,18 +13,37 @@ SwaggerEditor.directive('operation', function (defaults) {
         $scope.isTryOpen = !$scope.isTryOpen;
       };
 
+      /*
+       * Gets all available parameters
+       *
+       * @returns {array} - array of parameters
+      */
       $scope.getParameters = function () {
-        if (!Array.isArray($scope.operation.parameters)) {
-          return $scope.path.pathParameters;
+        var hasPathParameter = Array.isArray($scope.path.pathParameters);
+        var hasOperationParameter = Array.isArray($scope.operation.parameters);
+
+        // if there is no operation and path parameter return empty array
+        if (!hasOperationParameter && !hasPathParameter) {
+          return [];
         }
 
-        if (!Array.isArray($scope.path.pathParameters)) {
-          return $scope.operation.parameters;
+        // if there is no operation parameter return only path parameters
+        if (!hasOperationParameter) {
+          return $scope.path.pathParameters || [];
         }
 
+        // if there is no path parameter return operation parameters
+        if (!hasPathParameter) {
+          return $scope.operation.parameters || [];
+        }
+
+        // if there is both path and operation parameters return all of them
         return $scope.operation.parameters.concat($scope.path.pathParameters);
       };
 
+      /*
+       * TODO: Docs
+      */
       $scope.getParameterSchema = function (parameter) {
         if (parameter.schema) {
           return parameter.schema;
