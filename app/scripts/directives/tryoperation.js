@@ -717,11 +717,17 @@ SwaggerEditor.controller('TryOperation', function ($scope, formdataFilter,
   /*
    * Returns true if response is JSON
    *
-   * @param {string} value
+   * @param {string|object|array} value
    *
    * @returns {boolean}
   */
   $scope.isJson = function (value) {
+
+    // if value is already parsed return true
+    if (angular.isObject(value) || angular.isArray(value)) {
+      return true;
+    }
+
     var err;
     try {
       JSON.parse(value);
