@@ -21,7 +21,6 @@ describe('Try Operation', function () {
   it('opens try this operation for GET /', function () {
     $('ul.paths > li:nth-child(1) li.get.operation .try-operation > button')
       .click();
-    browser.sleep(4000);
     expect($('.try-container').isPresent()).toBe(true);
   });
 
