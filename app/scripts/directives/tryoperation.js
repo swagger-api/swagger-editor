@@ -412,8 +412,8 @@ SwaggerEditor.controller('TryOperation', function ($scope, formdataFilter,
 
     // if there are selected securities and they are located in the query append
     // them to the URL
-    if (requestModel.security) {
-      for (var securityOption in requestModel.security) {
+    if (angular.isArray(requestModel.security)) {
+      requestModel.security.forEach(function (securityOption) {
         var auth = AuthManager.getAuth(securityOption);
 
         // if auth exists and it's an api key in query, add it to query params
@@ -422,7 +422,7 @@ SwaggerEditor.controller('TryOperation', function ($scope, formdataFilter,
           authQueryParam[auth.security.name] = auth.options.apiKey;
           _.extend(queryParams, authQueryParam);
         }
-      }
+      });
     }
 
     // generate the query string portion of the URL based on query parameters
@@ -467,30 +467,32 @@ SwaggerEditor.controller('TryOperation', function ($scope, formdataFilter,
     }, {});
 
     // add header based securities to list of headers
-    $scope.requestModel.security.forEach(function (secuirtyOption) {
+    if (angular.isArray($scope.requestModel.security)) {
+      $scope.requestModel.security.forEach(function (secuirtyOption) {
 
-      var auth = AuthManager.getAuth(secuirtyOption);
+        var auth = AuthManager.getAuth(secuirtyOption);
 
-      if (auth) {
-        var authHeader = {};
+        if (auth) {
+          var authHeader = {};
 
-        // HTTP basic authentication is always in header
-        if (auth.type === 'basic') {
-          authHeader = {Authorization: 'Basic ' + auth.options.base64};
+          // HTTP basic authentication is always in header
+          if (auth.type === 'basic') {
+            authHeader = {Authorization: 'Basic ' + auth.options.base64};
 
-        // apiKey security can be in header, if it's in header use it
-        } else if (auth.type === 'apiKey' && auth.security.in === 'header') {
-          authHeader[auth.security.name] = auth.options.apiKey;
+          // apiKey security can be in header, if it's in header use it
+          } else if (auth.type === 'apiKey' && auth.security.in === 'header') {
+            authHeader[auth.security.name] = auth.options.apiKey;
 
-        // OAuth securities are always in header
-        } else if (auth.type === 'oAuth2') {
-          authHeader = {Authorization: 'Bearer ' + auth.options.accessToken};
+          // OAuth securities are always in header
+          } else if (auth.type === 'oAuth2') {
+            authHeader = {Authorization: 'Bearer ' + auth.options.accessToken};
+          }
+
+          // Extend the params hash with this auth
+          params = _.extend(params, authHeader);
         }
-
-        // Extend the params hash with this auth
-        params = _.extend(params, authHeader);
-      }
-    });
+      });
+    }
 
     return params;
   }
