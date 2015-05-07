@@ -16,6 +16,9 @@ SwaggerEditor.service('AuthManager', function AuthManager($sessionStorage) {
    * details
   */
   this.basicAuth = function (securityName, security, options) {
+    if (securityName === '$$hashKey') {
+      return;
+    }
     if (angular.isObject(options) && options.username && options.password) {
       options.isAuthenticated = true;
       options.base64 = window.btoa(options.username + ':' + options.password);
@@ -39,6 +42,9 @@ SwaggerEditor.service('AuthManager', function AuthManager($sessionStorage) {
    * details
   */
   this.oAuth2 = function (securityName, security, options) {
+    if (securityName === '$$hashKey') {
+      return;
+    }
     options.isAuthenticated = true;
     var key = securityKeys[securityName];
     securities[key] = {
@@ -56,6 +62,9 @@ SwaggerEditor.service('AuthManager', function AuthManager($sessionStorage) {
    * details
   */
   this.apiKey = function (securityName, security, options) {
+    if (securityName === '$$hashKey') {
+      return;
+    }
     options.isAuthenticated = true;
     var key = securityKeys[securityName];
     securities[key] = {
