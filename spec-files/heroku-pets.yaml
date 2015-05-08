@@ -2,6 +2,10 @@ swagger: '2.0'
 info:
   version: 1.0.0
   title: PetStore on Heroku
+  description: |
+    **This example has a working backend hosted in Heroku**
+
+    You can try all HTTP operation described in this Swagger spec.
 host: petstore-api.herokuapp.com
 basePath: /pet
 schemes:

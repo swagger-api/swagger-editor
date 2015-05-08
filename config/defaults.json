@@ -12,6 +12,9 @@
   },
   "disableCodeGen": false,
   "examplesFolder": "/spec-files/",
+  "editorOptions": {
+    "theme": "ace/theme/atom_dark"
+  },
   "exampleFiles": [
     "default.yaml",
     "heroku-pets.yaml",
@@ -32,6 +35,5 @@
   "headerBranding": false,
   "enableTryIt": true,
   "brandingCssClass": "",
-  "schemaUrl": "/schema/swagger.json",
   "importProxyUrl": "https://cors-it.herokuapp.com/?url="
 }
