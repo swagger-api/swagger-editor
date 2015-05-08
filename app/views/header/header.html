@@ -7,34 +7,34 @@
         data-toggle="dropdown" id="fileMenu" ng-mouseover="assignDownloadHrefs()">File
         <span class="caret"></span>
       </button>
-      <ul class="dropdown-menu" ng-if="showFileMenu()" role="menu" aria-labelledby="fileMenu">
-        <li role="presentation">
-          <a ng-click="newProject()" role="menuitem" tabindex="-1" track-event="file new">New</a>
+      <ul class="dropdown-menu" ng-if="showFileMenu()">
+        <li>
+          <a dropdown-toggle ng-click="newProject()" tabindex="-1" track-event="file new">New</a>
         </li>
-        <li role="presentation">
-          <a ng-click="newProject(true)" role="menuitem" tabindex="-1" track-event="file blank" id="blank-project">Blank Project</a>
+        <li>
+          <a dropdown-toggle ng-click="newProject(true)" tabindex="-1" track-event="file blank" id="blank-project">Blank Project</a>
         </li>
-        <li role="presentation">
-          <a id="open-example" ng-click="openExamples()" role="menuitem" tabindex="-1" track-event="file open-example">Open Example&hellip;</a>
+        <li>
+          <a dropdown-toggle id="open-example" ng-click="openExamples()" tabindex="-1" track-event="file open-example">Open Example&hellip;</a>
         </li>
-        <li role="presentation" class="divider"></li>
-        <li role="presentation">
-          <a ng-click="openPasteJSON()" role="menuitem" tabindex="-1" track-event="file paste-json">Paste JSON&hellip;</a>
+        <li class="divider"></li>
+        <li>
+          <a dropdown-toggle ng-click="openPasteJSON()" tabindex="-1" track-event="file paste-json">Paste JSON&hellip;</a>
         </li>
-        <li role="presentation">
-          <a ng-click="openImportUrl()" role="menuitem" tabindex="-1" track-event="file import url">Import URL&hellip;</a>
+        <li>
+          <a dropdown-toggle ng-click="openImportUrl()" tabindex="-1" track-event="file import url">Import URL&hellip;</a>
         </li>
-        <li role="presentation">
-          <a ng-click="openImportFile()" role="menuitem" tabindex="-1" track-event="file import file">Import File&hellip;</a>
+        <li>
+          <a dropdown-toggle ng-click="openImportFile()" tabindex="-1" track-event="file import file">Import File&hellip;</a>
         </li>
-        <li role="presentation" class="divider"></li>
-        <li role="presentation">
+        <li class="divider"></li>
+        <li>
           <a download="swagger.yaml" data-downloadurl="{{yamlDownloadUrl}}"
-            href="{{yamlDownloadHref}}" role="menuitem" tabindex="-1" track-event="file download yaml">Download YAML</a>
+            href="{{yamlDownloadHref}}" tabindex="-1" track-event="file download yaml">Download YAML</a>
         </li>
-        <li role="presentation">
+        <li>
           <a download="swagger.json" downloadUrl="{{jsonDownloadUrl}}"
-            href="{{jsonDownloadHref}}" role="menuitem" tabindex="-1" track-event="file download json">Download JSON</a>
+            href="{{jsonDownloadHref}}" tabindex="-1" track-event="file download json">Download JSON</a>
         </li>
       </ul>
     </div>
@@ -44,22 +44,22 @@
         Preferences
         <span class="caret"></span>
       </button>
-      <ul class="dropdown-menu" role="menu" aria-labelledby="preferences">
-        <li role="presentation">
+      <ul class="dropdown-menu">
+        <li>
           <a class="font-size">
             Font Size
             <span ng-click="adjustFontSize(1)" stop-event class="adjust" track-event="preferences font+">+</span><span ng-click="adjustFontSize(-1)" stop-event class="adjust" track-event="preferences font-">–</span>
           </a>
         </li>
-        <li role="presentation">
-          <a ng-click="openEditorPreferences()" role="menuitem" tabindex="-1" track-event="preferences settings">Settings</a>
+        <li>
+          <a dropdown-toggle ng-click="openEditorPreferences()" tabindex="-1" track-event="preferences settings">Settings</a>
         </li>
-        <li role="presentation">
-          <a ng-click="resetSettings()" role="menuitem" tabindex="-1" track-event="preferences reset-settings">Reset Settings</a>
+        <li>
+          <a dropdown-toggle ng-click="resetSettings()" tabindex="-1" track-event="preferences reset-settings">Reset Settings</a>
         </li>
-        <li role="presentation" class="divider" ng-if="showEditorMenuOptions()"></li>
-        <li role="presentation" ng-if="showEditorMenuOptions()">
-          <a role="menuitem" tabindex="-1" ng-click="toggleLiveRender()" track-event="mode toggle-live-render {{isLiveRenderEnabled()}}">{{isLiveRenderEnabled() ? 'Disable' : 'Enable'}} Live Render</a>
+        <li class="divider" ng-if="showEditorMenuOptions()"></li>
+        <li ng-if="showEditorMenuOptions()">
+          <a dropdown-toggle tabindex="-1" ng-click="toggleLiveRender()" track-event="mode toggle-live-render {{isLiveRenderEnabled()}}">{{isLiveRenderEnabled() ? 'Disable' : 'Enable'}} Live Render</a>
         </li>
       </ul>
     </div>
@@ -70,9 +70,9 @@
         Generate Server
         <span class="caret"></span>
       </button>
-      <ul class="dropdown-menu" role="menu" aria-labelledby="ServerMenu">
-        <li ng-repeat="server in servers" role="presentation">
-          <a role="menuitem" tabindex="-1" ng-click="getSDK('server', server)" track-event="generate-server {{server}}">
+      <ul class="dropdown-menu">
+        <li ng-repeat="server in servers">
+          <a dropdown-toggle tabindex="-1" ng-click="getSDK('server', server)" track-event="generate-server {{server}}">
             {{server}}
             <span class="badge">Alpha</span>
           </a>
@@ -86,9 +86,9 @@
         Generate Client
         <span class="caret"></span>
       </button>
-      <ul class="dropdown-menu" role="menu" aria-labelledby="ClientMenu">
-        <li ng-repeat="client in clients" role="presentation">
-          <a role="menuitem" tabindex="-1" ng-click="getSDK('client', client)" track-event="generate-client {{client}}">
+      <ul class="dropdown-menu">
+        <li ng-repeat="client in clients">
+          <a dropdown-toggle tabindex="-1" ng-click="getSDK('client', client)" track-event="generate-client {{client}}">
             {{client}}
             <span class="badge">Alpha</span>
           </a>
@@ -100,23 +100,23 @@
       <button class="dropdown-icon btn btn-default dropdown-toggle" id="helpMenu" data-toggle="dropdown" type="button">Help
       <span class="caret"></span>
       </button>
-      <ul class="dropdown-menu" role="menu" aria-labelledby="helpMenu">
-        <li role="presentation">
-          <a role="menuitem" tabindex="-1" href="https://github.com/swagger-api/swagger-spec/blob/master/versions/2.0.md" target="_blank">Swagger 2.0 Specs</a>
+      <ul class="dropdown-menu">
+        <li>
+          <a tabindex="-1" href="https://github.com/swagger-api/swagger-spec/blob/master/versions/2.0.md" target="_blank">Swagger 2.0 Specs</a>
         </li>
-        <li role="presentation">
-          <a role="menuitem" tabindex="-1" href="http://swagger.io/"target="_blank">Swagger Website</a>
+        <li>
+          <a tabindex="-1" href="http://swagger.io/" target="_blank">Swagger Website</a>
         </li>
-        <li role="presentation">
-          <a role="menuitem" tabindex="-1" ng-click="openAbout()">About Swagger Editor</a>
+        <li>
+          <a dropdown-toggle tabindex="-1" ng-click="openAbout()">About Swagger Editor</a>
         </li>
-        <li role="presentation" class="divider"></li>
-        <li role="presentation">
+        <li class="divider"></li>
+        <li>
           <a href="https://github.com/swagger-api/swagger-editor/issues/new?labels=From%20Editor" target="_blank">Report A Bug</a>
         </li>
-        <li role="presentation" class="divider"></li>
-        <li role="presentation">
-          <a ng-click="toggleAboutEditor(true)" role="menuitem" tabindex="-1">Show Introduction Help</a>
+        <li class="divider"></li>
+        <li>
+          <a dropdown-toggle ng-click="toggleAboutEditor(true)" tabindex="-1">Show Introduction Help</a>
         </li>
       </ul>
     </div>
