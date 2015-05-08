@@ -133,12 +133,6 @@ var defaults = {
   brandingCssClass: '',
 
   /*
-   * Swagger Schema URL for extra validation and vendor extension validation
-   * Note: Vendor extension validation is not yet implemented (TODO)
-  */
-  schemaUrl: '/schema/swagger.json',
-
-  /*
    * When Editor imports a file from a URL, it will prepend this URL to make
    * it possible to import contents that are not allowed to be loaded from a
    * different origin. If you're hosting your own editor, please replace this

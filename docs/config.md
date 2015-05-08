@@ -107,10 +107,3 @@ Path to a directory with examples specs
 
 #### `exampleFiles`
 List of files in ``exampleFolder`` that contain example specs. The first file is used as the default document for the editor when it is opened.
-
-
-Swagger Validation
-------------------
-
-#### `schemaUrl`
-Url of the swagger spec schema, defaults to the schema provided in `app/scripts/enums/swagger-json-schema.js`.
