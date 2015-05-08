@@ -4,7 +4,7 @@
 ** Removes vendor extensions (x- keys) deeply from an object
 */
 function removeVendorExtensions(obj) {
-  if (!angular.isObject(obj)) {
+  if (!angular.isObject(obj) || angular.isArray(obj)) {
     return obj;
   }
 
