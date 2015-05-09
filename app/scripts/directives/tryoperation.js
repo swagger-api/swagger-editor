@@ -367,6 +367,16 @@ SwaggerEditor.controller('TryOperation', function ($scope, formdataFilter,
       hash = {};
     }
 
+    var paramValue = $scope.requestModel.parameters[param.name];
+    var required = $scope.requestSchema.properties.parameters
+      .properties[param.name].required === true;
+
+    // if this parameter is not provided (empty string value) by user and it's
+    // not required, move to next parameter without adding this one to the hash
+    if (paramValue !== '' && !required) {
+      return hash;
+    }
+
     hash[param.name] = $scope.requestModel.parameters[param.name];
 
     return hash;
@@ -455,12 +465,8 @@ SwaggerEditor.controller('TryOperation', function ($scope, formdataFilter,
 
     // Select header parameters from all parameters and reduce them into a
     // single key/value hash where the key is parameter name
-    var params = parameters.filter(function (param) {
-      return param.in === 'header';
-    }).reduce(function (obj, param) {
-      obj[param.name] = param;
-      return obj;
-    }, {});
+    var params = parameters.filter(parameterTypeFilter('header'))
+      .reduce(hashifyParams, {});
 
     // add header based securities to list of headers
     if (angular.isArray($scope.requestModel.security)) {
@@ -563,7 +569,8 @@ SwaggerEditor.controller('TryOperation', function ($scope, formdataFilter,
       var bodyParamName = bodyParam.name;
       var bodyParamValue =  $scope.requestModel.parameters[bodyParamName];
 
-      // if body type is file then return special result object with FILE_TYPE key
+      // if body type is file then return special result object with FILE_TYPE
+      // key
       if (bodyParam.format === 'file') {
         var result = {};
 
