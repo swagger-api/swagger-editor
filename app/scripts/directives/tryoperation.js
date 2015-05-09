@@ -10,7 +10,6 @@ SwaggerEditor.controller('TryOperation', function ($scope, formdataFilter,
 
   var specs = $scope.$parent.specs;
   var parameters = $scope.getParameters();
-  var hasBodyParam = parameters.some(isBodyparameter);
   var securityOptions = getSecurityOptions();
   var FILE_TYPE = ' F I L E '; // File key identifier for file types
 
@@ -20,24 +19,13 @@ SwaggerEditor.controller('TryOperation', function ($scope, formdataFilter,
   $scope.xhrInProgress = false;
   $scope.parameters = parameters;
   $scope.getRequestBody = getRequestBody;
-  $scope.hasBodyParam = hasBodyParam;
+  $scope.hasRequestBody = hasRequestBody;
   $scope.getHeaders = getHeaders;
   $scope.requestModel = makeRequestModel();
   $scope.requestSchema = makeRequestSchema();
   $scope.hasFileParam = hasFileParam();
   // httpProtocol is static for now we can use HTTP2 later if we wanted
   $scope.httpProtorcol = 'HTTP/1.1';
-
-  /*
-   * Determines if a parameter is a body parameter.
-   *  Body parameters have an "in" property equal to "body" or "formData"
-   *
-   * @param {object} - A Swagger parameter object
-   * @returns {boolesn} - true if parameter is a body parameter, false otherwise
-  */
-  function isBodyparameter(param) {
-    return /body|formData/.test(param.in);
-  }
 
   /*
    * Makes the request schema to generate the form in the template
@@ -87,7 +75,7 @@ SwaggerEditor.controller('TryOperation', function ($scope, formdataFilter,
     }
 
     // Add Content-Type header only if this operation has a body parameter
-    if (hasBodyParam) {
+    if (hasRequestBody()) {
       schema.properties.contentType = {
         type: 'string',
         title: 'Content-Type',
@@ -144,7 +132,7 @@ SwaggerEditor.controller('TryOperation', function ($scope, formdataFilter,
     }
 
     // Add Content-Type header only if this operation has a body parameter
-    if (hasBodyParam) {
+    if (hasRequestBody()) {
 
       // Default to application/json
       model.contentType = 'application/json';
@@ -359,7 +347,7 @@ SwaggerEditor.controller('TryOperation', function ($scope, formdataFilter,
    *
    * @return {function} - the filter function
   */
-  function filterParamsFor(type) {
+  function parameterTypeFilter(type) {
     return function filterParams(parameter) {
       return parameter.in === type;
     };
@@ -395,13 +383,13 @@ SwaggerEditor.controller('TryOperation', function ($scope, formdataFilter,
     var scheme = requestModel.scheme;
     var host = specs.host || window.location.host;
     var basePath = specs.basePath || '';
-    var pathParams = parameters.filter(filterParamsFor('path'))
+    var pathParams = parameters.filter(parameterTypeFilter('path'))
       .reduce(hashifyParams, {});
-    var queryParams = parameters.filter(filterParamsFor('query'))
+    var queryParams = parameters.filter(parameterTypeFilter('query'))
       .reduce(hashifyParams, {});
     var queryParamsStr;
     var pathStr;
-    var isCollectionQueryParam = parameters.filter(filterParamsFor('query'))
+    var isCollectionQueryParam = parameters.filter(parameterTypeFilter('query'))
       .some(function (parameter) {
 
         // if a query parameter has a collection format it doesn't matter what
@@ -543,30 +531,53 @@ SwaggerEditor.controller('TryOperation', function ($scope, formdataFilter,
   }
 
   /*
+   * Determines if request has a body. A request has body if it has a parameter
+   *  that is in body or in form data
+   *
+   * @returns {boolean} - true if request has a body
+  */
+  function hasRequestBody() {
+    var bodyParam = parameters.filter(parameterTypeFilter('body'));
+    var formDataParams = parameters.filter(parameterTypeFilter('formData'));
+
+    return bodyParam.length || formDataParams.length;
+  }
+
+  /*
    * Gets the body parameter's current value
    *
-   * @returns {string|object} - body parameter value
+   * @returns {string|object|null} - body parameter value or null if there is
+   *   request body
   */
   function getBodyModel() {
 
-    var bodyParam = parameters.filter(isBodyparameter)[0];
-    if (!bodyParam) {
-      return;
+    if (!hasRequestBody()) {
+      return null;
     }
 
-    var bodyParamName = bodyParam.name;
-    var bodyParamValue =  $scope.requestModel.parameters[bodyParamName];
+    var bodyParam = parameters.filter(parameterTypeFilter('body'))[0];
+    var formDataParams = parameters.filter(parameterTypeFilter('formData'));
 
-    // if body type is file then return special result object with FILE_TYPE key
-    if (bodyParam.format === 'file') {
-      var result = {};
+    // body parameter case
+    if (bodyParam) {
+      var bodyParamName = bodyParam.name;
+      var bodyParamValue =  $scope.requestModel.parameters[bodyParamName];
 
-      result[FILE_TYPE] = bodyParamValue;
+      // if body type is file then return special result object with FILE_TYPE key
+      if (bodyParam.format === 'file') {
+        var result = {};
 
-      return result;
+        result[FILE_TYPE] = bodyParamValue;
+
+        return result;
+      }
+
+      return bodyParamValue;
+
+    // formData case
+    } else {
+      return formDataParams.reduce(hashifyParams, {});
     }
-
-    return bodyParamValue;
   }
 
   /*
@@ -576,7 +587,7 @@ SwaggerEditor.controller('TryOperation', function ($scope, formdataFilter,
   */
   function getRequestBody() {
 
-    var bodyParam = parameters.filter(isBodyparameter)[0];
+    var bodyParam = parameters.filter(parameterTypeFilter('body'))[0];
     var bodyModel = getBodyModel();
     var contentType = $scope.requestModel.contentType;
 
