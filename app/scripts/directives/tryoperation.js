@@ -599,7 +599,7 @@ SwaggerEditor.controller('TryOperation', function ($scope, formdataFilter,
     var contentType = $scope.requestModel.contentType;
 
     // if bodyModel doesn't exists, don't make a request body
-    if (bodyModel === undefined) {
+    if (bodyModel === undefined || bodyModel === null) {
       return null;
     }
 
