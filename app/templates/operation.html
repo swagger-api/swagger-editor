@@ -3,6 +3,7 @@
     <a class="focus-editor" ng-click="focusEdit($event, ['paths', path.pathName, operation.operationName])"
       tooltip-placement="left" tooltip="Jump to YAML" tooltip-trigger="mouseenter"></a>
     <div class='http-method' class="toggleOperation">{{operation.operationName | uppercase}} {{path.pathName}}</div>
+    <div class="deprecated" ng-if="operation.deprecated">Deprecated</div>
   </header>
 
   <div class='content' collapse-when="isCollapsed(['paths', path.pathName, operation.operationName])">
