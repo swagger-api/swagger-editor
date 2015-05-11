@@ -192,6 +192,37 @@ SwaggerEditor.controller('HeaderCtrl', function HeaderCtrl($scope, $modal,
     });
   }
 
+  $scope.capitalizeGeneratorName = function (name) {
+    var names = {
+      jaxrs: 'JAX-RS',
+      nodejs: 'Node.js',
+      scalatra: 'Scalatra',
+      'spring-mvc': 'Spring MVC',
+      android: 'Android',
+      'async-scala': 'Async Scala',
+      csharp: 'C#',
+      java: 'Java',
+      objc: 'Objective-C',
+      php: 'PHP',
+      python: 'Python',
+      ruby: 'Ruby',
+      scala: 'Scala',
+      'dynamic-html': 'Dynamic HTML',
+      html: 'HTML',
+      swagger: 'Swagger JSON',
+      'swagger-yaml': 'Swagger YAML',
+      tizen: 'Tizen'
+    };
+
+    if (names[name]) {
+      return names[name];
+    }
+
+    return name.split(/\s+|\-/).map(function (word) {
+      return word[0].toUpperCase() + word.substr(1);
+    }).join(' ');
+  };
+
   function noop() {
 
   }

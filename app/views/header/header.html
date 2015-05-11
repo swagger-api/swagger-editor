@@ -73,7 +73,7 @@
       <ul class="dropdown-menu">
         <li ng-repeat="server in servers">
           <a dropdown-toggle tabindex="-1" ng-click="getSDK('server', server)" track-event="generate-server {{server}}">
-            {{server}}
+            {{capitalizeGeneratorName(server)}}
             <span class="badge">Alpha</span>
           </a>
         </li>
@@ -89,7 +89,7 @@
       <ul class="dropdown-menu">
         <li ng-repeat="client in clients">
           <a dropdown-toggle tabindex="-1" ng-click="getSDK('client', client)" track-event="generate-client {{client}}">
-            {{client}}
+            {{capitalizeGeneratorName(client)}}
             <span class="badge">Alpha</span>
           </a>
         </li>
