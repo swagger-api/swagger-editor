@@ -4,6 +4,8 @@
  * Test navigation behavior
 */
 
+var version = require('../../../package.json').version;
+
 describe('Navigation', function () {
 
   it('should show the intro', function () {
@@ -12,6 +14,14 @@ describe('Navigation', function () {
 
   it('should be able to dismiss the intro', function () {
     $('#dismis-intro').click();
+
     expect($('.about-pane').isPresent()).toBe(false);
+  });
+
+  it('should show correct version number in the about modal', function () {
+    $('.help.dropdown button').click();
+    $('.help.dropdown ul li:nth-child(3) a').click();
+
+    expect($('.modal-body .version-number').getText()).toContain(version);
   });
 });
