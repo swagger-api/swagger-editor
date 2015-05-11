@@ -23,5 +23,7 @@ describe('Navigation', function () {
     $('.help.dropdown ul li:nth-child(3) a').click();
 
     expect($('.modal-body .version-number').getText()).toContain(version);
+
+    $('.modal-footer .btn').click(); // closes the modal for rest of the tests
   });
 });
