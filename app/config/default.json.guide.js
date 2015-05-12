@@ -50,6 +50,8 @@ var defaults = {
 
   /*
    * Folder that example files are located
+   * Note that this string will be used in between two other url segments
+   * so you always need the trailing and leading slashes
   */
   examplesFolder: '/spec-files/',
 

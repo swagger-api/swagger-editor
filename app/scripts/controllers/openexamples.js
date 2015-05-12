@@ -9,14 +9,22 @@ SwaggerEditor.controller('OpenExamplesCtrl', function OpenExamplesCtrl($scope,
 
   $scope.open = function (file) {
 
-    Analytics.sendEvent('open-example', 'open-example:' + file);
+    // removes trailing slash from pathname because examplesFolder always have a
+    // leading slash
+    var pathname = _.endsWith(location.pathname, '/') ?
+      location.pathname.substring(1) :
+      location.pathname;
 
-    FileLoader.loadFromUrl('spec-files/' + file).then(function (value) {
+    var url = pathname + defaults.examplesFolder + file;
+
+    FileLoader.loadFromUrl(url).then(function (value) {
       Storage.save('yaml', value);
       ASTManager.refresh(value);
       $rootScope.editorValue = value;
       $modalInstance.close();
     }, $modalInstance.close);
+
+    Analytics.sendEvent('open-example', 'open-example:' + file);
   };
 
   $scope.cancel = $modalInstance.close;

@@ -103,7 +103,7 @@ Examples
 --------
 
 #### `examplesFolder`
-Path to a directory with examples specs
+Path to a directory with examples specs. Note that this string will be used in between two other URL segments so you always need the trailing and leading slashes
 
 #### `exampleFiles`
-List of files in ``exampleFolder`` that contain example specs. The first file is used as the default document for the editor when it is opened.
+Array of strings. List files in ``exampleFolder`` that contain example specs. The first file is used as the default document for the editor when it is opened.
