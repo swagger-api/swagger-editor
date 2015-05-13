@@ -2,7 +2,7 @@
 
 SwaggerEditor.controller('HeaderCtrl', function HeaderCtrl($scope, $modal,
   $stateParams, $state, $rootScope, Storage, Builder, FileLoader, ASTManager,
-  Editor, Codegen, Preferences, defaults, strings) {
+  Editor, Codegen, Preferences, defaults, strings, $localStorage) {
 
   if ($stateParams.path) {
     $scope.breadcrumbs  = [{ active: true, name: $stateParams.path }];
@@ -25,12 +25,10 @@ SwaggerEditor.controller('HeaderCtrl', function HeaderCtrl($scope, $modal,
   });
 
   // Show the intro if it's first time visit
-  Storage.load('intro').then(function (intro) {
-    if (!intro && !defaults.disableNewUserIntro) {
-      $rootScope.showAbout = true;
-      Storage.save('intro', true);
-    }
+  $localStorage.$default({
+    showIntro: !defaults.disableNewUserIntro
   });
+  $rootScope.showAbout = $localStorage.showIntro;
 
   // -- Client and Server menus
   $scope.disableCodeGen = defaults.disableCodeGen;
@@ -115,6 +113,7 @@ SwaggerEditor.controller('HeaderCtrl', function HeaderCtrl($scope, $modal,
 
   $rootScope.toggleAboutEditor = function (value) {
     $rootScope.showAbout = value;
+    $localStorage.showIntro = value;
   };
 
   $scope.openEditorPreferences = Editor.showSettings;
