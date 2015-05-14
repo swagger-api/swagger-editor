@@ -12,10 +12,10 @@ function setValue(value) {
 
 describe('Error Presenter', function () {
   it('should show an error when document is empty', function () {
-    $('#fileMenu').click();
-    $('#blank-project').click();
-    $('.main-header').click(); // close file menu that is left open
-    browser.sleep(30);
+    setValue('');
+    browser.wait(function () {
+      return $('.error-presenter').isPresent();
+    }, 50000);
     expect($('.error-presenter').isPresent()).toBe(true);
   });
 
