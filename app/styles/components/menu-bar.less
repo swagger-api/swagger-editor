@@ -4,6 +4,8 @@
 
 .menu-bar .dropdown{
   display: inline-block;
+  font-family: 'Droid Sans', sans-serif;
+
   .dropdown-toggle {
     border-radius: 0;
     background: none;
@@ -43,6 +45,26 @@
 
       &:hover {
         background: darken(@header-bg, 5%);
+      }
+    }
+  }
+
+  &.open {
+    background: darken(@header-bg, 10%);
+
+    .dropdown-menu {
+      margin-top: 0;
+
+      &, a, li {
+        background: darken(@header-bg, 10%);
+      }
+
+      a:hover {
+        background: darken(@header-bg, 30%);
+      }
+
+      .divider {
+        background: darken(@header-bg, 30%);
       }
     }
   }
