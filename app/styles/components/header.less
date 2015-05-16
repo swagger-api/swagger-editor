@@ -4,7 +4,7 @@
   background: @header-bg;
   position: fixed;
   width: 100%;
-  height: 35px;
+  height: 30px;
   z-index: 5;
 }
 
@@ -13,7 +13,7 @@ a.logo {
   background-size: contain;
   width: 25px;
   height: 25px;
-  margin: 4px;
+  margin: 2.5px 3px 0 5px;
   float: left;
 }
 
@@ -28,26 +28,13 @@ a.logo {
   .status {
     text-align: right;
     color: darken(@gray-lt, 25%);
-
-    .icon {
-      width: 21px;
-      height: 18px;
-      vertical-align: sub;
-      display: none;
-    }
-    .sw-font;
+    font-weight: 100;
+    font-size: 12px;
 
     &.success {
-      color: darken(@gray-lt, 25%);
+      color: #90C78F;
     }
     &.error {
-      .icon {
-        display: inline-block;
-        background-image: url("/images/warning.svg");
-      }
-      background-repeat: no-repeat;
-      background-position: 0px 5px;
-      padding-right: 1em;
       color: @sw-error-header;
     }
   }

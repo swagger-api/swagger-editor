@@ -4,14 +4,29 @@
 
 .menu-bar .dropdown{
   display: inline-block;
-  font-family: 'Droid Sans', sans-serif;
-  font-weight: 400;
+
+  button, a {
+    font-family: 'Open Sans', sans-serif;
+    font-weight: 100;
+    font-size: 12px;
+    background: @header-bg;
+    user-select: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+    color: darken(white, 15%);
+    transition: color ease-in 100ms;
+  }
+
+  &:hover {
+    button, a {
+      color: white;
+    }
+  }
 
   .dropdown-toggle {
     border-radius: 0;
     background: none;
     border: none;
-    color: white;
   }
 
 
@@ -19,14 +34,7 @@
     border-radius: 0;
     border: none;
     box-shadow: none;
-    min-width: 180px;
-
-    &, * {
-      background: @header-bg;
-      user-select: none;
-      -webkit-user-select: none;
-      -ms-user-select: none;
-    }
+    min-width: 170px;
 
     .badge {
       font-family: 'Source Code Pro';
@@ -44,7 +52,6 @@
     }
 
     a, button {
-      color: white;
 
       &:hover {
         background: darken(@header-bg, 5%);
@@ -55,12 +62,13 @@
   &.open {
     background: darken(@header-bg, 10%);
 
+    .dropdown-menu, a, li, button {
+      background: darken(@header-bg, 10%);
+      color: white;
+    }
+
     .dropdown-menu {
       margin-top: 0;
-
-      &, a, li {
-        background: darken(@header-bg, 10%);
-      }
 
       a:hover {
         background: darken(@header-bg, 30%);
