@@ -12,10 +12,10 @@
       <h4>Contact information</h4>
       <p ng-if="specs.info.contact.name">{{specs.info.contact.name}}</p>
       <p ng-if="specs.info.contact.email">
-        <a href="mailto:{{specs.info.contact.email}}">{{specs.info.contact.email}}</a>
+        <a target="_blank" href="mailto:{{specs.info.contact.email}}">{{specs.info.contact.email}}</a>
       </p>
       <p ng-if="specs.info.contact.url">
-        <a ng-if="specs.info.contact.url" href="{{specs.info.contact.url}}">{{specs.info.contact.url}}</a>
+        <a target="_blank" ng-if="specs.info.contact.url" href="{{specs.info.contact.url}}">{{specs.info.contact.url}}</a>
       </p>
     </div>
     <div class="terms info-box" ng-if="specs.info.termsOfService">
@@ -25,7 +25,7 @@
     <div ng-if="specs.info.license" class="license info-box">
       <h4>License</h4>
       <p ng-if="!specs.info.license.url">{{specs.info.license.name}}</p>
-      <p ng-if="specs.info.license.url"><a href="{{specs.info.license.url}}">{{specs.info.license.name}}</a></p>
+      <p ng-if="specs.info.license.url"><a target="_blank" href="{{specs.info.license.url}}">{{specs.info.license.name}}</a></p>
     </div>
   </div>
 </div>
