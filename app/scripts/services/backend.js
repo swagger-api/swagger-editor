@@ -3,6 +3,7 @@
 SwaggerEditor.service('Backend', function Backend($http, $q, defaults,
   Builder, ExternalHooks) {
   var changeListeners =  {};
+  var absoluteRegex = /^(\/|http(s)?\:\/\/)/; // starts with slash or http|https
   var buffer = {};
   var throttleTimeout = defaults.backendThrottle || 200;
   var commit = _.throttle(commitNow, throttleTimeout, {
@@ -13,7 +14,7 @@ SwaggerEditor.service('Backend', function Backend($http, $q, defaults,
   var backendEndpoint = defaults.backendEndpoint;
 
   // if backendEndpoint is not absolute append it to location.pathname
-  if (_.first(backendEndpoint) !== '/') {
+  if (!absoluteRegex.test(backendEndpoint)) {
     var pathname = _.endsWith(location.pathname, '/') ? location.pathname :
       location.pathname + '/';
     backendEndpoint = pathname + defaults.backendEndpoint;
