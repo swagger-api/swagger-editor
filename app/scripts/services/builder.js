@@ -39,8 +39,12 @@ SwaggerEditor.service('Builder', function Builder($q) {
     // Add `title` from object key to definitions
     // if they are missing title
     if (json && angular.isObject(json.definitions)) {
+
       for (var definition in json.definitions) {
-        if (_.isEmpty(json.definitions[definition].title)) {
+
+        if (angular.isObject(json.definitions[definition]) &&
+            _.isEmpty(json.definitions[definition].title)) {
+
           json.definitions[definition].title = definition;
         }
       }

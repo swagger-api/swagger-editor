@@ -162,7 +162,11 @@ SwaggerEditor.controller('PreviewCtrl', function PreviewCtrl(Storage, Builder,
   };
 
   /*
-  ** Response CSS class for an HTTP response code
+   * Response CSS class for an HTTP response code
+   *
+   * @param {number} code - The HTTP Response CODE
+   *
+   * @returns {string} - CSS class to be applied to the response code HTML tag
   */
   $scope.responseCodeClassFor = function (code) {
     var result = 'default';
@@ -183,10 +187,26 @@ SwaggerEditor.controller('PreviewCtrl', function PreviewCtrl(Storage, Builder,
   };
 
   /*
-  ** Determines if a key is a vendor extension key
-  ** Vendor extensions always start with `x-`
+   * Determines if a key is a vendor extension key
+   * Vendor extensions always start with `x-`
+   *
+   * @param {string} key
+   *
+   * @returns {boolean}
   */
   $scope.isVendorExtension = function (key) {
-    return key.substring(0, 2).toLowerCase() === 'x-';
+    return angular.isString(key) && key.substring(0, 2).toLowerCase() === 'x-';
+  };
+
+  /*
+   * Determines if we should render the definitions sections
+   *
+   * @param {object|null} - the definitions object of Swagger spec
+   *
+   * @retuns {boolean} - true if definitions object should be rendered, false
+   *  otherwise
+  */
+  $scope.showDefinitions = function (definitions) {
+    return angular.isObject(definitions);
   };
 });
