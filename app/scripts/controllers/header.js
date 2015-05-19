@@ -12,18 +12,21 @@ SwaggerEditor.controller('HeaderCtrl', function HeaderCtrl($scope, $modal,
 
   // var statusTimeout;
   Storage.addChangeListener('progress', function (progressStatus) {
-    $scope.status = strings.stausMessages[progressStatus];
-    $scope.statusClass = null;
+    var status = strings.stausMessages[progressStatus];
+    var statusClass = null;
 
-    if (progressStatus > 0) {
-      $scope.statusClass = 'success';
-      $scope.status = '✔️ ' + $scope.status;
+    if (/success/.test(progressStatus)) {
+      statusClass = 'success';
+      status = '✔️ ' + status;
     }
 
-    if (progressStatus < 0) {
-      $scope.statusClass = 'error';
-      $scope.status = '❌' + $scope.status;
+    if (/error/.test(progressStatus)) {
+      statusClass = 'error';
+      status = '❌' + status;
     }
+
+    $scope.status = status;
+    $scope.statusClass = statusClass;
   });
 
   // Show the intro if it's first time visit

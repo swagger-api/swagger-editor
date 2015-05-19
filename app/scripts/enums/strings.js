@@ -2,12 +2,21 @@
 
 SwaggerEditor.config(function ($provide) {
   $provide.constant('strings', {
+
+    // stausMessages keys should start with one of following words:
+    //   * error
+    //   * progress
+    //   * success
+    // depending on starting word, the UI will appear with a different
+    // appearance
     stausMessages: {
-      '-2': 'Unsaved changes. Check your server connection',
-      '-1': 'Error!',
-      0: 'Working...',
-      1: 'Unsaved changes',
-      2: 'All changes saved.'
+      'error-connection': 'Server connection error',
+      'error-general': 'Error!',
+      'progress-working': 'Working...',
+      'progress-unsaved': 'Unsaved changes',
+      'success-process': 'Processed with no error',
+      'progress-saving': 'Saving...',
+      'success-saved': 'All changes saved'
     }
   });
 });

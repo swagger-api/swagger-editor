@@ -7,7 +7,7 @@ SwaggerEditor.controller('EditorCtrl', function EditorCtrl($scope, $rootScope,
   $scope.aceLoaded = Editor.aceLoaded;
 
   $scope.aceChanged = function () {
-    Storage.save('progress', 0);
+    Storage.save('progress', 'progress-working');
     debouncedOnAceChange();
   };
 

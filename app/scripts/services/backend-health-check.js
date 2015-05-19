@@ -18,7 +18,7 @@ SwaggerEditor.service('BackendHealthCheck', function BackendHealthCheck($http,
         },
         function onError() {
           isHealthy = false;
-          Storage.save('progress', -2);
+          Storage.save('progress', 'error-connection');
         }
       );
     }, defaults.backendHealthCheckTimeout || 5000);

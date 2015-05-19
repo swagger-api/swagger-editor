@@ -24,19 +24,30 @@ SwaggerEditor.service('Backend', function Backend($http, $q, defaults,
     backendEndpoint = backendEndpoint.replace('//', '/');
   }
 
+  /*
+   *
+  */
   function commitNow(data) {
     var result = Builder.buildDocs(data, { resolve: true });
+
+    save('progress', 'progress-saving');
+
     if (!result.error) {
       $http.put(backendEndpoint, data)
         .then(function success() {
           ExternalHooks.trigger('put-success', [].slice.call(arguments));
+          save('progress', 'success-saved');
         }, function failure() {
           ExternalHooks.trigger('put-failure', [].slice.call(arguments));
+          save('progress', 'error-connection');
         });
     }
   }
 
-  this.save = function (key, value) {
+  /*
+   *
+  */
+  function save(key, value) {
 
     // Save values in a buffer
     buffer[key] = value;
@@ -53,11 +64,12 @@ SwaggerEditor.service('Backend', function Backend($http, $q, defaults,
       commit(buffer[key]);
     }
 
-  };
+  }
 
-  this.reset = noop;
-
-  this.load = function (key) {
+  /*
+   *
+  */
+  function load(key) {
     if (key !== 'yaml') {
       var deferred = $q.defer();
       if (!key) {
@@ -76,16 +88,27 @@ SwaggerEditor.service('Backend', function Backend($http, $q, defaults,
         }
         return res.data;
       });
-  };
+  }
 
-  this.addChangeListener = function (key, fn) {
+  /*
+   *
+  */
+  function addChangeListener(key, fn) {
     if (angular.isFunction(fn)) {
       if (!changeListeners[key]) {
         changeListeners[key] = [];
       }
       changeListeners[key].push(fn);
     }
-  };
+  }
 
+  /*
+   *
+  */
   function noop() {}
+
+  this.save = save;
+  this.reset = noop;
+  this.load = load;
+  this.addChangeListener = addChangeListener;
 });
