@@ -12,6 +12,7 @@ module.exports = {
   livereload: {
     options: {
       open: 'http://localhost:' + developmentPort,
+      port: developmentPort,
       base: [
         '.tmp',
         'app'
