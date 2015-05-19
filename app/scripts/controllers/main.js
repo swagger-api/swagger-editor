@@ -7,7 +7,12 @@ SwaggerEditor.controller('MainCtrl', function MainCtrl($rootScope, $stateParams,
   Analytics.initialize();
 
   $rootScope.$on('$stateChangeStart', Editor.initializeEditor);
-  BackendHealthCheck.startChecking();
+
+  // if backendHealthCheckTimeout is less than zero, it means it is disabled.
+  if (defaults.backendHealthCheckTimeout > 0) {
+    BackendHealthCheck.startChecking();
+  }
+
   $rootScope.$on('$stateChangeStart', loadYaml);
 
   if (!$stateParams.mode) {

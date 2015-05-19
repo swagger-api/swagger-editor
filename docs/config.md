@@ -58,7 +58,7 @@ and `PUT` for saving it.
 Set to ``true`` to enable a backend.
 
 #### `backendHealthCheckTimeout`
-Timeout in millseconds of the http request to healthchecks the backend
+Timeout in millseconds of the http request to healthchecks the backend. Set it to `-1` to disable backend health check completely.
 
 ##### note:
 This healthcheck is actually hitting location.href, not the url specified by backendEndpoint
