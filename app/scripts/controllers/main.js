@@ -15,12 +15,6 @@ SwaggerEditor.controller('MainCtrl', function MainCtrl($rootScope, $stateParams,
 
   $rootScope.$on('$stateChangeStart', loadYaml);
 
-  if (!$stateParams.mode) {
-    $rootScope.mode = 'edit';
-  } else {
-    $rootScope.mode = $stateParams.mode;
-  }
-
   // TODO: find a better way to add the branding class (grunt html template)
   $('body').addClass(defaults.brandingCssClass);
 
@@ -28,14 +22,18 @@ SwaggerEditor.controller('MainCtrl', function MainCtrl($rootScope, $stateParams,
   /*
   * Load Default or URL YAML
   */
-  function loadYaml() {
+  function loadYaml(event) {
+    console.log(event);
     Storage.load('yaml').then(function (yaml) {
       var url;
+      var disableProxy = false;
 
       // If there is a url provided, override the storage with that URL
       if ($stateParams.import) {
         url = $stateParams.import;
+        disableProxy = Boolean($stateParams['no-proxy']);
         $location.search('import', null);
+        $location.search('no-proxy', null);
 
       // If there is no saved YAML either, load the default example
       } else if (!yaml) {
@@ -43,12 +41,15 @@ SwaggerEditor.controller('MainCtrl', function MainCtrl($rootScope, $stateParams,
       }
 
       if (url) {
-        FileLoader.loadFromUrl(url).then(function (yaml) {
+
+        FileLoader.loadFromUrl(url, disableProxy).then(function (yaml) {
           if (yaml) {
             Storage.save('yaml', yaml);
             $rootScope.editorValue = yaml;
           }
         });
+      } else {
+        throw new Error('unable to load specs');
       }
     });
   }

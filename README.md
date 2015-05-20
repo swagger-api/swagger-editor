@@ -22,6 +22,12 @@ You can also import an existing YAML or JSON Swagger 2.0 specs document by using
 http://editor.swagger.io/#/?import=http://generator.swagger.io/api/swagger.json
 ```
 
+Swagger Editor will try to use a CORS proxy server for downloading your YAML. To disable this proxy server pass `no-proxy` query parameter
+
+```
+http://editor.swagger.io/#/?import=localhost:8000/swagger.yaml&no-proxy
+```
+
 ## Why "Try this operation" is not working?
 
 Please read the [CORS](docs/cors.md) document
