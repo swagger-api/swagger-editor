@@ -41,6 +41,39 @@ main {
     overflow: auto;
     margin: .5em 1em;
   }
+
+  &.dragover {
+    .file-drag {
+      display: flex;
+    }
+  }
+
+  .file-drag {
+    display: none;
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: lightgray;
+    z-index: 10000;
+    align-items: center;
+
+    .dash {
+      border: 10px dashed #138BC4;
+      border-radius: 30px;
+      width: 60%;
+      height: 40%;
+      margin: auto;
+      display: flex;
+
+      p {
+        margin: auto;
+        font-size: 50px;
+        font-weight: 100;
+      }
+    }
+  }
 }
 
 /*

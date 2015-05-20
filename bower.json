@@ -27,7 +27,8 @@
     "apply-diff": "~1.2.4",
     "async": "~0.9.2",
     "json-editor": "~0.7.15",
-    "schema-form": "~0.0.1"
+    "schema-form": "~0.0.1",
+    "ng-file-upload": "~4.2.1"
   },
   "dependencies": {
     "json-formatter": "0.2.7",

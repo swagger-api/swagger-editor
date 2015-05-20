@@ -55,6 +55,7 @@ module.exports = function(config) {
       'app/bower_components/schema-form/dist/schema-form.js',
       'app/bower_components/harmony-collections/harmony-collections.js',
       'app/bower_components/apply-diff/index.js',
+      'app/bower_components/ng-file-upload/ng-file-upload.js',
 
       // App source Code
       'app/scripts/*.js',

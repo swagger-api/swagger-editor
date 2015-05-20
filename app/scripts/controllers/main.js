@@ -1,6 +1,7 @@
 'use strict';
 
-SwaggerEditor.controller('MainCtrl', function MainCtrl($rootScope, $stateParams,
+SwaggerEditor.controller('MainCtrl', function MainCtrl($scope, $rootScope,
+  $stateParams,
   $location, Editor, Storage, FileLoader, BackendHealthCheck, defaults,
   Analytics) {
 
@@ -19,6 +20,7 @@ SwaggerEditor.controller('MainCtrl', function MainCtrl($rootScope, $stateParams,
   $('body').addClass(defaults.brandingCssClass);
 
   loadYaml();
+
   /*
   * Load Default or URL YAML
   */
@@ -41,16 +43,41 @@ SwaggerEditor.controller('MainCtrl', function MainCtrl($rootScope, $stateParams,
       }
 
       if (url) {
-
-        FileLoader.loadFromUrl(url, disableProxy).then(function (yaml) {
-          if (yaml) {
-            Storage.save('yaml', yaml);
-            $rootScope.editorValue = yaml;
-          }
-        });
-      } else {
-        throw new Error('unable to load specs');
+        FileLoader.loadFromUrl(url, disableProxy).then(assign);
       }
     });
   }
+
+  /*
+   * Assigns the YAML string to editor
+   *
+   * @param {string} yaml - the Swagger document YAML or JSON
+  */
+  function assign(yaml) {
+    if (yaml) {
+      Storage.save('yaml', yaml);
+      $rootScope.editorValue = yaml;
+    }
+  }
+
+  // ----------------------- File drag and drop --------------------------------
+
+  var fileReader = new FileReader();
+  $scope.draggedFiles = [];
+
+  // Watch for dropped files and trigger file reader
+  $scope.$watch('draggedFiles', function () {
+    var file = $scope.draggedFiles[0];
+
+    if (file) {
+      fileReader.readAsText(file, 'utf-8');
+    }
+  });
+
+  // on reader success load the string
+  fileReader.onloadend = function () {
+    if (fileReader.result) {
+      assign(FileLoader.load(fileReader.result));
+    }
+  };
 });

@@ -13,5 +13,6 @@ window.SwaggerEditor = angular.module('SwaggerEditor', [
   'hc.marked',
   'ui.layout',
   'mohsen1.json-schema-view',
-  'mohsen1.schema-form'
+  'mohsen1.schema-form',
+  'ngFileUpload'
 ]);
