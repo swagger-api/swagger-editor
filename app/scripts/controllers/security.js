@@ -21,9 +21,6 @@ SwaggerEditor.controller('SecurityCtrl', function SecurityCtrl($scope, $modal,
         controller: function BasicAuthAuthenticateCtrl($scope, $modalInstance) {
           $scope.cancel = $modalInstance.close;
           $scope.authenticate = function (username, password) {
-            if (!username || !password) {
-              return;
-            }
             AuthManager.basicAuth(securityName, security, {
               username: username,
               password: password
