@@ -5,13 +5,16 @@ SwaggerEditor.controller('UrlImportCtrl', function FileImportCtrl($scope,
   var results;
 
   $scope.url = null;
+  $scope.opts = {
+    useProxy: true
+  };
 
   function fetch(url) {
     $scope.error = null;
     $scope.canImport = false;
 
     if (_.startsWith(url, 'http')) {
-      FileLoader.loadFromUrl(url).then(function (data) {
+      FileLoader.loadFromUrl(url, !$scope.opts.useProxy).then(function (data) {
         results = data;
         $scope.canImport = true;
       }, function (error) {
