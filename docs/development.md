@@ -24,23 +24,10 @@ $ grunt build
 This will build a new version of the web app, ready for production in `/dist` folder
 
 ###  Configuration
-#### Default settings file
-Swagger Editor will make an XHR GET call to `/config/defaults.json` to get it's settings before launching the app. If you are using Swagger Editor as a dependency, you can provide your own `defaults.json` at this endpoint to override default settings.
-See [./config.rst](./config.rst) and [defaults.guide.js](./app/config/defaults.json.guide.js)
+Swagger Editor will make an XHR GET call to `/config/defaults.json` to get it's settings before launch. If you are using Swagger Editor as a dependency or serving it statically, you can provide your own `defaults.json` at this endpoint to override default settings. 
 
-#### CORS
+Read the [configuration guide](./config.md) or take a look at [defaults.guide.js](./app/config/defaults.json.guide.js) to learn how to configure Swagger Editor.
 
-If you want to import YAML or JSON resources from other hosts, those resources should
-be served as [CORS-enabled resources](http://en.wikipedia.org/wiki/Cross-origin_resource_sharing).
-
-For example, if you get an error such as
-```
-{"data":"","status":0,"config":{"method":"GET","transformRequest":[null],"transformResponse":
-[null],"url":"http://www.example.com/swagger/apis/swagger.json","headers":{"accept":
-"application/x-yaml,text/yaml,application/json,*/*"}}}
-```
-this indicates the resource is not CORS-enabled.
-See [./cors.rst](./cors.rst) for how to enable CORS.
 
 ### Running with Docker
 If you are familiar with [Docker](https://www.docker.com/), a `Dockerfile` is
