@@ -16,7 +16,9 @@ SwaggerEditor.config(function ($provide) {
       'progress-unsaved': 'Unsaved changes',
       'success-process': 'Processed with no error',
       'progress-saving': 'Saving...',
-      'success-saved': 'All changes saved'
+      'success-saved': 'All changes saved',
+      'error-yaml': 'YAML Syntax Error',
+      'error-swagger': 'Swagger Error'
     }
   });
 });

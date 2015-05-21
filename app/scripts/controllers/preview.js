@@ -65,7 +65,14 @@ SwaggerEditor.controller('PreviewCtrl', function PreviewCtrl(Storage, Builder,
     onBuild(result);
     $scope.errors = null;
     Storage.save('progress',  'success-process');
+
     Editor.clearAnnotation();
+
+    if (angular.isArray(result.warnings)) {
+      result.warnings.forEach(function (warning) {
+        Editor.annotateSwaggerError(warning, 'warning');
+      });
+    }
   }
 
   /*
@@ -73,10 +80,20 @@ SwaggerEditor.controller('PreviewCtrl', function PreviewCtrl(Storage, Builder,
   */
   function onBuildFailure(result) {
     onBuild(result);
-    if (result.errors.yamlError) {
-      Editor.annotateYAMLErrors(result.errors.yamlError);
+
+    if (angular.isArray(result.errors)) {
+      if (result.errors[0].yamlError) {
+        Editor.annotateYAMLErrors(result.errors[0].yamlError);
+        Storage.save('progress', 'error-yaml');
+      } else if (result.errors.length) {
+        Storage.save('progress', 'error-swagger');
+        result.errors.forEach(Editor.annotateSwaggerError);
+      } else {
+        Storage.save('progress', 'error-general');
+      }
+    } else {
+      Storage.save('progress', 'error-general');
     }
-    Storage.save('progress', 'error-general');
   }
 
   Storage.addChangeListener('yaml', update);

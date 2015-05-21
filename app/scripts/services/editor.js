@@ -20,6 +20,23 @@ SwaggerEditor.service('Editor', function Editor(Autocomplete, ASTManager,
     }
   }
 
+  function annotateSwaggerError(error, type) {
+    var row = 0;
+    var column = 0;
+
+    if (editor && error.path) {
+      if (error.path.length) {
+        row = ASTManager.lineForPath(_.cloneDeep(error.path));
+      }
+      editor.getSession().setAnnotations([{
+        row: row,
+        column: column,
+        text: error.message,
+        type: type || 'error'
+      }]);
+    }
+  }
+
   function clearAnnotation() {
     editor.getSession().clearAnnotations();
   }
@@ -184,6 +201,7 @@ SwaggerEditor.service('Editor', function Editor(Autocomplete, ASTManager,
   this.resize = resize;
   this.ready = ready;
   this.annotateYAMLErrors = annotateYAMLErrors;
+  this.annotateSwaggerError = annotateSwaggerError;
   this.clearAnnotation = clearAnnotation;
   this.getAllFolds = getAllFolds;
   this.getLine = getLine;
