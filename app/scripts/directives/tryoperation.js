@@ -777,6 +777,6 @@ SwaggerEditor.controller('TryOperation', function ($scope, formdataFilter,
    * @returns {boolean}
   */
   $scope.isCrossOrigin = function () {
-    return specs.host !== window.location.host;
+    return specs.host && specs.host !== $scope.locationHost;
   };
 });
