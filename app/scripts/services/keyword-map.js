@@ -7,10 +7,12 @@ SwaggerEditor.service('KeywordMap', function KeywordMap(defaults) {
     ws: String,
     wss: String
   };
+
   var externalDocs = {
     description: String,
     url: String
   };
+
   var mimeTypes = {
     'text/plain': String,
     'text/html': String,
@@ -31,10 +33,12 @@ SwaggerEditor.service('KeywordMap', function KeywordMap(defaults) {
     'video/ogg': String,
     'video/mp4': String
   };
+
   var header = {
     name: String,
     description: String
   };
+
   var parameter = {
     name: String,
     in: String,
@@ -43,9 +47,11 @@ SwaggerEditor.service('KeywordMap', function KeywordMap(defaults) {
     type: String,
     format: String
   };
+
   var security = {
     '.': String
   };
+
   var response =  {
     description: String,
     schema: {
@@ -56,6 +62,7 @@ SwaggerEditor.service('KeywordMap', function KeywordMap(defaults) {
     },
     examples: mimeTypes
   };
+
   var operation = {
     summary: String,
     description: String,
@@ -80,6 +87,59 @@ SwaggerEditor.service('KeywordMap', function KeywordMap(defaults) {
     },
     tags: [String]
   };
+
+  /*
+   * JSON Schema completion map constructor
+   *
+   * This is necessary because JSON Schema completion map has recursive
+   * pointers
+  */
+  function JSONSchema() {
+    _.extend(this,
+      {
+        title: String,
+        type: String,
+        format: String,
+        default: this,
+        description: String,
+        enum: [String],
+        minimum: String,
+        maximum: String,
+        exclusiveMinimum: String,
+        exclusiveMaximum: String,
+        multipleOf: String,
+        maxLength: String,
+        minLength: String,
+        pattern: String,
+        not: String,
+        definitions: {
+          '.': this
+        },
+
+        // array specific keys
+        items: [this],
+        minItems: String,
+        maxItems: String,
+        uniqueItems: String,
+        additionalItems: [this],
+
+        // object
+        maxProperties: String,
+        minProperties: String,
+        required: String,
+        additionalProperties: String,
+        allOf: [this],
+        properties: {
+
+          // property name
+          '.': this
+        }
+      }
+    );
+  }
+
+  var jsonSchema = new JSONSchema();
+
   var map = {
     swagger: String,
     info: {
@@ -116,21 +176,7 @@ SwaggerEditor.service('KeywordMap', function KeywordMap(defaults) {
     definitions: {
 
       // Definition name
-      '.': {
-        title: String,
-        description: String,
-        properties: {
-
-          // property name
-          '.': {
-            type: String,
-            format: String,
-            description: String,
-            title: String,
-            enum: [String]
-          }
-        }
-      }
+      '.': jsonSchema
     },
 
     parameters: {
