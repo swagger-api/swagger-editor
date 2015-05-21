@@ -193,12 +193,10 @@ SwaggerEditor.service('KeywordMap', function KeywordMap(defaults) {
         '.': String
       }
     },
-    tags: {
-      '.': {
-        name: String,
-        description: String
-      }
-    },
+    tags: [{
+      name: String,
+      description: String
+    }],
     externalDocs: {
       '.': externalDocs
     }
