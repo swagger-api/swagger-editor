@@ -24,6 +24,7 @@ npm start
 * [Why "Try this operation" is not working?](docs/cors.md)
 * [Importing your Swagger document](./docs/import.md)
 * [Development Guide](./docs/development.md)
+* [Configuration Guide](./docs/config.md)
 
 [Contributing](./CONTRIBUTING.md)
 
