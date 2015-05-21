@@ -101,10 +101,6 @@ SwaggerEditor.service('Editor', function Editor(Autocomplete, ASTManager,
     session.setTabSize(2);
   }
 
-  function resize() {
-    editor.resize();
-  }
-
   function ready(fn) {
     if (angular.isFunction(fn)) {
       onReadyFns.push(fn);
@@ -198,7 +194,6 @@ SwaggerEditor.service('Editor', function Editor(Autocomplete, ASTManager,
   }
 
   this.aceLoaded = aceLoaded;
-  this.resize = resize;
   this.ready = ready;
   this.annotateYAMLErrors = annotateYAMLErrors;
   this.annotateSwaggerError = annotateSwaggerError;
