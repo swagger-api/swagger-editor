@@ -6,16 +6,11 @@
 Swagger Editor lets you edit [Swagger API specifications](https://github.com/swagger-api/swagger-spec/blob/master/versions/2.0.md) in YAML inside your browser and to preview documentations in real time.
 Valid Swagger JSON descriptions can then be generated and used with the full Swagger tooling (code generation, documentation, etc).
 
-**[Try the live demo](http://editor.swagger.io/#/edit)**
+**[LIVE DEMO](http://editor.swagger.io)**
 
 [![Screenshot of the Swagger Editor](docs/screenshot.png "Designing an API with the Swagger Editor")](http://editor.swagger.io)
 
-##### Documentations
-* [Why "Try this operation" is not working?](docs/cors.md)
-* [Importing your Swagger document](./docs/import.md)
-* [Development Guide](./docs/development.md)
-
-##### Running Locally
+#### Running Locally
 
 Make sure you have [Node.js](http://nodejs.org/) installed. 
 
@@ -24,6 +19,11 @@ git clone https://github.com/swagger-api/swagger-editor.git
 cd swagger-editor
 npm start
 ```
+
+#### Documentations
+* [Why "Try this operation" is not working?](docs/cors.md)
+* [Importing your Swagger document](./docs/import.md)
+* [Development Guide](./docs/development.md)
 
 [Contributing](./CONTRIBUTING.md)
 
