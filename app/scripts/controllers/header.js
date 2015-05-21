@@ -140,13 +140,6 @@ SwaggerEditor.controller('HeaderCtrl', function HeaderCtrl($scope, $modal,
     return !!Preferences.get('liveRender');
   };
 
-  /*
-   * Should show editor related menu options?
-  */
-  $scope.showEditorMenuOptions = function () {
-    return $rootScope.mode === 'edit';
-  };
-
   function assignDownloadHrefs() {
     var MIME_TYPE = 'text/plain';
 

@@ -10,7 +10,7 @@ SwaggerEditor.service('Editor', function Editor(Autocomplete, ASTManager,
   var defaultTheme = editorOptions.theme || 'ace/theme/atom_dark';
 
   function annotateYAMLErrors(error) {
-    if (error && error.mark && error.reason) {
+    if (editor && error && error.mark && error.reason) {
       editor.getSession().setAnnotations([{
         row: error.mark.line,
         column: error.mark.column,
