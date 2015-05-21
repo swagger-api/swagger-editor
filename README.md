@@ -10,11 +10,10 @@ Valid Swagger JSON descriptions can then be generated and used with the full Swa
 
 [![Screenshot of the Swagger Editor](docs/screenshot.png "Designing an API with the Swagger Editor")](http://editor.swagger.io)
 
+##### Documentations
 * [Why "Try this operation" is not working?](docs/cors.md)
 * [Importing your Swagger document](./docs/import.md)
 * [Development Guide](./docs/development.md)
-* [Contributing](./CONTRIBUTING.md)
-* [LICENSE](./LICENSE)
 
 ##### Running Locally
 
@@ -26,3 +25,6 @@ cd swagger-editor
 npm start
 ```
 
+[Contributing](./CONTRIBUTING.md)
+
+[LICENSE](./LICENSE)
