@@ -14,6 +14,16 @@
       <pre ng-if="hasRequestBody() && !hasFileParam" class="json-body">{{getRequestBody()}}</pre>
       <pre ng-if="hasFileParam" class="json-body">File</pre>
     </div>
+    <div class="cors-warning" ng-if="specs.host && specs.host !== locationHost">
+      <p>
+        <span class="warning-icon">⚠️</span>
+        This is a cross-origin call. Make sure the server at
+        <code>{{specs.host}}</code>
+        accepts {{operation.operationName | uppercase}} requests from
+        <code>{{locationHost}}</code>.
+        <a href="https://github.com/swagger-api/swagger-editor/blob/master/docs/cors.md" target="_blank">Learn more</a>
+      </p>
+    </div>
     <button ng-click="makeCall()" class="{{$parent.operationName}} call"
       ng-disabled="xhrInProgress">
       <span ng-if="xhrInProgress">Sending...</span>

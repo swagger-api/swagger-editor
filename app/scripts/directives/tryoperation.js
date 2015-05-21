@@ -26,6 +26,7 @@ SwaggerEditor.controller('TryOperation', function ($scope, formdataFilter,
   $scope.hasFileParam = hasFileParam();
   // httpProtocol is static for now we can use HTTP2 later if we wanted
   $scope.httpProtorcol = 'HTTP/1.1';
+  $scope.locationHost = window.location.host;
 
   /*
    * Makes the request schema to generate the form in the template
@@ -768,5 +769,14 @@ SwaggerEditor.controller('TryOperation', function ($scope, formdataFilter,
     var regex = new RegExp(type);
 
     return headers['Content-Type'] && regex.test(headers['Content-Type']);
+  };
+
+  /*
+   * Determines if this call is cross-origin
+   *
+   * @returns {boolean}
+  */
+  $scope.isCrossOrigin = function () {
+    return specs.host !== window.location.host;
   };
 });
