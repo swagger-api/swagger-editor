@@ -5,7 +5,10 @@ SwaggerEditor.controller('TryOperation', function ($scope, formdataFilter,
 
   // configure SchemaForm directive
   SchemaForm.options = {
-    theme: 'bootstrap3'
+    theme: 'bootstrap3',
+
+    /*jshint camelcase: false */
+    show_errors: true
   };
 
   var specs = $scope.$parent.specs;

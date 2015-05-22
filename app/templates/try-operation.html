@@ -1,6 +1,6 @@
 <div ng-controller="TryOperation" class="try-container">
   <div class="request">
-    <form schema-form="requestSchema" ng-model="requestModel"></form>
+    <form schema-form="requestSchema" ng-model="requestModel" name="requestFrom"></form>
     <div class="raw-request raw">
       <div class="line url">
         {{operation.operationName | uppercase}}
@@ -25,7 +25,7 @@
       </p>
     </div>
     <button ng-click="makeCall()" class="{{$parent.operationName}} call"
-      ng-disabled="xhrInProgress">
+      ng-disabled="xhrInProgress || !requestFrom.$valid">
       <span ng-if="xhrInProgress">Sending...</span>
       <span ng-if="!xhrInProgress">Send Request</span>
     </button>
