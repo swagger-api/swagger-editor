@@ -53,6 +53,17 @@
     cursor: not-allowed;
   }
 
+  // json schema form adjustment (Hack)
+  [data-schemaid="root"] {
+    > h3 .btn-group {
+      display: none; // hide [Edit JSON] and [Object Properties] in root
+    }
+
+    > .well > div > div > .row > div > h3 >.btn-group {
+      display: none; // hide buttons in [Parameters] hash
+    }
+  }
+
   >div {
     >h5 {
       font-size: 1.0em;

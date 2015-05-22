@@ -3,14 +3,6 @@
 SwaggerEditor.controller('TryOperation', function ($scope, formdataFilter,
   AuthManager, SchemaForm) {
 
-  // configure SchemaForm directive
-  SchemaForm.options = {
-    theme: 'bootstrap3',
-
-    /*jshint camelcase: false */
-    show_errors: true
-  };
-
   var specs = $scope.$parent.specs;
   var parameters = $scope.getParameters();
   var securityOptions = getSecurityOptions();
@@ -30,6 +22,80 @@ SwaggerEditor.controller('TryOperation', function ($scope, formdataFilter,
   // httpProtocol is static for now we can use HTTP2 later if we wanted
   $scope.httpProtorcol = 'HTTP/1.1';
   $scope.locationHost = window.location.host;
+
+  configureSchemaForm();
+
+  /*
+   * configure SchemaForm directive based on request schema
+  */
+  function configureSchemaForm() {
+    /*jshint camelcase: false */
+
+    var defaultOptions = {
+      theme: 'bootstrap3',
+      show_errors: true
+    };
+
+    var looseOptions = {
+      no_additional_properties: false,
+      disable_properties: false,
+      disable_edit_json: false
+    };
+
+    var loose = isLoose();
+
+    SchemaForm.options = _.extend(defaultOptions, loose ? looseOptions : {});
+  }
+
+  /*
+   * Determines if this request has a loose body parameter schema
+   * A loose body parameter schema is a body parameter that allows additional
+   * properties or has no properties object
+   *
+   * Note that "loose schema" is not a formal definition, we use this definition
+   * here to determine type of form to render
+   *
+   * @returns {boolean}
+  */
+  function isLoose() {
+
+    // loose schema is only for requests with body parameter
+    if (!hasRequestBody()) {
+      return false;
+    }
+
+    // we're accessing deep in the schema. many operations can fail here
+    try {
+
+      for (var p in $scope.requestSchema.properties.parameters.properties) {
+        var param = $scope.requestSchema.properties.parameters.properties[p];
+        if (param.in === 'body') {
+
+          // loose object
+          if (
+              param.type === 'object' &&
+              (param.additionalProperties ||
+              _.isEmpty(param.properties))
+            ) {
+
+            return true;
+          }
+
+          // loose array of objects
+          if (
+              param.type === 'array' &&
+              (param.items.additionalProperties ||
+              _.isEmpty(param.items.properties))
+            ) {
+
+            return true;
+          }
+        }
+      }
+    } catch (e) {}
+
+    return false;
+  }
 
   /*
    * Makes the request schema to generate the form in the template
