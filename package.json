@@ -1,0 +1,1 @@
+{"name":"swagger-editor","description":"Swagger Editor Web App","version":"2.9.6","repository":"https://github.com/swagger-api/swagger-editor.git","dependencies":{},"devDependencies":{},"main":"index.html","scripts":{"test":"echo \"Error: no test specified\" && exit 1"},"keywords":["Swagger"],"author":"Mohsen Azimi","license":"MIT"}
