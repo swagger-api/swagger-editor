@@ -16,7 +16,6 @@ module.exports = {
         'views/{,*/}*.html',
         'templates/{,*/}*.html',
         'fonts/*',
-        'schema/*',
         'spec-files/*',
         'CNAME',
         'styles/branding.css',
