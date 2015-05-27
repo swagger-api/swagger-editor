@@ -594,7 +594,7 @@ SwaggerEditor.controller('TryOperation', function ($scope, formdataFilter,
       'User-Agent': window.navigator.userAgent
     };
 
-    headerParams = _.extend(headerParams, defaultHeaders);
+    headerParams = _.extend(defaultHeaders, headerParams);
 
     // if request has a body add Content-Type and Content-Length headers
     if (content !== null) {
