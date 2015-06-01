@@ -5,8 +5,8 @@
   <div ng-include="'templates/branding-left.html'" ng-if="showHeaderBranding()" class="branding-3rdparty"></div>
 
   <section class="menu-bar">
-    <div class="file dropdown" ng-if="showFileMenu()">
-      <button class="btn btn-default dropdown-toggle" data-toggle="dropdown" id="fileMenu" on-toggle="assignDownloadHrefs()">
+    <div class="file dropdown" ng-if="showFileMenu()" on-toggle="assignDownloadHrefs()">
+      <button class="btn btn-default dropdown-toggle" data-toggle="dropdown" id="fileMenu">
         <span>File</span>
         <span class="caret"></span>
       </button>
