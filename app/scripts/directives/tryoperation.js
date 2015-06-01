@@ -443,7 +443,7 @@ SwaggerEditor.controller('TryOperation', function ($scope, formdataFilter,
 
     // if this parameter is not provided (empty string value) by user and it's
     // not required, move to next parameter without adding this one to the hash
-    if (paramValue === '' && !required) {
+    if (param.type === 'string' && paramValue === '' && !required) {
       return hash;
     }
 
@@ -511,7 +511,13 @@ SwaggerEditor.controller('TryOperation', function ($scope, formdataFilter,
       // value to replace the path parameter or leave it as it is if path
       // parameter doesn't exist.
       function (match) {
-        return pathParams[match.substring(1, match.length - 1)] || match;
+        var matchKey = match.substring(1, match.length - 1);
+
+        if (angular.isDefined(pathParams[matchKey])) {
+          return pathParams[matchKey];
+        }
+
+        return match;
       }
     );
 
