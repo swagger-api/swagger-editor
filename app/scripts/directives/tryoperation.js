@@ -33,6 +33,7 @@ SwaggerEditor.controller('TryOperation', function ($scope, formdataFilter,
 
     var defaultOptions = {
       theme: 'bootstrap3',
+      remove_empty_properties: true,
       show_errors: true
     };
 
