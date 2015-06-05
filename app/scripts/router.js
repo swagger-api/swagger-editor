@@ -28,4 +28,8 @@ SwaggerEditor.config(function Router($compileProvider, $stateProvider,
   });
 
   $compileProvider.aHrefSanitizationWhitelist('.');
+
+  // Disable debug info in production. To detect the "production" mode we are
+  // examining location.host to see if it matches localhost
+  $compileProvider.debugInfoEnabled(/localhost/.test(window.location.host));
 });
