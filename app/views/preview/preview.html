@@ -19,7 +19,7 @@
   <ng-include src="'templates/tags.html'"></ng-include>
 
   <ul class="paths" ng-if="!error.yamlError" collapse-when="isCollapsed(['paths'])">
-    <path ng-repeat="path in specs.paths" ng-if="!isVendorExtension(path.pathName) && path.operations.length > 0"></path>
+    <path ng-repeat="path in specs.paths track by $index" ng-if="!isVendorExtension(path.pathName) && path.operations.length > 0"></path>
   </ul>
 
   <header ng-if="specs.definitions">

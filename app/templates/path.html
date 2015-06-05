@@ -9,7 +9,7 @@
     <a class="jump-to-yaml" ng-click="focusEdit($event, ['paths', path.pathName])" tooltip-placement="left" tooltip="Jump to YAML" tooltip-trigger="mouseenter"></a>
   </header>
   <ul class='operations' collapse-when="$parent.isCollapsed(['paths', path.pathName])">
-    <operation ng-repeat="operation in path.operations" ng-if="!isVendorExtension(operation.operationName)"></operation>
+    <operation ng-repeat="operation in path.operations track by $index" ng-if="!isVendorExtension(operation.operationName)"></operation>
   </ul>
 </li>
 

@@ -4,7 +4,7 @@
     <h4>{{getTitle()}}</h4>
     <span class="collapse-button">{{isCollapsed ? 'Open' : 'Collapse'}}</span>
   </header>
-  <div ng-repeat="error in getErrors()" collapse-when="isCollapsed" class="item">
+  <div ng-repeat="error in getErrors() track by $index" collapse-when="isCollapsed" class="item">
     <h5 class="{{isWarning(error) ? 'warning' : 'error'}}">
       <span class="icon">{{isWarning(error) ? '⚠' : '✖' }}</span>
       {{getType(error)}}

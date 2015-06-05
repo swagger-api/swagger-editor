@@ -8,7 +8,7 @@
 
   <div class='content' collapse-when="isCollapsed(['paths', path.pathName, operation.operationName])">
     <div class="tags">
-      <span class="tag tag-color-{{tagIndexFor(tag)}}" ng-repeat="tag in operation.tags">{{tag}}</span>
+      <span class="tag tag-color-{{tagIndexFor(tag)}}" ng-repeat="tag in operation.tags track by $index">{{tag}}</span>
     </div>
     <section class="summary" ng-if="operation.summary">
       <h4>Summary</h4>
@@ -64,7 +64,7 @@
             </tr>
           </thead>
           <tbody>
-            <tr ng-repeat="response in operation.responses">
+            <tr ng-repeat="response in operation.responses track by $index">
               <td>
                 <a ng-click="focusEdit($event, ['paths', path.pathName, operation.operationName, 'responses', response.responseCode])" tooltip-placement="top" tooltip="Jump to YAML" tooltip-trigger="mouseenter">
                   <span class="resp-code {{responseCodeClassFor(response.responseCode)}}">{{response.responseCode}}</span>
@@ -114,10 +114,10 @@
           </tr>
         </thead>
         <tbody>
-          <tr ng-repeat="security in operation.security">
+          <tr ng-repeat="security in operation.security track by $index">
             <td ng-repeat="(securityName, securityValues) in security">{{securityName}}</td>
             <td ng-repeat="(securityName, securityValues) in security">
-              <strong class="security-value" ng-repeat="value in securityValues">{{value}}</strong>
+              <strong class="security-value" ng-repeat="value in securityValues track by $index">{{value}}</strong>
             </td>
           </tr>
         </tbody>
