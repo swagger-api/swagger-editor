@@ -31,8 +31,8 @@
     "ng-file-upload": "~4.2.1"
   },
   "dependencies": {
-    "json-formatter": "0.2.7",
+    "json-formatter": "0.3.0",
     "angular-ui-layout": "1.0.5",
-    "json-schema-view": "0.4.1"
+    "json-schema-view": "0.4.2"
   }
 }
