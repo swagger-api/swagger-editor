@@ -47,6 +47,7 @@ module.exports = function(config) {
       'app/bower_components/spark-md5/spark-md5.js',
       'app/bower_components/traverse/traverse.js',
       'app/bower_components/z-schema/dist/ZSchema-browser.js',
+      'app/bower_components/path-loader/browser/path-loader.js',
       'app/bower_components/json-refs/browser/json-refs.js',
       'app/bower_components/swagger-tools/browser/swagger-tools.js',
       'app/bower_components/json-editor/dist/jsoneditor.js',
