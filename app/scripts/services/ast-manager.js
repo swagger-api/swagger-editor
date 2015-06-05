@@ -4,7 +4,7 @@
  * Manages the AST representation of the specs for fold status
  * and other meta information about the specs tree
 */
-SwaggerEditor.service('ASTManager', function ASTManager() {
+SwaggerEditor.service('ASTManager', function ASTManager($log) {
   var MAP_TAG = 'tag:yaml.org,2002:map';
   var SEQ_TAG = 'tag:yaml.org,2002:seq';
   var INDENT = 2; // TODO: make indent dynamic based on document
@@ -24,7 +24,7 @@ SwaggerEditor.service('ASTManager', function ASTManager() {
       ast = yaml.compose(value);
       emitChanges();
     } catch (err) {
-      console.warn('Failed to refresh line numbers', err);
+      $log.warn('Failed to refresh line numbers', err);
     }
   }
 

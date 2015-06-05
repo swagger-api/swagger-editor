@@ -1,7 +1,7 @@
 'use strict';
 
 SwaggerEditor.config(function Router($compileProvider, $stateProvider,
-  $urlRouterProvider) {
+  $urlRouterProvider, $logProvider) {
   $urlRouterProvider.otherwise('/');
 
   $stateProvider
@@ -31,5 +31,8 @@ SwaggerEditor.config(function Router($compileProvider, $stateProvider,
 
   // Disable debug info in production. To detect the "production" mode we are
   // examining location.host to see if it matches localhost
-  $compileProvider.debugInfoEnabled(/localhost/.test(window.location.host));
+  var isProduction = !/localhost/.test(window.location.host);
+
+  $compileProvider.debugInfoEnabled(!isProduction);
+  $logProvider.debugEnabled(!isProduction);
 });

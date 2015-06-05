@@ -1,9 +1,8 @@
 'use strict';
 
-SwaggerEditor.controller('MainCtrl', function MainCtrl($scope, $rootScope,
-  $stateParams,
-  $location, Editor, Storage, FileLoader, BackendHealthCheck, defaults,
-  Analytics) {
+SwaggerEditor.controller('MainCtrl', function MainCtrl(
+  $scope, $rootScope, $stateParams, $location,
+  Editor, Storage, FileLoader, BackendHealthCheck, Analytics, defaults) {
 
   Analytics.initialize();
 
@@ -24,8 +23,8 @@ SwaggerEditor.controller('MainCtrl', function MainCtrl($scope, $rootScope,
   /*
   * Load Default or URL YAML
   */
-  function loadYaml(event) {
-    console.log(event);
+  function loadYaml() {
+
     Storage.load('yaml').then(function (yaml) {
       var url;
       var disableProxy = false;
