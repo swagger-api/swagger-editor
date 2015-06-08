@@ -9,6 +9,7 @@ module.exports = {
     showDir : true,
     autoIndex: true,
     defaultExt: 'html',
-    runInBackground: true
+    runInBackground: true,
+    logFn: function noop() {}
   }
 };
