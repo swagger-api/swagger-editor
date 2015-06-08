@@ -10,6 +10,11 @@ var files = require('main-bower-files')({
     // make paths relative
     return s.substr(s.indexOf('app/bower_components'));
   })
+  .filter(function(file) {
+
+    // angular-scenario is added in runner.html file already
+    return !/angular\-scenario/.test(file);
+  })
   .concat([
 
     // App source Code
@@ -21,8 +26,6 @@ var files = require('main-bower-files')({
     'test/unit/bootstrap.js',
     'test/unit/spec/**/*.js'
   ]);
-
-  console.log(files);
 
 module.exports = function(config) {
   config.set({
