@@ -12,6 +12,7 @@ module.exports = function (grunt) {
 
     grunt.task.run([
       'clean:server',
+      'wiredep',
       'less:server',
       'autoprefixer',
       'connect:livereload',
