@@ -4,7 +4,13 @@ $(function () {
 
   // Try bootstrapping the app with embedded defaults if it exists
   var embeddedDefaults = window.$$embeddedDefaults;
-  var url = window.location.pathname + './config/defaults.json';
+  var pathname = window.location.pathname;
+
+  if (!_.endsWith(pathname, '/')) {
+    pathname += '/';
+  }
+
+  var url = pathname + 'config/defaults.json';
 
   if (embeddedDefaults) {
     bootstrap(embeddedDefaults);
