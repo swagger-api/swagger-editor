@@ -1,14 +1,16 @@
 // Karma configuration
 // http://karma-runner.github.io/0.10/config/configuration-file.html
 
+var path = require('path');
+
 var files = require('main-bower-files')({
     filter: /\.js$/,
     includeDev: true
   })
-  .map(function(s) {
+  .map(function(filePath) {
 
     // make paths relative
-    return s.substr(s.indexOf('app/bower_components'));
+    return path.relative(__dirname, filePath);
   })
   .filter(function(file) {
 
@@ -18,13 +20,13 @@ var files = require('main-bower-files')({
   .concat([
 
     // App source Code
-    'app/scripts/*.js',
-    'app/scripts/**/*.js',
+    '../../app/scripts/*.js',
+    '../../app/scripts/**/*.js',
 
     // Test files
-    'test/unit/defaults.js',
-    'test/unit/bootstrap.js',
-    'test/unit/spec/**/*.js'
+    '../../test/unit/defaults.js',
+    '../../test/unit/bootstrap.js',
+    '../../test/unit/spec/**/*.js'
   ]);
 
 module.exports = function(config) {
