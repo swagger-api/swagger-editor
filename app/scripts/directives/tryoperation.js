@@ -34,7 +34,7 @@ SwaggerEditor.controller('TryOperation', function ($scope, formdataFilter,
     var defaultOptions = {
       theme: 'bootstrap3',
       remove_empty_properties: true,
-      show_errors: true
+      show_errors: 'change'
     };
 
     var looseOptions = {
@@ -224,6 +224,12 @@ SwaggerEditor.controller('TryOperation', function ($scope, formdataFilter,
         // if default value is provided use it
         if (angular.isDefined(paramSchema.default)) {
           model.parameters[paramSchema.name] = paramSchema.default;
+
+        // if there is no default value but there is minimum or maximum use them
+        } else if (angular.isDefined(paramSchema.minimum)) {
+          model.parameters[paramSchema.name] = paramSchema.minimum;
+        } else if (angular.isDefined(paramSchema.maximum)) {
+          model.parameters[paramSchema.name] = paramSchema.maximum;
 
         // if there is no default value select a default value based on type
         } else if (angular.isDefined(defaults[paramSchema.type])) {
