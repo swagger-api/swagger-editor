@@ -79,9 +79,7 @@ SwaggerEditor.controller('HeaderCtrl', function HeaderCtrl($scope, $modal,
     });
   };
 
-  $scope.assignDownloadHrefs = function () {
-    assignDownloadHrefs($scope, Storage);
-  };
+  $scope.assignDownloadHrefs = assignDownloadHrefs;
 
   $scope.openImportFile = function () {
     $modal.open({

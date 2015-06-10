@@ -5,13 +5,13 @@
   <div ng-include="'templates/branding-left.html'" ng-if="showHeaderBranding()" class="branding-3rdparty"></div>
 
   <section class="menu-bar">
-    <div class="file dropdown" ng-if="showFileMenu()" on-toggle="assignDownloadHrefs()">
-      <button class="btn btn-default dropdown-toggle" data-toggle="dropdown" id="fileMenu">
+    <div class="file dropdown" ng-if="showFileMenu()">
+      <button class="btn btn-default dropdown-toggle" ng-click="assignDownloadHrefs()" data-toggle="dropdown" id="fileMenu">
         <span>File</span>
         <span class="caret"></span>
       </button>
 
-      <ul class="dropdown-menu" ng-if="showFileMenu()">
+      <ul class="dropdown-menu">
         <li>
           <a dropdown-toggle ng-click="newProject()" tabindex="-1" track-event="file new">New</a>
         </li>
