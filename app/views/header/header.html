@@ -41,7 +41,7 @@
     </div>
 
     <div class="preferences dropdown">
-      <button id="preferences" class="btn btn-default dropdown-toggle">
+      <button id="preferences" class="btn btn-default dropdown-toggle" data-toggle="dropdown" >
         <span>Preferences</span>
         <span class="caret"></span>
       </button>
@@ -54,14 +54,18 @@
           </a>
         </li>
         <li>
-          <a dropdown-toggle ng-click="openEditorPreferences()" tabindex="-1" track-event="preferences settings">Settings</a>
+          <a dropdown-toggle ng-click="openEditorPreferences()" tabindex="-1" track-event="preferences settings">Editor Settings</a>
         </li>
         <li>
-          <a dropdown-toggle ng-click="resetSettings()" tabindex="-1" track-event="preferences reset-settings">Reset Settings</a>
+          <a dropdown-toggle ng-click="resetSettings()" tabindex="-1" track-event="preferences reset-settings">Reset Editor Settings</a>
         </li>
         <li class="divider"></li>
         <li>
-          <a dropdown-toggle tabindex="-1" ng-click="toggleLiveRender()" track-event="mode toggle-live-render {{isLiveRenderEnabled()}}">{{isLiveRenderEnabled() ? 'Disable' : 'Enable'}} Live Render</a>
+          <a dropdown-toggle tabindex="-1" ng-click="toggleLiveRender()" track-event="preferences toggle-live-render {{isLiveRenderEnabled()}}">{{isLiveRenderEnabled() ? 'Disable' : 'Enable'}} Live Render</a>
+        </li>
+        <li class="divider"></li>
+        <li>
+          <a dropdown-toggle tabindex="-1" ng-click="openPreferences()" track-event="preferences preferences">Preferences&hellip;</a>
         </li>
       </ul>
     </div>

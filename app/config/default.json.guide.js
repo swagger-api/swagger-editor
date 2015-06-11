@@ -87,6 +87,12 @@ var defaults = {
   useBackendForStorage: false,
 
   /*
+   * Change how many milliseconds after the last keypress the editor should
+   * respond to change.
+  */
+  keyPressDebounceTime: 200,
+
+  /*
    * The timeout for throttling backend calls
   */
   backendThrottle: 200,

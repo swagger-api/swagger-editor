@@ -134,6 +134,14 @@ SwaggerEditor.controller('HeaderCtrl', function HeaderCtrl($scope, $modal,
     Preferences.set('liveRender', !Preferences.get('liveRender'));
   };
 
+  $scope.openPreferences = function () {
+    $modal.open({
+      templateUrl: 'templates/preferences.html',
+      controller: 'PreferencesCtrl',
+      size: 'large'
+    });
+  };
+
   $scope.isLiveRenderEnabled = function () {
     return !!Preferences.get('liveRender');
   };

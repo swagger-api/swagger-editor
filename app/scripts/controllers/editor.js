@@ -1,8 +1,18 @@
 'use strict';
 
 SwaggerEditor.controller('EditorCtrl', function EditorCtrl($scope, $rootScope,
-  Editor, Builder, Storage, ASTManager, ExternalHooks) {
-  var debouncedOnAceChange = _.debounce(onAceChange, 200);
+  Editor, Builder, Storage, ASTManager, ExternalHooks, Preferences) {
+
+  var keyPressDebounceTime = Preferences.get('keyPressDebounceTime');
+  var debouncedOnAceChange = _.debounce(onAceChange, keyPressDebounceTime);
+
+  // if user changed the preferences of keyPressDebounceTime, update the
+  // debouncedOnAceChange function to have the latest debounce value
+  Preferences.onChange(function (key) {
+    if (key === 'keyPressDebounceTime') {
+      debouncedOnAceChange = _.debounce(onAceChange, keyPressDebounceTime);
+    }
+  });
 
   $scope.aceLoaded = Editor.aceLoaded;
 

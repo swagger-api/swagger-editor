@@ -25,6 +25,9 @@ Set to `true` to disable the editor menu
 Ace editor options. This object will overload existing editor options.
 See all possible options [here](http://ace.c9.io/#nav=api&api=ace)
 
+#### `keyPressDebounceTime`
+Change how many milliseconds after the last keypress the editor should respond to change. Defaults to `200ms`.
+
 External Hooks
 --------------
 

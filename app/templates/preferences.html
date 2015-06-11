@@ -1,0 +1,16 @@
+<div class="modal-header">
+  <h3 class="modal-title">Swagger Editor Preferences</h3>
+</div>
+<div class="modal-body preferences-modal">
+  <div class="form-group">
+    <label>Keypress debounce</label>
+    <p>Change how many milliseconds after the last keypress the editor should respond to change.</p>
+    <div class="input-group keypress-debounce">
+      <input min="20" max="10000" step="10" placeholder="Render Throttle" ng-model="keyPressDebounceTime" type="number" class="form-control">
+      <span class="input-group-addon">milliseconds</span>
+    </div>
+  </div>
+</div>
+<div class="modal-footer">
+  <button class="btn btn-primary" ng-click="save()">Save</button>
+</div>
