@@ -3,7 +3,6 @@
 SwaggerEditor.controller('TryOperation', function ($scope, formdataFilter,
   AuthManager, SchemaForm) {
 
-  var specs = $scope.$parent.specs;
   var parameters = $scope.getParameters();
   var securityOptions = getSecurityOptions();
   var FILE_TYPE = ' F I L E '; // File key identifier for file types
@@ -24,6 +23,12 @@ SwaggerEditor.controller('TryOperation', function ($scope, formdataFilter,
   $scope.locationHost = window.location.host;
 
   configureSchemaForm();
+
+  // Deeply watch specs for updates to regenerate the from
+  $scope.$watch('specs', function () {
+    $scope.requestModel = makeRequestModel();
+    $scope.requestSchema = makeRequestSchema();
+  }, true);
 
   /*
    * configure SchemaForm directive based on request schema
@@ -468,8 +473,8 @@ SwaggerEditor.controller('TryOperation', function ($scope, formdataFilter,
   function generateUrl() {
     var requestModel = $scope.requestModel;
     var scheme = requestModel.scheme;
-    var host = specs.host || window.location.host;
-    var basePath = specs.basePath || '';
+    var host = $scope.specs.host || window.location.host;
+    var basePath = $scope.specs.basePath || '';
     var pathParams = parameters.filter(parameterTypeFilter('path'))
       .reduce(hashifyParams, {});
     var queryParams = parameters.filter(parameterTypeFilter('query'))
@@ -859,6 +864,6 @@ SwaggerEditor.controller('TryOperation', function ($scope, formdataFilter,
    * @returns {boolean}
   */
   $scope.isCrossOrigin = function () {
-    return specs.host && specs.host !== $scope.locationHost;
+    return $scope.specs.host && $scope.specs.host !== $scope.locationHost;
   };
 });
