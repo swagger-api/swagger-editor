@@ -83,10 +83,10 @@ SwaggerEditor.service('Backend', function Backend($http, $q, defaults,
     var httpConfig = {
       headers: {
         accept: defaults.useYamlBackend ?
-          'application/yaml; charset=utf-8' :  'application/json; charset=utf-8'
+          'application/yaml; charset=utf-8' : 'application/json; charset=utf-8'
 
       }
-    }
+    };
 
     return $http.get(backendEndpoint, httpConfig)
       .then(function (res) {
