@@ -140,6 +140,12 @@ var defaults = {
   */
   brandingCssClass: '',
 
+
+  /*
+   * Disables the overlay introduction panel
+  */
+  disableNewUserIntro: false,
+
   /*
    * When Editor imports a file from a URL, it will prepend this URL to make
    * it possible to import contents that are not allowed to be loaded from a

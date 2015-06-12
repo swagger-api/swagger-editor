@@ -28,6 +28,9 @@ See all possible options [here](http://ace.c9.io/#nav=api&api=ace)
 #### `keyPressDebounceTime`
 Change how many milliseconds after the last keypress the editor should respond to change. Defaults to `200ms`.
 
+#### `disableNewUserIntro`
+Disables the overlay introduction panel. It's enabled by default.
+
 External Hooks
 --------------
 
