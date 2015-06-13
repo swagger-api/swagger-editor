@@ -11,28 +11,49 @@ info:
 
     Build something great!
 
-    Once you've [registered your client](http://instagram.com/developer/register/) it's easy to start requesting data from Instagram.
-    All endpoints are only accessible via https and are located at api.instagram.com. For instance:
-    you can grab the most popular photos at the moment by accessing the following URL with your client ID (replace CLIENT-ID with your own):
+    Once you've
+    [registered your client](http://instagram.com/developer/register/) it's easy
+    to start requesting data from Instagram.
+
+    All endpoints are only accessible via https and are located at
+    `api.instagram.com`. For instance: you can grab the most popular photos at
+    the moment by accessing the following URL with your client ID
+    (replace CLIENT-ID with your own):
     ```
       https://api.instagram.com/v1/media/popular?client_id=CLIENT-ID
     ```
-    You're best off using an access_token for the authenticated user for each endpoint, though many endpoints don't require it.
-    In some cases an access_token will give you more access to information, and in all cases, it means that you are operating
-    under a per-access_token limit vs. the same limit for your single client_id.
-    ## Important Note
-    The URL examples throughout this documentation include an access_token that represents YOUR account tied to a generic Instagram client.
-    **DO NOT use this access_token in production or for anything other than testing as they will change often**.
-    For your application, you should have each user go through an [authentication and authorization](http://instagram.com/developer/authentication/) flow in order to receive a valid access_token.
+    You're best off using an access_token for the authenticated user for each
+    endpoint, though many endpoints don't require it.
+    In some cases an access_token will give you more access to information, and
+    in all cases, it means that you are operating under a per-access_token limit
+    vs. the same limit for your single client_id.
+
+
     ## Limits
-    Be nice. If you're sending too many requests too quickly, we'll send back a 503 error code (server unavailable).
-    You are limited to 5000 requests per hour per access_token or client_id overall. Practically, this means you should (when possible) authenticate users so that limits are well outside the reach of a given user.
+    Be nice. If you're sending too many requests too quickly, we'll send back a
+    `503` error code (server unavailable).
+    You are limited to 5000 requests per hour per `access_token` or `client_id`
+    overall. Practically, this means you should (when possible) authenticate
+    users so that limits are well outside the reach of a given user.
+
     ## Deleting Objects
-    We do our best to have all our URLs be [RESTful](http://en.wikipedia.org/wiki/Representational_state_transfer). Every endpoint (URL) may support one of four different http verbs. GET requests fetch information about an object, POST requests create objects, PUT requests update objects, and finally DELETE requests will delete objects.
-    Since many old browsers don't support PUT or DELETE, we've made it easy to fake PUTs and DELETEs. All you have to do is do a POST with _method=PUT or _method=DELETE as a parameter and we will treat it as if you used PUT or DELETE respectively.
+    We do our best to have all our URLs be
+    [RESTful](http://en.wikipedia.org/wiki/Representational_state_transfer).
+    Every endpoint (URL) may support one of four different http verbs. GET
+    requests fetch information about an object, POST requests create objects,
+    PUT requests update objects, and finally DELETE requests will delete
+    objects.
+
+    Since many old browsers don't support PUT or DELETE, we've made it easy to
+    fake PUTs and DELETEs. All you have to do is do a POST with _method=PUT or
+    _method=DELETE as a parameter and we will treat it as if you used PUT or
+    DELETE respectively.
+
     ## Structure
+
     ### The Envelope
-    Every response is contained by an envelope. That is, each response has a predictable set of keys with which you can expect to interact:
+    Every response is contained by an envelope. That is, each response has a
+    predictable set of keys with which you can expect to interact:
     ```json
     {
         "meta": {
@@ -47,8 +68,12 @@ info:
         }
     }
     ```
+
     #### META
-    The meta key is used to communicate extra information about the response to the developer. If all goes well, you'll only ever see a code key with value 200. However, sometimes things go wrong, and in that case you might see a response like:
+    The meta key is used to communicate extra information about the response to
+    the developer. If all goes well, you'll only ever see a code key with value
+    200. However, sometimes things go wrong, and in that case you might see a
+    response like:
     ```json
     {
         "meta": {
@@ -58,10 +83,15 @@ info:
         }
     }
     ```
+
     #### DATA
-    The data key is the meat of the response. It may be a list or dictionary, but either way this is where you'll find the data you requested.
+    The data key is the meat of the response. It may be a list or dictionary,
+    but either way this is where you'll find the data you requested.
     #### PAGINATION
-    Sometimes you just can't get enough. For this reason, we've provided a convenient way to access more data in any request for sequential data. Simply call the url in the next_url parameter and we'll respond with the next set of data.
+    Sometimes you just can't get enough. For this reason, we've provided a
+    convenient way to access more data in any request for sequential data.
+    Simply call the url in the next_url parameter and we'll respond with the
+    next set of data.
     ```json
     {
         ...
@@ -71,9 +101,15 @@ info:
         }
     }
     ```
-    On views where pagination is present, we also support the "count" parameter. Simply set this to the number of items you'd like to receive. Note that the default values should be fine for most applications - but if you decide to increase this number there is a maximum value defined on each endpoint.
+    On views where pagination is present, we also support the "count" parameter.
+    Simply set this to the number of items you'd like to receive. Note that the
+    default values should be fine for most applications - but if you decide to
+    increase this number there is a maximum value defined on each endpoint.
+
     ### JSONP
-    If you're writing an AJAX application, and you'd like to wrap our response with a callback, all you have to do is specify a callback parameter with any API call:
+    If you're writing an AJAX application, and you'd like to wrap our response
+    with a callback, all you have to do is specify a callback parameter with
+    any API call:
     ```
     https://api.instagram.com/v1/tags/coffee/media/recent?access_token=fb2e77d.47a0479900504cb3ab4a1f626d174d2d&callback=callbackFunction
     ```
@@ -98,17 +134,22 @@ tags:
     description: |
       Relationships are expressed using the following terms:
 
-      **outgoing_status**: Your relationship to the user. Can be "follows", "requested", "none".
-      **incoming_status**: A user's relationship to you. Can be "followed_by", "requested_by", "blocked_by_you", "none".
+      **outgoing_status**: Your relationship to the user. Can be "follows",
+        "requested", "none".
+      **incoming_status**: A user's relationship to you. Can be "followed_by",
+        "requested_by", "blocked_by_you", "none".
 
   - name: Media
     description: |
-      At this time, uploading via the API is not possible. We made a conscious choice not to add this for the following reasons:
+      At this time, uploading via the API is not possible. We made a conscious
+      choice not to add this for the following reasons:
 
-      * Instagram is about your life on the go – we hope to encourage photos from within the app.
-      * We want to fight spam & low quality photos. Once we allow uploading from other sources,
-        it's harder to control what comes into the Instagram ecosystem. All this being said,
-        we're working on ways to ensure users have a consistent and high-quality experience on our platform.
+      * Instagram is about your life on the go – we hope to encourage photos
+        from within the app.
+      * We want to fight spam & low quality photos. Once we allow uploading
+        from other sources, it's harder to control what comes into the Instagram
+        ecosystem. All this being said, we're working on ways to ensure users
+        have a consistent and high-quality experience on our platform.
 
   - name: Commnts
   - name: Likes
@@ -121,7 +162,9 @@ securityDefinitions:
     flow: implicit
     authorizationUrl: https://instagram.com/oauth/authorize/?client_id=CLIENT-ID&redirect_uri=REDIRECT-URI&response_type=token
     scopes:
-      basic: to read any and all data related to a user (e.g. following/followed-by lists, photos, etc.) (granted by default)
+      basic: |
+       to read any and all data related to a user (e.g. following/followed-by
+        lists, photos, etc.) (granted by default)
       comments: to create or delete comments on a user’s behalf
       relationships: to follow and unfollow users on a user’s behalf
       likes: to like and unlike items on a user’s behalf
@@ -329,7 +372,8 @@ paths:
     get:
       tags:
         - Relationships
-      description: List the users who have requested this user's permission to follow.
+      description: |
+        List the users who have requested this user's permission to follow.
       responses:
         200:
           description: OK
@@ -350,7 +394,8 @@ paths:
     post:
       tags:
         - Relationships
-      description: Modify the relationship between the current user and the target user.
+      description: |
+        Modify the relationship between the current user and thetarget user.
       security:
         - oauth:
           - relationships
@@ -389,10 +434,12 @@ paths:
         - Media
       description: |
         Get information about a media object.
-        The returned type key will allow you to differentiate between `image` and `video` media.
+        The returned type key will allow you to differentiate between `image`
+        and `video` media.
 
-        Note: if you authenticate with an OAuth Token, you will receive the `user_has_liked`
-        key which quickly tells you whether the current user has liked this media item.
+        Note: if you authenticate with an OAuth Token, you will receive the
+        `user_has_liked` key which quickly tells you whether the current user
+        has liked this media item.
       responses:
         200:
           description: OK
@@ -427,33 +474,39 @@ paths:
       tags:
         - Media
       description: |
-        Search for media in a given area. The default time span is set to 5 days.
-        The time span must not exceed 7 days. Defaults time stamps cover the last
-        5 days. Can return mix of image and video types.
+        Search for media in a given area. The default time span is set to 5
+        days. The time span must not exceed 7 days. Defaults time stamps cover
+        the last 5 days. Can return mix of image and video types.
 
-        parameters:
-          - name: LAT
-            description: Latitude of the center search coordinate. If used, lng is required.
-            type: number
-            in: query
-          - name: MIN_TIMESTAMP
-            description: A unix timestamp. All media returned will be taken later than this timestamp.
-            type: integer
-            in: query
-          - name: LNG
-            description: Longitude of the center search coordinate. If used, lat is required.
-            type: number
-            in: query
-          - name: MAX_TIMESTAMP
-            description: A unix timestamp. All media returned will be taken earlier than this timestamp.
-            type: integer
-            in: query
-          - name: DISTANCE
-            description:  Default is 1km (distance=1000), max distance is 5km.
-            type: integer
-            maximum: 5000
-            default: 1000
-            in: query
+      parameters:
+        - name: LAT
+          description: |
+            Latitude of the center search coordinate. If used, lng is required.
+          type: number
+          in: query
+        - name: MIN_TIMESTAMP
+          description: |
+            A unix timestamp. All media returned will be taken later than
+            this timestamp.
+          type: integer
+          in: query
+        - name: LNG
+          description: |
+            Longitude of the center search coordinate. If used, lat is required.
+          type: number
+          in: query
+        - name: MAX_TIMESTAMP
+          description: |
+            A unix timestamp. All media returned will be taken earlier than this
+            timestamp.
+          type: integer
+          in: query
+        - name: DISTANCE
+          description:  Default is 1km (distance=1000), max distance is 5km.
+          type: integer
+          maximum: 5000
+          default: 1000
+          in: query
       responses:
         200:
           description: OK
@@ -476,7 +529,8 @@ paths:
       tags:
         - Media
       description: |
-        Get a list of what media is most popular at the moment. Can return mix of image and video types.
+        Get a list of what media is most popular at the moment.
+        Can return mix of image and video types.
       responses:
         200:
           description: OK
