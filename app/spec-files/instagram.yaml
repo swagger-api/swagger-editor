@@ -95,6 +95,11 @@ consumes:
 tags:
   - name: Users
   - name: Relationships
+    description: |
+      Relationships are expressed using the following terms:
+
+      **outgoing_status**: Your relationship to the user. Can be "follows", "requested", "none".
+      **incoming_status**: A user's relationship to you. Can be "followed_by", "requested_by", "blocked_by_you", "none".
   - name: Media
   - name: Commnts
   - name: Likes
@@ -121,14 +126,19 @@ security:
     - comments
     - relationships
     - likes
+  - key: []
+
+parameters:
+  user-id:
+    name: user-id
+    in: path
+    description: The user identifier number
+    type: number
 paths:
 
-  /users/{user_id}:
+  /users/{user-id}:
     parameters:
-      - name: user_id
-        in: path
-        description: The user identifier number
-        type: number
+      - $ref: '#/parameters/user-id'
     get:
       security:
         - key: []
@@ -178,10 +188,7 @@ paths:
 
   /users/{user-id}/media/recent:
     parameters:
-      - name: user-id
-        in: path
-        description: description
-        type: integer
+      - $ref: '#/parameters/user-id'
     get:
       tags:
         - Users
@@ -252,6 +259,7 @@ paths:
           in: query
           description: A query string
           type: string
+          required: true
         - name: count
           in: query
           description: Number of users to return.
@@ -267,8 +275,91 @@ paths:
                 items:
                   $ref: '#/definitions/MiniProfile'
 
+  /users/{user-id}/follows:
+    parameters:
+      - $ref: '#/parameters/user-id'
+    get:
+      tags:
+        - Relationships
+      description: Get the list of users this user follows.
+      responses:
+        200:
+          description: OK
+          schema:
+            properties:
+              data:
+                type: array
+                items:
+                  $ref: '#/definitions/MiniProfile'
 
+  /users/{user-id}/followed-by:
+    parameters:
+      - $ref: '#/parameters/user-id'
+    get:
+      tags:
+        - Relationships
+      description: Get the list of users this user is followed by.
+      responses:
+        200:
+          description: OK
+          schema:
+            properties:
+              data:
+                type: array
+                items:
+                  $ref: '#/definitions/MiniProfile'
 
+  /users/self/requested-by:
+    get:
+      tags:
+        - Relationships
+      description: List the users who have requested this user's permission to follow.
+      responses:
+        200:
+          description: OK
+          schema:
+            properties:
+              meta:
+                properties:
+                  code:
+                    type: integer
+              data:
+                type: array
+                items:
+                  $ref: '#/definitions/MiniProfile'
+
+  /users/{user-id}/relationship:
+    parameters:
+      - $ref: '#/parameters/user-id'
+    post:
+      tags:
+        - Relationships
+      description: Modify the relationship between the current user and the target user.
+      security:
+        - oauth:
+          - relationships
+      parameters:
+        - name: action
+          in: body
+          description: One of follow/unfollow/block/unblock/approve/ignore.
+          schema:
+            type: string
+            enum:
+              - follow
+              - unfollow
+              - block
+              - unblock
+              - approve
+
+      responses:
+        200:
+          description: OK
+          schema:
+            properties:
+              data:
+                type: array
+                items:
+                  $ref: '#/definitions/MiniProfile'
 definitions:
   User:
     type: object
