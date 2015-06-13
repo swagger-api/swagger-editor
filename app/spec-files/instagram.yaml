@@ -186,6 +186,11 @@ parameters:
     in: path
     description: The user identifier number
     type: number
+  tag-name:
+    name: tag-name
+    in: path
+    description: Tag name
+    type: string
 paths:
 
   /users/{user-id}:
@@ -446,13 +451,12 @@ paths:
           schema:
             $ref: '#/definitions/Media'
 
-  /media/{shortcode}:
+  /media1/{shortcode}: #FIXME: correct path is /media/{shortcode}
     parameters:
       - name: shortcode
         in: path
         description: The media shortcode
         type: string
-
     get:
       tags:
         - Media
@@ -541,6 +545,205 @@ paths:
                 type: array
                 items:
                   $ref: '#/definitions/Media'
+
+  /media/{media-id}/comments:
+    parameters:
+      - name: media-id
+        in: path
+        description: Media ID
+        type: integer
+    get:
+      tags:
+        - Comments
+      description: |
+        Get a list of recent comments on a media object.
+      responses:
+        200:
+          description: OK
+          schema:
+            properties:
+              meta:
+                properties:
+                  code:
+                    type: number
+              data:
+                type: array
+                items:
+                  $ref: '#/definitions/Comment'
+    post:
+      tags:
+        - Comments
+        - Media
+      description: |
+        Create a comment on a media object with the following rules:
+
+        * The total length of the comment cannot exceed 300 characters.
+        * The comment cannot contain more than 4 hashtags.
+        * The comment cannot contain more than 1 URL.
+        * The comment cannot consist of all capital letters.
+      security:
+        - oauth:
+            - comments
+      parameters:
+        - name: TEXT
+          description: |
+            Text to post as a comment on the media object as specified in
+            media-id.
+          in: body
+          schema:
+            type: number
+      responses:
+        200:
+          description: OK
+          schema:
+            type: object
+            properties:
+              meta:
+                properties:
+                  code:
+                    type: number
+              data:
+                type: object
+    delete:
+      tags:
+        - Comments
+      description: |
+        Remove a comment either on the authenticated user's media object or
+        authored by the authenticated user.
+      responses:
+        200:
+          description: OK
+          schema:
+            type: object
+            properties:
+              meta:
+                properties:
+                  code:
+                    type: number
+              data:
+                type: object
+
+  /media/{media-id}/likes:
+    parameters:
+      - name: media-id
+        in: path
+        description: Media ID
+        type: integer
+    get:
+      tags:
+        - Likes
+        - Media
+      description: |
+        Get a list of users who have liked this media.
+      responses:
+        200:
+          description: OK
+          schema:
+            properties:
+              meta:
+                properties:
+                  code:
+                    type: number
+              data:
+                type: array
+                items:
+                  $ref: '#/definitions/Like'
+    post:
+      tags:
+        - Likes
+      description: Set a like on this media by the currently authenticated user.
+      security:
+        - oauth:
+            - comments
+      responses:
+        200:
+          description: OK
+          schema:
+            type: object
+            properties:
+              meta:
+                properties:
+                  code:
+                    type: number
+              data:
+                type: object
+    delete:
+      tags:
+        - Likes
+      description: |
+        Remove a like on this media by the currently authenticated user.
+      responses:
+        200:
+          description: OK
+          schema:
+            type: object
+            properties:
+              meta:
+                properties:
+                  code:
+                    type: number
+              data:
+                type: object
+
+  /tags/{tag-name}:
+    parameters:
+      - $ref: '#/parameters/tag-name'
+    get:
+      tags:
+        - Tags
+      description: Get information about a tag object.
+      responses:
+        200:
+          description: OK
+          schema:
+            $ref: '#/definitions/Tag'
+
+  /tags/{tag-name}/media/recent:
+    parameters:
+      - $ref: '#/parameters/tag-name'
+    get:
+      tags:
+        - Tags
+      description: |
+        Get a list of recently tagged media. Use the `max_tag_id` and
+        `min_tag_id` parameters in the pagination response to paginate through
+        these objects.
+      responses:
+        200:
+          description: OK
+          schema:
+            properties:
+              data:
+                type: array
+                items:
+                  $ref: '#/definitions/Tag'
+
+  /tags/search:
+    get:
+      tags:
+        - Tags
+      parameters:
+        - name: q
+          description: |
+            A valid tag name without a leading #. (eg. snowy, nofilter)
+          in: query
+          type: string
+      responses:
+        200:
+          description: OK
+          schema:
+            type: object
+            properties:
+              meta:
+                properties:
+                  code:
+                    type: integer
+              data:
+                type: array
+                items:
+                  $ref: '#/definitions/Tag'
+
+
 definitions:
   User:
     type: object
@@ -615,8 +818,16 @@ definitions:
           standard_resolution:
             $ref: '#/definitions/Image'
       videos: {} #TODO
-  Location: {}
-  Comment: {}
+  Location: {} # TODO
+  Comment: {} # TODO
+  Like: {} # TODO
+  Tag:
+    type: object
+    properties:
+      media_count:
+        type: integer
+      name:
+        type: string
   Image:
     properties:
       width:
