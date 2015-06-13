@@ -100,7 +100,16 @@ tags:
 
       **outgoing_status**: Your relationship to the user. Can be "follows", "requested", "none".
       **incoming_status**: A user's relationship to you. Can be "followed_by", "requested_by", "blocked_by_you", "none".
+
   - name: Media
+    description: |
+      At this time, uploading via the API is not possible. We made a conscious choice not to add this for the following reasons:
+
+      * Instagram is about your life on the go – we hope to encourage photos from within the app.
+      * We want to fight spam & low quality photos. Once we allow uploading from other sources,
+        it's harder to control what comes into the Instagram ecosystem. All this being said,
+        we're working on ways to ensure users have a consistent and high-quality experience on our platform.
+
   - name: Commnts
   - name: Likes
   - name: Tags
@@ -194,7 +203,10 @@ paths:
         - Users
       responses:
         200:
-          description: Get the most recent media published by a user. To get the most recent media published by the owner of the access token, you can use `self` instead of the `user-id`.
+          description: |
+            Get the most recent media published by a user. To get the most recent
+            media published by the owner of the access token, you can use `self`
+            instead of the `user-id`.
           schema:
             type: object
             properties:
@@ -228,7 +240,11 @@ paths:
     get:
       tags:
         - Users
-      description: See the list of media liked by the authenticated user. Private media is returned as long as the authenticated user has permission to view that media. Liked media lists are only available for the currently authenticated user.
+      description: |
+        See the list of media liked by the authenticated user.
+        Private media is returned as long as the authenticated user
+        has permissionto view that media. Liked media lists are only
+        available for the currently authenticated user.
       responses:
         200:
           description: OK
@@ -360,6 +376,117 @@ paths:
                 type: array
                 items:
                   $ref: '#/definitions/MiniProfile'
+
+  /media/{media-id}:
+    parameters:
+      - name: media-id
+        in: path
+        description: The media ID
+        type: integer
+
+    get:
+      tags:
+        - Media
+      description: |
+        Get information about a media object.
+        The returned type key will allow you to differentiate between `image` and `video` media.
+
+        Note: if you authenticate with an OAuth Token, you will receive the `user_has_liked`
+        key which quickly tells you whether the current user has liked this media item.
+      responses:
+        200:
+          description: OK
+          schema:
+            $ref: '#/definitions/Media'
+
+  /media/{shortcode}:
+    parameters:
+      - name: shortcode
+        in: path
+        description: The media shortcode
+        type: string
+
+    get:
+      tags:
+        - Media
+      description: |
+        This endpoint returns the same response as **GET** `/media/media-id`.
+
+        A media object's shortcode can be found in its shortlink URL.
+        An example shortlink is `http://instagram.com/p/D/`
+        Its corresponding shortcode is D.
+
+      responses:
+        200:
+          description: OK
+          schema:
+            $ref: '#/definitions/Media'
+
+  /media/search:
+    get:
+      tags:
+        - Media
+      description: |
+        Search for media in a given area. The default time span is set to 5 days.
+        The time span must not exceed 7 days. Defaults time stamps cover the last
+        5 days. Can return mix of image and video types.
+
+        parameters:
+          - name: LAT
+            description: Latitude of the center search coordinate. If used, lng is required.
+            type: number
+            in: query
+          - name: MIN_TIMESTAMP
+            description: A unix timestamp. All media returned will be taken later than this timestamp.
+            type: integer
+            in: query
+          - name: LNG
+            description: Longitude of the center search coordinate. If used, lat is required.
+            type: number
+            in: query
+          - name: MAX_TIMESTAMP
+            description: A unix timestamp. All media returned will be taken earlier than this timestamp.
+            type: integer
+            in: query
+          - name: DISTANCE
+            description:  Default is 1km (distance=1000), max distance is 5km.
+            type: integer
+            maximum: 5000
+            default: 1000
+            in: query
+      responses:
+        200:
+          description: OK
+          schema:
+            type: object
+            description: List of all media with added `distance` property
+            properties:
+              data:
+                type: array
+                items:
+                  allOf:
+                    - $ref: '#/definitions/Media'
+                    -
+                      properties:
+                        distance:
+                          type: number
+
+  /media/popular:
+    get:
+      tags:
+        - Media
+      description: |
+        Get a list of what media is most popular at the moment. Can return mix of image and video types.
+      responses:
+        200:
+          description: OK
+          schema:
+            type: object
+            properties:
+              data:
+                type: array
+                items:
+                  $ref: '#/definitions/Media'
 definitions:
   User:
     type: object
