@@ -1,43 +1,65 @@
 'use strict';
 
-SwaggerEditor.directive('collapseWhen', function () {
-  var TRANSITION_DURATION = 200; //ms
+SwaggerEditor.directive('collapseWhen', ['$interval', function ($interval) {
+    // Speed of animation
+    var ANIMATION_TIME = 30;
 
-  return {
-    restrict: 'A',
-    link: function postLink(scope, element, attrs) {
-      var buffer = null;
+    return {
+        restrict: 'A',
+        link: function postLink(scope, element, attrs) {
+            scope.buffer = 0;
 
-      function cleanUp() {
-        // remove style attribute after animation
-        // TDOD: just remove 'height' from style
-        setTimeout(function () {
-          element.removeAttr('style');
-        }, TRANSITION_DURATION);
-      }
+            /**
+             * The function is responsible for drawing the animation
+             * @param currentHeight
+             */
+            function draw(currentHeight) {
+                element.css('height', currentHeight + 'px');
+            };
+            /**
+             * The animation function for collapsing and expanding block (example, easy-out, easy-in)
+             * @param isCollapsing
+             * @param currentHeight
+             * @param desiredHeight - height that should be reached
+             */
+            function animateCollapsingBlock(isCollapsing, currentHeight, desiredHeight) {
+                var cssStyle = {};
+                var delta = (desiredHeight - currentHeight) / ANIMATION_TIME;
+                if (!isCollapsing) {
+                    cssStyle = {
+                        'height': 'auto'
+                    };
+                } else {
+                    cssStyle = {
+                        'height': desiredHeight
+                    };
+                }
+                var timer = $interval(function () {
+                    // Condition on animation end
+                    if ((isCollapsing ^ (currentHeight >= desiredHeight))) {
+                        $interval.cancel(timer);
+                        currentHeight = 0;
+                        element.css(cssStyle);
+                        return;
+                    }
+                    currentHeight += delta;
+                    draw(currentHeight);
+                }, 0);
+            };
 
-      // If it's collapsed initially
-      if (attrs.collapseWhen) {
-        var clone = element.clone();
-        clone.removeAttr('style');
-        clone.appendTo('body');
-        buffer = clone.height();
-        clone.remove();
-      }
-
-      scope.$watch(attrs.collapseWhen, function (val) {
-        if (val) {
-          buffer = element.height();
-          element.height(buffer);
-          element.height(0);
-          element.addClass('c-w-collapsed');
-          cleanUp();
-        } else {
-          element.height(buffer);
-          element.removeClass('c-w-collapsed');
-          cleanUp();
+            scope.$watch(attrs.collapseWhen, function (isExpanded) {
+                    if (isExpanded) {
+                        scope.buffer = element.height();
+                        //  collapse the block
+                        animateCollapsingBlock(isExpanded, scope.buffer, 0);
+                    } else {
+                        if (scope.buffer != 0) {
+                            // expand the block
+                            animateCollapsingBlock(isExpanded, 0, scope.buffer);
+                        }
+                    }
+                }
+            );
         }
-      });
     }
-  };
-});
+}]);
