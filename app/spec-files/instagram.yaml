@@ -1,5 +1,9 @@
 ---
 swagger: '2.0'
+
+################################################################################
+#                              API Information                                 #
+################################################################################
 info:
   version: v1
   title: Instagram API
@@ -120,6 +124,10 @@ info:
     });
     ```
   termsOfService: http://instagram.com/about/legal/terms/api
+
+################################################################################
+#                  Host, Base Path, Schemes and Content Types                  #
+################################################################################
 host: api.instagram.com
 basePath: /v1
 schemes:
@@ -128,6 +136,10 @@ produces:
   - application/json
 consumes:
   - application/json
+
+################################################################################
+#                                   Tags                                       #
+################################################################################
 tags:
   - name: Users
   - name: Relationships
@@ -138,7 +150,6 @@ tags:
         "requested", "none".
       **incoming_status**: A user's relationship to you. Can be "followed_by",
         "requested_by", "blocked_by_you", "none".
-
   - name: Media
     description: |
       At this time, uploading via the API is not possible. We made a conscious
@@ -150,12 +161,15 @@ tags:
         from other sources, it's harder to control what comes into the Instagram
         ecosystem. All this being said, we're working on ways to ensure users
         have a consistent and high-quality experience on our platform.
-
   - name: Commnts
   - name: Likes
   - name: Tags
   - name: Location
   - name: Subscribtions
+
+################################################################################
+#                                  Security                                    #
+################################################################################
 securityDefinitions:
   oauth:
     type: oauth2
@@ -180,6 +194,9 @@ security:
     - likes
   - key: []
 
+################################################################################
+#                                   Parameters                                 #
+################################################################################
 parameters:
   user-id:
     name: user-id
@@ -191,8 +208,11 @@ parameters:
     in: path
     description: Tag name
     type: string
-paths:
 
+################################################################################
+#                                           Paths                              #
+################################################################################
+paths:
   /users/{user-id}:
     parameters:
       - $ref: '#/parameters/user-id'
@@ -857,6 +877,39 @@ paths:
                 items:
                   $ref: '#/definitions/Location'
 
+  /geographies/{geo-id}/media/recent:
+    parameters:
+      - name: geo-id
+        in: path
+        description: Geolocation ID
+        type: integer
+    get:
+      description: |
+        Get recent media from a geography subscription that you created.
+        **Note**: You can only access Geographies that were explicitly created
+        by your OAuth client. Check the Geography Subscriptions section of the
+        [real-time updates page](https://instagram.com/developer/realtime/).
+        When you create a subscription to some geography
+        that you define, you will be returned a unique geo-id that can be used
+        in this query. To backfill photos from the location covered by this
+        geography, use the [media search endpoint
+        ](https://instagram.com/developer/endpoints/media/).
+      parameters:
+        - name: count
+          in: query
+          description: Max number of media to return.
+          type: integer
+        - name: min_id
+          in: query
+          description: Return media before this `min_id`.
+          type: integer
+      responses:
+        200:
+          description: OK
+
+################################################################################
+#                                 Definitions                                  #
+################################################################################
 definitions:
   User:
     type: object
@@ -894,14 +947,16 @@ definitions:
         type: string
       tags:
         type: array
-        items: {} # TODO
+        items:
+          $ref: '#/definitions/Tag'
       id:
         type: integer
       user:
         $ref: '#/definitions/MiniProfile'
       users_in_photo:
         type: array
-        items: {} # TODO
+        items:
+          $ref: '#/definitions/MiniProfile'
       location:
         $ref: '#/definitions/Location'
       comments::
@@ -930,7 +985,12 @@ definitions:
             $ref: '#/definitions/Image'
           standard_resolution:
             $ref: '#/definitions/Image'
-      videos: {} #TODO
+      videos:
+        properties:
+          low_resolution:
+            $ref: '#/definitions/Image'
+          standard_resolution:
+            $ref: '#/definitions/Image'
   Location:
     type: object
     properties:
@@ -942,8 +1002,30 @@ definitions:
         type: number
       longitude:
         type: number
-  Comment: {} # TODO
-  Like: {} # TODO
+  Comment:
+    type: object
+    properties:
+      id:
+        type: string
+      created_time:
+        type: string
+      text:
+        type: string
+      from:
+        $ref: '#/definitions/MiniProfile'
+  Like:
+    type: object
+    properties:
+      user_name:
+        type: string
+      first_name:
+        type: string
+      last_name:
+        type: string
+      type:
+        type: string
+      id:
+        type: string
   Tag:
     type: object
     properties:
@@ -969,4 +1051,4 @@ definitions:
       id:
         type: integer
       profile_picture:
-        type: string # Not sure about this
+        type: string
