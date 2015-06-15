@@ -743,6 +743,119 @@ paths:
                 items:
                   $ref: '#/definitions/Tag'
 
+  /locations/{location-id}:
+    parameters:
+      - name: location-id
+        description: Location ID
+        in: path
+        type: integer
+    get:
+      tags:
+        - Location
+      description: Get information about a location.
+      responses:
+        200:
+          description: OK
+          schema:
+            type: object
+            properties:
+              data:
+                $ref: '#/definitions/Location'
+
+  /locations/{location-id}/media/recent:
+    parameters:
+      - name: location-id
+        description: Location ID
+        in: path
+        type: integer
+    get:
+      tags:
+        - Location
+        - Media
+      description: Get a list of recent media objects from a given location.
+      parameters:
+        - name: max_timestamp
+          in: query
+          description: Return media before this UNIX timestamp.
+          type: integer
+        - name: min_timestamp
+          in: query
+          description: Return media after this UNIX timestamp.
+          type: integer
+        - name: min_id
+          in: query
+          description: Return media later than this min_id.
+          type: string
+        - name: max_id
+          in: query
+          description: Return media earlier than this max_id.
+          type: string
+      responses:
+        200:
+          description: OK
+          schema:
+            type: object
+            properties:
+              data:
+                type: array
+                items:
+                  $ref: '#/definitions/Media'
+
+  /locations/search:
+    get:
+      tags:
+        - Location
+      description: Search for a location by geographic coordinate.
+      parameters:
+        - name: distance
+          in: query
+          description: Default is 1000m (distance=1000), max distance is 5000.
+          type: integer
+
+        - name: facebook_places_id
+          in: query
+          description: |
+            Returns a location mapped off of a Facebook places id. If used, a
+            Foursquare id and lat, lng are not required.
+          type: integer
+
+        - name: foursquare_id
+          in: query
+          description: |
+            returns a location mapped off of a foursquare v1 api location id.
+            If used, you are not required to use lat and lng. Note that this
+            method is deprecated; you should use the new foursquare IDs with V2
+            of their API.
+          type: integer
+
+        - name: lat
+          in: query
+          description: |
+            atitude of the center search coordinate. If used, lng is required.
+          type: number
+
+        - name: lng
+          in: query
+          description: |
+            ongitude of the center search coordinate. If used, lat is required.
+          type: number
+
+        - name: foursquare_v2_id
+          in: query
+          description: |
+            Returns a location mapped off of a foursquare v2 api location id. If
+            used, you are not required to use lat and lng.
+          type: integer
+      responses:
+        200:
+          description: OK
+          schema:
+            type: object
+            properties:
+              data:
+                type: array
+                items:
+                  $ref: '#/definitions/Location'
 
 definitions:
   User:
@@ -818,7 +931,17 @@ definitions:
           standard_resolution:
             $ref: '#/definitions/Image'
       videos: {} #TODO
-  Location: {} # TODO
+  Location:
+    type: object
+    properties:
+      id:
+        type: string
+      name:
+        type: string
+      latitude:
+        type: number
+      longitude:
+        type: number
   Comment: {} # TODO
   Like: {} # TODO
   Tag:
