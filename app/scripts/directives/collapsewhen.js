@@ -1,6 +1,6 @@
 'use strict';
 
-SwaggerEditor.directive('collapseWhen', ['$animate', '$timeout', function ($animate, $timeout) {
+SwaggerEditor.directive('collapseWhen', function () {
   // Animation styles needed for Safari browser and removed from CSS class
   var transitionCss = {
     'transition-property': 'height',
@@ -46,4 +46,4 @@ SwaggerEditor.directive('collapseWhen', ['$animate', '$timeout', function ($anim
       });
     }
   };
-}]);
+});
