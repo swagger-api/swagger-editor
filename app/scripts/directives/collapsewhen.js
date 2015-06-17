@@ -1,6 +1,6 @@
 'use strict';
 
-SwaggerEditor.directive('collapseWhen', ['$interval', function ($interval) {
+SwaggerEditor.directive('collapseWhen', function ($interval) {
     // Speed of animation
     var ANIMATION_TIME = 30;
 
@@ -62,4 +62,4 @@ SwaggerEditor.directive('collapseWhen', ['$interval', function ($interval) {
             );
         }
     }
-}]);
+});
