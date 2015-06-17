@@ -50,6 +50,7 @@ module.exports = {
       'snippets/yaml.js',
       'ext-settings_menu.js',
       'ext-language_tools.js',
+      'ext-searchbox.js',
       'mode-yaml.js'
     ],
   }
