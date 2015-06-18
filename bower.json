@@ -39,6 +39,12 @@
         "src-noconflict/mode-yaml.js",
         "src-noconflict/ext-language_tools.js"
       ]
+    },
+    "bootstrap": {
+      "main": [
+        "less/bootstrap.less",
+        "dist/js/bootstrap.js"
+      ]
     }
   },
   "resolutions": {
