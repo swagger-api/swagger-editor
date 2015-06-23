@@ -4,6 +4,7 @@ SwaggerEditor.controller('PreferencesCtrl', function PreferencesCtrl($scope,
   $modalInstance, Preferences) {
 
   $scope.keyPressDebounceTime = Preferences.get('keyPressDebounceTime');
+  $scope.liveRender = Preferences.get('liveRender');
 
   $scope.save = function () {
     var value = parseInt($scope.keyPressDebounceTime, 10);
@@ -12,6 +13,11 @@ SwaggerEditor.controller('PreferencesCtrl', function PreferencesCtrl($scope,
     } else {
       throw new Error('$scope.keyPressDebounceTime was not set correctly');
     }
+
+    Preferences.set('liveRender', $scope.liveRender);
+
     $modalInstance.close();
   };
+
+  $scope.close = $modalInstance.close;
 });

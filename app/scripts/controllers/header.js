@@ -130,10 +130,6 @@ SwaggerEditor.controller('HeaderCtrl', function HeaderCtrl($scope, $modal,
     });
   };
 
-  $scope.toggleLiveRender = function () {
-    Preferences.set('liveRender', !Preferences.get('liveRender'));
-  };
-
   $scope.openPreferences = function () {
     $modal.open({
       templateUrl: 'templates/preferences.html',
