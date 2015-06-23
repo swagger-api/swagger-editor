@@ -5,6 +5,7 @@ SwaggerEditor.controller('PreferencesCtrl', function PreferencesCtrl($scope,
 
   $scope.keyPressDebounceTime = Preferences.get('keyPressDebounceTime');
   $scope.liveRender = Preferences.get('liveRender');
+  $scope.autoComplete = Preferences.get('autoComplete');
 
   $scope.save = function () {
     var value = parseInt($scope.keyPressDebounceTime, 10);
@@ -15,6 +16,7 @@ SwaggerEditor.controller('PreferencesCtrl', function PreferencesCtrl($scope,
     }
 
     Preferences.set('liveRender', $scope.liveRender);
+    Preferences.set('autoComplete', $scope.autoComplete);
 
     $modalInstance.close();
   };

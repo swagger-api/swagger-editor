@@ -5,7 +5,7 @@
  * relevant completion candidates based on Swagger document.
 */
 SwaggerEditor.service('Autocomplete', function ($rootScope, snippets,
-  ASTManager, KeywordMap) {
+  ASTManager, KeywordMap, Preferences) {
   var editor = null;
 
   // Ace KeywordCompleter object
@@ -13,6 +13,11 @@ SwaggerEditor.service('Autocomplete', function ($rootScope, snippets,
 
     // this method is being called by Ace to get a list of completion candidates
     getCompletions: function (editor, session, pos, prefix, callback) {
+
+      // Do not make any suggestions when autoComplete preference is off
+      if (!Preferences.get('autoComplete')) {
+        return callback(null, []);
+      }
 
       // Let Ace select the first candidate
       editor.completer.autoSelect = true;

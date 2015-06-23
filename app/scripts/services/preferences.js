@@ -20,6 +20,11 @@ SwaggerEditor.service('Preferences', function Preferences($localStorage,
     */
     liveRender: true,
 
+    /*
+     * Disable/enable auto-compelte functionallity.
+    */
+    autoComplete: true,
+
     keyPressDebounceTime: defaults.keyPressDebounceTime
   };
   var preferences = _.extend(defaultPreferences, $localStorage.preferences);
