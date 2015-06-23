@@ -3,16 +3,19 @@
 SwaggerEditor.controller('EditorCtrl', function EditorCtrl($scope, $rootScope,
   Editor, Builder, Storage, ASTManager, ExternalHooks, Preferences) {
 
-  var keyPressDebounceTime = Preferences.get('keyPressDebounceTime');
-  var debouncedOnAceChange = _.debounce(onAceChange, keyPressDebounceTime);
+  var debouncedOnAceChange = getDebouncedOnAceChange();
 
   // if user changed the preferences of keyPressDebounceTime, update the
   // debouncedOnAceChange function to have the latest debounce value
   Preferences.onChange(function (key) {
     if (key === 'keyPressDebounceTime') {
-      debouncedOnAceChange = _.debounce(onAceChange, keyPressDebounceTime);
+      debouncedOnAceChange = getDebouncedOnAceChange();
     }
   });
+
+  function getDebouncedOnAceChange() {
+    return _.debounce(onAceChange, Preferences.get('keyPressDebounceTime'));
+  }
 
   $scope.aceLoaded = Editor.aceLoaded;
 
