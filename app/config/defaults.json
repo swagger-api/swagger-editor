@@ -19,12 +19,12 @@
     "default.yaml",
     "heroku-pets.yaml",
     "minimal.yaml",
-    "instagram.yaml",
     "echo.yaml",
     "petstore_simple.yaml",
     "petstore_full.yaml",
     "basic-auth.yaml",
-    "security.yaml"
+    "security.yaml",
+    "instagram.yaml"
   ],
   "autocompleteExtension": {},
   "useBackendForStorage": false,
