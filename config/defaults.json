@@ -23,16 +23,19 @@
     "petstore_simple.yaml",
     "petstore_full.yaml",
     "basic-auth.yaml",
-    "security.yaml"
+    "security.yaml",
+    "instagram.yaml"
   ],
   "autocompleteExtension": {},
   "useBackendForStorage": false,
   "backendThrottle": 200,
+  "keyPressDebounceTime": 200,
   "backendEndpoint": "/editor/spec",
   "backendHealthCheckTimeout": 5000,
   "useYamlBackend": false,
   "disableFileMenu": false,
   "headerBranding": false,
+  "disableNewUserIntro": false,
   "enableTryIt": true,
   "brandingCssClass": "",
   "importProxyUrl": "https://cors-it.herokuapp.com/?url="
