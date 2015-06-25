@@ -7,6 +7,8 @@
   <ng-include src="'templates/specs-info.html'" ng-if="!!specs.info && !error.yamlError"></ng-include>
   <ng-include src="'templates/security.html'" ng-if="specs.securityDefinitions"></ng-include>
 
+  <ng-include src="'templates/tags.html'"></ng-include>
+
   <header ng-if="!!specs.info && !error.yamlError">
     <h3 class="section-header">
       <a ng-click="toggle(['paths'])">Paths</a>
@@ -15,8 +17,6 @@
       </span>
     </h3>
   </header>
-
-  <ng-include src="'templates/tags.html'"></ng-include>
 
   <ul class="paths" ng-if="!error.yamlError" collapse-when="isCollapsed(['paths'])">
     <path ng-repeat="path in specs.paths track by $index" ng-if="!isVendorExtension(path.pathName) && path.operations.length > 0"></path>

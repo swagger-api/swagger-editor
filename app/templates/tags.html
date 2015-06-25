@@ -7,7 +7,15 @@
   </div>
   <div class="all-tags" ng-if="!stateParams.tags && getAllTags().length">
     <p>Filter operations by a tag:</p>
-    <a class="tag tag-color-{{tagIndexFor(tag.name)}}" ui-sref="{tags: tag.name}"
-      ng-repeat="tag in getAllTags() track by $index" title="{{tag.description}}">{{tag.name}}</a>
+    <table>
+      <tr ng-repeat="tag in getAllTags() track by $index">
+        <td>
+          <a class="tag tag-color-{{tagIndexFor(tag.name)}}" ui-sref="{tags: tag.name}">{{tag.name}}</a>
+        </td>
+        <td>
+          <p marked="tag.description"></p>
+        </td>
+      </tr>
+    </table>
   </div>
 </div>
