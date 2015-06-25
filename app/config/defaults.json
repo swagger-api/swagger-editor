@@ -11,7 +11,7 @@
     }
   },
   "disableCodeGen": false,
-  "examplesFolder": "/spec-files/",
+  "examplesFolder": "spec-files/",
   "editorOptions": {
     "theme": "ace/theme/atom_dark"
   },

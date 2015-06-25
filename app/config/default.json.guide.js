@@ -53,7 +53,7 @@ var defaults = {
    * Note that this string will be used in between two other url segments
    * so you always need the trailing and leading slashes
   */
-  examplesFolder: '/spec-files/',
+  examplesFolder: 'spec-files/',
 
   /*
    * Ace editor options. This object will overload existing editor options.

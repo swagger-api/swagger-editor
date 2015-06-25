@@ -7,7 +7,7 @@
 SwaggerEditor.config(function ($provide) {
   $provide.constant('defaults', {
     disableCodeGen: true,
-    examplesFolder: '/spec-files/',
+    examplesFolder: 'spec-files/',
     editorOptions: {},
     exampleFiles: [
       'default.yaml',
