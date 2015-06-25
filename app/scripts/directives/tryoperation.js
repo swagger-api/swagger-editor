@@ -152,14 +152,15 @@ SwaggerEditor.controller('TryOperation', function ($scope, formdataFilter,
 
     // Add Content-Type header only if this operation has a body parameter
     if (hasRequestBody()) {
+      var defaultConsumes = [
+        'multipart/form-data',
+        'x-www-form-urlencoded',
+        'application/json'
+      ];
       schema.properties.contentType = {
         type: 'string',
         title: 'Content-Type',
-        enum: [
-          'multipart/form-data',
-          'x-www-form-urlencoded',
-          'application/json'
-        ]
+        enum: walkToProperty('consumes') || defaultConsumes
       };
     }
 
@@ -718,15 +719,15 @@ SwaggerEditor.controller('TryOperation', function ($scope, formdataFilter,
       return bodyModel;
 
     // if body has form-data encoding use formdataFilter to encode it to string
-    } else if (contentType.indexOf('form-data') > -1) {
+    } else if (/form\-data/.test(contentType)) {
       return formdataFilter(bodyModel);
 
     // if body has application/json encoding use JSON to stringify it
-    } else if (contentType.indexOf('application/json') > -1) {
+    } else if (/json/.test(contentType)) {
       return JSON.stringify(bodyModel, null, 2);
 
     // if encoding is x-www-form-urlencoded use jQuery.param method to stringify
-    } else if (contentType.indexOf('x-www-form-urlencoded') > -1) {
+    } else if (/urlencode/.test(contentType)) {
       return $.param(bodyModel);
     }
 
