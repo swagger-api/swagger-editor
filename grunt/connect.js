@@ -1,7 +1,7 @@
 'use strict';
 
 var developmentPort = process.env.PORT || 9000;
-var productionPort = 8080;
+var productionPort = process.env.PORT || 8080;
 
 module.exports = {
   options: {
