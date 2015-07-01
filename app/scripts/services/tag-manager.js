@@ -33,7 +33,7 @@ SwaggerEditor.service('TagManager', function TagManager($stateParams) {
 
     if (Array.isArray(specs.tags)) {
       specs.tags.forEach(function (tag) {
-        if (angular.isString(tag.name)) {
+        if (tag && angular.isString(tag.name)) {
           registerTag(tag.name, tag.description);
         }
       });
