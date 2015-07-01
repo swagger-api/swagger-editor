@@ -603,7 +603,7 @@ SwaggerEditor.controller('TryOperation', function ($scope, formdataFilter,
     // A list of default headers that will be included in the XHR call
     var defaultHeaders = {
       Host: host,
-      Accept: $scope.accepts || '*/*',
+      Accept: $scope.requestModel.accept || '*/*',
       'Accept-Encoding': 'gzip,deflate,sdch', //TODO: where this is coming from?
       'Accept-Language': 'en-US,en;q=0.8,fa;q=0.6,sv;q=0.4', // TODO: wut?
       'Cache-Control': 'no-cache',
