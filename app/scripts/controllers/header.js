@@ -76,6 +76,7 @@ SwaggerEditor.controller('HeaderCtrl', function HeaderCtrl($scope, $modal,
       $rootScope.editorValue = value;
       ASTManager.refresh($rootScope.editorValue);
       Storage.save('yaml', value);
+      $state.go('home', {tags: null});
     });
   };
 
