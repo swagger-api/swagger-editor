@@ -29,6 +29,6 @@ http://editor.swagger.io/#/?import=localhost:8000/swagger.yaml&no-proxy
 
 ### Drag and Drop
 
-Simply drop your Swagger JOSN or YAML files into Swagger Editor browser window. 
+Simply drop your Swagger JSON or YAML files into Swagger Editor browser window. 
 
 ![Swagger Editor drag and drop demo](./dnd.gif)
