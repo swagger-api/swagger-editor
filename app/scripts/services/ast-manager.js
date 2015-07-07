@@ -11,6 +11,7 @@ SwaggerEditor.service('ASTManager', function ASTManager($log) {
   var ast = {};
   var changeListeners = [];
   var yamlBuffer = '';
+  var compose = _.memoize(yaml.compose);
 
   /*
   ** Update ast with changes from editor
@@ -21,7 +22,7 @@ SwaggerEditor.service('ASTManager', function ASTManager($log) {
 
     try {
       yamlBuffer = value;
-      ast = yaml.compose(value);
+      ast = compose(value);
       emitChanges();
     } catch (err) {
       $log.warn('Failed to refresh line numbers', err);
