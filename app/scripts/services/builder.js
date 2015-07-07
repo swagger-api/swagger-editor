@@ -1,7 +1,7 @@
 'use strict';
 
 SwaggerEditor.service('Builder', function Builder($q) {
-  var load = jsyaml.load;
+  var load = _.memoize(jsyaml.load);
   var v2 = SwaggerTools.specs.v2;
 
   /**
