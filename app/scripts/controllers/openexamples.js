@@ -15,7 +15,7 @@ SwaggerEditor.controller('OpenExamplesCtrl', function OpenExamplesCtrl($scope,
       location.pathname.substring(1) :
       location.pathname;
 
-    var url = pathname + defaults.examplesFolder + file;
+    var url = '/' + pathname + defaults.examplesFolder + file;
 
     FileLoader.loadFromUrl(url).then(function (value) {
       Storage.save('yaml', value);
