@@ -27,7 +27,7 @@ SwaggerEditor.controller('PreviewCtrl', function PreviewCtrl(Storage, Builder,
 
     // Error can come in success callback, because of recursive promises
     // So we install same handler for error and success
-    Builder.buildDocs(latest).then(onBuildSuccees, onBuildFailure);
+    Builder.buildDocs(latest).then(onBuildSuccess, onBuildFailure);
   }
 
   /*
@@ -61,7 +61,7 @@ SwaggerEditor.controller('PreviewCtrl', function PreviewCtrl(Storage, Builder,
   /*
    * Callback of builder success
   */
-  function onBuildSuccees(result) {
+  function onBuildSuccess(result) {
     onBuild(result);
     $scope.errors = null;
     Storage.save('progress',  'success-process');
