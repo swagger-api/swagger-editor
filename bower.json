@@ -21,7 +21,7 @@
     "json3": "~3.3.2",
     "ngstorage": "~0.3.4",
     "yaml-js": "0.1.1",
-    "swagger-tools": "0.8.7",
+    "swagger-tools": "0.9.0",
     "lodash": "~3.9.3",
     "apply-diff": "~1.2.5",
     "json-editor": "~0.7.2",
