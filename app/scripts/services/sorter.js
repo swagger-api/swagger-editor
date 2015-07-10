@@ -8,9 +8,6 @@
 */
 SwaggerEditor.service('Sorter', function Sorter() {
 
-  // The standard order property name
-  var XDASH = 'x-';
-
   /*
   ** Sort specs hash (paths, operations and responses)
   */
@@ -19,7 +16,7 @@ SwaggerEditor.service('Sorter', function Sorter() {
 
     if (specs && specs.paths) {
       var paths = Object.keys(specs.paths).map(function (pathName) {
-        if (pathName.toLowerCase().substring(0, 2) === XDASH) {
+        if (isVendorExtension(pathName)) {
           return;
         }
 
@@ -49,7 +46,7 @@ SwaggerEditor.service('Sorter', function Sorter() {
     }
 
     arr = Object.keys(operations).map(function (operationName) {
-      if (operationName.toLowerCase().substring(0, 2) === XDASH ||
+      if (isVendorExtension(operationName) ||
           operationName === 'parameters') {
         return;
       }
@@ -83,7 +80,7 @@ SwaggerEditor.service('Sorter', function Sorter() {
     }
 
     arr = Object.keys(responses).map(function (responseName) {
-      if (responseName.toLowerCase().substring(0, 2) === XDASH) {
+      if (isVendorExtension(responseName)) {
         return;
       }
 
@@ -116,5 +113,18 @@ SwaggerEditor.service('Sorter', function Sorter() {
       }
       return false;
     };
+  }
+
+  /**
+   * determines if key is vendor extension
+   * @param  {[type]}  key
+   * @return {Boolean}
+   */
+  function isVendorExtension(key) {
+
+    // The standard order property name
+    var XDASH = 'x-';
+
+    return _.startsWith(key.toLowerCase(), XDASH);
   }
 });
