@@ -4,26 +4,29 @@
 ** Because Angular will sort hash keys alphabetically we need to
 ** translate hashes to arrays in order to keep the order of the
 ** elements.
-** Order information is coming from ASTManager via x-row properties
 */
 SwaggerEditor.service('Sorter', function Sorter() {
 
   /*
-  ** Sort specs hash (paths, operations and responses)
+   * Sort spec hash (paths, operations and responses)
+   * @param {object} spec
+   * @param {object} options - the tag options
+   *
+   * @returns {object} - sorted spec (paths and operations are arrays)
   */
-  this.sort = function (specs, options) {
-    var result = _.cloneDeep(specs);
+  function sort(spec, options) {
+    var result = _.clone(spec);
 
-    if (specs && specs.paths) {
-      var paths = Object.keys(specs.paths).map(function (pathName) {
+    if (spec && spec.paths) {
+      var paths = Object.keys(spec.paths).map(function (pathName) {
         if (isVendorExtension(pathName)) {
           return;
         }
 
         return {
           pathName: pathName,
-          pathParameters: specs.paths[pathName].parameters,
-          operations: sortOperations(specs.paths[pathName])
+          pathParameters: spec.paths[pathName].parameters,
+          operations: sortOperations(_.clone(spec.paths[pathName]))
             .filter(filterForTags(options.limitToTags))
         };
       });
@@ -33,10 +36,13 @@ SwaggerEditor.service('Sorter', function Sorter() {
     }
 
     return result;
-  };
+  }
 
   /*
-  ** Sort operations
+   * Sort operations
+   *
+   * @param {object} operations
+   * @returns {array}
   */
   function sortOperations(operations) {
     var arr = [];
@@ -72,6 +78,11 @@ SwaggerEditor.service('Sorter', function Sorter() {
     return _.compact(arr);
   }
 
+  /**
+   * Sort responses hash
+   * @param  {object} responses
+   * @return {array}
+   */
   function sortResponses(responses) {
     var arr = [];
 
@@ -96,6 +107,9 @@ SwaggerEditor.service('Sorter', function Sorter() {
 
   /*
    * Makes a function that filter out operation based on limitToTags array
+   *
+   * @param limitToTags {array}
+   * @return {boolean}
   */
   function filterForTags(limitToTags) {
     return function (operation) {
@@ -117,7 +131,7 @@ SwaggerEditor.service('Sorter', function Sorter() {
 
   /**
    * determines if key is vendor extension
-   * @param  {[type]}  key
+   * @param  {string}  key
    * @return {Boolean}
    */
   function isVendorExtension(key) {
@@ -127,4 +141,6 @@ SwaggerEditor.service('Sorter', function Sorter() {
 
     return _.startsWith(key.toLowerCase(), XDASH);
   }
+
+  this.sort = sort;
 });
