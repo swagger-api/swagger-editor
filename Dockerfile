@@ -9,7 +9,7 @@ MAINTAINER Marcello_deSales@intuit.com
 
 ENV     DEBIAN_FRONTEND noninteractive
 
-RUN     apt-get update && apt-get install -y git npm nodejs
+RUN     apt-get update && apt-get install -y git npm nodejs && rm -rf /var/lib/apt/lists/*
 RUN     ln -s /usr/bin/nodejs /usr/local/bin/node
 
 WORKDIR /runtime
