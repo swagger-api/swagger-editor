@@ -37,5 +37,8 @@
         "dist/js/bootstrap.js"
       ]
     }
+  },
+  "devDependencies": {
+    "angular-mocks": "~1.4.2"
   }
 }
