@@ -1,8 +1,6 @@
 'use strict';
 
 window.SwaggerEditor = angular.module('SwaggerEditor', [
-  'ngCookies',
-  'ngResource',
   'ngSanitize',
   'ui.router',
   'ui.ace',
