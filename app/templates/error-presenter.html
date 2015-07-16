@@ -9,9 +9,7 @@
       <span class="icon">{{isWarning(error) ? '⚠' : '✖' }}</span>
       {{getType(error)}}
     </h5>
-    <p class="error-description">
-      <span>{{getDescription(error)}}</span>
-    </p>
+    <p class="error-description" ng-bind-html="getDescription(error)"></p>
     <a ng-click="goToLineOfError(error)"
       ng-if="showLineJumpLink(error)">Jump to line {{getLineNumber(error)}}</a>
     <h6>Details</h6>

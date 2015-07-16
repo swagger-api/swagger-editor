@@ -51,6 +51,10 @@ SwaggerEditor.controller('ErrorPresenterCtrl', function ErrorPresenterCtrl(
   $scope.getDescription = function (error) {
 
     if (angular.isString(error.message)) {
+
+      if (angular.isString(error.description)) {
+        return error.message + '<br>' + error.description;
+      }
       return error.message;
     }
 
