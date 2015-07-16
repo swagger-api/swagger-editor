@@ -1,6 +1,6 @@
 'use strict';
 
-SwaggerEditor.directive('path', function () {
+SwaggerEditor.directive('swaggerPath', function () {
   return {
     restrict: 'E',
     replace: true,

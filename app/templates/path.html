@@ -1,15 +1,29 @@
 <li class="path">
-  <header ng-click="$parent.toggle(['paths', path.pathName])">
+  <header ng-click="$parent.toggle(['paths', pathName])">
     <h2>
-      <a>{{path.pathName}}</a>
+      <a>{{pathName}}</a>
     </h2>
     <span class="on-hover">
-      <a ng-click="toggleAll(['paths', path.pathName])" ng-hide="isAllFolded(['paths', path.pathName]) || isCollapsed(['paths', path.pathName])" stop-event>List all operations</a>
+      <a
+        ng-click="toggleAll(['paths', pathName])"
+        ng-hide="isAllFolded(['paths', pathName]) || isCollapsed(['paths', pathName])"
+        stop-event>
+        List all operations
+      </a>
     </span>
-    <a class="jump-to-yaml" ng-click="focusEdit($event, ['paths', path.pathName])" tooltip-placement="left" tooltip="Jump to YAML" tooltip-trigger="mouseenter"></a>
+    <a
+      class="jump-to-yaml"
+      ng-click="focusEdit($event, ['paths', pathName])"
+      tooltip-placement="left"
+      tooltip="Jump to YAML"
+      tooltip-trigger="mouseenter">
+    </a>
   </header>
-  <ul class='operations' collapse-when="$parent.isCollapsed(['paths', path.pathName])">
-    <operation ng-repeat="operation in path.operations track by $index" ng-if="!isVendorExtension(operation.operationName)"></operation>
+  <ul class='operations' collapse-when="$parent.isCollapsed(['paths', pathName])">
+    <swagger-operation
+      ng-repeat="(operationName, operation) in path"
+      ng-if="!isVendorExtension(operation.operationName) &&
+        operationName !== 'parameters'">
+    </swagger-operation>
   </ul>
 </li>
-

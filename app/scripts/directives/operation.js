@@ -1,6 +1,6 @@
 'use strict';
 
-SwaggerEditor.directive('operation', function (defaults) {
+SwaggerEditor.directive('swaggerOperation', function (defaults) {
   return {
     restrict: 'E',
     replace: true,
@@ -70,8 +70,8 @@ SwaggerEditor.directive('operation', function (defaults) {
        * @returns boolean
       */
       $scope.hasAResponseWithSchema = function (responses) {
-        return responses.some(function (response) {
-          return response.schema;
+        return _.keys(responses).some(function (responseCode) {
+          return responses[responseCode].schema;
         });
       };
 
@@ -83,8 +83,8 @@ SwaggerEditor.directive('operation', function (defaults) {
        * @returns boolean
       */
       $scope.hasAResponseWithHeaders = function (responses) {
-        return responses.some(function (response) {
-          return response.headers;
+        return _.keys(responses).some(function (responseCode) {
+          return responses[responseCode].headers;
         });
       };
     }

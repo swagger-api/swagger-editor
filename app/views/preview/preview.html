@@ -19,24 +19,45 @@
   </header>
 
   <ul class="paths" ng-if="!error.yamlError" collapse-when="isCollapsed(['paths'])">
-    <path ng-repeat="path in specs.paths track by $index" ng-if="!isVendorExtension(path.pathName) && path.operations.length > 0"></path>
+    <swagger-path
+      ng-repeat="(pathName, path) in specs.paths"
+      ng-if="!isVendorExtension(pathName)">
+    </swagger-path>
   </ul>
 
   <header ng-if="specs.definitions">
     <h3 class="section-header">
-      <!-- <span class="arrow">{{isCollapsed('definitions') ? '▶' : '▼'}}</span> -->
       <a ng-click="toggle(['definitions'])">Models</a>
       <span class="on-hover">
-        <a ng-click="toggleAll(['definitions'])" ng-hide="isAllFolded(['definitions'])">List all models</a>
+        <a
+          ng-click="toggleAll(['definitions'])"
+          ng-hide="isAllFolded(['definitions'])">List all models</a>
       </span>
     </h3>
   </header>
-   <ul class="section-content definitions" ng-if="showDefinitions(specs.definitions)" collapse-when="isCollapsed(['definitions'])" class="models">
-      <li class="definition" ng-repeat="(modelName, model) in specs.definitions" ng-if="!isVendorExtension(modelName)" scroll-into-view-when="isInFocus(['definitions', modelName])">
+
+   <ul
+     class="section-content definitions"
+     ng-if="showDefinitions(specs.definitions)"
+     collapse-when="isCollapsed(['definitions'])"
+     class="models">
+
+      <li
+        class="definition"
+        ng-repeat="(modelName, model) in specs.definitions"
+        ng-if="!isVendorExtension(modelName)"
+        scroll-into-view-when="isInFocus(['definitions', modelName])">
         <h4>
-          <a ng-click="toggle(['definitions', modelName])" class="definition-title">{{modelName}}</a>
+          <a
+            ng-click="toggle(['definitions', modelName])"
+            class="definition-title">
+            {{modelName}}
+          </a>
         </h4>
-        <schema-model schema="model" collapse-when="isCollapsed(['definitions', modelName])"></schema-model>
+        <schema-model
+          schema="model"
+          collapse-when="isCollapsed(['definitions', modelName])">
+        </schema-model>
       </li>
     </ul>
 </div>

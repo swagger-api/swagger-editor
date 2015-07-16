@@ -3,7 +3,7 @@
     <form schema-form="requestSchema" ng-model="requestModel" name="requestFrom"></form>
     <div class="raw-request raw">
       <div class="line url">
-        {{operation.operationName | uppercase}}
+        {{operationName | uppercase}}
         <a href="{{generateUrl()}}" target="_blank" tabindex="-1">{{generateUrl()}}</a>
         {{httpProtorcol}}
       </div>
@@ -19,7 +19,7 @@
         <span class="warning-icon">⚠️</span>
         This is a cross-origin call. Make sure the server at
         <code>{{specs.host}}</code>
-        accepts {{operation.operationName | uppercase}} requests from
+        accepts {{operationName | uppercase}} requests from
         <code>{{locationHost}}</code>.
         <a href="https://github.com/swagger-api/swagger-editor/blob/master/docs/cors.md" target="_blank">Learn more</a>
       </p>

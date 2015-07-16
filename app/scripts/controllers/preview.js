@@ -1,8 +1,9 @@
 'use strict';
 
 SwaggerEditor.controller('PreviewCtrl', function PreviewCtrl(Storage, Builder,
-  ASTManager, Sorter, Editor, BackendHealthCheck, FocusedPath, TagManager,
-  Preferences, $scope, $rootScope, $stateParams, $sessionStorage) {
+  ASTManager, Editor, BackendHealthCheck, FocusedPath, TagManager, Preferences,
+  $scope, $rootScope, $stateParams, $sessionStorage) {
+
   $sessionStorage.$default({securityKeys: {}});
   var securityKeys = $sessionStorage.securityKeys;
   var SparkMD5 = (window.SparkMD5);
@@ -38,10 +39,10 @@ SwaggerEditor.controller('PreviewCtrl', function PreviewCtrl(Storage, Builder,
     if (angular.isString($stateParams.tags)) {
       sortOptions.limitToTags = $stateParams.tags.split(',');
     }
-    // Refresh tags with an un-filtered specs to get all tags in tag manager
-    refreshTags(Sorter.sort(_.cloneDeep(result.specs), {}));
 
-    $scope.specs = Sorter.sort(result.specs, sortOptions);
+    refreshTags(result.specs);
+
+    $scope.specs = result.specs;
 
     if ($scope.specs && $scope.specs.securityDefinitions) {
       _.forEach($scope.specs.securityDefinitions, function (security, key) {

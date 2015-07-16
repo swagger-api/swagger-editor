@@ -518,7 +518,7 @@ SwaggerEditor.controller('TryOperation', function ($scope, formdataFilter,
       $.param(queryParams, isCollectionQueryParam));
 
     // fill in path parameter values inside the path
-    pathStr = $scope.path.pathName.replace(pathParamRegex,
+    pathStr = $scope.pathName.replace(pathParamRegex,
 
       // a simple replace method where it uses the available path parameter
       // value to replace the path parameter or leave it as it is if path

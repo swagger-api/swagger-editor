@@ -1,19 +1,38 @@
-<li class='{{operation.operationName | lowercase}} operation' scroll-into-view-when="isInFocus(['paths', path.pathName, operation.operationName])">
-  <header ng-click="toggle(['paths', path.pathName, operation.operationName])">
-    <a class="focus-editor" ng-click="focusEdit($event, ['paths', path.pathName, operation.operationName])"
-      tooltip-placement="left" tooltip="Jump to YAML" tooltip-trigger="mouseenter"></a>
-    <div class='http-method' class="toggleOperation">{{operation.operationName | uppercase}} {{path.pathName}}</div>
+<li
+  class='{{operationName | lowercase}} operation'
+  scroll-into-view-when="isInFocus(['paths', pathName, operationName])">
+
+  <header ng-click="toggle(['paths', pathName, operationName])">
+    <a
+      class="focus-editor"
+      ng-click="focusEdit($event, ['paths', pathName, operationName])"
+      tooltip-placement="left"
+      tooltip="Jump to YAML"
+      tooltip-trigger="mouseenter">
+    </a>
+
+    <div
+      class='http-method'
+      class="toggleOperation">{{operationName | uppercase}} {{pathName}}
+    </div>
+
     <div class="deprecated" ng-if="operation.deprecated">Deprecated</div>
   </header>
 
-  <div class='content' collapse-when="isCollapsed(['paths', path.pathName, operation.operationName])">
+  <div class='content' collapse-when="isCollapsed(['paths', pathName, operationName])">
     <div class="tags">
-      <span class="tag tag-color-{{tagIndexFor(tag)}}" ng-repeat="tag in operation.tags track by $index">{{tag}}</span>
+      <span
+        class="tag tag-color-{{tagIndexFor(tag)}}"
+        ng-repeat="tag in operation.tags track by $index">
+        {{tag}}
+      </span>
     </div>
+
     <section class="summary" ng-if="operation.summary">
       <h4>Summary</h4>
       <p>{{operation.summary}}</p>
     </section>
+
     <section class="description" ng-if="operation.description">
       <h4>Description</h4>
       <div marked="operation.description"></div>
@@ -35,8 +54,18 @@
           <tbody>
             <tr ng-repeat="parameter in getParameters() track by $index">
               <td >
-                <a ng-click="focusEdit($event, ['paths', path.pathName, operation.operationName, 'parameters', $index], -1)" tooltip-placement="top" tooltip="Jump to YAML" tooltip-trigger="mouseenter">
-                  <span class="mono">{{parameter.name}}</span>
+                <a
+                  ng-click="focusEdit($event, [
+                      'paths',
+                      pathName,
+                      operationName,
+                      'parameters',
+                      $index
+                    ], -1)"
+                  tooltip-placement="top"
+                  tooltip="Jump to YAML"
+                  tooltip-trigger="mouseenter">
+                    <span class="mono">{{parameter.name}}</span>
                 </a>
               </td>
               <td>{{parameter.in}}</td>
@@ -51,8 +80,9 @@
       </div>
     </section>
 
-    <section class="responses" ng-if="operation.responses">
+    <section class="responses" ng-if="operation">
       <h4>Responses</h4>
+
       <div>
         <table class="respns">
           <thead>
@@ -63,11 +93,24 @@
               <th ng-if="hasAResponseWithSchema(operation.responses)">Schema</th>
             </tr>
           </thead>
+
           <tbody>
-            <tr ng-repeat="response in operation.responses track by $index">
+            <tr ng-repeat="(responseCode, response) in operation.responses">
               <td>
-                <a ng-click="focusEdit($event, ['paths', path.pathName, operation.operationName, 'responses', response.responseCode])" tooltip-placement="top" tooltip="Jump to YAML" tooltip-trigger="mouseenter">
-                  <span class="resp-code {{responseCodeClassFor(response.responseCode)}}">{{response.responseCode}}</span>
+                <a
+                  ng-click="focusEdit($event, [
+                    'paths',
+                    pathName,
+                    operationName,
+                    'responses',
+                    responseCode])"
+                  tooltip-placement="top"
+                  tooltip="Jump to YAML"
+                  tooltip-trigger="mouseenter">
+
+                    <span class="resp-code {{responseCodeClassFor(responseCode)}}">
+                      {{responseCode}}
+                    </span>
                 </a>
               </td>
               <td marked="response.description"></td>
@@ -117,7 +160,11 @@
           <tr ng-repeat="security in operation.security track by $index">
             <td ng-repeat="(securityName, securityValues) in security">{{securityName}}</td>
             <td ng-repeat="(securityName, securityValues) in security">
-              <strong class="security-value" ng-repeat="value in securityValues track by $index">{{value}}</strong>
+              <strong
+                class="security-value"
+                ng-repeat="value in securityValues track by $index">
+                {{value}}
+              </strong>
             </td>
           </tr>
         </tbody>
@@ -125,17 +172,25 @@
     </section>
 
     <section class="try-operation" ng-if="enableTryIt">
+
       <button class="border-only try-it"
         ng-class="{trying: isTryOpen}"
         ng-click="toggleTry()"
         ng-if="!isTryOpen"
-        track-event="try-operation"
-      >Try this operation</button>
+        track-event="try-operation">
+        Try this operation
+      </button>
+
       <button class="border-only red close-try"
         ng-class="{'is-open': isTryOpen}"
         ng-click="toggleTry()"
-        ng-if="isTryOpen"
-      >Close</button>
-      <div ng-include="'templates/try-operation.html'" ng-if="isTryOpen"></div>
+        ng-if="isTryOpen">
+        Close
+      </button>
+
+      <div
+        ng-include="'templates/try-operation.html'"
+        ng-if="isTryOpen">
+      </div>
     </section>
 </li>
