@@ -41,13 +41,7 @@ SwaggerEditor.controller('PreviewCtrl', function PreviewCtrl(Storage, Builder,
     // Refresh tags with an un-filtered specs to get all tags in tag manager
     refreshTags(Sorter.sort(_.cloneDeep(result.specs), {}));
 
-    var newSpecs = Sorter.sort(result.specs, sortOptions);
-
-    if (angular.isObject($scope.specs) && !_.isEmpty(newSpecs)) {
-      _.applyDiff(newSpecs, $scope.specs);
-    } else {
-      $scope.specs = newSpecs;
-    }
+    $scope.specs = Sorter.sort(result.specs, sortOptions);
 
     if ($scope.specs && $scope.specs.securityDefinitions) {
       _.forEach($scope.specs.securityDefinitions, function (security, key) {

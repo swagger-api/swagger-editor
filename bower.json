@@ -16,7 +16,6 @@
     "yaml-js": "0.1.1",
     "swagger-tools": "0.9.0",
     "lodash": "~3.10.0",
-    "apply-diff": "~1.2.5",
     "schema-form": "~0.1.3",
     "ng-file-upload": "~5.0.3",
     "json-formatter": "~0.3.1",
