@@ -32,15 +32,15 @@ var defaults = {
      * Menu items are generated based on result of GET request to these
      * endpoint
     */
-    servers: 'http://generator.wordnik.com/online/api/gen/servers',
-    clients: 'http://generator.wordnik.com/online/api/gen/clients',
+    servers: 'http://generator.swagger.io/online/api/gen/servers',
+    clients: 'http://generator.swagger.io/online/api/gen/clients',
 
     /*
      * For each item in menu item, Swagger Editor will make calls to these
      * endpoint to download the generated code accordingly
     */
-    server: 'http://generator.wordnik.com/online/api/gen/servers/{language}',
-    client: 'http://generator.wordnik.com/online/api/gen/clients/{language}'
+    server: 'http://generator.swagger.io/online/api/gen/servers/{language}',
+    client: 'http://generator.swagger.io/online/api/gen/clients/{language}'
   },
 
   /*
