@@ -334,7 +334,7 @@ SwaggerEditor.controller('TryOperation', function ($scope, formdataFilter,
   function getSecurityOptions() {
     var securityOptions = [];
 
-    // operation level securities    
+    // operation level securities
     if (Array.isArray($scope.operation.security)) {
       $scope.operation.security.map(function(security) {
          Object.keys(security).forEach(function(key){
