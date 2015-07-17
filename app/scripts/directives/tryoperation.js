@@ -205,7 +205,7 @@ SwaggerEditor.controller('TryOperation', function ($scope, formdataFilter,
 
     // if there is security options add the security property
     if (securityOptions.length) {
-      model.security = [securityOptions[0]];
+      model.security = securityOptions;
     }
 
     // Add Content-Type header only if this operation has a body parameter
@@ -334,22 +334,22 @@ SwaggerEditor.controller('TryOperation', function ($scope, formdataFilter,
   function getSecurityOptions() {
     var securityOptions = [];
 
-    // operation level securities
+    // operation level securities    
     if (Array.isArray($scope.operation.security)) {
-      securityOptions = securityOptions.concat(
-        $scope.operation.security.map(function (security) {
-          return Object.keys(security)[0];
-        })
-      );
+      $scope.operation.security.map(function(security) {
+         Object.keys(security).forEach(function(key){
+           securityOptions = securityOptions.concat(key);
+         });
+      });
     }
 
     // root level securities
     if (Array.isArray($scope.specs.security)) {
-      securityOptions = securityOptions.concat(
-        $scope.specs.security.map(function (security) {
-          return Object.keys(security)[0];
-        })
-      );
+      $scope.specs.security.map(function(security) {
+         Object.keys(security).forEach(function(key){
+           securityOptions = securityOptions.concat(key);
+         });
+      });
     }
 
     return _.unique(securityOptions).filter(function (security) {
