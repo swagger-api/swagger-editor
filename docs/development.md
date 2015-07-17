@@ -4,7 +4,7 @@
 
 You can set the environment variable `PORT` to set the port
 
-``shell
+```shell
 PORT=81 npm start
 ```
 
@@ -24,13 +24,13 @@ if you don't have `grunt` installed, you can run `npm run develop` instead.
 
 You can also specify the port by setting `PORT` environment variable in development mode
 
-```
+```shell
 PORT=3000 grunt serve
 ```
 
 or
 
-```
+```shell
 PORT=3000 npm run develop
 ```
 
@@ -39,8 +39,8 @@ For development it's preferred to have `grunt` installed globally on your machin
 ### Building
 To build the project just run:
 
-```
-$ grunt build
+```shell
+grunt build
 ```
 This will build a new version of the web app, ready for production in `/dist` folder
 
@@ -55,13 +55,13 @@ If you are familiar with [Docker](https://www.docker.com/), a `Dockerfile` is
 provided.
 
 Build an image named `swagger-editor`
-```
+```shell
 sudo docker build -t swagger-editor .
 ```
 
 Run the container, using the local port 8080 (you may change this to any available
 port).
-```
+```shell
 sudo docker run -ti -p 8080:8080 swagger-editor
 ```
 And open [http://localhost:8080](http://localhost:8080) in your browser
