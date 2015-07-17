@@ -9,12 +9,12 @@
       <span class="icon">{{isWarning(error) ? '⚠' : '✖' }}</span>
       {{getType(error)}}
     </h5>
-    <p class="error-description">
-      <span>{{getDescription(error)}}</span>
-    </p>
-    <a ng-click="goToLineOfError(error)"
-      ng-if="showLineJumpLink(error)">Jump to line {{getLineNumber(error)}}</a>
-    <h6>Details</h6>
-    <json-formatter json="error" open="0"></json-formatter>
+    <p class="error-description" ng-bind-html="getDescription(error)"></p>
+    <a ng-click="goToLineOfError(error)" class="jump-to-link"
+      ng-if="showLineJumpLink(error)">Jump to line <b>{{getLineNumber(error)}}</b></a>
+    <div class="details">
+      <h5>Details</h5>
+      <json-formatter json="error" open="0"></json-formatter>
+    </div>
   </div>
 </div>
