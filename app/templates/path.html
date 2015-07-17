@@ -22,8 +22,7 @@
   <ul class='operations' collapse-when="$parent.isCollapsed(['paths', pathName])">
     <swagger-operation
       ng-repeat="(operationName, operation) in path"
-      ng-if="!isVendorExtension(operation.operationName) &&
-        operationName !== 'parameters'">
+      ng-if="showOperation(operation, operationName)">
     </swagger-operation>
   </ul>
 </li>

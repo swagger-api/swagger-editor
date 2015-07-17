@@ -21,7 +21,7 @@
   <ul class="paths" ng-if="!error.yamlError" collapse-when="isCollapsed(['paths'])">
     <swagger-path
       ng-repeat="(pathName, path) in specs.paths"
-      ng-if="!isVendorExtension(pathName)">
+      ng-if="showPath(path, pathName)">
     </swagger-path>
   </ul>
 

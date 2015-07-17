@@ -8,7 +8,7 @@ SwaggerEditor.controller('PreviewCtrl', function PreviewCtrl(Storage, Builder,
   var securityKeys = $sessionStorage.securityKeys;
   var SparkMD5 = (window.SparkMD5);
 
-  /*
+  /**
    * Reacts to updates of YAML in storage that usually triggered by editor
    * changes
   */
@@ -31,7 +31,7 @@ SwaggerEditor.controller('PreviewCtrl', function PreviewCtrl(Storage, Builder,
     Builder.buildDocs(latest).then(onBuildSuccess, onBuildFailure);
   }
 
-  /*
+  /**
    * General callback for builder results
   */
   function onBuild(result) {
@@ -53,7 +53,7 @@ SwaggerEditor.controller('PreviewCtrl', function PreviewCtrl(Storage, Builder,
     $scope.warnings = result.warnings;
   }
 
-  /*
+  /**
    * Callback of builder success
   */
   function onBuildSuccess(result) {
@@ -70,7 +70,7 @@ SwaggerEditor.controller('PreviewCtrl', function PreviewCtrl(Storage, Builder,
     }
   }
 
-  /*
+  /**
    * Callback of builder failure
   */
   function onBuildFailure(result) {
@@ -128,7 +128,7 @@ SwaggerEditor.controller('PreviewCtrl', function PreviewCtrl(Storage, Builder,
     }
   }
 
-  /*
+  /**
    * Focuses editor to a line that represents that path beginning
    * @param {AngularEvent} $event - angular event
    * @param {array} path - an array of keys into specs structure
@@ -149,7 +149,7 @@ SwaggerEditor.controller('PreviewCtrl', function PreviewCtrl(Storage, Builder,
     Editor.focus();
   };
 
-  /*
+  /**
    * Returns true if operation is the operation in focus
    * in the editor
    * @returns {boolean}
@@ -158,14 +158,16 @@ SwaggerEditor.controller('PreviewCtrl', function PreviewCtrl(Storage, Builder,
     return !!path; //FocusedPath.isInFocus(path);
   };
 
-  /*
-  ** get a subpath for edit
-  */
+  /**
+   * get a subpath for edit
+   * @param  {string} pathName
+   * @return {string} edit path
+   */
   $scope.getEditPath = function (pathName) {
     return '#/paths?path=' + window.encodeURIComponent(pathName);
   };
 
-  /*
+  /**
    * Response CSS class for an HTTP response code
    *
    * @param {number} code - The HTTP Response CODE
@@ -190,7 +192,7 @@ SwaggerEditor.controller('PreviewCtrl', function PreviewCtrl(Storage, Builder,
     return result;
   };
 
-  /*
+  /**
    * Determines if a key is a vendor extension key
    * Vendor extensions always start with `x-`
    *
@@ -198,19 +200,64 @@ SwaggerEditor.controller('PreviewCtrl', function PreviewCtrl(Storage, Builder,
    *
    * @returns {boolean}
   */
-  $scope.isVendorExtension = function (key) {
-    return angular.isString(key) && key.substring(0, 2).toLowerCase() === 'x-';
-  };
+  function isVendorExtension(key) {
+    return _.startsWith(key, 'x-');
+  }
 
-  /*
+  $scope.isVendorExtension = isVendorExtension;
+
+  /**
    * Determines if we should render the definitions sections
    *
    * @param {object|null} - the definitions object of Swagger spec
    *
-   * @retuns {boolean} - true if definitions object should be rendered, false
+   * @return {boolean} - true if definitions object should be rendered, false
    *  otherwise
   */
   $scope.showDefinitions = function (definitions) {
     return angular.isObject(definitions);
+  };
+
+  /**
+   * Determines if an operation should be shown or not
+   * @param  {object} operation     the operation object
+   * @param  {string} operationName the operation name in path hash
+   * @return {boolean}              true if the operation should be shown
+   */
+  function showOperation(operation, operationName) {
+    var currentTagsLength = TagManager.getCurrentTags() &&
+      TagManager.getCurrentTags().length;
+
+    if (isVendorExtension(operationName)) {
+      return false;
+    }
+
+    if (operationName === 'parameters') {
+      return false;
+    }
+
+    if (!currentTagsLength) {
+      return true;
+    }
+
+    return operation.tags && operation.tags.length &&
+      _.intersection(TagManager.getCurrentTags(), operation.tags).length;
+  }
+
+  $scope.showOperation = showOperation;
+
+  /**
+   * Determines if apath should be shown or not
+   * @param  {object} path     the path object
+   * @param  {string} pathName the path name in paths hash
+   * @return {boolean}         true if the path should be shown
+   */
+  $scope.showPath = function (path, pathName) {
+    if (isVendorExtension(pathName)) {
+      return false;
+    }
+
+    return _.some(path, showOperation);
+
   };
 });
