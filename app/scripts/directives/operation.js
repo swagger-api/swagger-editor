@@ -19,7 +19,7 @@ SwaggerEditor.directive('swaggerOperation', function (defaults) {
        * @returns {array} - array of parameters
       */
       $scope.getParameters = function () {
-        var hasPathParameter = Array.isArray($scope.path.pathParameters);
+        var hasPathParameter = Array.isArray($scope.path.parameters);
         var hasOperationParameter = Array.isArray($scope.operation.parameters);
 
         // if there is no operation and path parameter return empty array
@@ -29,7 +29,7 @@ SwaggerEditor.directive('swaggerOperation', function (defaults) {
 
         // if there is no operation parameter return only path parameters
         if (!hasOperationParameter) {
-          return $scope.path.pathParameters || [];
+          return $scope.path.parameters || [];
         }
 
         // if there is no path parameter return operation parameters
@@ -38,7 +38,7 @@ SwaggerEditor.directive('swaggerOperation', function (defaults) {
         }
 
         // if there is both path and operation parameters return all of them
-        return $scope.operation.parameters.concat($scope.path.pathParameters);
+        return $scope.operation.parameters.concat($scope.path.parameters);
       };
 
       /*
