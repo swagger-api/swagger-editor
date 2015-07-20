@@ -23,6 +23,7 @@
     "ace": false,
     "jsyaml": false,
     "yaml": false,
+    "YAMLWorker": false,
     "JsonRefs": false,
     "$": false,
     "_": false,
