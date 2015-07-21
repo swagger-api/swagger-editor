@@ -59,9 +59,18 @@ SwaggerEditor.service('Builder', function Builder($q) {
         if (validationResults && validationResults.errors &&
           validationResults.errors.length) {
           return deferred.reject(_.extend({specs: json}, validationResults));
-        }  else {
-          deferred.resolve(_.extend({specs: json}, validationResults));
         }
+
+        JsonRefs.resolveRefs(json, function (resolveErrors, resolved) {
+          if (resolveErrors) {
+            return deferred.reject({
+              errors: [resolveErrors],
+              specs: json
+            });
+          }
+
+          deferred.resolve(_.extend({specs: resolved}, validationResults));
+        });
       });
     });
 
