@@ -19,7 +19,7 @@
     "json-formatter": "~0.3.1",
     "angular-ui-layout": "1.0.5",
     "json-schema-view": "0.4.2",
-    "yaml-worker": "~1.1.0",
+    "yaml-worker": "~1.2.0",
     "js-yaml": "~3.3.1",
     "yaml-js": "~0.1.1"
   },
