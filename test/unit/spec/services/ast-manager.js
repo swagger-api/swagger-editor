@@ -12,34 +12,186 @@ describe('Service: ASTManager', function () {
   }));
 
   describe('#pathForPosition', function () {
-    var yaml;
+    describe('out of range', function (done) {
+      it('returns empty array for out of range row', function (done) {
+        var position = {line: 3, column: 0};
 
-    describe('when document is only a key', function () {
-      beforeEach(function () {
-        //    //012345678
-        yaml = 'swagger: ';
-        ASTManager.refresh(yaml);
+        ASTManager.pathForPosition('swagger: 2.0', position, function (path) {
+          expect(path).to.deep.equal([]);
+          done();
+        });
       });
 
-      describe('when pointer is at end of document', function () {
-        it('should return the single key in path', function () {
-          expect(ASTManager.pathForPosition(0, 8)).to.deep.equal(['swagger']);
+      it('returns empty array for out of range column', function (done) {
+        var position = {line: 0, column: 100};
+
+        ASTManager.pathForPosition('swagger: 2.0', position, function (path) {
+          expect(path).to.deep.equal([]);
+          done();
         });
       });
     });
 
-    describe('when document is only a key value map', function () {
+    describe('when document is a simple hash `swagger: 2.0`', function () {
       beforeEach(function () {
-        //    //0123456789
-        yaml = 'swagger: 2'
-        ASTManager.refresh(yaml);
+        //    //0         0
+        //    //012345678910
+        yaml = 'swagger: 2.0';
       });
 
-      describe('when pointer is at end of document', function () {
-        it('should return the single key in path', function () {
-          expect(ASTManager.pathForPosition(0, 9)).to.deep.equal(['swagger']);
-        });
+      // TODO: test edges
+
+      it('should return empty array when pointer is at middle of the hash key',
+        function (done) {
+          var position = {line: 0, column: 3};
+          ASTManager.pathForPosition(yaml, position, function (path) {
+            expect(path).to.deep.equal([]);
+            done();
+          });
+        }
+      );
+
+      it('should return ["swagger"] when pointer is at the value',
+        function (done) {
+          var position = {line: 0, column: 10};
+          ASTManager.pathForPosition(yaml, position, function (path) {
+            expect(path).to.deep.equal(['swagger']);
+            done();
+          });
+        }
+      );
+    });
+
+    describe('when document is an array: ["abc", "cde"]', function () {
+      beforeEach(function () {
+        yaml = [
+                   /*
+                   0
+                   01234567 */
+          /* 0 */ '- abc',
+          /* 1 */ '- def'
+        ].join('\n');
       });
+
+      it('should return empty array when pointer is at array dashs',
+        function (done) {
+          var position = {line: 0, column: 0};
+          ASTManager.pathForPosition(yaml, position, function (path) {
+            expect(path).to.deep.equal([]);
+            done();
+          });
+        }
+      );
+
+      it('should return ["0"] when pointer is at abc',
+        function (done) {
+          var position = {line: 0, column: 3};
+          ASTManager.pathForPosition(yaml, position, function (path) {
+            expect(path).to.deep.equal(['0']);
+            done();
+          });
+        }
+      );
+
+      it('should return ["1"] when pointer is at def',
+        function (done) {
+          var position = {line: 1, column: 3};
+          ASTManager.pathForPosition(yaml, position, function (path) {
+            expect(path).to.deep.equal(['1']);
+            done();
+          });
+        }
+      );
+    });
+
+    describe('when document is an array of arrays', function () {
+      beforeEach(function () {
+        yaml = [
+                   /*
+                   0         10
+                   0123456789012345 */
+          /* 0 */ '-',
+          /* 1 */ ' - abc',
+          /* 2 */ ' - def',
+          /* 3 */ '-',
+          /* 4 */ ' - ABC',
+          /* 5 */ ' - DEF'
+        ].join('\n');
+      });
+
+      it('should return empty array when pointer is at array dashs',
+        function (done) {
+          var position = {line: 0, column: 0};
+          ASTManager.pathForPosition(yaml, position, function (path) {
+            expect(path).to.deep.equal([]);
+            done();
+          });
+        }
+      );
+
+      it('should return ["0", "0"] when pointer is at "abc"',
+        function (done) {
+          var position = {line: 1, column: 5};
+          ASTManager.pathForPosition(yaml, position, function (path) {
+            expect(path).to.deep.equal(['0', '0']);
+            done();
+          });
+        }
+      );
+    });
+
+    describe('when document is an array of hashs', function () {
+      beforeEach(function () {
+        yaml = [
+                   /*
+                   0         10
+                   0123456789012345 */
+          /* 0 */ '- key: value',
+          /* 1 */ '  num: 1',
+          /* 2 */ '- name: Tesla',
+          /* 3 */ '  year: 2015'
+        ].join('\n');
+      });
+
+      it('should return empty array when pointer is at array dashs',
+        function (done) {
+          var position = {line: 0, column: 0};
+          ASTManager.pathForPosition(yaml, position, function (path) {
+            expect(path).to.deep.equal([]);
+            done();
+          });
+        }
+      );
+
+      it('should return ["0"] when pointer is at "key"',
+        function (done) {
+          var position = {line: 0, column: 3};
+          ASTManager.pathForPosition(yaml, position, function (path) {
+            expect(path).to.deep.equal(['0']);
+            done();
+          });
+        }
+      );
+
+      it('should return ["0", "key"] when pointer is at "value"',
+        function (done) {
+          var position = {line: 0, column: 9};
+          ASTManager.pathForPosition(yaml, position, function (path) {
+            expect(path).to.deep.equal(['0', 'key']);
+            done();
+          });
+        }
+      );
+
+      it('should return ["1", "year"] when pointer is at "2015"',
+        function (done) {
+          var position = {line: 3, column: 10};
+          ASTManager.pathForPosition(yaml, position, function (path) {
+            expect(path).to.deep.equal(['1', 'year']);
+            done();
+          });
+        }
+      );
     });
 
     describe('full document', function () {
@@ -58,83 +210,25 @@ describe('Service: ASTManager', function () {
           /* 7 */ '    email: me@example.com',
           /* 8 */ '                         '
         ].join('\n');
-
-        ASTManager.refresh(yaml);
       });
 
-      describe('basics', function () {
-        it('should return empty array for root elements', function () {
-          expect(ASTManager.pathForPosition(0, 0)).to.deep.equal([]);
-          expect(ASTManager.pathForPosition(1, 0)).to.deep.equal([]);
-        });
-
-        it('should return path to value when value is selected', function () {
-          expect(ASTManager.pathForPosition(0, 11)).to.deep.equal(['swagger']);
-        });
-
-        it('should return empty path at end of document row 0', function () {
-          expect(ASTManager.pathForPosition(7, 0)).to.deep.equal([]);
-        });
-
-        it('should return full path when pointer is at value', function () {
-          expect(ASTManager.pathForPosition(2, 11)).to.deep
-            .equal(['info', 'title']);
+      it('should return empty array for root elements', function (done) {
+        var position = {line: 0, column: 0};
+        ASTManager.pathForPosition(yaml, position, function (path) {
+          expect(path).to.deep.equal([]);
+          done();
         });
       });
 
-      describe('when pointer is at end of document', function () {
-        it('with 1 level of indentation returns path to parent', function () {
-          expect(ASTManager.pathForPosition(8, 2)).to.deep.equal(['info']);
-        });
-
-        it('with 2 level of indentation returns path to parent', function () {
-          expect(ASTManager.pathForPosition(8, 4)).to.deep
-            .equal(['info', 'contact']);
-        });
-
-        it('with 3 level of indentation return path to parent', function () {
-          expect(ASTManager.pathForPosition(8, 6)).to.deep
-            .equal(['info', 'contact', 'email']);
-        });
-
-        it('with 4 level of indentation does the same as 3 level', function () {
-          expect(ASTManager.pathForPosition(8, 8)).to.deep
-            .equal(['info', 'contact', 'email']);
-        });
-      });
-
-      describe('when pointer is at key with single line value', function () {
-        it('should return parent path for beginning of line', function () {
-          expect(ASTManager.pathForPosition(2, 0)).to.deep.equal([]);
-        });
-
-        it('should return parent path for beginning of key', function () {
-          expect(ASTManager.pathForPosition(2, 4)).to.deep.equal(['info']);
-        });
-
-        it('should return parent path for middle of key', function () {
-          expect(ASTManager.pathForPosition(2, 5)).to.deep.equal(['info']);
-        });
-
-        it('should return parent path for end of key', function () {
-          expect(ASTManager.pathForPosition(2, 7)).to.deep.equal(['info']);
-        });
-      });
-
-      describe('when pointer is at key with multi-line value', function () {
-        it('should return parent path for beginning of line', function () {
-          expect(ASTManager.pathForPosition(1, 0)).to.deep.equal([]);
-        });
-
-        it('should return parent path for middle of key', function () {
-          expect(ASTManager.pathForPosition(2, 5)).to.deep.equal(['info']);
-        });
-
-        it('should return parent path for middle of a deep key', function () {
-          expect(ASTManager.pathForPosition(5, 7))
-            .to.deep.equal(['info', 'contact']);
-        });
-      });
+      it('should return ["info", "contact", "email"] when pointer is at me@',
+        function (done) {
+          var position = {line: 7, column: 13};
+          ASTManager.pathForPosition(yaml, position, function (path) {
+            expect(path).to.deep.equal(['info', 'contact', 'email']);
+            done();
+          });
+        }
+      );
     });
   });
 });

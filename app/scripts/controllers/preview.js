@@ -105,9 +105,6 @@ SwaggerEditor.controller('PreviewCtrl', function PreviewCtrl(Storage, Builder,
     $scope.loadLatest();
   }
 
-  ASTManager.onFoldStatusChanged(function () {
-    _.defer(function () { $scope.$apply(); });
-  });
   $scope.isCollapsed = ASTManager.isFolded;
   $scope.isAllFolded = ASTManager.isAllFolded;
   $scope.toggle = function (path) {
