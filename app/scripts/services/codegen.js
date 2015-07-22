@@ -3,7 +3,8 @@
 /*
  * Code Generator service
 */
-SwaggerEditor.service('Codegen', function Codegen($http, defaults, Storage) {
+SwaggerEditor.service('Codegen', function Codegen($http, defaults, Storage,
+  YAML) {
   this.getServers = function () {
     return $http.get(defaults.codegen.servers).then(function (resp) {
       return resp.data;
@@ -21,9 +22,9 @@ SwaggerEditor.service('Codegen', function Codegen($http, defaults, Storage) {
     var url = defaults.codegen[type].replace('{language}', language);
 
     return Storage.load('yaml').then(function (yaml) {
-      var specs = jsyaml.load(yaml);
-
-      return $http.post(url, {spec: specs}).then(redirect);
+      YAML.load(yaml, function (error, spec) {
+        $http.post(url, {spec: spec}).then(redirect);
+      });
     });
   };
 
