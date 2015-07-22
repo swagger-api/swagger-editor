@@ -2,9 +2,7 @@
 
 SwaggerEditor.controller('HeaderCtrl', function HeaderCtrl($scope, $modal,
   $stateParams, $state, $rootScope, Storage, Builder, FileLoader, ASTManager,
-  Editor, Codegen, Preferences, defaults, strings, $localStorage) {
-
-  var YAML = new YAMLWorker();
+  Editor, Codegen, Preferences, YAML, defaults, strings, $localStorage) {
 
   if ($stateParams.path) {
     $scope.breadcrumbs  = [{ active: true, name: $stateParams.path }];

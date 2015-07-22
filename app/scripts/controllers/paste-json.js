@@ -1,7 +1,7 @@
 'use strict';
 
 SwaggerEditor.controller('PasteJSONCtrl', function PasteJSONCtrl($scope,
-  $modalInstance, $rootScope, $state, Storage, ASTManager) {
+  $modalInstance, $rootScope, $state, Storage, ASTManager, YAML) {
 
   var json;
 
@@ -28,12 +28,13 @@ SwaggerEditor.controller('PasteJSONCtrl', function PasteJSONCtrl($scope,
   };
 
   $scope.ok = function () {
-    var result = jsyaml.dump(json);
-    Storage.save('yaml', result);
-    $rootScope.editorValue = result;
-    ASTManager.refresh($rootScope.editorValue);
-    $state.go('home', {tags: null});
-    $modalInstance.close();
+    YAML.dump(json, function (error, result) {
+      Storage.save('yaml', result);
+      $rootScope.editorValue = result;
+      ASTManager.refresh($rootScope.editorValue);
+      $state.go('home', {tags: null});
+      $modalInstance.close();
+    });
   };
 
   $scope.cancel = $modalInstance.close;
