@@ -3,15 +3,18 @@
 /*
  * File loader service to load file from a URL or string
 */
-SwaggerEditor.service('FileLoader', function FileLoader($http, defaults) {
+SwaggerEditor.service('FileLoader', function FileLoader($q, $http, defaults,
+  YAML) {
 
-  /*
-   * Load a  file from URL
+  /**
+   * Load a file from URL
    *
    * @param {string} url - the URL to load from
    * @param {boolean} disableProxy - disables cors-it proxy
+   * @return {Promise} - resolves to content of the file
   */
   function loadFromUrl(url, disableProxy) {
+    var deferred = $q.defer();
 
     if (disableProxy === undefined) {
       disableProxy = false;
@@ -22,7 +25,7 @@ SwaggerEditor.service('FileLoader', function FileLoader($http, defaults) {
       url = defaults.importProxyUrl + url;
     }
 
-    return $http({
+    $http({
       method: 'GET',
       url: url,
       headers: {
@@ -30,54 +33,44 @@ SwaggerEditor.service('FileLoader', function FileLoader($http, defaults) {
       }
     }).then(function (resp) {
       if (angular.isObject(resp.data)) {
-        return jsyaml.dump(resp.data);
+        YAML.dump(resp.data, function (error, yamlString) {
+          if (error) { return deferred.reject(error); }
+
+          deferred.resolve(yamlString);
+        });
       } else {
-        return load(resp.data);
+        load(resp.data).then(deferred.resolve, deferred.reject);
       }
     });
+
+    return deferred.promise;
   }
 
-  /*
+  /**
    * takes a JSON or YAML string, returns YAML string
    *
    * @param {string} string - the JSON or YAML raw string
-   *
-   * @throws {TypeError}
+   * @return {Promise}
+   * @throws {TypeError} - resolves to a YAML string
   */
   function load(string) {
-    var jsonError, yamlError;
+    var deferred = $q.defer();
 
     if (!angular.isString(string)) {
-      throw new Error('load function only accepts a string');
+      throw new TypeError('load function only accepts a string');
     }
 
-    // Try figuring out if it's a JSON string
-    try {
-      JSON.parse(string);
-    } catch (error) {
-      jsonError = error;
-    }
+    YAML.load(string, function (error, json) {
+      if (error) { return deferred.reject(error); }
 
-    // if it's a JSON string, convert it to YAML string and return it
-    if (!jsonError) {
-      return jsyaml.dump(JSON.parse(string));
-    }
+      YAML.dump(json, function (error, yamlString) {
+        if (error) { return deferred.reject(error); }
 
-    // Try parsing the string as a YAML string  and capture the error
-    try {
-      jsyaml.load(string);
-    } catch (error) {
-      yamlError = error;
-    }
+        deferred.resolve(yamlString);
+      });
+    });
 
-    // If there was no error in parsing the string as a YAML string
-    // return the original string
-    if (!yamlError) {
-      return string;
-    }
-
-    // If it was neither JSON or YAML, throw an error
-    throw new TypeError('load function called with an invalid argument');
+    return deferred.promise;
   }
 
   // Load from Local file content (string)
