@@ -75,9 +75,6 @@ The timeout for throttling backend calls. The default is 200 milliseconds
 #### `useYamlBackend`
 Set to ``true`` if the backend expects YAML, ``false`` will use JSON
 
-##### note:
-``Storage.save()`` is only ever called with yaml so this probably does nothing if set to ``false``
-
 Analytics
 ---------
 `analytics` section in JSON configuration is used for user tracking configurations. At the moment only Google Analytics is supported.
