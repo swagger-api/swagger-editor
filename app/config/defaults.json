@@ -24,7 +24,8 @@
     "petstore_full.yaml",
     "basic-auth.yaml",
     "security.yaml",
-    "instagram.yaml"
+    "instagram.yaml",
+    "twitter.yaml"
   ],
   "autocompleteExtension": {},
   "useBackendForStorage": false,
