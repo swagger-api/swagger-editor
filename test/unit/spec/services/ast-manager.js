@@ -231,4 +231,105 @@ describe('Service: ASTManager', function () {
       );
     });
   });
+
+  describe('#positionRangeForPath', function () {
+    describe('invalid path', function () {
+      var yaml = [
+        'key: value',
+        'anotherKey: value'
+      ].join('\n');
+
+      it('return {{-1, -1}, {-1, -1}} for invalid paths', function (done) {
+        ASTManager.positionRangeForPath(yaml, ['invalid'], function (position) {
+          expect(position.start).to.deep.equal({line: -1, column: -1});
+          expect(position.end).to.deep.equal({line: -1, column: -1});
+          done();
+        });
+      });
+    });
+
+    describe('when document is a simple hash `swagger: 2.0`', function () {
+      var yaml = 'swagger: 2.0';
+
+      it('return {0,0} for start of empty array path (root)', function (done) {
+        ASTManager.positionRangeForPath(yaml, [], function (position) {
+          expect(position.start).to.deep.equal({line: 0, column: 0});
+          done();
+        });
+      });
+
+      it('return {0, 12} for end of empty array path (root)', function (done) {
+        ASTManager.positionRangeForPath(yaml, [], function (position) {
+          expect(position.end).to.deep.equal({line: 0, column: 12});
+          done();
+        });
+      });
+
+      it('return {0,9} for start of ["swagger"]', function (done) {
+        ASTManager.positionRangeForPath(yaml, ['swagger'], function (position) {
+          expect(position.start).to.deep.equal({line: 0, column: 9});
+          done();
+        });
+      });
+
+      it('return {0, 12} for end of ["swagger"]', function (done) {
+        ASTManager.positionRangeForPath(yaml, ['swagger'], function (position) {
+          expect(position.end).to.deep.equal({line: 0, column: 12});
+          done();
+        });
+      });
+    });
+
+    describe('full document', function () {
+      beforeEach(function () {
+        yaml = [
+                   /*
+                   0         10        20        30
+                   012345678901234567890123456789012345678 */
+          /* 0 */ 'swagger: "2.0"',
+          /* 1 */ 'info:',
+          /* 2 */ '  title: Test document',
+          /* 3 */ '  version: 0.0.1',
+          /* 4 */ '  contact:',
+          /* 5 */ '    name: Mohsen',
+          /* 6 */ '    url: github.com',
+          /* 7 */ '    email: me@example.com',
+          /* 8 */ '                         '
+        ].join('\n');
+      });
+
+      it('returns {2,3} for start of ["info"]',
+        function (done) {
+          ASTManager.positionRangeForPath(yaml, ['info'],
+            function (position) {
+              expect(position.start).to.deep.equal({line: 2, column: 2});
+              done();
+            }
+          );
+        }
+      );
+
+      it('returns {5,9} for start of ["info", "contact", "name"]',
+        function (done) {
+          ASTManager.positionRangeForPath(yaml, ['info', 'contact', 'name'],
+            function (position) {
+              expect(position.start).to.deep.equal({line: 5, column: 10});
+              done();
+            }
+          );
+        }
+      );
+
+      it('returns {5,14} for end of ["info", "contact", "name"]',
+        function (done) {
+          ASTManager.positionRangeForPath(yaml, ['info', 'contact', 'name'],
+            function (position) {
+              expect(position.end).to.deep.equal({line: 5, column: 16});
+              done();
+            }
+          );
+        }
+      );
+    });
+  });
 });

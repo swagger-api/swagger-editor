@@ -5,6 +5,8 @@
 */
 SwaggerEditor.service('ASTManager', function ASTManager() {
   var YAML = new YAMLWorker();
+  var MAP_TAG = 'tag:yaml.org,2002:map';
+  var SEQ_TAG = 'tag:yaml.org,2002:seq';
 
   /**
    * Get a position object with given
@@ -17,11 +19,78 @@ SwaggerEditor.service('ASTManager', function ASTManager() {
    * slash(/) in a string
    * @param  {Function} cb
    * The callback function the argument will be passed to it will be
-   * the position object with `line` and `column` properties
+   * the position object with `start` and `end` properties.
+   * `start` or `end` property values each are objects with `line` and `column`
+   * properties
    */
   function positionRangeForPath(yaml, path, cb) {
-    // TODO
-    cb({line: 0, column: 0});
+
+    // Type check
+    if (typeof yaml !== 'string') {
+      throw new TypeError('yaml should be a string');
+    }
+    if (!_.isArray(path) || !_.all(path, _.isString)) {
+      throw new TypeError('path should be an array of strings');
+    }
+    if (typeof cb !== 'function') {
+      throw new TypeError('cb should be a function.');
+    }
+
+    var invalidRange = {
+      start: {line: -1, column: -1},
+      end: {line: -1, column: -1}
+    };
+    var i = 0;
+
+    YAML.compose(yaml, function (error, ast) {
+
+      // simply walks the tree using current path recursively to the point that
+      // path is empty.
+
+      find(ast);
+
+      function find(current) {
+        if (current.tag === MAP_TAG) {
+          for (i = 0; i < current.value.length; i++) {
+            var pair = current.value[i];
+            var key = pair[0];
+            var value = pair[1];
+
+            if (key.value === path[0]) {
+              path.shift();
+              return find(value);
+            }
+          }
+        }
+
+        if (current.tag === SEQ_TAG) {
+          for (i = 0; i < current.value.length; i++) {
+            var item = current.value[i];
+
+            if (item.value === path[0]) {
+              path.shift();
+              return find(item);
+            }
+          }
+        }
+
+        // if path is still not empty we were not able to find the node
+        if (path.length) {
+          return cb(invalidRange);
+        }
+
+        return cb({
+          start: {
+            line: current.start_mark.line,
+            column: current.start_mark.column
+          },
+          end: {
+            line: current.end_mark.line,
+            column: current.end_mark.column
+          }
+        });
+      }
+    });
   }
 
   /**
@@ -47,6 +116,9 @@ SwaggerEditor.service('ASTManager', function ASTManager() {
       typeof position.column !== 'number') {
       throw new TypeError('position should be an object with line and column' +
         'properties');
+    }
+    if (typeof cb !== 'function') {
+      throw new TypeError('cb should be a function.');
     }
 
     YAML.compose(yaml, function (error, ast) {
@@ -77,8 +149,6 @@ SwaggerEditor.service('ASTManager', function ASTManager() {
         //   // find the item that position is in it's range and push the index
         //   //  of the item to the path and continue recursion with that item.
 
-        var MAP_TAG = 'tag:yaml.org,2002:map';
-        var SEQ_TAG = 'tag:yaml.org,2002:seq';
         var i = 0;
 
         /**
