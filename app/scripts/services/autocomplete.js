@@ -5,7 +5,7 @@
  * relevant completion candidates based on Swagger document.
 */
 SwaggerEditor.service('Autocomplete', function ($rootScope, snippets,
-  ASTManager, KeywordMap, Preferences) {
+  KeywordMap, Preferences) {
   var editor = null;
 
   // Ace KeywordCompleter object
@@ -107,7 +107,6 @@ SwaggerEditor.service('Autocomplete', function ($rootScope, snippets,
    *  on provided position
   */
   function filterForSnippets(pos) {
-    ASTManager.refresh($rootScope.editorValue);
 
     var path = getPathForPosition(pos);
 

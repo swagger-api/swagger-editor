@@ -127,6 +127,7 @@ SwaggerEditor.controller('ErrorPresenterCtrl', function ErrorPresenterCtrl(
     }
     if (error.path) {
       if (error.path.length) {
+        // TODO: ASTManager
         line = ASTManager.lineForPath(_.cloneDeep(error.path));
       }
     }

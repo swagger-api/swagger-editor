@@ -26,6 +26,7 @@ SwaggerEditor.service('Editor', function Editor(Autocomplete, ASTManager,
 
     if (editor && error.path) {
       if (error.path.length) {
+        // TODO: ASTManager
         row = ASTManager.lineForPath(_.cloneDeep(error.path));
       }
       editor.getSession().setAnnotations([{
@@ -58,7 +59,6 @@ SwaggerEditor.service('Editor', function Editor(Autocomplete, ASTManager,
     });
     loadEditorSettings();
 
-    ASTManager.refresh(editor.getValue());
     onFoldChanged(ASTManager.onFoldChanged);
 
     // Editor is ready, fire the on-ready function and flush the queue

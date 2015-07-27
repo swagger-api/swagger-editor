@@ -1,8 +1,8 @@
 'use strict';
 
 SwaggerEditor.controller('HeaderCtrl', function HeaderCtrl($scope, $modal,
-  $stateParams, $state, $rootScope, Storage, Builder, FileLoader, ASTManager,
-  Editor, Codegen, Preferences, YAML, defaults, strings, $localStorage) {
+  $stateParams, $state, $rootScope, Storage, Builder, FileLoader, Editor,
+  Codegen, Preferences, YAML, defaults, strings, $localStorage) {
 
   if ($stateParams.path) {
     $scope.breadcrumbs  = [{ active: true, name: $stateParams.path }];
@@ -74,7 +74,6 @@ SwaggerEditor.controller('HeaderCtrl', function HeaderCtrl($scope, $modal,
   $scope.newProject = function () {
     FileLoader.loadFromUrl('spec-files/guide.yaml').then(function (value) {
       $rootScope.editorValue = value;
-      ASTManager.refresh($rootScope.editorValue);
       Storage.save('yaml', value);
       $state.go('home', {tags: null});
     });

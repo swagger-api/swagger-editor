@@ -19,8 +19,6 @@ SwaggerEditor.controller('PreviewCtrl', function PreviewCtrl(Storage, Builder,
       return;
     }
 
-    ASTManager.refresh(latest);
-
     // If backend is not healthy don't update
     if (!BackendHealthCheck.isHealthy()) {
       return;
@@ -139,6 +137,7 @@ SwaggerEditor.controller('PreviewCtrl', function PreviewCtrl(Storage, Builder,
 
     $event.stopPropagation();
 
+    // TODO: ASTManager
     var line = ASTManager.lineForPath(path);
 
     offset = offset || 0;
