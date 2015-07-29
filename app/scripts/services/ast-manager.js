@@ -3,7 +3,7 @@
 /**
  * Exposes methods for working Abstract Syntax Tree(AST) of YAML/JSON spec
 */
-SwaggerEditor.service('ASTManager', function ASTManager() {
+SwaggerEditor.service('ASTManager', function ASTManager($q) {
   var YAML = new YAMLWorker();
   var MAP_TAG = 'tag:yaml.org,2002:map';
   var SEQ_TAG = 'tag:yaml.org,2002:seq';
@@ -218,6 +218,15 @@ SwaggerEditor.service('ASTManager', function ASTManager() {
     });
   }
 
-  this.positionRangeForPath = positionRangeForPath;
-  this.pathForPosition = pathForPosition;
+  // Expose promisified version of methods
+  this.positionRangeForPath = function positionRangeForPathPromise(yaml, path) {
+    return new Promise(function (resolve) {
+      positionRangeForPath(yaml, path, resolve);
+    });
+  };
+  this.pathForPosition = function pathForPositionPromise(yaml, position) {
+    return new Promise(function (resolve) {
+      pathForPosition(yaml, position, resolve);
+    });
+  };
 });

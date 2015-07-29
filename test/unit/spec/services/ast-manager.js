@@ -16,7 +16,8 @@ describe('Service: ASTManager', function () {
       it('returns empty array for out of range row', function (done) {
         var position = {line: 3, column: 0};
 
-        ASTManager.pathForPosition('swagger: 2.0', position, function (path) {
+        ASTManager.pathForPosition('swagger: 2.0', position)
+        .then(function (path) {
           expect(path).to.deep.equal([]);
           done();
         });
@@ -25,7 +26,8 @@ describe('Service: ASTManager', function () {
       it('returns empty array for out of range column', function (done) {
         var position = {line: 0, column: 100};
 
-        ASTManager.pathForPosition('swagger: 2.0', position, function (path) {
+        ASTManager.pathForPosition('swagger: 2.0', position)
+        .then(function (path) {
           expect(path).to.deep.equal([]);
           done();
         });
@@ -44,7 +46,7 @@ describe('Service: ASTManager', function () {
       it('should return empty array when pointer is at middle of the hash key',
         function (done) {
           var position = {line: 0, column: 3};
-          ASTManager.pathForPosition(yaml, position, function (path) {
+          ASTManager.pathForPosition(yaml, position).then(function (path) {
             expect(path).to.deep.equal([]);
             done();
           });
@@ -54,7 +56,7 @@ describe('Service: ASTManager', function () {
       it('should return ["swagger"] when pointer is at the value',
         function (done) {
           var position = {line: 0, column: 10};
-          ASTManager.pathForPosition(yaml, position, function (path) {
+          ASTManager.pathForPosition(yaml, position).then(function (path) {
             expect(path).to.deep.equal(['swagger']);
             done();
           });
@@ -76,7 +78,7 @@ describe('Service: ASTManager', function () {
       it('should return empty array when pointer is at array dashs',
         function (done) {
           var position = {line: 0, column: 0};
-          ASTManager.pathForPosition(yaml, position, function (path) {
+          ASTManager.pathForPosition(yaml, position).then(function (path) {
             expect(path).to.deep.equal([]);
             done();
           });
@@ -86,7 +88,7 @@ describe('Service: ASTManager', function () {
       it('should return ["0"] when pointer is at abc',
         function (done) {
           var position = {line: 0, column: 3};
-          ASTManager.pathForPosition(yaml, position, function (path) {
+          ASTManager.pathForPosition(yaml, position).then(function (path) {
             expect(path).to.deep.equal(['0']);
             done();
           });
@@ -96,7 +98,7 @@ describe('Service: ASTManager', function () {
       it('should return ["1"] when pointer is at def',
         function (done) {
           var position = {line: 1, column: 3};
-          ASTManager.pathForPosition(yaml, position, function (path) {
+          ASTManager.pathForPosition(yaml, position).then(function (path) {
             expect(path).to.deep.equal(['1']);
             done();
           });
@@ -122,7 +124,7 @@ describe('Service: ASTManager', function () {
       it('should return empty array when pointer is at array dashs',
         function (done) {
           var position = {line: 0, column: 0};
-          ASTManager.pathForPosition(yaml, position, function (path) {
+          ASTManager.pathForPosition(yaml, position).then(function (path) {
             expect(path).to.deep.equal([]);
             done();
           });
@@ -132,7 +134,7 @@ describe('Service: ASTManager', function () {
       it('should return ["0", "0"] when pointer is at "abc"',
         function (done) {
           var position = {line: 1, column: 5};
-          ASTManager.pathForPosition(yaml, position, function (path) {
+          ASTManager.pathForPosition(yaml, position).then(function (path) {
             expect(path).to.deep.equal(['0', '0']);
             done();
           });
@@ -156,7 +158,7 @@ describe('Service: ASTManager', function () {
       it('should return empty array when pointer is at array dashs',
         function (done) {
           var position = {line: 0, column: 0};
-          ASTManager.pathForPosition(yaml, position, function (path) {
+          ASTManager.pathForPosition(yaml, position).then(function (path) {
             expect(path).to.deep.equal([]);
             done();
           });
@@ -166,7 +168,7 @@ describe('Service: ASTManager', function () {
       it('should return ["0"] when pointer is at "key"',
         function (done) {
           var position = {line: 0, column: 3};
-          ASTManager.pathForPosition(yaml, position, function (path) {
+          ASTManager.pathForPosition(yaml, position).then(function (path) {
             expect(path).to.deep.equal(['0']);
             done();
           });
@@ -176,7 +178,7 @@ describe('Service: ASTManager', function () {
       it('should return ["0", "key"] when pointer is at "value"',
         function (done) {
           var position = {line: 0, column: 9};
-          ASTManager.pathForPosition(yaml, position, function (path) {
+          ASTManager.pathForPosition(yaml, position).then(function (path) {
             expect(path).to.deep.equal(['0', 'key']);
             done();
           });
@@ -186,7 +188,7 @@ describe('Service: ASTManager', function () {
       it('should return ["1", "year"] when pointer is at "2015"',
         function (done) {
           var position = {line: 3, column: 10};
-          ASTManager.pathForPosition(yaml, position, function (path) {
+          ASTManager.pathForPosition(yaml, position).then(function (path) {
             expect(path).to.deep.equal(['1', 'year']);
             done();
           });
@@ -214,7 +216,7 @@ describe('Service: ASTManager', function () {
 
       it('should return empty array for root elements', function (done) {
         var position = {line: 0, column: 0};
-        ASTManager.pathForPosition(yaml, position, function (path) {
+        ASTManager.pathForPosition(yaml, position).then(function (path) {
           expect(path).to.deep.equal([]);
           done();
         });
@@ -223,7 +225,7 @@ describe('Service: ASTManager', function () {
       it('should return ["info", "contact", "email"] when pointer is at me@',
         function (done) {
           var position = {line: 7, column: 13};
-          ASTManager.pathForPosition(yaml, position, function (path) {
+          ASTManager.pathForPosition(yaml, position).then(function (path) {
             expect(path).to.deep.equal(['info', 'contact', 'email']);
             done();
           });
@@ -240,7 +242,8 @@ describe('Service: ASTManager', function () {
       ].join('\n');
 
       it('return {{-1, -1}, {-1, -1}} for invalid paths', function (done) {
-        ASTManager.positionRangeForPath(yaml, ['invalid'], function (position) {
+        ASTManager.positionRangeForPath(yaml, ['invalid'])
+        .then(function (position) {
           expect(position.start).to.deep.equal({line: -1, column: -1});
           expect(position.end).to.deep.equal({line: -1, column: -1});
           done();
@@ -252,28 +255,32 @@ describe('Service: ASTManager', function () {
       var yaml = 'swagger: 2.0';
 
       it('return {0,0} for start of empty array path (root)', function (done) {
-        ASTManager.positionRangeForPath(yaml, [], function (position) {
+        ASTManager.positionRangeForPath(yaml, [])
+        .then(function (position) {
           expect(position.start).to.deep.equal({line: 0, column: 0});
           done();
         });
       });
 
       it('return {0, 12} for end of empty array path (root)', function (done) {
-        ASTManager.positionRangeForPath(yaml, [], function (position) {
+        ASTManager.positionRangeForPath(yaml, [])
+        .then(function (position) {
           expect(position.end).to.deep.equal({line: 0, column: 12});
           done();
         });
       });
 
       it('return {0,9} for start of ["swagger"]', function (done) {
-        ASTManager.positionRangeForPath(yaml, ['swagger'], function (position) {
+        ASTManager.positionRangeForPath(yaml, ['swagger'])
+        .then(function (position) {
           expect(position.start).to.deep.equal({line: 0, column: 9});
           done();
         });
       });
 
       it('return {0, 12} for end of ["swagger"]', function (done) {
-        ASTManager.positionRangeForPath(yaml, ['swagger'], function (position) {
+        ASTManager.positionRangeForPath(yaml, ['swagger'])
+        .then(function (position) {
           expect(position.end).to.deep.equal({line: 0, column: 12});
           done();
         });
@@ -300,34 +307,31 @@ describe('Service: ASTManager', function () {
 
       it('returns {2,3} for start of ["info"]',
         function (done) {
-          ASTManager.positionRangeForPath(yaml, ['info'],
-            function (position) {
-              expect(position.start).to.deep.equal({line: 2, column: 2});
-              done();
-            }
-          );
+          ASTManager.positionRangeForPath(yaml, ['info'])
+          .then(function (position) {
+            expect(position.start).to.deep.equal({line: 2, column: 2});
+            done();
+          });
         }
       );
 
       it('returns {5,9} for start of ["info", "contact", "name"]',
         function (done) {
-          ASTManager.positionRangeForPath(yaml, ['info', 'contact', 'name'],
-            function (position) {
-              expect(position.start).to.deep.equal({line: 5, column: 10});
-              done();
-            }
-          );
+          ASTManager.positionRangeForPath(yaml, ['info', 'contact', 'name'])
+          .then(function (position) {
+            expect(position.start).to.deep.equal({line: 5, column: 10});
+            done();
+          });
         }
       );
 
       it('returns {5,14} for end of ["info", "contact", "name"]',
         function (done) {
-          ASTManager.positionRangeForPath(yaml, ['info', 'contact', 'name'],
-            function (position) {
-              expect(position.end).to.deep.equal({line: 5, column: 16});
-              done();
-            }
-          );
+          ASTManager.positionRangeForPath(yaml, ['info', 'contact', 'name'])
+          .then(function (position) {
+            expect(position.end).to.deep.equal({line: 5, column: 16});
+            done();
+          });
         }
       );
     });
