@@ -1,7 +1,7 @@
 'use strict';
 
-SwaggerEditor.service('Backend', function Backend($http, $q, defaults,
-  Builder, ExternalHooks) {
+SwaggerEditor.service('Backend', function Backend($http, defaults, Builder,
+  ExternalHooks) {
   var changeListeners =  {};
   var absoluteRegex = /^(\/|http(s)?\:\/\/)/; // starts with slash or http|https
   var buffer = {};
@@ -71,13 +71,13 @@ SwaggerEditor.service('Backend', function Backend($http, $q, defaults,
   */
   function load(key) {
     if (key !== 'yaml') {
-      var deferred = $q.defer();
-      if (!key) {
-        deferred.reject();
-      } else {
-        deferred.resolve(buffer[key]);
-      }
-      return deferred.promise;
+      return new Promise(function (resolve, reject) {
+        if (!key) {
+          reject();
+        } else {
+          resolve(buffer[key]);
+        }
+      });
     }
 
     var httpConfig = {

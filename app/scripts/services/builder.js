@@ -1,6 +1,6 @@
 'use strict';
 
-SwaggerEditor.service('Builder', function Builder($q) {
+SwaggerEditor.service('Builder', function Builder() {
   var v2 = SwaggerTools.specs.v2;
   var YAML = new YAMLWorker();
 
@@ -11,70 +11,66 @@ SwaggerEditor.service('Builder', function Builder($q) {
    *  object or get rejected because of HTTP failures of external $refs
   */
   function buildDocs(stringValue) {
-    var deferred = $q.defer();
+    return new Promise(function (resolve, reject) {
 
-    // If stringVlue is empty, return emptyDocsError
-    if (!stringValue) {
-      deferred.reject({
-        specs: null,
-        errors: [{emptyDocsError: 'Empty Document Error'}]
-      });
-
-      return deferred.promise;
-    }
-
-    YAML.load(stringValue, function (error, json) {
-
-      // if jsyaml is unable to load the string value return yamlError
-      if (error) {
-        deferred.reject({
-          errors: [{yamlError: error}],
-          specs: null
+      // If stringVlue is empty, return emptyDocsError
+      if (!stringValue) {
+        return reject({
+          specs: null,
+          errors: [{emptyDocsError: 'Empty Document Error'}]
         });
-        return;
       }
 
-      // Add `title` from object key to definitions
-      // if they are missing title
-      if (json && angular.isObject(json.definitions)) {
+      YAML.load(stringValue, function (error, json) {
 
-        for (var definition in json.definitions) {
-
-          if (angular.isObject(json.definitions[definition]) &&
-              _.isEmpty(json.definitions[definition].title)) {
-
-            json.definitions[definition].title = definition;
-          }
-        }
-      }
-
-      v2.validate(json, function (validationError, validationResults) {
-        if (validationError) {
-          return deferred.reject({
-            specs: json,
-            errors: [validationError]
+        // if jsyaml is unable to load the string value return yamlError
+        if (error) {
+          return reject({
+            errors: [{yamlError: error}],
+            specs: null
           });
         }
 
-        if (validationResults && validationResults.errors &&
-          validationResults.errors.length) {
-          return deferred.reject(_.extend({specs: json}, validationResults));
+        // Add `title` from object key to definitions
+        // if they are missing title
+        if (json && angular.isObject(json.definitions)) {
+
+          for (var definition in json.definitions) {
+
+            if (angular.isObject(json.definitions[definition]) &&
+                _.isEmpty(json.definitions[definition].title)) {
+
+              json.definitions[definition].title = definition;
+            }
+          }
         }
 
-        JsonRefs.resolveRefs(json, function (resolveErrors, resolved) {
-          if (resolveErrors) {
-            return deferred.reject({
-              errors: [resolveErrors],
-              specs: json
+        v2.validate(json, function (validationError, validationResults) {
+          if (validationError) {
+            return reject({
+              specs: json,
+              errors: [validationError]
             });
           }
 
-          deferred.resolve(_.extend({specs: resolved}, validationResults));
+          if (validationResults && validationResults.errors &&
+            validationResults.errors.length) {
+            return reject(_.extend({specs: json}, validationResults));
+          }
+
+          JsonRefs.resolveRefs(json, function (resolveErrors, resolved) {
+            if (resolveErrors) {
+              return reject({
+                errors: [resolveErrors],
+                specs: json
+              });
+            }
+
+            resolve(_.extend({specs: resolved}, validationResults));
+          });
         });
       });
     });
-
-    return deferred.promise;
   }
 
   this.buildDocs = buildDocs;

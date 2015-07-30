@@ -1,6 +1,6 @@
 'use strict';
 
-SwaggerEditor.service('LocalStorage', function LocalStorage($localStorage, $q) {
+SwaggerEditor.service('LocalStorage', function LocalStorage($localStorage) {
   var storageKey = 'SwaggerEditorCache';
   var changeListeners =  {};
 
@@ -35,15 +35,13 @@ SwaggerEditor.service('LocalStorage', function LocalStorage($localStorage, $q) {
    *
   */
   function load(key) {
-    var deferred = $q.defer();
-
-    if (!key) {
-      deferred.resolve($localStorage[storageKey]);
-    } else {
-      deferred.resolve($localStorage[storageKey][key]);
-    }
-
-    return deferred.promise;
+    return new Promise(function (resolve) {
+      if (!key) {
+        resolve($localStorage[storageKey]);
+      } else {
+        resolve($localStorage[storageKey][key]);
+      }
+    });
   }
 
   /*

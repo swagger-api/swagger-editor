@@ -1,7 +1,7 @@
 'use strict';
 
 SwaggerEditor.controller('ErrorPresenterCtrl', function ErrorPresenterCtrl(
-  $scope, $rootScope, $q, Editor, ASTManager) {
+  $scope, $rootScope, Editor, ASTManager) {
   var ERROR_LEVEL = 900;
   var WARNING_LEVEL = 500;
 
@@ -23,7 +23,8 @@ SwaggerEditor.controller('ErrorPresenterCtrl', function ErrorPresenterCtrl(
   }));
 
   // Get error line number for each error and assign it to the error object
-  $q.all(errorsAndWarnings.map(getLineNumber)).then(function (lineNumbers) {
+  Promise.all(errorsAndWarnings.map(getLineNumber))
+  .then(function (lineNumbers) {
     $scope.errors = errorsAndWarnings.map(function (error, index) {
       error.lineNumber = lineNumbers[index];
       error.type = getType(error);

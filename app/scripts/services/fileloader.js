@@ -3,7 +3,7 @@
 /*
  * File loader service to load file from a URL or string
 */
-SwaggerEditor.service('FileLoader', function FileLoader($q, $http, defaults,
+SwaggerEditor.service('FileLoader', function FileLoader($http, defaults,
   YAML) {
 
   /**
@@ -14,36 +14,34 @@ SwaggerEditor.service('FileLoader', function FileLoader($q, $http, defaults,
    * @return {Promise} - resolves to content of the file
   */
   function loadFromUrl(url, disableProxy) {
-    var deferred = $q.defer();
-
-    if (disableProxy === undefined) {
-      disableProxy = false;
-    }
-
-    // Temporarily use this service to get around non-CORSable URLs
-    if (_.startsWith(url, 'http') && !disableProxy) {
-      url = defaults.importProxyUrl + url;
-    }
-
-    $http({
-      method: 'GET',
-      url: url,
-      headers: {
-        accept: 'application/x-yaml,text/yaml,application/json,*/*'
+    return new Promise(function (resolve, reject) {
+      if (disableProxy === undefined) {
+        disableProxy = false;
       }
-    }).then(function (resp) {
-      if (angular.isObject(resp.data)) {
-        YAML.dump(resp.data, function (error, yamlString) {
-          if (error) { return deferred.reject(error); }
 
-          deferred.resolve(yamlString);
-        });
-      } else {
-        load(resp.data).then(deferred.resolve, deferred.reject);
+      // Temporarily use this service to get around non-CORSable URLs
+      if (_.startsWith(url, 'http') && !disableProxy) {
+        url = defaults.importProxyUrl + url;
       }
+
+      $http({
+        method: 'GET',
+        url: url,
+        headers: {
+          accept: 'application/x-yaml,text/yaml,application/json,*/*'
+        }
+      }).then(function (resp) {
+        if (angular.isObject(resp.data)) {
+          YAML.dump(resp.data, function (error, yamlString) {
+            if (error) { return reject(error); }
+
+            resolve(yamlString);
+          });
+        } else {
+          load(resp.data).then(resolve, reject);
+        }
+      });
     });
-
-    return deferred.promise;
   }
 
   /**
@@ -54,23 +52,22 @@ SwaggerEditor.service('FileLoader', function FileLoader($q, $http, defaults,
    * @throws {TypeError} - resolves to a YAML string
   */
   function load(string) {
-    var deferred = $q.defer();
+    return new Promise(function (resolve, reject) {
+      if (!_.isString(string)) {
+        throw new TypeError('load function only accepts a string');
+      }
 
-    if (!angular.isString(string)) {
-      throw new TypeError('load function only accepts a string');
-    }
+      YAML.load(string, function (error, json) {
+        if (error) { return reject(error); }
 
-    YAML.load(string, function (error, json) {
-      if (error) { return deferred.reject(error); }
+        YAML.dump(json, function (error, yamlString) {
+          if (error) { return reject(error); }
 
-      YAML.dump(json, function (error, yamlString) {
-        if (error) { return deferred.reject(error); }
-
-        deferred.resolve(yamlString);
+          resolve(yamlString);
+        });
       });
     });
 
-    return deferred.promise;
   }
 
   // Load from Local file content (string)
