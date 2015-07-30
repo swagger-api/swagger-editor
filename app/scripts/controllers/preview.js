@@ -2,11 +2,7 @@
 
 SwaggerEditor.controller('PreviewCtrl', function PreviewCtrl(Storage, Builder,
   ASTManager, Editor, BackendHealthCheck, FocusedPath, TagManager, Preferences,
-  $scope, $rootScope, $stateParams, $sessionStorage) {
-
-  $sessionStorage.$default({securityKeys: {}});
-  var securityKeys = $sessionStorage.securityKeys;
-  var SparkMD5 = (window.SparkMD5);
+  $scope, $rootScope, $stateParams) {
 
   /**
    * Reacts to updates of YAML in storage that usually triggered by editor
@@ -33,22 +29,13 @@ SwaggerEditor.controller('PreviewCtrl', function PreviewCtrl(Storage, Builder,
    * General callback for builder results
   */
   function onBuild(result) {
-    var sortOptions = {};
-    if (angular.isString($stateParams.tags)) {
-      sortOptions.limitToTags = $stateParams.tags.split(',');
-    }
-
     refreshTags(result.specs);
 
-    $scope.specs = result.specs;
-
-    if ($scope.specs && $scope.specs.securityDefinitions) {
-      _.forEach($scope.specs.securityDefinitions, function (security, key) {
-        securityKeys[key] = SparkMD5.hash(JSON.stringify(security));
-      });
-    }
-    $scope.errors = result.errors;
-    $scope.warnings = result.warnings;
+    $scope.$apply(function () {
+      $scope.specs = result.specs;
+      $scope.errors = result.errors;
+      $scope.warnings = result.warnings;
+    });
   }
 
   /**
@@ -61,11 +48,9 @@ SwaggerEditor.controller('PreviewCtrl', function PreviewCtrl(Storage, Builder,
 
     Editor.clearAnnotation();
 
-    if (angular.isArray(result.warnings)) {
-      result.warnings.forEach(function (warning) {
-        Editor.annotateSwaggerError(warning, 'warning');
-      });
-    }
+    _.each(result.warnings, function (warning) {
+      Editor.annotateSwaggerError(warning, 'warning');
+    });
   }
 
   /**

@@ -100,7 +100,7 @@ describe('Session auth tests', function () {
     }).then(function (auth) {
       var sessionStorage = JSON.parse(auth);
       var storeAuth = JSON.parse(
-        sessionStorage['ngStorage-securityKeys']
+        sessionStorage['ngStorage-securities']
       );
 
       expect(storeAuth.hasOwnProperty('githubAccessCode'))
