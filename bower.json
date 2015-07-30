@@ -20,7 +20,8 @@
     "angular-ui-layout": "1.0.5",
     "json-schema-view": "0.4.2",
     "yaml-worker": "~1.2.0",
-    "yaml-js": "~0.1.1"
+    "yaml-js": "~0.1.1",
+    "promise-polyfill": "~2.1.0"
   },
   "overrides": {
     "ace-builds": {
