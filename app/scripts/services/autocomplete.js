@@ -64,7 +64,7 @@ SwaggerEditor.service('Autocomplete', function ($rootScope, snippets,
    * @returns {array} - a list of keywords to reach to provided position based
    *   in the YAML document
   */
-  function getPathForPosition(pos) {
+  function getPathForPosition() {
 
     // we are subtracting 2 from row.column because:
     //  1. the position object is 1 base index, but ASTManager works with 0 base
@@ -72,9 +72,11 @@ SwaggerEditor.service('Autocomplete', function ($rootScope, snippets,
     //  2. the already inserted character should not be counted for getting the
     //     position. We want the path up to node that we're editing, not the the
     //     node we're adding (if any)
-    var path = ASTManager.pathForPosition(pos.row, pos.column - 2);
 
-    return path;
+    // TODO
+    // var path = ASTManager.pathForPosition(pos.row, pos.column - 2);
+
+    return []; //path;
   }
 
   /*

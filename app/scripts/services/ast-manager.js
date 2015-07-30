@@ -3,7 +3,7 @@
 /**
  * Exposes methods for working Abstract Syntax Tree(AST) of YAML/JSON spec
 */
-SwaggerEditor.service('ASTManager', function ASTManager($q) {
+SwaggerEditor.service('ASTManager', function ASTManager() {
   var YAML = new YAMLWorker();
   var MAP_TAG = 'tag:yaml.org,2002:map';
   var SEQ_TAG = 'tag:yaml.org,2002:seq';
@@ -17,7 +17,7 @@ SwaggerEditor.service('ASTManager', function ASTManager($q) {
    * JSON Path similiar to JSON Pointers(RFC 6901). The difference is, each
    * component of path is an item of the array intead of beinf seperated with
    * slash(/) in a string
-   * @param  {Function} cb
+   * @retusns {Function} cb
    * The callback function the argument will be passed to it will be
    * the position object with `start` and `end` properties.
    * `start` or `end` property values each are objects with `line` and `column`
@@ -80,6 +80,7 @@ SwaggerEditor.service('ASTManager', function ASTManager($q) {
         }
 
         return cb({
+          /* jshint camelcase: false */
           start: {
             line: current.start_mark.line,
             column: current.start_mark.column
@@ -224,6 +225,7 @@ SwaggerEditor.service('ASTManager', function ASTManager($q) {
       positionRangeForPath(yaml, path, resolve);
     });
   };
+
   this.pathForPosition = function pathForPositionPromise(yaml, position) {
     return new Promise(function (resolve) {
       pathForPosition(yaml, position, resolve);
