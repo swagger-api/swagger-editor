@@ -11,6 +11,8 @@ SwaggerEditor.controller('ErrorPresenterCtrl', function ErrorPresenterCtrl(
     $scope.$parent.errors = [];
   }
   if (!_.isArray($scope.$parent.warnings)) {
+
+    // TODO: transfer warnings from parent controller better
     $scope.$parent.warnings = [];
   }
 
@@ -22,15 +24,19 @@ SwaggerEditor.controller('ErrorPresenterCtrl', function ErrorPresenterCtrl(
     return warning;
   }));
 
+  $scope.errors = errorsAndWarnings.map(function (error) {
+    error.type = getType(error);
+    error.description = getDescription(error);
+    return error;
+  });
+
   // Get error line number for each error and assign it to the error object
   Promise.all(errorsAndWarnings.map(getLineNumber))
   .then(function (lineNumbers) {
-    $scope.errors = errorsAndWarnings.map(function (error, index) {
+    $scope.errors.forEach(function (error, index) {
       error.lineNumber = lineNumbers[index];
-      error.type = getType(error);
-      error.description = getDescription(error);
-      return error;
     });
+    $scope.$digest();
   });
 
   /**

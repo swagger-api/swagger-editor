@@ -31,11 +31,10 @@ SwaggerEditor.controller('PreviewCtrl', function PreviewCtrl(Storage, Builder,
   function onBuild(result) {
     refreshTags(result.specs);
 
-    $scope.$apply(function () {
-      $scope.specs = result.specs;
-      $scope.errors = result.errors;
-      $scope.warnings = result.warnings;
-    });
+    $scope.specs = result.specs;
+    $scope.errors = result.errors;
+    $scope.warnings = result.warnings;
+    $scope.$digest();
   }
 
   /**
