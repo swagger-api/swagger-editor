@@ -12,7 +12,6 @@
     "bower": "^1.4.1",
     "grunt": "^0.4.5",
     "grunt-autoprefixer": "^3.0.3",
-    "grunt-bower-install": "^1.6.0",
     "grunt-cli": "^0.1.13",
     "grunt-concurrent": "^2.0.0",
     "grunt-contrib-clean": "^0.6.0",
@@ -56,6 +55,7 @@
     "karma-ng-scenario": "^0.1.0",
     "load-grunt-config": "^0.17.2",
     "main-bower-files": "^2.9.0",
+    "mocha": "^2.2.5",
     "mversion": "^1.10.0",
     "protractor": "^2.1.0",
     "time-grunt": "^1.2.1"

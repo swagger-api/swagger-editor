@@ -3,7 +3,7 @@
 module.exports = {
   bower: {
     files: ['bower.json'],
-    tasks: ['bowerInstall']
+    tasks: ['wiredep']
   },
   js: {
     files: ['app/scripts/{,*/}*.js', 'app/libs/{,*/}*.js', 'grunt/*.js'],
