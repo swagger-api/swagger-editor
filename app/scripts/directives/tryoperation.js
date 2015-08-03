@@ -855,6 +855,7 @@ SwaggerEditor.controller('TryOperation', function ($scope, formdataFilter,
   */
   $scope.isType = function (headers, type) {
     var regex = new RegExp(type);
+    headers = headers || {};
 
     return headers['Content-Type'] && regex.test(headers['Content-Type']);
   };
