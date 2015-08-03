@@ -2,7 +2,22 @@
 
 SwaggerEditor.controller('PreviewCtrl', function PreviewCtrl(Storage, Builder,
   ASTManager, Editor, BackendHealthCheck, FocusedPath, TagManager, Preferences,
-  $scope, $rootScope, $stateParams) {
+  FoldStateManager, $scope, $rootScope, $stateParams) {
+
+  $scope.loadLatest = loadLatest;
+  $scope.tagIndexFor = TagManager.tagIndexFor;
+  $scope.getAllTags = TagManager.getAllTags;
+  $scope.getCurrentTags = TagManager.getCurrentTags;
+  $scope.stateParams = $stateParams;
+  $scope.isVendorExtension = isVendorExtension;
+  $scope.showOperation = showOperation;
+  $scope.showDefinitions = showDefinitions;
+  $scope.responseCodeClassFor = responseCodeClassFor;
+  $scope.isInFocus = isInFocus;
+  $scope.focusEdit = focusEdit;
+  $scope.showPath = showPath;
+
+  Storage.addChangeListener('yaml', update);
 
   /**
    * Reacts to updates of YAML in storage that usually triggered by editor
@@ -29,8 +44,8 @@ SwaggerEditor.controller('PreviewCtrl', function PreviewCtrl(Storage, Builder,
    * General callback for builder results
   */
   function onBuild(result) {
-    refreshTags(result.specs);
 
+    TagManager.registerTagsFromSpec(result.specs);
     $scope.specs = result.specs;
     $scope.errors = result.errors;
     $scope.warnings = result.warnings;
@@ -73,38 +88,12 @@ SwaggerEditor.controller('PreviewCtrl', function PreviewCtrl(Storage, Builder,
     }
   }
 
-  Storage.addChangeListener('yaml', update);
-
-  $scope.loadLatest = function () {
-    Storage.load('yaml').then(function (latest) {
-      update(latest, true);
-    });
+  /**
+   * Loads the latest spec from editor value
+  */
+  function loadLatest() {
+    update($rootScope.editorValue, true);
     $rootScope.isDirty = false;
-  };
-
-  // If app is in preview mode, load the yaml from storage
-  if ($rootScope.mode === 'preview') {
-    $scope.loadLatest();
-  }
-
-  $scope.isCollapsed = ASTManager.isFolded;
-  $scope.isAllFolded = ASTManager.isAllFolded;
-  $scope.toggle = function (path) {
-    ASTManager.toggleFold(path, Editor);
-  };
-  $scope.toggleAll = function (path) {
-    ASTManager.setFoldAll(path, true, Editor);
-  };
-
-  $scope.tagIndexFor = TagManager.tagIndexFor;
-  $scope.getAllTags = TagManager.getAllTags;
-  $scope.getCurrentTags = TagManager.getCurrentTags;
-  $scope.stateParams = $stateParams;
-
-  function refreshTags(specs) {
-    if (angular.isObject(specs)) {
-      TagManager.registerTagsFromSpecs(specs);
-    }
   }
 
   /**
@@ -112,7 +101,7 @@ SwaggerEditor.controller('PreviewCtrl', function PreviewCtrl(Storage, Builder,
    * @param {AngularEvent} $event - angular event
    * @param {array} path - an array of keys into specs structure
   */
-  $scope.focusEdit = function ($event, path) {
+  function focusEdit($event, path) {
 
     $event.stopPropagation();
 
@@ -122,25 +111,16 @@ SwaggerEditor.controller('PreviewCtrl', function PreviewCtrl(Storage, Builder,
       Editor.focus();
     });
 
-  };
+  }
 
   /**
    * Returns true if operation is the operation in focus
    * in the editor
    * @returns {boolean}
   */
-  $scope.isInFocus = function (path) {
+  function isInFocus(path) {
     return !!path; //FocusedPath.isInFocus(path);
-  };
-
-  /**
-   * get a subpath for edit
-   * @param  {string} pathName
-   * @return {string} edit path
-   */
-  $scope.getEditPath = function (pathName) {
-    return '#/paths?path=' + window.encodeURIComponent(pathName);
-  };
+  }
 
   /**
    * Response CSS class for an HTTP response code
@@ -149,7 +129,7 @@ SwaggerEditor.controller('PreviewCtrl', function PreviewCtrl(Storage, Builder,
    *
    * @returns {string} - CSS class to be applied to the response code HTML tag
   */
-  $scope.responseCodeClassFor = function (code) {
+  function responseCodeClassFor(code) {
     var result = 'default';
     switch (Math.floor(+code / 100)) {
       case 2:
@@ -163,9 +143,12 @@ SwaggerEditor.controller('PreviewCtrl', function PreviewCtrl(Storage, Builder,
         break;
       case 3:
         result = 'blue';
+        break;
+      default:
+        result = '';
     }
     return result;
-  };
+  }
 
   /**
    * Determines if a key is a vendor extension key
@@ -179,8 +162,6 @@ SwaggerEditor.controller('PreviewCtrl', function PreviewCtrl(Storage, Builder,
     return _.startsWith(key, 'x-');
   }
 
-  $scope.isVendorExtension = isVendorExtension;
-
   /**
    * Determines if we should render the definitions sections
    *
@@ -189,9 +170,9 @@ SwaggerEditor.controller('PreviewCtrl', function PreviewCtrl(Storage, Builder,
    * @return {boolean} - true if definitions object should be rendered, false
    *  otherwise
   */
-  $scope.showDefinitions = function (definitions) {
+  function showDefinitions(definitions) {
     return angular.isObject(definitions);
-  };
+  }
 
   /**
    * Determines if an operation should be shown or not
@@ -219,20 +200,17 @@ SwaggerEditor.controller('PreviewCtrl', function PreviewCtrl(Storage, Builder,
       _.intersection(TagManager.getCurrentTags(), operation.tags).length;
   }
 
-  $scope.showOperation = showOperation;
-
   /**
    * Determines if apath should be shown or not
    * @param  {object} path     the path object
    * @param  {string} pathName the path name in paths hash
    * @return {boolean}         true if the path should be shown
    */
-  $scope.showPath = function (path, pathName) {
+  function showPath(path, pathName) {
     if (isVendorExtension(pathName)) {
       return false;
     }
 
     return _.some(path, showOperation);
-
-  };
+  }
 });

@@ -3,8 +3,8 @@
 SwaggerEditor.service('Editor', function Editor(Autocomplete, ASTManager,
   LocalStorage, defaults, $interval) {
   var editor = null;
-  var onReadyFns = [];
-  var changeFoldFns = [];
+  var onReadyFns = new Set();
+  var changeFoldFns = new Set();
   var that = this;
   var editorOptions = defaults.editorOptions || {};
   var defaultTheme = editorOptions.theme || 'ace/theme/atom_dark';
@@ -65,7 +65,7 @@ SwaggerEditor.service('Editor', function Editor(Autocomplete, ASTManager,
     onReadyFns.forEach(function (fn) {
       fn(that);
     });
-    onReadyFns = [];
+    onReadyFns = new Set();
 
     var session = editor.getSession();
 
@@ -103,7 +103,7 @@ SwaggerEditor.service('Editor', function Editor(Autocomplete, ASTManager,
 
   function ready(fn) {
     if (angular.isFunction(fn)) {
-      onReadyFns.push(fn);
+      onReadyFns.add(fn);
     }
   }
 
@@ -122,7 +122,9 @@ SwaggerEditor.service('Editor', function Editor(Autocomplete, ASTManager,
   }
 
   function onFoldChanged(fn) {
-    changeFoldFns.push(fn);
+    if (_.isFunction(fn)) {
+      changeFoldFns.add(fn);
+    }
   }
 
   function addFold(start, end) {
