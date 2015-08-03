@@ -778,7 +778,7 @@ SwaggerEditor.controller('TryOperation', function ($scope, formdataFilter,
 
     $.ajax({
       url: $scope.generateUrl(),
-      type: $scope.operation.operationName,
+      type: $scope.operationName,
       headers: _.omit($scope.getHeaders(), omitHeaders),
       data: $scope.getRequestBody(),
       contentType: $scope.contentType
