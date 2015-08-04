@@ -20,7 +20,7 @@ RUN     npm install -g bower grunt-cli
 
 ADD     bower.json      /runtime/bower.json
 ADD     .bowerrc        /runtime/.bowerrc
-RUN     bower --allow-root install
+RUN     bower --allow-root --force-latest install
 
 ADD     .   /runtime
 RUN 	grunt build
