@@ -16,6 +16,7 @@ SwaggerEditor.controller('PreviewCtrl', function PreviewCtrl(Storage, Builder,
   $scope.isInFocus = isInFocus;
   $scope.focusEdit = focusEdit;
   $scope.showPath = showPath;
+  $scope.foldEditor = FoldStateManager.foldEditor;
 
   Storage.addChangeListener('yaml', update);
 

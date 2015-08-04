@@ -116,7 +116,7 @@ SwaggerEditor.service('ASTManager', function ASTManager() {
     if (typeof position !== 'object' || typeof position.line !== 'number' ||
       typeof position.column !== 'number') {
       throw new TypeError('position should be an object with line and column' +
-        'properties');
+        ' properties');
     }
     if (typeof cb !== 'function') {
       throw new TypeError('cb should be a function.');

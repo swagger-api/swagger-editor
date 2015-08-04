@@ -59,8 +59,6 @@ SwaggerEditor.service('Editor', function Editor(Autocomplete, ASTManager,
     });
     loadEditorSettings();
 
-    onFoldChanged(ASTManager.onFoldChanged);
-
     // Editor is ready, fire the on-ready function and flush the queue
     onReadyFns.forEach(function (fn) {
       fn(that);
@@ -90,10 +88,9 @@ SwaggerEditor.service('Editor', function Editor(Autocomplete, ASTManager,
     }
   }
 
-  function onChangeFold() {
-    var args = arguments;
+  function onChangeFold(event) {
     changeFoldFns.forEach(function (fn) {
-      fn.apply(editor, args);
+      fn.call(null, event);
     });
   }
 
@@ -133,12 +130,9 @@ SwaggerEditor.service('Editor', function Editor(Autocomplete, ASTManager,
     }
   }
 
-  function removeFold(start) {
-    // TODO: Depth of unfolding is hard-coded to 100 but we need
-    // to have depth as a parameter and/or having smarter way of
-    // handling subfolds
+  function removeFold(start, end) {
     if (editor) {
-      editor.getSession().unfold(start, 100);
+      editor.getSession().unfold(editor.getSession().getFoldAt(start, end));
     }
   }
 

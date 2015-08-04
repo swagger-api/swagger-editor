@@ -11,14 +11,16 @@
 
   <header ng-if="!!specs.info && !error.yamlError">
     <h3 class="section-header">
-      <a ng-click="toggle(['paths'])">Paths</a>
-      <span class="on-hover">
+      <a ng-click="
+        specs.paths.$folded = !specs.paths.$folded;
+        foldEditor(['paths'], specs.paths.$folded);">Paths</a>
+      <!-- <span class="on-hover">
         <a ng-click="toggleAll(['paths'])" ng-hide="isAllFolded(['paths'])">List all paths</a>
-      </span>
+      </span> -->
     </h3>
   </header>
 
-  <ul class="paths" ng-if="!error.yamlError" collapse-when="isCollapsed(['paths'])">
+  <ul class="paths" ng-if="!error.yamlError" collapse-when="specs.paths.$folded">
     <swagger-path
       ng-repeat="(pathName, path) in specs.paths"
       ng-if="showPath(path, pathName)">
@@ -27,7 +29,10 @@
 
   <header ng-if="specs.definitions">
     <h3 class="section-header">
-      <a ng-click="toggle(['definitions'])">Models</a>
+      <a ng-click="
+        specs.definitions.$folded = !specs.definitions.$folded;
+        foldEditor(['definitions'], specs.definitions.$folded);
+      ">Models</a>
       <span class="on-hover">
         <a
           ng-click="toggleAll(['definitions'])"
@@ -39,7 +44,7 @@
    <ul
      class="section-content definitions"
      ng-if="showDefinitions(specs.definitions)"
-     collapse-when="isCollapsed(['definitions'])"
+     collapse-when="specs.definitions.$folded"
      class="models">
 
       <li
