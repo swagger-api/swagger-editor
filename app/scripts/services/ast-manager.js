@@ -29,7 +29,7 @@ SwaggerEditor.service('ASTManager', function ASTManager() {
     if (typeof yaml !== 'string') {
       throw new TypeError('yaml should be a string');
     }
-    if (!_.isArray(path) || !_.all(path, _.isString)) {
+    if (!_.isArray(path)) {
       throw new TypeError('path should be an array of strings');
     }
     if (typeof cb !== 'function') {
