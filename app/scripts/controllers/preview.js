@@ -223,10 +223,17 @@ SwaggerEditor.controller('PreviewCtrl', function PreviewCtrl(Storage, Builder,
     });
   }
 
+  /**
+   * Folds all definitions regardless of their current fold status
+   *
+  */
   function listAllDefnitions() {
     _.each($scope.specs.definitions, function (definition, definitionName) {
-      definition.$folded = true;
-      FoldStateManager.foldEditor(['definitions', definitionName], true);
+
+      if (_.isObject(definition)) {
+        definition.$folded = true;
+        FoldStateManager.foldEditor(['definitions', definitionName], true);
+      }
     });
   }
 });
