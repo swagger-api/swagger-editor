@@ -47,9 +47,9 @@ SwaggerEditor.controller('PreviewCtrl', function PreviewCtrl(Storage, Builder,
   function onBuild(result) {
 
     TagManager.registerTagsFromSpec(result.specs);
-    $scope.specs = result.specs;
-    $scope.errors = result.errors;
-    $scope.warnings = result.warnings;
+    $rootScope.specs = result.specs;
+    $rootScope.errors = result.errors || [];
+    $rootScope.warnings = result.warnings || [];
     $scope.$digest();
   }
 
@@ -58,7 +58,6 @@ SwaggerEditor.controller('PreviewCtrl', function PreviewCtrl(Storage, Builder,
   */
   function onBuildSuccess(result) {
     onBuild(result);
-    $scope.errors = null;
     Storage.save('progress',  'success-process');
 
     Editor.clearAnnotation();
@@ -131,24 +130,13 @@ SwaggerEditor.controller('PreviewCtrl', function PreviewCtrl(Storage, Builder,
    * @returns {string} - CSS class to be applied to the response code HTML tag
   */
   function responseCodeClassFor(code) {
-    var result = 'default';
-    switch (Math.floor(+code / 100)) {
-      case 2:
-        result = 'green';
-        break;
-      case 5:
-        result = 'red';
-        break;
-      case 4:
-        result = 'yellow';
-        break;
-      case 3:
-        result = 'blue';
-        break;
-      default:
-        result = '';
-    }
-    return result;
+    var colors = {
+      2: 'green',
+      3: 'blue',
+      4: 'yellow',
+      5: 'red'
+    };
+    return colors[Math.floor(+code / 100)] || 'default';
   }
 
   /**

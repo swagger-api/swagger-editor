@@ -1,15 +1,25 @@
 'use strict';
 
 /**
- * Manages fold state of nodes in the YAML
+ * Manages fold state of nodes in the YAML and preview pane
+ * The state of the folds are kept in $rootScope.specs itself.
 */
 SwaggerEditor.service('FoldStateManager', function FoldStateManager(ASTManager,
   Editor, $rootScope) {
 
+  Editor.onFoldChanged(foldChangedInEditor);
+  this.foldEditor = foldEditor;
+
   /**
+   * Adds or removes a fold in Ace editor with given path
+   *
+   * @param {array<string>} path - a list of keys to reach to the node that
+   * needs to be folded/unfolded
+   *
+   * @param {boolean} fold - true to fold the node and false to unfold it
    *
   */
-  this.foldEditor = function foldEditor(path, fold) {
+  function foldEditor(path, fold) {
     ASTManager.positionRangeForPath($rootScope.editorValue, path)
     .then(function (range) {
 
@@ -21,9 +31,19 @@ SwaggerEditor.service('FoldStateManager', function FoldStateManager(ASTManager,
         Editor.removeFold(range.start.line - 1, range.end.line - 1);
       }
     });
-  };
+  }
 
-  Editor.onFoldChanged(function foldChangedInEditor(event) {
+  /**
+   * Responder to fold change events in Ace editor
+   *
+   * @param {object} event - Ace editor's fold change event. It has a data
+   * object that includes the location of the fold and an action property that
+   * describes the type of event(fold or unfold)
+   *
+  */
+  function foldChangedInEditor(event) {
+
+    // Editor API is 0-indexed. Because of this we're adding 1 to line numbers
     var position = {
       line: event.data.start.row + 1,
       column: event.data.start.column + 1
@@ -31,15 +51,16 @@ SwaggerEditor.service('FoldStateManager', function FoldStateManager(ASTManager,
 
     ASTManager.pathForPosition($rootScope.editorValue, position)
     .then(function (path) {
-      if (event.action === 'add') {
-        // TODO
-        console.log(path);
-      }
+      var $folded = event.action === 'add';
 
-      if (event.action === 'remove') {
-        // TODO
-        console.log(path);
+      // walk down the tree to reach to our specific node in spec
+      var current = $rootScope.specs;
+      while (path.length && _.isObject(current)) {
+        current = current[path.shift()];
       }
+      current.$folded = !!$folded;
+
+      $rootScope.$apply();
     });
-  });
+  }
 });

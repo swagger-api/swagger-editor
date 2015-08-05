@@ -1,28 +1,34 @@
-<li class="path">
-  <header ng-click="$parent.toggle(['paths', pathName])">
-    <h2>
-      <a>{{pathName}}</a>
-    </h2>
-    <span class="on-hover">
-      <a
-        ng-click="toggleAll(['paths', pathName])"
-        ng-hide="isAllFolded(['paths', pathName]) || isCollapsed(['paths', pathName])"
-        stop-event>
-        List all operations
-      </a>
-    </span>
-    <a
-      class="jump-to-yaml"
-      ng-click="focusEdit($event, ['paths', pathName])"
-      tooltip-placement="left"
-      tooltip="Jump to YAML"
-      tooltip-trigger="mouseenter">
-    </a>
-  </header>
-  <ul class='operations' collapse-when="$parent.isCollapsed(['paths', pathName])">
-    <swagger-operation
-      ng-repeat="(operationName, operation) in path"
-      ng-if="showOperation(operation, operationName)">
-    </swagger-operation>
-  </ul>
-</li>
+
+<header ng-click="
+    path.$folded = !path.$folded;
+    foldEditor(['paths', pathName], path.$folded)">
+
+  <h2>
+    <a>{{pathName}}</a>
+  </h2>
+
+  <span class="on-hover">
+    <!-- <a
+      ng-click="toggleAll(['paths', pathName])"
+      ng-hide="isAllFolded(['paths', pathName]) || isCollapsed(['paths', pathName])"
+      stop-event>
+      List all operations
+    </a> -->
+  </span>
+
+  <a
+    class="jump-to-yaml"
+    ng-click="focusEdit($event, ['paths', pathName])"
+    tooltip-placement="left"
+    tooltip="Jump to YAML"
+    tooltip-trigger="mouseenter">
+  </a>
+</header>
+
+<ul class='operations' collapse-when="path.$folded">
+  <swagger-operation
+    ng-repeat="(operationName, operation) in path"
+    ng-if="showOperation(operation, operationName)">
+  </swagger-operation>
+</ul>
+

@@ -7,19 +7,10 @@ SwaggerEditor.controller('ErrorPresenterCtrl', function ErrorPresenterCtrl(
 
   $scope.isCollapsed = false;
 
-  if (!_.isArray($scope.$parent.errors)) {
-    $scope.$parent.errors = [];
-  }
-  if (!_.isArray($scope.$parent.warnings)) {
-
-    // TODO: transfer warnings from parent controller better
-    $scope.$parent.warnings = [];
-  }
-
-  var errorsAndWarnings = $scope.$parent.errors.map(function (error) {
+  var errorsAndWarnings = $rootScope.errors.map(function (error) {
     error.level = ERROR_LEVEL;
     return error;
-  }).concat($scope.$parent.warnings.map(function (warning) {
+  }).concat($rootScope.warnings.map(function (warning) {
     warning.level = WARNING_LEVEL;
     return warning;
   }));
