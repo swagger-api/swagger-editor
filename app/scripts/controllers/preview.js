@@ -17,6 +17,7 @@ SwaggerEditor.controller('PreviewCtrl', function PreviewCtrl(Storage, Builder,
   $scope.focusEdit = focusEdit;
   $scope.showPath = showPath;
   $scope.foldEditor = FoldStateManager.foldEditor;
+  $scope.listAllOperation = listAllOperation;
 
   Storage.addChangeListener('yaml', update);
 
@@ -201,5 +202,23 @@ SwaggerEditor.controller('PreviewCtrl', function PreviewCtrl(Storage, Builder,
     }
 
     return _.some(path, showOperation);
+  }
+
+  /**
+   * Folds all operation regardless of their current fold status
+   *
+  */
+  function listAllOperation() {
+    _.each($scope.specs.paths, function (path, pathName) {
+      if (_.isObject(path)) {
+        _.each(path, function (operation, operationName) {
+          if (_.isObject(operation)) {
+            operation.$folded = true;
+            FoldStateManager
+              .foldEditor(['paths', pathName, operationName], true);
+          }
+        });
+      }
+    });
   }
 });
