@@ -49,9 +49,7 @@
         foldEditor(['definitions'], specs.definitions.$folded);
       ">Models</a>
       <span class="on-hover">
-        <a
-          ng-click="toggleAll(['definitions'])"
-          ng-hide="isAllFolded(['definitions'])">List all models</a>
+        <a ng-click="listAllDefnitions()">List all models</a>
       </span>
     </h3>
   </header>
@@ -69,15 +67,17 @@
         scroll-into-view-when="isInFocus(['definitions', modelName])">
         <h4>
           <a
-            ng-click="toggle(['definitions', modelName])"
+            ng-click="
+              model.$folded = !model.$folded;
+              foldEditor(['definitions', modelName], model.$folded)
+            "
             class="definition-title">
             {{modelName}}
           </a>
         </h4>
-        <schema-model
-          schema="model"
-          collapse-when="isCollapsed(['definitions', modelName])">
-        </schema-model>
+        <div collapse-when="model.$folded">
+          <schema-model schema="model"></schema-model>
+        </div>
       </li>
     </ul>
 </div>

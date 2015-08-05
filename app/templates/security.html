@@ -1,11 +1,14 @@
 <div class="security" ng-controller="SecurityCtrl">
   <header>
     <h3 class="section-header">
-      <a ng-click="toggle(['security'])">Security</a>
+      <a ng-click="
+        specs.securityDefinitions.$folded = !specs.securityDefinitions.$folded;
+        foldEditor(['securityDefinitions'], specs.securityDefinitions.$folded);
+      ">Security</a>
     </h3>
   </header>
 
-  <div class="security-definitions" collapse-when="isCollapsed(['security'])">
+  <div class="security-definitions" collapse-when="specs.securityDefinitions.$folded">
     <div ng-repeat="(securityDefinitionName, securityDefinition) in specs.securityDefinitions" class="security-definition {{securityDefinition.type}}">
       <header>
         <h4>

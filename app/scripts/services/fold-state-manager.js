@@ -58,9 +58,11 @@ SwaggerEditor.service('FoldStateManager', function FoldStateManager(ASTManager,
       while (path.length && _.isObject(current)) {
         current = current[path.shift()];
       }
-      current.$folded = !!$folded;
 
-      $rootScope.$apply();
+      if (_.isObject(current)) {
+        current.$folded = !!$folded;
+        $rootScope.$apply();
+      }
     });
   }
 });

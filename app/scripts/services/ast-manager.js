@@ -46,7 +46,6 @@ SwaggerEditor.service('ASTManager', function ASTManager() {
 
       // simply walks the tree using current path recursively to the point that
       // path is empty.
-
       find(ast);
 
       function find(current) {
