@@ -11,7 +11,7 @@ describe('Rendering', function () {
     ['File Menu', '[ng-if="showFileMenu()"]'],
     ['Preview Pane', '.preview-wrapper'],
     ['Info Container', '.info-container'],
-    ['Paths', '[ng-if="!!specs.info && !error.yamlError"]'],
+    ['Paths', '.preview-wrapper ul.paths'],
     ['At least a path', '.path'],
     ['At least an operation', '.operation'],
     ['At least a parameter', '.params'],
