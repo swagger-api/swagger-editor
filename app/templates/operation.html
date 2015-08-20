@@ -2,7 +2,10 @@
   class='{{operationName | lowercase}} operation'
   scroll-into-view-when="isInFocus(['paths', pathName, operationName])">
 
-  <header ng-click="toggle(['paths', pathName, operationName])">
+  <header ng-click="
+      operation.$folded = !operation.$folded;
+      foldEditor(['paths', pathName, operationName], operation.$folded)
+    ">
     <a
       class="focus-editor"
       ng-click="focusEdit($event, ['paths', pathName, operationName])"
@@ -19,7 +22,7 @@
     <div class="deprecated" ng-if="operation.deprecated">Deprecated</div>
   </header>
 
-  <div class='content' collapse-when="isCollapsed(['paths', pathName, operationName])">
+  <div class='content' collapse-when="operation.$folded">
     <div class="tags">
       <span
         class="tag tag-color-{{tagIndexFor(tag)}}"
@@ -61,7 +64,7 @@
                       operationName,
                       'parameters',
                       $index
-                    ], -1)"
+                    ])"
                   tooltip-placement="top"
                   tooltip="Jump to YAML"
                   tooltip-trigger="mouseenter">

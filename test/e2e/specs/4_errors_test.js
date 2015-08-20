@@ -21,14 +21,18 @@ describe('Error Presenter', function () {
 
   it('should show YAML syntax error with invalid YAML', function () {
     setValue('invalid:1\n  yaml:');
-    browser.sleep(1200);
+
+    browser.wait(function () {
+      return $('.error-presenter').isPresent();
+    }, 3000);
+
     expect($('.error-presenter').isPresent()).toBe(true);
     expect($('.error-header h4').getText()).toContain('1 Error');
     expect($('.error-presenter .item h5').getText())
       .toContain('YAML Syntax Error');
   });
 
-  it('should show Swagger Syntax Erorr with invalid swagger', function () {
+  it('should show Swagger Syntax Error with invalid swagger', function () {
     var val = [
       'swagger: 2.0.0',
       'info:',
@@ -42,7 +46,11 @@ describe('Error Presenter', function () {
     ].join('\n');
 
     setValue(val);
-    browser.sleep(1200);
+
+    browser.wait(function () {
+      return $('.error-presenter').isPresent();
+    }, 3000);
+
     expect($('.error-presenter').isPresent()).toBe(true);
     expect($('.error-header h4').getText()).toContain('1 Error');
     expect($('.error-presenter .item h5').getText())
@@ -66,7 +74,11 @@ describe('Error Presenter', function () {
       ].join('\n');
 
       setValue(val);
-      browser.sleep(1200);
+
+      browser.wait(function () {
+        return $('.error-presenter').isPresent();
+      }, 3000);
+
       expect($('.error-presenter').isPresent()).toBe(true);
       expect($('.error-header h4').getText()).toContain('1 Warning');
     }

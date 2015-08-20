@@ -76,7 +76,7 @@ SwaggerEditor.controller('MainCtrl', function MainCtrl(
   // on reader success load the string
   fileReader.onloadend = function () {
     if (fileReader.result) {
-      assign(FileLoader.load(fileReader.result));
+      FileLoader.load(fileReader.result).then(assign);
     }
   };
 });
