@@ -6,7 +6,11 @@
 
   <section class="menu-bar">
     <div class="file dropdown" ng-if="showFileMenu()">
-      <button class="btn btn-default dropdown-toggle" ng-click="assignDownloadHrefs()" data-toggle="dropdown" id="fileMenu">
+      <button
+        class="btn btn-default dropdown-toggle"
+        ng-click="onFileMenuOpen()"
+        data-toggle="dropdown"
+        id="fileMenu">
         <span>File</span>
         <span class="caret"></span>
       </button>

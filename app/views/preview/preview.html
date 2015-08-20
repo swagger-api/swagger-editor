@@ -20,6 +20,7 @@
 
   <ul class="paths" ng-if="!error.yamlError" collapse-when="isCollapsed(['paths'])">
     <swagger-path
+      viewport-watch
       ng-repeat="(pathName, path) in specs.paths"
       ng-if="showPath(path, pathName)">
     </swagger-path>
@@ -44,6 +45,7 @@
 
       <li
         class="definition"
+        viewport-watch
         ng-repeat="(modelName, model) in specs.definitions"
         ng-if="!isVendorExtension(modelName)"
         scroll-into-view-when="isInFocus(['definitions', modelName])">

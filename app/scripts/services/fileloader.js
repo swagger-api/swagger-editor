@@ -3,7 +3,8 @@
 /*
  * File loader service to load file from a URL or string
 */
-SwaggerEditor.service('FileLoader', function FileLoader($http, defaults) {
+SwaggerEditor.service('FileLoader', function FileLoader($http, $rootScope,
+  defaults) {
 
   /*
    * Load a  file from URL

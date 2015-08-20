@@ -44,6 +44,8 @@ SwaggerEditor.controller('PreviewCtrl', function PreviewCtrl(Storage, Builder,
 
     $scope.specs = result.specs;
 
+    $scope.$broadcast('toggleWatchers', true);  //turn watchers back on
+
     if ($scope.specs && $scope.specs.securityDefinitions) {
       _.forEach($scope.specs.securityDefinitions, function (security, key) {
         securityKeys[key] = SparkMD5.hash(JSON.stringify(security));
