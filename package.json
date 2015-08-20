@@ -38,7 +38,7 @@
     "grunt-rev": "^0.1.0",
     "grunt-shell": "^1.1.2",
     "grunt-svgmin": "^2.0.1",
-    "grunt-usemin": "^3.0.0",
+    "grunt-usemin": "3.0.0",
     "grunt-wiredep": "^2.0.0",
     "http-server": "^0.8.0",
     "jasmine-core": "^2.3.4",
