@@ -26,8 +26,7 @@ describe('Try Operation', function () {
 
   it('renders the form for "limit" parameter', function () {
     expect(
-      $('.try-container input[name="root[parameters][limit]"]')
-        .isPresent()
+      $('.try-container input[name="root[parameters][limit]"]').isPresent()
     ).toBe(true);
   });
 

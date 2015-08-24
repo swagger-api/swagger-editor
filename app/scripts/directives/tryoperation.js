@@ -197,7 +197,7 @@ SwaggerEditor.controller('TryOperation', function ($scope, formdataFilter,
     var model = {
 
       // Add first scheme as default scheme
-      scheme: [walkToProperty('schemes')[0]],
+      scheme: walkToProperty('schemes')[0],
 
       // Default Accept header is the first one
       accept: walkToProperty('produces')[0]
