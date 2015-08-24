@@ -92,6 +92,11 @@ describe('Session auth tests', function () {
 
     setValue(swyaml);
 
+    browser.executeAsyncScript(function (done) {
+      window.sessionStorage.clear();
+      done();
+    });
+
     browser.sleep(3000);
 
     browser.executeAsyncScript(function (done) {

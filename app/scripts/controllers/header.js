@@ -80,10 +80,10 @@ SwaggerEditor.controller('HeaderCtrl', function HeaderCtrl($scope, $modal,
     });
   };
 
-  $scope.onFileMenuOpen = function() {
+  $scope.onFileMenuOpen = function () {
     assignDownloadHrefs();
-    $rootScope.$broadcast('toggleWatchers', false)
-  }
+    $rootScope.$broadcast('toggleWatchers', false);
+  };
 
   $scope.openImportFile = function () {
     $modal.open({
