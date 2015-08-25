@@ -2,17 +2,11 @@
 
 SwaggerEditor.controller('MainCtrl', function MainCtrl(
   $scope, $rootScope, $stateParams, $location,
-  Editor, Storage, FileLoader, BackendHealthCheck, Analytics, defaults) {
+  Editor, Storage, FileLoader, Analytics, defaults) {
 
   Analytics.initialize();
 
   $rootScope.$on('$stateChangeStart', Editor.initializeEditor);
-
-  // if backendHealthCheckTimeout is less than zero, it means it is disabled.
-  if (defaults.backendHealthCheckTimeout > 0) {
-    BackendHealthCheck.startChecking();
-  }
-
   $rootScope.$on('$stateChangeStart', loadYaml);
 
   // TODO: find a better way to add the branding class (grunt html template)

@@ -22,7 +22,6 @@ SwaggerEditor.config(function ($provide) {
     autocompleteExtension: {},
     useBackendForStorage: false,
     backendEndpoint: '/editor/spec',
-    backendHealthCheckTimeout: 5000,
     useYamlBackend: false,
     disableFileMenu: false,
     headerBranding: false,

@@ -63,12 +63,6 @@ and `PUT` for saving it.
 #### `useBackendForStorage`
 Set to ``true`` to enable a backend.
 
-#### `backendHealthCheckTimeout`
-Timeout in millseconds of the http request to healthchecks the backend. Set it to `-1` to disable backend health check completely.
-
-##### note:
-This healthcheck is actually hitting location.href, not the url specified by backendEndpoint
-
 #### `backendThrottle`
 The timeout for throttling backend calls. The default is 200 milliseconds
 

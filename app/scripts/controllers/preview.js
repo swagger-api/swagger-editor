@@ -1,7 +1,7 @@
 'use strict';
 
 SwaggerEditor.controller('PreviewCtrl', function PreviewCtrl(Storage, Builder,
-  ASTManager, Editor, BackendHealthCheck, FocusedPath, TagManager, Preferences,
+  ASTManager, Editor, FocusedPath, TagManager, Preferences,
   $scope, $rootScope, $stateParams, $sessionStorage) {
 
   $sessionStorage.$default({securityKeys: {}});
@@ -20,11 +20,6 @@ SwaggerEditor.controller('PreviewCtrl', function PreviewCtrl(Storage, Builder,
     }
 
     ASTManager.refresh(latest);
-
-    // If backend is not healthy don't update
-    if (!BackendHealthCheck.isHealthy()) {
-      return;
-    }
 
     // Error can come in success callback, because of recursive promises
     // So we install same handler for error and success

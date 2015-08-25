@@ -32,7 +32,6 @@
   "backendThrottle": 200,
   "keyPressDebounceTime": 200,
   "backendEndpoint": "/editor/spec",
-  "backendHealthCheckTimeout": 5000,
   "useYamlBackend": false,
   "disableFileMenu": false,
   "headerBranding": false,
