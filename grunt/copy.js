@@ -51,7 +51,8 @@ module.exports = {
       'ext-settings_menu.js',
       'ext-language_tools.js',
       'ext-searchbox.js',
-      'mode-yaml.js'
+      'mode-yaml.js',
+      'mode-json.js'
     ],
   }
 };
