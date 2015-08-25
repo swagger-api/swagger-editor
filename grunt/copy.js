@@ -2,7 +2,14 @@
 
 module.exports = {
   dist: {
-    files: [{
+    files: [
+    {
+      expand: true,
+      cwd: 'app/images',
+      src: '{,*/}*.{png,jpg,jpeg,gif}',
+      dest: 'dist/images'
+    },
+    {
       expand: true,
       dot: true,
       cwd: 'app',
