@@ -31,12 +31,13 @@ paths:
           description: year
           type: string
   /test-path/{id}:
+    parameters:
+      - name: id
+        in: path
+        description: ID
+        type: string
+        required: true
     get:
-      parameters:
-        - name: id
-          in: path
-          description: ID
-          type: string
       responses:
         200:
           description: Echo test-path
