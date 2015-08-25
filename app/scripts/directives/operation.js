@@ -71,7 +71,7 @@ SwaggerEditor.directive('swaggerOperation', function (defaults) {
       */
       $scope.hasAResponseWithSchema = function (responses) {
         return _.keys(responses).some(function (responseCode) {
-          return responses[responseCode].schema;
+          return responses[responseCode] && responses[responseCode].schema;
         });
       };
 
@@ -84,7 +84,7 @@ SwaggerEditor.directive('swaggerOperation', function (defaults) {
       */
       $scope.hasAResponseWithHeaders = function (responses) {
         return _.keys(responses).some(function (responseCode) {
-          return responses[responseCode].headers;
+          return responses[responseCode] && responses[responseCode].headers;
         });
       };
     }
