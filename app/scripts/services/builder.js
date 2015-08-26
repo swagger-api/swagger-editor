@@ -2,6 +2,7 @@
 
 SwaggerEditor.service('Builder', function Builder($q) {
   var load = _.memoize(jsyaml.load);
+  var worker = new Worker('bower_components/sway-worker/index.js');
 
   /**
    * Build spec docs from a string value
@@ -50,28 +51,14 @@ SwaggerEditor.service('Builder', function Builder($q) {
       }
     }
 
-    SwaggerApi.create({definition: json})
-      .then(function (api) {
-
-        if (!api.validate()) {
-          return deferred.reject({
-            specs: api,
-            errors: api.getLastErrors(),
-            warnings: api.getLastWarnings()
-          });
-        }
-
-        deferred.resolve({
-          specs: api,
-          warnings: api.getLastWarnings()
-        });
-      })
-      .catch(function (err) {
-        deferred.reject({
-          specs: json,
-          errors: [err]
-        });
-      });
+    worker.postMessage(json);
+    worker.onmessage = function(message) {
+      if (message.data.errors.length) {
+        deferred.reject(message.data);
+      } else {
+        deferred.resolve(message.data);
+      }
+    };
 
     return deferred.promise;
   }
