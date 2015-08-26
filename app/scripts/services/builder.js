@@ -55,25 +55,15 @@ SwaggerEditor.service('Builder', function Builder($q) {
 
         if (!api.validate()) {
           return deferred.reject({
-            specs: json,
+            specs: api,
             errors: api.getLastErrors(),
             warnings: api.getLastWarnings()
           });
         }
 
-        JsonRefs.resolveRefs(json, function (resolveErrors, resolved) {
-          if (resolveErrors) {
-            return deferred.reject({
-              errors: [resolveErrors],
-              warnings: api.getLastWarnings(),
-              specs: json
-            });
-          }
-
-          deferred.resolve({
-            specs: resolved,
-            warnings: api.getLastWarnings()
-          });
+        deferred.resolve({
+          specs: api,
+          warnings: api.getLastWarnings()
         });
       })
       .catch(function (err) {
