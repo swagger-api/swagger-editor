@@ -6,7 +6,7 @@ SwaggerEditor.controller('PreviewCtrl', function PreviewCtrl(Storage, Builder,
 
   $sessionStorage.$default({securityKeys: {}});
   var securityKeys = $sessionStorage.securityKeys;
-  var SparkMD5 = (window.SparkMD5);
+  var build = _.memoize(Builder.buildDocs);
 
   /**
    * Reacts to updates of YAML in storage that usually triggered by editor
@@ -23,7 +23,7 @@ SwaggerEditor.controller('PreviewCtrl', function PreviewCtrl(Storage, Builder,
 
     // Error can come in success callback, because of recursive promises
     // So we install same handler for error and success
-    Builder.buildDocs(latest).then(onBuildSuccess, onBuildFailure);
+    build(latest).then(onBuildSuccess, onBuildFailure);
   }
 
   /**
