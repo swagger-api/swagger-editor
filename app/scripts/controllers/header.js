@@ -11,7 +11,7 @@ SwaggerEditor.controller('HeaderCtrl', function HeaderCtrl($scope, $modal,
   }
 
   // var statusTimeout;
-  Storage.addChangeListener('progress', function (progressStatus) {
+  $rootScope.$watch('progressStatus', function (progressStatus) {
     var status = strings.stausMessages[progressStatus];
     var statusClass = null;
 

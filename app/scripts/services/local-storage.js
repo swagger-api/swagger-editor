@@ -1,6 +1,7 @@
 'use strict';
 
-SwaggerEditor.service('LocalStorage', function LocalStorage($localStorage, $q) {
+SwaggerEditor.service('LocalStorage', function LocalStorage($localStorage, $q,
+  $rootScope) {
   var storageKey = 'SwaggerEditorCache';
   var changeListeners =  {};
 
@@ -26,7 +27,7 @@ SwaggerEditor.service('LocalStorage', function LocalStorage($localStorage, $q) {
       });
 
       if (key === 'yaml') {
-        save('progress', 'success-saved');
+        $rootScope.progressStatus = 'success-saved';
       }
     }, 100)();
   }

@@ -15,7 +15,7 @@ SwaggerEditor.controller('PreviewCtrl', function PreviewCtrl(Storage, Builder,
   function update(latest, force) {
     if (!Preferences.get('liveRender') && !force && $scope.specs) {
       $rootScope.isDirty = true;
-      Storage.save('progress',  'progress-unsaved');
+      $rootScope.progressStatus = 'progress-unsaved';
       return;
     }
 
@@ -56,7 +56,7 @@ SwaggerEditor.controller('PreviewCtrl', function PreviewCtrl(Storage, Builder,
   function onBuildSuccess(result) {
     onBuild(result);
     $scope.errors = null;
-    Storage.save('progress',  'success-process');
+    $rootScope.progressStatus = 'success-process';
 
     Editor.clearAnnotation();
 
@@ -76,15 +76,15 @@ SwaggerEditor.controller('PreviewCtrl', function PreviewCtrl(Storage, Builder,
     if (angular.isArray(result.errors)) {
       if (result.errors[0].yamlError) {
         Editor.annotateYAMLErrors(result.errors[0].yamlError);
-        Storage.save('progress', 'error-yaml');
+        $rootScope.progressStatus = 'error-yaml';
       } else if (result.errors.length) {
-        Storage.save('progress', 'error-swagger');
+        $rootScope.progressStatus = 'error-swagger';
         result.errors.forEach(Editor.annotateSwaggerError);
       } else {
-        Storage.save('progress', 'error-general');
+        $rootScope.progressStatus = 'progress';
       }
     } else {
-      Storage.save('progress', 'error-general');
+      $rootScope.progressStatus = 'error-general';
     }
   }
 

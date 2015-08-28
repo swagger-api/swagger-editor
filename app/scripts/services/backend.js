@@ -1,7 +1,7 @@
 'use strict';
 
 SwaggerEditor.service('Backend', function Backend($http, $q, defaults,
-  Builder, ExternalHooks) {
+  $rootScope, Builder, ExternalHooks) {
   var changeListeners =  {};
   var absoluteRegex = /^(\/|http(s)?\:\/\/)/; // starts with slash or http|https
   var buffer = {};
@@ -36,10 +36,10 @@ SwaggerEditor.service('Backend', function Backend($http, $q, defaults,
       $http.put(backendEndpoint, data)
         .then(function success() {
           ExternalHooks.trigger('put-success', [].slice.call(arguments));
-          save('progress', 'success-saved');
+          $rootScope.progressStatus = 'success-saved';
         }, function failure() {
           ExternalHooks.trigger('put-failure', [].slice.call(arguments));
-          save('progress', 'error-connection');
+          $rootScope.progressStatus = 'error-connection';
         });
     }
   }
