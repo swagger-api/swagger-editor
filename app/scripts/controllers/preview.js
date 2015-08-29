@@ -88,7 +88,9 @@ SwaggerEditor.controller('PreviewCtrl', function PreviewCtrl(Storage, Builder,
     }
   }
 
-  Storage.addChangeListener('yaml', update);
+  $rootScope.$watch('editorValue', update);
+
+  // Storage.addChangeListener('yaml', update);
 
   $scope.loadLatest = function () {
     Storage.load('yaml').then(function (latest) {

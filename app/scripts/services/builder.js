@@ -1,8 +1,7 @@
 'use strict';
 
-SwaggerEditor.service('Builder', function Builder($q) {
+SwaggerEditor.service('Builder', function Builder($q, SwayWorker) {
   var load = _.memoize(jsyaml.load);
-  var worker = new Worker('bower_components/sway-worker/index.js');
 
   /**
    * Build spec docs from a string value
@@ -51,14 +50,13 @@ SwaggerEditor.service('Builder', function Builder($q) {
       }
     }
 
-    worker.postMessage(json);
-    worker.onmessage = function(message) {
-      if (message.data.errors.length) {
-        deferred.reject(message.data);
+    SwayWorker.run(json, function (data) {
+      if (data.errors.length) {
+        deferred.reject(data);
       } else {
-        deferred.resolve(message.data);
+        deferred.resolve(data);
       }
-    };
+    });
 
     return deferred.promise;
   }
