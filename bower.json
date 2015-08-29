@@ -22,7 +22,7 @@
     "ngstorage": "~0.3.4",
     "schema-form": "~0.1.4",
     "sway": "~0.2.0",
-    "sway-worker": "*",
+    "sway-worker": "~1.2.0",
     "yaml-js": "0.1.1"
   },
   "overrides": {
