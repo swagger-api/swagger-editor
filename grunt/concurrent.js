@@ -9,7 +9,6 @@ module.exports = {
   ],
   dist: [
     'copy:ace',
-    'copy:styles',
-    'svgmin'
+    'copy:styles'
   ]
 };
