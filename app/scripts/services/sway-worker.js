@@ -56,7 +56,9 @@ SwaggerEditor.service('SwayWorker', function SwayWorker() {
    * @param {Message} a web worker message
   */
   function onMessage(message) {
-    currentTask.cb(message.data);
+    if (currentTask) {
+      currentTask.cb(message.data);
+    }
     currentTask = null;
     enqueue();
   }
@@ -69,7 +71,11 @@ SwaggerEditor.service('SwayWorker', function SwayWorker() {
    * @throws {Error}
   */
   function onError(message) {
-    throw message.error;
+    if (currentTask) {
+      currentTask.cb(message.data);
+    }
+    currentTask = null;
+    enqueue();
   }
 
   // expose only the schedule method
