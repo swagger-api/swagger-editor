@@ -197,7 +197,7 @@ SwaggerEditor.controller('TryOperation', function ($scope, formdataFilter,
     var model = {
 
       // Add first scheme as default scheme
-      scheme: [walkToProperty('schemes')[0]],
+      scheme: walkToProperty('schemes')[0],
 
       // Default Accept header is the first one
       accept: walkToProperty('produces')[0]
@@ -205,7 +205,7 @@ SwaggerEditor.controller('TryOperation', function ($scope, formdataFilter,
 
     // if there is security options add the security property
     if (securityOptions.length) {
-      model.security = [securityOptions[0]];
+      model.security = securityOptions;
     }
 
     // Add Content-Type header only if this operation has a body parameter
@@ -336,20 +336,20 @@ SwaggerEditor.controller('TryOperation', function ($scope, formdataFilter,
 
     // operation level securities
     if (Array.isArray($scope.operation.security)) {
-      securityOptions = securityOptions.concat(
-        $scope.operation.security.map(function (security) {
-          return Object.keys(security)[0];
-        })
-      );
+      $scope.operation.security.map(function (security) {
+        Object.keys(security).forEach(function (key) {
+          securityOptions = securityOptions.concat(key);
+        });
+      });
     }
 
     // root level securities
     if (Array.isArray($scope.specs.security)) {
-      securityOptions = securityOptions.concat(
-        $scope.specs.security.map(function (security) {
-          return Object.keys(security)[0];
-        })
-      );
+      $scope.specs.security.map(function (security) {
+        Object.keys(security).forEach(function (key) {
+          securityOptions = securityOptions.concat(key);
+        });
+      });
     }
 
     return _.unique(securityOptions).filter(function (security) {
@@ -518,7 +518,7 @@ SwaggerEditor.controller('TryOperation', function ($scope, formdataFilter,
       $.param(queryParams, isCollectionQueryParam));
 
     // fill in path parameter values inside the path
-    pathStr = $scope.path.pathName.replace(pathParamRegex,
+    pathStr = $scope.pathName.replace(pathParamRegex,
 
       // a simple replace method where it uses the available path parameter
       // value to replace the path parameter or leave it as it is if path
@@ -778,7 +778,7 @@ SwaggerEditor.controller('TryOperation', function ($scope, formdataFilter,
 
     $.ajax({
       url: $scope.generateUrl(),
-      type: $scope.operation.operationName,
+      type: $scope.operationName,
       headers: _.omit($scope.getHeaders(), omitHeaders),
       data: $scope.getRequestBody(),
       contentType: $scope.contentType
@@ -855,6 +855,7 @@ SwaggerEditor.controller('TryOperation', function ($scope, formdataFilter,
   */
   $scope.isType = function (headers, type) {
     var regex = new RegExp(type);
+    headers = headers || {};
 
     return headers['Content-Type'] && regex.test(headers['Content-Type']);
   };

@@ -18,6 +18,7 @@
     <!-- bower:js -->
     <script src="./bower_components/es5-shim/es5-shim.js"></script>
     <script src="./bower_components/jquery/dist/jquery.js"></script>
+    <script src="./bower_components/SparkMD5/spark-md5.js"></script>
     <script src="./bower_components/angular/angular.js"></script>
     <script src="./bower_components/angular-bootstrap/ui-bootstrap-tpls.js"></script>
     <script src="./bower_components/marked/lib/marked.js"></script>
@@ -27,29 +28,28 @@
     <script src="./bower_components/ace-builds/src-noconflict/mode-yaml.js"></script>
     <script src="./bower_components/ace-builds/src-noconflict/ext-language_tools.js"></script>
     <script src="./bower_components/angular-ui-ace/ui-ace.js"></script>
-    <script src="./bower_components/angular-ui-router/release/angular-ui-router.js"></script>
-    <script src="./bower_components/bootstrap/dist/js/bootstrap.js"></script>
-    <script src="./bower_components/js-yaml/dist/js-yaml.js"></script>
-    <script src="./bower_components/ngstorage/ngStorage.js"></script>
-    <script src="./bower_components/yaml-js/yaml.js"></script>
-    <script src="./bower_components/async/lib/async.js"></script>
-    <script src="./bower_components/traverse/traverse.js"></script>
-    <script src="./bower_components/lodash-compat/lodash.js"></script>
-    <script src="./bower_components/path-loader/browser/path-loader.js"></script>
-    <script src="./bower_components/json-refs/browser/json-refs.js"></script>
-    <script src="./bower_components/spark-md5/spark-md5.js"></script>
-    <script src="./bower_components/swagger-converter/browser.js"></script>
-    <script src="./bower_components/z-schema/dist/ZSchema-browser-min.js"></script>
-    <script src="./bower_components/visionmedia-debug/dist/debug.js"></script>
-    <script src="./bower_components/swagger-tools/browser/swagger-tools.js"></script>
-    <script src="./bower_components/lodash/lodash.js"></script>
-    <script src="./bower_components/json-editor/dist/jsoneditor.js"></script>
-    <script src="./bower_components/schema-form/dist/schema-form.js"></script>
-    <script src="./bower_components/ng-file-upload/ng-file-upload.js"></script>
-    <script src="./bower_components/json-formatter/dist/json-formatter.js"></script>
     <script src="./bower_components/raf/index.js"></script>
     <script src="./bower_components/angular-ui-layout/ui-layout.js"></script>
+    <script src="./bower_components/angular-ui-router/release/angular-ui-router.js"></script>
+    <script src="./bower_components/scrollMonitor/scrollMonitor.js"></script>
+    <script src="./bower_components/angular-viewport-watch/angular-viewport-watch.js"></script>
+    <script src="./bower_components/bootstrap/dist/js/bootstrap.js"></script>
+    <script src="./bower_components/js-yaml/dist/js-yaml.js"></script>
+    <script src="./bower_components/json-formatter/dist/json-formatter.js"></script>
     <script src="./bower_components/json-schema-view/dist/json-schema-view.js"></script>
+    <script src="./bower_components/lodash/lodash.js"></script>
+    <script src="./bower_components/ng-file-upload/ng-file-upload.js"></script>
+    <script src="./bower_components/ngstorage/ngStorage.js"></script>
+    <script src="./bower_components/json-editor/dist/jsoneditor.js"></script>
+    <script src="./bower_components/schema-form/dist/schema-form.js"></script>
+    <script src="./bower_components/traverse/traverse.js"></script>
+    <script src="./bower_components/path-loader/browser/path-loader.js"></script>
+    <script src="./bower_components/json-refs/browser/json-refs.js"></script>
+    <script src="./bower_components/visionmedia-debug/dist/debug.js"></script>
+    <script src="./bower_components/z-schema/dist/ZSchema-browser-min.js"></script>
+    <script src="./bower_components/js-base64/base64.js"></script>
+    <script src="./bower_components/sway/browser/sway.js"></script>
+    <script src="./bower_components/yaml-js/yaml.js"></script>
     <!-- endbower -->
     <!-- endbuild -->
 
@@ -86,14 +86,12 @@
     <script src="./scripts/enums/strings.js"></script>
     <script src="./scripts/filters/formdata.js"></script>
     <script src="./scripts/directives/tryoperation.js"></script>
-    <script src="./scripts/services/sorter.js"></script>
     <script src="./scripts/services/tag-manager.js"></script>
     <script src="./scripts/services/autocomplete.js"></script>
     <script src="./scripts/services/fileloader.js"></script>
     <script src="./scripts/services/editor.js"></script>
     <script src="./scripts/services/builder.js"></script>
     <script src="./scripts/services/ast-manager.js"></script>
-    <script src="./scripts/services/backend-health-check.js"></script>
     <script src="./scripts/services/codegen.js"></script>
     <script src="./scripts/services/focused-path.js"></script>
     <script src="./scripts/services/storage.js"></script>
@@ -104,6 +102,7 @@
     <script src="./scripts/services/auth-manager.js"></script>
     <script src="./scripts/services/analytics.js"></script>
     <script src="./scripts/services/external-hooks.js"></script>
+    <script src="./scripts/services/sway-worker.js"></script>
     <script src="./scripts/router.js"></script>
     <script src="./scripts/plugins/jquery.scroll-into-view.js"></script>
     <!-- endbuild -->

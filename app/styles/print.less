@@ -11,12 +11,20 @@
   // This list includes elements that user interact with it.
   .main-header,
   .ui-splitbar,
+  .editor.pane,
   .root.tags {
     display: none;
   }
 
-  main.preveiw-mode.preview-wrapper {
+  .preview.pane,
+  main,
+  main > div {
+    width: 100% !important;
     top: 0;
-    position: static;
+    position: static !important;
+  }
+
+  li.operation {
+    page-break-inside: avoid;
   }
 }

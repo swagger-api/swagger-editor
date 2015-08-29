@@ -2,7 +2,14 @@
 
 module.exports = {
   dist: {
-    files: [{
+    files: [
+    {
+      expand: true,
+      cwd: 'app/images',
+      src: '{,*/}*.{png,jpg,jpeg,gif}',
+      dest: 'dist/images'
+    },
+    {
       expand: true,
       dot: true,
       cwd: 'app',
@@ -12,7 +19,7 @@ module.exports = {
         '.htaccess',
         '*.html',
         'config/defaults.json',
-        'images/{,*/}*.{webp}',
+        'images/{,*/}*.{webp,svg,png}',
         'views/{,*/}*.html',
         'templates/{,*/}*.html',
         'fonts/*',
@@ -51,7 +58,8 @@ module.exports = {
       'ext-settings_menu.js',
       'ext-language_tools.js',
       'ext-searchbox.js',
-      'mode-yaml.js'
+      'mode-yaml.js',
+      'mode-json.js'
     ],
   }
 };

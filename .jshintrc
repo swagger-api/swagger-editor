@@ -27,6 +27,7 @@
     "$": false,
     "_": false,
     "SwaggerEditor": false,
-    "SwaggerTools": false
+    "SwaggerApi": false,
+    "SparkMD5": false
   }
 }

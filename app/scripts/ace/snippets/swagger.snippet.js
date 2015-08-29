@@ -162,6 +162,7 @@ SwaggerEditor.config(function ($provide) {
       content: [
         '- name: ${1:parameter_name}',
         '  in: ${2:path}',
+        '  required: true',
         '  description: ${3:description}',
         '  type: ${4:string}',
         '${5}'

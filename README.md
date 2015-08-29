@@ -12,6 +12,18 @@ Valid Swagger JSON descriptions can then be generated and used with the full Swa
 
 #### Running Locally
 
+[**Download the latest release (v2.9.6)**](https://github.com/swagger-api/swagger-editor/releases/download/v2.9.6/swagger-editor.zip) and serve the static files via your HTTP server. If you don't have an HTTP server, you can use [`http-server`](https://www.npmjs.com/package/http-server) Node.js module.
+
+###### Using `http-server` module:
+```shell
+npm install -g http-server
+wget https://github.com/swagger-api/swagger-editor/releases/download/v2.9.6/swagger-editor.zip
+unzip swagger-editor.zip
+http-server dist
+```
+
+#### Building From Source
+
 Make sure you have [Node.js](http://nodejs.org/) installed. 
 
 ```shell

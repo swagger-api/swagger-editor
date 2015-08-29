@@ -18,6 +18,9 @@
       <h4>Terms of service</h4>
       <p ng-bind-html="specs.info.termsOfService | linky:'_blank'"></p>
     </div>
+    <div class="external-docs" ng-if="specs.externalDocs">
+      <a href="{{specs.externalDocs.url}}" marked="specs.externalDocs.description"></a>
+    </div>
     <div ng-if="specs.info.license" class="license info-box">
       <h4>License</h4>
       <p ng-if="!specs.info.license.url">{{specs.info.license.name}}</p>

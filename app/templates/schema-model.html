@@ -1,13 +1,3 @@
 <table class="schema-model" ng-class="{hidden: !schema}">
-  <tr>
-    <td>
-      <a class="toggle" ng-click="mode = mode == 'model' ? 'json' : 'model'" title="Switch to {{mode == 'model' ? 'json' : 'model'}}">⇄</a>
-    </td>
-    <td class="json animate-if" ng-if="mode === 'json'" >
-      <json-formatter json="json" open="1"></json-formatter>
-    </td>
-    <td class="model animate-if" ng-if="mode === 'model'">
-      <json-schema-view schema="json" open="0"></json-schema-view>
-    </td>
-  </tr>
+
 </table>

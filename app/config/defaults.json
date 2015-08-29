@@ -24,14 +24,14 @@
     "petstore_full.yaml",
     "basic-auth.yaml",
     "security.yaml",
-    "instagram.yaml"
+    "instagram.yaml",
+    "twitter.yaml"
   ],
   "autocompleteExtension": {},
   "useBackendForStorage": false,
   "backendThrottle": 200,
   "keyPressDebounceTime": 200,
   "backendEndpoint": "/editor/spec",
-  "backendHealthCheckTimeout": 5000,
   "useYamlBackend": false,
   "disableFileMenu": false,
   "headerBranding": false,

@@ -11,7 +11,7 @@ SwaggerEditor.controller('HeaderCtrl', function HeaderCtrl($scope, $modal,
   }
 
   // var statusTimeout;
-  Storage.addChangeListener('progress', function (progressStatus) {
+  $rootScope.$watch('progressStatus', function (progressStatus) {
     var status = strings.stausMessages[progressStatus];
     var statusClass = null;
 
@@ -80,7 +80,10 @@ SwaggerEditor.controller('HeaderCtrl', function HeaderCtrl($scope, $modal,
     });
   };
 
-  $scope.assignDownloadHrefs = assignDownloadHrefs;
+  $scope.onFileMenuOpen = function () {
+    assignDownloadHrefs();
+    $rootScope.$broadcast('toggleWatchers', false);
+  };
 
   $scope.openImportFile = function () {
     $modal.open({
@@ -200,6 +203,8 @@ SwaggerEditor.controller('HeaderCtrl', function HeaderCtrl($scope, $modal,
       android: 'Android',
       'async-scala': 'Async Scala',
       csharp: 'C#',
+      CsharpDotNet2: 'C# .NET 2.0',
+      qt5cpp: 'Qt 5 C++',
       java: 'Java',
       objc: 'Objective-C',
       php: 'PHP',

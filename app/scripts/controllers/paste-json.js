@@ -16,14 +16,14 @@ SwaggerEditor.controller('PasteJSONCtrl', function PasteJSONCtrl($scope,
       return;
     }
 
-    SwaggerTools.specs.v2.validate(json, function (error, result) {
+    SwaggerApi.create({definition: json}).then(function (api) {
       $scope.canImport = true;
       $scope.error = null;
 
-      if (result && result.errors) {
-        $scope.error = result.errors;
-        return;
+      if (!api.validate()) {
+        $scope.error = api.getLastErrors()[0];
       }
+      $scope.$digest();
     });
   };
 
