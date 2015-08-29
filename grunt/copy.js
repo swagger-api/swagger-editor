@@ -19,7 +19,7 @@ module.exports = {
         '.htaccess',
         '*.html',
         'config/defaults.json',
-        'images/{,*/}*.{webp}',
+        'images/{,*/}*.{webp,svg,png}',
         'views/{,*/}*.html',
         'templates/{,*/}*.html',
         'fonts/*',
