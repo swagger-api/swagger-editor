@@ -13,6 +13,14 @@ function setValue(value) {
 }
 
 describe('Session auth tests', function () {
+
+  beforeEach(function () {
+    browser.executeAsyncScript(function (done) {
+      window.sessionStorage.clear();
+      done();
+    });
+  });
+
   it('Should find the sessionStorage', function () {
     var swyaml = [
         'swagger: \'2.0\'',
@@ -92,30 +100,23 @@ describe('Session auth tests', function () {
 
     setValue(swyaml);
 
-    browser.executeAsyncScript(function (done) {
-      window.sessionStorage.clear();
-      done();
-    });
-
-    browser.sleep(3000);
+    browser.wait(function () {
+      return browser.executeScript(function () {
+        return window.sessionStorage['ngStorage-securityKeys'];
+      });
+    }, 5000);
 
     browser.executeAsyncScript(function (done) {
       var auth = JSON.stringify(window.sessionStorage);
       done(auth);
     }).then(function (auth) {
       var sessionStorage = JSON.parse(auth);
-      var storeAuth = JSON.parse(
-        sessionStorage['ngStorage-securityKeys']
-      );
+      var storeAuth = JSON.parse(sessionStorage['ngStorage-securityKeys']);
 
-      expect(storeAuth.hasOwnProperty('githubAccessCode'))
-      .toEqual(true);
-      expect(storeAuth.hasOwnProperty('petstoreImplicit'))
-      .toEqual(true);
-      expect(storeAuth.hasOwnProperty('internalApiKey'))
-      .toEqual(true);
-      expect(storeAuth.hasOwnProperty('anynotfound'))
-      .toEqual(false);
+      expect(storeAuth.hasOwnProperty('githubAccessCode')).toEqual(true);
+      expect(storeAuth.hasOwnProperty('petstoreImplicit')).toEqual(true);
+      expect(storeAuth.hasOwnProperty('internalApiKey')).toEqual(true);
+      expect(storeAuth.hasOwnProperty('anynotfound')).toEqual(false);
     });
   });
 });
