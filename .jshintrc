@@ -28,6 +28,8 @@
     "_": false,
     "SwaggerEditor": false,
     "SwaggerApi": false,
-    "SparkMD5": false
+    "SparkMD5": false,
+    "JSONFormatter": false,
+    "JSONSchemaView": false
   }
 }

@@ -1,3 +1,15 @@
 <table class="schema-model" ng-class="{hidden: !schema}">
+  <tr>
+    <td>
+      <a
+        class="toggle"
+        ng-click="switchMode()"
+        title="Switch to {{mode == 'schema' ? 'json' : 'schema'}}">
 
+        ⇄
+      </a>
+    </td>
+    <td class="view"></td>
+  </tr>
 </table>
+
