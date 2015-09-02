@@ -16,7 +16,7 @@
     "jquery": "~2.1.4",
     "js-yaml": "~3.3.1",
     "json-formatter-js": "~0.2.0",
-    "json-schema-view-js": "~0.1.0",
+    "json-schema-view-js": "~0.1.1",
     "lodash": "~3.10.0",
     "ng-file-upload": "~5.0.3",
     "ngstorage": "~0.3.4",
@@ -35,6 +35,12 @@
       "main": [
         "less/bootstrap.less",
         "dist/js/bootstrap.js"
+      ]
+    },
+    "json-schema-view-js": {
+      "main": [
+        "dist/bundle.min.js",
+        "dist/style.css"
       ]
     }
   },
