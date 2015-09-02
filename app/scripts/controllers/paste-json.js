@@ -1,7 +1,7 @@
 'use strict';
 
 SwaggerEditor.controller('PasteJSONCtrl', function PasteJSONCtrl($scope,
-  $modalInstance, $rootScope, $state, Storage, ASTManager) {
+  $modalInstance, $rootScope, $state, Storage, ASTManager, SwayWorker) {
 
   var json;
 
@@ -16,13 +16,14 @@ SwaggerEditor.controller('PasteJSONCtrl', function PasteJSONCtrl($scope,
       return;
     }
 
-    SwaggerApi.create({definition: json}).then(function (api) {
+    SwayWorker.run(json, function (data) {
       $scope.canImport = true;
       $scope.error = null;
 
-      if (!api.validate()) {
-        $scope.error = api.getLastErrors()[0];
+      if (data.errors.length) {
+        $scope.error = data.errors[0];
       }
+
       $scope.$digest();
     });
   };

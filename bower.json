@@ -21,7 +21,6 @@
     "ng-file-upload": "~5.0.3",
     "ngstorage": "~0.3.4",
     "schema-form": "~0.1.4",
-    "sway": "~0.2.0",
     "yaml-js": "0.1.1"
   },
   "overrides": {
