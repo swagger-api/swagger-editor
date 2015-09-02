@@ -32,8 +32,15 @@ SwaggerEditor.service('Backend', function Backend($http, $q, defaults,
 
     save('progress', 'progress-saving');
 
+    var httpConfig = {
+      headers: {
+        'content-type': defaults.useYamlBackend ?
+          'application/yaml; charset=utf-8' : 'application/json; charset=utf-8'
+      }
+    };
+
     if (!result.error) {
-      $http.put(backendEndpoint, data)
+      $http.put(backendEndpoint, data, httpConfig)
         .then(function success() {
           ExternalHooks.trigger('put-success', [].slice.call(arguments));
           $rootScope.progressStatus = 'success-saved';
@@ -84,7 +91,6 @@ SwaggerEditor.service('Backend', function Backend($http, $q, defaults,
       headers: {
         accept: defaults.useYamlBackend ?
           'application/yaml; charset=utf-8' : 'application/json; charset=utf-8'
-
       }
     };
 
