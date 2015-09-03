@@ -3,8 +3,8 @@
 SwaggerEditor.service('Editor', function Editor(Autocomplete, ASTManager,
   LocalStorage, defaults, $interval) {
   var editor = null;
-  var onReadyFns = [];
-  var changeFoldFns = [];
+  var onReadyFns = new Set();
+  var changeFoldFns = new Set();
   var that = this;
   var editorOptions = defaults.editorOptions || {};
   var defaultTheme = editorOptions.theme || 'ace/theme/atom_dark';
@@ -24,8 +24,9 @@ SwaggerEditor.service('Editor', function Editor(Autocomplete, ASTManager,
     var row = 0;
     var column = 0;
 
-    if (editor && error.path) {
+    if (false && editor && error.path) {
       if (error.path.length) {
+        // TODO: ASTManager
         row = ASTManager.lineForPath(_.cloneDeep(error.path));
       }
       editor.getSession().setAnnotations([{
@@ -58,14 +59,11 @@ SwaggerEditor.service('Editor', function Editor(Autocomplete, ASTManager,
     });
     loadEditorSettings();
 
-    ASTManager.refresh(editor.getValue());
-    onFoldChanged(ASTManager.onFoldChanged);
-
     // Editor is ready, fire the on-ready function and flush the queue
     onReadyFns.forEach(function (fn) {
       fn(that);
     });
-    onReadyFns = [];
+    onReadyFns = new Set();
 
     var session = editor.getSession();
 
@@ -90,10 +88,9 @@ SwaggerEditor.service('Editor', function Editor(Autocomplete, ASTManager,
     }
   }
 
-  function onChangeFold() {
-    var args = arguments;
+  function onChangeFold(event) {
     changeFoldFns.forEach(function (fn) {
-      fn.apply(editor, args);
+      fn.call(null, event);
     });
   }
 
@@ -103,7 +100,7 @@ SwaggerEditor.service('Editor', function Editor(Autocomplete, ASTManager,
 
   function ready(fn) {
     if (angular.isFunction(fn)) {
-      onReadyFns.push(fn);
+      onReadyFns.add(fn);
     }
   }
 
@@ -122,7 +119,9 @@ SwaggerEditor.service('Editor', function Editor(Autocomplete, ASTManager,
   }
 
   function onFoldChanged(fn) {
-    changeFoldFns.push(fn);
+    if (_.isFunction(fn)) {
+      changeFoldFns.add(fn);
+    }
   }
 
   function addFold(start, end) {
@@ -131,12 +130,9 @@ SwaggerEditor.service('Editor', function Editor(Autocomplete, ASTManager,
     }
   }
 
-  function removeFold(start) {
-    // TODO: Depth of unfolding is hard-coded to 100 but we need
-    // to have depth as a parameter and/or having smarter way of
-    // handling subfolds
+  function removeFold(start, end) {
     if (editor) {
-      editor.getSession().unfold(start, 100);
+      editor.getSession().unfold(editor.getSession().getFoldAt(start, end));
     }
   }
 

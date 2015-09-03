@@ -1,8 +1,7 @@
 'use strict';
 
 SwaggerEditor.controller('UrlImportCtrl', function FileImportCtrl($scope,
-  $modalInstance, $localStorage, $rootScope, $state, FileLoader, Storage,
-  ASTManager) {
+  $modalInstance, $localStorage, $rootScope, $state, FileLoader, Storage) {
   var results;
 
   $scope.url = null;
@@ -33,7 +32,6 @@ SwaggerEditor.controller('UrlImportCtrl', function FileImportCtrl($scope,
     if (angular.isString(results)) {
       Storage.save('yaml', results);
       $rootScope.editorValue = results;
-      ASTManager.refresh($rootScope.editorValue);
       $state.go('home', {tags: null});
     }
     $modalInstance.close();

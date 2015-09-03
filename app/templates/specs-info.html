@@ -1,11 +1,14 @@
 <div class="info">
   <header class="info-header">
     <h3 class="section-header">
-      <a ng-click="toggle(['info'])">{{specs.info.title}}</a>
+      <a ng-click="
+        specs.info.$folded = !specs.info.$folded;
+        foldEditor(['info'], specs.info.$folded);
+        ">{{specs.info.title}}</a>
     </h3>
   </header>
 
-  <div class="info-container section-content" collapse-when="isCollapsed(['info'])" ng-ani>
+  <div class="info-container section-content" collapse-when="specs.info.$folded">
     <div marked="specs.info.description"></div>
     <h4>Version <span>{{specs.info.version}}</span></h4>
     <div class="contact info-box" ng-if="specs.info.contact">

@@ -1,17 +1,29 @@
-<div class="error-presenter {{isOnlyWarnings() ? 'warning' : 'error'}}"
+<div
+  class="error-presenter {{isOnlyWarnings(errors) ? 'warning' : 'error'}}"
   ng-controller="ErrorPresenterCtrl">
+
   <header class="error-header" ng-click="toggleCollapse()">
-    <h4>{{getTitle()}}</h4>
+    <h4>{{getTitle(errors)}}</h4>
     <span class="collapse-button">{{isCollapsed ? 'Open' : 'Collapse'}}</span>
   </header>
-  <div ng-repeat="error in getErrors() track by $index" collapse-when="isCollapsed" class="item">
+
+  <div
+    ng-repeat="error in errors track by $index"
+    collapse-when="isCollapsed"
+    class="item">
+
     <h5 class="{{isWarning(error) ? 'warning' : 'error'}}">
       <span class="icon">{{isWarning(error) ? '⚠' : '✖' }}</span>
-      {{getType(error)}}
+      {{error.type}}
     </h5>
-    <p class="error-description" ng-bind-html="getDescription(error)"></p>
-    <a ng-click="goToLineOfError(error)" class="jump-to-link"
-      ng-if="showLineJumpLink(error)">Jump to line <b>{{getLineNumber(error)}}</b></a>
+
+    <p class="error-description" ng-bind-html="error.description"></p>
+    <a
+      ng-click="goToLineOfError(error)"
+      class="jump-to-link">
+        Jump to line <b>{{error.lineNumber}}</b>
+    </a>
+
     <div class="details">
       <h5>Details</h5>
       <json-formatter json="error" open="0"></json-formatter>

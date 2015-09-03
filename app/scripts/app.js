@@ -9,7 +9,6 @@ window.SwaggerEditor = angular.module('SwaggerEditor', [
   'ngSanitize',
   'hc.marked',
   'ui.layout',
-  'mohsen1.schema-form',
   'ngFileUpload',
   'angularViewportWatch'
 ]);

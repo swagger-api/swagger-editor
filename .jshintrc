@@ -21,8 +21,9 @@
   "globals": {
     "angular": false,
     "ace": false,
-    "jsyaml": false,
     "yaml": false,
+    "jsyaml": false,
+    "YAMLWorker": false,
     "JsonRefs": false,
     "$": false,
     "_": false,
