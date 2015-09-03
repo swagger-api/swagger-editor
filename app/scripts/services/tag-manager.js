@@ -41,7 +41,9 @@ SwaggerEditor.service('TagManager', function TagManager($stateParams) {
 
     _.each(spec.paths, function (path) {
       _.each(path, function (operation) {
-        _.each(operation.tags, registerTag);
+        if (_.isObject(operation)) {
+          _.each(operation.tags, registerTag);
+        }
       });
     });
   };

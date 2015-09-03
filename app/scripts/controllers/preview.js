@@ -25,7 +25,6 @@ SwaggerEditor.controller('PreviewCtrl', function PreviewCtrl(Storage, Builder,
   $scope.listAllDefnitions = listAllDefnitions;
 
   Storage.addChangeListener('yaml', update);
-  $rootScope.$watch('editorValue', update);
 
   /**
    * Reacts to updates of YAML in storage that usually triggered by editor
@@ -56,8 +55,10 @@ SwaggerEditor.controller('PreviewCtrl', function PreviewCtrl(Storage, Builder,
       });
     }
 
-    TagManager.registerTagsFromSpec(result.specs);
-    $rootScope.specs = result.specs;
+    if (result.specs) {
+      TagManager.registerTagsFromSpec(result.specs);
+      $rootScope.specs = result.specs;
+    }
     $rootScope.errors = result.errors || [];
     $rootScope.warnings = result.warnings || [];
   }
@@ -67,7 +68,6 @@ SwaggerEditor.controller('PreviewCtrl', function PreviewCtrl(Storage, Builder,
   */
   function onBuildSuccess(result) {
     onBuild(result);
-    $scope.errors = null;
     $rootScope.progressStatus = 'success-process';
 
     Editor.clearAnnotation();

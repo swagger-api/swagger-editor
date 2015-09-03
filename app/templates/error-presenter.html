@@ -1,14 +1,19 @@
-<div
-  class="error-presenter {{isOnlyWarnings(errors) ? 'warning' : 'error'}}"
-  ng-controller="ErrorPresenterCtrl">
+<div class="error-presenter {{isOnlyWarnings(errorsAndWarnings) ? 'warning' : 'error'}}">
 
-  <header class="error-header" ng-click="toggleCollapse()">
-    <h4>{{getTitle(errors)}}</h4>
+  <header ng-if="errorsAndWarnings" class="error-header" ng-click="toggleCollapse()">
+    <h4>
+      <span ng-if="isOnlyWarnings(errorsAndWarnings)">
+        Warning{{errorsAndWarnings.length > 1 ? 's' : ''}}
+      </span>
+      <span ng-if="!isOnlyWarnings(errorsAndWarnings)">
+        Error{{errorsAndWarnings.length > 1 ? 's' : ''}}
+      </span>
+    </h4>
     <span class="collapse-button">{{isCollapsed ? 'Open' : 'Collapse'}}</span>
   </header>
 
   <div
-    ng-repeat="error in errors track by $index"
+    ng-repeat="error in errorsAndWarnings track by $index"
     collapse-when="isCollapsed"
     class="item">
 
@@ -26,7 +31,7 @@
 
     <div class="details">
       <h5>Details</h5>
-      <json-formatter json="error" open="0"></json-formatter>
+      <pre>{{error | json}}</pre>
     </div>
   </div>
 </div>

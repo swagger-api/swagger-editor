@@ -7,28 +7,52 @@ SwaggerEditor.controller('ErrorPresenterCtrl', function ErrorPresenterCtrl(
 
   $scope.isCollapsed = false;
 
-  var errorsAndWarnings = $rootScope.errors.map(function (error) {
-    error.level = ERROR_LEVEL;
-    return error;
-  }).concat($rootScope.warnings.map(function (warning) {
-    warning.level = WARNING_LEVEL;
-    return warning;
-  }));
+  $scope.getErrorsAndWarnings = getErrorsAndWarnings;
 
-  $scope.errors = errorsAndWarnings.map(function (error) {
-    error.type = getType(error);
-    error.description = getDescription(error);
-    return error;
-  });
+  $scope.errorsAndWarnings = [];
 
-  // Get error line number for each error and assign it to the error object
-  Promise.all(errorsAndWarnings.map(getLineNumber))
-  .then(function (lineNumbers) {
-    $scope.errors.forEach(function (error, index) {
-      error.lineNumber = lineNumbers[index];
+  $rootScope.$watch('errors', assignErrorsAndWarnings);
+  $rootScope.$watch('warnings', assignErrorsAndWarnings);
+
+  assignErrorsAndWarnings();
+
+  /*
+   * Assigns errorsAndWarnings to scope
+   *
+  */
+  function assignErrorsAndWarnings() {
+    getErrorsAndWarnings().then(function (errorsAndWarnings) {
+      $scope.$apply(function () {
+        $scope.errorsAndWarnings = errorsAndWarnings;
+      });
     });
-    $scope.$digest();
-  });
+  }
+
+  /*
+   * Concatenate and modifies errors and warnings array to make it suitable for
+   * Error Presenter
+   * @returns {Promsise<array>}
+  */
+  function getErrorsAndWarnings() {
+    var errorsAndWarnings = $rootScope.errors.map(function (error) {
+      error.level = ERROR_LEVEL;
+      return error;
+    })
+
+    .concat($rootScope.warnings.map(function (warning) {
+      warning.level = WARNING_LEVEL;
+      return warning;
+    }))
+
+    .map(function (error) {
+      error.type = getType(error);
+      error.description = getDescription(error);
+      return error;
+    });
+
+    // Get error line number for each error and assign it to the error object
+    return Promise.all(errorsAndWarnings.map(assignLineNumber));
+  }
 
   /**
    * Gets type description of an error object
@@ -36,6 +60,7 @@ SwaggerEditor.controller('ErrorPresenterCtrl', function ErrorPresenterCtrl(
    * @returns {string}
   */
   function getType(error) {
+
     if (error.code && error.message && error.path) {
       if (error.level > 500) {
         return 'Swagger Error';
@@ -61,9 +86,13 @@ SwaggerEditor.controller('ErrorPresenterCtrl', function ErrorPresenterCtrl(
   */
   function getDescription(error) {
 
-    if (angular.isString(error.message)) {
+    if (_.isString(error.description)) {
+      return error.description;
+    }
 
-      if (angular.isString(error.description)) {
+    if (_.isString(error.message)) {
+
+      if (_.isString(error.description)) {
         return error.message + '<br>' + error.description;
       }
       return error.message;
@@ -95,48 +124,8 @@ SwaggerEditor.controller('ErrorPresenterCtrl', function ErrorPresenterCtrl(
   */
   $scope.isOnlyWarnings = function (errors) {
     return !errors.some(function (error) {
-      return error.level > WARNING_LEVEL;
+      return !error || error.level > WARNING_LEVEL;
     });
-  };
-
-  /**
-   * Gets title of error modal
-   *
-   * @returns {string}
-  */
-  $scope.getTitle = function getTitle(errors) {
-    var warnings = errors.filter(function (error) {
-      return error.level < ERROR_LEVEL;
-    });
-
-    if (errors.length === 0) {
-      if (warnings.length === 0) {
-        return 'No Errors or Warnings';
-      }
-      if (warnings.length === 1) {
-        return '1 Warning';
-      }
-      return warnings.length + ' Warnings';
-    }
-
-    if (errors.length === 1) {
-      if (warnings.length === 0) {
-        return '1 Error';
-      }
-      if (warnings.length === 1) {
-        return '1 Error and 1 Warning';
-      }
-      return '1 Error and ' + warnings.length + ' Warnings';
-    }
-
-    if (warnings.length === 0) {
-      return errors.length + ' Errors';
-    }
-    if (warnings.length === 1) {
-      return errors.length + ' Errors and  1 Warning';
-    }
-
-    return errors.length + ' Errors and ' + warnings.length + ' Warnings';
   };
 
   /**
@@ -145,14 +134,18 @@ SwaggerEditor.controller('ErrorPresenterCtrl', function ErrorPresenterCtrl(
    * @param {object} error
    * @returns {nubmer|Promise<number>}
   */
-  function getLineNumber(error) {
+  function assignLineNumber(error) {
     if (error.yamlError) {
-      return error.yamlError.mark.line;
+      return new Promise(function (resolve) {
+        error.lineNumber = error.yamlError.mark.line;
+        resolve(error);
+      });
     }
-    if (error.path && error.path.length) {
+    if (_.isArray(error.path)) {
       return ASTManager.positionRangeForPath($rootScope.editorValue, error.path)
         .then(function (range) {
-          return range.start.line;
+          error.lineNumber = range.start.line;
+          return error;
         });
     }
   }
@@ -176,7 +169,7 @@ SwaggerEditor.controller('ErrorPresenterCtrl', function ErrorPresenterCtrl(
    * @returns {boolean}
   */
   $scope.isWarning = function (error) {
-    return error.level < ERROR_LEVEL;
+    return error && error.level < ERROR_LEVEL;
   };
 
   /*

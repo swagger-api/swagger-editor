@@ -60,7 +60,7 @@ SwaggerEditor.controller('MainCtrl', function MainCtrl(
 
   // Watch for dropped files and trigger file reader
   $scope.$watch('draggedFiles', function () {
-    var file = $scope.draggedFiles[0];
+    var file = _.isArray($scope.draggedFiles) && $scope.draggedFiles[0];
 
     if (file) {
       fileReader.readAsText(file, 'utf-8');
