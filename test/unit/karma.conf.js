@@ -10,30 +10,39 @@ var files = require('main-bower-files')({
   .map(function (filePath) {
 
     // make paths relative
-    return path.relative(__dirname, filePath);
+    return path.relative(path.join(__dirname, '../../app'), filePath);
   })
-  .filter(function (file) {
+  .filter(function (filePath) {
 
     // angular-scenario is added in runner.html file already
-    return !/angular\-scenario/.test(file);
+    return !/angular\-scenario/.test(filePath);
   })
   .concat([
 
+    // Worker files
+    {pattern: 'bower_components/sway-worker/index.js', served: true},
+
     // App source Code
-    '../../app/scripts/*.js',
-    '../../app/scripts/**/*.js',
+    'scripts/*.js',
+    'scripts/**/*.js',
 
     // Test files
-    '../../test/unit/defaults.js',
-    '../../test/unit/bootstrap.js',
-    '../../test/unit/spec/**/*.js'
+    '../test/unit/defaults.js',
+    '../test/unit/bootstrap.js',
+    '../test/unit/spec/**/*.js'
   ]);
 
 module.exports = function (config) {
   config.set({
 
+    // Define a proxy to allow worker files served at correct path
+    proxies: {
+      '/bower_components/sway-worker/index.js':
+        '/base/bower_components/sway-worker/index.js'
+    },
+
     // base path, that will be used to resolve files and exclude
-    basePath: '',
+    basePath: '../../app',
 
     // testing framework to use (jasmine/mocha/qunit/...)
     frameworks: ['mocha', 'sinon-chai', 'chai', 'chai-as-promised'],
@@ -43,8 +52,8 @@ module.exports = function (config) {
 
     // list of files / patterns to exclude
     exclude: [
-      'app/scripts/bootstrap.js',
-      'app/scripts/enums/defaults'
+      'scripts/bootstrap.js',
+      'scripts/enums/defaults'
     ],
 
     // web server port

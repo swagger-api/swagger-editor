@@ -12,6 +12,7 @@ $(function () {
 
   var url = pathname + 'config/defaults.json';
 
+
   if (embeddedDefaults) {
     bootstrap(embeddedDefaults);
   } else {
