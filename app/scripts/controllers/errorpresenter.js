@@ -99,7 +99,7 @@ SwaggerEditor.controller('ErrorPresenterCtrl', function ErrorPresenterCtrl(
     }
 
     if (error.emptyDocsError) {
-      return error.emptyDocsError.message;
+      return error.emptyDocsError;
     }
 
     if (error.yamlError) {
@@ -141,6 +141,7 @@ SwaggerEditor.controller('ErrorPresenterCtrl', function ErrorPresenterCtrl(
         resolve(error);
       });
     }
+
     if (_.isArray(error.path)) {
       return ASTManager.positionRangeForPath($rootScope.editorValue, error.path)
         .then(function (range) {
@@ -148,6 +149,8 @@ SwaggerEditor.controller('ErrorPresenterCtrl', function ErrorPresenterCtrl(
           return error;
         });
     }
+
+    return error;
   }
 
   /**
