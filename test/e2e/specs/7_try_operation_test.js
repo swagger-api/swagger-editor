@@ -11,6 +11,11 @@ describe('Try Operation', function () {
     $('.modal-dialog .btn.btn-primary').click();
 
     expect($('.modal-dialog').isPresent()).toBe(false);
+    browser.wait(function () {
+      return $('.info-header').getText().then(function (text) {
+        return text.indexOf('PetStore on Heroku') > -1;
+      });
+    }, 5000);
     expect($('.info-header').getText()).toContain('PetStore on Heroku');
   });
 
