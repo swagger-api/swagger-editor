@@ -1,13 +1,26 @@
 'use strict';
 
 SwaggerEditor.controller('EditorCtrl', function EditorCtrl($scope, $rootScope,
-  Editor, Builder, Storage, ASTManager, ExternalHooks) {
-  var debouncedOnAceChange = _.debounce(onAceChange, 200);
+  Editor, Builder, Storage, ExternalHooks, Preferences) {
+
+  var debouncedOnAceChange = getDebouncedOnAceChange();
+
+  // if user changed the preferences of keyPressDebounceTime, update the
+  // debouncedOnAceChange function to have the latest debounce value
+  Preferences.onChange(function (key) {
+    if (key === 'keyPressDebounceTime') {
+      debouncedOnAceChange = getDebouncedOnAceChange();
+    }
+  });
+
+  function getDebouncedOnAceChange() {
+    return _.debounce(onAceChange, Preferences.get('keyPressDebounceTime'));
+  }
 
   $scope.aceLoaded = Editor.aceLoaded;
 
   $scope.aceChanged = function () {
-    Storage.save('progress', 'progress-working');
+    $rootScope.progressStatus = 'progress-working';
     debouncedOnAceChange();
   };
 
@@ -22,7 +35,6 @@ SwaggerEditor.controller('EditorCtrl', function EditorCtrl($scope, $rootScope,
     var value = $rootScope.editorValue;
 
     Storage.save('yaml', value);
-    ASTManager.refresh($rootScope.editorValue);
     ExternalHooks.trigger('code-change', []);
   }
 });

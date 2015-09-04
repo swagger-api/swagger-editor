@@ -5,8 +5,8 @@ info:
   description: A sample API that uses a petstore as an example to demonstrate features in the swagger-2.0 specification
   termsOfService: http://helloreverb.com/terms/
   contact:
-    name: wordnik api team
-    url: http://developer.wordnik.com
+    name: swagger api team
+    url: http://swagger.io
   license:
     name: Creative Commons 4.0 International
     url: http://creativecommons.org/licenses/by/4.0/
@@ -143,7 +143,7 @@ securityDefinitions:
       write:public_key: Create, list, and view details for public keys.
       admin:public_key: Fully manage public keys.
     flow: implicit
-    authorizationUrl: http://petstore.swagger.wordnik.com/oauth/dialog
+    authorizationUrl: http://petstore.swagger.io/oauth/dialog
   internalApiKey:
     type: apiKey
     in: header

@@ -9,7 +9,7 @@ MAINTAINER Marcello_deSales@intuit.com
 
 ENV     DEBIAN_FRONTEND noninteractive
 
-RUN     apt-get update && apt-get install -y git npm nodejs
+RUN     apt-get update && apt-get install -y git npm nodejs && rm -rf /var/lib/apt/lists/*
 RUN     ln -s /usr/bin/nodejs /usr/local/bin/node
 
 WORKDIR /runtime
@@ -20,7 +20,7 @@ RUN     npm install -g bower grunt-cli
 
 ADD     bower.json      /runtime/bower.json
 ADD     .bowerrc        /runtime/.bowerrc
-RUN     bower --allow-root install
+RUN     bower --allow-root --force-latest install
 
 ADD     .   /runtime
 RUN 	grunt build

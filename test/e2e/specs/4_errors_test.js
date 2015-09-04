@@ -8,29 +8,27 @@ function setValue(value) {
   browser.executeScript(function (value) {
     document.querySelector('[ui-ace]').env.editor.setValue(value);
   }, value);
+  browser.sleep(500);
 }
 
 describe('Error Presenter', function () {
   it('should show an error when document is empty', function () {
     setValue('');
-    browser.wait(function () {
-      return $('.error-presenter').isPresent();
-    }, 50000);
     expect($('.error-presenter').isPresent()).toBe(true);
   });
 
   it('should show YAML syntax error with invalid YAML', function () {
     setValue('invalid:1\n  yaml:');
-    browser.sleep(1200);
+
     expect($('.error-presenter').isPresent()).toBe(true);
-    expect($('.error-header h4').getText()).toContain('1 Error');
+    expect($('.error-header h4').getText()).toContain('Error');
     expect($('.error-presenter .item h5').getText())
       .toContain('YAML Syntax Error');
   });
 
-  it('should show Swagger Syntax Erorr with invalid swagger', function () {
+  it('should show Swagger Error with invalid swagger', function () {
     var val = [
-      'swagger: 2.0.0',
+      'swagger: "2.0"',
       'info:',
       '  version: "1.0.0"',
       '  title: Petstore',
@@ -42,9 +40,9 @@ describe('Error Presenter', function () {
     ].join('\n');
 
     setValue(val);
-    browser.sleep(1200);
+
     expect($('.error-presenter').isPresent()).toBe(true);
-    expect($('.error-header h4').getText()).toContain('1 Error');
+    expect($('.error-header h4').getText()).toContain('Error');
     expect($('.error-presenter .item h5').getText())
       .toContain('Swagger Error');
   });
@@ -60,15 +58,16 @@ describe('Error Presenter', function () {
         '  /users:',
         '    post:',
         '      responses:',
-        '        200: {}',
+        '        200:',
+        '          description: OK',
         'definitions:',
         '  User: {}'
       ].join('\n');
 
       setValue(val);
-      browser.sleep(1200);
+
       expect($('.error-presenter').isPresent()).toBe(true);
-      expect($('.error-header h4').getText()).toContain('1 Warning');
+      expect($('.error-header h4').getText()).toContain('Warning');
     }
   );
 

@@ -32,15 +32,15 @@ var defaults = {
      * Menu items are generated based on result of GET request to these
      * endpoint
     */
-    servers: 'http://generator.wordnik.com/online/api/gen/servers',
-    clients: 'http://generator.wordnik.com/online/api/gen/clients',
+    servers: 'http://generator.swagger.io/online/api/gen/servers',
+    clients: 'http://generator.swagger.io/online/api/gen/clients',
 
     /*
      * For each item in menu item, Swagger Editor will make calls to these
      * endpoint to download the generated code accordingly
     */
-    server: 'http://generator.wordnik.com/online/api/gen/servers/{language}',
-    client: 'http://generator.wordnik.com/online/api/gen/clients/{language}'
+    server: 'http://generator.swagger.io/online/api/gen/servers/{language}',
+    client: 'http://generator.swagger.io/online/api/gen/clients/{language}'
   },
 
   /*
@@ -53,7 +53,7 @@ var defaults = {
    * Note that this string will be used in between two other url segments
    * so you always need the trailing and leading slashes
   */
-  examplesFolder: '/spec-files/',
+  examplesFolder: 'spec-files/',
 
   /*
    * Ace editor options. This object will overload existing editor options.
@@ -87,6 +87,12 @@ var defaults = {
   useBackendForStorage: false,
 
   /*
+   * Change how many milliseconds after the last keypress the editor should
+   * respond to change.
+  */
+  keyPressDebounceTime: 200,
+
+  /*
    * The timeout for throttling backend calls
   */
   backendThrottle: 200,
@@ -96,12 +102,6 @@ var defaults = {
    * to this URL to **Save** and **Read** the Swagger document
   */
   backendEndpoint: '/editor/spec',
-
-  /*
-   * When using a back-end, editor checks if back-end is still reachable in an
-   * interval. This interval is in milliseconds
-  */
-  backendHealthCheckTimeout: 5000,
 
   /*
    * When using a back-end, editor by default PUTs JSON document for Saving.
@@ -133,6 +133,12 @@ var defaults = {
    * When `headerBranding` is enabled, this will be appended to body tag
   */
   brandingCssClass: '',
+
+
+  /*
+   * Disables the overlay introduction panel
+  */
+  disableNewUserIntro: false,
 
   /*
    * When Editor imports a file from a URL, it will prepend this URL to make

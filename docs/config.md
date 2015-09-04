@@ -14,7 +14,7 @@ and `/templates/branding-right.html` files to have custom header.
 
 It's possible to serve a custom CSS file at `/styles/branding.css` path to override editor's appearances.
 
-It's also possible to serve a custom JavaScript file at `/scirpts/branding.js` to add 
+It's also possible to serve a custom JavaScript file at `/scripts/branding.js` to add 
 new functionalities to Swagger Editor. Using branding HTML pieces and branding JavaScript
 file you can add new controllers to Swagger Editor.
 
@@ -24,6 +24,12 @@ Set to `true` to disable the editor menu
 #### `editorOptions`
 Ace editor options. This object will overload existing editor options.
 See all possible options [here](http://ace.c9.io/#nav=api&api=ace)
+
+#### `keyPressDebounceTime`
+Change how many milliseconds after the last keypress the editor should respond to change. Defaults to `200ms`.
+
+#### `disableNewUserIntro`
+Disables the overlay introduction panel. It's enabled by default.
 
 External Hooks
 --------------
@@ -57,20 +63,11 @@ and `PUT` for saving it.
 #### `useBackendForStorage`
 Set to ``true`` to enable a backend.
 
-#### `backendHealthCheckTimeout`
-Timeout in millseconds of the http request to healthchecks the backend. Set it to `-1` to disable backend health check completely.
-
-##### note:
-This healthcheck is actually hitting location.href, not the url specified by backendEndpoint
-
 #### `backendThrottle`
 The timeout for throttling backend calls. The default is 200 milliseconds
 
 #### `useYamlBackend`
 Set to ``true`` if the backend expects YAML, ``false`` will use JSON
-
-##### note:
-``Storage.save()`` is only ever called with yaml so this probably does nothing if set to ``false``
 
 Analytics
 ---------

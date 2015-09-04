@@ -44,7 +44,13 @@
       border-radius: 3px;
       padding: 2px 5px;
       margin-top: 3px;
-      float: right;
+      margin-left: 10px;
+    }
+
+    li a {
+      overflow: auto;
+      display: flex;
+      justify-content: space-between;
     }
 
     .divider {
@@ -62,7 +68,7 @@
   &.open {
     background: darken(@header-bg, 10%);
 
-    .dropdown-menu, a, li, button {
+    .dropdown-menu, a, li, button, button:focus {
       background: darken(@header-bg, 10%);
       color: white;
     }
@@ -108,4 +114,3 @@
     }
   }
 }
-

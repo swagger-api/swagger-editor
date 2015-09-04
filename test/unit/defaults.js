@@ -7,7 +7,7 @@
 SwaggerEditor.config(function ($provide) {
   $provide.constant('defaults', {
     disableCodeGen: true,
-    examplesFolder: '/spec-files/',
+    examplesFolder: 'spec-files/',
     editorOptions: {},
     exampleFiles: [
       'default.yaml',
@@ -22,7 +22,6 @@ SwaggerEditor.config(function ($provide) {
     autocompleteExtension: {},
     useBackendForStorage: false,
     backendEndpoint: '/editor/spec',
-    backendHealthCheckTimeout: 5000,
     useYamlBackend: false,
     disableFileMenu: false,
     headerBranding: false,

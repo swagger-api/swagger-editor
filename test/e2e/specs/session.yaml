@@ -1,0 +1,71 @@
+swagger: '2.0'
+info:
+  version: 1.0.9-abcd
+  title: Swagger Sample API
+basePath: /v1
+schemes:
+  - http
+  - https
+security:
+  - githubAccessCode:
+    - user
+    - user:email
+  - petstoreImplicit:
+    - user
+    - user:email
+  - internalApiKey: []
+paths:
+  /pets/{id}:
+    get:
+      parameters:
+      - name: id
+        in: path
+        description: ID of pet to use
+        required: true
+        type: array
+        items:
+          type: string
+        collectionFormat: csv
+      description: Returns pets based on ID
+      summary: Find pets by ID
+      operationId: getPetsById
+      security:
+        - githubAccessCode:
+            - user
+        - internalApiKey: []
+      responses:
+        default:
+          description: error payload
+          schema:
+            $ref: '#/definitions/ErrorModel'
+securityDefinitions:
+  githubAccessCode:
+    type: oauth2
+    scopes:
+      user: Grants read/write .
+      user:email: Grants read .
+    flow: accessCode
+    authorizationUrl: https://github.com/login/oauth/authorize
+    tokenUrl: https://github.com/login/oauth/access_token
+  petstoreImplicit:
+    type: oauth2
+    scopes:
+      user: Grants read/write .
+      user:email: Grants read .
+    flow: implicit
+    authorizationUrl: http://domain.com/oauth/dialog
+  internalApiKey:
+    type: apiKey
+    in: header
+    name: api_key
+definitions:
+  ErrorModel:
+    required:
+      - code
+      - message
+    properties:
+      code:
+        type: integer
+        format: int32
+      message:
+        type: string

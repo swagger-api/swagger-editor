@@ -3,18 +3,18 @@ info:
   description: |
     This is a sample server Petstore server.
 
-    [Learn about Swagger](http://swagger.wordnik.com) or join the IRC channel `#swagger` on irc.freenode.net.
+    [Learn about Swagger](http://swagger.io) or join the IRC channel `#swagger` on irc.freenode.net.
 
     For this sample, you can use the api key `special-key` to test the authorization filters
   version: "1.0.0"
   title: Swagger Petstore
   termsOfService: http://helloreverb.com/terms/
   contact:
-    name: apiteam@wordnik.com
+    name: apiteam@swagger.io
   license:
     name: Apache 2.0
     url: http://www.apache.org/licenses/LICENSE-2.0.html
-host: petstore.swagger.wordnik.com
+host: petstore.swagger.io
 basePath: /v2
 schemes:
   - http
@@ -485,7 +485,7 @@ securityDefinitions:
     in: header
   petstore_auth:
     type: oauth2
-    authorizationUrl: http://petstore.swagger.wordnik.com/api/oauth/dialog
+    authorizationUrl: http://petstore.swagger.io/api/oauth/dialog
     flow: implicit
     scopes:
       write_pets: modify pets in your account

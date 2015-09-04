@@ -7,29 +7,60 @@ SwaggerEditor.controller('ErrorPresenterCtrl', function ErrorPresenterCtrl(
 
   $scope.isCollapsed = false;
 
-  $scope.getErrors = function () {
-    var errors = $scope.$parent.errors || [];
-    var warnings = $scope.$parent.warnings;
+  $scope.getErrorsAndWarnings = getErrorsAndWarnings;
 
-    if (Array.isArray(errors)) {
-      errors = errors.map(function (error) {
-        error.level = ERROR_LEVEL;
-        return error;
+  $scope.errorsAndWarnings = [];
+
+  $rootScope.$watch('errors', assignErrorsAndWarnings);
+  $rootScope.$watch('warnings', assignErrorsAndWarnings);
+
+  assignErrorsAndWarnings();
+
+  /*
+   * Assigns errorsAndWarnings to scope
+   *
+  */
+  function assignErrorsAndWarnings() {
+    getErrorsAndWarnings().then(function (errorsAndWarnings) {
+      $scope.$apply(function () {
+        $scope.errorsAndWarnings = errorsAndWarnings;
       });
-    }
+    });
+  }
 
-    if (Array.isArray(warnings)) {
-      warnings = warnings.map(function (warning) {
-        warning.level = WARNING_LEVEL;
-        return warning;
-      });
-      return errors.concat(warnings);
-    }
+  /*
+   * Concatenate and modifies errors and warnings array to make it suitable for
+   * Error Presenter
+   * @returns {Promsise<array>}
+  */
+  function getErrorsAndWarnings() {
+    var errorsAndWarnings = $rootScope.errors.map(function (error) {
+      error.level = ERROR_LEVEL;
+      return error;
+    })
 
-    return errors;
-  };
+    .concat($rootScope.warnings.map(function (warning) {
+      warning.level = WARNING_LEVEL;
+      return warning;
+    }))
 
-  $scope.getType = function (error) {
+    .map(function (error) {
+      error.type = getType(error);
+      error.description = getDescription(error);
+      return error;
+    });
+
+    // Get error line number for each error and assign it to the error object
+    return Promise.all(errorsAndWarnings.map(assignLineNumber));
+  }
+
+  /**
+   * Gets type description of an error object
+   * @param {object} error
+   * @returns {string}
+  */
+  function getType(error) {
+
     if (error.code && error.message && error.path) {
       if (error.level > 500) {
         return 'Swagger Error';
@@ -46,16 +77,29 @@ SwaggerEditor.controller('ErrorPresenterCtrl', function ErrorPresenterCtrl(
     }
 
     return 'Unknown Error';
-  };
+  }
 
-  $scope.getDescription = function (error) {
+  /**
+   * Gets description of an error object
+   * @param {object} error
+   * @returns {string}
+  */
+  function getDescription(error) {
 
-    if (angular.isString(error.message)) {
+    if (_.isString(error.description)) {
+      return error.description;
+    }
+
+    if (_.isString(error.message)) {
+
+      if (_.isString(error.description)) {
+        return error.message + '<br>' + error.description;
+      }
       return error.message;
     }
 
     if (error.emptyDocsError) {
-      return error.emptyDocsError.message;
+      return error.emptyDocsError;
     }
 
     if (error.yamlError) {
@@ -70,76 +114,71 @@ SwaggerEditor.controller('ErrorPresenterCtrl', function ErrorPresenterCtrl(
     }
 
     return error;
+  }
+
+  /*
+   * Determines if all errors are in warning level
+   * @param {object} error
+   * @returns {boolean}
+   *
+  */
+  $scope.isOnlyWarnings = function (errors) {
+    return !errors.some(function (error) {
+      return !error || error.level > WARNING_LEVEL;
+    });
   };
 
-  $scope.isOnlyWarnings = function () {
-    var errors = $scope.$parent.errors || [];
-    var warnings = $scope.$parent.warnings || [];
-    return warnings.length && errors.length === 0;
-  };
-
-  $scope.getTitle = function () {
-    var errors = $scope.$parent.errors || [];
-    var warnings = $scope.$parent.warnings || [];
-
-    if (errors.length === 0) {
-      if (warnings.length === 0) {
-        return 'No Errors or Warnings';
-      }
-      if (warnings.length === 1) {
-        return '1 Warning';
-      }
-      return warnings.length + ' Warnings';
-    }
-
-    if (errors.length === 1) {
-      if (warnings.length === 0) {
-        return '1 Error';
-      }
-      if (warnings.length === 1) {
-        return '1 Error and 1 Warning';
-      }
-      return '1 Error and ' + warnings.length + ' Warnings';
-    }
-
-    if (warnings.length === 0) {
-      return errors.length + ' Errors';
-    }
-    if (warnings.length === 1) {
-      return errors.length + ' Errors and  1 Warning';
-    }
-
-    return errors.length + ' Errors and ' + warnings.length + ' Warnings';
-  };
-
-  $scope.showLineJumpLink = function (error) {
-    return $scope.getLineNumber(error) !== null;
-  };
-
-  $scope.getLineNumber = function (error) {
-    var line = null;
+  /**
+   * Gets the line number for an error object
+   *
+   * @param {object} error
+   * @returns {nubmer|Promise<number>}
+  */
+  function assignLineNumber(error) {
     if (error.yamlError) {
-      line = error.yamlError.mark.line;
+      return new Promise(function (resolve) {
+        error.lineNumber = error.yamlError.mark.line;
+        resolve(error);
+      });
     }
-    if (error.path) {
-      if (error.path.length) {
-        line = ASTManager.lineForPath(_.cloneDeep(error.path));
-      }
-    }
-    return line;
-  };
 
+    if (_.isArray(error.path)) {
+      return ASTManager.positionRangeForPath($rootScope.editorValue, error.path)
+        .then(function (range) {
+          error.lineNumber = range.start.line;
+          return error;
+        });
+    }
+
+    return error;
+  }
+
+  /**
+   * Focuses Ace editor to the line number of error
+   * @param {object} error
+   *
+  */
   $scope.goToLineOfError = function (error) {
     if (error) {
-      Editor.gotoLine($scope.getLineNumber(error));
+      Editor.gotoLine(error.lineNumber);
       Editor.focus();
     }
   };
 
+  /*
+   * Determines if an error is in warning level
+   *
+   * @param {object} error
+   * @returns {boolean}
+  */
   $scope.isWarning = function (error) {
-    return error.level < ERROR_LEVEL;
+    return error && error.level < ERROR_LEVEL;
   };
 
+  /*
+   * Toggle the collapsed state of the modal
+   *
+  */
   $scope.toggleCollapse = function () {
     $scope.isCollapsed = !$scope.isCollapsed;
   };

@@ -7,16 +7,27 @@
  * # preferences
  * Service in the phonicsApp.
  */
-SwaggerEditor.service('Preferences', function Preferences($localStorage) {
+SwaggerEditor.service('Preferences', function Preferences($localStorage,
+  defaults) {
+
+  var changeListeners = [];
+
   var defaultPreferences = {
 
     /*
      * Update the preview pane per keypress if it's true, otherwise after value
      * change in the editor, a "Reload" button will show up in preview pane
     */
-    liveRender: true
+    liveRender: true,
+
+    /*
+     * Disable/enable auto-compelte functionallity.
+    */
+    autoComplete: true,
+
+    keyPressDebounceTime: defaults.keyPressDebounceTime
   };
-  var preferences = $localStorage.preferences || defaultPreferences;
+  var preferences = _.extend(defaultPreferences, $localStorage.preferences);
 
   function save() {
     $localStorage.preferences = preferences;
@@ -32,6 +43,9 @@ SwaggerEditor.service('Preferences', function Preferences($localStorage) {
     }
     preferences[key] = value;
     save();
+    changeListeners.forEach(function (fn) {
+      fn(key, value);
+    });
   };
 
   this.reset = function () {
@@ -41,5 +55,16 @@ SwaggerEditor.service('Preferences', function Preferences($localStorage) {
 
   this.getAll = function () {
     return preferences;
+  };
+
+  /*
+   * A global change hook for preferences change
+   *
+   * @param {function} fn - the callback function
+  */
+  this.onChange = function (fn) {
+    if (angular.isFunction(fn)) {
+      changeListeners.push(fn);
+    }
   };
 });

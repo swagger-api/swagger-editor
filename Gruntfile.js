@@ -12,6 +12,7 @@ module.exports = function (grunt) {
 
     grunt.task.run([
       'clean:server',
+      'wiredep',
       'less:server',
       'autoprefixer',
       'connect:livereload',
@@ -47,6 +48,7 @@ module.exports = function (grunt) {
 
   grunt.registerTask('build', [
     'clean:dist',
+    'wiredep',
     'useminPrepare',
     'less',
     'concurrent:dist',

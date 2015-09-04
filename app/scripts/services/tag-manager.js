@@ -24,34 +24,28 @@ SwaggerEditor.service('TagManager', function TagManager($stateParams) {
     return tags;
   };
 
-  this.registerTagsFromSpecs = function (specs) {
-    if (!angular.isObject(specs)) {
+  this.registerTagsFromSpec = function (spec) {
+    if (!angular.isObject(spec)) {
       return;
     }
 
     tags = [];
 
-    if (Array.isArray(specs.tags)) {
-      specs.tags.forEach(function (tag) {
-        if (angular.isString(tag.name)) {
+    if (Array.isArray(spec.tags)) {
+      spec.tags.forEach(function (tag) {
+        if (tag && angular.isString(tag.name)) {
           registerTag(tag.name, tag.description);
         }
       });
     }
 
-    if (Array.isArray(specs.paths)) {
-      specs.paths.forEach(function (path) {
-        if (Array.isArray(path.operations)) {
-          path.operations.forEach(function (operation) {
-            if (Array.isArray(operation.tags)) {
-              operation.tags.forEach(function (tagName) {
-                registerTag(tagName);
-              });
-            }
-          });
+    _.each(spec.paths, function (path) {
+      _.each(path, function (operation) {
+        if (_.isObject(operation)) {
+          _.each(operation.tags, registerTag);
         }
       });
-    }
+    });
   };
 
   this.getCurrentTags = function () {

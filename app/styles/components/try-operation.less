@@ -38,6 +38,32 @@
     margin: 1em 0;
   }
 
+  .cors-warning {
+    background-color: #FFF645; // TODO: colors
+    padding: 0.6em .4em;
+    line-height: 1.5;
+    margin: 1em 0;
+    p {margin: 0;}
+    code {
+      background: none;
+    }
+  }
+
+  .call[disabled] {
+    cursor: not-allowed;
+  }
+
+  // json schema form adjustment (Hack)
+  [data-schemaid="root"] {
+    > h3 .btn-group {
+      display: none; // hide [Edit JSON] and [Object Properties] in root
+    }
+
+    > .well > div > div > .row > div > h3 >.btn-group {
+      display: none; // hide buttons in [Parameters] hash
+    }
+  }
+
   >div {
     >h5 {
       font-size: 1.0em;

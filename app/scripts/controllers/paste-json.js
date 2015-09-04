@@ -1,7 +1,7 @@
 'use strict';
 
 SwaggerEditor.controller('PasteJSONCtrl', function PasteJSONCtrl($scope,
-  $modalInstance, $rootScope, Storage, ASTManager) {
+  $modalInstance, $rootScope, $state, Storage, YAML, SwayWorker) {
 
   var json;
 
@@ -16,23 +16,25 @@ SwaggerEditor.controller('PasteJSONCtrl', function PasteJSONCtrl($scope,
       return;
     }
 
-    SwaggerTools.specs.v2.validate(json, function (error, result) {
+    SwayWorker.run(json, function (data) {
       $scope.canImport = true;
       $scope.error = null;
 
-      if (result && result.errors) {
-        $scope.error = result.errors;
-        return;
+      if (data.errors.length) {
+        $scope.error = data.errors[0];
       }
+
+      $scope.$digest();
     });
   };
 
   $scope.ok = function () {
-    var result = jsyaml.dump(json);
-    Storage.save('yaml', result);
-    $rootScope.editorValue = result;
-    ASTManager.refresh($rootScope.editorValue);
-    $modalInstance.close();
+    YAML.dump(json, function (error, result) {
+      Storage.save('yaml', result);
+      $rootScope.editorValue = result;
+      $state.go('home', {tags: null});
+      $modalInstance.close();
+    });
   };
 
   $scope.cancel = $modalInstance.close;

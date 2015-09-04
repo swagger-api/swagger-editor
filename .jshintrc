@@ -21,12 +21,15 @@
   "globals": {
     "angular": false,
     "ace": false,
-    "jsyaml": false,
     "yaml": false,
+    "jsyaml": false,
+    "YAMLWorker": false,
     "JsonRefs": false,
     "$": false,
     "_": false,
     "SwaggerEditor": false,
-    "SwaggerTools": false
+    "SparkMD5": false,
+    "JSONFormatter": false,
+    "JSONSchemaView": false
   }
 }

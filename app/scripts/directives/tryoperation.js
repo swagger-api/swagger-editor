@@ -3,12 +3,6 @@
 SwaggerEditor.controller('TryOperation', function ($scope, formdataFilter,
   AuthManager, SchemaForm) {
 
-  // configure SchemaForm directive
-  SchemaForm.options = {
-    theme: 'bootstrap3'
-  };
-
-  var specs = $scope.$parent.specs;
   var parameters = $scope.getParameters();
   var securityOptions = getSecurityOptions();
   var FILE_TYPE = ' F I L E '; // File key identifier for file types
@@ -26,6 +20,88 @@ SwaggerEditor.controller('TryOperation', function ($scope, formdataFilter,
   $scope.hasFileParam = hasFileParam();
   // httpProtocol is static for now we can use HTTP2 later if we wanted
   $scope.httpProtorcol = 'HTTP/1.1';
+  $scope.locationHost = window.location.host;
+
+  configureSchemaForm();
+
+  // Deeply watch specs for updates to regenerate the from
+  $scope.$watch('specs', function () {
+    $scope.requestModel = makeRequestModel();
+    $scope.requestSchema = makeRequestSchema();
+  }, true);
+
+  /*
+   * configure SchemaForm directive based on request schema
+  */
+  function configureSchemaForm() {
+    /*jshint camelcase: false */
+
+    var defaultOptions = {
+      theme: 'bootstrap3',
+      remove_empty_properties: true,
+      show_errors: 'change'
+    };
+
+    var looseOptions = {
+      no_additional_properties: false,
+      disable_properties: false,
+      disable_edit_json: false
+    };
+
+    var loose = isLoose();
+
+    SchemaForm.options = _.extend(defaultOptions, loose ? looseOptions : {});
+  }
+
+  /*
+   * Determines if this request has a loose body parameter schema
+   * A loose body parameter schema is a body parameter that allows additional
+   * properties or has no properties object
+   *
+   * Note that "loose schema" is not a formal definition, we use this definition
+   * here to determine type of form to render
+   *
+   * @returns {boolean}
+  */
+  function isLoose() {
+
+    // loose schema is only for requests with body parameter
+    if (!hasRequestBody()) {
+      return false;
+    }
+
+    // we're accessing deep in the schema. many operations can fail here
+    try {
+
+      for (var p in $scope.requestSchema.properties.parameters.properties) {
+        var param = $scope.requestSchema.properties.parameters.properties[p];
+        if (param.in === 'body') {
+
+          // loose object
+          if (
+              param.type === 'object' &&
+              (param.additionalProperties ||
+              _.isEmpty(param.properties))
+            ) {
+
+            return true;
+          }
+
+          // loose array of objects
+          if (
+              param.type === 'array' &&
+              (param.items.additionalProperties ||
+              _.isEmpty(param.items.properties))
+            ) {
+
+            return true;
+          }
+        }
+      }
+    } catch (e) {}
+
+    return false;
+  }
 
   /*
    * Makes the request schema to generate the form in the template
@@ -76,14 +152,15 @@ SwaggerEditor.controller('TryOperation', function ($scope, formdataFilter,
 
     // Add Content-Type header only if this operation has a body parameter
     if (hasRequestBody()) {
+      var defaultConsumes = [
+        'multipart/form-data',
+        'x-www-form-urlencoded',
+        'application/json'
+      ];
       schema.properties.contentType = {
         type: 'string',
         title: 'Content-Type',
-        enum: [
-          'multipart/form-data',
-          'x-www-form-urlencoded',
-          'application/json'
-        ]
+        enum: walkToProperty('consumes') || defaultConsumes
       };
     }
 
@@ -120,7 +197,7 @@ SwaggerEditor.controller('TryOperation', function ($scope, formdataFilter,
     var model = {
 
       // Add first scheme as default scheme
-      scheme: [walkToProperty('schemes')[0]],
+      scheme: walkToProperty('schemes')[0],
 
       // Default Accept header is the first one
       accept: walkToProperty('produces')[0]
@@ -128,7 +205,7 @@ SwaggerEditor.controller('TryOperation', function ($scope, formdataFilter,
 
     // if there is security options add the security property
     if (securityOptions.length) {
-      model.security = [securityOptions[0]];
+      model.security = securityOptions;
     }
 
     // Add Content-Type header only if this operation has a body parameter
@@ -153,6 +230,12 @@ SwaggerEditor.controller('TryOperation', function ($scope, formdataFilter,
         // if default value is provided use it
         if (angular.isDefined(paramSchema.default)) {
           model.parameters[paramSchema.name] = paramSchema.default;
+
+        // if there is no default value but there is minimum or maximum use them
+        } else if (angular.isDefined(paramSchema.minimum)) {
+          model.parameters[paramSchema.name] = paramSchema.minimum;
+        } else if (angular.isDefined(paramSchema.maximum)) {
+          model.parameters[paramSchema.name] = paramSchema.maximum;
 
         // if there is no default value select a default value based on type
         } else if (angular.isDefined(defaults[paramSchema.type])) {
@@ -253,20 +336,20 @@ SwaggerEditor.controller('TryOperation', function ($scope, formdataFilter,
 
     // operation level securities
     if (Array.isArray($scope.operation.security)) {
-      securityOptions = securityOptions.concat(
-        $scope.operation.security.map(function (security) {
-          return Object.keys(security)[0];
-        })
-      );
+      $scope.operation.security.map(function (security) {
+        Object.keys(security).forEach(function (key) {
+          securityOptions = securityOptions.concat(key);
+        });
+      });
     }
 
     // root level securities
     if (Array.isArray($scope.specs.security)) {
-      securityOptions = securityOptions.concat(
-        $scope.specs.security.map(function (security) {
-          return Object.keys(security)[0];
-        })
-      );
+      $scope.specs.security.map(function (security) {
+        Object.keys(security).forEach(function (key) {
+          securityOptions = securityOptions.concat(key);
+        });
+      });
     }
 
     return _.unique(securityOptions).filter(function (security) {
@@ -373,7 +456,7 @@ SwaggerEditor.controller('TryOperation', function ($scope, formdataFilter,
 
     // if this parameter is not provided (empty string value) by user and it's
     // not required, move to next parameter without adding this one to the hash
-    if (paramValue === '' && !required) {
+    if (param.type === 'string' && paramValue === '' && !required) {
       return hash;
     }
 
@@ -391,8 +474,8 @@ SwaggerEditor.controller('TryOperation', function ($scope, formdataFilter,
   function generateUrl() {
     var requestModel = $scope.requestModel;
     var scheme = requestModel.scheme;
-    var host = specs.host || window.location.host;
-    var basePath = specs.basePath || '';
+    var host = $scope.specs.host || window.location.host;
+    var basePath = $scope.specs.basePath || '';
     var pathParams = parameters.filter(parameterTypeFilter('path'))
       .reduce(hashifyParams, {});
     var queryParams = parameters.filter(parameterTypeFilter('query'))
@@ -435,13 +518,19 @@ SwaggerEditor.controller('TryOperation', function ($scope, formdataFilter,
       $.param(queryParams, isCollectionQueryParam));
 
     // fill in path parameter values inside the path
-    pathStr = $scope.path.pathName.replace(pathParamRegex,
+    pathStr = $scope.pathName.replace(pathParamRegex,
 
       // a simple replace method where it uses the available path parameter
       // value to replace the path parameter or leave it as it is if path
       // parameter doesn't exist.
       function (match) {
-        return pathParams[match.substring(1, match.length - 1)] || match;
+        var matchKey = match.substring(1, match.length - 1);
+
+        if (angular.isDefined(pathParams[matchKey])) {
+          return pathParams[matchKey];
+        }
+
+        return match;
       }
     );
 
@@ -514,7 +603,7 @@ SwaggerEditor.controller('TryOperation', function ($scope, formdataFilter,
     // A list of default headers that will be included in the XHR call
     var defaultHeaders = {
       Host: host,
-      Accept: $scope.accepts || '*/*',
+      Accept: $scope.requestModel.accept || '*/*',
       'Accept-Encoding': 'gzip,deflate,sdch', //TODO: where this is coming from?
       'Accept-Language': 'en-US,en;q=0.8,fa;q=0.6,sv;q=0.4', // TODO: wut?
       'Cache-Control': 'no-cache',
@@ -524,7 +613,7 @@ SwaggerEditor.controller('TryOperation', function ($scope, formdataFilter,
       'User-Agent': window.navigator.userAgent
     };
 
-    headerParams = _.extend(headerParams, defaultHeaders);
+    headerParams = _.extend(defaultHeaders, headerParams);
 
     // if request has a body add Content-Type and Content-Length headers
     if (content !== null) {
@@ -630,15 +719,15 @@ SwaggerEditor.controller('TryOperation', function ($scope, formdataFilter,
       return bodyModel;
 
     // if body has form-data encoding use formdataFilter to encode it to string
-    } else if (contentType.indexOf('form-data') > -1) {
+    } else if (/form\-data/.test(contentType)) {
       return formdataFilter(bodyModel);
 
     // if body has application/json encoding use JSON to stringify it
-    } else if (contentType.indexOf('application/json') > -1) {
+    } else if (/json/.test(contentType)) {
       return JSON.stringify(bodyModel, null, 2);
 
     // if encoding is x-www-form-urlencoded use jQuery.param method to stringify
-    } else if (contentType.indexOf('x-www-form-urlencoded') > -1) {
+    } else if (/urlencode/.test(contentType)) {
       return $.param(bodyModel);
     }
 
@@ -689,7 +778,7 @@ SwaggerEditor.controller('TryOperation', function ($scope, formdataFilter,
 
     $.ajax({
       url: $scope.generateUrl(),
-      type: $scope.operation.operationName,
+      type: $scope.operationName,
       headers: _.omit($scope.getHeaders(), omitHeaders),
       data: $scope.getRequestBody(),
       contentType: $scope.contentType
@@ -766,7 +855,17 @@ SwaggerEditor.controller('TryOperation', function ($scope, formdataFilter,
   */
   $scope.isType = function (headers, type) {
     var regex = new RegExp(type);
+    headers = headers || {};
 
     return headers['Content-Type'] && regex.test(headers['Content-Type']);
+  };
+
+  /*
+   * Determines if this call is cross-origin
+   *
+   * @returns {boolean}
+  */
+  $scope.isCrossOrigin = function () {
+    return $scope.specs.host && $scope.specs.host !== $scope.locationHost;
   };
 });

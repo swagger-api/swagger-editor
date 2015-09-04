@@ -1,13 +1,21 @@
 <div class="main-header">
+
   <a href="http://swagger.io" target="_blank" class="logo" ng-if="!showHeaderBranding()"></a>
+
   <div ng-include="'templates/branding-left.html'" ng-if="showHeaderBranding()" class="branding-3rdparty"></div>
+
   <section class="menu-bar">
     <div class="file dropdown" ng-if="showFileMenu()">
-      <button class="btn btn-default dropdown-toggle" type="button"
-        data-toggle="dropdown" id="fileMenu" ng-mouseover="assignDownloadHrefs()">File
+      <button
+        class="btn btn-default dropdown-toggle"
+        ng-click="onFileMenuOpen()"
+        data-toggle="dropdown"
+        id="fileMenu">
+        <span>File</span>
         <span class="caret"></span>
       </button>
-      <ul class="dropdown-menu" ng-if="showFileMenu()">
+
+      <ul class="dropdown-menu">
         <li>
           <a dropdown-toggle ng-click="newProject()" tabindex="-1" track-event="file new">New</a>
         </li>
@@ -37,40 +45,41 @@
     </div>
 
     <div class="preferences dropdown">
-      <button id="preferences" class="btn btn-default dropdown-toggle">
-        Preferences
+      <button id="preferences" class="btn btn-default dropdown-toggle" data-toggle="dropdown" >
+        <span>Preferences</span>
         <span class="caret"></span>
       </button>
+
       <ul class="dropdown-menu">
         <li>
           <a class="font-size">
-            Font Size
+            Font Size&nbsp;
             <span ng-click="adjustFontSize(1)" stop-event class="adjust" track-event="preferences font+">+</span><span ng-click="adjustFontSize(-1)" stop-event class="adjust" track-event="preferences font-">–</span>
           </a>
         </li>
         <li>
-          <a dropdown-toggle ng-click="openEditorPreferences()" tabindex="-1" track-event="preferences settings">Settings</a>
+          <a dropdown-toggle ng-click="openEditorPreferences()" tabindex="-1" track-event="preferences settings">Editor Settings</a>
         </li>
         <li>
-          <a dropdown-toggle ng-click="resetSettings()" tabindex="-1" track-event="preferences reset-settings">Reset Settings</a>
+          <a dropdown-toggle ng-click="resetSettings()" tabindex="-1" track-event="preferences reset-settings">Reset Editor Settings</a>
         </li>
         <li class="divider"></li>
         <li>
-          <a dropdown-toggle tabindex="-1" ng-click="toggleLiveRender()" track-event="mode toggle-live-render {{isLiveRenderEnabled()}}">{{isLiveRenderEnabled() ? 'Disable' : 'Enable'}} Live Render</a>
+          <a dropdown-toggle tabindex="-1" ng-click="openPreferences()" track-event="preferences preferences">Preferences&hellip;</a>
         </li>
       </ul>
     </div>
 
     <div class="dropdown" ng-if="servers && !disableCodeGen">
-       <button class="btn btn-default dropdown-toggle" type="button"
-        data-toggle="dropdown" id="ServerMenu">
-        Generate Server
+      <button class="btn btn-default dropdown-toggle" data-toggle="dropdown" id="ServerMenu">
+        <span>Generate Server</span>
         <span class="caret"></span>
       </button>
+
       <ul class="dropdown-menu">
-        <li ng-repeat="server in servers">
+        <li ng-repeat="server in ::servers track by $index">
           <a dropdown-toggle tabindex="-1" ng-click="getSDK('server', server)" track-event="generate-server {{server}}">
-            {{capitalizeGeneratorName(server)}}
+            <span class="name">{{capitalizeGeneratorName(server)}}</span>
             <span class="badge">Alpha</span>
           </a>
         </li>
@@ -78,15 +87,15 @@
     </div>
 
     <div class="code-gen dropdown" ng-if="clients && !disableCodeGen">
-       <button class="btn btn-default dropdown-toggle" type="button"
-        data-toggle="dropdown" id="ClientMenu">
-        Generate Client
+      <button class="btn btn-default dropdown-toggle" data-toggle="dropdown" id="ClientMenu">
+        <span>Generate Client</span>
         <span class="caret"></span>
       </button>
+
       <ul class="dropdown-menu">
-        <li ng-repeat="client in clients">
+        <li ng-repeat="client in ::clients track by $index">
           <a dropdown-toggle tabindex="-1" ng-click="getSDK('client', client)" track-event="generate-client {{client}}">
-            {{capitalizeGeneratorName(client)}}
+            <span class="name">{{capitalizeGeneratorName(client)}}</span>
             <span class="badge">Alpha</span>
           </a>
         </li>
@@ -94,9 +103,11 @@
     </div>
 
     <div class="help dropdown">
-      <button class="dropdown-icon btn btn-default dropdown-toggle" id="helpMenu" data-toggle="dropdown" type="button">Help
-      <span class="caret"></span>
+      <button class="dropdown-icon btn btn-default dropdown-toggle" id="helpMenu" data-toggle="dropdown">
+        <span>Help</span>
+        <span class="caret"></span>
       </button>
+
       <ul class="dropdown-menu">
         <li>
           <a tabindex="-1" href="https://github.com/swagger-api/swagger-spec/blob/master/versions/2.0.md" target="_blank">Swagger 2.0 Specs</a>
@@ -121,9 +132,11 @@
 
   <section class="status-bar">
     <div class="status {{statusClass}}" ng-if="status">
+      <i ng-if="statusClass == 'working'" class="fa fa-spinner fa-pulse"></i>
+      <i ng-if="statusClass == 'error'" class="fa fa fa-times"></i>
+      <i ng-if="statusClass == 'success'" class="fa fa-check"></i>
       <span>{{status}}</span>
     </div>
     <div class="brandRight" ng-include="'templates/branding-right.html'" ng-if="showHeaderBranding()"></div>
   </section>
-  </div>
 </div>

@@ -2,7 +2,14 @@
 
 module.exports = {
   dist: {
-    files: [{
+    files: [
+    {
+      expand: true,
+      cwd: 'app/images',
+      src: '{,*/}*.{png,jpg,jpeg,gif}',
+      dest: 'dist/images'
+    },
+    {
       expand: true,
       dot: true,
       cwd: 'app',
@@ -12,11 +19,10 @@ module.exports = {
         '.htaccess',
         '*.html',
         'config/defaults.json',
-        'images/{,*/}*.{webp}',
+        'images/{,*/}*.{webp,svg,png}',
         'views/{,*/}*.html',
         'templates/{,*/}*.html',
         'fonts/*',
-        'schema/*',
         'spec-files/*',
         'CNAME',
         'styles/branding.css',
@@ -46,6 +52,14 @@ module.exports = {
     expand: true,
     cwd: 'app/bower_components/ace-builds/src-min-noconflict/',
     dest: 'dist/bower_components/ace-builds/src-noconflict/',
-    src: '**/*.js',
+    src: [
+      'theme-*.js',
+      'snippets/yaml.js',
+      'ext-settings_menu.js',
+      'ext-language_tools.js',
+      'ext-searchbox.js',
+      'mode-yaml.js',
+      'mode-json.js'
+    ],
   }
 };

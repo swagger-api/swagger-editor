@@ -4,9 +4,9 @@
  * Manages Authentications
 */
 SwaggerEditor.service('AuthManager', function AuthManager($sessionStorage) {
-  $sessionStorage.$default({securities: {}, securityKeys: {}});
-  var securities = $sessionStorage.securities;
-  var securityKeys = $sessionStorage.securityKeys;
+  $sessionStorage.$default({
+    securities: {}
+  });
 
   /*
    * Authenticates HTTP Basic Auth securities
@@ -19,22 +19,20 @@ SwaggerEditor.service('AuthManager', function AuthManager($sessionStorage) {
     if (securityName === '$$hashKey') {
       return;
     }
-    if (angular.isObject(options)) {
-
-      options.username = options.username || '';
-      options.password = options.password || '';
-      options.isAuthenticated = true;
-      options.base64 = window.btoa(options.username + ':' + options.password);
-      options.securityName = securityName;
-      var key = securityKeys[securityName];
-      securities[key] = {
-        type: 'basic',
-        security: security,
-        options: options
-      };
-    } else {
-      throw new Error('Can not authenticate with options');
+    if (!_.isObject(options)) {
+      throw new TypeError('Can not authenticate with options');
     }
+
+    options.username = options.username || '';
+    options.password = options.password || '';
+    options.isAuthenticated = true;
+    options.base64 = window.btoa(options.username + ':' + options.password);
+    options.securityName = securityName;
+    $sessionStorage.securities[securityName] = {
+      type: 'basic',
+      security: security,
+      options: options
+    };
   };
 
   /*
@@ -49,8 +47,7 @@ SwaggerEditor.service('AuthManager', function AuthManager($sessionStorage) {
       return;
     }
     options.isAuthenticated = true;
-    var key = securityKeys[securityName];
-    securities[key] = {
+    $sessionStorage.securities[securityName] = {
       type: 'oAuth2',
       security: security,
       options: options
@@ -69,8 +66,7 @@ SwaggerEditor.service('AuthManager', function AuthManager($sessionStorage) {
       return;
     }
     options.isAuthenticated = true;
-    var key = securityKeys[securityName];
-    securities[key] = {
+    $sessionStorage.securities[securityName] = {
       type: 'apiKey',
       security: security,
       options: options
@@ -82,12 +78,7 @@ SwaggerEditor.service('AuthManager', function AuthManager($sessionStorage) {
    * @returns {object} the security object
   */
   this.getAuth = function (securityName) {
-    var key = securityKeys[securityName];
-    if (key) {
-      return securities[key];
-    } else {
-      return {};
-    }
+    return $sessionStorage.securities[securityName];
   };
 
   /*
@@ -95,11 +86,7 @@ SwaggerEditor.service('AuthManager', function AuthManager($sessionStorage) {
    * @returns {boolean} - true if security is authenticated false otherwise
   */
   this.securityIsAuthenticated = function (securityName) {
-    var auth = {};
-    var key = securityKeys[securityName];
-    if (key) {
-      auth = securities[key];
-    }
+    var auth = $sessionStorage.securities[securityName];
 
     return auth && auth.options && auth.options.isAuthenticated;
   };

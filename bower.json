@@ -1,38 +1,54 @@
 {
   "name": "swagger-editor",
-  "version": "2.9.5",
-  "devDependencies": {
-    "angular": "1.3.15",
-    "angular-bootstrap": "0.11.0",
-    "angular-cookies": "1.3.15",
-    "angular-marked": "0.0.12",
-    "angular-mocks": "1.3.15",
-    "angular-resource": "1.3.15",
-    "angular-sanitize": "1.3.15",
-    "angular-scenario": "1.3.15",
-    "angular-ui-ace": "0.2.3",
-    "angular-ui-router": "0.2.13",
-    "bootstrap": "3.3.0",
-    "es5-shim": "2.1.0",
-    "jquery": "2.1.1",
-    "js-yaml": "3.2.5",
-    "json3": "3.2.6",
-    "ngstorage": "0.3.0",
-    "yaml-js": "0.1.1",
-    "swagger-tools": "0.8.6",
-    "objectpath": "1.1.0",
-    "harmony-collections": "Benvie/harmony-collections",
-    "swagger-converter": "0.1.0",
-    "lodash": "3.6.0",
-    "apply-diff": "~1.2.4",
-    "async": "~0.9.2",
-    "json-editor": "~0.7.15",
-    "schema-form": "~0.0.1",
-    "ng-file-upload": "~4.2.1"
-  },
+  "version": "2.9.6",
   "dependencies": {
-    "json-formatter": "0.2.7",
+    "SparkMD5": "spark-md5#~1.0.0",
+    "angular": "~1.4.2",
+    "angular-bootstrap": "~0.13.0",
+    "angular-marked": "~0.0.15",
+    "angular-sanitize": "~1.4.2",
+    "angular-ui-ace": "0.2.3",
     "angular-ui-layout": "1.0.5",
-    "json-schema-view": "0.4.1"
+    "angular-ui-router": "~0.2.15",
+    "bootstrap": "~3.3.4",
+    "es5-shim": "~4.1.5",
+    "font-awesome": "~4.4.0",
+    "jquery": "~2.1.4",
+    "js-yaml": "~3.3.1",
+    "json-formatter": "~0.4.0",
+    "json-formatter-js": "~0.2.0",
+    "json-schema-view-js": "~0.1.1",
+    "lodash": "~3.10.1",
+    "ng-file-upload": "~7.0.17",
+    "ngstorage": "~0.3.9",
+    "promise-polyfill": "~2.1.0",
+    "schema-form": "~0.1.4",
+    "yaml-js": "~0.1.1",
+    "yaml-worker": "~1.3.1"
+  },
+  "overrides": {
+    "ace-builds": {
+      "main": [
+        "src-noconflict/ace.js",
+        "src-noconflict/mode-yaml.js",
+        "src-noconflict/ext-language_tools.js"
+      ]
+    },
+    "bootstrap": {
+      "main": [
+        "less/bootstrap.less",
+        "dist/js/bootstrap.js"
+      ]
+    },
+    "json-schema-view-js": {
+      "main": [
+        "dist/bundle.min.js",
+        "dist/style.css"
+      ]
+    }
+  },
+  "devDependencies": {
+    "sway-worker": "~1.3.0",
+    "angular-mocks": "~1.4.2"
   }
 }

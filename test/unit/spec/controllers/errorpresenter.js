@@ -11,8 +11,13 @@ describe('Controller: ErrorPresenterCtrl', function () {
   // Initialize the controller and a mock scope
   beforeEach(inject(function ($controller, $rootScope) {
     scope = $rootScope.$new();
+    var rootScope = $rootScope.$new();
+    rootScope.warnings = [];
+    rootScope.errors = [];
+
     ErrorPresenterCtrl = $controller('ErrorPresenterCtrl', {
-      $scope: scope
+      $scope: scope,
+      $rootScope: rootScope
     });
   }));
 

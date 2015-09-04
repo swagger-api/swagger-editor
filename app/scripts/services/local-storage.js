@@ -1,6 +1,8 @@
 'use strict';
 
-SwaggerEditor.service('LocalStorage', function LocalStorage($localStorage, $q) {
+SwaggerEditor.service('LocalStorage', function LocalStorage($localStorage,
+  $rootScope) {
+
   var storageKey = 'SwaggerEditorCache';
   var changeListeners =  {};
 
@@ -26,7 +28,7 @@ SwaggerEditor.service('LocalStorage', function LocalStorage($localStorage, $q) {
       });
 
       if (key === 'yaml') {
-        save('progress', 'success-saved');
+        $rootScope.progressStatus = 'success-saved';
       }
     }, 100)();
   }
@@ -35,15 +37,13 @@ SwaggerEditor.service('LocalStorage', function LocalStorage($localStorage, $q) {
    *
   */
   function load(key) {
-    var deferred = $q.defer();
-
-    if (!key) {
-      deferred.resolve($localStorage[storageKey]);
-    } else {
-      deferred.resolve($localStorage[storageKey][key]);
-    }
-
-    return deferred.promise;
+    return new Promise(function (resolve) {
+      if (!key) {
+        resolve($localStorage[storageKey]);
+      } else {
+        resolve($localStorage[storageKey][key]);
+      }
+    });
   }
 
   /*

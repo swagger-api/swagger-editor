@@ -1,6 +1,6 @@
 'use strict';
 
-SwaggerEditor.directive('operation', function (defaults) {
+SwaggerEditor.directive('swaggerOperation', function (defaults) {
   return {
     restrict: 'E',
     replace: true,
@@ -19,7 +19,7 @@ SwaggerEditor.directive('operation', function (defaults) {
        * @returns {array} - array of parameters
       */
       $scope.getParameters = function () {
-        var hasPathParameter = Array.isArray($scope.path.pathParameters);
+        var hasPathParameter = Array.isArray($scope.path.parameters);
         var hasOperationParameter = Array.isArray($scope.operation.parameters);
 
         // if there is no operation and path parameter return empty array
@@ -29,7 +29,7 @@ SwaggerEditor.directive('operation', function (defaults) {
 
         // if there is no operation parameter return only path parameters
         if (!hasOperationParameter) {
-          return $scope.path.pathParameters || [];
+          return $scope.path.parameters || [];
         }
 
         // if there is no path parameter return operation parameters
@@ -38,7 +38,7 @@ SwaggerEditor.directive('operation', function (defaults) {
         }
 
         // if there is both path and operation parameters return all of them
-        return $scope.operation.parameters.concat($scope.path.pathParameters);
+        return $scope.operation.parameters.concat($scope.path.parameters);
       };
 
       /*
@@ -70,8 +70,8 @@ SwaggerEditor.directive('operation', function (defaults) {
        * @returns boolean
       */
       $scope.hasAResponseWithSchema = function (responses) {
-        return responses.some(function (response) {
-          return response.schema;
+        return _.keys(responses).some(function (responseCode) {
+          return responses[responseCode] && responses[responseCode].schema;
         });
       };
 
@@ -83,8 +83,8 @@ SwaggerEditor.directive('operation', function (defaults) {
        * @returns boolean
       */
       $scope.hasAResponseWithHeaders = function (responses) {
-        return responses.some(function (response) {
-          return response.headers;
+        return _.keys(responses).some(function (responseCode) {
+          return responses[responseCode] && responses[responseCode].headers;
         });
       };
     }

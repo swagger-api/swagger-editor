@@ -2,11 +2,11 @@
 
 module.exports = {
   unit: {
-    configFile: 'karma.conf.js',
+    configFile: 'test/unit/karma.conf.js',
     singleRun: true
   },
   main: {
-    configFile: 'karma.conf.js',
+    configFile: 'test/unit/karma.conf.js',
     singleRun: false,
     autoWatch: true
   }
