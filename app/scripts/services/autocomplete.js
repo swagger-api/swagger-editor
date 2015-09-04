@@ -72,15 +72,8 @@ SwaggerEditor.service('Autocomplete', function ($rootScope, snippets,
   function getPathForPosition(pos) {
 
     return ASTManager.pathForPosition($rootScope.editorValue, {
-      line: pos.row,
-
-      // we are subtracting 2 from row.column because:
-      //  1. the position object is 1 base index, but ASTManager works with 0
-      //     base indexes
-      //  2. the already inserted character should not be counted for getting
-      //     the position. We want the path up to node that we're editing, not
-      //     the the node we're adding (if any)
-      column: pos.column - 2
+      line: pos.row + 1,
+      column: pos.column + 1
     });
   }
 
@@ -199,7 +192,7 @@ SwaggerEditor.service('Autocomplete', function ($rootScope, snippets,
       name: keyword,
       value: keyword,
       score: 300,
-      meta: 'swagger'
+      meta: 'keyword'
     };
   }
 
