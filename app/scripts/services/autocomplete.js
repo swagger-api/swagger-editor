@@ -92,9 +92,19 @@ SwaggerEditor.service('Autocomplete', function ($rootScope, snippets,
       return false;
     }
 
-    for (var i = 0; i < path.length; i++) {
-      return (new RegExp(matcher[i])).test(path[i]);
+    for (var i = 0, l = path.length; i < l; i++) {
+      var matches = (new RegExp(matcher[i])).test(path[i]);
+
+      // if it's not matching quickly return false
+      if (!matches) {
+        return false;
+
+      // only return true if it's last item in path and it matches
+      } else if (i === l - 1) {
+        return true;
+      }
     }
+
     return true;
   }
 
