@@ -100,6 +100,8 @@ describe('Session auth tests', function () {
 
     setValue(swyaml);
 
+    browser.sleep(1000);
+
     browser.wait(function () {
       return browser.executeScript(function () {
         return window.sessionStorage['ngStorage-securityKeys'];
