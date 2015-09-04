@@ -17,12 +17,14 @@ SwaggerEditor.controller('HeaderCtrl', function HeaderCtrl($scope, $modal,
 
     if (/success/.test(progressStatus)) {
       statusClass = 'success';
-      status = '✔️ ' + status;
     }
 
     if (/error/.test(progressStatus)) {
       statusClass = 'error';
-      status = '❌' + status;
+    }
+
+    if (/working/.test(progressStatus)) {
+      statusClass = 'working';
     }
 
     $scope.status = status;

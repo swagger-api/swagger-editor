@@ -132,6 +132,9 @@
 
   <section class="status-bar">
     <div class="status {{statusClass}}" ng-if="status">
+      <i ng-if="statusClass == 'working'" class="fa fa-spinner fa-pulse"></i>
+      <i ng-if="statusClass == 'error'" class="fa fa fa-times"></i>
+      <i ng-if="statusClass == 'success'" class="fa fa-check"></i>
       <span>{{status}}</span>
     </div>
     <div class="brandRight" ng-include="'templates/branding-right.html'" ng-if="showHeaderBranding()"></div>
