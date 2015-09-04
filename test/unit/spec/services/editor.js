@@ -11,7 +11,7 @@ describe('Service: Editor', function () {
     Editor = _Editor_;
   }));
 
-  it('should do something', function () {
+  it('should exists', function () {
     expect(!!Editor).to.equal(true);
   });
 

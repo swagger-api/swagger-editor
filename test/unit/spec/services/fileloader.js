@@ -11,7 +11,7 @@ describe('Service: FileLoader', function () {
     FileLoader = _FileLoader_;
   }));
 
-  it('should do something', function () {
+  it('should exists', function () {
     expect(!!FileLoader).to.equal(true);
   });
 

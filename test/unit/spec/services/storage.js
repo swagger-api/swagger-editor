@@ -11,7 +11,7 @@ describe('Service: Storage', function () {
     Storage = _Storage_;
   }));
 
-  it('should do something', function () {
+  it('should exists', function () {
     expect(!!Storage).to.equal(true);
   });
 

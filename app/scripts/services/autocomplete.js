@@ -6,7 +6,6 @@
 */
 SwaggerEditor.service('Autocomplete', function ($rootScope, snippets,
   KeywordMap, Preferences, ASTManager) {
-  var editor = null;
 
   // Ace KeywordCompleter object
   var KeywordCompleter = {
@@ -40,8 +39,7 @@ SwaggerEditor.service('Autocomplete', function ($rootScope, snippets,
    *
    * @param {object} e - the Ace editor object
   */
-  this.init = function (e) {
-    editor = e;
+  this.init = function (editor) {
     editor.completers = [KeywordCompleter];
   };
 
@@ -70,7 +68,6 @@ SwaggerEditor.service('Autocomplete', function ($rootScope, snippets,
    *   position based in the YAML document
   */
   function getPathForPosition(pos) {
-
     return ASTManager.pathForPosition($rootScope.editorValue, {
       line: pos.row + 1,
       column: pos.column + 1
@@ -171,6 +168,12 @@ SwaggerEditor.service('Autocomplete', function ($rootScope, snippets,
     if (!_.isObject(keywordsMap)) {
       return [];
     }
+
+    // if keywordsMap is an array of strings, return the array as list of
+    // suggestions
+    // if (_.isArray(keywordsMap) && keywordsMap.every(_.isString)) {
+    //   return keywordsMap.map(constructAceCompletion);
+    // }
 
     // If keywordsMap is describing an array unwrap the inner map so we can
     // suggest for array items

@@ -45,6 +45,10 @@ SwaggerEditor.directive('swaggerOperation', function (defaults) {
        * TODO: Docs
       */
       $scope.getParameterSchema = function (parameter) {
+        if (!parameter) {
+          return null;
+        }
+
         if (parameter.schema) {
           return parameter.schema;
         }

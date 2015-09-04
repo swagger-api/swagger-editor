@@ -93,10 +93,21 @@ SwaggerEditor.service('KeywordMap', function KeywordMap(defaults) {
 
   var parameter = {
     name: String,
-    in: String,
+    in: [
+      'body',
+      'formData',
+      'header',
+      'query'
+    ],
     description: String,
-    required: String,
-    type: String,
+    required: ['true', 'false'],
+    type:  [
+      'string',
+      'number',
+      'boolean',
+      'integer',
+      'array'
+    ],
     format: String,
     schema: jsonSchema
   };
@@ -140,7 +151,7 @@ SwaggerEditor.service('KeywordMap', function KeywordMap(defaults) {
   };
 
   var map = {
-    swagger: String,
+    swagger: ['"2.0"'],
     info: {
       version: String,
       title: String,

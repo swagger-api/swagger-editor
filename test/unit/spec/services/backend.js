@@ -11,7 +11,7 @@ describe('Service: Backend', function () {
     Backend = _Backend_;
   }));
 
-  it('should do something', function () {
+  it('should exists', function () {
     expect(!!Backend).to.equal(true);
   });
 

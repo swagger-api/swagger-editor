@@ -11,7 +11,7 @@ describe('Service: Builder', function () {
     Builder = _Builder_;
   }));
 
-  it('should do something', function () {
+  it('should exists', function () {
     expect(!!Builder).to.equal(true);
   });
 
