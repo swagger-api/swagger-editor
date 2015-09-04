@@ -8,7 +8,9 @@ describe('Service: ASTManager', function () {
   // instantiate service
   var ASTManager;
   beforeEach(inject(function (_ASTManager_) {
-    ASTManager = _ASTManager_;
+    if (!ASTManager) {
+      ASTManager = _ASTManager_;
+    }
   }));
 
   describe('#pathForPosition', function () {
@@ -75,7 +77,7 @@ describe('Service: ASTManager', function () {
         ].join('\n');
       });
 
-      it('should return empty array when pointer is at array dashs',
+      it('should return empty array when pointer is at array dash',
         function (done) {
           var position = {line: 0, column: 0};
           ASTManager.pathForPosition(yaml, position).then(function (path) {
@@ -98,6 +100,7 @@ describe('Service: ASTManager', function () {
       it('should return ["1"] when pointer is at def',
         function (done) {
           var position = {line: 1, column: 3};
+
           ASTManager.pathForPosition(yaml, position).then(function (path) {
             expect(path).to.deep.equal(['1']);
             done();
