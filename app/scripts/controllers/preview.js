@@ -6,7 +6,6 @@ SwaggerEditor.controller('PreviewCtrl', function PreviewCtrl(Storage, Builder,
 
   $sessionStorage.$default({securityKeys: {}});
 
-  var securityKeys = $sessionStorage.securityKeys;
   var build = _.memoize(Builder.buildDocs);
 
   $scope.loadLatest = loadLatest;
@@ -51,8 +50,10 @@ SwaggerEditor.controller('PreviewCtrl', function PreviewCtrl(Storage, Builder,
 
     if ($scope.specs && $scope.specs.securityDefinitions) {
       _.forEach($scope.specs.securityDefinitions, function (security, key) {
-        securityKeys[key] = SparkMD5.hash(JSON.stringify(security));
+        $sessionStorage.securityKeys[key] =
+          SparkMD5.hash(JSON.stringify(security));
       });
+      $sessionStorage.$sync();
     }
 
     if (result.specs) {

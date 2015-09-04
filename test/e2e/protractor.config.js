@@ -10,6 +10,15 @@ var config = {
     }
   },
 
+  // To test specific files you can limit the spec files to steps 1, 2 and the
+  // step you are looking for. For example:
+  //
+  // specs: [
+  // 'specs/**/1*test.js',
+  // 'specs/**/2*test.js',
+  // 'specs/**/5*test.js'
+  // ],
+  //
   specs: ['specs/**/*test.js'],
 
   jasmineNodeOpts: {
