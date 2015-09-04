@@ -5,7 +5,7 @@
  * relevant completion candidates based on Swagger document.
 */
 SwaggerEditor.service('Autocomplete', function ($rootScope, snippets,
-  KeywordMap, Preferences) {
+  KeywordMap, Preferences, ASTManager) {
   var editor = null;
 
   // Ace KeywordCompleter object
@@ -22,10 +22,15 @@ SwaggerEditor.service('Autocomplete', function ($rootScope, snippets,
       // Let Ace select the first candidate
       editor.completer.autoSelect = true;
 
-      var keywordsForPos = getKeywordsForPosition(pos);
-      var snippetsForPos = getSnippetsForPosition(pos);
+      Promise.all([
+        getKeywordsForPosition(pos),
+        getSnippetsForPosition(pos)
+      ]).then(function (results) {
+        var keywordsForPos = _.isArray(results[0]) ? results[0] : [];
+        var snippetsForPos = _.isArray(results[1]) ? results[1] : [];
 
-      callback(null, keywordsForPos.concat(snippetsForPos));
+        callback(null, keywordsForPos.concat(snippetsForPos));
+      });
     }
   };
 
@@ -61,32 +66,32 @@ SwaggerEditor.service('Autocomplete', function ($rootScope, snippets,
    *
    * @param {position} pos - AST Mark position
    *
-   * @returns {array} - a list of keywords to reach to provided position based
-   *   in the YAML document
+   * @returns {Promise<array>} - a list of keywords to reach to provided
+   *   position based in the YAML document
   */
-  function getPathForPosition() {
+  function getPathForPosition(pos) {
 
-    // we are subtracting 2 from row.column because:
-    //  1. the position object is 1 base index, but ASTManager works with 0 base
-    //     indexes
-    //  2. the already inserted character should not be counted for getting the
-    //     position. We want the path up to node that we're editing, not the the
-    //     node we're adding (if any)
+    return ASTManager.pathForPosition($rootScope.editorValue, {
+      line: pos.row,
 
-    // TODO
-    // var path = ASTManager.pathForPosition(pos.row, pos.column - 2);
-
-    return []; //path;
+      // we are subtracting 2 from row.column because:
+      //  1. the position object is 1 base index, but ASTManager works with 0
+      //     base indexes
+      //  2. the already inserted character should not be counted for getting
+      //     the position. We want the path up to node that we're editing, not
+      //     the the node we're adding (if any)
+      column: pos.column - 2
+    });
   }
 
   /*
-   * Check if a path is match with
+   * Check if a path is match with a matcher path
    * @param {array} path - path
    * @param {array} matcher - matcher
    * @returns {boolean} - true if it's match
   */
   function isMatchPath(path, matcher) {
-    if (!Array.isArray(path) || !Array.isArray(matcher)) {
+    if (!_.isArray(path) || !_.isArray(matcher)) {
       return false;
     }
 
@@ -108,16 +113,7 @@ SwaggerEditor.service('Autocomplete', function ($rootScope, snippets,
    * @returns {function} - filter function for selection proper snippets based
    *  on provided position
   */
-  function filterForSnippets(pos) {
-
-    var path = getPathForPosition(pos);
-
-    // If there is no path being returned by AST Manager and only one character
-    // was typed, path is root
-    if (!path && pos.column === 1) {
-      path = [];
-    }
-
+  function filterForSnippets(path) {
     return function filter(snippet) {
       return isMatchPath(path, snippet.path);
     };
@@ -149,44 +145,46 @@ SwaggerEditor.service('Autocomplete', function ($rootScope, snippets,
    *
    * @param {object} pos - the position to get keywords from
    *
-   * @returns {array} - list of keywords for provided position
+   * @returns {Promise<array>} - list of keywords for provided position
   */
   function getKeywordsForPosition(pos) {
-    var path = getPathForPosition(pos);
     var keywordsMap = KeywordMap.get();
-    var key = path.shift();
 
-    // is getting path was not successful stop here and return no candidates
-    if (!Array.isArray(path)) {
-      return [];
-    }
+    return getPathForPosition(pos).then(function (path) {
+      var key = path.shift();
 
-    // traverse down the keywordsMap for each key in the path until there is no
-    // key in the path
-    while (key && angular.isObject(keywordsMap)) {
-      keywordsMap = getChild(keywordsMap, key);
-      key = path.shift();
-    }
+      // is getting path was not successful stop here and return no candidates
+      if (!_.isArray(path)) {
+        return [];
+      }
 
-    // if no keywordsMap was found after the traversal return no candidates
-    if (!angular.isObject(keywordsMap)) {
-      return [];
-    }
+      // traverse down the keywordsMap for each key in the path until there is
+      // no key in the path
+      while (key && _.isObject(keywordsMap)) {
+        keywordsMap = getChild(keywordsMap, key);
+        key = path.shift();
+      }
 
-    // If keywordsMap is describing an array unwrap the inner map so we can
-    // suggest for array items
-    if (angular.isArray(keywordsMap)) {
-      keywordsMap = keywordsMap[0];
-    }
+      // if no keywordsMap was found after the traversal return no candidates
+      if (!_.isObject(keywordsMap)) {
+        return [];
+      }
 
-    // if keywordsMap is not an object at this point return no candidates
-    if (!angular.isObject(keywordsMap)) {
-      return [];
-    }
+      // If keywordsMap is describing an array unwrap the inner map so we can
+      // suggest for array items
+      if (_.isArray(keywordsMap)) {
+        keywordsMap = keywordsMap[0];
+      }
 
-    // for each key in keywordsMap map construct a completion candidate and
-    // return the array
-    return Object.keys(keywordsMap).map(constructAceCompletion);
+      // if keywordsMap is not an object at this point return no candidates
+      if (!_.isObject(keywordsMap)) {
+        return [];
+      }
+
+      // for each key in keywordsMap map construct a completion candidate and
+      // return the array
+      return _.keys(keywordsMap).map(constructAceCompletion);
+    });
   }
 
   /*
@@ -210,17 +208,20 @@ SwaggerEditor.service('Autocomplete', function ($rootScope, snippets,
    *
    * @param {object} pos - the position to get snippets from
    *
-   * @returns {array} - list of snippets for provided position
+   * @returns {Promise<array>} - list of snippets for provided position
   */
   function getSnippetsForPosition(pos) {
 
-    // find all possible snippets, modify them to be compatible with Ace and
-    // sort them based on their position. Sorting is done by assigning a score
-    // to each snippet, not by sorting the array
-    return snippets
-      .filter(filterForSnippets(pos))
-      .map(constructAceSnippet)
-      .map(snippetSorterForPos(pos));
+    return getPathForPosition(pos).then(function (path) {
+
+      // find all possible snippets, modify them to be compatible with Ace and
+      // sort them based on their position. Sorting is done by assigning a score
+      // to each snippet, not by sorting the array
+      return snippets
+        .filter(filterForSnippets(path))
+        .map(constructAceSnippet)
+        .map(snippetSorterForPos(path));
+    });
   }
 
   /*
@@ -232,9 +233,7 @@ SwaggerEditor.service('Autocomplete', function ($rootScope, snippets,
    *
    * @returns {function} - applies snippet with score based on position
   */
-  function snippetSorterForPos(position) {
-
-    var path = getPathForPosition(position);
+  function snippetSorterForPos(path) {
 
     // this function is used in Array#map
     return function sortSnippets(snippet) {

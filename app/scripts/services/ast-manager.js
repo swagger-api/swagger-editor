@@ -182,7 +182,7 @@ SwaggerEditor.service('ASTManager', function ASTManager(YAML) {
             (node.end_mark.line > position.line);
         }
 
-        if ([MAP_TAG, SEQ_TAG].indexOf(current.tag) === -1) {
+        if (!current || [MAP_TAG, SEQ_TAG].indexOf(current.tag) === -1) {
           return cb(path);
         }
 
