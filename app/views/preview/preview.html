@@ -35,7 +35,6 @@
 
   <ul class="paths" collapse-when="specs.paths.$folded">
     <li
-      viewport-watch
       class="path"
       ng-include
       src="'templates/path.html'"
@@ -64,7 +63,6 @@
 
       <li
         class="definition"
-        viewport-watch
         ng-repeat="(modelName, model) in specs.definitions"
         ng-if="!isVendorExtension(modelName)"
         scroll-into-view-when="isInFocus(['definitions', modelName])">
