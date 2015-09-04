@@ -22,12 +22,12 @@ SwaggerEditor.service('Autocomplete', function ($rootScope, snippets,
       // Let Ace select the first candidate
       editor.completer.autoSelect = true;
 
-      Promise.all([
-        getKeywordsForPosition(pos),
-        getSnippetsForPosition(pos)
-      ]).then(function (results) {
-        var keywordsForPos = _.isArray(results[0]) ? results[0] : [];
-        var snippetsForPos = _.isArray(results[1]) ? results[1] : [];
+      getPathForPosition(pos).then(function (path) {
+
+        // These function might shift or push to paths, therefore we're passing
+        // a clone of path to them
+        var keywordsForPos = getKeywordsForPosition(_.clone(path));
+        var snippetsForPos = getSnippetsForPosition(_.clone(path));
 
         callback(null, keywordsForPos.concat(snippetsForPos));
       });
@@ -146,48 +146,46 @@ SwaggerEditor.service('Autocomplete', function ($rootScope, snippets,
   /*
    * Gets array of keywords based on a position
    *
-   * @param {object} pos - the position to get keywords from
+   * @param {arrat} path - the path to get keywords from
    *
-   * @returns {Promise<array>} - list of keywords for provided position
+   * @returns {array} - list of keywords for provided position
   */
-  function getKeywordsForPosition(pos) {
+  function getKeywordsForPosition(path) {
     var keywordsMap = KeywordMap.get();
 
-    return getPathForPosition(pos).then(function (path) {
-      var key = path.shift();
+    var key = path.shift();
 
-      // is getting path was not successful stop here and return no candidates
-      if (!_.isArray(path)) {
-        return [];
-      }
+    // is getting path was not successful stop here and return no candidates
+    if (!_.isArray(path)) {
+      return [];
+    }
 
-      // traverse down the keywordsMap for each key in the path until there is
-      // no key in the path
-      while (key && _.isObject(keywordsMap)) {
-        keywordsMap = getChild(keywordsMap, key);
-        key = path.shift();
-      }
+    // traverse down the keywordsMap for each key in the path until there is
+    // no key in the path
+    while (key && _.isObject(keywordsMap)) {
+      keywordsMap = getChild(keywordsMap, key);
+      key = path.shift();
+    }
 
-      // if no keywordsMap was found after the traversal return no candidates
-      if (!_.isObject(keywordsMap)) {
-        return [];
-      }
+    // if no keywordsMap was found after the traversal return no candidates
+    if (!_.isObject(keywordsMap)) {
+      return [];
+    }
 
-      // If keywordsMap is describing an array unwrap the inner map so we can
-      // suggest for array items
-      if (_.isArray(keywordsMap)) {
-        keywordsMap = keywordsMap[0];
-      }
+    // If keywordsMap is describing an array unwrap the inner map so we can
+    // suggest for array items
+    if (_.isArray(keywordsMap)) {
+      keywordsMap = keywordsMap[0];
+    }
 
-      // if keywordsMap is not an object at this point return no candidates
-      if (!_.isObject(keywordsMap)) {
-        return [];
-      }
+    // if keywordsMap is not an object at this point return no candidates
+    if (!_.isObject(keywordsMap)) {
+      return [];
+    }
 
-      // for each key in keywordsMap map construct a completion candidate and
-      // return the array
-      return _.keys(keywordsMap).map(constructAceCompletion);
-    });
+    // for each key in keywordsMap map construct a completion candidate and
+    // return the array
+    return _.keys(keywordsMap).map(constructAceCompletion);
   }
 
   /*
@@ -209,22 +207,19 @@ SwaggerEditor.service('Autocomplete', function ($rootScope, snippets,
   /*
    * Gets array of snippets based on a position
    *
-   * @param {object} pos - the position to get snippets from
+   * @param {array} path - the path to get snippets from
    *
-   * @returns {Promise<array>} - list of snippets for provided position
+   * @returns {array} - list of snippets for provided position
   */
-  function getSnippetsForPosition(pos) {
+  function getSnippetsForPosition(path) {
 
-    return getPathForPosition(pos).then(function (path) {
-
-      // find all possible snippets, modify them to be compatible with Ace and
-      // sort them based on their position. Sorting is done by assigning a score
-      // to each snippet, not by sorting the array
-      return snippets
-        .filter(filterForSnippets(path))
-        .map(constructAceSnippet)
-        .map(snippetSorterForPos(path));
-    });
+    // find all possible snippets, modify them to be compatible with Ace and
+    // sort them based on their position. Sorting is done by assigning a score
+    // to each snippet, not by sorting the array
+    return snippets
+      .filter(filterForSnippets(path))
+      .map(constructAceSnippet)
+      .map(snippetSorterForPos(path));
   }
 
   /*
