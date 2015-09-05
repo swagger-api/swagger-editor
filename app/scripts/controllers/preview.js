@@ -4,8 +4,6 @@ SwaggerEditor.controller('PreviewCtrl', function PreviewCtrl(Storage, Builder,
   ASTManager, Editor, FocusedPath, TagManager, Preferences, FoldStateManager,
   $scope, $rootScope, $stateParams, $sessionStorage) {
 
-  $sessionStorage.$default({securityKeys: {}});
-
   var build = _.memoize(Builder.buildDocs);
 
   $scope.loadLatest = loadLatest;
@@ -48,12 +46,13 @@ SwaggerEditor.controller('PreviewCtrl', function PreviewCtrl(Storage, Builder,
 
     $scope.$broadcast('toggleWatchers', true);  // turn watchers back on
 
-    if ($scope.specs && $scope.specs.securityDefinitions) {
-      _.forEach($scope.specs.securityDefinitions, function (security, key) {
-        $sessionStorage.securityKeys[key] =
+    if (result.specs && result.specs.securityDefinitions) {
+      var securityKeys = {};
+      _.forEach(result.specs.securityDefinitions, function (security, key) {
+        securityKeys[key] =
           SparkMD5.hash(JSON.stringify(security));
       });
-      $sessionStorage.$sync();
+      $sessionStorage.securityKeys = securityKeys;
     }
 
     if (result.specs) {
