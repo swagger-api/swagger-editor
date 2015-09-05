@@ -28,11 +28,10 @@ describe('Session auth tests', function () {
   });
 
   // TODO: Fix tests
-  xit('Should find the sessionStorage', function () {
+  it('Should find the sessionStorage', function () {
 
     //swyaml is the test yaml file
     setValue(swyaml);
-
     browser.executeScript(function () {
       return JSON.parse(
         window.sessionStorage.getItem('ngStorage-securityKeys')
