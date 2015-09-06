@@ -47,7 +47,8 @@ This will build a new version of the web app, ready for production in `/dist` fo
 ###  Configuration
 Swagger Editor will make an XHR GET call to `/config/defaults.json` to get it's settings before launch. If you are using Swagger Editor as a dependency or serving it statically, you can provide your own `defaults.json` at this endpoint to override default settings.
 
-Read the [configuration guide](./config.md) or take a look at [defaults.guide.js](./app/config/defaults.json.guide.js) to learn how to configure Swagger Editor.
+Read the [configuration guide](./config.md) or take a look at [`defaults.json.guide.js`](../app/config/default.json.guide.js) to learn how to configure Swagger Editor
+via its configuration file, [`defaults.json.guide.js`](../app/config/default.json.guide.js).
 
 
 ### Running with Docker
