@@ -5,7 +5,7 @@
  * relevant completion candidates based on Swagger document.
 */
 SwaggerEditor.service('Autocomplete', function ($rootScope, snippets,
-  KeywordMap, Preferences, ASTManager) {
+  KeywordMap, Preferences, ASTManager, YAML) {
 
   // Ace KeywordCompleter object
   var KeywordCompleter = {
@@ -27,6 +27,12 @@ SwaggerEditor.service('Autocomplete', function ($rootScope, snippets,
         // a clone of path to them
         var keywordsForPos = getKeywordsForPosition(_.clone(path));
         var snippetsForPos = getSnippetsForPosition(_.clone(path));
+
+        if (_.last(path) === '$ref') {
+          return get$refs().then(function ($refs) {
+            callback(null, $refs);
+          });
+        }
 
         callback(null, keywordsForPos.concat(snippetsForPos));
       });
@@ -278,5 +284,37 @@ SwaggerEditor.service('Autocomplete', function ($rootScope, snippets,
 
       return snippet;
     };
+  }
+
+  /*
+   * Returns values for $ref JSON Pointer references
+   *
+   *
+   * @returns {Promise<array>} - list of auto-complete suggestions for $ref
+   * values
+  */
+  function get$refs() {
+    return new Promise(function (resolve) {
+
+      YAML.load($rootScope.editorValue, function (err, json) {
+        if (err) { return resolve([]); }
+
+        var definitions = _.keys(json.definitions).map(function (def) {
+          return '"#/definitions/' + def + '"';
+        });
+        var parameters = _.keys(json.parameters).map(function (param) {
+          return '"#/parameters/' + param + '"';
+        });
+
+        resolve(definitions.concat(parameters).map(function (ref) {
+          return {
+            name: ref,
+            value: ref,
+            score: 500,
+            meta: '$ref'
+          };
+        }));
+      });
+    });
   }
 });

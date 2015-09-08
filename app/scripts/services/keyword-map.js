@@ -26,6 +26,7 @@ SwaggerEditor.service('KeywordMap', function KeywordMap(defaults) {
         minLength: String,
         pattern: String,
         not: String,
+        $ref: String,
         definitions: {
           '.': this
         },
