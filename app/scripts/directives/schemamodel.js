@@ -44,18 +44,20 @@ SwaggerEditor.directive('schemaModel', function ($parse) {
       render();
 
       function render() {
-        if ($scope.mode === 'json') {
-          window.requestAnimationFrame(function () {
-            var formatter = new JSONFormatter($scope.json);
-            var html = formatter.render();
-            $element.find('td.view').html(html);
-          });
-        } else {
-          window.requestAnimationFrame(function () {
-            var schemaView = new JSONSchemaView($scope.json);
-            var html = schemaView.render();
-            $element.find('td.view').html(html);
-          });
+        if ($scope.json) {
+          if ($scope.mode === 'json') {
+            window.requestAnimationFrame(function () {
+              var formatter = new JSONFormatter($scope.json);
+              var html = formatter.render();
+              $element.find('td.view').html(html);
+            });
+          } else {
+            window.requestAnimationFrame(function () {
+              var schemaView = new JSONSchemaView($scope.json);
+              var html = schemaView.render();
+              $element.find('td.view').html(html);
+            });
+          }
         }
       }
     }

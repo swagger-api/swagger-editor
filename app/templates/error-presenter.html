@@ -24,6 +24,7 @@
 
     <p class="error-description" ng-bind-html="error.description"></p>
     <a
+      ng-if="error.lineNumber !== -1"
       ng-click="goToLineOfError(error)"
       class="jump-to-link">
         Jump to line <b>{{error.lineNumber}}</b>
@@ -31,7 +32,7 @@
 
     <div class="details">
       <h5>Details</h5>
-      <json-formatter json="error" open="1"></json-formatter>
+      <json-formatter json="error" open="0"></json-formatter>
     </div>
   </div>
 </div>
