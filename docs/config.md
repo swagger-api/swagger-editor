@@ -4,7 +4,7 @@ Configuration
 =============
 
 Swagger editor is configured from the file [`app/config/defaults.js`](../app/config/defaults.json).
-To learn more about this file please review [`defaults.json.guide.js`](../app/config/default.json.guide.js).
+To learn more about this file, please review [`defaults.json.guide.js`](../app/config/defaults.json.guide.js).
 
 Custom UI
 ---------
