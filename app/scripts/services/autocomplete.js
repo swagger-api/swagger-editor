@@ -21,7 +21,7 @@ SwaggerEditor.service('Autocomplete', function ($rootScope, snippets,
       // Let Ace select the first candidate
       editor.completer.autoSelect = true;
 
-      getPathForPosition(pos).then(function (path) {
+      getPathForPosition(pos, prefix).then(function (path) {
 
         // These function might shift or push to paths, therefore we're passing
         // a clone of path to them
@@ -67,8 +67,28 @@ SwaggerEditor.service('Autocomplete', function ($rootScope, snippets,
    * @returns {Promise<array>} - a list of keywords to reach to provided
    *   position based in the YAML document
   */
-  function getPathForPosition(pos) {
-    return ASTManager.pathForPosition($rootScope.editorValue, {
+  function getPathForPosition(pos, prefix) {
+    var value = $rootScope.editorValue;
+    var prefixWithoutInsertedChar = prefix.substr(0, prefix.length - 1);
+    var lines = value.split('\n');
+    var currentLine = lines[pos.row];
+
+    // if position is at root path is [], quickly resolve to root path
+    if (pos.column === 1) {
+      return new Promise(function (resolve) { resolve([]); });
+    }
+
+    // if current position is in at a free line with whitespace insert a fake
+    // key value pair so the generated AST in ASTManager has current position in
+    // editing node
+    if (currentLine.replace(prefixWithoutInsertedChar, '').trim() === '') {
+      currentLine += 'a: b'; // fake key value pair
+      lines[pos.row] = currentLine;
+      value = lines.join('\n');
+      pos.column += 1;
+    }
+
+    return ASTManager.pathForPosition(value, {
       line: pos.row,
       column: pos.column
     });

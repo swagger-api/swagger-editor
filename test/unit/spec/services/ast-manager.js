@@ -1,6 +1,6 @@
 'use strict';
 
-xdescribe('Service: ASTManager', function () {
+describe('Service: ASTManager', function () {
 
   // load the service's module
   beforeEach(window.angular.mock.module('SwaggerEditor'));
