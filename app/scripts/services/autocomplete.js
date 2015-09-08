@@ -69,8 +69,8 @@ SwaggerEditor.service('Autocomplete', function ($rootScope, snippets,
   */
   function getPathForPosition(pos) {
     return ASTManager.pathForPosition($rootScope.editorValue, {
-      line: pos.row + 1,
-      column: pos.column + 1
+      line: pos.row,
+      column: pos.column
     });
   }
 
