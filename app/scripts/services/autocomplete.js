@@ -194,9 +194,9 @@ SwaggerEditor.service('Autocomplete', function ($rootScope, snippets,
 
     // if keywordsMap is an array of strings, return the array as list of
     // suggestions
-    // if (_.isArray(keywordsMap) && keywordsMap.every(_.isString)) {
-    //   return keywordsMap.map(constructAceCompletion);
-    // }
+    if (_.isArray(keywordsMap) && keywordsMap.every(_.isString)) {
+      return keywordsMap.map(constructAceCompletion);
+    }
 
     // If keywordsMap is describing an array unwrap the inner map so we can
     // suggest for array items

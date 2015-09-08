@@ -1,6 +1,7 @@
 'use strict';
 
 SwaggerEditor.config(function ($provide) {
+  var operationRegex = 'get|put|post|delete|options|head|patch';
 
   /*
    * Makes an HTTP operation snippet's content based on operation name
@@ -101,7 +102,7 @@ SwaggerEditor.config(function ($provide) {
     {
       name: 'get',
       trigger: 'get',
-      path: ['paths', '*'],
+      path: ['paths', '.'],
       content: makeOperationSnippet('get')
     },
 
@@ -184,28 +185,28 @@ SwaggerEditor.config(function ($provide) {
     {
       name: '200',
       trigger: '200',
-      path: ['paths', '.', '.', 'responses'],
+      path: ['paths', '.', operationRegex, 'responses'],
       content: makeResponseCodeSnippet('200')
     },
 
     {
       name: '300',
       trigger: '300',
-      path: ['paths', '.', '.', 'responses'],
+      path: ['paths', '.', operationRegex, 'responses'],
       content: makeResponseCodeSnippet('300')
     },
 
     {
       name: '400',
       trigger: '400',
-      path: ['paths', '.', '.', 'responses'],
+      path: ['paths', '.', operationRegex, 'responses'],
       content: makeResponseCodeSnippet('400')
     },
 
     {
       name: '500',
       trigger: '500',
-      path: ['paths', '.', '.', 'responses'],
+      path: ['paths', '.', operationRegex, 'responses'],
       content: makeResponseCodeSnippet('500')
     },
 
