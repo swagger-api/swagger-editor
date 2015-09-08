@@ -150,38 +150,6 @@ SwaggerEditor.service('ASTManager', function ASTManager(YAML) {
 
         var i = 0;
 
-        /**
-         * Determines if position is in node's range
-         * @param  {object}  node - AST node
-         * @return {Boolean}      true if position is in node's range
-         */
-        function isInRange(node) {
-          /* jshint camelcase: false */
-
-          // if node is in a single line
-          if (node.start_mark.line === node.end_mark.line) {
-
-            return (position.line === node.start_mark.line) &&
-              (node.start_mark.column <= position.column) &&
-              (node.end_mark.column >= position.column);
-          }
-
-          // if position is in the same line as start_mark
-          if (position.line === node.start_mark.line) {
-            return position.column >= node.start_mark.column;
-          }
-
-          // if position is in the same line as end_mark
-          if (position.line === node.end_mark.line) {
-            return position.column <= node.end_mark.column;
-          }
-
-          // if position is between start and end lines return true, otherwise
-          // return false.
-          return (node.start_mark.line < position.line) &&
-            (node.end_mark.line > position.line);
-        }
-
         if (!current || [MAP_TAG, SEQ_TAG].indexOf(current.tag) === -1) {
           return cb(path);
         }
@@ -213,6 +181,38 @@ SwaggerEditor.service('ASTManager', function ASTManager(YAML) {
         }
 
         return cb(path);
+
+        /**
+         * Determines if position is in node's range
+         * @param  {object}  node - AST node
+         * @return {Boolean}      true if position is in node's range
+         */
+        function isInRange(node) {
+          /* jshint camelcase: false */
+
+          // if node is in a single line
+          if (node.start_mark.line === node.end_mark.line) {
+
+            return (position.line === node.start_mark.line) &&
+              (node.start_mark.column <= position.column) &&
+              (node.end_mark.column >= position.column);
+          }
+
+          // if position is in the same line as start_mark
+          if (position.line === node.start_mark.line) {
+            return position.column >= node.start_mark.column;
+          }
+
+          // if position is in the same line as end_mark
+          if (position.line === node.end_mark.line) {
+            return position.column <= node.end_mark.column;
+          }
+
+          // if position is between start and end lines return true, otherwise
+          // return false.
+          return (node.start_mark.line < position.line) &&
+            (node.end_mark.line > position.line);
+        }
       }
     });
   }

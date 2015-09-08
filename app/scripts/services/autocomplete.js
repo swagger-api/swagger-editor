@@ -83,10 +83,13 @@ SwaggerEditor.service('Autocomplete', function ($rootScope, snippets,
     // editing node
     if (currentLine.replace(prefixWithoutInsertedChar, '').trim() === '') {
       currentLine += 'a: b'; // fake key value pair
-      lines[pos.row] = currentLine;
-      value = lines.join('\n');
       pos.column += 1;
     }
+
+    // append inserted character in currentLine for better AST results
+    currentLine += prefix;
+    lines[pos.row] = currentLine;
+    value = lines.join('\n');
 
     return ASTManager.pathForPosition(value, {
       line: pos.row,
