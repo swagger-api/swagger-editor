@@ -26,7 +26,11 @@ SwaggerEditor.service('KeywordMap', function KeywordMap(defaults) {
         minLength: String,
         pattern: String,
         not: String,
-        $ref: String,
+
+        // jscs:disable
+        '\$ref': String,
+        // jscs:enable
+
         definitions: {
           '.': this
         },
@@ -120,9 +124,7 @@ SwaggerEditor.service('KeywordMap', function KeywordMap(defaults) {
 
   var response =  {
     description: String,
-    schema: {
-      type: String
-    },
+    schema: jsonSchema,
     headers: {
       '.': header
     },
@@ -195,7 +197,7 @@ SwaggerEditor.service('KeywordMap', function KeywordMap(defaults) {
     paths: {
 
       //path
-      '.': {
+      '^\/.\?': {
         parameters: [parameter],
         'get|put|post|delete|options|head|patch': operation
       }
@@ -209,7 +211,7 @@ SwaggerEditor.service('KeywordMap', function KeywordMap(defaults) {
 
     parameters: [parameter],
     responses: {
-      '.': response
+      '[2-6][0-9][0-9]': response
     },
     security: {
       '.': {
