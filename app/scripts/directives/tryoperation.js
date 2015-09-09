@@ -336,18 +336,18 @@ SwaggerEditor.controller('TryOperation', function ($scope, formdataFilter,
     var securityOptions = [];
 
     // operation level securities
-    if (Array.isArray($scope.operation.security)) {
+    if (_.isArray($scope.operation.security)) {
       $scope.operation.security.map(function (security) {
-        Object.keys(security).forEach(function (key) {
+        _.keys(security).forEach(function (key) {
           securityOptions = securityOptions.concat(key);
         });
       });
     }
 
     // root level securities
-    if (Array.isArray($scope.specs.security)) {
+    else if (_.isArray($scope.specs.security)) {
       $scope.specs.security.map(function (security) {
-        Object.keys(security).forEach(function (key) {
+        _.keys(security).forEach(function (key) {
           securityOptions = securityOptions.concat(key);
         });
       });
