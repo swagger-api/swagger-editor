@@ -1042,6 +1042,7 @@ definitions:
       name:
         type: string
   Image:
+    type: object
     properties:
       width:
         type: integer
@@ -1050,6 +1051,7 @@ definitions:
       url:
         type: string
   MiniProfile:
+    type: object
     description: A shorter version of User for likes array
     properties:
       user_name:

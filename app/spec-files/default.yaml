@@ -181,6 +181,7 @@ paths:
             $ref: '#/definitions/Error'
 definitions:
   Product:
+    type: object
     properties:
       product_id:
         type: string
@@ -198,6 +199,7 @@ definitions:
         type: string
         description: Image URL representing the product.
   PriceEstimate:
+    type: object
     properties:
       product_id:
         type: string
@@ -221,6 +223,7 @@ definitions:
         type: number
         description: Expected surge multiplier. Surge is active if surge_multiplier is greater than 1. Price estimate already factors in the surge multiplier.
   Profile:
+    type: object
     properties:
       first_name:
         type: string
@@ -238,11 +241,13 @@ definitions:
         type: string
         description: Promo code of the Uber user.
   Activity:
+    type: object
     properties:
       uuid:
         type: string
         description: Unique identifier for the activity
   Activities:
+    type: object
     properties:
       offset:
         type: integer
@@ -261,6 +266,7 @@ definitions:
         items:
           $ref: '#/definitions/Activity'
   Error:
+    type: object
     properties:
       code:
         type: integer

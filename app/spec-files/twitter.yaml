@@ -36,7 +36,7 @@ securityDefinitions:
 security:
   - oauth:
     - basic
-    
+
 ################################################################################
 #                                           Paths                              #
 ################################################################################
@@ -81,13 +81,13 @@ paths:
       responses:
         "200":
           description: Success
-          schema: 
+          schema:
             type: array
-            items: 
+            items:
               $ref: '#/definitions/Tweets'
 
   /statuses/user_timeline:
-    get: 
+    get:
       description: Returns a collection of the most recent Tweets posted by the User
       security:
        - oauth:
@@ -131,9 +131,9 @@ paths:
       responses:
         "200":
           description: Success
-          schema: 
+          schema:
             type: array
-            items: 
+            items:
               $ref: '#/definitions/Tweets'
 
   /statuses/home_timeline:
@@ -183,7 +183,7 @@ paths:
        - oauth:
          - basic
       parameters:
-        - name: id 
+        - name: id
           in: path
           description: The numerical ID of the desired status
           required: true
@@ -234,7 +234,7 @@ paths:
           description: The entities node will be disincluded when set to false
           required: false
           type: string
-      responses: 
+      responses:
         "200":
           description: Success
           schema:
@@ -257,7 +257,7 @@ paths:
           description: When set to either true, t or 1, each tweet returned in a timeline will include a user object
           required: false
           type: string
-      responses: 
+      responses:
         "200":
           description: Success
           schema:
@@ -284,7 +284,7 @@ paths:
           in: query
           description: The latitude of the location
           required: false
-          type: string 
+          type: string
         - name: long
           in: query
           description: The longitude of the location
@@ -305,7 +305,7 @@ paths:
           description: When set to either true, t or 1, each tweet returned in a timeline will include a user object
           required: false
           type: string
-      responses: 
+      responses:
         "200":
           description: Success
           schema:
@@ -330,7 +330,7 @@ paths:
           description: When set to either true, t or 1, each tweet returned in a timeline will include a user object
           required: false
           type: string
-      responses: 
+      responses:
         "200":
           description: Success
           schema:
@@ -342,7 +342,7 @@ paths:
       security:
        - oauth:
          - basic
-      parameters: 
+      parameters:
         - name: id
           in: query
           description: The tweet/status id to return embed code for
@@ -355,7 +355,7 @@ paths:
           type: string
         - name: maxwidth
           in: query
-          description: The maximum width in pixels that the embed should be rendered at 
+          description: The maximum width in pixels that the embed should be rendered at
           required: false
           type: string
         - name: hide_media
@@ -382,8 +382,8 @@ paths:
           in: query
           description: Languages code for the rendered embed
           required: false
-          type: string 
-      responses: 
+          type: string
+      responses:
         "200":
           description: Success
           schema:
@@ -396,17 +396,17 @@ paths:
        - oauth:
          - basic
       parameters:
-        - name: screen_name 
-          in: query 
-          description: The screen name of the user for whom to return results for 
+        - name: screen_name
+          in: query
+          description: The screen name of the user for whom to return results for
           required: true
           type: string
         - name: user_id
           in: query
-          description: The ID of the user for whom to return results for 
+          description: The ID of the user for whom to return results for
           required: true
           type: string
-      responses: 
+      responses:
         "200":
           description: Success
           schema:
@@ -421,31 +421,31 @@ paths:
        - oauth:
          - basic
       parameters:
-        - name: list_id 
+        - name: list_id
           in: query
-          description: The numerical id of the list 
+          description: The numerical id of the list
           required: true
           type: string
         - name: slug
-          in: query 
-          description: You can identify a list by its slug instead of its numerical id 
+          in: query
+          description: You can identify a list by its slug instead of its numerical id
           required: true
-          type: string 
+          type: string
         - name: owner_screen_name
           in: query
-          description: The screen name of the user who owns the list being requested by a slug 
-          required: false 
+          description: The screen name of the user who owns the list being requested by a slug
+          required: false
           type: string
         - name: owner_id
-          in: query 
+          in: query
           description: The user ID of the user who owns the list being requested by a slug
           required: false
-          type: string 
+          type: string
         - name: since_id
           in: query
           description: Returns results with an ID greater than the sepcified ID
-          required: false 
-          type: string 
+          required: false
+          type: string
         - name: max_id
           in: query
           description: Returns results with an ID less than or equal to the specified ID
@@ -453,20 +453,20 @@ paths:
           type: string
         - name: count
           in: query
-          description: Specifies the number of results to retrieve per page 
+          description: Specifies the number of results to retrieve per page
           required: false
           type: string
         - name: include_entities
-          in: query 
-          description: Entities are ON by default 
+          in: query
+          description: Entities are ON by default
           required: false
           type: string
         - name: include_rts
           in: query
-          description: When set to either true, t or 1, the list timeline will contain native retweets in addition to the standard stream of tweets 
+          description: When set to either true, t or 1, the list timeline will contain native retweets in addition to the standard stream of tweets
           required: false
-          type: string 
-      responses: 
+          type: string
+      responses:
         "200":
           description: Success
           schema:
@@ -481,15 +481,15 @@ paths:
        - oauth:
          - basic
       parameters:
-        - name: list_id 
+        - name: list_id
           in: query
-          description: The numerical id of the list 
+          description: The numerical id of the list
           required: true
           type: string
         - name: slug
           in: query
-          description: You can identify a list by its slug instrad of its numerical id 
-          required: true 
+          description: You can identify a list by its slug instrad of its numerical id
+          required: true
           type: string
         - name: owner_screen_name
           in: query
@@ -498,20 +498,20 @@ paths:
           type: string
         - name: user_id
           in: query
-          description: The id of the user for whom to remove from the list 
+          description: The id of the user for whom to remove from the list
           required: false
           type: string
         - name: screen_name
           in: query
-          description: The screen name of the user for whom to remove from the list 
+          description: The screen name of the user for whom to remove from the list
           required: false
-          type: string 
+          type: string
         - name: owner_id
           in: query
           description: The is of the user who wons the list being requested by a slug
           required: false
-          type: string 
-      responses: 
+          type: string
+      responses:
         "200":
           description: Success
 
@@ -522,9 +522,9 @@ paths:
        - oauth:
          - basic
       parameters:
-        - name: user_id 
+        - name: user_id
           in: query
-          description: The id of the user for whom to return results for  
+          description: The id of the user for whom to return results for
           required: false
           type: string
         - name: screen_name
@@ -542,7 +542,7 @@ paths:
           description: When set to true, t or 1, will return just lists the authenticating user owns
           required: false
           type: string
-      responses: 
+      responses:
         "200":
           description: Success
           schema:
@@ -557,14 +557,14 @@ paths:
       parameters:
         - name: list_id
           in: query
-          description: The numerical id of the list 
+          description: The numerical id of the list
           required: true
           type: string
         - name: slug
           in: query
-          description: You can identify a list by its slug insted of its numerical id  
+          description: You can identify a list by its slug insted of its numerical id
           required: true
-          type: string 
+          type: string
         - name: owner_screen_name
           in: query
           description: the screen name of the user who owns the list being requested by a slug
@@ -574,10 +574,10 @@ paths:
           in: query
           description: The user ID of the user who owns the list being requested by a slug
           required: false
-          type: string 
+          type: string
         - name: cursor
           in: query
-          description: Breaks the results into pages 
+          description: Breaks the results into pages
           required: false
           type: string
         - name: include_entities
@@ -587,10 +587,10 @@ paths:
           type: string
         - name: skip_status
           in: query
-          description: When set to either true, t or 1 
+          description: When set to either true, t or 1
           required: false
-          type: string 
-      responses: 
+          type: string
+      responses:
         "200":
           description: Success
           schema:
@@ -603,14 +603,14 @@ paths:
        - oauth:
          - basic
       parameters:
-        - name: list_id  
+        - name: list_id
           in: query
-          description: The numerical id of the list 
+          description: The numerical id of the list
           required: true
           type: string
         - name: slug
           in: query
-          description: You can identify a list being requested by a slug 
+          description: You can identify a list being requested by a slug
           required: true
           type: string
         - name: owner_screen_name
@@ -622,8 +622,8 @@ paths:
           in: query
           description: The user ID of the user who owns the list being requested by a slug
           required: false
-          type: string 
-      responses: 
+          type: string
+      responses:
         "200":
           description: Success
           schema:
@@ -636,14 +636,14 @@ paths:
        - oauth:
          - basic
       parameters:
-        - name: list_id  
+        - name: list_id
           in: query
-          description: The numerical id of the list 
+          description: The numerical id of the list
           required: true
           type: string
         - name: slug
           in: query
-          description: You can identify a list being requested by a slug 
+          description: You can identify a list being requested by a slug
           required: true
           type: string
         - name: owner_screen_name
@@ -653,19 +653,19 @@ paths:
           type: string
         - name: user_id
           in: query
-          description: The id of the user for whom to remove from the list 
+          description: The id of the user for whom to remove from the list
           required: false
           type: string
         - name: screen_name
           in: query
-          description: The screen name of the user for whom to remove from the list 
+          description: The screen name of the user for whom to remove from the list
           required: false
-          type: string 
+          type: string
         - name: owner_id
           in: query
           description: The is of the user who wons the list being requested by a slug
           required: false
-          type: string 
+          type: string
         - name: include_entities
           in: query
           description: Wehn set to either true, t or 1
@@ -673,10 +673,10 @@ paths:
           type: string
         - name: skip_status
           in: query
-          description: When set to either true, t or 1 
+          description: When set to either true, t or 1
           required: false
-          type: string 
-      responses: 
+          type: string
+      responses:
         "200":
           description: Success
           schema:
@@ -686,14 +686,14 @@ paths:
     get:
       description: Returns list of subscribers destroy
       parameters:
-        - name: list_id  
+        - name: list_id
           in: query
-          description: The numerical id of the list 
+          description: The numerical id of the list
           required: true
           type: string
         - name: slug
           in: query
-          description: You can identify a list being requested by a slug 
+          description: You can identify a list being requested by a slug
           required: true
           type: string
         - name: owner_screen_name
@@ -705,8 +705,8 @@ paths:
           in: query
           description: The user ID of the user who owns the list being requested by a slug
           required: false
-          type: string 
-      responses: 
+          type: string
+      responses:
         "200":
           description: Success
 
@@ -717,14 +717,14 @@ paths:
        - oauth:
          - basic
       parameters:
-        - name: list_id  
+        - name: list_id
           in: query
-          description: The numerical id of the list 
+          description: The numerical id of the list
           required: true
           type: string
         - name: slug
           in: query
-          description: You can identify a list being requested by a slug 
+          description: You can identify a list being requested by a slug
           required: true
           type: string
         - name: owner_screen_name
@@ -736,18 +736,18 @@ paths:
           in: query
           description: The user ID of the user who owns the list being requested by a slug
           required: false
-          type: string 
+          type: string
         - name: user_id
           in: query
-          description: The id of the user for whom to remove from the list 
+          description: The id of the user for whom to remove from the list
           required: false
           type: string
         - name: screen_name
           in: query
-          description: The screen name of the user for whom to remove from the list 
+          description: The screen name of the user for whom to remove from the list
           required: false
-          type: string 
-      responses: 
+          type: string
+      responses:
         "200":
           description: Success
 
@@ -758,26 +758,26 @@ paths:
        - oauth:
          - basic
       parameters:
-        - name: list_id  
+        - name: list_id
           in: query
-          description: The numerical id of the list 
+          description: The numerical id of the list
           required: true
           type: string
         - name: slug
           in: query
-          description: You can identify a list being requested by a slug 
+          description: You can identify a list being requested by a slug
           required: true
           type: string
         - name: user_id
           in: query
-          description: The id of the user for whom to remove from the list 
+          description: The id of the user for whom to remove from the list
           required: false
           type: string
         - name: screen_name
           in: query
-          description: The screen name of the user for whom to remove from the list 
+          description: The screen name of the user for whom to remove from the list
           required: false
-          type: string 
+          type: string
         - name: owner_screen_name
           in: query
           description: The screen name of the user who owns the list being requested by a slug
@@ -787,7 +787,7 @@ paths:
           in: query
           description: The user ID of the user who owns the list being requested by a slug
           required: false
-          type: string 
+          type: string
         - name: include_entities
           in: query
           description: Wehn set to either true, t or 1
@@ -795,10 +795,10 @@ paths:
           type: string
         - name: skip_status
           in: query
-          description: When set to either true, t or 1 
+          description: When set to either true, t or 1
           required: false
-          type: string 
-      responses: 
+          type: string
+      responses:
         "200":
           description: Success
           schema:
@@ -811,14 +811,14 @@ paths:
        - oauth:
          - basic
       parameters:
-        - name: list_id  
+        - name: list_id
           in: query
-          description: The numerical id of the list 
+          description: The numerical id of the list
           required: true
           type: string
         - name: slug
           in: query
-          description: You can identify a list being requested by a slug 
+          description: You can identify a list being requested by a slug
           required: true
           type: string
         - name: owner_screen_name
@@ -830,7 +830,7 @@ paths:
           in: query
           description: The user ID of the user who owns the list being requested by a slug
           required: false
-          type: string 
+          type: string
         - name: include_entities
           in: query
           description: Wehn set to either true, t or 1
@@ -838,15 +838,15 @@ paths:
           type: string
         - name: skip_status
           in: query
-          description: When set to either true, t or 1 
-          required: false
-          type: string 
-        - name: cursor
-          in: query
-          description: Breaks the results into pages 
+          description: When set to either true, t or 1
           required: false
           type: string
-      responses: 
+        - name: cursor
+          in: query
+          description: Breaks the results into pages
+          required: false
+          type: string
+      responses:
         "200":
           description: Success
           schema:
@@ -859,21 +859,21 @@ paths:
        - oauth:
          - basic
       parameters:
-        - name: list_id  
+        - name: list_id
           in: query
-          description: The numerical id of the list 
+          description: The numerical id of the list
           required: true
           type: string
         - name: slug
           in: query
-          description: You can identify a list being requested by a slug 
+          description: You can identify a list being requested by a slug
           required: true
           type: string
         - name: screen_name
           in: query
-          description: The screen name of the user for whom to remove from the list 
+          description: The screen name of the user for whom to remove from the list
           required: false
-          type: string 
+          type: string
         - name: owner_screen_name
           in: query
           description: The screen name of the user who owns the list being requested by a slug
@@ -883,8 +883,8 @@ paths:
           in: query
           description: The user ID of the user who owns the list being requested by a slug
           required: false
-          type: string 
-      responses: 
+          type: string
+      responses:
         "200":
           description: Success
 
@@ -895,14 +895,14 @@ paths:
        - oauth:
          - basic
       parameters:
-        - name: list_id  
+        - name: list_id
           in: query
-          description: The numerical id of the list 
+          description: The numerical id of the list
           required: true
           type: string
         - name: slug
           in: query
-          description: You can identify a list being requested by a slug 
+          description: You can identify a list being requested by a slug
           required: true
           type: string
         - name: owner_screen_name
@@ -914,8 +914,8 @@ paths:
           in: query
           description: The user ID of the user who owns the list being requested by a slug
           required: false
-          type: string 
-      responses: 
+          type: string
+      responses:
         "200":
           description: Success
           schema:
@@ -928,14 +928,14 @@ paths:
        - oauth:
          - basic
       parameters:
-        - name: list_id  
+        - name: list_id
           in: query
-          description: The numerical id of the list 
+          description: The numerical id of the list
           required: true
           type: string
         - name: slug
           in: query
-          description: You can identify a list being requested by a slug 
+          description: You can identify a list being requested by a slug
           required: true
           type: string
         - name: owner_screen_name
@@ -947,23 +947,23 @@ paths:
           in: query
           description: The user ID of the user who owns the list being requested by a slug
           required: false
-          type: string 
-        - name: name 
+          type: string
+        - name: name
           in: query
-          description: The name for the list 
+          description: The name for the list
           required: false
           type: string
         - name: mode
           in: query
-          description: Whether your list is public or private 
+          description: Whether your list is public or private
           required: false
           type: string
         - name: description
           in: query
-          description: The description to give the list 
+          description: The description to give the list
           required: false
           type: string
-      responses: 
+      responses:
         "200":
           description: Success
 
@@ -974,22 +974,22 @@ paths:
        - oauth:
          - basic
       parameters:
-        - name: name 
+        - name: name
           in: query
-          description: The name for the list 
+          description: The name for the list
           required: false
           type: string
         - name: mode
           in: query
-          description: Whether your list is public or private 
+          description: Whether your list is public or private
           required: false
           type: string
         - name: description
           in: query
-          description: The description to give the list 
+          description: The description to give the list
           required: false
           type: string
-      responses: 
+      responses:
         "200":
           description: Success
           schema:
@@ -1002,14 +1002,14 @@ paths:
        - oauth:
          - basic
       parameters:
-        - name: list_id  
+        - name: list_id
           in: query
-          description: The numerical id of the list 
+          description: The numerical id of the list
           required: true
           type: string
         - name: slug
           in: query
-          description: You can identify a list being requested by a slug 
+          description: You can identify a list being requested by a slug
           required: true
           type: string
         - name: owner_screen_name
@@ -1021,8 +1021,8 @@ paths:
           in: query
           description: The user ID of the user who owns the list being requested by a slug
           required: false
-          type: string 
-      responses: 
+          type: string
+      responses:
         "200":
           description: Success
           schema:
@@ -1037,25 +1037,25 @@ paths:
       parameters:
         - name: screen_name
           in: query
-          description: The screen name of the user 
+          description: The screen name of the user
           required: false
           type: string
         - name: user_id
           in: query
-          description: The id of the user for whom to return results for 
+          description: The id of the user for whom to return results for
           required: false
           type: string
         - name: count
           in: query
-          description: The amount of results to return per page 
+          description: The amount of results to return per page
           required: false
           type: string
         - name: cursor
           in: query
-          description: Breaks the results into pages 
+          description: Breaks the results into pages
           required: false
           type: string
-      responses: 
+      responses:
         "200":
           description: Success
           schema:
@@ -1068,26 +1068,26 @@ paths:
        - oauth:
          - basic
       parameters:
-        - name: list_id  
+        - name: list_id
           in: query
-          description: The numerical id of the list 
+          description: The numerical id of the list
           required: true
           type: string
         - name: slug
           in: query
-          description: You can identify a list being requested by a slug 
+          description: You can identify a list being requested by a slug
           required: true
           type: string
         - name: user_id
           in: query
-          description: The id of the user for whom to remove from the list 
+          description: The id of the user for whom to remove from the list
           required: false
           type: string
         - name: screen_name
           in: query
-          description: The screen name of the user for whom to remove from the list 
+          description: The screen name of the user for whom to remove from the list
           required: false
-          type: string 
+          type: string
         - name: owner_screen_name
           in: query
           description: The screen name of the user who owns the list being requested by a slug
@@ -1097,8 +1097,8 @@ paths:
           in: query
           description: The user ID of the user who owns the list being requested by a slug
           required: false
-          type: string 
-      responses: 
+          type: string
+      responses:
         "200":
           description: Success
           schema:
@@ -1135,7 +1135,7 @@ paths:
             type: array
             items:
               $ref: '#/definitions/Messages'
-          
+
   /direct_messages/show:
     get:
       description: returns a single direct message specified by an id
@@ -1155,7 +1155,7 @@ paths:
             type: array
             items:
               $ref: '#/definitions/Messages'
-    
+
   /search/tweets:
     get:
       description: returns collection of relevant Tweets matching query
@@ -1219,7 +1219,7 @@ paths:
             type: array
             items:
               $ref: '#/definitions/Tweets'
-          
+
   /saved_searches/list:
     get:
       description: Returns the authenticated user's saved search queries
@@ -1274,7 +1274,7 @@ paths:
        - oauth:
          - basic
       parameters:
-        - name: id 
+        - name: id
           in: path
           description: The id of the saved search
           required: true
@@ -1284,7 +1284,7 @@ paths:
           description: Success
           schema:
             $ref: '#/definitions/Query'
-    
+
   /direct_messages:
     get:
       description: return 20 most recent direct messages sent to user
@@ -1315,7 +1315,7 @@ paths:
             type: array
             items:
               $ref: '#/definitions/Messages'
-          
+
   /direct_messages/destroy:
     post:
       description: destroys direct messages specified in required ID
@@ -1337,7 +1337,7 @@ paths:
           description: OK
           schema:
             $ref: '#/definitions/Messages'
-  
+
   /direct_messages/new:
     post:
       description: sends a new direct message to specified user
@@ -1364,7 +1364,7 @@ paths:
           description: OK
           schema:
             $ref: '#/definitions/Messages'
-    
+
   /friends/ids:
     get:
       description: returns a cursored collection of user IDs followed by user
@@ -1397,7 +1397,7 @@ paths:
           description: OK
           schema:
             $ref: '#/definitions/Cursor_ids'
-    
+
   /followers/ids:
     get:
       description: returns a cursored collection of user IDs following the user
@@ -1430,7 +1430,7 @@ paths:
           description: OK
           schema:
             $ref: '#/definitions/Cursor_ids'
-      
+
   /friendships/incoming:
     get:
       description: returns collection of IDs of users with pending follow request
@@ -1451,7 +1451,7 @@ paths:
           description: OK
           schema:
             $ref: '#/definitions/Cursor_ids'
-          
+
   /friendships/outgoing:
     get:
       description: returns collection of IDs of users with pending follow request from the user
@@ -1472,7 +1472,7 @@ paths:
           description: OK
           schema:
             $ref: '#/definitions/Cursor_ids'
-    
+
   /friendships/create:
     post:
       description: allows users to follow user sepcified by ID
@@ -1497,7 +1497,7 @@ paths:
           description: OK
           schema:
             $ref: '#/definitions/Users'
-        
+
   /friendships/destroy:
     post:
       description: allows user to unfollow user psecified by ID
@@ -1520,7 +1520,7 @@ paths:
           description: OK
           schema:
             $ref: '#/definitions/Users'
-  
+
   /friendships/update:
     post:
       description: Allows one to enable or disable settings for specified user
@@ -1553,7 +1553,7 @@ paths:
           description: OK
           schema:
             $ref: '#/definitions/Friendship'
-    
+
   /friendships/show:
     get:
       description: returns detailed info about relationship between two users
@@ -1584,7 +1584,7 @@ paths:
           description: OK
           schema:
             $ref: '#/definitions/Friendship'
-          
+
   /account/settings:
     get:
       summary: returns settings for user
@@ -1633,7 +1633,7 @@ paths:
           description: OK
           schema:
             $ref: '#/definitions/Settings'
-  
+
   /account/update_delivery_device:
     post:
       summary: sets which device Twitter delivers updates to for user
@@ -1656,7 +1656,7 @@ paths:
           description: OK
           schema:
             $ref: '#/definitions/Settings'
-          
+
   /account/update_profile:
     post:
       summary: sets values that users ar eable to set under Account tab
@@ -1731,7 +1731,7 @@ paths:
           description: OK
           schema:
             $ref: '#/definitions/Settings'
-    
+
   /account/update_profile_colors:
     post:
       summary: sets one or more hex values that controls color scheme
@@ -1773,7 +1773,7 @@ paths:
           description: OK
           schema:
             $ref: '#/definitions/Settings'
-    
+
   /account/update_profile_image:
     post:
       summary: updates user's profile image
@@ -1798,7 +1798,7 @@ paths:
           description: OK
           schema:
             $ref: '#/definitions/Settings'
-    
+
   /blocks/list:
     get:
       summary: disallows retweets and device notifications from a user
@@ -1824,7 +1824,7 @@ paths:
           description: OK
           schema:
             $ref: '#/definitions/Cursor_users'
-  
+
   /blocks/ids:
     get:
       summary: returns array of numeric user ids of blocked users
@@ -1846,7 +1846,7 @@ paths:
           description: OK
           schema:
             $ref: '#/definitions/Cursor_users'
-    
+
   /blocks/create:
     post:
       summary: blocks the specified user
@@ -1878,7 +1878,7 @@ paths:
           description: OK
           schema:
             $ref: '#/definitions/Users'
-    
+
   /blocks/destroy:
     post:
       summary: un-blocks the specified user
@@ -1910,7 +1910,7 @@ paths:
           description: OK
           schema:
             $ref: '#/definitions/Users'
-    
+
   /users/lookup:
     get:
       summary: returns fully-hydrated user objects up to 100
@@ -1966,7 +1966,7 @@ paths:
           description: OK
           schema:
             $ref: '#/definitions/Users'
-    
+
   /users/search:
     get:
       summary: simple relevance-based user search
@@ -1999,7 +1999,7 @@ paths:
             type: array
             items:
               $ref: '#/definitions/Users'
-  
+
   /users/contributees:
     get:
       summary: collection of users specified user can contribute to
@@ -2033,7 +2033,7 @@ paths:
             type: array
             items:
               $ref: '#/definitions/Users'
-  
+
   /users/contributors:
     get:
       summary: collection of users that can contribute to specified account
@@ -2067,11 +2067,11 @@ paths:
             type: array
             items:
               $ref: '#/definitions/Users'
-          
+
   /geo/id/{place_id}:
     get:
       description: Returns all the information about a know place
-      security: 
+      security:
        - oauth:
          - basic
       parameters:
@@ -2112,7 +2112,7 @@ paths:
           type: string
         - name: granularity
           in: query
-          description: This is the minimal granularity of place types to return 
+          description: This is the minimal granularity of place types to return
           required: false
           type: string
         - name: max_results
@@ -2122,7 +2122,7 @@ paths:
           type: string
         - name: callback
           in: query
-          description: If supplied, the responses will use the JSON format with a callback of the given name 
+          description: If supplied, the responses will use the JSON format with a callback of the given name
           required: false
           type: string
       responses:
@@ -2155,7 +2155,7 @@ paths:
           description: Free-form text to match against while executing a geo-based query
           required: true
           type: string
-        - name: ip 
+        - name: ip
           in: query
           description: An Ip address
           required: true
@@ -2167,7 +2167,7 @@ paths:
           type: string
         - name: granularity
           in: query
-          description: This is the minimal granularity of place types to return 
+          description: This is the minimal granularity of place types to return
           required: false
           type: string
         - name: contained_within
@@ -2182,7 +2182,7 @@ paths:
           type: string
         - name: callback
           in: query
-          description: If supplied, the responses will use the JSON format with a callback of the given name 
+          description: If supplied, the responses will use the JSON format with a callback of the given name
           required: false
           type: string
       responses:
@@ -2227,7 +2227,7 @@ paths:
           type: string
         - name: callback
           in: query
-          description: If supplied, the responses will use the JSON format with a callback of the given name 
+          description: If supplied, the responses will use the JSON format with a callback of the given name
           required: false
           type: string
       responses:
@@ -2237,7 +2237,7 @@ paths:
             type: array
             items:
               $ref: '#/definitions/Places'
-          
+
   /geo/places:
     get:
       description: Create a new place object at the given latitude and logitude
@@ -2277,7 +2277,7 @@ paths:
           type: string
         - name: callback
           in: query
-          description: If supplied, the responses will use the JSON format with a callback of the given name 
+          description: If supplied, the responses will use the JSON format with a callback of the given name
           required: false
           type: string
       responses:
@@ -2293,12 +2293,12 @@ paths:
           - oauth:
             - basic
         parameters:
-          - name: id 
+          - name: id
             in: query
-            description: The yahoo where on earch id 
+            description: The yahoo where on earch id
             required: true
             type: string
-          - name: exclude 
+          - name: exclude
             in: query
             description: Setting this equal to hashtages will remove all hashtages from the trends list
             required: true
@@ -2333,7 +2333,7 @@ paths:
           - name: lat
             in: query
             description: If provided with a long parameter the available trend locations wil be stored by distance
-            required: true 
+            required: true
             type: string
           - name: long
             in: query
@@ -2350,7 +2350,7 @@ paths:
 
   /users/report_spam:
       post:
-        description: Returna users report spam 
+        description: Returna users report spam
         security:
           - oauth:
             - basic
@@ -2359,12 +2359,12 @@ paths:
             in: query
             description: The ID or screen_name of the user you want to report as a spammer
             required: false
-            type: string 
+            type: string
           - name: user_id
             in: query
             description: The ID of the user you want to report as a spammer
             required: false
-            type: string 
+            type: string
         responses:
           200:
             description: Success
@@ -2399,7 +2399,7 @@ paths:
 
   /help/privacy:
       get:
-        description: Returns Twitter's privacy policy 
+        description: Returns Twitter's privacy policy
         security:
           - oauth:
             - basic
@@ -2433,20 +2433,20 @@ paths:
             description: A comma-separated list of resource families you want to know the current rate limit disposition for
             required: false
             type: array
-            items: 
+            items:
               type: string
         responses:
           200:
             description: Success
-            
-            
+
+
 ################################################################################
 #                                 Definitions                                  #
 ################################################################################
 definitions:
   Tweets:
     type: object
-    properties: 
+    properties:
       contributors:
         type: array
         items:
@@ -2768,7 +2768,7 @@ definitions:
         type: array
         items:
           type: array
-          items: 
+          items:
             type: number
       type:
         type: string
