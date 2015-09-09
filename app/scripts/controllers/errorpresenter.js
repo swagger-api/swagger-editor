@@ -143,7 +143,10 @@ SwaggerEditor.controller('ErrorPresenterCtrl', function ErrorPresenterCtrl(
     }
 
     if (_.isArray(error.path)) {
-      return ASTManager.positionRangeForPath($rootScope.editorValue, error.path)
+      var value = $rootScope.editorValue;
+      var path = _.clone(error.path);
+
+      return ASTManager.positionRangeForPath(value, path)
         .then(function (range) {
           error.lineNumber = range.start.line;
           return error;

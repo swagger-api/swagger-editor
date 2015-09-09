@@ -290,6 +290,24 @@ describe('Service: ASTManager', function () {
       });
     });
 
+    describe('when document is an array of primitives', function () {
+      beforeEach(function () {
+        yaml = [
+          'key:',
+          '  - value1',
+          '  - value2'
+        ].join('\n');
+      });
+
+      it('returns {2, 6} for ["key", "0"]', function (done) {
+        ASTManager.positionRangeForPath(yaml, ['key', '0'])
+          .then(function (position) {
+            expect(position.start).to.deep.equal({line: 1, column: 4});
+            done();
+          });
+      });
+    });
+
     describe('full document', function () {
       beforeEach(function () {
         yaml = [

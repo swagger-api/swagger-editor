@@ -62,13 +62,11 @@ SwaggerEditor.service('ASTManager', function ASTManager(YAML, $log) {
         }
 
         if (current.tag === SEQ_TAG) {
-          for (i = 0; i < current.value.length; i++) {
-            var item = current.value[i];
+          var item = current.value[path[0]];
 
-            if (item.value === path[0]) {
-              path.shift();
-              return find(item);
-            }
+          if (item && item.tag) {
+            path.shift();
+            find(item);
           }
         }
 
@@ -219,14 +217,18 @@ SwaggerEditor.service('ASTManager', function ASTManager(YAML, $log) {
 
   // Expose promisified version of methods
   this.positionRangeForPath = function positionRangeForPathPromise(yaml, path) {
-    return new Promise(function (resolve) {
+    return (new Promise(function (resolve) {
       positionRangeForPath(yaml, path, resolve);
+    })).catch(function (error) {
+      $log.error('positionRangeForPath error:', error);
     });
   };
 
   this.pathForPosition = function pathForPositionPromise(yaml, position) {
-    return new Promise(function (resolve) {
+    return (new Promise(function (resolve) {
       pathForPosition(yaml, position, resolve);
+    })).catch(function (error) {
+      $log.error('pathForPosition error:', error);
     });
   };
 });

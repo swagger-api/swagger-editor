@@ -17,7 +17,7 @@
     "js-yaml": "~3.3.1",
     "json-formatter": "~0.4.0",
     "json-formatter-js": "~0.2.0",
-    "json-schema-view-js": "~0.1.1",
+    "json-schema-view-js": "~0.2.0",
     "lodash": "~3.10.1",
     "ng-file-upload": "~7.0.17",
     "ngstorage": "~0.3.9",
