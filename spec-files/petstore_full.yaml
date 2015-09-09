@@ -492,6 +492,7 @@ securityDefinitions:
       read_pets: read your pets
 definitions:
   User:
+    type: object
     properties:
       id:
         type: integer
@@ -513,6 +514,7 @@ definitions:
         format: int32
         description: User Status
   Category:
+    type: object
     properties:
       id:
         type: integer
@@ -520,6 +522,7 @@ definitions:
       name:
         type: string
   Pet:
+    type: object
     required:
       - name
       - photoUrls
@@ -544,6 +547,7 @@ definitions:
         type: string
         description: pet status in the store
   Tag:
+    type: object
     properties:
       id:
         type: integer
@@ -551,6 +555,7 @@ definitions:
       name:
         type: string
   Order:
+    type: object
     properties:
       id:
         type: integer

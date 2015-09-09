@@ -203,11 +203,13 @@ parameters:
     in: path
     description: The user identifier number
     type: number
+    required: true
   tag-name:
     name: tag-name
     in: path
     description: Tag name
     type: string
+    required: true
 
 ################################################################################
 #                                           Paths                              #
@@ -453,7 +455,7 @@ paths:
         in: path
         description: The media ID
         type: integer
-
+        required: true
     get:
       tags:
         - Media
@@ -477,6 +479,7 @@ paths:
         in: path
         description: The media shortcode
         type: string
+        required: true
     get:
       tags:
         - Media
@@ -572,6 +575,7 @@ paths:
         in: path
         description: Media ID
         type: integer
+        required: true
     get:
       tags:
         - Comments
@@ -649,6 +653,7 @@ paths:
         in: path
         description: Media ID
         type: integer
+        required: true
     get:
       tags:
         - Likes
@@ -769,6 +774,7 @@ paths:
         description: Location ID
         in: path
         type: integer
+        required: true
     get:
       tags:
         - Location
@@ -788,6 +794,7 @@ paths:
         description: Location ID
         in: path
         type: integer
+        required: true
     get:
       tags:
         - Location
@@ -883,6 +890,7 @@ paths:
         in: path
         description: Geolocation ID
         type: integer
+        required: true
     get:
       description: |
         Get recent media from a geography subscription that you created.
@@ -1034,6 +1042,7 @@ definitions:
       name:
         type: string
   Image:
+    type: object
     properties:
       width:
         type: integer
@@ -1042,6 +1051,7 @@ definitions:
       url:
         type: string
   MiniProfile:
+    type: object
     description: A shorter version of User for likes array
     properties:
       user_name:

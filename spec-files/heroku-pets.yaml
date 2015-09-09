@@ -71,6 +71,7 @@ paths:
           description: Sends the pet with pet Id
 
 definitions:
+  type: object
   Pet:
     properties:
       name:

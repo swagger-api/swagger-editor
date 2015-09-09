@@ -150,6 +150,7 @@ securityDefinitions:
     name: api_key
 definitions:
   Pet:
+    type: object
     required:
       - name
     properties:
@@ -158,6 +159,7 @@ definitions:
       tag:
         type: string
   ErrorModel:
+    type: object
     required:
       - code
       - message
