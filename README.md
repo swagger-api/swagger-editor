@@ -17,7 +17,7 @@ Valid Swagger JSON descriptions can then be generated and used with the full Swa
 ###### Using `http-server` module:
 ```shell
 npm install -g http-server
-wget https://github.com/swagger-api/swagger-editor/releases/download/v2.9.6/swagger-editor.zip
+wget https://github.com/swagger-api/swagger-editor/releases/download/v2.9.7/swagger-editor.zip
 unzip swagger-editor.zip
 http-server swagger-editor
 ```
