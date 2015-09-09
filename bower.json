@@ -1,6 +1,6 @@
 {
   "name": "swagger-editor",
-  "version": "2.9.6",
+  "version": "2.9.7",
   "dependencies": {
     "SparkMD5": "spark-md5#~1.0.0",
     "angular": "~1.4.2",
