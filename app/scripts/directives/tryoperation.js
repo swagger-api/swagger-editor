@@ -116,6 +116,7 @@ SwaggerEditor.controller('TryOperation', function ($scope, formdataFilter,
     var schema = {
       type: 'object',
       title: 'Request',
+      required: ['scheme', 'accept'],
       properties: {
         scheme: {
           type: 'string',

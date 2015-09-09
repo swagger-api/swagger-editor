@@ -40,7 +40,7 @@ describe('Try Operation', function () {
       .toContain('http://petstore-api.herokuapp.com/pet/?limit=11');
   });
 
-  xit('changing the scheme changes the request URL', function () {
+  it('changing the scheme changes the request URL', function () {
     $('.try-container select[name="root[scheme]"]').click();
     $('.try-container select[name="root[scheme]"] option:nth-child(2)').click();
 
