@@ -103,10 +103,10 @@ describe('Service: Autocomplete', function () {
     });
   });
 
-  xdescribe('enum suggestions (TODO)', function () {
+  describe('enum suggestions', function () {
     it('suggests "2.0" as a value for "swagger" key', function (done) {
 
-      var position = {row: 0, column: 0};
+      var position = {row: 0, column: 10};
       var prefix = '"2';
 
       rootScope.editorValue = 'swagger: 2';

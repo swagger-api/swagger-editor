@@ -3,7 +3,7 @@
 /**
  * Exposes methods for working Abstract Syntax Tree(AST) of YAML/JSON spec
 */
-SwaggerEditor.service('ASTManager', function ASTManager(YAML) {
+SwaggerEditor.service('ASTManager', function ASTManager(YAML, $log) {
   var MAP_TAG = 'tag:yaml.org,2002:map';
   var SEQ_TAG = 'tag:yaml.org,2002:seq';
 
@@ -122,7 +122,7 @@ SwaggerEditor.service('ASTManager', function ASTManager(YAML) {
 
     YAML.compose(yaml, function (error, ast) {
       if (error) {
-        console.log('Error composing AST', error);
+        $log.log('Error composing AST', error);
         return cb([]);
       }
 
