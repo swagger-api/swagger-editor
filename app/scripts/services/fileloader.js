@@ -39,7 +39,7 @@ SwaggerEditor.service('FileLoader', function FileLoader($http, defaults, YAML) {
         } else {
           load(resp.data).then(resolve, reject);
         }
-      });
+      }, reject);
     });
   }
 

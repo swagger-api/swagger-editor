@@ -11,8 +11,13 @@
       </label>
     </p>
   </div>
-  <p class="error" ng-if="error">{{error}}</p>
-  <p class="can-import" ng-if="canImport">✔ Valid URL</p>
+  <p class="error" ng-if="error">
+    <i class="fa fa fa-times"></i>
+    Error loading URL:
+    <pre ng-if="error">{{error | json}}</pre>
+  </p>
+  <p ng-if="fetching"><i class="fa fa-spinner fa-pulse"></i> Fetching</p>
+  <p class="can-import" ng-if="canImport"><i class="fa fa-check"></i> Valid URL</p>
 </div>
 <div class="modal-footer">
   <button class="btn btn-warning" ng-click="cancel()">Cancel</button>
