@@ -6,7 +6,9 @@ SwaggerEditor.controller('FileImportCtrl', function FileImportCtrl($scope,
 
   $scope.fileChanged = function ($fileContent) {
     FileLoader.load($fileContent).then(function (res) {
-      results = res;
+      $scope.$apply(function () {
+        results = res;
+      });
     });
   };
 
