@@ -5,7 +5,7 @@
       <div class="line url">
         {{operationName | uppercase}}
         <a href="{{generateUrl()}}" target="_blank" tabindex="-1">{{generateUrl()}}</a>
-        {{httpProtorcol}}
+        {{httpProtocol}}
       </div>
       <div class="headers">
         <div class="header" ng-repeat="(headerName, headerValue) in getHeaders()">
@@ -54,7 +54,7 @@
       </tab>
       <tab heading="Raw">
         <div class="raw-response raw">
-          <div class="status">{{httpProtorcol}} {{xhr.statusCode}} {{statusText}}</div>
+          <div class="status">{{httpProtocol}} {{xhr.statusCode}} {{statusText}}</div>
           <div class="resp-headers">{{xhr.getAllResponseHeaders()}}</div>
           <div>{{xhr.responseText}}</div>
         </div>

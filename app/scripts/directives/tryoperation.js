@@ -19,7 +19,7 @@ SwaggerEditor.controller('TryOperation', function ($scope, formdataFilter,
   $scope.requestSchema = makeRequestSchema();
   $scope.hasFileParam = hasFileParam();
   // httpProtocol is static for now we can use HTTP2 later if we wanted
-  $scope.httpProtorcol = 'HTTP/1.1';
+  $scope.httpProtocol = 'HTTP/1.1';
   $scope.locationHost = window.location.host;
 
   configureSchemaForm();
