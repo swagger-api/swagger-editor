@@ -12,27 +12,36 @@ Valid Swagger JSON descriptions can then be generated and used with the full Swa
 
 #### Running Locally
 
+##### Manually
+
 [**Download the latest release (v2.9.7)**](https://github.com/swagger-api/swagger-editor/releases/download/v2.9.7/swagger-editor.zip) and serve the static files via your HTTP server. If you don't have an HTTP server, you can use [`http-server`](https://www.npmjs.com/package/http-server) Node.js module.
 
 ###### Using `http-server` module:
-```shell
-npm install -g http-server
-wget https://github.com/swagger-api/swagger-editor/releases/download/v2.9.7/swagger-editor.zip
-unzip swagger-editor.zip
-http-server swagger-editor
-```
+
+    npm install -g http-server
+    wget https://github.com/swagger-api/swagger-editor/releases/download/v2.9.7/swagger-editor.zip
+    unzip swagger-editor.zip
+    http-server swagger-editor
+
+##### With docker
+
+A `Dockerfile` is provided with this repo:
+
+    docker build -t swagger/editor .
+    docker run -d -p 8080:8080 swagger/editor
+
+Now you will have access to your editor in the port 8080 of your docker host.
 
 #### Building From Source
 
-Make sure you have [Node.js](http://nodejs.org/) installed. 
+Make sure you have [Node.js](http://nodejs.org/) installed.
 
-```shell
-git clone https://github.com/swagger-api/swagger-editor.git
-cd swagger-editor
-npm start
-```
+    git clone https://github.com/swagger-api/swagger-editor.git
+    cd swagger-editor
+    npm start
 
 #### Documentations
+
 * [Why "Try this operation" is not working?](docs/cors.md)
 * [Importing your Swagger document](./docs/import.md)
 * [Development Guide](./docs/development.md)
