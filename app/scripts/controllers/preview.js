@@ -210,16 +210,26 @@ SwaggerEditor.controller('PreviewCtrl', function PreviewCtrl(Storage, Builder,
    *
   */
   function listAllOperation() {
+
+    // unfold folded paths first
     _.each($scope.specs.paths, function (path, pathName) {
-      if (_.isObject(path)) {
-        _.each(path, function (operation, operationName) {
-          if (_.isObject(operation)) {
-            operation.$folded = true;
-            FoldStateManager
-              .foldEditor(['paths', pathName, operationName], true);
-          }
-        });
+      if (_.isObject(path) && path.$folded === true) {
+        path.$folded = false;
+        FoldStateManager.foldEditor(['paths', pathName], false);
       }
+    });
+
+    _.each($scope.specs.paths, function (path, pathName) {
+      _.each(path, function (operation, operationName) {
+        if (_.isObject(operation)) {
+          operation.$folded = true;
+          FoldStateManager.foldEditor([
+            'paths',
+            pathName,
+            operationName
+          ], true);
+        }
+      });
     });
   }
 
