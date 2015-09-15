@@ -24,6 +24,12 @@ SwaggerEditor.service('TagManager', function TagManager($stateParams) {
     return tags;
   };
 
+  this.tagsHaveDescription = function () {
+    return tags.some(function (tag) {
+      return tag.description;
+    });
+  };
+
   this.registerTagsFromSpec = function (spec) {
     if (!angular.isObject(spec)) {
       return;

@@ -7,7 +7,7 @@
   </div>
   <div class="all-tags" ng-if="!stateParams.tags && getAllTags().length">
     <p>Filter operations by a tag:</p>
-    <table>
+    <table ng-if="tagsHaveDescription()">
       <tr ng-repeat="tag in getAllTags() track by $index">
         <td>
           <a class="tag tag-color-{{tagIndexFor(tag.name)}}" ui-sref="{tags: tag.name}">{{tag.name}}</a>
@@ -17,5 +17,13 @@
         </td>
       </tr>
     </table>
+    <div ng-if="!tagsHaveDescription()">
+      <a
+        ng-repeat="tag in getAllTags() track by $index"
+        class="tag tag-color-{{tagIndexFor(tag.name)}}"
+        ui-sref="{tags: tag.name}">
+          {{tag.name}}
+      </a>
+    </div>
   </div>
 </div>

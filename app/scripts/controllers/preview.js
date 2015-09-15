@@ -9,6 +9,7 @@ SwaggerEditor.controller('PreviewCtrl', function PreviewCtrl(Storage, Builder,
   $scope.loadLatest = loadLatest;
   $scope.tagIndexFor = TagManager.tagIndexFor;
   $scope.getAllTags = TagManager.getAllTags;
+  $scope.tagsHaveDescription = TagManager.tagsHaveDescription;
   $scope.getCurrentTags = TagManager.getCurrentTags;
   $scope.stateParams = $stateParams;
   $scope.isVendorExtension = isVendorExtension;
