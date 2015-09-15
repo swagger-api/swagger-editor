@@ -38,32 +38,35 @@ SwaggerEditor.directive('swaggerOperation', function (defaults) {
         }
 
         // if there is both path and operation parameters return all of them
-        return $scope.operation.parameters.concat($scope.path.parameters);
+        return $scope.operation.parameters
+          .concat($scope.path.parameters)
+          .map(setParameterSchema);
       };
 
       /*
-       * TODO: Docs
+       * Sets the schema object for a parameter even if it doesn't have schema
+       *
+       * @param {object} parameter
+       * @returns {object}
       */
-      $scope.getParameterSchema = function (parameter) {
-        if (!parameter) {
-          return null;
-        }
-
+      function setParameterSchema(parameter) {
         if (parameter.schema) {
-          return parameter.schema;
+          return parameter;
+
+        } else if (parameter.type === 'array') {
+          parameter.schema = _.pick(parameter, 'type', 'items');
+
+        } else {
+          var schema = {type: parameter.type};
+
+          if (parameter.format) {
+            schema.format = parameter.format;
+          }
+
+          parameter.schema = schema;
         }
 
-        if (parameter.type === 'array') {
-          return _.pick(parameter, 'type', 'items');
-        }
-
-        var schema = {type: parameter.type};
-
-        if (parameter.format) {
-          schema.format = parameter.format;
-        }
-
-        return schema;
+        parameter.schema;
       };
 
       /*
