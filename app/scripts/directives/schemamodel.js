@@ -1,6 +1,6 @@
 'use strict';
 
-SwaggerEditor.directive('schemaModel', function ($parse) {
+SwaggerEditor.directive('schemaModel', function () {
 
   return {
     templateUrl: 'templates/schema-model.html',
@@ -10,7 +10,7 @@ SwaggerEditor.directive('schemaModel', function ($parse) {
       schema: '='
     },
 
-    link: function postLink($scope, $element, $attributes) {
+    link: function postLink($scope, $element) {
       $scope.mode = 'schema';
 
       $scope.switchMode = function () {
@@ -24,7 +24,6 @@ SwaggerEditor.directive('schemaModel', function ($parse) {
       function render() {
         var formatter = new JSONFormatter($scope.schema, 1);
         $element.find('td.view.json').html(formatter.render());
-
 
         var schemaView = new JSONSchemaView($scope.schema, 1);
         $element.find('td.view.schema').html(schemaView.render());

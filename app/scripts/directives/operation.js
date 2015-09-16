@@ -66,8 +66,8 @@ SwaggerEditor.directive('swaggerOperation', function (defaults) {
           parameter.schema = schema;
         }
 
-        parameter.schema;
-      };
+        return parameter;
+      }
 
       /*
        * Returns true if the operation responses has at least one response with
