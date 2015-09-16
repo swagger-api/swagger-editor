@@ -1,6 +1,6 @@
 'use strict';
 
-SwaggerEditor.service('Builder', function Builder($q, SwayWorker) {
+SwaggerEditor.service('Builder', function Builder(SwayWorker) {
   var load = _.memoize(jsyaml.load);
 
   /**
@@ -11,54 +11,55 @@ SwaggerEditor.service('Builder', function Builder($q, SwayWorker) {
   */
   function buildDocs(stringValue) {
     var json;
-    var deferred = $q.defer();
 
-    // If stringVlue is empty, return emptyDocsError
-    if (!stringValue) {
-      deferred.reject({
-        specs: null,
-        errors: [{emptyDocsError: 'Empty Document Error'}]
-      });
+    return new Promise(function (resolve, reject) {
 
-      return deferred.promise;
-    }
+      // If stringVlue is empty, return emptyDocsError
+      if (!stringValue) {
+        reject({
+          specs: null,
+          errors: [{emptyDocsError: 'Empty Document Error'}]
+        });
 
-    // if jsyaml is unable to load the string value return yamlError
-    try {
-      json = load(stringValue);
-    } catch (yamlError) {
-      deferred.reject({
-        errors: [{yamlError: yamlError}],
-        specs: null
-      });
+        return deferred.promise;
+      }
 
-      return deferred.promise;
-    }
+      // if jsyaml is unable to load the string value return yamlError
+      try {
+        json = load(stringValue);
+      } catch (yamlError) {
+        reject({
+          errors: [{yamlError: yamlError}],
+          specs: null
+        });
 
-    // Add `title` from object key to definitions
-    // if they are missing title
-    if (json && _.isObject(json.definitions)) {
+        return deferred.promise;
+      }
 
-      for (var definition in json.definitions) {
+      // Add `title` from object key to definitions
+      // if they are missing title
+      if (json && _.isObject(json.definitions)) {
 
-        if (_.isObject(json.definitions[definition]) &&
-            !_.startsWith(definition, 'x-') &&
-            _.isEmpty(json.definitions[definition].title)) {
+        for (var definition in json.definitions) {
 
-          json.definitions[definition].title = definition;
+          if (_.isObject(json.definitions[definition]) &&
+              !_.startsWith(definition, 'x-') &&
+              _.isEmpty(json.definitions[definition].title)) {
+
+            json.definitions[definition].title = definition;
+          }
         }
       }
-    }
 
-    SwayWorker.run(json, function (data) {
-      if (data.errors.length) {
-        deferred.reject(data);
-      } else {
-        deferred.resolve(data);
-      }
+      SwayWorker.run(json, function (data) {
+        if (data.errors.length) {
+          reject(data);
+        } else {
+         resolve(data);
+        }
+      });
+
     });
-
-    return deferred.promise;
   }
 
   this.buildDocs = buildDocs;
