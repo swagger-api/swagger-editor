@@ -305,8 +305,13 @@ SwaggerEditor.service('Autocomplete', function ($rootScope, snippets,
         var parameters = _.keys(json.parameters).map(function (param) {
           return '"#/parameters/' + param + '"';
         });
+        var responses = _.keys(json.responses).map(function (resp) {
+          return '"#/responses/' + resp + '"';
+        });
 
-        resolve(definitions.concat(parameters).map(function (ref) {
+        var allRefs = definitions.concat(parameters).concat(responses);
+
+        resolve(allRefs.map(function (ref) {
           return {
             name: ref,
             value: ref,
