@@ -73,16 +73,16 @@
     <!-- Handling of Code Generator service availability issues -->
     <span
       class=" text-danger dropdown-toggle"
-      ng-if="!servers && !disableCodeGen">
+      ng-if="serversNotAvailable">
         Server code generator is unreachable!
     </span>
     <span
       class=" text-danger dropdown-toggle"
-      ng-if="!clients && !disableCodeGen">
+      ng-if="clientsNotAvailable">
         Client code generator is unreachable!
     </span>
 
-    <div class="dropdown" ng-if="servers && !disableCodeGen">
+    <div class="dropdown" ng-if="servers && servers.length && !disableCodeGen">
       <button class="btn btn-default dropdown-toggle" data-toggle="dropdown" id="ServerMenu">
         <span>Generate Server</span>
         <span class="caret"></span>
@@ -97,7 +97,7 @@
       </ul>
     </div>
 
-    <div class="code-gen dropdown" ng-if="clients && !disableCodeGen">
+    <div class="code-gen dropdown" ng-if="clients && clients.length && !disableCodeGen">
       <button class="btn btn-default dropdown-toggle" data-toggle="dropdown" id="ClientMenu">
         <span>Generate Client</span>
         <span class="caret"></span>

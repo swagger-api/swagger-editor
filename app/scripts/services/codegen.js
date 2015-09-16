@@ -6,12 +6,18 @@
 SwaggerEditor.service('Codegen', function Codegen($http, defaults, Storage,
   YAML) {
   this.getServers = function () {
+    if (!defaults.codegen.servers) {
+      return new Promise(function (resolve) { resolve([]) });;
+    }
     return $http.get(defaults.codegen.servers).then(function (resp) {
       return resp.data;
     });
   };
 
   this.getClients = function () {
+    if (!defaults.codegen.clients) {
+      return new Promise(function (resolve) { resolve([]) });;
+    }
     return $http.get(defaults.codegen.clients).then(function (resp) {
       return resp.data;
     });

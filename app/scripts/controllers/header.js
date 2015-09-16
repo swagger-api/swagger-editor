@@ -43,10 +43,14 @@ SwaggerEditor.controller('HeaderCtrl', function HeaderCtrl($scope, $modal,
   if (!defaults.disableCodeGen) {
     Codegen.getServers().then(function (servers) {
       $scope.servers = servers;
+    }, function () {
+      $scope.serversNotAvailable = true;
     });
 
     Codegen.getClients().then(function (clients) {
       $scope.clients = clients;
+    }, function () {
+      $scope.clientsNotAvailable = true;
     });
   }
 
