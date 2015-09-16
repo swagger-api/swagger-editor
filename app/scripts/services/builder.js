@@ -20,8 +20,6 @@ SwaggerEditor.service('Builder', function Builder(SwayWorker) {
           specs: null,
           errors: [{emptyDocsError: 'Empty Document Error'}]
         });
-
-        return deferred.promise;
       }
 
       // if jsyaml is unable to load the string value return yamlError
@@ -32,8 +30,6 @@ SwaggerEditor.service('Builder', function Builder(SwayWorker) {
           errors: [{yamlError: yamlError}],
           specs: null
         });
-
-        return deferred.promise;
       }
 
       // Add `title` from object key to definitions
@@ -55,7 +51,7 @@ SwaggerEditor.service('Builder', function Builder(SwayWorker) {
         if (data.errors.length) {
           reject(data);
         } else {
-         resolve(data);
+          resolve(data);
         }
       });
 

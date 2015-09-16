@@ -4,8 +4,6 @@ SwaggerEditor.controller('PreviewCtrl', function PreviewCtrl(Storage, Builder,
   ASTManager, Editor, FocusedPath, TagManager, Preferences, FoldStateManager,
   $scope, $rootScope, $stateParams, $sessionStorage) {
 
-  var build = _.memoize(Builder.buildDocs);
-
   $scope.loadLatest = loadLatest;
   $scope.tagIndexFor = TagManager.tagIndexFor;
   $scope.getAllTags = TagManager.getAllTags;
@@ -37,7 +35,7 @@ SwaggerEditor.controller('PreviewCtrl', function PreviewCtrl(Storage, Builder,
 
     // Error can come in success callback, because of recursive promises
     // So we install same handler for error and success
-    build(latest).then(onBuildSuccess, onBuildFailure);
+    Builder.buildDocs(latest).then(onBuildSuccess, onBuildFailure);
   }
 
   /**
