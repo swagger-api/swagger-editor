@@ -30,77 +30,102 @@ SwaggerEditor.controller('TryOperation', function ($scope, formdataFilter,
     $scope.requestSchema = makeRequestSchema();
   }, true);
 
+  // JSON Editor options
+  var defaultOptions = {
+    theme: 'bootstrap3',           // jshint ignore:line
+    remove_empty_properties: true, // jshint ignore:line
+    show_errors: 'change'          // jshint ignore:line
+  };
+
+  var looseOptions = {
+    no_additional_properties: false, // jshint ignore:line
+    disable_properties: false,       // jshint ignore:line
+    disable_edit_json: false         // jshint ignore:line
+  };
+
   /*
    * configure SchemaForm directive based on request schema
   */
   function configureSchemaForm() {
-    /*jshint camelcase: false */
 
-    var defaultOptions = {
-      theme: 'bootstrap3',
-      remove_empty_properties: true,
-      show_errors: 'change'
-    };
+    // Determine if this request has a loose body parameter schema
+    // A loose body parameter schema is a body parameter that allows additional
+    // properties or has no properties object
+    //
+    // Note that "loose schema" is not a formal definition, we use this
+    // definition here to determine type of form to render
+    var loose = false;
 
-    var looseOptions = {
-      no_additional_properties: false,
-      disable_properties: false,
-      disable_edit_json: false
-    };
+    // loose schema is only for requests with body parameter
+    if (!hasRequestBody()) {
+      loose = false;
 
-    var loose = isLoose();
+    } else {
+      // we're accessing deep in the schema. many operations can fail here
+      try {
+
+        for (var p in $scope.requestSchema.properties.parameters.properties) {
+          var param = $scope.requestSchema.properties.parameters.properties[p];
+          if (param.in === 'body' && isLooseJSONSchema(param)) {
+            loose = true;
+          }
+        }
+      } catch (e) {}
+    }
 
     SchemaForm.options = _.extend(defaultOptions, loose ? looseOptions : {});
   }
 
   /*
-   * Determines if this request has a loose body parameter schema
-   * A loose body parameter schema is a body parameter that allows additional
-   * properties or has no properties object
+   * Determines if a JSON Schema is loose
    *
-   * Note that "loose schema" is not a formal definition, we use this definition
-   * here to determine type of form to render
+   * @param {object} schema - A JSON Schema object
    *
    * @returns {boolean}
   */
-  function isLoose() {
+  function isLooseJSONSchema(schema) {
 
-    // loose schema is only for requests with body parameter
-    if (!hasRequestBody()) {
-      return false;
+    // loose object
+    if (schema.additionalProperties || _.isEmpty(schema.properties)) {
+      return true;
     }
 
-    // we're accessing deep in the schema. many operations can fail here
-    try {
+    // loose array of objects
+    if (
+        schema.type === 'array' &&
+        (schema.items.additionalProperties ||
+        _.isEmpty(schema.items.properties))
+      ) {
 
-      for (var p in $scope.requestSchema.properties.parameters.properties) {
-        var param = $scope.requestSchema.properties.parameters.properties[p];
-        if (param.in === 'body') {
-
-          // loose object
-          if (
-              param.type === 'object' &&
-              (param.additionalProperties ||
-              _.isEmpty(param.properties))
-            ) {
-
-            return true;
-          }
-
-          // loose array of objects
-          if (
-              param.type === 'array' &&
-              (param.items.additionalProperties ||
-              _.isEmpty(param.items.properties))
-            ) {
-
-            return true;
-          }
-        }
-      }
-    } catch (e) {}
+      return true;
+    }
 
     return false;
+  }
+
+  /*
+   * Appends JSON Editor options for schema recursively so if a schema needs to
+   * be edited by JSON Editor loosely it's possible
+   *
+   * @param {object} schema - A JSON Schema object
+   *
+   * @returns {object} - A JSON Schema object
+  */
+  function appendJSONEditorOptions(schema) {
+    var looseOptions = {
+      no_additional_properties: false, // jshint ignore:line
+      disable_properties: false,       // jshint ignore:line
+      disable_edit_json: false         // jshint ignore:line
+    };
+
+    // If schema is loose add options for JSON Editor
+    if (isLooseJSONSchema(schema)) {
+      schema.options = looseOptions;
+    }
+
+    _.each(schema.properties, appendJSONEditorOptions);
+
+    return schema;
   }
 
   /*
@@ -297,7 +322,7 @@ SwaggerEditor.controller('TryOperation', function ($scope, formdataFilter,
       schema.format = 'file';
     }
 
-    return schema;
+    return appendJSONEditorOptions(schema);
   }
 
   /*
