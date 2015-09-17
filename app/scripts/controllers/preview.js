@@ -54,12 +54,14 @@ SwaggerEditor.controller('PreviewCtrl', function PreviewCtrl(Storage, Builder,
       $sessionStorage.securityKeys = securityKeys;
     }
 
-    if (result.specs) {
-      TagManager.registerTagsFromSpec(result.specs);
-      $rootScope.specs = result.specs;
-    }
-    $rootScope.errors = result.errors || [];
-    $rootScope.warnings = result.warnings || [];
+    $rootScope.$apply(function () {
+      if (result.specs) {
+        TagManager.registerTagsFromSpec(result.specs);
+        $rootScope.specs = result.specs;
+      }
+      $rootScope.errors = result.errors || [];
+      $rootScope.warnings = result.warnings || [];
+    });
   }
 
   /**
@@ -67,7 +69,10 @@ SwaggerEditor.controller('PreviewCtrl', function PreviewCtrl(Storage, Builder,
   */
   function onBuildSuccess(result) {
     onBuild(result);
-    $rootScope.progressStatus = 'success-process';
+
+    $rootScope.$apply(function () {
+      $rootScope.progressStatus = 'success-process';
+    });
 
     Editor.clearAnnotation();
 
@@ -82,19 +87,21 @@ SwaggerEditor.controller('PreviewCtrl', function PreviewCtrl(Storage, Builder,
   function onBuildFailure(result) {
     onBuild(result);
 
-    if (angular.isArray(result.errors)) {
-      if (result.errors[0].yamlError) {
-        Editor.annotateYAMLErrors(result.errors[0].yamlError);
-        $rootScope.progressStatus = 'error-yaml';
-      } else if (result.errors.length) {
-        $rootScope.progressStatus = 'error-swagger';
-        result.errors.forEach(Editor.annotateSwaggerError);
+    $rootScope.$apply(function () {
+      if (angular.isArray(result.errors)) {
+        if (result.errors[0].yamlError) {
+          Editor.annotateYAMLErrors(result.errors[0].yamlError);
+          $rootScope.progressStatus = 'error-yaml';
+        } else if (result.errors.length) {
+          $rootScope.progressStatus = 'error-swagger';
+          result.errors.forEach(Editor.annotateSwaggerError);
+        } else {
+          $rootScope.progressStatus = 'progress';
+        }
       } else {
-        $rootScope.progressStatus = 'progress';
+        $rootScope.progressStatus = 'error-general';
       }
-    } else {
-      $rootScope.progressStatus = 'error-general';
-    }
+    });
   }
 
   /**
