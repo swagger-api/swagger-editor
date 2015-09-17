@@ -154,57 +154,56 @@ SwaggerEditor.controller('HeaderCtrl', function HeaderCtrl($scope, $modal,
   function assignDownloadHrefs() {
     var MIME_TYPE = 'text/plain';
 
-    Storage.load('yaml').then(function (yaml) {
-      YAML.load(yaml, function (error, json) {
+    var yaml = $rootScope.editorValue;
+    YAML.load(yaml, function (error, json) {
 
-        // if `yaml` is JSON, convert it to YAML
-        var jsonParseError = null;
-        try {
-          JSON.parse(yaml);
-        } catch (error) {
-          jsonParseError = error;
+      // if `yaml` is JSON, convert it to YAML
+      var jsonParseError = null;
+      try {
+        JSON.parse(yaml);
+      } catch (error) {
+        jsonParseError = error;
+      }
+
+      if (!jsonParseError) {
+        YAML.dump(json, function (error, yamlStr) {
+          assign(yamlStr, json);
+        });
+      } else {
+        assign(yaml, json);
+      }
+
+      function assign(yaml, json) {
+        // swagger and version should be a string to comfort with the schema
+        if (json.info.version) {
+          json.info.version = String(json.info.version);
         }
-
-        if (!jsonParseError) {
-          YAML.dump(json, function (error, yamlStr) {
-            assign(yamlStr, json);
-          });
-        } else {
-          assign(yaml, json);
-        }
-
-        function assign(yaml, json) {
-          // swagger and version should be a string to comfort with the schema
-          if (json.info.version) {
-            json.info.version = String(json.info.version);
+        if (json.swagger) {
+          if (json.swagger === 2) {
+            json.swagger = '2.0';
+          } else {
+            json.swagger = String(json.swagger);
           }
-          if (json.swagger) {
-            if (json.swagger === 2) {
-              json.swagger = '2.0';
-            } else {
-              json.swagger = String(json.swagger);
-            }
-          }
-
-          json = JSON.stringify(json, null, 4);
-          var jsonBlob = new Blob([json], {type: MIME_TYPE});
-          $scope.jsonDownloadHref = window.URL.createObjectURL(jsonBlob);
-          $scope.jsonDownloadUrl = [
-            MIME_TYPE,
-            'swagger.json',
-            $scope.jsonDownloadHref
-          ].join(':');
-
-          // YAML
-          var yamlBlob = new Blob([yaml], {type: MIME_TYPE});
-          $scope.yamlDownloadHref = window.URL.createObjectURL(yamlBlob);
-          $scope.yamlDownloadUrl = [
-            MIME_TYPE,
-            'swagger.yaml',
-            $scope.yamlDownloadHref
-          ].join(':');
         }
-      });
+
+        json = JSON.stringify(json, null, 4);
+        var jsonBlob = new Blob([json], {type: MIME_TYPE});
+        $scope.jsonDownloadHref = window.URL.createObjectURL(jsonBlob);
+        $scope.jsonDownloadUrl = [
+          MIME_TYPE,
+          'swagger.json',
+          $scope.jsonDownloadHref
+        ].join(':');
+
+        // YAML
+        var yamlBlob = new Blob([yaml], {type: MIME_TYPE});
+        $scope.yamlDownloadHref = window.URL.createObjectURL(yamlBlob);
+        $scope.yamlDownloadUrl = [
+          MIME_TYPE,
+          'swagger.yaml',
+          $scope.yamlDownloadHref
+        ].join(':');
+      }
     });
   }
 
