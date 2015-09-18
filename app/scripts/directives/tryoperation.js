@@ -18,6 +18,7 @@ SwaggerEditor.controller('TryOperation', function ($scope, formdataFilter,
   $scope.requestModel = makeRequestModel();
   $scope.requestSchema = makeRequestSchema();
   $scope.hasFileParam = hasFileParam();
+
   // httpProtocol is static for now we can use HTTP2 later if we wanted
   $scope.httpProtocol = 'HTTP/1.1';
   $scope.locationHost = window.location.host;
@@ -42,6 +43,8 @@ SwaggerEditor.controller('TryOperation', function ($scope, formdataFilter,
     disable_properties: false,       // jshint ignore:line
     disable_edit_json: false         // jshint ignore:line
   };
+
+  SchemaForm.options = defaultOptions;
 
   /*
    * configure SchemaForm directive based on request schema
