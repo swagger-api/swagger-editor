@@ -13,6 +13,8 @@ SwaggerEditor.service('Autocomplete', function ($rootScope, snippets,
     // this method is being called by Ace to get a list of completion candidates
     getCompletions: function (editor, session, pos, prefix, callback) {
 
+      var startTime = Date.now();
+
       // Do not make any suggestions when autoComplete preference is off
       if (!Preferences.get('autoComplete')) {
         return callback(null, []);
@@ -32,6 +34,15 @@ SwaggerEditor.service('Autocomplete', function ($rootScope, snippets,
           return get$refs().then(function ($refs) {
             callback(null, $refs);
           });
+        }
+
+        // Disable autocomplete and increase debounce time automatically if
+        // document is too large (takes more than 200ms to compose AST)
+        var totalTime = Date.now() - startTime;
+        if (totalTime > 200) {
+          console.info('autocomplete took ' + totalTime + 'ms. Turning it off');
+          Preferences.set('autoComplete', false);
+          Preferences.set('keyPressDebounceTime', totalTime * 3);
         }
 
         callback(null, keywordsForPos.concat(snippetsForPos));
