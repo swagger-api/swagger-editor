@@ -10,7 +10,10 @@ describe('Try Operation', function () {
     $('.modal-dialog select option:nth-child(2)').click();
     $('.modal-dialog .btn.btn-primary').click();
 
+    browser.sleep(300); // wait for modal to go away
+
     expect($('.modal-dialog').isPresent()).toBe(false);
+
     browser.wait(function () {
       return $('.info-header').getText().then(function (text) {
         return text.indexOf('PetStore on Heroku') > -1;
