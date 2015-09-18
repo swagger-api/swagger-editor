@@ -1,5 +1,7 @@
 'use strict';
 
+var compose = _.memoize(yaml.compose);
+
 /*
  * A service for YAMLWorker to use a single worker for lighter YAML processing
  * work
@@ -13,7 +15,7 @@ SwaggerEditor.service('YAML', function YAML() {
 
   // Temporarily we are using the main thread to do the composition task due to
   // this bug: https://github.com/connec/yaml-js/issues/17
-  var compose = _.memoize(window.yaml.compose);
+
   this.compose = function (string, cb) {
     try {
       cb(null, compose(string));
