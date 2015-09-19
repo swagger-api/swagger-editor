@@ -1,6 +1,6 @@
 {
   "name": "swagger-editor",
-  "version": "2.9.7",
+  "version": "2.9.8",
   "dependencies": {
     "angular": "~1.4.2",
     "angular-bootstrap": "~0.13.0",
