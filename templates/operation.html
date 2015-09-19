@@ -7,7 +7,7 @@
                       operationName,
                       'parameters',
                       $index
-                    ])" tooltip-placement="top" tooltip="Jump to YAML" tooltip-trigger="mouseenter"><span class="mono">{{parameter.name}}</span></a><td>{{parameter.in}}<td marked="parameter.description"><td>{{parameter.required ? 'Yes' : 'No'}}<td><schema-model schema="getParameterSchema(parameter)"></schema-model></table></div></section><section class="responses" ng-if="operation"><h4>Responses</h4><div><table class="respns"><thead><tr><th>Code<th>Description<th ng-if="hasAResponseWithHeaders(operation.responses)">Headers<th ng-if="hasAResponseWithSchema(operation.responses)">Schema<tbody><tr ng-repeat="(responseCode, response) in operation.responses"><td><a ng-click="focusEdit($event, [
+                    ])" tooltip-placement="top" tooltip="Jump to YAML" tooltip-trigger="mouseenter"><span class="mono">{{parameter.name}}</span></a><td>{{parameter.in}}<td marked="parameter.description"><td>{{parameter.required ? 'Yes' : 'No'}}<td><schema-model schema="parameter.schema"></schema-model></table></div></section><section class="responses" ng-if="operation"><h4>Responses</h4><div><table class="respns"><thead><tr><th>Code<th>Description<th ng-if="hasAResponseWithHeaders(operation.responses)">Headers<th ng-if="hasAResponseWithSchema(operation.responses)">Schema<tbody><tr ng-repeat="(responseCode, response) in operation.responses"><td><a ng-click="focusEdit($event, [
                     'paths',
                     pathName,
                     operationName,
