@@ -7,7 +7,7 @@ var compose = _.memoize(yaml.compose);
  * work
 */
 SwaggerEditor.service('YAML', function YAML() {
-  var worker = new YAMLWorker();
+  var worker = new YAMLWorker('bower_components/yaml-worker/');
 
   // expose the methods that are being used
   this.load = worker.load.bind(worker);
