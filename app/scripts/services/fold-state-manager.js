@@ -9,6 +9,7 @@ SwaggerEditor.service('FoldStateManager', function FoldStateManager(ASTManager,
 
   Editor.onFoldChanged(foldChangedInEditor);
   this.foldEditor = foldEditor;
+  this.getFoldedTree = getFoldedTree;
 
   /**
    * Adds or removes a fold in Ace editor with given path
@@ -64,5 +65,38 @@ SwaggerEditor.service('FoldStateManager', function FoldStateManager(ASTManager,
         $rootScope.$apply();
       }
     });
+  }
+
+  /*
+   * Get fold state tree of spec
+   *
+   * @param {object} tree
+   * @param {object} newTree
+   *
+   * @returns {object}
+  */
+  function getFoldedTree(tree, newTree) {
+    if (!tree) {
+      return tree;
+    }
+
+    var result = {};
+
+    _.keys(tree).forEach(function (key) {
+
+      if (_.isObject(tree[key]) && _.isObject(newTree[key])) {
+        result[key] = getFoldedTree(tree[key], newTree[key]);
+
+      } else {
+        if (key === '$folded') {
+          result[key] = tree[key];
+        } else {
+          result[key] = newTree[key];
+        }
+      }
+
+    });
+
+    return result;
   }
 });

@@ -55,8 +55,15 @@ SwaggerEditor.controller('PreviewCtrl', function PreviewCtrl(Storage, Builder,
     }
 
     $rootScope.$apply(function () {
+
       if (result.specs) {
+
         TagManager.registerTagsFromSpec(result.specs);
+
+        // Retrive and put back fold state
+        _.defaultsDeep(result.specs,
+          FoldStateManager.getFoldedTree($rootScope.specs, result.specs));
+
         $rootScope.specs = result.specs;
       }
       $rootScope.errors = result.errors || [];
