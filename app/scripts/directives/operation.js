@@ -18,9 +18,9 @@ SwaggerEditor.directive('swaggerOperation', function (defaults) {
        *
        * @returns {array} - array of parameters
       */
-      $scope.getParameters = function () {
-        var hasPathParameter = Array.isArray($scope.path.parameters);
-        var hasOperationParameter = Array.isArray($scope.operation.parameters);
+      $scope.getParameters = function getParameters() {
+        var hasPathParameter = _.isArray($scope.path.parameters);
+        var hasOperationParameter = _.isArray($scope.operation.parameters);
 
         // if there is no operation and path parameter return empty array
         if (!hasOperationParameter && !hasPathParameter) {
@@ -64,6 +64,12 @@ SwaggerEditor.directive('swaggerOperation', function (defaults) {
           }
 
           parameter.schema = schema;
+        }
+
+        // if allowEmptyValue is explicitly set to false it means this parameter
+        // is required for making a request.
+        if (parameter.allowEmptyValue === false) {
+          parameter.schema.required = true;
         }
 
         return parameter;
