@@ -37,8 +37,7 @@ module.exports = function (config) {
 
     // Define a proxy to allow worker files served at correct path
     proxies: {
-      '/bower_components/sway-worker/index.js':
-        '/base/bower_components/sway-worker/index.js'
+      '/': '/base/'
     },
 
     // base path, that will be used to resolve files and exclude
