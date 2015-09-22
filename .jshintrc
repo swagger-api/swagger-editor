@@ -31,6 +31,6 @@
     "SparkMD5": false,
     "JSONFormatter": false,
     "JSONSchemaView": false,
-    "File"
+    "File": false
   }
 }
