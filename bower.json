@@ -23,6 +23,7 @@
     "promise-polyfill": "~2.1.0",
     "schema-form": "~0.1.4",
     "SparkMD5": "spark-md5#~1.0.0",
+    "source-code-pro": "git://github.com/adobe-fonts/source-code-pro.git#156db3bf0b",
     "yaml-js": "~0.1.1",
     "yaml-worker": "^2.0.0"
   },
