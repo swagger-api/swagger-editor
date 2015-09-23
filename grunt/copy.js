@@ -62,7 +62,7 @@ module.exports = {
       'mode-json.js'
     ],
   },
-  source_code_pro: {
+  sourceCodePro: {
     expand: true,
     cwd: 'app/bower_components/source-code-pro/',
     // Upstream source-code-pro.css loads fonts by relative path
