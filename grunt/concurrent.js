@@ -9,6 +9,7 @@ module.exports = {
   ],
   dist: [
     'copy:ace',
+    'copy:sourceCodePro',
     'copy:styles'
   ]
 };
