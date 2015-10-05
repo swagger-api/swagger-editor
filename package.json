@@ -7,7 +7,7 @@
   "authors": [
     "Mohsen Azimi <me@azimi.me>"
   ],
-  "repository": "https://github.com/swagger-api/swagger-editor.git",
+  "repository": "git@github.com:swagger-api/swagger-editor.git",
   "devDependencies": {
     "bower": "^1.4.1",
     "chai": "^3.2.0",
