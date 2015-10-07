@@ -38,8 +38,21 @@
 
     li a {
       overflow: auto;
-      display: flex;
-      justify-content: space-between;
+      padding-top: 5px;
+      padding-bottom: 5px;
+
+      .fa {
+        font-size: 16px;
+        margin-right: 5px;
+
+        &.no-icon {
+          min-width: 13px;
+        }
+
+        &.highlighted {
+          color: rgba(0, 253, 240, 0.81);
+        }
+      }
     }
 
     .divider {
