@@ -809,7 +809,10 @@ SwaggerEditor.controller('TryOperation', function ($scope, formdataFilter,
       type: $scope.operationName,
       headers: _.omit($scope.getHeaders(), omitHeaders),
       data: $scope.getRequestBody(),
-      contentType: $scope.contentType
+      contentType: $scope.contentType,
+      xhrFields: {
+        withCredentials: true
+      }
     })
 
     .fail(function (jqXHR, textStatus, errorThrown) {
