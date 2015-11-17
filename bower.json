@@ -49,7 +49,7 @@
     }
   },
   "devDependencies": {
-    "sway-worker": "~1.7.0",
+    "sway-worker": "~1.8.0",
     "angular-mocks": "~1.4.2"
   }
 }
