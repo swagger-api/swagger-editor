@@ -1,6 +1,6 @@
 # Development Guide
 
-### Sepecifying the port
+### Specifying the port
 
 You can set the environment variable `PORT` to set the port
 
