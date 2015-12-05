@@ -1,6 +1,6 @@
 # HTTP access control (CORS) issues
 
-Swagger Editor is a web application and by it's nature is limited to [HTTP access control policy](https://developer.mozilla.org/en-US/docs/Web/HTTP/Access_control_CORS). If you can't make calls using **Try this operation** component of the editor it's very likely because the server is not allowing `swagger.io` domain make [`XHR`](https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest) (also known as AJAX) calls to it.
+Swagger Editor is a web application and by its nature is limited to [HTTP access control policy](https://developer.mozilla.org/en-US/docs/Web/HTTP/Access_control_CORS). If you can't make calls using **Try this operation** component of the editor it's very likely because the server is not allowing the `swagger.io` domain to make [`XHR`](https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest) (also known as AJAX) calls to it.
 
 ## How to fix CORS issues
 
@@ -16,11 +16,11 @@ Access-Control-Allow-Origin: http://swagger.io
 Access-Control-Allow-Headers: Origin, X-Requested-With, Content-Type, Accept
 ```
 
-Note that `Access-Control-Allow-Origin` accepts a regular expression. You can put `*` for it's value to allow CORS calls from any domain(origin).
+Note that `Access-Control-Allow-Origin` accepts a regular expression. You can put `*` for its value to allow CORS calls from any domain(origin).
 
 ### Host Swagger Editor in your own domain 
 
-If you don't want to add CORS headers to your server, the other option is to host Swagger Editor in your own domain. When Swagger Editor is running in the same domain as the API it's editing, it can makes calls to your domain with no restriction. Run the following commands to generate a new build of Swagger Editor and serve the `dist` folder statically in your domain.
+If you don't want to add CORS headers to your server, the other option is to host Swagger Editor in your own domain. When Swagger Editor is running in the same domain as the API it's editing, it can make calls to your domain with no restriction. Run the following commands to generate a new build of Swagger Editor and serve the `dist` folder statically in your domain.
 
 When an XHR call is not cross-domain, JavaScript will see all the headers. If you want to see more accurate response, this method is preferred.
 
