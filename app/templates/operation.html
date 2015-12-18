@@ -94,6 +94,7 @@
               <th>Description</th>
               <th ng-if="hasAResponseWithHeaders(operation.responses)">Headers</th>
               <th ng-if="hasAResponseWithSchema(operation.responses)">Schema</th>
+              <th ng-if="hasAResponseWithExamples(operation.responses)">Examples</th>
             </tr>
           </thead>
 
@@ -143,6 +144,18 @@
               </td>
               <td ng-if="hasAResponseWithSchema(operation.responses)">
                 <schema-model ng-if="response.schema" schema="response.schema"></schema-model>
+              </td>
+              <td ng-if="hasAResponseWithExamples(operation.responses)">
+                <table class="examples">
+                  <tbody>
+                    <tr ng-repeat="(exampleMimeType, example) in response.examples">
+                      <td>{{exampleMimeType}}</td>
+                      <td>
+                        <json-formatter json="example" open="1"></json-formatter>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
               </td>
             </tr>
           </tbody>
