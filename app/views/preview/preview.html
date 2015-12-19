@@ -75,6 +75,13 @@
             class="definition-title">
             {{modelName}}
           </a>
+          <a
+            class="jump-to-yaml"
+            ng-click="focusEdit($event, ['definitions', modelName])"
+            tooltip-placement="left"
+            tooltip="Jump to YAML"
+            tooltip-trigger="mouseenter">
+          </a>
         </h4>
         <div collapse-when="model.$folded">
           <schema-model schema="model"></schema-model>
