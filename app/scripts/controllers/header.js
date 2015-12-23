@@ -163,6 +163,11 @@ SwaggerEditor.controller('HeaderCtrl', function HeaderCtrl($scope, $modal,
     var yaml = $rootScope.editorValue;
     YAML.load(yaml, function (error, json) {
 
+      // Don't assign if there is an error
+      if (error) {
+        return;
+      }
+
       // if `yaml` is JSON, convert it to YAML
       var jsonParseError = null;
       try {
