@@ -1,14 +1,14 @@
-# Importing Swagger specs
+# Importing OpenAPI Specs
 
-Swagger Editor can import your Swagger spec file. Swagger specs can be in JSON or YAML.
+Swagger Editor can import your OpenAPI Spec file. OpenAPI Specs can be in JSON or YAML.
 
 ### File → Import File
 
-Click **Choose File** and select import. The file you are importing have to be valid JSON or YAML Swagger spec file. Swagger Editor will prompt you about validation errors.
+Click **Choose File** and select import. The file you are importing have to be valid JSON or YAML OpenAPI Spec file. Swagger Editor will prompt you about validation errors.
 
 ### File → Import URL
 
-Paste in URL to your Swagger spec file. Swagger Editor will use a CORS proxy to download files that are being served with a server that doesn't support XHR calls from other domains. This might not work for locally hosted files, or files that are behind a firewall. Turn the **Use CORS proxy** check-box to disable this feature.
+Paste in URL to your OpenAPI Spec file. Swagger Editor will use a CORS proxy to download files that are being served with a server that doesn't support XHR calls from other domains. This might not work for locally hosted files, or files that are behind a firewall. Turn the **Use CORS proxy** check-box to disable this feature.
 
 ### URL Query Parameter
 

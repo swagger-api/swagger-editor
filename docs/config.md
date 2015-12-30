@@ -57,7 +57,7 @@ Backends
 --------
 
 #### `backendEndpoint`
-Url to a backend which supports `GET` for retrieving a swagger spec to edit
+Url to a backend which supports `GET` for retrieving a OpenAPI Spec to edit
 and `PUT` for saving it.
 
 #### `useBackendForStorage`
