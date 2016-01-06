@@ -5,11 +5,11 @@
 
 .operation-theme(@color) {
   border: 1px solid @color;
-  background-color: #fff;
+  background-color: @background;
 
   .http-method{
     background-color: @color;
-    color: white;
+    color: @white;
   }
   >header {
     background-color: fade(@color, 10%);
@@ -56,10 +56,10 @@ li.operation {
     .deprecated {
       float: left;
       margin: 8px;
-      color: white;
-      background: #C52A5E; // TODO: move to colors.less
+      color: @white;
+      background: @deprecated-background;
       padding: 0px 7px;
-      border: 1px solid white;
+      border: 1px solid @white;
     }
 
     &:hover .focus-editor {
@@ -133,14 +133,14 @@ li.operation {
         >th {
           padding: 0.3em;
           font-weight: 600;
-          background-color: #f7f7f7;
+          background-color: @table-th;
         }
       }
     }
 
     >tbody {
       >tr {
-        border-bottom: 1px solid silver;
+        border-bottom: 1px solid @silver;
         font-size: 16px;
 
         >td {

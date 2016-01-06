@@ -13,13 +13,13 @@
     user-select: none;
     -webkit-user-select: none;
     -ms-user-select: none;
-    color: darken(white, 15%);
+    color: darken(@white, 15%);
     transition: color ease-in 100ms;
   }
 
   &:hover {
     button, a {
-      color: white;
+      color: @white;
     }
   }
 
@@ -50,7 +50,7 @@
         }
 
         &.highlighted {
-          color: rgba(0, 253, 240, 0.81);
+          color: @drop-down-color;
         }
       }
     }
@@ -72,7 +72,7 @@
 
     .dropdown-menu, a, li, button, button:focus {
       background: darken(@header-bg, 10%);
-      color: white;
+      color: @white;
     }
 
     .dropdown-menu {
@@ -94,7 +94,7 @@
 
       &.adjust {
         padding: 0px 15px;
-        border: 1px solid gray;
+        border: 1px solid @gray-md;
         border-radius: 5px;
         margin: 0;
         display: inline-table;
