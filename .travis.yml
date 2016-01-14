@@ -3,9 +3,6 @@ language: node_js
 node_js:
   - 'stable'
 
-install:
-  - docker login --email=$DOCKER_HUB_EMAIL --username=$DOCKER_HUB_USERNAME --password=$DOCKER_HUB_PASSWORD
-
 script:
   - export DISPLAY=:99.0
   - sh -e /etc/init.d/xvfb start
