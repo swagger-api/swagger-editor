@@ -1,7 +1,11 @@
-sudo: false
+sudo: required
 language: node_js
+
 node_js:
   - 'stable'
+
+services:
+  - docker
 
 script:
   - export DISPLAY=:99.0
