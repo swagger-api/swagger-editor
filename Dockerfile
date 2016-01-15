@@ -5,26 +5,14 @@
 ###
 
 FROM    ubuntu:14.04
-MAINTAINER Marcello_deSales@intuit.com
 
-ENV     DEBIAN_FRONTEND noninteractive
-
-RUN     apt-get update && apt-get install -y git npm nodejs && rm -rf /var/lib/apt/lists/*
+RUN     apt-get update && apt-get install -y npm nodejs && rm -rf /var/lib/apt/lists/* && npm install -g http-server
 RUN     ln -s /usr/bin/nodejs /usr/local/bin/node
 
-WORKDIR /runtime
-ADD     package.json    /runtime/package.json
-RUN     npm install
-RUN     npm install -g bower grunt-cli
-
-
-ADD     bower.json      /runtime/bower.json
-ADD     .bowerrc        /runtime/.bowerrc
-RUN     bower --allow-root --force-latest install
-
-ADD     .   /runtime
-RUN 	grunt build
+WORKDIR /editor
+ADD     dist    /editor
 
 # The default port of the application
 EXPOSE  8080
-CMD     grunt connect:dist
+
+CMD ["http-server", "--cors", "--port=8080", "/editor"]
