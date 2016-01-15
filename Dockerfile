@@ -4,10 +4,9 @@
 # Run the swagger-editor service on port 8080
 ###
 
-FROM    ubuntu:14.04
+FROM    mhart/alpine-node
 
-RUN     apt-get update && apt-get install -y npm nodejs && rm -rf /var/lib/apt/lists/* && npm install -g http-server
-RUN     ln -s /usr/bin/nodejs /usr/local/bin/node
+RUN     npm install -g http-server
 
 WORKDIR /editor
 ADD     dist    /editor
