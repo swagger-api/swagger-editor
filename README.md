@@ -14,6 +14,19 @@ Valid Swagger JSON descriptions can then be generated and used with the full Swa
 
 [![Screenshot of the Swagger Editor](docs/screenshot.png "Designing an API with the Swagger Editor")](http://editor.swagger.io)
 
+#### Running with Docker
+
+The swagger-editor is published in a public repository on Dockerhub:
+
+[https://hub.docker.com/r/swaggerapi/swagger-editor/](https://hub.docker.com/r/swaggerapi/swagger-editor/)
+
+You can run editor easily with docker:
+
+```
+docker pull swaggerapi/swagger-editor
+docker run -p 80:8080 swaggerapi/swagger-editor
+```
+
 #### Running Locally
 
 [**Download the latest release (v2.9.8)**](https://github.com/swagger-api/swagger-editor/releases/download/v2.9.8/swagger-editor.zip) and serve the static files via your HTTP server. If you don't have an HTTP server, you can use [`http-server`](https://www.npmjs.com/package/http-server) Node.js module.
