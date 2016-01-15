@@ -6,4 +6,4 @@
       ">Models</a> <span class="on-hover"><a ng-click="listAllDefnitions()">List all models</a></span></h3></header><ul class="section-content definitions" ng-if="showDefinitions(specs.definitions)" collapse-when="specs.definitions.$folded" class="models"><li class="definition" ng-repeat="(modelName, model) in specs.definitions" ng-if="!isVendorExtension(modelName)" scroll-into-view-when="isInFocus(['definitions', modelName])"><h4><a ng-click="
               model.$folded = !model.$folded;
               foldEditor(['definitions', modelName], model.$folded)
-            " class="definition-title">{{modelName}}</a></h4><div collapse-when="model.$folded"><schema-model schema="model"></schema-model></div></li></ul></div>
+            " class="definition-title">{{modelName}}</a> <a class="jump-to-yaml" ng-click="focusEdit($event, ['definitions', modelName])" tooltip-placement="left" tooltip="Jump to YAML" tooltip-trigger="mouseenter"></a></h4><div collapse-when="model.$folded"><schema-model schema="model"></schema-model></div></li></ul></div>
