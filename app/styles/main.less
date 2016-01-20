@@ -20,6 +20,7 @@
 @import "components";
 @import "markdown";
 @import "print";
+@import "colors";
 
 html, body {
   height: 100%;
@@ -38,8 +39,7 @@ main {
   left: 0;
 
   .ui-splitbar {
-    // TODO: design review the color
-    background: #5E696B;
+    background: @main-splitbar;
   }
 
   .pane.editor {
@@ -71,7 +71,7 @@ main {
     align-items: center;
 
     .dash {
-      border: 10px dashed #138BC4;
+      border: 10px dashed @dragover-dash;
       border-radius: 30px;
       width: 60%;
       height: 40%;

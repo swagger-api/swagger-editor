@@ -5,7 +5,7 @@
   .sw-font;
 
   .dirty-message {
-    background: #FFFF6E;
+    background: @dirty-msg;
     padding: .3em;
   }
 
@@ -16,7 +16,7 @@
 
       &:hover {
         text-decoration: none;
-        border-bottom: 1px dotted silver;
+        border-bottom: 1px dotted @silver;
       }
     }
 
@@ -52,7 +52,7 @@
         display: inline-block;
         height: 19px;
         width: 22px;
-        color: #808080;
+        color: @gray-md;
         background-image: url("../images/jump-icon.svg");
       }      
     }

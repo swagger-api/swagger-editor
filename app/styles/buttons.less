@@ -15,7 +15,7 @@ button {
 
 
 button.border-only {
-  background: white;
+  background: @white;
 
   &:hover {
     background-color: lighten(@gray-md, 47%);
@@ -24,7 +24,7 @@ button.border-only {
 
   &.red:hover {
     background: @sw-error-header;
-    color: white;
+    color: @white;
   }
 }
 
@@ -34,7 +34,7 @@ button.call {
   display: inline-block;
   border:1px solid @gray-lt;
   background-color: @gray-lt;
-  color: #444;
+  color: @call-button;
   border-radius: 3px;
   appearance: none;
   cursor: pointer;

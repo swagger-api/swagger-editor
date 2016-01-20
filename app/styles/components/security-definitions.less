@@ -1,3 +1,5 @@
+@import "../colors";
+
 .security-definition-theme(@color) {
   border: 1px solid @color;
   >header {
@@ -8,10 +10,10 @@
 .security-definitions {
   .security-definition {
 
-    .security-definition-theme(#E5E5E5);
-    &.basic  { .security-definition-theme(#A8E8A1); }
-    &.apiKey { .security-definition-theme(#A1B2E8); }
-    &.oauth2 { .security-definition-theme(#F4B487); }
+    .security-definition-theme(@security-default);
+    &.basic  { .security-definition-theme(@security-basic); }
+    &.apiKey { .security-definition-theme(@security-apiKey); }
+    &.oauth2 { .security-definition-theme(@security-oauth2); }
 
     >header, >section { padding: .4em; }
     margin-bottom: 1em;
@@ -23,9 +25,8 @@
     .authentication {
       float: right;
 
-      // TODO: colors
       button {
-        background: rgb(195, 252, 195);
+        background: @authentication-button;
         border: none;
         padding: 0.1em 0.5em
       }
