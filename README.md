@@ -46,6 +46,7 @@ Make sure you have [Node.js](http://nodejs.org/) installed.
 ```shell
 git clone https://github.com/swagger-api/swagger-editor.git
 cd swagger-editor
+npm install
 npm start
 ```
 
