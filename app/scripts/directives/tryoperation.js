@@ -758,6 +758,9 @@ SwaggerEditor.controller('TryOperation', function ($scope, formdataFilter,
 
     // if body has application/json encoding use JSON to stringify it
     } else if (/json/.test(contentType)) {
+      //prefill form with request body
+      var currentLayer = ("schema" in bodyParam) ? bodyParam.schema.properties : null;
+      prefillRequestParameters(currentLayer, bodyModel);
       return JSON.stringify(bodyModel, null, 2);
 
     // if encoding is x-www-form-urlencoded use jQuery.param method to stringify
@@ -766,6 +769,31 @@ SwaggerEditor.controller('TryOperation', function ($scope, formdataFilter,
     }
 
     return null;
+  }
+
+  /*
+  * Sets all request parameters in the ui of the editor to make a request
+  */
+  function prefillRequestParameters(currentLayer, bodyModel){
+    if(!bodyModel || !currentLayer){return}
+    
+    var keys = Object.keys(bodyModel);
+    var len = keys.length;
+
+    for(var i=0; i<len; i++){
+      if (keys[i] in currentLayer){
+        var property = currentLayer[keys[i]];
+        
+        if( property.type === "object" ){
+          var newLayer = currentLayer[keys[i]]["properties"];
+          prefillRequestParameters(newLayer, bodyModel[keys[i]]);
+        } else {
+          if("example" in property){
+            bodyModel[keys[i]] = property["example"];
+          }
+        }
+      }
+    }
   }
 
   /*
