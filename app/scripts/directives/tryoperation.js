@@ -759,7 +759,7 @@ SwaggerEditor.controller('TryOperation', function ($scope, formdataFilter,
     // if body has application/json encoding use JSON to stringify it
     } else if (/json/.test(contentType)) {
       //prefill form with request body
-      var currentLayer = ("schema" in bodyParam) ? bodyParam.schema.properties : null;
+      var currentLayer = ('schema' in bodyParam) ? bodyParam.schema.properties : null;
       prefillRequestParameters(currentLayer, bodyModel);
       return JSON.stringify(bodyModel, null, 2);
 
@@ -784,12 +784,12 @@ SwaggerEditor.controller('TryOperation', function ($scope, formdataFilter,
       if (keys[i] in currentLayer){
         var property = currentLayer[keys[i]];
         
-        if( property.type === "object" ){
-          var newLayer = currentLayer[keys[i]]["properties"];
+        if( property.type === 'object' ){
+          var newLayer = currentLayer[keys[i]]['properties'];
           prefillRequestParameters(newLayer, bodyModel[keys[i]]);
         } else {
-          if("example" in property){
-            bodyModel[keys[i]] = property["example"];
+          if('example' in property){
+            bodyModel[keys[i]] = property['example'];
           }
         }
       }
