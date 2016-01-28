@@ -26,7 +26,7 @@ $(function () {
     // if host is not localhost it's production
     var isProduction = !/localhost/.test(window.location.host);
 
-    if(defaults.previewOnly){
+    if (defaults.previewOnly) {
       defaults.disableFileMenu = true;
       defaults.disableNewUserIntro = true;
       defaults.disablePreferencesMenu = true;
