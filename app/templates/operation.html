@@ -11,7 +11,7 @@
       ng-click="focusEdit($event, ['paths', pathName, operationName])"
       tooltip-placement="left"
       tooltip="Jump to YAML"
-      tooltip-trigger="mouseenter">
+      tooltip-trigger="mouseenter" ng-if="!previewOnly">
     </a>
 
     <div

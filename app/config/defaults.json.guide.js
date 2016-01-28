@@ -115,6 +115,16 @@ var defaults = {
   disableFileMenu: false,
 
   /*
+   * Disables Preferences menu
+   */
+  disablePreferencesMenu: false,
+
+  /*
+   * Disables Help menu
+   */
+  disableHelpMenu: false,
+
+  /*
    * When it's enabled:
    *  * Editor will append `brandingCssClass` class to body tag
    *  * Editor will include branding templates at
@@ -145,5 +155,11 @@ var defaults = {
    * it possible to import contents that are not allowed to be loaded from a
    * different origin. If you're hosting your own editor, please replace this
   */
-  importProxyUrl: 'https://cors-it.herokuapp.com/?url='
+  importProxyUrl: 'https://cors-it.herokuapp.com/?url=',
+
+  /*
+   * In case want to view only preview of the APIs and not the editor
+   * It will disable file menu in header as well
+   */
+  previewOnly: false
 };

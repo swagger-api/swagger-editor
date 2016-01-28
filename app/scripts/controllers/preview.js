@@ -2,7 +2,7 @@
 
 SwaggerEditor.controller('PreviewCtrl', function PreviewCtrl(Storage, Builder,
   ASTManager, Editor, FocusedPath, TagManager, Preferences, FoldStateManager,
-  $scope, $rootScope, $stateParams, $sessionStorage) {
+  $scope, $rootScope, $stateParams, $sessionStorage, defaults) {
 
   $scope.loadLatest = loadLatest;
   $scope.tagIndexFor = TagManager.tagIndexFor;
@@ -21,6 +21,8 @@ SwaggerEditor.controller('PreviewCtrl', function PreviewCtrl(Storage, Builder,
   $scope.listAllDefnitions = listAllDefnitions;
 
   Storage.addChangeListener('yaml', update);
+
+  $scope.previewOnly = defaults.previewOnly;
 
   /**
    * Reacts to updates of YAML in storage that usually triggered by editor

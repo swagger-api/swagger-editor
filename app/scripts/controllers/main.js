@@ -9,6 +9,8 @@ SwaggerEditor.controller('MainCtrl', function MainCtrl(
   $rootScope.$on('$stateChangeStart', Editor.initializeEditor);
   $rootScope.$on('$stateChangeStart', loadYaml);
 
+  $scope.previewOnly = defaults.previewOnly;
+
   // TODO: find a better way to add the branding class (grunt html template)
   $('body').addClass(defaults.brandingCssClass);
 
@@ -33,6 +35,8 @@ SwaggerEditor.controller('MainCtrl', function MainCtrl(
       // If there is no saved YAML either, load the default example
       } else if (!yaml) {
         url = defaults.examplesFolder + defaults.exampleFiles[0];
+      } else if (defaults.previewOnly) {
+        Storage.save('yaml', yaml); // Trigger preview to render
       }
 
       if (url) {
@@ -72,4 +76,5 @@ SwaggerEditor.controller('MainCtrl', function MainCtrl(
       FileLoader.load(fileReader.result).then(assign);
     }
   };
+
 });
