@@ -48,14 +48,7 @@ SwaggerEditor.service('Builder', function Builder(SwayWorker) {
       }
 
       SwayWorker.run({
-        definition: json,
-        jsonRefs: {
-          location: window.location.href
-
-            // TODO: remove when this bug is fixed:
-            // https://github.com/apigee-127/sway/issues/24
-            .replace(/#.+/, '').replace(/\/$/, '')
-        }
+        definition: json
       }, function (data) {
         if (data.errors.length) {
           reject(data);
