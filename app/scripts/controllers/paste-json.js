@@ -16,7 +16,7 @@ SwaggerEditor.controller('PasteJSONCtrl', function PasteJSONCtrl($scope,
       return;
     }
 
-    SwayWorker.run(json, function (data) {
+    SwayWorker.run({definition: json}, function (data) {
       $scope.canImport = true;
       $scope.error = null;
 
