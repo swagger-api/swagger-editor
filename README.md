@@ -58,3 +58,6 @@ npm start
 [Contributing](./CONTRIBUTING.md)
 
 [LICENSE](./LICENSE)
+
+---
+<img src="http://swagger.io/wp-content/uploads/2016/02/logo.jpg"/>
