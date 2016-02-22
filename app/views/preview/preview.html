@@ -18,6 +18,34 @@
 
   <ng-include src="'templates/tags.html'"></ng-include>
 
+
+  <header>
+    <h3 class="section-header">
+      <a>
+          <span>Parameters</span>
+      </a>
+    </h3>
+  </header>
+
+  <ul class="param">
+    <li>
+      <header>
+        <h2>
+          <a>Blah Blah</a>
+        </h2>
+      </header>
+
+      <ul class='operations'>
+        {{specs.parameters}}
+        <swagger-operation
+          ng-repeat="(operationName, operation) in path"
+          ng-if="showOperation(operation, operationName)">
+        </swagger-operation>
+      </ul>
+    </li>
+  </ul>
+
+
   <header>
     <h3 class="section-header">
       <a ng-click="
