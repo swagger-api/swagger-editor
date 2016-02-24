@@ -12,6 +12,8 @@ SwaggerEditor.controller('MainCtrl', function MainCtrl(
   // TODO: find a better way to add the branding class (grunt html template)
   $('body').addClass(defaults.brandingCssClass);
 
+  $scope.flipLayout = !!defaults.flipLayout;
+
   loadYaml();
 
   /*
