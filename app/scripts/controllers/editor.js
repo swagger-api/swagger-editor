@@ -1,7 +1,10 @@
 'use strict';
 
 SwaggerEditor.controller('EditorCtrl', function EditorCtrl($scope, $rootScope,
-  Editor, Builder, Storage, ExternalHooks, Preferences) {
+  Editor, Builder, Storage, ExternalHooks, Preferences, defaults) {
+
+  // Allow specifying readOnly editor in defaults.json
+  $scope.editorReadOnly = defaults && !!defaults.editorReadOnly;
 
   var debouncedOnAceChange = getDebouncedOnAceChange();
 
