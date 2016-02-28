@@ -18,7 +18,7 @@
 
   <ng-include src="'templates/tags.html'"></ng-include>
 
-
+<!-- ///////// -->
   <header>
     <h3 class="section-header">
       <a>
@@ -27,24 +27,54 @@
     </h3>
   </header>
 
-  <ul class="param">
-    <li>
+  <ul class="parameters">
+    <li ng-repeat="(paramName, param) in specs.parameters">
       <header>
         <h2>
-          <a>Blah Blah</a>
+          <a>{{paramName}}</a>
         </h2>
-      </header>
 
-      <ul class='operations'>
-        {{specs.parameters}}
-        <swagger-operation
-          ng-repeat="(operationName, operation) in path"
-          ng-if="showOperation(operation, operationName)">
-        </swagger-operation>
-      </ul>
+        <table class="params">
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Located in</th>
+              <th>Description</th>
+              <th>Required</th>
+              <th>Schema</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr ng-repeat="parameter in specs.parameters track by $index">
+              <td >
+                <a
+                  ng-click="focusEdit($event, [
+                      'paths',
+                      pathName,
+                      operationName,
+                      'parameters',
+                      $index
+                    ])"
+                  tooltip-placement="top"
+                  tooltip="Jump to YAML"
+                  tooltip-trigger="mouseenter">
+                    <span class="mono">{{parameter.name}}</span>
+                </a>
+              </td>
+              <td>{{parameter.in}}</td>
+              <td marked="parameter.description"></td>
+              <td>{{parameter.required ? 'Yes' : 'No'}}</td>
+              <td>
+                <schema-model schema="parameter.schema"></schema-model>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+
+      </header>
     </li>
   </ul>
-
+<!-- ///////// -->
 
   <header>
     <h3 class="section-header">
