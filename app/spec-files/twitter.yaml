@@ -233,7 +233,6 @@ paths:
           in: query
           description: The entities node will be disincluded when set to false
           required: false
-          type: string
       responses:
         "200":
           description: Success
