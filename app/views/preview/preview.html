@@ -40,20 +40,17 @@
             </tr>
           </thead>
           <tbody>
-            <tr ng-repeat="parameter in specs.parameters track by $index">
+            <tr ng-repeat="(parameterName, parameter) in specs.parameters">
               <td >
                 <a
                   ng-click="focusEdit($event, [
-                      'paths',
-                      pathName,
-                      operationName,
                       'parameters',
-                      $index
+                      parameterName
                     ])"
                   tooltip-placement="top"
                   tooltip="Jump to YAML"
                   tooltip-trigger="mouseenter">
-                    <span class="mono">{{parameter.name}}</span>
+                    <span class="mono">{{parameterName}}</span>
                 </a>
               </td>
               <td>{{parameter.in}}</td>
