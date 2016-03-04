@@ -18,55 +18,23 @@
 
   <ng-include src="'templates/tags.html'"></ng-include>
 
-<!-- ///////// -->
+
   <header>
     <h3 class="section-header">
-      <a>
+      <a ng-click="
+          specs.parameters.$folded = !specs.parameters.$folded;
+          foldEditor(['parameters'], specs.parameters.$folded);">
           <span>Parameters</span>
       </a>
     </h3>
   </header>
 
   <ul class="parameters">
-    <li>
-        <table class="params">
-          <thead>
-            <tr>
-              <th>Name</th>
-              <th>Located in</th>
-              <th>Description</th>
-              <th>Required</th>
-              <th>Schema</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr ng-repeat="(parameterName, parameter) in specs.parameters">
-              <td >
-                <a
-                  ng-click="focusEdit($event, [
-                      'parameters',
-                      parameterName
-                    ])"
-                  tooltip-placement="top"
-                  tooltip="Jump to YAML"
-                  tooltip-trigger="mouseenter">
-                    <span class="mono">{{parameterName}}</span>
-                </a>
-              </td>
-              <td>{{parameter.in}}</td>
-              <td marked="parameter.description"></td>
-              <td>{{parameter.required ? 'Yes' : 'No'}}</td>
-              <td>
-                <schema-model schema="parameter.schema"></schema-model>
-              </td>
-            </tr>
-          </tbody>
-        </table>
-
-
+    <li
+      ng-include
+      src="'templates/parameters.html'">
     </li>
   </ul>
-<!-- ///////// -->
 
   <header>
     <h3 class="section-header">

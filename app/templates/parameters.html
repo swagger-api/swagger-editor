@@ -1,0 +1,33 @@
+<table class="params">
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Located in</th>
+      <th>Description</th>
+      <th>Required</th>
+      <th>Schema</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr ng-repeat="(parameterName, parameter) in specs.parameters">
+      <td >
+        <a
+          ng-click="focusEdit($event, [
+          'parameters',
+          parameterName
+          ])"
+          tooltip-placement="top"
+          tooltip="Jump to YAML"
+          tooltip-trigger="mouseenter">
+          <span class="mono">{{parameterName}}</span>
+        </a>
+      </td>
+      <td>{{parameter.in}}</td>
+      <td marked="parameter.description"></td>
+      <td>{{parameter.required ? 'Yes' : 'No'}}</td>
+      <td>
+        <schema-model schema="parameter.schema"></schema-model>
+      </td>
+    </tr>
+  </tbody>
+</table>
