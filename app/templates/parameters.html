@@ -9,14 +9,14 @@
 </h3>
 </header>
 <ul>
-  <li ng-repeat="(parameterName, parameter) in specs.parameters">
+  <li ng-repeat="(parameterName, parameter) in specs.parameters" class="params">
     <h4>
       <a
         ng-click="focusEdit($event, ['parameters', parameterName])"
         tooltip-placement="top"
         tooltip="Jump to YAML"
         tooltip-trigger="mouseenter">
-          <span class="mono">{{parameterName}}</span>
+          <span class="paramName">{{parameterName}}</span>
       </a>
       <span>in: {{parameter.in}} <span if="parameter.required">(required)</span></span>
     </h4>
