@@ -19,6 +19,7 @@ SwaggerEditor.controller('PreviewCtrl', function PreviewCtrl(Storage, Builder,
   $scope.foldEditor = FoldStateManager.foldEditor;
   $scope.listAllOperation = listAllOperation;
   $scope.listAllDefnitions = listAllDefnitions;
+  $scope.showParameters = showParameters;
 
   Storage.addChangeListener('yaml', update);
 
@@ -257,5 +258,9 @@ SwaggerEditor.controller('PreviewCtrl', function PreviewCtrl(Storage, Builder,
         FoldStateManager.foldEditor(['definitions', definitionName], true);
       }
     });
+  }
+
+  function showParameters() {
+    return !_.isEmpty($scope.specs && $scope.specs.parameters);
   }
 });

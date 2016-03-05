@@ -11,30 +11,11 @@
 
   <ng-include src="'templates/specs-info.html'"></ng-include>
 
-  <ng-include
-    src="'templates/security.html'"
-    ng-if="specs.securityDefinitions">
-  </ng-include>
+  <ng-include src="'templates/security.html'" ng-if="specs.securityDefinitions"></ng-include>
 
   <ng-include src="'templates/tags.html'"></ng-include>
 
-
-  <header>
-    <h3 class="section-header">
-      <a ng-click="
-          specs.parameters.$folded = !specs.parameters.$folded;
-          foldEditor(['parameters'], specs.parameters.$folded);">
-          <span>Parameters</span>
-      </a>
-    </h3>
-  </header>
-
-  <ul class="parameters">
-    <li
-      ng-include
-      src="'templates/parameters.html'">
-    </li>
-  </ul>
+  <ng-include src="'templates/parameters.html'" ng-if="showParameters()"></ng-include>
 
   <header>
     <h3 class="section-header">
