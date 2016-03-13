@@ -62,6 +62,11 @@ var defaults = {
   editorOptions: {},
 
   /*
+   * Force the Ace editor to operate in Read Only mode. Useful for presentation API documentation.
+  */
+  editorReadOnly: false,
+
+  /*
    * List of example files to show to user to pick from. The URL to fetch each
    * example is a combination of `examplesFolder` and file name
   */

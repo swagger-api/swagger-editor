@@ -15,6 +15,7 @@
   "editorOptions": {
     "theme": "ace/theme/atom_dark"
   },
+  "editorReadOnly": true,
   "exampleFiles": [
     "default.yaml",
     "heroku-pets.yaml",
