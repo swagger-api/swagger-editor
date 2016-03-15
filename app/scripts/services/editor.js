@@ -50,13 +50,14 @@ SwaggerEditor.service('Editor', function Editor(Autocomplete, ASTManager,
     ace.config.set('basePath', 'bower_components/ace-builds/src-noconflict');
 
     Autocomplete.init(e);
+
     // Set editor options
     editor.setOptions({
-      fontFamily: 'Source Code Pro',
       enableBasicAutocompletion: true,
       enableLiveAutocompletion: true,
       enableSnippets: true
     });
+
     loadEditorSettings();
 
     // Editor is ready, fire the on-ready function and flush the queue
