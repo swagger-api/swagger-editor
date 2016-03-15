@@ -34,9 +34,12 @@
   "backendEndpoint": "/editor/spec",
   "useYamlBackend": false,
   "disableFileMenu": false,
+  "disablePreferencesMenu": false,
+  "disableHelpMenu": false,
   "headerBranding": false,
   "disableNewUserIntro": false,
   "enableTryIt": true,
   "brandingCssClass": "",
-  "importProxyUrl": "https://cors-it.herokuapp.com/?url="
+  "importProxyUrl": "https://cors-it.herokuapp.com/?url=",
+  "previewOnly": false
 }

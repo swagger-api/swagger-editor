@@ -44,7 +44,7 @@
       </ul>
     </div>
 
-    <div class="preferences dropdown">
+    <div class="preferences dropdown" ng-if="showPreferencesMenu()">
       <button id="preferences" class="btn btn-default dropdown-toggle" data-toggle="dropdown" >
         <span>Preferences</span>
         <span class="caret"></span>
@@ -125,7 +125,7 @@
       </ul>
     </div>
 
-    <div class="help dropdown">
+    <div class="help dropdown" ng-if="showHelpMenu()">
       <button class="dropdown-icon btn btn-default dropdown-toggle" id="helpMenu" data-toggle="dropdown">
         <span>Help</span>
         <span class="caret"></span>
