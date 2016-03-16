@@ -1,19 +1,36 @@
 {
-  "name": "swagger-editor-src",
+  "name": "swagger-editor",
   "version": "2.9.9",
   "homepage": "https://github.com/swagger-api/swagger-editor",
-  "description": "Swagger Editor source",
+  "description": "Swagger Editor",
   "license": "Apache-2.0",
+  "files": [
+    "index.html",
+    "dist"
+  ],
   "authors": [
-    "Mohsen Azimi <me@azimi.me>"
+    "Mohsen Azimi <me@azimi.me>",
+    "Sahar Jafari <shr.jafari@gmail.com>"
   ],
   "repository": "git@github.com:swagger-api/swagger-editor.git",
   "devDependencies": {
+    "angular": "^1.5.1",
+    "angular-json-schema-form": "^0.1.4",
+    "angular-marked": "^1.0.1",
+    "angular-sanitize": "^1.5.1",
+    "angular-ui-ace": "^0.2.3",
+    "angular-ui-bootstrap": "^1.2.4",
+    "angular-ui-layout": "^1.4.2",
+    "angular-ui-router": "^0.2.18",
     "chai": "^3.5.0",
     "css-loader": "^0.23.1",
     "http-server": "^0.8.0",
     "jasmine-core": "^2.3.4",
+    "jquery": "^2.2.1",
+    "js-yaml": "^3.5.4",
     "jshint-stylish": "^2.0.1",
+    "json-editor": "^0.7.23",
+    "jsonformatter": "^0.5.0",
     "jsonlint": "^1.6.2",
     "karma": "^0.13.19",
     "karma-chai-plugins": "^0.6.0",
@@ -26,21 +43,25 @@
     "karma-ng-scenario": "^0.1.0",
     "less-loader": "^2.2.2",
     "load-grunt-config": "^0.19.1",
+    "lodash": "^4.6.1",
     "main-bower-files": "^2.9.0",
     "mocha": "^2.4.5",
     "mversion": "^1.10.0",
+    "ng-file-upload": "^12.0.4",
+    "ngstorage": "^0.3.10",
     "protractor": "^3.1.1",
     "sinon": "^1.17.3",
     "sinon-chai": "^2.8.0",
     "style-loader": "^0.13.0",
     "time-grunt": "^1.2.1",
     "webpack": "^1.12.14",
-    "webpack-dev-server": "^1.14.1"
+    "webpack-dev-server": "^1.14.1",
+    "yaml-js": "^0.1.3"
   },
   "engines": {
-    "node": ">=0.10.0"
+    "node": ">=5.8.0"
   },
   "scripts": {
-    "test": "webdriver-manager update; grunt build; grunt test"
+    "test": "echo TODO"
   }
 }

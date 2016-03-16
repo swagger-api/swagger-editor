@@ -1,5 +1,8 @@
 'use strict';
 
+var $ = require('jquery');
+var _ = require('lodash/string');
+
 $(function () {
 
   // Try bootstrapping the app with embedded defaults if it exists

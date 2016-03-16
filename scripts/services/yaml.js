@@ -1,6 +1,8 @@
 'use strict';
 
-var compose = _.memoize(yaml.compose);
+var _ = require('lodash');
+
+var compose = _.memoize(require('yaml-js/yaml.js').compose);
 
 /*
  * A service for YAMLWorker to use a single worker for lighter YAML processing

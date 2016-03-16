@@ -9,7 +9,7 @@ var PORT = process.env.PORT || 8080;
 
 new WebpackDevServer(webpack(config), {
   publicPath: config.output.publicPath,
-  hot: true,
+  // hot: true,
   quiet: true
 }).listen(PORT, 'localhost', function (err, result) {
   if (err) {
