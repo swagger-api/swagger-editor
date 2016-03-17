@@ -70,8 +70,7 @@
     "webpack": "^1.12.14",
     "webpack-dev-server": "^1.14.1",
     "worker-loader": "^0.7.0",
-    "yaml-js": "^0.1.3",
-    "yaml-worker": "^2.1.0"
+    "yaml-js": "^0.1.3"
   },
   "engines": {
     "node": ">=5.8.0"
