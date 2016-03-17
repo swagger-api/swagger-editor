@@ -12,7 +12,10 @@
     "Mohsen Azimi <me@azimi.me>",
     "Sahar Jafari <shr.jafari@gmail.com>"
   ],
-  "repository": "git@github.com:swagger-api/swagger-editor.git",
+  "repository": {
+    "type": "github",
+    "url": "swagger-api/swagger-editor.git"
+  },
   "devDependencies": {
     "ace-builds": "^1.2.2",
     "angular": "^1.5.1",
@@ -23,14 +26,18 @@
     "angular-ui-bootstrap": "^1.2.4",
     "angular-ui-layout": "^1.4.2",
     "angular-ui-router": "^0.2.18",
+    "bootstrap": "^3.3.6",
     "chai": "^3.5.0",
     "css-loader": "^0.23.1",
+    "file-loader": "^0.8.5",
+    "font-awesome": "^4.5.0",
     "http-server": "^0.8.0",
     "jasmine-core": "^2.3.4",
     "jquery": "^2.2.1",
     "js-yaml": "^3.5.4",
     "jshint-stylish": "^2.0.1",
     "json-editor": "^0.7.23",
+    "json-schema-view-js": "^0.4.1",
     "jsonformatter": "^0.5.0",
     "jsonlint": "^1.6.2",
     "karma": "^0.13.19",
