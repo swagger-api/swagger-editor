@@ -6,7 +6,8 @@
  *
 */
 SwaggerEditor.service('SwayWorker', function SwayWorker() {
-  var worker = new Worker('bower_components/sway-worker/index.js');
+  var SwayWorker = require('../workers/sway.worker.js');
+  var worker = new SwayWorker();
   var queue = [];
   var currentTask = null;
 

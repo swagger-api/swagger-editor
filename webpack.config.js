@@ -26,6 +26,14 @@ module.exports = {
   module: {
     loaders: [
       {
+        test: /\.json$/,
+        loader: 'json-loader'
+      },
+      {
+        test: /\.worker.js$/,
+        loader: 'worker-loader'
+      },
+      {
         test: /\.png$/,
         loader: "url-loader",
         query: {mimetype: "image/png"}
