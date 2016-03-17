@@ -1,5 +1,7 @@
 'use strict';
 
+var _ = require('lodash');
+
 SwaggerEditor.service('TagManager', function TagManager($stateParams) {
   var tags = [];
 
@@ -68,7 +70,7 @@ SwaggerEditor.service('TagManager', function TagManager($stateParams) {
     var tagNames = tags.map(function (tag) {
       return tag.name;
     });
-    if (!_.include(tagNames, tagName)) {
+    if (!_.includes(tagNames, tagName)) {
       tags.push(new Tag(tagName, tagDescription));
     }
   }

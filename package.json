@@ -39,6 +39,7 @@
     "js-yaml": "^3.5.4",
     "jshint-stylish": "^2.0.1",
     "json-editor": "^0.7.23",
+    "json-formatter-js": "^0.3.0",
     "json-loader": "^0.5.4",
     "json-schema-view-js": "^0.4.1",
     "jsonformatter": "^0.5.0",

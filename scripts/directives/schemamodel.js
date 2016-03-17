@@ -1,5 +1,8 @@
 'use strict';
 
+require('json-formatter-js'); // exposes global
+var JSONSchemaView = require('json-schema-view-js');
+
 SwaggerEditor.directive('schemaModel', function () {
 
   return {
