@@ -6,7 +6,16 @@
   ngf-allow-dir="false"
   ngf-accept="'.json,.yaml,.yml'">
 
-  <div ui-layout="{ flow : 'column', dividerSize: '8px'}">
+  <div ng-if="flipLayout" ui-layout="{ flow : 'column', dividerSize: '8px'}">
+    <div class="preview pane" ui-layout-container>
+      <div ui-view="preview"></div>
+    </div>
+    <div class="editor pane" ui-layout-container>
+      <div ui-view="editor"></div>
+    </div>
+  </div>
+
+  <div ng-if="!flipLayout" ui-layout="{ flow : 'column', dividerSize: '8px'}">
     <div class="editor pane" ui-layout-container>
       <div ui-view="editor"></div>
     </div>
@@ -14,6 +23,7 @@
       <div ui-view="preview"></div>
     </div>
   </div>
+
   <div ng-if="showAbout" ng-include="'templates/intro.html'"></div>
   <div class="file-drag">
     <div class="dash">
