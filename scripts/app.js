@@ -84,5 +84,10 @@ require('./filters/formdata.js');
 // Plugins
 require('./plugins/jquery.scroll-into-view.js');
 
+// Misc
+require('./ace/snippets/swagger.snippet.js');
+require('./ace/themes/theme-atom_dark.js');
+require('./analytics/google.js');
+
 // Bootstrap
 require('./bootstrap');

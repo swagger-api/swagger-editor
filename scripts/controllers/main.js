@@ -1,5 +1,7 @@
 'use strict';
 
+var $ = require('jquery');
+
 SwaggerEditor.controller('MainCtrl', function MainCtrl(
   $scope, $rootScope, $stateParams, $location,
   Editor, Storage, FileLoader, Analytics, defaults) {

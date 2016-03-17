@@ -2,14 +2,15 @@
 
 var _ = require('lodash');
 
-var compose = _.memoize(require('yaml-js/yaml.js').compose);
+var compose = _.memoize(require('yaml-js/yaml.js').yaml.compose);
+var YAMLWorker = require('yaml-worker');
 
 /*
  * A service for YAMLWorker to use a single worker for lighter YAML processing
  * work
 */
 SwaggerEditor.service('YAML', function YAML() {
-  var worker = new YAMLWorker('bower_components/yaml-worker/');
+  var worker = new YAMLWorker('node_modules/yaml-worker/');
 
   // expose the methods that are being used
   this.load = worker.load.bind(worker);

@@ -1,5 +1,7 @@
 'use strict';
 
+var jsyaml = require('js-yaml');
+
 SwaggerEditor.service('Builder', function Builder(SwayWorker) {
   var load = _.memoize(jsyaml.load);
 

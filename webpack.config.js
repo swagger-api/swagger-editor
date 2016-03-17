@@ -24,13 +24,18 @@ module.exports = {
   module: {
     loaders: [
       {
-        test: /\.css$/,
-        loader: "style!css"
+        test: /\.png$/,
+        loader: "url-loader",
+        query: {mimetype: "image/png"}
       },
-      // {
-      //   test: /\.json$/,
-      //   loaders: ['json-loader']
-      // }
+      {
+        test: /\.less$/,
+        loader: "style!css!less"
+      },
+      {
+        test: /\.svg$/,
+        loader: 'svg-inline'
+      }
     ]
   }
 };

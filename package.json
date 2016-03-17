@@ -14,6 +14,7 @@
   ],
   "repository": "git@github.com:swagger-api/swagger-editor.git",
   "devDependencies": {
+    "ace-builds": "^1.2.2",
     "angular": "^1.5.1",
     "angular-json-schema-form": "^0.1.4",
     "angular-marked": "^1.0.1",
@@ -42,7 +43,6 @@
     "karma-ng-html2js-preprocessor": "^0.2.0",
     "karma-ng-scenario": "^0.1.0",
     "less-loader": "^2.2.2",
-    "load-grunt-config": "^0.19.1",
     "lodash": "^4.6.1",
     "main-bower-files": "^2.9.0",
     "mocha": "^2.4.5",
@@ -53,10 +53,12 @@
     "sinon": "^1.17.3",
     "sinon-chai": "^2.8.0",
     "style-loader": "^0.13.0",
-    "time-grunt": "^1.2.1",
+    "svg-inline-loader": "^0.4.1",
+    "url-loader": "^0.5.7",
     "webpack": "^1.12.14",
     "webpack-dev-server": "^1.14.1",
-    "yaml-js": "^0.1.3"
+    "yaml-js": "^0.1.3",
+    "yaml-worker": "^2.1.0"
   },
   "engines": {
     "node": ">=5.8.0"
