@@ -1,5 +1,6 @@
 'use strict';
 
+window.jQuery = require('jquery');
 var angular = require('angular');
 
 // These modules do not export their module name

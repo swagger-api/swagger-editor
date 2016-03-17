@@ -1,6 +1,6 @@
 'use strict';
 
-SwaggerEditor.controller('HeaderCtrl', function HeaderCtrl($scope, $modal,
+SwaggerEditor.controller('HeaderCtrl', function HeaderCtrl($scope, $uibModal,
   $stateParams, $state, $rootScope, Storage, Builder, FileLoader, Editor,
   Codegen, Preferences, YAML, defaults, strings, $localStorage) {
 
@@ -59,7 +59,7 @@ SwaggerEditor.controller('HeaderCtrl', function HeaderCtrl($scope, $modal,
   };
 
   function showCodegenError(resp) {
-    $modal.open({
+    $uibModal.open({
       templateUrl: 'templates/code-gen-error-modal.html',
       controller: 'GeneralModal',
       size: 'large',
@@ -97,7 +97,7 @@ SwaggerEditor.controller('HeaderCtrl', function HeaderCtrl($scope, $modal,
   };
 
   $scope.openImportFile = function () {
-    $modal.open({
+    $uibModal.open({
       templateUrl: 'templates/file-import.html',
       controller: 'FileImportCtrl',
       size: 'large'
@@ -105,7 +105,7 @@ SwaggerEditor.controller('HeaderCtrl', function HeaderCtrl($scope, $modal,
   };
 
   $scope.openImportUrl = function () {
-    $modal.open({
+    $uibModal.open({
       templateUrl: 'templates/url-import.html',
       controller: 'UrlImportCtrl',
       size: 'large'
@@ -113,7 +113,7 @@ SwaggerEditor.controller('HeaderCtrl', function HeaderCtrl($scope, $modal,
   };
 
   $scope.openPasteJSON = function () {
-    $modal.open({
+    $uibModal.open({
       templateUrl: 'templates/paste-json.html',
       controller: 'PasteJSONCtrl',
       size: 'large'
@@ -121,7 +121,7 @@ SwaggerEditor.controller('HeaderCtrl', function HeaderCtrl($scope, $modal,
   };
 
   $scope.openAbout = function () {
-    $modal.open({
+    $uibModal.open({
       templateUrl: 'templates/about.html',
       size: 'large',
       controller: 'ModalCtrl'
@@ -138,7 +138,7 @@ SwaggerEditor.controller('HeaderCtrl', function HeaderCtrl($scope, $modal,
   $scope.adjustFontSize = Editor.adjustFontSize;
 
   $scope.openExamples = function () {
-    $modal.open({
+    $uibModal.open({
       templateUrl: 'templates/open-examples.html',
       controller: 'OpenExamplesCtrl',
       size: 'large'
@@ -146,7 +146,7 @@ SwaggerEditor.controller('HeaderCtrl', function HeaderCtrl($scope, $modal,
   };
 
   $scope.openPreferences = function () {
-    $modal.open({
+    $uibModal.open({
       templateUrl: 'templates/preferences.html',
       controller: 'PreferencesCtrl',
       size: 'large'
