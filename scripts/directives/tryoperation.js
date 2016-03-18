@@ -1,5 +1,8 @@
 'use strict';
 
+var _ = require('lodash');
+var $ = require('jquery');
+
 SwaggerEditor.controller('TryOperation', function ($scope, formdataFilter,
   AuthManager, SchemaForm) {
 
@@ -380,7 +383,7 @@ SwaggerEditor.controller('TryOperation', function ($scope, formdataFilter,
       });
     }
 
-    return _.unique(securityOptions).filter(function (security) {
+    return _.uniq(securityOptions).filter(function (security) {
 
       // only return authenticated options
       return AuthManager.securityIsAuthenticated(security);
