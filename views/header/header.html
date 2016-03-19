@@ -5,17 +5,17 @@
   <div ng-include="'templates/branding-left.html'" ng-if="showHeaderBranding()" class="branding-3rdparty"></div>
 
   <section class="menu-bar">
-    <div class="file dropdown" ng-if="showFileMenu()">
+    <div class="file dropdown" uib-dropdown ng-if="showFileMenu()">
       <button
+        uib-dropdown-toggle
         class="btn btn-default dropdown-toggle"
         ng-click="onFileMenuOpen()"
-        data-toggle="dropdown"
         id="fileMenu">
         <span>File</span>
         <span class="caret"></span>
       </button>
 
-      <ul class="dropdown-menu">
+      <ul class="dropdown-menu" uib-dropdown-menu>
         <li>
           <a dropdown-toggle ng-click="newProject()" tabindex="-1" track-event="file new"><i class="fa fa-file-text"></i>&nbsp;<span>New</span></a>
         </li>
@@ -44,13 +44,13 @@
       </ul>
     </div>
 
-    <div class="preferences dropdown">
-      <button id="preferences" class="btn btn-default dropdown-toggle" data-toggle="dropdown" >
+    <div class="preferences dropdown"  uib-dropdown>
+      <button id="preferences" class="btn btn-default" uib-dropdown-toggle>
         <span>Preferences</span>
         <span class="caret"></span>
       </button>
 
-      <ul class="dropdown-menu">
+      <ul class="dropdown-menu" uib-dropdown-menu>
         <li>
           <a class="font-size">
             <i class="fa fa-font"></i>
@@ -94,12 +94,12 @@
         Client code generator is unreachable!
     </span>
 
-    <div class="dropdown" ng-if="servers && servers.length && !disableCodeGen">
-      <button class="btn btn-default dropdown-toggle" data-toggle="dropdown" id="ServerMenu">
+    <div class="dropdown" uib-dropdown ng-if="servers && servers.length && !disableCodeGen">
+      <button class="btn btn-default" id="ServerMenu" uib-dropdown-toggle>
         <span>Generate Server</span>
         <span class="caret"></span>
       </button>
-      <ul class="dropdown-menu">
+      <ul uib-dropdown-menu class="dropdown-menu">
         <li ng-repeat="server in ::servers track by $index">
           <a dropdown-toggle tabindex="-1" ng-click="getSDK('server', server)" track-event="generate-server {{server}}">
             <i class="fa fa-download"></i>&nbsp;
@@ -109,13 +109,13 @@
       </ul>
     </div>
 
-    <div class="code-gen dropdown" ng-if="clients && clients.length && !disableCodeGen">
-      <button class="btn btn-default dropdown-toggle" data-toggle="dropdown" id="ClientMenu">
+    <div class="code-gen dropdown" uib-dropdown ng-if="clients && clients.length && !disableCodeGen">
+      <button class="btn btn-default" id="ClientMenu" uib-dropdown-toggle>
         <span>Generate Client</span>
         <span class="caret"></span>
       </button>
 
-      <ul class="dropdown-menu">
+      <ul class="dropdown-menu" uib-dropdown-menu>
         <li ng-repeat="client in ::clients track by $index">
           <a dropdown-toggle tabindex="-1" ng-click="getSDK('client', client)" track-event="generate-client {{client}}">
             <i class="fa fa-download"></i>&nbsp;
@@ -125,13 +125,13 @@
       </ul>
     </div>
 
-    <div class="help dropdown">
-      <button class="dropdown-icon btn btn-default dropdown-toggle" id="helpMenu" data-toggle="dropdown">
+    <div class="help dropdown" uib-dropdown>
+      <button class="dropdown-icon btn btn-default" id="helpMenu" uib-dropdown-toggle>
         <span>Help</span>
         <span class="caret"></span>
       </button>
 
-      <ul class="dropdown-menu">
+      <ul class="dropdown-menu" uib-dropdown-menu>
         <li>
           <a tabindex="-1" href="https://github.com/swagger-api/swagger-spec/blob/master/versions/2.0.md" target="_blank">
             <i class="fa fa-align-justify"></i>&nbsp;
