@@ -1,5 +1,9 @@
 'use strict';
 
+var ace = require('brace');
+require('brace/mode/yaml');
+require('../ace/themes/theme-atom_dark.js');
+
 SwaggerEditor.service('Editor', function Editor(Autocomplete, ASTManager,
   LocalStorage, defaults, $interval) {
   var editor = null;
@@ -44,10 +48,8 @@ SwaggerEditor.service('Editor', function Editor(Autocomplete, ASTManager,
 
   function aceLoaded(e) {
 
-    // Assign class variable `editor`
-    window.e = editor = e;
 
-    ace.config.set('basePath', 'bower_components/ace-builds/src-noconflict');
+    editor = e;
 
     Autocomplete.init(e);
 

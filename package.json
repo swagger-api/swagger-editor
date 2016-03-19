@@ -17,7 +17,6 @@
     "url": "swagger-api/swagger-editor.git"
   },
   "devDependencies": {
-    "ace-builds": "^1.2.2",
     "angular": "^1.5.1",
     "angular-json-schema-form": "^0.1.4",
     "angular-marked": "^1.0.1",
@@ -27,6 +26,7 @@
     "angular-ui-layout": "^1.4.2",
     "angular-ui-router": "^0.2.18",
     "bootstrap": "^3.3.6",
+    "brace": "^0.7.0",
     "chai": "^3.5.0",
     "css-loader": "^0.23.1",
     "extract-text-webpack-plugin": "^1.0.1",

@@ -87,8 +87,10 @@ require('./plugins/jquery.scroll-into-view.js');
 
 // Misc
 require('./ace/snippets/swagger.snippet.js');
-require('./ace/themes/theme-atom_dark.js');
 require('./analytics/google.js');
+
+// Ace Editor
+window.ace = require('brace');
 
 // Bootstrap
 require('./bootstrap');
