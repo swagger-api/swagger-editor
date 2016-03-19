@@ -60,6 +60,7 @@
     "mversion": "^1.10.0",
     "ng-file-upload": "^12.0.4",
     "ngstorage": "^0.3.10",
+    "open-sans-fontface": "^1.4.0",
     "protractor": "^3.1.1",
     "sinon": "^1.17.3",
     "sinon-chai": "^2.8.0",
