@@ -43,13 +43,13 @@ module.exports = {
         loader: ExtractTextPlugin.extract('css!less')
       },
       {
+        test: /\.(ttf|eot|svg|woff|woff2|otf)(\?v=[0-9]\.[0-9]\.[0-9])?$/,
+        loader: 'file-loader'
+      },
+      {
         test: /\.svg$/,
         loader: 'svg-inline'
       },
-      {
-        test: /\.(ttf|eot|svg|woff|woff2|otf)(\?v=[0-9]\.[0-9]\.[0-9])?$/,
-        loader: 'file-loader'
-      }
     ]
   }
 };
