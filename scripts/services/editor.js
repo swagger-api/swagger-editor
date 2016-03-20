@@ -1,7 +1,56 @@
 'use strict';
 
 var ace = require('brace');
+
+require('brace/theme/ambiance');
+require('brace/theme/chaos');
+require('brace/theme/chrome');
+require('brace/theme/clouds');
+require('brace/theme/clouds_midnight');
+require('brace/theme/cobalt');
+require('brace/theme/crimson_editor');
+require('brace/theme/dawn');
+require('brace/theme/dreamweaver');
+require('brace/theme/eclipse');
+require('brace/theme/github');
+require('brace/theme/idle_fingers');
+require('brace/theme/iplastic');
+require('brace/theme/katzenmilch');
+require('brace/theme/kr_theme');
+require('brace/theme/kuroir');
+require('brace/theme/merbivore');
+require('brace/theme/merbivore_soft');
+require('brace/theme/mono_industrial');
+require('brace/theme/monokai');
+require('brace/theme/pastel_on_dark');
+require('brace/theme/solarized_dark');
+require('brace/theme/solarized_light');
+require('brace/theme/sqlserver');
+require('brace/theme/terminal');
+require('brace/theme/textmate');
+require('brace/theme/tomorrow');
+require('brace/theme/tomorrow_night');
+require('brace/theme/tomorrow_night_blue');
+require('brace/theme/tomorrow_night_bright');
+require('brace/theme/tomorrow_night_eighties');
+require('brace/theme/twilight');
+require('brace/theme/vibrant_ink');
+require('brace/theme/xcode');
+
+require('brace/keybinding/emacs');
+require('brace/keybinding/vim');
+
 require('brace/mode/yaml');
+
+// after requiring mode/yaml Ace will look for snippets/yaml.
+// this empty module defined here makes Ace think that module exists.
+window.ace.define('ace/snippets/yaml', [], function () {});
+
+require('brace/mode/snippets');
+require('brace/ext/language_tools');
+require('brace/ext/keybinding_menu');
+require('brace/ext/settings_menu');
+
 require('../ace/themes/theme-atom_dark.js');
 
 SwaggerEditor.service('Editor', function Editor(Autocomplete, ASTManager,
@@ -48,8 +97,8 @@ SwaggerEditor.service('Editor', function Editor(Autocomplete, ASTManager,
 
   function aceLoaded(e) {
 
-
     editor = e;
+    editor.$blockScrolling = Infinity;
 
     Autocomplete.init(e);
 
