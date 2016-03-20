@@ -85,7 +85,6 @@
     "node": ">=5.8.0"
   },
   "scripts": {
-    "test": "echo TODO",
-    "start": "webpack --watch & node server.js"
+    "test": "echo TODO"
   }
 }
