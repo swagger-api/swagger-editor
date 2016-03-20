@@ -36,6 +36,10 @@
     "brace": "^0.7.0",
     "chai": "^3.5.0",
     "css-loader": "^0.23.1",
+    "eslint": "^2.4.0",
+    "eslint-config-google": "^0.4.0",
+    "eslint-friendly-formatter": "^1.2.2",
+    "eslint-loader": "^1.3.0",
     "extract-text-webpack-plugin": "^1.0.1",
     "file-loader": "^0.8.5",
     "font-awesome": "^4.5.0",
@@ -44,7 +48,6 @@
     "jasmine-core": "^2.3.4",
     "jquery": "^2.2.1",
     "js-yaml": "^3.5.4",
-    "jshint-stylish": "^2.0.1",
     "json-editor": "^0.7.23",
     "json-formatter-js": "^0.3.0",
     "json-loader": "^0.5.4",
@@ -85,6 +88,7 @@
     "node": ">=5.8.0"
   },
   "scripts": {
-    "test": "echo TODO"
+    "test": "echo TODO",
+    "lint": "eslint . --format 'node_modules/eslint-friendly-formatter'"
   }
 }
