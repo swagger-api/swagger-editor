@@ -51,13 +51,13 @@ module.exports = {
                 )
       },
       {
-        test: /\.(ttf|eot|svg|woff|woff2|otf)(\?v=[0-9]\.[0-9]\.[0-9])?$/,
-        loader: 'file-loader'
-      },
-      {
-        test: /\.svg$/,
+        test: /images\/*\.svg$/,
         loader: 'svg-inline'
       },
+      {
+        test: /\.(ttf|eot|svg|woff|woff2|otf)(\?v=[0-9]\.[0-9]\.[0-9])?$/,
+        loader: 'file-loader'
+      }
     ]
   }
 };
