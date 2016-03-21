@@ -10,9 +10,9 @@ PORT=81 npm start
 
 
 ### Installing dependencies
-This app have npm and Bower dependencies. To install all dependencies in one line, run
+This app have npm dependencies. To install all dependencies in one line, run
 ```shell
-npm i; bower i
+npm install;
 ```
 
 ### Running in development mode
@@ -34,7 +34,7 @@ or
 PORT=3000 npm run develop
 ```
 
-For development it's preferred to have `grunt` installed globally on your machine.  
+For development it's preferred to have `grunt` installed globally on your machine.
 
 ### Building
 To build the project just run:
@@ -48,7 +48,7 @@ This will build a new version of the web app, ready for production in `/dist` fo
 Swagger Editor will make an XHR GET call to `/config/defaults.json` to get it's settings before launch. If you are using Swagger Editor as a dependency or serving it statically, you can provide your own `defaults.json` at this endpoint to override default settings.
 
 Swagger Editor is configured with a file, [`defaults.json`](../app/config/defaults.json).
-Read the [configuration guide](./config.md) and additional details 
+Read the [configuration guide](./config.md) and additional details
 in [`defaults.json.guide.js`](../app/config/defaults.json.guide.js)
 to learn how to configure Swagger Editor.
 

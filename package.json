@@ -65,7 +65,6 @@
     "karma-ng-scenario": "^0.1.0",
     "less-loader": "^2.2.2",
     "lodash": "^4.6.1",
-    "main-bower-files": "^2.9.0",
     "mocha": "^2.4.5",
     "mversion": "^1.10.0",
     "ng-file-upload": "^12.0.4",

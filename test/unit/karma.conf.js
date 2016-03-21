@@ -1,36 +1,6 @@
 // Karma configuration
 // http://karma-runner.github.io/0.10/config/configuration-file.html
 
-var path = require('path');
-
-var files = require('main-bower-files')({
-    filter: /\.js$/,
-    includeDev: true
-  })
-  .map(function (filePath) {
-
-    // make paths relative
-    return path.relative(path.join(__dirname, '../../app'), filePath);
-  })
-  .filter(function (filePath) {
-
-    // angular-scenario is added in runner.html file already
-    return !/angular\-scenario/.test(filePath);
-  })
-  .concat([
-
-    // Worker files
-    {pattern: 'bower_components/sway-worker/index.js', served: true},
-
-    // App source Code
-    'scripts/*.js',
-    'scripts/**/*.js',
-
-    // Test files
-    '../test/unit/defaults.js',
-    '../test/unit/bootstrap.js',
-    '../test/unit/spec/**/*.js'
-  ]);
 
 module.exports = function (config) {
   config.set({
@@ -41,7 +11,7 @@ module.exports = function (config) {
     },
 
     // base path, that will be used to resolve files and exclude
-    basePath: '../../app',
+    basePath: '../..',
 
     // testing framework to use (jasmine/mocha/qunit/...)
     frameworks: ['mocha', 'sinon-chai', 'chai', 'chai-as-promised'],
