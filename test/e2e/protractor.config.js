@@ -1,7 +1,33 @@
 'use strict';
 
+var PORT = 8282;
+var exec = require('child_process').exec;
+var path = require('path');
+var server = null;
+
 var config = {
-  baseUrl: 'http://localhost:8282/',
+  beforeLaunch: function() {
+    console.log('Starting web server at port ', PORT);
+
+    server = exec('node server.js', {
+      cwd: path.resolve(__dirname, '../..'),
+      env: {
+        PORT: PORT
+      }
+    })
+  },
+
+  afterLaunch: function(exitCode) {
+    console.log('Killing the web server at port ', PORT);
+
+    if (server) {
+      server.kill('SIGHUP');
+    }
+
+    return Promise.resolve();
+  },
+
+  baseUrl: 'http://localhost:' + PORT + '/',
 
   capabilities: {
     browserName: process.env.TRAVIS ? 'firefox' : 'chrome',
