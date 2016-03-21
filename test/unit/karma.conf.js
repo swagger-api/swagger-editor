@@ -1,6 +1,8 @@
 // Karma configuration
 // http://karma-runner.github.io/0.10/config/configuration-file.html
 
+var webpackConfig = require('../../webpack.config.js');
+
 module.exports = function (config) {
   config.set({
 
@@ -19,21 +21,24 @@ module.exports = function (config) {
     ],
 
     // list of files / patterns to exclude
-    exclude: [
-    ],
+    exclude: [],
 
+    // Process test fies with webpack so require statements work in them
     preprocessors: {
       'index.js': ['webpack']
     },
 
+    // Use a better looking test reporter
     reporters: ['mocha'],
 
+    // enable webpack
     webpack: {
-      // entry: {
-      //   test: ['./index.js']
-      // }
+      module: {
+        loaders: webpackConfig.module.loaders
+      }
     },
 
+    // Configuarion of webpackMiddleware
     webpackMiddleware: {
       noInfo: true
     },

@@ -92,5 +92,3 @@ require('./analytics/google.js');
 // Ace Editor
 window.ace = require('brace');
 
-// Bootstrap
-require('./bootstrap');

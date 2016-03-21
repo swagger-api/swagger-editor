@@ -6,3 +6,6 @@ require('./styles/main.less');
 
 // App JavaScript files
 require('./scripts/app.js');
+
+// Bootstrap
+require('./scripts/bootstrap');

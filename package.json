@@ -27,6 +27,7 @@
     "angular": "^1.5.2",
     "angular-json-schema-form": "^0.1.4",
     "angular-marked": "^1.0.1",
+    "angular-mocks": "^1.5.2",
     "angular-sanitize": "^1.5.2",
     "angular-ui-ace": "^0.2.3",
     "angular-ui-bootstrap": "^1.2.5",

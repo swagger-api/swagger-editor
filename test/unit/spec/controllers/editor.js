@@ -1,9 +1,12 @@
 'use strict';
 
+var angular = require('angular');
+
+
 describe('Controller: EditorCtrl', function () {
 
   // load the controller's module
-  beforeEach(window.angular.mock.module('SwaggerEditor'));
+  beforeEach(angular.mock.module('SwaggerEditor'));
 
   var EditorCtrl,
     scope;
