@@ -1,29 +1,42 @@
 // Karma configuration
 // http://karma-runner.github.io/0.10/config/configuration-file.html
 
-
 module.exports = function (config) {
   config.set({
 
     // Define a proxy to allow worker files served at correct path
-    proxies: {
-      '/': '/base/'
-    },
+    proxies: {},
 
     // base path, that will be used to resolve files and exclude
-    basePath: '../..',
+    basePath: '.',
 
     // testing framework to use (jasmine/mocha/qunit/...)
     frameworks: ['mocha', 'sinon-chai', 'chai', 'chai-as-promised'],
 
     // list of files / patterns to load in the browser
-    files: files,
+    files: [
+      'index.js'
+    ],
 
     // list of files / patterns to exclude
     exclude: [
-      'scripts/bootstrap.js',
-      'scripts/enums/defaults'
     ],
+
+    preprocessors: {
+      'index.js': ['webpack']
+    },
+
+    reporters: ['mocha'],
+
+    webpack: {
+      // entry: {
+      //   test: ['./index.js']
+      // }
+    },
+
+    webpackMiddleware: {
+      noInfo: true
+    },
 
     // web server port
     port: 8080,
@@ -49,8 +62,6 @@ module.exports = function (config) {
 
     // Continuous Integration mode
     // if true, it capture browsers, run tests and exit
-    singleRun: false,
-
-    reporters: ['mocha']
+    singleRun: false
   });
 };
