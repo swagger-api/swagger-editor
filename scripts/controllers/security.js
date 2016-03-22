@@ -18,14 +18,14 @@ SwaggerEditor.controller('SecurityCtrl', function SecurityCtrl($scope, $modal,
     if (security.type === 'basic') {
       $modal.open({
         templateUrl: 'templates/auth/basic.html',
-        controller: function BasicAuthAuthenticateCtrl($scope, $modalInstance) {
-          $scope.cancel = $modalInstance.close;
+        controller: function BasicAuthAuthenticateCtrl($scope, $uibModalInstance) {
+          $scope.cancel = $uibModalInstance.close;
           $scope.authenticate = function (username, password) {
             AuthManager.basicAuth(securityName, security, {
               username: username,
               password: password
             });
-            $modalInstance.close();
+            $uibModalInstance.close();
           };
         },
         size: 'large'
@@ -33,8 +33,8 @@ SwaggerEditor.controller('SecurityCtrl', function SecurityCtrl($scope, $modal,
     } else if (security.type === 'oauth2') {
       $modal.open({
         templateUrl: 'templates/auth/oauth2.html',
-        controller: function OAuth2AuthenticateCtrl($scope, $modalInstance) {
-          $scope.cancel = $modalInstance.close;
+        controller: function OAuth2AuthenticateCtrl($scope, $uibModalInstance) {
+          $scope.cancel = $uibModalInstance.close;
           $scope.authenticate = function (accessToken) {
             if (!accessToken) {
               return;
@@ -42,7 +42,7 @@ SwaggerEditor.controller('SecurityCtrl', function SecurityCtrl($scope, $modal,
             AuthManager.oAuth2(securityName, security, {
               accessToken: accessToken
             });
-            $modalInstance.close();
+            $uibModalInstance.close();
           };
         },
         size: 'large'
@@ -50,8 +50,8 @@ SwaggerEditor.controller('SecurityCtrl', function SecurityCtrl($scope, $modal,
     } else if (security.type === 'apiKey') {
       $modal.open({
         templateUrl: 'templates/auth/api-key.html',
-        controller: function APIKeyAuthenticateCtrl($scope, $modalInstance) {
-          $scope.cancel = $modalInstance.close;
+        controller: function APIKeyAuthenticateCtrl($scope, $uibModalInstance) {
+          $scope.cancel = $uibModalInstance.close;
           $scope.authenticate = function (apiKey) {
             if (!apiKey) {
               return;
@@ -59,7 +59,7 @@ SwaggerEditor.controller('SecurityCtrl', function SecurityCtrl($scope, $modal,
             AuthManager.apiKey(securityName, security, {
               apiKey: apiKey
             });
-            $modalInstance.close();
+            $uibModalInstance.close();
           };
         },
         size: 'large'

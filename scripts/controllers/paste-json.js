@@ -1,7 +1,7 @@
 'use strict';
 
 SwaggerEditor.controller('PasteJSONCtrl', function PasteJSONCtrl($scope,
-  $modalInstance, $rootScope, $state, Storage, YAML, SwayWorker) {
+  $uibModalInstance, $rootScope, $state, Storage, YAML, SwayWorker) {
 
   var json;
 
@@ -33,9 +33,9 @@ SwaggerEditor.controller('PasteJSONCtrl', function PasteJSONCtrl($scope,
       Storage.save('yaml', result);
       $rootScope.editorValue = result;
       $state.go('home', {tags: null});
-      $modalInstance.close();
+      $uibModalInstance.close();
     });
   };
 
-  $scope.cancel = $modalInstance.close;
+  $scope.cancel = $uibModalInstance.close;
 });

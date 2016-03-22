@@ -1,8 +1,8 @@
 'use strict';
 
 SwaggerEditor.controller('GeneralModal', function GeneralModal($scope,
-  $modalInstance, data) {
-  $scope.ok = $modalInstance.close;
-  $scope.cancel = $modalInstance.close;
+  $uibModalInstance, data) {
+  $scope.ok = $uibModalInstance.close;
+  $scope.cancel = $uibModalInstance.close;
   $scope.data = data;
 });

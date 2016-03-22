@@ -92,7 +92,7 @@
     "unit-test-watch": "karma start test/unit/karma.conf.js",
     "pree2e-test": "webdriver-manager update",
     "e2e-test": "protractor test/e2e/protractor.config.js",
-    "test": "npm run unit-test & npm run e2e-test",
+    "test": "npm run unit-test && npm run e2e-test",
     "lint": "eslint . --format 'node_modules/eslint-friendly-formatter'"
   }
 }

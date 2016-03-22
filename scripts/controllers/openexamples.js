@@ -1,7 +1,7 @@
 'use strict';
 
 SwaggerEditor.controller('OpenExamplesCtrl', function OpenExamplesCtrl($scope,
-  $modalInstance, $rootScope, $state, FileLoader, Builder, Storage, Analytics,
+  $uibModalInstance, $rootScope, $state, FileLoader, Builder, Storage, Analytics,
   defaults) {
 
   $scope.files = defaults.exampleFiles;
@@ -21,11 +21,11 @@ SwaggerEditor.controller('OpenExamplesCtrl', function OpenExamplesCtrl($scope,
       Storage.save('yaml', value);
       $rootScope.editorValue = value;
       $state.go('home', {tags: null});
-      $modalInstance.close();
-    }, $modalInstance.close);
+      $uibModalInstance.close();
+    }, $uibModalInstance.close);
 
     Analytics.sendEvent('open-example', 'open-example:' + file);
   };
 
-  $scope.cancel = $modalInstance.close;
+  $scope.cancel = $uibModalInstance.close;
 });

@@ -6,7 +6,7 @@ describe('Controller: UrlImportCtrl', function () {
   beforeEach(window.angular.mock.module('SwaggerEditor'));
 
   var UrlImportCtrl,
-    $modalInstance,
+    $uibModalInstance,
     scope;
 
   // Initialize the controller and a mock scope
@@ -15,7 +15,7 @@ describe('Controller: UrlImportCtrl', function () {
 
     // Create a mock object using spies
     var callback = sinon.spy();
-    $modalInstance = {
+    $uibModalInstance = {
       close: callback,
       dismiss: callback,
       result: {
@@ -24,7 +24,7 @@ describe('Controller: UrlImportCtrl', function () {
     };
     UrlImportCtrl = $controller('UrlImportCtrl', {
       $scope: scope,
-      $modalInstance: $modalInstance
+      $uibModalInstance: $uibModalInstance
     });
   }));
 

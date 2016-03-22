@@ -1,7 +1,7 @@
 'use strict';
 
 SwaggerEditor.controller('FileImportCtrl', function FileImportCtrl($scope,
-  $modalInstance, $rootScope, $localStorage, $state, FileLoader, Storage) {
+  $uibModalInstance, $rootScope, $localStorage, $state, FileLoader, Storage) {
   var results;
 
   $scope.fileChanged = function ($fileContent) {
@@ -18,7 +18,7 @@ SwaggerEditor.controller('FileImportCtrl', function FileImportCtrl($scope,
       Storage.save('yaml', results);
       $state.go('home', {tags: null});
     }
-    $modalInstance.close();
+    $uibModalInstance.close();
   };
 
   $scope.isInvalidFile = function () {
@@ -29,5 +29,5 @@ SwaggerEditor.controller('FileImportCtrl', function FileImportCtrl($scope,
     return !!results;
   };
 
-  $scope.cancel = $modalInstance.close;
+  $scope.cancel = $uibModalInstance.close;
 });

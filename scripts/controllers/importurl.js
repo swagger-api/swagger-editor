@@ -1,7 +1,7 @@
 'use strict';
 
 SwaggerEditor.controller('UrlImportCtrl', function FileImportCtrl($scope,
-  $modalInstance, $localStorage, $rootScope, $state, FileLoader, Storage) {
+  $uibModalInstance, $localStorage, $rootScope, $state, FileLoader, Storage) {
   var results;
 
   $scope.url = null;
@@ -42,8 +42,8 @@ SwaggerEditor.controller('UrlImportCtrl', function FileImportCtrl($scope,
       $rootScope.editorValue = results;
       $state.go('home', {tags: null});
     }
-    $modalInstance.close();
+    $uibModalInstance.close();
   };
 
-  $scope.cancel = $modalInstance.close;
+  $scope.cancel = $uibModalInstance.close;
 });

@@ -7,7 +7,7 @@ describe('Controller: OpenExamplesCtrl', function () {
 
   var OpenExamplesCtrl,
     FileLoader,
-    $modalInstance,
+    $uibModalInstance,
     scope;
 
   // Initialize the controller and a mock scope
@@ -16,7 +16,7 @@ describe('Controller: OpenExamplesCtrl', function () {
 
     // Create a mock object using spies
     var callback = sinon.spy();
-    $modalInstance = {
+    $uibModalInstance = {
       close: callback,
       dismiss: callback,
       result: {
@@ -36,7 +36,7 @@ describe('Controller: OpenExamplesCtrl', function () {
 
     OpenExamplesCtrl = $controller('OpenExamplesCtrl', {
       $scope: scope,
-      $modalInstance: $modalInstance,
+      $uibModalInstance: $uibModalInstance,
       FileLoader: FileLoader
     });
   }));

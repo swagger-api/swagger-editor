@@ -4,7 +4,7 @@
  * General modal controller
 */
 SwaggerEditor.controller('ModalCtrl', function ModalCtrl($scope,
-  $modalInstance) {
-  $scope.cancel = $modalInstance.close;
-  $scope.close = $modalInstance.close;
+  $uibModalInstancee) {
+  $scope.cancel = $uibModalInstancee.close;
+  $scope.close = $uibModalInstancee.close;
 });

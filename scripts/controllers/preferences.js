@@ -1,7 +1,7 @@
 'use strict';
 
 SwaggerEditor.controller('PreferencesCtrl', function PreferencesCtrl($scope,
-  $modalInstance, Preferences) {
+  $uibModalInstance, Preferences) {
 
   $scope.keyPressDebounceTime = Preferences.get('keyPressDebounceTime');
   $scope.liveRender = Preferences.get('liveRender');
@@ -18,8 +18,8 @@ SwaggerEditor.controller('PreferencesCtrl', function PreferencesCtrl($scope,
     Preferences.set('liveRender', $scope.liveRender);
     Preferences.set('autoComplete', $scope.autoComplete);
 
-    $modalInstance.close();
+    $uibModalInstance.close();
   };
 
-  $scope.close = $modalInstance.close;
+  $scope.close = $uibModalInstance.close;
 });

@@ -22,7 +22,7 @@ describe('Controller: FileImportCtrl', function () {
     };
     FileImportCtrl = $controller('FileImportCtrl', {
       $scope: scope,
-      $modalInstance: modalInstance
+      $uibModalInstance: modalInstance
     });
   }));
 
