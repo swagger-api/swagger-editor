@@ -221,7 +221,7 @@ SwaggerEditor.controller('HeaderCtrl', function HeaderCtrl($scope, $modal,
   $scope.capitalizeGeneratorName = function (name) {
     var names = {
       jaxrs: 'JAX-RS',
-      nodejs: 'Node.js',
+      'nodejs-server': 'Node.js',
       scalatra: 'Scalatra',
       'spring-mvc': 'Spring MVC',
       android: 'Android',
