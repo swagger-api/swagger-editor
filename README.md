@@ -2,10 +2,16 @@
 
 [![Build Status](https://travis-ci.org/swagger-api/swagger-editor.svg?branch=master)](https://travis-ci.org/swagger-api/swagger-editor)
 [![Code Climate](https://codeclimate.com/github/swagger-api/swagger-editor/badges/gpa.svg)](https://codeclimate.com/github/swagger-api/swagger-editor)
-[![NPM version](https://badge.fury.io/js/swagger-editor-src.png)](http://badge.fury.io/js/swagger-editor-src)
+[![NPM version](https://badge.fury.io/js/swagger-editor-src.svg)](http://badge.fury.io/js/swagger-editor-src)
+[![PR Stats](http://issuestats.com/github/swagger-api/swagger-editor/badge/pr)](http://issuestats.com/github/swagger-api/swagger-editor) [![Issue Stats](http://issuestats.com/github/swagger-api/swagger-editor/badge/issue)](http://issuestats.com/github/swagger-api/swagger-editor)
 
 [![Dependency Status](https://david-dm.org/swagger-api/swagger-editor/status.svg)](https://david-dm.org/swagger-api/swagger-editor)
 [![devDependency Status](https://david-dm.org/swagger-api/swagger-editor/dev-status.svg)](https://david-dm.org/swagger-api/swagger-editor-#info=devDependencies)
+
+
+
+
+
 
 Swagger Editor lets you edit [Swagger API specifications](https://github.com/swagger-api/swagger-spec/blob/master/versions/2.0.md) in YAML inside your browser and to preview documentations in real time.
 Valid Swagger JSON descriptions can then be generated and used with the full Swagger tooling (code generation, documentation, etc).
