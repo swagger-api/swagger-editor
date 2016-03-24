@@ -28,6 +28,22 @@ require('./defaults.js');
 
 // Load tests
 require('./spec/controllers/editor');
+require('./spec/controllers/errorpresenter');
+require('./spec/controllers/file-import');
+require('./spec/controllers/main');
+require('./spec/controllers/openexamples');
+require('./spec/controllers/preview');
+require('./spec/controllers/tryoperation');
+require('./spec/controllers/url-import');
 
+require('./spec/directives/collapsewhen');
+require('./spec/directives/schemamodel');
 
-
+require('./spec/services/ast-manager');
+require('./spec/services/autocomplete');
+require('./spec/services/backend');
+require('./spec/services/builder');
+require('./spec/services/editor');
+require('./spec/services/fileloader');
+require('./spec/services/fold-state-manager');
+require('./spec/services/storage');

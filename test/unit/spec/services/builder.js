@@ -1,9 +1,11 @@
 'use strict';
 
+var angular = require('angular');
+
 describe('Service: Builder', function () {
 
   // load the service's module
-  beforeEach(window.angular.mock.module('SwaggerEditor'));
+  beforeEach(angular.mock.module('SwaggerEditor'));
 
   // instantiate service
   var Builder;

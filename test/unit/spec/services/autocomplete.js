@@ -1,9 +1,11 @@
 'use strict';
 
+var angular = require('angular');
+
 describe('Service: Autocomplete', function () {
 
   // load the service's module
-  beforeEach(window.angular.mock.module('SwaggerEditor'));
+  beforeEach(angular.mock.module('SwaggerEditor'));
 
   // instantiate service and capture getCompletions method
   var rootScope;
