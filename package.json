@@ -65,6 +65,7 @@
     "karma-ng-html2js-preprocessor": "^0.2.1",
     "karma-ng-scenario": "^0.1.0",
     "karma-webpack": "^1.7.0",
+    "less": "^2.6.1",
     "less-loader": "^2.2.2",
     "lodash": "^4.6.1",
     "mversion": "^1.10.1",
