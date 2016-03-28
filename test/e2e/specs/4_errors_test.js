@@ -5,19 +5,19 @@
 */
 
 function setValue(value) {
-  browser.executeScript(function (value) {
+  browser.executeScript(function(value) {
     document.querySelector('[ui-ace]').env.editor.setValue(value);
   }, value);
   browser.sleep(500);
 }
 
-describe('Error Presenter', function () {
-  it('should show an error when document is empty', function () {
+describe('Error Presenter', function() {
+  it('should show an error when document is empty', function() {
     setValue('');
     expect($('.error-presenter').isPresent()).toBe(true);
   });
 
-  it('should show YAML syntax error with invalid YAML', function () {
+  it('should show YAML syntax error with invalid YAML', function() {
     setValue('invalid:1\n  yaml:');
 
     expect($('.error-presenter').isPresent()).toBe(true);
@@ -26,7 +26,7 @@ describe('Error Presenter', function () {
       .toContain('YAML Syntax Error');
   });
 
-  it('should show Swagger Error with invalid swagger', function () {
+  it('should show Swagger Error with invalid swagger', function() {
     var val = [
       'swagger: "2.0"',
       'info:',
@@ -48,7 +48,7 @@ describe('Error Presenter', function () {
   });
 
   it('should show swagger warning with a document that has warnings',
-    function () {
+    function() {
       var val = [
         'swagger: "2.0"',
         'info:',

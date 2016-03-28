@@ -14,7 +14,7 @@ var config = {
       env: {
         PORT: PORT
       }
-    })
+    });
   },
 
   afterLaunch: function(exitCode) {

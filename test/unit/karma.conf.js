@@ -3,7 +3,7 @@
 
 var webpackConfig = require('../../webpack.config.js');
 
-module.exports = function (config) {
+module.exports = function(config) {
   config.set({
 
     // Define a proxy to allow worker files served at correct path

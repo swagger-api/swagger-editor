@@ -3,6 +3,7 @@
 module.exports = {
   extends: "../.eslintrc.js",
   env: {
-    jasmine: true
+    jasmine: true,
+    mocha: true
   }
 };
