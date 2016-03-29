@@ -2,17 +2,17 @@
 
 var angular = require('angular');
 
-describe('Controller: UrlImportCtrl', function () {
+describe('Controller: UrlImportCtrl', function() {
 
   // load the controller's module
   beforeEach(angular.mock.module('SwaggerEditor'));
 
-  var UrlImportCtrl,
-    $uibModalInstance,
-    scope;
+  var UrlImportCtrl;
+  var $uibModalInstance;
+  var scope;
 
   // Initialize the controller and a mock scope
-  beforeEach(inject(function ($controller, $rootScope) {
+  beforeEach(inject(function($controller, $rootScope) {
     scope = $rootScope.$new();
 
     // Create a mock object using spies
@@ -30,8 +30,7 @@ describe('Controller: UrlImportCtrl', function () {
     });
   }));
 
-  it('should have a scope', function () {
+  it('should have a scope', function() {
     expect(!!scope).to.equal(true);
-
   });
 });

@@ -2,19 +2,17 @@
 
 var angular = require('angular');
 
-describe('Service: Editor', function () {
-
+describe('Service: Editor', function() {
   // load the service's module
   beforeEach(angular.mock.module('SwaggerEditor'));
 
   // instantiate service
   var Editor;
-  beforeEach(inject(function (_Editor_) {
+  beforeEach(inject(function(_Editor_) {
     Editor = _Editor_;
   }));
 
-  it('should exists', function () {
+  it('should exists', function() {
     expect(!!Editor).to.equal(true);
   });
-
 });

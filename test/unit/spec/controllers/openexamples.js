@@ -2,18 +2,18 @@
 
 var angular = require('angular');
 
-describe('Controller: OpenExamplesCtrl', function () {
+describe('Controller: OpenExamplesCtrl', function() {
 
   // load the controller's module
   beforeEach(angular.mock.module('SwaggerEditor'));
 
-  var OpenExamplesCtrl,
-    FileLoader,
-    $uibModalInstance,
-    scope;
+  var OpenExamplesCtrl;
+  var FileLoader;
+  var $uibModalInstance;
+  var scope;
 
   // Initialize the controller and a mock scope
-  beforeEach(inject(function ($controller, $rootScope) {
+  beforeEach(inject(function($controller, $rootScope) {
     scope = $rootScope.$new();
 
     // Create a mock object using spies
@@ -29,10 +29,10 @@ describe('Controller: OpenExamplesCtrl', function () {
     var loadFromUrlCallback = sinon.spy();
 
     FileLoader = {
-      loadFromUrl: function () {
+      loadFromUrl: function() {
         return {
-          then: function () {}
-        }
+          then: function() {}
+        };
       }
     };
 
@@ -43,16 +43,16 @@ describe('Controller: OpenExamplesCtrl', function () {
     });
   }));
 
-  it('should have a scope', function () {
+  it('should have a scope', function() {
     expect(!!scope).to.equal(true);
   });
 
-  it('should select first example as selected file by default', function () {
+  it('should select first example as selected file by default', function() {
     expect(scope.selectedFile).to.equal('default.yaml');
   });
 
   it('honors defaults.examplesFolder configuration when opening files',
-    function () {
+    function() {
       sinon.stub(FileLoader, 'loadFromUrl').returns({then: sinon.spy()});
 
       scope.open('aFile');

@@ -2,24 +2,23 @@
 
 var angular = require('angular');
 
-describe('Controller: MainCtrl', function () {
+describe('Controller: MainCtrl', function() {
 
   // load the controller's module
   beforeEach(angular.mock.module('SwaggerEditor'));
 
-  var MainCtrl,
-    scope;
+  var MainCtrl;
+  var scope;
 
   // Initialize the controller and a mock scope
-  beforeEach(inject(function ($controller, $rootScope) {
+  beforeEach(inject(function($controller, $rootScope) {
     scope = $rootScope.$new();
     MainCtrl = $controller('MainCtrl', {
       $scope: scope
     });
   }));
 
-  it('should have a scope', function () {
+  it('should have a scope', function() {
     expect(!!scope).to.equal(true);
-
   });
 });

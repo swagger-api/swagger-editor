@@ -2,17 +2,16 @@
 
 var angular = require('angular');
 
-describe('Controller: FileImportCtrl', function () {
-
+describe('Controller: FileImportCtrl', function() {
   // load the controller's module
   beforeEach(angular.mock.module('SwaggerEditor'));
 
-  var FileImportCtrl,
-    modalInstance,
-    scope;
+  var FileImportCtrl;
+  var modalInstance;
+  var scope;
 
   // Initialize the controller and a mock scope
-  beforeEach(inject(function ($controller, $rootScope) {
+  beforeEach(inject(function($controller, $rootScope) {
     scope = $rootScope.$new();
     var callback = sinon.spy();
     modalInstance = {                    // Create a mock object using spies
@@ -28,8 +27,7 @@ describe('Controller: FileImportCtrl', function () {
     });
   }));
 
-  it('should have a scope', function () {
+  it('should have a scope', function() {
     expect(!!scope).to.equal(true);
-
   });
 });

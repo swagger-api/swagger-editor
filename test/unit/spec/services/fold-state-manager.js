@@ -2,23 +2,20 @@
 
 var angular = require('angular');
 
-describe('Service: FoldStateManager', function () {
-
+describe('Service: FoldStateManager', function() {
   // load the service's module
   beforeEach(angular.mock.module('SwaggerEditor'));
 
   // instantiate service
   var FoldStateManager;
-  beforeEach(inject(function (_FoldStateManager_) {
+  beforeEach(inject(function(_FoldStateManager_) {
     if (!FoldStateManager) {
       FoldStateManager = _FoldStateManager_;
     }
   }));
 
-  describe('#getFoldedTree', function () {
-
-    it('keeps the $folded values', function () {
-
+  describe('#getFoldedTree', function() {
+    it('keeps the $folded values', function() {
       var result = FoldStateManager.getFoldedTree(
         {
           info: {title: 'A'},
@@ -46,7 +43,7 @@ describe('Service: FoldStateManager', function () {
       });
     });
 
-    it('does not add extra nodes just because of $folded values', function () {
+    it('does not add extra nodes just because of $folded values', function() {
       var result = FoldStateManager.getFoldedTree(
         {
           info: {title: 'A'},
@@ -72,7 +69,6 @@ describe('Service: FoldStateManager', function () {
       // TODO: why chai deep equal is not working?
       // expect(result).to.deep.equal(expectation);
       expect(JSON.stringify(result)).to.equal(JSON.stringify(expectation));
-
     });
   });
 });
