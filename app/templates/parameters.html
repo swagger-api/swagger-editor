@@ -1,0 +1,31 @@
+
+<header>
+  <h3 class="section-header">
+    <a ng-click="
+    specs.parameters.$folded = !specs.parameters.$folded;
+    foldEditor(['parameters'], specs.parameters.$folded);">
+    <span>Parameters</span>
+  </a>
+</h3>
+</header>
+<ul>
+  <li ng-repeat="(parameterName, parameter) in specs.parameters" class="params">
+    <h4>
+      <a
+        ng-click="focusEdit($event, ['parameters', parameterName])"
+        tooltip-placement="top"
+        tooltip="Jump to YAML"
+        tooltip-trigger="mouseenter">
+          <span class="paramName">{{parameterName}}</span>
+      </a>
+      <span>in: {{parameter.in}} <span if="parameter.required">(required)</span></span>
+    </h4>
+    <div class="root-parameter">
+      <div marked="parameter.description"></div>
+      <div>
+        <schema-model schema="parameter.schema"></schema-model>
+      </div>
+    </div>
+  </li>
+</ul>
+
