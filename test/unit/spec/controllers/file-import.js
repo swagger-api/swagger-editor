@@ -6,7 +6,6 @@ describe('Controller: FileImportCtrl', function() {
   // load the controller's module
   beforeEach(angular.mock.module('SwaggerEditor'));
 
-  var FileImportCtrl;
   var modalInstance;
   var scope;
 
@@ -21,13 +20,13 @@ describe('Controller: FileImportCtrl', function() {
         then: callback
       }
     };
-    FileImportCtrl = $controller('FileImportCtrl', {
+    $controller('FileImportCtrl', {
       $scope: scope,
       $uibModalInstance: modalInstance
     });
   }));
 
   it('should have a scope', function() {
-    expect(!!scope).to.equal(true);
+    expect(Boolean(scope)).to.equal(true);
   });
 });

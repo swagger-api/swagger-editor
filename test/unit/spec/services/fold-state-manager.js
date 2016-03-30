@@ -66,7 +66,7 @@ describe('Service: FoldStateManager', function() {
         paths: {} // bar should not be here as well as foo
       };
 
-      // TODO: why chai deep equal is not working?
+      // why chai deep equal is not working? (to do)
       // expect(result).to.deep.equal(expectation);
       expect(JSON.stringify(result)).to.equal(JSON.stringify(expectation));
     });

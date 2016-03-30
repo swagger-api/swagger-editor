@@ -4,12 +4,12 @@
  * Test errors that is being presented to user
 */
 
-function setValue(value) {
+var setValue = function(value) {
   browser.executeScript(function(value) {
     document.querySelector('[ui-ace]').env.editor.setValue(value);
   }, value);
   browser.sleep(500);
-}
+};
 
 describe('Error Presenter', function() {
   it('should show an error when document is empty', function() {
@@ -70,5 +70,4 @@ describe('Error Presenter', function() {
       expect($('.error-header h4').getText()).toContain('Warning');
     }
   );
-
 });

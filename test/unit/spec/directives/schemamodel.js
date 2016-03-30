@@ -3,7 +3,6 @@
 var angular = require('angular');
 
 describe('Directive: schemaModel', function() {
-
   // load the directive's module
   beforeEach(angular.mock.module('SwaggerEditor'));
 

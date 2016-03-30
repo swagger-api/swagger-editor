@@ -3,11 +3,9 @@
 var angular = require('angular');
 
 describe('Controller: UrlImportCtrl', function() {
-
   // load the controller's module
   beforeEach(angular.mock.module('SwaggerEditor'));
 
-  var UrlImportCtrl;
   var $uibModalInstance;
   var scope;
 
@@ -24,13 +22,13 @@ describe('Controller: UrlImportCtrl', function() {
         then: callback
       }
     };
-    UrlImportCtrl = $controller('UrlImportCtrl', {
+    $controller('UrlImportCtrl', {
       $scope: scope,
       $uibModalInstance: $uibModalInstance
     });
   }));
 
   it('should have a scope', function() {
-    expect(!!scope).to.equal(true);
+    expect(Boolean(scope)).to.equal(true);
   });
 });

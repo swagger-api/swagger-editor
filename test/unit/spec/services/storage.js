@@ -13,6 +13,6 @@ describe('Service: Storage', function() {
   }));
 
   it('should exists', function() {
-    expect(!!Storage).to.equal(true);
+    expect(Boolean(Storage)).to.equal(true);
   });
 });

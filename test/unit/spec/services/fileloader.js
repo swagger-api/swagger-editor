@@ -13,6 +13,6 @@ describe('Service: FileLoader', function() {
   }));
 
   it('should exists', function() {
-    expect(!!FileLoader).to.equal(true);
+    expect(Boolean(FileLoader)).to.equal(true);
   });
 });

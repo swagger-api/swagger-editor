@@ -11,12 +11,12 @@ var path = require('path');
 var yamlPath = path.join(__dirname, './session.yaml');
 var swyaml = fs.readFileSync(yamlPath).toString();
 
-function setValue(value) {
+var setValue = function(value) {
   browser.executeScript(function(value) {
     document.querySelector('[ui-ace]').env.editor.setValue(value);
   }, value);
   browser.sleep(1000);
-}
+};
 
 describe('Session auth tests', function() {
   beforeEach(function() {
@@ -26,7 +26,7 @@ describe('Session auth tests', function() {
     });
   });
 
-  // TODO: Fix tests
+  // Fix tests (to do)
   it('Should find the sessionStorage', function() {
     // swyaml is the test yaml file
     setValue(swyaml);
@@ -40,6 +40,5 @@ describe('Session auth tests', function() {
       expect(storeAuth.hasOwnProperty('internalApiKey')).toEqual(true);
       expect(storeAuth.hasOwnProperty('anynotfound')).toEqual(false);
     });
-
   });
 });

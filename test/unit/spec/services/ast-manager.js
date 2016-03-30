@@ -3,7 +3,6 @@
 var angular = require('angular');
 
 describe('Service: ASTManager', function() {
-
   var yaml;
 
   // load the service's module
@@ -18,7 +17,7 @@ describe('Service: ASTManager', function() {
   }));
 
   describe('#pathForPosition', function() {
-    describe('out of range', function(done) {
+    describe('out of range', function() {
       it('returns empty array for out of range row', function(done) {
         var position = {line: 3, column: 0};
 
@@ -47,7 +46,7 @@ describe('Service: ASTManager', function() {
         yaml = 'swagger: 2.0';
       });
 
-      // TODO: test edges
+      // test edges (to do)
 
       it('should return empty array when pointer is at middle of the hash key',
         function(done) {

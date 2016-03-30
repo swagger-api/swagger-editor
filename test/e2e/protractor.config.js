@@ -17,7 +17,7 @@ var config = {
     });
   },
 
-  afterLaunch: function(exitCode) {
+  afterLaunch: function() {
     console.log('Killing the web server at port ', PORT);
 
     if (server) {

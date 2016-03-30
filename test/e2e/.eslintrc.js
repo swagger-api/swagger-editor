@@ -3,6 +3,11 @@
 module.exports = {
   extends: '../.eslintrc.js',
   globals: {
-    $: true
+    $: true,
+    window: true,
+    browser: true
+  },
+  env: {
+    "browser": true
   }
 }

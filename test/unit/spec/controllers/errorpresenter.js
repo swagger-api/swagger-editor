@@ -3,11 +3,9 @@
 var angular = require('angular');
 
 describe('Controller: ErrorPresenterCtrl', function() {
-
   // load the controller's module
   beforeEach(angular.mock.module('SwaggerEditor'));
 
-  var ErrorPresenterCtrl;
   var scope;
 
   // Initialize the controller and a mock scope
@@ -17,13 +15,13 @@ describe('Controller: ErrorPresenterCtrl', function() {
     rootScope.warnings = [];
     rootScope.errors = [];
 
-    ErrorPresenterCtrl = $controller('ErrorPresenterCtrl', {
+    $controller('ErrorPresenterCtrl', {
       $scope: scope,
       $rootScope: rootScope
     });
   }));
 
   it('should have a scope', function() {
-    expect(!!scope).to.equal(true);
+    expect(Boolean(scope)).to.equal(true);
   });
 });

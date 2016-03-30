@@ -3,11 +3,9 @@
 var angular = require('angular');
 
 describe('Controller: OpenExamplesCtrl', function() {
-
   // load the controller's module
   beforeEach(angular.mock.module('SwaggerEditor'));
 
-  var OpenExamplesCtrl;
   var FileLoader;
   var $uibModalInstance;
   var scope;
@@ -26,8 +24,6 @@ describe('Controller: OpenExamplesCtrl', function() {
       }
     };
 
-    var loadFromUrlCallback = sinon.spy();
-
     FileLoader = {
       loadFromUrl: function() {
         return {
@@ -36,7 +32,7 @@ describe('Controller: OpenExamplesCtrl', function() {
       }
     };
 
-    OpenExamplesCtrl = $controller('OpenExamplesCtrl', {
+    $controller('OpenExamplesCtrl', {
       $scope: scope,
       $uibModalInstance: $uibModalInstance,
       FileLoader: FileLoader
@@ -44,7 +40,7 @@ describe('Controller: OpenExamplesCtrl', function() {
   }));
 
   it('should have a scope', function() {
-    expect(!!scope).to.equal(true);
+    expect(Boolean(scope)).to.equal(true);
   });
 
   it('should select first example as selected file by default', function() {

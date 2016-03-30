@@ -18,13 +18,12 @@ describe('Rendering', function() {
     ['At least a model', '.schema-model']
   ];
 
-  elements.forEach(function(element) {
-    expectElement(element[0], element[1]);
-  });
-
-  function expectElement(name, selector) {
+  var expectElement = function(name, selector) {
     it('should render ' + name, function() {
       expect($(selector).isPresent()).toBe(true);
     });
-  }
+  };
+  elements.forEach(function(element) {
+    expectElement(element[0], element[1]);
+  });
 });

@@ -13,6 +13,6 @@ describe('Service: Builder', function() {
   }));
 
   it('should exists', function() {
-    expect(!!Builder).to.equal(true);
+    expect(Boolean(Builder)).to.equal(true);
   });
 });

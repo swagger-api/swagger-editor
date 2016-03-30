@@ -13,6 +13,6 @@ describe('Service: Backend', function() {
   }));
 
   it('should exists', function() {
-    expect(!!Backend).to.equal(true);
+    expect(Boolean(Backend)).to.equal(true);
   });
 });

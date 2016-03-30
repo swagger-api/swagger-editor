@@ -13,6 +13,6 @@ describe('Service: Editor', function() {
   }));
 
   it('should exists', function() {
-    expect(!!Editor).to.equal(true);
+    expect(Boolean(Editor)).to.equal(true);
   });
 });
