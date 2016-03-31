@@ -1,6 +1,6 @@
 'use strict';
 
-SwaggerEditor.config(function ($provide) {
+SwaggerEditor.config(function($provide) {
   $provide.constant('strings', {
 
     // stausMessages keys should start with one of following words:

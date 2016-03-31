@@ -230,7 +230,7 @@ SwaggerEditor.service('KeywordMap', function KeywordMap(defaults) {
     }
   };
 
-  this.get = function () {
+  this.get = function() {
     var extension = angular.isObject(defaults.autocompleteExtension) ?
       defaults.autocompleteExtension : {};
     return _.extend(map, extension);

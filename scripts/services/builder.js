@@ -14,7 +14,7 @@ SwaggerEditor.service('Builder', function Builder(SwayWorker) {
   function buildDocs(stringValue) {
     var json;
 
-    return new Promise(function (resolve, reject) {
+    return new Promise(function(resolve, reject) {
 
       // If stringVlue is empty, return emptyDocsError
       if (!stringValue) {
@@ -51,7 +51,7 @@ SwaggerEditor.service('Builder', function Builder(SwayWorker) {
 
       SwayWorker.run({
         definition: json
-      }, function (data) {
+      }, function(data) {
         if (data.errors.length) {
           reject(data);
         } else {

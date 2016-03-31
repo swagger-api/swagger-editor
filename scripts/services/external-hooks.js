@@ -21,7 +21,7 @@ SwaggerEditor.service('ExternalHooks', function ExternalHooks() {
    * @param {string} eventName
    * @param {function} callback - function to get triggered on event occurrence
   */
-  SwaggerEditor.on = function (eventName, callback) {
+  SwaggerEditor.on = function(eventName, callback) {
 
     if (!angular.isString(eventName)) {
       throw new TypeError('eventName must be string');
@@ -35,7 +35,7 @@ SwaggerEditor.service('ExternalHooks', function ExternalHooks() {
       throw new Error(eventName + ' is not a valid event name');
     }
 
-    var isRegisteredCallback = hooks[eventName].some(function (cb) {
+    var isRegisteredCallback = hooks[eventName].some(function(cb) {
       return cb === callback;
     });
 
@@ -49,7 +49,7 @@ SwaggerEditor.service('ExternalHooks', function ExternalHooks() {
    * @param {string} eventName - event name to trigger
    * @param {array} args - arguments to trigger callback functions with
   */
-  this.trigger = function (eventName, args) {
+  this.trigger = function(eventName, args) {
 
     if (!angular.isString(eventName)) {
       throw new TypeError('eventName must be string');
@@ -63,7 +63,7 @@ SwaggerEditor.service('ExternalHooks', function ExternalHooks() {
       throw new Error(eventName + ' is not a valid event name');
     }
 
-    hooks[eventName].forEach(function (callback) {
+    hooks[eventName].forEach(function(callback) {
       callback.apply(null, args);
     });
   };

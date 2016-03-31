@@ -1,13 +1,13 @@
-var Sway = require('sway')
+var Sway = require('sway');
 
 // Worker code from here
+/* eslint-env worker */
 onmessage = function(message) {
-  Sway.create(message.data).then(function (api) {
+  Sway.create(message.data).then(function(api) {
 
     var results = api.validate();
 
     if (results.errors.length) {
-
       postMessage({
         specs: api.resolved || api.definition,
         errors: sanitizeErrors(results.errors),
@@ -23,7 +23,7 @@ onmessage = function(message) {
     });
   })
 
-  .catch(function (err) {
+  .catch(function(err) {
     postMessage({
       specs: message.data,
       warnings: [],
@@ -44,7 +44,7 @@ function sanitizeErrors(errors) {
     return [];
   }
 
-  return errors.map(function(error){
+  return errors.map(function(error) {
     if (error.err instanceof Error) {
       error.message = error.err.message;
       delete error.err;

@@ -1,6 +1,6 @@
 'use strict';
 
-SwaggerEditor.config(function ($provide) {
+SwaggerEditor.config(function($provide) {
   var operationRegex = 'get|put|post|delete|options|head|patch';
 
   /*

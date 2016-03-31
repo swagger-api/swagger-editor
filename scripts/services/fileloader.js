@@ -13,7 +13,7 @@ SwaggerEditor.service('FileLoader', function FileLoader($http, defaults, YAML) {
    * @return {Promise} - resolves to content of the file
   */
   function loadFromUrl(url, disableProxy) {
-    return new Promise(function (resolve, reject) {
+    return new Promise(function(resolve, reject) {
       if (disableProxy === undefined) {
         disableProxy = false;
       }
@@ -29,9 +29,9 @@ SwaggerEditor.service('FileLoader', function FileLoader($http, defaults, YAML) {
         headers: {
           accept: 'application/x-yaml,text/yaml,application/json,*/*'
         }
-      }).then(function (resp) {
+      }).then(function(resp) {
         if (angular.isObject(resp.data)) {
-          YAML.dump(resp.data, function (error, yamlString) {
+          YAML.dump(resp.data, function(error, yamlString) {
             if (error) { return reject(error); }
 
             resolve(yamlString);
@@ -51,7 +51,7 @@ SwaggerEditor.service('FileLoader', function FileLoader($http, defaults, YAML) {
    * @throws {TypeError} - resolves to a YAML string
   */
   function load(string) {
-    return new Promise(function (resolve, reject) {
+    return new Promise(function(resolve, reject) {
       if (!_.isString(string)) {
         throw new TypeError('load function only accepts a string');
       }
@@ -66,10 +66,10 @@ SwaggerEditor.service('FileLoader', function FileLoader($http, defaults, YAML) {
         return;
       }
 
-      YAML.load(string, function (error, json) {
+      YAML.load(string, function(error, json) {
         if (error) { return reject(error); }
 
-        YAML.dump(json, function (error, yamlString) {
+        YAML.dump(json, function(error, yamlString) {
           if (error) { return reject(error); }
 
           resolve(yamlString);

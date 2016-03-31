@@ -1,5 +1,7 @@
 'use strict';
 
+var _ = require('lodash');
+
 SwaggerEditor.controller('EditorCtrl', function EditorCtrl($scope, $rootScope,
   Editor, Builder, Storage, ExternalHooks, Preferences) {
 
@@ -7,7 +9,7 @@ SwaggerEditor.controller('EditorCtrl', function EditorCtrl($scope, $rootScope,
 
   // if user changed the preferences of keyPressDebounceTime, update the
   // debouncedOnAceChange function to have the latest debounce value
-  Preferences.onChange(function (key) {
+  Preferences.onChange(function(key) {
     if (key === 'keyPressDebounceTime') {
       debouncedOnAceChange = getDebouncedOnAceChange();
     }
@@ -19,13 +21,13 @@ SwaggerEditor.controller('EditorCtrl', function EditorCtrl($scope, $rootScope,
 
   $scope.aceLoaded = Editor.aceLoaded;
 
-  $scope.aceChanged = function () {
+  $scope.aceChanged = function() {
     $rootScope.progressStatus = 'progress-working';
     debouncedOnAceChange();
   };
 
-  Editor.ready(function () {
-    Storage.load('yaml').then(function (yaml) {
+  Editor.ready(function() {
+    Storage.load('yaml').then(function(yaml) {
       $rootScope.editorValue = yaml;
       onAceChange(true);
     });

@@ -14,7 +14,7 @@ SwaggerEditor.service('FocusedPath', function FocusedPath(ASTManager, Editor) {
    * @returns {boolean} - If path is in focus returns true otherwise returns
    *  false
   */
-  this.isInFocus = function (path) {
+  this.isInFocus = function(path) {
     var focusedLine = Editor.lineInFocus();
     var focusedPath = ASTManager.pathForPosition(focusedLine);
 

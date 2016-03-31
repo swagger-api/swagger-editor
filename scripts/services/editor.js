@@ -44,7 +44,7 @@ require('brace/mode/yaml');
 
 // after requiring mode/yaml Ace will look for snippets/yaml.
 // this empty module defined here makes Ace think that module exists.
-window.ace.define('ace/snippets/yaml', [], function () {});
+window.ace.define('ace/snippets/yaml', [], function() {});
 
 require('brace/mode/snippets');
 require('brace/ext/language_tools');
@@ -112,7 +112,7 @@ SwaggerEditor.service('Editor', function Editor(Autocomplete, ASTManager,
     loadEditorSettings();
 
     // Editor is ready, fire the on-ready function and flush the queue
-    onReadyFns.forEach(function (fn) {
+    onReadyFns.forEach(function(fn) {
       fn(that);
     });
     onReadyFns = new Set();
@@ -133,7 +133,7 @@ SwaggerEditor.service('Editor', function Editor(Autocomplete, ASTManager,
 
   function loadEditorSettings() {
     if (editor) {
-      LocalStorage.load('editor-settings').then(function (options) {
+      LocalStorage.load('editor-settings').then(function(options) {
         options = options || {theme: defaultTheme};
         editor.setOptions(options);
       });
@@ -141,7 +141,7 @@ SwaggerEditor.service('Editor', function Editor(Autocomplete, ASTManager,
   }
 
   function onChangeFold(event) {
-    changeFoldFns.forEach(function (fn) {
+    changeFoldFns.forEach(function(fn) {
       fn.call(null, event);
     });
   }
@@ -200,14 +200,14 @@ SwaggerEditor.service('Editor', function Editor(Autocomplete, ASTManager,
   }
 
   function showSettings() {
-    ace.config.loadModule('ace/ext/settings_menu', function (module) {
+    ace.config.loadModule('ace/ext/settings_menu', function(module) {
       module.init(editor);
       editor.showSettingsMenu();
 
       // Crazy hack to get around Ace not notifying us when settings changes
       // Related bug in Ace:
       // https://github.com/ajaxorg/ace/issues/2250
-      var checkInterval = $interval(function () {
+      var checkInterval = $interval(function() {
         if ($('#ace_settingsmenu').length === 0) {
           saveEditorSettings();
           $interval.cancel(checkInterval);

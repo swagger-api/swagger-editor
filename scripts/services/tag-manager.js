@@ -1,5 +1,6 @@
 'use strict';
 
+var angular = require('angular');
 var _ = require('lodash');
 
 SwaggerEditor.service('TagManager', function TagManager($stateParams) {
@@ -14,7 +15,7 @@ SwaggerEditor.service('TagManager', function TagManager($stateParams) {
     tags = [];
   };
 
-  this.tagIndexFor = function (tagName) {
+  this.tagIndexFor = function(tagName) {
     for (var i = 0; i < tags.length; i++) {
       if (tags[i].name === tagName) {
         return i;
@@ -22,17 +23,17 @@ SwaggerEditor.service('TagManager', function TagManager($stateParams) {
     }
   };
 
-  this.getAllTags = function () {
+  this.getAllTags = function() {
     return tags;
   };
 
-  this.tagsHaveDescription = function () {
-    return tags.some(function (tag) {
+  this.tagsHaveDescription = function() {
+    return tags.some(function(tag) {
       return tag.description;
     });
   };
 
-  this.registerTagsFromSpec = function (spec) {
+  this.registerTagsFromSpec = function(spec) {
     if (!angular.isObject(spec)) {
       return;
     }
@@ -40,15 +41,15 @@ SwaggerEditor.service('TagManager', function TagManager($stateParams) {
     tags = [];
 
     if (Array.isArray(spec.tags)) {
-      spec.tags.forEach(function (tag) {
+      spec.tags.forEach(function(tag) {
         if (tag && angular.isString(tag.name)) {
           registerTag(tag.name, tag.description);
         }
       });
     }
 
-    _.each(spec.paths, function (path) {
-      _.each(path, function (operation) {
+    _.each(spec.paths, function(path) {
+      _.each(path, function(operation) {
         if (_.isObject(operation)) {
           _.each(operation.tags, registerTag);
         }
@@ -56,7 +57,7 @@ SwaggerEditor.service('TagManager', function TagManager($stateParams) {
     });
   };
 
-  this.getCurrentTags = function () {
+  this.getCurrentTags = function() {
     if ($stateParams.tags) {
       return $stateParams.tags.split(',');
     }
@@ -67,7 +68,7 @@ SwaggerEditor.service('TagManager', function TagManager($stateParams) {
     if (!tagName) {
       return;
     }
-    var tagNames = tags.map(function (tag) {
+    var tagNames = tags.map(function(tag) {
       return tag.name;
     });
     if (!_.includes(tagNames, tagName)) {

@@ -11,7 +11,7 @@ SwaggerEditor.service('Analytics', function Analytics(defaults) {
   /*
    * Initialize the analytics
   */
-  this.initialize = function () {
+  this.initialize = function() {
     var ga = window.ga;
 
     // disable if Google Analytics's `ga` global is not present or it is not
@@ -47,7 +47,7 @@ SwaggerEditor.service('Analytics', function Analytics(defaults) {
    * eventAction: The event action: For example: pet-store
    * eventLabel: The event label. This can be anything you want.
   */
-  this.sendEvent = function (/*eventCategory, eventAction, eventLabel*/) {
+  this.sendEvent = function(/*eventCategory, eventAction, eventLabel*/) {
 
     if (isDisabled) {
       return;

@@ -1,5 +1,8 @@
 'use strict';
 
+var _ = require('lodash');
+var angular = require('angular');
+
 /**
  * @ngdoc service
  * @name SwaggerEditor.preferences
@@ -9,7 +12,6 @@
  */
 SwaggerEditor.service('Preferences', function Preferences($localStorage,
   defaults) {
-
   var changeListeners = [];
 
   var defaultPreferences = {
@@ -33,27 +35,27 @@ SwaggerEditor.service('Preferences', function Preferences($localStorage,
     $localStorage.preferences = preferences;
   }
 
-  this.get = function (key) {
+  this.get = function(key) {
     return preferences[key];
   };
 
-  this.set = function (key, value) {
+  this.set = function(key, value) {
     if (value === undefined) {
       throw new Error('value was undefined');
     }
     preferences[key] = value;
     save();
-    changeListeners.forEach(function (fn) {
+    changeListeners.forEach(function(fn) {
       fn(key, value);
     });
   };
 
-  this.reset = function () {
+  this.reset = function() {
     preferences = defaultPreferences;
     save();
   };
 
-  this.getAll = function () {
+  this.getAll = function() {
     return preferences;
   };
 
@@ -62,7 +64,7 @@ SwaggerEditor.service('Preferences', function Preferences($localStorage,
    *
    * @param {function} fn - the callback function
   */
-  this.onChange = function (fn) {
+  this.onChange = function(fn) {
     if (angular.isFunction(fn)) {
       changeListeners.push(fn);
     }

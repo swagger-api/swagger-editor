@@ -21,8 +21,8 @@ SwaggerEditor.controller('ErrorPresenterCtrl', function ErrorPresenterCtrl(
    *
   */
   function assignErrorsAndWarnings() {
-    getErrorsAndWarnings().then(function (errorsAndWarnings) {
-      $scope.$apply(function () {
+    getErrorsAndWarnings().then(function(errorsAndWarnings) {
+      $scope.$apply(function() {
         $scope.errorsAndWarnings = errorsAndWarnings;
       });
     });
@@ -34,17 +34,17 @@ SwaggerEditor.controller('ErrorPresenterCtrl', function ErrorPresenterCtrl(
    * @returns {Promsise<array>}
   */
   function getErrorsAndWarnings() {
-    var errorsAndWarnings = $rootScope.errors.map(function (error) {
+    var errorsAndWarnings = $rootScope.errors.map(function(error) {
       error.level = ERROR_LEVEL;
       return error;
     })
 
-    .concat($rootScope.warnings.map(function (warning) {
+    .concat($rootScope.warnings.map(function(warning) {
       warning.level = WARNING_LEVEL;
       return warning;
     }))
 
-    .map(function (error) {
+    .map(function(error) {
       error.type = getType(error);
       error.description = getDescription(error);
       return error;
@@ -104,7 +104,7 @@ SwaggerEditor.controller('ErrorPresenterCtrl', function ErrorPresenterCtrl(
 
     if (error.yamlError) {
       return error.yamlError.message.replace('JS-YAML: ', '').replace(/./,
-        function (a) {
+        function(a) {
           return a.toUpperCase();
         });
     }
@@ -122,8 +122,8 @@ SwaggerEditor.controller('ErrorPresenterCtrl', function ErrorPresenterCtrl(
    * @returns {boolean}
    *
   */
-  $scope.isOnlyWarnings = function (errors) {
-    return !errors.some(function (error) {
+  $scope.isOnlyWarnings = function(errors) {
+    return !errors.some(function(error) {
       return !error || error.level > WARNING_LEVEL;
     });
   };
@@ -136,7 +136,7 @@ SwaggerEditor.controller('ErrorPresenterCtrl', function ErrorPresenterCtrl(
   */
   function assignLineNumber(error) {
     if (error.yamlError) {
-      return new Promise(function (resolve) {
+      return new Promise(function(resolve) {
         error.lineNumber = error.yamlError.mark.line;
         resolve(error);
       });
@@ -147,7 +147,7 @@ SwaggerEditor.controller('ErrorPresenterCtrl', function ErrorPresenterCtrl(
       var path = _.clone(error.path);
 
       return ASTManager.positionRangeForPath(value, path)
-        .then(function (range) {
+        .then(function(range) {
           error.lineNumber = range.start.line;
           return error;
         });
@@ -161,7 +161,7 @@ SwaggerEditor.controller('ErrorPresenterCtrl', function ErrorPresenterCtrl(
    * @param {object} error
    *
   */
-  $scope.goToLineOfError = function (error) {
+  $scope.goToLineOfError = function(error) {
     if (error) {
       Editor.gotoLine(error.lineNumber);
       Editor.focus();
@@ -174,7 +174,7 @@ SwaggerEditor.controller('ErrorPresenterCtrl', function ErrorPresenterCtrl(
    * @param {object} error
    * @returns {boolean}
   */
-  $scope.isWarning = function (error) {
+  $scope.isWarning = function(error) {
     return error && error.level < ERROR_LEVEL;
   };
 
@@ -182,7 +182,7 @@ SwaggerEditor.controller('ErrorPresenterCtrl', function ErrorPresenterCtrl(
    * Toggle the collapsed state of the modal
    *
   */
-  $scope.toggleCollapse = function () {
+  $scope.toggleCollapse = function() {
     $scope.isCollapsed = !$scope.isCollapsed;
   };
 });

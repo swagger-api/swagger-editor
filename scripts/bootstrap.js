@@ -3,7 +3,7 @@
 var $ = require('jquery');
 var _ = require('lodash/string');
 
-$(function () {
+$(function() {
 
   // Try bootstrapping the app with embedded defaults if it exists
   var embeddedDefaults = window.$$embeddedDefaults;
@@ -18,7 +18,7 @@ $(function () {
   if (embeddedDefaults) {
     bootstrap(embeddedDefaults);
   } else {
-    $.getJSON(url).done(bootstrap).fail(function (error) {
+    $.getJSON(url).done(bootstrap).fail(function(error) {
       console.error('Failed to load defaults.json from', url);
       console.error(error);
     });

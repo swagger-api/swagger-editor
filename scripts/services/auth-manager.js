@@ -15,7 +15,7 @@ SwaggerEditor.service('AuthManager', function AuthManager($sessionStorage) {
    * @param options {object} - options of the security including authentication
    * details
   */
-  this.basicAuth = function (securityName, security, options) {
+  this.basicAuth = function(securityName, security, options) {
     if (securityName === '$$hashKey') {
       return;
     }
@@ -42,7 +42,7 @@ SwaggerEditor.service('AuthManager', function AuthManager($sessionStorage) {
    * @param options {object} - options of the security including authentication
    * details
   */
-  this.oAuth2 = function (securityName, security, options) {
+  this.oAuth2 = function(securityName, security, options) {
     if (securityName === '$$hashKey') {
       return;
     }
@@ -61,7 +61,7 @@ SwaggerEditor.service('AuthManager', function AuthManager($sessionStorage) {
    * @param options {object} - options of the security including authentication
    * details
   */
-  this.apiKey = function (securityName, security, options) {
+  this.apiKey = function(securityName, security, options) {
     if (securityName === '$$hashKey') {
       return;
     }
@@ -77,7 +77,7 @@ SwaggerEditor.service('AuthManager', function AuthManager($sessionStorage) {
    * Gets a security object
    * @returns {object} the security object
   */
-  this.getAuth = function (securityName) {
+  this.getAuth = function(securityName) {
     return $sessionStorage.securities[securityName];
   };
 
@@ -85,7 +85,7 @@ SwaggerEditor.service('AuthManager', function AuthManager($sessionStorage) {
    * Checks if a security is authenticated
    * @returns {boolean} - true if security is authenticated false otherwise
   */
-  this.securityIsAuthenticated = function (securityName) {
+  this.securityIsAuthenticated = function(securityName) {
     var auth = $sessionStorage.securities[securityName];
 
     return auth && auth.options && auth.options.isAuthenticated;

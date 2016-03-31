@@ -34,8 +34,8 @@ function YAMLWorkerBridge() {
   'serialize',
   'serialize_all',
   'dump_all'
-].forEach(function (method) {
-  YAMLWorkerBridge.prototype[method] = function (arg, cb) {
+].forEach(function(method) {
+  YAMLWorkerBridge.prototype[method] = function(arg, cb) {
     this.queue.push({
       method: method,
       arg: arg,
@@ -64,7 +64,6 @@ YAMLWorkerBridge.prototype.enqueue = function() {
   var taskString = JSON.stringify(task);
 
   if (this.buffer.has(taskString)) {
-
     if (this.buffer.get(taskString).error) {
       this.currentTask.cb(this.buffer.get(taskString).error);
     } else {
@@ -114,7 +113,7 @@ SwaggerEditor.service('YAML', function YAML() {
   // Temporarily we are using the main thread to do the composition task due to
   // this bug: https://github.com/connec/yaml-js/issues/17
 
-  this.compose = function (string, cb) {
+  this.compose = function(string, cb) {
     try {
       cb(null, compose(string));
     } catch (error) {

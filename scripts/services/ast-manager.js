@@ -41,7 +41,7 @@ SwaggerEditor.service('ASTManager', function ASTManager(YAML, $log) {
     };
     var i = 0;
 
-    YAML.compose(yaml, function (error, ast) {
+    YAML.compose(yaml, function(error, ast) {
 
       // simply walks the tree using current path recursively to the point that
       // path is empty.
@@ -118,7 +118,7 @@ SwaggerEditor.service('ASTManager', function ASTManager(YAML, $log) {
       throw new TypeError('cb should be a function.');
     }
 
-    YAML.compose(yaml, function (error, ast) {
+    YAML.compose(yaml, function(error, ast) {
       if (error) {
         $log.log('Error composing AST', error);
         return cb([]);
@@ -217,17 +217,17 @@ SwaggerEditor.service('ASTManager', function ASTManager(YAML, $log) {
 
   // Expose promisified version of methods
   this.positionRangeForPath = function positionRangeForPathPromise(yaml, path) {
-    return (new Promise(function (resolve) {
+    return (new Promise(function(resolve) {
       positionRangeForPath(yaml, path, resolve);
-    })).catch(function (error) {
+    })).catch(function(error) {
       $log.error('positionRangeForPath error:', error);
     });
   };
 
   this.pathForPosition = function pathForPositionPromise(yaml, position) {
-    return (new Promise(function (resolve) {
+    return (new Promise(function(resolve) {
       pathForPosition(yaml, position, resolve);
-    })).catch(function (error) {
+    })).catch(function(error) {
       $log.error('pathForPosition error:', error);
     });
   };

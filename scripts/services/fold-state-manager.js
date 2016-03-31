@@ -22,7 +22,7 @@ SwaggerEditor.service('FoldStateManager', function FoldStateManager(ASTManager,
   */
   function foldEditor(path, fold) {
     ASTManager.positionRangeForPath($rootScope.editorValue, path)
-    .then(function (range) {
+    .then(function(range) {
 
       // Editor API is 0-indexed. Because of this we're subtracting 1 from line
       // numbers
@@ -51,7 +51,7 @@ SwaggerEditor.service('FoldStateManager', function FoldStateManager(ASTManager,
     };
 
     ASTManager.pathForPosition($rootScope.editorValue, position)
-    .then(function (path) {
+    .then(function(path) {
       var $folded = event.action === 'add';
 
       // walk down the tree to reach to our specific node in spec
@@ -82,7 +82,7 @@ SwaggerEditor.service('FoldStateManager', function FoldStateManager(ASTManager,
 
     var result = {};
 
-    _.keys(tree).forEach(function (key) {
+    _.keys(tree).forEach(function(key) {
 
       if (_.isObject(tree[key]) && _.isObject(newTree[key])) {
         result[key] = getFoldedTree(tree[key], newTree[key]);

@@ -174,7 +174,7 @@ SwaggerEditor.controller('HeaderCtrl', function HeaderCtrl($scope, $uibModal,
         jsonParseError = error;
       }
 
-      var assign = function (yaml, json) {
+      var assign = function(yaml, json) {
         // swagger and version should be a string to comfort with the schema
         if (json.info.version) {
           json.info.version = String(json.info.version);

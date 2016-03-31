@@ -7,7 +7,7 @@ SwaggerEditor.controller('OpenExamplesCtrl', function OpenExamplesCtrl($scope,
   $scope.files = defaults.exampleFiles;
   $scope.selectedFile = defaults.exampleFiles[0];
 
-  $scope.open = function (file) {
+  $scope.open = function(file) {
 
     // removes trailing slash from pathname because examplesFolder always have a
     // leading slash
@@ -17,7 +17,7 @@ SwaggerEditor.controller('OpenExamplesCtrl', function OpenExamplesCtrl($scope,
 
     var url = '/' + pathname + defaults.examplesFolder + file;
 
-    FileLoader.loadFromUrl(url).then(function (value) {
+    FileLoader.loadFromUrl(url).then(function(value) {
       Storage.save('yaml', value);
       $rootScope.editorValue = value;
       $state.go('home', {tags: null});

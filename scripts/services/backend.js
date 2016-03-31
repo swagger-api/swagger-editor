@@ -61,7 +61,7 @@ SwaggerEditor.service('Backend', function Backend($http, $q, defaults,
     buffer[key] = value;
 
     if (Array.isArray(changeListeners[key])) {
-      changeListeners[key].forEach(function (fn) {
+      changeListeners[key].forEach(function(fn) {
         fn(value);
       });
     }
@@ -70,7 +70,7 @@ SwaggerEditor.service('Backend', function Backend($http, $q, defaults,
       if (defaults.useYamlBackend) {
         commit(value);
       } else {
-        YAML.load(value, function (err, json) {
+        YAML.load(value, function(err, json) {
           if (!err) { commit(json); }
         });
       }
@@ -82,7 +82,7 @@ SwaggerEditor.service('Backend', function Backend($http, $q, defaults,
   */
   function load(key) {
     if (key !== 'yaml') {
-      return new Promise(function (resolve, reject) {
+      return new Promise(function(resolve, reject) {
         if (!key) {
           reject();
         } else {
@@ -99,7 +99,7 @@ SwaggerEditor.service('Backend', function Backend($http, $q, defaults,
     };
 
     return $http.get(backendEndpoint, httpConfig)
-      .then(function (res) {
+      .then(function(res) {
         if (defaults.useYamlBackend) {
           buffer.yaml = res.data;
           return buffer.yaml;

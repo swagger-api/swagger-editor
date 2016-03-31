@@ -17,13 +17,13 @@ SwaggerEditor.service('LocalStorage', function LocalStorage($localStorage,
     }
 
     if (Array.isArray(changeListeners[key])) {
-      changeListeners[key].forEach(function (fn) {
+      changeListeners[key].forEach(function(fn) {
         fn(value);
       });
     }
 
-    _.debounce(function () {
-      window.requestAnimationFrame(function () {
+    _.debounce(function() {
+      window.requestAnimationFrame(function() {
         $localStorage[storageKey][key] = value;
       });
 
@@ -37,7 +37,7 @@ SwaggerEditor.service('LocalStorage', function LocalStorage($localStorage,
    *
   */
   function load(key) {
-    return new Promise(function (resolve) {
+    return new Promise(function(resolve) {
       if (!key) {
         resolve($localStorage[storageKey]);
       } else {

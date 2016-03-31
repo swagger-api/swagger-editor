@@ -4,14 +4,14 @@
  * Autocomplete service extends Ace's completion mechanism to provide more
  * relevant completion candidates based on Swagger document.
 */
-SwaggerEditor.service('Autocomplete', function ($rootScope, snippets,
+SwaggerEditor.service('Autocomplete', function($rootScope, snippets,
   KeywordMap, Preferences, ASTManager, YAML) {
 
   // Ace KeywordCompleter object
   var KeywordCompleter = {
 
     // this method is being called by Ace to get a list of completion candidates
-    getCompletions: function (editor, session, pos, prefix, callback) {
+    getCompletions: function(editor, session, pos, prefix, callback) {
 
       var startTime = Date.now();
 
@@ -23,7 +23,7 @@ SwaggerEditor.service('Autocomplete', function ($rootScope, snippets,
       // Let Ace select the first candidate
       editor.completer.autoSelect = true;
 
-      getPathForPosition(pos, prefix).then(function (path) {
+      getPathForPosition(pos, prefix).then(function(path) {
 
         // These function might shift or push to paths, therefore we're passing
         // a clone of path to them
@@ -31,7 +31,7 @@ SwaggerEditor.service('Autocomplete', function ($rootScope, snippets,
         var snippetsForPos = getSnippetsForPosition(_.clone(path));
 
         if (_.last(path) === '$ref') {
-          return get$refs().then(function ($refs) {
+          return get$refs().then(function($refs) {
             callback(null, $refs);
           });
         }
@@ -56,7 +56,7 @@ SwaggerEditor.service('Autocomplete', function ($rootScope, snippets,
    *
    * @param {object} e - the Ace editor object
   */
-  this.init = function (editor) {
+  this.init = function(editor) {
     editor.completers = [KeywordCompleter];
   };
 
@@ -92,7 +92,7 @@ SwaggerEditor.service('Autocomplete', function ($rootScope, snippets,
 
     // if position is at root path is [], quickly resolve to root path
     if (pos.column === 1) {
-      return new Promise(function (resolve) { resolve([]); });
+      return new Promise(function(resolve) { resolve([]); });
     }
 
     // if current position is in at a free line with whitespace insert a fake
@@ -285,7 +285,7 @@ SwaggerEditor.service('Autocomplete', function ($rootScope, snippets,
       // if snippets content has the keyword it will get a lower score because
       // it's more likely less relevant
       // FIXME: is this logic work for all cases?
-      path.forEach(function (keyword) {
+      path.forEach(function(keyword) {
         if (snippet.snippet.indexOf(keyword)) {
           score = 500;
         }
@@ -305,24 +305,24 @@ SwaggerEditor.service('Autocomplete', function ($rootScope, snippets,
    * values
   */
   function get$refs() {
-    return new Promise(function (resolve) {
+    return new Promise(function(resolve) {
 
-      YAML.load($rootScope.editorValue, function (err, json) {
+      YAML.load($rootScope.editorValue, function(err, json) {
         if (err) { return resolve([]); }
 
-        var definitions = _.keys(json.definitions).map(function (def) {
+        var definitions = _.keys(json.definitions).map(function(def) {
           return '"#/definitions/' + def + '"';
         });
-        var parameters = _.keys(json.parameters).map(function (param) {
+        var parameters = _.keys(json.parameters).map(function(param) {
           return '"#/parameters/' + param + '"';
         });
-        var responses = _.keys(json.responses).map(function (resp) {
+        var responses = _.keys(json.responses).map(function(resp) {
           return '"#/responses/' + resp + '"';
         });
 
         var allRefs = definitions.concat(parameters).concat(responses);
 
-        resolve(allRefs.map(function (ref) {
+        resolve(allRefs.map(function(ref) {
           return {
             name: ref,
             value: ref,
