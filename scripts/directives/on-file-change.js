@@ -1,17 +1,17 @@
 'use strict';
 
-SwaggerEditor.directive('onReadFile', ['$parse', function ($parse) {
+SwaggerEditor.directive('onReadFile', ['$parse', function($parse) {
   return {
     restrict: 'A',
     scope: false,
-    link: function (scope, element, attrs) {
+    link: function(scope, element, attrs) {
       var fn = $parse(attrs.onReadFile);
 
-      element.on('change', function (onChangeEvent) {
+      element.on('change', function(onChangeEvent) {
         var reader = new FileReader();
 
-        reader.onload = function (onLoadEvent) {
-          scope.$apply(function () {
+        reader.onload = function(onLoadEvent) {
+          scope.$apply(function() {
             fn(scope, {$fileContent: onLoadEvent.target.result});
           });
         };

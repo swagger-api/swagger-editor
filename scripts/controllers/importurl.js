@@ -1,5 +1,7 @@
 'use strict';
 
+var angular = require('angular');
+
 SwaggerEditor.controller('UrlImportCtrl', function FileImportCtrl($scope,
   $uibModalInstance, $localStorage, $rootScope, $state, FileLoader, Storage) {
   var results;
@@ -16,14 +18,14 @@ SwaggerEditor.controller('UrlImportCtrl', function FileImportCtrl($scope,
 
     if (_.startsWith(url, 'http')) {
       $scope.fetching = true;
-      FileLoader.loadFromUrl(url, !$scope.opts.useProxy).then(function (data) {
-        $scope.$apply(function () {
+      FileLoader.loadFromUrl(url, !$scope.opts.useProxy).then(function(data) {
+        $scope.$apply(function() {
           results = data;
           $scope.canImport = true;
           $scope.fetching = false;
         });
-      }).catch(function (error) {
-        $scope.$apply(function () {
+      }).catch(function(error) {
+        $scope.$apply(function() {
           $scope.error = error;
           $scope.canImport = false;
           $scope.fetching = false;
@@ -36,7 +38,7 @@ SwaggerEditor.controller('UrlImportCtrl', function FileImportCtrl($scope,
 
   $scope.fetch = _.throttle(fetch, 200);
 
-  $scope.ok = function () {
+  $scope.ok = function() {
     if (angular.isString(results)) {
       Storage.save('yaml', results);
       $rootScope.editorValue = results;

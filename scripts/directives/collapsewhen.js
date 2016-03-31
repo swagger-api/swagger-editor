@@ -1,20 +1,20 @@
 'use strict';
 
-SwaggerEditor.directive('collapseWhen', function () {
-  var TRANSITION_DURATION = 200; //ms
+SwaggerEditor.directive('collapseWhen', function() {
+  var TRANSITION_DURATION = 200; // ms
 
   return {
     restrict: 'A',
     link: function postLink(scope, element, attrs) {
       var buffer = null;
 
-      function cleanUp() {
+      var cleanUp = function() {
         // remove style attribute after animation
         // TDOD: just remove 'height' from style
-        setTimeout(function () {
+        setTimeout(function() {
           element.removeAttr('style');
         }, TRANSITION_DURATION);
-      }
+      };
 
       // If it's collapsed initially
       if (attrs.collapseWhen) {
@@ -25,7 +25,7 @@ SwaggerEditor.directive('collapseWhen', function () {
         clone.remove();
       }
 
-      scope.$watch(attrs.collapseWhen, function (val) {
+      scope.$watch(attrs.collapseWhen, function(val) {
         if (val) {
           buffer = element.height();
           element.height(buffer);

@@ -2,10 +2,9 @@
 
 SwaggerEditor.controller('PasteJSONCtrl', function PasteJSONCtrl($scope,
   $uibModalInstance, $rootScope, $state, Storage, YAML, SwayWorker) {
-
   var json;
 
-  $scope.checkJSON = function (newJson) {
+  $scope.checkJSON = function(newJson) {
     $scope.canImport = false;
 
     try {
@@ -16,7 +15,7 @@ SwaggerEditor.controller('PasteJSONCtrl', function PasteJSONCtrl($scope,
       return;
     }
 
-    SwayWorker.run({definition: json}, function (data) {
+    SwayWorker.run({definition: json}, function(data) {
       $scope.canImport = true;
       $scope.error = null;
 
@@ -28,8 +27,8 @@ SwaggerEditor.controller('PasteJSONCtrl', function PasteJSONCtrl($scope,
     });
   };
 
-  $scope.ok = function () {
-    YAML.dump(json, function (error, result) {
+  $scope.ok = function() {
+    YAML.dump(json, function(error, result) {
       Storage.save('yaml', result);
       $rootScope.editorValue = result;
       $state.go('home', {tags: null});

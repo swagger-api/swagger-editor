@@ -3,15 +3,14 @@
 SwaggerEditor.controller('HeaderCtrl', function HeaderCtrl($scope, $uibModal,
   $stateParams, $state, $rootScope, Storage, Builder, FileLoader, Editor,
   Codegen, Preferences, YAML, defaults, strings, $localStorage) {
-
   if ($stateParams.path) {
-    $scope.breadcrumbs  = [{ active: true, name: $stateParams.path }];
+    $scope.breadcrumbs = [{active: true, name: $stateParams.path}];
   } else {
-    $scope.breadcrumbs  = [];
+    $scope.breadcrumbs = [];
   }
 
   // var statusTimeout;
-  $rootScope.$watch('progressStatus', function (progressStatus) {
+  $rootScope.$watch('progressStatus', function(progressStatus) {
     var status = strings.stausMessages[progressStatus];
     var statusClass = null;
 
@@ -41,20 +40,20 @@ SwaggerEditor.controller('HeaderCtrl', function HeaderCtrl($scope, $uibModal,
   $scope.disableCodeGen = defaults.disableCodeGen;
 
   if (!defaults.disableCodeGen) {
-    Codegen.getServers().then(function (servers) {
+    Codegen.getServers().then(function(servers) {
       $scope.servers = servers;
-    }, function () {
+    }, function() {
       $scope.serversNotAvailable = true;
     });
 
-    Codegen.getClients().then(function (clients) {
+    Codegen.getClients().then(function(clients) {
       $scope.clients = clients;
-    }, function () {
+    }, function() {
       $scope.clientsNotAvailable = true;
     });
   }
 
-  $scope.getSDK = function (type, language) {
+  $scope.getSDK = function(type, language) {
     Codegen.getSDK(type, language).then(noop, showCodegenError);
   };
 
@@ -64,7 +63,7 @@ SwaggerEditor.controller('HeaderCtrl', function HeaderCtrl($scope, $uibModal,
       controller: 'GeneralModal',
       size: 'large',
       resolve: {
-        data:  function () {
+        data:  function() {
           if (resp.data) {
             return resp.data;
           }
@@ -75,28 +74,28 @@ SwaggerEditor.controller('HeaderCtrl', function HeaderCtrl($scope, $uibModal,
     });
   }
 
-  $scope.showFileMenu = function () {
+  $scope.showFileMenu = function() {
     return !defaults.disableFileMenu;
   };
 
-  $scope.showHeaderBranding = function () {
+  $scope.showHeaderBranding = function() {
     return defaults.headerBranding;
   };
 
-  $scope.newProject = function () {
-    FileLoader.loadFromUrl('spec-files/guide.yaml').then(function (value) {
+  $scope.newProject = function() {
+    FileLoader.loadFromUrl('spec-files/guide.yaml').then(function(value) {
       $rootScope.editorValue = value;
       Storage.save('yaml', value);
       $state.go('home', {tags: null});
     });
   };
 
-  $scope.onFileMenuOpen = function () {
+  $scope.onFileMenuOpen = function() {
     assignDownloadHrefs();
     $rootScope.$broadcast('toggleWatchers', false);
   };
 
-  $scope.openImportFile = function () {
+  $scope.openImportFile = function() {
     $uibModal.open({
       templateUrl: 'templates/file-import.html',
       controller: 'FileImportCtrl',
@@ -104,7 +103,7 @@ SwaggerEditor.controller('HeaderCtrl', function HeaderCtrl($scope, $uibModal,
     });
   };
 
-  $scope.openImportUrl = function () {
+  $scope.openImportUrl = function() {
     $uibModal.open({
       templateUrl: 'templates/url-import.html',
       controller: 'UrlImportCtrl',
@@ -112,7 +111,7 @@ SwaggerEditor.controller('HeaderCtrl', function HeaderCtrl($scope, $uibModal,
     });
   };
 
-  $scope.openPasteJSON = function () {
+  $scope.openPasteJSON = function() {
     $uibModal.open({
       templateUrl: 'templates/paste-json.html',
       controller: 'PasteJSONCtrl',
@@ -120,7 +119,7 @@ SwaggerEditor.controller('HeaderCtrl', function HeaderCtrl($scope, $uibModal,
     });
   };
 
-  $scope.openAbout = function () {
+  $scope.openAbout = function() {
     $uibModal.open({
       templateUrl: 'templates/about.html',
       size: 'large',
@@ -128,7 +127,7 @@ SwaggerEditor.controller('HeaderCtrl', function HeaderCtrl($scope, $uibModal,
     });
   };
 
-  $rootScope.toggleAboutEditor = function (value) {
+  $rootScope.toggleAboutEditor = function(value) {
     $rootScope.showAbout = value;
     $localStorage.showIntro = value;
   };
@@ -137,7 +136,7 @@ SwaggerEditor.controller('HeaderCtrl', function HeaderCtrl($scope, $uibModal,
   $scope.resetSettings = Editor.resetSettings;
   $scope.adjustFontSize = Editor.adjustFontSize;
 
-  $scope.openExamples = function () {
+  $scope.openExamples = function() {
     $uibModal.open({
       templateUrl: 'templates/open-examples.html',
       controller: 'OpenExamplesCtrl',
@@ -145,7 +144,7 @@ SwaggerEditor.controller('HeaderCtrl', function HeaderCtrl($scope, $uibModal,
     });
   };
 
-  $scope.openPreferences = function () {
+  $scope.openPreferences = function() {
     $uibModal.open({
       templateUrl: 'templates/preferences.html',
       controller: 'PreferencesCtrl',
@@ -153,16 +152,15 @@ SwaggerEditor.controller('HeaderCtrl', function HeaderCtrl($scope, $uibModal,
     });
   };
 
-  $scope.isLiveRenderEnabled = function () {
-    return !!Preferences.get('liveRender');
+  $scope.isLiveRenderEnabled = function() {
+    return Boolean(Preferences).get('liveRender');
   };
 
   function assignDownloadHrefs() {
     var MIME_TYPE = 'text/plain';
 
     var yaml = $rootScope.editorValue;
-    YAML.load(yaml, function (error, json) {
-
+    YAML.load(yaml, function(error, json) {
       // Don't assign if there is an error
       if (error) {
         return;
@@ -176,15 +174,7 @@ SwaggerEditor.controller('HeaderCtrl', function HeaderCtrl($scope, $uibModal,
         jsonParseError = error;
       }
 
-      if (!jsonParseError) {
-        YAML.dump(json, function (error, yamlStr) {
-          assign(yamlStr, json);
-        });
-      } else {
-        assign(yaml, json);
-      }
-
-      function assign(yaml, json) {
+      var assign = function (yaml, json) {
         // swagger and version should be a string to comfort with the schema
         if (json.info.version) {
           json.info.version = String(json.info.version);
@@ -214,39 +204,47 @@ SwaggerEditor.controller('HeaderCtrl', function HeaderCtrl($scope, $uibModal,
           'swagger.yaml',
           $scope.yamlDownloadHref
         ].join(':');
+      };
+
+      if (jsonParseError) {
+        assign(yaml, json);
+      } else {
+        YAML.dump(json, function(error, yamlStr) {
+          assign(yamlStr, json);
+        });
       }
     });
   }
 
-  $scope.capitalizeGeneratorName = function (name) {
+  $scope.capitalizeGeneratorName = function(name) {
     var names = {
-      jaxrs: 'JAX-RS',
-      nodejs: 'Node.js',
-      scalatra: 'Scalatra',
+      'jaxrs': 'JAX-RS',
+      'nodejs': 'Node.js',
+      'scalatra': 'Scalatra',
       'spring-mvc': 'Spring MVC',
-      android: 'Android',
+      'android': 'Android',
       'async-scala': 'Async Scala',
-      csharp: 'C#',
-      CsharpDotNet2: 'C# .NET 2.0',
-      qt5cpp: 'Qt 5 C++',
-      java: 'Java',
-      objc: 'Objective-C',
-      php: 'PHP',
-      python: 'Python',
-      ruby: 'Ruby',
-      scala: 'Scala',
+      'csharp': 'C#',
+      'CsharpDotNet2': 'C# .NET 2.0',
+      'qt5cpp': 'Qt 5 C++',
+      'java': 'Java',
+      'objc': 'Objective-C',
+      'php': 'PHP',
+      'python': 'Python',
+      'ruby': 'Ruby',
+      'scala': 'Scala',
       'dynamic-html': 'Dynamic HTML',
-      html: 'HTML',
-      swagger: 'Swagger JSON',
+      'html': 'HTML',
+      'swagger': 'Swagger JSON',
       'swagger-yaml': 'Swagger YAML',
-      tizen: 'Tizen'
+      'tizen': 'Tizen'
     };
 
     if (names[name]) {
       return names[name];
     }
 
-    return name.split(/\s+|\-/).map(function (word) {
+    return name.split(/\s+|\-/).map(function(word) {
       return word[0].toUpperCase() + word.substr(1);
     }).join(' ');
   };

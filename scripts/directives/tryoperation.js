@@ -1,11 +1,12 @@
 'use strict';
 
+var angular = require('angular');
+
 var _ = require('lodash');
 var $ = require('jquery');
 
-SwaggerEditor.controller('TryOperation', function ($scope, formdataFilter,
+SwaggerEditor.controller('TryOperation', function($scope, formdataFilter,
   AuthManager, SchemaForm) {
-
   var parameters = $scope.getParameters();
   var securityOptions = getSecurityOptions();
   var FILE_TYPE = ' F I L E '; // File key identifier for file types
@@ -29,7 +30,7 @@ SwaggerEditor.controller('TryOperation', function ($scope, formdataFilter,
   configureSchemaForm();
 
   // Deeply watch specs for updates to regenerate the from
-  $scope.$watch('specs', function () {
+  $scope.$watch('specs', function() {
     $scope.requestModel = makeRequestModel();
     $scope.requestSchema = makeRequestSchema();
   }, true);
@@ -52,8 +53,7 @@ SwaggerEditor.controller('TryOperation', function ($scope, formdataFilter,
   /*
    * configure SchemaForm directive based on request schema
   */
-  function configureSchemaForm() {
-
+  var configureSchemaForm = function() {
     // Determine if this request has a loose body parameter schema
     // A loose body parameter schema is a body parameter that allows additional
     // properties or has no properties object
@@ -63,13 +63,9 @@ SwaggerEditor.controller('TryOperation', function ($scope, formdataFilter,
     var loose = false;
 
     // loose schema is only for requests with body parameter
-    if (!hasRequestBody()) {
-      loose = false;
-
-    } else {
+    if (hasRequestBody()) {
       // we're accessing deep in the schema. many operations can fail here
       try {
-
         for (var p in $scope.requestSchema.properties.parameters.properties) {
           var param = $scope.requestSchema.properties.parameters.properties[p];
           if (param.in === 'body' && isLooseJSONSchema(param)) {
@@ -77,10 +73,12 @@ SwaggerEditor.controller('TryOperation', function ($scope, formdataFilter,
           }
         }
       } catch (e) {}
+    } else {
+      loose = false;
     }
 
     SchemaForm.options = _.extend(defaultOptions, loose ? looseOptions : {});
-  }
+  };
 
   /*
    * Determines if a JSON Schema is loose
@@ -89,8 +87,7 @@ SwaggerEditor.controller('TryOperation', function ($scope, formdataFilter,
    *
    * @returns {boolean}
   */
-  function isLooseJSONSchema(schema) {
-
+  var isLooseJSONSchema = function(schema) {
     // loose object
     if (schema.additionalProperties || _.isEmpty(schema.properties)) {
       return true;
@@ -102,12 +99,11 @@ SwaggerEditor.controller('TryOperation', function ($scope, formdataFilter,
         (schema.items.additionalProperties ||
         _.isEmpty(schema.items.properties))
       ) {
-
       return true;
     }
 
     return false;
-  }
+  };
 
   /*
    * Appends JSON Editor options for schema recursively so if a schema needs to
@@ -117,7 +113,7 @@ SwaggerEditor.controller('TryOperation', function ($scope, formdataFilter,
    *
    * @returns {object} - A JSON Schema object
   */
-  function appendJSONEditorOptions(schema) {
+  var appendJSONEditorOptions = function(schema) {
     var looseOptions = {
       no_additional_properties: false, // jshint ignore:line
       disable_properties: false,       // jshint ignore:line
@@ -132,7 +128,7 @@ SwaggerEditor.controller('TryOperation', function ($scope, formdataFilter,
     _.each(schema.properties, appendJSONEditorOptions);
 
     return schema;
-  }
+  };
 
   /*
    * Makes the request schema to generate the form in the template
@@ -141,8 +137,7 @@ SwaggerEditor.controller('TryOperation', function ($scope, formdataFilter,
    * @returns {object} - A JSON Schema containing all properties required to
    *   make this call
   */
-  function makeRequestSchema() {
-
+  var makeRequestSchema = function() {
     // base schema
     var schema = {
       type: 'object',
@@ -206,7 +201,7 @@ SwaggerEditor.controller('TryOperation', function ($scope, formdataFilter,
 
       // Add a new property for each parameter
       parameters.map(pickSchemaFromParameter).map(normalizeJSONSchema)
-      .forEach(function (paramSchema) {
+      .forEach(function(paramSchema) {
 
         // extend the parameters property with the schema
         schema.properties.parameters
@@ -215,7 +210,7 @@ SwaggerEditor.controller('TryOperation', function ($scope, formdataFilter,
     }
 
     return schema;
-  }
+  };
 
   /*
    * Makes a model with empty values that conforms to the JSON Schema generated
@@ -224,7 +219,6 @@ SwaggerEditor.controller('TryOperation', function ($scope, formdataFilter,
    * @returns {object} - the model
   */
   function makeRequestModel() {
-
     // base model
     var model = {
 
@@ -242,7 +236,6 @@ SwaggerEditor.controller('TryOperation', function ($scope, formdataFilter,
 
     // Add Content-Type header only if this operation has a body parameter
     if (hasRequestBody()) {
-
       // Default to application/json
       model.contentType = 'application/json';
     }
@@ -251,7 +244,7 @@ SwaggerEditor.controller('TryOperation', function ($scope, formdataFilter,
     if (parameters.length) {
       model.parameters = {};
       parameters.map(pickSchemaFromParameter).map(normalizeJSONSchema)
-      .forEach(function (paramSchema) {
+      .forEach(function(paramSchema) {
         var defaults = {
           object: {},
           array: [],
@@ -368,22 +361,22 @@ SwaggerEditor.controller('TryOperation', function ($scope, formdataFilter,
 
     // operation level securities
     if (_.isArray($scope.operation.security)) {
-      $scope.operation.security.map(function (security) {
-        _.keys(security).forEach(function (key) {
+      $scope.operation.security.map(function(security) {
+        _.keys(security).forEach(function(key) {
           securityOptions = securityOptions.concat(key);
         });
       });
 
     // root level securities
     } else if (_.isArray($scope.specs.security)) {
-      $scope.specs.security.map(function (security) {
-        _.keys(security).forEach(function (key) {
+      $scope.specs.security.map(function(security) {
+        _.keys(security).forEach(function(key) {
           securityOptions = securityOptions.concat(key);
         });
       });
     }
 
-    return _.uniq(securityOptions).filter(function (security) {
+    return _.uniq(securityOptions).filter(function(security) {
 
       // only return authenticated options
       return AuthManager.securityIsAuthenticated(security);
@@ -437,7 +430,7 @@ SwaggerEditor.controller('TryOperation', function ($scope, formdataFilter,
       return result;
     }
 
-    Object.keys(schema.properties).forEach(function (propertyName) {
+    Object.keys(schema.properties).forEach(function(propertyName) {
 
       // if this property is an object itself, recurse
       if (schema.properties[propertyName].type === 'object') {
@@ -520,7 +513,7 @@ SwaggerEditor.controller('TryOperation', function ($scope, formdataFilter,
     var queryParamsStr;
     var pathStr;
     var isCollectionQueryParam = parameters.filter(parameterTypeFilter('query'))
-      .some(function (parameter) {
+      .some(function(parameter) {
 
         // if a query parameter has a collection format it doesn't matter what
         // is it's value, it will force the URL to not use `[]` in query string
@@ -538,7 +531,7 @@ SwaggerEditor.controller('TryOperation', function ($scope, formdataFilter,
     // if there are selected securities and they are located in the query append
     // them to the URL
     if (angular.isArray(requestModel.security)) {
-      requestModel.security.forEach(function (securityOption) {
+      requestModel.security.forEach(function(securityOption) {
         var auth = AuthManager.getAuth(securityOption);
 
         // if auth exists and it's an api key in query, add it to query params
@@ -560,7 +553,7 @@ SwaggerEditor.controller('TryOperation', function ($scope, formdataFilter,
       // a simple replace method where it uses the available path parameter
       // value to replace the path parameter or leave it as it is if path
       // parameter doesn't exist.
-      function (match) {
+      function(match) {
         var matchKey = match.substring(1, match.length - 1);
 
         if (angular.isDefined(pathParams[matchKey])) {
@@ -596,7 +589,7 @@ SwaggerEditor.controller('TryOperation', function ($scope, formdataFilter,
 
     // add header based securities to list of headers
     if (angular.isArray($scope.requestModel.security)) {
-      $scope.requestModel.security.forEach(function (secuirtyOption) {
+      $scope.requestModel.security.forEach(function(secuirtyOption) {
 
         var auth = AuthManager.getAuth(secuirtyOption);
 
@@ -792,7 +785,7 @@ SwaggerEditor.controller('TryOperation', function ($scope, formdataFilter,
   function parseHeaders(headers) {
     var result = {};
 
-    headers.split('\n').forEach(function (line) {
+    headers.split('\n').forEach(function(line) {
       var key = line.split(':')[0];
       var value = line.split(':')[1];
       if (key && angular.isString(key) && angular.isString(value)) {
@@ -821,7 +814,7 @@ SwaggerEditor.controller('TryOperation', function ($scope, formdataFilter,
       contentType: $scope.contentType
     })
 
-    .fail(function (jqXHR, textStatus, errorThrown) {
+    .fail(function(jqXHR, textStatus, errorThrown) {
       $scope.xhrInProgress = false;
       $scope.textStatus = textStatus;
       $scope.error = errorThrown;
@@ -830,7 +823,7 @@ SwaggerEditor.controller('TryOperation', function ($scope, formdataFilter,
       $scope.$digest();
     })
 
-    .done(function (data, textStatus, jqXHR) {
+    .done(function(data, textStatus, jqXHR) {
       $scope.textStatus = textStatus;
       $scope.xhrInProgress = false;
       $scope.responseData = data;
@@ -848,7 +841,7 @@ SwaggerEditor.controller('TryOperation', function ($scope, formdataFilter,
    *
    * @returns {string}
   */
-  $scope.prettyPrint = function (input) {
+  $scope.prettyPrint = function(input) {
 
     // Try if it's JSON and return pretty JSON
     try {
@@ -865,7 +858,7 @@ SwaggerEditor.controller('TryOperation', function ($scope, formdataFilter,
    *
    * @returns {boolean}
   */
-  $scope.isJson = function (value) {
+  $scope.isJson = function(value) {
 
     // if value is already parsed return true
     if (angular.isObject(value) || angular.isArray(value)) {
@@ -890,7 +883,7 @@ SwaggerEditor.controller('TryOperation', function ($scope, formdataFilter,
    *
    * @returns {boolean}
   */
-  $scope.isType = function (headers, type) {
+  $scope.isType = function(headers, type) {
     var regex = new RegExp(type);
     headers = headers || {};
 
@@ -902,7 +895,7 @@ SwaggerEditor.controller('TryOperation', function ($scope, formdataFilter,
    *
    * @returns {boolean}
   */
-  $scope.isCrossOrigin = function () {
+  $scope.isCrossOrigin = function() {
     return $scope.specs.host && $scope.specs.host !== $scope.locationHost;
   };
 });

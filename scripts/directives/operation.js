@@ -1,12 +1,12 @@
 'use strict';
 
-SwaggerEditor.directive('swaggerOperation', function (defaults) {
+SwaggerEditor.directive('swaggerOperation', function(defaults) {
   return {
     restrict: 'E',
     replace: true,
     templateUrl: 'templates/operation.html',
     scope: false,
-    link: function ($scope) {
+    link: function($scope) {
       $scope.isTryOpen = false;
       $scope.enableTryIt = defaults.enableTryIt;
       $scope.toggleTry = function toggleTry() {
@@ -83,8 +83,8 @@ SwaggerEditor.directive('swaggerOperation', function (defaults) {
        * @param responses {object} - a hash of responses
        * @returns boolean
       */
-      $scope.hasAResponseWithSchema = function (responses) {
-        return _.keys(responses).some(function (responseCode) {
+      $scope.hasAResponseWithSchema = function(responses) {
+        return _.keys(responses).some(function(responseCode) {
           return responses[responseCode] && responses[responseCode].schema;
         });
       };
@@ -96,8 +96,8 @@ SwaggerEditor.directive('swaggerOperation', function (defaults) {
        * @param responses {object} - a hash of responses
        * @returns boolean
       */
-      $scope.hasAResponseWithHeaders = function (responses) {
-        return _.keys(responses).some(function (responseCode) {
+      $scope.hasAResponseWithHeaders = function(responses) {
+        return _.keys(responses).some(function(responseCode) {
           return responses[responseCode] && responses[responseCode].headers;
         });
       };
@@ -109,8 +109,8 @@ SwaggerEditor.directive('swaggerOperation', function (defaults) {
        * @param responses {object} - a hash of responses
        * @returns boolean
       */
-      $scope.hasAResponseWithExamples = function (responses) {
-        return _.keys(responses).some(function (responseCode) {
+      $scope.hasAResponseWithExamples = function(responses) {
+        return _.keys(responses).some(function(responseCode) {
           return responses[responseCode] && responses[responseCode].examples;
         });
       };

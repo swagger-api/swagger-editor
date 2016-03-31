@@ -3,9 +3,8 @@
 module.exports = {
   extends: "../.eslintrc.js",
   globals: {
-    sinon: true,
-    inject: true,
-    window: true
+    sinon: false,
+    inject: false
   },
   env: {
     jasmine: true,

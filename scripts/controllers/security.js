@@ -2,7 +2,7 @@
 
 SwaggerEditor.controller('SecurityCtrl', function SecurityCtrl($scope, $modal,
   AuthManager) {
-  $scope.getHumanSecurityType = function (type) {
+  $scope.getHumanSecurityType = function(type) {
     var types = {
       basic: 'HTTP Basic Authentication',
       oauth2: 'OAuth 2.0',
@@ -14,13 +14,13 @@ SwaggerEditor.controller('SecurityCtrl', function SecurityCtrl($scope, $modal,
 
   $scope.isAuthenticated = AuthManager.securityIsAuthenticated;
 
-  $scope.authenticate = function (securityName, security) {
+  $scope.authenticate = function(securityName, security) {
     if (security.type === 'basic') {
       $modal.open({
         templateUrl: 'templates/auth/basic.html',
         controller: function BasicAuthAuthenticateCtrl($scope, $uibModalInstance) {
           $scope.cancel = $uibModalInstance.close;
-          $scope.authenticate = function (username, password) {
+          $scope.authenticate = function(username, password) {
             AuthManager.basicAuth(securityName, security, {
               username: username,
               password: password
@@ -35,7 +35,7 @@ SwaggerEditor.controller('SecurityCtrl', function SecurityCtrl($scope, $modal,
         templateUrl: 'templates/auth/oauth2.html',
         controller: function OAuth2AuthenticateCtrl($scope, $uibModalInstance) {
           $scope.cancel = $uibModalInstance.close;
-          $scope.authenticate = function (accessToken) {
+          $scope.authenticate = function(accessToken) {
             if (!accessToken) {
               return;
             }
@@ -52,7 +52,7 @@ SwaggerEditor.controller('SecurityCtrl', function SecurityCtrl($scope, $modal,
         templateUrl: 'templates/auth/api-key.html',
         controller: function APIKeyAuthenticateCtrl($scope, $uibModalInstance) {
           $scope.cancel = $uibModalInstance.close;
-          $scope.authenticate = function (apiKey) {
+          $scope.authenticate = function(apiKey) {
             if (!apiKey) {
               return;
             }

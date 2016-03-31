@@ -1,9 +1,10 @@
 'use strict';
 
+var angular = require('angular');
+
 SwaggerEditor.controller('PreviewCtrl', function PreviewCtrl(Storage, Builder,
   ASTManager, Editor, FocusedPath, TagManager, Preferences, FoldStateManager,
   $scope, $rootScope, $stateParams, $sessionStorage) {
-
   $scope.loadLatest = loadLatest;
   $scope.tagIndexFor = TagManager.tagIndexFor;
   $scope.getAllTags = TagManager.getAllTags;
@@ -42,22 +43,19 @@ SwaggerEditor.controller('PreviewCtrl', function PreviewCtrl(Storage, Builder,
    * General callback for builder results
   */
   function onBuild(result) {
-
     $scope.$broadcast('toggleWatchers', true);  // turn watchers back on
 
     if (result.specs && result.specs.securityDefinitions) {
       var securityKeys = {};
-      _.forEach(result.specs.securityDefinitions, function (security, key) {
+      _.forEach(result.specs.securityDefinitions, function(security, key) {
         securityKeys[key] =
           SparkMD5.hash(JSON.stringify(security));
       });
       $sessionStorage.securityKeys = securityKeys;
     }
 
-    $rootScope.$apply(function () {
-
+    $rootScope.$apply(function() {
       if (result.specs) {
-
         TagManager.registerTagsFromSpec(result.specs);
 
         // Retrive and put back fold state
@@ -77,13 +75,13 @@ SwaggerEditor.controller('PreviewCtrl', function PreviewCtrl(Storage, Builder,
   function onBuildSuccess(result) {
     onBuild(result);
 
-    $rootScope.$apply(function () {
+    $rootScope.$apply(function() {
       $rootScope.progressStatus = 'success-process';
     });
 
     Editor.clearAnnotation();
 
-    _.each(result.warnings, function (warning) {
+    _.each(result.warnings, function(warning) {
       Editor.annotateSwaggerError(warning, 'warning');
     });
   }
@@ -94,7 +92,7 @@ SwaggerEditor.controller('PreviewCtrl', function PreviewCtrl(Storage, Builder,
   function onBuildFailure(result) {
     onBuild(result);
 
-    $rootScope.$apply(function () {
+    $rootScope.$apply(function() {
       if (angular.isArray(result.errors)) {
         if (result.errors[0].yamlError) {
           Editor.annotateYAMLErrors(result.errors[0].yamlError);
@@ -125,15 +123,13 @@ SwaggerEditor.controller('PreviewCtrl', function PreviewCtrl(Storage, Builder,
    * @param {array} path - an array of keys into specs structure
   */
   function focusEdit($event, path) {
-
     $event.stopPropagation();
 
     ASTManager.positionRangeForPath($rootScope.editorValue, path)
-    .then(function (range) {
+    .then(function(range) {
       Editor.gotoLine(range.start.line);
       Editor.focus();
     });
-
   }
 
   /**
@@ -222,17 +218,16 @@ SwaggerEditor.controller('PreviewCtrl', function PreviewCtrl(Storage, Builder,
    *
   */
   function listAllOperation() {
-
     // unfold folded paths first
-    _.each($scope.specs.paths, function (path, pathName) {
+    _.each($scope.specs.paths, function(path, pathName) {
       if (_.isObject(path) && path.$folded === true) {
         path.$folded = false;
         FoldStateManager.foldEditor(['paths', pathName], false);
       }
     });
 
-    _.each($scope.specs.paths, function (path, pathName) {
-      _.each(path, function (operation, operationName) {
+    _.each($scope.specs.paths, function(path, pathName) {
+      _.each(path, function(operation, operationName) {
         if (_.isObject(operation)) {
           operation.$folded = true;
           FoldStateManager.foldEditor([
@@ -250,8 +245,7 @@ SwaggerEditor.controller('PreviewCtrl', function PreviewCtrl(Storage, Builder,
    *
   */
   function listAllDefnitions() {
-    _.each($scope.specs.definitions, function (definition, definitionName) {
-
+    _.each($scope.specs.definitions, function(definition, definitionName) {
       if (_.isObject(definition)) {
         definition.$folded = true;
         FoldStateManager.foldEditor(['definitions', definitionName], true);

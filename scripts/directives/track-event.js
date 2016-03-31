@@ -1,5 +1,7 @@
 'use strict';
 
+var angular = require('angular');
+
 /*
  * An attribute directive that will fire analytics event when element that this
  * directive is attached to is clicked
@@ -8,11 +10,11 @@
  * For example track-event="project new" will fire `project` event with `new`
  * subevent
 */
-SwaggerEditor.directive('trackEvent', function (Analytics) {
+SwaggerEditor.directive('trackEvent', function(Analytics) {
   return {
     restrict: 'A',
-    link: function ($scope, $element, $attributes) {
-      $element.bind('click', function () {
+    link: function($scope, $element, $attributes) {
+      $element.bind('click', function() {
         var eventName = $attributes.trackEvent;
 
         if (angular.isString(eventName)) {

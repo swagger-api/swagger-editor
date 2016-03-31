@@ -1,3 +1,9 @@
 module.exports = {
-  extends: 'google'
+  extends: 'google',
+  globals: {
+    SwaggerEditor: false
+  },
+  env: {
+    browser: true
+  }
 };
