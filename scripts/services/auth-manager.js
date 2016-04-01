@@ -1,5 +1,7 @@
 'use strict';
 
+var _ = require('lodash');
+
 /*
  * Manages Authentications
 */

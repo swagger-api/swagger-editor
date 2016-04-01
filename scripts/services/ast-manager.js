@@ -1,5 +1,7 @@
 'use strict';
 
+var _ = require('lodash');
+
 /**
  * Exposes methods for working Abstract Syntax Tree(AST) of YAML/JSON spec
 */
@@ -7,7 +9,7 @@ SwaggerEditor.service('ASTManager', function ASTManager(YAML, $log) {
   var MAP_TAG = 'tag:yaml.org,2002:map';
   var SEQ_TAG = 'tag:yaml.org,2002:seq';
 
-  /**
+  /*
    * Get a position object with given
    * @param  {string}   yaml
    * YAML or JSON string
@@ -23,7 +25,6 @@ SwaggerEditor.service('ASTManager', function ASTManager(YAML, $log) {
    * properties
    */
   function positionRangeForPath(yaml, path, cb) {
-
     // Type check
     if (typeof yaml !== 'string') {
       throw new TypeError('yaml should be a string');
@@ -42,7 +43,6 @@ SwaggerEditor.service('ASTManager', function ASTManager(YAML, $log) {
     var i = 0;
 
     YAML.compose(yaml, function(error, ast) {
-
       // simply walks the tree using current path recursively to the point that
       // path is empty.
       find(ast);
@@ -104,7 +104,6 @@ SwaggerEditor.service('ASTManager', function ASTManager(YAML, $log) {
    * slash(/) in a string
   */
   function pathForPosition(yaml, position, cb) {
-
     // Type check
     if (typeof yaml !== 'string') {
       throw new TypeError('yaml should be a string');
@@ -128,12 +127,11 @@ SwaggerEditor.service('ASTManager', function ASTManager(YAML, $log) {
 
       find(ast);
 
-      /**
+      /*
        * recursive find function that finds the node matching the position
        * @param  {object} current - AST object to serach into
        */
       function find(current) {
-
         // algorythm:
         // is current a promitive?
         //   // finish recursion without modifying the path
@@ -190,7 +188,6 @@ SwaggerEditor.service('ASTManager', function ASTManager(YAML, $log) {
 
           // if node is in a single line
           if (node.start_mark.line === node.end_mark.line) {
-
             return (position.line === node.start_mark.line) &&
               (node.start_mark.column <= position.column) &&
               (node.end_mark.column >= position.column);

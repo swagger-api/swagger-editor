@@ -3,6 +3,7 @@
 module.exports = {
   extends: '../.eslintrc.js',
   globals: {
-    $: false
+    $: false,
+    browser: false
   }
 }

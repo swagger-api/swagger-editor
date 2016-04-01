@@ -1,10 +1,10 @@
 'use strict';
 
+var angular = require('angular');
 var $ = require('jquery');
 var _ = require('lodash/string');
 
 $(function() {
-
   // Try bootstrapping the app with embedded defaults if it exists
   var embeddedDefaults = window.$$embeddedDefaults;
   var pathname = window.location.pathname;
@@ -25,7 +25,6 @@ $(function() {
   }
 
   function bootstrap(defaults) {
-
     // if host is not localhost it's production
     var isProduction = !/localhost/.test(window.location.host);
 

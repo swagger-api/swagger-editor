@@ -4,7 +4,6 @@ var _ = require('lodash');
 
 SwaggerEditor.controller('EditorCtrl', function EditorCtrl($scope, $rootScope,
   Editor, Builder, Storage, ExternalHooks, Preferences) {
-
   var debouncedOnAceChange = getDebouncedOnAceChange();
 
   // if user changed the preferences of keyPressDebounceTime, update the

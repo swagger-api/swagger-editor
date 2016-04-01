@@ -1,7 +1,7 @@
 'use strict';
 
+var _ = require('lodash');
 SwaggerEditor.service('Analytics', function Analytics(defaults) {
-
   var isDisabled = false;
   var initialized = false;
   var id = _.defaults(defaults, {
@@ -47,8 +47,7 @@ SwaggerEditor.service('Analytics', function Analytics(defaults) {
    * eventAction: The event action: For example: pet-store
    * eventLabel: The event label. This can be anything you want.
   */
-  this.sendEvent = function(/*eventCategory, eventAction, eventLabel*/) {
-
+  this.sendEvent = function(/* eventCategory, eventAction, eventLabel*/) {
     if (isDisabled) {
       return;
     }

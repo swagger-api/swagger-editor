@@ -1,14 +1,14 @@
 'use strict';
 
+var _ = require('lodash');
+
 SwaggerEditor.controller('OpenExamplesCtrl', function OpenExamplesCtrl($scope,
   $uibModalInstance, $rootScope, $state, FileLoader, Builder, Storage, Analytics,
   defaults) {
-
   $scope.files = defaults.exampleFiles;
   $scope.selectedFile = defaults.exampleFiles[0];
 
   $scope.open = function(file) {
-
     // removes trailing slash from pathname because examplesFolder always have a
     // leading slash
     var pathname = _.endsWith(location.pathname, '/') ?

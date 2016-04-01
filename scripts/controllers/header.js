@@ -63,7 +63,7 @@ SwaggerEditor.controller('HeaderCtrl', function HeaderCtrl($scope, $uibModal,
       controller: 'GeneralModal',
       size: 'large',
       resolve: {
-        data:  function() {
+        data: function() {
           if (resp.data) {
             return resp.data;
           }

@@ -1,5 +1,7 @@
 'use strict';
 
+var _ = require('lodash');
+
 SwaggerEditor.controller('ErrorPresenterCtrl', function ErrorPresenterCtrl(
   $scope, $rootScope, Editor, ASTManager) {
   var ERROR_LEVEL = 900;
@@ -54,13 +56,12 @@ SwaggerEditor.controller('ErrorPresenterCtrl', function ErrorPresenterCtrl(
     return Promise.all(errorsAndWarnings.map(assignLineNumber));
   }
 
-  /**
+  /*
    * Gets type description of an error object
    * @param {object} error
    * @returns {string}
   */
   function getType(error) {
-
     if (error.code && error.message && error.path) {
       if (error.level > 500) {
         return 'Swagger Error';
@@ -79,19 +80,17 @@ SwaggerEditor.controller('ErrorPresenterCtrl', function ErrorPresenterCtrl(
     return 'Unknown Error';
   }
 
-  /**
+  /*
    * Gets description of an error object
    * @param {object} error
    * @returns {string}
   */
   function getDescription(error) {
-
     if (_.isString(error.description)) {
       return error.description;
     }
 
     if (_.isString(error.message)) {
-
       if (_.isString(error.description)) {
         return error.message + '<br>' + error.description;
       }
@@ -128,7 +127,7 @@ SwaggerEditor.controller('ErrorPresenterCtrl', function ErrorPresenterCtrl(
     });
   };
 
-  /**
+  /*
    * Gets the line number for an error object
    *
    * @param {object} error
@@ -156,7 +155,7 @@ SwaggerEditor.controller('ErrorPresenterCtrl', function ErrorPresenterCtrl(
     return error;
   }
 
-  /**
+  /*
    * Focuses Ace editor to the line number of error
    * @param {object} error
    *

@@ -1,5 +1,7 @@
 'use strict';
 
+var _ = require('lodash');
+var SparkMD5 = require('spark-md5');
 var angular = require('angular');
 
 SwaggerEditor.controller('PreviewCtrl', function PreviewCtrl(Storage, Builder,
