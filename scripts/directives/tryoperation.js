@@ -37,15 +37,15 @@ SwaggerEditor.controller('TryOperation', function($scope, formdataFilter,
 
   // JSON Editor options
   var defaultOptions = {
-    theme: 'bootstrap3',           // jshint ignore:line
-    remove_empty_properties: true, // jshint ignore:line
-    show_errors: 'change'          // jshint ignore:line
+    theme: 'bootstrap3',           // eslint-disable-line no-use-before-define
+    remove_empty_properties: true, // eslint-disable-line no-use-before-define
+    show_errors: 'change'          // eslint-disable-line no-use-before-define
   };
 
   var looseOptions = {
-    no_additional_properties: false, // jshint ignore:line
-    disable_properties: false,       // jshint ignore:line
-    disable_edit_json: false         // jshint ignore:line
+    no_additional_properties: false, // eslint-disable-line no-use-before-define
+    disable_properties: false,       // eslint-disable-line no-use-before-define
+    disable_edit_json: false         // eslint-disable-line no-use-before-define
   };
 
   SchemaForm.options = defaultOptions;
@@ -53,7 +53,7 @@ SwaggerEditor.controller('TryOperation', function($scope, formdataFilter,
   /*
    * configure SchemaForm directive based on request schema
   */
-  var configureSchemaForm = function() {
+  function configureSchemaForm() {
     // Determine if this request has a loose body parameter schema
     // A loose body parameter schema is a body parameter that allows additional
     // properties or has no properties object
@@ -87,7 +87,7 @@ SwaggerEditor.controller('TryOperation', function($scope, formdataFilter,
    *
    * @returns {boolean}
   */
-  var isLooseJSONSchema = function(schema) {
+  function isLooseJSONSchema(schema) {
     // loose object
     if (schema.additionalProperties || _.isEmpty(schema.properties)) {
       return true;
@@ -103,7 +103,7 @@ SwaggerEditor.controller('TryOperation', function($scope, formdataFilter,
     }
 
     return false;
-  };
+  }
 
   /*
    * Appends JSON Editor options for schema recursively so if a schema needs to
@@ -113,11 +113,11 @@ SwaggerEditor.controller('TryOperation', function($scope, formdataFilter,
    *
    * @returns {object} - A JSON Schema object
   */
-  var appendJSONEditorOptions = function(schema) {
+  function appendJSONEditorOptions(schema) {
     var looseOptions = {
-      no_additional_properties: false, // jshint ignore:line
-      disable_properties: false,       // jshint ignore:line
-      disable_edit_json: false         // jshint ignore:line
+      no_additional_properties: false, // eslint-disable-line no-use-before-define
+      disable_properties: false,       // eslint-disable-line no-use-before-define
+      disable_edit_json: false         // eslint-disable-line no-use-before-define
     };
 
     // If schema is loose add options for JSON Editor
@@ -128,7 +128,7 @@ SwaggerEditor.controller('TryOperation', function($scope, formdataFilter,
     _.each(schema.properties, appendJSONEditorOptions);
 
     return schema;
-  };
+  }
 
   /*
    * Makes the request schema to generate the form in the template
@@ -137,7 +137,7 @@ SwaggerEditor.controller('TryOperation', function($scope, formdataFilter,
    * @returns {object} - A JSON Schema containing all properties required to
    *   make this call
   */
-  var makeRequestSchema = function() {
+  function makeRequestSchema() {
     // base schema
     var schema = {
       type: 'object',
@@ -202,7 +202,6 @@ SwaggerEditor.controller('TryOperation', function($scope, formdataFilter,
       // Add a new property for each parameter
       parameters.map(pickSchemaFromParameter).map(normalizeJSONSchema)
       .forEach(function(paramSchema) {
-
         // extend the parameters property with the schema
         schema.properties.parameters
           .properties[paramSchema.name] = paramSchema;
@@ -210,7 +209,7 @@ SwaggerEditor.controller('TryOperation', function($scope, formdataFilter,
     }
 
     return schema;
-  };
+  }
 
   /*
    * Makes a model with empty values that conforms to the JSON Schema generated
@@ -377,7 +376,6 @@ SwaggerEditor.controller('TryOperation', function($scope, formdataFilter,
     }
 
     return _.uniq(securityOptions).filter(function(security) {
-
       // only return authenticated options
       return AuthManager.securityIsAuthenticated(security);
     });
@@ -392,7 +390,6 @@ SwaggerEditor.controller('TryOperation', function($scope, formdataFilter,
    * @returns {object} - the schema
   */
   function pickSchemaFromParameter(parameter) {
-
     // if parameter has a schema populate it into the parameter so the parameter
     // has all schema properties
     if (parameter.schema) {
@@ -431,7 +428,6 @@ SwaggerEditor.controller('TryOperation', function($scope, formdataFilter,
     }
 
     Object.keys(schema.properties).forEach(function(propertyName) {
-
       // if this property is an object itself, recurse
       if (schema.properties[propertyName].type === 'object') {
         result[propertyName] =
@@ -514,7 +510,6 @@ SwaggerEditor.controller('TryOperation', function($scope, formdataFilter,
     var pathStr;
     var isCollectionQueryParam = parameters.filter(parameterTypeFilter('query'))
       .some(function(parameter) {
-
         // if a query parameter has a collection format it doesn't matter what
         // is it's value, it will force the URL to not use `[]` in query string
         return parameter.items && parameter.items.collectionFormat;
@@ -581,7 +576,6 @@ SwaggerEditor.controller('TryOperation', function($scope, formdataFilter,
    * @returns {object} - list of all parameters that are in header
   */
   function getHeaderParams() {
-
     // Select header parameters from all parameters and reduce them into a
     // single key/value hash where the key is parameter name
     var params = parameters.filter(parameterTypeFilter('header'))
@@ -590,7 +584,6 @@ SwaggerEditor.controller('TryOperation', function($scope, formdataFilter,
     // add header based securities to list of headers
     if (angular.isArray($scope.requestModel.security)) {
       $scope.requestModel.security.forEach(function(secuirtyOption) {
-
         var auth = AuthManager.getAuth(secuirtyOption);
 
         if (auth) {
@@ -634,7 +627,7 @@ SwaggerEditor.controller('TryOperation', function($scope, formdataFilter,
     var defaultHeaders = {
       Host: host,
       Accept: $scope.requestModel.accept || '*/*',
-      'Accept-Encoding': 'gzip,deflate,sdch', //TODO: where this is coming from?
+      'Accept-Encoding': 'gzip,deflate,sdch', // TODO: where this is coming from?
       'Accept-Language': 'en-US,en;q=0.8,fa;q=0.6,sv;q=0.4', // TODO: wut?
       'Cache-Control': 'no-cache',
       Connection: 'keep-alive',
@@ -675,7 +668,6 @@ SwaggerEditor.controller('TryOperation', function($scope, formdataFilter,
    *   request body
   */
   function getBodyModel() {
-
     if (!hasRequestBody()) {
       return null;
     }
@@ -712,7 +704,6 @@ SwaggerEditor.controller('TryOperation', function($scope, formdataFilter,
    * @returns {string|null} - Raw request body or null if there is no body model
   */
   function getRequestBody() {
-
     var bodyParam = parameters.filter(parameterTypeFilter('body'))[0];
     var bodyModel = getBodyModel();
     var contentType = $scope.requestModel.contentType;
@@ -724,7 +715,6 @@ SwaggerEditor.controller('TryOperation', function($scope, formdataFilter,
 
     // if body model is a file, return a FormData instance with the file in it
     if (bodyModel[FILE_TYPE]) {
-
       // TODO: put the mechanism of getting the file object into a method
       var bodyParamName = bodyParam.name;
       var form = new FormData();
@@ -842,7 +832,6 @@ SwaggerEditor.controller('TryOperation', function($scope, formdataFilter,
    * @returns {string}
   */
   $scope.prettyPrint = function(input) {
-
     // Try if it's JSON and return pretty JSON
     try {
       return JSON.stringify(JSON.parse(input), null, 2);
@@ -859,7 +848,6 @@ SwaggerEditor.controller('TryOperation', function($scope, formdataFilter,
    * @returns {boolean}
   */
   $scope.isJson = function(value) {
-
     // if value is already parsed return true
     if (angular.isObject(value) || angular.isArray(value)) {
       return true;
