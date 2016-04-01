@@ -1,10 +1,12 @@
 'use strict';
 
+var angular = require('angular');
+var _ = require('lodash');
+
 /*
  * File loader service to load file from a URL or string
 */
 SwaggerEditor.service('FileLoader', function FileLoader($http, defaults, YAML) {
-
   /**
    * Load a file from URL
    *
@@ -32,7 +34,9 @@ SwaggerEditor.service('FileLoader', function FileLoader($http, defaults, YAML) {
       }).then(function(resp) {
         if (angular.isObject(resp.data)) {
           YAML.dump(resp.data, function(error, yamlString) {
-            if (error) { return reject(error); }
+            if (error) {
+              return reject(error);
+            }
 
             resolve(yamlString);
           });
@@ -43,7 +47,7 @@ SwaggerEditor.service('FileLoader', function FileLoader($http, defaults, YAML) {
     });
   }
 
-  /**
+  /*
    * takes a JSON or YAML string, returns YAML string
    *
    * @param {string} string - the JSON or YAML raw string
@@ -59,7 +63,6 @@ SwaggerEditor.service('FileLoader', function FileLoader($http, defaults, YAML) {
       try {
         JSON.parse(string);
       } catch (error) {
-
         // Do not change to JSON if it is YAML, and
         // just resolve it
         resolve(string);
@@ -67,16 +70,19 @@ SwaggerEditor.service('FileLoader', function FileLoader($http, defaults, YAML) {
       }
 
       YAML.load(string, function(error, json) {
-        if (error) { return reject(error); }
+        if (error) {
+          return reject(error);
+        }
 
         YAML.dump(json, function(error, yamlString) {
-          if (error) { return reject(error); }
+          if (error) {
+            return reject(error);
+          }
 
           resolve(yamlString);
         });
       });
     });
-
   }
 
   // Load from Local file content (string)

@@ -1,7 +1,9 @@
 'use strict';
 
-SwaggerEditor.service('KeywordMap', function KeywordMap(defaults) {
+var _ = require('lodash');
+var angular = require('angular');
 
+SwaggerEditor.service('KeywordMap', function KeywordMap(defaults) {
   /*
    * JSON Schema completion map constructor
    *
@@ -107,7 +109,7 @@ SwaggerEditor.service('KeywordMap', function KeywordMap(defaults) {
     ],
     description: String,
     required: ['true', 'false'],
-    type:  [
+    type: [
       'string',
       'number',
       'boolean',
@@ -122,7 +124,7 @@ SwaggerEditor.service('KeywordMap', function KeywordMap(defaults) {
     '.': String
   };
 
-  var response =  {
+  var response = {
     description: String,
     schema: jsonSchema,
     headers: {
@@ -196,9 +198,9 @@ SwaggerEditor.service('KeywordMap', function KeywordMap(defaults) {
 
     paths: {
 
-      //path
+      // path
       '^\/.\?': {
-        parameters: [parameter],
+        'parameters': [parameter],
         'get|put|post|delete|options|head|patch': operation
       }
     },

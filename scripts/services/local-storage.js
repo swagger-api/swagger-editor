@@ -1,10 +1,12 @@
 'use strict';
 
+var _ = require('lodash');
+var angular = require('angular');
+
 SwaggerEditor.service('LocalStorage', function LocalStorage($localStorage,
   $rootScope) {
-
   var storageKey = 'SwaggerEditorCache';
-  var changeListeners =  {};
+  var changeListeners = {};
 
   $localStorage[storageKey] = $localStorage[storageKey] || {};
 

@@ -1,12 +1,13 @@
 'use strict';
 
+var _ = require('lodash');
+
 /**
  * Manages fold state of nodes in the YAML and preview pane
  * The state of the folds are kept in $rootScope.specs itself.
 */
 SwaggerEditor.service('FoldStateManager', function FoldStateManager(ASTManager,
   Editor, $rootScope) {
-
   Editor.onFoldChanged(foldChangedInEditor);
   this.foldEditor = foldEditor;
   this.getFoldedTree = getFoldedTree;
@@ -23,7 +24,6 @@ SwaggerEditor.service('FoldStateManager', function FoldStateManager(ASTManager,
   function foldEditor(path, fold) {
     ASTManager.positionRangeForPath($rootScope.editorValue, path)
     .then(function(range) {
-
       // Editor API is 0-indexed. Because of this we're subtracting 1 from line
       // numbers
       if (fold) {
@@ -43,7 +43,6 @@ SwaggerEditor.service('FoldStateManager', function FoldStateManager(ASTManager,
    *
   */
   function foldChangedInEditor(event) {
-
     // Editor API is 0-indexed. Because of this we're adding 1 to line numbers
     var position = {
       line: event.data.start.row + 1,
@@ -60,6 +59,7 @@ SwaggerEditor.service('FoldStateManager', function FoldStateManager(ASTManager,
         current = current[path.shift()];
       }
 
+/* eslint no-implicit-coercion: [2, { "allow": ["!!", "~"] } ]*/
       if (_.isObject(current)) {
         current.$folded = !!$folded;
         $rootScope.$apply();
@@ -83,10 +83,8 @@ SwaggerEditor.service('FoldStateManager', function FoldStateManager(ASTManager,
     var result = {};
 
     _.keys(tree).forEach(function(key) {
-
       if (_.isObject(tree[key]) && _.isObject(newTree[key])) {
         result[key] = getFoldedTree(tree[key], newTree[key]);
-
       } else {
         if (key === '$folded') {
           result[key] = tree[key];
@@ -94,7 +92,6 @@ SwaggerEditor.service('FoldStateManager', function FoldStateManager(ASTManager,
           result[key] = newTree[key];
         }
       }
-
     });
 
     return result;

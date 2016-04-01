@@ -25,7 +25,7 @@ SwaggerEditor.controller('PreviewCtrl', function PreviewCtrl(Storage, Builder,
 
   Storage.addChangeListener('yaml', update);
 
-  /**
+  /*
    * Reacts to updates of YAML in storage that usually triggered by editor
    * changes
   */
@@ -41,7 +41,7 @@ SwaggerEditor.controller('PreviewCtrl', function PreviewCtrl(Storage, Builder,
     Builder.buildDocs(latest).then(onBuildSuccess, onBuildFailure);
   }
 
-  /**
+  /*
    * General callback for builder results
   */
   function onBuild(result) {
@@ -71,7 +71,7 @@ SwaggerEditor.controller('PreviewCtrl', function PreviewCtrl(Storage, Builder,
     });
   }
 
-  /**
+  /*
    * Callback of builder success
   */
   function onBuildSuccess(result) {
@@ -88,7 +88,7 @@ SwaggerEditor.controller('PreviewCtrl', function PreviewCtrl(Storage, Builder,
     });
   }
 
-  /**
+  /*
    * Callback of builder failure
   */
   function onBuildFailure(result) {
@@ -134,7 +134,7 @@ SwaggerEditor.controller('PreviewCtrl', function PreviewCtrl(Storage, Builder,
     });
   }
 
-  /**
+  /*
    * Response CSS class for an HTTP response code
    *
    * @param {number} code - The HTTP Response CODE
@@ -148,10 +148,10 @@ SwaggerEditor.controller('PreviewCtrl', function PreviewCtrl(Storage, Builder,
       4: 'yellow',
       5: 'red'
     };
-    return colors[Math.floor(+code / 100)] || 'default';
+    return colors[Math.floor(Number(code) / 100)] || 'default';
   }
 
-  /**
+  /*
    * Determines if a key is a vendor extension key
    * Vendor extensions always start with `x-`
    *
@@ -163,7 +163,7 @@ SwaggerEditor.controller('PreviewCtrl', function PreviewCtrl(Storage, Builder,
     return _.startsWith(key, 'x-');
   }
 
-  /**
+  /*
    * Determines if we should render the definitions sections
    *
    * @param {object|null} - the definitions object of Swagger spec

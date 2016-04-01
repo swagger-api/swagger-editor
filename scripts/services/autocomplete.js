@@ -1,18 +1,18 @@
 'use strict';
 
+var _ = require('lodash');
+
 /*
  * Autocomplete service extends Ace's completion mechanism to provide more
  * relevant completion candidates based on Swagger document.
 */
 SwaggerEditor.service('Autocomplete', function($rootScope, snippets,
   KeywordMap, Preferences, ASTManager, YAML) {
-
   // Ace KeywordCompleter object
   var KeywordCompleter = {
 
     // this method is being called by Ace to get a list of completion candidates
     getCompletions: function(editor, session, pos, prefix, callback) {
-
       var startTime = Date.now();
 
       // Do not make any suggestions when autoComplete preference is off
@@ -24,7 +24,6 @@ SwaggerEditor.service('Autocomplete', function($rootScope, snippets,
       editor.completer.autoSelect = true;
 
       getPathForPosition(pos, prefix).then(function(path) {
-
         // These function might shift or push to paths, therefore we're passing
         // a clone of path to them
         var keywordsForPos = getKeywordsForPosition(_.clone(path));
@@ -92,7 +91,9 @@ SwaggerEditor.service('Autocomplete', function($rootScope, snippets,
 
     // if position is at root path is [], quickly resolve to root path
     if (pos.column === 1) {
-      return new Promise(function(resolve) { resolve([]); });
+      return new Promise(function(resolve) {
+        resolve([]);
+      });
     }
 
     // if current position is in at a free line with whitespace insert a fake
@@ -255,7 +256,6 @@ SwaggerEditor.service('Autocomplete', function($rootScope, snippets,
    * @returns {array} - list of snippets for provided position
   */
   function getSnippetsForPosition(path) {
-
     // find all possible snippets, modify them to be compatible with Ace and
     // sort them based on their position. Sorting is done by assigning a score
     // to each snippet, not by sorting the array
@@ -275,10 +275,8 @@ SwaggerEditor.service('Autocomplete', function($rootScope, snippets,
    * @returns {function} - applies snippet with score based on position
   */
   function snippetSorterForPos(path) {
-
     // this function is used in Array#map
     return function sortSnippets(snippet) {
-
       // by default score is high
       var score = 1000;
 
@@ -306,9 +304,10 @@ SwaggerEditor.service('Autocomplete', function($rootScope, snippets,
   */
   function get$refs() {
     return new Promise(function(resolve) {
-
       YAML.load($rootScope.editorValue, function(err, json) {
-        if (err) { return resolve([]); }
+        if (err) {
+          return resolve([]);
+        }
 
         var definitions = _.keys(json.definitions).map(function(def) {
           return '"#/definitions/' + def + '"';

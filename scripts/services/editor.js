@@ -1,6 +1,9 @@
 'use strict';
 
 var ace = require('brace');
+var _ = require('lodash');
+var angular = require('angular');
+var $ = require('jquery');
 
 require('brace/theme/ambiance');
 require('brace/theme/chaos');
@@ -96,7 +99,6 @@ SwaggerEditor.service('Editor', function Editor(Autocomplete, ASTManager,
   }
 
   function aceLoaded(e) {
-
     editor = e;
     editor.$blockScrolling = Infinity;
 
@@ -218,7 +220,7 @@ SwaggerEditor.service('Editor', function Editor(Autocomplete, ASTManager,
   }
 
   function resetSettings() {
-    if (window.confirm('Are you sure?') && editor) {
+    if (window.customConfirm('Are you sure?') && editor) {
       editor.setOptions(editorOptions);
       saveEditorSettings();
     }

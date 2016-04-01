@@ -1,5 +1,6 @@
 'use strict';
 
+var _ = require('lodash');
 var angular = require('angular');
 
 SwaggerEditor.controller('UrlImportCtrl', function FileImportCtrl($scope,

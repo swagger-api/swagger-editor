@@ -1,11 +1,12 @@
 'use strict';
 
 var jsyaml = require('js-yaml');
+var _ = require('lodash');
 
 SwaggerEditor.service('Builder', function Builder(SwayWorker) {
   var load = _.memoize(jsyaml.load);
 
-  /**
+  /*
    * Build spec docs from a string value
    * @param {string} stringValue - the string to make the docs from
    * @returns {promise} - Returns a promise that resolves to spec document
@@ -15,7 +16,6 @@ SwaggerEditor.service('Builder', function Builder(SwayWorker) {
     var json;
 
     return new Promise(function(resolve, reject) {
-
       // If stringVlue is empty, return emptyDocsError
       if (!stringValue) {
         reject({
@@ -37,13 +37,10 @@ SwaggerEditor.service('Builder', function Builder(SwayWorker) {
       // Add `title` from object key to definitions
       // if they are missing title
       if (json && _.isObject(json.definitions)) {
-
         for (var definition in json.definitions) {
-
           if (_.isObject(json.definitions[definition]) &&
               !_.startsWith(definition, 'x-') &&
               _.isEmpty(json.definitions[definition].title)) {
-
             json.definitions[definition].title = definition;
           }
         }
@@ -58,7 +55,6 @@ SwaggerEditor.service('Builder', function Builder(SwayWorker) {
           resolve(data);
         }
       });
-
     });
   }
 

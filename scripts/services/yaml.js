@@ -46,7 +46,6 @@ function YAMLWorkerBridge() {
 });
 
 YAMLWorkerBridge.prototype.enqueue = function() {
-
   // if queue is empty do nothing.
   if (!this.queue.length) {
     this.currentTask = null;

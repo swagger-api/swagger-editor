@@ -1,12 +1,14 @@
 'use strict';
 
+var _ = require('lodash');
+
 /*
  * Focused Path provider
  * using AST Manager and Editor information provides path to elements
  * that are in focus in the editor line of code to focus in the editor
  * for a given path
 */
-SwaggerEditor.service('FocusedPath', function FocusedPath(ASTManager, Editor) {
+SwaggerEditor.service('FocusedPath', function FcusedPath(ASTManager, Editor) {
 
   /*
    * A path is in focus if it's key or **any** sub path of it is in focus

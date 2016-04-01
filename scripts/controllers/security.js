@@ -65,7 +65,7 @@ SwaggerEditor.controller('SecurityCtrl', function SecurityCtrl($scope, $uibModal
         size: 'large'
       });
     } else {
-      window.alert('Not yet supported');
+      window.customAlert('Not yet supported');
     }
   };
 });

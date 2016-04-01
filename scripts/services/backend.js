@@ -1,9 +1,11 @@
 'use strict';
 
+var _ = require('lodash');
+var angular = require('angular');
+
 SwaggerEditor.service('Backend', function Backend($http, $q, defaults,
   $rootScope, Builder, ExternalHooks, YAML) {
-
-  var changeListeners =  {};
+  var changeListeners = {};
   var absoluteRegex = /^(\/|http(s)?\:\/\/)/; // starts with slash or http|https
   var buffer = {};
   var throttleTimeout = defaults.backendThrottle || 200;
@@ -29,7 +31,9 @@ SwaggerEditor.service('Backend', function Backend($http, $q, defaults,
    *
   */
   function commitNow(data) {
-    var result = Builder.buildDocs(data, { resolve: true });
+    var result = Builder.buildDocs(data, {
+      resolve: true
+    });
 
     save('progress', 'progress-saving');
 
@@ -56,7 +60,6 @@ SwaggerEditor.service('Backend', function Backend($http, $q, defaults,
    *
   */
   function save(key, value) {
-
     // Save values in a buffer
     buffer[key] = value;
 
@@ -71,7 +74,9 @@ SwaggerEditor.service('Backend', function Backend($http, $q, defaults,
         commit(value);
       } else {
         YAML.load(value, function(err, json) {
-          if (!err) { commit(json); }
+          if (!err) {
+            commit(json);
+          }
         });
       }
     }

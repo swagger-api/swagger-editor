@@ -35,7 +35,6 @@ SwaggerEditor.service('SwayWorker', function SwayWorker() {
    * @private
   */
   function enqueue() {
-
     // if queue is empty do nothing.
     if (!queue.length) {
       return;

@@ -37,15 +37,17 @@ SwaggerEditor.controller('TryOperation', function($scope, formdataFilter,
 
   // JSON Editor options
   var defaultOptions = {
-    theme: 'bootstrap3',           // eslint-disable-line no-use-before-define
-    remove_empty_properties: true, // eslint-disable-line no-use-before-define
-    show_errors: 'change'          // eslint-disable-line no-use-before-define
+    /* eslint-disable */
+    theme: 'bootstrap3',
+    remove_empty_properties: true,
+    show_errors: 'change'
   };
 
   var looseOptions = {
-    no_additional_properties: false, // eslint-disable-line no-use-before-define
-    disable_properties: false,       // eslint-disable-line no-use-before-define
-    disable_edit_json: false         // eslint-disable-line no-use-before-define
+    no_additional_properties: false,
+    disable_properties: false,
+    disable_edit_json: false
+    /*eslint-enable */
   };
 
   SchemaForm.options = defaultOptions;
@@ -78,7 +80,7 @@ SwaggerEditor.controller('TryOperation', function($scope, formdataFilter,
     }
 
     SchemaForm.options = _.extend(defaultOptions, loose ? looseOptions : {});
-  };
+  }
 
   /*
    * Determines if a JSON Schema is loose
@@ -115,9 +117,11 @@ SwaggerEditor.controller('TryOperation', function($scope, formdataFilter,
   */
   function appendJSONEditorOptions(schema) {
     var looseOptions = {
-      no_additional_properties: false, // eslint-disable-line no-use-before-define
-      disable_properties: false,       // eslint-disable-line no-use-before-define
-      disable_edit_json: false         // eslint-disable-line no-use-before-define
+      /*eslint-disable */
+      no_additional_properties: false,
+      disable_properties: false,
+      disable_edit_json: false
+      /*eslint-enable */
     };
 
     // If schema is loose add options for JSON Editor
@@ -263,7 +267,6 @@ SwaggerEditor.controller('TryOperation', function($scope, formdataFilter,
 
         // if there is no default value select a default value based on type
         } else if (angular.isDefined(defaults[paramSchema.type])) {
-
           var title = paramSchema.name || paramSchema.name;
 
           if (paramSchema.type === 'object') {
@@ -291,7 +294,6 @@ SwaggerEditor.controller('TryOperation', function($scope, formdataFilter,
    * @returns {object} - Normalized JSON Schema
   */
   function normalizeJSONSchema(schema) {
-
     // provide title property if it's missing.
     if (!schema.title && angular.isString(schema.name)) {
       schema.title = schema.name;
@@ -300,7 +302,6 @@ SwaggerEditor.controller('TryOperation', function($scope, formdataFilter,
     // if schema is missing the "type" property fill it in based on available
     // properties
     if (!schema.type) {
-
       // it's an object if it has "properties" property
       if (schema.properties) {
         schema.type = 'object';
@@ -397,9 +398,8 @@ SwaggerEditor.controller('TryOperation', function($scope, formdataFilter,
 
     // if parameter does not have a schema, use the parameter itself as
     // schema.
-    } else {
-      return parameter;
     }
+    return parameter;
   }
 
   /*
@@ -625,14 +625,14 @@ SwaggerEditor.controller('TryOperation', function($scope, formdataFilter,
 
     // A list of default headers that will be included in the XHR call
     var defaultHeaders = {
-      Host: host,
-      Accept: $scope.requestModel.accept || '*/*',
+      'Host': host,
+      'Accept': $scope.requestModel.accept || '*/*',
       'Accept-Encoding': 'gzip,deflate,sdch', // TODO: where this is coming from?
       'Accept-Language': 'en-US,en;q=0.8,fa;q=0.6,sv;q=0.4', // TODO: wut?
       'Cache-Control': 'no-cache',
-      Connection: 'keep-alive',
-      Origin: window.location.origin,
-      Referer: window.location.origin + window.location.pathname,
+      'Connection': 'keep-alive',
+      'Origin': window.location.origin,
+      'Referer': window.location.origin + window.location.pathname,
       'User-Agent': window.navigator.userAgent
     };
 
@@ -678,7 +678,7 @@ SwaggerEditor.controller('TryOperation', function($scope, formdataFilter,
     // body parameter case
     if (bodyParam) {
       var bodyParamName = bodyParam.name;
-      var bodyParamValue =  $scope.requestModel.parameters[bodyParamName];
+      var bodyParamValue = $scope.requestModel.parameters[bodyParamName];
 
       // if body type is file then return special result object with FILE_TYPE
       // key
@@ -693,9 +693,8 @@ SwaggerEditor.controller('TryOperation', function($scope, formdataFilter,
       return bodyParamValue;
 
     // formData case
-    } else {
-      return formDataParams.reduce(hashifyParams, {});
     }
+    return formDataParams.reduce(hashifyParams, {});
   }
 
   /*

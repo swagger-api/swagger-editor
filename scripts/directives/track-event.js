@@ -18,7 +18,6 @@ SwaggerEditor.directive('trackEvent', function(Analytics) {
         var eventName = $attributes.trackEvent;
 
         if (angular.isString(eventName)) {
-
           // A Google Analytics event has three  components: event category,
           // event action and event label;
           // we use 'click-item' as event action for this directive

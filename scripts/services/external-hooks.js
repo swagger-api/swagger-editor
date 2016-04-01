@@ -1,5 +1,7 @@
 'use strict';
 
+var angular = require('angular');
+
 /*
  * Provide external hooks to various events in Swagger Editor
  *
@@ -7,7 +9,6 @@
  * SwaggerEditor.on(EventName, Callback)
 */
 SwaggerEditor.service('ExternalHooks', function ExternalHooks() {
-
   // Hooks hash
   var hooks = {
     'code-change': [], // triggers when code changes
@@ -22,7 +23,6 @@ SwaggerEditor.service('ExternalHooks', function ExternalHooks() {
    * @param {function} callback - function to get triggered on event occurrence
   */
   SwaggerEditor.on = function(eventName, callback) {
-
     if (!angular.isString(eventName)) {
       throw new TypeError('eventName must be string');
     }
@@ -50,7 +50,6 @@ SwaggerEditor.service('ExternalHooks', function ExternalHooks() {
    * @param {array} args - arguments to trigger callback functions with
   */
   this.trigger = function(eventName, args) {
-
     if (!angular.isString(eventName)) {
       throw new TypeError('eventName must be string');
     }

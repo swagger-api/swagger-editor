@@ -1,5 +1,7 @@
 'use strict';
 
+var _ = require('lodash');
+
 SwaggerEditor.directive('swaggerOperation', function(defaults) {
   return {
     restrict: 'E',
@@ -53,10 +55,8 @@ SwaggerEditor.directive('swaggerOperation', function(defaults) {
       function setParameterSchema(parameter) {
         if (parameter.schema) {
           return parameter;
-
         } else if (parameter.type === 'array') {
           parameter.schema = _.pick(parameter, 'type', 'items');
-
         } else {
           var schema = {type: parameter.type};
 
