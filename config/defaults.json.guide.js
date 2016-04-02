@@ -1,6 +1,6 @@
 'use strict';
 
-/*******************************************************************************
+/** *****************************************************************************
 * This is a guide for defaults.json configuration file. Please don't modify this
 * file for changing the settings, instead, modify defaults.json.
 * If you are using Swagger Editor as a dependency, Swagger Editor will make an
@@ -133,7 +133,6 @@ var defaults = {
    * When `headerBranding` is enabled, this will be appended to body tag
   */
   brandingCssClass: '',
-
 
   /*
    * Disables the overlay introduction panel

@@ -1,6 +1,6 @@
 'use strict';
 
-var JSONFormatter = require('json-formatter-js'); // exposes global
+require('json-formatter-js'); // exposes global
 var JSONSchemaView = require('json-schema-view-js');
 
 SwaggerEditor.directive('schemaModel', function() {
@@ -19,6 +19,7 @@ SwaggerEditor.directive('schemaModel', function() {
         $scope.mode = $scope.mode === 'json' ? 'schema' : 'json';
       };
 
+      /* global JSONFormatter:false*/
       var render = function() {
         var formatter = new JSONFormatter($scope.schema, 1);
         $element.find('td.view.json').html(formatter.render());

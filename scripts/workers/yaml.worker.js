@@ -13,13 +13,12 @@ var jsyaml = require('js-yaml');
  * and the rest of items are arguments to that method
  */
 onmessage = function onmessage(message) {
-
   if (!Array.isArray(message.data) || message.data.length < 2) {
     throw new TypeError('data should be an array with method and arguments');
   }
 
   var method = message.data[0];
-  var args =message.data.slice(1);
+  var args = message.data.slice(1);
   var result = null;
   var error = null;
   var YAML;

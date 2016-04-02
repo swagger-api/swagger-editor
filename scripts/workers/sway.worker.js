@@ -4,7 +4,6 @@ var Sway = require('sway');
 /* eslint-env worker */
 onmessage = function(message) {
   Sway.create(message.data).then(function(api) {
-
     var results = api.validate();
 
     if (results.errors.length) {
