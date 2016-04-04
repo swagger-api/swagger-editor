@@ -144,7 +144,7 @@ SwaggerEditor.service('Editor', function Editor(Autocomplete, ASTManager,
 
   function onChangeFold(event) {
     changeFoldFns.forEach(function(fn) {
-      fn.call(null, event);
+      fn.apply(null, event);
     });
   }
 
