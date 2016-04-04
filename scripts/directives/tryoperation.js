@@ -68,9 +68,10 @@ SwaggerEditor.controller('TryOperation', function($scope, formdataFilter,
     if (hasRequestBody()) {
       // we're accessing deep in the schema. many operations can fail here
       try {
-        for (var p in $scope.requestSchema.properties.parameters.properties) {
-          var param = $scope.requestSchema.properties.parameters.properties[p];
-          if (param.in === 'body' && isLooseJSONSchema(param)) {
+        var param = $scope.requestSchema.properties.parameters;
+        /* eslint guard-for-in: "error"*/
+        for (var p in param.properties) {
+          if (param.properties[p].in === 'body' && isLooseJSONSchema(param.properties[p])) {
             loose = true;
           }
         }
@@ -361,7 +362,7 @@ SwaggerEditor.controller('TryOperation', function($scope, formdataFilter,
 
     // operation level securities
     if (_.isArray($scope.operation.security)) {
-      $scope.operation.security.map(function(security) {
+      $scope.operation.security.forEach(function(security) {
         _.keys(security).forEach(function(key) {
           securityOptions = securityOptions.concat(key);
         });
@@ -369,7 +370,7 @@ SwaggerEditor.controller('TryOperation', function($scope, formdataFilter,
 
     // root level securities
     } else if (_.isArray($scope.specs.security)) {
-      $scope.specs.security.map(function(security) {
+      $scope.specs.security.forEach(function(security) {
         _.keys(security).forEach(function(key) {
           securityOptions = securityOptions.concat(key);
         });

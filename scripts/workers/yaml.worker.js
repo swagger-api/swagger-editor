@@ -12,6 +12,10 @@ var jsyaml = require('js-yaml');
  * `message` is an array. first argument in the array is the method name string
  * and the rest of items are arguments to that method
  */
+ /* eslint no-unused-vars: ["error", { "vars": "local" }]*/
+ /* global onmessage */
+ /* global onmessage: true*/
+ /* eslint no-undef: "error"*/
 onmessage = function onmessage(message) {
   if (!Array.isArray(message.data) || message.data.length < 2) {
     throw new TypeError('data should be an array with method and arguments');

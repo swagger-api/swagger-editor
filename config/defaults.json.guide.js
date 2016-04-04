@@ -7,6 +7,7 @@
 * XHR request to '/config/defaults.json' to get it's settings.
 *******************************************************************************/
 
+/* eslint no-unused-vars: ["error", { "varsIgnorePattern": "defaults" }]*/
 var defaults = {
   /*
    * Analytics section is used for user tracking configurations. At the moment

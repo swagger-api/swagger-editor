@@ -10,6 +10,7 @@ SwaggerEditor.service('KeywordMap', function KeywordMap(defaults) {
    * This is necessary because JSON Schema completion map has recursive
    * pointers
   */
+  /* eslint quote-props: ["error", "as-needed", { "keywords": false, "unnecessary": false }]*/
   function JSONSchema() {
     _.extend(this,
       {
