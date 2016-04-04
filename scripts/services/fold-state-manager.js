@@ -85,12 +85,10 @@ SwaggerEditor.service('FoldStateManager', function FoldStateManager(ASTManager,
     _.keys(tree).forEach(function(key) {
       if (_.isObject(tree[key]) && _.isObject(newTree[key])) {
         result[key] = getFoldedTree(tree[key], newTree[key]);
+      } else if (key === '$folded') {
+        result[key] = tree[key];
       } else {
-        if (key === '$folded') {
-          result[key] = tree[key];
-        } else {
-          result[key] = newTree[key];
-        }
+        result[key] = newTree[key];
       }
     });
 
