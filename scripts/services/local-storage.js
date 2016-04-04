@@ -40,10 +40,10 @@ SwaggerEditor.service('LocalStorage', function LocalStorage($localStorage,
   */
   function load(key) {
     return new Promise(function(resolve) {
-      if (!key) {
-        resolve($localStorage[storageKey]);
-      } else {
+      if (key) {
         resolve($localStorage[storageKey][key]);
+      } else {
+        resolve($localStorage[storageKey]);
       }
     });
   }

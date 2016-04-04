@@ -9,7 +9,6 @@ var _ = require('lodash');
  * for a given path
 */
 SwaggerEditor.service('FocusedPath', function FcusedPath(ASTManager, Editor) {
-
   /*
    * A path is in focus if it's key or **any** sub path of it is in focus
    * @param {array} - an array of strings pointing to a node in specs tree

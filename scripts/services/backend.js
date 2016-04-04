@@ -88,10 +88,10 @@ SwaggerEditor.service('Backend', function Backend($http, $q, defaults,
   function load(key) {
     if (key !== 'yaml') {
       return new Promise(function(resolve, reject) {
-        if (!key) {
-          reject();
-        } else {
+        if (key) {
           resolve(buffer[key]);
+        } else {
+          reject();
         }
       });
     }
