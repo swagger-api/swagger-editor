@@ -12,7 +12,7 @@ SwaggerEditor.service('Builder', function Builder(SwayWorker) {
    * @returns {promise} - Returns a promise that resolves to spec document
    *  object or get rejected because of HTTP failures of external $refs
   */
-  function buildDocs(stringValue) {
+  var buildDocs = function(stringValue) {
     var json;
 
     return new Promise(function(resolve, reject) {
@@ -56,7 +56,7 @@ SwaggerEditor.service('Builder', function Builder(SwayWorker) {
         }
       });
     });
-  }
+  };
 
   this.buildDocs = buildDocs;
 });

@@ -30,7 +30,8 @@ var config = {
   baseUrl: 'http://localhost:' + PORT + '/',
 
   capabilities: {
-    browserName: process.env.TRAVIS ? 'firefox' : 'chrome',
+    // browserName: process.env.TRAVIS ? 'firefox' : 'chrome',
+    browserName: 'firefox',
     chromeOptions: {
       args: ['--test-type']
     }

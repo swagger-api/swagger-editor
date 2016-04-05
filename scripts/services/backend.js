@@ -85,7 +85,7 @@ SwaggerEditor.service('Backend', function Backend($http, $q, defaults,
   /*
    *
   */
-  function load(key) {
+  var load = function(key) {
     if (key !== 'yaml') {
       return new Promise(function(resolve, reject) {
         if (key) {
@@ -111,24 +111,24 @@ SwaggerEditor.service('Backend', function Backend($http, $q, defaults,
         }
         return res.data;
       });
-  }
+  };
 
   /*
    *
   */
-  function addChangeListener(key, fn) {
+  var addChangeListener = function(key, fn) {
     if (angular.isFunction(fn)) {
       if (!changeListeners[key]) {
         changeListeners[key] = [];
       }
       changeListeners[key].push(fn);
     }
-  }
+  };
 
   /*
    *
   */
-  function noop() {}
+  var noop = function() {};
 
   this.save = save;
   this.reset = noop;

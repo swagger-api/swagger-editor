@@ -21,13 +21,13 @@ SwaggerEditor.service('SwayWorker', function SwayWorker() {
    *
    * @param {function} - completion callback
   */
-  function schedule(arg, cb) {
+  var schedule = function(arg, cb) {
     queue.push({
       arg: arg,
       cb: cb
     });
     enqueue();
-  }
+  };
 
   /*
    * Enqueue a task from task list and invoke it

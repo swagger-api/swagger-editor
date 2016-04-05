@@ -8,7 +8,7 @@ var compose = _.memoize(require('yaml-js/yaml.js').yaml.compose);
  * YAMLWorker bridge and queue
  *
 */
-function YAMLWorkerBridge() {
+var YAMLWorkerBridge = function() {
   var YAMLWorker = require('../workers/yaml.worker.js');
 
   this.worker = new YAMLWorker();
@@ -16,7 +16,7 @@ function YAMLWorkerBridge() {
   this.worker.onmessage = this.onmessage.bind(this);
   this.worker.onerror = this.onerror.bind(this);
   this.buffer = new Map();
-}
+};
 
 [
   'load',

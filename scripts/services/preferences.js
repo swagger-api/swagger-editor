@@ -31,9 +31,9 @@ SwaggerEditor.service('Preferences', function Preferences($localStorage,
   };
   var preferences = _.extend(defaultPreferences, $localStorage.preferences);
 
-  function save() {
+  var save = function() {
     $localStorage.preferences = preferences;
-  }
+  };
 
   this.get = function(key) {
     return preferences[key];

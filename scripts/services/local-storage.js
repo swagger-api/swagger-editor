@@ -13,7 +13,7 @@ SwaggerEditor.service('LocalStorage', function LocalStorage($localStorage,
   /*
    *
   */
-  function save(key, value) {
+  var save = function(key, value) {
     if (value === null) {
       return;
     }
@@ -33,12 +33,12 @@ SwaggerEditor.service('LocalStorage', function LocalStorage($localStorage,
         $rootScope.progressStatus = 'success-saved';
       }
     }, 100)();
-  }
+  };
 
   /*
    *
   */
-  function load(key) {
+  var load = function(key) {
     return new Promise(function(resolve) {
       if (key) {
         resolve($localStorage[storageKey][key]);
@@ -46,19 +46,19 @@ SwaggerEditor.service('LocalStorage', function LocalStorage($localStorage,
         resolve($localStorage[storageKey]);
       }
     });
-  }
+  };
 
   /*
    *
   */
-  function addChangeListener(key, fn) {
+  var addChangeListener = function(key, fn) {
     if (angular.isFunction(fn)) {
       if (!changeListeners[key]) {
         changeListeners[key] = [];
       }
       changeListeners[key].push(fn);
     }
-  }
+  };
 
   this.save = save;
   this.reset = $localStorage.$reset;

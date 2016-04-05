@@ -1,7 +1,7 @@
 'use strict';
 
-SwaggerEditor.controller('SecurityCtrl', function SecurityCtrl($scope, $uibModal,
-  AuthManager) {
+SwaggerEditor.controller('SecurityCtrl', function SecurityCtrl($scope,
+  $uibModal, AuthManager) {
   $scope.getHumanSecurityType = function(type) {
     var types = {
       basic: 'HTTP Basic Authentication',
@@ -18,7 +18,8 @@ SwaggerEditor.controller('SecurityCtrl', function SecurityCtrl($scope, $uibModal
     if (security.type === 'basic') {
       $uibModal.open({
         templateUrl: 'templates/auth/basic.html',
-        controller: function BasicAuthAuthenticateCtrl($scope, $uibModalInstance) {
+        controller: function BasicAuthAuthenticateCtrl($scope,
+          $uibModalInstance) {
           $scope.cancel = $uibModalInstance.close;
           $scope.authenticate = function(username, password) {
             AuthManager.basicAuth(securityName, security, {

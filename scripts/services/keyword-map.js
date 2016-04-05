@@ -11,7 +11,7 @@ SwaggerEditor.service('KeywordMap', function KeywordMap(defaults) {
    * pointers
   */
   /* eslint quote-props: ["error", "as-needed", { "keywords": false, "unnecessary": false }]*/
-  function JSONSchema() {
+  var JSONSchema = function() {
     _.extend(this,
       {
         title: String,
@@ -58,7 +58,7 @@ SwaggerEditor.service('KeywordMap', function KeywordMap(defaults) {
         }
       }
     );
-  }
+  };
 
   var jsonSchema = new JSONSchema();
   var schemes = [

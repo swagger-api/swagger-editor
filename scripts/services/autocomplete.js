@@ -67,13 +67,13 @@ SwaggerEditor.service('Autocomplete', function($rootScope, snippets,
    *
    * @returns {object} - an Ace compatible snippet object
   */
-  function constructAceSnippet(snippet) {
+  var constructAceSnippet = function(snippet) {
     return {
       caption: snippet.name,
       snippet: snippet.content,
       meta: 'snippet'
     };
-  }
+  };
 
   /*
    * Gets keyword path for specified position
@@ -121,7 +121,7 @@ SwaggerEditor.service('Autocomplete', function($rootScope, snippets,
    * @param {array} matcher - matcher
    * @returns {boolean} - true if it's match
   */
-  function isMatchPath(path, matcher) {
+  var isMatchPath = function(path, matcher) {
     if (!_.isArray(path) || !_.isArray(matcher)) {
       return false;
     }
@@ -144,7 +144,7 @@ SwaggerEditor.service('Autocomplete', function($rootScope, snippets,
     }
 
     return true;
-  }
+  };
 
   /*
    * Gest filter function for snippets based on a cursor position
@@ -154,11 +154,11 @@ SwaggerEditor.service('Autocomplete', function($rootScope, snippets,
    * @returns {function} - filter function for selection proper snippets based
    *  on provided position
   */
-  function filterForSnippets(path) {
+  var filterForSnippets = function(path) {
     return function filter(snippet) {
       return isMatchPath(path, snippet.path);
     };
-  }
+  };
 
   /*
    * With a given object returns the child that it's key matches provided key
@@ -168,7 +168,7 @@ SwaggerEditor.service('Autocomplete', function($rootScope, snippets,
    *
    * @returns {object} - the object that is matched
   */
-  function getChild(object, key) {
+  var getChild = function(object, key) {
     var keys = Object.keys(object);
     var regex;
 
@@ -179,7 +179,7 @@ SwaggerEditor.service('Autocomplete', function($rootScope, snippets,
         return object[keys[i]];
       }
     }
-  }
+  };
 
   /*
    * Gets array of keywords based on a position
@@ -188,7 +188,7 @@ SwaggerEditor.service('Autocomplete', function($rootScope, snippets,
    *
    * @returns {array} - list of keywords for provided position
   */
-  function getKeywordsForPosition(path) {
+  var getKeywordsForPosition = function(path) {
     var keywordsMap = KeywordMap.get();
 
     var key = path.shift();
@@ -230,7 +230,7 @@ SwaggerEditor.service('Autocomplete', function($rootScope, snippets,
     // for each key in keywordsMap map construct a completion candidate and
     // return the array
     return _.keys(keywordsMap).map(constructAceCompletion);
-  }
+  };
 
   /*
    * Constructs an Ace compatible completion candidate from a keyword
@@ -255,7 +255,7 @@ SwaggerEditor.service('Autocomplete', function($rootScope, snippets,
    *
    * @returns {array} - list of snippets for provided position
   */
-  function getSnippetsForPosition(path) {
+  var getSnippetsForPosition = function(path) {
     // find all possible snippets, modify them to be compatible with Ace and
     // sort them based on their position. Sorting is done by assigning a score
     // to each snippet, not by sorting the array
@@ -263,7 +263,7 @@ SwaggerEditor.service('Autocomplete', function($rootScope, snippets,
       .filter(filterForSnippets(path))
       .map(constructAceSnippet)
       .map(snippetSorterForPos(path));
-  }
+  };
 
   /*
    * Returns a function that gives score to snippet based on their position
@@ -282,7 +282,7 @@ SwaggerEditor.service('Autocomplete', function($rootScope, snippets,
 
       // if snippets content has the keyword it will get a lower score because
       // it's more likely less relevant
-      // FIXME: is this logic work for all cases?
+      // (FIX) is this logic work for all cases?
       path.forEach(function(keyword) {
         if (snippet.snippet.indexOf(keyword)) {
           score = 500;
@@ -302,7 +302,7 @@ SwaggerEditor.service('Autocomplete', function($rootScope, snippets,
    * @returns {Promise<array>} - list of auto-complete suggestions for $ref
    * values
   */
-  function get$refs() {
+  var get$refs = function() {
     return new Promise(function(resolve) {
       YAML.load($rootScope.editorValue, function(err, json) {
         if (err) {
@@ -331,5 +331,5 @@ SwaggerEditor.service('Autocomplete', function($rootScope, snippets,
         }));
       });
     });
-  }
+  };
 });

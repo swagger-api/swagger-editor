@@ -65,7 +65,7 @@ SwaggerEditor.service('Editor', function Editor(Autocomplete, ASTManager,
   var editorOptions = defaults.editorOptions || {};
   var defaultTheme = editorOptions.theme || 'ace/theme/atom_dark';
 
-  function annotateYAMLErrors(error) {
+  var annotateYAMLErrors = function(error) {
     if (editor && error && error.mark && error.reason) {
       editor.getSession().setAnnotations([{
         row: error.mark.line,
@@ -74,15 +74,15 @@ SwaggerEditor.service('Editor', function Editor(Autocomplete, ASTManager,
         type: 'error'
       }]);
     }
-  }
+  };
 
-  function annotateSwaggerError(error, type) {
+  var annotateSwaggerError = function(error, type) {
     var row = 0;
     var column = 0;
 
     if (false && editor && error.path) {
       if (error.path.length) {
-        // TODO: ASTManager
+        // (TODO) ASTManager
         row = ASTManager.lineForPath(_.cloneDeep(error.path));
       }
       editor.getSession().setAnnotations([{
@@ -92,13 +92,13 @@ SwaggerEditor.service('Editor', function Editor(Autocomplete, ASTManager,
         type: type || 'error'
       }]);
     }
-  }
+  };
 
-  function clearAnnotation() {
+  var clearAnnotation = function() {
     editor.getSession().clearAnnotations();
-  }
+  };
 
-  function aceLoaded(e) {
+  var aceLoaded = function(e) {
     editor = e;
     editor.$blockScrolling = Infinity;
 
@@ -125,13 +125,13 @@ SwaggerEditor.service('Editor', function Editor(Autocomplete, ASTManager,
     session.on('changeFold', onChangeFold);
 
     configureSession(session);
-  }
+  };
 
-  function saveEditorSettings() {
+  var saveEditorSettings = function() {
     if (editor) {
       LocalStorage.save('editor-settings', editor.getOptions());
     }
-  }
+  };
 
   function loadEditorSettings() {
     if (editor) {
@@ -152,13 +152,13 @@ SwaggerEditor.service('Editor', function Editor(Autocomplete, ASTManager,
     session.setTabSize(2);
   }
 
-  function ready(fn) {
+  var ready = function(fn) {
     if (angular.isFunction(fn)) {
       onReadyFns.add(fn);
     }
-  }
+  };
 
-  function getAllFolds() {
+  var getAllFolds = function() {
     var session = editor.getSession();
     var folds = null;
 
@@ -166,42 +166,42 @@ SwaggerEditor.service('Editor', function Editor(Autocomplete, ASTManager,
     folds = session.unfold();
 
     return Array.isArray(folds) ? folds : [];
-  }
+  };
 
-  function getLine(l) {
+  var getLine = function(l) {
     return editor.session.getLine(l);
-  }
+  };
 
-  function onFoldChanged(fn) {
+  var onFoldChanged = function(fn) {
     if (_.isFunction(fn)) {
       changeFoldFns.add(fn);
     }
-  }
+  };
 
-  function addFold(start, end) {
+  var addFold = function(start, end) {
     if (editor) {
       editor.getSession().foldAll(start, end);
     }
-  }
+  };
 
-  function removeFold(start, end) {
+  var removeFold = function(start, end) {
     if (editor) {
       editor.getSession().unfold(editor.getSession().getFoldAt(start, end));
     }
-  }
+  };
 
-  function gotoLine(line) {
+  var gotoLine = function(line) {
     editor.gotoLine(line);
-  }
+  };
 
-  function lineInFocus() {
+  var lineInFocus = function() {
     if (!editor) {
       return null;
     }
     return editor.getCursorPosition().row;
-  }
+  };
 
-  function showSettings() {
+  var showSettings = function() {
     ace.config.loadModule('ace/ext/settings_menu', function(module) {
       module.init(editor);
       editor.showSettingsMenu();
@@ -217,31 +217,31 @@ SwaggerEditor.service('Editor', function Editor(Autocomplete, ASTManager,
         }
       }, 300);
     });
-  }
+  };
 
-  function resetSettings() {
+  var resetSettings = function() {
     if (window.customConfirm('Are you sure?') && editor) {
       editor.setOptions(editorOptions);
       saveEditorSettings();
     }
-  }
+  };
 
-  function adjustFontSize(by) {
+  var adjustFontSize = function(by) {
     if (editor) {
       var fontSize = parseInt(editor.getOption('fontSize'), 10);
       editor.setOption('fontSize', fontSize + by);
       saveEditorSettings();
     }
-  }
+  };
 
   /*
    * Focus editor to enable it for typing
   */
-  function focus() {
+  var focus = function() {
     if (editor) {
       editor.focus();
     }
-  }
+  };
 
   this.aceLoaded = aceLoaded;
   this.ready = ready;

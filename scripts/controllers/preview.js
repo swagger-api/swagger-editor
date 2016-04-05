@@ -44,7 +44,7 @@ SwaggerEditor.controller('PreviewCtrl', function PreviewCtrl(Storage, Builder,
   /*
    * General callback for builder results
   */
-  function onBuild(result) {
+  var onBuild = function(result) {
     $scope.$broadcast('toggleWatchers', true);  // turn watchers back on
 
     if (result.specs && result.specs.securityDefinitions) {
@@ -69,7 +69,7 @@ SwaggerEditor.controller('PreviewCtrl', function PreviewCtrl(Storage, Builder,
       $rootScope.errors = result.errors || [];
       $rootScope.warnings = result.warnings || [];
     });
-  }
+  };
 
   /*
    * Callback of builder success

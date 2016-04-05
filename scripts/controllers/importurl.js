@@ -13,7 +13,7 @@ SwaggerEditor.controller('UrlImportCtrl', function FileImportCtrl($scope,
     useProxy: true
   };
 
-  function fetch(url) {
+  var fetch = function(url) {
     $scope.error = null;
     $scope.canImport = false;
 
@@ -35,7 +35,7 @@ SwaggerEditor.controller('UrlImportCtrl', function FileImportCtrl($scope,
     } else {
       $scope.error = 'Invalid URL';
     }
-  }
+  };
 
   $scope.fetch = _.throttle(fetch, 200);
 

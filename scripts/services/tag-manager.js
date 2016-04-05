@@ -6,10 +6,10 @@ var _ = require('lodash');
 SwaggerEditor.service('TagManager', function TagManager($stateParams) {
   var tags = [];
 
-  function Tag(name, description) {
+  var Tag = function(name, description) {
     this.name = name;
     this.description = description;
-  }
+  };
 
   this.resetTags = function resetTags() {
     tags = [];

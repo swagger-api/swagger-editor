@@ -71,7 +71,8 @@ SwaggerEditor.controller('TryOperation', function($scope, formdataFilter,
         var param = $scope.requestSchema.properties.parameters;
         /* eslint guard-for-in: "error"*/
         for (var p in param.properties) {
-          if (param.properties[p].in === 'body' && isLooseJSONSchema(param.properties[p])) {
+          if (param.properties[p].in === 'body' &&
+            isLooseJSONSchema(param.properties[p])) {
             loose = true;
           }
         }
@@ -116,7 +117,7 @@ SwaggerEditor.controller('TryOperation', function($scope, formdataFilter,
    *
    * @returns {object} - A JSON Schema object
   */
-  function appendJSONEditorOptions(schema) {
+  var appendJSONEditorOptions = function(schema) {
     var looseOptions = {
       /*eslint-disable */
       no_additional_properties: false,
@@ -133,7 +134,7 @@ SwaggerEditor.controller('TryOperation', function($scope, formdataFilter,
     _.each(schema.properties, appendJSONEditorOptions);
 
     return schema;
-  }
+  };
 
   /*
    * Makes the request schema to generate the form in the template
@@ -415,7 +416,7 @@ SwaggerEditor.controller('TryOperation', function($scope, formdataFilter,
       throw new TypeError('schema should be an object schema.');
     }
 
-    // TODO: expand this list
+    // (TODO) expand this list
     var defaultValues = {
       string: '',
       integer: 0
@@ -451,11 +452,11 @@ SwaggerEditor.controller('TryOperation', function($scope, formdataFilter,
    *
    * @return {function} - the filter function
   */
-  function parameterTypeFilter(type) {
+  var parameterTypeFilter = function(type) {
     return function filterParams(parameter) {
       return parameter.in === type;
     };
-  }
+  };
 
   /*
    * Used for generating a hash from array of parameters.
@@ -466,7 +467,7 @@ SwaggerEditor.controller('TryOperation', function($scope, formdataFilter,
    *
    * @param {object} - complete hash from parameters to this iterations
   */
-  function hashifyParams(hash, param) {
+  var hashifyParams = function(hash, param) {
     if (!hash) {
       hash = {};
     }
@@ -490,7 +491,7 @@ SwaggerEditor.controller('TryOperation', function($scope, formdataFilter,
     hash[param.name] = $scope.requestModel.parameters[param.name];
 
     return hash;
-  }
+  };
 
   /*
    * Generates the URL for this call based on all parameters and other
@@ -576,7 +577,7 @@ SwaggerEditor.controller('TryOperation', function($scope, formdataFilter,
    *
    * @returns {object} - list of all parameters that are in header
   */
-  function getHeaderParams() {
+  var getHeaderParams = function() {
     // Select header parameters from all parameters and reduce them into a
     // single key/value hash where the key is parameter name
     var params = parameters.filter(parameterTypeFilter('header'))
@@ -610,7 +611,7 @@ SwaggerEditor.controller('TryOperation', function($scope, formdataFilter,
     }
 
     return params;
-  }
+  };
 
   /*
    * Returns all headers needed to be shown in request preview
@@ -628,8 +629,8 @@ SwaggerEditor.controller('TryOperation', function($scope, formdataFilter,
     var defaultHeaders = {
       'Host': host,
       'Accept': $scope.requestModel.accept || '*/*',
-      'Accept-Encoding': 'gzip,deflate,sdch', // TODO: where this is coming from?
-      'Accept-Language': 'en-US,en;q=0.8,fa;q=0.6,sv;q=0.4', // TODO: wut?
+      'Accept-Encoding': 'gzip,deflate,sdch', // (TODO) where this is coming from?
+      'Accept-Language': 'en-US,en;q=0.8,fa;q=0.6,sv;q=0.4', // (TODO) wut?
       'Cache-Control': 'no-cache',
       'Connection': 'keep-alive',
       'Origin': window.location.origin,
@@ -641,7 +642,7 @@ SwaggerEditor.controller('TryOperation', function($scope, formdataFilter,
 
     // if request has a body add Content-Type and Content-Length headers
     if (content !== null) {
-      // TODO: handle file case
+      // (TODO) handle file case
       headerParams['Content-Length'] = content.length;
       headerParams['Content-Type'] = $scope.requestModel.contentType;
     }
@@ -668,7 +669,7 @@ SwaggerEditor.controller('TryOperation', function($scope, formdataFilter,
    * @returns {string|object|null} - body parameter value or null if there is
    *   request body
   */
-  function getBodyModel() {
+  var getBodyModel = function() {
     if (!hasRequestBody()) {
       return null;
     }
@@ -696,7 +697,7 @@ SwaggerEditor.controller('TryOperation', function($scope, formdataFilter,
     // formData case
     }
     return formDataParams.reduce(hashifyParams, {});
-  }
+  };
 
   /*
    * Gets the request body based on current form data and other parameters
@@ -715,7 +716,7 @@ SwaggerEditor.controller('TryOperation', function($scope, formdataFilter,
 
     // if body model is a file, return a FormData instance with the file in it
     if (bodyModel[FILE_TYPE]) {
-      // TODO: put the mechanism of getting the file object into a method
+      // (TODO) put the mechanism of getting the file object into a method
       var bodyParamName = bodyParam.name;
       var form = new FormData();
       var inputEl = $('input[type="file"][name*="' + bodyParamName + '"]')[0];
@@ -772,7 +773,7 @@ SwaggerEditor.controller('TryOperation', function($scope, formdataFilter,
    *
    * @return {object} - HTTP header key/value
   */
-  function parseHeaders(headers) {
+  var parseHeaders = function(headers) {
     var result = {};
 
     headers.split('\n').forEach(function(line) {
@@ -784,7 +785,7 @@ SwaggerEditor.controller('TryOperation', function($scope, formdataFilter,
     });
 
     return result;
-  }
+  };
 
   /*
    * Makes the XHR call
