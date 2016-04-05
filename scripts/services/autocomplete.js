@@ -188,7 +188,7 @@ SwaggerEditor.service('Autocomplete', function($rootScope, snippets,
    *
    * @returns {array} - list of keywords for provided position
   */
-  var getKeywordsForPosition = function(path) {
+  function getKeywordsForPosition(path) {
     var keywordsMap = KeywordMap.get();
 
     var key = path.shift();
@@ -230,7 +230,7 @@ SwaggerEditor.service('Autocomplete', function($rootScope, snippets,
     // for each key in keywordsMap map construct a completion candidate and
     // return the array
     return _.keys(keywordsMap).map(constructAceCompletion);
-  };
+  }
 
   /*
    * Constructs an Ace compatible completion candidate from a keyword
