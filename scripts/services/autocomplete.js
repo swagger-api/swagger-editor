@@ -255,7 +255,7 @@ SwaggerEditor.service('Autocomplete', function($rootScope, snippets,
    *
    * @returns {array} - list of snippets for provided position
   */
-  var getSnippetsForPosition = function(path) {
+  function getSnippetsForPosition(path) {
     // find all possible snippets, modify them to be compatible with Ace and
     // sort them based on their position. Sorting is done by assigning a score
     // to each snippet, not by sorting the array
@@ -263,7 +263,7 @@ SwaggerEditor.service('Autocomplete', function($rootScope, snippets,
       .filter(filterForSnippets(path))
       .map(constructAceSnippet)
       .map(snippetSorterForPos(path));
-  };
+  }
 
   /*
    * Returns a function that gives score to snippet based on their position
@@ -302,7 +302,7 @@ SwaggerEditor.service('Autocomplete', function($rootScope, snippets,
    * @returns {Promise<array>} - list of auto-complete suggestions for $ref
    * values
   */
-  var get$refs = function() {
+  function get$refs() {
     return new Promise(function(resolve) {
       YAML.load($rootScope.editorValue, function(err, json) {
         if (err) {
@@ -331,5 +331,5 @@ SwaggerEditor.service('Autocomplete', function($rootScope, snippets,
         }));
       });
     });
-  };
+  }
 });
