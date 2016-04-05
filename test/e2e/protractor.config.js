@@ -1,13 +1,13 @@
 'use strict';
 
-var PORT = 8282;
+var PORT = 3032;
 var exec = require('child_process').exec;
 var path = require('path');
 var server = null;
 
 var config = {
   beforeLaunch: function() {
-    console.log('Starting web server at port ', PORT);
+    console.log('Starting web server at port', PORT);
 
     server = exec('node server.js', {
       cwd: path.resolve(__dirname, '../..'),
@@ -27,7 +27,7 @@ var config = {
     return Promise.resolve();
   },
 
-  baseUrl: 'http://localhost:' + PORT + '/',
+  baseUrl: 'http://127.0.0.1:' + PORT + '/',
 
   capabilities: {
     browserName: 'chrome', // process.env.TRAVIS ? 'firefox' : 'chrome',
