@@ -7,7 +7,7 @@ var server = null;
 
 var config = {
   beforeLaunch: function() {
-    console.log('Starting web server at port', PORT);
+    console.log('Starting web server for protractor at http://127.0.0.1:' + PORT);
 
     server = exec('node server.js', {
       cwd: path.resolve(__dirname, '../..'),
@@ -15,6 +15,18 @@ var config = {
         PORT: PORT
       }
     });
+
+    server.on('error', function(error) {
+      console.error('Web server for protractor error');
+      console.error(error);
+    });
+
+    server.on('exit', function(code) {
+      console.log('Web server for protractor exited with code', code);
+    });
+
+    // Print server logs
+    server.stdout.pipe(process.stdout);
   },
 
   afterLaunch: function() {
