@@ -17,10 +17,16 @@ var server = new WebpackDevServer(compiler, {
   publicPath: config.output.publicPath
 });
 
-server.listen(PORT, IP, function(err) {
-  if (err) {
-    console.log(err);
-  }
+module.exports = server;
 
-  console.log('Development server started at http://' + IP + ':' + PORT);
-});
+if (process.argv[1] === __filename) {
+  server.listen(PORT, IP, function(err) {
+    if (err) {
+      return console.log(err);
+    }
+
+    // TODO: open browser in development mode
+
+    console.log('Development server started at http://' + IP + ':' + PORT);
+  });
+}

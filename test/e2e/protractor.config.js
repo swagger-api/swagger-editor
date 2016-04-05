@@ -1,42 +1,16 @@
 'use strict';
 
-var PORT = 3032;
-var exec = require('child_process').exec;
-var path = require('path');
-var server = null;
+var PORT = 8282;
 
 var config = {
   beforeLaunch: function() {
-    console.log('Starting web server for protractor at http://127.0.0.1:' + PORT);
-
-    server = exec('node server.js', {
-      cwd: path.resolve(__dirname, '../..'),
-      env: {
-        PORT: PORT
+    require('../../server').listen(PORT, function(err) {
+      if (err) {
+        return console.log(err);
       }
+
+      console.log('Development server started at http://127.0.0.1:' + PORT);
     });
-
-    server.on('error', function(error) {
-      console.error('Web server for protractor error');
-      console.error(error);
-    });
-
-    server.on('exit', function(code) {
-      console.log('Web server for protractor exited with code', code);
-    });
-
-    // Print server logs
-    server.stdout.pipe(process.stdout);
-  },
-
-  afterLaunch: function() {
-    console.log('Killing the web server at port ', PORT);
-
-    if (server) {
-      server.kill('SIGHUP');
-    }
-
-    return Promise.resolve();
   },
 
   baseUrl: 'http://127.0.0.1:' + PORT + '/',
