@@ -64,9 +64,12 @@ var config = {
   }
 };
 
-// if --production is passed, ng-annotate the code
+// if --production is passed, ng-annotate and uglify the code
 if (argv.production) {
-    config.plugins.unshift(new NgAnnotatePlugin({add: true}));
+  config.plugins.unshift(new webpack.optimize.UglifyJsPlugin({
+    mangle: true
+  }));
+  config.plugins.unshift(new NgAnnotatePlugin({add: true}));
 }
 
 module.exports = config;
