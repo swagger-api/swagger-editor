@@ -22,7 +22,7 @@ describe('Error Presenter', function() {
 
     expect($('.error-presenter').isPresent()).toBe(true);
     expect($('.error-header h4').getText()).toContain('Error');
-    expect($('.error-presenter .item h5').getText())
+    expect($('.error-presenter .item h5.error').getText())
       .toContain('YAML Syntax Error');
   });
 
@@ -43,7 +43,7 @@ describe('Error Presenter', function() {
 
     expect($('.error-presenter').isPresent()).toBe(true);
     expect($('.error-header h4').getText()).toContain('Error');
-    expect($('.error-presenter .item h5').getText())
+    expect($('.error-presenter .item h5.error').getText())
       .toContain('Swagger Error');
   });
 
