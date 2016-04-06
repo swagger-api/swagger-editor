@@ -117,7 +117,7 @@ SwaggerEditor.controller('TryOperation', function($scope, formdataFilter,
    *
    * @returns {object} - A JSON Schema object
   */
-  var appendJSONEditorOptions = function(schema) {
+  function appendJSONEditorOptions(schema) {
     var looseOptions = {
       /*eslint-disable */
       no_additional_properties: false,
@@ -452,7 +452,7 @@ SwaggerEditor.controller('TryOperation', function($scope, formdataFilter,
    *
    * @return {function} - the filter function
   */
-  var parameterTypeFilter = function(type) {
+  function parameterTypeFilter(type) {
     return function filterParams(parameter) {
       return parameter.in === type;
     };
@@ -467,7 +467,7 @@ SwaggerEditor.controller('TryOperation', function($scope, formdataFilter,
    *
    * @param {object} - complete hash from parameters to this iterations
   */
-  var hashifyParams = function(hash, param) {
+  function hashifyParams(hash, param) {
     if (!hash) {
       hash = {};
     }
@@ -669,7 +669,7 @@ SwaggerEditor.controller('TryOperation', function($scope, formdataFilter,
    * @returns {string|object|null} - body parameter value or null if there is
    *   request body
   */
-  var getBodyModel = function() {
+  function getBodyModel() {
     if (!hasRequestBody()) {
       return null;
     }
