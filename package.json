@@ -74,6 +74,7 @@
     "ng-annotate-webpack-plugin": "^0.1.2",
     "ng-file-upload": "^12.0.4",
     "ngstorage": "^0.3.10",
+    "open": "0.0.5",
     "open-sans-fontface": "^1.4.0",
     "protractor": "^3.2.1",
     "sinon": "^1.17.3",

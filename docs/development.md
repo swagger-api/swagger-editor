@@ -8,6 +8,14 @@ You can set the environment variable `PORT` to set the port
 PORT=81 npm start
 ```
 
+### Disallowing the browser to open
+
+Set `DO_NOT_OPEN` environment variable to start the server without
+opening the browser
+
+```shell
+DO_NOT_OPEN=true npm start
+```
 
 ### Installing dependencies
 This app have npm dependencies. To install all dependencies in one line, run
@@ -15,34 +23,13 @@ This app have npm dependencies. To install all dependencies in one line, run
 npm install;
 ```
 
-### Running in development mode
-Simply run
-```shell
-grunt serve
-```
-if you don't have `grunt` installed, you can run `npm run develop` instead.
-
-You can also specify the port by setting `PORT` environment variable in development mode
-
-```shell
-PORT=3000 grunt serve
-```
-
-or
-
-```shell
-PORT=3000 npm run develop
-```
-
-For development it's preferred to have `grunt` installed globally on your machine.
-
 ### Building
 To build the project just run:
 
 ```shell
-grunt build
+npm run build
 ```
-This will build a new version of the web app, ready for production in `/dist` folder
+This will build a new version of the web app, ready for production
 
 ###  Configuration
 Swagger Editor will make an XHR GET call to `/config/defaults.json` to get it's settings before launch. If you are using Swagger Editor as a dependency or serving it statically, you can provide your own `defaults.json` at this endpoint to override default settings.
@@ -85,12 +72,12 @@ This will build and run unit tests then if it was successful, it will run  end-t
 All unit tests are located in [`../test/unit`](../test/unit). Unit tests are written in Jasmine and run by Karma. To run unit tests, run
 
 ```shell
-grunt karma:unit
+npm run unit-test
 ```
 
 For developing unit tests, run
 ```shell
-grunt test-dev
+npm run unit-test-watch
 ```
 This will keep test browser and test watcher open and watches for file changes to re-run tests.
 
@@ -99,5 +86,5 @@ All end-to-end tests are located in [`../test/e2e`](../test/e2e). To run end-to-
 
 ```shell
 grunt protr
-```
+npm run e2e-test
 This will run [Protractor](http://angular.github.io/protractor/#/) end-to-end test.

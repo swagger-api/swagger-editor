@@ -3,6 +3,8 @@
 var webpack = require('webpack');
 var WebpackDevServer = require('webpack-dev-server');
 var config = require('./webpack.config');
+var argv = require('minimist')(process.argv.slice(2));
+var open = require('open');
 var IP = '127.0.0.1';
 
 /*
@@ -33,9 +35,16 @@ if (process.argv[1] === __filename) {
       return console.log(err);
     }
 
-    // TODO: open browser in development mode
+    var url = 'http://' + IP + ':' + PORT;
 
-    console.log('Development server started at http://' + IP + ':' + PORT);
+    console.log('Development server started at', url);
+
+    // to avoid opening the browser set DO_NOT_OPEN environment
+    // variable to ture
+    if (!process.env.DO_NOT_OPEN) {
+      console.log('Opening the browser');
+      open(url);
+    }
   });
 }
 
