@@ -25,6 +25,7 @@ function startServer(port, cb) {
   server.listen(port, IP, cb);
 }
 
+// if this file was triggered directly, launch the server
 if (process.argv[1] === __filename) {
   var PORT = process.env.PORT || 8080;
   startServer(PORT, function(err) {

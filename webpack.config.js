@@ -3,8 +3,10 @@
 var path = require('path');
 var webpack = require('webpack');
 var ExtractTextPlugin = require('extract-text-webpack-plugin');
+var NgAnnotatePlugin = require('ng-annotate-webpack-plugin');
+var argv = require('minimist')(process.argv.slice(2));
 
-module.exports = {
+var config = {
   devtool: 'source-map',
 
   entry: {
@@ -61,3 +63,10 @@ module.exports = {
     ]
   }
 };
+
+// if --production is passed, ng-annotate the code
+if (argv.production) {
+    config.plugins.unshift(new NgAnnotatePlugin({add: true}));
+}
+
+module.exports = config;
