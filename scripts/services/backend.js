@@ -27,8 +27,8 @@ SwaggerEditor.service('Backend', function Backend($http, $q, defaults,
     backendEndpoint = backendEndpoint.replace('//', '/');
   }
 
-  /*
-   *
+  /**
+   * @param {object} data - data
   */
   function commitNow(data) {
     var result = Builder.buildDocs(data, {
@@ -56,8 +56,9 @@ SwaggerEditor.service('Backend', function Backend($http, $q, defaults,
     }
   }
 
-  /*
-   *
+  /**
+   * @param {string} key - key
+   * @param {string} value - value
   */
   function save(key, value) {
     // Save values in a buffer
@@ -82,10 +83,10 @@ SwaggerEditor.service('Backend', function Backend($http, $q, defaults,
     }
   }
 
-  /*
-   *
+  function load(key) {
+  /**
+   * @param {string} key - key
   */
-  var load = function(key) {
     if (key !== 'yaml') {
       return new Promise(function(resolve, reject) {
         if (key) {
@@ -111,24 +112,22 @@ SwaggerEditor.service('Backend', function Backend($http, $q, defaults,
         }
         return res.data;
       });
-  };
+  }
 
   /*
-   *
+   * @param {string} key - key
+   * @param {function} fn - function
   */
-  var addChangeListener = function(key, fn) {
+  function addChangeListener(key, fn) {
     if (angular.isFunction(fn)) {
       if (!changeListeners[key]) {
         changeListeners[key] = [];
       }
       changeListeners[key].push(fn);
     }
-  };
+  }
 
-  /*
-   *
-  */
-  var noop = function() {};
+  function noop() {}
 
   this.save = save;
   this.reset = noop;

@@ -24,9 +24,10 @@ $(function() {
     });
   }
 
-  /*
+  /**
    * Bootstrap the application
-   * @param {object} defaults
+   * @param {object} defaults - The defaults object
+   * @return {undefined}
   */
   function bootstrap(defaults) {
     window.SwaggerEditor.$defaults = defaults;

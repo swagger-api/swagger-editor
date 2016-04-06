@@ -6,7 +6,7 @@ var config = require('./webpack.config');
 var open = require('open');
 var IP = '127.0.0.1';
 
-/*
+/**
  * Start the server with webpack config
  *
  * @param {number} port - TCP port

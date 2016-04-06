@@ -9,8 +9,9 @@ SwaggerEditor.service('ASTManager', function ASTManager(YAML, $log) {
   var MAP_TAG = 'tag:yaml.org,2002:map';
   var SEQ_TAG = 'tag:yaml.org,2002:seq';
 
-  /*
+  /**
    * Get a position object with given
+   *
    * @param  {string}   yaml
    * YAML or JSON string
    * @param  {array}   path
@@ -18,7 +19,8 @@ SwaggerEditor.service('ASTManager', function ASTManager(YAML, $log) {
    * JSON Path similiar to JSON Pointers(RFC 6901). The difference is, each
    * component of path is an item of the array intead of beinf seperated with
    * slash(/) in a string
-   * @retusns {Function} cb
+   *
+   * @return {Function} cb
    * The callback function the argument will be passed to it will be
    * the position object with `start` and `end` properties.
    * `start` or `end` property values each are objects with `line` and `column`
@@ -47,6 +49,10 @@ SwaggerEditor.service('ASTManager', function ASTManager(YAML, $log) {
       // path is empty.
       find(ast);
 
+      /**
+       * @param {Object} current - object
+       * @return {object?}
+      */
       function find(current) {
         if (current.tag === MAP_TAG) {
           for (i = 0; i < current.value.length; i++) {
@@ -127,10 +133,13 @@ SwaggerEditor.service('ASTManager', function ASTManager(YAML, $log) {
 
       find(ast);
 
-      /*
-       * recursive find function that finds the node matching the position
-       * @param  {object} current - AST object to serach into
-       */
+      /**
+       * Recursive find function that finds the node matching the position
+       *
+       * @param {object} current - AST object to serach into
+       *
+       * @return {undefined}
+      */
       function find(current) {
         // algorythm:
         // is current a promitive?

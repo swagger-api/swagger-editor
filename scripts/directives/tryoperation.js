@@ -52,7 +52,7 @@ SwaggerEditor.controller('TryOperation', function($scope, formdataFilter,
 
   SchemaForm.options = defaultOptions;
 
-  /*
+  /**
    * configure SchemaForm directive based on request schema
   */
   function configureSchemaForm() {
@@ -84,12 +84,12 @@ SwaggerEditor.controller('TryOperation', function($scope, formdataFilter,
     SchemaForm.options = _.extend(defaultOptions, loose ? looseOptions : {});
   }
 
-  /*
+  /**
    * Determines if a JSON Schema is loose
    *
    * @param {object} schema - A JSON Schema object
    *
-   * @returns {boolean}
+   * @return {boolean} true if schema is a loose JSON
   */
   function isLooseJSONSchema(schema) {
     // loose object
@@ -109,13 +109,13 @@ SwaggerEditor.controller('TryOperation', function($scope, formdataFilter,
     return false;
   }
 
-  /*
+  /**
    * Appends JSON Editor options for schema recursively so if a schema needs to
    * be edited by JSON Editor loosely it's possible
    *
    * @param {object} schema - A JSON Schema object
    *
-   * @returns {object} - A JSON Schema object
+   * @return {object} - A JSON Schema object
   */
   function appendJSONEditorOptions(schema) {
     var looseOptions = {
@@ -136,11 +136,11 @@ SwaggerEditor.controller('TryOperation', function($scope, formdataFilter,
     return schema;
   }
 
-  /*
+  /**
    * Makes the request schema to generate the form in the template
    * The schema has all required attributes for making a call for this operation
    *
-   * @returns {object} - A JSON Schema containing all properties required to
+   * @return {object} - A JSON Schema containing all properties required to
    *   make this call
   */
   function makeRequestSchema() {
@@ -217,11 +217,11 @@ SwaggerEditor.controller('TryOperation', function($scope, formdataFilter,
     return schema;
   }
 
-  /*
+  /**
    * Makes a model with empty values that conforms to the JSON Schema generated
    *   by makeRequestSchema.
    *
-   * @returns {object} - the model
+   * @return {object} - the model
   */
   function makeRequestModel() {
     // base model
@@ -287,13 +287,13 @@ SwaggerEditor.controller('TryOperation', function($scope, formdataFilter,
     return model;
   }
 
-  /*
+  /**
    * Fills in empty gaps of a JSON Schema. This method is mostly used to
    * normalize JSON Schema objects that are abstracted from Swagger parameters
    *
-   * @param {object} - JSON Schema
+   * @param {object} schema - JSON Schema
    *
-   * @returns {object} - Normalized JSON Schema
+   * @return {object} - Normalized JSON Schema
   */
   function normalizeJSONSchema(schema) {
     // provide title property if it's missing.
@@ -326,12 +326,12 @@ SwaggerEditor.controller('TryOperation', function($scope, formdataFilter,
     return appendJSONEditorOptions(schema);
   }
 
-  /*
+  /**
    * Because some properties are cascading this walks up the tree to get them
    *
-   * @param {string} propertyName
+   * @param {string} propertyName - property name
    *
-   * @retusn {array|undefined} - list of possible properties
+   * @return {array|undefined} - list of possible properties
   */
   function walkToProperty(propertyName) {
     var defaultProperties = {
@@ -353,10 +353,10 @@ SwaggerEditor.controller('TryOperation', function($scope, formdataFilter,
     return undefined;
   }
 
-  /*
+  /**
    * Walks up the Swagger tree to find all possible security options
    *
-   * @returns {array} - a list of security options or an empty array
+   * @return {array} - a list of security options or an empty array
   */
   function getSecurityOptions() {
     var securityOptions = [];
@@ -384,13 +384,13 @@ SwaggerEditor.controller('TryOperation', function($scope, formdataFilter,
     });
   }
 
-  /*
+  /**
    * Picks JSON Schema from parameter
    * Since the parameter is a subset of JSON Schema we need to add
    * the missing properties
    *
    * @param {object} parameter - the parameter
-   * @returns {object} - the schema
+   * @return {object} - the schema
   */
   function pickSchemaFromParameter(parameter) {
     // if parameter has a schema populate it into the parameter so the parameter
@@ -404,12 +404,12 @@ SwaggerEditor.controller('TryOperation', function($scope, formdataFilter,
     return parameter;
   }
 
-  /*
+  /**
    * Creates empty object from JSON Schema
    *
    * @param {object} schema - JSON Schema
    *
-   * @returns {object} - result (empty object based on the schema)
+   * @return {object} - result (empty object based on the schema)
   */
   function createEmptyObject(schema) {
     if (schema.type !== 'object') {
@@ -445,10 +445,10 @@ SwaggerEditor.controller('TryOperation', function($scope, formdataFilter,
     return result;
   }
 
-  /*
+  /**
    * Generates a filter function based on type for filtering parameters
    *
-   * @param {string} type
+   * @param {string} type - type of parameter
    *
    * @return {function} - the filter function
   */
@@ -458,14 +458,14 @@ SwaggerEditor.controller('TryOperation', function($scope, formdataFilter,
     };
   }
 
-  /*
+  /**
    * Used for generating a hash from array of parameters.
    *   This method is used in Array#reduce method iterations
    *
    * @param {object} hash - the hash passed around in iterations
    * @param {object} param - a Swagger parameter object
    *
-   * @param {object} - complete hash from parameters to this iterations
+   * @return {object} - complete hash from parameters to this iterations
   */
   function hashifyParams(hash, param) {
     if (!hash) {
@@ -493,11 +493,11 @@ SwaggerEditor.controller('TryOperation', function($scope, formdataFilter,
     return hash;
   }
 
-  /*
+  /**
    * Generates the URL for this call based on all parameters and other
    *   conditions
    *
-   * @returns {string} - the URL
+   * @return {string} - the URL
   */
   function generateUrl() {
     var requestModel = $scope.requestModel;
@@ -613,10 +613,10 @@ SwaggerEditor.controller('TryOperation', function($scope, formdataFilter,
     return params;
   };
 
-  /*
+  /**
    * Returns all headers needed to be shown in request preview
    *
-   * @returns {object} - a hash of headers key/value pairs
+   * @return {object} - a hash of headers key/value pairs
   */
   function getHeaders() {
     var headerParams = getHeaderParams();
@@ -650,11 +650,11 @@ SwaggerEditor.controller('TryOperation', function($scope, formdataFilter,
     return headerParams;
   }
 
-  /*
+  /**
    * Determines if request has a body. A request has body if it has a parameter
    *  that is in body or in form data
    *
-   * @returns {boolean} - true if request has a body
+   * @return {boolean} - true if request has a body
   */
   function hasRequestBody() {
     var bodyParam = parameters.filter(parameterTypeFilter('body'));
@@ -663,10 +663,10 @@ SwaggerEditor.controller('TryOperation', function($scope, formdataFilter,
     return bodyParam.length || formDataParams.length;
   }
 
-  /*
+  /**
    * Gets the body parameter's current value
    *
-   * @returns {string|object|null} - body parameter value or null if there is
+   * @return {string|object|null} - body parameter value or null if there is
    *   request body
   */
   function getBodyModel() {
@@ -699,10 +699,10 @@ SwaggerEditor.controller('TryOperation', function($scope, formdataFilter,
     return formDataParams.reduce(hashifyParams, {});
   }
 
-  /*
+  /**
    * Gets the request body based on current form data and other parameters
    *
-   * @returns {string|null} - Raw request body or null if there is no body model
+   * @return {string|null} - Raw request body or null if there is no body model
   */
   function getRequestBody() {
     var bodyParam = parameters.filter(parameterTypeFilter('body'))[0];
@@ -755,11 +755,11 @@ SwaggerEditor.controller('TryOperation', function($scope, formdataFilter,
     return null;
   }
 
-  /*
+  /**
   * Returns true if this operation has a body param and that body param has
   *  a file
   *
-  * @returns {boolean}
+  * @return {boolean} true/false
   */
   function hasFileParam() {
     return getRequestBody() && getRequestBody().indexOf(FILE_TYPE) > -1;
@@ -787,7 +787,7 @@ SwaggerEditor.controller('TryOperation', function($scope, formdataFilter,
     return result;
   };
 
-  /*
+  /**
    * Makes the XHR call
    *
   */
@@ -825,12 +825,12 @@ SwaggerEditor.controller('TryOperation', function($scope, formdataFilter,
     });
   }
 
-  /*
+  /**
    * Make pretty printed version of a JSON string
    *
-   * @param {string} input
+   * @param {string} input - input
    *
-   * @returns {string}
+   * @return {string} - printed version of a JSON string
   */
   $scope.prettyPrint = function(input) {
     // Try if it's JSON and return pretty JSON
@@ -841,12 +841,11 @@ SwaggerEditor.controller('TryOperation', function($scope, formdataFilter,
     return input;
   };
 
-  /*
-   * Returns true if response is JSON
+  /**
    *
-   * @param {string|object|array} value
+   * @param {string|object|array} value - response
    *
-   * @returns {boolean}
+   * @return {boolean} true if response is JSON
   */
   $scope.isJson = function(value) {
     // if value is already parsed return true
@@ -864,13 +863,12 @@ SwaggerEditor.controller('TryOperation', function($scope, formdataFilter,
     return !err;
   };
 
-  /*
-   * Returns true if response is specified type
+  /**
    *
    * @param {object} headers - response headers
    * @param {string} type - the type to check for
    *
-   * @returns {boolean}
+   * @return {boolean} true if response is specified type
   */
   $scope.isType = function(headers, type) {
     var regex = new RegExp(type);
@@ -879,10 +877,9 @@ SwaggerEditor.controller('TryOperation', function($scope, formdataFilter,
     return headers['Content-Type'] && regex.test(headers['Content-Type']);
   };
 
-  /*
-   * Determines if this call is cross-origin
+  /**
    *
-   * @returns {boolean}
+   * @return {boolean} true if this call is cross-origin
   */
   $scope.isCrossOrigin = function() {
     return $scope.specs.host && $scope.specs.host !== $scope.locationHost;

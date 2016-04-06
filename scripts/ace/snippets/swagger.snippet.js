@@ -3,12 +3,12 @@
 SwaggerEditor.config(function($provide) {
   var operationRegex = 'get|put|post|delete|options|head|patch';
 
-  /*
+  /**
    * Makes an HTTP operation snippet's content based on operation name
    *
-   * @param operationName {string} - the HTTP verb
+   * @param {string} operationName - the HTTP verb
    *
-   * @returns {string} - the snippet content for that operation
+   * @return {string} - the snippet content for that operation
   */
   function makeOperationSnippet(operationName) {
     return [
@@ -22,12 +22,12 @@ SwaggerEditor.config(function($provide) {
     ].join('\n');
   }
 
-  /*
+  /**
    * Makes an HTTP response code snippet's content based on code
    *
-   * @param code {string} - HTTP Response Code
+   * @param {string} code - HTTP Response Code
    *
-   * @returns {string} - Snippet content
+   * @return {string} - Snippet content
   */
   function makeResponseCodeSnippet(code) {
     return [

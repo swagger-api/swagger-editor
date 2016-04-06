@@ -47,7 +47,7 @@ SwaggerEditor.service('FileLoader', function FileLoader($http, defaults, YAML) {
     });
   }
 
-  /*
+  /**
    * takes a JSON or YAML string, returns YAML string
    *
    * @param {string} string - the JSON or YAML raw string

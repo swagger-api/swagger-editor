@@ -75,12 +75,14 @@ SwaggerEditor.service('Autocomplete', function($rootScope, snippets,
     };
   };
 
-  /*
+  /**
    * Gets keyword path for specified position
    *
    * @param {position} pos - AST Mark position
    *
-   * @returns {Promise<array>} - a list of keywords to reach to provided
+   * @param {prefix} prefix - Prefix
+   *
+   * @return {Promise<array>} - a list of keywords to reach to provided
    *   position based in the YAML document
   */
   function getPathForPosition(pos, prefix) {
@@ -181,12 +183,12 @@ SwaggerEditor.service('Autocomplete', function($rootScope, snippets,
     }
   };
 
-  /*
+  /**
    * Gets array of keywords based on a position
    *
-   * @param {arrat} path - the path to get keywords from
+   * @param {array} path - the path to get keywords from
    *
-   * @returns {array} - list of keywords for provided position
+   * @return {array} - list of keywords for provided position
   */
   function getKeywordsForPosition(path) {
     var keywordsMap = KeywordMap.get();
@@ -232,12 +234,12 @@ SwaggerEditor.service('Autocomplete', function($rootScope, snippets,
     return _.keys(keywordsMap).map(constructAceCompletion);
   }
 
-  /*
+  /**
    * Constructs an Ace compatible completion candidate from a keyword
    *
-   * @param {string} keyword
+   * @param {string} keyword - keyword
    *
-   * @returns {object} - Ace compatible completion candidate
+   * @return {object} - Ace compatible completion candidate
   */
   function constructAceCompletion(keyword) {
     return {
@@ -248,12 +250,12 @@ SwaggerEditor.service('Autocomplete', function($rootScope, snippets,
     };
   }
 
-  /*
+  /**
    * Gets array of snippets based on a position
    *
    * @param {array} path - the path to get snippets from
    *
-   * @returns {array} - list of snippets for provided position
+   * @return {array} - list of snippets for provided position
   */
   function getSnippetsForPosition(path) {
     // find all possible snippets, modify them to be compatible with Ace and
@@ -265,14 +267,14 @@ SwaggerEditor.service('Autocomplete', function($rootScope, snippets,
       .map(snippetSorterForPos(path));
   }
 
-  /*
+  /**
    * Returns a function that gives score to snippet based on their position
    *
    * Note: not fully implemented method
    *
-   * @param {object} position - current cursor position
+   * @param {object} path - current cursor position
    *
-   * @returns {function} - applies snippet with score based on position
+   * @return {function} - applies snippet with score based on position
   */
   function snippetSorterForPos(path) {
     // this function is used in Array#map
@@ -295,11 +297,10 @@ SwaggerEditor.service('Autocomplete', function($rootScope, snippets,
     };
   }
 
-  /*
+  /**
    * Returns values for $ref JSON Pointer references
    *
-   *
-   * @returns {Promise<array>} - list of auto-complete suggestions for $ref
+   * @return {Promise<array>} - list of auto-complete suggestions for $ref
    * values
   */
   function get$refs() {
