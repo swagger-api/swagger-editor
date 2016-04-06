@@ -3,7 +3,6 @@
 var webpack = require('webpack');
 var WebpackDevServer = require('webpack-dev-server');
 var config = require('./webpack.config');
-var argv = require('minimist')(process.argv.slice(2));
 var open = require('open');
 var IP = '127.0.0.1';
 

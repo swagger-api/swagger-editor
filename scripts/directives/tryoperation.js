@@ -134,7 +134,7 @@ SwaggerEditor.controller('TryOperation', function($scope, formdataFilter,
     _.each(schema.properties, appendJSONEditorOptions);
 
     return schema;
-  };
+  }
 
   /*
    * Makes the request schema to generate the form in the template
@@ -456,7 +456,7 @@ SwaggerEditor.controller('TryOperation', function($scope, formdataFilter,
     return function filterParams(parameter) {
       return parameter.in === type;
     };
-  };
+  }
 
   /*
    * Used for generating a hash from array of parameters.
@@ -491,7 +491,7 @@ SwaggerEditor.controller('TryOperation', function($scope, formdataFilter,
     hash[param.name] = $scope.requestModel.parameters[param.name];
 
     return hash;
-  };
+  }
 
   /*
    * Generates the URL for this call based on all parameters and other
@@ -697,7 +697,7 @@ SwaggerEditor.controller('TryOperation', function($scope, formdataFilter,
     // formData case
     }
     return formDataParams.reduce(hashifyParams, {});
-  };
+  }
 
   /*
    * Gets the request body based on current form data and other parameters

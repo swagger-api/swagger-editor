@@ -57,7 +57,7 @@ sudo docker run -ti -p 8080:8080 swagger-editor
 And open [http://localhost:8080](http://localhost:8080) in your browser
 
 ### Code Style
-Code style is enforced by [JSCS (JavaScript Code Style)](https://github.com/jscs-dev/node-jscs) and [JSHint](http://jshint.com/). Build will fail if changes in code is not following code style guildlines.
+Code style is enforced by ESLint. Build will fail if changes in code is not following code style guildlines.
 
 ### Testing
 To run all tests run
