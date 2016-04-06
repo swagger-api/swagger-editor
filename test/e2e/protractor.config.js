@@ -1,15 +1,16 @@
 'use strict';
 
 var PORT = 8282;
+var startServer = require('../../server');
 
 var config = {
   beforeLaunch: function() {
-    require('../../server').listen(PORT, function(err) {
+    startServer(PORT, function(err) {
       if (err) {
         return console.log(err);
       }
 
-      console.log('Development server started at http://127.0.0.1:' + PORT);
+      console.log('Test server started at http://127.0.0.1:' + PORT);
     });
   },
 

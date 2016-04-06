@@ -24,14 +24,13 @@ $(function() {
     });
   }
 
+  /*
+   * Bootstrap the application
+   * @param {object} defaults
+  */
   function bootstrap(defaults) {
-    // if host is not localhost it's production
-    var isProduction = !/localhost/.test(window.location.host);
-
     window.SwaggerEditor.$defaults = defaults;
 
-    angular.bootstrap(window.document, ['SwaggerEditor'], {
-      strictDi: isProduction
-    });
+    angular.bootstrap(window.document, ['SwaggerEditor']);
   }
 });

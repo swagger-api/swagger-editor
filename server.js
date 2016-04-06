@@ -5,22 +5,29 @@ var WebpackDevServer = require('webpack-dev-server');
 var config = require('./webpack.config');
 var IP = '127.0.0.1';
 
-var PORT = process.env.PORT || 8080;
+/*
+ * Start the server with webpack config
+ *
+ * @param {number} port - TCP port
+ * @param {function} cb - Error first success callback
+*/
+function startServer(port, cb) {
+  config.entry.app.unshift('webpack-dev-server/client?http://' + IP + ':' + port + '/');
 
-config.entry.app.unshift('webpack-dev-server/client?http://' + IP + ':' + PORT + '/');
+  var compiler = webpack(config);
 
-var compiler = webpack(config);
+  var server = new WebpackDevServer(compiler, {
+    progress: true,
+    quiet: true,
+    publicPath: config.output.publicPath
+  });
 
-var server = new WebpackDevServer(compiler, {
-  progress: true,
-  quiet: true,
-  publicPath: config.output.publicPath
-});
-
-module.exports = server;
+  server.listen(port, IP, cb);
+}
 
 if (process.argv[1] === __filename) {
-  server.listen(PORT, IP, function(err) {
+  var PORT = process.env.PORT || 8080;
+  startServer(PORT, function(err) {
     if (err) {
       return console.log(err);
     }
@@ -30,3 +37,5 @@ if (process.argv[1] === __filename) {
     console.log('Development server started at http://' + IP + ':' + PORT);
   });
 }
+
+module.exports = startServer;
