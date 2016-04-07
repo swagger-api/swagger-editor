@@ -51,7 +51,7 @@ SwaggerEditor.service('FileLoader', function FileLoader($http, defaults, YAML) {
    * takes a JSON or YAML string, returns YAML string
    *
    * @param {string} string - the JSON or YAML raw string
-   * @return {Promise}
+   * @return {Promise} YAML string
    * @throws {TypeError} - resolves to a YAML string
   */
   function load(string) {

@@ -20,8 +20,9 @@ SwaggerEditor.service('ASTManager', function ASTManager(YAML, $log) {
    * component of path is an item of the array intead of beinf seperated with
    * slash(/) in a string
    *
-   * @return {Function} cb
-   * The callback function the argument will be passed to it will be
+   * @param {Function} cb - The callback function
+   *
+   * the argument will be passed to it will be
    * the position object with `start` and `end` properties.
    * `start` or `end` property values each are objects with `line` and `column`
    * properties
@@ -51,7 +52,7 @@ SwaggerEditor.service('ASTManager', function ASTManager(YAML, $log) {
 
       /**
        * @param {Object} current - object
-       * @return {object?}
+       * @return {Function} find(value)
       */
       function find(current) {
         if (current.tag === MAP_TAG) {
