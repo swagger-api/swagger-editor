@@ -18,9 +18,8 @@ SwaggerEditor.controller('ErrorPresenterCtrl', function ErrorPresenterCtrl(
 
   assignErrorsAndWarnings();
 
-  /*
+  /**
    * Assigns errorsAndWarnings to scope
-   *
   */
   function assignErrorsAndWarnings() {
     getErrorsAndWarnings().then(function(errorsAndWarnings) {
@@ -30,10 +29,10 @@ SwaggerEditor.controller('ErrorPresenterCtrl', function ErrorPresenterCtrl(
     });
   }
 
-  /*
+  /**
    * Concatenate and modifies errors and warnings array to make it suitable for
    * Error Presenter
-   * @returns {Promsise<array>}
+   * @return {Promsise<array>} presents error
   */
   function getErrorsAndWarnings() {
     var errorsAndWarnings = $rootScope.errors.map(function(error) {
@@ -56,10 +55,10 @@ SwaggerEditor.controller('ErrorPresenterCtrl', function ErrorPresenterCtrl(
     return Promise.all(errorsAndWarnings.map(assignLineNumber));
   }
 
-  /*
+  /**
    * Gets type description of an error object
-   * @param {object} error
-   * @returns {string}
+   * @param {object} error - error
+   * @return {string} error's message
   */
   function getType(error) {
     if (error.code && error.message && error.path) {
@@ -80,10 +79,10 @@ SwaggerEditor.controller('ErrorPresenterCtrl', function ErrorPresenterCtrl(
     return 'Unknown Error';
   }
 
-  /*
+  /**
    * Gets description of an error object
-   * @param {object} error
-   * @returns {string}
+   * @param {object} error - error
+   * @return {string} description of the error
   */
   function getDescription(error) {
     if (_.isString(error.description)) {
@@ -115,10 +114,10 @@ SwaggerEditor.controller('ErrorPresenterCtrl', function ErrorPresenterCtrl(
     return error;
   }
 
-  /*
+  /**
    * Determines if all errors are in warning level
-   * @param {object} error
-   * @returns {boolean}
+   * @param {object} errors - error
+   * @return {boolean} true if not a warning
    *
   */
   $scope.isOnlyWarnings = function(errors) {
@@ -127,11 +126,11 @@ SwaggerEditor.controller('ErrorPresenterCtrl', function ErrorPresenterCtrl(
     });
   };
 
-  /*
+  /**
    * Gets the line number for an error object
    *
-   * @param {object} error
-   * @returns {nubmer|Promise<number>}
+   * @param {object} error - error
+   * @return {nubmer|Promise<number>} line number
   */
   function assignLineNumber(error) {
     if (error.yamlError) {
@@ -155,9 +154,9 @@ SwaggerEditor.controller('ErrorPresenterCtrl', function ErrorPresenterCtrl(
     return error;
   }
 
-  /*
+  /**
    * Focuses Ace editor to the line number of error
-   * @param {object} error
+   * @param {object} error - error
    *
   */
   $scope.goToLineOfError = function(error) {
@@ -167,17 +166,17 @@ SwaggerEditor.controller('ErrorPresenterCtrl', function ErrorPresenterCtrl(
     }
   };
 
-  /*
+  /**
    * Determines if an error is in warning level
    *
-   * @param {object} error
-   * @returns {boolean}
+   * @param {object} error - error
+   * @return {boolean} true if it is a warning
   */
   $scope.isWarning = function(error) {
     return error && error.level < ERROR_LEVEL;
   };
 
-  /*
+  /**
    * Toggle the collapsed state of the modal
    *
   */

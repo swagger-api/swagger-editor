@@ -25,9 +25,12 @@ SwaggerEditor.controller('PreviewCtrl', function PreviewCtrl(Storage, Builder,
 
   Storage.addChangeListener('yaml', update);
 
-  /*
+  /**
    * Reacts to updates of YAML in storage that usually triggered by editor
-   * changes
+   * changes.
+   * @param {object} latest - the swagger spec.
+   * @param {boolean} force - updates the force.
+   * @return {undefined}
   */
   function update(latest, force) {
     if (!Preferences.get('liveRender') && !force && $scope.specs) {
@@ -41,10 +44,11 @@ SwaggerEditor.controller('PreviewCtrl', function PreviewCtrl(Storage, Builder,
     Builder.buildDocs(latest).then(onBuildSuccess, onBuildFailure);
   }
 
-  /*
+  /**
    * General callback for builder results
+   * @param {Object} result - the result object
   */
-  var onBuild = function(result) {
+  function onBuild(result) {
     $scope.$broadcast('toggleWatchers', true);  // turn watchers back on
 
     if (result.specs && result.specs.securityDefinitions) {
@@ -69,10 +73,11 @@ SwaggerEditor.controller('PreviewCtrl', function PreviewCtrl(Storage, Builder,
       $rootScope.errors = result.errors || [];
       $rootScope.warnings = result.warnings || [];
     });
-  };
+  }
 
-  /*
+  /**
    * Callback of builder success
+   * @param {Object} result - the result object
   */
   function onBuildSuccess(result) {
     onBuild(result);
@@ -88,8 +93,9 @@ SwaggerEditor.controller('PreviewCtrl', function PreviewCtrl(Storage, Builder,
     });
   }
 
-  /*
+  /**
    * Callback of builder failure
+   * @param {Object} result - the result object
   */
   function onBuildFailure(result) {
     onBuild(result);
@@ -134,12 +140,12 @@ SwaggerEditor.controller('PreviewCtrl', function PreviewCtrl(Storage, Builder,
     });
   }
 
-  /*
+  /**
    * Response CSS class for an HTTP response code
    *
    * @param {number} code - The HTTP Response CODE
    *
-   * @returns {string} - CSS class to be applied to the response code HTML tag
+   * @return {string} - CSS class to be applied to the response code HTML tag
   */
   function responseCodeClassFor(code) {
     var colors = {
@@ -151,22 +157,22 @@ SwaggerEditor.controller('PreviewCtrl', function PreviewCtrl(Storage, Builder,
     return colors[Math.floor(Number(code) / 100)] || 'default';
   }
 
-  /*
+  /**
    * Determines if a key is a vendor extension key
    * Vendor extensions always start with `x-`
    *
-   * @param {string} key
+   * @param {string} key - key
    *
-   * @returns {boolean}
+   * @return {boolean} ture if key is a vendor extension
   */
   function isVendorExtension(key) {
     return _.startsWith(key, 'x-');
   }
 
-  /*
+  /**
    * Determines if we should render the definitions sections
    *
-   * @param {object|null} - the definitions object of Swagger spec
+   * @param {object|null} definitions - the definitions object of Swagger spec
    *
    * @return {boolean} - true if definitions object should be rendered, false
    *  otherwise

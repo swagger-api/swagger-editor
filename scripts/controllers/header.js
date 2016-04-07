@@ -249,6 +249,7 @@ SwaggerEditor.controller('HeaderCtrl', function HeaderCtrl($scope, $uibModal,
     }).join(' ');
   };
 
+  /** */
   function noop() {
 
   }

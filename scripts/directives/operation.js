@@ -46,11 +46,11 @@ SwaggerEditor.directive('swaggerOperation', function(defaults) {
           .map(setParameterSchema);
       };
 
-      /*
+      /**
        * Sets the schema object for a parameter even if it doesn't have schema
        *
-       * @param {object} parameter
-       * @returns {object}
+       * @param {object} parameter - parameter
+       * @return {object} sets the schema object
       */
       function setParameterSchema(parameter) {
         if (parameter.schema) {
@@ -76,12 +76,12 @@ SwaggerEditor.directive('swaggerOperation', function(defaults) {
         return parameter;
       }
 
-      /*
+      /**
        * Returns true if the operation responses has at least one response with
        * schema
        *
-       * @param responses {object} - a hash of responses
-       * @returns boolean
+       * @param {object} responses - a hash of responses
+       * @return {boolean} true/false
       */
       $scope.hasAResponseWithSchema = function(responses) {
         return _.keys(responses).some(function(responseCode) {
@@ -89,12 +89,12 @@ SwaggerEditor.directive('swaggerOperation', function(defaults) {
         });
       };
 
-      /*
+      /**
        * Returns true if the operation responses has at least one response with
        * "headers" field
        *
-       * @param responses {object} - a hash of responses
-       * @returns boolean
+       * @param {object} responses - a hash of responses
+       * @return {boolean} - true/false
       */
       $scope.hasAResponseWithHeaders = function(responses) {
         return _.keys(responses).some(function(responseCode) {
@@ -102,12 +102,12 @@ SwaggerEditor.directive('swaggerOperation', function(defaults) {
         });
       };
 
-      /*
+      /**
        * Returns true if the operation responses has at least one response with
        * examples
        *
-       * @param responses {object} - a hash of responses
-       * @returns boolean
+       * @param {object} responses - a hash of responses
+       * @return {boolean} - true/false
       */
       $scope.hasAResponseWithExamples = function(responses) {
         return _.keys(responses).some(function(responseCode) {

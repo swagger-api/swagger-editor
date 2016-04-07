@@ -29,7 +29,7 @@ SwaggerEditor.service('SwayWorker', function SwayWorker() {
     enqueue();
   };
 
-  /*
+  /**
    * Enqueue a task from task list and invoke it
    *
    * @private
@@ -49,11 +49,11 @@ SwaggerEditor.service('SwayWorker', function SwayWorker() {
     worker.postMessage(currentTask.arg);
   }
 
-  /*
+  /**
    * Respond to worker successful executions
    *
    * @private
-   * @param {Message} a web worker message
+   * @param {Message} message - a web worker message
   */
   function onMessage(message) {
     if (currentTask) {
@@ -63,11 +63,11 @@ SwaggerEditor.service('SwayWorker', function SwayWorker() {
     enqueue();
   }
 
-  /*
+  /**
    * Respond to worker failed executions
    *
    * @private
-   * @param {Message} a web worker message
+   * @param {Message} message - a web worker message
    * @throws {Error}
   */
   function onError(message) {
