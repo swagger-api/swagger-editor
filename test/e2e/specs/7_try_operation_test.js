@@ -1,14 +1,37 @@
 'use strict';
 
-describe('Try Operation', function () {
-  it('opens "Heroku Pets" example', function () {
-    $('#fileMenu').click();
-    $('#open-example').click();
-    $('.modal-dialog select').click();
+function chooseDocumentation(child){
+  $('#fileMenu').click();
+  $('#open-example').click();
+  $('.modal-dialog select').click();
+  $('.modal-dialog select option:nth-child('+child+')').click();
+  $('.modal-dialog .btn.btn-primary').click();
+}
 
+describe('Try Operation', function () {
+  it('opens "petstore_full" example', function () {
+    chooseDocumentation(6);
+    
+    browser.sleep(300); // wait for modal to go away
+    expect($('.modal-dialog').isPresent()).toBe(false);
+    browser.wait(function () {
+      return $('.info-header').getText().then(function (text) {
+        return text.indexOf('Swagger Petstore') > -1;
+      });
+    }, 5000);
+    expect($('.info-header').getText()).toContain('Swagger Petstore');
+    
+    $('ul.paths > li:nth-child(1) li.post.operation .try-operation > button')
+      .click();
+    expect($('.try-container').isPresent()).toBe(true);
+    browser.sleep(300);
+    
+    expect( $('.request').getText()).toContain('doggi');
+  });
+  
+  it('opens "Heroku Pets" example', function () {
     // heroku pets is second one
-    $('.modal-dialog select option:nth-child(2)').click();
-    $('.modal-dialog .btn.btn-primary').click();
+    chooseDocumentation(2);
 
     browser.sleep(300); // wait for modal to go away
 
@@ -21,6 +44,7 @@ describe('Try Operation', function () {
     }, 5000);
     expect($('.info-header').getText()).toContain('PetStore on Heroku');
   });
+  
 
   it('should show no errors', function () {
     expect($('.error-presenter').isPresent()).toBe(false);
