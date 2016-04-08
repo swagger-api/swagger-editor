@@ -20,22 +20,24 @@ describe('Service: ASTManager', function() {
     describe('out of range', function() {
       it('returns empty array for out of range row', function(done) {
         var position = {line: 3, column: 0};
-
-        ASTManager.pathForPosition('swagger: 2.0', position)
-        .then(function(path) {
+        var assertPath = function(path) {
           expect(path).to.deep.equal([]);
           done();
-        });
+        };
+
+        ASTManager.pathForPosition('swagger: 2.0', position)
+        .then(assertPath);
       });
 
       it('returns empty array for out of range column', function(done) {
         var position = {line: 0, column: 100};
-
-        ASTManager.pathForPosition('swagger: 2.0', position)
-        .then(function(path) {
+        var assertPath = function(path) {
           expect(path).to.deep.equal([]);
           done();
-        });
+        };
+
+        ASTManager.pathForPosition('swagger: 2.0', position)
+        .then(assertPath);
       });
     });
 

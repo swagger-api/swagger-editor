@@ -35,6 +35,9 @@ describe('Service: Autocomplete', function() {
     '          ',                  // 16
     ''                             // 17
   ].join('\n');
+  var getValue = function(item) {
+    return item.value;
+  };
 
   beforeEach(inject(function($rootScope, _Autocomplete_) {
     rootScope = $rootScope;
@@ -50,9 +53,7 @@ describe('Service: Autocomplete', function() {
       rootScope.editorValue = simpleYaml;
 
       getCompletions(editor, session, position, prefix, function(e, list) {
-        var values = list.map(function(item) {
-          return item.value;
-        });
+        var values = list.map(getValue);
 
         expect(values).to.contain('swagger');
         expect(values).to.contain('info');
@@ -72,9 +73,7 @@ describe('Service: Autocomplete', function() {
       var position = {row: 3, column: 3};
 
       getCompletions(editor, session, position, prefix, function(e, list) {
-        var values = list.map(function(item) {
-          return item.value;
-        });
+        var values = list.map(getValue);
 
         try {
           expect(values).to.contain('contact');
@@ -93,9 +92,7 @@ describe('Service: Autocomplete', function() {
       var position = {row: 6, column: 3};
 
       getCompletions(editor, session, position, prefix, function(e, list) {
-        var values = list.map(function(item) {
-          return item.value;
-        });
+        var values = list.map(getValue);
 
         try {
           expect(values).to.contain('contact');
@@ -116,9 +113,7 @@ describe('Service: Autocomplete', function() {
       rootScope.editorValue = 'swagger: 2';
 
       getCompletions(editor, session, position, prefix, function(e, list) {
-        var values = list.map(function(item) {
-          return item.value;
-        });
+        var values = list.map(getValue);
 
         try {
           expect(values).to.contain('"2.0"');
