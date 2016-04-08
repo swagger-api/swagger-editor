@@ -14,20 +14,20 @@ SwaggerEditor.service('SwayWorker', function SwayWorker() {
   worker.onmessage = onMessage;
   worker.onerror = onError;
 
-  /*
+  /**
    * Schedule a task for the worker
    *
    * @param {obj} arg - the task arguments
    *
-   * @param {function} - completion callback
+   * @param {function} cb - completion callback
   */
-  var schedule = function(arg, cb) {
+  function schedule(arg, cb) {
     queue.push({
       arg: arg,
       cb: cb
     });
     enqueue();
-  };
+  }
 
   /**
    * Enqueue a task from task list and invoke it

@@ -38,6 +38,10 @@ onmessage = function(message) {
 // Error object can not get serialized using the structured cloning algorithm,
 // therefore we're removing them and appending the error message to our main
 // error object.
+/**
+ * @param {array} errors - errors
+ * @return {array} emptie errors
+*/
 function sanitizeErrors(errors) {
   if (!errors || !errors.length) {
     return [];

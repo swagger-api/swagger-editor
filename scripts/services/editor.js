@@ -152,7 +152,7 @@ SwaggerEditor.service('Editor', function Editor(Autocomplete, ASTManager,
   }
 
   /**
-   * @param {} session
+   * @param {object} session - session
   */
   function configureSession(session) {
     session.setTabSize(2);

@@ -13,6 +13,10 @@ describe('Example', function() {
   ].forEach(testExample);
 });
 
+/**
+ * @param {string} title - title
+ * @param {int} index - index
+*/
 function testExample(title, index) {
   describe(title, function() {
     it('should open ' + title, function() {

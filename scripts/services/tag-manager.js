@@ -64,6 +64,10 @@ SwaggerEditor.service('TagManager', function TagManager($stateParams) {
     return [];
   };
 
+  /**
+   * @param {string} tagName - tag name
+   * @param {string} tagDescription - description
+  */
   function registerTag(tagName, tagDescription) {
     if (!tagName) {
       return;

@@ -57,6 +57,9 @@ SwaggerEditor.controller('HeaderCtrl', function HeaderCtrl($scope, $uibModal,
     Codegen.getSDK(type, language).then(noop, showCodegenError);
   };
 
+  /**
+   * @param {object} resp - response
+  */
   function showCodegenError(resp) {
     $uibModal.open({
       templateUrl: 'templates/code-gen-error-modal.html',
