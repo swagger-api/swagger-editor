@@ -83,10 +83,11 @@ SwaggerEditor.service('Backend', function Backend($http, $q, defaults,
     }
   }
 
-  function load(key) {
   /**
    * @param {string} key - key
+   * @return {Function} if key is not 'yaml'
   */
+  function load(key) {
     if (key !== 'yaml') {
       return new Promise(function(resolve, reject) {
         if (key) {
@@ -114,7 +115,7 @@ SwaggerEditor.service('Backend', function Backend($http, $q, defaults,
       });
   }
 
-  /*
+  /**
    * @param {string} key - key
    * @param {function} fn - function
   */
@@ -127,6 +128,7 @@ SwaggerEditor.service('Backend', function Backend($http, $q, defaults,
     }
   }
 
+  /** */
   function noop() {}
 
   this.save = save;

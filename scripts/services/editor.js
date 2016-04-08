@@ -132,7 +132,7 @@ SwaggerEditor.service('Editor', function Editor(Autocomplete, ASTManager,
       LocalStorage.save('editor-settings', editor.getOptions());
     }
   };
-
+  /** */
   function loadEditorSettings() {
     if (editor) {
       LocalStorage.load('editor-settings').then(function(options) {
@@ -142,23 +142,35 @@ SwaggerEditor.service('Editor', function Editor(Autocomplete, ASTManager,
     }
   }
 
+  /**
+   * @param {array} event - event
+  */
   function onChangeFold(event) {
     changeFoldFns.forEach(function(fn) {
       fn.apply(null, event);
     });
   }
 
+  /**
+   * @param {} session
+  */
   function configureSession(session) {
     session.setTabSize(2);
   }
 
-  var ready = function(fn) {
+  /**
+   * @param {function} fn - function
+  */
+  function ready(fn) {
     if (angular.isFunction(fn)) {
       onReadyFns.add(fn);
     }
-  };
+  }
 
-  var getAllFolds = function() {
+  /**
+   * @return {array} assigns an array to folds
+  */
+  function getAllFolds() {
     var session = editor.getSession();
     var folds = null;
 
@@ -166,42 +178,64 @@ SwaggerEditor.service('Editor', function Editor(Autocomplete, ASTManager,
     folds = session.unfold();
 
     return Array.isArray(folds) ? folds : [];
-  };
+  }
 
-  var getLine = function(l) {
+  /**
+   * @param {int} l - line number
+   * @return {string} returns the line
+  */
+  function getLine(l) {
     return editor.session.getLine(l);
-  };
+  }
 
-  var onFoldChanged = function(fn) {
+  /**
+   * @param {function} fn - function
+  */
+  function onFoldChanged(fn) {
     if (_.isFunction(fn)) {
       changeFoldFns.add(fn);
     }
-  };
+  }
 
-  var addFold = function(start, end) {
+  /**
+   * @param {int} start - folding starts from here
+   * @param {int} end - folding finishes here
+  */
+  function addFold(start, end) {
     if (editor) {
       editor.getSession().foldAll(start, end);
     }
-  };
+  }
 
-  var removeFold = function(start, end) {
+  /**
+   * @param {int} start - folding starts from here
+   * @param {int} end - folding finishes here
+  */
+  function removeFold(start, end) {
     if (editor) {
       editor.getSession().unfold(editor.getSession().getFoldAt(start, end));
     }
-  };
+  }
 
-  var gotoLine = function(line) {
+  /**
+   * @param {int} line - line number
+  */
+  function gotoLine(line) {
     editor.gotoLine(line);
-  };
+  }
 
-  var lineInFocus = function() {
+  /**
+   * @return {int} line that has the cursor
+  */
+  function lineInFocus() {
     if (!editor) {
       return null;
     }
     return editor.getCursorPosition().row;
-  };
+  }
 
-  var showSettings = function() {
+  /** */
+  function showSettings() {
     ace.config.loadModule('ace/ext/settings_menu', function(module) {
       module.init(editor);
       editor.showSettingsMenu();
@@ -217,22 +251,26 @@ SwaggerEditor.service('Editor', function Editor(Autocomplete, ASTManager,
         }
       }, 300);
     });
-  };
+  }
 
-  var resetSettings = function() {
+  /** */
+  function resetSettings() {
     if (window.customConfirm('Are you sure?') && editor) {
       editor.setOptions(editorOptions);
       saveEditorSettings();
     }
-  };
+  }
 
-  var adjustFontSize = function(by) {
+  /**
+   * @param {int} by - integer
+  */
+  function adjustFontSize(by) {
     if (editor) {
       var fontSize = parseInt(editor.getOption('fontSize'), 10);
       editor.setOption('fontSize', fontSize + by);
       saveEditorSettings();
     }
-  };
+  }
 
   /*
    * Focus editor to enable it for typing

@@ -156,6 +156,7 @@ SwaggerEditor.controller('HeaderCtrl', function HeaderCtrl($scope, $uibModal,
     return Boolean(Preferences).get('liveRender');
   };
 
+  /** */
   function assignDownloadHrefs() {
     var MIME_TYPE = 'text/plain';
 

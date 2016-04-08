@@ -67,13 +67,13 @@ SwaggerEditor.service('FoldStateManager', function FoldStateManager(ASTManager,
     });
   }
 
-  /*
+  /**
    * Get fold state tree of spec
    *
-   * @param {object} tree
-   * @param {object} newTree
+   * @param {object} tree - tree
+   * @param {object} newTree - newTree
    *
-   * @returns {object}
+   * @return {object} object
   */
   function getFoldedTree(tree, newTree) {
     if (!tree) {
