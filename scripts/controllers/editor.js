@@ -14,10 +14,10 @@ SwaggerEditor.controller('EditorCtrl', function EditorCtrl($scope, $rootScope,
     }
   });
 
-/**
- * Get Debounced On Ace Change.
- * @constructor
- */
+  /**
+   * Get Debounced On Ace Change.
+   * @return {function} returns debounced unchanged function
+  */
   function getDebouncedOnAceChange() {
     return _.debounce(onAceChange, Preferences.get('keyPressDebounceTime'));
   }
@@ -36,7 +36,7 @@ SwaggerEditor.controller('EditorCtrl', function EditorCtrl($scope, $rootScope,
     });
   });
 
-/** When there is a change on ace */
+  /** When there is a change on ace */
   function onAceChange() {
     var value = $rootScope.editorValue;
 
