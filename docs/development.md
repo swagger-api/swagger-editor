@@ -1,5 +1,11 @@
 # Development Guide
 
+### Installing dependencies
+This app have npm dependencies. To install all dependencies, run
+```shell
+npm install;
+```
+
 ### Specifying the port
 
 You can set the environment variable `PORT` to set the port
@@ -15,12 +21,6 @@ opening the browser
 
 ```shell
 DO_NOT_OPEN=true npm start
-```
-
-### Installing dependencies
-This app have npm dependencies. To install all dependencies, run
-```shell
-npm install;
 ```
 
 ### Building
