@@ -1,18 +1,19 @@
 'use strict';
 
-describe('Directive: collapseWhen', function () {
+var angular = require('angular');
 
+describe('Directive: collapseWhen', function() {
   // load the directive's module
-  beforeEach(window.angular.mock.module('SwaggerEditor'));
+  beforeEach(angular.mock.module('SwaggerEditor'));
 
-  var element,
-    scope;
+  var element;
+  var scope;
 
-  beforeEach(inject(function ($rootScope) {
+  beforeEach(inject(function($rootScope) {
     scope = $rootScope.$new();
   }));
 
-  it('should make hidden element visible', inject(function ($compile) {
+  it('should make hidden element visible', inject(function($compile) {
     element = angular.element(
       '<div collapse-when>this is the collapseWhen directive</div>');
     element = $compile(element)(scope);

@@ -1,9 +1,10 @@
 'use strict';
 
-describe('Service: Autocomplete', function () {
+var angular = require('angular');
 
+describe('Service: Autocomplete', function() {
   // load the service's module
-  beforeEach(window.angular.mock.module('SwaggerEditor'));
+  beforeEach(angular.mock.module('SwaggerEditor'));
 
   // instantiate service and capture getCompletions method
   var rootScope;
@@ -34,24 +35,25 @@ describe('Service: Autocomplete', function () {
     '          ',                  // 16
     ''                             // 17
   ].join('\n');
+  var getValue = function(item) {
+    return item.value;
+  };
 
-  beforeEach(inject(function ($rootScope, _Autocomplete_) {
+  beforeEach(inject(function($rootScope, _Autocomplete_) {
     rootScope = $rootScope;
     _Autocomplete_.init(editor);
     getCompletions = editor.completers[0].getCompletions;
   }));
 
-  describe('root level suggestions', function () {
-
-    it('suggests root keywords when "s" is typed', function (done) {
-
+  describe('root level suggestions', function() {
+    it('suggests root keywords when "s" is typed', function(done) {
       var position = {row: 0, column: 0};
       var prefix = 's';
 
       rootScope.editorValue = simpleYaml;
 
-      getCompletions(editor, session, position, prefix, function (e, list) {
-        var values = list.map(function (item) { return item.value; });
+      getCompletions(editor, session, position, prefix, function(e, list) {
+        var values = list.map(getValue);
 
         expect(values).to.contain('swagger');
         expect(values).to.contain('info');
@@ -63,15 +65,15 @@ describe('Service: Autocomplete', function () {
     });
   });
 
-  describe('second level suggestions', function () {
-    it('suggests "contact" if cursor on top of "info" hash', function (done) {
+  describe('second level suggestions', function() {
+    it('suggests "contact" if cursor on top of "info" hash', function(done) {
       var prefix = 'c';
       rootScope.editorValue = simpleYaml;
 
       var position = {row: 3, column: 3};
 
-      getCompletions(editor, session, position, prefix, function (e, list) {
-        var values = list.map(function (item) { return item.value; });
+      getCompletions(editor, session, position, prefix, function(e, list) {
+        var values = list.map(getValue);
 
         try {
           expect(values).to.contain('contact');
@@ -83,14 +85,14 @@ describe('Service: Autocomplete', function () {
       });
     });
 
-    it('suggests "contact" if cursor in bottom of "info"', function (done) {
+    it('suggests "contact" if cursor in bottom of "info"', function(done) {
       var prefix = 'c';
       rootScope.editorValue = simpleYaml;
 
       var position = {row: 6, column: 3};
 
-      getCompletions(editor, session, position, prefix, function (e, list) {
-        var values = list.map(function (item) { return item.value; });
+      getCompletions(editor, session, position, prefix, function(e, list) {
+        var values = list.map(getValue);
 
         try {
           expect(values).to.contain('contact');
@@ -103,16 +105,15 @@ describe('Service: Autocomplete', function () {
     });
   });
 
-  describe('enum suggestions', function () {
-    it('suggests "2.0" as a value for "swagger" key', function (done) {
-
+  describe('enum suggestions', function() {
+    it('suggests "2.0" as a value for "swagger" key', function(done) {
       var position = {row: 0, column: 10};
       var prefix = '"2';
 
       rootScope.editorValue = 'swagger: 2';
 
-      getCompletions(editor, session, position, prefix, function (e, list) {
-        var values = list.map(function (item) { return item.value; });
+      getCompletions(editor, session, position, prefix, function(e, list) {
+        var values = list.map(getValue);
 
         try {
           expect(values).to.contain('"2.0"');

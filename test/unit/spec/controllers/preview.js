@@ -1,23 +1,22 @@
 'use strict';
 
-describe('Controller: PreviewCtrl', function () {
+var angular = require('angular');
 
+describe('Controller: PreviewCtrl', function() {
   // load the controller's module
-  beforeEach(window.angular.mock.module('SwaggerEditor'));
+  beforeEach(angular.mock.module('SwaggerEditor'));
 
-  var PreviewCtrl,
-    scope;
+  var scope;
 
   // Initialize the controller and a mock scope
-  beforeEach(inject(function ($controller, $rootScope) {
+  beforeEach(inject(function($controller, $rootScope) {
     scope = $rootScope.$new();
-    PreviewCtrl = $controller('PreviewCtrl', {
+    $controller('PreviewCtrl', {
       $scope: scope
     });
   }));
 
-  it('should have a scope', function () {
-    expect(!!scope).to.equal(true);
-
+  it('should have a scope', function() {
+    expect(Boolean(scope)).to.equal(true);
   });
 });

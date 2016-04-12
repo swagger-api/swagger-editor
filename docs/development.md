@@ -1,5 +1,11 @@
 # Development Guide
 
+### Installing dependencies
+This app have npm dependencies. To install all dependencies, run
+```shell
+npm install;
+```
+
 ### Specifying the port
 
 You can set the environment variable `PORT` to set the port
@@ -8,47 +14,28 @@ You can set the environment variable `PORT` to set the port
 PORT=81 npm start
 ```
 
+### Disallowing the browser to open
 
-### Installing dependencies
-This app have npm and Bower dependencies. To install all dependencies in one line, run
-```shell
-npm i; bower i
-```
-
-### Running in development mode
-Simply run
-```shell
-grunt serve
-```
-if you don't have `grunt` installed, you can run `npm run develop` instead.
-
-You can also specify the port by setting `PORT` environment variable in development mode
+Set `DO_NOT_OPEN` environment variable to start the server without
+opening the browser
 
 ```shell
-PORT=3000 grunt serve
+DO_NOT_OPEN=true npm start
 ```
-
-or
-
-```shell
-PORT=3000 npm run develop
-```
-
-For development it's preferred to have `grunt` installed globally on your machine.  
 
 ### Building
-To build the project just run:
+To build the project for production use, run:
 
 ```shell
-grunt build
+npm run build
 ```
-This will build a new version of the web app, ready for production in `/dist` folder
+This will build a new version of the web app, ready for production
 
 ###  Configuration
 Swagger Editor will make an XHR GET call to `/config/defaults.json` to get it's settings before launch. If you are using Swagger Editor as a dependency or serving it statically, you can provide your own `defaults.json` at this endpoint to override default settings.
 
 Swagger Editor is configured with a file, [`defaults.json`](../app/config/defaults.json).
-Read the [configuration guide](./config.md) and additional details 
+Read the [configuration guide](./config.md) and additional details
 in [`defaults.json.guide.js`](../app/config/defaults.json.guide.js)
 to learn how to configure Swagger Editor.
 
@@ -70,7 +57,7 @@ sudo docker run -ti -p 8080:8080 swagger-editor
 And open [http://localhost:8080](http://localhost:8080) in your browser
 
 ### Code Style
-Code style is enforced by [JSCS (JavaScript Code Style)](https://github.com/jscs-dev/node-jscs) and [JSHint](http://jshint.com/). Build will fail if changes in code is not following code style guildlines.
+Code style is enforced by ESLint. Build will fail if changes in code is not following code style guildlines.
 
 ### Testing
 To run all tests run
@@ -85,12 +72,12 @@ This will build and run unit tests then if it was successful, it will run  end-t
 All unit tests are located in [`../test/unit`](../test/unit). Unit tests are written in Jasmine and run by Karma. To run unit tests, run
 
 ```shell
-grunt karma:unit
+npm run unit-test
 ```
 
 For developing unit tests, run
 ```shell
-grunt test-dev
+npm run unit-test-watch
 ```
 This will keep test browser and test watcher open and watches for file changes to re-run tests.
 
@@ -99,5 +86,5 @@ All end-to-end tests are located in [`../test/e2e`](../test/e2e). To run end-to-
 
 ```shell
 grunt protr
-```
+npm run e2e-test
 This will run [Protractor](http://angular.github.io/protractor/#/) end-to-end test.

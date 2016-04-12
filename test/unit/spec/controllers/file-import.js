@@ -1,16 +1,16 @@
 'use strict';
 
-describe('Controller: FileImportCtrl', function () {
+var angular = require('angular');
 
+describe('Controller: FileImportCtrl', function() {
   // load the controller's module
-  beforeEach(window.angular.mock.module('SwaggerEditor'));
+  beforeEach(angular.mock.module('SwaggerEditor'));
 
-  var FileImportCtrl,
-    modalInstance,
-    scope;
+  var modalInstance;
+  var scope;
 
   // Initialize the controller and a mock scope
-  beforeEach(inject(function ($controller, $rootScope) {
+  beforeEach(inject(function($controller, $rootScope) {
     scope = $rootScope.$new();
     var callback = sinon.spy();
     modalInstance = {                    // Create a mock object using spies
@@ -20,14 +20,13 @@ describe('Controller: FileImportCtrl', function () {
         then: callback
       }
     };
-    FileImportCtrl = $controller('FileImportCtrl', {
+    $controller('FileImportCtrl', {
       $scope: scope,
-      $modalInstance: modalInstance
+      $uibModalInstance: modalInstance
     });
   }));
 
-  it('should have a scope', function () {
-    expect(!!scope).to.equal(true);
-
+  it('should have a scope', function() {
+    expect(Boolean(scope)).to.equal(true);
   });
 });

@@ -1,6 +1,6 @@
 'use strict';
 
-describe('Example', function () {
+describe('Example', function() {
   [
     'Uber API',
     'PetStore on Heroku',
@@ -13,9 +13,13 @@ describe('Example', function () {
   ].forEach(testExample);
 });
 
+/**
+ * @param {string} title - title
+ * @param {int} index - index
+*/
 function testExample(title, index) {
-  describe(title, function () {
-    it('should open ' + title, function () {
+  describe(title, function() {
+    it('should open ' + title, function() {
       $('#fileMenu').click();
       $('#open-example').click();
 
@@ -26,8 +30,8 @@ function testExample(title, index) {
       $('.modal-dialog select option:nth-child(' + (index + 1) + ')').click();
       $('.modal-dialog .btn.btn-primary').click();
 
-      browser.wait(function () {
-        return $('.modal-dialog').isPresent().then(function (isPresent) {
+      browser.wait(function() {
+        return $('.modal-dialog').isPresent().then(function(isPresent) {
           return !isPresent;
         });
       }, 5000);
@@ -35,11 +39,11 @@ function testExample(title, index) {
       expect($('.modal-dialog').isPresent()).toBe(false);
     });
 
-    it('should show the info box for ' + title, function () {
+    it('should show the info box for ' + title, function() {
       expect($('.info-header').getText()).toContain(title);
     });
 
-    it('should show no errors for ' + title, function () {
+    it('should show no errors for ' + title, function() {
       expect($('.error-presenter').isPresent()).toBe(false);
     });
   });

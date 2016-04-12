@@ -1,10 +1,23 @@
 'use strict';
 
+var PORT = 8282;
+var startServer = require('../../server');
+
 var config = {
-  baseUrl: 'http://localhost:8282/',
+  beforeLaunch: function() {
+    startServer(PORT, function(err) {
+      if (err) {
+        return console.log(err);
+      }
+
+      console.log('Test server started at http://127.0.0.1:' + PORT);
+    });
+  },
+
+  baseUrl: 'http://127.0.0.1:' + PORT + '/',
 
   capabilities: {
-    browserName: process.env.TRAVIS ? 'firefox' : 'chrome',
+    browserName: 'chrome',
     chromeOptions: {
       args: ['--test-type']
     }

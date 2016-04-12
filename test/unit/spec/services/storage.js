@@ -1,18 +1,18 @@
 'use strict';
 
-describe('Service: Storage', function () {
+var angular = require('angular');
 
+describe('Service: Storage', function() {
   // load the service's module
-  beforeEach(window.angular.mock.module('SwaggerEditor'));
+  beforeEach(angular.mock.module('SwaggerEditor'));
 
   // instantiate service
   var Storage;
-  beforeEach(inject(function (_Storage_) {
+  beforeEach(inject(function(_Storage_) {
     Storage = _Storage_;
   }));
 
-  it('should exists', function () {
-    expect(!!Storage).to.equal(true);
+  it('should exists', function() {
+    expect(Boolean(Storage)).to.equal(true);
   });
-
 });

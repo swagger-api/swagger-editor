@@ -1,0 +1,41 @@
+@import "../colors";
+
+.main-header {
+  background: @header-bg;
+  position: fixed;
+  width: 100%;
+  height: 30px;
+  z-index: 5;
+}
+
+a.logo {
+  background-image: url("../../images/swagger-logo.png");
+  background-size: contain;
+  width: 25px;
+  height: 25px;
+  margin: 2.5px 3px 0 5px;
+  float: left;
+}
+
+.menu-bar {
+  float: left;
+}
+
+.status-bar {
+  float: right;
+  padding: 5px;
+
+  .status {
+    text-align: right;
+    color: darken(@gray-lt, 25%);
+    font-weight: 100;
+    font-size: 12px;
+
+    &.success {
+      color: @sw-success-header;
+    }
+    &.error {
+      color: @sw-error-header;
+    }
+  }
+}

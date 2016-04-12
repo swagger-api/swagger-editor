@@ -1,22 +1,22 @@
 'use strict';
 
-describe('Controller: EditorCtrl', function () {
+var angular = require('angular');
 
+describe('Controller: EditorCtrl', function() {
   // load the controller's module
-  beforeEach(window.angular.mock.module('SwaggerEditor'));
+  beforeEach(angular.mock.module('SwaggerEditor'));
 
-  var EditorCtrl,
-    scope;
+  var scope;
 
   // Initialize the controller and a mock scope
-  beforeEach(inject(function ($controller, $rootScope) {
+  beforeEach(inject(function($controller, $rootScope) {
     scope = $rootScope.$new();
-    EditorCtrl = $controller('EditorCtrl', {
+    $controller('EditorCtrl', {
       $scope: scope
     });
   }));
 
-  it('should have a scope', function () {
-    expect(!!scope).to.equal(true);
+  it('should have a scope', function() {
+    expect(Boolean(scope)).to.equal(true);
   });
 });

@@ -1,22 +1,22 @@
 'use strict';
 
-describe('Controller: OpenExamplesCtrl', function () {
+var angular = require('angular');
 
+describe('Controller: OpenExamplesCtrl', function() {
   // load the controller's module
-  beforeEach(window.angular.mock.module('SwaggerEditor'));
+  beforeEach(angular.mock.module('SwaggerEditor'));
 
-  var OpenExamplesCtrl,
-    FileLoader,
-    $modalInstance,
-    scope;
+  var FileLoader;
+  var $uibModalInstance;
+  var scope;
 
   // Initialize the controller and a mock scope
-  beforeEach(inject(function ($controller, $rootScope) {
+  beforeEach(inject(function($controller, $rootScope) {
     scope = $rootScope.$new();
 
     // Create a mock object using spies
     var callback = sinon.spy();
-    $modalInstance = {
+    $uibModalInstance = {
       close: callback,
       dismiss: callback,
       result: {
@@ -24,33 +24,31 @@ describe('Controller: OpenExamplesCtrl', function () {
       }
     };
 
-    var loadFromUrlCallback = sinon.spy();
-
     FileLoader = {
-      loadFromUrl: function () {
+      loadFromUrl: function() {
         return {
-          then: function () {}
-        }
+          then: function() {}
+        };
       }
     };
 
-    OpenExamplesCtrl = $controller('OpenExamplesCtrl', {
+    $controller('OpenExamplesCtrl', {
       $scope: scope,
-      $modalInstance: $modalInstance,
+      $uibModalInstance: $uibModalInstance,
       FileLoader: FileLoader
     });
   }));
 
-  it('should have a scope', function () {
-    expect(!!scope).to.equal(true);
+  it('should have a scope', function() {
+    expect(Boolean(scope)).to.equal(true);
   });
 
-  it('should select first example as selected file by default', function () {
+  it('should select first example as selected file by default', function() {
     expect(scope.selectedFile).to.equal('default.yaml');
   });
 
   it('honors defaults.examplesFolder configuration when opening files',
-    function () {
+    function() {
       sinon.stub(FileLoader, 'loadFromUrl').returns({then: sinon.spy()});
 
       scope.open('aFile');

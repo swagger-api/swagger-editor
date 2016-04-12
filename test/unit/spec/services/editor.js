@@ -1,18 +1,18 @@
 'use strict';
 
-describe('Service: Editor', function () {
+var angular = require('angular');
 
+describe('Service: Editor', function() {
   // load the service's module
-  beforeEach(window.angular.mock.module('SwaggerEditor'));
+  beforeEach(angular.mock.module('SwaggerEditor'));
 
   // instantiate service
   var Editor;
-  beforeEach(inject(function (_Editor_) {
+  beforeEach(inject(function(_Editor_) {
     Editor = _Editor_;
   }));
 
-  it('should exists', function () {
-    expect(!!Editor).to.equal(true);
+  it('should exists', function() {
+    expect(Boolean(Editor)).to.equal(true);
   });
-
 });

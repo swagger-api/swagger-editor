@@ -3,7 +3,6 @@
 [![Build Status](https://travis-ci.org/swagger-api/swagger-editor.svg?branch=master)](https://travis-ci.org/swagger-api/swagger-editor)
 [![Code Climate](https://codeclimate.com/github/swagger-api/swagger-editor/badges/gpa.svg)](https://codeclimate.com/github/swagger-api/swagger-editor)
 [![NPM version](https://badge.fury.io/js/swagger-editor-src.png)](http://badge.fury.io/js/swagger-editor-src)
-
 [![Dependency Status](https://david-dm.org/swagger-api/swagger-editor/status.svg)](https://david-dm.org/swagger-api/swagger-editor)
 [![devDependency Status](https://david-dm.org/swagger-api/swagger-editor/dev-status.svg)](https://david-dm.org/swagger-api/swagger-editor-#info=devDependencies)
 
@@ -16,13 +15,11 @@ Valid Swagger JSON descriptions can then be generated and used with the full Swa
 
 #### Running with Docker
 
-The swagger-editor is published in a public repository on Dockerhub:
-
-[https://hub.docker.com/r/swaggerapi/swagger-editor/](https://hub.docker.com/r/swaggerapi/swagger-editor/)
+The swagger-editor is published in a [public repository on Dockerhub](https://hub.docker.com/r/swaggerapi/swagger-editor/)
 
 You can run editor easily with docker:
 
-```
+```bash
 docker pull swaggerapi/swagger-editor
 docker run -p 80:8080 swaggerapi/swagger-editor
 ```
@@ -46,14 +43,15 @@ Make sure you have [Node.js](http://nodejs.org/) installed.
 ```shell
 git clone https://github.com/swagger-api/swagger-editor.git
 cd swagger-editor
+npm install
 npm start
 ```
 
 #### Documentations
-* [Why "Try this operation" is not working?](docs/cors.md)
 * [Importing your Swagger document](./docs/import.md)
 * [Development Guide](./docs/development.md)
 * [Configuration Guide](./docs/config.md)
+* [Cross Origin Request(CORS) issues](docs/cors.md)
 
 [Contributing](./CONTRIBUTING.md)
 
