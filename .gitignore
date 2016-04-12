@@ -4,7 +4,10 @@ node_modules/grunt-newer/.cache
 .sass-cache
 .grunt
 npm-debug.log
-dist/
+
+# Don't ignore dist/ in gh-pages
+# dist/
+
 node_modules
 *.sublime-workspace
 .*.swp
