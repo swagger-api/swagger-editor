@@ -1,0 +1,212 @@
+<li
+  class='{{operationName | lowercase}} operation'
+  scroll-into-view-when="isInFocus(['paths', pathName, operationName])">
+
+  <header ng-click="
+      operation.$folded = !operation.$folded;
+      foldEditor(['paths', pathName, operationName], operation.$folded)
+    ">
+    <a
+      class="focus-editor"
+      ng-click="focusEdit($event, ['paths', pathName, operationName])"
+      tooltip-placement="left"
+      uib-tooltip="Jump to YAML"
+      tooltip-trigger="mouseenter">
+    </a>
+
+    <div
+      class='http-method'
+      class="toggleOperation">{{operationName | uppercase}} {{pathName}}
+    </div>
+
+    <div class="deprecated" ng-if="operation.deprecated">Deprecated</div>
+  </header>
+
+  <div class='content' collapse-when="operation.$folded">
+    <div class="tags">
+      <span
+        class="tag tag-color-{{tagIndexFor(tag)}}"
+        ng-repeat="tag in operation.tags track by $index">
+        {{tag}}
+      </span>
+    </div>
+
+    <section class="summary" ng-if="operation.summary">
+      <h4>Summary</h4>
+      <p>{{operation.summary}}</p>
+    </section>
+
+    <section class="description" ng-if="operation.description">
+      <h4>Description</h4>
+      <div marked="operation.description"></div>
+    </section>
+
+    <section class="parameters" ng-if="getParameters().length">
+      <h4>Parameters</h4>
+      <div>
+        <table class="params">
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Located in</th>
+              <th>Description</th>
+              <th>Required</th>
+              <th>Schema</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr ng-repeat="parameter in getParameters() track by $index">
+              <td >
+                <a
+                  ng-click="focusEdit($event, [
+                      'paths',
+                      pathName,
+                      operationName,
+                      'parameters',
+                      $index
+                    ])"
+                  tooltip-placement="top"
+                  uib-tooltip="Jump to YAML"
+                  tooltip-trigger="mouseenter">
+                    <span class="mono">{{parameter.name}}</span>
+                </a>
+              </td>
+              <td>{{parameter.in}}</td>
+              <td marked="parameter.description"></td>
+              <td>{{parameter.required ? 'Yes' : 'No'}}</td>
+              <td>
+                <schema-model schema="parameter.schema"></schema-model>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="responses" ng-if="operation">
+      <h4>Responses</h4>
+
+      <div>
+        <table class="respns">
+          <thead>
+            <tr>
+              <th>Code</th>
+              <th>Description</th>
+              <th ng-if="hasAResponseWithHeaders(operation.responses)">Headers</th>
+              <th ng-if="hasAResponseWithSchema(operation.responses)">Schema</th>
+              <th ng-if="hasAResponseWithExamples(operation.responses)">Examples</th>
+            </tr>
+          </thead>
+
+          <tbody>
+            <tr ng-repeat="(responseCode, response) in operation.responses">
+              <td>
+                <a
+                  ng-click="focusEdit($event, [
+                    'paths',
+                    pathName,
+                    operationName,
+                    'responses',
+                    responseCode])"
+                  tooltip-placement="top"
+                  uib-tooltip="Jump to YAML"
+                  tooltip-trigger="mouseenter">
+
+                    <span class="resp-code {{responseCodeClassFor(responseCode)}}">
+                      {{responseCode}}
+                    </span>
+                </a>
+              </td>
+              <td marked="response.description"></td>
+              <td ng-if="hasAResponseWithHeaders(operation.responses)">
+                <table ng-if="response.headers" class="respnse-headers">
+                  <thead>
+                    <tr>
+                      <th>Name</th>
+                      <th>Description</th>
+                      <th>Type</th>
+                      <th>Details</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr ng-repeat="(headerName, header) in response.headers">
+                      <td>{{headerName}}</td>
+                      <td>{{header.description}}</td>
+                      <td>
+                        <json-formatter json="header.type"></json-formatter>
+                      </td>
+                      <td>
+                        <json-formatter json="header"></json-formatter>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </td>
+              <td ng-if="hasAResponseWithSchema(operation.responses)">
+                <schema-model ng-if="response.schema" schema="response.schema"></schema-model>
+              </td>
+              <td ng-if="hasAResponseWithExamples(operation.responses)">
+                <table class="examples">
+                  <tbody>
+                    <tr ng-repeat="(exampleMimeType, example) in response.examples">
+                      <td>{{exampleMimeType}}</td>
+                      <td>
+                        <json-formatter json="example" open="1"></json-formatter>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="security" ng-if="operation.security && operation.security.length">
+      <h4>Security</h4>
+      <table class="security">
+        <thead>
+          <tr>
+            <th>Security Schema</th>
+            <th>Scopes</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr ng-repeat="security in operation.security track by $index">
+            <td ng-repeat="(securityName, securityValues) in security">{{securityName}}</td>
+            <td ng-repeat="(securityName, securityValues) in security">
+              <strong
+                class="security-value"
+                ng-repeat="value in securityValues track by $index">
+                {{value}}
+              </strong>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section class="try-operation" ng-if="enableTryIt">
+
+      <button class="border-only try-it"
+        ng-class="{trying: isTryOpen}"
+        ng-click="toggleTry()"
+        ng-if="!isTryOpen"
+        track-event="try-operation">
+        Try this operation
+      </button>
+
+      <button class="border-only red close-try"
+        ng-class="{'is-open': isTryOpen}"
+        ng-click="toggleTry()"
+        ng-if="isTryOpen">
+        Close
+      </button>
+
+      <div
+        ng-include="'templates/try-operation.html'"
+        ng-if="isTryOpen">
+      </div>
+    </section>
+</li>

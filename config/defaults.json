@@ -1,0 +1,42 @@
+{
+  "codegen": {
+    "servers": "http://generator.swagger.io/api/gen/servers",
+    "clients": "http://generator.swagger.io/api/gen/clients",
+    "server": "http://generator.swagger.io/api/gen/servers/{language}",
+    "client": "http://generator.swagger.io/api/gen/clients/{language}"
+  },
+  "analytics": {
+    "google": {
+      "id": "UA-51231036-1"
+    }
+  },
+  "disableCodeGen": false,
+  "examplesFolder": "spec-files/",
+  "editorOptions": {
+    "theme": "ace/theme/atom_dark"
+  },
+  "exampleFiles": [
+    "default.yaml",
+    "heroku-pets.yaml",
+    "minimal.yaml",
+    "echo.yaml",
+    "petstore_simple.yaml",
+    "petstore_full.yaml",
+    "basic-auth.yaml",
+    "security.yaml",
+    "instagram.yaml",
+    "twitter.yaml"
+  ],
+  "autocompleteExtension": {},
+  "useBackendForStorage": false,
+  "backendThrottle": 200,
+  "keyPressDebounceTime": 200,
+  "backendEndpoint": "/editor/spec",
+  "useYamlBackend": false,
+  "disableFileMenu": false,
+  "headerBranding": false,
+  "disableNewUserIntro": false,
+  "enableTryIt": true,
+  "brandingCssClass": "",
+  "importProxyUrl": "https://cors-it.herokuapp.com/?url="
+}

@@ -1,0 +1,71 @@
+@import "../buttons";
+@import "../colors";
+@import "../fonts";
+
+.modal-dialog .modal-content {
+  .sw-font;
+  border-radius: 3px;
+  background: @gray-dk;
+  color: @white;
+
+
+  .modal-title {
+    font-size: 1.2em;
+  }
+
+  .modal-header {
+    border-bottom: 1px solid @gray-md;
+  }
+
+  .modal-body {
+    p {
+      margin: 1em 0;
+    }
+
+    .invalid {
+      color:lighten(@code-500, 10%);
+      margin-top: .5em;
+    }
+
+    textarea {
+      color: @black;
+    }
+
+    input {
+      color: @black;
+      padding: 0.2em;
+      border-radius: 0;
+    }
+
+    label {
+      margin-bottom: .5em;
+    }
+
+    select {
+      color: @black;
+    }
+
+    a {
+      color: @modal-link;
+    }
+  }
+
+  .modal-footer {
+    border-top: 1px solid @gray-md;
+    .btn.btn-primary {
+      .bs-button-override;
+    }
+    .btn.btn-warning {
+      .bs-button-override;
+      background-color: @gray-dk;
+      border: 1px solid @gray-md;
+      &:hover {
+        background-color: darken(@gray-lt, 80%);
+      }
+    }
+  }
+
+  .monospace {
+    font-family: monospace;
+  }
+}
