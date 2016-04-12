@@ -18,7 +18,8 @@ SwaggerEditor.controller('SecurityCtrl', function SecurityCtrl($scope,
     if (security.type === 'basic') {
       $uibModal.open({
         templateUrl: 'templates/auth/basic.html',
-        controller: function BasicAuthAuthenticateCtrl($scope,
+        controller: ['$scope', '$uibModalInstance',
+        function BasicAuthAuthenticateCtrl($scope,
           $uibModalInstance) {
           $scope.cancel = $uibModalInstance.close;
           $scope.authenticate = function(username, password) {
@@ -28,13 +29,14 @@ SwaggerEditor.controller('SecurityCtrl', function SecurityCtrl($scope,
             });
             $uibModalInstance.close();
           };
-        },
+        }],
         size: 'large'
       });
     } else if (security.type === 'oauth2') {
       $uibModal.open({
         templateUrl: 'templates/auth/oauth2.html',
-        controller: function OAuth2AuthenticateCtrl($scope, $uibModalInstance) {
+        controller: ['$scope', '$uibModalInstance',
+        function OAuth2AuthenticateCtrl($scope, $uibModalInstance) {
           $scope.cancel = $uibModalInstance.close;
           $scope.authenticate = function(accessToken) {
             if (!accessToken) {
@@ -45,24 +47,25 @@ SwaggerEditor.controller('SecurityCtrl', function SecurityCtrl($scope,
             });
             $uibModalInstance.close();
           };
-        },
+        }],
         size: 'large'
       });
     } else if (security.type === 'apiKey') {
       $uibModal.open({
         templateUrl: 'templates/auth/api-key.html',
-        controller: function APIKeyAuthenticateCtrl($scope, $uibModalInstance) {
-          $scope.cancel = $uibModalInstance.close;
-          $scope.authenticate = function(apiKey) {
-            if (!apiKey) {
-              return;
-            }
-            AuthManager.apiKey(securityName, security, {
-              apiKey: apiKey
-            });
-            $uibModalInstance.close();
-          };
-        },
+        controller: ['$scope', '$uibModalInstance',
+          function APIKeyAuthenticateCtrl($scope, $uibModalInstance) {
+            $scope.cancel = $uibModalInstance.close;
+            $scope.authenticate = function(apiKey) {
+              if (!apiKey) {
+                return;
+              }
+              AuthManager.apiKey(securityName, security, {
+                apiKey: apiKey
+              });
+              $uibModalInstance.close();
+            };
+          }],
         size: 'large'
       });
     } else {
