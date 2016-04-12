@@ -18,13 +18,13 @@ DO_NOT_OPEN=true npm start
 ```
 
 ### Installing dependencies
-This app have npm dependencies. To install all dependencies in one line, run
+This app have npm dependencies. To install all dependencies, run
 ```shell
 npm install;
 ```
 
 ### Building
-To build the project just run:
+To build the project for production use, run:
 
 ```shell
 npm run build
