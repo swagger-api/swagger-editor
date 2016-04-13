@@ -70,7 +70,7 @@ describe('Try Operation', function() {
     // wait for the XHR call
     browser.wait(function() {
       return $('.try-container .response-info').isPresent();
-    }, 10000); // 10 seconds. it takes a long time for the Heroku app to wake up
+    }, 20000); // 20 seconds. it takes a long time for the Heroku app to wake up
 
     // renders the headers
     expect($('[json="responseHeaders"]').isPresent()).toBe(true);
