@@ -79,7 +79,7 @@
     "protractor": "^3.2.1",
     "sinon": "^1.17.3",
     "sinon-chai": "^2.8.0",
-    "source-code-pro": "git://github.com/adobe-fonts/source-code-pro.git#release",
+    "source-code-pro": "https://github.com/adobe-fonts/source-code-pro.git#release",
     "spark-md5": "^2.0.2",
     "style-loader": "^0.13.0",
     "svg-inline-loader": "^0.4.1",
