@@ -53,6 +53,7 @@ require('brace/mode/snippets');
 require('brace/ext/language_tools');
 require('brace/ext/keybinding_menu');
 require('brace/ext/settings_menu');
+require('brace/ext/searchbox');
 
 require('../ace/themes/theme-atom_dark.js');
 
