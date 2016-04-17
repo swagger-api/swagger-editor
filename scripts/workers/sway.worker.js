@@ -8,7 +8,7 @@ onmessage = function(message) {
 
     if (results.errors.length) {
       postMessage({
-        specs: api.resolved || api.definition,
+        specs: api.definitionFullyResolved || api.definitions,
         errors: sanitizeErrors(results.errors),
         warnings: results.warnings
       });
@@ -17,7 +17,7 @@ onmessage = function(message) {
 
     postMessage({
       errors: [],
-      specs: api.resolved,
+      specs: api.definitionFullyResolved,
       warnings: results.warnings
     });
   })
