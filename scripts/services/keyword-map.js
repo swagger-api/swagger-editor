@@ -31,8 +31,7 @@ SwaggerEditor.service('KeywordMap', function KeywordMap(defaults) {
         not: String,
 
         // jscs:disable
-        /* eslint no-useless-escape: "off"*/
-        '\$ref': String,
+        '$ref': String,
         // jscs:enable
 
         definitions: {
@@ -201,7 +200,7 @@ SwaggerEditor.service('KeywordMap', function KeywordMap(defaults) {
     paths: {
 
       // path
-      '^\/.\?': {
+      '^/.?': {
         'parameters': [parameter],
         'get|put|post|delete|options|head|patch': operation
       }

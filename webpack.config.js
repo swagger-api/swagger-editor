@@ -27,8 +27,7 @@ var config = {
   module: {
     loaders: [
       {
-        /* eslint no-useless-escape: "off"*/
-        test: '/\.js$/',
+        test: '/.js$/',
         loader: 'eslint-loader',
         exclude: 'node_modules/'
       },
