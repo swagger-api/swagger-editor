@@ -623,6 +623,7 @@ SwaggerEditor.controller('TryOperation', function($scope, formdataFilter,
     var content = $scope.getRequestBody();
 
     // get spec host or default host in the window. remove port from Host header
+    /* eslint no-useless-escape: "off"*/
     var host = ($scope.specs.host || window.location.host).replace(/\:.+/, '');
 
     // A list of default headers that will be included in the XHR call

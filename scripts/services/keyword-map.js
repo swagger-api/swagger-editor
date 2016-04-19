@@ -31,6 +31,7 @@ SwaggerEditor.service('KeywordMap', function KeywordMap(defaults) {
         not: String,
 
         // jscs:disable
+        /* eslint no-useless-escape: "off"*/
         '\$ref': String,
         // jscs:enable
 

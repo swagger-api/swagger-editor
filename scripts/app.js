@@ -5,7 +5,8 @@ var angular = require('angular');
 
 // These modules do not export their module name
 // json-editor dependency is not in package.json of this package
-require('angular-json-schema-form'); require('json-editor');
+require('angular-json-schema-form');
+require('json-editor');
 require('ngstorage');
 require('angular-ui-ace');
 

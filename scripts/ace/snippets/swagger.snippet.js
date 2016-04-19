@@ -3,6 +3,7 @@
 SwaggerEditor.config(function($provide) {
   var operationRegex = 'get|put|post|delete|options|head|patch';
 
+  /* eslint no-useless-escape: "off"*/
   /**
    * Makes an HTTP operation snippet's content based on operation name
    *
