@@ -37,6 +37,7 @@
     "brace": "^0.8.0",
     "chai": "^3.5.0",
     "css-loader": "^0.23.1",
+    "es6-promise": "^3.1.2",
     "eslint": "^2.4.0",
     "eslint-config-google": "^0.5.0",
     "eslint-friendly-formatter": "^2.0.3",
