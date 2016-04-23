@@ -38,6 +38,7 @@
     "chai": "^3.5.0",
     "css-loader": "^0.23.1",
     "es6-promise": "^3.1.2",
+    "es6-shim": "^0.35.0",
     "eslint": "^2.4.0",
     "eslint-config-google": "^0.5.0",
     "eslint-friendly-formatter": "^2.0.3",
