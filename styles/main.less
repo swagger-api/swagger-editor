@@ -33,6 +33,11 @@ main {
 
   .ui-layout-column .ui-splitbar {
     background: @main-splitbar;
+    
+    /* IE10 fixes*/
+    display: -ms-flexbox;
+    -ms-flex-pack: center;
+    -ms-flex-direction: column;
   }
 
   .pane.editor {
