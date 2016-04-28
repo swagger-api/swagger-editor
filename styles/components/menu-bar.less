@@ -29,12 +29,32 @@
     border: none;
   }
 
+  .client {
+    -webkit-column-count: 3;
+  }
+  @media(max-width: 968px) {
+    .client {
+    -webkit-column-count: 2;
+    }
+  }
+  @media(max-width: 750px) {
+    .client {
+    -webkit-column-count: 1;
+    }
+  }
+  .server {
+    -webkit-column-count: 2;
+  }
 
   .dropdown-menu {
     border-radius: 0;
     border: none;
     box-shadow: none;
     min-width: 140px;
+
+    li {
+      -webkit-column-break-inside: avoid;
+    }
 
     li a {
       overflow: auto;
