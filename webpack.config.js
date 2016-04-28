@@ -66,6 +66,7 @@ var config = {
 
 // if --production is passed, ng-annotate and uglify the code
 if (argv.production) {
+  console.log('This might take while...');
   config.plugins.unshift(new webpack.optimize.UglifyJsPlugin({
     mangle: true
   }));
