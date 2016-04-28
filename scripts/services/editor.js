@@ -256,7 +256,7 @@ SwaggerEditor.service('Editor', function Editor(Autocomplete, ASTManager,
 
   /** */
   function resetSettings() {
-    if (window.customConfirm('Are you sure?') && editor) {
+    if (editor) {
       editor.setOptions(editorOptions);
       saveEditorSettings();
     }
