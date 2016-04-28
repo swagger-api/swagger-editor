@@ -46,6 +46,7 @@ require('./controllers/paste-json.js');
 require('./controllers/preferences.js');
 require('./controllers/preview.js');
 require('./controllers/security.js');
+require('./controllers/confirm-reset.js');
 
 // Directives
 require('./directives/auto-focus.js');

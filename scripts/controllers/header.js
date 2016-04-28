@@ -136,7 +136,13 @@ SwaggerEditor.controller('HeaderCtrl', function HeaderCtrl($scope, $uibModal,
   };
 
   $scope.openEditorPreferences = Editor.showSettings;
-  $scope.resetSettings = Editor.resetSettings;
+  $scope.resetSettings = function() {
+    $uibModal.open({
+      templateUrl: 'templates/reset-editor.html',
+      controller: 'ConfirmReset',
+      size: 'large'
+    });
+  };
   $scope.adjustFontSize = Editor.adjustFontSize;
 
   $scope.openExamples = function() {
