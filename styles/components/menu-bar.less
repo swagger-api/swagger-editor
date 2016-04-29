@@ -2,6 +2,13 @@
 @import "../fonts";
 @import "../buttons";
 
+.column(@num) {
+  -webkit-column-count: @num;
+  -moz-column-count: @num;
+  -ms-column-count: @num;
+  column-count: @num;
+}
+
 .menu-bar .dropdown{
   display: inline-block;
 
@@ -30,25 +37,18 @@
   }
 
   .server-list {
-    -webkit-column-count: 2;
-    -moz-column-count: 2;
-    -ms-column-count: 2;
+    .column(2);
   }
+
   .client-list {
-    -webkit-column-count: 3;
-    -moz-column-count: 3;
-    -ms-column-count: 3;
-  }
-  @media(max-width: 968px) {
-    .client-list {
-      .server-list();
+    .column(3);
+
+    @media(max-width: 968px) {
+      .column(2);
     }
-  }
-  @media(max-width: 750px) {
-    .client-list {
-      -webkit-column-count: 1;
-      -moz-column-count: 1;
-      -ms-column-count: 1;
+
+    @media(max-width: 750px) {
+      .column(1);
     }
   }
 
