@@ -808,8 +808,13 @@ SwaggerEditor.controller('TryOperation', function($scope, formdataFilter,
     .fail(function(jqXHR, textStatus, errorThrown) {
       $scope.xhrInProgress = false;
       $scope.textStatus = textStatus;
-      $scope.error = errorThrown;
       $scope.xhr = jqXHR;
+
+      if (errorThrown) {
+        $scope.error = errorThrown;
+      } else if (textStatus === 'error') {
+        $scope.error = 'Server not found or an error occurred';
+      }
 
       $scope.$digest();
     })
