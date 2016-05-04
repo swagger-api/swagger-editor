@@ -1,13 +1,20 @@
 'use strict';
 
-var PORT = 8282;
-var startServer = require('../../server');
+var PORT = process.env.TEST_PORT || 8282;
+var path = require('path');
+var createServer = require('http-server').createServer;
+var server = null;
+var root = path.join(__dirname, '../..');
 
 var config = {
   beforeLaunch: function() {
-    startServer(PORT, function(err) {
+    server = createServer({
+      root: root
+    });
+
+    server.listen(PORT, function(err) {
       if (err) {
-        return console.log(err);
+        return console.error(err);
       }
 
       console.log('Test server started at http://127.0.0.1:' + PORT);
