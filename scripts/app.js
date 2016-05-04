@@ -23,11 +23,7 @@ window.SwaggerEditor = angular.module('SwaggerEditor', [
   'ngStorage'
 ]);
 
-SwaggerEditor.config(function(markedProvider) {
-  markedProvider.setOptions({
-    sanitize: true
-  });
-});
+require('./config.js');
 
 // Require all of components
 require('./components');
