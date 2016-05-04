@@ -1,5 +1,7 @@
 'use strict';
 
+var angular = require('angular');
+
 SwaggerEditor.config(function Router($compileProvider, $stateProvider,
   $urlRouterProvider, $logProvider) {
   $urlRouterProvider.otherwise('/');
@@ -27,8 +29,11 @@ SwaggerEditor.config(function Router($compileProvider, $stateProvider,
     }
   });
 
+  var $cookies = angular.injector([require('angular-cookies')]).get('$cookies');
+  var isDevelopment = Boolean($cookies.get('swagger-editor-development-mode'));
+
   $compileProvider.aHrefSanitizationWhitelist('.');
 
-  $compileProvider.debugInfoEnabled(true);
-  $logProvider.debugEnabled(true);
+  $compileProvider.debugInfoEnabled(isDevelopment);
+  $logProvider.debugEnabled(isDevelopment);
 });
