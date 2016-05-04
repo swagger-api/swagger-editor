@@ -1,5 +1,7 @@
 'use strict';
 
+var angular = require('angular');
+
 SwaggerEditor.config(function Router($compileProvider, $stateProvider,
   $urlRouterProvider, $logProvider) {
   $urlRouterProvider.otherwise('/');
@@ -27,12 +29,11 @@ SwaggerEditor.config(function Router($compileProvider, $stateProvider,
     }
   });
 
+  var $cookies = angular.injector([require('angular-cookies')]).get('$cookies');
+  var isDevelopment = Boolean($cookies.get('swagger-editor-development-mode'));
+
   $compileProvider.aHrefSanitizationWhitelist('.');
 
-  // Disable debug info in production. To detect the "production" mode we are
-  // examining location.host to see if it matches localhost
-  var isProduction = !/localhost/.test(window.location.host);
-
-  $compileProvider.debugInfoEnabled(!isProduction);
-  $logProvider.debugEnabled(!isProduction);
+  $compileProvider.debugInfoEnabled(isDevelopment);
+  $logProvider.debugEnabled(isDevelopment);
 });

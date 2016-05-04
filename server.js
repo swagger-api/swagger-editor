@@ -5,6 +5,7 @@ var WebpackDevServer = require('webpack-dev-server');
 var config = require('./webpack.config');
 var open = require('open');
 var IP = '127.0.0.1';
+var argv = require('minimist')(process.argv.slice(2));
 
 /**
  * Start the server with webpack config
@@ -20,7 +21,11 @@ function startServer(port, cb) {
   var server = new WebpackDevServer(compiler, {
     progress: true,
     quiet: true,
-    publicPath: config.output.publicPath
+    publicPath: config.output.publicPath,
+    headers: {
+      'Set-Cookie':
+        'swagger-editor-development-mode:' + Boolean(argv.production) + ';'
+    }
   });
 
   server.listen(port, IP, cb);
