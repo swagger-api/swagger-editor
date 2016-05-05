@@ -6,6 +6,7 @@ var angular = require('angular');
 SwaggerEditor.service('Backend', function Backend($http, $q, defaults,
   $rootScope, Builder, ExternalHooks, YAML) {
   var changeListeners = {};
+  /* eslint no-useless-escape: "off"*/
   var absoluteRegex = /^(\/|http(s)?\:\/\/)/; // starts with slash or http|https
   var buffer = {};
   var throttleTimeout = defaults.backendThrottle || 200;

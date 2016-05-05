@@ -23,6 +23,14 @@ opening the browser
 DO_NOT_OPEN=true npm start
 ```
 
+### Running in production mode
+
+Pass `--production` flag to `npm start` to run in production mode
+```shell
+npm start --production
+
+```
+
 ### Building
 To build the project for production use, run:
 

@@ -99,7 +99,7 @@
         <span>Generate Server</span>
         <span class="caret"></span>
       </button>
-      <ul uib-dropdown-menu class="dropdown-menu">
+      <ul uib-dropdown-menu class="dropdown-menu server-list">
         <li ng-repeat="server in ::servers track by $index">
           <a dropdown-toggle tabindex="-1" ng-click="getSDK('server', server)" track-event="generate-server {{server}}">
             <i class="fa fa-download"></i>&nbsp;
@@ -115,7 +115,7 @@
         <span class="caret"></span>
       </button>
 
-      <ul class="dropdown-menu" uib-dropdown-menu>
+      <ul class="dropdown-menu client-list" uib-dropdown-menu>
         <li ng-repeat="client in ::clients track by $index">
           <a dropdown-toggle tabindex="-1" ng-click="getSDK('client', client)" track-event="generate-client {{client}}">
             <i class="fa fa-download"></i>&nbsp;

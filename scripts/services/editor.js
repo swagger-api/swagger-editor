@@ -81,7 +81,7 @@ SwaggerEditor.service('Editor', function Editor(Autocomplete, ASTManager,
     var row = 0;
     var column = 0;
 
-    if (false && editor && error.path) {
+    if (editor && error.path) {
       if (error.path.length) {
         // (TODO) ASTManager
         row = ASTManager.lineForPath(_.cloneDeep(error.path));
@@ -256,7 +256,7 @@ SwaggerEditor.service('Editor', function Editor(Autocomplete, ASTManager,
 
   /** */
   function resetSettings() {
-    if (window.customConfirm('Are you sure?') && editor) {
+    if (editor) {
       editor.setOptions(editorOptions);
       saveEditorSettings();
     }

@@ -3,8 +3,8 @@
 Configuration
 =============
 
-Swagger editor is configured from the file [`app/config/defaults.js`](../app/config/defaults.json).
-To learn more about this file, please review [`defaults.json.guide.js`](../app/config/defaults.json.guide.js).
+Swagger editor is configured from the file [`config/defaults.json`](../config/defaults.json).
+To learn more about this file, please review [`config/defaults.json.guide.js`](../config/defaults.json.guide.js).
 
 Custom UI
 ---------

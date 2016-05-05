@@ -623,7 +623,7 @@ SwaggerEditor.controller('TryOperation', function($scope, formdataFilter,
     var content = $scope.getRequestBody();
 
     // get spec host or default host in the window. remove port from Host header
-    var host = ($scope.specs.host || window.location.host).replace(/\:.+/, '');
+    var host = ($scope.specs.host || window.location.host).replace(/:.+/, '');
 
     // A list of default headers that will be included in the XHR call
     var defaultHeaders = {
@@ -808,8 +808,13 @@ SwaggerEditor.controller('TryOperation', function($scope, formdataFilter,
     .fail(function(jqXHR, textStatus, errorThrown) {
       $scope.xhrInProgress = false;
       $scope.textStatus = textStatus;
-      $scope.error = errorThrown;
       $scope.xhr = jqXHR;
+
+      if (errorThrown) {
+        $scope.error = errorThrown;
+      } else if (textStatus === 'error') {
+        $scope.error = 'Server not found or an error occurred';
+      }
 
       $scope.$digest();
     })

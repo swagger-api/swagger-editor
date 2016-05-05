@@ -27,7 +27,7 @@ var config = {
   module: {
     loaders: [
       {
-        test: '/\.js$/',
+        test: '/.js$/',
         loader: 'eslint-loader',
         exclude: 'node_modules/'
       },
@@ -66,9 +66,10 @@ var config = {
 
 // if --production is passed, ng-annotate and uglify the code
 if (argv.production) {
-  config.plugins.unshift(new webpack.optimize.UglifyJsPlugin({
-    mangle: true
-  }));
+  console.info('This might take awhile ...');
+
+  config.plugins.unshift(new webpack.optimize.UglifyJsPlugin({mangle: true}));
+
   config.plugins.unshift(new NgAnnotatePlugin({add: true}));
 }
 

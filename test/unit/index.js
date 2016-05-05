@@ -1,7 +1,8 @@
 'use strict';
 
 var angular = require('angular');
-require('angular-json-schema-form'); require('json-editor');
+require('angular-json-schema-form');
+require('json-editor');
 require('ngstorage');
 require('angular-ui-ace');
 
