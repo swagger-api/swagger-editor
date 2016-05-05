@@ -23,6 +23,8 @@ window.SwaggerEditor = angular.module('SwaggerEditor', [
   'ngStorage'
 ]);
 
+require('./config.js');
+
 // Require all of components
 require('./components');
 
