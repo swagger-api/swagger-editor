@@ -97,7 +97,7 @@
     "node": ">=5.8.0"
   },
   "scripts": {
-    "build": "webpack --production",
+    "build": "webpack --production --hide-modules",
     "unit-test": "karma start test/unit/karma.conf.js --single-run=true",
     "unit-test-watch": "karma start test/unit/karma.conf.js",
     "pree2e-test": "webdriver-manager update",
