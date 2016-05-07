@@ -21,3 +21,11 @@ script:
 
 env:
   - DOCKER_IMAGE_NAME=swaggerapi/swagger-editor
+
+deploy:
+  on:
+    tags: true
+  provider: npm
+  email: "apiteam@swagger.io"
+  api_key:
+    secure: G/bZcCrTPWYcLRrmFGMTxrNw6dOJkvijpjwprDieGarhwhY9Y2EZlzFIuLIKxE7Aht9W5P61Ic7tI48Akeb68GGtTDXTlut/BC6tDG0q5yXh9MoEerqrYmgd1KErT/szAQX+kdFAY+NDM9rov8o6H+iFNZBYvxf11dBBFoXv11Q=
