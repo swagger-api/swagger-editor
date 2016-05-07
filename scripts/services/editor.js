@@ -69,8 +69,11 @@ SwaggerEditor.service('Editor', function Editor(Autocomplete, ASTManager,
   var annotateYAMLErrors = function(error) {
     if (editor && error && error.mark && error.reason) {
       editor.getSession().setAnnotations([{
-        row: error.mark.line,
-        column: error.mark.column,
+
+        // Editor's lines and columns are 0-indexed but YAMLExceptions are
+        // 1-indexed. Therefore we're substracting 1
+        row: error.mark.line - 1,
+        column: error.mark.column - 1,
         text: error.reason,
         type: 'error'
       }]);
