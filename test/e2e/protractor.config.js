@@ -23,6 +23,8 @@ var config = {
 
   baseUrl: 'http://localhost:' + PORT + '/',
 
+  directConnect: true,
+
   capabilities: {
     browserName: 'chrome',
     chromeOptions: {
