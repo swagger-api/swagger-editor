@@ -213,7 +213,6 @@ SwaggerEditor.controller('TryOperation', function($scope, formdataFilter,
           .properties[paramSchema.name] = paramSchema;
       });
     }
-
     return schema;
   }
 
@@ -299,6 +298,13 @@ SwaggerEditor.controller('TryOperation', function($scope, formdataFilter,
     // provide title property if it's missing.
     if (!schema.title && angular.isString(schema.name)) {
       schema.title = schema.name;
+    }
+
+    // if a schema has allOf it means that the schema is the result of mergin all
+    // schemas in it's allOf array.
+    if (schema.allOf) {
+      schema = _.assign.apply(null, [schema].concat(schema.allOf));
+      delete schema.allOf;
     }
 
     // if schema is missing the "type" property fill it in based on available
