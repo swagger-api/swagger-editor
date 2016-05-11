@@ -13,7 +13,10 @@
     "views/",
     "templates/",
     "images/",
-    "spec-files/"
+    "spec-files/",
+    "robots.txt",
+    "404.html",
+    "README.md"
   ],
   "authors": [
     "Mohsen Azimi <me@azimi.me>",
