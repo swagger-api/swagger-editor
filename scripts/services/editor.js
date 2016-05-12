@@ -79,7 +79,9 @@ SwaggerEditor.service('Editor', function Editor(Autocomplete, ASTManager,
    * @param {string} type - "error" or "warning"
   */
   function annotate(row, column, message, type) {
-    if (!editor) { return; }
+    if (!editor) {
+      return;
+    }
 
     var session = editor.getSession();
     var annotatations = session.getAnnotations();
