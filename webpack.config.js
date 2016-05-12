@@ -16,7 +16,7 @@ var config = {
   output: {
     path: path.join(__dirname, 'dist'),
     filename: 'bundle.js',
-    publicPath: '/dist/'
+    publicPath: 'dist/'
   },
 
   plugins: [
@@ -47,6 +47,7 @@ var config = {
       {
         test: /\.less$/,
         loader: ExtractTextPlugin.extract(
+
                     // activate source maps via loader query
                     'css?sourceMap!' +
                     'less?sourceMap'
@@ -58,7 +59,7 @@ var config = {
       },
       {
         test: /\.(ttf|eot|svg|woff|woff2|otf)(\?v=[0-9]\.[0-9]\.[0-9])?$/,
-        loader: 'file-loader'
+        loader: 'url-loader'
       }
     ]
   }
