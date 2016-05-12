@@ -1,6 +1,7 @@
 'use strict';
 
 window.jQuery = require('jquery');
+window.JSONFormatter = require('json-formatter-js');
 var angular = require('angular');
 
 // These modules do not export their module name

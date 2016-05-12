@@ -1,6 +1,6 @@
 {
   "name": "swagger-editor",
-  "version": "2.9.9",
+  "version": "2.10.1",
   "homepage": "https://github.com/swagger-api/swagger-editor",
   "description": "Swagger Editor",
   "license": "Apache-2.0",
@@ -13,7 +13,10 @@
     "views/",
     "templates/",
     "images/",
-    "spec-files/"
+    "spec-files/",
+    "robots.txt",
+    "404.html",
+    "README.md"
   ],
   "authors": [
     "Mohsen Azimi <me@azimi.me>",
@@ -97,7 +100,7 @@
     "node": ">=5.8.0"
   },
   "scripts": {
-    "build": "webpack --production",
+    "build": "webpack --production --hide-modules",
     "unit-test": "karma start test/unit/karma.conf.js --single-run=true",
     "unit-test-watch": "karma start test/unit/karma.conf.js",
     "pree2e-test": "webdriver-manager update",

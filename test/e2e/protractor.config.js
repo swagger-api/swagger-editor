@@ -17,11 +17,13 @@ var config = {
         return console.error(err);
       }
 
-      console.log('Test server started at http://127.0.0.1:' + PORT);
+      console.log('Test server started at http://localhost:' + PORT);
     });
   },
 
-  baseUrl: 'http://127.0.0.1:' + PORT + '/',
+  baseUrl: 'http://localhost:' + PORT + '/',
+
+  directConnect: true,
 
   capabilities: {
     browserName: 'chrome',
