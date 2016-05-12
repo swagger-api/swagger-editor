@@ -66,35 +66,53 @@ SwaggerEditor.service('Editor', function Editor(Autocomplete, ASTManager,
   var editorOptions = defaults.editorOptions || {};
   var defaultTheme = editorOptions.theme || 'ace/theme/atom_dark';
 
+  /**
+   * Annotate editor
+   *
+   * @description
+   * Editor's lines and columns are 0-indexed but most errors are
+   * 1-indexed. Therefore we're substracting 1
+   *
+   * @param {number} row - Row (0 index)
+   * @param {number} column - Column (0 index)
+   * @param {string} message - Error or warning
+   * @param {string} type - "error" or "warning"
+  */
+  function annotate(row, column, message, type) {
+    if (!editor) {
+      return;
+    }
+
+    var session = editor.getSession();
+    var annotatations = session.getAnnotations();
+
+    session.setAnnotations(annotatations.concat([{
+      row: row - 1,
+      column: column - 1,
+      text: message,
+      type: type
+    }]));
+  }
+
   var annotateYAMLErrors = function(error) {
     if (editor && error && error.mark && error.reason) {
-      editor.getSession().setAnnotations([{
-
-        // Editor's lines and columns are 0-indexed but YAMLExceptions are
-        // 1-indexed. Therefore we're substracting 1
-        row: error.mark.line - 1,
-        column: error.mark.column - 1,
-        text: error.reason,
-        type: 'error'
-      }]);
+      annotate(error.mark.line, error.mark.column, error.reason, 'error');
     }
   };
 
   var annotateSwaggerError = function(error, type) {
-    var row = 0;
-    var column = 0;
+    var value = editor.getValue();
 
-    if (editor && error.path) {
-      if (error.path.length) {
-        // (TODO) ASTManager
-        row = ASTManager.lineForPath(_.cloneDeep(error.path));
-      }
-      editor.getSession().setAnnotations([{
-        row: row,
-        column: column,
-        text: error.message,
-        type: type || 'error'
-      }]);
+    if (value && editor && error.path && error.path.length) {
+      ASTManager.positionRangeForPath(value, _.cloneDeep(error.path))
+        .then(function(position) {
+          annotate(
+            position.start.line,
+            position.start.column,
+            error.message,
+            type || 'error'
+          );
+        });
     }
   };
 
