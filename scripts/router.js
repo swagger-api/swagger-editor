@@ -13,15 +13,15 @@ SwaggerEditor.config(function Router($stateProvider,
         controller: 'MainCtrl'
       },
       'header@home': {
-        templateUrl: 'views/header/header.html',
+        template: require('views/header/header.html'),
         controller: 'HeaderCtrl'
       },
       'editor@home': {
-        templateUrl: 'views/editor/editor.html',
+        template: require('views/editor/editor.html'),
         controller: 'EditorCtrl'
       },
       'preview@home': {
-        templateUrl: 'views/preview/preview.html',
+        template: require('views/preview/preview.html'),
         controller: 'PreviewCtrl'
       }
     }
