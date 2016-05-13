@@ -19,6 +19,12 @@ var config = {
     publicPath: 'dist/'
   },
 
+  resolve: {
+    root: [
+      __dirname
+    ]
+  },
+
   plugins: [
     new webpack.NoErrorsPlugin(),
     new ExtractTextPlugin('styles.css')
@@ -60,6 +66,10 @@ var config = {
       {
         test: /\.(ttf|eot|svg|woff|woff2|otf)(\?v=[0-9]\.[0-9]\.[0-9])?$/,
         loader: 'url-loader'
+      },
+      {
+        test: /\.html$/,
+        loader: 'html-loader'
       }
     ]
   }

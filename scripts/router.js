@@ -9,7 +9,7 @@ SwaggerEditor.config(function Router($stateProvider,
     url: '/?import&tags&no-proxy',
     views: {
       '': {
-        templateUrl: 'views/main.html',
+        template: require('views/main.html'),
         controller: 'MainCtrl'
       },
       'header@home': {

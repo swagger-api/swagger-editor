@@ -62,7 +62,7 @@ SwaggerEditor.controller('HeaderCtrl', function HeaderCtrl($scope, $uibModal,
   */
   function showCodegenError(resp) {
     $uibModal.open({
-      templateUrl: 'templates/code-gen-error-modal.html',
+      template: require('templates/code-gen-error-modal.html'),
       controller: 'GeneralModal',
       size: 'large',
       resolve: {
