@@ -5,7 +5,7 @@ var JSONSchemaView = require('json-schema-view-js');
 
 SwaggerEditor.directive('schemaModel', function() {
   return {
-    template: require('../templates/schema-model.html'),
+    template: require('templates/schema-model.html'),
     restrict: 'E',
     replace: true,
     scope: {

@@ -62,7 +62,7 @@ SwaggerEditor.controller('HeaderCtrl', function HeaderCtrl($scope, $uibModal,
   */
   function showCodegenError(resp) {
     $uibModal.open({
-      template: require('../templates/code-gen-error-modal.html'),
+      template: require('templates/code-gen-error-modal.html'),
       controller: 'GeneralModal',
       size: 'large',
       resolve: {
@@ -100,7 +100,7 @@ SwaggerEditor.controller('HeaderCtrl', function HeaderCtrl($scope, $uibModal,
 
   $scope.openImportFile = function() {
     $uibModal.open({
-      template: require('../templates/file-import.html'),
+      template: require('templates/file-import.html'),
       controller: 'FileImportCtrl',
       size: 'large'
     });
@@ -108,7 +108,7 @@ SwaggerEditor.controller('HeaderCtrl', function HeaderCtrl($scope, $uibModal,
 
   $scope.openImportUrl = function() {
     $uibModal.open({
-      template: require('../templates/url-import.html'),
+      template: require('templates/url-import.html'),
       controller: 'UrlImportCtrl',
       size: 'large'
     });
@@ -116,7 +116,7 @@ SwaggerEditor.controller('HeaderCtrl', function HeaderCtrl($scope, $uibModal,
 
   $scope.openPasteJSON = function() {
     $uibModal.open({
-      template: require('../templates/paste-json.html'),
+      template: require('templates/paste-json.html'),
       controller: 'PasteJSONCtrl',
       size: 'large'
     });
@@ -124,7 +124,7 @@ SwaggerEditor.controller('HeaderCtrl', function HeaderCtrl($scope, $uibModal,
 
   $scope.openAbout = function() {
     $uibModal.open({
-      template: require('../templates/about.html'),
+      template: require('templates/about.html'),
       size: 'large',
       controller: 'ModalCtrl'
     });
@@ -138,7 +138,7 @@ SwaggerEditor.controller('HeaderCtrl', function HeaderCtrl($scope, $uibModal,
   $scope.openEditorPreferences = Editor.showSettings;
   $scope.resetSettings = function() {
     $uibModal.open({
-      template: require('../templates/reset-editor.html'),
+      template: require('templates/reset-editor.html'),
       controller: 'ConfirmReset',
       size: 'large'
     });
@@ -147,7 +147,7 @@ SwaggerEditor.controller('HeaderCtrl', function HeaderCtrl($scope, $uibModal,
 
   $scope.openExamples = function() {
     $uibModal.open({
-      template: require('../templates/open-examples.html'),
+      template: require('templates/open-examples.html'),
       controller: 'OpenExamplesCtrl',
       size: 'large'
     });
@@ -155,7 +155,7 @@ SwaggerEditor.controller('HeaderCtrl', function HeaderCtrl($scope, $uibModal,
 
   $scope.openPreferences = function() {
     $uibModal.open({
-      template: require('../templates/preferences.html'),
+      template: require('templates/preferences.html'),
       controller: 'PreferencesCtrl',
       size: 'large'
     });

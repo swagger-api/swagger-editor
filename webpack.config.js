@@ -21,7 +21,7 @@ var config = {
 
   resolve: {
     extensions: ['', '.js', '.json'],
-    root: path.resolve(__dirname),
+    root: __dirname,
     modulesDirectories: ['node_modules']
   },
 
