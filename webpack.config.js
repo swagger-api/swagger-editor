@@ -20,9 +20,9 @@ var config = {
   },
 
   resolve: {
-    root: [
-      __dirname
-    ]
+    extensions: ['', '.js', '.json'],
+    root: path.resolve(__dirname),
+    modulesDirectories: ['node_modules']
   },
 
   plugins: [

@@ -17,7 +17,7 @@ SwaggerEditor.controller('SecurityCtrl', function SecurityCtrl($scope,
   $scope.authenticate = function(securityName, security) {
     if (security.type === 'basic') {
       $uibModal.open({
-        template: require('templates/auth/basic.html'),
+        template: require('../templates/auth/basic.html'),
         controller: ['$scope', '$uibModalInstance',
         function BasicAuthAuthenticateCtrl($scope,
           $uibModalInstance) {
@@ -34,7 +34,7 @@ SwaggerEditor.controller('SecurityCtrl', function SecurityCtrl($scope,
       });
     } else if (security.type === 'oauth2') {
       $uibModal.open({
-        template: require('templates/auth/oauth2.html'),
+        template: require('../templates/auth/oauth2.html'),
         controller: ['$scope', '$uibModalInstance',
         function OAuth2AuthenticateCtrl($scope, $uibModalInstance) {
           $scope.cancel = $uibModalInstance.close;
@@ -52,7 +52,7 @@ SwaggerEditor.controller('SecurityCtrl', function SecurityCtrl($scope,
       });
     } else if (security.type === 'apiKey') {
       $uibModal.open({
-        template: require('templates/auth/api-key.html'),
+        template: require('../templates/auth/api-key.html'),
         controller: ['$scope', '$uibModalInstance',
           function APIKeyAuthenticateCtrl($scope, $uibModalInstance) {
             $scope.cancel = $uibModalInstance.close;
