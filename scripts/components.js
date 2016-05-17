@@ -5,73 +5,70 @@
  * This file helps loading components easier in tests
 */
 
-// Configurations
-require('./config/app.config.js');
-
 // Router
-require('./router');
+require('scripts/router');
 
 // Services
-require('./services/analytics.js');
-require('./services/ast-manager.js');
-require('./services/auth-manager.js');
-require('./services/autocomplete.js');
-require('./services/backend.js');
-require('./services/builder.js');
-require('./services/codegen.js');
-require('./services/editor.js');
-require('./services/external-hooks.js');
-require('./services/fileloader.js');
-require('./services/focused-path.js');
-require('./services/fold-state-manager.js');
-require('./services/keyword-map.js');
-require('./services/local-storage.js');
-require('./services/preferences.js');
-require('./services/storage.js');
-require('./services/sway-worker.js');
-require('./services/tag-manager.js');
-require('./services/yaml.js');
+require('scripts/services/analytics.js');
+require('scripts/services/ast-manager.js');
+require('scripts/services/auth-manager.js');
+require('scripts/services/autocomplete.js');
+require('scripts/services/backend.js');
+require('scripts/services/builder.js');
+require('scripts/services/codegen.js');
+require('scripts/services/editor.js');
+require('scripts/services/external-hooks.js');
+require('scripts/services/fileloader.js');
+require('scripts/services/focused-path.js');
+require('scripts/services/fold-state-manager.js');
+require('scripts/services/keyword-map.js');
+require('scripts/services/local-storage.js');
+require('scripts/services/preferences.js');
+require('scripts/services/storage.js');
+require('scripts/services/sway-worker.js');
+require('scripts/services/tag-manager.js');
+require('scripts/services/yaml.js');
 
 // Controllers
-require('./controllers/editor.js');
-require('./controllers/errorpresenter.js');
-require('./controllers/general-modal.js');
-require('./controllers/header.js');
-require('./controllers/import-file.js');
-require('./controllers/importurl.js');
-require('./controllers/main.js');
-require('./controllers/modal.js');
-require('./controllers/openexamples.js');
-require('./controllers/paste-json.js');
-require('./controllers/preferences.js');
-require('./controllers/preview.js');
-require('./controllers/security.js');
-require('./controllers/confirm-reset.js');
+require('scripts/controllers/editor.js');
+require('scripts/controllers/errorpresenter.js');
+require('scripts/controllers/general-modal.js');
+require('scripts/controllers/header.js');
+require('scripts/controllers/import-file.js');
+require('scripts/controllers/importurl.js');
+require('scripts/controllers/main.js');
+require('scripts/controllers/modal.js');
+require('scripts/controllers/openexamples.js');
+require('scripts/controllers/paste-json.js');
+require('scripts/controllers/preferences.js');
+require('scripts/controllers/preview.js');
+require('scripts/controllers/security.js');
+require('scripts/controllers/confirm-reset.js');
 
 // Directives
-require('./directives/auto-focus.js');
-require('./directives/collapsewhen.js');
-require('./directives/on-file-change.js');
-require('./directives/operation.js');
-require('./directives/schemamodel.js');
-require('./directives/scroll-into-view-when.js');
-require('./directives/stop-event.js');
-require('./directives/track-event.js');
-require('./directives/tryoperation.js');
+require('scripts/directives/auto-focus.js');
+require('scripts/directives/collapsewhen.js');
+require('scripts/directives/on-file-change.js');
+require('scripts/directives/operation.js');
+require('scripts/directives/schemamodel.js');
+require('scripts/directives/scroll-into-view-when.js');
+require('scripts/directives/stop-event.js');
+require('scripts/directives/track-event.js');
+require('scripts/directives/tryoperation.js');
 
 // Enums
-require('./enums/defaults.js');
-require('./enums/strings.js');
+require('scripts/enums/defaults.js');
+require('scripts/enums/strings.js');
 
 // Filter
-require('./filters/formdata.js');
+require('scripts/filters/formdata.js');
 
 // Plugins
-require('./plugins/jquery.scroll-into-view.js');
+require('scripts/plugins/jquery.scroll-into-view.js');
 
 // Misc
-require('./ace/snippets/swagger.snippet.js');
-require('./analytics/google.js');
+require('scripts/ace/snippets/swagger.snippet.js');
+require('scripts/analytics/google.js');
 
 // Ace Editor
 window.ace = require('brace');

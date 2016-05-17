@@ -24,10 +24,10 @@ window.SwaggerEditor = angular.module('SwaggerEditor', [
   'ngStorage'
 ]);
 
-require('./config.js');
+require('scripts/config.js');
 
 // Require all of components
-require('./components');
+require('scripts/components');
 
 // Bootstrap the app
-require('./bootstrap');
+require('scripts/bootstrap');

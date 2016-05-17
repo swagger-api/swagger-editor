@@ -20,7 +20,8 @@ function startServer(port, cb) {
 
   var server = new WebpackDevServer(compiler, {
     progress: true,
-    quiet: true,
+    stats: 'errors-only',
+    showModules: false,
     publicPath: config.output.publicPath,
     headers: {
       'Set-Cookie':
