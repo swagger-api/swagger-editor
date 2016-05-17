@@ -55,7 +55,7 @@ require('brace/ext/keybinding_menu');
 require('brace/ext/settings_menu');
 require('brace/ext/searchbox');
 
-require('../ace/themes/theme-atom_dark.js');
+require('scripts/ace/themes/theme-atom_dark.js');
 
 SwaggerEditor.service('Editor', function Editor(Autocomplete, ASTManager,
   LocalStorage, defaults, $interval) {

@@ -9,19 +9,19 @@ SwaggerEditor.config(function Router($stateProvider,
     url: '/?import&tags&no-proxy',
     views: {
       '': {
-        template: require('../views/main.html'),
+        template: require('views/main.html'),
         controller: 'MainCtrl'
       },
       'header@home': {
-        template: require('../views/header/header.html'),
+        template: require('views/header/header.html'),
         controller: 'HeaderCtrl'
       },
       'editor@home': {
-        template: require('../views/editor/editor.html'),
+        template: require('views/editor/editor.html'),
         controller: 'EditorCtrl'
       },
       'preview@home': {
-        template: require('../views/preview/preview.html'),
+        template: require('views/preview/preview.html'),
         controller: 'PreviewCtrl'
       }
     }
