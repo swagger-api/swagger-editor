@@ -2,7 +2,7 @@
 
 var angular = require('angular');
 
-describe('Directive: tryOperation', function() {
+describe('Controller: tryOperation', function() {
   // load the directive's module
   beforeEach(angular.mock.module('SwaggerEditor'));
 
