@@ -1,6 +1,8 @@
 // Karma configuration
 // http://karma-runner.github.io/0.10/config/configuration-file.html
 
+var path = require("path");
+
 var webpackConfig = require('../../webpack.config.js');
 
 module.exports = function(config) {
@@ -35,6 +37,12 @@ module.exports = function(config) {
     webpack: {
       module: {
         loaders: webpackConfig.module.loaders
+      },
+      resolve: {
+        root: [
+          __dirname,
+          path.join(__dirname, '../../')
+        ]
       }
     },
 

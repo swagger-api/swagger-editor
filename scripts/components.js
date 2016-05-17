@@ -5,9 +5,6 @@
  * This file helps loading components easier in tests
 */
 
-// Configurations
-require('scripts/config/app.config.js');
-
 // Router
 require('scripts/router');
 
