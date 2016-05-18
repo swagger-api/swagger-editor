@@ -1,21 +1,62 @@
 'use strict';
 
-var angular = require('angular');
+describe('TryOperation Controller', function() {
+  beforeEach(window.module('SwaggerEditor'));
 
-describe('Controller: tryOperation', function() {
-  // load the directive's module
-  beforeEach(angular.mock.module('SwaggerEditor'));
+  var $controller;
 
-  var element;
   var scope;
 
   beforeEach(inject(function($rootScope) {
     scope = $rootScope.$new();
   }));
 
-  it('should make hidden element visible', inject(function($compile) {
-    element = angular.element('<try-operation></try-operation>');
-    element = $compile(element)(scope);
-    expect(element.text()).to.equal('');
+  beforeEach(inject(function(_$controller_){
+    // The injector unwraps the underscores (_) from around the parameter names when matching
+    $controller = _$controller_;
   }));
+
+  describe('$scope.generateUrl', function() {
+    var $scope, controller;
+
+    beforeEach(function() {
+      $scope = {};
+      $scope.operation = {};
+      $scope.specs = {};
+      $scope.getParameters = function mockGetParameters() {
+        return [];
+      };
+      $scope.$watch = function(){};
+
+      controller = $controller('TryOperation', {$scope: $scope});
+    });
+
+    it('is a function', function() {
+      expect($scope.generateUrl).to.be.a.function;
+    });
+
+    it('returns a basic URL for simple a Swagger operation', function() {
+      scope.specs = {
+        "swagger": "2.0",
+        "info": {
+            "version": "0.0.0",
+            "title": "Simple API"
+        },
+        "host": "example.com",
+        "paths": {
+            "/pets": {
+                "get": {
+                    "responses": {
+                        "200": {
+                            "description": "OK"
+                        }
+                    }
+                }
+            }
+        }
+      };
+      var url = $scope.generateUrl();
+      expect(url).to.equal('http://example.com/pets');
+    });
+  });
 });
