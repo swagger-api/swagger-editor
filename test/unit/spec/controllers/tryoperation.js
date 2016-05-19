@@ -1,35 +1,29 @@
 'use strict';
 
-describe('TryOperation Controller', function() {
+describe('Controller: TryOperation', function() {
   beforeEach(window.module('SwaggerEditor'));
 
   var $controller;
-
   var scope;
+  var $scope = {};
 
-  beforeEach(inject(function($rootScope) {
+  beforeEach(inject(function(_$controller_, $rootScope) {
     scope = $rootScope.$new();
-  }));
-
-  beforeEach(inject(function(_$controller_) {
-    // The injector unwraps the underscores (_) from around the parameter names when matching
-    $controller = _$controller_;
+    $controller('TryOperation', {
+      $scope: scope
+    });
   }));
 
   describe('$scope.generateUrl', function() {
-    var $scope;
     var controller;
 
     beforeEach(function() {
-      $scope = {};
       $scope.operation = {};
       $scope.specs = {};
       $scope.getParameters = function mockGetParameters() {
         return [];
       };
       $scope.$watch = function() {};
-
-      controller = $controller('TryOperation', {$scope: $scope});
     });
 
     it('is a function', function() {
@@ -38,22 +32,22 @@ describe('TryOperation Controller', function() {
 
     xit('returns a basic URL for simple a Swagger operation', function() {
       scope.specs = {
-        "swagger": "2.0",
-        "info": {
-            "version": "0.0.0",
-            "title": "Simple API"
+        swagger: "2.0",
+        info: {
+          version: "0.0.0",
+          title: "Simple API"
         },
-        "host": "example.com",
-        "paths": {
-            "/pets": {
-                "get": {
-                    "responses": {
-                        "200": {
-                            "description": "OK"
-                        }
-                    }
+        host: "example.com",
+        paths: {
+          "/pets": {
+            get: {
+              responses: {
+                200: {
+                  description: OK
                 }
+              }
             }
+          }
         }
       };
       var url = $scope.generateUrl();

@@ -68,6 +68,7 @@
     "karma-mocha-reporter": "^2.0.0",
     "karma-ng-html2js-preprocessor": "^0.2.1",
     "karma-ng-scenario": "^0.1.0",
+    "karma-sourcemap-loader": "^0.3.7",
     "karma-webpack": "^1.7.0",
     "less": "^2.6.1",
     "less-loader": "^2.2.2",
