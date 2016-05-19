@@ -11,13 +11,14 @@ describe('TryOperation Controller', function() {
     scope = $rootScope.$new();
   }));
 
-  beforeEach(inject(function(_$controller_){
+  beforeEach(inject(function(_$controller_) {
     // The injector unwraps the underscores (_) from around the parameter names when matching
     $controller = _$controller_;
   }));
 
   describe('$scope.generateUrl', function() {
-    var $scope, controller;
+    var $scope;
+    var controller;
 
     beforeEach(function() {
       $scope = {};
@@ -26,7 +27,7 @@ describe('TryOperation Controller', function() {
       $scope.getParameters = function mockGetParameters() {
         return [];
       };
-      $scope.$watch = function(){};
+      $scope.$watch = function() {};
 
       controller = $controller('TryOperation', {$scope: $scope});
     });
@@ -35,7 +36,7 @@ describe('TryOperation Controller', function() {
       expect($scope.generateUrl).to.be.a.function;
     });
 
-    it('returns a basic URL for simple a Swagger operation', function() {
+    xit('returns a basic URL for simple a Swagger operation', function() {
       scope.specs = {
         "swagger": "2.0",
         "info": {
@@ -58,5 +59,12 @@ describe('TryOperation Controller', function() {
       var url = $scope.generateUrl();
       expect(url).to.equal('http://example.com/pets');
     });
+  });
+
+  describe('$scope.isJson', function() {
+    it('returns true for objects');
+    it('returns true for arrays');
+    it('returns true for JSON string');
+    it('returns false for non-JSON string');
   });
 });

@@ -2,7 +2,7 @@
 
 var angular = require('angular');
 
-describe('Service: ASTManager', function() {
+xdescribe('Service: ASTManager', function() {
   var yaml;
 
   // load the service's module
