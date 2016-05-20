@@ -27,7 +27,7 @@ module.exports = function(config) {
 
     // Process test fies with webpack so require statements work in them
     preprocessors: {
-      'index.js': ['webpack']
+      'index.js': ['webpack', 'sourcemap']
     },
 
     // Use a better looking test reporter
@@ -35,6 +35,7 @@ module.exports = function(config) {
 
     // enable webpack
     webpack: {
+      devtool: 'inline-source-map',
       module: {
         loaders: webpackConfig.module.loaders
       },
