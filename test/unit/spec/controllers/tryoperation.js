@@ -21,42 +21,58 @@ describe('Controller: TryOperation', function() {
   }));
 
   describe('$scope.generateUrl', function() {
-    beforeEach(function() {
-      scope.specs = {
-        swagger: "2.0",
-        info: {
-          version: "0.0.0",
-          title: "Simple API"
-        },
-        paths: {
-          "/": {
-            get: {
-              responses: {
-                200: {
-                  description: "OK"
+    describe('Basic Swagger', function() {
+      beforeEach(function() {
+        scope.specs = {
+          swagger: "2.0",
+          info: {
+            version: "0.0.0",
+            title: "Simple API"
+          },
+          paths: {
+            "/": {
+              get: {
+                responses: {
+                  200: {
+                    description: "OK"
+                  }
                 }
               }
             }
           }
-        }
-      };
-      scope.operation = {
-        responses: {
-          200: {
-            description: "OK"
+        };
+        scope.operation = {
+          responses: {
+            200: {
+              description: "OK"
+            }
           }
-        }
-      };
-      scope.pathName = "/";
-    });
+        };
+        scope.pathName = "/";
+      });
 
-    it('is a function', function() {
-      expect(scope.generateUrl).to.be.a.function;
-    });
+      it('returns a basic URL for / path and GET operation', function() {
+        var url = scope.generateUrl();
+        expect(url).to.equal('http://localhost:8080/');
+      });
 
-    it('returns a basic URL for simple a Swagger operation', function() {
-      var url = scope.generateUrl();
-      expect(url).to.equal('http://localhost:8080/');
+      xit('uses correct scheme when operation has a schema', function() {
+        scope.operation.schemes = ['https'];
+        var url = scope.generateUrl();
+        expect(url).to.equal('https://localhost:8080/');
+      });
+
+      xit('uses correct scheme when spec has a schema in root', function() {
+        scope.specs.path["/"].get.schemes = ['https'];
+        var url = scope.generateUrl();
+        expect(url).to.equal('https://localhost:8080/');
+      });
+
+      it('uses correct host', function() {
+        scope.specs.host = 'example.com';
+        var url = scope.generateUrl();
+        expect(url).to.equal('http://example.com/');
+      });
     });
   });
 
@@ -118,9 +134,25 @@ describe('Controller: TryOperation', function() {
     });
   });
 
-  describe('scope.isCrossOrigin', function() {
+  xdescribe('scope.isCrossOrigin', function() {
+    beforeEach(function() {
+      scope.locationHost = 'localhost';
+    });
+
     it('is a function', function() {
       expect(scope.isCrossOrigin).to.be.a.function;
+    });
+
+    it('returns true if swagger host is equal to window.location.host',
+    function() {
+      scope.specs = {host: 'localhost'};
+      expect(scope.isCrossOrigin()).to.equal(true);
+    });
+
+    it('returns true if swagger host is equal to window.location.host',
+    function() {
+      scope.specs = {host: 'example.com'};
+      expect(scope.isCrossOrigin()).to.equal(false);
     });
   });
 });
