@@ -56,14 +56,14 @@ describe('Controller: TryOperation', function() {
         expect(url).to.equal('http://localhost:8080/');
       });
 
-      xit('uses correct scheme when operation has a schema', function() {
-        scope.operation.schemes = ['https'];
+      it('uses correct scheme when operation has a schema', function() {
+        scope.requestModel.scheme = ['https'];
         var url = scope.generateUrl();
         expect(url).to.equal('https://localhost:8080/');
       });
 
-      xit('uses correct scheme when spec has a schema in root', function() {
-        scope.specs.path["/"].get.schemes = ['https'];
+      it('uses correct scheme when spec has a schema in root', function() {
+        scope.requestModel.scheme = ['https'];
         var url = scope.generateUrl();
         expect(url).to.equal('https://localhost:8080/');
       });
@@ -72,6 +72,249 @@ describe('Controller: TryOperation', function() {
         scope.specs.host = 'example.com';
         var url = scope.generateUrl();
         expect(url).to.equal('http://example.com/');
+      });
+
+      it('uses correct basePath', function() {
+        scope.specs.host = 'example.com';
+        scope.specs.basePath = "/v";
+        var url = scope.generateUrl();
+        expect(url).to.equal('http://example.com/v/');
+      });
+
+      xit('uses a number query parameter', function() {
+        scope.specs = {
+          swagger: "2.0",
+          info: {
+            version: "0.0.0",
+            title: "Simple API"
+          },
+          paths: {
+            "/": {
+              get: {
+                parameters: [
+                  {
+                    name: "id",
+                    in: "query",
+                    type: "number"
+                  }
+                ],
+                responses: {
+                  200: {
+                    description: "OK"
+                  }
+                }
+              }
+            }
+          }
+        };
+        scope.requestModel = {parameters: {id: 1}, scheme: ['http']};
+        var url = scope.generateUrl();
+        expect(url).to.equal('http://localhost:8080/?id=1');
+      });
+
+      xit('uses a string query parameter', function() {
+        scope.specs = {
+          swagger: "2.0",
+          info: {
+            version: "0.0.0",
+            title: "Simple API"
+          },
+          paths: {
+            "/": {
+              get: {
+                parameters: [
+                  {
+                    name: "id",
+                    in: "query",
+                    type: "string"
+                  }
+                ],
+                responses: {
+                  200: {
+                    description: "OK"
+                  }
+                }
+              }
+            }
+          }
+        };
+        scope.requestModel = {parameters: {id: "a"}, scheme: ['http']};
+        var url = scope.generateUrl();
+        expect(url).to.equal('http://localhost:8080/?id=a');
+      });
+
+      xit('uses a required string query parameter', function() {
+        scope.specs = {
+          swagger: "2.0",
+          info: {
+            version: "0.0.0",
+            title: "Simple API"
+          },
+          paths: {
+            "/": {
+              get: {
+                parameters: [
+                  {
+                    name: "id",
+                    in: "query",
+                    type: "string",
+                    required: true
+                  }
+                ],
+                responses: {
+                  200: {
+                    description: "OK"
+                  }
+                }
+              }
+            }
+          }
+        };
+        // scope.requestModel = {parameters: {id: "a"}, scheme: ['http']};
+        var url = scope.generateUrl();
+        expect(url).to.equal('http://localhost:8080/?id=');
+      });
+
+      xit('uses a boolean query parameter', function() {
+        scope.specs = {
+          swagger: "2.0",
+          info: {
+            version: "0.0.0",
+            title: "Simple API"
+          },
+          paths: {
+            "/": {
+              get: {
+                parameters: [
+                  {
+                    name: "id",
+                    in: "query",
+                    type: "boolean",
+                    required: "false"
+                  }
+                ],
+                responses: {
+                  200: {
+                    description: "OK"
+                  }
+                }
+              }
+            }
+          }
+        };
+        // scope.requestModel = {parameters: {id: false}, scheme: 'http'};
+        var url = scope.generateUrl();
+        expect(url).to.equal('http://localhost:8080/');
+      });
+
+      xit('uses a required boolean query parameter', function() {
+        scope.specs = {
+          swagger: "2.0",
+          info: {
+            version: "0.0.0",
+            title: "Simple API"
+          },
+          paths: {
+            "/": {
+              get: {
+                parameters: [
+                  {
+                    name: "id",
+                    in: "query",
+                    type: "boolean",
+                    required: "true"
+                  }
+                ],
+                responses: {
+                  200: {
+                    description: "OK"
+                  }
+                }
+              }
+            }
+          }
+        };
+        scope.requestModel = {parameters: {id: true}, scheme: 'http'};
+        var url = scope.generateUrl();
+        expect(url).to.equal('http://localhost:8080/?id=true');
+
+        scope.requestModel = {parameters: {id: false}, scheme: 'http'};
+        expect(url).to.equal('http://localhost:8080/?id=false'); // ???
+      });
+
+      xit('uses multiple query parameters', function() {
+        scope.specs = {
+          swagger: "2.0",
+          info: {
+            version: "0.0.0",
+            title: "Simple API"
+          },
+          paths: {
+            "/": {
+              get: {
+                parameters: [
+                  {
+                    name: "id",
+                    in: "query",
+                    type: "number",
+                    required: true
+                  },
+                  {
+                    name: "foo",
+                    in: "query",
+                    type: "string",
+                    required: "true"
+                  }
+                ],
+                responses: {
+                  200: {
+                    description: "OK"
+                  }
+                }
+              }
+            }
+          }
+        };
+        scope.requestModel = {parameters: {foo: 'a', id: 1}, scheme: 'http'};
+        var url = scope.generateUrl();
+        expect(url).to.equal('http://localhost:8080/?id=1&foo=a');
+      });
+
+      xit('uses mix of required and non-required query parameters', function() {
+        scope.specs = {
+          swagger: "2.0",
+          info: {
+            version: "0.0.0",
+            title: "Simple API"
+          },
+          paths: {
+            "/": {
+              get: {
+                parameters: [
+                  {
+                    name: "id",
+                    in: "query",
+                    type: "number"
+                  },
+                  {
+                    name: "foo",
+                    in: "query",
+                    type: "string",
+                    required: "true"
+                  }
+                ],
+                responses: {
+                  200: {
+                    description: "OK"
+                  }
+                }
+              }
+            }
+          }
+        };
+        // scope.requestModel = {parameters: {foo: 'a', id: 1}, scheme: 'http'};
+        var url = scope.generateUrl();
+        expect(url).to.equal('http://localhost:8080/?foo=');
       });
     });
   });
@@ -154,5 +397,9 @@ describe('Controller: TryOperation', function() {
       scope.specs = {host: 'example.com'};
       expect(scope.isCrossOrigin()).to.equal(false);
     });
+  });
+
+  describe('$scope.getRequestBody', function() {
+
   });
 });
