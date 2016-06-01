@@ -37,8 +37,8 @@
       <span class="status-text">{{textStatus | uppercase}}</span>
       <span ng-if="error">{{error}}</span>
     </div>
-    <tabset justified="true" class="responses-tabs">
-      <tab heading="Rendered">
+    <uib-tabset justified="true" class="responses-tabs">
+      <uib-tab heading="Rendered">
         <h6>Headers</h6>
         <json-formatter json="responseHeaders" open="3"></json-formatter>
         <h6>Body</h6>
@@ -48,18 +48,18 @@
           <h5>Plain text:</h5>
           <pre>{{responseData}}</pre>
         </div>
-      </tab>
-      <tab heading="Pretty">
+      </uib-tab>
+      <uib-tab heading="Pretty">
         <pre>{{prettyPrint(xhr.responseText)}}</pre>
-      </tab>
-      <tab heading="Raw">
+      </uib-tab>
+      <uib-tab heading="Raw">
         <div class="raw-response raw">
           <div class="status">{{httpProtocol}} {{xhr.statusCode}} {{statusText}}</div>
           <div class="resp-headers">{{xhr.getAllResponseHeaders()}}</div>
           <div>{{xhr.responseText}}</div>
         </div>
-      </tab>
-    </tabset>
+      </uib-tab>
+    </uib-tabset>
     </div>
   </div>
 </div>
