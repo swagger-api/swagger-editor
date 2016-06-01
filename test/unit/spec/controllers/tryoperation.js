@@ -342,6 +342,61 @@ describe('Controller: TryOperation', function() {
   });
 
   describe('$scope.getRequestBody', function() {
-
+    beforeEach(function() {
+      scope.specs = {
+        swagger: "2.0",
+        info: {
+          version: "0.0.0",
+          title: "Simple API"
+        },
+        path: {
+          "/": {
+            get: {
+              parameters: [
+                {
+                  name: "body",
+                  in: "body",
+                  description: "description",
+                  schema: {
+                    type: "object",
+                    properties: {
+                      foo: {
+                        type: "string"
+                      },
+                      bar: {
+                        type: "string",
+                        enum: [
+                          "bar",
+                          "baz"
+                        ]
+                      }
+                    }
+                  }
+                }
+              ],
+              responses: {
+                200: {
+                  description: "OK"
+                }
+              }
+            }
+          }
+        }
+      };
+    });
+    it('should return correct body model', function() {
+      scope.requestModel = {
+        scheme: "http",
+        accept: "*/*",
+        contentType: "application/json",
+        parameters: {
+          foo: "foo",
+          bar: "bar"
+        }
+      };
+      var bodyParam = {foo: "foo", bar: "bar"};
+      var getRequest = scope.getRequestBody();
+      expect(getRequest).to.equal(bodyParam);
+    });
   });
 });
