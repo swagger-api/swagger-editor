@@ -81,240 +81,182 @@ describe('Controller: TryOperation', function() {
         expect(url).to.equal('http://example.com/v/');
       });
 
-      xit('uses a number query parameter', function() {
-        scope.specs = {
-          swagger: "2.0",
-          info: {
-            version: "0.0.0",
-            title: "Simple API"
-          },
-          paths: {
-            "/": {
-              get: {
-                parameters: [
-                  {
-                    name: "id",
-                    in: "query",
-                    type: "number"
-                  }
-                ],
-                responses: {
-                  200: {
-                    description: "OK"
-                  }
-                }
-              }
-            }
-          }
-        };
-        scope.requestModel = {parameters: {id: 1}, scheme: ['http']};
-        var url = scope.generateUrl();
-        expect(url).to.equal('http://localhost:8080/?id=1');
-      });
-
-      xit('uses a string query parameter', function() {
-        scope.specs = {
-          swagger: "2.0",
-          info: {
-            version: "0.0.0",
-            title: "Simple API"
-          },
-          paths: {
-            "/": {
-              get: {
-                parameters: [
-                  {
-                    name: "id",
-                    in: "query",
-                    type: "string"
-                  }
-                ],
-                responses: {
-                  200: {
-                    description: "OK"
+      // Put this in a seperate describe (use before each)
+      describe('query parameters', function() {
+        beforeEach(function() {
+          scope.specs = {
+            swagger: "2.0",
+            info: {
+              version: "0.0.0",
+              title: "Simple API"
+            },
+            paths: {
+              "/": {
+                get: {
+                  parameters: [
+                    {
+                      name: "id",
+                      in: "query"
+                    }
+                  ],
+                  responses: {
+                    200: {
+                      description: "OK"
+                    }
                   }
                 }
               }
             }
-          }
-        };
-        scope.requestModel = {parameters: {id: "a"}, scheme: ['http']};
-        var url = scope.generateUrl();
-        expect(url).to.equal('http://localhost:8080/?id=a');
-      });
+          };
+        });
 
-      xit('uses a required string query parameter', function() {
-        scope.specs = {
-          swagger: "2.0",
-          info: {
-            version: "0.0.0",
-            title: "Simple API"
-          },
-          paths: {
-            "/": {
-              get: {
-                parameters: [
-                  {
-                    name: "id",
-                    in: "query",
-                    type: "string",
-                    required: true
-                  }
-                ],
-                responses: {
-                  200: {
-                    description: "OK"
-                  }
-                }
+        it('uses a number query parameter', function() {
+          scope.getParameters = function() {
+            var params = [
+              {
+                name: "id",
+                in: "query",
+                type: "number"
               }
-            }
-          }
-        };
-        // scope.requestModel = {parameters: {id: "a"}, scheme: ['http']};
-        var url = scope.generateUrl();
-        expect(url).to.equal('http://localhost:8080/?id=');
-      });
+            ];
+            return params;
+          };
+          $controller('TryOperation', {
+            $scope: scope
+          });
+          scope.requestModel.parameters = {id: 1};
+          var url = scope.generateUrl();
+          expect(url).to.equal('http://localhost:8080/?id=1');
+        });
 
-      xit('uses a boolean query parameter', function() {
-        scope.specs = {
-          swagger: "2.0",
-          info: {
-            version: "0.0.0",
-            title: "Simple API"
-          },
-          paths: {
-            "/": {
-              get: {
-                parameters: [
-                  {
-                    name: "id",
-                    in: "query",
-                    type: "boolean",
-                    required: "false"
-                  }
-                ],
-                responses: {
-                  200: {
-                    description: "OK"
-                  }
-                }
+        it('uses a string query parameter', function() {
+          scope.getParameters = function() {
+            var params = [
+              {
+                name: "id",
+                in: "query",
+                type: "string"
               }
-            }
-          }
-        };
-        // scope.requestModel = {parameters: {id: false}, scheme: 'http'};
-        var url = scope.generateUrl();
-        expect(url).to.equal('http://localhost:8080/');
-      });
+            ];
+            return params;
+          };
+          $controller('TryOperation', {
+            $scope: scope
+          });
+          scope.requestModel = {parameters: {id: "a"}, scheme: ['http']};
+          var url = scope.generateUrl();
+          expect(url).to.equal('http://localhost:8080/?id=a');
+        });
 
-      xit('uses a required boolean query parameter', function() {
-        scope.specs = {
-          swagger: "2.0",
-          info: {
-            version: "0.0.0",
-            title: "Simple API"
-          },
-          paths: {
-            "/": {
-              get: {
-                parameters: [
-                  {
-                    name: "id",
-                    in: "query",
-                    type: "boolean",
-                    required: "true"
-                  }
-                ],
-                responses: {
-                  200: {
-                    description: "OK"
-                  }
-                }
+        it('uses a required string query parameter', function() {
+          scope.getParameters = function() {
+            var params = [
+              {
+                name: "id",
+                in: "query",
+                required: true,
+                type: "string"
               }
-            }
-          }
-        };
-        scope.requestModel = {parameters: {id: true}, scheme: 'http'};
-        var url = scope.generateUrl();
-        expect(url).to.equal('http://localhost:8080/?id=true');
+            ];
+            return params;
+          };
+          $controller('TryOperation', {
+            $scope: scope
+          });
+          var url = scope.generateUrl();
+          expect(url).to.equal('http://localhost:8080/?id=');
+        });
 
-        scope.requestModel = {parameters: {id: false}, scheme: 'http'};
-        expect(url).to.equal('http://localhost:8080/?id=false'); // ???
-      });
-
-      xit('uses multiple query parameters', function() {
-        scope.specs = {
-          swagger: "2.0",
-          info: {
-            version: "0.0.0",
-            title: "Simple API"
-          },
-          paths: {
-            "/": {
-              get: {
-                parameters: [
-                  {
-                    name: "id",
-                    in: "query",
-                    type: "number",
-                    required: true
-                  },
-                  {
-                    name: "foo",
-                    in: "query",
-                    type: "string",
-                    required: "true"
-                  }
-                ],
-                responses: {
-                  200: {
-                    description: "OK"
-                  }
-                }
+        // Fix the error
+        xit('uses a boolean query parameter', function() {
+          scope.getParameters = function() {
+            var params = [
+              {
+                name: "id",
+                in: "query",
+                type: "boolean"
               }
-            }
-          }
-        };
-        scope.requestModel = {parameters: {foo: 'a', id: 1}, scheme: 'http'};
-        var url = scope.generateUrl();
-        expect(url).to.equal('http://localhost:8080/?id=1&foo=a');
-      });
+            ];
+            return params;
+          };
+          $controller('TryOperation', {
+            $scope: scope
+          });
+          var url = scope.generateUrl();
+          expect(url).to.equal('http://localhost:8080/');
+        });
 
-      xit('uses mix of required and non-required query parameters', function() {
-        scope.specs = {
-          swagger: "2.0",
-          info: {
-            version: "0.0.0",
-            title: "Simple API"
-          },
-          paths: {
-            "/": {
-              get: {
-                parameters: [
-                  {
-                    name: "id",
-                    in: "query",
-                    type: "number"
-                  },
-                  {
-                    name: "foo",
-                    in: "query",
-                    type: "string",
-                    required: "true"
-                  }
-                ],
-                responses: {
-                  200: {
-                    description: "OK"
-                  }
-                }
+        it('uses a required boolean query parameter', function() {
+          scope.getParameters = function() {
+            var params = [
+              {
+                name: "id",
+                in: "query",
+                required: "true",
+                type: "boolean"
               }
-            }
-          }
-        };
-        // scope.requestModel = {parameters: {foo: 'a', id: 1}, scheme: 'http'};
-        var url = scope.generateUrl();
-        expect(url).to.equal('http://localhost:8080/?foo=');
+            ];
+            return params;
+          };
+          $controller('TryOperation', {
+            $scope: scope
+          });
+          scope.requestModel = {parameters: {id: true}, scheme: 'http'};
+          var url = scope.generateUrl();
+          expect(url).to.equal('http://localhost:8080/?id=true');
+        });
+
+        it('uses multiple query parameters', function() {
+          scope.getParameters = function() {
+            var params = [
+              {
+                name: "id",
+                in: "query",
+                type: "number",
+                required: true
+              },
+              {
+                name: "foo",
+                in: "query",
+                type: "string",
+                required: true
+              }
+            ];
+            return params;
+          };
+          $controller('TryOperation', {
+            $scope: scope
+          });
+          scope.requestModel = {parameters: {foo: 'a', id: 1}, scheme: 'http'};
+          var url = scope.generateUrl();
+          expect(url).to.equal('http://localhost:8080/?id=1&foo=a');
+        });
+
+        it('uses mix of required and non-required query parameters',
+        function() {
+          scope.getParameters = function() {
+            var params = [
+              {
+                name: "id",
+                in: "query",
+                type: "number"
+              },
+              {
+                name: "foo",
+                in: "query",
+                type: "string",
+                required: true
+              }
+            ];
+            return params;
+          };
+          $controller('TryOperation', {
+            $scope: scope
+          });
+          scope.requestModel = {parameters: {id: 1}, scheme: 'http'};
+          var url = scope.generateUrl();
+          expect(url).to.equal('http://localhost:8080/?id=1&foo=');
+        });
       });
     });
   });
