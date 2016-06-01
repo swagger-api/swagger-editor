@@ -55,6 +55,9 @@ SwaggerEditor.service('ASTManager', function ASTManager(YAML, $log) {
        * @return {Function} find(value)
       */
       function find(current) {
+        if (!current) {
+          return cb(invalidRange);
+        }
         if (current.tag === MAP_TAG) {
           for (i = 0; i < current.value.length; i++) {
             var pair = current.value[i];
