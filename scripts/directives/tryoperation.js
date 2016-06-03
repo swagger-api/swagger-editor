@@ -297,7 +297,7 @@ SwaggerEditor.controller('TryOperation', function($scope, formdataFilter,
   */
   function resolveAllOf(schema) {
     if (schema.allOf) {
-      schema = _.assign.apply(null, [schema].concat(schema.allOf));
+      schema = _.merge.apply(null, [schema].concat(schema.allOf));
       delete schema.allOf;
     }
 
