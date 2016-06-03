@@ -22,7 +22,7 @@ function startServer(port, cb) {
     progress: true,
     stats: 'errors-only',
     showModules: false,
-    publicPath: config.output.publicPath,
+    publicPath: '/' + config.output.publicPath,
     headers: {
       'Set-Cookie':
         'swagger-editor-development-mode:' + Boolean(argv.production) + ';'
