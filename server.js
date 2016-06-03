@@ -20,11 +20,13 @@ function startServer(port, cb) {
 
   var server = new WebpackDevServer(compiler, {
     progress: true,
-    quiet: true,
-    publicPath: config.output.publicPath,
+    stats: 'errors-only',
+    showModules: false,
+    publicPath: '/' + config.output.publicPath,
     headers: {
       'Set-Cookie':
-        'swagger-editor-development-mode:' + Boolean(argv.production) + ';'
+        'swagger-editor-development-mode:' +
+        (argv.production ? 'false' : 'true') + ';'
     }
   });
 

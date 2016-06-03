@@ -9,7 +9,7 @@ var compose = _.memoize(require('yaml-js/yaml.js').yaml.compose);
  *
 */
 var YAMLWorkerBridge = function() {
-  var YAMLWorker = require('../workers/yaml.worker.js');
+  var YAMLWorker = require('scripts/workers/yaml.worker.js');
 
   this.worker = new YAMLWorker();
   this.queue = [];

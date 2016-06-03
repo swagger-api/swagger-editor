@@ -1,6 +1,8 @@
 // Karma configuration
 // http://karma-runner.github.io/0.10/config/configuration-file.html
 
+var path = require("path");
+
 var webpackConfig = require('../../webpack.config.js');
 
 module.exports = function(config) {
@@ -17,7 +19,8 @@ module.exports = function(config) {
 
     // list of files / patterns to load in the browser
     files: [
-      'index.js'
+      'index.js',
+      'tryoperation/*.js'
     ],
 
     // list of files / patterns to exclude
@@ -25,7 +28,7 @@ module.exports = function(config) {
 
     // Process test fies with webpack so require statements work in them
     preprocessors: {
-      'index.js': ['webpack']
+      'index.js': ['webpack', 'sourcemap']
     },
 
     // Use a better looking test reporter
@@ -33,8 +36,15 @@ module.exports = function(config) {
 
     // enable webpack
     webpack: {
+      devtool: 'inline-source-map',
       module: {
         loaders: webpackConfig.module.loaders
+      },
+      resolve: {
+        root: [
+          __dirname,
+          path.join(__dirname, '../../')
+        ]
       }
     },
 

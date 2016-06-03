@@ -9,7 +9,6 @@ SwaggerEditor.controller('TryOperation', function($scope, formdataFilter,
   AuthManager, SchemaForm) {
   var parameters = $scope.getParameters();
   var securityOptions = getSecurityOptions();
-  var FILE_TYPE = ' F I L E '; // File key identifier for file types
 
   // binds to $scope
   $scope.generateUrl = generateUrl;
@@ -287,6 +286,33 @@ SwaggerEditor.controller('TryOperation', function($scope, formdataFilter,
   }
 
   /**
+   * Resolves all of `allOf` recursively in a schema
+   * @description
+   * if a schema has allOf it means that the schema is the result of mergin all
+   * schemas in it's allOf array.
+   *
+   * @param {object} schema - JSON Schema
+   *
+   * @return {object} JSON Schema
+  */
+  function resolveAllOf(schema) {
+    if (schema.allOf) {
+      schema = _.merge.apply(null, [schema].concat(schema.allOf));
+      delete schema.allOf;
+    }
+
+    if (_.isObject(schema.properties)) {
+      schema.properties = _.keys(schema.properties)
+      .reduce(function(properties, key) {
+        properties[key] = resolveAllOf(schema.properties[key]);
+        return properties;
+      }, {});
+    }
+
+    return schema;
+  }
+
+  /**
    * Fills in empty gaps of a JSON Schema. This method is mostly used to
    * normalize JSON Schema objects that are abstracted from Swagger parameters
    *
@@ -300,12 +326,7 @@ SwaggerEditor.controller('TryOperation', function($scope, formdataFilter,
       schema.title = schema.name;
     }
 
-    // if a schema has allOf it means that the schema is the result of mergin all
-    // schemas in it's allOf array.
-    if (schema.allOf) {
-      schema = _.assign.apply(null, [schema].concat(schema.allOf));
-      delete schema.allOf;
-    }
+    schema = resolveAllOf(schema);
 
     // if schema is missing the "type" property fill it in based on available
     // properties
@@ -680,7 +701,7 @@ SwaggerEditor.controller('TryOperation', function($scope, formdataFilter,
       return null;
     }
 
-    var bodyParam = parameters.filter(parameterTypeFilter('body'))[0];
+    var bodyParam = _.find(parameters, parameterTypeFilter('body'));
     var formDataParams = parameters.filter(parameterTypeFilter('formData'));
 
     // body parameter case
@@ -688,20 +709,10 @@ SwaggerEditor.controller('TryOperation', function($scope, formdataFilter,
       var bodyParamName = bodyParam.name;
       var bodyParamValue = $scope.requestModel.parameters[bodyParamName];
 
-      // if body type is file then return special result object with FILE_TYPE
-      // key
-      if (bodyParam.format === 'file') {
-        var result = {};
-
-        result[FILE_TYPE] = bodyParamValue;
-
-        return result;
-      }
-
       return bodyParamValue;
+    }
 
     // formData case
-    }
     return formDataParams.reduce(hashifyParams, {});
   }
 
@@ -711,34 +722,12 @@ SwaggerEditor.controller('TryOperation', function($scope, formdataFilter,
    * @return {string|null} - Raw request body or null if there is no body model
   */
   function getRequestBody() {
-    var bodyParam = parameters.filter(parameterTypeFilter('body'))[0];
     var bodyModel = getBodyModel();
     var contentType = $scope.requestModel.contentType;
 
     // if bodyModel doesn't exists, don't make a request body
     if (bodyModel === undefined || bodyModel === null) {
       return null;
-    }
-
-    // if body model is a file, return a FormData instance with the file in it
-    if (bodyModel[FILE_TYPE]) {
-      // (TODO) put the mechanism of getting the file object into a method
-      var bodyParamName = bodyParam.name;
-      var form = new FormData();
-      var inputEl = $('input[type="file"][name*="' + bodyParamName + '"]')[0];
-
-      if (!inputEl) {
-        return 'No file is selected';
-      }
-
-      var file = inputEl.files[0];
-      if (!file) {
-        return 'No file is selected';
-      }
-
-      form.append(bodyParamName, file, file.name);
-
-      return form;
     }
 
     // if encoding is not defined, return body model as is
@@ -768,7 +757,9 @@ SwaggerEditor.controller('TryOperation', function($scope, formdataFilter,
   * @return {boolean} true/false
   */
   function hasFileParam() {
-    return getRequestBody() && getRequestBody().indexOf(FILE_TYPE) > -1;
+    return parameters.some(function(parameter) {
+      return parameter.format === 'file';
+    });
   }
 
   /*

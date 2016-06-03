@@ -13,9 +13,12 @@ describe('Directive: schemaModel', function() {
     scope = $rootScope.$new();
   }));
 
-  it('should make hidden element visible', inject(function($compile) {
-    element = angular.element('<schema-model></schema-model>');
+  it('should render', inject(function($compile) {
+    scope.stringSchema = {type: 'string'};
+    element = angular.element(
+      '<schema-model schema="stringSchema"></schema-model>'
+    );
     element = $compile(element)(scope);
-    expect(element.text()).to.equal('');
+    expect(element.text()).to.contain('⇄');
   }));
 });
