@@ -81,8 +81,7 @@ describe('Controller: TryOperation', function() {
         expect(url).to.equal('http://example.com/v/');
       });
 
-      // Put this in a seperate describe (use before each)
-      xdescribe('query parameters', function() {
+      describe('query parameters', function() {
         beforeEach(function() {
           scope.specs = {
             swagger: "2.0",

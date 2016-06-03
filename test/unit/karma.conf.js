@@ -19,7 +19,8 @@ module.exports = function(config) {
 
     // list of files / patterns to load in the browser
     files: [
-      'index.js'
+      'index.js',
+      'tryoperation/*.js'
     ],
 
     // list of files / patterns to exclude
@@ -55,7 +56,7 @@ module.exports = function(config) {
     },
 
     // web server port
-    port: 8282,
+    port: 8080,
 
     // level of logging
     // possible values: LOG_DISABLE || LOG_ERROR || LOG_WARN ||

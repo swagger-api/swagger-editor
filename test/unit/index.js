@@ -34,7 +34,11 @@ require('spec/controllers/file-import');
 require('spec/controllers/main');
 require('spec/controllers/openexamples');
 require('spec/controllers/preview');
-require('spec/controllers/tryoperation');
+require('spec/controllers/tryoperation/getRequestBody');
+require('spec/controllers/tryoperation/isCrossOrigin');
+require('spec/controllers/tryoperation/isType');
+require('spec/controllers/tryoperation/isJson');
+require('spec/controllers/tryoperation/generateUrl');
 require('spec/controllers/url-import');
 
 require('spec/directives/collapsewhen');

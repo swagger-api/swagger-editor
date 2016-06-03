@@ -70,6 +70,7 @@ describe('Controller: TryOperation', function() {
         $scope: scope
       });
     });
+
     it('should return correct body model', function() {
       scope.requestModel = {
         scheme: "http",

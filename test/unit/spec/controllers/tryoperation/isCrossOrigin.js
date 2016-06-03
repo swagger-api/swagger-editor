@@ -29,15 +29,15 @@ describe('Controller: TryOperation', function() {
       expect(scope.isCrossOrigin).to.be.a.function;
     });
 
-    it('returns true if swagger host is equal to window.location.host',
+    it('returns true if swagger host is not equal to window.location.host',
     function() {
-      scope.specs = {host: 'localhost'};
+      scope.specs = {host: 'example.com'};
       expect(scope.isCrossOrigin()).to.equal(true);
     });
 
-    it('returns true if swagger host is equal to window.location.host',
+    it('returns flase if swagger host is equal to window.location.host',
     function() {
-      scope.specs = {host: 'example.com'};
+      scope.specs = {host: 'localhost'};
       expect(scope.isCrossOrigin()).to.equal(false);
     });
   });
