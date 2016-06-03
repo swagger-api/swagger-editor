@@ -44,6 +44,7 @@ require('scripts/controllers/preferences.js');
 require('scripts/controllers/preview.js');
 require('scripts/controllers/security.js');
 require('scripts/controllers/confirm-reset.js');
+require('scripts/controllers/tryoperation.js');
 
 // Directives
 require('scripts/directives/auto-focus.js');
@@ -54,7 +55,6 @@ require('scripts/directives/schemamodel.js');
 require('scripts/directives/scroll-into-view-when.js');
 require('scripts/directives/stop-event.js');
 require('scripts/directives/track-event.js');
-require('scripts/directives/tryoperation.js');
 
 // Enums
 require('scripts/enums/defaults.js');
