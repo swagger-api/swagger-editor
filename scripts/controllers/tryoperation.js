@@ -6,7 +6,7 @@ var _ = require('lodash');
 var $ = require('jquery');
 
 SwaggerEditor.controller('TryOperation', function($scope, formdataFilter,
-  AuthManager, SchemaForm) {
+  AuthManager, SchemaForm, JSONschema) {
   var parameters = $scope.getParameters();
   var securityOptions = getSecurityOptions();
 
@@ -71,7 +71,7 @@ SwaggerEditor.controller('TryOperation', function($scope, formdataFilter,
         /* eslint guard-for-in: "error"*/
         for (var p in param.properties) {
           if (param.properties[p].in === 'body' &&
-            isLooseJSONSchema(param.properties[p])) {
+            JSONschema.isLooseJSONSchema(param.properties[p])) {
             loose = true;
           }
         }
@@ -81,58 +81,6 @@ SwaggerEditor.controller('TryOperation', function($scope, formdataFilter,
     }
 
     SchemaForm.options = _.extend(defaultOptions, loose ? looseOptions : {});
-  }
-
-  /**
-   * Determines if a JSON Schema is loose
-   *
-   * @param {object} schema - A JSON Schema object
-   *
-   * @return {boolean} true if schema is a loose JSON
-  */
-  function isLooseJSONSchema(schema) {
-    // loose object
-    if (schema.additionalProperties || _.isEmpty(schema.properties)) {
-      return true;
-    }
-
-    // loose array of objects
-    if (
-        schema.type === 'array' &&
-        (schema.items.additionalProperties ||
-        _.isEmpty(schema.items.properties))
-      ) {
-      return true;
-    }
-
-    return false;
-  }
-
-  /**
-   * Appends JSON Editor options for schema recursively so if a schema needs to
-   * be edited by JSON Editor loosely it's possible
-   *
-   * @param {object} schema - A JSON Schema object
-   *
-   * @return {object} - A JSON Schema object
-  */
-  function appendJSONEditorOptions(schema) {
-    var looseOptions = {
-      /*eslint-disable */
-      no_additional_properties: false,
-      disable_properties: false,
-      disable_edit_json: false
-      /*eslint-enable */
-    };
-
-    // If schema is loose add options for JSON Editor
-    if (isLooseJSONSchema(schema)) {
-      schema.options = looseOptions;
-    }
-
-    _.each(schema.properties, appendJSONEditorOptions);
-
-    return schema;
   }
 
   /**
@@ -350,7 +298,7 @@ SwaggerEditor.controller('TryOperation', function($scope, formdataFilter,
       schema.format = 'file';
     }
 
-    return appendJSONEditorOptions(schema);
+    return JSONschema.appendJSONEditorOptions(schema);
   }
 
   /**
