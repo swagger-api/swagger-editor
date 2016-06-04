@@ -482,10 +482,16 @@ SwaggerEditor.controller('TryOperation', function ($scope, formdataFilter,
     var required = $scope.requestSchema.properties.parameters
       .properties[param.name].required === true;
 
-    // if this parameter is not provided (empty string value) by user and it's
-    // not required, move to next parameter without adding this one to the hash
-    if (param.type === 'string' && paramValue === '' && !required) {
-      return hash;
+    // if this parameter is not provided (undefined or empty string value) by
+    // user and it's not required, move to next parameter without adding
+    // this one to the hash
+    if (!required) {
+      if (paramValue === undefined) {
+        return hash;
+      }
+      if (param.type === 'string' && paramValue === '') {
+        return hash;
+      }
     }
 
     hash[param.name] = $scope.requestModel.parameters[param.name];

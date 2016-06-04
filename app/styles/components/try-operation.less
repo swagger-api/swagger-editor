@@ -17,10 +17,10 @@
   .response-info {
     padding: .5em;
     margin: .5em 0;
-    background: lighten(green, 50%);
+    background: lighten(@green, 50%);
 
     &.error {
-      background: lighten(red, 40%);
+      background: lighten(@red, 40%);
     }
   }
 
@@ -39,7 +39,7 @@
   }
 
   .cors-warning {
-    background-color: #FFF645; // TODO: colors
+    background-color: @try-operation-warning;
     padding: 0.6em .4em;
     line-height: 1.5;
     margin: 1em 0;
@@ -129,7 +129,7 @@
       .failed-bar {
         .sw-font-light;
         background: @sw-error-header;
-        color: white;
+        color: @white;
         padding: .3em;
       }
       .raw-response {

@@ -56,6 +56,16 @@ SwaggerEditor.service('FileLoader', function FileLoader($http, defaults, YAML) {
         throw new TypeError('load function only accepts a string');
       }
 
+      try {
+        JSON.parse(string);
+      } catch (error) {
+
+        // Do not change to JSON if it is YAML, and
+        // just resolve it
+        resolve(string);
+        return;
+      }
+
       YAML.load(string, function (error, json) {
         if (error) { return reject(error); }
 

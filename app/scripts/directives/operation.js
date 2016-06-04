@@ -80,7 +80,7 @@ SwaggerEditor.directive('swaggerOperation', function (defaults) {
        * Returns true if the operation responses has at least one response with
        * schema
        *
-       * @param responses {array} - an array of responses
+       * @param responses {object} - a hash of responses
        * @returns boolean
       */
       $scope.hasAResponseWithSchema = function (responses) {
@@ -93,12 +93,25 @@ SwaggerEditor.directive('swaggerOperation', function (defaults) {
        * Returns true if the operation responses has at least one response with
        * "headers" field
        *
-       * @param responses {array} - an array of responses
+       * @param responses {object} - a hash of responses
        * @returns boolean
       */
       $scope.hasAResponseWithHeaders = function (responses) {
         return _.keys(responses).some(function (responseCode) {
           return responses[responseCode] && responses[responseCode].headers;
+        });
+      };
+
+      /*
+       * Returns true if the operation responses has at least one response with
+       * examples
+       *
+       * @param responses {object} - a hash of responses
+       * @returns boolean
+      */
+      $scope.hasAResponseWithExamples = function (responses) {
+        return _.keys(responses).some(function (responseCode) {
+          return responses[responseCode] && responses[responseCode].examples;
         });
       };
     }

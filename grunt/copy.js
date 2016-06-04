@@ -59,7 +59,8 @@ module.exports = {
       'ext-language_tools.js',
       'ext-searchbox.js',
       'mode-yaml.js',
-      'mode-json.js'
+      'mode-json.js',
+      'keybinding-*.js'
     ],
   },
   sourceCodePro: {
