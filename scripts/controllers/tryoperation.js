@@ -6,7 +6,7 @@ var _ = require('lodash');
 var $ = require('jquery');
 
 SwaggerEditor.controller('TryOperation', function($scope, formdataFilter,
-  AuthManager, SchemaForm, JSONschema) {
+  AuthManager, SchemaForm, JSONschema, Resolve) {
   var parameters = $scope.getParameters();
   var securityOptions = getSecurityOptions();
 
@@ -234,33 +234,6 @@ SwaggerEditor.controller('TryOperation', function($scope, formdataFilter,
   }
 
   /**
-   * Resolves all of `allOf` recursively in a schema
-   * @description
-   * if a schema has allOf it means that the schema is the result of mergin all
-   * schemas in it's allOf array.
-   *
-   * @param {object} schema - JSON Schema
-   *
-   * @return {object} JSON Schema
-  */
-  function resolveAllOf(schema) {
-    if (schema.allOf) {
-      schema = _.merge.apply(null, [schema].concat(schema.allOf));
-      delete schema.allOf;
-    }
-
-    if (_.isObject(schema.properties)) {
-      schema.properties = _.keys(schema.properties)
-      .reduce(function(properties, key) {
-        properties[key] = resolveAllOf(schema.properties[key]);
-        return properties;
-      }, {});
-    }
-
-    return schema;
-  }
-
-  /**
    * Fills in empty gaps of a JSON Schema. This method is mostly used to
    * normalize JSON Schema objects that are abstracted from Swagger parameters
    *
@@ -274,7 +247,7 @@ SwaggerEditor.controller('TryOperation', function($scope, formdataFilter,
       schema.title = schema.name;
     }
 
-    schema = resolveAllOf(schema);
+    schema = Resolve.resolveAllOf(schema);
 
     // if schema is missing the "type" property fill it in based on available
     // properties

@@ -25,6 +25,7 @@ require('scripts/services/json-schema.js');
 require('scripts/services/keyword-map.js');
 require('scripts/services/local-storage.js');
 require('scripts/services/preferences.js');
+require('scripts/services/resolve.js');
 require('scripts/services/storage.js');
 require('scripts/services/sway-worker.js');
 require('scripts/services/tag-manager.js');
