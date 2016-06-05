@@ -6,7 +6,7 @@ var _ = require('lodash');
 var $ = require('jquery');
 
 SwaggerEditor.controller('TryOperation', function($scope, formdataFilter,
-  AuthManager, SchemaForm, JSONschema, Resolve) {
+  AuthManager, SchemaForm, JSONSchema) {
   var parameters = $scope.getParameters();
   var securityOptions = getSecurityOptions();
 
@@ -71,7 +71,7 @@ SwaggerEditor.controller('TryOperation', function($scope, formdataFilter,
         /* eslint guard-for-in: "error"*/
         for (var p in param.properties) {
           if (param.properties[p].in === 'body' &&
-            JSONschema.isLooseJSONSchema(param.properties[p])) {
+            JSONSchema.isLooseJSONSchema(param.properties[p])) {
             loose = true;
           }
         }
@@ -153,7 +153,8 @@ SwaggerEditor.controller('TryOperation', function($scope, formdataFilter,
       };
 
       // Add a new property for each parameter
-      parameters.map(pickSchemaFromParameter).map(normalizeJSONSchema)
+      parameters.map(pickSchemaFromParameter)
+      .map(JSONSchema.normalizeJSONSchema)
       .forEach(function(paramSchema) {
         // extend the parameters property with the schema
         schema.properties.parameters
@@ -194,7 +195,8 @@ SwaggerEditor.controller('TryOperation', function($scope, formdataFilter,
     // Only if there is a parameter add the parameters default values
     if (parameters.length) {
       model.parameters = {};
-      parameters.map(pickSchemaFromParameter).map(normalizeJSONSchema)
+      parameters.map(pickSchemaFromParameter)
+      .map(JSONSchema.normalizeJSONSchema)
       .forEach(function(paramSchema) {
         var defaults = {
           object: {},
@@ -231,47 +233,6 @@ SwaggerEditor.controller('TryOperation', function($scope, formdataFilter,
     }
 
     return model;
-  }
-
-  /**
-   * Fills in empty gaps of a JSON Schema. This method is mostly used to
-   * normalize JSON Schema objects that are abstracted from Swagger parameters
-   *
-   * @param {object} schema - JSON Schema
-   *
-   * @return {object} - Normalized JSON Schema
-  */
-  function normalizeJSONSchema(schema) {
-    // provide title property if it's missing.
-    if (!schema.title && angular.isString(schema.name)) {
-      schema.title = schema.name;
-    }
-
-    schema = Resolve.resolveAllOf(schema);
-
-    // if schema is missing the "type" property fill it in based on available
-    // properties
-    if (!schema.type) {
-      // it's an object if it has "properties" property
-      if (schema.properties) {
-        schema.type = 'object';
-      }
-
-      // it's an array if it has "items" property
-      if (schema.items) {
-        schema.type = 'array';
-      }
-    }
-
-    // Swagger extended JSON Schema with a new type, file. If we see file type
-    // we will add format: file to the schema so the form generator will render
-    // a file input
-    if (schema.type === 'file') {
-      schema.type = 'string';
-      schema.format = 'file';
-    }
-
-    return JSONschema.appendJSONEditorOptions(schema);
   }
 
   /**
