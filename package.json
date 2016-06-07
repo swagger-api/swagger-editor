@@ -105,6 +105,6 @@
     "e2e-test": "protractor test/e2e/protractor.config.js",
     "test": "npm run unit-test && npm run e2e-test",
     "lint": "eslint . --format 'node_modules/eslint-friendly-formatter'",
-    "gh-pages": "git merge --no-edit origin/master; npm run build; git commit -a -m 'Updates from master'; git push origin gh-pages"
+    "gh-pages": "git checkout gh-pages && git merge --no-edit origin/master && npm run build && git commit -a -m \"Update from master at $(git rev-parse --short master)\" && git push origin gh-pages && git checkout -"
   }
 }
