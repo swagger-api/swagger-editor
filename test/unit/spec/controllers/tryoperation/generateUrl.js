@@ -272,10 +272,11 @@ describe('Controller: TryOperation', function() {
           $controller('TryOperation', {
             $scope: scope
           });
-          scope.requestModel = {parameters: {id: 'ab#cd'}, scheme: 'http',
-          host: "example.com", basePath: "/"};
+          scope.requestModel = {parameters: {id: 'ab#cd'}, scheme: 'http'};
+          scope.specs.host = "example.com";
+          scope.specs.basePath = "/";
           var url = scope.generateUrl();
-          expect(url).to.equal('http://example.com/test?id=ab%23cd');
+          expect(url).to.equal('http://example.com/?id=ab%23cd');
         });
       });
     });
