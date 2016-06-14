@@ -257,7 +257,8 @@ describe('Controller: TryOperation', function() {
           expect(url).to.equal('http://localhost:8080/?id=1&foo=');
         });
 
-        it('should dencode special characters', function() {
+        it('should encode special characters in query parameter values',
+        function() {
           scope.getParameters = function() {
             var params = [
               {
