@@ -256,6 +256,29 @@ describe('Controller: TryOperation', function() {
           var url = scope.generateUrl();
           expect(url).to.equal('http://localhost:8080/?id=1&foo=');
         });
+
+        it('should encode special characters in query parameter values',
+        function() {
+          scope.getParameters = function() {
+            var params = [
+              {
+                name: "id",
+                in: "query",
+                type: "string",
+                required: "true"
+              }
+            ];
+            return params;
+          };
+          $controller('TryOperation', {
+            $scope: scope
+          });
+          scope.requestModel = {parameters: {id: 'ab#cd'}, scheme: 'http'};
+          scope.specs.host = "example.com";
+          scope.specs.basePath = "/";
+          var url = scope.generateUrl();
+          expect(url).to.equal('http://example.com/?id=ab%23cd');
+        });
       });
     });
   });

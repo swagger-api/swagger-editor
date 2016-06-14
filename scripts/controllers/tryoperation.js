@@ -568,8 +568,7 @@ SwaggerEditor.controller('TryOperation', function($scope, formdataFilter,
     }
 
     // generate the query string portion of the URL based on query parameters
-    queryParamsStr = window.decodeURIComponent(
-      $.param(queryParams, isCollectionQueryParam));
+    queryParamsStr = $.param(queryParams, isCollectionQueryParam);
 
     // fill in path parameter values inside the path
     pathStr = $scope.pathName.replace(pathParamRegex,
