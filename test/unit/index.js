@@ -51,4 +51,5 @@ require('spec/services/builder');
 require('spec/services/editor');
 require('spec/services/fileloader');
 require('spec/services/fold-state-manager');
+require('spec/services/json-schema');
 require('spec/services/storage');
