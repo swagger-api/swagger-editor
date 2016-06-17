@@ -71,6 +71,19 @@ describe('Controller: TryOperation', function() {
       });
     });
 
+    it('should return null if there is no body-model', function() {
+      scope.requestModel = {
+        scheme: "http",
+        accept: "*/*",
+        contentType: "application/json",
+        parameters: {
+          body: null
+        }
+      };
+      var requestBody = scope.getRequestBody();
+      expect(requestBody).to.equal(null);
+    });
+
     it('should return correct body model', function() {
       scope.requestModel = {
         scheme: "http",

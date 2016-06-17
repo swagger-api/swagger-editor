@@ -76,5 +76,7 @@ describe('Service: JSONSchema', function() {
       var newSchema = JSONSchema.resolveAllOf(schema);
       expect(newSchema).to.deep.equal(resolved);
     });
+
+    it("should resolve allOf deeply", function() {});
   });
 });
