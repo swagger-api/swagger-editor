@@ -21,62 +21,77 @@ describe('Service: JSONSchema', function() {
   describe('normalizeJSONSchema', function() {
     beforeEach(function() {
       schema = {
-        in: "query",
-        name: "id"
+        in: 'query',
+        name: 'id'
       };
     });
 
     it('should have title when schema doesnt have title', function() {
-      schema.type = "string";
+      schema.type = 'string';
       JSONSchema.normalizeJSONSchema(schema);
-      expect(schema.title).to.be.equal("id");
+      expect(schema.title).to.be.equal('id');
     });
 
     it('should assign type to be string if it is file', function() {
-      schema.type = "file";
+      schema.type = 'file';
       JSONSchema.normalizeJSONSchema(schema);
-      expect(schema.type).to.be.equal("string");
-      expect(schema.format).to.be.equal("file");
+      expect(schema.type).to.be.equal('string');
+      expect(schema.format).to.be.equal('file');
     });
 
     it('should get the type from the items value if it has items', function() {
-      schema.items = {type: "string"};
+      schema.items = {type: 'string'};
       JSONSchema.normalizeJSONSchema(schema);
-      expect(schema.type).to.be.equal("array");
+      expect(schema.type).to.be.equal('array');
     });
   });
 
   describe('resolveAllOf', function() {
     beforeEach(function() {
       schema = {
-        allOf: [
-          {
-            fistName: {
-              type: "string"
-            }
-          },
-          {
-            lastName: {
-              type: "string"
-            }
+        properties: {
+          foo: {
+            allOf: [
+              {
+                type: 'object',
+                properties: {
+                  fistName: {
+                    type: 'string'
+                  }
+                }
+              },
+              {
+                type: 'object',
+                properties: {
+                  lastName: {
+                    type: 'string'
+                  }
+                }
+              }
+            ]
           }
-        ]
+        }
       };
     });
 
-    it("should not have any allOf in schema", function() {
+    it('should resolve allOf deeply', function() {
       var resolved = {
-        fistName: {
-          type: "string"
-        },
-        lastName: {
-          type: "string"
+        properties: {
+          foo: {
+            type: 'object',
+            properties: {
+              fistName: {
+                type: 'string'
+              },
+              lastName: {
+                type: 'string'
+              }
+            }
+          }
         }
       };
       var newSchema = JSONSchema.resolveAllOf(schema);
       expect(newSchema).to.deep.equal(resolved);
     });
-
-    it("should resolve allOf deeply", function() {});
   });
 });
