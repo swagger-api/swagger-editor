@@ -39,6 +39,7 @@ require('spec/controllers/tryoperation/isCrossOrigin');
 require('spec/controllers/tryoperation/isType');
 require('spec/controllers/tryoperation/isJson');
 require('spec/controllers/tryoperation/generateUrl');
+require('spec/controllers/tryoperation/getHeaders');
 require('spec/controllers/url-import');
 
 require('spec/directives/collapsewhen');
