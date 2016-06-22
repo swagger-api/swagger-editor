@@ -78,6 +78,9 @@ describe('Controller: TryOperation', function() {
       scope.getParameters = function() {
         return parameters;
       };
+      $controller('TryOperation', {
+        $scope: scope
+      });
       var objModel = {
         scheme: "http",
         accept: "*/*",
