@@ -42,6 +42,7 @@ describe('Controller: TryOperation', function() {
           }
         };
         scope.operation = {
+          parameters: {},
           responses: {
             200: {
               description: 'OK'
@@ -54,6 +55,37 @@ describe('Controller: TryOperation', function() {
 
     it('should return the model', function() {
       var objModel = {scheme: "http", accept: "*/*"};
+      var model = scope.requestModel;
+      expect(model).to.deep.equal(objModel);
+    });
+
+    it('model should contain parameters', function() {
+      var parameters = [
+        {
+          name: "body",
+          in: "body",
+          description: "description",
+          schema: {
+            type: "object",
+            properties: {
+              foo: {
+                type: "string"
+              }
+            }
+          }
+        }
+      ];
+      scope.getParameters = function() {
+        return parameters;
+      };
+      var objModel = {
+        scheme: "http",
+        accept: "*/*",
+        contentType: "application/json",
+        parameters: {
+          body: {foo: null}
+        }
+      };
       var model = scope.requestModel;
       expect(model).to.deep.equal(objModel);
     });
