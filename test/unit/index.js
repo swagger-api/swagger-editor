@@ -42,6 +42,7 @@ require('spec/controllers/tryoperation/isJson');
 require('spec/controllers/tryoperation/makeRequestModel');
 require('spec/controllers/tryoperation/generateUrl');
 require('spec/controllers/tryoperation/getHeaders');
+require('spec/controllers/tryoperation/makeCall');
 require('spec/controllers/url-import');
 
 require('spec/directives/collapsewhen');
