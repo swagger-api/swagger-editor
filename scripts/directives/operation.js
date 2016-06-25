@@ -114,6 +114,15 @@ SwaggerEditor.directive('swaggerOperation', function(defaults) {
           return responses[responseCode] && responses[responseCode].examples;
         });
       };
+
+      $scope.hasAParameterWithDescription = function(parameters) {
+        if (!Array.isArray(parameters)) {
+          return false;
+        }
+        return parameters.some(function(param) {
+          return param.description;
+        });
+      };
     }
   };
 });
