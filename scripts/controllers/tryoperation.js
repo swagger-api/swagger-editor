@@ -314,7 +314,8 @@ SwaggerEditor.controller('TryOperation', function($scope, formdataFilter,
   }
 
   /**
-   * Creates empty object from JSON Schema
+   * Creates empty object from JSON Schema and sets default values for object
+   * keys either from a set of default values or from `default` value of JSON Schema
    *
    * @param {object} schema - JSON Schema
    *
@@ -339,13 +340,18 @@ SwaggerEditor.controller('TryOperation', function($scope, formdataFilter,
     }
 
     Object.keys(schema.properties).forEach(function(propertyName) {
+      // if default is included in JSON Schema, use it
+      if (schema.properties[propertyName].default) {
+        result[propertyName] = schema.properties[propertyName].default;
+      }
+
       // if this property is an object itself, recurse
       if (schema.properties[propertyName].type === 'object') {
         result[propertyName] =
           createEmptyObject(schema.properties[propertyName]);
 
-      // otherwise use the defaultValues hash
-      } else {
+      // otherwise if we have no value yet, use the defaultValues hash
+      } else if (result[propertyName] === undefined) {
         result[propertyName] =
           defaultValues[schema.properties[propertyName].type] || null;
       }
