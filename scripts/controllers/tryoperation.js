@@ -134,7 +134,7 @@ SwaggerEditor.controller('TryOperation', function($scope, formdataFilter,
     if (hasRequestBody()) {
       var defaultConsumes = [
         'multipart/form-data',
-        'x-www-form-urlencoded',
+        'application/x-www-form-urlencoded',
         'application/json'
       ];
       schema.properties.contentType = {
