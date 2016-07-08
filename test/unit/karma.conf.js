@@ -19,8 +19,7 @@ module.exports = function(config) {
 
     // list of files / patterns to load in the browser
     files: [
-      'index.js',
-      'tryoperation/*.js'
+      'index.js'
     ],
 
     // list of files / patterns to exclude

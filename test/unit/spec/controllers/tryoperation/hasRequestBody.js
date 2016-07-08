@@ -20,7 +20,7 @@ describe('Controller: TryOperation', function() {
     });
   }));
 
-  describe('$scope.getRequestBody', function() {
+  describe('$scope.hasRequestBody', function() {
     beforeEach(function() {
       var parameters = [
         {
@@ -71,34 +71,9 @@ describe('Controller: TryOperation', function() {
       });
     });
 
-    it('should return null if there is no body-model', function() {
-      scope.requestModel = {
-        scheme: "http",
-        accept: "*/*",
-        contentType: "application/json",
-        parameters: {
-          body: null
-        }
-      };
-      var requestBody = scope.getRequestBody();
-      expect(requestBody).to.equal(null);
-    });
-
-    it('should return correct body model', function() {
-      scope.requestModel = {
-        scheme: "http",
-        accept: "*/*",
-        contentType: "application/json",
-        parameters: {
-          body: {
-            foo: "foo",
-            bar: "bar"
-          }
-        }
-      };
-      var bodyParam = {foo: "foo", bar: "bar"};
-      var requestBody = scope.getRequestBody();
-      expect(requestBody).to.equal(JSON.stringify(bodyParam, null, 2));
+    it('should return 1 for one body parameter', function() {
+      var hasRequestBody = scope.hasRequestBody();
+      expect(hasRequestBody).to.be.equal(1);
     });
   });
 });

@@ -6,7 +6,7 @@ var _ = require('lodash');
 var $ = require('jquery');
 
 SwaggerEditor.controller('TryOperation', function($scope, formdataFilter,
-  AuthManager, SchemaForm) {
+  AuthManager, SchemaForm, JSONSchema) {
   var parameters = $scope.getParameters();
   var securityOptions = getSecurityOptions();
 
@@ -71,7 +71,7 @@ SwaggerEditor.controller('TryOperation', function($scope, formdataFilter,
         /* eslint guard-for-in: "error"*/
         for (var p in param.properties) {
           if (param.properties[p].in === 'body' &&
-            isLooseJSONSchema(param.properties[p])) {
+            JSONSchema.isLooseJSONSchema(param.properties[p])) {
             loose = true;
           }
         }
@@ -81,58 +81,6 @@ SwaggerEditor.controller('TryOperation', function($scope, formdataFilter,
     }
 
     SchemaForm.options = _.extend(defaultOptions, loose ? looseOptions : {});
-  }
-
-  /**
-   * Determines if a JSON Schema is loose
-   *
-   * @param {object} schema - A JSON Schema object
-   *
-   * @return {boolean} true if schema is a loose JSON
-  */
-  function isLooseJSONSchema(schema) {
-    // loose object
-    if (schema.additionalProperties || _.isEmpty(schema.properties)) {
-      return true;
-    }
-
-    // loose array of objects
-    if (
-        schema.type === 'array' &&
-        (schema.items.additionalProperties ||
-        _.isEmpty(schema.items.properties))
-      ) {
-      return true;
-    }
-
-    return false;
-  }
-
-  /**
-   * Appends JSON Editor options for schema recursively so if a schema needs to
-   * be edited by JSON Editor loosely it's possible
-   *
-   * @param {object} schema - A JSON Schema object
-   *
-   * @return {object} - A JSON Schema object
-  */
-  function appendJSONEditorOptions(schema) {
-    var looseOptions = {
-      /*eslint-disable */
-      no_additional_properties: false,
-      disable_properties: false,
-      disable_edit_json: false
-      /*eslint-enable */
-    };
-
-    // If schema is loose add options for JSON Editor
-    if (isLooseJSONSchema(schema)) {
-      schema.options = looseOptions;
-    }
-
-    _.each(schema.properties, appendJSONEditorOptions);
-
-    return schema;
   }
 
   /**
@@ -205,7 +153,8 @@ SwaggerEditor.controller('TryOperation', function($scope, formdataFilter,
       };
 
       // Add a new property for each parameter
-      parameters.map(pickSchemaFromParameter).map(normalizeJSONSchema)
+      parameters.map(pickSchemaFromParameter)
+      .map(JSONSchema.normalizeJSONSchema)
       .forEach(function(paramSchema) {
         // extend the parameters property with the schema
         schema.properties.parameters
@@ -246,7 +195,8 @@ SwaggerEditor.controller('TryOperation', function($scope, formdataFilter,
     // Only if there is a parameter add the parameters default values
     if (parameters.length) {
       model.parameters = {};
-      parameters.map(pickSchemaFromParameter).map(normalizeJSONSchema)
+      parameters.map(pickSchemaFromParameter)
+      .map(JSONSchema.normalizeJSONSchema)
       .forEach(function(paramSchema) {
         var defaults = {
           object: {},
@@ -283,74 +233,6 @@ SwaggerEditor.controller('TryOperation', function($scope, formdataFilter,
     }
 
     return model;
-  }
-
-  /**
-   * Resolves all of `allOf` recursively in a schema
-   * @description
-   * if a schema has allOf it means that the schema is the result of mergin all
-   * schemas in it's allOf array.
-   *
-   * @param {object} schema - JSON Schema
-   *
-   * @return {object} JSON Schema
-  */
-  function resolveAllOf(schema) {
-    if (schema.allOf) {
-      schema = _.merge.apply(null, [schema].concat(schema.allOf));
-      delete schema.allOf;
-    }
-
-    if (_.isObject(schema.properties)) {
-      schema.properties = _.keys(schema.properties)
-      .reduce(function(properties, key) {
-        properties[key] = resolveAllOf(schema.properties[key]);
-        return properties;
-      }, {});
-    }
-
-    return schema;
-  }
-
-  /**
-   * Fills in empty gaps of a JSON Schema. This method is mostly used to
-   * normalize JSON Schema objects that are abstracted from Swagger parameters
-   *
-   * @param {object} schema - JSON Schema
-   *
-   * @return {object} - Normalized JSON Schema
-  */
-  function normalizeJSONSchema(schema) {
-    // provide title property if it's missing.
-    if (!schema.title && angular.isString(schema.name)) {
-      schema.title = schema.name;
-    }
-
-    schema = resolveAllOf(schema);
-
-    // if schema is missing the "type" property fill it in based on available
-    // properties
-    if (!schema.type) {
-      // it's an object if it has "properties" property
-      if (schema.properties) {
-        schema.type = 'object';
-      }
-
-      // it's an array if it has "items" property
-      if (schema.items) {
-        schema.type = 'array';
-      }
-    }
-
-    // Swagger extended JSON Schema with a new type, file. If we see file type
-    // we will add format: file to the schema so the form generator will render
-    // a file input
-    if (schema.type === 'file') {
-      schema.type = 'string';
-      schema.format = 'file';
-    }
-
-    return appendJSONEditorOptions(schema);
   }
 
   /**
@@ -432,7 +314,8 @@ SwaggerEditor.controller('TryOperation', function($scope, formdataFilter,
   }
 
   /**
-   * Creates empty object from JSON Schema
+   * Creates empty object from JSON Schema and sets default values for object
+   * keys either from a set of default values or from `default` value of JSON Schema
    *
    * @param {object} schema - JSON Schema
    *
@@ -457,13 +340,18 @@ SwaggerEditor.controller('TryOperation', function($scope, formdataFilter,
     }
 
     Object.keys(schema.properties).forEach(function(propertyName) {
+      // if default is included in JSON Schema, use it
+      if (schema.properties[propertyName].default) {
+        result[propertyName] = schema.properties[propertyName].default;
+      }
+
       // if this property is an object itself, recurse
       if (schema.properties[propertyName].type === 'object') {
         result[propertyName] =
           createEmptyObject(schema.properties[propertyName]);
 
-      // otherwise use the defaultValues hash
-      } else {
+      // otherwise if we have no value yet, use the defaultValues hash
+      } else if (result[propertyName] === undefined) {
         result[propertyName] =
           defaultValues[schema.properties[propertyName].type] || null;
       }
@@ -568,8 +456,7 @@ SwaggerEditor.controller('TryOperation', function($scope, formdataFilter,
     }
 
     // generate the query string portion of the URL based on query parameters
-    queryParamsStr = window.decodeURIComponent(
-      $.param(queryParams, isCollectionQueryParam));
+    queryParamsStr = $.param(queryParams, isCollectionQueryParam);
 
     // fill in path parameter values inside the path
     pathStr = $scope.pathName.replace(pathParamRegex,

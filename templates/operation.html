@@ -49,7 +49,7 @@
             <tr>
               <th>Name</th>
               <th>Located in</th>
-              <th>Description</th>
+              <th ng-if="hasAParameterWithDescription(getParameters())">Description</th>
               <th>Required</th>
               <th>Schema</th>
             </tr>
@@ -72,7 +72,7 @@
                 </a>
               </td>
               <td>{{parameter.in}}</td>
-              <td marked="parameter.description"></td>
+              <td ng-if="hasAParameterWithDescription(getParameters())" marked="parameter.description"></td>
               <td>{{parameter.required ? 'Yes' : 'No'}}</td>
               <td>
                 <schema-model schema="parameter.schema"></schema-model>

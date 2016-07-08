@@ -46,5 +46,5 @@ To run Chrome with HTTP access control disabled use  `--disable-web-security` fl
 For example in OSX you need to run the following command:
 
 ```
-/Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome --disable-web-security
+/Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome --disable-web-security --user-data-dir
 ```

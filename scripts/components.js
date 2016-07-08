@@ -21,6 +21,7 @@ require('scripts/services/external-hooks.js');
 require('scripts/services/fileloader.js');
 require('scripts/services/focused-path.js');
 require('scripts/services/fold-state-manager.js');
+require('scripts/services/json-schema.js');
 require('scripts/services/keyword-map.js');
 require('scripts/services/local-storage.js');
 require('scripts/services/preferences.js');
