@@ -3,7 +3,7 @@
 var jsyaml = require('js-yaml');
 var _ = require('lodash');
 
-SwaggerEditor.service('Builder', function Builder(SwayWorker) {
+SwaggerEditor.service('Builder', function Builder(SwayWorker, Preferences) {
   var load = _.memoize(jsyaml.load);
 
   /*
@@ -47,7 +47,10 @@ SwaggerEditor.service('Builder', function Builder(SwayWorker) {
       }
 
       SwayWorker.run({
-        definition: json
+        definition: json,
+        jsonRefs: {
+          relativeBase: Preferences.get('pointerResolutionBasePath')
+        }
       }, function(data) {
         if (data.errors.length) {
           reject(data);
