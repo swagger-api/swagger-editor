@@ -38,5 +38,6 @@
   "disableNewUserIntro": false,
   "enableTryIt": true,
   "brandingCssClass": "",
-  "importProxyUrl": "https://cors-it.herokuapp.com/?url="
+  "importProxyUrl": "https://cors-it.herokuapp.com/?url=",
+  "pointerResolutionBasePath": null
 }

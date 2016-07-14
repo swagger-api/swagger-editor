@@ -145,5 +145,15 @@ var defaults = {
    * it possible to import contents that are not allowed to be loaded from a
    * different origin. If you're hosting your own editor, please replace this
   */
-  importProxyUrl: 'https://cors-it.herokuapp.com/?url='
+  importProxyUrl: 'https://cors-it.herokuapp.com/?url=',
+
+  /*
+   * Use this base path for resolving JSON Pointers ($ref).
+   * This value should be a valid URL.
+   *
+   * Example: http://example.com/swaggers
+   *
+   * More info: https://github.com/swagger-api/swagger-editor/issues/977#issuecomment-232254578
+  */
+  pointerResolutionBasePath: null
 };

@@ -1,7 +1,8 @@
 'use strict';
 
 SwaggerEditor.controller('PasteJSONCtrl', function PasteJSONCtrl($scope,
-  $uibModalInstance, $rootScope, $state, Storage, YAML, SwayWorker) {
+  $uibModalInstance, $rootScope, $state, Storage, YAML, SwayWorker,
+  Preferences) {
   var json;
 
   $scope.checkJSON = function(newJson) {
@@ -15,7 +16,12 @@ SwaggerEditor.controller('PasteJSONCtrl', function PasteJSONCtrl($scope,
       return;
     }
 
-    SwayWorker.run({definition: json}, function(data) {
+    SwayWorker.run({
+      definition: json,
+      jsonRefs: {
+        relativeBase: Preferences.get('pointerResolutionBasePath')
+      }
+    }, function(data) {
       $scope.canImport = true;
       $scope.error = null;
 
