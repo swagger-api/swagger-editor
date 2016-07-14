@@ -27,8 +27,18 @@ SwaggerEditor.service('Preferences', function Preferences($localStorage,
     */
     autoComplete: true,
 
-    keyPressDebounceTime: defaults.keyPressDebounceTime
+    /*
+     * Wait time for editor to react to keyboard events
+    */
+    keyPressDebounceTime: defaults.keyPressDebounceTime,
+
+    /*
+     * JSON Pointer resolution base path
+    */
+    pointerResolutionBasePath: defaults.pointerResolutionBasePath ||
+      location.origin + location.pathname
   };
+
   var preferences = _.extend(defaultPreferences, $localStorage.preferences);
 
   var save = function() {
@@ -41,7 +51,7 @@ SwaggerEditor.service('Preferences', function Preferences($localStorage,
 
   this.set = function(key, value) {
     if (value === undefined) {
-      throw new Error('value was undefined');
+      throw new TypeError('value was undefined');
     }
     preferences[key] = value;
     save();

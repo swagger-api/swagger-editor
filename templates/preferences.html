@@ -43,6 +43,19 @@
             <input type="checkbox" id="autoComplete" ng-model="autoComplete">
           </th>
         </tr>
+        <tr>
+          <th>
+            <label for="pointerResolutionBasePath">
+              <h5>Pointer Resolution Base Path</h5>
+              <p>
+                Base path for resolving relative <a target="_blank" href="https://tools.ietf.org/html/rfc6901">JSON Pointer</a> references. In Swagger values of $refs are JSON Pointers.
+              </p>
+            </label>
+          </th>
+          <th>
+            <input type="url" id="pointerResolutionBasePath" ng-model="pointerResolutionBasePath">
+          </th>
+        </tr>
       </tbody>
     </table>
   </form>

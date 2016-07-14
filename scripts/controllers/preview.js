@@ -24,6 +24,9 @@ SwaggerEditor.controller('PreviewCtrl', function PreviewCtrl(Storage, Builder,
   $scope.listAllDefnitions = listAllDefnitions;
 
   Storage.addChangeListener('yaml', update);
+  Preferences.onChange(function() {
+    update($rootScope.editorValue);
+  });
 
   /**
    * Reacts to updates of YAML in storage that usually triggered by editor
