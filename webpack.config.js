@@ -64,15 +64,8 @@ var config = {
       },
       {
         test: FONT_REGEX,
-        loader: 'url',
-        query: {
-          // limit: 1000 // 10kb
-        }
+        loader: 'file?publicPath=/dist/'
       },
-      // {
-      //   test: FONT_REGEX,
-      //   loader: 'file'
-      // },
       {
         test: /\.html$/,
         loader: 'html'
