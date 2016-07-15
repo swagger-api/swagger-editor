@@ -60,7 +60,7 @@ var config = {
       },
       {
         test: /images\/*\.svg$/,
-        loader: 'svg-inline',
+        loader: 'svg-inline'
       },
       {
         test: FONT_REGEX,
