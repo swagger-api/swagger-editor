@@ -279,9 +279,7 @@ describe('Controller: TryOperation', function() {
           var url = scope.generateUrl();
           expect(url).to.equal('http://example.com/?id=ab%23cd');
         });
-
       });
-
 
       describe('query parameters collectionFormat', function() {
         beforeEach(function() {
