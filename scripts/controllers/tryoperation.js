@@ -421,16 +421,33 @@ SwaggerEditor.controller('TryOperation', function($scope, formdataFilter,
     var basePath = $scope.specs.basePath || '';
     var pathParams = parameters.filter(parameterTypeFilter('path'))
       .reduce(hashifyParams, {});
-    var queryParams = parameters.filter(parameterTypeFilter('query'))
-      .reduce(hashifyParams, {});
     var queryParamsStr;
     var pathStr;
-    var isCollectionQueryParam = parameters.filter(parameterTypeFilter('query'))
-      .some(function(parameter) {
-        // if a query parameter has a collection format it doesn't matter what
-        // is it's value, it will force the URL to not use `[]` in query string
-        return parameter.items && parameter.items.collectionFormat;
-      });
+
+    var queryParams = _.chain(parameters)
+      .filter(parameterTypeFilter('query'))
+      .map(function(param) {
+        // getting param value
+        var paramValue = _.get($scope.requestModel.parameters, param.name);
+        // if required flag is not set and value is missing — skipping
+        if (!_.get(param, 'required')) {
+          if (_.isUndefined(paramValue)) {
+            return null;
+          }
+          if (_.isString(paramValue) && paramValue === '') {
+            return null;
+          }
+          if (_.isArray(paramValue) && _.size(paramValue) === 0) {
+            return null;
+          }
+        }
+
+        return _.merge({}, param, {
+          // value key is unused in schema
+          value: paramValue || ''
+        });
+      })
+      .value();
 
     // a regex that matches mustaches in path. e.g: /{pet}
     var pathParamRegex = /{([^{}]+)}/g;
@@ -442,21 +459,79 @@ SwaggerEditor.controller('TryOperation', function($scope, formdataFilter,
 
     // if there are selected securities and they are located in the query append
     // them to the URL
-    if (angular.isArray(requestModel.security)) {
-      requestModel.security.forEach(function(securityOption) {
+    queryParams = _.reduce(
+      requestModel.security,
+      function(acc, securityOption) {
         var auth = AuthManager.getAuth(securityOption);
-
         // if auth exists and it's an api key in query, add it to query params
         if (auth && auth.type === 'apiKey' && auth.security.in === 'query') {
-          var authQueryParam = {};
-          authQueryParam[auth.security.name] = auth.options.apiKey;
-          _.extend(queryParams, authQueryParam);
+          return _.concat(
+            acc,
+            {
+              name: auth.security.name,
+              type: 'string',
+              value: auth.options.apiKey
+            }
+          );
         }
-      });
-    }
+        return acc;
+      },
+      queryParams
+    );
 
     // generate the query string portion of the URL based on query parameters
-    queryParamsStr = $.param(queryParams, isCollectionQueryParam);
+    queryParamsStr = _.chain(queryParams)
+    // filtering out parameters
+    .reject(_.isNull)
+    // encoding parameters
+    .reduce(function(acc, param) {
+      var encodedName = encodeURIComponent(param.name);
+      var type = _.get(param, 'type');
+
+      // if we have an scalar type, we are just encoding and exiting
+      if (type !== 'array' || !_.isArray(param.value)) {
+        return _.concat(
+          acc,
+          encodedName + '=' + encodeURIComponent(param.value)
+        );
+      }
+
+      // if we have an array type
+      var collectionFormat = _.get(param, 'collectionFormat');
+
+      // if we have multi format we are just repeating parameters
+      if (collectionFormat === 'multi') {
+        return _.concat(acc, _.map(param.value, function(value) {
+          return encodedName + '=' + encodeURIComponent(value);
+        }));
+      }
+
+      // we do not encode pipes and csv
+      var collectionFormatSeparatorMap = {
+        csv: ',',
+        ssv: '%20',
+        tsv: '%09',
+        pipes: '|'
+      };
+      // getting separator
+      var separator = _.get(collectionFormatSeparatorMap, collectionFormat);
+
+      // the default collectionFormat according to spec is "csv"
+      separator = separator || _.get(collectionFormatSeparatorMap, 'csv');
+
+      // encoding values
+      var encodedValues = _.map(param.value, function(value) {
+        return encodeURIComponent(value);
+      });
+
+      // joining parameter with values
+      return _.concat(
+        acc,
+        encodedName + '=' + _.join(encodedValues, separator)
+      );
+    }, [])
+    .join('&')
+    .value();
 
     // fill in path parameter values inside the path
     pathStr = $scope.pathName.replace(pathParamRegex,

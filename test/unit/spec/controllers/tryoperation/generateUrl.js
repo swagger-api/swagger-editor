@@ -280,6 +280,240 @@ describe('Controller: TryOperation', function() {
           expect(url).to.equal('http://example.com/?id=ab%23cd');
         });
       });
+
+      describe('query parameters collectionFormat', function() {
+        beforeEach(function() {
+          scope.specs = {
+            swagger: "2.0",
+            info: {
+              version: "0.0.0",
+              title: "Simple API"
+            },
+            paths: {
+              "/": {
+                get: {
+                  parameters: [
+                    {
+                      name: "id",
+                      in: "query",
+                      type: "array",
+                      items: {
+                        type: "integer",
+                        enum: [1, 2, 3]
+                      }
+                    }
+                  ],
+                  responses: {
+                    200: {
+                      description: "OK"
+                    }
+                  }
+                }
+              }
+            }
+          };
+        });
+
+        it('default (csv)',
+        function() {
+          scope.getParameters = function() {
+            var params = [
+              {
+                name: "id",
+                in: "query",
+                type: "array",
+                items: {
+                  type: "integer",
+                  enum: [1, 2, 3]
+                }
+              }
+            ];
+            return params;
+          };
+          $controller('TryOperation', {
+            $scope: scope
+          });
+          scope.requestModel = {parameters: {id: [1, 2, 3]}, scheme: 'http'};
+          scope.specs.host = "example.com";
+          scope.specs.basePath = "/";
+          var url = scope.generateUrl();
+          expect(url).to.equal('http://example.com/?id=1,2,3');
+        });
+
+        it('csv',
+        function() {
+          scope.getParameters = function() {
+            var params = [
+              {
+                name: "id",
+                in: "query",
+                type: "array",
+                items: {
+                  type: "integer",
+                  enum: [1, 2, 3]
+                },
+                collectionFormat: "csv"
+              }
+            ];
+            return params;
+          };
+          $controller('TryOperation', {
+            $scope: scope
+          });
+          scope.requestModel = {parameters: {id: [1, 2, 3]}, scheme: 'http'};
+          scope.specs.host = "example.com";
+          scope.specs.basePath = "/";
+          var url = scope.generateUrl();
+          expect(url).to.equal('http://example.com/?id=1,2,3');
+        });
+        it('ssv',
+        function() {
+          scope.getParameters = function() {
+            var params = [
+              {
+                name: "id",
+                in: "query",
+                type: "array",
+                items: {
+                  type: "integer",
+                  enum: [1, 2, 3]
+                },
+                collectionFormat: "ssv"
+              }
+            ];
+            return params;
+          };
+          $controller('TryOperation', {
+            $scope: scope
+          });
+          scope.requestModel = {parameters: {id: [1, 2, 3]}, scheme: 'http'};
+          scope.specs.host = "example.com";
+          scope.specs.basePath = "/";
+          var url = scope.generateUrl();
+          expect(url).to.equal('http://example.com/?id=1%202%203');
+        });
+        it('tsv',
+        function() {
+          scope.getParameters = function() {
+            var params = [
+              {
+                name: "id",
+                in: "query",
+                type: "array",
+                items: {
+                  type: "integer",
+                  enum: [1, 2, 3]
+                },
+                collectionFormat: "tsv"
+              }
+            ];
+            return params;
+          };
+          $controller('TryOperation', {
+            $scope: scope
+          });
+          scope.requestModel = {parameters: {id: [1, 2, 3]}, scheme: 'http'};
+          scope.specs.host = "example.com";
+          scope.specs.basePath = "/";
+          var url = scope.generateUrl();
+          expect(url).to.equal('http://example.com/?id=1%092%093');
+        });
+        it('pipes',
+        function() {
+          scope.getParameters = function() {
+            var params = [
+              {
+                name: "id",
+                in: "query",
+                type: "array",
+                items: {
+                  type: "integer",
+                  enum: [1, 2, 3]
+                },
+                collectionFormat: "pipes"
+              }
+            ];
+            return params;
+          };
+          $controller('TryOperation', {
+            $scope: scope
+          });
+          scope.requestModel = {parameters: {id: [1, 2, 3]}, scheme: 'http'};
+          scope.specs.host = "example.com";
+          scope.specs.basePath = "/";
+          var url = scope.generateUrl();
+          expect(url).to.equal('http://example.com/?id=1|2|3');
+        });
+        it('multi',
+        function() {
+          scope.getParameters = function() {
+            var params = [
+              {
+                name: "id",
+                in: "query",
+                type: "array",
+                items: {
+                  type: "integer",
+                  enum: [1, 2, 3]
+                },
+                collectionFormat: "multi"
+              }
+            ];
+            return params;
+          };
+          $controller('TryOperation', {
+            $scope: scope
+          });
+          scope.requestModel = {parameters: {id: [1, 2, 3]}, scheme: 'http'};
+          scope.specs.host = "example.com";
+          scope.specs.basePath = "/";
+          var url = scope.generateUrl();
+          expect(url).to.equal('http://example.com/?id=1&id=2&id=3');
+        });
+        it('pipes and csv',
+        function() {
+          scope.getParameters = function() {
+            var params = [
+              {
+                name: "id",
+                in: "query",
+                type: "array",
+                items: {
+                  type: "integer",
+                  enum: [1, 2, 3]
+                },
+                collectionFormat: "pipes"
+              },
+              {
+                name: "name",
+                in: "query",
+                type: "array",
+                items: {
+                  type: "string",
+                  enum: ["a", "b", "c"]
+                },
+                collectionFormat: "csv"
+              }
+            ];
+            return params;
+          };
+          $controller('TryOperation', {
+            $scope: scope
+          });
+          scope.requestModel = {
+            parameters: {
+              id: [1, 2, 3],
+              name: ["a", "b", "c"]
+            },
+            scheme: 'http'
+          };
+          scope.specs.host = "example.com";
+          scope.specs.basePath = "/";
+          var url = scope.generateUrl();
+          expect(url).to.equal('http://example.com/?id=1|2|3&name=a,b,c');
+        });
+      });
     });
   });
 });
+
