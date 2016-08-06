@@ -574,8 +574,8 @@ SwaggerEditor.controller('TryOperation', function($scope, formdataFilter,
 
     // add header based securities to list of headers
     if (angular.isArray($scope.requestModel.security)) {
-      $scope.requestModel.security.forEach(function(secuirtyOption) {
-        var auth = AuthManager.getAuth(secuirtyOption);
+      $scope.requestModel.security.forEach(function(securityOption) {
+        var auth = AuthManager.getAuth(securityOption);
 
         if (auth) {
           var authHeader = {};
