@@ -47,7 +47,7 @@ if (require.main === module) {
     console.log('Development server started at', url);
 
     // to avoid opening the browser set DO_NOT_OPEN environment
-    // variable to ture
+    // variable to true
     if (!process.env.DO_NOT_OPEN) {
       console.log('Opening the browser');
       open(url);
