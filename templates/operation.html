@@ -55,7 +55,7 @@
             </tr>
           </thead>
           <tbody>
-            <tr ng-repeat="parameter in getParameters() track by $index">
+            <tr ng-repeat-start="parameter in getParameters() track by $index">
               <td >
                 <a
                   ng-click="focusEdit($event, [
@@ -76,6 +76,12 @@
               <td>{{parameter.required ? 'Yes' : 'No'}}</td>
               <td>
                 <schema-model schema="parameter.schema"></schema-model>
+              </td>
+            </tr>
+            <tr ng-repeat-end ng-if="parameterHasXVendorProperties(parameter)">
+              <td />
+              <td colspan="{{hasAParameterWithDescription(getParameters()) ? 4 : 3}}">
+                <swagger-editor-x-vendor-parameter parameter="parameter"></swagger-editor-x-vendor-parameter>
               </td>
             </tr>
           </tbody>
@@ -185,6 +191,10 @@
           </tr>
         </tbody>
       </table>
+    </section>
+
+    <section class="x-vendor-operation" ng-if="hasXVendorProperties(operation)"> 
+      <swagger-editor-x-vendor-operation operation="operation"></swagger-editor-x-vendor-operation>
     </section>
 
     <section class="try-operation" ng-if="enableTryIt">

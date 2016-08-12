@@ -123,6 +123,44 @@ SwaggerEditor.directive('swaggerOperation', function(defaults) {
           return param.description;
         });
       };
+
+      /**
+       * Returns true if the operation has at least one vendor specific
+       * property starting with x-
+       *
+       * @param {object} operation object
+       * @return {boolean} true/false
+      */
+      $scope.hasXVendorProperties = function(operation) {
+        var xProperties = [];
+
+        _.forEach(operation, function(value, key) {
+          if (_.startsWith(key, 'x-')) {
+            xProperties.push(key);
+          }
+        });
+
+        return xProperties.length > 0;
+      };
+
+      /**
+       * Returns true if the parameter has at least one vendor specific
+       * property starting with x-
+       *
+       * @param {object} parameter object
+       * @return {boolean} true/false
+      */
+      $scope.parameterHasXVendorProperties = function(parameter) {
+        var xProperties = [];
+
+        _.forEach(parameter, function(value, key) {
+          if (_.startsWith(key, 'x-')) {
+            xProperties.push(key);
+          }
+        });
+
+        return xProperties.length > 0;
+      };
     }
   };
 });
