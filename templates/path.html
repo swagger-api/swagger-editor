@@ -1,6 +1,6 @@
 <header ng-click="
     path.$folded = !path.$folded;
-    foldEditor(['paths', pathName], path.$folded)">
+    Preferences.get('editorFolding') ? foldEditor(['paths', pathName], path.$folded) : null;">
 
   <h2>
     <a>{{pathName}}</a>

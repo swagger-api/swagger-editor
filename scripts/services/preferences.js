@@ -28,6 +28,11 @@ SwaggerEditor.service('Preferences', function Preferences($localStorage,
     autoComplete: true,
 
     /*
+     * Disable/enable editor folding tight to preview folding for operations, paths, definitions
+    */
+    editorFolding: true,
+
+    /*
      * Wait time for editor to react to keyboard events
     */
     keyPressDebounceTime: defaults.keyPressDebounceTime,

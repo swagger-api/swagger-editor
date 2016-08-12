@@ -5,6 +5,7 @@ SwaggerEditor.controller('PreferencesCtrl', function PreferencesCtrl($scope,
   $scope.keyPressDebounceTime = Preferences.get('keyPressDebounceTime');
   $scope.liveRender = Preferences.get('liveRender');
   $scope.autoComplete = Preferences.get('autoComplete');
+  $scope.editorFolding = Preferences.get('editorFolding');
   $scope.pointerResolutionBasePath =
     Preferences.get('pointerResolutionBasePath');
 
@@ -18,6 +19,7 @@ SwaggerEditor.controller('PreferencesCtrl', function PreferencesCtrl($scope,
 
     Preferences.set('liveRender', $scope.liveRender);
     Preferences.set('autoComplete', $scope.autoComplete);
+    Preferences.set('editorFolding', $scope.editorFolding);
     Preferences.set('pointerResolutionBasePath',
       $scope.pointerResolutionBasePath);
 

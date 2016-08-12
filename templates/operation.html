@@ -4,7 +4,7 @@
 
   <header ng-click="
       operation.$folded = !operation.$folded;
-      foldEditor(['paths', pathName, operationName], operation.$folded)
+      Preferences.get('editorFolding') ? foldEditor(['paths', pathName, operationName], operation.$folded) : null;
     ">
     <a
       class="focus-editor"
