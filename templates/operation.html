@@ -43,7 +43,7 @@
 
     <section class="external-docs" ng-if="operation.externalDocs">
       <h4>External Documentation</h4>
-      <a href="{{operation.externalDocs.url}}" marked="operation.externalDocs.description"></a>
+      <a href="{{operation.externalDocs.url}}" marked="operation.externalDocs.description||External Documentation"></a>
     </section>
 
     <section class="parameters" ng-if="getParameters().length">
