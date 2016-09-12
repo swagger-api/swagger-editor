@@ -52,7 +52,7 @@ npm start
 * [Configuration Guide](./docs/config.md)
 * [Cross Origin Request Sharing(CORS) issues](docs/cors.md)
 
-[Contributing](./CONTRIBUTING.md)
+[Contributing](./.github/CONTRIBUTING.md)
 
 [LICENSE](./LICENSE)
 
