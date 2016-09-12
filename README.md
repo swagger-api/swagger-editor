@@ -50,7 +50,7 @@ npm start
 * [Importing your Swagger document](./docs/import.md)
 * [Development Guide](./docs/development.md)
 * [Configuration Guide](./docs/config.md)
-* [Cross Origin Request(CORS) issues](docs/cors.md)
+* [Cross Origin Request Sharing(CORS) issues](docs/cors.md)
 
 [Contributing](./CONTRIBUTING.md)
 
