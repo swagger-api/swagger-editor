@@ -16,11 +16,11 @@ Valid Swagger JSON descriptions can then be generated and used with the full Swa
 
 The swagger-editor is published in a [public repository on Dockerhub](https://hub.docker.com/r/swaggerapi/swagger-editor/)
 
-You can run editor easily with docker:
+You can run editor easily with docker (and optionally proxy requests to your API endpoint):
 
 ```bash
 docker pull swaggerapi/swagger-editor
-docker run -p 80:8080 swaggerapi/swagger-editor
+docker run -p 80:8080 swaggerapi/swagger-editor [-P http://api-endpoint]
 ```
 
 #### Running Locally

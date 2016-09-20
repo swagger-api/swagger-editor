@@ -14,4 +14,4 @@ ADD     ./    /editor
 # The default port of the application
 EXPOSE  8080
 
-CMD ["http-server", "--cors", "-p8080", "/editor"]
+ENTRYPOINT ["http-server", "-p8080", "--cors", "/editor"]
