@@ -20,7 +20,7 @@ You can run editor easily with docker (and optionally proxy requests to your API
 
 ```bash
 docker pull swaggerapi/swagger-editor
-docker run -p 80:8080 swaggerapi/swagger-editor [-P http://api-endpoint]
+docker run --rm -p 80:8080 swaggerapi/swagger-editor [-P http://api-endpoint]
 ```
 
 #### Running Locally
