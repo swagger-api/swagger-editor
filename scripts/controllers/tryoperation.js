@@ -696,6 +696,10 @@ SwaggerEditor.controller('TryOperation', function($scope, formdataFilter,
     if (!contentType) {
       return bodyModel;
 
+    // if it has file parameters, body will be a FromData object
+    } else if (hasFileParam()) {
+      return makeFormDataFromFiles(bodyModel);
+
     // if body has form-data encoding use formdataFilter to encode it to string
     } else if (/form\-data/.test(contentType)) {
       return formdataFilter(bodyModel);
@@ -720,8 +724,33 @@ SwaggerEditor.controller('TryOperation', function($scope, formdataFilter,
   */
   function hasFileParam() {
     return parameters.some(function(parameter) {
-      return parameter.format === 'file';
+      return parameter.type === 'file';
     });
+  }
+
+  /**
+   * Make a FormData instance of all files in the parameters list
+   *
+   * @return {FormData} - FormData Object
+   *
+  */
+  function makeFormDataFromFiles() {
+    var formData = new FormData();
+    parameters
+      .filter(function(parameter) {
+        return parameter.type === 'file';
+      })
+      .forEach(function(parameter) {
+        var fileInput = $('[data-schemapath="root.parameters"]' +
+          ' [name="root[parameters][' + parameter.name + ']"]');
+        if (fileInput[0] && fileInput[0].files) {
+          var file = fileInput[0].files[0];
+          if (file) {
+            formData.append(parameter.name, file, file.name);
+          }
+        }
+      });
+    return formData;
   }
 
   /*
@@ -761,7 +790,8 @@ SwaggerEditor.controller('TryOperation', function($scope, formdataFilter,
       type: $scope.operationName,
       headers: _.omit($scope.getHeaders(), omitHeaders),
       data: $scope.getRequestBody(),
-      contentType: $scope.contentType
+      contentType: $scope.contentType,
+      processData: false
     })
 
     .fail(function(jqXHR, textStatus, errorThrown) {
