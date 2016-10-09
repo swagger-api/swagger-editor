@@ -25,12 +25,12 @@ docker run -p 80:8080 swaggerapi/swagger-editor
 
 #### Running Locally
 
-[**Download the latest release (v2.10.3)**](https://github.com/swagger-api/swagger-editor/releases/download/v2.10.3/swagger-editor.zip) and serve the static files via your HTTP server. If you don't have an HTTP server, you can use [`http-server`](https://www.npmjs.com/package/http-server) Node.js module.
+[**Download the latest release (v2.10.4)**](https://github.com/swagger-api/swagger-editor/releases/download/v2.10.4/swagger-editor.zip) and serve the static files via your HTTP server. If you don't have an HTTP server, you can use [`http-server`](https://www.npmjs.com/package/http-server) Node.js module.
 
 ###### Using `http-server` module:
 ```shell
 npm install -g http-server
-wget https://github.com/swagger-api/swagger-editor/releases/download/v2.10.3/swagger-editor.zip
+wget https://github.com/swagger-api/swagger-editor/releases/download/v2.10.4/swagger-editor.zip
 unzip swagger-editor.zip
 http-server swagger-editor
 ```
