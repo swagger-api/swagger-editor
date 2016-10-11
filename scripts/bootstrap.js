@@ -8,7 +8,7 @@ $(function() {
   // Try bootstrapping the app with embedded defaults if it exists
   var embeddedDefaults = window.$$embeddedDefaults;
   var pathname = window.location.pathname;
-
+  pathname.replace("index.html","");
   if (!_.endsWith(pathname, '/')) {
     pathname += '/';
   }
