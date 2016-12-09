@@ -1,9 +1,9 @@
 {
   "codegen": {
-    "servers": "http://generator.swagger.io/api/gen/servers",
-    "clients": "http://generator.swagger.io/api/gen/clients",
-    "server": "http://generator.swagger.io/api/gen/servers/{language}",
-    "client": "http://generator.swagger.io/api/gen/clients/{language}"
+    "servers": "//generator.swagger.io/api/gen/servers",
+    "clients": "//generator.swagger.io/api/gen/clients",
+    "server": "//generator.swagger.io/api/gen/servers/{language}",
+    "client": "//generator.swagger.io/api/gen/clients/{language}"
   },
   "analytics": {
     "google": {
