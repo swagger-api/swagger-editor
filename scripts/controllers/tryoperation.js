@@ -785,12 +785,17 @@ SwaggerEditor.controller('TryOperation', function($scope, formdataFilter,
     var omitHeaders = ['Host', 'Accept-Encoding', 'Connection', 'Origin',
       'Referer', 'User-Agent', 'Cache-Control', 'Content-Length'];
 
+    var headers =  _.omit($scope.getHeaders(), omitHeaders);
+    if (hasFileParam()) {
+      delete headers['Content-Type'];
+    }
+
     $.ajax({
       url: $scope.generateUrl(),
       type: $scope.operationName,
-      headers: _.omit($scope.getHeaders(), omitHeaders),
+      headers: headers,
       data: $scope.getRequestBody(),
-      contentType: $scope.contentType,
+      contentType: hasFileParam() ? false : $scope.contentType,
       processData: false
     })
 
