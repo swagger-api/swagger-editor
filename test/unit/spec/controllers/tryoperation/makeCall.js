@@ -41,7 +41,7 @@ describe('Controller: TryOperation', function() {
         }
       };
       scope.getParameters = function mockGetParameters() {
-        return []; 
+        return [];
       };
       scope.pathName = '/';
       scope.operation = operation;
@@ -113,9 +113,9 @@ describe('Controller: TryOperation', function() {
         scope.getHeaderParams = {};
         scope.specs.host = 'localhost:3000';
         sinon.stub(scope, 'getHeaders').returns({
-          Accept: "*/*",
+          'Accept': "*/*",
           'Content-Type': 'multipart/form-data'
-        })
+        });
         sinon.stub(scope, 'getRequestBody').returns({mydata: 12});
 
         sinon.stub($, "ajax").returns({
@@ -130,12 +130,12 @@ describe('Controller: TryOperation', function() {
           url: 'http://localhost:3000/upload',
           type: 'post',
           headers: {
-            Accept: "*/*",
+            'Accept': '*/*',
             'Content-Type': undefined
           },
           data: {mydata: 12},
           processData: false
-        })
+        });
       });
     });
   });
