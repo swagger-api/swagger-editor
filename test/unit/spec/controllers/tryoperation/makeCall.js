@@ -23,10 +23,10 @@ describe('Controller: TryOperation', function() {
   }));
 
   describe('$scope.makeCall', function() {
-    afterEach(function () {
+    afterEach(function() {
       $.ajax.restore();
     });
-    
+
     it('should call ajax when it\'s called', function() {
       var operation = {
         responses: {
@@ -62,16 +62,15 @@ describe('Controller: TryOperation', function() {
     });
 
     describe('use server', function() {
-
       it('should upload the file', function() {
-        var parameters= [{
-            name: 'upload',
-            in: 'formData',
-            required: true,
-            schema: {
-              type: 'file'
-            }
-          }];
+        var parameters = [{
+          name: 'upload',
+          in: 'formData',
+          required: true,
+          schema: {
+            type: 'file'
+          }
+        }];
         scope.specs = {
           host: 'localhost:3000',
           swagger: '2.0',
@@ -80,7 +79,7 @@ describe('Controller: TryOperation', function() {
             title: 'Upload API'
           },
           security: [],
-          consumes: [ 'multipart/form-data' ],
+          consumes: ['multipart/form-data'],
           paths: {
             '/': {
               post: {
@@ -119,7 +118,7 @@ describe('Controller: TryOperation', function() {
             upload: './file.txt'
           }
         };
-        var data = scope.getRequestBody()
+        sinon.stub(scope, 'getRequestBody').returns({mydata: 12});
 
         sinon.stub($, "ajax").returns({
           fail: function() {
@@ -133,10 +132,10 @@ describe('Controller: TryOperation', function() {
           url: 'http://localhost:3000/upload',
           type: 'post',
           headers: header,
-          data: data,
+          data: scope.getRequestBody,
           contentType: false,
           processData: false
-        }));
+        })).to.be.true;
       });
     });
 

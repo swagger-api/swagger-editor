@@ -785,7 +785,7 @@ SwaggerEditor.controller('TryOperation', function($scope, formdataFilter,
     var omitHeaders = ['Host', 'Accept-Encoding', 'Connection', 'Origin',
       'Referer', 'User-Agent', 'Cache-Control', 'Content-Length'];
 
-    var headers =  _.omit($scope.getHeaders(), omitHeaders);
+    var headers = _.omit($scope.getHeaders(), omitHeaders);
     if (hasFileParam()) {
       delete headers['Content-Type'];
     }
