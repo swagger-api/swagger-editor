@@ -75,7 +75,7 @@ SwaggerEditor.controller('TryOperation', function($scope, formdataFilter,
             loose = true;
           }
         }
-      } catch (e) {}
+      } catch (e) {} // eslint-disable-line no-empty
     } else {
       loose = false;
     }
@@ -738,17 +738,23 @@ SwaggerEditor.controller('TryOperation', function($scope, formdataFilter,
     var formData = new FormData();
     parameters
       .filter(function(parameter) {
-        return parameter.type === 'file';
+        return parameter.type === 'file' || parameter.in === 'formData';
       })
       .forEach(function(parameter) {
-        var fileInput = $('[data-schemapath="root.parameters"]' +
-          ' [name="root[parameters][' + parameter.name + ']"]');
-        if (fileInput[0] && fileInput[0].files) {
-          var file = fileInput[0].files[0];
-          if (file) {
-            formData.append(parameter.name, file, file.name);
+        if (parameter.type === 'file') {
+          var fileInput = $('[data-schemapath="root.parameters"]' +
+            ' [name="root[parameters][' + parameter.name + ']"]');
+          if (fileInput[0] && fileInput[0].files) {
+            var file = fileInput[0].files[0];
+            if (file) {
+              formData.append(parameter.name, file, file.name);
+            }
           }
+          return;
         }
+
+        formData.append(parameter.name,
+          $scope.requestModel.parameters[parameter.name]);
       });
     return formData;
   }
@@ -785,7 +791,7 @@ SwaggerEditor.controller('TryOperation', function($scope, formdataFilter,
     var omitHeaders = ['Host', 'Accept-Encoding', 'Connection', 'Origin',
       'Referer', 'User-Agent', 'Cache-Control', 'Content-Length'];
 
-    var headers =  _.omit($scope.getHeaders(), omitHeaders);
+    var headers = _.omit($scope.getHeaders(), omitHeaders);
     if (hasFileParam()) {
       delete headers['Content-Type'];
     }
@@ -835,7 +841,7 @@ SwaggerEditor.controller('TryOperation', function($scope, formdataFilter,
     // Try if it's JSON and return pretty JSON
     try {
       return JSON.stringify(JSON.parse(input), null, 2);
-    } catch (jsonError) {}
+    } catch (jsonError) {} // eslint-disable-line no-empty
 
     return input;
   };

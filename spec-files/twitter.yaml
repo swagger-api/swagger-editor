@@ -205,6 +205,27 @@ paths:
             type: array
             items:
               $ref: '#/definitions/Tweets'
+    post:
+      description: Retweens a tweet
+      security:
+       - oauth:
+         - basic
+      parameters:
+        - name: id
+          in: path
+          description: The numerical ID of the desired status
+          required: true
+          type: string
+        - name: trim_user
+          in: query
+          description: When set to either true, t or 1, each tweet returned in a timeline will include a user object
+          required: false
+          type: string
+      responses:
+        "200":
+          description: Success
+          schema:
+            $ref: '#/definitions/Tweets'
 
   /statuses/show/{id}:
     get:
@@ -312,28 +333,7 @@ paths:
         "403":
           description: Error
 
-  /statuses/retweets/{id}:
-    post:
-      description: Retweens a tweet
-      security:
-       - oauth:
-         - basic
-      parameters:
-        - name: id
-          in: path
-          description: The numerical ID of the desired status
-          required: true
-          type: string
-        - name: trim_user
-          in: query
-          description: When set to either true, t or 1, each tweet returned in a timeline will include a user object
-          required: false
-          type: string
-      responses:
-        "200":
-          description: Success
-          schema:
-            $ref: '#/definitions/Tweets'
+
 
   /statuses/oembed:
     get:

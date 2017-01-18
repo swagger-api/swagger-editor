@@ -13,20 +13,13 @@ describe('Controller: TryOperation', function() {
     $controller = _$controller_;
     scope.operation = {};
     scope.specs = {};
-    scope.getParameters = function mockGetParameters() {
-      return [];
-    };
-    scope.$watch = function() {};
-    $controller('TryOperation', {
-      $scope: scope
-    });
   }));
 
   describe('$scope.makeCall', function() {
-    afterEach(function () {
+    afterEach(function() {
       $.ajax.restore();
     });
-    
+
     it('should call ajax when it\'s called', function() {
       var operation = {
         responses: {
@@ -47,8 +40,16 @@ describe('Controller: TryOperation', function() {
           }
         }
       };
+      scope.getParameters = function mockGetParameters() {
+        return [];
+      };
       scope.pathName = '/';
       scope.operation = operation;
+
+      scope.$watch = function() {};
+      $controller('TryOperation', {
+        $scope: scope
+      });
 
       var ajaxStub = sinon.stub($, 'ajax').returns({
         fail: function() {
@@ -64,14 +65,12 @@ describe('Controller: TryOperation', function() {
     describe('use server', function() {
 
       it('should upload the file', function() {
-        var parameters= [{
-            name: 'upload',
-            in: 'formData',
-            required: true,
-            schema: {
-              type: 'file'
-            }
-          }];
+        var parameters = [{
+          name: 'upload',
+          in: 'formData',
+          required: true,
+          type: 'file'
+        }];
         scope.specs = {
           host: 'localhost:3000',
           swagger: '2.0',
@@ -80,7 +79,7 @@ describe('Controller: TryOperation', function() {
             title: 'Upload API'
           },
           security: [],
-          consumes: [ 'multipart/form-data' ],
+          consumes: ['multipart/form-data'],
           paths: {
             '/': {
               post: {
@@ -94,7 +93,9 @@ describe('Controller: TryOperation', function() {
             }
           }
         };
-        scope.pathName = '/';
+        scope.operationName = 'post';
+        scope.pathName = '/upload';
+
         scope.getParameters = function() {
           return [{
             name: 'upload',
@@ -106,20 +107,17 @@ describe('Controller: TryOperation', function() {
             }
           }];
         };
-
+        scope.$watch = function() {};
+        $controller('TryOperation', {
+          $scope: scope
+        });
         scope.getHeaderParams = {};
-        scope.specs.host = '127.0.0.1:8080';
-        var header = scope.getHeaders();
-
-        scope.requestModel = {
-          scheme: "http",
-          accept: "*/*",
-          contentType: "multipart/form-data",
-          parameters: {
-            upload: './file.txt'
-          }
-        };
-        var data = scope.getRequestBody()
+        scope.specs.host = 'localhost:3000';
+        sinon.stub(scope, 'getHeaders').returns({
+          'Accept': "*/*",
+          'Content-Type': 'multipart/form-data'
+        });
+        sinon.stub(scope, 'getRequestBody').returns({mydata: 12});
 
         sinon.stub($, "ajax").returns({
           fail: function() {
@@ -129,14 +127,16 @@ describe('Controller: TryOperation', function() {
 
         scope.makeCall();
 
-        expect($.ajax.calledWithMatch({
+        $.ajax.should.have.been.calledWithMatch({
           url: 'http://localhost:3000/upload',
           type: 'post',
-          headers: header,
-          data: data,
-          contentType: false,
+          headers: {
+            'Accept': '*/*',
+            'Content-Type': undefined
+          },
+          data: {mydata: 12},
           processData: false
-        }));
+        });
       });
     });
 
