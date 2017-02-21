@@ -63,7 +63,6 @@ describe('Controller: TryOperation', function() {
     });
 
     describe('use server', function() {
-
       it('should upload the file', function() {
         var parameters = [{
           name: 'upload',
