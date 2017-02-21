@@ -16,7 +16,7 @@ SwaggerEditor.service('Builder', function Builder(SwayWorker, Preferences) {
     var json;
 
     return new Promise(function(resolve, reject) {
-      // If stringVlue is empty, return emptyDocsError
+      // If stringValue is empty, return emptyDocsError
       if (!stringValue) {
         reject({
           specs: null,

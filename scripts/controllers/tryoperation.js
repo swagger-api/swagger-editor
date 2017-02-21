@@ -75,7 +75,7 @@ SwaggerEditor.controller('TryOperation', function($scope, formdataFilter,
             loose = true;
           }
         }
-      } catch (e) {}
+      } catch (e) {} // eslint-disable-line no-empty
     } else {
       loose = false;
     }
@@ -696,6 +696,10 @@ SwaggerEditor.controller('TryOperation', function($scope, formdataFilter,
     if (!contentType) {
       return bodyModel;
 
+    // if it has file parameters, body will be a FromData object
+    } else if (hasFileParam()) {
+      return makeFormDataFromFiles(bodyModel);
+
     // if body has form-data encoding use formdataFilter to encode it to string
     } else if (/form\-data/.test(contentType)) {
       return formdataFilter(bodyModel);
@@ -720,8 +724,39 @@ SwaggerEditor.controller('TryOperation', function($scope, formdataFilter,
   */
   function hasFileParam() {
     return parameters.some(function(parameter) {
-      return parameter.format === 'file';
+      return parameter.type === 'file';
     });
+  }
+
+  /**
+   * Make a FormData instance of all files in the parameters list
+   *
+   * @return {FormData} - FormData Object
+   *
+  */
+  function makeFormDataFromFiles() {
+    var formData = new FormData();
+    parameters
+      .filter(function(parameter) {
+        return parameter.type === 'file' || parameter.in === 'formData';
+      })
+      .forEach(function(parameter) {
+        if (parameter.type === 'file') {
+          var fileInput = $('[data-schemapath="root.parameters"]' +
+            ' [name="root[parameters][' + parameter.name + ']"]');
+          if (fileInput[0] && fileInput[0].files) {
+            var file = fileInput[0].files[0];
+            if (file) {
+              formData.append(parameter.name, file, file.name);
+            }
+          }
+          return;
+        }
+
+        formData.append(parameter.name,
+          $scope.requestModel.parameters[parameter.name]);
+      });
+    return formData;
   }
 
   /*
@@ -756,12 +791,18 @@ SwaggerEditor.controller('TryOperation', function($scope, formdataFilter,
     var omitHeaders = ['Host', 'Accept-Encoding', 'Connection', 'Origin',
       'Referer', 'User-Agent', 'Cache-Control', 'Content-Length'];
 
+    var headers = _.omit($scope.getHeaders(), omitHeaders);
+    if (hasFileParam()) {
+      delete headers['Content-Type'];
+    }
+
     $.ajax({
       url: $scope.generateUrl(),
       type: $scope.operationName,
-      headers: _.omit($scope.getHeaders(), omitHeaders),
+      headers: headers,
       data: $scope.getRequestBody(),
-      contentType: $scope.contentType
+      contentType: hasFileParam() ? false : $scope.contentType,
+      processData: false
     })
 
     .fail(function(jqXHR, textStatus, errorThrown) {
@@ -800,7 +841,7 @@ SwaggerEditor.controller('TryOperation', function($scope, formdataFilter,
     // Try if it's JSON and return pretty JSON
     try {
       return JSON.stringify(JSON.parse(input), null, 2);
-    } catch (jsonError) {}
+    } catch (jsonError) {} // eslint-disable-line no-empty
 
     return input;
   };
