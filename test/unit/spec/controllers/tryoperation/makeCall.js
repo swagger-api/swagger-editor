@@ -138,6 +138,5 @@ describe('Controller: TryOperation', function() {
         });
       });
     });
-
   });
 });
