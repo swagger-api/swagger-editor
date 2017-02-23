@@ -27,8 +27,11 @@ When an XHR call is not cross-domain, JavaScript will see all the headers. If yo
 ```
 git clone https://github.com/swagger-api/swagger-editor.git
 cd swagger-editor
+npm install
 npm run build
+npm run start
 
+# Browser opens to http://127.0.0.1:8080 with Swagger Editor
 # now dist folder have a fresh build of Swagger Editor
 ```
 
