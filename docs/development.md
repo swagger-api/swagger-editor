@@ -96,3 +96,22 @@ All end-to-end tests are located in [`../test/e2e`](../test/e2e). To run end-to-
 grunt protr
 npm run e2e-test
 This will run [Protractor](http://angular.github.io/protractor/#/) end-to-end test.
+```
+
+#### Release The New Tag
+In order to release a new version, these steps should be taken:
+
+Update all the versions in documentations, whether it is package.json or README.md. And commit.
+
+```shell
+npm run build
+git tag [-m <msg>]
+git push
+```
+
+In [release section](https://github.com/swagger-api/swagger-editor/releases) write the release note
+```shell
+npm publish
+npm install
+```
+compress the project into a .zip file and upload the file to the releases
