@@ -105,13 +105,25 @@ Update all the versions in documentations, whether it is package.json or README.
 
 ```shell
 npm run build
-git tag [-m <msg>]
+git tag -m <msg> (the <msg> format is 'v1.2.3')
 git push
 ```
 
 In [release section](https://github.com/swagger-api/swagger-editor/releases) write the release note
+
 ```shell
 npm publish
-npm install
 ```
-compress the project into a .zip file and upload the file to the releases
+
+In an empty folder (not your project folder):
+```shell
+npm init
+npm install swagger-editor@1.2.3
+```
+to make sure you get the latest.
+
+```shell
+zip node_modules/swagger-editor
+```
+
+Name it swagger-editor.zip, and attach it to release notes.
