@@ -243,11 +243,13 @@ SwaggerEditor.controller('PreviewCtrl', function PreviewCtrl(Storage, Builder,
       _.each(path, function(operation, operationName) {
         if (_.isObject(operation)) {
           operation.$folded = true;
-          FoldStateManager.foldEditor([
-            'paths',
-            pathName,
-            operationName
-          ], true);
+          if (Preferences.get('editorFolding')) {
+            FoldStateManager.foldEditor([
+              'paths',
+              pathName,
+              operationName
+            ], true);
+          }
         }
       });
     });
@@ -261,7 +263,9 @@ SwaggerEditor.controller('PreviewCtrl', function PreviewCtrl(Storage, Builder,
     _.each($scope.specs.definitions, function(definition, definitionName) {
       if (_.isObject(definition)) {
         definition.$folded = true;
-        FoldStateManager.foldEditor(['definitions', definitionName], true);
+        if (Preferences.get('editorFolding')) {
+          FoldStateManager.foldEditor(['definitions', definitionName], true);
+        }
       }
     });
   }

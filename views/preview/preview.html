@@ -22,7 +22,7 @@
     <h3 class="section-header">
       <a ng-click="
           specs.paths.$folded = !specs.paths.$folded;
-          foldEditor(['paths'], specs.paths.$folded);">
+          Preferences.get('editorFolding') ? foldEditor(['paths'], specs.paths.$folded) : null;">
 
           <span>Paths</span>
       </a>
@@ -47,7 +47,7 @@
     <h3 class="section-header">
       <a ng-click="
         specs.definitions.$folded = !specs.definitions.$folded;
-        foldEditor(['definitions'], specs.definitions.$folded);
+        Preferences.get('editorFolding') ? foldEditor(['definitions'], specs.definitions.$folded) : null;
       ">Models</a>
       <span class="on-hover">
         <a ng-click="listAllDefnitions()">List all models</a>
@@ -70,7 +70,7 @@
           <a
             ng-click="
               model.$folded = !model.$folded;
-              foldEditor(['definitions', modelName], model.$folded)
+              Preferences.get('editorFolding') ? foldEditor(['definitions', modelName], model.$folded) : null;
             "
             class="definition-title">
             {{modelName}}
