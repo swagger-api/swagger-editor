@@ -43,7 +43,10 @@ SwaggerEditor.service('FileLoader', function FileLoader($http, defaults, YAML) {
         } else {
           load(resp.data).then(resolve, reject);
         }
-      }, reject);
+      }, function(error) {
+        console.error('failed to load', url, error);
+        reject(error);
+      });
     });
   }
 

@@ -36,8 +36,6 @@ SwaggerEditor.controller('MainCtrl', function MainCtrl(
       if ($stateParams.import) {
         url = $stateParams.import;
         disableProxy = Boolean($stateParams['no-proxy']);
-        $location.search('import', null);
-        $location.search('no-proxy', null);
 
       // If there is no saved YAML either, load the default example
       } else if (!yaml) {
