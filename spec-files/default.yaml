@@ -18,33 +18,31 @@ paths:
   /products:
     get:
       summary: Product Types
-      description: |
-        The Products endpoint returns information about the *Uber* products
-        offered at a given location. The response includes the display name
-        and other details about each product, and lists the products in the
-        proper display order.
+      description: The Products endpoint returns information about the Uber products offered at a given location. The response includes the display name and other details about each product, and lists the products in the proper display order.
       parameters:
+        - name: Authorization
+          in: header
+          description: Uber API Developer Token
+          required: true
+          type: string
+          format: string
         - name: latitude
           in: query
           description: Latitude component of location.
           required: true
           type: number
-          format: double
         - name: longitude
           in: query
           description: Longitude component of location.
           required: true
           type: number
-          format: double
       tags:
         - Products
       responses:
-        200:
+        "200":
           description: An array of products
           schema:
-            type: array
-            items:
-              $ref: '#/definitions/Product'
+            $ref: '#/definitions/Products'
         default:
           description: Unexpected error
           schema:
@@ -52,49 +50,41 @@ paths:
   /estimates/price:
     get:
       summary: Price Estimates
-      description: |
-        The Price Estimates endpoint returns an estimated price range
-        for each product offered at a given location. The price estimate is
-        provided as a formatted string with the full price range and the localized
-        currency symbol.<br><br>The response also includes low and high estimates,
-        and the [ISO 4217](http://en.wikipedia.org/wiki/ISO_4217) currency code for
-        situations requiring currency conversion. When surge is active for a particular
-        product, its surge_multiplier will be greater than 1, but the price estimate
-        already factors in this multiplier.
+      description: The Price Estimates endpoint returns an estimated price range for each product offered at a given location. The price estimate is provided as a formatted string with the full price range and the localized currency symbol.<br><br>The response also includes low and high estimates, and the [ISO 4217](http://en.wikipedia.org/wiki/ISO_4217) currency code for situations requiring currency conversion. When surge is active for a particular product, its surge_multiplier will be greater than 1, but the price estimate already factors in this multiplier.
       parameters:
+        - name: Authorization
+          in: header
+          description: Uber API Developer Token
+          required: true
+          type: string
+          format: string
         - name: start_latitude
           in: query
-          description: Latitude component of start location.
-          required: true
           type: number
-          format: double
+          required: true
+          description: Latitude component of start location.
         - name: start_longitude
           in: query
-          description: Longitude component of start location.
           required: true
           type: number
-          format: double
+          description: Longitude component of start location.
         - name: end_latitude
           in: query
           description: Latitude component of end location.
           required: true
           type: number
-          format: double
         - name: end_longitude
           in: query
           description: Longitude component of end location.
           required: true
           type: number
-          format: double
       tags:
         - Estimates
       responses:
-        200:
+        "200":
           description: An array of price estimates by product
           schema:
-            type: array
-            items:
-              $ref: '#/definitions/PriceEstimate'
+            $ref: '#/definitions/PriceEstimates'
         default:
           description: Unexpected error
           schema:
@@ -104,22 +94,25 @@ paths:
       summary: Time Estimates
       description: The Time Estimates endpoint returns ETAs for all products offered at a given location, with the responses expressed as integers in seconds. We recommend that this endpoint be called every minute to provide the most accurate, up-to-date ETAs.
       parameters:
+        - name: Authorization
+          in: header
+          description: Uber API Developer Token
+          required: true
+          type: string
+          format: string
         - name: start_latitude
           in: query
-          description: Latitude component of start location.
-          required: true
           type: number
-          format: double
+          required: true
+          description: Latitude component of start location.
         - name: start_longitude
           in: query
-          description: Longitude component of start location.
           required: true
           type: number
-          format: double
+          description: Longitude component of start location.
         - name: customer_uuid
           in: query
           type: string
-          format: uuid
           description: Unique customer identifier to be used for experience customization.
         - name: product_id
           in: query
@@ -128,12 +121,10 @@ paths:
       tags:
         - Estimates
       responses:
-        200:
+        "200":
           description: An array of products
           schema:
-            type: array
-            items:
-              $ref: '#/definitions/Product'
+            $ref: '#/definitions/Products'
         default:
           description: Unexpected error
           schema:
@@ -145,7 +136,7 @@ paths:
       tags:
         - User
       responses:
-        200:
+        "200":
           description: Profile information for a user
           schema:
             $ref: '#/definitions/Profile'
@@ -157,21 +148,10 @@ paths:
     get:
       summary: User Activity
       description: The User Activity endpoint returns data about a user's lifetime activity with Uber. The response will include pickup locations and times, dropoff locations and times, the distance of past requests, and information about which products were requested.<br><br>The history array in the response will have a maximum length based on the limit parameter. The response value count may exceed limit, therefore subsequent API requests may be necessary.
-      parameters:
-        - name: offset
-          in: query
-          type: integer
-          format: int32
-          description: Offset the list of returned results by this amount. Default is zero.
-        - name: limit
-          in: query
-          type: integer
-          format: int32
-          description: Number of items to retrieve. Default is 5, maximum is 100.
       tags:
         - User
       responses:
-        200:
+        "200":
           description: History information for the given user
           schema:
             $ref: '#/definitions/Activities'
@@ -179,9 +159,25 @@ paths:
           description: Unexpected error
           schema:
             $ref: '#/definitions/Error'
+      parameters:
+        - name: Authorization
+          in: header
+          description: Uber API Developer Token
+          required: true
+          type: string
+          format: string
+        - name: start_latitude
+          in: query
+          type: number
+          required: true
+          description: Latitude component of start location.
+        - name: start_longitude
+          in: query
+          required: true
+          type: number
+          description: Longitude component of start location.
 definitions:
   Product:
-    type: object
     properties:
       product_id:
         type: string
@@ -198,8 +194,20 @@ definitions:
       image:
         type: string
         description: Image URL representing the product.
-  PriceEstimate:
+      shared:
+        type: boolean
+        description: can be shared or not.
+      short_description:
+        type: string
+        description: short description of the product
+  Products:
     type: object
+    properties:
+      products:
+        type: array
+        items:
+          $ref: '#/definitions/Product'
+  PriceEstimate:
     properties:
       product_id:
         type: string
@@ -222,8 +230,23 @@ definitions:
       surge_multiplier:
         type: number
         description: Expected surge multiplier. Surge is active if surge_multiplier is greater than 1. Price estimate already factors in the surge multiplier.
-  Profile:
+      localized_display_name:
+        type: string
+        description: localized_display_name.
+      duration:
+        type: number
+        description: duration.
+      distance:
+        type: number
+        description: distance.
+  PriceEstimates:
     type: object
+    properties:
+      prices:
+        type: array
+        items:
+          $ref: '#/definitions/PriceEstimate'
+  Profile:
     properties:
       first_name:
         type: string
@@ -241,32 +264,26 @@ definitions:
         type: string
         description: Promo code of the Uber user.
   Activity:
-    type: object
     properties:
       uuid:
         type: string
         description: Unique identifier for the activity
   Activities:
-    type: object
     properties:
       offset:
         type: integer
-        format: int32
         description: Position in pagination.
       limit:
         type: integer
-        format: int32
         description: Number of items to retrieve (100 max).
       count:
         type: integer
-        format: int32
         description: Total number of items available.
       history:
         type: array
         items:
           $ref: '#/definitions/Activity'
   Error:
-    type: object
     properties:
       code:
         type: integer
@@ -274,4 +291,4 @@ definitions:
       message:
         type: string
       fields:
-        type: string
+        type: object
