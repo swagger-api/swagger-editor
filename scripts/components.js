@@ -56,6 +56,8 @@ require('scripts/directives/schemamodel.js');
 require('scripts/directives/scroll-into-view-when.js');
 require('scripts/directives/stop-event.js');
 require('scripts/directives/track-event.js');
+require('scripts/directives/x-vendor-operation.js');
+require('scripts/directives/x-vendor-parameter.js');
 
 // Enums
 require('scripts/enums/defaults.js');
