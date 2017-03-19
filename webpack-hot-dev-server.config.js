@@ -1,21 +1,16 @@
-var path = require('path')
+var path = require("path")
 
-module.exports = require("./make-webpack-config")({
+module.exports = Object.assign(require("./webpack-dist-bundle.config.js"), {
   _special: {
-    loaders: {
-      'jsx': [ "react-hot-loader", "babel" ]
-    },
+    minimize: false,
+    sourcemaps: true,
     separateStylesheets: false,
   },
+
 	devtool: "eval",
-  output: {
-    pathinfo: true,
-    debug: true,
-    chunkFilename: "[id].js"
-  },
   devServer: {
     port: 3200,
-    publicPath: "/" ,
+    publicPath: "/dist" ,
     noInfo: true,
     colors: true,
     stats: {

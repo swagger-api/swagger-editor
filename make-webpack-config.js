@@ -115,7 +115,6 @@ module.exports = function(options) {
 
     module: {
       loaders: loaders,
-      noParse: [/braintree-web\/dist\/braintree.js/]
     },
 
     resolveLoader: {
