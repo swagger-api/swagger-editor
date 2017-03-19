@@ -1,0 +1,18 @@
+language: node_js
+node_js:
+- '6.9'
+branches:
+  only:
+  - master
+  - /^v\d+\.\d+(\.\d+)?(-\S*)?$/
+before_deploy: "npm run build-core"
+deploy:
+  provider: npm
+  email: apiteam@swagger.io
+  skip_cleanup: true
+  api_key:
+    secure: "jFzdukXjNKiESkh/61VUNIYHavpovSKAoVHg4ConrpnYimkrjB13mTB2ZMWXdEbNyUxfI48dYBIlnKRZfwaJ5jZ/rtyQONKslE/SDV1EgEXaL1KPv1rB2mbC3U2YiXV/QuusnmNLdxu8iAqnVcJwuCUMAb11Toq9p2KmAc2Ty8g="
+  on:
+    tags: true
+    repo: swagger-api/swagger-editor
+    node: '6.9'
