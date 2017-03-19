@@ -204,6 +204,7 @@ export default function makeEditor({ editorPluginsToRun }) {
               width="100%"
               height="100%"
               tabSize={2}
+              fontSize={14}
               readOnly={readOnly}
               useSoftTabs="true"
               wrapEnabled={true}
