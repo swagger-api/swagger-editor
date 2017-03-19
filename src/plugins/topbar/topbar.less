@@ -12,12 +12,13 @@
     margin-right: 1em;
     align-self: center;
     color: white;
-    font-size: 1.1em;
+    font-size: 1.0em;
     font-weight: 500;
   }
 
   & .menu-item {
     cursor: pointer;
+    font-size:14px;
   }
 }
 
@@ -31,4 +32,26 @@
   font-size: 1.5em;
   font-weight: bold;
   margin: 0.1em 1.2em 0 0.5em;
+}
+
+.SplitPane {
+  height: ~"calc(100% - 46px)" !important;
+}
+
+.dd-menu {
+
+  .dd-menu-items {
+    margin: 1.1em 0 0 0 !important;
+    ol,ul {
+      border-radius:0 0 4px 4px;
+
+      li {
+        &:last-of-type {
+          &:hover {
+            border-radius:0 0 4px 4px;
+          }
+        }
+      }
+    }
+  }
 }
