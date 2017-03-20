@@ -10,7 +10,7 @@ Valid Swagger JSON descriptions can then be generated and used with the full Swa
 
 ## New!
 
-This is the new version of swagger-ui, 3.x.
+**This is the new version of swagger-ui, 3.x. Want to learn more? Check out our [FAQ](http://swagger.io/new-ui-faq/).**
 
 For the older version of swagger-ui, refer to the [*2.x branch*](https://github.com/swagger-api/swagger-ui/tree/2.x).
 
