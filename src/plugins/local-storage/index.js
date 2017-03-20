@@ -6,7 +6,7 @@ let localStorage = window.localStorage
 export const updateSpec = (ori, {specActions, errActions, specSelectors}) => (...args) => {
   let [spec] = args
   ori(...args)
-  localStorage.setItem(CONTENT_KEY, spec)
+  saveContentToStorage(spec)
 }
 
 export default function(system) {
@@ -14,6 +14,17 @@ export default function(system) {
   setTimeout(() => {
     if(localStorage.getItem(CONTENT_KEY)) {
       system.specActions.updateSpec(localStorage.getItem(CONTENT_KEY))
+    } else if(localStorage.getItem("ngStorage-SwaggerEditorCache")) {
+      // Legacy migration for swagger-editor 2.x
+      try {
+        let obj = JSON.parse(localStorage.getItem("ngStorage-SwaggerEditorCache"))
+        let yaml = obj.yaml
+        system.specActions.updateSpec(yaml)
+        saveContentToStorage(yaml)
+        localStorage.setItem("ngStorage-SwaggerEditorCache", null)
+      } catch(e) {
+        system.specActions.updateSpec(PetstoreYaml)
+      }
     } else {
       system.specActions.updateSpec(PetstoreYaml)
     }
@@ -27,4 +38,8 @@ export default function(system) {
       }
     }
   }
+}
+
+function saveContentToStorage(str) {
+  return localStorage.setItem(CONTENT_KEY, str)
 }
