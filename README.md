@@ -12,6 +12,8 @@ Valid Swagger JSON descriptions can then be generated and used with the full Swa
 
 **This is the new version of swagger-ui, 3.x. Want to learn more? Check out our [FAQ](http://swagger.io/new-ui-faq/).**
 
+As a brand new version, written from the ground up, there are some known issues and unimplemented features. Check out the [Known Issues](#known-issues) section for more details.
+
 For the older version of swagger-ui, refer to the [*2.x branch*](https://github.com/swagger-api/swagger-ui/tree/2.x).
 
 ## Running locally
@@ -23,6 +25,14 @@ Otherwise, you can open `index.html` directly from your filesystem in your brows
 ##### Browser support
 
 Swagger UI works in the latest versions of Chrome, Safari, Firefox, Edge and IE11.
+
+### Known Issues
+
+To help with the migration, here are the currently known issues with 3.X. This list will update regularly, and will not include features that were not implemented in previous versions.
+
+- Everything listed in [Swagger-UI's Known Issues](https://github.com/swagger-api/swagger-ui/blob/master/README.md#known-issues).
+- The integration with the codegen is still missing.
+- Importing specs from a URL is not implemented.
 
 ## License
 
