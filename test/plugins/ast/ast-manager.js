@@ -1,6 +1,6 @@
 /* eslint-env mocha */
 import expect from "expect"
-import { pathForPosition, positionRangeForPath } from "corePlugins/ast/ast"
+import { pathForPosition, positionRangeForPath } from "plugins/ast/ast"
 
 describe.skip("ASTManager", function() {
   describe("#pathForPosition", function() {

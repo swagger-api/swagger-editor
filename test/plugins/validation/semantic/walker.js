@@ -1,5 +1,5 @@
 import expect, { createSpy } from "expect"
-import { validate } from "corePlugins/validation/semantic-validators/validators/walker"
+import { validate } from "plugins/validation/semantic-validators/validators/walker"
 
 describe("validation plugin - semantic - spec walker", () => {
   describe("Type key", () => {

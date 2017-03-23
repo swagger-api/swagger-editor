@@ -1,5 +1,5 @@
 import expect, { createSpy } from "expect"
-import { validate } from "corePlugins/validation/semantic-validators/validators/operations"
+import { validate } from "plugins/validation/semantic-validators/validators/operations"
 
 describe("validation plugin - semantic - operations", () => {
 
