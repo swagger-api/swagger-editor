@@ -87,7 +87,7 @@ export default function makeEditor({ editorPluginsToRun }) {
     }
 
     getWidth = () => {
-      let el = document.getElementById('editor-wrapper')
+      let el = document.getElementById("editor-wrapper")
 
       return el ? el.getBoundingClientRect().width : null
     }
@@ -153,7 +153,7 @@ export default function makeEditor({ editorPluginsToRun }) {
     componentDidMount() {
       // eslint-disable-next-line react/no-did-mount-set-state
       this.setState({ width: this.getWidth() })
-      document.addEventListener('click', this.onClick)
+      document.addEventListener("click", this.onClick)
 
       if(this.props.markers) {
         this.updateMarkerAnnotations({ markers: this.props.markers }, { force: true })
@@ -232,7 +232,7 @@ export default function makeEditor({ editorPluginsToRun }) {
     }
 
     componentWillUnmount() {
-      document.removeEventListener('click', this.onClick)
+      document.removeEventListener("click", this.onClick)
     }
 
   }

@@ -12,7 +12,7 @@ export default class EditorContainer extends React.Component {
   }
 
   _onChange(value) {
-    if(typeof this.props.onChange === 'function') {
+    if(typeof this.props.onChange === "function") {
       this.props.onChange(value)
     }
     this.props.specActions.updateSpec(value)
