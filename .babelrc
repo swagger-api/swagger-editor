@@ -3,5 +3,16 @@
     "es2015",
     "react",
     "stage-0"
+  ],
+  "plugins": [
+  [
+    "module-alias",
+    [
+      {
+        "expose": "plugins",
+        "src": "src/plugins"
+      }
+    ]
   ]
+]
 }
