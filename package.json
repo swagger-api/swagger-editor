@@ -14,21 +14,21 @@
     "Sahar Jafari <shr.jafari@gmail.com>"
   ],
   "scripts": {
-    "prestart": "npm install",
-    "start": "npm-run-all --parallel serve-static open-static",
-    "serve-static": "http-server -i -a 0.0.0.0 -p 3001",
     "build": "npm run build-core && npm run build-bundle",
     "build-bundle": "webpack --config webpack-dist-bundle.config.js --colors",
     "build-core": "webpack --config webpack-dist.config.js --colors",
-    "predev": "npm install",
-    "dev": "npm-run-all --parallel hot-server open-dev watch",
-    "watch": "webpack --config webpack.config.js --watch --progress",
-    "open-dev": "sleep 3 && node -e 'require(\"open\")(\"http://localhost:3200\")'",
-    "open-static": "node -e 'require(\"open\")(\"http://localhost:3001\")'",
-    "hot-server": "webpack-dev-server --host 0.0.0.0 --config webpack-hot-dev-server.config.js --inline --hot --progress",
+    "deps-check": "npm run deps-license && npm run deps-size",
     "deps-license": "license-checker --production --csv --out $npm_package_config_deps_check_dir/licenses.csv && license-checker --development --csv --out $npm_package_config_deps_check_dir/licenses-dev.csv",
     "deps-size": "webpack -p --config webpack.check.js --json | webpack-bundle-size-analyzer >| $npm_package_config_deps_check_dir/sizes.txt",
-    "deps-check": "npm run deps-license && npm run deps-size"
+    "predev": "npm install",
+    "dev": "npm-run-all --parallel hot-server open-dev watch",
+    "hot-server": "webpack-dev-server --host 0.0.0.0 --config webpack-hot-dev-server.config.js --inline --hot --progress",
+    "open-dev": "sleep 3 && node -e 'require(\"open\")(\"http://localhost:3200\")'",
+    "open-static": "node -e 'require(\"open\")(\"http://localhost:3001\")'",
+    "serve-static": "http-server -i -a 0.0.0.0 -p 3001",
+    "prestart": "npm install",
+    "start": "npm-run-all --parallel serve-static open-static",
+    "watch": "webpack --config webpack.config.js --watch --progress"
   },
   "dependencies": {
     "immutable": "^3.x.x",
