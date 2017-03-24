@@ -1,7 +1,7 @@
-import expect, { createSpy } from "expect"
-import { validate } from "plugins/validation/semantic-validators/validators/operations"
+// import expect from "expect"
+// import { validate } from "plugins/validation/semantic-validators/validators/operations"
 
-describe("validation plugin - semantic - operations", () => {
+describe.skip("validation plugin - semantic - operations", () => {
 
   describe("Operations cannot have both a 'body' parameter and a 'formData' parameter", () => {
 

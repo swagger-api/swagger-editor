@@ -1,4 +1,3 @@
-import extend from "lodash/extend"
 
 var Bool = ["true", "false"]
 var Anything = String
@@ -69,27 +68,6 @@ var schemes = [
   "https",
   "ws",
   "wss"
-]
-
-var mimeTypes = [
-  "text/plain",
-  "text/html",
-  "text/xml",
-  "text/csv",
-  "application/json",
-  "application/octet-stream",
-  "application/xml",
-  "application/vnd.",
-  "application/pdf",
-  "audio/",
-  "image/jpeg",
-  "image/gif",
-  "image/png",
-  "multipart/form-data",
-  "video/avi",
-  "video/mpeg",
-  "video/ogg",
-  "video/mp4"
 ]
 
 var items = {

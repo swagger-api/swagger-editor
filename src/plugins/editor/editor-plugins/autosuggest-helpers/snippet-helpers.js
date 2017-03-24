@@ -1,4 +1,3 @@
-import isEqual from "lodash/isEqual"
 import isArray from "lodash/isArray"
 
 

@@ -67,7 +67,7 @@ export default function makeEditor({ editorPluginsToRun }) {
     }
 
     onResize = () => {
-      let { state: { editor }, props } = this
+      let { state: { editor } } = this
       if(editor) {
         let session = editor.getSession()
         editor.resize()
@@ -163,7 +163,6 @@ export default function makeEditor({ editorPluginsToRun }) {
     componentWillReceiveProps(nextProps) {
       let { state } = this
       let hasChanged = (k) => !eq(nextProps[k], this.props[k])
-      let objectSizeHasChanged = (k) => !eq(Object.keys(nextProps[k]).length, Object.keys(this.props[k]).length)
       let wasEmptyBefore = (k) => nextProps[k] && (!this.props[k] || isEmpty(this.props[k]))
 
       this.updateErrorAnnotations(nextProps)

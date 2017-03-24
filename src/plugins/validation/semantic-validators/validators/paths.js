@@ -21,8 +21,6 @@
 
 import each from "lodash/each"
 import findIndex from "lodash/findIndex"
-import filter from "lodash/filter"
-import concat from "lodash/concat"
 import isObject from "lodash/isObject"
 
 let templateRegex = /\{(.*?)\}/g

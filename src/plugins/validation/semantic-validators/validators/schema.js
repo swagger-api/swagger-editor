@@ -42,7 +42,7 @@ export function validate({ resolvedSpec }) {
 
   schemas.forEach(({ schema, path }) => {
     if(Array.isArray(schema.properties) && Array.isArray(schema.required)) {
-      schema.properties.forEach((property, i) => {
+      schema.properties.forEach(() => {
         errors.push(...generateReadOnlyErrors(schema, path))
       })
     }

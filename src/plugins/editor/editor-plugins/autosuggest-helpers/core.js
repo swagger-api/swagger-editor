@@ -2,6 +2,7 @@
 // (latest commit was a28a0d5b at the time)
 
 export function makeAutosuggest({ completers = [] }) {
+  //eslint-disable-next-line no-unused-vars
   return function(editor, {fetchDomainSuggestions}, { langTools, AST, specObject }) {
     editor.setOptions({
       enableBasicAutocompletion: true,
@@ -15,7 +16,6 @@ export function makeAutosuggest({ completers = [] }) {
 
 export function getPathForPosition({ pos: originalPos, prefix, editorValue, AST }) {
   var pos = Object.assign({}, originalPos)
-  var prefixWithoutInsertedChar = prefix.substr(0, prefix.length - 1)
   var lines = editorValue.split("\n")
   var previousLine = lines[pos.row - 1] || ""
   var currentLine = lines[pos.row]
@@ -30,7 +30,6 @@ export function getPathForPosition({ pos: originalPos, prefix, editorValue, AST 
 
   let prevLineIndent = getIndent(previousLine).length
   let currLineIndent = getIndent(currentLine).length
-  let nextLineIndent = getIndent(nextLine).length
 
   if((previousLine.trim()[0] === "-" || nextLine.trim()[0] === "-") && currLineIndent >= prevLineIndent) {
     // for arrays with existing items under it, on blank lines

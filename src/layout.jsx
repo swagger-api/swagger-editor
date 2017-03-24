@@ -6,12 +6,14 @@ export default class EditorLayout extends React.Component {
     errSelectors: PropTypes.object.isRequired,
     errActions: PropTypes.object.isRequired,
     specActions: PropTypes.object.isRequired,
+    specSelectors: PropTypes.object.isRequired,
+    getComponent: PropTypes.func.isRequired,
     layoutSelectors: PropTypes.object.isRequired,
     layoutActions: PropTypes.object.isRequired
   }
 
   render() {
-    let { specSelectors, specActions, getComponent, errSelectors, errActions, commentsActions, spec, readOnly } = this.props
+    let { specSelectors, getComponent } = this.props
 
     let info = specSelectors.info()
     let url = specSelectors.url()
@@ -27,14 +29,13 @@ export default class EditorLayout extends React.Component {
     let Container = getComponent("Container")
     let Row = getComponent("Row")
     let Col = getComponent("Col")
-    let Button = getComponent("Button")
     let Errors = getComponent("errors", true)
     let Topbar = getComponent("Topbar", true)
     let EditorContainer = getComponent("EditorContainer", true)
     const SplitPaneMode = getComponent("SplitPaneMode", true)
 
     return (
-      <div>        
+      <div>
         <Topbar></Topbar>
         <Container className='container'>
           <SplitPaneMode>

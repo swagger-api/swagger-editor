@@ -1,5 +1,3 @@
-import { fromJS } from "immutable"
-
 import {
   JUMP_TO_LINE
 } from "./actions"

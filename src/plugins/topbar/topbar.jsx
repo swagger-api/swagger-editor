@@ -48,7 +48,6 @@ export default class Topbar extends React.Component {
 
   render() {
     let { getComponent } = this.props
-    const Button = getComponent("Button")
     const Link = getComponent("Link")
 
     let menuOptions = {

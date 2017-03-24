@@ -1,6 +1,5 @@
 import isArray from "lodash/isArray"
 import isObject from "lodash/isObject"
-import keys from "lodash/keys"
 import get from "lodash/get"
 import last from "lodash/last"
 import mapValues from "lodash/mapValues"
@@ -8,6 +7,7 @@ import toArray from "lodash/toArray"
 import isString from "lodash/isString"
 import YAML from "js-yaml"
 
+//eslint-disable-next-line no-unused-vars
 export function getKeywordsForPath({ path, prefix, currentLine, editorValue, keywordMap }) {
   keywordMap = Object.assign({}, keywordMap)
 
@@ -65,7 +65,6 @@ export function getKeywordsForPath({ path, prefix, currentLine, editorValue, key
   // suggest for array items
   if (isArray(keywordMap)) {
     if(isArray(keywordMap[0])) {
-      // let indent = isBlankLine(currentLine) ? '' : `\n${getIndent(currentLine)}  `
       let indent = ""
       return keywordMap[0].map(item => {
         return {
@@ -76,7 +75,6 @@ export function getKeywordsForPath({ path, prefix, currentLine, editorValue, key
         }
       })
     } else {
-      // let indent = isBlankLine(currentLine) ? '' : `\n${getIndent(currentLine)}  `
       let indent = ""
       return [{
         name: "array",
@@ -140,15 +138,6 @@ function constructAceCompletion(meta, keyword) {
     score: 300,
     meta: meta || "keyword"
   }
-}
-
-function getIndent(str) {
-  let match = str.match(/^ +/)
-  return match ? match[0] : ""
-}
-
-function isBlankLine(line) {
-  return getIndent(line).length === line.length
 }
 
 function $refablesForPath(specStr, path) {
