@@ -1,6 +1,6 @@
 import React, { PropTypes } from "react"
-import DropdownMenu from 'react-dd-menu'
-import downloadFile from 'react-file-download'
+import DropdownMenu from "react-dd-menu"
+import downloadFile from "react-file-download"
 import YAML from "js-yaml"
 
 import "./topbar.less"
@@ -13,15 +13,15 @@ export default class Topbar extends React.Component {
 
     this.state = {
       isMenuOpen: false
-    };
+    }
   }
 
   toggleMenu = () => {
-    this.setState({ isMenuOpen: !this.state.isMenuOpen });
+    this.setState({ isMenuOpen: !this.state.isMenuOpen })
   };
 
   closeMenu = () => {
-    this.setState({ isMenuOpen: false });
+    this.setState({ isMenuOpen: false })
   };
 
   saveAsYaml = () => {
@@ -48,15 +48,14 @@ export default class Topbar extends React.Component {
 
   render() {
     let { getComponent } = this.props
-    const Button = getComponent("Button")
     const Link = getComponent("Link")
 
     let menuOptions = {
       isOpen: this.state.isMenuOpen,
       close: this.closeMenu.bind(this),
       toggle: <span className="menu-item" onClick={this.toggleMenu.bind(this)}>File</span>,
-      align: 'left',
-    };
+      align: "left",
+    }
 
     return (
       <div>

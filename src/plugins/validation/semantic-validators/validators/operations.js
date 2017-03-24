@@ -12,7 +12,7 @@ export function validate({ resolvedSpec }) {
   let errors = []
   let warnings = []
 
-  let operations = map(resolvedSpec.paths,
+  map(resolvedSpec.paths,
     (path, pathKey) => {
       let pathOps = pick(path, ["get", "head", "post", "put", "patch", "delete", "options"])
       each(pathOps, (op, opKey) => {

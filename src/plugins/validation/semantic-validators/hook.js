@@ -77,7 +77,7 @@ export function runSemanticValidators ({jsSpec, resolvedSpec, getLineNumberForPa
     return res
   })
 
-  let flattenedOutput = reduce(semanticValidatorsOutput, (res, val, k) => {
+  let flattenedOutput = reduce(semanticValidatorsOutput, (res, val) => {
     let errors = val.errors.map(err => {
       err.source = "semantic"
       err.level = "error"

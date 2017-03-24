@@ -41,8 +41,6 @@ export default function(editor, { fetchDomainSuggestions }, { langTools, AST, sp
 
       let editorValue = session.getValue()
 
-      let currentLine = editorValue.split("\n")[pos.row]
-
       let path = getPathForPosition({ pos, prefix, editorValue, AST })
 
       if(last(path) === "$ref") {
@@ -51,10 +49,6 @@ export default function(editor, { fetchDomainSuggestions }, { langTools, AST, sp
           .then(res => {
             let suggestions = res.apis.reduce( function( prev, rawDomain, i ){
               var domain = parseDomain( rawDomain, i )
-              //we filter remotes suggestions that match local domain components
-              // if( currentDomain === domain[ 'x-domain' ] ){
-              //   return prev
-              // }
               return buildSuggestions( domain, i, type).concat( prev )
             }, [] )
             callback(null, suggestions)

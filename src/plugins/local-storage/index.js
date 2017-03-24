@@ -3,7 +3,7 @@ const CONTENT_KEY = "swagger-editor-content"
 
 let localStorage = window.localStorage
 
-export const updateSpec = (ori, {specActions, errActions, specSelectors}) => (...args) => {
+export const updateSpec = (ori) => (...args) => {
   let [spec] = args
   ori(...args)
   saveContentToStorage(spec)

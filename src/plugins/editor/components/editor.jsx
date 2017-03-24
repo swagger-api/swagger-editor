@@ -67,7 +67,7 @@ export default function makeEditor({ editorPluginsToRun }) {
     }
 
     onResize = () => {
-      let { state: { editor }, props } = this
+      let { state: { editor } } = this
       if(editor) {
         let session = editor.getSession()
         editor.resize()
@@ -87,7 +87,7 @@ export default function makeEditor({ editorPluginsToRun }) {
     }
 
     getWidth = () => {
-      let el = document.getElementById('editor-wrapper')
+      let el = document.getElementById("editor-wrapper")
 
       return el ? el.getBoundingClientRect().width : null
     }
@@ -153,7 +153,7 @@ export default function makeEditor({ editorPluginsToRun }) {
     componentDidMount() {
       // eslint-disable-next-line react/no-did-mount-set-state
       this.setState({ width: this.getWidth() })
-      document.addEventListener('click', this.onClick)
+      document.addEventListener("click", this.onClick)
 
       if(this.props.markers) {
         this.updateMarkerAnnotations({ markers: this.props.markers }, { force: true })
@@ -163,7 +163,6 @@ export default function makeEditor({ editorPluginsToRun }) {
     componentWillReceiveProps(nextProps) {
       let { state } = this
       let hasChanged = (k) => !eq(nextProps[k], this.props[k])
-      let objectSizeHasChanged = (k) => !eq(Object.keys(nextProps[k]).length, Object.keys(this.props[k]).length)
       let wasEmptyBefore = (k) => nextProps[k] && (!this.props[k] || isEmpty(this.props[k]))
 
       this.updateErrorAnnotations(nextProps)
@@ -232,7 +231,7 @@ export default function makeEditor({ editorPluginsToRun }) {
     }
 
     componentWillUnmount() {
-      document.removeEventListener('click', this.onClick)
+      document.removeEventListener("click", this.onClick)
     }
 
   }

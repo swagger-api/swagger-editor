@@ -12,14 +12,14 @@ export default class EditorContainer extends React.Component {
   }
 
   _onChange(value) {
-    if(typeof this.props.onChange === 'function') {
+    if(typeof this.props.onChange === "function") {
       this.props.onChange(value)
     }
     this.props.specActions.updateSpec(value)
   }
 
   render() {
-    let { specSelectors, getComponent, errSelectors, editorSelectors, fn, readOnly } = this.props
+    let { specSelectors, getComponent, errSelectors, fn, readOnly, editorSelectors } = this.props
 
     let Editor = getComponent("Editor")
 
@@ -59,6 +59,7 @@ EditorContainer.propTypes = {
   fn: PropTypes.object,
   specSelectors: PropTypes.object.isRequired,
   errSelectors: PropTypes.object.isRequired,
+  editorSelectors: PropTypes.object.isRequired,
   getComponent: PropTypes.func.isRequired,
   readOnly: PropTypes.bool
 }

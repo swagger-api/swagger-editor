@@ -25,7 +25,7 @@ export default class JumpToPath extends React.Component {
     e.stopPropagation()
 
     let { path, fn: { AST, transformPathToArray }, specSelectors: { specStr, specJson }, editorActions } = this.props
-    let line = AST.getLineNumberForPath(specStr(), typeof path === 'string' ? transformPathToArray(path, specJson().toJS()) : path)
+    let line = AST.getLineNumberForPath(specStr(), typeof path === "string" ? transformPathToArray(path, specJson().toJS()) : path)
     editorActions.jumpToLine(line)
   }
 

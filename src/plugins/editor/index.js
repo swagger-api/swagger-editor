@@ -9,7 +9,7 @@ let Editor = makeEditor({
   editorPluginsToRun: ["autosuggestApis", "gutterClick", "jsonToYaml", "pasteHandler"]
 })
 
-export default function (system) {
+export default function () {
   return {
     components: { Editor, EditorContainer, JumpToPath },
     statePlugins: {

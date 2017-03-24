@@ -124,8 +124,5 @@ function getRefPatternBlacklist(path) {
 
 function greater(a, b) {
   // is a greater than b?
-  let aNum = parseFloat(a)
-  let bNum = parseFloat(b)
-
   return a > b
 }

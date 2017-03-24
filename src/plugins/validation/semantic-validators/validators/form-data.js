@@ -42,7 +42,6 @@ export function validate({ resolvedSpec }) {
     if( (path[0] === "paths" || path[0] === "pathitems") && path[path.length - 1] === "parameters" && Array.isArray(obj)) {
       const opPath = path.slice(0, path.length - 1)
       const opItem = getIn(resolvedSpec, opPath)
-      const hasFormData = obj.some(p => isObject(p) && p["in"] === "formData")
 
       // Check for formdata ( typos )
       assertationTypo(obj, path)
@@ -95,6 +94,7 @@ export function validate({ resolvedSpec }) {
   }
 
   // If a paramter with `in: formData` exists, a param with `in: body` cannot
+  // eslint-disable-next-line no-unused-vars
   function assertationOne(params, path) {
     // Assertion 1
     const inBodyIndex = params.findIndex(p => isObject(p) && p["in"] === "body")

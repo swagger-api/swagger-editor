@@ -1,5 +1,5 @@
 import { createSelector } from "reselect"
-import Im, { fromJS } from "immutable"
+import Im from "immutable"
 
 const state = state => {
   return state || Im.Map()

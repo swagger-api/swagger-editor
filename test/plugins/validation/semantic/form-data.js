@@ -1,5 +1,5 @@
 /* eslint-env mocha */
-import expect, { createSpy } from "expect"
+import expect from "expect"
 import { validate } from "plugins/validation/semantic-validators/validators/form-data"
 
 describe("validation plugin - semantic - form data", function(){
