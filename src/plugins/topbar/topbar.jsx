@@ -2,6 +2,7 @@ import React, { PropTypes } from "react"
 import DropdownMenu from "react-dd-menu"
 import downloadFile from "react-file-download"
 import YAML from "js-yaml"
+import beautifyJson from "json-beautify"
 
 import "./topbar.less"
 import "react-dd-menu/dist/react-dd-menu.css"
@@ -36,8 +37,8 @@ export default class Topbar extends React.Component {
     // Editor content -> JS object -> YAML string
     let editorContent = this.props.specSelectors.specStr()
     let jsContent = YAML.safeLoad(editorContent)
-    let jsonContent = JSON.stringify(jsContent)
-    downloadFile(jsonContent, "swagger.json")
+    let prettyJsonContent = beautifyJson(jsContent, null, 2)
+    downloadFile(prettyJsonContent, "swagger.json")
   }
 
   saveAsText = () => {
