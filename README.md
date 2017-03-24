@@ -18,6 +18,10 @@ For the older version of swagger-ui, refer to the [*2.x branch*](https://github.
 
 ## Running locally
 
+##### Prerequisites
+- Node 6.x
+- NPM 3.x
+
 If you have Node.js and npm installed, you can run `npm start` to spin up a static server.
 
 Otherwise, you can open `index.html` directly from your filesystem in your browser.
