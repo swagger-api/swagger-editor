@@ -53,7 +53,7 @@
     "react-file-download": "^0.3.2",
     "react-redux": "^4.x.x",
     "redux": "^3.x.x",
-    "swagger-ui": "^3.0.0"
+    "swagger-ui": "^3.0.4"
   },
   "devDependencies": {
     "autoprefixer": "6.6.1",
