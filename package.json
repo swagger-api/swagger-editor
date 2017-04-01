@@ -1,6 +1,6 @@
 {
   "name": "swagger-editor",
-  "version": "3.0.0",
+  "version": "3.0.3",
   "main": "dist/swagger-editor.js",
   "repository": "git@github.com:swagger-api/swagger-editor.git",
   "license": "Apache-2.0",
