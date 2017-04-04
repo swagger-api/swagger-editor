@@ -1,5 +1,6 @@
 {
   "name": "swagger-editor",
+  "description": "Swagger Editor",
   "version": "3.0.3",
   "main": "dist/swagger-editor.js",
   "repository": "git@github.com:swagger-api/swagger-editor.git",
