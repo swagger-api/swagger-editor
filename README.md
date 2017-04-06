@@ -14,7 +14,7 @@ Valid Swagger JSON descriptions can then be generated and used with the full Swa
 
 As a brand new version, written from the ground up, there are some known issues and unimplemented features. Check out the [Known Issues](#known-issues) section for more details.
 
-For the older version of swagger-editor, refer to the [*2.x branch*](https://github.com/swagger-api/swagger-ui/tree/2.x).
+For the older version of swagger-editor, refer to the [*2.x branch*](https://github.com/swagger-api/swagger-editor/tree/2.x).
 
 ## Running locally
 
