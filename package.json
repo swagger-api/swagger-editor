@@ -26,10 +26,6 @@
     "hot-server": "webpack-dev-server --host 0.0.0.0 --config webpack-hot-dev-server.config.js --inline --hot --progress",
     "open-dev": "sleep 3 && node -e 'require(\"open\")(\"http://localhost:3200\")'",
     "open-static": "node -e 'require(\"open\")(\"http://localhost:3001\")'",
-    "hot-server": "webpack-dev-server --host 0.0.0.0 --config webpack-hot-dev-server.config.js --inline --hot --progress",
-    "deps-license": "license-checker --production --csv --out $npm_package_config_deps_check_dir/licenses.csv && license-checker --development --csv --out $npm_package_config_deps_check_dir/licenses-dev.csv",
-    "deps-size": "webpack -p --config webpack.check.js --json | webpack-bundle-size-analyzer >| $npm_package_config_deps_check_dir/sizes.txt",
-    "deps-check": "npm run deps-license && npm run deps-size",
     "lint": "eslint --cache --ext '.js,.jsx' src test",
     "lint-errors": "eslint --cache --quiet --ext '.js,.jsx' src test",
     "lint-fix": "eslint --cache --ext '.js,.jsx' src test --fix",
@@ -43,10 +39,11 @@
     "watch": "webpack --config webpack.config.js --watch --progress"
   },
   "dependencies": {
+    "boron": "^0.2.3",
     "immutable": "^3.x.x",
     "js-yaml": "^3.5.5",
-    "jsonschema": "^1.1.0",
     "json-beautify": "^1.0.1",
+    "jsonschema": "^1.1.0",
     "react": "^15.x",
     "react-addons-css-transition-group": "^15.4.2",
     "react-dd-menu": "^2.0.0",
