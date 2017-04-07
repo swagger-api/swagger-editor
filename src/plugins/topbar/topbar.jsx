@@ -12,18 +12,8 @@ export default class Topbar extends React.Component {
   constructor(props, context) {
     super(props, context)
 
-    this.state = {
-      isMenuOpen: false
-    }
+    this.state = {}
   }
-
-  toggleMenu = () => {
-    this.setState({ isMenuOpen: !this.state.isMenuOpen })
-  };
-
-  closeMenu = () => {
-    this.setState({ isMenuOpen: false })
-  };
 
   importFromURL = () => {
     let url = prompt("Enter the URL to import from:")
@@ -32,6 +22,10 @@ export default class Topbar extends React.Component {
       this.props.specActions.updateUrl(url)
       this.props.specActions.download(url)
     }
+  }
+
+  importFromFile = () => {
+
   }
 
   saveAsYaml = () => {
@@ -56,15 +50,27 @@ export default class Topbar extends React.Component {
     downloadFile(editorContent, "swagger.txt")
   }
 
+  convertToYaml = () => {
+    // Editor content -> JS object -> YAML string
+    let editorContent = this.props.specSelectors.specStr()
+    let jsContent = YAML.safeLoad(editorContent)
+    let yamlContent = YAML.safeDump(jsContent)
+    this.props.specActions.updateSpec(yamlContent)
+  }
+
   render() {
     let { getComponent } = this.props
     const Link = getComponent("Link")
 
-    let menuOptions = {
-      isOpen: this.state.isMenuOpen,
-      close: this.closeMenu.bind(this),
-      toggle: <span className="menu-item" onClick={this.toggleMenu.bind(this)}>File</span>,
-      align: "left",
+    let makeMenuOptions = (name) => {
+      let stateKey = `is${name}MenuOpen`
+      let toggleFn = () => this.setState({ [stateKey]: !this.state[stateKey] })
+      return {
+        isOpen: this.state[stateKey],
+        close: () => this.setState({ [stateKey]: false }),
+        align: "left",
+        toggle: <span className="menu-item" onClick={toggleFn}>{ name }</span>
+      }
     }
 
     return (
@@ -75,12 +81,15 @@ export default class Topbar extends React.Component {
               <img height="30" width="30" className="topbar-logo__img" src={ Logo } alt=""/>
               <span className="topbar-logo__title">Swagger Editor</span>
             </Link>
-            <DropdownMenu {...menuOptions}>
+            <DropdownMenu {...makeMenuOptions("File")}>
               <li><button type="button" onClick={this.importFromURL}>Import URL</button></li>
-              <li><button type="button" onClick={null}>Import File</button></li>
+              <li><button type="button" onClick={this.importFromFile}>Import File</button></li>
               <li role="separator"></li>
               <li><button type="button" onClick={this.saveAsYaml}>Download YAML</button></li>
               <li><button type="button" onClick={this.saveAsJson}>Download JSON</button></li>
+            </DropdownMenu>
+            <DropdownMenu {...makeMenuOptions("Edit")}>
+              <li><button type="button" onClick={this.convertToYaml}>Convert to YAML</button></li>
             </DropdownMenu>
           </div>
         </div>
