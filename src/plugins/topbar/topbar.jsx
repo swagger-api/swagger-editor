@@ -1,5 +1,6 @@
 import React, { PropTypes } from "react"
 import DropdownMenu from "react-dd-menu"
+import Modal from "boron/DropModal"
 import downloadFile from "react-file-download"
 import YAML from "js-yaml"
 import beautifyJson from "json-beautify"
@@ -15,6 +16,8 @@ export default class Topbar extends React.Component {
     this.state = {}
   }
 
+  // Menu actions
+
   importFromURL = () => {
     let url = prompt("Enter the URL to import from:")
 
@@ -25,7 +28,17 @@ export default class Topbar extends React.Component {
   }
 
   importFromFile = () => {
+    let [fileToLoad] = this.refs.fileLoadInput.files
 
+    let fileReader = new FileReader()
+    
+    fileReader.onload = fileLoadedEvent => {
+      let textFromFileLoaded = fileLoadedEvent.target.result
+      this.props.specActions.updateSpec(textFromFileLoaded)
+      this.hideModal()
+    }
+
+    fileReader.readAsText(fileToLoad, "UTF-8")
   }
 
   saveAsYaml = () => {
@@ -58,6 +71,16 @@ export default class Topbar extends React.Component {
     this.props.specActions.updateSpec(yamlContent)
   }
 
+  // Helpers
+
+  showModal = () => {
+    this.refs.modal.show()
+  }
+
+  hideModal = () => {
+    this.refs.modal.hide()
+  }
+
   render() {
     let { getComponent } = this.props
     const Link = getComponent("Link")
@@ -83,7 +106,7 @@ export default class Topbar extends React.Component {
             </Link>
             <DropdownMenu {...makeMenuOptions("File")}>
               <li><button type="button" onClick={this.importFromURL}>Import URL</button></li>
-              <li><button type="button" onClick={this.importFromFile}>Import File</button></li>
+              <li><button type="button" onClick={this.showModal}>Import File</button></li>
               <li role="separator"></li>
               <li><button type="button" onClick={this.saveAsYaml}>Download YAML</button></li>
               <li><button type="button" onClick={this.saveAsJson}>Download JSON</button></li>
@@ -93,6 +116,16 @@ export default class Topbar extends React.Component {
             </DropdownMenu>
           </div>
         </div>
+        <Modal className="swagger-ui" ref="modal" keyboard={this.callback}>
+          <div style={{ padding: "1em", "padding-bottom": "3em", position: "relative" }}>
+            <h2>Upload file</h2>
+            <input type="file" ref="fileLoadInput"></input>
+            <div style={{ margin: "1em", position: "absolute", right: "0", bottom: ".5em" }}>
+              <button style={{ "margin-left": "1em" }} className="btn cancel" onClick={this.hideModal}>Cancel</button>
+              <button style={{ "margin-left": "1em" }} className="btn" onClick={this.importFromFile}>Open file</button>
+            </div>
+          </div>
+        </Modal>
       </div>
 
     )
