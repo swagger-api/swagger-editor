@@ -25,6 +25,15 @@ export default class Topbar extends React.Component {
     this.setState({ isMenuOpen: false })
   };
 
+  importFromURL = () => {
+    let url = prompt("Enter the URL to import from:")
+
+    if(url) {
+      this.props.specActions.updateUrl(url)
+      this.props.specActions.download(url)
+    }
+  }
+
   saveAsYaml = () => {
     // Editor content -> JS object -> YAML string
     let editorContent = this.props.specSelectors.specStr()
@@ -67,9 +76,11 @@ export default class Topbar extends React.Component {
               <span className="topbar-logo__title">Swagger Editor</span>
             </Link>
             <DropdownMenu {...menuOptions}>
-              <li><button type="button" onClick={this.saveAsYaml}>Save as YAML</button></li>
-              <li><button type="button" onClick={this.saveAsJson}>Save as JSON</button></li>
-              <li><button type="button" onClick={this.saveAsText}>Save as text</button></li>
+              <li><button type="button" onClick={this.importFromURL}>Import URL</button></li>
+              <li><button type="button" onClick={null}>Import File</button></li>
+              <li role="separator"></li>
+              <li><button type="button" onClick={this.saveAsYaml}>Download YAML</button></li>
+              <li><button type="button" onClick={this.saveAsJson}>Download JSON</button></li>
             </DropdownMenu>
           </div>
         </div>
