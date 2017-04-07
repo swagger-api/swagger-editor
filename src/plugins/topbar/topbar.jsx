@@ -31,7 +31,7 @@ export default class Topbar extends React.Component {
     let [fileToLoad] = this.refs.fileLoadInput.files
 
     let fileReader = new FileReader()
-    
+
     fileReader.onload = fileLoadedEvent => {
       let textFromFileLoaded = fileLoadedEvent.target.result
       this.props.specActions.updateSpec(textFromFileLoaded)
@@ -116,14 +116,14 @@ export default class Topbar extends React.Component {
             </DropdownMenu>
           </div>
         </div>
-        <Modal className="swagger-ui" ref="modal" keyboard={this.callback}>
-          <div style={{ padding: "1em", "padding-bottom": "3em", position: "relative" }}>
+        <Modal className="swagger-ui modal" ref="modal">
+          <div className="container">
             <h2>Upload file</h2>
             <input type="file" ref="fileLoadInput"></input>
-            <div style={{ margin: "1em", position: "absolute", right: "0", bottom: ".5em" }}>
-              <button style={{ "margin-left": "1em" }} className="btn cancel" onClick={this.hideModal}>Cancel</button>
-              <button style={{ "margin-left": "1em" }} className="btn" onClick={this.importFromFile}>Open file</button>
-            </div>
+          </div>
+          <div className="right">
+            <button className="btn cancel" onClick={this.hideModal}>Cancel</button>
+            <button className="btn" onClick={this.importFromFile}>Open file</button>
           </div>
         </Modal>
       </div>
