@@ -43,6 +43,15 @@ export function validate({ resolvedSpec }) {
 
     }
 
+    if(path[path.length - 2] === "headers") {
+      if(obj.type === "array" && typeof obj.items !== "object") {
+        errors.push({
+          path,
+          message: "Headers with 'array' type require an 'items' property"
+        })
+      }
+    }
+
     if(Object.keys(obj).length) {
       return Object.keys(obj).map(k => walk(obj[k], [...path, k]))
 
