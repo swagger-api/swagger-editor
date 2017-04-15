@@ -15,8 +15,8 @@ export function validate({ jsSpec }) {
   function walk(value, path) {
     let curr = path[path.length - 1]
 
-    if(typeof value !== "object" || value === null) {
-      return
+    if(value === null) {
+      return null
     }
 
     ///// "type" should always be a string, everywhere.
@@ -76,6 +76,10 @@ export function validate({ jsSpec }) {
           message: `${path[path.length - 2]} $refs cannot match any of the following: ${humanFriendlyRefBlacklist}`
         })
       }
+    }
+
+    if(typeof value !== "object") {
+      return null
     }
 
     let keys = Object.keys(value)
