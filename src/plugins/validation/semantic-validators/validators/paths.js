@@ -41,7 +41,7 @@ export function validate({ resolvedSpec }) {
   }
 
   each(resolvedSpec.paths, (path, pathName) => {
-    if(!path) {
+    if(!path || !pathName) {
       return
     }
 
@@ -73,7 +73,7 @@ export function validate({ resolvedSpec }) {
     })
 
     each(path, (thing, thingName) => {
-      if(thing.parameters) {
+      if(thing && thing.parameters) {
         availableParameters.push(...thing.parameters.map((param, i) => {
           if(!isObject(param)) {
             return

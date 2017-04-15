@@ -16,7 +16,7 @@ export function validate({ resolvedSpec }) {
   if(resolvedSpec.paths) {
     each(resolvedSpec.paths, (path, pathName) => {
       each(path, (op, opName) => {
-        if(op.parameters) {
+        if(op && op.parameters) {
           op.parameters.forEach((parameter, parameterIndex) => {
             if(parameter.in === "body" && parameter.schema) {
               schemas.push({
@@ -26,9 +26,9 @@ export function validate({ resolvedSpec }) {
             }
           })
         }
-        if(op.responses) {
+        if(op && op.responses) {
           each(op.responses, (response, responseName) => {
-            if(response.schema) {
+            if(response && response.schema) {
               schemas.push({
                 schema: response.schema,
                 path: ["paths", pathName, opName, "responses", responseName, "schema"]

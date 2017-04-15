@@ -17,6 +17,10 @@ export function validate({ resolvedSpec }) {
       let pathOps = pick(path, ["get", "head", "post", "put", "patch", "delete", "options"])
       each(pathOps, (op, opKey) => {
 
+        if(!op) {
+          return
+        }
+
         // Assertation 1
         let bodyParamIndex = findIndex(op.parameters, ["in", "body"])
         let formDataParamIndex = findIndex(op.parameters, ["in", "formData"])

@@ -14,6 +14,11 @@ export function validate({ jsSpec }) {
 
   function walk(value, path) {
     let curr = path[path.length - 1]
+
+    if(typeof value !== "object" || value === null) {
+      return
+    }
+
     ///// "type" should always be a string, everywhere.
     if(curr === "type" && ["definitions", "properties"].indexOf(path[path.length - 2]) === -1) {
       if(typeof value !== "string") {
@@ -71,10 +76,6 @@ export function validate({ jsSpec }) {
           message: `${path[path.length - 2]} $refs cannot match any of the following: ${humanFriendlyRefBlacklist}`
         })
       }
-    }
-
-    if(typeof value !== "object" || value === null) {
-      return
     }
 
     let keys = Object.keys(value)
