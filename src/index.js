@@ -8,18 +8,20 @@ import LocalStoragePlugin from "./plugins/local-storage"
 import TopBarPlugin from "./plugins/topbar"
 import ValidationApiPlugin from "./plugins/validation/apis"
 
+const plugins = {
+  EditorPlugin,
+  TopBarPlugin,
+  ValidationApiPlugin,
+  LocalStoragePlugin
+}
+
 const defaults = {
   dom_id: "#swagger-editor",
   layout: "EditorLayout",
   presets: [
     SwaggerUI.presets.apis
   ],
-  plugins: [
-    EditorPlugin,
-    TopBarPlugin,
-    ValidationApiPlugin,
-    LocalStoragePlugin
-  ],
+  plugins,
   components: {
     EditorLayout,
   },
@@ -30,3 +32,5 @@ module.exports = function SwaggerEditor(options) {
 
   return SwaggerUI(mergedOptions)
 }
+
+module.exports.plugins = plugins
