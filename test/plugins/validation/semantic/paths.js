@@ -220,6 +220,35 @@ describe("validation plugin - semantic - paths", function(){
       expect(res.warnings).toEqual([])
     })
 
+    it("should return no problems for a templated and double-templated set of path strings", function(){
+      const spec = {
+        paths: {
+          "/CoolPath/{group_id}/all": {
+            parameters: [{
+              name: "group_id",
+              in: "path"
+            }]
+          },
+          "/CoolPath/{group_id}/{user_id}": {
+            parameters: [
+              {
+                name: "group_id",
+                in: "path"
+              },
+              {
+                name: "user_id",
+                in: "path"
+              },
+            ]
+          },
+        }
+      }
+
+      let res = validate({ resolvedSpec: spec })
+      expect(res.errors).toEqual([])
+      expect(res.warnings).toEqual([])
+    })
+
   })
 
   describe("Paths must have unique name + in parameters", () => {
