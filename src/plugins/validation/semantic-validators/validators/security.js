@@ -21,24 +21,24 @@ export function validate({ resolvedSpec }) {
         if (!securityDefinition) {
           errors.push({
             message: "security requirements must match a security definition",
-            path: path.join(".")
+            path: path
           })
         }
 
-        if (securityDefinition && securityDefinition.type === "oauth2") {
+        if (securityDefinition) {
           let scopes = obj[key]
           if (Array.isArray(scopes)){
-            let unresolvedScopes = []
-            scopes.forEach((scope) => {
-              if (!securityDefinition.scopes[scope]) { unresolvedScopes.push(scope) }
+
+            // Check for unknown scopes
+
+            scopes.forEach((scope, i) => {
+              if (!securityDefinition.scopes || !securityDefinition.scopes[scope]) {
+                errors.push({
+                  message: `Security scope definition ${scope} could not be resolved`,
+                  path: path.concat([i.toString()])
+                })
+              }
             })
-            let unresolvedScopesLen = unresolvedScopes.length
-            if ( unresolvedScopesLen ) {
-              errors.push({
-                message: `security scope definition${unresolvedScopesLen > 1 ? "s" : ""} ${unresolvedScopes.join(", ")} could not be resolved`,
-              path: path.join(".")
-            })
-            }
           }
         }
       })
