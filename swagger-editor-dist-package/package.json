@@ -1,0 +1,18 @@
+{
+  "name": "swagger-editor-dist",
+  "version": "$$VERSION",
+  "main": "dist/swagger-editor.js",
+  "repository": "git@github.com:swagger-api/swagger-editor.git",
+  "contributors": [
+    "(in alphabetical order)",
+    "Anna Bodnia <anna.bodnia@gmail.com>",
+    "Buu Nguyen <buunguyen@gmail.com>",
+    "Josh Ponelat <jponelat@gmail.com>",
+    "Kyle Shockey <kyleshockey1@gmail.com>",
+    "Robert Barnwell <robert@robertismy.name>",
+    "Sahar Jafari <shr.jafari@gmail.com>"
+  ],
+  "license": "Apache-2.0",
+  "dependencies": {},
+  "devDependencies": {}
+}
