@@ -21,7 +21,7 @@ const defaults = {
   presets: [
     SwaggerUI.presets.apis
   ],
-  plugins,
+  plugins: Object.values(plugins),
   components: {
     EditorLayout,
   },
