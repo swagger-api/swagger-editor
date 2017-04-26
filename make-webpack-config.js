@@ -22,7 +22,7 @@ module.exports = function(options) {
 
   var loadersMap = {
     'js(x)?': {
-      loader: 'babel',
+      loader: 'babel?retainLines=true',
       include: [ path.join(__dirname, 'src') ],
     },
     'json': 'json-loader',
