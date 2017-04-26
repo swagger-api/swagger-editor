@@ -15,9 +15,10 @@
     "Sahar Jafari <shr.jafari@gmail.com>"
   ],
   "scripts": {
-    "build": "npm run build-core && npm run build-bundle",
+    "build": "npm run build-core && npm run build-bundle && npm run build-standalone",
     "build-bundle": "webpack --config webpack-dist-bundle.config.js --colors",
     "build-core": "webpack --config webpack-dist.config.js --colors",
+    "build-standalone": "webpack --config webpack-standalone.config.js --colors",
     "deps-check": "npm run deps-license && npm run deps-size",
     "deps-license": "license-checker --production --csv --out $npm_package_config_deps_check_dir/licenses.csv && license-checker --development --csv --out $npm_package_config_deps_check_dir/licenses-dev.csv",
     "deps-size": "webpack -p --config webpack.check.js --json | webpack-bundle-size-analyzer >| $npm_package_config_deps_check_dir/sizes.txt",
