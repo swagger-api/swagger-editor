@@ -26,5 +26,7 @@ const defaults = {
 module.exports = function SwaggerEditor(options) {
   let mergedOptions = deepMerge(defaults, options)
 
+  mergedOptions.presets = defaults.presets.concat(options.presets || [])
+  mergedOptions.plugins = defaults.plugins.concat(options.plugins || [])
   return SwaggerUI(mergedOptions)
 }

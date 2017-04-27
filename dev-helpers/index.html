@@ -48,11 +48,12 @@
   <script>
   window.onload = function() {
     // Webpack outputs library variables with file-names-like-this
-    window["SwaggerEditorBundle"] = window["swagger-editor-bundle"]
-    window["SwaggerEditorStandalonePreset"] = window["swagger-editor-standalone-preset"]
+    window["SwaggerEditorBundle"] = window["SwaggerEditorBundle"] || window["swagger-editor-bundle"]
+    window["SwaggerEditorStandalonePreset"] = window["SwaggerEditorStandalonePreset"] || window["swagger-editor-standalone-preset"]
     // Build a system
     const editor = SwaggerEditorBundle({
       dom_id: '#swagger-editor',
+      layout: 'StandaloneLayout',
       presets: [
         SwaggerEditorStandalonePreset
       ]

@@ -9,7 +9,7 @@ let StandaloneLayoutPlugin = function() {
   }
 }
 
-export default function () {
+module.exports = function () {
   return [
     TopbarPlugin,
     StandaloneLayoutPlugin
