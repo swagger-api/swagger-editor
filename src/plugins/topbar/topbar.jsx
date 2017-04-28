@@ -1,19 +1,37 @@
 import React, { PropTypes } from "react"
-import DropdownMenu from "react-dd-menu"
+import Swagger from "swagger-client"
+import DropdownMenu, { NestedDropdownMenu } from "react-dd-menu"
 import Modal from "boron/DropModal"
 import downloadFile from "react-file-download"
 import YAML from "js-yaml"
 import beautifyJson from "json-beautify"
 
-import "./topbar.less"
 import "react-dd-menu/dist/react-dd-menu.css"
+import "./topbar.less"
 import Logo from "./logo_small.png"
 
 export default class Topbar extends React.Component {
   constructor(props, context) {
     super(props, context)
 
-    this.state = {}
+    Swagger("http://generator.swagger.io/api/swagger.json")
+      .then(client => {
+        this.state.swaggerClient = client
+        client.apis.clients.clientOptions()
+          .then(res => {
+            this.state.clients = res.body
+          })
+        client.apis.servers.serverOptions()
+          .then(res => {
+            this.state.servers = res.body
+          })
+      })
+
+    this.state = {
+      swaggerClient: null,
+      clients: [],
+      servers: []
+    }
   }
 
   // Menu actions
@@ -113,6 +131,14 @@ export default class Topbar extends React.Component {
             </DropdownMenu>
             <DropdownMenu {...makeMenuOptions("Edit")}>
               <li><button type="button" onClick={this.convertToYaml}>Convert to YAML</button></li>
+            </DropdownMenu>
+            <DropdownMenu {...makeMenuOptions("Generate Server")}>
+              { this.state.servers
+                  .map(serv => <li><button type="button" onClick={null}>{serv}</button></li>) }
+            </DropdownMenu>
+            <DropdownMenu {...makeMenuOptions("Generate Client")}>
+              { this.state.clients
+                  .map(serv => <li><button type="button" onClick={null}>{serv}</button></li>) }
             </DropdownMenu>
           </div>
         </div>

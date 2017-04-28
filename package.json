@@ -51,6 +51,7 @@
     "react-file-download": "^0.3.2",
     "react-redux": "^4.x.x",
     "redux": "^3.x.x",
+    "swagger-client": "^3.0.7",
     "swagger-ui": "^3.0.7"
   },
   "devDependencies": {
