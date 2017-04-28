@@ -8,6 +8,11 @@ import LocalStoragePlugin from "./plugins/local-storage"
 import TopBarPlugin from "./plugins/topbar"
 import ValidationApiPlugin from "./plugins/validation/apis"
 
+const { GIT_DIRTY, GIT_COMMIT, PACKAGE_VERSION } = buildInfo
+
+window.versions = window.versions || {}
+window.versions.swaggerEditor = `${PACKAGE_VERSION}/${GIT_COMMIT || 'unknown'}${GIT_DIRTY ? '-dirty' : ''}`
+
 const defaults = {
   dom_id: "#swagger-editor",
   layout: "EditorLayout",
