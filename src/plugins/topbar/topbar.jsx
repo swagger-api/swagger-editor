@@ -89,6 +89,18 @@ export default class Topbar extends React.Component {
     this.props.specActions.updateSpec(yamlContent)
   }
 
+  downloadGeneratedFile = (type, name) => {
+    if(!this.state.swaggerClient) {
+      // Swagger client isn't ready yet.
+      return
+    }
+    if(type === "server") {
+
+    }
+
+    if(type === "client")
+  }
+
   // Helpers
 
   showModal = () => {
@@ -134,11 +146,11 @@ export default class Topbar extends React.Component {
             </DropdownMenu>
             <DropdownMenu {...makeMenuOptions("Generate Server")}>
               { this.state.servers
-                  .map(serv => <li><button type="button" onClick={null}>{serv}</button></li>) }
+                  .map(serv => <li><button type="button" onClick={this.downloadGeneratedFile.bind(null, 'server', serv)}>{serv}</button></li>) }
             </DropdownMenu>
             <DropdownMenu {...makeMenuOptions("Generate Client")}>
               { this.state.clients
-                  .map(serv => <li><button type="button" onClick={null}>{serv}</button></li>) }
+                  .map(cli => <li><button type="button" onClick={this.downloadGeneratedFile.bind(null, 'client', cli)}>{cli}</button></li>) }
             </DropdownMenu>
           </div>
         </div>
