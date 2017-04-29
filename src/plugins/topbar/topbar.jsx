@@ -133,7 +133,7 @@ export default class Topbar extends React.Component {
       fetch(res.body.link)
         .then(res => res.blob())
         .then(res => {
-          downloadFile(res, `${name}-${type}-generated-test.zip`)
+          downloadFile(res, `${name}-${type}-generated.zip`)
         })
     }
 
