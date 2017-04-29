@@ -15,7 +15,7 @@
     "Sahar Jafari <shr.jafari@gmail.com>"
   ],
   "scripts": {
-    "build": "npm run build-core && npm run build-bundle",
+    "build": "npm run build-bundle && npm run build-core",
     "build-bundle": "webpack --config webpack-dist-bundle.config.js --colors",
     "build-core": "webpack --config webpack-dist.config.js --colors",
     "deps-check": "npm run deps-license && npm run deps-size",
