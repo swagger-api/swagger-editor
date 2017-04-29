@@ -41,16 +41,24 @@
 }
 
 .dd-menu {
-
-  .dd-items-left {
+  &.long {
     display: flex;
-    flex-direction: column;
     flex-wrap: wrap;
-    max-height: 300px;
+    max-width:800px;
+    .dd-menu-items {
+      width:600px;
+      .dd-items-left {
+        display: flex;
+        flex-wrap: wrap;
+        margin: 1.7em 0 0!important;
+        li {
+          flex:22%;
+        }
+      }
+    }
   }
 
   .dd-menu-items {
-
     margin: 1.1em 0 0 0 !important;
     ol,ul {
       border-radius:0 0 4px 4px;

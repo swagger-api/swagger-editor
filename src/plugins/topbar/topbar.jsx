@@ -183,11 +183,11 @@ export default class Topbar extends React.Component {
             <DropdownMenu {...makeMenuOptions("Edit")}>
               <li><button type="button" onClick={this.convertToYaml}>Convert to YAML</button></li>
             </DropdownMenu>
-            <DropdownMenu {...makeMenuOptions("Generate Server")}>
+            <DropdownMenu className="long" {...makeMenuOptions("Generate Server")}>
               { this.state.servers
                   .map(serv => <li><button type="button" onClick={this.downloadGeneratedFile.bind(null, 'server', serv)}>{serv}</button></li>) }
             </DropdownMenu>
-            <DropdownMenu {...makeMenuOptions("Generate Client")}>
+            <DropdownMenu className="long" {...makeMenuOptions("Generate Client")}>
               { this.state.clients
                   .map(cli => <li><button type="button" onClick={this.downloadGeneratedFile.bind(null, 'client', cli)}>{cli}</button></li>) }
             </DropdownMenu>
