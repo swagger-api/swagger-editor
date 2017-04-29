@@ -1,5 +1,6 @@
 import React, { PropTypes } from "react"
 import Swagger from "swagger-client"
+import "whatwg-fetch"
 import DropdownMenu, { NestedDropdownMenu } from "react-dd-menu"
 import Modal from "boron/DropModal"
 import downloadFile from "react-file-download"
@@ -111,7 +112,7 @@ export default class Topbar extends React.Component {
           Accept: "application/json"
         })
       })
-        .then(res => console.log(res))
+        .then(res => handleResponse(res))
     }
 
     if(type === "client") {
@@ -121,7 +122,20 @@ export default class Topbar extends React.Component {
           spec: specSelectors.specResolved()
         })
       })
-        .then(res => console.log(res))
+        .then(res => handleResponse(res))
+    }
+
+    function handleResponse(res) {
+      if(!res.ok) {
+        return console.error(res)
+      }
+
+      fetch(res.body.link)
+        .then(res => res.blob())
+        .then(res => {
+          console.log(res)
+          downloadFile(res, `${name}-${type}-generated-test.zip`)
+        })
     }
 
   }
