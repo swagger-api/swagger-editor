@@ -1,7 +1,7 @@
 import React, { PropTypes } from "react"
 import Swagger from "swagger-client"
 import "whatwg-fetch"
-import DropdownMenu, { NestedDropdownMenu } from "react-dd-menu"
+import DropdownMenu from "react-dd-menu"
 import Modal from "boron/DropModal"
 import downloadFile from "react-file-download"
 import YAML from "js-yaml"
@@ -22,14 +22,14 @@ export default class Topbar extends React.Component {
       }
     })
       .then(client => {
-        this.state.swaggerClient = client
+        this.setState({ swaggerClient: client })
         client.apis.clients.clientOptions()
           .then(res => {
-            this.state.clients = res.body
+            this.setState({ clients: res.body })
           })
         client.apis.servers.serverOptions()
           .then(res => {
-            this.state.servers = res.body
+            this.setState({ servers: res.body })
           })
       })
 
@@ -133,7 +133,6 @@ export default class Topbar extends React.Component {
       fetch(res.body.link)
         .then(res => res.blob())
         .then(res => {
-          console.log(res)
           downloadFile(res, `${name}-${type}-generated-test.zip`)
         })
     }
@@ -185,11 +184,11 @@ export default class Topbar extends React.Component {
             </DropdownMenu>
             <DropdownMenu className="long" {...makeMenuOptions("Generate Server")}>
               { this.state.servers
-                  .map(serv => <li><button type="button" onClick={this.downloadGeneratedFile.bind(null, 'server', serv)}>{serv}</button></li>) }
+                  .map(serv => <li><button type="button" onClick={this.downloadGeneratedFile.bind(null, "server", serv)}>{serv}</button></li>) }
             </DropdownMenu>
             <DropdownMenu className="long" {...makeMenuOptions("Generate Client")}>
               { this.state.clients
-                  .map(cli => <li><button type="button" onClick={this.downloadGeneratedFile.bind(null, 'client', cli)}>{cli}</button></li>) }
+                  .map(cli => <li><button type="button" onClick={this.downloadGeneratedFile.bind(null, "client", cli)}>{cli}</button></li>) }
             </DropdownMenu>
           </div>
         </div>
