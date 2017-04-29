@@ -14,7 +14,12 @@ export default class Topbar extends React.Component {
   constructor(props, context) {
     super(props, context)
 
-    Swagger("http://generator.swagger.io/api/swagger.json")
+    Swagger("http://generator.swagger.io/api/swagger.json", {
+      requestInterceptor: (req) => {
+        req.headers["Accept"] = "application/json"
+        req.headers["content-type"] = "application/json"
+      }
+    })
       .then(client => {
         this.state.swaggerClient = client
         client.apis.clients.clientOptions()
@@ -90,15 +95,35 @@ export default class Topbar extends React.Component {
   }
 
   downloadGeneratedFile = (type, name) => {
-    if(!this.state.swaggerClient) {
+    let { specSelectors } = this.props
+    let swaggerClient = this.state.swaggerClient
+    if(!swaggerClient) {
       // Swagger client isn't ready yet.
       return
     }
     if(type === "server") {
-
+      swaggerClient.apis.servers.generateServerForLanguage({
+        framework : name,
+        body: JSON.stringify({
+          spec: specSelectors.specResolved()
+        }),
+        headers: JSON.stringify({
+          Accept: "application/json"
+        })
+      })
+        .then(res => console.log(res))
     }
 
-    if(type === "client")
+    if(type === "client") {
+      swaggerClient.apis.clients.generateClient({
+        language : name,
+        body: JSON.stringify({
+          spec: specSelectors.specResolved()
+        })
+      })
+        .then(res => console.log(res))
+    }
+
   }
 
   // Helpers
