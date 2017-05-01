@@ -1,5 +1,5 @@
-let request = require.context("./", true, /\.js$/)
-let plugins = []
+const request = require.context("./", true, /\.js$/)
+const plugins = []
 
 request.keys().forEach( function( key ){
   if( key === "./hook.js" ) {
@@ -19,18 +19,18 @@ request.keys().forEach( function( key ){
 
 export default function (editor, props = {}, editorPluginsToRun = [], helpers = {}) {
   // TODO: refactor require context system to direct plugin references
-  plugins.forEach( (plugin) => {
-    if(editorPluginsToRun.indexOf(plugin.name) > -1) {
+  plugins
+    .filter(plugin => ~editorPluginsToRun.indexOf(plugin.name))
+    .forEach( plugin => {
       try {
         plugin.fn(editor, props, helpers)
       } catch(e) {
-        console.error(`${toTitleCase(plugin.name.slice(2)) || ""} plugin error:`, e)
+        console.error(`${plugin.name || ""} plugin error:`, e)
       }
-    }
-  })
+    })
 }
 
-function toTitleCase(str) {
+export function toTitleCase(str) {
   return str
     .split("-")
     .map(substr => substr[0].toUpperCase() + substr.slice(1))
