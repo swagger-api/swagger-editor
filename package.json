@@ -1,7 +1,7 @@
 {
   "name": "swagger-editor",
   "description": "Swagger Editor",
-  "version": "3.0.7",
+  "version": "3.0.8",
   "main": "dist/swagger-editor.js",
   "repository": "git@github.com:swagger-api/swagger-editor.git",
   "license": "Apache-2.0",
@@ -15,7 +15,7 @@
     "Sahar Jafari <shr.jafari@gmail.com>"
   ],
   "scripts": {
-    "build": "npm run build-core && npm run build-bundle",
+    "build": "npm run build-bundle && npm run build-core",
     "build-bundle": "webpack --config webpack-dist-bundle.config.js --colors",
     "build-core": "webpack --config webpack-dist.config.js --colors",
     "deps-check": "npm run deps-license && npm run deps-size",
@@ -52,7 +52,9 @@
     "react-file-download": "^0.3.2",
     "react-redux": "^4.x.x",
     "redux": "^3.x.x",
-    "swagger-ui": "^3.0.7"
+    "swagger-client": "^3.0.8",
+    "swagger-ui": "^3.0.8",
+    "whatwg-fetch": "^2.0.3"
   },
   "devDependencies": {
     "autoprefixer": "6.6.1",
@@ -73,6 +75,7 @@
     "eslint-plugin-react": "^4.3.0",
     "extract-text-webpack-plugin": "0.8.2",
     "file-loader": "0.8.4",
+    "git-describe": "^4.0.1",
     "html-webpack-plugin": "^2.28.0",
     "http-server": "^0.9.0",
     "imports-loader": "0.6.5",
