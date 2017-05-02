@@ -53,7 +53,7 @@
     "react-redux": "^4.x.x",
     "redux": "^3.x.x",
     "swagger-client": "^3.0.8",
-    "swagger-ui": "^3.0.8",
+    "swagger-ui": "https://github.com/swagger-api/swagger-ui#83dbd0a73d9ed9e6f41af2db0726d4384753fabe",
     "whatwg-fetch": "^2.0.3"
   },
   "devDependencies": {
