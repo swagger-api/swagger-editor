@@ -141,8 +141,8 @@ export default class Topbar extends React.Component {
 
   clearEditor = () => {
     if(window.localStorage) {
-      window.localStorage.removeItem('swagger-editor-content');
-      this.props.specActions.updateSpec('');
+      window.localStorage.removeItem("swagger-editor-content")
+      this.props.specActions.updateSpec("")
     }
   }
 
