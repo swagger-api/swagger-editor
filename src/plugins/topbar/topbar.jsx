@@ -139,6 +139,13 @@ export default class Topbar extends React.Component {
 
   }
 
+  clearEditor = () => {
+    if(window.localStorage) {
+      window.localStorage.removeItem('swagger-editor-content');
+      this.props.specActions.updateSpec('');
+    }
+  }
+
   // Helpers
 
   showModal = () => {
@@ -178,6 +185,8 @@ export default class Topbar extends React.Component {
               <li role="separator"></li>
               <li><button type="button" onClick={this.saveAsYaml}>Download YAML</button></li>
               <li><button type="button" onClick={this.saveAsJson}>Download JSON</button></li>
+              <li role="separator"></li>
+              <li><button type="button" onClick={this.clearEditor}>Clear editor</button></li>
             </DropdownMenu>
             <DropdownMenu {...makeMenuOptions("Edit")}>
               <li><button type="button" onClick={this.convertToYaml}>Convert to YAML</button></li>
