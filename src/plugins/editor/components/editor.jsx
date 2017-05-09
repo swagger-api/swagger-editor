@@ -134,11 +134,12 @@ export default function makeEditor({ editorPluginsToRun }) {
 
       // FIXME: this is a hacky solution.
       // we should find a way to wait until the spec has been loaded into ACE.
-      if(force === true || (this.props.specId !== nextProps.specId || !Im.is(nextProps.markers, this.props.markers))) {
+      if(force === true || this.props.specId !== nextProps.specId || !Im.is(this.props.markers, nextProps.markers)) {
+        const markers = Im.Map.isMap(nextProps.markers) ? nextProps.markers.toJS() : {}
         setTimeout(placeMarkerDecorations.bind(null, {
           editor: state.editor,
-          markers: nextProps.markers.toJS(),
-          onMarkerLineUpdate
+          markers,
+          onMarkerLineUpdate,
         }), 300)
       }
     }
