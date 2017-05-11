@@ -7,7 +7,17 @@ var autoprefixer = require('autoprefixer')
 const {gitDescribeSync} = require('git-describe')
 
 var pkg = require('./package.json')
-const gitInfo = gitDescribeSync(__dirname)
+
+let gitInfo
+
+try {
+  gitInfo = gitDescribeSync(__dirname)
+} catch(e) {
+  gitInfo = {
+    hash: 'noGit',
+    dirty: false
+  }
+}
 
 var loadersByExtension = require('./build-tools/loadersByExtension')
 
