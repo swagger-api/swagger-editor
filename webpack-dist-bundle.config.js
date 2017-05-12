@@ -4,7 +4,7 @@ var fs = require('fs')
 
 module.exports = require('./make-webpack-config.js')({
   _special: {
-    minimize: false,
+    minimize: true,
     sourcemaps: true,
     separateStylesheets: false,
     loaders: {
