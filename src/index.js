@@ -5,7 +5,6 @@ import "swagger-ui/dist/swagger-ui.css"
 
 import EditorPlugin from "./plugins/editor"
 import LocalStoragePlugin from "./plugins/local-storage"
-import TopBarPlugin from "./plugins/topbar"
 import ValidationApiPlugin from "./plugins/validation/apis"
 
 // eslint-disable-next-line no-undef
@@ -22,17 +21,18 @@ const defaults = {
   ],
   plugins: [
     EditorPlugin,
-    TopBarPlugin,
     ValidationApiPlugin,
     LocalStoragePlugin
   ],
   components: {
-    EditorLayout,
+    EditorLayout
   },
 }
 
 module.exports = function SwaggerEditor(options) {
   let mergedOptions = deepMerge(defaults, options)
 
+  mergedOptions.presets = defaults.presets.concat(options.presets || [])
+  mergedOptions.plugins = defaults.plugins.concat(options.plugins || [])
   return SwaggerUI(mergedOptions)
 }

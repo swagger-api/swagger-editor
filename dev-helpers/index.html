@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- HTML for static distribution bundle build -->
+<!-- HTML for hot dev server -->
 <html lang="en">
 <head>
   <meta charset="UTF-8">
@@ -38,15 +38,20 @@
   }
 
   </style>
-  <link href="./dist/swagger-editor.css" rel="stylesheet">
+  <link href="./swagger-editor.css" rel="stylesheet">
 </head>
 
 <body>
   <div id="swagger-editor"></div>
-  <script src="./dist/swagger-editor-bundle.js"> </script>
-  <script src="./dist/swagger-editor-standalone-preset.js"> </script>
+
+  <script src="/commons.js"> </script>
+  <script src="/swagger-editor-bundle.js"> </script>
+  <script src="/swagger-editor-standalone-preset.js"> </script>
   <script>
   window.onload = function() {
+    // Webpack outputs library variables with file-names-like-this
+    window["SwaggerEditorBundle"] = window["SwaggerEditorBundle"] || window["swagger-editor-bundle"]
+    window["SwaggerEditorStandalonePreset"] = window["SwaggerEditorStandalonePreset"] || window["swagger-editor-standalone-preset"]
     // Build a system
     const editor = SwaggerEditorBundle({
       dom_id: '#swagger-editor',
