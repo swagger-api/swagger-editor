@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+<!-- HTML for hot dev server -->
 <html lang="en">
 <head>
   <meta charset="UTF-8">
@@ -37,14 +38,15 @@
   }
 
   </style>
-  <link href="./dist/swagger-editor.css" rel="stylesheet">
+  <link href="./swagger-editor.css" rel="stylesheet">
 </head>
 
 <body>
   <div id="swagger-editor"></div>
 
-  <script src="./dist/swagger-editor-bundle.js"> </script>
-  <script src="./dist/swagger-editor-standalone-preset.js"> </script>
+  <!-- ./dist/* is just the dist folder.. assets on the root have HMR injected -->
+  <script src="./swagger-editor-bundle.js"> </script>
+  <script src="./swagger-editor-standalone-preset.js"> </script>
   <script>
   window.onload = function() {
     // Webpack outputs library variables with file-names-like-this
