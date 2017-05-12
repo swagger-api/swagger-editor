@@ -14,6 +14,10 @@ module.exports = require("./make-webpack-config.js")({
     ]
   },
 
+  externals : {
+    react: 'React'
+  },
+
   output:  {
     path: path.join(__dirname, "dist"),
     publicPath: "/dist",

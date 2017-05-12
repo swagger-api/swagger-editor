@@ -4,11 +4,16 @@ var fs = require('fs')
 
 module.exports = require('./make-webpack-config.js')({
   _special: {
-    minimize: true,
+    minimize: false,
     sourcemaps: true,
     separateStylesheets: false,
     loaders: {
-      "worker.js": ["worker-loader?inline=true&name=[name].js", "babel"]
+      "worker.js": ["worker-loader?inline=true&name=[name].js", "babel"],
+      "react": {
+        test: require.resolve("react"),
+        loader: "expose-loader?React"
+      }
+
     }
   },
 
