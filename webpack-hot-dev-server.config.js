@@ -1,4 +1,6 @@
 var path = require("path")
+var webpack = require('webpack')
+
 
 module.exports = require("./make-webpack-config.js")({
   _special: {
@@ -10,13 +12,19 @@ module.exports = require("./make-webpack-config.js")({
     }
   },
 
+  plugins: [
+    new webpack.optimize.CommonsChunkPlugin({ name: 'commons' }),
+  ],
+
   entry: {
     "swagger-editor-bundle": [
       './src/index.js'
     ],
     'swagger-editor-standalone-preset': [
       './src/standalone/index.js'
-    ]
+    ],
+    'commons': ['react']
+
   },
 
   output: {
@@ -32,6 +40,7 @@ module.exports = require("./make-webpack-config.js")({
   devServer: {
     port: 3200,
     path: path.join(__dirname, "dev-helpers"),
+    contentBase: path.join(__dirname, "dev-helpers"),
     publicPath: "/",
     noInfo: true,
     colors: true,

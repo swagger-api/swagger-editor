@@ -161,9 +161,9 @@ module.exports = function(options) {
 
     devtool: specialOptions.sourcemaps ? 'cheap-module-source-map' : null,
 
-    plugins,
-
   }, options)
+
+  completeConfig.plugins = (plugins).concat(options.plugins || [])
 
   return completeConfig
 }
