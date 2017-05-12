@@ -367,7 +367,7 @@ describe("validation plugin - semantic - spec walker", () => {
 
     describe("Ref siblings", () => {
 
-      it("should return an error when another property is a sibling of a $ref", () => {
+      it("should return a warning when another property is a sibling of a $ref", () => {
         const spec = {
           paths: {
             "/CoolPath/{id}": {
@@ -380,9 +380,9 @@ describe("validation plugin - semantic - spec walker", () => {
         }
 
         let res = validate({ jsSpec: spec })
-        expect(res.errors.length).toEqual(1)
-        expect(res.errors[0].path).toEqual(["paths", "/CoolPath/{id}", "schema", "description"])
-        expect(res.warnings.length).toEqual(0)
+        expect(res.errors.length).toEqual(0)
+        expect(res.warnings.length).toEqual(1)
+        expect(res.warnings[0].path).toEqual(["paths", "/CoolPath/{id}", "schema", "description"])
       })
 
     })

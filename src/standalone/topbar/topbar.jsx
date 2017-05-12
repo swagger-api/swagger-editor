@@ -1,19 +1,43 @@
 import React, { PropTypes } from "react"
+import Swagger from "swagger-client"
+import "whatwg-fetch"
 import DropdownMenu from "react-dd-menu"
 import Modal from "boron/DropModal"
 import downloadFile from "react-file-download"
 import YAML from "js-yaml"
 import beautifyJson from "json-beautify"
 
-import "./topbar.less"
 import "react-dd-menu/dist/react-dd-menu.css"
+import "./topbar.less"
 import Logo from "./logo_small.png"
 
 export default class Topbar extends React.Component {
   constructor(props, context) {
     super(props, context)
 
-    this.state = {}
+    Swagger("https://generator.swagger.io/api/swagger.json", {
+      requestInterceptor: (req) => {
+        req.headers["Accept"] = "application/json"
+        req.headers["content-type"] = "application/json"
+      }
+    })
+      .then(client => {
+        this.setState({ swaggerClient: client })
+        client.apis.clients.clientOptions()
+          .then(res => {
+            this.setState({ clients: res.body })
+          })
+        client.apis.servers.serverOptions()
+          .then(res => {
+            this.setState({ servers: res.body })
+          })
+      })
+
+    this.state = {
+      swaggerClient: null,
+      clients: [],
+      servers: []
+    }
   }
 
   // Menu actions
@@ -71,6 +95,57 @@ export default class Topbar extends React.Component {
     this.props.specActions.updateSpec(yamlContent)
   }
 
+  downloadGeneratedFile = (type, name) => {
+    let { specSelectors } = this.props
+    let swaggerClient = this.state.swaggerClient
+    if(!swaggerClient) {
+      // Swagger client isn't ready yet.
+      return
+    }
+    if(type === "server") {
+      swaggerClient.apis.servers.generateServerForLanguage({
+        framework : name,
+        body: JSON.stringify({
+          spec: specSelectors.specResolved()
+        }),
+        headers: JSON.stringify({
+          Accept: "application/json"
+        })
+      })
+        .then(res => handleResponse(res))
+    }
+
+    if(type === "client") {
+      swaggerClient.apis.clients.generateClient({
+        language : name,
+        body: JSON.stringify({
+          spec: specSelectors.specResolved()
+        })
+      })
+        .then(res => handleResponse(res))
+    }
+
+    function handleResponse(res) {
+      if(!res.ok) {
+        return console.error(res)
+      }
+
+      fetch(res.body.link)
+        .then(res => res.blob())
+        .then(res => {
+          downloadFile(res, `${name}-${type}-generated.zip`)
+        })
+    }
+
+  }
+
+  clearEditor = () => {
+    if(window.localStorage) {
+      window.localStorage.removeItem("swagger-editor-content")
+      this.props.specActions.updateSpec("")
+    }
+  }
+
   // Helpers
 
   showModal = () => {
@@ -110,9 +185,19 @@ export default class Topbar extends React.Component {
               <li role="separator"></li>
               <li><button type="button" onClick={this.saveAsYaml}>Download YAML</button></li>
               <li><button type="button" onClick={this.saveAsJson}>Download JSON</button></li>
+              <li role="separator"></li>
+              <li><button type="button" onClick={this.clearEditor}>Clear editor</button></li>
             </DropdownMenu>
             <DropdownMenu {...makeMenuOptions("Edit")}>
               <li><button type="button" onClick={this.convertToYaml}>Convert to YAML</button></li>
+            </DropdownMenu>
+            <DropdownMenu className="long" {...makeMenuOptions("Generate Server")}>
+              { this.state.servers
+                  .map(serv => <li><button type="button" onClick={this.downloadGeneratedFile.bind(null, "server", serv)}>{serv}</button></li>) }
+            </DropdownMenu>
+            <DropdownMenu className="long" {...makeMenuOptions("Generate Client")}>
+              { this.state.clients
+                  .map(cli => <li><button type="button" onClick={this.downloadGeneratedFile.bind(null, "client", cli)}>{cli}</button></li>) }
             </DropdownMenu>
           </div>
         </div>

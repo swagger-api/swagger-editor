@@ -88,9 +88,9 @@ export function validate({ jsSpec }) {
       ///// $ref siblings
       return keys.map(k => {
         if(keys.indexOf("$ref") > -1 && k !== "$ref") {
-          errors.push({
+          warnings.push({
             path: path.concat([k]),
-            message: "Sibling values are not allowed alongside a $ref."
+            message: "Values alongside a $ref will be ignored."
           })
         }
         return walk(value[k], [...path, k])
