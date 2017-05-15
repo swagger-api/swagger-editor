@@ -6,6 +6,8 @@ import "swagger-ui/dist/swagger-ui.css"
 import EditorPlugin from "./plugins/editor"
 import LocalStoragePlugin from "./plugins/local-storage"
 import ValidationApiPlugin from "./plugins/validation/apis"
+import EditorAutosuggestPlugin from "./plugins/editor-autosuggest"
+import EditorAutosuggestSnippetsPlugin from "./plugins/editor-autosuggest-snippets"
 
 // eslint-disable-next-line no-undef
 const { GIT_DIRTY, GIT_COMMIT, PACKAGE_VERSION } = buildInfo
@@ -15,7 +17,9 @@ window.versions.swaggerEditor = `${PACKAGE_VERSION}/${GIT_COMMIT || "unknown"}${
 const plugins = {
   EditorPlugin,
   ValidationApiPlugin,
-  LocalStoragePlugin
+  LocalStoragePlugin,
+  EditorAutosuggestPlugin,
+  EditorAutosuggestSnippetsPlugin
 }
 
 const defaults = {

@@ -1,19 +1,3 @@
-// loosely ported from https://github.com/swagger-api/swagger-editor/blob/master/scripts/services/autocomplete.js
-// (latest commit was a28a0d5b at the time)
-
-export function makeAutosuggest({ completers = [] }) {
-  //eslint-disable-next-line no-unused-vars
-  return function(editor, {fetchDomainSuggestions}, { langTools, AST, specObject }) {
-    editor.setOptions({
-      enableBasicAutocompletion: true,
-      enableSnippets: true,
-      enableLiveAutocompletion: true
-    })
-
-    editor.completers = completers
-  }
-}
-
 export function getPathForPosition({ pos: originalPos, prefix, editorValue, AST }) {
   var pos = Object.assign({}, originalPos)
   var lines = editorValue.split("\n")
