@@ -164,7 +164,7 @@ export default class Topbar extends React.Component {
       let stateKey = `is${name}MenuOpen`
       let toggleFn = () => this.setState({ [stateKey]: !this.state[stateKey] })
       return {
-        isOpen: this.state[stateKey],
+        isOpen: !!this.state[stateKey],
         close: () => this.setState({ [stateKey]: false }),
         align: "left",
         toggle: <span className="menu-item" onClick={toggleFn}>{ name }</span>
