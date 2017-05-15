@@ -3,10 +3,10 @@ import * as fn from "./fn"
 
 export default function EditorAutosuggestPlugin() {
   return {
+    fn,
     statePlugins: {
       editor: {
         actions,
-        fn,
         wrapActions: {
           onLoad: (ori, sys) => (context) => {
             // Editor.onLoad

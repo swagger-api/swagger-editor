@@ -1,9 +1,6 @@
 
 // Hook for getting completions
-export const getCompletionsSync = () => () => null
-
-// Hook for getting completions ( asynchronously )
-export const getCompletionsAsync = () => () => null
+export const getCompletions = () => () => null
 
 // Enable Ace editor autocompletions
 export const enableAutocompletions = ({editor}) => () => {
@@ -18,16 +15,15 @@ export const enableAutocompletions = ({editor}) => () => {
 export const addAutosuggestionCompleters = (context) => (sys) => {
   const { editor } = context
   const {
-    fn: { getPathForPosition },
-    editorActions: { getCompletionsSync=Function.prototype }
+    editorActions,
   } = sys
 
-  // TODO
+  // TODO?
   // editor.completer.autoSelect = true
   editor.completers = [
     {
       getCompletions: (...args) => {
-        getCompletionsSync({...context, getPathForPosition}, ...args)
+        editorActions.getCompletions(context, ...args)
       }
     }
   ]
