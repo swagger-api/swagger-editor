@@ -1,6 +1,5 @@
 import isArray from "lodash/isArray"
 
-
 export function getSnippetsForPath({ path, snippets }) {
   // find all possible snippets, modify them to be compatible with Ace and
   // sort them based on their position. Sorting is done by assigning a score

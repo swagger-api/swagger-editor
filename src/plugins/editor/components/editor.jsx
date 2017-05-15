@@ -60,12 +60,16 @@ export default function makeEditor({ editorPluginsToRun }) {
         session.setScrollLeft(0)
       })
 
+      // TODO Remove this in favour of editorActions.onLoad
       editorPluginsHook(editor, props, editorPluginsToRun || [], {
         langTools, AST, specObject
       })
 
+
       editor.setHighlightActiveLine(false)
       editor.setHighlightActiveLine(true)
+
+      props.editorActions.onLoad({...props, langTools, editor})
     }
 
     onResize = () => {

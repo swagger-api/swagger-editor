@@ -7,12 +7,16 @@ import EditorPlugin from "./plugins/editor"
 import LocalStoragePlugin from "./plugins/local-storage"
 import TopBarPlugin from "./plugins/topbar"
 import ValidationApiPlugin from "./plugins/validation/apis"
+import EditorAutosuggestPlugin from "./plugins/editor-autosuggest"
+import EditorAutosuggestSnippetsPlugin from "./plugins/editor-autosuggest-snippets"
 
 const plugins = {
   EditorPlugin,
   TopBarPlugin,
   ValidationApiPlugin,
-  LocalStoragePlugin
+  LocalStoragePlugin,
+  EditorAutosuggestPlugin,
+  EditorAutosuggestSnippetsPlugin
 }
 
 // eslint-disable-next-line no-undef
