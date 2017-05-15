@@ -1,14 +1,16 @@
 // Adapted from https://github.com/mlaursen/react-dd-menu/blob/master/src/js/DropdownMenu.js
 
-import React, { PureComponent, PropTypes } from 'react';
-import ReactDOM from 'react-dom';
-import CSSTransitionGroup from 'react-transition-group/CSSTransitionGroup';
-import classnames from 'classnames';
+/* eslint react/no-find-dom-node: 0 */
 
-const TAB = 9;
-const SPACEBAR = 32;
-const ALIGNMENTS = ['center', 'right', 'left'];
-const MENU_SIZES = ['sm', 'md', 'lg', 'xl'];
+import React, { PureComponent, PropTypes } from "react"
+import ReactDOM from "react-dom"
+import CSSTransitionGroup from "react-transition-group/CSSTransitionGroup"
+import classnames from "classnames"
+
+const TAB = 9
+const SPACEBAR = 32
+const ALIGNMENTS = ["center", "right", "left"]
+const MENU_SIZES = ["sm", "md", "lg", "xl"]
 
 
 export default class DropdownMenu extends PureComponent {
@@ -34,7 +36,7 @@ export default class DropdownMenu extends PureComponent {
 
   static defaultProps = {
     inverse: false,
-    align: 'center',
+    align: "center",
     animAlign: null,
     textAlign: null,
     menuAlign: null,
@@ -53,100 +55,100 @@ export default class DropdownMenu extends PureComponent {
 
   componentDidUpdate(prevProps) {
     if(this.props.isOpen === prevProps.isOpen) {
-      return;
+      return
     }
 
-    const menuItems = ReactDOM.findDOMNode(this).querySelector('.dd-menu > .dd-menu-items');
+    const menuItems = ReactDOM.findDOMNode(this).querySelector(".dd-menu > .dd-menu-items")
     if(this.props.isOpen && !prevProps.isOpen) {
-      this.lastWindowClickEvent = this.handleClickOutside;
-      document.addEventListener('click', this.lastWindowClickEvent);
+      this.lastWindowClickEvent = this.handleClickOutside
+      document.addEventListener("click", this.lastWindowClickEvent)
       if(this.props.closeOnInsideClick) {
-        menuItems.addEventListener('click', this.props.close);
+        menuItems.addEventListener("click", this.props.close)
       }
-      menuItems.addEventListener('onkeydown', this.close);
+      menuItems.addEventListener("onkeydown", this.close)
     } else if(!this.props.isOpen && prevProps.isOpen) {
-      document.removeEventListener('click', this.lastWindowClickEvent);
+      document.removeEventListener("click", this.lastWindowClickEvent)
       if(prevProps.closeOnInsideClick) {
-        menuItems.removeEventListener('click', this.props.close);
+        menuItems.removeEventListener("click", this.props.close)
       }
-      menuItems.removeEventListener('onkeydown', this.close);
+      menuItems.removeEventListener("onkeydown", this.close)
 
-      this.lastWindowClickEvent = null;
+      this.lastWindowClickEvent = null
     }
   }
 
   componentWillUnmount() {
     if(this.lastWindowClickEvent) {
-      document.removeEventListener('click', this.lastWindowClickEvent);
+      document.removeEventListener("click", this.lastWindowClickEvent)
     }
   }
 
   close = (e) => {
-    const key = e.which || e.keyCode;
+    const key = e.which || e.keyCode
     if(key === SPACEBAR) {
-      this.props.close();
-      e.preventDefault();
+      this.props.close()
+      e.preventDefault()
     }
   };
 
   handleClickOutside = (e) => {
     if(!this.props.closeOnOutsideClick) {
-      return;
+      return
     }
 
-    const node = ReactDOM.findDOMNode(this);
-    let target = e.target;
+    const node = ReactDOM.findDOMNode(this)
+    let target = e.target
 
     while(target.parentNode) {
       if(target === node) {
-        return;
+        return
       }
 
-      target = target.parentNode;
+      target = target.parentNode
     }
 
-    this.props.close(e);
+    this.props.close(e)
   };
 
   handleKeyDown = (e) => {
-    const key = e.which || e.keyCode;
+    const key = e.which || e.keyCode
     if(key !== TAB) {
-      return;
+      return
     }
 
-    const items = ReactDOM.findDOMNode(this).querySelectorAll('button,a');
-    const id = e.shiftKey ? 1 : items.length - 1;
+    const items = ReactDOM.findDOMNode(this).querySelectorAll("button,a")
+    const id = e.shiftKey ? 1 : items.length - 1
 
     if(e.target === items[id]) {
-      this.props.close(e);
+      this.props.close(e)
     }
   };
 
 
   render() {
-    const { menuAlign, align, inverse, size, className } = this.props;
+    const { menuAlign, align, inverse, size, className } = this.props
 
     const menuClassName = classnames(
-      'dd-menu',
+      "dd-menu",
       `dd-menu-${menuAlign || align}`,
-      { 'dd-menu-inverse': inverse },
+      { "dd-menu-inverse": inverse },
       className,
-      size ? ('dd-menu-' + size) : null
-    );
+      size ? ("dd-menu-" + size) : null
+    )
 
-    const { textAlign, upwards, animAlign, animate, enterTimeout, leaveTimeout } = this.props;
+    const { textAlign, upwards, animAlign, animate, enterTimeout, leaveTimeout } = this.props
 
-    const listClassName = 'dd-items-' + (textAlign || align);
+    const listClassName = "dd-items-" + (textAlign || align)
     const transitionProps = {
-      transitionName: 'grow-from-' + (upwards ? 'up-' : '') + (animAlign || align),
-      component: 'div',
-      className: classnames('dd-menu-items', { 'dd-items-upwards': upwards }),
+      transitionName: "grow-from-" + (upwards ? "up-" : "") + (animAlign || align),
+      component: "div",
+      className: classnames("dd-menu-items", { "dd-items-upwards": upwards }),
       onKeyDown: this.handleKeyDown,
       transitionEnter: animate,
       transitionLeave: animate,
       transitionEnterTimeout: enterTimeout,
       transitionLeaveTimeout: leaveTimeout,
-    };
+    }
 
     return (
       <div className={menuClassName}>
@@ -157,6 +159,6 @@ export default class DropdownMenu extends PureComponent {
           }
         </CSSTransitionGroup>
       </div>
-    );
+    )
   }
 }
