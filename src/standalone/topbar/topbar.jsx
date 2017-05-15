@@ -1,7 +1,7 @@
 import React, { PropTypes } from "react"
 import Swagger from "swagger-client"
 import "whatwg-fetch"
-import DropdownMenu from "react-dd-menu"
+import DropdownMenu from "./DropdownMenu"
 import Modal from "boron/DropModal"
 import downloadFile from "react-file-download"
 import YAML from "js-yaml"
