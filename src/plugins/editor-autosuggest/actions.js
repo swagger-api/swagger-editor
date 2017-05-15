@@ -12,7 +12,6 @@ export const enableAutocompletions = ({editor}) => () => {
     enableSnippets: true,
     enableLiveAutocompletion: true
   })
-  editor.completer.autoSelect = true
 }
 
 // Add completers. Will fire an action, if autocomplete is enabled
@@ -23,6 +22,8 @@ export const addAutosuggestionCompleters = (context) => (sys) => {
     editorActions: { getCompletionsSync=Function.prototype }
   } = sys
 
+  // TODO
+  // editor.completer.autoSelect = true
   editor.completers = [
     {
       getCompletions: (...args) => {
