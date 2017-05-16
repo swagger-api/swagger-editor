@@ -8,6 +8,7 @@ import LocalStoragePlugin from "./plugins/local-storage"
 import ValidationApiPlugin from "./plugins/validation/apis"
 import EditorAutosuggestPlugin from "./plugins/editor-autosuggest"
 import EditorAutosuggestSnippetsPlugin from "./plugins/editor-autosuggest-snippets"
+import EditorAutosuggestKeywordsPlugin from "./plugins/editor-autosuggest-keywords"
 
 // eslint-disable-next-line no-undef
 const { GIT_DIRTY, GIT_COMMIT, PACKAGE_VERSION } = buildInfo
@@ -19,7 +20,8 @@ const plugins = {
   ValidationApiPlugin,
   LocalStoragePlugin,
   EditorAutosuggestPlugin,
-  EditorAutosuggestSnippetsPlugin
+  EditorAutosuggestSnippetsPlugin,
+  EditorAutosuggestKeywordsPlugin,
 }
 
 const defaults = {
