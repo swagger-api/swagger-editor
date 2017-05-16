@@ -1,11 +1,14 @@
 import isArray from "lodash/isArray"
 import isObject from "lodash/isObject"
+import get from "lodash/get"
+import last from "lodash/last"
 import mapValues from "lodash/mapValues"
-import isPlainObject from "lodash/isPlainObject"
 import toArray from "lodash/toArray"
 import isString from "lodash/isString"
+import YAML from "js-yaml"
 
-export default function getKeywordsForPath({ system, path, keywordMap}) {
+//eslint-disable-next-line no-unused-vars
+export default function getKeywordsForPath({ system, path, prefix, currentLine, editorValue, keywordMap, editorLastJson }) {
   keywordMap = Object.assign({}, keywordMap)
 
   // is getting path was not successful stop here and return no candidates
