@@ -10,6 +10,7 @@ import ValidationApiPlugin from "./plugins/validation/apis"
 import EditorAutosuggestPlugin from "./plugins/editor-autosuggest"
 import EditorAutosuggestSnippetsPlugin from "./plugins/editor-autosuggest-snippets"
 import EditorAutosuggestKeywordsPlugin from "./plugins/editor-autosuggest-keywords"
+import EditorAutosuggestRefsPlugin from "./plugins/editor-autosuggest-refs"
 
 const plugins = {
   EditorPlugin,
@@ -19,6 +20,7 @@ const plugins = {
   EditorAutosuggestPlugin,
   EditorAutosuggestSnippetsPlugin,
   EditorAutosuggestKeywordsPlugin,
+  EditorAutosuggestRefsPlugin,
 }
 
 // eslint-disable-next-line no-undef

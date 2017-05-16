@@ -1,10 +1,14 @@
 import * as actions from "./actions"
 import * as fn from "./fn"
+import * as specSelectors from "./spec-selectors"
 
 export default function EditorAutosuggestPlugin() {
   return {
     fn,
     statePlugins: {
+      spec: {
+        selectors: specSelectors,
+      },
       editor: {
         actions,
         wrapActions: {
