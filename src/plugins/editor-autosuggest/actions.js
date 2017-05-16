@@ -18,11 +18,20 @@ export const addAutosuggestionCompleters = (context) => (sys) => {
     editorActions,
   } = sys
 
-  // TODO?
-  // editor.completer.autoSelect = true
   editor.completers = [
     {
       getCompletions: (...args) => {
+        const cb = args[4]
+        args[4] = (err, ar) => {
+          // Want to see what suggestions are getting through?
+          // Add a console.log here
+          return cb(err, ar)
+        }
+
+        // Make your own suggestions in the console! ( for science of course )
+        // if(window.justForFun) {
+        //   args[4](null, window.justForFun())
+        // }
         editorActions.getCompletions(context, ...args)
       }
     }
