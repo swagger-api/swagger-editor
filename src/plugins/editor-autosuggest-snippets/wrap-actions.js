@@ -1,3 +1,4 @@
+import isArray from "lodash/isArray"
 import snippets from "./snippets"
 import getSnippetsForPath from "./get-snippets-for-path"
 
@@ -10,5 +11,9 @@ export const getCompletions = (ori, sys) => (...args) => {
   const editorValue = editor.getValue()
 
   const path = getPathForPosition({ pos, prefix, editorValue, AST})
-  return cb(null, getSnippetsForPath({ path, snippets}))
+  const suggestions = getSnippetsForPath({ path, snippets})
+
+  if(isArray(suggestions) && suggestions.length) {
+    cb(null, suggestions)
+  }
 }
