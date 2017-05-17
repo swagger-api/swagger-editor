@@ -8,7 +8,12 @@ module.exports = require('./make-webpack-config.js')({
     sourcemaps: true,
     separateStylesheets: false,
     loaders: {
-      "worker.js": ["worker-loader?inline=true&name=[name].js", "babel"]
+      "worker.js": ["worker-loader?inline=true&name=[name].js", "babel"],
+      "react": {
+        test: require.resolve("react"),
+        loader: "expose-loader?React"
+      }
+
     }
   },
 

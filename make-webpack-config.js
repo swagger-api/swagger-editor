@@ -7,7 +7,17 @@ var autoprefixer = require('autoprefixer')
 const {gitDescribeSync} = require('git-describe')
 
 var pkg = require('./package.json')
-const gitInfo = gitDescribeSync(__dirname)
+
+let gitInfo
+
+try {
+  gitInfo = gitDescribeSync(__dirname)
+} catch(e) {
+  gitInfo = {
+    hash: 'noGit',
+    dirty: false
+  }
+}
 
 var loadersByExtension = require('./build-tools/loadersByExtension')
 
@@ -26,7 +36,7 @@ module.exports = function(options) {
 
   var loadersMap = {
     'js(x)?': {
-      loader: 'babel',
+      loader: 'babel?retainLines=true',
       include: [ path.join(__dirname, 'src') ],
     },
     'json': 'json-loader',
@@ -151,9 +161,9 @@ module.exports = function(options) {
 
     devtool: specialOptions.sourcemaps ? 'cheap-module-source-map' : null,
 
-    plugins,
-
   }, options)
+
+  completeConfig.plugins = (plugins).concat(options.plugins || [])
 
   return completeConfig
 }

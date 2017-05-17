@@ -5,7 +5,6 @@ import "swagger-ui/dist/swagger-ui.css"
 
 import EditorPlugin from "./plugins/editor"
 import LocalStoragePlugin from "./plugins/local-storage"
-import TopBarPlugin from "./plugins/topbar"
 import ValidationApiPlugin from "./plugins/validation/apis"
 import EditorAutosuggestPlugin from "./plugins/editor-autosuggest"
 import EditorAutosuggestSnippetsPlugin from "./plugins/editor-autosuggest-snippets"
@@ -37,13 +36,15 @@ const defaults = {
   ],
   plugins: Object.values(plugins),
   components: {
-    EditorLayout,
+    EditorLayout
   },
 }
 
 module.exports = function SwaggerEditor(options) {
   let mergedOptions = deepMerge(defaults, options)
 
+  mergedOptions.presets = defaults.presets.concat(options.presets || [])
+  mergedOptions.plugins = defaults.plugins.concat(options.plugins || [])
   return SwaggerUI(mergedOptions)
 }
 

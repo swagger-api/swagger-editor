@@ -18,13 +18,11 @@ export default class EditorLayout extends React.Component {
     let UIBaseLayout = getComponent("BaseLayout", true)
 
     let Container = getComponent("Container")
-    let Topbar = getComponent("Topbar", true)
     let EditorContainer = getComponent("EditorContainer", true)
     const SplitPaneMode = getComponent("SplitPaneMode", true)
 
     return (
       <div>
-        <Topbar></Topbar>
         <Container className='container'>
           <SplitPaneMode>
             <EditorContainer/>
