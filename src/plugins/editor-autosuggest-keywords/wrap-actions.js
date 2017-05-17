@@ -1,20 +1,11 @@
-import isArray from "lodash/isArray"
-import keywordMap from "./keyword-map"
-import getKeywordsForPath from "./get-keywords-for-path"
+import getCompletions from "./get-completions"
 
-export const getCompletions = (ori, system) => (...args) => {
-  ori(...args)
-  // (ctx, editor, session, pos, prefix, cb)
-  const [ctx, editor,, pos, prefix, cb] = args
-  const { fn: { getPathForPosition } } = system
-  const { AST } = ctx
-  const editorValue = editor.getValue()
-  const currentLine = editorValue.split("\n")[pos.row]
-
-  const path = getPathForPosition({ pos, prefix, editorValue, AST})
-  const suggestions = getKeywordsForPath({ system, path, prefix, currentLine, editorValue, keywordMap })
-
-  if(isArray(suggestions) && suggestions.length) {
-    cb(null, suggestions)
-  }
+// Add an autosuggest completer
+export const addAutosuggestionCompleters = (ori, system) => (context) => {
+  return ori(context).concat([{
+    getCompletions(...args) {
+      // Add `context`, then `system` as the last args
+      return getCompletions(...args, context, system)
+    }
+  }])
 }

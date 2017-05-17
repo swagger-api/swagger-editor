@@ -1,8 +1,7 @@
 import isArray from "lodash/isArray"
 import last from "lodash/last"
 
-//eslint-disable-next-line no-unused-vars
-export default function getRefsForPath({ system, path, prefix, currentLine, editorValue }) {
+export default function getRefsForPath({ system, path }) {
 
   // Note fellow ace hackers:
   // we have to be weary of _what_ ace will filter on, see the order ( probably should be fixed, but... ): https://github.com/ajaxorg/ace/blob/b219b5584456534fbccb5fb20470c61011fa0b0a/lib/ace/autocomplete.js#L469

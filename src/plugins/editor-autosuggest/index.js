@@ -13,14 +13,16 @@ export default function EditorAutosuggestPlugin() {
         actions,
         wrapActions: {
           onLoad: (ori, sys) => (context) => {
-            // Editor.onLoad
+            const { editor } = context
+
+            // Any other calls for editor#onLoad
             ori(context)
 
             // Enable autosuggestions ( aka: autocompletions )
             sys.editorActions.enableAutocompletions(context)
-            // Add and run-when-applicable the completers
-            // Will fire editorActions.getCompletions
-            sys.editorActions.addAutosuggestionCompleters(context)
+
+            // Add completers ( for autosuggestions )
+            editor.completers = sys.editorActions.addAutosuggestionCompleters(context)
             return
           }
         }
