@@ -1,14 +1,10 @@
 import isArray from "lodash/isArray"
 import isObject from "lodash/isObject"
-import get from "lodash/get"
-import last from "lodash/last"
 import mapValues from "lodash/mapValues"
 import toArray from "lodash/toArray"
 import isString from "lodash/isString"
-import YAML from "js-yaml"
 
-//eslint-disable-next-line no-unused-vars
-export default function getKeywordsForPath({ system, path, prefix, currentLine, editorValue, keywordMap, editorLastJson }) {
+export default function getKeywordsForPath({ system, path, keywordMap}) {
   keywordMap = Object.assign({}, keywordMap)
 
   // is getting path was not successful stop here and return no candidates
@@ -25,13 +21,32 @@ export default function getKeywordsForPath({ system, path, prefix, currentLine, 
 
   if(path[path.length - 2] === "tags" && path.length > 2) {
     // 'path.length > 2' excludes top-level 'tags'
-    return getGlobalCompletions(editorValue, ["tags"], "name")
+    return system.specSelectors.tags().map(tag => ({
+      score: 0,
+      meta: "local",
+      value: tag.get("name"),
+    })).toJS()
   }
 
   let reversePath = path.slice(0).reverse()
   if(reversePath[1] === "security" && isNumeric(reversePath[0])) {
     // **.security[x]
-    return getGlobalCompletions(editorValue, ["securityDefinitions"], "name")
+    return system.specSelectors.securityDefinitions().keySeq().map(sec => ({
+      score: 0,
+      meta: "local",
+      caption: sec,
+      snippet: `${sec}: []`
+    })).toJS()
+  }
+
+  if(reversePath[0] === "security") {
+    // **.security:
+    return system.specSelectors.securityDefinitions().keySeq().map(sec => ({
+      score: 0,
+      meta: "local",
+      caption: sec,
+      snippet: `\n- ${sec}: []`
+    })).toJS()
   }
 
   // traverse down the keywordMap for each key in the path until there is
@@ -134,41 +149,6 @@ function constructAceCompletion(meta, keyword) {
   }
 }
 
-function getGlobalCompletions(specStr, path, prop) {
-  let items = getJSFromYaml(specStr, path) || []
-  if(isArray(items)) {
-    return items
-      .filter(item => !!item)
-      .map(item => prop ? item[prop] : item)
-      .map(name => {
-        if(!name) { return {} }
-        return {
-          score: 0,
-          meta: "local",
-          value: name
-        }
-      })
-
-  } else {
-    return Object.keys(mapValues(items, (item) => {
-      return prop ? item[prop] : item
-    })).map(name => {
-      if(!name) { return {} }
-      return {
-        score: 0,
-        meta: "local",
-        value: name
-      }
-    })
-  }
-}
-
 function isNumeric(obj) {
     return !isNaN(obj)
-}
-
-function getJSFromYaml(yaml, path = []) {
-  let obj = YAML.safeLoad(yaml)
-  let sub = get(obj, path)
-  return sub
 }
