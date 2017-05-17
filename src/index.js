@@ -13,7 +13,6 @@ import EditorAutosuggestRefsPlugin from "./plugins/editor-autosuggest-refs"
 
 const plugins = {
   EditorPlugin,
-  TopBarPlugin,
   ValidationApiPlugin,
   LocalStoragePlugin,
   EditorAutosuggestPlugin,
