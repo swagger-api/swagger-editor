@@ -1,6 +1,4 @@
-"use strict"
-
-var operationRegex = "get|put|post|delete|options|head|patch"
+const operationRegex = "get|put|post|delete|options|head|patch"
 
 /**
  * Makes an HTTP operation snippet's content based on operation name
@@ -186,6 +184,7 @@ export default [
     path: ["definitions"],
     content: [
       "${1:ModelName}:",
+      "  type: object",
       "  properties:",
       "    ${2}"
     ]
