@@ -164,12 +164,16 @@ export default function makeEditor({ editorPluginsToRun }) {
 
     componentWillReceiveProps(nextProps) {
       let { state } = this
-      let hasChanged = (k) => !eq(nextProps[k], this.props[k])
+      let hasChanged = (k) => !isEqual(nextProps[k], this.props[k])
       let wasEmptyBefore = (k) => nextProps[k] && (!this.props[k] || isEmpty(this.props[k]))
 
       this.updateErrorAnnotations(nextProps)
       this.setReadOnlyOptions(nextProps)
       this.updateMarkerAnnotations(nextProps)
+
+      if(hasChanged("editorOptions")) {
+        this.syncOptionsFromState(nextProps.editorOptions)
+      }
 
       if(state.editor && nextProps.goToLine && hasChanged("goToLine")) {
         state.editor.gotoLine(nextProps.goToLine.line)
@@ -179,6 +183,13 @@ export default function makeEditor({ editorPluginsToRun }) {
         shouldClearUndoStack: hasChanged("specId") || wasEmptyBefore("value"),
       })
 
+    }
+
+    syncOptionsFromState(editorOptions) {
+      const { editor } = this.state
+      if(editor) {
+        editor.setOptions(editorOptions)
+      }
     }
 
     yaml = this.yaml || "";
