@@ -48,7 +48,7 @@ export default function makeEditor({ editorPluginsToRun }) {
     onLoad = (editor) => {
       let { props, state } = this
       let { AST, specObject } = props
-      
+
       // fixes a warning, see https://github.com/ajaxorg/ace/issues/2499
       editor.$blockScrolling = Infinity
 
@@ -177,6 +177,10 @@ export default function makeEditor({ editorPluginsToRun }) {
       this.setReadOnlyOptions(nextProps)
       this.updateMarkerAnnotations(nextProps)
 
+      if(hasChanged("editorOptions")) {
+        this.syncOptionsFromState(nextProps.editorOptions)
+      }
+
       if(state.editor && nextProps.goToLine && nextProps.goToLine.line && hasChanged("goToLine")) {
         state.editor.gotoLine(nextProps.goToLine.line)
         nextProps.editorActions.jumpToLine(null)
@@ -186,6 +190,13 @@ export default function makeEditor({ editorPluginsToRun }) {
         shouldClearUndoStack: hasChanged("specId") || wasEmptyBefore("value"),
       })
 
+    }
+
+    syncOptionsFromState(editorOptions) {
+      const { editor } = this.state
+      if(editor) {
+        editor.setOptions(editorOptions)
+      }
     }
 
     yaml = this.yaml || "";
