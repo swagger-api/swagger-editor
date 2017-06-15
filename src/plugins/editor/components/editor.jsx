@@ -5,7 +5,7 @@ import { placeMarkerDecorations } from "../editor-helpers/marker-placer"
 import { fromJS } from "immutable"
 import ImPropTypes from "react-immutable-proptypes"
 
-import eq from "lodash/eq"
+import isEqual from "lodash/isEqual"
 import isEmpty from "lodash/isEmpty"
 
 import ace from "brace"
