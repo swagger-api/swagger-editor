@@ -2,7 +2,7 @@ import React, { PropTypes } from "react"
 import AceEditor from "react-ace"
 import editorPluginsHook from "../editor-plugins/hook"
 import { placeMarkerDecorations } from "../editor-helpers/marker-placer"
-import { fromJS } from "immutable"
+import Im, { fromJS } from "immutable"
 import ImPropTypes from "react-immutable-proptypes"
 
 import eq from "lodash/eq"
@@ -132,15 +132,14 @@ export default function makeEditor({ editorPluginsToRun }) {
       let { state } = this
       let { onMarkerLineUpdate } = nextProps
 
-      let size = obj => Object.keys(obj).length
-
       // FIXME: this is a hacky solution.
       // we should find a way to wait until the spec has been loaded into ACE.
-      if(force === true || (this.props.specId !== nextProps.specId || size(this.props.markers) !== size(nextProps.markers))) {
+      if(force === true || this.props.specId !== nextProps.specId || !Im.is(this.props.markers, nextProps.markers)) {
+        const markers = Im.Map.isMap(nextProps.markers) ? nextProps.markers.toJS() : {}
         setTimeout(placeMarkerDecorations.bind(null, {
           editor: state.editor,
-          markers: nextProps.markers,
-          onMarkerLineUpdate
+          markers,
+          onMarkerLineUpdate,
         }), 300)
       }
     }
