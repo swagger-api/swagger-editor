@@ -12,6 +12,11 @@ const { GIT_DIRTY, GIT_COMMIT, PACKAGE_VERSION } = buildInfo
 
 window.versions = window.versions || {}
 window.versions.swaggerEditor = `${PACKAGE_VERSION}/${GIT_COMMIT || "unknown"}${GIT_DIRTY ? "-dirty" : ""}`
+const plugins = {
+  EditorPlugin,
+  ValidationApiPlugin,
+  LocalStoragePlugin
+}
 
 const defaults = {
   dom_id: "#swagger-editor",
@@ -19,11 +24,7 @@ const defaults = {
   presets: [
     SwaggerUI.presets.apis
   ],
-  plugins: [
-    EditorPlugin,
-    ValidationApiPlugin,
-    LocalStoragePlugin
-  ],
+  plugins: Object.values(plugins),
   components: {
     EditorLayout
   },
@@ -36,3 +37,5 @@ module.exports = function SwaggerEditor(options) {
   mergedOptions.plugins = defaults.plugins.concat(options.plugins || [])
   return SwaggerUI(mergedOptions)
 }
+
+module.exports.plugins = plugins
