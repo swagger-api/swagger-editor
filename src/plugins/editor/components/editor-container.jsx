@@ -19,11 +19,12 @@ export default class EditorContainer extends React.Component {
   }
 
   render() {
-    let { specSelectors, getComponent, errSelectors, fn, readOnly, editorSelectors, configsSelectors } = this.props
+    let { specSelectors, getComponent, errSelectors, fn, editorSelectors, configsSelectors } = this.props
 
     let Editor = getComponent("Editor")
 
     let wrapperClasses = ["editor-wrapper"]
+    const readOnly = !!configsSelectors.get("readOnly")
 
     if(readOnly) {
       wrapperClasses.push("read-only")
@@ -32,7 +33,10 @@ export default class EditorContainer extends React.Component {
     let propsForEditor = this.props
 
     const editorOptions = {
-      enableLiveAutocompletion: configsSelectors.get("editorLiveAutocomplete")
+      enableLiveAutocompletion: configsSelectors.get("editorLiveAutocomplete"),
+      readOnly: readOnly,
+      highlightActiveLine: !readOnly,
+      highlightGutterLine: !readOnly,
     }
 
     return (
@@ -67,5 +71,4 @@ EditorContainer.propTypes = {
   errSelectors: PropTypes.object.isRequired,
   editorSelectors: PropTypes.object.isRequired,
   getComponent: PropTypes.func.isRequired,
-  readOnly: PropTypes.bool
 }
