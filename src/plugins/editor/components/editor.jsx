@@ -5,7 +5,7 @@ import { placeMarkerDecorations } from "../editor-helpers/marker-placer"
 import Im, { fromJS } from "immutable"
 import ImPropTypes from "react-immutable-proptypes"
 
-import eq from "lodash/eq"
+import isEqual from "lodash/isEqual"
 import isEmpty from "lodash/isEmpty"
 
 import ace from "brace"
@@ -114,24 +114,6 @@ export default function makeEditor({ editorPluginsToRun }) {
       }
     }
 
-    setReadOnlyOptions = (nextProps) => {
-      let { state } = this
-
-      if(nextProps.readOnly === true && state.editor) {
-        state.editor.setOptions({
-          readOnly: true,
-          highlightActiveLine: false,
-          highlightGutterLine: false
-        })
-      } else if(state.editor) {
-        state.editor.setOptions({
-          readOnly: false,
-          highlightActiveLine: true,
-          highlightGutterLine: true
-        })
-      }
-    }
-
     updateMarkerAnnotations = (nextProps, { force } = {}) => {
       let { state } = this
       let { onMarkerLineUpdate } = nextProps
@@ -167,12 +149,15 @@ export default function makeEditor({ editorPluginsToRun }) {
 
     componentWillReceiveProps(nextProps) {
       let { state } = this
-      let hasChanged = (k) => !eq(nextProps[k], this.props[k])
+      let hasChanged = (k) => !isEqual(nextProps[k], this.props[k])
       let wasEmptyBefore = (k) => nextProps[k] && (!this.props[k] || isEmpty(this.props[k]))
 
       this.updateErrorAnnotations(nextProps)
-      this.setReadOnlyOptions(nextProps)
       this.updateMarkerAnnotations(nextProps)
+
+      if(hasChanged("editorOptions")) {
+        this.syncOptionsFromState(nextProps.editorOptions)
+      }
 
       if(state.editor && nextProps.goToLine && hasChanged("goToLine")) {
         state.editor.gotoLine(nextProps.goToLine.line)
@@ -182,6 +167,13 @@ export default function makeEditor({ editorPluginsToRun }) {
         shouldClearUndoStack: hasChanged("specId") || wasEmptyBefore("value"),
       })
 
+    }
+
+    syncOptionsFromState(editorOptions) {
+      const { editor } = this.state
+      if(editor) {
+        editor.setOptions(editorOptions)
+      }
     }
 
     yaml = this.yaml || "";
@@ -194,7 +186,6 @@ export default function makeEditor({ editorPluginsToRun }) {
     }
 
     render() {
-      let { readOnly } = this.props
       const value = this.yaml
 
       return (
@@ -209,7 +200,6 @@ export default function makeEditor({ editorPluginsToRun }) {
               height="100%"
               tabSize={2}
               fontSize={14}
-              readOnly={readOnly}
               useSoftTabs="true"
               wrapEnabled={true}
               editorProps={{
@@ -248,8 +238,6 @@ export default function makeEditor({ editorPluginsToRun }) {
     onChange: PropTypes.func,
     onMarkerLineUpdate: PropTypes.func,
 
-    readOnly: PropTypes.bool,
-
     markers: PropTypes.object,
     goToLine: PropTypes.object,
     specObject: PropTypes.object.isRequired,
@@ -265,7 +253,6 @@ export default function makeEditor({ editorPluginsToRun }) {
     onChange: NOOP,
     onMarkerLineUpdate: NOOP,
     markers: {},
-    readOnly: false,
     goToLine: {},
     errors: fromJS([]),
   }
