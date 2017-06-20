@@ -115,7 +115,8 @@
     "webpack": "^1.14.0",
     "webpack-bundle-size-analyzer": "^2.5.0",
     "worker-loader": "^0.7.1",
-    "yaml-js": "^0.1.4"
+    "yaml-js": "^0.1.4",
+    "swagger-ui": "https://github.com/swagger-api/swagger-ui/tarball/0152bed158f36018128b57d6424e27ec1aebd1e3"
   },
   "config": {
     "deps_check_dir": ".deps_check"
