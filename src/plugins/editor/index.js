@@ -6,7 +6,7 @@ import reducers from "./reducers"
 import * as selectors from "./selectors"
 
 let Editor = makeEditor({
-  editorPluginsToRun: ["autosuggestApis", "gutterClick", "jsonToYaml", "pasteHandler"]
+  editorPluginsToRun: ["gutterClick", "jsonToYaml", "pasteHandler"]
 })
 
 export default function () {

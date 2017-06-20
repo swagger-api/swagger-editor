@@ -1,14 +1,11 @@
 import isArray from "lodash/isArray"
 import isObject from "lodash/isObject"
-import get from "lodash/get"
-import last from "lodash/last"
 import mapValues from "lodash/mapValues"
+import isPlainObject from "lodash/isPlainObject"
 import toArray from "lodash/toArray"
 import isString from "lodash/isString"
-import YAML from "js-yaml"
 
-//eslint-disable-next-line no-unused-vars
-export function getKeywordsForPath({ path, prefix, currentLine, editorValue, keywordMap }) {
+export default function getKeywordsForPath({ system, path, keywordMap}) {
   keywordMap = Object.assign({}, keywordMap)
 
   // is getting path was not successful stop here and return no candidates
@@ -23,21 +20,34 @@ export function getKeywordsForPath({ path, prefix, currentLine, editorValue, key
     ]
   }
 
-  if(last(path) === "$ref") {
-    let context = getContextType(path)
-    let $refsForContext = $refablesForPath(editorValue, [context])
-    return $refsForContext
-  }
-
   if(path[path.length - 2] === "tags" && path.length > 2) {
     // 'path.length > 2' excludes top-level 'tags'
-    return getGlobalCompletions(editorValue, ["tags"], "name")
+    return system.specSelectors.tags().map(tag => ({
+      score: 0,
+      meta: "local",
+      value: tag.get("name"),
+    })).toJS()
   }
 
   let reversePath = path.slice(0).reverse()
   if(reversePath[1] === "security" && isNumeric(reversePath[0])) {
     // **.security[x]
-    return getGlobalCompletions(editorValue, ["securityDefinitions"], "name")
+    return system.specSelectors.securityDefinitions().keySeq().map(sec => ({
+      score: 0,
+      meta: "local",
+      caption: sec,
+      snippet: `${sec}: []`
+    })).toJS()
+  }
+
+  if(reversePath[0] === "security") {
+    // **.security:
+    return system.specSelectors.securityDefinitions().keySeq().map(sec => ({
+      score: 0,
+      meta: "local",
+      caption: sec,
+      snippet: `\n- ${sec}: []`
+    })).toJS()
   }
 
   // traverse down the keywordMap for each key in the path until there is
@@ -65,20 +75,18 @@ export function getKeywordsForPath({ path, prefix, currentLine, editorValue, key
   // suggest for array items
   if (isArray(keywordMap)) {
     if(isArray(keywordMap[0])) {
-      let indent = ""
       return keywordMap[0].map(item => {
         return {
           name: "array",
-          value: indent + "- " + item,
+          value: "- " + item,
           score: 300,
           meta: "array item"
         }
       })
     } else {
-      let indent = ""
       return [{
         name: "array",
-        value: indent + "- ",
+        value: "- ",
         score: 300,
         meta: "array item"
       }]
@@ -92,8 +100,7 @@ export function getKeywordsForPath({ path, prefix, currentLine, editorValue, key
 
   // for each key in keywordMap map construct a completion candidate and
   // return the array
-  return formatKeywordMap(keywordMap)
-    .map(constructAceCompletion.bind(null, "keyword"))
+  return suggestionFromSchema(keywordMap)
 }
 
 function getChild(object, key) {
@@ -119,12 +126,14 @@ function getChild(object, key) {
   }
 }
 
-function formatKeywordMap(map) {
-  let res = mapValues(map, (val, key) => {
-    return val.__value === undefined ? key : val.__value
-  })
+function suggestionFromSchema(map) {
+  const res = toArray(mapValues(map, (val, key) => {
+    const keyword = val.__value === undefined ? key : val.__value
+    const meta = isPlainObject(val) ? "object" : "keyword"
 
-  return toArray(res)
+    return constructAceCompletion(meta, keyword)
+  }))
+  return res
 }
 
 function constructAceCompletion(meta, keyword) {
@@ -132,83 +141,30 @@ function constructAceCompletion(meta, keyword) {
     return {}
   }
 
+  // Give keywords, that extra colon
+  let snippet
+  switch(meta) {
+  case "keyword":
+    snippet = `${keyword}: `
+    break
+  case "object":
+    snippet = `${keyword}:\n  `
+    break
+  default:
+    snippet = keyword
+  }
+
+  // snippet's treat `$` as special characters
+  snippet = snippet.replace("$", "\\$")
+
   return {
-    name: keyword,
-    value: keyword,
+    snippet,
+    caption: keyword,
     score: 300,
-    meta: meta || "keyword"
+    meta,
   }
-}
-
-function $refablesForPath(specStr, path) {
-  let refs = Object.keys(getJSFromYaml(specStr, path) || {})
-
-  let completions = refs.map(ref => {
-    return {
-      score: 0,
-      meta: "local",
-      value: `'#/${path.join("/")}/${ref}'`,
-      caption: ref
-    }
-  })
-
-  return completions || []
-}
-
-function getGlobalCompletions(specStr, path, prop) {
-  let items = getJSFromYaml(specStr, path) || []
-  if(isArray(items)) {
-    return items
-      .filter(item => !!item)
-      .map(item => prop ? item[prop] : item)
-      .map(name => {
-        if(!name) { return {} }
-        return {
-          score: 0,
-          meta: "local",
-          value: name
-        }
-      })
-
-  } else {
-    return Object.keys(mapValues(items, (item) => {
-      return prop ? item[prop] : item
-    })).map(name => {
-      if(!name) { return {} }
-      return {
-        score: 0,
-        meta: "local",
-        value: name
-      }
-    })
-  }
-}
-
-function getJSFromYaml(yaml, path = []) {
-  let obj = YAML.safeLoad(yaml)
-  let sub = get(obj, path)
-  return sub
 }
 
 function isNumeric(obj) {
     return !isNaN(obj)
-}
-
-export function getContextType(path) {
-  let contextTypes = {
-    "paths": "pathitems",
-    "definitions": "definitions",
-    "schema": "definitions",
-    "parameters": "parameters",
-    "responses": "responses"
-  }
-
-  for( var i=path.length-1; i>-1; i-- ) {
-    let tag = path[i]
-
-    if( contextTypes[tag] ) {
-      return contextTypes[tag]
-    }
-  }
-  return null
 }
