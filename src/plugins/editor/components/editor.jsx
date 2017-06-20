@@ -114,24 +114,6 @@ export default function makeEditor({ editorPluginsToRun }) {
       }
     }
 
-    setReadOnlyOptions = (nextProps) => {
-      let { state } = this
-
-      if(nextProps.readOnly === true && state.editor) {
-        state.editor.setOptions({
-          readOnly: true,
-          highlightActiveLine: false,
-          highlightGutterLine: false
-        })
-      } else if(state.editor) {
-        state.editor.setOptions({
-          readOnly: false,
-          highlightActiveLine: true,
-          highlightGutterLine: true
-        })
-      }
-    }
-
     updateMarkerAnnotations = (nextProps, { force } = {}) => {
       let { state } = this
       let { onMarkerLineUpdate } = nextProps
@@ -171,7 +153,6 @@ export default function makeEditor({ editorPluginsToRun }) {
       let wasEmptyBefore = (k) => nextProps[k] && (!this.props[k] || isEmpty(this.props[k]))
 
       this.updateErrorAnnotations(nextProps)
-      this.setReadOnlyOptions(nextProps)
       this.updateMarkerAnnotations(nextProps)
 
       if(hasChanged("editorOptions")) {
@@ -205,7 +186,6 @@ export default function makeEditor({ editorPluginsToRun }) {
     }
 
     render() {
-      let { readOnly } = this.props
       const value = this.yaml
 
       return (
@@ -220,7 +200,6 @@ export default function makeEditor({ editorPluginsToRun }) {
               height="100%"
               tabSize={2}
               fontSize={14}
-              readOnly={readOnly}
               useSoftTabs="true"
               wrapEnabled={true}
               editorProps={{
@@ -259,8 +238,6 @@ export default function makeEditor({ editorPluginsToRun }) {
     onChange: PropTypes.func,
     onMarkerLineUpdate: PropTypes.func,
 
-    readOnly: PropTypes.bool,
-
     markers: PropTypes.object,
     goToLine: PropTypes.object,
     specObject: PropTypes.object.isRequired,
@@ -276,7 +253,6 @@ export default function makeEditor({ editorPluginsToRun }) {
     onChange: NOOP,
     onMarkerLineUpdate: NOOP,
     markers: {},
-    readOnly: false,
     goToLine: {},
     errors: fromJS([]),
   }
