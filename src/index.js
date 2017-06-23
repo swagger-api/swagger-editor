@@ -12,6 +12,7 @@ import EditorAutosuggestSnippetsPlugin from "./plugins/editor-autosuggest-snippe
 import EditorAutosuggestKeywordsPlugin from "./plugins/editor-autosuggest-keywords"
 import EditorAutosuggestOAS3KeywordsPlugin from "./plugins/editor-autosuggest-oas3-keywords"
 import EditorAutosuggestRefsPlugin from "./plugins/editor-autosuggest-refs"
+import JumpToPathPlugin from "./plugins/jump-to-path"
 
 // eslint-disable-next-line no-undef
 const { GIT_DIRTY, GIT_COMMIT, PACKAGE_VERSION } = buildInfo
@@ -28,6 +29,7 @@ const plugins = {
   EditorAutosuggestKeywordsPlugin,
   EditorAutosuggestRefsPlugin,
   EditorAutosuggestOAS3KeywordsPlugin,
+  JumpToPathPlugin,
 }
 
 const defaults = {
