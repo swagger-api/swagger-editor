@@ -10,6 +10,7 @@ import EditorAutosuggestPlugin from "./plugins/editor-autosuggest"
 import EditorAutosuggestSnippetsPlugin from "./plugins/editor-autosuggest-snippets"
 import EditorAutosuggestKeywordsPlugin from "./plugins/editor-autosuggest-keywords"
 import EditorAutosuggestRefsPlugin from "./plugins/editor-autosuggest-refs"
+import JumpToPathPlugin from "./plugins/jump-to-path"
 
 const plugins = {
   EditorPlugin,
@@ -19,6 +20,7 @@ const plugins = {
   EditorAutosuggestSnippetsPlugin,
   EditorAutosuggestKeywordsPlugin,
   EditorAutosuggestRefsPlugin,
+  JumpToPathPlugin,
 }
 
 // eslint-disable-next-line no-undef
