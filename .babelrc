@@ -11,6 +11,10 @@
       {
         "expose": "plugins",
         "src": "src/plugins"
+      },
+      {
+        "expose": "src",
+        "src": "src"
       }
     ]
   ]
