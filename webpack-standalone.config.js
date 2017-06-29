@@ -10,6 +10,7 @@ module.exports = require("./make-webpack-config.js")({
 
   entry: {
     "swagger-editor-standalone-preset": [
+      "./src/polyfills.js",
       "./src/standalone/index.js"
     ]
   },

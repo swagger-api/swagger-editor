@@ -2,7 +2,7 @@
 var Bool = ["true", "false"]
 var Anything = String
 
-var combine = (...objs) => Object.assign({}, ...objs)
+var combine = (...objs) => objs ? Object.assign({}, ...objs) : {}
 
 var makeValue = (val = "") => {
   return {

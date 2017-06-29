@@ -19,6 +19,7 @@ module.exports = require('./make-webpack-config.js')({
 
   entry: {
     "swagger-editor-bundle": [
+      "./src/polyfills.js",
       './src/index.js'
     ]
   },
