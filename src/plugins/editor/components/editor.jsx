@@ -5,7 +5,9 @@ import { placeMarkerDecorations } from "../editor-helpers/marker-placer"
 import Im, { fromJS } from "immutable"
 import ImPropTypes from "react-immutable-proptypes"
 
-import eq from "lodash/eq"
+import isUndefined from "lodash/isUndefined"
+import omit from "lodash/omit"
+import isEqual from "lodash/isEqual"
 import isEmpty from "lodash/isEmpty"
 
 import ace from "brace"
@@ -135,6 +137,7 @@ export default function makeEditor({ editorPluginsToRun }) {
       // allows our custom Editor styling for IE10 to take effect
       var doc = document.documentElement
       doc.setAttribute("data-useragent", navigator.userAgent)
+      this.syncOptionsFromState(this.props.editorOptions)
     }
 
     componentDidMount() {
@@ -171,9 +174,17 @@ export default function makeEditor({ editorPluginsToRun }) {
 
     syncOptionsFromState(editorOptions) {
       const { editor } = this.state
-      if(editor) {
-        editor.setOptions(editorOptions)
+      if(!editor) {
+        return
       }
+
+      const setOptions = omit(editorOptions, ["readOnly"])
+      editor.setOptions(setOptions)
+
+      const readOnly = isUndefined(editorOptions.readOnly)
+            ? false
+            : editorOptions.readOnly // If its undefined, default to false.
+      editor.setReadOnly(readOnly)
     }
 
     yaml = this.yaml || "";
@@ -234,6 +245,7 @@ export default function makeEditor({ editorPluginsToRun }) {
   Editor.propTypes = {
     specId: PropTypes.string,
     value: PropTypes.string,
+    editorOptions: PropTypes.object,
 
     onChange: PropTypes.func,
     onMarkerLineUpdate: PropTypes.func,
@@ -255,6 +267,7 @@ export default function makeEditor({ editorPluginsToRun }) {
     markers: {},
     goToLine: {},
     errors: fromJS([]),
+    editorOptions: {},
   }
 
   return Editor
