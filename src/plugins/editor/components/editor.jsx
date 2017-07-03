@@ -67,9 +67,10 @@ export default function makeEditor({ editorPluginsToRun }) {
         langTools, AST, specObject
       })
 
-
       editor.setHighlightActiveLine(false)
       editor.setHighlightActiveLine(true)
+
+      this.syncOptionsFromState(this.props.editorOptions)
 
       props.editorActions.onLoad({...props, langTools, editor})
     }
