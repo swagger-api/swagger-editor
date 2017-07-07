@@ -17,6 +17,11 @@ export function makeValidationWorker() {
       return
     }
 
+    if(specSelectors.isOAS3 && specSelectors.isOAS3()) {
+      // Don't run validation against OAS3 specs
+      return
+    }
+
     return validationWorker.postMessage({
       mode,
       jsSpec: specSelectors.specJson().toJS(),
