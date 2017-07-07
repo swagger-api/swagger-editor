@@ -9,6 +9,7 @@ import ValidationApiPlugin from "./plugins/validation/apis"
 import EditorAutosuggestPlugin from "./plugins/editor-autosuggest"
 import EditorAutosuggestSnippetsPlugin from "./plugins/editor-autosuggest-snippets"
 import EditorAutosuggestKeywordsPlugin from "./plugins/editor-autosuggest-keywords"
+import EditorAutosuggestOAS3KeywordsPlugin from "./plugins/editor-autosuggest-oas3-keywords"
 import EditorAutosuggestRefsPlugin from "./plugins/editor-autosuggest-refs"
 
 // eslint-disable-next-line no-undef
@@ -24,6 +25,7 @@ const plugins = {
   EditorAutosuggestSnippetsPlugin,
   EditorAutosuggestKeywordsPlugin,
   EditorAutosuggestRefsPlugin,
+  EditorAutosuggestOAS3KeywordsPlugin,
 }
 
 const defaults = {
