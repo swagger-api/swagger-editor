@@ -275,7 +275,7 @@ export const Components = {
     [ComponentFixedFieldRegex]: anyOf(Link, Reference),
   },
   callbacks: {
-    [ComponentFixedFieldRegex]: anyOf(Callback, Reference),
+    get [ComponentFixedFieldRegex]() { return anyOf(Callback, Reference) },
   },
 }
 
@@ -288,8 +288,10 @@ export const Operation = {
   parameters: [anyOf(Parameter, Reference)],
   requestBody: anyOf(RequestBody, Reference),
   responses: Responses,
-  callbacks: {
-    ".": anyOf(Callback, Reference),
+  get callbacks() {
+    return {
+      ".": anyOf(Callback, Reference),
+    }
   },
   deprecated: Boolean,
   security: [SecurityRequirement],
