@@ -94,6 +94,13 @@ export default class Topbar extends React.Component {
     let yamlContent = YAML.safeDump(jsContent)
     this.props.specActions.updateSpec(yamlContent)
   }
+  convertToJson = () =>{
+    // Editor content -> JSON string
+    let editorContent = this.props.specSelectors.specStr()
+    let jsContent = YAML.safeLoad(editorContent)
+    let prettyJsonContent = beautifyJson(jsContent, null, 2)
+    this.props.specActions.updateSpec(prettyJsonContent)
+  }
 
   downloadGeneratedFile = (type, name) => {
     let { specSelectors } = this.props
@@ -190,6 +197,7 @@ export default class Topbar extends React.Component {
             </DropdownMenu>
             <DropdownMenu {...makeMenuOptions("Edit")}>
               <li><button type="button" onClick={this.convertToYaml}>Convert to YAML</button></li>
+              <li><button type="button" onClick={this.convertToJson}>Convert to JSON</button></li>
             </DropdownMenu>
             <DropdownMenu className="long" {...makeMenuOptions("Generate Server")}>
               { this.state.servers
