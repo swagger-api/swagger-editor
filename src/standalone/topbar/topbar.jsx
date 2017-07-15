@@ -46,8 +46,13 @@ export default class Topbar extends React.Component {
     let url = prompt("Enter the URL to import from:")
 
     if(url) {
-      this.props.specActions.updateUrl(url)
-      this.props.specActions.download(url)
+      fetch(url)
+        .then(res => res.text())
+        .then(text => {
+          this.props.specActions.updateSpec(
+            YAML.safeDump(YAML.safeLoad(text))
+          )
+        })
     }
   }
 
@@ -74,7 +79,7 @@ export default class Topbar extends React.Component {
   }
 
   saveAsJson = () => {
-    // Editor content -> JS object -> YAML string
+    // Editor content  -> JS object -> Pretty JSON string
     let editorContent = this.props.specSelectors.specStr()
     let jsContent = YAML.safeLoad(editorContent)
     let prettyJsonContent = beautifyJson(jsContent, null, 2)
@@ -82,7 +87,7 @@ export default class Topbar extends React.Component {
   }
 
   saveAsText = () => {
-    // Editor content -> JS object -> YAML string
+    // Download raw text content
     let editorContent = this.props.specSelectors.specStr()
     downloadFile(editorContent, "swagger.txt")
   }
