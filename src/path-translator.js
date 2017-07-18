@@ -8,9 +8,13 @@ export function transformPathToArray(property, jsSpec) {
   }
 
   var pathArr = []
+  var strArr = str.match(/(.*)\["(.*)"\]/) // split for paths with "."s in the keys
 
-  str
-    .split(".")
+  if ( strArr == null ) {
+    strArr = str.split(".")
+  }
+
+  strArr
     .map(item => {
       // "key[0]" becomes ["key", "0"]
       if(item.includes("[")) {
