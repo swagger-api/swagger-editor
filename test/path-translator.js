@@ -65,6 +65,21 @@ describe("validation plugin - path translator", function(){
       expect(transformPathToArray(path, jsSpec)).toEqual(["definitions", "One.Two"])
     })
 
+    it("should translate paths separated by brackets with string keys, and then periods", function() {
+      // Given
+      let jsSpec = {
+        definitions: {
+          "One.Two": {
+            a: "1"
+          }
+        }
+      }
+      let path = "instance.definitions[\"One.Two\"].abc123"
+
+      // Then
+      expect(transformPathToArray(path, jsSpec)).toEqual(["definitions", "One.Two", "abc123"])
+    })
+
     it("should translate an doubly ambiguous string path to an array", function(){
       // Since JSONSchema uses periods to mark different properties,
       // a key with two periods in it (like "www.google.com") is doubly ambiguous,
