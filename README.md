@@ -40,6 +40,10 @@ To help with the migration, here are the currently known issues with 3.X. This l
 - The integration with the codegen is still missing.
 - Importing specs from a URL is not implemented.
 
+## Security contact
+
+Please disclose any security-related issues or vulnerabilities by emailing [security@swagger.io](mailto:security@swagger.io), instead of using the public issue tracker.
+
 ## License
 
 Copyright 2017 SmartBear Software
