@@ -1,5 +1,5 @@
 import JSONSchema from "jsonschema"
-import { transformPathToArray } from "../../../path-translator.js"
+import { transformPathToArray } from "../path-translator.js"
 
 
 import jsonSchema from "./jsonSchema"

@@ -1,7 +1,7 @@
 import concat from "lodash/concat"
 import reduce from "lodash/reduce"
 import isArray from "lodash/isArray"
-import { transformPathToArray } from "../../../path-translator"
+import { transformPathToArray } from "../path-translator"
 
 import assign from "lodash/assign"
 import getTimestamp from "../get-timestamp"

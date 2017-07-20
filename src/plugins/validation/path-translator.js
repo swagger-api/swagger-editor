@@ -9,8 +9,13 @@ export function transformPathToArray(property, jsSpec) {
 
   var pathArr = []
 
+  // replace '.', '["', '"]' separators with pipes
+  str = str.replace(/\.(?![^["]*"\])|(\[\")|(\"\]\.?)/g, "|")
+
+  // split on our new delimiter, pipe
+  str = str.split("|")
+
   str
-    .split(".")
     .map(item => {
       // "key[0]" becomes ["key", "0"]
       if(item.includes("[")) {
