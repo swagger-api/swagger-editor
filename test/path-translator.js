@@ -70,7 +70,8 @@ describe("validation plugin - path translator", function(){
       let jsSpec = {
         definitions: {
           "One.Two": {
-            a: "1"
+            a: "1",
+            abc123: "1"
           }
         }
       }

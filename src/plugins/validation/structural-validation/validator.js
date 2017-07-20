@@ -12,6 +12,7 @@ export function validate({ jsSpec, specStr, settings = {} }) {
   settings.schemas.forEach(schema => validator.addSchema(schema))
   return validator.validate(jsSpec, settings.testSchema || {})
            .errors.map(err => {
+             console.log("validation error", err)
              return {
                level: "error",
                line: getLineNumberForPath(specStr, transformPathToArray(err.property, jsSpec) || []),
