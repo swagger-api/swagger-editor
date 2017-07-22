@@ -6,7 +6,9 @@ let debouncedValidation = makeValidationWorker()
 
 export const updateResolved = (ori, {errActions, specSelectors}) => (...args) => {
   ori(...args)
-  debouncedValidation({ mode: "apis", specSelectors, errActions, resolvedSpec: args[0] })
+  const isOAS3 = specSelectors.isOAS3 ? specSelectors.isOAS3() : false
+  const ourMode = isOAS3 ? "oas3" : "swagger2"
+  debouncedValidation({ mode: ourMode, specSelectors, errActions, resolvedSpec: args[0] })
 }
 
 export default function() {
