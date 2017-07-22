@@ -1,6 +1,6 @@
 /* eslint-env mocha */
 import expect from "expect"
-import { transformPathToArray } from "core/path-translator"
+import { transformPathToArray } from "src/plugins/validation/path-translator"
 
 describe("validation plugin - path translator", function(){
 
@@ -48,6 +48,37 @@ describe("validation plugin - path translator", function(){
       // Then
       expect(transformPathToArray(path, jsSpec)).toEqual(["google.com", "a"])
 
+    })
+
+    it("should translate paths separated by brackets", function() {
+      // Given
+      let jsSpec = {
+        definitions: {
+          "One.Two": {
+            a: "1"
+          }
+        }
+      }
+      let path = "instance.definitions[\"One.Two\"]"
+
+      // Then
+      expect(transformPathToArray(path, jsSpec)).toEqual(["definitions", "One.Two"])
+    })
+
+    it("should translate paths separated by brackets with string keys, and then periods", function() {
+      // Given
+      let jsSpec = {
+        definitions: {
+          "One.Two": {
+            a: "1",
+            abc123: "1"
+          }
+        }
+      }
+      let path = "instance.definitions[\"One.Two\"].abc123"
+
+      // Then
+      expect(transformPathToArray(path, jsSpec)).toEqual(["definitions", "One.Two", "abc123"])
     })
 
     it("should translate an doubly ambiguous string path to an array", function(){
