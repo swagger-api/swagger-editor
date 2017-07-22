@@ -40,6 +40,7 @@
     "watch": "webpack --config  ./webpack-dist.config.js --watch --progress"
   },
   "dependencies": {
+    "ajv": "^5.2.2",
     "boron": "^0.2.3",
     "bowser": "1.6.1",
     "classnames": "^2.1.3",

@@ -1,24 +1,32 @@
-import JSONSchema from "jsonschema"
+import Ajv from "ajv"
 import { transformPathToArray } from "../../../path-translator.js"
 
 
 import jsonSchema from "./jsonSchema"
 import { getLineNumberForPath } from "../../ast/ast"
 
-var validator = new JSONSchema.Validator()
-validator.addSchema(jsonSchema)
 
 export function validate({ jsSpec, specStr, settings = {} }) {
-  settings.schemas.forEach(schema => validator.addSchema(schema))
-  return validator.validate(jsSpec, settings.testSchema || {})
-           .errors.map(err => {
-             return {
-               level: "error",
-               line: getLineNumberForPath(specStr, transformPathToArray(err.property, jsSpec) || []),
-               path: err.property.replace("instance.", ""),
-               message: err.message,
-               source: "schema",
-               original: err // this won't make it into state, but is still helpful
-             }
-           })
+  var ajv = new Ajv()
+  ajv.addSchema(jsonSchema)
+  settings.schemas.forEach(schema => ajv.addSchema(schema))
+  ajv.validate(settings.testSchema || {}, jsSpec)
+
+  return ajv.errors.map(err => {
+    let preparedMessage = err.message
+    if(err.params) {
+      preparedMessage += "\n"
+      for(var k in err.params) {
+        preparedMessage += `${k}: ${err.params[k]}\n`
+      }
+    }
+    return {
+      level: "error",
+      line: getLineNumberForPath(specStr, transformPathToArray(err.dataPath.slice(1), jsSpec) || []),
+      path: err.dataPath.slice(1), // slice leading "." from ajv
+      message: preparedMessage,
+      source: "schema",
+      original: err
+    }
+  })
 }
