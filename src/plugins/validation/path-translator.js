@@ -12,6 +12,10 @@ export function transformPathToArray(property, jsSpec) {
   // replace '.', '["', '"]' separators with pipes
   str = str.replace(/\.(?![^["]*"\])|(\[\")|(\"\]\.?)/g, "|")
 
+  // handle single quotes as well
+  str = str.replace("['", "|")
+  str = str.replace("']", "|")
+
   // split on our new delimiter, pipe
   str = str.split("|")
 
