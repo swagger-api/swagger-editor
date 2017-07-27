@@ -3,8 +3,6 @@ export function wrapCompleters(completers, cutoff = 100) {
   let lastSpeeds = []
   let isPerformant = () => lastSpeeds.every(speed => speed < cutoff)
 
-  console.log(cutoff)
-
   if(cutoff === 0 || cutoff === "0") {
     // never disable live autocomplete
     return completers
