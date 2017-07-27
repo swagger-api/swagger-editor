@@ -24,7 +24,8 @@ export default function EditorAutosuggestPlugin() {
 
             // Add completers ( for autosuggestions )
             const completers = sys.editorActions.addAutosuggestionCompleters(context)
-            const wrappedCompleters = wrapCompleters(completers || [])
+            const cutoff = sys.getConfigs().liveAutocompleteCutoff
+            const wrappedCompleters = wrapCompleters(completers || [], cutoff)
             editor.completers = wrappedCompleters
             return
           }
