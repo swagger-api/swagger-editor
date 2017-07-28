@@ -70,14 +70,20 @@ describe("validation plugin - path translator", function(){
       let jsSpec = {
         definitions: {
           "One.Two": {
-            a: "1"
+            a: {
+              b: {
+                c: {
+                  d: 123
+                }
+              }
+            }
           }
         }
       }
-      let path = "instance.definitions[\'One.Two\']"
+      let path = "instance.definitions[\'One.Two\'].a.b[\'c\'].d"
 
       // Then
-      expect(transformPathToArray(path, jsSpec)).toEqual(["definitions", "One.Two"])
+      expect(transformPathToArray(path, jsSpec)).toEqual(["definitions", "One.Two", "a", "b", "c", "d"])
     })
 
     it("should translate paths separated by brackets with string keys, and then periods", function() {
