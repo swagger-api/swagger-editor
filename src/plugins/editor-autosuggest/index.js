@@ -1,6 +1,7 @@
 import * as actions from "./actions"
 import * as fn from "./fn"
 import * as specSelectors from "./spec-selectors"
+import { wrapCompleters } from "./helpers"
 
 export default function EditorAutosuggestPlugin() {
   return {
@@ -22,7 +23,10 @@ export default function EditorAutosuggestPlugin() {
             sys.editorActions.enableAutocompletions(context)
 
             // Add completers ( for autosuggestions )
-            editor.completers = sys.editorActions.addAutosuggestionCompleters(context)
+            const completers = sys.editorActions.addAutosuggestionCompleters(context)
+            const cutoff = sys.getConfigs().liveAutocompleteCutoff
+            const wrappedCompleters = wrapCompleters(completers || [], cutoff)
+            editor.completers = wrappedCompleters
             return
           }
         }
