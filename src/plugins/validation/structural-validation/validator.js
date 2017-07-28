@@ -13,6 +13,10 @@ export function validate({ jsSpec, specStr, settings = {} }) {
   settings.schemas.forEach(schema => ajv.addSchema(schema))
   ajv.validate(settings.testSchema || {}, jsSpec)
 
+  if(!ajv.errors || !ajv.errors.length) {
+    return null
+  }
+
   return ajv.errors.map(err => {
     let preparedMessage = err.message
     if(err.params) {
