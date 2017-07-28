@@ -1,10 +1,9 @@
 import Ajv from "ajv"
 import { transformPathToArray } from "../path-translator.js"
-
-
 import jsonSchema from "./jsonSchema"
 import { getLineNumberForPath } from "../../ast/ast"
 
+const IGNORED_AJV_PARAMS = ["type"]
 
 export function validate({ jsSpec, specStr, settings = {} }) {
   var ajv = new Ajv({
@@ -19,7 +18,9 @@ export function validate({ jsSpec, specStr, settings = {} }) {
     if(err.params) {
       preparedMessage += "\n"
       for(var k in err.params) {
-        preparedMessage += `${k}: ${err.params[k]}\n`
+        if(IGNORED_AJV_PARAMS.indexOf(k) === -1) {
+          preparedMessage += `${k}: ${err.params[k]}\n`
+        }
       }
     }
     return {
