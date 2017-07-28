@@ -7,7 +7,9 @@ import { getLineNumberForPath } from "../../ast/ast"
 
 
 export function validate({ jsSpec, specStr, settings = {} }) {
-  var ajv = new Ajv()
+  var ajv = new Ajv({
+    allErrors: true,
+  })
   ajv.addSchema(jsonSchema)
   settings.schemas.forEach(schema => ajv.addSchema(schema))
   ajv.validate(settings.testSchema || {}, jsSpec)
