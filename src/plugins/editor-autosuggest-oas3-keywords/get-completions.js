@@ -7,8 +7,6 @@ export default function getCompletions(editor, session, pos, prefix, cb, ctx, sy
 
   const { isOAS3 } = specSelectors
 
-  console.log("hello")
-
   if(isOAS3 && !isOAS3()) {
     // isOAS3 selector exists, and returns false
     return cb(null, null)
