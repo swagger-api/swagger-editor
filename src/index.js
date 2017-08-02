@@ -12,6 +12,11 @@ import EditorAutosuggestKeywordsPlugin from "./plugins/editor-autosuggest-keywor
 import EditorAutosuggestRefsPlugin from "./plugins/editor-autosuggest-refs"
 import JumpToPathPlugin from "./plugins/jump-to-path"
 
+// eslint-disable-next-line no-undef
+const { GIT_DIRTY, GIT_COMMIT, PACKAGE_VERSION } = buildInfo
+
+window.versions = window.versions || {}
+window.versions.swaggerEditor = `${PACKAGE_VERSION}/${GIT_COMMIT || "unknown"}${GIT_DIRTY ? "-dirty" : ""}`
 const plugins = {
   EditorPlugin,
   ValidationApiPlugin,
@@ -22,12 +27,6 @@ const plugins = {
   EditorAutosuggestRefsPlugin,
   JumpToPathPlugin,
 }
-
-// eslint-disable-next-line no-undef
-const { GIT_DIRTY, GIT_COMMIT, PACKAGE_VERSION } = buildInfo
-
-window.versions = window.versions || {}
-window.versions.swaggerEditor = `${PACKAGE_VERSION}/${GIT_COMMIT || "unknown"}${GIT_DIRTY ? "-dirty" : ""}`
 
 const defaults = {
   dom_id: "#swagger-editor", // eslint-disable-line camelcase, we have this prop for legacy reasons.

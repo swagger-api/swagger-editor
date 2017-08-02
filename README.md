@@ -26,6 +26,8 @@ If you have Node.js and npm installed, you can run `npm start` to spin up a stat
 
 Otherwise, you can open `index.html` directly from your filesystem in your browser.
 
+If you'd like to make code changes to Swagger-Editor, you can start up a Webpack hot-reloading dev server via `npm run dev`. 
+
 ##### Browser support
 
 Swagger UI works in the latest versions of Chrome, Safari, Firefox, Edge and IE11.
@@ -37,6 +39,10 @@ To help with the migration, here are the currently known issues with 3.X. This l
 - Everything listed in [Swagger-UI's Known Issues](https://github.com/swagger-api/swagger-ui/blob/master/README.md#known-issues).
 - The integration with the codegen is still missing.
 - Importing specs from a URL is not implemented.
+
+## Security contact
+
+Please disclose any security-related issues or vulnerabilities by emailing [security@swagger.io](mailto:security@swagger.io), instead of using the public issue tracker.
 
 ## License
 

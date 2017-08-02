@@ -67,6 +67,7 @@ export default function makeEditor({ editorPluginsToRun }) {
         langTools, AST, specObject
       })
 
+
       editor.setHighlightActiveLine(false)
       editor.setHighlightActiveLine(true)
 
