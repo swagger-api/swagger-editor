@@ -142,8 +142,7 @@ export default {
       ],
       "properties": {
         "url": {
-          "type": "string",
-          "format": "uri-reference"
+          "type": "string"
         },
         "description": {
           "type": "string"
@@ -168,7 +167,10 @@ export default {
       ],
       "properties": {
         "enum": {
-          "type": "string"
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
         },
         "default": {
           "type": "string"
@@ -464,17 +466,14 @@ export default {
           }
         },
         "items": {
-          "type": "array",
-          "items": {
-            "oneOf": [
-              {
-                "$ref": "#/definitions/Schema"
-              },
-              {
-                "$ref": "#/definitions/Reference"
-              }
-            ]
-          }
+          "oneOf": [
+            {
+              "$ref": "#/definitions/Schema"
+            },
+            {
+              "$ref": "#/definitions/Reference"
+            }
+          ]
         },
         "properties": {
           "type": "object",
@@ -1041,7 +1040,14 @@ export default {
         "callbacks": {
           "type": "object",
           "additionalProperties": {
-            "$ref": "#/definitions/Callback"
+            "oneOf": [
+              {
+                "$ref": "#/definitions/Callback"
+              },
+              {
+                "$ref": "#/definitions/Reference"
+              }
+            ]
           }
         },
         "deprecated": {
@@ -2087,7 +2093,7 @@ export default {
       "type": "object",
       "required": [
         "type",
-        "openIdConnect"
+        "openIdConnectUrl"
       ],
       "properties": {
         "type": {
@@ -2311,7 +2317,9 @@ export default {
     },
     "Callback": {
       "type": "object",
-      "additionalProperties": false,
+      "additionalProperties": {
+        "$ref": "#/definitions/PathItem"
+      },
       "patternProperties": {
         "^x-": {
         }
