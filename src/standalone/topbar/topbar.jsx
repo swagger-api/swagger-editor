@@ -63,7 +63,7 @@ export default class Topbar extends React.Component {
 
     fileReader.onload = fileLoadedEvent => {
       let textFromFileLoaded = fileLoadedEvent.target.result
-      this.props.specActions.updateSpec(textFromFileLoaded)
+      this.props.specActions.updateSpec(YAML.safeDump(YAML.safeLoad(textFromFileLoaded)))
       this.hideModal()
     }
 
