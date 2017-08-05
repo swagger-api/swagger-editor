@@ -1,7 +1,7 @@
 import expect from "expect"
 import { condenseErrors } from "plugins/validation/structural-validation/condense-errors"
 
-describe.only("validation plugin - structural - condenseErrors helper", () => {
+describe("validation plugin - structural - condenseErrors helper", () => {
   it("should return an empty array when called with an incorrect type", () => {
     expect(condenseErrors()).toEqual([])
     expect(condenseErrors(null)).toEqual([])
