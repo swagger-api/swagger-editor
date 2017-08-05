@@ -1,7 +1,6 @@
 import Ajv from "ajv"
-import { groupBy } from "lodash"
 import { transformPathToArray } from "../path-translator.js"
-import { uniqueErrors } from "./unique-errors.js"
+import { condenseErrors } from "./condense-errors.js"
 import jsonSchema from "./jsonSchema"
 import { getLineNumberForPath } from "../../ast/ast"
 
@@ -19,19 +18,17 @@ export function validate({ jsSpec, specStr, settings = {} }) {
     return null
   }
 
-  console.log(groupBy(ajv.errors, err => err.dataPath.slice(1)))
+  const condensedErrors = condenseErrors(ajv.errors)
 
-  const uniquedErrors = uniqueErrors(ajv.errors)
-
-  console.log(uniquedErrors)
-
-  return uniquedErrors.map(err => {
+  return condensedErrors.map(err => {
     let preparedMessage = err.message
     if(err.params) {
       preparedMessage += "\n"
       for(var k in err.params) {
         if(IGNORED_AJV_PARAMS.indexOf(k) === -1) {
-          preparedMessage += `${k}: ${err.params[k]}\n`
+          const ori = err.params[k]
+          const value = Array.isArray(ori) ? dedupe(ori).join(", ") : ori
+          preparedMessage += `${k}: ${value}\n`
         }
       }
     }
@@ -43,5 +40,11 @@ export function validate({ jsSpec, specStr, settings = {} }) {
       source: "schema",
       original: err
     }
+  })
+}
+
+function dedupe(arr) {
+  return arr.filter((val, i) => {
+    return arr.indexOf(val) === i
   })
 }
