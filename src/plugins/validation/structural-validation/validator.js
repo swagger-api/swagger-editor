@@ -1,5 +1,7 @@
 import Ajv from "ajv"
+import { groupBy } from "lodash"
 import { transformPathToArray } from "../path-translator.js"
+import { uniqueErrors } from "./unique-errors.js"
 import jsonSchema from "./jsonSchema"
 import { getLineNumberForPath } from "../../ast/ast"
 
@@ -17,7 +19,13 @@ export function validate({ jsSpec, specStr, settings = {} }) {
     return null
   }
 
-  return ajv.errors.map(err => {
+  console.log(groupBy(ajv.errors, err => err.dataPath.slice(1)))
+
+  const uniquedErrors = uniqueErrors(ajv.errors)
+
+  console.log(uniquedErrors)
+
+  return uniquedErrors.map(err => {
     let preparedMessage = err.message
     if(err.params) {
       preparedMessage += "\n"
