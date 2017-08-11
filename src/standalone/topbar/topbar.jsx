@@ -57,8 +57,7 @@ export default class Topbar extends React.Component {
   }
 
   importFromFile = () => {
-    let [fileToLoad] = this.refs.fileLoadInput.files
-
+    let fileToLoad = this.refs.fileLoadInput.files.item(0)
     let fileReader = new FileReader()
 
     fileReader.onload = fileLoadedEvent => {
