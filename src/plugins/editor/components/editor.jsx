@@ -125,11 +125,11 @@ export default function makeEditor({ editorPluginsToRun }) {
       // we should find a way to wait until the spec has been loaded into ACE.
       if(force === true || this.props.specId !== nextProps.specId || !Im.is(this.props.markers, nextProps.markers)) {
         const markers = Im.Map.isMap(nextProps.markers) ? nextProps.markers.toJS() : {}
-        setTimeout(placeMarkerDecorations.bind(null, {
+        this.removeMarkers = placeMarkerDecorations({
           editor: state.editor,
           markers,
           onMarkerLineUpdate,
-        }), 300)
+        })
       }
     }
 
@@ -147,7 +147,7 @@ export default function makeEditor({ editorPluginsToRun }) {
       document.addEventListener("click", this.onClick)
 
       if(this.props.markers) {
-        this.updateMarkerAnnotations({ markers: this.props.markers }, { force: true })
+        this.updateMarkerAnnotations(this.props,{ force: true })
       }
     }
 
@@ -226,6 +226,12 @@ export default function makeEditor({ editorPluginsToRun }) {
       )
     }
 
+    componentWillUpdate() {
+      if(this.removeMarkers) {
+        this.removeMarkers()
+      }
+    }
+
     componentDidUpdate() {
       let { shouldClearUndoStack, editor } = this.state
 
@@ -235,6 +241,7 @@ export default function makeEditor({ editorPluginsToRun }) {
         }, 100)
       }
 
+      this.updateMarkerAnnotations(this.props, { force: true })
     }
 
     componentWillUnmount() {
