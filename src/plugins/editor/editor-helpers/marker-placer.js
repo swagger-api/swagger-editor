@@ -44,4 +44,7 @@ export function placeMarkerDecorations({editor, markers, onMarkerLineUpdate}) {
 
   setRemovers(removeFns)
 
+  // To manually remove them
+  return () => setRemovers([])
+
 }
