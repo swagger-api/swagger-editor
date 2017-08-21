@@ -32,8 +32,9 @@ export function placeMarkerDecorations({editor, markers, onMarkerLineUpdate}) {
 
       s.removeGutterDecoration(oldLine, className)
       s.addGutterDecoration(newLine, className)
-      onMarkerLineUpdate({ [oldLine]: newLine }) // not magic! [oldLine] is a computed key!
+      onMarkerLineUpdate([oldLine, newLine])
     })
+
     return function () {
       // // Remove the anchor & decoration
       let currentLine = +anchor.getPosition().row
