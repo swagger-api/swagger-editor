@@ -28,39 +28,33 @@ export default function makeEditor({ editorPluginsToRun }) {
 
     constructor(props, context) {
       super(props, context)
-      if(props.value) {
-        this.yaml = props.value
-      }
-      this.state = {
-        editor: null,
-        value: props.value || "",
-      }
 
-      // see https://gist.github.com/Restuta/e400a555ba24daa396cc
-      this.onClick = this.onClick.bind(this)
+      this.editor = null
+      this.yaml = props.value || ""
     }
 
     onChange = (value) => {
-      // Set the value in state, now - so that we don't have lag
-      this.setState({ value })
-      // Send it upstream
-      this.props.onChange(value)
+      // Set the value locally now - so that we don't have lag/feedback
+      this.yaml = value
+      // Send it upstream ( this.silent is taken from react-ace module). It avoids firing onChange, when we update setValue
+      if(!this.silent) {
+        this.props.onChange(value)
+      }
     }
 
     onLoad = (editor) => {
-      let { props, state } = this
-      let { AST, specObject } = props
+      const { props } = this
+      const { AST, specObject } = props
 
       // fixes a warning, see https://github.com/ajaxorg/ace/issues/2499
       editor.$blockScrolling = Infinity
 
-      let langTools = ace.acequire("ace/ext/language_tools")
+      const langTools = ace.acequire("ace/ext/language_tools")
+      const session = editor.getSession()
 
-      state.editor = editor // TODO: get editor out of state
-      editor.getSession().setUseWrapMode(true)
+      this.editor = editor
 
-      let session = editor.getSession()
-
+      session.setUseWrapMode(true)
       session.on("changeScrollLeft", xPos => { // eslint-disable-line no-unused-vars
         session.setScrollLeft(0)
       })
@@ -79,7 +73,7 @@ export default function makeEditor({ editorPluginsToRun }) {
     }
 
     onResize = () => {
-      let { state: { editor } } = this
+      const { editor } = this
       if(editor) {
         let session = editor.getSession()
         editor.resize()
@@ -105,7 +99,7 @@ export default function makeEditor({ editorPluginsToRun }) {
     }
 
     updateErrorAnnotations = (nextProps) => {
-      if(this.state.editor && nextProps.errors) {
+      if(this.editor && nextProps.errors) {
         let editorAnnotations = nextProps.errors.toJS().map(err => {
           // Create annotation objects that ACE can use
           return {
@@ -116,13 +110,12 @@ export default function makeEditor({ editorPluginsToRun }) {
           }
         })
 
-        this.state.editor.getSession().setAnnotations(editorAnnotations)
+        this.editor.getSession().setAnnotations(editorAnnotations)
       }
     }
 
     updateMarkerAnnotations = (props) => {
-      const { state } = this
-      const { editor } = state
+      const { editor } = this
 
       const markers = Im.Map.isMap(props.markers) ? props.markers.toJS() : {}
       this.removeMarkers = placeMarkerDecorations({
@@ -145,38 +138,72 @@ export default function makeEditor({ editorPluginsToRun }) {
       this.setState({ width: this.getWidth() })
       document.addEventListener("click", this.onClick)
 
+      this.updateYaml()
       if(this.props.markers) {
         this.updateMarkerAnnotations(this.props)
       }
     }
 
+    updateYaml = () => {
+      // this.silent is taken from react-ace module. It avoids firing onChange, when we update setValue
+      this.silent = true
+      const pos = this.editor.session.selection.toJSON()
+      this.editor.setValue(this.yaml)
+      this.editor.session.selection.fromJSON(pos)
+      this.silent = false
+    }
+
     componentWillReceiveProps(nextProps) {
-      let { state } = this
       let hasChanged = (k) => !isEqual(nextProps[k], this.props[k])
       let wasEmptyBefore = (k) => nextProps[k] && (!this.props[k] || isEmpty(this.props[k]))
+      const editor = this.editor
+      const newValue = nextProps.value
 
-      this.updateErrorAnnotations(nextProps)
-      if(!Im.is(nextProps.markers, this.props.markers)) {
-        this.updateMarkerAnnotations(nextProps)
+      // Mange the yaml lifecycle...
+
+      // If the yaml doesn't match _what we already have in state_ then update the yaml in the editor
+      // Taking care to manage the other things in lifecycle
+      if(newValue != this.yaml) {
+        this.yaml = newValue
+
+        // Remove markers
+        if(this.removeMarkers) {
+          this.removeMarkers()
+        }
+
+        this.updateYaml()
+
+        // Add back the markers
+        this.updateMarkerAnnotations(this.props)
+
+        // Clear undo-stack if we've changed specId or it was empty before
+        if(hasChanged("specId") || wasEmptyBefore("value")) {
+          setTimeout(function () {
+            editor.getSession().getUndoManager().reset()
+          }, 100) // TODO: get rid of timeout
+        }
+      } else {
+        // Just update markers if they've changed
+        if(!Im.is(nextProps.markers, this.props.markers)) {
+          this.updateMarkerAnnotations(nextProps)
+        }
       }
 
+      // Whether or not the yaml changed....
+
+      this.updateErrorAnnotations(nextProps)
       if(hasChanged("editorOptions")) {
         this.syncOptionsFromState(nextProps.editorOptions)
       }
 
-      if(state.editor && nextProps.goToLine && nextProps.goToLine.line && hasChanged("goToLine")) {
-        state.editor.gotoLine(nextProps.goToLine.line)
-        nextProps.editorActions.jumpToLine(null)
+      if(editor && nextProps.goToLine && nextProps.goToLine.line && hasChanged("goToLine")) {
+        editor.gotoLine(nextProps.goToLine.line)
       }
-
-      this.setState({
-        shouldClearUndoStack: hasChanged("specId") || wasEmptyBefore("value"),
-      })
 
     }
 
-    syncOptionsFromState(editorOptions) {
-      const { editor } = this.state
+    syncOptionsFromState = (editorOptions) => {
+      const { editor } = this
       if(!editor) {
         return
       }
@@ -190,21 +217,22 @@ export default function makeEditor({ editorPluginsToRun }) {
       editor.setReadOnly(readOnly)
     }
 
-    yaml = this.yaml || "";
-
-    shouldComponentUpdate(nextProps) {
-      const oriYaml = this.yaml
-      this.yaml = nextProps.value
-
-      return oriYaml !== nextProps.value
+    shouldComponentUpdate() {
+      return false // Never update, see: this.updateYaml for where we update the yaml in the editor
+      // TODO this might affect changes to the "onLoad", "onChange" props...
     }
 
+    // shouldComponentUpdate(nextProps) {
+    //   const oriYaml = this.yaml
+    //   this.yaml = nextProps.value
+    //   return oriYaml !== nextProps.value
+    // }
+
     render() {
-      const value = this.yaml
+      // NOTE: we're manually managing the value lifecycle, outside of react render
 
       return (
             <AceEditor
-              value={value}
               mode="yaml"
               theme="tomorrow_night_eighties"
               onLoad={this.onLoad}
@@ -228,24 +256,25 @@ export default function makeEditor({ editorPluginsToRun }) {
       )
     }
 
-    componentWillUpdate() {
-      if(this.removeMarkers) {
-        this.removeMarkers()
-      }
-    }
+    // componentWillUpdate() {
+    //   console.log('MARK: componentWillUpdate')
+    //   if(this.removeMarkers) {
+    //     this.removeMarkers()
+    //   }
+    // }
 
-    componentDidUpdate() {
-      let { shouldClearUndoStack, editor } = this.state
+    // componentDidUpdate() {
+      // let { shouldClearUndoStack, editor } = this.state
 
-      if(shouldClearUndoStack) {
-        setTimeout(function () {
-          editor.getSession().getUndoManager().reset()
-        }, 100)
+    //   if(shouldClearUndoStack) {
+    //     setTimeout(function () {
+    //       editor.getSession().getUndoManager().reset()
+    //     }, 100)
+    //   }
 
-      }
-
-      this.updateMarkerAnnotations(this.props)
-    }
+    //   console.log('MARK: did update')
+    //   this.updateMarkerAnnotations(this.props)
+    // }
 
     componentWillUnmount() {
       document.removeEventListener("click", this.onClick)
