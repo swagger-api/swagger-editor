@@ -203,13 +203,13 @@ export default function makeEditor({ editorPluginsToRun }) {
       // If the yaml doesn't match _what we already have in state_ then update the yaml in the editor
       // Taking care to manage the other things in lifecycle
       if(newValue != this.yaml) {
-        this.yaml = newValue
 
         // Remove markers
         if(this.removeMarkers) {
           this.removeMarkers()
         }
 
+        this.yaml = newValue
         this.updateYaml()
 
         // Add back the markers
