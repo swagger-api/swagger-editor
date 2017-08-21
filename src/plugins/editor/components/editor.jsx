@@ -21,7 +21,6 @@ import "./editor.less"
 
 const NOOP = Function.prototype // Apparently the best way to no-op
 
-
 export default function makeEditor({ editorPluginsToRun }) {
 
   class Editor extends React.Component {
@@ -31,6 +30,34 @@ export default function makeEditor({ editorPluginsToRun }) {
 
       this.editor = null
       this.yaml = props.value || ""
+    }
+
+    static propTypes = {
+      specId: PropTypes.string,
+      value: PropTypes.string,
+      editorOptions: PropTypes.object,
+
+      onChange: PropTypes.func,
+      onMarkerLineUpdate: PropTypes.func,
+
+      markers: PropTypes.object,
+      goToLine: PropTypes.object,
+      specObject: PropTypes.object.isRequired,
+
+      AST: PropTypes.object.isRequired,
+
+      errors: ImPropTypes.list,
+    }
+
+    static defaultProps = {
+      value: "",
+      specId: "--unknown--",
+      onChange: NOOP,
+      onMarkerLineUpdate: NOOP,
+      markers: {},
+      goToLine: {},
+      errors: fromJS([]),
+      editorOptions: {},
     }
 
     onChange = (value) => {
@@ -61,12 +88,9 @@ export default function makeEditor({ editorPluginsToRun }) {
         langTools, AST, specObject
       })
 
-
       editor.setHighlightActiveLine(false)
       editor.setHighlightActiveLine(true)
-
       this.syncOptionsFromState(this.props.editorOptions)
-
       props.editorActions.onLoad({...props, langTools, editor})
     }
 
@@ -83,16 +107,15 @@ export default function makeEditor({ editorPluginsToRun }) {
     onClick = () => {
       // onClick is deferred by 40ms, to give element resizes time to settle.
       setTimeout(() => {
-        if(this.getWidth() !== this.state.width) {
+        if(this.getWidth() !== this.width) {
           this.onResize()
-          this.setState({ width: this.getWidth() })
+          this.width = this.getWidth()
         }
       }, 40)
     }
 
     getWidth = () => {
       let el = document.getElementById("editor-wrapper")
-
       return el ? el.getBoundingClientRect().width : null
     }
 
@@ -123,6 +146,30 @@ export default function makeEditor({ editorPluginsToRun }) {
       })
     }
 
+    updateYaml = () => {
+      // this.silent is taken from react-ace module. It avoids firing onChange, when we update setValue
+      this.silent = true
+      const pos = this.editor.session.selection.toJSON()
+      this.editor.setValue(this.yaml)
+      this.editor.session.selection.fromJSON(pos)
+      this.silent = false
+    }
+
+    syncOptionsFromState = (editorOptions) => {
+      const { editor } = this
+      if(!editor) {
+        return
+      }
+
+      const setOptions = omit(editorOptions, ["readOnly"])
+      editor.setOptions(setOptions)
+
+      const readOnly = isUndefined(editorOptions.readOnly)
+            ? false
+            : editorOptions.readOnly // If its undefined, default to false.
+      editor.setReadOnly(readOnly)
+    }
+
     componentWillMount() {
       // add user agent info to document
       // allows our custom Editor styling for IE10 to take effect
@@ -133,22 +180,17 @@ export default function makeEditor({ editorPluginsToRun }) {
 
     componentDidMount() {
       // eslint-disable-next-line react/no-did-mount-set-state
-      this.setState({ width: this.getWidth() })
+      this.width = this.getWidth()
       document.addEventListener("click", this.onClick)
-
       this.updateYaml()
+
       if(this.props.markers) {
         this.updateMarkerAnnotations(this.props)
       }
     }
 
-    updateYaml = () => {
-      // this.silent is taken from react-ace module. It avoids firing onChange, when we update setValue
-      this.silent = true
-      const pos = this.editor.session.selection.toJSON()
-      this.editor.setValue(this.yaml)
-      this.editor.session.selection.fromJSON(pos)
-      this.silent = false
+    componentWillUnmount() {
+      document.removeEventListener("click", this.onClick)
     }
 
     componentWillReceiveProps(nextProps) {
@@ -157,8 +199,7 @@ export default function makeEditor({ editorPluginsToRun }) {
       const editor = this.editor
       const newValue = nextProps.value
 
-      // Mange the yaml lifecycle...
-
+      //// Mange the yaml lifecycle...
       // If the yaml doesn't match _what we already have in state_ then update the yaml in the editor
       // Taking care to manage the other things in lifecycle
       if(newValue != this.yaml) {
@@ -187,9 +228,8 @@ export default function makeEditor({ editorPluginsToRun }) {
         }
       }
 
-      // Whether or not the yaml changed....
-
       this.updateErrorAnnotations(nextProps)
+
       if(hasChanged("editorOptions")) {
         this.syncOptionsFromState(nextProps.editorOptions)
       }
@@ -200,112 +240,39 @@ export default function makeEditor({ editorPluginsToRun }) {
 
     }
 
-    syncOptionsFromState = (editorOptions) => {
-      const { editor } = this
-      if(!editor) {
-        return
-      }
-
-      const setOptions = omit(editorOptions, ["readOnly"])
-      editor.setOptions(setOptions)
-
-      const readOnly = isUndefined(editorOptions.readOnly)
-            ? false
-            : editorOptions.readOnly // If its undefined, default to false.
-      editor.setReadOnly(readOnly)
-    }
-
     shouldComponentUpdate() {
-      return false // Never update, see: this.updateYaml for where we update the yaml in the editor
+      return false // Never update, see: componentWillRecieveProps and this.updateYaml for where we update things.
       // TODO this might affect changes to the "onLoad", "onChange" props...
     }
 
-    // shouldComponentUpdate(nextProps) {
-    //   const oriYaml = this.yaml
-    //   this.yaml = nextProps.value
-    //   return oriYaml !== nextProps.value
-    // }
-
     render() {
       // NOTE: we're manually managing the value lifecycle, outside of react render
-
+      // This will only render once.
       return (
-            <AceEditor
-              mode="yaml"
-              theme="tomorrow_night_eighties"
-              onLoad={this.onLoad}
-              onChange={this.onChange}
-              name="ace-editor"
-              width="100%"
-              height="100%"
-              tabSize={2}
-              fontSize={14}
-              useSoftTabs="true"
-              wrapEnabled={true}
-              editorProps={{
-                "display_indent_guides": true,
-                folding: "markbeginandend"
-              }}
-              setOptions={{
-                cursorStyle: "smooth",
-                wrapBehavioursEnabled: true
-              }}
-            />
+        <AceEditor
+          mode="yaml"
+          theme="tomorrow_night_eighties"
+          onLoad={this.onLoad}
+          onChange={this.onChange}
+          name="ace-editor"
+          width="100%"
+          height="100%"
+          tabSize={2}
+          fontSize={14}
+          useSoftTabs="true"
+          wrapEnabled={true}
+          editorProps={{
+            "display_indent_guides": true,
+            folding: "markbeginandend"
+          }}
+          setOptions={{
+            cursorStyle: "smooth",
+            wrapBehavioursEnabled: true
+          }}
+          />
       )
     }
 
-    // componentWillUpdate() {
-    //   console.log('MARK: componentWillUpdate')
-    //   if(this.removeMarkers) {
-    //     this.removeMarkers()
-    //   }
-    // }
-
-    // componentDidUpdate() {
-      // let { shouldClearUndoStack, editor } = this.state
-
-    //   if(shouldClearUndoStack) {
-    //     setTimeout(function () {
-    //       editor.getSession().getUndoManager().reset()
-    //     }, 100)
-    //   }
-
-    //   console.log('MARK: did update')
-    //   this.updateMarkerAnnotations(this.props)
-    // }
-
-    componentWillUnmount() {
-      document.removeEventListener("click", this.onClick)
-    }
-
-  }
-
-  Editor.propTypes = {
-    specId: PropTypes.string,
-    value: PropTypes.string,
-    editorOptions: PropTypes.object,
-
-    onChange: PropTypes.func,
-    onMarkerLineUpdate: PropTypes.func,
-
-    markers: PropTypes.object,
-    goToLine: PropTypes.object,
-    specObject: PropTypes.object.isRequired,
-
-    AST: PropTypes.object.isRequired,
-
-    errors: ImPropTypes.list,
-  }
-
-  Editor.defaultProps = {
-    value: "",
-    specId: "--unknown--",
-    onChange: NOOP,
-    onMarkerLineUpdate: NOOP,
-    markers: {},
-    goToLine: {},
-    errors: fromJS([]),
-    editorOptions: {},
   }
 
   return Editor
