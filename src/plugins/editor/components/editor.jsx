@@ -120,20 +120,16 @@ export default function makeEditor({ editorPluginsToRun }) {
       }
     }
 
-    updateMarkerAnnotations = (nextProps, { force } = {}) => {
-      let { state } = this
-      let { onMarkerLineUpdate } = nextProps
+    updateMarkerAnnotations = (props) => {
+      const { state } = this
+      const { editor } = state
 
-      // FIXME: this is a hacky solution.
-      // we should find a way to wait until the spec has been loaded into ACE.
-      if(force === true || this.props.specId !== nextProps.specId || !Im.is(this.props.markers, nextProps.markers)) {
-        const markers = Im.Map.isMap(nextProps.markers) ? nextProps.markers.toJS() : {}
-        this.removeMarkers = placeMarkerDecorations({
-          editor: state.editor,
-          markers,
-          onMarkerLineUpdate,
-        })
-      }
+      const markers = Im.Map.isMap(props.markers) ? props.markers.toJS() : {}
+      this.removeMarkers = placeMarkerDecorations({
+        editor,
+        markers,
+        onMarkerLineUpdate: props.onMarkerLineUpdate,
+      })
     }
 
     componentWillMount() {
@@ -150,7 +146,7 @@ export default function makeEditor({ editorPluginsToRun }) {
       document.addEventListener("click", this.onClick)
 
       if(this.props.markers) {
-        this.updateMarkerAnnotations(this.props,{ force: true })
+        this.updateMarkerAnnotations(this.props)
       }
     }
 
@@ -160,7 +156,9 @@ export default function makeEditor({ editorPluginsToRun }) {
       let wasEmptyBefore = (k) => nextProps[k] && (!this.props[k] || isEmpty(this.props[k]))
 
       this.updateErrorAnnotations(nextProps)
-      this.updateMarkerAnnotations(nextProps)
+      if(!Im.is(nextProps.markers, this.props.markers)) {
+        this.updateMarkerAnnotations(nextProps)
+      }
 
       if(hasChanged("editorOptions")) {
         this.syncOptionsFromState(nextProps.editorOptions)
@@ -246,7 +244,7 @@ export default function makeEditor({ editorPluginsToRun }) {
 
       }
 
-      this.updateMarkerAnnotations(this.props, { force: true })
+      this.updateMarkerAnnotations(this.props)
     }
 
     componentWillUnmount() {
