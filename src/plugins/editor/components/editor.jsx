@@ -9,6 +9,7 @@ import isUndefined from "lodash/isUndefined"
 import omit from "lodash/omit"
 import isEqual from "lodash/isEqual"
 import isEmpty from "lodash/isEmpty"
+import debounce from "lodash/debounce"
 
 import ace from "brace"
 import "brace/mode/yaml"
@@ -29,13 +30,15 @@ export default function makeEditor({ editorPluginsToRun }) {
       super(props, context)
 
       this.editor = null
-      this.yaml = props.value || ""
+      this.yaml = !isUndefined(props.value) ? [props.value] : []
+      this.debouncedOnChange = debounce(this.onChange, props.debounce)
     }
 
     static propTypes = {
       specId: PropTypes.string,
       value: PropTypes.string,
       editorOptions: PropTypes.object,
+      debounce: PropTypes.number,
 
       onChange: PropTypes.func,
       onMarkerLineUpdate: PropTypes.func,
@@ -58,14 +61,22 @@ export default function makeEditor({ editorPluginsToRun }) {
       goToLine: {},
       errors: fromJS([]),
       editorOptions: {},
+      debounce: 800 // 0.5 imperial seconds™
+
     }
 
+
+    // This should be debounced, not only to prevent too many re-renders, but to also capture the this.yaml value, at the same time we'll call the upstream onChange
     onChange = (value) => {
-      // Set the value locally now - so that we don't have lag/feedback
-      this.yaml = value
       // Send it upstream ( this.silent is taken from react-ace module). It avoids firing onChange, when we update setValue
+      this.props.onChange(value)
+      this.yaml = this.yaml.slice(0,2) // Keep it small
+      this.yaml.unshift(value) // Add this yaml onto a stack (in reverse ), so we can see if upstream sends us back something we just sent it!
+    }
+
+    checkForSilentOnChange = (value) => {
       if(!this.silent) {
-        this.props.onChange(value)
+        this.debouncedOnChange(value)
       }
     }
 
@@ -153,7 +164,7 @@ export default function makeEditor({ editorPluginsToRun }) {
       // this.silent is taken from react-ace module. It avoids firing onChange, when we update setValue
       this.silent = true
       const pos = this.editor.session.selection.toJSON()
-      this.editor.setValue(this.yaml)
+      this.editor.setValue(this.yaml[0]) // The first element is the most recent
       this.editor.session.selection.fromJSON(pos)
       this.silent = false
     }
@@ -202,17 +213,23 @@ export default function makeEditor({ editorPluginsToRun }) {
       const editor = this.editor
       const newValue = nextProps.value
 
+      // Change the debounce value/func
+      if(this.props.debounce !== nextProps.debounce) {
+        this.debouncedOnChange.flush()
+        this.debouncedOnChange = debounce(this.onChange, nextProps.debounce)
+      }
+
       //// Mange the yaml lifecycle...
       // If the yaml doesn't match _what we already have in state_ then update the yaml in the editor
       // Taking care to manage the other things in lifecycle
-      if(newValue != this.yaml) {
-        this.yaml = newValue
+      if(newValue !== this.props.value && !this.yaml.includes(newValue)) {
 
         // Remove markers
         if(this.removeMarkers) {
           this.removeMarkers()
         }
 
+        this.yaml = [newValue] // Clear our stack, and add the latest from props
         this.updateYaml()
 
         // Add back the markers
@@ -229,6 +246,13 @@ export default function makeEditor({ editorPluginsToRun }) {
         if(!Im.is(nextProps.markers, this.props.markers)) {
           this.updateMarkerAnnotations(nextProps)
         }
+      }
+
+      // If the yaml was in our stack, we should clear it up
+      if(this.yaml.includes(newValue)) {
+        // remove all previous yaml's ( leave newValue in though ).
+        // In case another onChange is still in flight
+        this.yaml = this.yaml.slice(this.yaml.indexOf(newValue) + 1)
       }
 
       this.updateErrorAnnotations(nextProps)
@@ -256,7 +280,7 @@ export default function makeEditor({ editorPluginsToRun }) {
           mode="yaml"
           theme="tomorrow_night_eighties"
           onLoad={this.onLoad}
-          onChange={this.onChange}
+          onChange={this.checkForSilentOnChange}
           name="ace-editor"
           width="100%"
           height="100%"
