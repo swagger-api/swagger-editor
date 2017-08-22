@@ -63,7 +63,7 @@ export default class Topbar extends React.Component {
 
     fileReader.onload = fileLoadedEvent => {
       let textFromFileLoaded = fileLoadedEvent.target.result
-      this.props.specActions.updateSpec(textFromFileLoaded)
+      this.props.specActions.updateSpec(YAML.safeDump(YAML.safeLoad(textFromFileLoaded)))
       this.hideModal()
     }
 
@@ -162,8 +162,10 @@ export default class Topbar extends React.Component {
   }
 
   render() {
-    let { getComponent } = this.props
+    let { getComponent, specSelectors: { isOAS3 } } = this.props
     const Link = getComponent("Link")
+
+    let showGenerateMenu = !(isOAS3 && isOAS3())
 
     let makeMenuOptions = (name) => {
       let stateKey = `is${name}MenuOpen`
@@ -196,14 +198,14 @@ export default class Topbar extends React.Component {
             <DropdownMenu {...makeMenuOptions("Edit")}>
               <li><button type="button" onClick={this.convertToYaml}>Convert to YAML</button></li>
             </DropdownMenu>
-            <DropdownMenu className="long" {...makeMenuOptions("Generate Server")}>
+            { showGenerateMenu ? <DropdownMenu className="long" {...makeMenuOptions("Generate Server")}>
               { this.state.servers
                   .map(serv => <li><button type="button" onClick={this.downloadGeneratedFile.bind(null, "server", serv)}>{serv}</button></li>) }
-            </DropdownMenu>
-            <DropdownMenu className="long" {...makeMenuOptions("Generate Client")}>
+            </DropdownMenu> : null }
+            { showGenerateMenu ? <DropdownMenu className="long" {...makeMenuOptions("Generate Client")}>
               { this.state.clients
                   .map(cli => <li><button type="button" onClick={this.downloadGeneratedFile.bind(null, "client", cli)}>{cli}</button></li>) }
-            </DropdownMenu>
+            </DropdownMenu> : null }
           </div>
         </div>
         <Modal className="swagger-ui modal" ref="modal">

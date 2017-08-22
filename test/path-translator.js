@@ -65,6 +65,27 @@ describe("validation plugin - path translator", function(){
       expect(transformPathToArray(path, jsSpec)).toEqual(["definitions", "One.Two"])
     })
 
+    it("should translate paths separated by brackets using single quotes", function() {
+      // Given
+      let jsSpec = {
+        definitions: {
+          "One.Two": {
+            a: {
+              b: {
+                c: {
+                  d: 123
+                }
+              }
+            }
+          }
+        }
+      }
+      let path = "instance.definitions[\'One.Two\'].a.b[\'c\'].d"
+
+      // Then
+      expect(transformPathToArray(path, jsSpec)).toEqual(["definitions", "One.Two", "a", "b", "c", "d"])
+    })
+
     it("should translate paths separated by brackets with string keys, and then periods", function() {
       // Given
       let jsSpec = {
@@ -76,6 +97,22 @@ describe("validation plugin - path translator", function(){
         }
       }
       let path = "instance.definitions[\"One.Two\"].abc123"
+
+      // Then
+      expect(transformPathToArray(path, jsSpec)).toEqual(["definitions", "One.Two", "abc123"])
+    })
+
+    it("should translate paths separated by brackets with string keys & single quotes, and then periods", function() {
+      // Given
+      let jsSpec = {
+        definitions: {
+          "One.Two": {
+            a: "1",
+            abc123: "1"
+          }
+        }
+      }
+      let path = "instance.definitions[\'One.Two\'].abc123"
 
       // Then
       expect(transformPathToArray(path, jsSpec)).toEqual(["definitions", "One.Two", "abc123"])
