@@ -1,20 +1,10 @@
 import React, { PropTypes } from "react"
-import debounce from "lodash/debounce"
-
-
-const DEBOUNCE_TIME = 800 // 0.5 imperial seconds™
 
 export default class EditorContainer extends React.Component {
 
-  constructor(props, context) {
-    super(props, context)
-    this.onChange = debounce(this._onChange.bind(this), DEBOUNCE_TIME)
-  }
-
-  _onChange(value) {
-    if(typeof this.props.onChange === "function") {
-      this.props.onChange(value)
-    }
+  // This is already debounced by editor.jsx
+  onChange = (value) => {
+    this.props.onChange(value)
   }
 
   render() {
