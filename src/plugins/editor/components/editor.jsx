@@ -233,7 +233,7 @@ export default function makeEditor({ editorPluginsToRun }) {
         this.updateYaml()
 
         // Add back the markers
-        this.updateMarkerAnnotations(this.props)
+        this.updateMarkerAnnotations(nextProps)
 
         // Clear undo-stack if we've changed specId or it was empty before
         if(hasChanged("specId") || wasEmptyBefore("value")) {
