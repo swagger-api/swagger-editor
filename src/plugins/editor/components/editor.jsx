@@ -69,9 +69,9 @@ export default function makeEditor({ editorPluginsToRun }) {
     // This should be debounced, not only to prevent too many re-renders, but to also capture the this.yaml value, at the same time we'll call the upstream onChange
     onChange = (value) => {
       // Send it upstream ( this.silent is taken from react-ace module). It avoids firing onChange, when we update setValue
-      this.props.onChange(value)
       this.yaml = this.yaml.slice(0,2) // Keep it small
       this.yaml.unshift(value) // Add this yaml onto a stack (in reverse ), so we can see if upstream sends us back something we just sent it!
+      this.props.onChange(value)
     }
 
     checkForSilentOnChange = (value) => {
