@@ -32,7 +32,7 @@ export function placeMarkerDecorations({editor, markers, onMarkerLineUpdate}) {
 
       s.removeGutterDecoration(oldLine, className)
       s.addGutterDecoration(newLine, className)
-      onMarkerLineUpdate([oldLine, newLine])
+      onMarkerLineUpdate([oldLine, newLine, line])
     })
 
     return function () {
