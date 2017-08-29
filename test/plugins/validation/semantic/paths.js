@@ -300,47 +300,6 @@ describe("validation plugin - semantic - paths", function(){
 
   })
 
-  describe("Paths cannot have partial templates", () => {
-
-    it("should return one problem for an illegal partial path template", function(){
-      const spec = {
-        paths: {
-          "/CoolPath/user{id}": {
-            parameters: [{
-              name: "id",
-              in: "path"
-            }]
-          }
-        }
-      }
-
-      let res = validate({ resolvedSpec: spec })
-      expect(res.errors).toEqual([{
-        message: "Partial path templating is not allowed.",
-        path: "paths./CoolPath/user{id}"
-      }])
-      expect(res.warnings).toEqual([])
-    })
-
-    it("should return no problems for a correct path template", function(){
-      const spec = {
-        paths: {
-          "/CoolPath/{id}": {
-            parameters: [{
-              name: "id",
-              in: "path"
-            }]
-          }
-        }
-      }
-
-      let res = validate({ resolvedSpec: spec })
-      expect(res.errors).toEqual([])
-      expect(res.warnings).toEqual([])
-    })
-
-  })
-
   describe("Paths cannot have query strings in them", () => {
 
     it("should return one problem for an stray '?' in a path string", function(){
