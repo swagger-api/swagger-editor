@@ -31,7 +31,9 @@ export function makeValidationWorker() {
       })
       if(validationErrors.length) {
         validationErrors.forEach(err => {
-          errActions.newSpecErr(err)
+          if(err) {
+            errActions.newSpecErr(err)
+          }
         })
       }
     }).catch(function (e) {

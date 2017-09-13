@@ -13,9 +13,6 @@
 // Assertation 5:
 // Paths must have unique (name + in combination) parameters
 
-// Assertation 6:
-// Paths cannot have partial templates. (/path/abc{123} is illegal)
-
 // Assertation 7:
 // Paths cannot have literal query strings in them.
 
@@ -44,16 +41,6 @@ export function validate({ resolvedSpec }) {
     if(!path || !pathName) {
       return
     }
-
-    pathName.split("/").map(substr => {
-      // Assertation 6
-      if(templateRegex.test(substr) && substr.replace(templateRegex, "").length > 0) {
-        errors.push({
-          path: `paths.${pathName}`,
-          message: "Partial path templating is not allowed."
-        })
-      }
-    })
 
     if(pathName.indexOf("?") > -1) {
       errors.push({
