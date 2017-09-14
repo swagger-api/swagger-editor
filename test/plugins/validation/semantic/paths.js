@@ -252,33 +252,6 @@ describe("validation plugin - semantic - paths", function(){
   })
 
   describe("Paths must have unique name + in parameters", () => {
-
-    it("should return one problem for an name + in collision", function(){
-      const spec = {
-        paths: {
-          "/CoolPath/{id}": {
-            parameters: [{
-              name: "id",
-              in: "path"
-            }]
-          },
-          "/CoolPath/{count}": {
-            parameters: [{
-              name: "count",
-              in: "path"
-            }]
-          }
-        }
-      }
-
-      let res = validate({ resolvedSpec: spec })
-      expect(res.errors).toEqual([{
-        message: "Equivalent paths are not allowed.",
-        path: "paths./CoolPath/{count}"
-      }])
-      expect(res.warnings).toEqual([])
-    })
-
     it("should return no problems for an name collision only", function(){
       const spec = {
         paths: {
@@ -316,47 +289,6 @@ describe("validation plugin - semantic - paths", function(){
                 // in: "path"
               }
             ]
-          }
-        }
-      }
-
-      let res = validate({ resolvedSpec: spec })
-      expect(res.errors).toEqual([])
-      expect(res.warnings).toEqual([])
-    })
-
-  })
-
-  describe("Paths cannot have partial templates", () => {
-
-    it("should return one problem for an illegal partial path template", function(){
-      const spec = {
-        paths: {
-          "/CoolPath/user{id}": {
-            parameters: [{
-              name: "id",
-              in: "path"
-            }]
-          }
-        }
-      }
-
-      let res = validate({ resolvedSpec: spec })
-      expect(res.errors).toEqual([{
-        message: "Partial path templating is not allowed.",
-        path: "paths./CoolPath/user{id}"
-      }])
-      expect(res.warnings).toEqual([])
-    })
-
-    it("should return no problems for a correct path template", function(){
-      const spec = {
-        paths: {
-          "/CoolPath/{id}": {
-            parameters: [{
-              name: "id",
-              in: "path"
-            }]
           }
         }
       }
@@ -407,34 +339,6 @@ describe("validation plugin - semantic - paths", function(){
   })
 
   describe("Integrations", () => {
-
-
-    it("should return two problems for an illegal query string in a path string", function(){
-      const spec = {
-        paths: {
-          "/report?rdate={relative_date}": {
-            parameters: [{
-              name: "relative_date",
-              in: "path"
-            }]
-          }
-        }
-      }
-
-      let res = validate({ resolvedSpec: spec })
-      expect(res.errors).toEqual([
-        {
-          message: "Partial path templating is not allowed.",
-          path: "paths./report?rdate={relative_date}"
-        },
-        {
-          message: "Query strings in paths are not allowed.",
-          path: "paths./report?rdate={relative_date}"
-        }
-      ])
-      expect(res.warnings).toEqual([])
-    })
-
     it.skip("should return two problems for an equivalent path string missing a parameter definition", function(){
       const spec = {
         paths: {

@@ -46,19 +46,23 @@ export default class Topbar extends React.Component {
     let url = prompt("Enter the URL to import from:")
 
     if(url) {
-      this.props.specActions.updateUrl(url)
-      this.props.specActions.download(url)
+      fetch(url)
+        .then(res => res.text())
+        .then(text => {
+          this.props.specActions.updateSpec(
+            YAML.safeDump(YAML.safeLoad(text))
+          )
+        })
     }
   }
 
   importFromFile = () => {
-    let [fileToLoad] = this.refs.fileLoadInput.files
-
+    let fileToLoad = this.refs.fileLoadInput.files.item(0)
     let fileReader = new FileReader()
 
     fileReader.onload = fileLoadedEvent => {
       let textFromFileLoaded = fileLoadedEvent.target.result
-      this.props.specActions.updateSpec(textFromFileLoaded)
+      this.props.specActions.updateSpec(YAML.safeDump(YAML.safeLoad(textFromFileLoaded)))
       this.hideModal()
     }
 
@@ -74,7 +78,7 @@ export default class Topbar extends React.Component {
   }
 
   saveAsJson = () => {
-    // Editor content -> JS object -> YAML string
+    // Editor content  -> JS object -> Pretty JSON string
     let editorContent = this.props.specSelectors.specStr()
     let jsContent = YAML.safeLoad(editorContent)
     let prettyJsonContent = beautifyJson(jsContent, null, 2)
@@ -82,7 +86,7 @@ export default class Topbar extends React.Component {
   }
 
   saveAsText = () => {
-    // Editor content -> JS object -> YAML string
+    // Download raw text content
     let editorContent = this.props.specSelectors.specStr()
     downloadFile(editorContent, "swagger.txt")
   }
@@ -106,7 +110,7 @@ export default class Topbar extends React.Component {
       swaggerClient.apis.servers.generateServerForLanguage({
         framework : name,
         body: JSON.stringify({
-          spec: specSelectors.specResolved()
+          spec: specSelectors.specJson()
         }),
         headers: JSON.stringify({
           Accept: "application/json"
@@ -119,7 +123,7 @@ export default class Topbar extends React.Component {
       swaggerClient.apis.clients.generateClient({
         language : name,
         body: JSON.stringify({
-          spec: specSelectors.specResolved()
+          spec: specSelectors.specJson()
         })
       })
         .then(res => handleResponse(res))
@@ -157,8 +161,10 @@ export default class Topbar extends React.Component {
   }
 
   render() {
-    let { getComponent } = this.props
+    let { getComponent, specSelectors: { isOAS3 } } = this.props
     const Link = getComponent("Link")
+
+    let showGenerateMenu = !(isOAS3 && isOAS3())
 
     let makeMenuOptions = (name) => {
       let stateKey = `is${name}MenuOpen`
@@ -191,14 +197,14 @@ export default class Topbar extends React.Component {
             <DropdownMenu {...makeMenuOptions("Edit")}>
               <li><button type="button" onClick={this.convertToYaml}>Convert to YAML</button></li>
             </DropdownMenu>
-            <DropdownMenu className="long" {...makeMenuOptions("Generate Server")}>
+            { showGenerateMenu ? <DropdownMenu className="long" {...makeMenuOptions("Generate Server")}>
               { this.state.servers
                   .map(serv => <li><button type="button" onClick={this.downloadGeneratedFile.bind(null, "server", serv)}>{serv}</button></li>) }
-            </DropdownMenu>
-            <DropdownMenu className="long" {...makeMenuOptions("Generate Client")}>
+            </DropdownMenu> : null }
+            { showGenerateMenu ? <DropdownMenu className="long" {...makeMenuOptions("Generate Client")}>
               { this.state.clients
                   .map(cli => <li><button type="button" onClick={this.downloadGeneratedFile.bind(null, "client", cli)}>{cli}</button></li>) }
-            </DropdownMenu>
+            </DropdownMenu> : null }
           </div>
         </div>
         <Modal className="swagger-ui modal" ref="modal">

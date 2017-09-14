@@ -1,3 +1,5 @@
+import "src/polyfills.js"
+
 import concat from "lodash/concat"
 import { validate } from "./structural-validation/validator"
 import { runSemanticValidators } from "./semantic-validators/hook"
