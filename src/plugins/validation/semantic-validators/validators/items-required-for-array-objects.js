@@ -52,6 +52,15 @@ export function validate({ resolvedSpec }) {
       }
     }
 
+    if(path[path.length - 2] === "properties") {
+      if(obj.type === "array" && typeof obj.items !== "object") {
+        errors.push({
+          path,
+          message: "Model properties with 'array' type require an 'items' property"
+        })
+      }
+    }
+
     if(Object.keys(obj).length) {
       return Object.keys(obj).map(k => walk(obj[k], [...path, k]))
 
