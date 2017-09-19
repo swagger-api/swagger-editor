@@ -17,7 +17,7 @@ export function validate({ resolvedSpec }) {
       return
     }
 
-    if(path[path.length - 1] === "schema" || path[path.length - 2] === "definitions") {
+    if(path[path.length - 1] === "schema" || path[path.length - 2] === "definitions" || path[path.length - 2] === "properties") {
       // if parent is 'schema', or we're in a model definition
 
       // Assertation 1
