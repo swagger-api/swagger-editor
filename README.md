@@ -14,6 +14,12 @@ Valid Swagger JSON descriptions can then be generated and used with the full Swa
 
 As a brand new version, written from the ground up, there are some known issues and unimplemented features. Check out the [Known Issues](#known-issues) section for more details.
 
+This repository publishes to two different NPM modules:
+
+* [swagger-editor](https://www.npmjs.com/package/swagger-editor) is a traditional npm module intended for use in JavaScript web application projects that are capable of resolving dependencies (via Webpack, Browserify, etc).
+* [swagger-editor-dist](https://www.npmjs.com/package/swagger-editor-dist) is a dependency-free module that includes everything you need to serve Swagger-Editor in a server-side project, or a web project that can't resolve npm module dependencies.
+
+
 For the older version of swagger-editor, refer to the [*2.x branch*](https://github.com/swagger-api/swagger-editor/tree/2.x).
 
 ## Running locally
