@@ -18,6 +18,12 @@ export function validate({ resolvedSpec }) {
           message: "Parameters with 'array' type require an 'items' property."
         })
       }
+      if(!obj.type && obj.in !== "body") {
+        errors.push({
+          path,
+          message: "Non-body parameters require a 'type' property."
+        })
+      }
     }
 
     if(Object.keys(obj).length) {
