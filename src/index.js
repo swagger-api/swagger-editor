@@ -5,14 +5,15 @@ import "swagger-ui/dist/swagger-ui.css"
 
 import EditorPlugin from "./plugins/editor"
 import LocalStoragePlugin from "./plugins/local-storage"
-import ValidationPlugin from "./plugins/validation"
-import ValidationApiPlugin from "./plugins/validation/apis"
+import ValidatePlugin from "./plugins/validate"
+import ValidateJsonSchemaPlugin from "./plugins/validate-json-schema"
 import EditorAutosuggestPlugin from "./plugins/editor-autosuggest"
 import EditorAutosuggestSnippetsPlugin from "./plugins/editor-autosuggest-snippets"
 import EditorAutosuggestKeywordsPlugin from "./plugins/editor-autosuggest-keywords"
 import EditorAutosuggestOAS3KeywordsPlugin from "./plugins/editor-autosuggest-oas3-keywords"
 import EditorAutosuggestRefsPlugin from "./plugins/editor-autosuggest-refs"
 import JumpToPathPlugin from "./plugins/jump-to-path"
+import PerformancePlugin from "./plugins/performance"
 
 // eslint-disable-next-line no-undef
 const { GIT_DIRTY, GIT_COMMIT, PACKAGE_VERSION } = buildInfo
@@ -30,6 +31,7 @@ const plugins = {
   EditorAutosuggestRefsPlugin,
   JumpToPathPlugin,
   EditorAutosuggestOAS3KeywordsPlugin,
+  PerformancePlugin,
 }
 
 const defaults = {
