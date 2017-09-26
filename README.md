@@ -1,5 +1,7 @@
 # Swagger-Editor
 
+[![Greenkeeper badge](https://badges.greenkeeper.io/swagger-api/swagger-editor.svg)](https://greenkeeper.io/)
+
 [![Build Status](https://travis-ci.org/swagger-api/swagger-editor.svg?branch=master)](https://travis-ci.org/swagger-api/swagger-editor)
 [![Code Climate](https://codeclimate.com/github/swagger-api/swagger-editor/badges/gpa.svg)](https://codeclimate.com/github/swagger-api/swagger-editor)
 [![Dependency Status](https://david-dm.org/swagger-api/swagger-editor/status.svg)](https://david-dm.org/swagger-api/swagger-editor)
