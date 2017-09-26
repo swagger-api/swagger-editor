@@ -19,31 +19,62 @@ export const all = () => (system) => {
     system.errActions.newSpecErr(obj)
   }, 0)
 
-  system.fn.timeCall("All validations", () => {
+  system.fn.timeCall("Sync validations", () => {
     forEach(system.validateActions, (fn, name) => {
-      if(name.indexOf("validate") === 0) {
-        system.fn.timeCall("Validate "+name+":", () => fn(cb))
+      if(name.indexOf("validateAsync") === 0) {
+        fn(cb) // Function send messages on its own, it won't be cached ( due to the nature of async operations )
+      } else if(name.indexOf("validate") === 0) {
+        Promise.resolve(system.fn.timeCall("Sync validate "+name+":", fn))
+          .then(validationObjs => {
+            if(validationObjs) {
+              validationObjs.forEach(cb)
+            }
+          })
       }
     })
   })
 }
 
-export const validateTypeArrayRequiresItems = (cb) => (system) => {
-  system.validateSelectors.allSchemas().forEach(function(node) {
-    const schemaObj = node.node
-    if(schemaObj.type === "array" && typeof schemaObj.items === "undefined") {
-      cb({
-        message: "Schemas with 'type: array', require a sibling 'items: ' field",
-        path: node.path,
-        level: "error",
-      })
-    }
-  })
+export const validateTypeArrayRequiresItems = () => (system) => {
+  return system.validateSelectors
+    .allSchemas()
+    .then(nodes => {
+      return nodes.reduce((acc, node) => {
+        const schemaObj = node.node
+        if(schemaObj.type === "array" && typeof schemaObj.items === "undefined") {
+          acc.push({
+            message: "Schemas with 'type: array', require a sibling 'items: ' field",
+            path: node.path,
+            level: "error",
+          })
+          return acc
+        }
+      }, [])
+    })
 }
 
 
+export const validateMinAndMax = () => (system) => {
+  return system.validateSelectors
+    .allSchemas()
+    .then(nodes => {
+      return nodes.reduce((acc, node) => {
+        const schemaObj = node.node
+        const {minimum, maximum} = schemaObj
+        if(minimum && maximum && (maximum < minimum)) {
+          acc.push({
+            message: "Maximum field must be greater than minimum field",
+            path: [...node.path, "maximum"],
+            level: "error",
+          })
+        }
+        return acc
+      }, [])
+    })
+}
+
 // Add warnings for unused definitions
-export const validate$Refs = (cb) => (system) => {
+export const validate$Refs = () => (system) => {
   const specStr = system.specSelectors.specStr()
   const refRegex = /\$ref.*["'](.*)["']/g
   let match = refRegex.exec(specStr)
@@ -54,15 +85,19 @@ export const validate$Refs = (cb) => (system) => {
     match = refRegex.exec(specStr)
   }
 
+  const errors = []
+
   system.specSelectors.definitions()
     .forEach((val, key) => {
       if(!refs.has(`#/definitions/${key}`)) {
         const path = ["definitions", key]
-        cb({
+        errors.push({
           level: "error",
           path,
           message: "Definition was declared but never used in document"
         })
       }
   })
+
+  return errors
 }
