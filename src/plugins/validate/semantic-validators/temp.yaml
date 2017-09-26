@@ -1,7 +1,0 @@
-type: object
-properties:
-  paths:
-    type: object
-    validate: () => true
-    additionalProperties:
-      type: string
