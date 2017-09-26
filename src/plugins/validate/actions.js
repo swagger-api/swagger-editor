@@ -92,7 +92,7 @@ export const validate$Refs = () => (system) => {
       if(!refs.has(`#/definitions/${key}`)) {
         const path = ["definitions", key]
         errors.push({
-          level: "error",
+          level: "warning",
           path,
           message: "Definition was declared but never used in document"
         })
