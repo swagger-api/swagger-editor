@@ -5,12 +5,12 @@ const getTimestamp = ((that) => {
   return Date.now.bind(Date)
 })(self || window)
 
-export default function PerformancePlugin(system) {
+export default function PerformancePlugin() {
   if(!(window || {}).LOG_PERF) {
     return {
       fn: {
         getTimestamp,
-        Timer,
+        Timer: TimerStub,
         timeCall: (name,fn) => fn(),
       }
     }
@@ -33,6 +33,10 @@ function timeCall(name,fn) {
   const b = getTimestamp()
   console.log(name,"took", b - a, "ms") // eslint-disable-line no-console
   return r
+}
+
+function TimerStub() {
+  this.start = this.mark = this.print = Function.prototype
 }
 
 function Timer(name, _getTimestamp=getTimestamp) {
