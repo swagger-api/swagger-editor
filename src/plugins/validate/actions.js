@@ -47,8 +47,8 @@ export const validateTypeArrayRequiresItems = () => (system) => {
             path: node.path,
             level: "error",
           })
-          return acc
         }
+        return acc
       }, [])
     })
 }
