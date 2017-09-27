@@ -2,10 +2,27 @@ import flatten from "lodash/flatten"
 
 export const isVendorExt = (state,node) => node.path.some(a => a.indexOf("x-") === 0)
 export const isDefinition = (state,node) => node.path[0] == "definitions" && node.path.length == 2
-export const isFreeName = (state,node) => (sys) => sys.validateSelectors.isDefinition(node)
 export const isRootParameter = (state, node) => node.path[0] === "parameters" && node.path.length === 2
 export const isRootResponse = (state, node) => node.path[0] === "responses" && node.path.length === 2
 export const isRootHeader = (state, node) => node.path[0] === "headers" && node.path.length === 2
+export const isRef = (state, node) => node.key === "$ref" && typeof node.node === "string" // This selector can be fooled.
+
+export const isSubSchema = (state, node) => (sys) => {
+  const path = node.path
+  if(path.length < 3) {
+    return false
+  }
+
+  if(node.parent.key == "properties" || node.parent.key === "additionalProperties") {
+    if(node.parent.parent && node.parent.parent.node && node.parent.parent.node.type === "object") {
+      return !sys.validateSelectors.isVendorExt(node)
+    }
+  } else if(node.key == "items") {
+    if(node.parent.node && node.parent.node.type === "array") {
+      return !sys.validateSelectors.isVendorExt(node)
+    }
+  }
+}
 
 export const isParameter = (state, node) => (sys) => {
   if(sys.validateSelectors.isVendorExt(node)) {
@@ -69,7 +86,7 @@ export const allSchemas = () => (system) => {
     "allResponseSchemas",
     "allDefinitions",
     "allHeaders",
-    // "allSubSchemas", TODO: sub schemas IMPORTANT!
+    "allSubSchemas",
   ]
 
   const selectors = schemaSources.map(name => system.validateSelectors[name]())
@@ -85,6 +102,28 @@ export const allParameters = () => (system) => {
     name: "allParameterSchemas",
     fn: (node) => {
       if(system.validateSelectors.isParameter(node)) {
+        return node
+      }
+    },
+  })
+}
+
+export const allSubSchemas = () => (system) => {
+  return system.fn.traverseOnce({
+    name: "allSubSchemas",
+    fn: (node) => {
+      if(system.validateSelectors.isSubSchema(node)) {
+        return node
+      }
+    },
+  })
+}
+
+export const all$refs = () => (system) => {
+  return system.fn.traverseOnce({
+    name: "all$refs",
+    fn: (node) => {
+      if(system.validateSelectors.isRef(node)) {
         return node
       }
     },
