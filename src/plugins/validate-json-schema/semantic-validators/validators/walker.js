@@ -19,46 +19,6 @@ export function validate({ jsSpec }) {
       return null
     }
 
-    ///// "type" should always be a string, everywhere.
-    if(curr === "type" && ["definitions", "properties"].indexOf(path[path.length - 2]) === -1) {
-      if(typeof value !== "string") {
-        errors.push({
-          path,
-          message: "\"type\" should be a string"
-        })
-      }
-
-    }
-
-    ///// Minimums and Maximums
-
-    if(value.maximum && value.minimum) {
-      if(greater(value.minimum, value.maximum)) {
-        errors.push({
-          path: path.concat(["minimum"]),
-          message: "Minimum cannot be more than maximum"
-        })
-      }
-    }
-
-    if(value.maxProperties && value.minProperties) {
-      if(greater(value.minProperties, value.maxProperties)) {
-        errors.push({
-          path: path.concat(["minProperties"]),
-          message: "minProperties cannot be more than maxProperties"
-        })
-      }
-    }
-
-    if(value.maxLength && value.minLength) {
-      if(greater(value.minLength, value.maxLength)) {
-        errors.push({
-          path: path.concat(["minLength"]),
-          message: "minLength cannot be more than maxLength"
-        })
-      }
-    }
-
     ///// Restricted $refs
 
     if(curr === "$ref") {
