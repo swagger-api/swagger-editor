@@ -74,7 +74,7 @@ export const validateMinAndMax = () => (system) => {
 }
 
 // Add warnings for unused definitions
-export const validate$Refs = () => (system) => {
+export const validateUnused$Refs = () => (system) => {
   const specStr = system.specSelectors.specStr()
   const refRegex = /\$ref.*["'](.*)["']/g
   let match = refRegex.exec(specStr)
