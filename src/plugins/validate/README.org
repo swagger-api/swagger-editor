@@ -5,23 +5,32 @@ Ie: anything not covered by the json-schema
 
 ** Make a new one
 #+BEGIN_SRC javascript
-  export const validate_OnlyFoos = () => (system) => {
-    system.validateSelectors.allNodes().forEach(node => {
-      if(node.key === "foo") {
-        system.errActions.newErr({
-          level: "error",
-          line: "fuck",
-          message: "We can do something with this.",
-          path: node.path
-        })
-      }
+  export const validateOnlyFoos = () => (system) => {
+    system.validateSelectors.allSchemas().then(schemas => {
+      const errors = []
+      schemas.forEach( schema => {
+        if(schema.node.type === "array") { // `node` is the value at that point
+          errors.push({
+            level: "error",
+            message: "We can do something with this, array.",
+            path: schema.path // it'll figure out the line # from this
+          })
+        }
+      })
     }))
   }
 #+END_SRC
-*** How do we optimize this? So that we do /less/ traversals?
-**** We can call a function /with/ the selectors.
-Instead of calling the selectors directly. This allows us to batch the same selectors together.
-**** Selectors could be memoized per validation ( or even across validation runs )
-*** They are actions with the simple convention of *validate_<SomeName>*
-*** They rely on nodeSelectors, being passed in.
-Which are like normal selectors, except they always return *nodes*
+** We use a single traverser, although its performance leaves a little to be desired.
+To implement one...
+#+BEGIN_SRC javascript
+export const allParameters = () => (system) => {
+  return system.fn.traverseOnce({ // Returns a promise
+    name: "allParameterSchemas",
+    fn: (node) => { // called for each node, you need to return the node if you want it in the collecction
+      if(system.validateSelectors.isParameter(node)) {
+        return node
+      }
+    },
+  })
+}
+#+END_SRC
