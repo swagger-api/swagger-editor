@@ -9,10 +9,14 @@ export class JumpToPath extends React.Component {
     path: PropTypes.oneOfType([
       PropTypes.array,
       PropTypes.string
-    ]).isRequired,
+    ]),
     content: PropTypes.element,
     showButton: PropTypes.bool,
     specPath: PropTypes.array, // The location within the spec. Used as a fallback if `path` doesn't exist
+  }
+
+  static defaultProps = {
+    path: "",
   }
 
   shouldComponentUpdate(nextProps) {

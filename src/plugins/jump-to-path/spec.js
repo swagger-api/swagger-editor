@@ -18,7 +18,7 @@ export default function spec() {
 
             // We"ve been given an explicit path? Use that...
             if(path) {
-              return path === "string" ? transformPathToArray(path, specJson().toJS()) : path
+              return typeof path === "string" ? transformPathToArray(path, specJson().toJS()) : path
             }
 
             // Try each path in the resolved spec, starting from the deepest
@@ -38,7 +38,7 @@ export default function spec() {
                 }
               }
 
-              // This path exists in the source spec? 
+              // This path exists in the source spec?
               if(specJson().hasIn(tryPath)) {
                 return tryPath
               }
@@ -53,7 +53,7 @@ export default function spec() {
   }
 }
 
-// Copied out of swagger-client, not sure if it should be exposed as a lib or as part of the public swagger-client api. 
+// Copied out of swagger-client, not sure if it should be exposed as a lib or as part of the public swagger-client api.
 /**
  * Converts a JSON pointer to array.
  * @api public
