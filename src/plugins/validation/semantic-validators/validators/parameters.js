@@ -19,7 +19,6 @@ export function validate({ resolvedSpec }) {
         })
       }
       if(!obj.type && obj.in && obj.in !== "body") {
-        debugger
         errors.push({
           path,
           message: "Non-body parameters require a 'type' property."
