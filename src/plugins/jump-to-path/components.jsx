@@ -1,7 +1,7 @@
 import React, { PropTypes } from "react"
 import JumpIcon from "./jump-icon.svg"
 
-export default class JumpToPath extends React.Component {
+export class JumpToPath extends React.Component {
   static propTypes = {
     editorActions: PropTypes.object.isRequired,
     specSelectors: PropTypes.object.isRequired,
@@ -9,24 +9,35 @@ export default class JumpToPath extends React.Component {
     path: PropTypes.oneOfType([
       PropTypes.array,
       PropTypes.string
-    ]).isRequired,
+    ]),
     content: PropTypes.element,
-    showButton: PropTypes.bool
+    showButton: PropTypes.bool,
+    specPath: PropTypes.array, // The location within the spec. Used as a fallback if `path` doesn't exist
+  }
+
+  static defaultProps = {
+    path: "",
   }
 
   shouldComponentUpdate(nextProps) {
     let { shallowEqualKeys } = nextProps.fn
     return shallowEqualKeys(this.props, nextProps, [
-      "content", "showButton", "path"
+      "content", "showButton", "path", "specPath"
     ])
   }
 
   jumpToPath = (e) => {
     e.stopPropagation()
 
-    let { path, fn: { AST, transformPathToArray }, specSelectors: { specStr, specJson }, editorActions } = this.props
-    let line = AST.getLineNumberForPath(specStr(), typeof path === "string" ? transformPathToArray(path, specJson().toJS()) : path)
-    editorActions.jumpToLine(line)
+    const {
+      specPath=[],
+      path,
+      specSelectors,
+      editorActions
+    } = this.props
+
+    const jumpPath = specSelectors.bestJumpPath({path, specPath})
+    editorActions.jumpToLine(specSelectors.getSpecLineFromPath(jumpPath))
   }
 
 
