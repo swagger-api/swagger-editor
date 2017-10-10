@@ -1,6 +1,5 @@
 import makeEditor from "./components/editor"
 import EditorContainer from "./components/editor-container"
-import JumpToPath from "./components/jump-to-path"
 import * as actions from "./actions"
 import reducers from "./reducers"
 import * as selectors from "./selectors"
@@ -11,7 +10,7 @@ let Editor = makeEditor({
 
 export default function () {
   return {
-    components: { Editor, EditorContainer, JumpToPath },
+    components: { Editor, EditorContainer },
     statePlugins: {
       editor: {
         reducers,
