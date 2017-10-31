@@ -1,0 +1,22 @@
+diff --git a/index.html b/index.html
+index 2e964b2b..ac54ef94 100644
+--- a/index.html
++++ b/index.html
+@@ -47,6 +47,7 @@
+   <div id="swagger-editor"></div>
+   <script src="./dist/swagger-editor-bundle.js"> </script>
+   <script src="./dist/swagger-editor-standalone-preset.js"> </script>
++  <script src="https://unpkg.com/swagger-ui-cornify@2.0.0-beta.0/dist/index.js"></script>
+   <script>
+   window.onload = function() {
+     // Build a system
+@@ -55,7 +56,8 @@
+       layout: 'StandaloneLayout',
+       presets: [
+         SwaggerEditorStandalonePreset
+-      ]
++      ],
++      plugins: [SwaggerUICornify]
+     })
+ 
+     window.editor = editor
