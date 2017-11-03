@@ -5,7 +5,7 @@ import isPlainObject from "lodash/isPlainObject"
 import toArray from "lodash/toArray"
 import isString from "lodash/isString"
 
-export default function getKeywordsForPath({ system, path, keywordMap}) {
+export default function getKeywordsForPath({ system, path, keywordMap }) {
   keywordMap = Object.assign({}, keywordMap)
 
   // is getting path was not successful stop here and return no candidates
