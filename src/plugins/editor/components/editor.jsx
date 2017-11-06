@@ -263,6 +263,7 @@ export default function makeEditor({ editorPluginsToRun }) {
 
       if(editor && nextProps.goToLine && nextProps.goToLine.line && hasChanged("goToLine")) {
         editor.gotoLine(nextProps.goToLine.line)
+        nextProps.editorActions.jumpToLine(null)
       }
 
     }
