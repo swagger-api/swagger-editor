@@ -174,8 +174,8 @@ export default function makeEditor({ editorPluginsToRun }) {
       this.setReadOnlyOptions(nextProps)
       this.updateMarkerAnnotations(nextProps)
 
-      if(editor && nextProps.goToLine.line && hasChanged("goToLine")) {
-        editor.gotoLine(nextProps.goToLine.line)
+      if(state.editor && nextProps.goToLine.line && hasChanged("goToLine")) {
+        state.editor.gotoLine(nextProps.goToLine.line)
         nextProps.editorActions.jumpToLine(null)
       }
 
