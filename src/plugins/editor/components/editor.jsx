@@ -174,8 +174,9 @@ export default function makeEditor({ editorPluginsToRun }) {
       this.setReadOnlyOptions(nextProps)
       this.updateMarkerAnnotations(nextProps)
 
-      if(state.editor && nextProps.goToLine && hasChanged("goToLine")) {
-        state.editor.gotoLine(nextProps.goToLine.line)
+      if(editor && nextProps.goToLine.line && hasChanged("goToLine")) {
+        editor.gotoLine(nextProps.goToLine.line)
+        nextProps.editorActions.jumpToLine(null)
       }
 
       this.setState({
@@ -231,6 +232,7 @@ export default function makeEditor({ editorPluginsToRun }) {
         setTimeout(function () {
           editor.getSession().getUndoManager().reset()
         }, 100)
+
       }
 
     }
