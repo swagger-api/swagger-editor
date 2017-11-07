@@ -258,7 +258,7 @@ export default function makeEditor({ editorPluginsToRun }) {
         this.syncOptionsFromState(nextProps.editorOptions)
       }
 
-      if(editor && nextProps.goToLine.line && hasChanged("goToLine")) {
+      if(editor && nextProps.goToLine && nextProps.goToLine.line && hasChanged("goToLine")) {
         editor.gotoLine(nextProps.goToLine.line)
         nextProps.editorActions.jumpToLine(null)
       }
