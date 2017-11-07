@@ -18,7 +18,7 @@ export function validate({ resolvedSpec }) {
       Object.keys(obj).map(key => {
         let securityDefinition = securityDefinitions && securityDefinitions[key]
 
-        if (!securityDefinition && path.pop() == "0") {
+        if (!securityDefinition && path[path.length -1] === "0") {
           errors.push({
             message: "security requirements must match a security definition",
             path: path
