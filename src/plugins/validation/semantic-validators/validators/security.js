@@ -1,7 +1,6 @@
 // Assertation 1:
 // Items in `security` must match a `securityDefinition`.
 
-
 export function validate({ resolvedSpec }) {
   let errors = []
   let warnings = []
@@ -12,17 +11,14 @@ export function validate({ resolvedSpec }) {
     if(typeof obj !== "object" || obj === null) {
       return
     }
-    
-    if(path.pop() === "properties") {
-      return null
-    }
 
     if(path[path.length - 2] === "security") {
 
       // Assertation 1
       Object.keys(obj).map(key => {
         let securityDefinition = securityDefinitions && securityDefinitions[key]
-        if (!securityDefinition) {
+
+        if (!securityDefinition && path.pop() == "0") {
           errors.push({
             message: "security requirements must match a security definition",
             path: path
