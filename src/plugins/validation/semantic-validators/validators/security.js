@@ -14,7 +14,7 @@ export function validate({ resolvedSpec }) {
     }
     
     if(path.pop() === "properties") {
-      return
+      return null
     }
 
     if(path[path.length - 2] === "security") {
