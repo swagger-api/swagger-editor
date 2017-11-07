@@ -12,6 +12,10 @@ export function validate({ resolvedSpec }) {
     if(typeof obj !== "object" || obj === null) {
       return
     }
+    
+    if(path.pop() === "properties") {
+      return
+    }
 
     if(path[path.length - 2] === "security") {
 
