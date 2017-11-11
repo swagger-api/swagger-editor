@@ -38,14 +38,12 @@ module.exports = require("./make-webpack-config.js")({
     chunkFilename: "[id].js"
   },
 
-	devtool: "eval-source-maps",
+	devtool: "eval-source-map",
   devServer: {
     port: 3200,
-    path: path.join(__dirname, "dev-helpers"),
     contentBase: path.join(__dirname, "dev-helpers"),
     publicPath: "/",
     noInfo: true,
-    colors: true,
     hot: true,
     stats: {
       colors: true

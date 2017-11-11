@@ -30,11 +30,7 @@ export function makeValidationWorker() {
         source: "semantic"
       })
       if(validationErrors.length) {
-        validationErrors.forEach(err => {
-          if(err) {
-            errActions.newSpecErr(err)
-          }
-        })
+        errActions.newSpecErrBatch(validationErrors)
       }
     }).catch(function (e) {
       console.error(e)
