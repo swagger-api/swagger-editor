@@ -29,6 +29,11 @@ export function makeValidationWorker() {
       errActions.clear({
         source: "semantic"
       })
+
+      // Filter out anything funky
+      validationErrors = validationErrors
+        .filter(val => typeof val === "object" && val !== null)
+
       if(validationErrors.length) {
         errActions.newSpecErrBatch(validationErrors)
       }
