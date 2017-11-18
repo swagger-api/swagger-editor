@@ -72,23 +72,30 @@ export default class Topbar extends React.Component {
   saveAsYaml = () => {
     // Editor content -> JS object -> YAML string
     let editorContent = this.props.specSelectors.specStr()
+    let isOAS3 = this.props.specSelectors.isOAS3()
+    let fileName = isOAS3 ? "openapi.yaml" : "swagger.yaml"
     let jsContent = YAML.safeLoad(editorContent)
     let yamlContent = YAML.safeDump(jsContent)
-    downloadFile(yamlContent, "swagger.yaml")
+    downloadFile(yamlContent, fileName)
   }
 
   saveAsJson = () => {
     // Editor content  -> JS object -> Pretty JSON string
     let editorContent = this.props.specSelectors.specStr()
+    let isOAS3 = this.props.specSelectors.isOAS3()
+    let fileName = isOAS3 ? "openapi.json" : "swagger.json"
     let jsContent = YAML.safeLoad(editorContent)
     let prettyJsonContent = beautifyJson(jsContent, null, 2)
-    downloadFile(prettyJsonContent, "swagger.json")
+    downloadFile(prettyJsonContent, fileName)
   }
 
   saveAsText = () => {
     // Download raw text content
+    console.warn("DEPRECATED: saveAsText will be removed in the next minor version.")
     let editorContent = this.props.specSelectors.specStr()
-    downloadFile(editorContent, "swagger.txt")
+    let isOAS3 = this.props.specSelectors.isOAS3()
+    let fileName = isOAS3 ? "openapi.txt" : "swagger.txt"
+    downloadFile(editorContent, fileName)
   }
 
   convertToYaml = () => {
@@ -199,11 +206,11 @@ export default class Topbar extends React.Component {
             </DropdownMenu>
             { showGenerateMenu ? <DropdownMenu className="long" {...makeMenuOptions("Generate Server")}>
               { this.state.servers
-                  .map(serv => <li><button type="button" onClick={this.downloadGeneratedFile.bind(null, "server", serv)}>{serv}</button></li>) }
+                  .map((serv, i) => <li key={i}><button type="button" onClick={this.downloadGeneratedFile.bind(null, "server", serv)}>{serv}</button></li>) }
             </DropdownMenu> : null }
             { showGenerateMenu ? <DropdownMenu className="long" {...makeMenuOptions("Generate Client")}>
               { this.state.clients
-                  .map(cli => <li><button type="button" onClick={this.downloadGeneratedFile.bind(null, "client", cli)}>{cli}</button></li>) }
+                  .map((cli, i) => <li key={i}><button type="button" onClick={this.downloadGeneratedFile.bind(null, "client", cli)}>{cli}</button></li>) }
             </DropdownMenu> : null }
           </div>
         </div>
