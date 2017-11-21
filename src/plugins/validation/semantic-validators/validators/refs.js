@@ -6,21 +6,26 @@ import filter from "lodash/filter"
 import startsWith from "lodash/startsWith"
 import each from "lodash/each"
 
-export function validate({ jsSpec , specStr }) {
+function collectRefs(val, key, arr = []) {
+  if(key === "$ref") {
+    return arr.push(val)
+  }
+
+  if(typeof val !== "object") {
+    return
+  }
+
+  Object.keys(val).map(k => collectRefs(val[k], k, arr))
+
+  return arr
+}
+
+export function validate({ jsSpec }) {
   let errors = []
   let warnings = []
 
   // Assertation 1
-  // This is a "creative" way to approach the problem of collecting used $refs,
-  // but other solutions required walking the jsSpec recursively to detect $refs,
-  // which can be quite slow.
-  let refRegex = /\$ref.*["'](.*)["']/g
-  let match = refRegex.exec(specStr)
-  let refs = []
-  while(match !== null) {
-      refs.push(match[1])
-      match = refRegex.exec(specStr)
-  }
+  const refs = collectRefs(jsSpec, "")
 
   // de-dupe the array, and filter out non-definition refs
   let definitionsRefs = filter(uniq(refs), v => startsWith(v, "#/definitions"))
