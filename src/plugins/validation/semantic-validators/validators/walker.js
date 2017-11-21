@@ -83,10 +83,10 @@ export function validate({ jsSpec }) {
         // eslint-disable-next-line no-unused-vars
         const [refUrl, refPath] = value.split("#")
 
-        if(!refPath || refPath[0] !== "/") {
+        if(refPath && refPath[0] !== "/") {
           errors.push({
             path,
-            message: "$refs must begin with `#/`"
+            message: "$ref paths must begin with `#/`"
           })
         }
 

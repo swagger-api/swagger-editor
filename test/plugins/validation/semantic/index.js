@@ -8,7 +8,7 @@ import {
 } from "../data/petstore-expanded.swagger.js"
 
 describe("semantic validation integration tests", () => {
-  describe.only("Swagger2 Petstore Expanded", () => {
+  describe("Swagger2 Petstore Expanded", () => {
     it("should not return any problems about the petstore definition as JSON", () => {
       const res = runSemanticValidators({
         jsSpec: PetstoreExpandedRaw,

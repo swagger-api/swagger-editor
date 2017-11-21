@@ -20,7 +20,7 @@ function collectRefs(val, key, arr = []) {
   return arr
 }
 
-export function validate({ jsSpec , specStr }) {
+export function validate({ jsSpec }) {
   let errors = []
   let warnings = []
 
