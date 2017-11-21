@@ -22,6 +22,8 @@ export function validate({ jsSpec , specStr }) {
       match = refRegex.exec(specStr)
   }
 
+  console.log(specStr)
+
   // de-dupe the array, and filter out non-definition refs
   let definitionsRefs = filter(uniq(refs), v => startsWith(v, "#/definitions"))
 
