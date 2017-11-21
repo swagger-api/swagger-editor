@@ -48,6 +48,9 @@ export default function makeEditor({ editorPluginsToRun }) {
     onLoad = (editor) => {
       let { props, state } = this
       let { AST, specObject } = props
+      
+      // fixes a warning, see https://github.com/ajaxorg/ace/issues/2499
+      editor.$blockScrolling = Infinity
 
       let langTools = ace.acequire("ace/ext/language_tools")
 
