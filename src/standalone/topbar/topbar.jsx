@@ -1,4 +1,5 @@
-import React, { PropTypes } from "react"
+import React from "react"
+import PropTypes from "prop-types"
 import Swagger from "swagger-client"
 import "whatwg-fetch"
 import DropdownMenu from "./DropdownMenu"
