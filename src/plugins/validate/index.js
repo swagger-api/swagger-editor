@@ -47,18 +47,14 @@ function makeTraverseOnce(getSystem) {
   let traversers = {}
   let results = {}
   let deferred = null
-  let timer = null
 
   const debTraverse = debounce(() => {
-    timer = new (getSystem().fn.Timer)("traverseOnce")
-
     // Setup collections
     for(let name in traversers) {
       results[name] = []
     }
 
     const json = getSystem().specSelectors.jsonAsJS()
-    timer.mark("got json")
 
     getSystem().fn.traverse(json)
       .forEach(function() { // Remember: this cannot be a fat-arrow function, because we need to read "this"
@@ -70,9 +66,6 @@ function makeTraverseOnce(getSystem) {
           }
         }
       })
-
-    timer.print("end traverse")
-    timer = null
 
     deferred.resolve(results)
     deferred = null
