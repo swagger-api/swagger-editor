@@ -1,7 +1,7 @@
 {
   "name": "swagger-editor-dist",
   "version": "$$VERSION",
-  "main": "dist/swagger-editor.js",
+  "main": "swagger-editor.js",
   "repository": "git@github.com:swagger-api/swagger-editor.git",
   "contributors": [
     "(in alphabetical order)",

@@ -387,5 +387,109 @@ describe("validation plugin - semantic - spec walker", () => {
 
     })
 
+    describe("Ref formatting", () => {
+
+      it("should return an error when a local $ref value does not begin with `#/`", () => {
+        const spec = {
+          paths: {
+            "/CoolPath/{id}": {
+              schema: {
+                $ref: "#definition/abc"
+              }
+            }
+          }
+        }
+
+        let res = validate({ jsSpec: spec })
+        expect(res.errors.length).toEqual(1)
+        expect(res.warnings.length).toEqual(0)
+        expect(res.errors[0].path).toEqual(["paths", "/CoolPath/{id}", "schema", "$ref"])
+        expect(res.errors[0].message).toContain("$ref paths must begin with")
+      })
+
+      it("should return an error when a remote $ref value does not begin with `#/`", () => {
+        const spec = {
+          paths: {
+            "/CoolPath/{id}": {
+              schema: {
+                $ref: "http://google.com/#definition/abc"
+              }
+            }
+          }
+        }
+
+        let res = validate({ jsSpec: spec })
+        expect(res.errors.length).toEqual(1)
+        expect(res.warnings.length).toEqual(0)
+        expect(res.errors[0].path).toEqual(["paths", "/CoolPath/{id}", "schema", "$ref"])
+        expect(res.errors[0].message).toContain("$ref paths must begin with")
+      })
+
+      it("should not return an error when a local $ref value begins with `#/`", () => {
+        const spec = {
+          paths: {
+            "/CoolPath/{id}": {
+              schema: {
+                $ref: "#/definition/abc"
+              }
+            }
+          }
+        }
+
+        let res = validate({ jsSpec: spec })
+        expect(res.errors.length).toEqual(0)
+        expect(res.warnings.length).toEqual(0)
+      })
+
+      it("should not return an error when a remote $ref value begins with `#/`", () => {
+        const spec = {
+          paths: {
+            "/CoolPath/{id}": {
+              schema: {
+                $ref: "http://google.com/#/definition/abc"
+              }
+            }
+          }
+        }
+
+        let res = validate({ jsSpec: spec })
+        expect(res.errors.length).toEqual(0)
+        expect(res.warnings.length).toEqual(0)
+      })
+
+      it("should not return an error when a remote $ref value is a whole-document path", () => {
+        const spec = {
+          paths: {
+            "/CoolPath/{id}": {
+              schema: {
+                $ref: "http://google.com/#"
+              }
+            }
+          }
+        }
+
+        let res = validate({ jsSpec: spec })
+        expect(res.errors.length).toEqual(0)
+        expect(res.warnings.length).toEqual(0)
+      })
+
+      it("should not return an error when a remote $ref value is a whole-document path", () => {
+        const spec = {
+          paths: {
+            "/CoolPath/{id}": {
+              schema: {
+                $ref: "http://google.com/"
+              }
+            }
+          }
+        }
+
+        let res = validate({ jsSpec: spec })
+        expect(res.errors.length).toEqual(0)
+        expect(res.warnings.length).toEqual(0)
+      })
+
+    })
+
   })
 })

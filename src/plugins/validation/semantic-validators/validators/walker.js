@@ -76,6 +76,21 @@ export function validate({ jsSpec }) {
           message: `${path[path.length - 2]} $refs cannot match any of the following: ${humanFriendlyRefBlacklist}`
         })
       }
+
+
+
+      if(typeof value === "string") {
+        // eslint-disable-next-line no-unused-vars
+        const [refUrl, refPath] = value.split("#")
+
+        if(refPath && refPath[0] !== "/") {
+          errors.push({
+            path,
+            message: "$ref paths must begin with `#/`"
+          })
+        }
+
+      }
     }
 
     if(typeof value !== "object") {

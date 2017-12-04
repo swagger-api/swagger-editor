@@ -1,4 +1,5 @@
-import React, { PropTypes } from "react"
+import React from "react"
+import PropTypes from "prop-types"
 import AceEditor from "react-ace"
 import editorPluginsHook from "../editor-plugins/hook"
 import { placeMarkerDecorations } from "../editor-helpers/marker-placer"
@@ -50,6 +51,9 @@ export default function makeEditor({ editorPluginsToRun }) {
     onLoad = (editor) => {
       let { props, state } = this
       let { AST, specObject } = props
+      
+      // fixes a warning, see https://github.com/ajaxorg/ace/issues/2499
+      editor.$blockScrolling = Infinity
 
       let langTools = ace.acequire("ace/ext/language_tools")
 
@@ -163,8 +167,9 @@ export default function makeEditor({ editorPluginsToRun }) {
         this.syncOptionsFromState(nextProps.editorOptions)
       }
 
-      if(state.editor && nextProps.goToLine && hasChanged("goToLine")) {
+      if(state.editor && nextProps.goToLine && nextProps.goToLine.line && hasChanged("goToLine")) {
         state.editor.gotoLine(nextProps.goToLine.line)
+        nextProps.editorActions.jumpToLine(null)
       }
 
       this.setState({
@@ -233,6 +238,7 @@ export default function makeEditor({ editorPluginsToRun }) {
         setTimeout(function () {
           editor.getSession().getUndoManager().reset()
         }, 100)
+
       }
 
     }

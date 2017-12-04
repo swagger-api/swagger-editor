@@ -5,28 +5,15 @@ import { transformPathToArray } from "../path-translator"
 
 import assign from "lodash/assign"
 import getTimestamp from "../get-timestamp"
-let request = require.context("./validators/", true, /\.js$/)
+import rawValidators from "./validators"
 let semanticValidators = []
 
 let LOG_SEMVAL_PERF = process.env.NODE_ENV !== "production"
 
-request.keys().forEach( function( key ){
-  if( key === "./hook.js" ) {
-    return
-  }
-
-  if( !key.match(/js$/) ) {
-    return
-  }
-
-  if( key.slice(2).indexOf("/") > -1) {
-    // skip files in subdirs
-    return
-  }
-
+Object.keys(rawValidators).forEach( function( key ) {
   semanticValidators.push({
     name: toTitleCase(key).replace(".js", "").replace("./", ""),
-    validate: request(key).validate
+    validate: rawValidators[key]
   })
 })
 
