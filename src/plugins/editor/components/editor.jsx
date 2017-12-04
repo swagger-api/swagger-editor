@@ -1,4 +1,5 @@
-import React, { PropTypes } from "react"
+import React from "react"
+import PropTypes from "prop-types"
 import AceEditor from "react-ace"
 import editorPluginsHook from "../editor-plugins/hook"
 import { placeMarkerDecorations } from "../editor-helpers/marker-placer"
@@ -88,6 +89,9 @@ export default function makeEditor({ editorPluginsToRun }) {
       const session = editor.getSession()
 
       this.editor = editor
+
+      // fixes a warning, see https://github.com/ajaxorg/ace/issues/2499
+      editor.$blockScrolling = Infinity
 
       session.setUseWrapMode(true)
       session.on("changeScrollLeft", xPos => { // eslint-disable-line no-unused-vars
@@ -258,7 +262,7 @@ export default function makeEditor({ editorPluginsToRun }) {
         this.syncOptionsFromState(nextProps.editorOptions)
       }
 
-      if(editor && nextProps.goToLine && hasChanged("goToLine")) {
+      if(editor && nextProps.goToLine && nextProps.goToLine.line && hasChanged("goToLine")) {
         editor.gotoLine(nextProps.goToLine.line)
       }
 
