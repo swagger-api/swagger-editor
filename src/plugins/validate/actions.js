@@ -19,19 +19,17 @@ export const all = () => (system) => {
     system.errActions.newSpecErr(obj)
   }, 0)
 
-  system.fn.timeCall("Sync validations", () => {
-    forEach(system.validateActions, (fn, name) => {
-      if(name.indexOf("validateAsync") === 0) {
-        fn(cb) // Function send messages on its own, it won't be cached ( due to the nature of async operations )
-      } else if(name.indexOf("validate") === 0) {
-        Promise.resolve(system.fn.timeCall("Sync validate "+name+":", fn))
-          .then(validationObjs => {
-            if(validationObjs) {
-              validationObjs.forEach(cb)
-            }
-          })
-      }
-    })
+  forEach(system.validateActions, (fn, name) => {
+    if(name.indexOf("validateAsync") === 0) {
+      fn(cb) // Function send messages on its own, it won't be cached ( due to the nature of async operations )
+    } else if(name.indexOf("validate") === 0) {
+      Promise.resolve(fn())
+        .then(validationObjs => {
+          if(validationObjs) {
+            validationObjs.forEach(cb)
+          }
+        })
+    }
   })
 }
 
