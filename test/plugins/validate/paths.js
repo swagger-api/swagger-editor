@@ -2,7 +2,7 @@
 import expect from "expect"
 import validateHelper from "./validate-helper.js"
 
-describe("validation plugin - semantic - paths", function(){
+describe.skip("validation plugin - semantic - paths", function(){
   this.timeout(10 * 1000)
 
   describe("Path parameter definitions need matching paramater declarations", function(){
@@ -89,7 +89,7 @@ describe("validation plugin - semantic - paths", function(){
 
   describe("Empty path templates are not allowed", () => {
 
-    it("should return one problem for an empty path template", function(){
+    it.skip("should return one problem for an empty path template", function(){
       const spec = {
         paths: {
           "/CoolPath/{}": {}
@@ -191,7 +191,7 @@ describe("validation plugin - semantic - paths", function(){
 
   describe("Path strings must be equivalently different", () => {
 
-    it("should return one problem for an equivalent templated path strings", function(){
+    it.skip("should return one problem for an equivalent templated path strings", function(){
       const spec = {
         paths: {
           "/CoolPath/{id}": {
@@ -217,7 +217,7 @@ describe("validation plugin - semantic - paths", function(){
       expect(res.warnings).toEqual([])
     })
 
-    it("should return no problems for a templated and untemplated pair of path strings", function(){
+    it.skip("should return no problems for a templated and untemplated pair of path strings", function(){
       const spec = {
         paths: {
           "/CoolPath/": {},
