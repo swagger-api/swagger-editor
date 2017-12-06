@@ -1,5 +1,5 @@
 import expect from "expect"
-import { condenseErrors } from "plugins/validation/structural-validation/condense-errors"
+import { condenseErrors } from "plugins/validate-json-schema/structural-validation/condense-errors"
 
 describe("validation plugin - structural - condenseErrors helper", () => {
   it("should return an empty array when called with an incorrect type", () => {
