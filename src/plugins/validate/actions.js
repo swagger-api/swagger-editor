@@ -94,7 +94,7 @@ export const validateMinAndMax = () => (system) => {
         if(typeof minLength === "number" && typeof maxLength === "number" && (minLength > maxLength)) {
           acc.push({
             message: "'minLength' must be lower value than 'maxLength'",
-            path: [...node.path, "minimum"],
+            path: [...node.path, "minLength"],
             level: "error",
           })
         }
@@ -102,7 +102,7 @@ export const validateMinAndMax = () => (system) => {
         if(typeof minProperties === "number" && typeof maxProperties === "number" && (minProperties > maxProperties)) {
           acc.push({
             message: "'minProperties' must be lower value than 'maxProperties'",
-            path: [...node.path, "maximum"],
+            path: [...node.path, "minProperties"],
             level: "error",
           })
         }

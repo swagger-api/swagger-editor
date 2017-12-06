@@ -42,7 +42,7 @@ describe.skip("validation plugin - semantic - security", function() {
       })
   })
 
-  it.only("should return an error when an operation references a security definition with no scopes", () => {
+  it("should return an error when an operation references a security definition with no scopes", () => {
 
     const spec = {
       "securityDefinitions": {
@@ -68,11 +68,14 @@ describe.skip("validation plugin - semantic - security", function() {
       }
     }
 
-    let res = validate({ resolvedSpec: spec })
-    expect(res.errors.length).toEqual(1)
-    expect(res.errors[0].path).toEqual(["paths", "/", "get", "security", "0", "0"])
-    expect(res.errors[0].message).toEqual("Security scope definition write:pets could not be resolved")
-    expect(res.warnings.length).toEqual(0)
+    return validateHelper(spec)
+      .then(system => {
+        const allErrors = system.errSelectors.allErrors().toJS()
+        expect(allErrors.length).toEqual(1)
+        const firstError = allErrors[0]
+        expect(firstError.path).toEqual(["paths", "/", "get", "security", "0", "0"])
+        expect(firstError.message).toMatch("Security scope definition write:pets could not be resolved")
+      })
   })
 
   it("should return an error when an operation references a non-existing security definition", () => {
