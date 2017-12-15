@@ -20,6 +20,7 @@ export default function validateHelper(spec) {
       plugins: [
         SwaggerUi.plugins.SpecIndex,
         SwaggerUi.plugins.ErrIndex,
+        SwaggerUi.plugins.DownloadUrl,
         DummySwaggerJsPlugin,
         ASTPlugin,
         ValidatePlugin,
