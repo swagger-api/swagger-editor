@@ -26,11 +26,11 @@ export default class Topbar extends React.Component {
         this.setState({ swaggerClient: client })
         client.apis.clients.clientOptions()
           .then(res => {
-            this.setState({ clients: res.body })
+            this.setState({ clients: res.body || [] })
           })
         client.apis.servers.serverOptions()
           .then(res => {
-            this.setState({ servers: res.body })
+            this.setState({ servers: res.body || [] })
           })
       })
 
@@ -173,6 +173,8 @@ export default class Topbar extends React.Component {
     const Link = getComponent("Link")
 
     let showGenerateMenu = !(isOAS3 && isOAS3())
+    let showServersMenu = this.state.servers && this.state.servers.length
+    let showClientsMenu = this.state.clients && this.state.clients.length
 
     let makeMenuOptions = (name) => {
       let stateKey = `is${name}MenuOpen`
@@ -205,11 +207,11 @@ export default class Topbar extends React.Component {
             <DropdownMenu {...makeMenuOptions("Edit")}>
               <li><button type="button" onClick={this.convertToYaml}>Convert to YAML</button></li>
             </DropdownMenu>
-            { showGenerateMenu ? <DropdownMenu className="long" {...makeMenuOptions("Generate Server")}>
+            { showGenerateMenu && showServersMenu ? <DropdownMenu className="long" {...makeMenuOptions("Generate Server")}>
               { this.state.servers
                   .map((serv, i) => <li key={i}><button type="button" onClick={this.downloadGeneratedFile.bind(null, "server", serv)}>{serv}</button></li>) }
             </DropdownMenu> : null }
-            { showGenerateMenu ? <DropdownMenu className="long" {...makeMenuOptions("Generate Client")}>
+            { showGenerateMenu && showClientsMenu ? <DropdownMenu className="long" {...makeMenuOptions("Generate Client")}>
               { this.state.clients
                   .map((cli, i) => <li key={i}><button type="button" onClick={this.downloadGeneratedFile.bind(null, "client", cli)}>{cli}</button></li>) }
             </DropdownMenu> : null }
