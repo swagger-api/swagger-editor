@@ -5,6 +5,8 @@ import {createSelector} from "reselect"
 import { fromJS } from "immutable"
 import debounce from "lodash/debounce"
 
+import * as formDataValidateActions from "./validators/form-data"
+
 export default function SemanticValidatorsPlugin({getSystem}) {
 
   const debAll = debounce((system) => system.validateActions.all(), 300)
@@ -37,7 +39,10 @@ export default function SemanticValidatorsPlugin({getSystem}) {
       },
       validate: {
         selectors,
-        actions,
+        actions: {
+          ...actions,
+          ...formDataValidateActions
+        }
       },
     }
   }

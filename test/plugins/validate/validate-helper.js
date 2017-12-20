@@ -1,12 +1,11 @@
 import expect from "expect"
+import SwaggerUi from "swagger-ui"
 
 import ValidatePlugin from "plugins/validate"
 import ASTPlugin from "plugins/ast"
 
 export default function validateHelper(spec) {
   return new Promise((resolve) => {
-    const SwaggerUi = require("swagger-ui")
-
     const DummySwaggerJsPlugin = {
       fn: {
         resolve: a => Promise.resolve(a)

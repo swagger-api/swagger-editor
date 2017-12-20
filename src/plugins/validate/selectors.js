@@ -3,6 +3,7 @@ import flatten from "lodash/flatten"
 export const isVendorExt = (state,node) => node.path.some(a => a.indexOf("x-") === 0)
 export const isDefinition = (state,node) => node.path[0] == "definitions" && node.path.length == 2
 export const isRootParameter = (state, node) => node.path[0] === "parameters" && node.path.length === 2
+export const isPathItemParameter = (state, node) => node.path[2] === "parameters" && node.path.length === 4
 export const isRootResponse = (state, node) => node.path[0] === "responses" && node.path.length === 2
 export const isRootHeader = (state, node) => node.path[0] === "headers" && node.path.length === 2
 export const isRef = (state, node) => node.key === "$ref" && typeof node.node === "string" // This selector can be fooled.
@@ -30,6 +31,7 @@ export const isParameter = (state, node) => (sys) => {
   }
   return (
     sys.validateSelectors.isRootParameter(node)
+      || sys.validateSelectors.isPathItemParameter(node)
       || ( node.path[0] === "paths"
            && node.path[3] === "parameters"
            && node.path.length === 5)
@@ -106,6 +108,16 @@ export const allParameters = () => (system) => {
       }
     },
   })
+}
+
+export const allParameterArrays = () => (system) => {
+  return system.validateSelectors.allParameters()
+    .then(parameters => {
+      return parameters.map(node => node.parent)
+      .filter((node, i, arr) => {
+        return Array.isArray(node.node) && arr.indexOf(node) === i
+      })
+    })
 }
 
 export const allSubSchemas = () => (system) => {

@@ -1,8 +1,8 @@
 /* eslint-env mocha */
 import expect from "expect"
-import validateHelper from "./validate-helper.js"
+import validateHelper, { expectNoErrors } from "./validate-helper.js"
 
-describe("validation plugin - semantic - form data", function(){
+describe.only("validation plugin - semantic - form data", function(){
   this.timeout(10 * 1000)
 
   describe("/parameters/...", function(){
@@ -84,7 +84,7 @@ describe("validation plugin - semantic - form data", function(){
           const allErrors = system.errSelectors.allErrors().toJS()
           const firstError = allErrors[0]
           expect(allErrors.length).toEqual(1)
-          expect(firstError.message).toEqual(`Operations with Parameters of "type: file" must include "multipart/form-data" in their "consumes" property`)
+          expect(firstError.message).toEqual(`Operations with parameters of "type: file" must include "multipart/form-data" in their "consumes" property`)
           expect(firstError.path).toEqual(["paths", "/some", "post", "parameters", "0"])
         })
     })
@@ -113,13 +113,35 @@ describe("validation plugin - semantic - form data", function(){
         })
     })
 
+    it.skip("should not complain if 'in:formData` and consumes is set globally", function(){
+      const spec = {
+        consumes: [
+          "multipart/form-data"
+        ],
+        paths: {
+          "/some": {
+            post: {
+              parameters: [
+                {
+                    in: "formData",
+                },
+              ]
+            }
+          }
+        }
+      }
+
+      return expectNoErrors(spec)
+    })
+
   })
 
   describe("/pathitems/...", function(){
     it("should complain about having both in the same parameter", function(){
       const spec = {
-        pathitems: {
-          CoolPathItem: {
+        paths: {
+          "/": {
+            consumes: ["multipart/form-data"],
             parameters: [
               { in: "formData" },
               { in: "body" },
@@ -134,18 +156,16 @@ describe("validation plugin - semantic - form data", function(){
           const firstError = allErrors[0]
           expect(allErrors.length).toEqual(1)
           expect(firstError.message).toEqual(`Parameters cannot have both a "in: body" and "in: formData", as "formData" _will_ be the body`)
-          expect(firstError.path).toEqual(["pathitems", "CoolPathItem", "parameters", "1"])
+          expect(firstError.path).toEqual(["paths", "/", "parameters"])
         })
     })
     it("should complain if 'type:file` and no 'in: formData", function(){
       const spec = {
-        pathitems: {
-          "SomePathItem": {
+        paths: {
+          "/": {
             consumes: ["multipart/form-data"],
             parameters: [
-              {
-                type: "file",
-              },
+              { type: "file" }
             ]
           }
         }
@@ -157,7 +177,7 @@ describe("validation plugin - semantic - form data", function(){
           const firstError = allErrors[0]
           expect(allErrors.length).toEqual(1)
           expect(firstError.message).toEqual(`Parameters with "type: file" must have "in: formData"`)
-          expect(firstError.path).toEqual(["pathitems", "SomePathItem", "parameters", "0"])
+          expect(firstError.path).toEqual(["paths", "/", "parameters", "0"])
         })
     })
   })
