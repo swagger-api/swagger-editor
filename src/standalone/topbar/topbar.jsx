@@ -1,4 +1,5 @@
-import React, { PropTypes } from "react"
+import React from "react"
+import PropTypes from "prop-types"
 import Swagger from "swagger-client"
 import "whatwg-fetch"
 import DropdownMenu from "./DropdownMenu"
@@ -25,11 +26,11 @@ export default class Topbar extends React.Component {
         this.setState({ swaggerClient: client })
         client.apis.clients.clientOptions()
           .then(res => {
-            this.setState({ clients: res.body })
+            this.setState({ clients: res.body || [] })
           })
         client.apis.servers.serverOptions()
           .then(res => {
-            this.setState({ servers: res.body })
+            this.setState({ servers: res.body || [] })
           })
       })
 
@@ -72,23 +73,30 @@ export default class Topbar extends React.Component {
   saveAsYaml = () => {
     // Editor content -> JS object -> YAML string
     let editorContent = this.props.specSelectors.specStr()
+    let isOAS3 = this.props.specSelectors.isOAS3()
+    let fileName = isOAS3 ? "openapi.yaml" : "swagger.yaml"
     let jsContent = YAML.safeLoad(editorContent)
     let yamlContent = YAML.safeDump(jsContent)
-    downloadFile(yamlContent, "swagger.yaml")
+    downloadFile(yamlContent, fileName)
   }
 
   saveAsJson = () => {
     // Editor content  -> JS object -> Pretty JSON string
     let editorContent = this.props.specSelectors.specStr()
+    let isOAS3 = this.props.specSelectors.isOAS3()
+    let fileName = isOAS3 ? "openapi.json" : "swagger.json"
     let jsContent = YAML.safeLoad(editorContent)
     let prettyJsonContent = beautifyJson(jsContent, null, 2)
-    downloadFile(prettyJsonContent, "swagger.json")
+    downloadFile(prettyJsonContent, fileName)
   }
 
   saveAsText = () => {
     // Download raw text content
+    console.warn("DEPRECATED: saveAsText will be removed in the next minor version.")
     let editorContent = this.props.specSelectors.specStr()
-    downloadFile(editorContent, "swagger.txt")
+    let isOAS3 = this.props.specSelectors.isOAS3()
+    let fileName = isOAS3 ? "openapi.txt" : "swagger.txt"
+    downloadFile(editorContent, fileName)
   }
 
   convertToYaml = () => {
@@ -165,6 +173,8 @@ export default class Topbar extends React.Component {
     const Link = getComponent("Link")
 
     let showGenerateMenu = !(isOAS3 && isOAS3())
+    let showServersMenu = this.state.servers && this.state.servers.length
+    let showClientsMenu = this.state.clients && this.state.clients.length
 
     let makeMenuOptions = (name) => {
       let stateKey = `is${name}MenuOpen`
@@ -197,13 +207,13 @@ export default class Topbar extends React.Component {
             <DropdownMenu {...makeMenuOptions("Edit")}>
               <li><button type="button" onClick={this.convertToYaml}>Convert to YAML</button></li>
             </DropdownMenu>
-            { showGenerateMenu ? <DropdownMenu className="long" {...makeMenuOptions("Generate Server")}>
+            { showGenerateMenu && showServersMenu ? <DropdownMenu className="long" {...makeMenuOptions("Generate Server")}>
               { this.state.servers
-                  .map(serv => <li><button type="button" onClick={this.downloadGeneratedFile.bind(null, "server", serv)}>{serv}</button></li>) }
+                  .map((serv, i) => <li key={i}><button type="button" onClick={this.downloadGeneratedFile.bind(null, "server", serv)}>{serv}</button></li>) }
             </DropdownMenu> : null }
-            { showGenerateMenu ? <DropdownMenu className="long" {...makeMenuOptions("Generate Client")}>
+            { showGenerateMenu && showClientsMenu ? <DropdownMenu className="long" {...makeMenuOptions("Generate Client")}>
               { this.state.clients
-                  .map(cli => <li><button type="button" onClick={this.downloadGeneratedFile.bind(null, "client", cli)}>{cli}</button></li>) }
+                  .map((cli, i) => <li key={i}><button type="button" onClick={this.downloadGeneratedFile.bind(null, "client", cli)}>{cli}</button></li>) }
             </DropdownMenu> : null }
           </div>
         </div>
