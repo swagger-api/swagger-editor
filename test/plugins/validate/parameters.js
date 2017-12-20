@@ -1,5 +1,5 @@
 import expect from "expect"
-import validateHelper from "./validate-helper.js"
+import validateHelper, { expectNoErrors } from "./validate-helper.js"
 
 describe("validation plugin - semantic - parameters", function() {
   this.timeout(10 * 1000 ) // For swagger-ui startup
@@ -32,7 +32,7 @@ describe("validation plugin - semantic - parameters", function() {
         })
   })
 
-  it.skip("should return an error when a non-body parameter omits an `type` property", () => {
+  it("should return an error when a non-body parameter omits an `type` property", () => {
     const spec = {
       "paths": {
         "/pets": {
@@ -77,9 +77,6 @@ describe("validation plugin - semantic - parameters", function() {
       }
     }
 
-    return validateHelper(spec)
-        .then(system => {
-          expect(system.errSelectors.allErrors().count()).toEqual(0)
-        })
+    return expectNoErrors(spec)
   })
 })
