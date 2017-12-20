@@ -2,10 +2,6 @@ import ValidatePlugin from "plugins/validate"
 import ASTPlugin from "plugins/ast"
 
 export default function validateHelper(spec) {
-
-  // TODO: TEMP: in case I need to modify swagger-ui on the fly
-  delete require.cache[require.resolve('swagger-ui')]
-
   return new Promise((resolve) => {
     const SwaggerUi = require("swagger-ui")
 
@@ -16,6 +12,7 @@ export default function validateHelper(spec) {
     }
     const system = SwaggerUi({
       spec,
+      domNode: null,
       presets: [],
       plugins: [
         SwaggerUi.plugins.SpecIndex,
