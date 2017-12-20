@@ -2,11 +2,10 @@
 import expect from "expect"
 import validateHelper from "./validate-helper.js"
 
-describe.skip("validation plugin - semantic - form data", function(){
+describe("validation plugin - semantic - form data", function(){
   this.timeout(10 * 1000)
 
   describe("/parameters/...", function(){
-
     describe("typo in formdata", function(){
       it("should warn about formdata ( typo )", function(){
 
@@ -30,10 +29,10 @@ describe.skip("validation plugin - semantic - form data", function(){
         return validateHelper(spec)
           .then( system => {
             const allErrors = system.errSelectors.allErrors().toJS()
-            expect(allErrors).toEqual([ {
-              message: "Parameter \"in: formdata\" is invalid, did you mean \"in: formData\" ( camelCase )?",
-              path: "parameters.CoolParam.0",
-            }])
+            const firstError = allErrors[0]
+            expect(allErrors.length).toEqual(1)
+            expect(firstError.message).toEqual(`Parameter "in: formdata" is invalid, did you mean "in: formData"?`)
+            expect(firstError.path).toEqual(["paths", "/some", "post", "parameters", "0"])
           })
       })
     })
@@ -55,17 +54,15 @@ describe.skip("validation plugin - semantic - form data", function(){
           }
         }
       }
-      validateHelper(spec)
+      return validateHelper(spec)
         .then( system => {
-          expect(res.errors).toEqual([ {
-            message: "Parameters with \"type: file\" must have \"in: formData\"",
-            path: "paths./some.post.parameters.0",
-          }])
+          const allErrors = system.errSelectors.allErrors().toJS()
+          const firstError = allErrors[0]
+          expect(allErrors.length).toEqual(1)
+          expect(firstError.message).toEqual(`Parameters with "type: file" must have "in: formData"`)
+          expect(firstError.path).toEqual(["paths", "/some", "post", "parameters", "0"])
         })
-
-      let res = validate({ resolvedSpec: spec })
     })
-
     it("should complain if 'type:file` and no consumes - 'multipart/form-data'", function(){
       const spec = {
         paths: {
@@ -82,13 +79,15 @@ describe.skip("validation plugin - semantic - form data", function(){
         }
       }
 
-      let res = validate({ resolvedSpec: spec })
-      expect(res.errors).toEqual([ {
-        message: "Operations with Parameters of \"type: file\" must include \"multipart/form-data\" in their \"consumes\" property",
-        path: "paths./some.post.parameters.0",
-      }])
+      return validateHelper(spec)
+        .then( system => {
+          const allErrors = system.errSelectors.allErrors().toJS()
+          const firstError = allErrors[0]
+          expect(allErrors.length).toEqual(1)
+          expect(firstError.message).toEqual(`Operations with Parameters of "type: file" must include "multipart/form-data" in their "consumes" property`)
+          expect(firstError.path).toEqual(["paths", "/some", "post", "parameters", "0"])
+        })
     })
-
     it("should complain if 'in:formData` and no consumes - 'multipart/form-data' or 'application/x-www-form-urlencoded'", function(){
       const spec = {
         paths: {
@@ -104,18 +103,19 @@ describe.skip("validation plugin - semantic - form data", function(){
         }
       }
 
-      let res = validate({ resolvedSpec: spec })
-      expect(res.errors).toEqual([ {
-        message: "Operations with Parameters of \"in: formData\" must include \"application/x-www-form-urlencoded\" or \"multipart/form-data\" in their \"consumes\" property",
-        path: "paths./some.post",
-      }])
+      return validateHelper(spec)
+        .then(system => {
+          const allErrors = system.errSelectors.allErrors().toJS()
+          const firstError = allErrors[0]
+          expect(allErrors.length).toEqual(1)
+          expect(firstError.message).toEqual(`Operations with Parameters of "in: formData" must include "application/x-www-form-urlencoded" or "multipart/form-data" in their "consumes" property`)
+          expect(firstError.path).toEqual(["paths", "/some", "post"])
+        })
     })
 
   })
 
   describe("/pathitems/...", function(){
-
-    // Already covered in validators/operations.js
     it("should complain about having both in the same parameter", function(){
       const spec = {
         pathitems: {
@@ -128,11 +128,14 @@ describe.skip("validation plugin - semantic - form data", function(){
         }
       }
 
-      let res = validate({ resolvedSpec: spec })
-      expect(res.errors).toEqual([ {
-        message: "Parameters cannot have both a \"in: body\" and \"in: formData\", as \"formData\" _will_ be the body",
-        path: "pathitems.CoolPathItem.parameters.1",
-      }])
+      return validateHelper(spec)
+        .then(system => {
+          const allErrors = system.errSelectors.allErrors().toJS()
+          const firstError = allErrors[0]
+          expect(allErrors.length).toEqual(1)
+          expect(firstError.message).toEqual(`Parameters cannot have both a "in: body" and "in: formData", as "formData" _will_ be the body`)
+          expect(firstError.path).toEqual(["pathitems", "CoolPathItem", "parameters", "1"])
+        })
     })
     it("should complain if 'type:file` and no 'in: formData", function(){
       const spec = {
@@ -148,32 +151,14 @@ describe.skip("validation plugin - semantic - form data", function(){
         }
       }
 
-      let res = validate({ resolvedSpec: spec })
-      expect(res.errors).toEqual([ {
-        message: "Parameters with \"type: file\" must have \"in: formData\"",
-        path: "pathitems.SomePathItem.parameters.0",
-      }])
-    })
-
-    it("should complain if 'type:file` and no consumes - 'multipart/form-data'", function(){
-      const spec = {
-        pathitems: {
-          SomePathItem: {
-            parameters: [
-              {
-                in: "formData",
-                type: "file",
-              },
-            ]
-          }
-        }
-      }
-
-      let res = validate({ resolvedSpec: spec })
-      expect(res.errors).toEqual([ {
-        message: "Operations with Parameters of \"type: file\" must include \"multipart/form-data\" in their \"consumes\" property",
-        path: "pathitems.SomePathItem.parameters.0",
-      }])
+      return validateHelper(spec)
+        .then(system => {
+          const allErrors = system.errSelectors.allErrors().toJS()
+          const firstError = allErrors[0]
+          expect(allErrors.length).toEqual(1)
+          expect(firstError.message).toEqual(`Parameters with "type: file" must have "in: formData"`)
+          expect(firstError.path).toEqual(["pathitems", "SomePathItem", "parameters", "0"])
+        })
     })
   })
 })
