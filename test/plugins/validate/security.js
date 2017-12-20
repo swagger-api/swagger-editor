@@ -1,10 +1,10 @@
 import expect from "expect"
-import validateHelper from "./validate-helper.js"
+import validateHelper, { expectNoErrors } from "./validate-helper.js"
 
-describe.skip("validation plugin - semantic - security", function() {
+describe("validation plugin - semantic - security", function() {
   this.timeout(10 * 1000) // For the slow validateHelper startup ( via swagger-ui )
 
-  it.skip("should return an error when an operation references a non-existing security scope", () => {
+  it("should return an error when an operation references a non-existing security scope", () => {
     const spec = {
       "securityDefinitions": {
         "api_key": {
@@ -103,11 +103,14 @@ describe.skip("validation plugin - semantic - security", function() {
       }
     }
 
-    let res = validate({ resolvedSpec: spec })
-    expect(res.errors.length).toEqual(1)
-    expect(res.errors[0].path).toEqual(["paths", "/", "get", "security", "0"])
-    expect(res.errors[0].message).toEqual("security requirements must match a security definition")
-    expect(res.warnings.length).toEqual(0)
+    return validateHelper(spec)
+      .then(system => {
+        const allErrors = system.errSelectors.allErrors().toJS()
+        expect(allErrors.length).toEqual(1)
+        const firstError = allErrors[0]
+        expect(firstError.path).toEqual(["paths", "/", "get", "security", "0"])
+        expect(firstError.message).toMatch("Security requirements must match a security definition")
+      })
   })
 
   it("should not return an error when an operation references an existing security scope", () => {
@@ -138,8 +141,6 @@ describe.skip("validation plugin - semantic - security", function() {
       }
     }
 
-    let res = validate({ resolvedSpec: spec })
-    expect(res.errors.length).toEqual(0)
-    expect(res.warnings.length).toEqual(0)
+    return expectNoErrors(spec)
   })
 })
