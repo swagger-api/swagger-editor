@@ -1,134 +1,39 @@
 import expect from "expect"
-import validateHelper, { expectNoErrorsOrWarnings } from "./validate-helper.js"
+import validateHelper, {
+  expectNoErrorsOrWarnings,
+  expectNoErrors
+} from "./validate-helper.js"
 
-describe("validation plugin - semantic - spec walker", function() {
+describe("validation plugin - semantic - refs", function() {
   this.timeout(10 * 1000)
+  describe("Ref siblings", () => {
 
-  describe.only("Minimums and maximums", () => {
-
-    it("should return an error when minimum is more than maximum", () => {
-      const spec = {
-        definitions: {
-          MyNumber: {
-            minimum: 5,
-            maximum: 2
+      it.skip("should return a warning when another property is a sibling of a $ref", () => {
+        const spec = {
+          paths: {
+            "/CoolPath/{id}": {
+              schema: {
+                $ref: "#/definition/abc",
+                description: "My very cool schema"
+              }
+            }
           }
         }
-      }
 
-      return validateHelper(spec)
-        .then(system => {
-          let allErrors = system.errSelectors.allErrors().toJS()
-          allErrors = allErrors.filter( a => a.level == "error") // Ignore warnings
-          expect(allErrors.length).toEqual(1)
-          const firstError = allErrors[0]
-          expect(firstError.message).toMatch(/.*minimum.*lower.*maximum.*/)
-          expect(firstError.path).toEqual(["definitions", "MyNumber", "minimum"])
-        })
+        return validateHelper(spec)
+          .then(system => {
+            const allErrors = system.errSelectors.allErrors().toJS()
+            expect(allErrors.length).toEqual(1)
+            const firstError = allErrors[0]
+            expect(firstError.path).toEqual(["paths", "/CoolPath/{id}", "schema", "description"])
+            expect(firstError.message).toMatch("")
+          })
+      })
+
     })
-
-    it("should not return an error when minimum is less than maximum", () => {
-      const spec = {
-        definitions: {
-          MyNumber: {
-            minimum: 1,
-            maximum: 2
-          }
-        }
-      }
-
-      return validateHelper(spec)
-        .then(system => {
-          let allErrors = system.errSelectors.allErrors().toJS()
-          allErrors = allErrors.filter(a => a.level === "error") // ignore warnings
-          expect(allErrors.length).toEqual(0)
-        })
-    })
-
-    it("should return an error when minProperties is more than maxProperties", () => {
-      const spec = {
-        definitions: {
-          MyNumber: {
-            minProperties: 5,
-            maxProperties: 2
-          }
-        }
-      }
-
-      return validateHelper(spec)
-        .then(system => {
-          let allErrors = system.errSelectors.allErrors().toJS()
-          allErrors = allErrors.filter(a => a.level === "error") // ignore warnings
-          expect(allErrors.length).toEqual(1)
-          const firstError = allErrors[0]
-          expect(firstError.path).toEqual(["definitions", "MyNumber", "minProperties"])
-          expect(firstError.message).toMatch(/.*minProperties.*lower.*maxProperties.*/)
-        })
-    })
-
-    it("should not return an error when minProperties is less than maxProperties", () => {
-      const spec = {
-        definitions: {
-          MyNumber: {
-            minProperties: "1",
-            maxProperties: "2"
-          }
-        }
-      }
-
-      return validateHelper(spec)
-        .then(system => {
-          let allErrors = system.errSelectors.allErrors().toJS()
-          allErrors = allErrors.filter(a => a.level === "error") // ignore warnings
-          expect(allErrors.length).toEqual(0)
-        })
-    })
-
-    it("should return an error when minLength is more than maxLength", () => {
-      const spec = {
-        definitions: {
-          MyNumber: {
-            minLength: 5,
-            maxLength: 2
-          }
-        }
-      }
-
-      return validateHelper(spec)
-        .then(system => {
-          let allErrors = system.errSelectors.allErrors().toJS()
-          allErrors = allErrors.filter(a => a.level === "error") // ignore warnings
-          expect(allErrors.length).toEqual(1)
-          const firstError = allErrors[0]
-          expect(firstError.path).toEqual(["definitions", "MyNumber", "minLength"])
-          expect(firstError.message).toMatch(/.*minLength.*lower.*maxLength.*/)
-        })
-    })
-
-    it("should not return an error when minLength is less than maxLength", () => {
-      const spec = {
-        definitions: {
-          MyNumber: {
-            minLength: "1",
-            maxLength: "2"
-          }
-        }
-      }
-
-      return validateHelper(spec)
-        .then(system => {
-          let allErrors = system.errSelectors.allErrors().toJS()
-          allErrors = allErrors.filter(a => a.level === "error") // ignore warnings
-          expect(allErrors.length).toEqual(0)
-        })
-    })
-
-  })
-
   describe("Refs are restricted in specific areas of a spec", () => {
-
-    describe("Response $refs", () => {
-      it.skip("should return a problem for a parameters $ref in a response position", function(){
+    describe.skip("Response $refs", () => {
+      it("should return a problem for a parameters $ref in a response position", function(){
         const spec = {
           paths: {
             "/CoolPath/{id}": {
@@ -154,7 +59,7 @@ describe("validation plugin - semantic - spec walker", function() {
       // FIXME: This poses a problem for our newer validation PR, as it only iterates over the resolved spec.
       // We can look for $$refs, but that may be too fragile.
       // PS: We have a flag in mapSpec, that adds $$refs known as metaPatches
-      it.skip("should return a problem for a definitions $ref in a response position", function(){
+      it("should return a problem for a definitions $ref in a response position", function(){
         const spec = {
           paths: {
             "/CoolPath/{id}": {
@@ -165,10 +70,14 @@ describe("validation plugin - semantic - spec walker", function() {
           }
         }
 
-        let res = validate({ jsSpec: spec })
-        expect(res.errors.length).toEqual(1)
-        expect(res.errors[0].path).toEqual(["paths", "/CoolPath/{id}", "schema", "$ref"])
-        expect(res.warnings.length).toEqual(0)
+        return validateHelper(spec)
+          .then(system => {
+            const allErrors = system.errSelectors.allErrors().toJS()
+            const firstError = allErrors[0]
+            expect(allErrors.length).toEqual(1)
+            expect(firstError.path).toEqual(["paths", "/CoolPath/{id}", "responses", "200", "$ref"])
+            expect(firstError.message).toEqual(`Response references are not allowed within schemas`)
+          })
       })
 
       it("should not return a problem for a responses $ref in a response position", function(){
@@ -184,15 +93,10 @@ describe("validation plugin - semantic - spec walker", function() {
           }
         }
 
-        return validateHelper(spec)
-          .then(system => {
-            const allErrors = system.errSelectors.allErrors().toJS()
-            expect(allErrors.length).toEqual(0)
-          })
+        return expectNoErrorsOrWarnings(spec)
       })
     })
-
-    describe("Schema $refs", () => {
+    describe.skip("Schema $refs", () => {
       // See note on resolved vs raw spec
       it.skip("should return a problem for a parameters $ref in a schema position", function(){
         const spec = {
@@ -276,8 +180,7 @@ describe("validation plugin - semantic - spec walker", function() {
           })
       })
     })
-
-    describe("Parameter $refs", () => {
+    describe.skip("Parameter $refs", () => {
 
       it.skip("should return a problem for a definition $ref in a parameter position", function(){
         const spec = {
@@ -339,32 +242,5 @@ describe("validation plugin - semantic - spec walker", function() {
           })
       })
     })
-
-    describe("Ref siblings", () => {
-
-      it.skip("should return a warning when another property is a sibling of a $ref", () => {
-        const spec = {
-          paths: {
-            "/CoolPath/{id}": {
-              schema: {
-                $ref: "#/definition/abc",
-                description: "My very cool schema"
-              }
-            }
-          }
-        }
-
-        return validateHelper(spec)
-          .then(system => {
-            const allErrors = system.errSelectors.allErrors().toJS()
-            expect(allErrors.length).toEqual(1)
-            const firstError = allErrors[0]
-            expect(firstError.path).toEqual(["paths", "/CoolPath/{id}", "schema", "description"])
-            expect(firstError.message).toMatch("")
-          })
-      })
-
-    })
-
   })
 })

@@ -1,10 +1,12 @@
 import expect from "expect"
-import validateHelper, { expectNoErrorsOrWarnings } from "./validate-helper.js"
+import validateHelper, {
+  expectNoErrors,
+  expectNoErrorsOrWarnings
+} from "./validate-helper.js"
 
 describe("validation plugin - semantic - schema", function() {
   this.timeout(10 * 1000)
 
-  // Skipped due to mis-match, our error returns the parent, not the required.x path
   it("should return an error when a definition's property is readOnly and required by the schema", () => {
     const spec = {
       definitions: {
@@ -206,7 +208,6 @@ describe("validation plugin - semantic - schema", function() {
             expect(firstError.message).toEqual(`Schema "type" value must be a string`)
             expect(firstError.path).toEqual(["paths", "/CoolPath/{id}", "responses", "200", "schema", "type"])
           })
-      return expectNoErrorsOrWarnings(spec)
     })
     it("should not return an error when \"type\" is a property name", () => {
       const spec = {
@@ -258,4 +259,108 @@ describe("validation plugin - semantic - schema", function() {
     })
   })
 
+  describe("Minimums and maximums", () => {
+
+    it("should return an error when minimum is more than maximum", () => {
+      const spec = {
+        definitions: {
+          MyNumber: {
+            minimum: 5,
+            maximum: 2
+          }
+        }
+      }
+
+      return validateHelper(spec)
+        .then(system => {
+          let allErrors = system.errSelectors.allErrors().toJS()
+          allErrors = allErrors.filter( a => a.level == "error") // Ignore warnings
+          expect(allErrors.length).toEqual(1)
+          const firstError = allErrors[0]
+          expect(firstError.message).toMatch(/.*minimum.*lower.*maximum.*/)
+          expect(firstError.path).toEqual(["definitions", "MyNumber", "minimum"])
+        })
+    })
+
+    it("should not return an error when minimum is less than maximum", () => {
+      const spec = {
+        definitions: {
+          MyNumber: {
+            minimum: 1,
+            maximum: 2
+          }
+        }
+      }
+      return expectNoErrors(spec)
+    })
+
+    it("should return an error when minProperties is more than maxProperties", () => {
+      const spec = {
+        definitions: {
+          MyNumber: {
+            minProperties: 5,
+            maxProperties: 2
+          }
+        }
+      }
+
+      return validateHelper(spec)
+        .then(system => {
+          let allErrors = system.errSelectors.allErrors().toJS()
+          allErrors = allErrors.filter(a => a.level === "error") // ignore warnings
+          expect(allErrors.length).toEqual(1)
+          const firstError = allErrors[0]
+          expect(firstError.path).toEqual(["definitions", "MyNumber", "minProperties"])
+          expect(firstError.message).toMatch(/.*minProperties.*lower.*maxProperties.*/)
+        })
+    })
+
+    it("should not return an error when minProperties is less than maxProperties", () => {
+      const spec = {
+        definitions: {
+          MyNumber: {
+            minProperties: "1",
+            maxProperties: "2"
+          }
+        }
+      }
+
+      return expectNoErrors(spec)
+    })
+
+    it("should return an error when minLength is more than maxLength", () => {
+      const spec = {
+        definitions: {
+          MyNumber: {
+            minLength: 5,
+            maxLength: 2
+          }
+        }
+      }
+
+      return validateHelper(spec)
+        .then(system => {
+          let allErrors = system.errSelectors.allErrors().toJS()
+          allErrors = allErrors.filter(a => a.level === "error") // ignore warnings
+          expect(allErrors.length).toEqual(1)
+          const firstError = allErrors[0]
+          expect(firstError.path).toEqual(["definitions", "MyNumber", "minLength"])
+          expect(firstError.message).toMatch(/.*minLength.*lower.*maxLength.*/)
+        })
+    })
+
+    it("should not return an error when minLength is less than maxLength", () => {
+      const spec = {
+        definitions: {
+          MyNumber: {
+            minLength: "1",
+            maxLength: "2"
+          }
+        }
+      }
+
+      return expectNoErrors(spec)
+    })
+
+  })
 })
