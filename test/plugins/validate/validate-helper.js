@@ -1,3 +1,5 @@
+import expect from "expect"
+
 import ValidatePlugin from "plugins/validate"
 import ASTPlugin from "plugins/ast"
 
@@ -28,4 +30,12 @@ export default function validateHelper(spec) {
     setTimeout(resolve.bind(null, system), 50)
   })
 
+}
+
+export function expectNoErrors(spec) {
+  return validateHelper(spec)
+    .then( system => {
+      const allErrors = system.errSelectors.allErrors().toJS()
+      expect(allErrors.length).toEqual(0)
+    })
 }
