@@ -1,11 +1,11 @@
 import expect from "expect"
-import validateHelper from "./validate-helper.js"
+import validateHelper, { expectNoErrors } from "./validate-helper.js"
 
 describe("validation plugin - semantic - schema", function() {
   this.timeout(10 * 1000)
 
   // Skipped due to mis-match, our error returns the parent, not the required.x path
-  it.skip("should return an error when a definition's property is readOnly and required by the schema", () => {
+  it("should return an error when a definition's property is readOnly and required by the schema", () => {
     const spec = {
       definitions: {
         CoolModel: {
@@ -50,13 +50,13 @@ describe("validation plugin - semantic - schema", function() {
         .then( system => {
           const allErrors = system.errSelectors
                 .allErrors()
-                .filter(a => a.get("level") == "error") // We have an incidental "warning"
+                .filter(a => a.get("level") === "error") // We have an incidental "warning"
                 .toJS()
           expect(allErrors).toEqual(0)
         })
   })
 
-  it.skip("should return an error when a response schema's property is readOnly and required by the schema", () => {
+  it("should return an error when a response schema's property is readOnly and required by the schema", () => {
     const spec = {
       paths: {
         "/CoolPath": {
@@ -115,17 +115,10 @@ describe("validation plugin - semantic - schema", function() {
       }
     }
 
-    return validateHelper(spec)
-        .then( system => {
-          const allErrors = system.errSelectors
-                .allErrors()
-                .toJS()
-
-          expect(allErrors.length).toEqual(0)
-        })
+    return expectNoErrors(spec)
   })
 
-  it.skip("should return an error when a parameter schema's property is readOnly and required by the schema", () => {
+  it("should return an error when a parameter schema's property is readOnly and required by the schema", () => {
     const spec = {
       paths: {
         "/CoolPath": {
@@ -183,11 +176,7 @@ describe("validation plugin - semantic - schema", function() {
       }
     }
 
-    return validateHelper(spec)
-      .then( system => {
-        const allErrors = system.errSelectors .allErrors() .toJS()
-        expect(allErrors.length).toEqual(0)
-      })
+    return expectNoErrors(spec)
   })
 
 })
