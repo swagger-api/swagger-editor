@@ -179,4 +179,83 @@ describe("validation plugin - semantic - schema", function() {
     return expectNoErrors(spec)
   })
 
+  describe("Type key", () => {
+    it("should return an error when \"type\" is an array", () => {
+      const spec = {
+        paths: {
+          "/CoolPath/{id}": {
+            responses: {
+              "200": {
+                schema: {
+                  type: ["number", "string"]
+                }
+              }
+            }
+          }
+        }
+      }
+
+      return validateHelper(spec)
+          .then( system => {
+            const allErrors = system.errSelectors
+                  .allErrors()
+                  .toJS()
+
+            expect(allErrors.length).toEqual(1)
+            const firstError = allErrors[0]
+            expect(firstError.message).toEqual(`Schema "type" value must be a string`)
+            expect(firstError.path).toEqual(["paths", "/CoolPath/{id}", "responses", "200", "schema", "type"])
+          })
+      return expectNoErrors(spec)
+    })
+    it("should not return an error when \"type\" is a property name", () => {
+      const spec = {
+        "definitions": {
+          "ApiResponse": {
+            "type": "object",
+            "properties": {
+              "code": {
+                "type": "integer",
+                "format": "int32"
+              },
+              "type": {
+                "type": "string"
+              },
+              "message": {
+                "type": "string"
+              }
+            }
+          }
+        }
+      }
+
+      return validateHelper(spec)
+        .then(system => {
+          let allErrors = system.errSelectors.allErrors().toJS()
+          allErrors = allErrors.filter(a => a.level != "warning") // ignore warnings
+          expect(allErrors.length).toEqual(0)
+        })
+    })
+    it("should not return an error when \"type\" is a model name", () => {
+      const spec = {
+        "definitions": {
+          "type": {
+            "type": "object",
+            "properties": {
+              "code": {
+                "type": "integer",
+                "format": "int32"
+              },
+              "message": {
+                "type": "string"
+              }
+            }
+          }
+        }
+      }
+
+      return expectNoErrors(spec)
+    })
+  })
+
 })
