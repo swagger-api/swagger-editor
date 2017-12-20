@@ -1,5 +1,5 @@
 import expect from "expect"
-import validateHelper, { expectNoErrors } from "./validate-helper.js"
+import validateHelper, { expectNoErrorsOrWarnings } from "./validate-helper.js"
 
 describe("validation plugin - semantic - spec walker", function() {
   this.timeout(10 * 1000)

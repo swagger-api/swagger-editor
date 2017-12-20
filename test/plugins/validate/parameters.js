@@ -1,5 +1,5 @@
 import expect from "expect"
-import validateHelper, { expectNoErrors } from "./validate-helper.js"
+import validateHelper, { expectNoErrorsOrWarnings } from "./validate-helper.js"
 
 describe("validation plugin - semantic - parameters", function() {
   this.timeout(10 * 1000 ) // For swagger-ui startup
@@ -77,6 +77,6 @@ describe("validation plugin - semantic - parameters", function() {
       }
     }
 
-    return expectNoErrors(spec)
+    return expectNoErrorsOrWarnings(spec)
   })
 })

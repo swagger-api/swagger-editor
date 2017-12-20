@@ -1,5 +1,5 @@
 import expect from "expect"
-import validateHelper, { expectNoErrors } from "./validate-helper"
+import validateHelper, { expectNoErrorsOrWarnings } from "./validate-helper"
 
 describe("validation plugin - semantic - items required for array objects", function() {
   // It takes a while to start up swagger-ui, for some reason
@@ -81,6 +81,6 @@ describe("validation plugin - semantic - items required for array objects", func
       }
     }
 
-    return expectNoErrors(spec)
+    return expectNoErrorsOrWarnings(spec)
   })
 })

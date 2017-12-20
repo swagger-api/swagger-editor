@@ -1,5 +1,5 @@
 import expect from "expect"
-import validateHelper, { expectNoErrors } from "./validate-helper.js"
+import validateHelper, { expectNoErrorsOrWarnings } from "./validate-helper.js"
 
 describe("validation plugin - semantic - schema", function() {
   this.timeout(10 * 1000)
@@ -115,7 +115,7 @@ describe("validation plugin - semantic - schema", function() {
       }
     }
 
-    return expectNoErrors(spec)
+    return expectNoErrorsOrWarnings(spec)
   })
 
   it("should return an error when a parameter schema's property is readOnly and required by the schema", () => {
@@ -176,7 +176,7 @@ describe("validation plugin - semantic - schema", function() {
       }
     }
 
-    return expectNoErrors(spec)
+    return expectNoErrorsOrWarnings(spec)
   })
 
   describe("Type key", () => {
@@ -206,7 +206,7 @@ describe("validation plugin - semantic - schema", function() {
             expect(firstError.message).toEqual(`Schema "type" value must be a string`)
             expect(firstError.path).toEqual(["paths", "/CoolPath/{id}", "responses", "200", "schema", "type"])
           })
-      return expectNoErrors(spec)
+      return expectNoErrorsOrWarnings(spec)
     })
     it("should not return an error when \"type\" is a property name", () => {
       const spec = {
@@ -254,7 +254,7 @@ describe("validation plugin - semantic - schema", function() {
         }
       }
 
-      return expectNoErrors(spec)
+      return expectNoErrorsOrWarnings(spec)
     })
   })
 

@@ -32,10 +32,19 @@ export default function validateHelper(spec) {
 
 }
 
-export function expectNoErrors(spec) {
+export function expectNoErrorsOrWarnings(spec) {
   return validateHelper(spec)
     .then( system => {
       const allErrors = system.errSelectors.allErrors().toJS()
+      expect(allErrors.length).toEqual(0)
+    })
+}
+
+export function expectNoErrors(spec) {
+  return validateHelper(spec)
+    .then(system => {
+      let allErrors = system.errSelectors.allErrors().toJS()
+      allErrors = allErrors.filter(a => a.level === "error") // ignore warnings
       expect(allErrors.length).toEqual(0)
     })
 }

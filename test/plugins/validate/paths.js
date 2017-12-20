@@ -1,6 +1,6 @@
 /* eslint-env mocha */
 import expect from "expect"
-import validateHelper, { expectNoErrors } from "./validate-helper.js"
+import validateHelper, { expectNoErrorsOrWarnings } from "./validate-helper.js"
 
 describe("validation plugin - semantic - paths", function(){
   this.timeout(10 * 1000)
@@ -20,7 +20,7 @@ describe("validation plugin - semantic - paths", function(){
         }
       }
 
-      return expectNoErrors(spec)
+      return expectNoErrorsOrWarnings(spec)
     })
 
     it("should return one problem when the definition is absent", function(){
@@ -161,7 +161,7 @@ describe("validation plugin - semantic - paths", function(){
         }
       }
 
-      return expectNoErrors(spec)
+      return expectNoErrorsOrWarnings(spec)
     })
 
     it("should return no problems for a path parameter defined in an operation", function(){
@@ -179,7 +179,7 @@ describe("validation plugin - semantic - paths", function(){
         }
       }
 
-      return expectNoErrors(spec)
+      return expectNoErrorsOrWarnings(spec)
     })
 
   })
@@ -227,7 +227,7 @@ describe("validation plugin - semantic - paths", function(){
         }
       }
 
-      return expectNoErrors(spec)
+      return expectNoErrorsOrWarnings(spec)
     })
 
     it("should return no problems for a templated and double-templated set of path strings", function(){
@@ -254,7 +254,7 @@ describe("validation plugin - semantic - paths", function(){
         }
       }
 
-      return expectNoErrors(spec)
+      return expectNoErrorsOrWarnings(spec)
     })
 
   })
@@ -278,7 +278,7 @@ describe("validation plugin - semantic - paths", function(){
         }
       }
 
-      return expectNoErrors(spec)
+      return expectNoErrorsOrWarnings(spec)
     })
 
     it("should return no problems when 'in' is not defined", function(){
@@ -299,7 +299,7 @@ describe("validation plugin - semantic - paths", function(){
         }
       }
 
-      return expectNoErrors(spec)
+      return expectNoErrorsOrWarnings(spec)
     })
 
   })
@@ -337,7 +337,7 @@ describe("validation plugin - semantic - paths", function(){
         }
       }
 
-      return expectNoErrors(spec)
+      return expectNoErrorsOrWarnings(spec)
     })
 
   })
