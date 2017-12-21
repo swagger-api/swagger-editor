@@ -1,26 +1,75 @@
 /* eslint-env mocha */
 import expect from "expect"
-import validateHelper, { expectNoErrorsOrWarnings } from "./validate-helper.js"
+import validateHelper, { expectNoErrors, expectNoErrorsOrWarnings } from "./validate-helper.js"
 
 describe("validation plugin - semantic - paths", function(){
   this.timeout(10 * 1000)
 
   describe("Path parameter definitions need matching paramater declarations", function(){
 
-    it("should not return problems for a valid definiton/declaration pair", function(){
+    it("should not return problems for a valid path-level definiton/declaration pair", function(){
       const spec = {
         paths: {
           "/CoolPath/{id}": {
             parameters: [{
               name: "id",
               in: "path",
-              description: "An id"
+              description: "An id",
+              required: true
             }]
           }
         }
       }
 
-      return expectNoErrorsOrWarnings(spec)
+      return expectNoErrors(spec)
+    })
+
+    it("should not return problems for a valid operation-level definiton/declaration pair", function(){
+      const spec = {
+        paths: {
+          "/CoolPath/{id}": {
+            get: {
+              parameters: [{
+                name: "id",
+                in: "path",
+                description: "An id",
+                required: true
+              }]
+            }
+          }
+        }
+      }
+
+      return expectNoErrors(spec)
+    })
+
+    it("should return one problem for a path parameter defined at the operation level that is not present within every operation on the path", function(){
+      const spec = {
+        paths: {
+          "/CoolPath/{id}": {
+            get: {
+              parameters: [{
+                name: "id",
+                in: "path",
+                description: "An id",
+                required: true
+              }]
+            },
+            post: {
+              description: "the path parameter definition is missing here"
+            }
+          }
+        }
+      }
+
+      return validateHelper(spec)
+        .then(system => {
+          const allErrors = system.errSelectors.allErrors().toJS()
+          const firstError = allErrors[0]
+          expect(allErrors.length).toEqual(1)
+          expect(firstError.message).toEqual( "Declared path parameter \"id\" needs to be defined as a path parameter at either the path or operation level")
+          expect(firstError.path).toEqual(["paths", "/CoolPath/{id}"])
+        })
     })
 
     it("should return one problem when the definition is absent", function(){
@@ -38,7 +87,7 @@ describe("validation plugin - semantic - paths", function(){
           const firstError = allErrors[0]
           expect(allErrors.length).toEqual(1)
           expect(firstError.message).toEqual( "Declared path parameter \"id\" needs to be defined as a path parameter at either the path or operation level")
-          expect(firstError.path).toEqual(["paths", "CoolPath", "{id}"])
+          expect(firstError.path).toEqual(["paths", "/CoolPath/{id}"])
         })
 
     })
@@ -56,7 +105,7 @@ describe("validation plugin - semantic - paths", function(){
           const firstError = allErrors[0]
           expect(allErrors.length).toEqual(1)
           expect(firstError.message).toEqual( "Declared path parameter \"id\" needs to be defined as a path parameter at either the path or operation level")
-          expect(firstError.path).toEqual(["paths", "CoolPath", "{id}"])
+          expect(firstError.path).toEqual(["paths", "/CoolPath/{id}"])
         })
 
     })
@@ -80,7 +129,7 @@ describe("validation plugin - semantic - paths", function(){
           const firstError = allErrors[0]
           expect(allErrors.length).toEqual(1)
           expect(firstError.message).toEqual( "Declared path parameter \"id\" needs to be defined as a path parameter at either the path or operation level")
-          expect(firstError.path).toEqual(["paths", "CoolPath", "{id}"])
+          expect(firstError.path).toEqual(["paths", "/CoolPath/{id}"])
         })
     })
 
@@ -101,7 +150,7 @@ describe("validation plugin - semantic - paths", function(){
           const firstError = allErrors[0]
           expect(allErrors.length).toEqual(1)
           expect(firstError.message).toEqual( "Empty path parameter declarations are not valid")
-          expect(firstError.path).toEqual(["paths", "CoolPath", "{}"])
+          expect(firstError.path).toEqual(["paths", "/CoolPath/{}"])
         })
     })
 
@@ -122,7 +171,7 @@ describe("validation plugin - semantic - paths", function(){
           expect(allErrors.length).toEqual(1)
           const firstError = allErrors[0]
           expect(firstError.message).toEqual( "Declared path parameter \"id\" needs to be defined as a path parameter at either the path or operation level")
-          expect(firstError.path).toEqual(["paths", "CoolPath", "{id}"])
+          expect(firstError.path).toEqual(["paths", "/CoolPath/{id}"])
         })
     })
 
@@ -133,7 +182,8 @@ describe("validation plugin - semantic - paths", function(){
           "/UncoolPath/{id}": {
             parameters: [{
               name: "id",
-              in: "path"
+              in: "path",
+              required: true
             }]
           }
         }
@@ -145,7 +195,7 @@ describe("validation plugin - semantic - paths", function(){
           expect(allErrors.length).toEqual(1)
           const firstError = allErrors[0]
           expect(firstError.message).toEqual("Declared path parameter \"id\" needs to be defined as a path parameter at either the path or operation level")
-          expect(firstError.path).toEqual(["paths", "CoolPath", "{id}"])
+          expect(firstError.path).toEqual(["paths", "/CoolPath/{id}"])
         })
     })
 
@@ -155,13 +205,14 @@ describe("validation plugin - semantic - paths", function(){
           "/CoolPath/{id}": {
             parameters: [{
               name: "id",
-              in: "path"
+              in: "path",
+              required: true
             }]
           }
         }
       }
 
-      return expectNoErrorsOrWarnings(spec)
+      return expectNoErrors(spec)
     })
 
     it("should return no problems for a path parameter defined in an operation", function(){
@@ -179,7 +230,7 @@ describe("validation plugin - semantic - paths", function(){
         }
       }
 
-      return expectNoErrorsOrWarnings(spec)
+      return expectNoErrors(spec)
     })
 
   })
@@ -192,13 +243,15 @@ describe("validation plugin - semantic - paths", function(){
           "/CoolPath/{id}": {
             parameters: [{
               name: "id",
-              in: "path"
+              in: "path",
+              required: true
             }]
           },
           "/CoolPath/{count}": {
             parameters: [{
               name: "count",
-              in: "path"
+              in: "path",
+              required: true
             }]
           }
         }
@@ -210,7 +263,7 @@ describe("validation plugin - semantic - paths", function(){
           expect(allErrors.length).toEqual(1)
           const firstError = allErrors[0]
           expect(firstError.message).toEqual("Equivalent paths are not allowed.")
-          expect(firstError.path).toEqual(["paths", "CoolPath", "{count}"])
+          expect(firstError.path).toEqual(["paths", "/CoolPath/{count}"])
         })
     })
 
@@ -221,13 +274,14 @@ describe("validation plugin - semantic - paths", function(){
           "/CoolPath/{count}": {
             parameters: [{
               name: "count",
-              in: "path"
+              in: "path",
+              required: true
             }]
           }
         }
       }
 
-      return expectNoErrorsOrWarnings(spec)
+      return expectNoErrors(spec)
     })
 
     it("should return no problems for a templated and double-templated set of path strings", function(){
@@ -236,25 +290,28 @@ describe("validation plugin - semantic - paths", function(){
           "/CoolPath/{group_id}/all": {
             parameters: [{
               name: "group_id",
-              in: "path"
+              in: "path",
+              required: true
             }]
           },
           "/CoolPath/{group_id}/{user_id}": {
             parameters: [
               {
                 name: "group_id",
-                in: "path"
+                in: "path",
+                required: true
               },
               {
                 name: "user_id",
-                in: "path"
+                in: "path",
+                required: true
               },
             ]
           },
         }
       }
 
-      return expectNoErrorsOrWarnings(spec)
+      return expectNoErrors(spec)
     })
 
   })
@@ -267,7 +324,8 @@ describe("validation plugin - semantic - paths", function(){
             parameters: [
               {
                 name: "id",
-                in: "path"
+                in: "path",
+                required: true
               },
               {
                 name: "id",
@@ -278,7 +336,7 @@ describe("validation plugin - semantic - paths", function(){
         }
       }
 
-      return expectNoErrorsOrWarnings(spec)
+      return expectNoErrors(spec)
     })
 
     it("should return no problems when 'in' is not defined", function(){
@@ -288,7 +346,8 @@ describe("validation plugin - semantic - paths", function(){
             parameters: [
               {
                 name: "id",
-                in: "path"
+                in: "path",
+                required: true
               },
               {
                 name: "id",
@@ -299,7 +358,7 @@ describe("validation plugin - semantic - paths", function(){
         }
       }
 
-      return expectNoErrorsOrWarnings(spec)
+      return expectNoErrors(spec)
     })
 
   })
@@ -321,7 +380,7 @@ describe("validation plugin - semantic - paths", function(){
           expect(allErrors.length).toEqual(1)
           const firstError = allErrors[0]
           expect(firstError.message).toEqual("Query strings in paths are not allowed.")
-          expect(firstError.path).toEqual(["paths", "CoolPath", "/report?"])
+          expect(firstError.path).toEqual(["paths", "/report?"])
         })
     })
 
@@ -331,13 +390,14 @@ describe("validation plugin - semantic - paths", function(){
           "/CoolPath/{id}": {
             parameters: [{
               name: "id",
-              in: "path"
+              in: "path",
+              required: true
             }]
           }
         }
       }
 
-      return expectNoErrorsOrWarnings(spec)
+      return expectNoErrors(spec)
     })
 
   })

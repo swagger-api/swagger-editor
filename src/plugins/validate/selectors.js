@@ -205,10 +205,27 @@ export const allOperations = () => (system) => {
       const isOperation = (
         node.path[0] == "paths"
           && node.path.length === 3
-          && !system.validateSelectors.isVendorExt(node.key)
+          && !system.validateSelectors.isVendorExt(node)
       )
 
       if(isOperation) {
+        return node
+      }
+    }
+  })
+}
+
+export const allPathItems = () => (system) => {
+  return system.fn.traverseOnce({
+    name: "allPathItems",
+    fn: (node) => {
+      const isPathItem = (
+        node.path[0] == "paths"
+          && node.path.length === 2
+          && !system.validateSelectors.isVendorExt(node)
+      )
+
+      if(isPathItem) {
         return node
       }
     }

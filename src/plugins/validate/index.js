@@ -7,6 +7,7 @@ import debounce from "lodash/debounce"
 
 import * as formDataValidateActions from "./validators/form-data"
 import * as schemaValidateActions from "./validators/schema"
+import * as pathsValidateActions from "./validators/paths"
 
 export default function SemanticValidatorsPlugin({getSystem}) {
 
@@ -43,7 +44,8 @@ export default function SemanticValidatorsPlugin({getSystem}) {
         actions: {
           ...actions,
           ...formDataValidateActions,
-          ...schemaValidateActions
+          ...schemaValidateActions,
+          ...pathsValidateActions
         }
       },
     }
