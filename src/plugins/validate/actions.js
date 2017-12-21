@@ -33,25 +33,6 @@ export const all = () => (system) => {
   })
 }
 
-export const validateTypeArrayRequiresItems = () => (system) => {
-  return system.validateSelectors
-    .allSchemas()
-    .then(nodes => {
-      return nodes.reduce((acc, node) => {
-        const schemaObj = node.node
-        if(schemaObj.type === "array" && typeof schemaObj.items === "undefined") {
-          acc.push({
-            message: "Schemas with 'type: array', require a sibling 'items: ' field",
-            path: node.path,
-            level: "error",
-          })
-        }
-        return acc
-      }, [])
-    })
-}
-
-
 export const validateParameterBadKeys = () => (system) => {
   return system.validateSelectors
     .allParameters()
@@ -76,58 +57,18 @@ export const validateParameterBadKeys = () => (system) => {
     })
 }
 
-export const validateMinAndMax = () => (system) => {
-  return system.validateSelectors
-    .allSchemas()
-    .then(nodes => {
-      return nodes.reduce((acc, node) => {
-        const schemaObj = node.node
-        const {minimum, maximum, minLength, maxLength, minProperties, maxProperties} = schemaObj
-        if(typeof minimum === "number" && typeof maximum === "number" && (minimum > maximum)) {
-          acc.push({
-            message: "'minimum' must be lower value than 'maximum'",
-            path: [...node.path, "minimum"],
-            level: "error",
-          })
-        }
-
-        if(typeof minLength === "number" && typeof maxLength === "number" && (minLength > maxLength)) {
-          acc.push({
-            message: "'minLength' must be lower value than 'maxLength'",
-            path: [...node.path, "minLength"],
-            level: "error",
-          })
-        }
-
-        if(typeof minProperties === "number" && typeof maxProperties === "number" && (minProperties > maxProperties)) {
-          acc.push({
-            message: "'minProperties' must be lower value than 'maxProperties'",
-            path: [...node.path, "minProperties"],
-            level: "error",
-          })
-        }
-        return acc
-      }, [])
-    })
-}
-
 // Add warnings for unused definitions
 export const validateUnused$Refs = () => (system) => {
-  const specStr = system.specSelectors.specStr()
-  const refRegex = /\$ref.*["'](.*)["']/g
-  let match = refRegex.exec(specStr)
-  let refs = new Set()
+  return Promise.all([
+    system.validateSelectors.all$refs(),
+    system.validateSelectors.all$refArtifacts()
+  ]).then(([refs, refArtifacts]) => {
+    const references = (refs || refArtifacts || []).map(node => node.node)
+    const errors = []
 
-  while(match !== null) {
-    refs.add(match[1])
-    match = refRegex.exec(specStr)
-  }
-
-  const errors = []
-
-  system.specSelectors.definitions()
+    system.specSelectors.definitions()
     .forEach((val, key) => {
-      if(!refs.has(`#/definitions/${key}`)) {
+      if(references.indexOf(`#/definitions/${key}`) < 0) {
         const path = ["definitions", key]
         errors.push({
           level: "warning",
@@ -135,7 +76,8 @@ export const validateUnused$Refs = () => (system) => {
           message: "Definition was declared but never used in document"
         })
       }
-  })
+    })
 
-  return errors
+    return errors
+  })
 }

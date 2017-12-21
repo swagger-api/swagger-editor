@@ -6,6 +6,7 @@ import { fromJS } from "immutable"
 import debounce from "lodash/debounce"
 
 import * as formDataValidateActions from "./validators/form-data"
+import * as schemaValidateActions from "./validators/schema"
 
 export default function SemanticValidatorsPlugin({getSystem}) {
 
@@ -41,7 +42,8 @@ export default function SemanticValidatorsPlugin({getSystem}) {
         selectors,
         actions: {
           ...actions,
-          ...formDataValidateActions
+          ...formDataValidateActions,
+          ...schemaValidateActions
         }
       },
     }

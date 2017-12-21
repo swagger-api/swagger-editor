@@ -7,6 +7,7 @@ export const isPathItemParameter = (state, node) => node.path[2] === "parameters
 export const isRootResponse = (state, node) => node.path[0] === "responses" && node.path.length === 2
 export const isRootHeader = (state, node) => node.path[0] === "headers" && node.path.length === 2
 export const isRef = (state, node) => node.key === "$ref" && typeof node.node === "string" // This selector can be fooled.
+export const isRefArtifact = (state, node) => node.key === "$$ref" && typeof node.node === "string"
 
 export const isSubSchema = (state, node) => (sys) => {
   const path = node.path
@@ -136,6 +137,17 @@ export const all$refs = () => (system) => {
     name: "all$refs",
     fn: (node) => {
       if(system.validateSelectors.isRef(node)) {
+        return node
+      }
+    },
+  })
+}
+
+export const all$refArtifacts = () => (system) => {
+  return system.fn.traverseOnce({
+    name: "all$refArtifacts",
+    fn: (node) => {
+      if(system.validateSelectors.isRefArtifact(node)) {
         return node
       }
     },

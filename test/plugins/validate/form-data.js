@@ -2,7 +2,7 @@
 import expect from "expect"
 import validateHelper, { expectNoErrors } from "./validate-helper.js"
 
-describe.only("validation plugin - semantic - form data", function(){
+describe("validation plugin - semantic - form data", function(){
   this.timeout(10 * 1000)
 
   describe("/parameters/...", function(){

@@ -9,15 +9,17 @@ describe("validation plugin - semantic - schema", function() {
 
   it("should return an error when a definition's property is readOnly and required by the schema", () => {
     const spec = {
+      blah: {
+        $ref: "#/definitions/CoolModel"
+      },
       definitions: {
         CoolModel: {
           required: ["BadProperty"],
-          properties: [
-            {
-              name: "BadProperty",
+          properties: {
+            BadProperty: {
               readOnly: true
             }
-          ]
+          }
         }
       }
     }
@@ -27,8 +29,8 @@ describe("validation plugin - semantic - schema", function() {
           const allErrors = system.errSelectors.allErrors().toJS()
           expect(allErrors.length).toEqual(1)
           const firstError = allErrors[0]
+          expect(firstError.message).toEqual("Read only properties cannot be marked as required by a schema.")
           expect(firstError.path).toEqual(["definitions", "CoolModel", "required", "0"])
-          expect(firstError.message).toEqual("Read only properties cannot marked as required by a schema.")
         })
 
   })
@@ -38,11 +40,11 @@ describe("validation plugin - semantic - schema", function() {
       definitions: {
         CoolModel: {
           required: ["BadProperty"],
-          properties: [
-            {
-              name: "BadProperty"
+          properties: {
+            BadProperty: {
+              type: "string"
             }
-          ]
+          }
         }
       }
     }
@@ -67,12 +69,11 @@ describe("validation plugin - semantic - schema", function() {
               200: {
                 schema: {
                   required: ["BadProperty"],
-                  properties: [
-                    {
-                      name: "BadProperty",
+                  properties: {
+                    BadProperty: {
                       readOnly: true
                     }
-                  ]
+                  }
                 }
               }
             }
@@ -90,8 +91,8 @@ describe("validation plugin - semantic - schema", function() {
           expect(allErrors.length).toEqual(1)
           const firstError = allErrors[0]
 
+          expect(firstError.message).toEqual("Read only properties cannot be marked as required by a schema.")
           expect(firstError.path).toEqual(["paths", "/CoolPath", "get", "responses", "200", "schema", "required", "0"])
-          expect(firstError.message).toEqual("Read only properties cannot marked as required by a schema.")
         })
   })
 
@@ -104,11 +105,11 @@ describe("validation plugin - semantic - schema", function() {
               200: {
                 schema: {
                   required: ["BadProperty"],
-                  properties: [
-                    {
-                      name: "BadProperty"
+                  properties: {
+                    BadProperty: {
+                      type: "string"
                     }
-                  ]
+                  }
                 }
               }
             }
@@ -130,12 +131,11 @@ describe("validation plugin - semantic - schema", function() {
               in: "body",
               schema: {
                 required: ["BadProperty"],
-                properties: [
-                  {
-                    name: "BadProperty",
+                properties: {
+                  BadProperty: {
                     readOnly: true
                   }
-                ]
+                }
               }
             }]
           }
@@ -151,8 +151,8 @@ describe("validation plugin - semantic - schema", function() {
 
           expect(allErrors.length).toEqual(1)
           const firstError = allErrors[0]
+          expect(firstError.message).toEqual("Read only properties cannot be marked as required by a schema.")
           expect(firstError.path).toEqual(["paths", "/CoolPath", "get", "parameters", "0", "schema", "required", "0"])
-          expect(firstError.message).toEqual("Read only properties cannot marked as required by a schema.")
         })
   })
 
@@ -166,11 +166,11 @@ describe("validation plugin - semantic - schema", function() {
               in: "body",
               schema: {
                 required: ["BadProperty"],
-                properties: [
-                  {
-                    name: "BadProperty"
+                properties: {
+                  BadProperty: {
+                    type: "string"
                   }
-                ]
+                }
               }
             }]
           }
@@ -186,10 +186,12 @@ describe("validation plugin - semantic - schema", function() {
       const spec = {
         paths: {
           "/CoolPath/{id}": {
-            responses: {
-              "200": {
-                schema: {
-                  type: ["number", "string"]
+            get: {
+              responses: {
+                "200": {
+                  schema: {
+                    type: ["number", "string"]
+                  }
                 }
               }
             }
@@ -205,8 +207,8 @@ describe("validation plugin - semantic - schema", function() {
 
             expect(allErrors.length).toEqual(1)
             const firstError = allErrors[0]
-            expect(firstError.message).toEqual(`Schema "type" value must be a string`)
-            expect(firstError.path).toEqual(["paths", "/CoolPath/{id}", "responses", "200", "schema", "type"])
+            expect(firstError.message).toEqual(`Schema "type" key must be a string`)
+            expect(firstError.path).toEqual(["paths", "/CoolPath/{id}", "get", "responses", "200", "schema", "type"])
           })
     })
     it("should not return an error when \"type\" is a property name", () => {
@@ -255,12 +257,11 @@ describe("validation plugin - semantic - schema", function() {
         }
       }
 
-      return expectNoErrorsOrWarnings(spec)
+      return expectNoErrors(spec)
     })
   })
 
   describe("Minimums and maximums", () => {
-
     it("should return an error when minimum is more than maximum", () => {
       const spec = {
         definitions: {
@@ -281,7 +282,6 @@ describe("validation plugin - semantic - schema", function() {
           expect(firstError.path).toEqual(["definitions", "MyNumber", "minimum"])
         })
     })
-
     it("should not return an error when minimum is less than maximum", () => {
       const spec = {
         definitions: {
@@ -293,7 +293,6 @@ describe("validation plugin - semantic - schema", function() {
       }
       return expectNoErrors(spec)
     })
-
     it("should return an error when minProperties is more than maxProperties", () => {
       const spec = {
         definitions: {
@@ -310,11 +309,10 @@ describe("validation plugin - semantic - schema", function() {
           allErrors = allErrors.filter(a => a.level === "error") // ignore warnings
           expect(allErrors.length).toEqual(1)
           const firstError = allErrors[0]
-          expect(firstError.path).toEqual(["definitions", "MyNumber", "minProperties"])
           expect(firstError.message).toMatch(/.*minProperties.*lower.*maxProperties.*/)
+          expect(firstError.path).toEqual(["definitions", "MyNumber", "minProperties"])
         })
     })
-
     it("should not return an error when minProperties is less than maxProperties", () => {
       const spec = {
         definitions: {
@@ -327,7 +325,6 @@ describe("validation plugin - semantic - schema", function() {
 
       return expectNoErrors(spec)
     })
-
     it("should return an error when minLength is more than maxLength", () => {
       const spec = {
         definitions: {
@@ -348,7 +345,6 @@ describe("validation plugin - semantic - schema", function() {
           expect(firstError.message).toMatch(/.*minLength.*lower.*maxLength.*/)
         })
     })
-
     it("should not return an error when minLength is less than maxLength", () => {
       const spec = {
         definitions: {
@@ -361,6 +357,160 @@ describe("validation plugin - semantic - schema", function() {
 
       return expectNoErrors(spec)
     })
+  })
 
+  describe(`"type: array" requires "items"`, () => {
+    describe("header objects", function() {
+      // It takes a while to start up swagger-ui, for some reason
+
+      it("should return an error when an array header object omits an `items` property", () => {
+
+        // Given
+        const spec = {
+          "swagger": "2.0",
+          "info": {
+            "version": "1.0.0",
+            "title": "Swagger Petstore"
+          },
+          "paths": {
+            "/pets": {
+              "get": {
+                "description": "Returns all pets from the system that the user has access to",
+                "responses": {
+                  "200": {
+                    "description": "pet response",
+                    "headers": {
+                      "X-MyHeader": {
+                        "type": "array"
+                      }
+                    }
+                  },
+                  "default": {
+                    "description": "unexpected error"
+                  }
+                }
+              }
+            }
+          }
+        }
+
+        // When
+        return validateHelper(spec)
+          .then(system => {
+
+            // Then
+            expect(system.errSelectors.allErrors().count()).toEqual(1)
+            const firstError = system.errSelectors.allErrors().first().toJS()
+            expect(firstError.message).toMatch(/.*type.*array.*require.*items/)
+            expect(firstError.path).toEqual(["paths", "/pets", "get", "responses", "200", "headers", "X-MyHeader"])
+          })
+
+      })
+
+      it("should not return an error when an array header object has an `items` property", () => {
+        const spec = {
+          "swagger": "2.0",
+          "info": {
+            "version": "1.0.0",
+            "title": "Swagger Petstore"
+          },
+          "paths": {
+            "/pets": {
+              "get": {
+                "description": "Returns all pets from the system that the user has access to",
+                "responses": {
+                  "200": {
+                    "description": "pet response",
+                    "headers": {
+                      "X-MyHeader": {
+                        "type": "array",
+                        "items": {
+                          "type": "string"
+                        }
+                      }
+                    }
+                  },
+                  "default": {
+                    "description": "unexpected error"
+                  }
+                }
+              }
+            }
+          }
+        }
+
+        return expectNoErrorsOrWarnings(spec)
+      })
+    })
+    describe("definitions", function() {
+      // It takes a while to start up swagger-ui, for some reason
+
+      it("should return an error when an array definition omits an `items` property", () => {
+
+        // Given
+        const spec = {
+          paths: {
+            $ref: "#/definitions/asdf"
+          },
+          "definitions": {
+            "asdf": {
+              type: "array"
+            }
+          }
+        }
+
+        // When
+        return validateHelper(spec)
+          .then(system => {
+
+            // Then
+            expect(system.errSelectors.allErrors().count()).toEqual(1)
+            const firstError = system.errSelectors.allErrors().first().toJS()
+            expect(firstError.message).toMatch(/.*type.*array.*require.*items/)
+            expect(firstError.path).toEqual(["definitions", "asdf"])
+          })
+
+      })
+
+      it("should not return an error when an array definition has an `items` property", () => {
+        const spec = {
+          "swagger": "2.0",
+          "info": {
+            "version": "1.0.0",
+            "title": "Swagger Petstore"
+          },
+          "paths": {
+            "/pets": {
+              "get": {
+                "description": "Returns all pets from the system that the user has access to",
+                "responses": {
+                  "200": {
+                    "description": "pet response",
+                    "headers": {
+                      "X-MyHeader": {
+                        $ref: "#/definitions/array"
+                      }
+                    }
+                  },
+                  "default": {
+                    "description": "unexpected error"
+                  }
+                }
+              }
+            }
+          },
+          "definitions": {
+            "array": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          }
+        }
+
+        return expectNoErrorsOrWarnings(spec)
+      })
+    })
   })
 })
