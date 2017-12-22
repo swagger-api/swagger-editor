@@ -231,3 +231,44 @@ export const allPathItems = () => (system) => {
     }
   })
 }
+
+export const allSecurityDefinitions = () => (system) => {
+  return system.fn.traverseOnce({
+    name: "allSecurityDefinitions",
+    fn: (node) => {
+      const isSecurityDefinition = (
+        node.path[0] == "securityDefinitions"
+          && node.path.length === 2
+          && !system.validateSelectors.isVendorExt(node)
+      )
+
+      if(isSecurityDefinition) {
+        return node
+      }
+    }
+  })
+}
+
+export const allSecurityRequirements = () => (system) => {
+  return system.fn.traverseOnce({
+    name: "allSecurityRequirements",
+    fn: (node) => {
+      const isGlobalSecurityRequirement = (
+        node.path[0] == "security"
+          && node.path.length === 2
+          && !system.validateSelectors.isVendorExt(node)
+      )
+
+      const isOperationSecurityRequirement = (
+        node.path[0] == "paths"
+          && node.path[3] == "security"
+          && node.path.length === 5
+          && !system.validateSelectors.isVendorExt(node)
+      )
+
+      if(isGlobalSecurityRequirement || isOperationSecurityRequirement) {
+        return node
+      }
+    }
+  })
+}

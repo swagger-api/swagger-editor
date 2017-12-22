@@ -1,7 +1,7 @@
 import expect from "expect"
 import validateHelper, { expectNoErrorsOrWarnings } from "./validate-helper.js"
 
-describe("validation plugin - semantic - security", function() {
+describe.only("validation plugin - semantic - security", function() {
   this.timeout(10 * 1000) // For the slow validateHelper startup ( via swagger-ui )
 
   it("should return an error when an operation references a non-existing security scope", () => {
@@ -113,6 +113,41 @@ describe("validation plugin - semantic - security", function() {
       })
   })
 
+  it("should return an error when top-level security references a non-existing security definition", () => {
+    const spec = {
+      "securityDefinitions": {
+        "api_key": {
+          "type": "apiKey",
+          "name": "apikey",
+          "in": "query"
+        }
+      },
+      "security": [
+        {
+          "fictional_security_definition": [
+            "write:pets"
+          ]
+        }
+      ],
+      "paths": {
+        "/": {
+          "get": {
+            "description": "asdf"
+          }
+        }
+      }
+    }
+
+    return validateHelper(spec)
+      .then(system => {
+        const allErrors = system.errSelectors.allErrors().toJS()
+        expect(allErrors.length).toEqual(1)
+        const firstError = allErrors[0]
+        expect(firstError.path).toEqual(["security", "0"])
+        expect(firstError.message).toMatch("Security requirements must match a security definition")
+      })
+  })
+
   it("should not return an error when an operation references an existing security scope", () => {
     const spec = {
       "securityDefinitions": {
@@ -136,6 +171,37 @@ describe("validation plugin - semantic - security", function() {
                 ]
               }
             ]
+          }
+        }
+      }
+    }
+
+    return expectNoErrorsOrWarnings(spec)
+  })
+
+  it("should not return an error when an top-level security references an existing security scope", () => {
+    const spec = {
+      "securityDefinitions": {
+        "api_key": {
+          "type": "apiKey",
+          "name": "apikey",
+          "in": "query",
+          "scopes": {
+            "write:pets": "write to pets"
+          }
+        }
+      },
+      "security": [
+        {
+          "api_key": [
+            "write:pets"
+          ]
+        }
+      ],
+      "paths": {
+        "/": {
+          "get": {
+            "description": "asdf"
           }
         }
       }
