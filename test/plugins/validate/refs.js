@@ -8,10 +8,10 @@ describe("validation plugin - semantic - refs", function() {
   this.timeout(10 * 1000)
   describe("Ref siblings", () => {
 
-      it.skip("should return a warning when another property is a sibling of a $ref", () => {
+      it("should return a warning when another property is a sibling of a $ref", () => {
         const spec = {
           paths: {
-            "/CoolPath/{id}": {
+            "/CoolPath": {
               schema: {
                 $ref: "#/definition/abc",
                 description: "My very cool schema"
@@ -25,18 +25,18 @@ describe("validation plugin - semantic - refs", function() {
             const allErrors = system.errSelectors.allErrors().toJS()
             expect(allErrors.length).toEqual(1)
             const firstError = allErrors[0]
-            expect(firstError.path).toEqual(["paths", "/CoolPath/{id}", "schema", "description"])
-            expect(firstError.message).toMatch("")
+            expect(firstError.message).toMatch("Sibling values are not allowed alongside $refs")
+            expect(firstError.path).toEqual(["paths", "/CoolPath", "schema", "description"])
           })
       })
 
     })
-  describe("Refs are restricted in specific areas of a spec", () => {
-    describe.skip("Response $refs", () => {
+  describe.skip("Refs are restricted in specific areas of a spec", () => {
+    describe("Response $refs", () => {
       it("should return a problem for a parameters $ref in a response position", function(){
         const spec = {
           paths: {
-            "/CoolPath/{id}": {
+            "/CoolPath": {
               responses: {
                 "200": {
                   $ref: "#/parameters/abc"
@@ -51,7 +51,7 @@ describe("validation plugin - semantic - refs", function() {
             const allErrors = system.errSelectors.allErrors().toJS()
             expect(allErrors.length).toEqual(1)
             const firstError = allErrors[0]
-            expect(firstError.path).toEqual(["paths", "/CoolPath/{id}", "responses", "200", "$ref"])
+            expect(firstError.path).toEqual(["paths", "/CoolPath", "responses", "200", "$ref"])
             // expect(firstError.message).toMatch("")
           })
       })
@@ -62,7 +62,7 @@ describe("validation plugin - semantic - refs", function() {
       it("should return a problem for a definitions $ref in a response position", function(){
         const spec = {
           paths: {
-            "/CoolPath/{id}": {
+            "/CoolPath": {
               schema: {
                 $ref: "#/responses/abc"
               }
@@ -75,7 +75,7 @@ describe("validation plugin - semantic - refs", function() {
             const allErrors = system.errSelectors.allErrors().toJS()
             const firstError = allErrors[0]
             expect(allErrors.length).toEqual(1)
-            expect(firstError.path).toEqual(["paths", "/CoolPath/{id}", "responses", "200", "$ref"])
+            expect(firstError.path).toEqual(["paths", "/CoolPath", "responses", "200", "$ref"])
             expect(firstError.message).toEqual(`Response references are not allowed within schemas`)
           })
       })
@@ -83,7 +83,7 @@ describe("validation plugin - semantic - refs", function() {
       it("should not return a problem for a responses $ref in a response position", function(){
         const spec = {
           paths: {
-            "/CoolPath/{id}": {
+            "/CoolPath": {
               responses: {
                 "200": {
                   $ref: "#/responses/abc"
@@ -96,12 +96,12 @@ describe("validation plugin - semantic - refs", function() {
         return expectNoErrorsOrWarnings(spec)
       })
     })
-    describe.skip("Schema $refs", () => {
+    describe("Schema $refs", () => {
       // See note on resolved vs raw spec
-      it.skip("should return a problem for a parameters $ref in a schema position", function(){
+      it("should return a problem for a parameters $ref in a schema position", function(){
         const spec = {
           paths: {
-            "/CoolPath/{id}": {
+            "/CoolPath": {
               schema: {
                 $ref: "#/parameters/abc"
               }
@@ -111,14 +111,14 @@ describe("validation plugin - semantic - refs", function() {
 
         let res = validate({ jsSpec: spec })
         expect(res.errors.length).toEqual(1)
-        expect(res.errors[0].path).toEqual(["paths", "/CoolPath/{id}", "schema", "$ref"])
+        expect(res.errors[0].path).toEqual(["paths", "/CoolPath", "schema", "$ref"])
         expect(res.warnings.length).toEqual(0)
       })
 
-      it.skip("should return a problem for a responses $ref in a schema position", function(){
+      it("should return a problem for a responses $ref in a schema position", function(){
         const spec = {
           paths: {
-            "/CoolPath/{id}": {
+            "/CoolPath": {
               schema: {
                 $ref: "#/responses/abc"
               }
@@ -128,14 +128,14 @@ describe("validation plugin - semantic - refs", function() {
 
         let res = validate({ jsSpec: spec })
         expect(res.errors.length).toEqual(1)
-        expect(res.errors[0].path).toEqual(["paths", "/CoolPath/{id}", "schema", "$ref"])
+        expect(res.errors[0].path).toEqual(["paths", "/CoolPath", "schema", "$ref"])
         expect(res.warnings.length).toEqual(0)
       })
 
       it("should not return a problem for a definition $ref in a schema position", function(){
         const spec = {
           paths: {
-            "/CoolPath/{id}": {
+            "/CoolPath": {
               schema: {
                 $ref: "#/definition/abc"
               }
@@ -180,12 +180,12 @@ describe("validation plugin - semantic - refs", function() {
           })
       })
     })
-    describe.skip("Parameter $refs", () => {
+    describe("Parameter $refs", () => {
 
-      it.skip("should return a problem for a definition $ref in a parameter position", function(){
+      it("should return a problem for a definition $ref in a parameter position", function(){
         const spec = {
           paths: {
-            "/CoolPath/{id}": {
+            "/CoolPath": {
               parameters: [{
                 $ref: "#/definitions/abc"
               }]
@@ -198,15 +198,15 @@ describe("validation plugin - semantic - refs", function() {
             const allErrors = system.errSelectors.allErrors().toJS()
             expect(allErrors.length).toEqual(1)
             const firstError = allErrors[0]
-            expect(firstError.path).toEqual(["paths", "/CoolPath/{id}", "parameters", "0", "$ref"])
+            expect(firstError.path).toEqual(["paths", "/CoolPath", "parameters", "0", "$ref"])
             expect(firstError.message).toMatch("")
           })
       })
 
-      it.skip("should return a problem for a responses $ref in a parameter position", function(){
+      it("should return a problem for a responses $ref in a parameter position", function(){
         const spec = {
           paths: {
-            "/CoolPath/{id}": {
+            "/CoolPath": {
               parameters: [{
                 $ref: "#/responses/abc"
               }]
@@ -219,7 +219,7 @@ describe("validation plugin - semantic - refs", function() {
             const allErrors = system.errSelectors.allErrors().toJS()
             expect(allErrors.length).toEqual(1)
             const firstError = allErrors[0]
-            expect(firstError.path).toEqual(["paths", "/CoolPath/{id}", "parameters", "0", "$ref"])
+            expect(firstError.path).toEqual(["paths", "/CoolPath", "parameters", "0", "$ref"])
             expect(firstError.message).toMatch("")
           })
       })
@@ -227,7 +227,7 @@ describe("validation plugin - semantic - refs", function() {
       it("should not return a problem for a parameter $ref in a parameter position", function(){
         const spec = {
           paths: {
-            "/CoolPath/{id}": {
+            "/CoolPath": {
               parameters: [{
                 $ref: "#/parameters/abc"
               }]

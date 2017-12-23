@@ -1,7 +1,7 @@
 import expect from "expect"
 import validateHelper, { expectNoErrorsOrWarnings } from "./validate-helper.js"
 
-describe.only("validation plugin - semantic - security", function() {
+describe("validation plugin - semantic - security", function() {
   this.timeout(10 * 1000) // For the slow validateHelper startup ( via swagger-ui )
 
   it("should return an error when an operation references a non-existing security scope", () => {
