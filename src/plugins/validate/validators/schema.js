@@ -57,6 +57,7 @@ export const validateTypeKeyShouldBeString = () => (system) => {
     .then(nodes => {
       return nodes.reduce((acc, node) => {
         const schemaObj = node.node
+        console.log(schemaObj)
         if(schemaObj.type !== undefined && typeof schemaObj.type !== "string") {
           acc.push({
             message: `Schema "type" key must be a string`,

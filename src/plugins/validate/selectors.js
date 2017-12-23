@@ -102,7 +102,7 @@ export const allSchemas = () => (system) => {
 
 export const allParameters = () => (system) => {
   return system.fn.traverseOnce({
-    name: "allParameterSchemas",
+    name: "allParameters",
     fn: (node) => {
       if(system.validateSelectors.isParameter(node)) {
         return node
