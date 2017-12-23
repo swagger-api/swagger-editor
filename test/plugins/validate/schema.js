@@ -185,7 +185,7 @@ describe("validation plugin - semantic - schema", function() {
     it("should return an error when \"type\" is an array", () => {
       const spec = {
         paths: {
-          "/CoolPath/{id}": {
+          "/CoolPath": {
             get: {
               responses: {
                 "200": {
@@ -208,7 +208,7 @@ describe("validation plugin - semantic - schema", function() {
             expect(allErrors.length).toEqual(1)
             const firstError = allErrors[0]
             expect(firstError.message).toEqual(`Schema "type" key must be a string`)
-            expect(firstError.path).toEqual(["paths", "/CoolPath/{id}", "get", "responses", "200", "schema", "type"])
+            expect(firstError.path).toEqual(["paths", "/CoolPath", "get", "responses", "200", "schema", "type"])
           })
     })
     it("should not return an error when \"type\" is a property name", () => {
