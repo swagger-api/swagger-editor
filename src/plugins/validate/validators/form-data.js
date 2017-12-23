@@ -72,7 +72,6 @@ export const validateParameterFormDataConsumesType = () => system => {
           contextConsumes.indexOf("multipart/form-data") === -1 &&
           contextConsumes.indexOf("application/x-www-form-urlencoded") === -1
         ) {
-          console.log(containingContext)
           acc.push({
             message: `Operations with Parameters of "in: formData" must include "application/x-www-form-urlencoded" or "multipart/form-data" in their "consumes" property`,
             path: [...node.path.slice(0, -2)],

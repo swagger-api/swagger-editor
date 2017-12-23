@@ -30,7 +30,7 @@ export const validateParametersHasOnlyOneBody = () => (system) => {
         const parameters = node.node || []
         let bodyParamSeen = false
 
-        parameters.forEach((param, i) => {
+        parameters.forEach((param) => {
           if(param.in === "body" && bodyParamSeen) {
             acc.push({
               level: "error",

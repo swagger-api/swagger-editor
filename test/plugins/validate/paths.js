@@ -1,6 +1,6 @@
 /* eslint-env mocha */
 import expect from "expect"
-import validateHelper, { expectNoErrors, expectNoErrorsOrWarnings } from "./validate-helper.js"
+import validateHelper, { expectNoErrors } from "./validate-helper.js"
 
 describe("validation plugin - semantic - paths", function(){
   this.timeout(10 * 1000)
@@ -404,30 +404,30 @@ describe("validation plugin - semantic - paths", function(){
 
   describe("Integrations", () => {
     it.skip("should return two problems for an equivalent path string missing a parameter definition", function(){
-      const spec = {
-        paths: {
-          "/CoolPath/{id}": {
-            parameters: [{
-              name: "id",
-              in: "path"
-            }]
-          },
-          "/CoolPath/{count}": {}
-        }
-      }
-
-      let res = validate({ resolvedSpec: spec })
-      expect(res.errors).toEqual([
-        {
-          message: "Equivalent paths are not allowed.",
-          path: "paths./CoolPath/{count}"
-        },
-        {
-          message: "Declared path parameter \"count\" needs to be defined as a path parameter at either the path or operation level",
-          path: "paths./CoolPath/{count}"
-        }
-      ])
-      expect(res.warnings).toEqual([])
+      // const spec = {
+      //   paths: {
+      //     "/CoolPath/{id}": {
+      //       parameters: [{
+      //         name: "id",
+      //         in: "path"
+      //       }]
+      //     },
+      //     "/CoolPath/{count}": {}
+      //   }
+      // }
+      //
+      // let res = validate({ resolvedSpec: spec })
+      // expect(res.errors).toEqual([
+      //   {
+      //     message: "Equivalent paths are not allowed.",
+      //     path: "paths./CoolPath/{count}"
+      //   },
+      //   {
+      //     message: "Declared path parameter \"count\" needs to be defined as a path parameter at either the path or operation level",
+      //     path: "paths./CoolPath/{count}"
+      //   }
+      // ])
+      // expect(res.warnings).toEqual([])
     })
 
   })
