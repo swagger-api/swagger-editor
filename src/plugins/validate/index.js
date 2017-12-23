@@ -11,6 +11,7 @@ import * as pathsValidateActions from "./validators/paths"
 import * as securityValidateActions from "./validators/security"
 import * as refsValidateActions from "./validators/refs"
 import * as parametersValidateActions from "./validators/parameters"
+import * as operationsValidateActions from "./validators/operations"
 
 export default function SemanticValidatorsPlugin({getSystem}) {
 
@@ -51,7 +52,8 @@ export default function SemanticValidatorsPlugin({getSystem}) {
           ...pathsValidateActions,
           ...securityValidateActions,
           ...refsValidateActions,
-          ...parametersValidateActions
+          ...parametersValidateActions,
+          ...operationsValidateActions
         }
       },
     }

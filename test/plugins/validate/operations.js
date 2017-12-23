@@ -1,27 +1,51 @@
-// import expect from "expect"
-// import { validate } from "plugins/validation/semantic-validators/validators/operations"
+import expect from "expect"
 
-// TODO: hmm, these tests are empty
-describe.skip("validation plugin - semantic - operations", () => {
+import validateHelper, { expectNoErrors } from "./validate-helper.js"
 
-  describe("Operations cannot have both a 'body' parameter and a 'formData' parameter", () => {
-
-  })
-
-  describe("Operations must have only one body parameter", () => {
-
-  })
-
-  describe("Operations must have only one body parameter", () => {
-
-  })
-
+describe("validation plugin - semantic - operations", () => {
   describe("Operations must have unique (name + in combination) parameters", () => {
 
   })
 
-  describe("Integrations", () => {
+  describe("Operations must have unique operationIds", () => {
+    it("should return an error when operationId collisions exist", () => {
+      const spec = {
+        paths: {
+          "/": {
+            get: {
+              operationId: "myId"
+            },
+            post: {
+              operationId: "myId"
+            }
+          }
+        }
+      }
 
+      return validateHelper(spec)
+        .then(system => {
+          const allErrors = system.errSelectors.allErrors().toJS()
+          const firstError = allErrors[0]
+          expect(allErrors.length).toEqual(1)
+          expect(firstError.message).toEqual(`Operations must have unique operationIds.`)
+          expect(firstError.path).toEqual(["paths", "/", "post"])
+        })
+    })
+    it("should not return an error when operationId collisions don't exist", () => {
+      const spec = {
+        paths: {
+          "/": {
+            get: {
+              operationId: "myId1"
+            },
+            post: {
+              operationId: "myId2"
+            }
+          }
+        }
+      }
+
+      return expectNoErrors(spec)
+    })
   })
-
 })

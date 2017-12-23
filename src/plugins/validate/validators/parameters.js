@@ -21,3 +21,28 @@ export const validateParameterBadKeys = () => (system) => {
       }, [])
     })
 }
+
+export const validateParametersHasOnlyOneBody = () => (system) => {
+  return system.validateSelectors
+    .allParameterArrays()
+    .then(nodes => {
+      return nodes.reduce((acc, node) => {
+        const parameters = node.node || []
+        let bodyParamSeen = false
+
+        parameters.forEach((param, i) => {
+          if(bodyParamSeen) {
+            acc.push({
+              level: "error",
+              message: "Multiple body parameters are not allowed.",
+              path: node.path
+            })
+          }
+          if(param.in === "body") {
+            bodyParamSeen = true
+          }
+        })
+        return acc
+      }, [])
+    })
+}
