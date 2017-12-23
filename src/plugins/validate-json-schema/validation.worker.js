@@ -2,7 +2,6 @@ import "src/polyfills.js"
 
 import concat from "lodash/concat"
 import { validate } from "./structural-validation/validator"
-import { runSemanticValidators } from "./semantic-validators/hook"
 import { getLineNumberForPath } from "../ast/ast"
 import getTimestamp from "./get-timestamp"
 import registerPromiseWorker from "promise-worker/register"
@@ -35,10 +34,7 @@ registerPromiseWorker(function ({ jsSpec, resolvedSpec, specStr, mode }) {
   let structuralValidationResult = settings.runStructural ? validate(inputs) : []
   markStep("structural")
 
-  let semanticValidatorResult = settings.runSemantic ? runSemanticValidators(inputs) : []
-  markStep("semantic")
-
-  let combinedErrors = concat([], semanticValidatorResult, structuralValidationResult)
+  let combinedErrors = concat([], structuralValidationResult)
   markStep("combine")
 
   if(LOG_VALIDATION_PERF) {

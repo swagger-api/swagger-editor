@@ -28,7 +28,7 @@ describe("validation plugin - semantic - operations", () => {
           const firstError = allErrors[0]
           expect(allErrors.length).toEqual(1)
           expect(firstError.message).toEqual(`Operations must have unique operationIds.`)
-          expect(firstError.path).toEqual(["paths", "/", "post"])
+          expect(firstError.path).toEqual(["paths", "/", "post", "operationId"])
         })
     })
     it("should not return an error when operationId collisions don't exist", () => {

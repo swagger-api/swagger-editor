@@ -11,7 +11,7 @@ export const validateOperationHasUniqueId = () => sys => {
             acc.push({
               level: "error",
               message: "Operations must have unique operationIds.",
-              path: [...node.path]
+              path: [...node.path, "operationId"]
             })
           }
           seen.push(value.operationId)

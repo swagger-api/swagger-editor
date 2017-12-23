@@ -31,7 +31,7 @@ export const validateParametersHasOnlyOneBody = () => (system) => {
         let bodyParamSeen = false
 
         parameters.forEach((param, i) => {
-          if(bodyParamSeen) {
+          if(param.in === "body" && bodyParamSeen) {
             acc.push({
               level: "error",
               message: "Multiple body parameters are not allowed.",

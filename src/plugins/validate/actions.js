@@ -1,6 +1,6 @@
 import forEach from "lodash/forEach"
 
-export const SOURCE = "validate"
+export const SOURCE = "semantic"
 
 export const all = () => (system) => {
 

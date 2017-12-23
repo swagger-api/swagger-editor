@@ -21,7 +21,7 @@ export const validateRefHasNoSiblings = () => system => {
 }
 
 // Add warnings for unused definitions
-export const validateUnused$Refs = () => (system) => {
+export const validateUnusedDefinitions = () => (system) => {
   return Promise.all([
     system.validateSelectors.all$refs(),
     system.validateSelectors.all$refArtifacts()

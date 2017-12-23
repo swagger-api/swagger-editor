@@ -26,9 +26,6 @@ export function makeValidationWorker() {
       errActions.clear({
         source: "schema"
       })
-      errActions.clear({
-        source: "semantic"
-      })
 
       // Filter out anything funky
       validationErrors = validationErrors
