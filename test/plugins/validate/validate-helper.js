@@ -15,6 +15,9 @@ export default function validateHelper(spec) {
       spec,
       domNode: null,
       presets: [],
+      initialState: {
+        layout: undefined
+      },
       plugins: [
         SwaggerUi.plugins.SpecIndex,
         SwaggerUi.plugins.ErrIndex,
