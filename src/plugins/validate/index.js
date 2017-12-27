@@ -71,7 +71,16 @@ function makeTraverseOnce(getSystem) {
       results[name] = []
     }
 
-    const json = getSystem().specSelectors.jsonAsJS()
+    const system = getSystem()
+
+    const json = system.specSelectors.jsonAsJS()
+
+    const isSwagger2 = system.specSelectors.isSwagger2 || null
+    const isOAS3 = system.specSelectors.isOAS3 || null
+
+    if((isSwagger2 && !isSwagger2()) || (isOAS3 && isOAS3())) {
+      return
+    }
 
     getSystem().fn.traverse(json)
       .forEach(function() { // Remember: this cannot be a fat-arrow function, because we need to read "this"
