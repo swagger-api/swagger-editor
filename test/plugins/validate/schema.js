@@ -512,5 +512,82 @@ describe("validation plugin - semantic - schema", function() {
         return expectNoErrorsOrWarnings(spec)
       })
     })
+    describe("'pattern' Z anchors", function() {
+      it("should return an error when a schema has a Z anchor in its pattern", () => {
+
+        // Given
+        const spec = {
+          paths: {
+            $ref: "#/definitions/asdf"
+          },
+          "definitions": {
+            "asdf": {
+              type: "string",
+              pattern: "^[-a-zA-Z0-9_]+\\Z"
+            }
+          }
+        }
+
+        // When
+        return validateHelper(spec)
+          .then(system => {
+
+            // Then
+            expect(system.errSelectors.allErrors().count()).toEqual(1)
+            const firstError = system.errSelectors.allErrors().first().toJS()
+            expect(firstError.message).toEqual(`"\\Z" anchors are not allowed in regular expression patterns`)
+            expect(firstError.path).toEqual(["definitions", "asdf", "pattern"])
+          })
+
+      })
+      it("should return an error when a subschema has a Z anchor in its pattern", () => {
+
+        // Given
+        const spec = {
+          paths: {
+            $ref: "#/definitions/asdf"
+          },
+          "definitions": {
+            "asdf": {
+              type: "object",
+              properties: {
+                slug: {
+                  type: "string",
+                  pattern: "^[-a-zA-Z0-9_]+\\Z"
+                }
+              }
+            }
+          }
+        }
+
+        // When
+        return validateHelper(spec)
+          .then(system => {
+
+            // Then
+            expect(system.errSelectors.allErrors().count()).toEqual(1)
+            const firstError = system.errSelectors.allErrors().first().toJS()
+            expect(firstError.message).toEqual(`"\\Z" anchors are not allowed in regular expression patterns`)
+            expect(firstError.path).toEqual(["definitions", "asdf", "properties", "slug", "pattern"])
+          })
+
+      })
+
+      it("should not return an error when a regex pattern doesn't use a Z anchor", () => {
+        const spec = {
+          paths: {
+            $ref: "#/definitions/asdf"
+          },
+          "definitions": {
+            "asdf": {
+              type: "string",
+              pattern: "^[-a-zA-Z0-9_]+"
+            }
+          }
+        }
+
+        return expectNoErrorsOrWarnings(spec)
+      })
+    })
   })
 })

@@ -91,3 +91,23 @@ export const validateReadOnlyPropertiesNotRequired = () => (system) => {
       }, [])
     })
 }
+
+// See https://github.com/swagger-api/swagger-editor/issues/1601
+export const validateSchemaPatternHasNoZAnchors = () => (system) => {
+  return system.validateSelectors
+    .allSchemas()
+    .then(nodes => {
+      return nodes.reduce((acc, node) => {
+        const schemaObj = node.node
+        const { pattern } = schemaObj || {}
+        if(typeof pattern === "string" && pattern.indexOf("\\Z") > -1) {
+          acc.push({
+            message: `"\\Z" anchors are not allowed in regular expression patterns`,
+            path: [...node.path, "pattern"],
+            level: "error",
+          })
+        }
+        return acc
+      }, [])
+    })
+}
