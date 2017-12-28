@@ -512,7 +512,7 @@ describe("validation plugin - semantic - schema", function() {
         return expectNoErrorsOrWarnings(spec)
       })
     })
-    describe("definitions", function() {
+    describe("'pattern' Z anchors", function() {
       it("should return an error when a schema has a Z anchor in its pattern", () => {
 
         // Given
