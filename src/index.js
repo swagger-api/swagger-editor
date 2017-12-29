@@ -5,7 +5,8 @@ import "swagger-ui/dist/swagger-ui.css"
 
 import EditorPlugin from "./plugins/editor"
 import LocalStoragePlugin from "./plugins/local-storage"
-import ValidatePlugin from "./plugins/validate"
+import ValidateBasePlugin from "./plugins/validate-base"
+import ValidateSemanticPlugin from "./plugins/validate-semantic"
 import ValidateJsonSchemaPlugin from "./plugins/validate-json-schema"
 import EditorAutosuggestPlugin from "./plugins/editor-autosuggest"
 import EditorAutosuggestSnippetsPlugin from "./plugins/editor-autosuggest-snippets"
@@ -22,7 +23,8 @@ window.versions = window.versions || {}
 window.versions.swaggerEditor = `${PACKAGE_VERSION}/${GIT_COMMIT || "unknown"}${GIT_DIRTY ? "-dirty" : ""}`
 const plugins = {
   EditorPlugin,
-  ValidatePlugin,
+  ValidateBasePlugin,
+  ValidateSemanticPlugin,
   ValidateJsonSchemaPlugin,
   LocalStoragePlugin,
   EditorAutosuggestPlugin,

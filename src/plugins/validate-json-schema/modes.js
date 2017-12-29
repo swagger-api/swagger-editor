@@ -5,13 +5,11 @@ export default {
   "swagger2": {
     schemas: [swagger2Schema], // the swagger2 schema references itself by URL, so we have to preload it
     testSchema: swagger2Schema,
-    runStructural: true,
-    runSemantic: true
+    runStructural: true
   },
   "oas3": {
     schemas: [oas3Schema],
     testSchema: oas3Schema,
-    runStructural: true,
-    runSemantic: false
+    runStructural: true
   }
 }
