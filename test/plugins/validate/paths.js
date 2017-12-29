@@ -57,6 +57,9 @@ describe("validation plugin - semantic - paths", function(){
             },
             post: {
               description: "the path parameter definition is missing here"
+            },
+            delete: {
+              description: "the path parameter definition is missing here"
             }
           }
         }
@@ -67,12 +70,12 @@ describe("validation plugin - semantic - paths", function(){
           const allErrors = system.errSelectors.allErrors().toJS()
           const firstError = allErrors[0]
           expect(allErrors.length).toEqual(1)
-          expect(firstError.message).toEqual( "Declared path parameter \"id\" needs to be defined as a path parameter at either the path or operation level")
+          expect(firstError.message).toEqual( `Declared path parameter \"id\" needs to be defined within every operation in the path (missing in "post", "delete"), or moved to the path-level parameters object`)
           expect(firstError.path).toEqual(["paths", "/CoolPath/{id}"])
         })
     })
 
-    it("should return one problem when the definition is absent", function(){
+    it("should return one problem when the definition is completely absent", function(){
       const spec = {
         paths: {
           "/CoolPath/{id}": {

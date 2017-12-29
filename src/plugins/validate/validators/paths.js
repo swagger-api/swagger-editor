@@ -17,7 +17,18 @@ export const validatePathParameterDeclarationHasMatchingDefiniton = () => system
               // don't validate empty param names... they're invalid anyway
               return
             }
-            if(!checkForDefinition(paramName, pathItem)) {
+            const res = checkForDefinition(paramName, pathItem)
+            if(res.inOperation && res.missingFromOperations.length) {
+              const missingStr = res.missingFromOperations
+                .map(str => `"${str}"`)
+                .join(", ")
+
+              acc.push({
+                message: `Declared path parameter "${paramName}" needs to be defined within every operation in the path (missing in ${missingStr}), or moved to the path-level parameters object`,
+                path: [...node.path],
+                level: "error",
+              })
+            } else if(!res.found) {
               acc.push({
                 message: `Declared path parameter "${paramName}" needs to be defined as a path parameter at either the path or operation level`,
                 path: [...node.path],
@@ -97,31 +108,46 @@ function checkForDefinition(paramName, pathItem) {
   const pathItemParameters = pathItem.parameters
   const operationsInPathItem = (Object.keys(pathItem) || [])
     .filter(key => operationKeys.indexOf(key) > -1)
-    .map(key => pathItem[key])
+    .map(key => {
+      const obj = pathItem[key]
+      obj.method = key
+      return obj
+    })
 
-  let definitionFound = false
+  const res = {
+    found: false,
+    inPath: false,
+    inOperation: false,
+    missingFromOperations: []
+  }
 
   // Look at the path parameters
   if(Array.isArray(pathItemParameters)) {
     pathItemParameters.forEach(param => {
       if(param.name === paramName && param.in === "path") {
-        definitionFound = true
+        res.found = true
+        res.inPath = true
       }
     })
   }
 
-  // Next, look at the operation...
-  // Mark as found if _every_ operation has a definition for the path param
-  if(!definitionFound && operationsInPathItem.length) {
-    definitionFound = operationsInPathItem
-      .every(op => {
-        if(!Array.isArray(op.parameters)) {
-          return false
-        }
-        return op.parameters
+  // Next, look at the operations...
+  if(!res.found && operationsInPathItem.length) {
+    operationsInPathItem
+      .forEach(op => {
+        const inThisOperation = (op.parameters || [])
           .some(param => param.name === paramName && param.in === "path")
+
+        if(inThisOperation) {
+          res.found = true
+          res.inOperation = true
+        }
+
+        if(!inThisOperation) {
+          res.missingFromOperations.push(op.method)
+        }
       })
   }
 
-  return definitionFound
+  return res
 }
