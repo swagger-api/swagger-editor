@@ -1,7 +1,8 @@
 import expect from "expect"
 import SwaggerUi from "swagger-ui"
 
-import ValidatePlugin from "plugins/validate"
+import ValidateBasePlugin from "plugins/validate-base"
+import ValidateSemanticPlugin from "plugins/validate-semantic"
 import ASTPlugin from "plugins/ast"
 
 export default function validateHelper(spec) {
@@ -24,7 +25,8 @@ export default function validateHelper(spec) {
         SwaggerUi.plugins.DownloadUrl,
         DummySwaggerJsPlugin,
         ASTPlugin,
-        ValidatePlugin,
+        ValidateBasePlugin,
+        ValidateSemanticPlugin,
 
       ]
     })
