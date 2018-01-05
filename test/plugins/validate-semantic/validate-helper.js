@@ -7,11 +7,6 @@ import ASTPlugin from "plugins/ast"
 
 export default function validateHelper(spec) {
   return new Promise((resolve) => {
-    const DummySwaggerJsPlugin = {
-      fn: {
-        resolve: a => Promise.resolve(a)
-      }
-    }
     const system = SwaggerUi({
       spec,
       domNode: null,
@@ -23,7 +18,7 @@ export default function validateHelper(spec) {
         SwaggerUi.plugins.SpecIndex,
         SwaggerUi.plugins.ErrIndex,
         SwaggerUi.plugins.DownloadUrl,
-        DummySwaggerJsPlugin,
+        SwaggerUi.plugins.SwaggerJsIndex,
         ASTPlugin,
         ValidateBasePlugin,
         ValidateSemanticPlugin,

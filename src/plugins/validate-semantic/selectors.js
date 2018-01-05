@@ -84,15 +84,15 @@ export const isResponseSchema = (state, node) => (sys) => {
 }
 
 export const allSchemas = () => (system) => {
-  const schemaSources = [
-    "allParameterSchemas",
-    "allResponseSchemas",
-    "allDefinitions",
-    "allHeaders",
-    "allSubSchemas",
-  ]
+  const { validateSelectors } = system
 
-  const selectors = schemaSources.map(name => system.validateSelectors[name]())
+  const selectors = [
+    validateSelectors.allParameterSchemas(),
+    validateSelectors.allResponseSchemas(),
+    validateSelectors.allDefinitions(),
+    validateSelectors.allHeaders(),
+    validateSelectors.allSubSchemas(),
+  ]
 
   return Promise.all(selectors)
     .then((schemasAr) => {

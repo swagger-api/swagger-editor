@@ -10,10 +10,13 @@ describe("validation plugin - semantic - refs", function() {
           paths: {
             "/CoolPath": {
               schema: {
-                $ref: "#/definition/abc",
+                $ref: "#/definitions/abc",
                 description: "My very cool schema"
               }
             }
+          },
+          definitions: {
+            abc: {}
           }
         }
 
