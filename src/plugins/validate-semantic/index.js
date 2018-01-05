@@ -27,9 +27,8 @@ export default function SemanticValidatorsPlugin({getSystem}) {
       spec: {
         selectors: {
           jsonAsJS: createSelector(
-            state => state.get("resolvedSpec"),
-            state => state.get("json"),
-            (a,b) => (a || b).toJS()
+            state => state.get("resolved"),
+            (spec) => spec ? spec.toJS() : null
           ),
           definitions: createSelector(
             state => state.getIn(["json", "definitions"]),
