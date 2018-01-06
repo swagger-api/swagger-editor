@@ -1,7 +1,7 @@
 {
   "name": "swagger-editor",
   "description": "Swagger Editor",
-  "version": "3.1.20",
+  "version": "3.2.2",
   "main": "dist/swagger-editor.js",
   "repository": "git@github.com:swagger-api/swagger-editor.git",
   "license": "Apache-2.0",
@@ -34,6 +34,7 @@
     "test-in-node": "npm run lint-errors && npm run just-test-in-node",
     "just-test": "karma start --config karma.conf.js",
     "just-test-in-node": "mocha --recursive --compilers js:babel-core/register test",
+    "just-test-in-node-watch": "npm run just-test-in-node -- -w",
     "serve-static": "http-server -i -a 0.0.0.0 -p 3001",
     "prestart": "npm install",
     "start": "npm-run-all --parallel serve-static open-static",
@@ -42,7 +43,6 @@
   "dependencies": {
     "ajv": "^5.2.2",
     "boron": "^0.2.3",
-    "bowser": "1.6.1",
     "classnames": "^2.1.3",
     "core-js": "^2.4.1",
     "deepmerge": "^1.3.2",
@@ -58,8 +58,9 @@
     "react-redux": "^4.x.x",
     "react-transition-group": "^1.1.1",
     "redux": "^3.x.x",
-    "swagger-client": "^3.4.2",
-    "swagger-ui": "^3.7.0",
+    "swagger-client": "^3.4.4",
+    "swagger-ui": "^3.8.1",
+    "traverse": "^0.6.6",
     "whatwg-fetch": "^2.0.3"
   },
   "devDependencies": {

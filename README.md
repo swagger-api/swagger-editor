@@ -52,7 +52,7 @@ Please disclose any security-related issues or vulnerabilities by emailing [secu
 
 ## License
 
-Copyright 2017 SmartBear Software
+Copyright 2018 SmartBear Software
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
