@@ -223,7 +223,7 @@ export default function makeEditor({ editorPluginsToRun }) {
       //// Mange the yaml lifecycle...
       // If the yaml doesn't match _what we already have in state_ then update the yaml in the editor
       // Taking care to manage the other things in lifecycle
-      if(newValue !== this.props.value && !this.yaml.includes(newValue)) {
+      if(newValue !== this.props.value && !this.yaml.indexOf(newValue) > -1) {
 
         // Remove markers
         if(this.removeMarkers) {
@@ -250,7 +250,7 @@ export default function makeEditor({ editorPluginsToRun }) {
       }
 
       // If the yaml was in our stack, we should clear it up
-      if(this.yaml.includes(newValue)) {
+      if(this.yaml.indexOf(newValue) > -1) {
         // remove all previous yaml's ( leave newValue in though ).
         // In case another onChange is still in flight
         this.yaml = this.yaml.slice(this.yaml.indexOf(newValue) + 1)
