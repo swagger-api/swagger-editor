@@ -2,7 +2,6 @@ import * as selectors from "./selectors"
 import * as actions from "./actions"
 import traverse from "traverse"
 import {createSelector} from "reselect"
-import { fromJS } from "immutable"
 import debounce from "lodash/debounce"
 
 import * as formDataValidateActions from "./validators/form-data"
