@@ -1,6 +1,29 @@
 import forEach from "lodash/forEach"
+import debounce from "lodash/debounce"
 
 export const SOURCE = "semantic"
+
+// System for buffering/batching errors
+var errorCollector = []
+const debNewSpecErrBatch = debounce(() => {
+  const system = errorCollector.system // Just a reference to the "latest" system
+  try {
+    errorCollector.forEach(obj => {
+      obj.line = obj.line || system.fn.AST.getLineNumberForPath(system.specSelectors.specStr(), obj.path)
+      obj.source = SOURCE
+    })
+    system.errActions.newSpecErrBatch(errorCollector)
+    errorCollector = [] // Clear stack
+  } catch(e) {
+    console.error(e)
+  }
+},30)
+
+const bufferedNewSpecErrBatch = (system, obj) => {
+  errorCollector.push(obj)
+  errorCollector.system = system
+  debNewSpecErrBatch()
+}
 
 export const all = () => (system) => {
 
@@ -13,20 +36,16 @@ export const all = () => (system) => {
     source: SOURCE
   })
 
-  const cb = (obj) => setTimeout(() => {
-    obj.line = obj.line || system.fn.AST.getLineNumberForPath(system.specSelectors.specStr(), obj.path)
-    obj.source = SOURCE
-    system.errActions.newSpecErr(obj)
-  }, 0)
+  const errCb = (obj) => bufferedNewSpecErrBatch(system, obj)
 
   forEach(system.validateActions, (fn, name) => {
     if(name.indexOf("validateAsync") === 0) {
-      fn(cb) // Function send messages on its own, it won't be cached ( due to the nature of async operations )
+      fn(errCb) // Function send messages on its own, it won't be cached ( due to the nature of async operations )
     } else if(name.indexOf("validate") === 0) {
       Promise.resolve(fn())
         .then(validationObjs => {
           if(validationObjs) {
-            validationObjs.forEach(cb)
+            validationObjs.forEach(errCb)
           }
         })
     }
