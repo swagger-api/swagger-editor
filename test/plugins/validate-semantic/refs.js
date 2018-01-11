@@ -32,6 +32,33 @@ describe("validation plugin - semantic - refs", function() {
     })
 
   })
+
+  describe("Unused definitions", () => {
+
+    it("should return a warning when a definition is declared but not used", () => {
+      const spec = {
+        paths: {
+          "/CoolPath": {}
+        },
+        definitions: {
+          abc: {
+            type: "string"
+          }
+        }
+      }
+
+      return validateHelper(spec)
+      .then(system => {
+        const allErrors = system.errSelectors.allErrors().toJS()
+        expect(allErrors.length).toEqual(1)
+        const firstError = allErrors[0]
+        expect(firstError.message).toMatch("Definition was declared but never used in document")
+        expect(firstError.level).toEqual("warning")
+        expect(firstError.path).toEqual(["definitions", "abc"])
+      })
+    })
+
+  })
   describe.skip("Refs are restricted in specific areas of a spec", () => {
     describe("Response $refs", () => {
       it("should return a problem for a parameters $ref in a response position", function(){
