@@ -26,6 +26,7 @@ describe("validation plugin - semantic - refs", function() {
             expect(allErrors.length).toEqual(1)
             const firstError = allErrors[0]
             expect(firstError.message).toMatch("Sibling values are not allowed alongside $refs")
+            expect(firstError.level).toEqual("warning")
             expect(firstError.path).toEqual(["paths", "/CoolPath", "schema", "description"])
           })
       })
