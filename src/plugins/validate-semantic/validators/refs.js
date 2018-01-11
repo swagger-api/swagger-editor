@@ -17,7 +17,7 @@ export const validateRefHasNoSiblings = () => system => {
             acc.push({
               message: `Sibling values are not allowed alongside $refs`,
               path: [...node.path.slice(0, -1), k],
-              level: "error"
+              level: "warning"
             })
           }
         })
