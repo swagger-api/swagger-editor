@@ -5,7 +5,7 @@ export default function spec() {
         selectors: {
 
           getSpecLineFromPath: (state, path) => ({fn: { AST }, specSelectors: { specStr }}) => {
-            return AST.getLineNumberForPath(specStr(), path)
+            return AST.getLineNumberForPath(specStr(), path.toJS ? path.toJS() : path)
           },
 
           // This will search return `path if it exists, else it'll look for the best $ref jump point

@@ -24,6 +24,28 @@ describe("validation plugin - semantic - paths", function(){
       return expectNoErrors(spec)
     })
 
+    it("should not return problems for a valid path-level definiton/declaration pair using a $ref", function(){
+      const spec = {
+        paths: {
+          "/CoolPath/{id}": {
+            parameters: [
+              { $ref: "#/parameters/id" }
+            ]
+          }
+        },
+        parameters: {
+          id: {
+            name: "id",
+            in: "path",
+            description: "An id",
+            required: true
+          }
+        }
+      }
+
+      return expectNoErrors(spec)
+    })
+
     it("should not return problems for a valid operation-level definiton/declaration pair", function(){
       const spec = {
         paths: {

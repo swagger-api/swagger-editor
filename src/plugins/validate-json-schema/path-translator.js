@@ -22,7 +22,7 @@ export function transformPathToArray(property, jsSpec) {
   str
     .map(item => {
       // "key[0]" becomes ["key", "0"]
-      if(item.includes("[")) {
+      if(item.indexOf("[") > -1) {
         let index = parseInt(item.match(/\[(.*)\]/)[1])
         let keyName = item.slice(0, item.indexOf("["))
         return [keyName, index.toString()]

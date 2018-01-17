@@ -2,7 +2,6 @@ import * as selectors from "./selectors"
 import * as actions from "./actions"
 import traverse from "traverse"
 import {createSelector} from "reselect"
-import { fromJS } from "immutable"
 import debounce from "lodash/debounce"
 
 import * as formDataValidateActions from "./validators/form-data"
@@ -27,14 +26,9 @@ export default function SemanticValidatorsPlugin({getSystem}) {
       spec: {
         selectors: {
           jsonAsJS: createSelector(
-            state => state.get("resolvedSpec"),
-            state => state.get("json"),
-            (a,b) => (a || b).toJS()
-          ),
-          definitions: createSelector(
-            state => state.getIn(["json", "definitions"]),
-            (defs) => defs || fromJS({})
-          ),
+            state => state.get("resolved"),
+            (spec) => spec ? spec.toJS() : null
+          )
         },
         wrapActions: {
           validateSpec: (ori, system) => (...args) => {

@@ -545,30 +545,34 @@ describe("validation plugin - semantic - schema", function() {
         // Given
         const spec = {
           paths: {
-            $ref: "#/definitions/asdf"
-          },
-          "definitions": {
-            "asdf": {
-              type: "object",
-              properties: {
-                slug: {
-                  type: "string",
-                  pattern: "^[-a-zA-Z0-9_]+\\Z"
+            "/": {
+              get: {
+                responses: {
+                  "200": {
+                    schema: {
+                      type: "object",
+                      properties: {
+                        slug: {
+                          type: "string",
+                          pattern: "^[-a-zA-Z0-9_]+\\Z"
+                        }
+                      }
+                    }
+                  }
                 }
               }
             }
-          }
+          },
         }
 
         // When
         return validateHelper(spec)
           .then(system => {
-
             // Then
             expect(system.errSelectors.allErrors().count()).toEqual(1)
             const firstError = system.errSelectors.allErrors().first().toJS()
             expect(firstError.message).toEqual(`"\\Z" anchors are not allowed in regular expression patterns`)
-            expect(firstError.path).toEqual(["definitions", "asdf", "properties", "slug", "pattern"])
+            expect(firstError.path).toEqual(["paths", "/", "get", "responses", "200", "schema", "properties", "slug", "pattern"])
           })
 
       })

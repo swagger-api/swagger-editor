@@ -128,14 +128,7 @@ describe("validation plugin - semantic - security", function() {
             "write:pets"
           ]
         }
-      ],
-      "paths": {
-        "/": {
-          "get": {
-            "description": "asdf"
-          }
-        }
-      }
+      ]
     }
 
     return validateHelper(spec)
