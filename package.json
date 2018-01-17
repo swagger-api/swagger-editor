@@ -33,7 +33,7 @@
     "test": "npm run just-test-in-node && npm run lint-errors",
     "test-in-node": "npm run lint-errors && npm run just-test-in-node",
     "just-test": "karma start --config karma.conf.js",
-    "just-test-in-node": "mocha --recursive --compilers js:babel-core/register test",
+    "just-test-in-node": "NODE_ENV=test mocha --recursive --compilers js:babel-core/register test",
     "just-test-in-node-watch": "npm run just-test-in-node -- -w",
     "serve-static": "http-server -i -a 0.0.0.0 -p 3001",
     "prestart": "npm install",

@@ -3,6 +3,9 @@ import debounce from "lodash/debounce"
 
 export const SOURCE = "semantic"
 
+// the test system does not tolerate slowness!
+const DEBOUNCE_MS = process.env.NODE_ENV === "test" ? 5 : 30
+
 // System for buffering/batching errors
 var errorCollector = []
 const debNewSpecErrBatch = debounce(() => {
@@ -17,7 +20,7 @@ const debNewSpecErrBatch = debounce(() => {
   } catch(e) {
     console.error(e)
   }
-},30)
+}, DEBOUNCE_MS)
 
 const bufferedNewSpecErrBatch = (system, obj) => {
   errorCollector.push(obj)
