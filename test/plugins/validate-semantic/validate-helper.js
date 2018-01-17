@@ -26,7 +26,7 @@ export default function validateHelper(spec) {
       ]
     })
     system.validateActions.all()
-    setTimeout(resolve.bind(null, system), 60)
+    setTimeout(resolve.bind(null, system), 65)
   })
 
 }
