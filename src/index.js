@@ -46,6 +46,7 @@ const defaults = {
   components: {
     EditorLayout
   },
+  showExtensions: true
 }
 
 module.exports = function SwaggerEditor(options) {
