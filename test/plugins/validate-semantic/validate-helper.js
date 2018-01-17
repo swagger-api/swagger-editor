@@ -5,6 +5,8 @@ import ValidateBasePlugin from "plugins/validate-base"
 import ValidateSemanticPlugin from "plugins/validate-semantic"
 import ASTPlugin from "plugins/ast"
 
+const DELAY_MS = process.env.CI === "true" ? 100 : 60
+
 export default function validateHelper(spec) {
   return new Promise((resolve) => {
     const system = SwaggerUi({
@@ -26,7 +28,7 @@ export default function validateHelper(spec) {
       ]
     })
     system.validateActions.all()
-    setTimeout(resolve.bind(null, system), 65)
+    setTimeout(resolve.bind(null, system), DELAY_MS)
   })
 
 }
