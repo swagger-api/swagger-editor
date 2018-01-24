@@ -4,7 +4,7 @@ import Swagger from "swagger-client"
 import "whatwg-fetch"
 import DropdownMenu from "./DropdownMenu"
 import Modal from "boron/DropModal"
-import downloadFile from "react-file-download"
+import reactFileDownload from "react-file-download"
 import YAML from "js-yaml"
 import beautifyJson from "json-beautify"
 
@@ -41,6 +41,10 @@ export default class Topbar extends React.Component {
     }
   }
 
+  downloadFile = (content, fileName) => {
+    return reactFileDownload(content, fileName)
+  }
+
   // Menu actions
 
   importFromURL = () => {
@@ -71,23 +75,35 @@ export default class Topbar extends React.Component {
   }
 
   saveAsYaml = () => {
-    // Editor content -> JS object -> YAML string
     let editorContent = this.props.specSelectors.specStr()
-    let isOAS3 = this.props.specSelectors.isOAS3()
-    let fileName = isOAS3 ? "openapi.yaml" : "swagger.yaml"
+    let language = this.getDefinitionLanguage()
+    let fileName = this.getFileName()
+
+    if(language === "yaml") {
+      //// the content is YAML,
+      //// so download as-is
+      return this.downloadFile(editorContent, `${fileName}.yaml`)
+    }
+
+    //// the content is JSON,
+    //// so convert and download
+
+    // JSON String -> JS object
     let jsContent = YAML.safeLoad(editorContent)
+    // JS object -> YAML string
     let yamlContent = YAML.safeDump(jsContent)
-    downloadFile(yamlContent, fileName)
+    this.downloadFile(yamlContent, `${fileName}.yaml`)
   }
 
   saveAsJson = () => {
-    // Editor content  -> JS object -> Pretty JSON string
     let editorContent = this.props.specSelectors.specStr()
-    let isOAS3 = this.props.specSelectors.isOAS3()
-    let fileName = isOAS3 ? "openapi.json" : "swagger.json"
+    let fileName = this.getFileName()
+
+    // JSON or YAML String -> JS object
     let jsContent = YAML.safeLoad(editorContent)
+    // JS Object -> pretty JSON string
     let prettyJsonContent = beautifyJson(jsContent, null, 2)
-    downloadFile(prettyJsonContent, fileName)
+    this.downloadFile(prettyJsonContent, `${fileName}.json`)
   }
 
   saveAsText = () => {
@@ -96,7 +112,7 @@ export default class Topbar extends React.Component {
     let editorContent = this.props.specSelectors.specStr()
     let isOAS3 = this.props.specSelectors.isOAS3()
     let fileName = isOAS3 ? "openapi.txt" : "swagger.txt"
-    downloadFile(editorContent, fileName)
+    this.downloadFile(editorContent, fileName)
   }
 
   convertToYaml = () => {
@@ -145,7 +161,7 @@ export default class Topbar extends React.Component {
       fetch(res.body.link)
         .then(res => res.blob())
         .then(res => {
-          downloadFile(res, `${name}-${type}-generated.zip`)
+          this.downloadFile(res, `${name}-${type}-generated.zip`)
         })
     }
 
@@ -171,6 +187,7 @@ export default class Topbar extends React.Component {
   // Logic helpers
 
   getFileName = () => {
+    // Use `isSwagger2` here, because we want to default to `openapi` if we don't know.
     if(this.props.specSelectors.isSwagger2 && this.props.specSelectors.isSwagger2()) {
       return "swagger"
     }
