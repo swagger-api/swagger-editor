@@ -229,6 +229,16 @@ export default class Topbar extends React.Component {
       }
     }
 
+    const saveAsElements = []
+
+    if(isJson) {
+      saveAsElements.push(<li><button type="button" onClick={this.saveAsJson}>Save as {`${fileName}.json`}</button></li>)
+      saveAsElements.push(<li><button type="button" onClick={this.saveAsYaml}>Convert and save as {`${fileName}.yaml`}</button></li>)
+    } else {
+      saveAsElements.push(<li><button type="button" onClick={this.saveAsYaml}>Save as {`${fileName}.yaml`}</button></li>)
+      saveAsElements.push(<li><button type="button" onClick={this.saveAsJson}>Convert and save as {`${fileName}.json`}</button></li>)
+    }
+
     return (
       <div>
         <div className="topbar">
@@ -241,8 +251,7 @@ export default class Topbar extends React.Component {
               <li><button type="button" onClick={this.importFromURL}>Import URL</button></li>
               <li><button type="button" onClick={this.showModal}>Import File</button></li>
               <li role="separator"></li>
-              <li><button type="button" onClick={this.saveAsYaml}>{isJson ? "Convert and s" : "S"}ave as {`${fileName}.yaml`}</button></li>
-              <li><button type="button" onClick={this.saveAsJson}>{isJson ? "S" : "Convert and s"}ave as {`${fileName}.json`}</button></li>
+              {saveAsElements}
               <li role="separator"></li>
               <li><button type="button" onClick={this.clearEditor}>Clear editor</button></li>
             </DropdownMenu>
