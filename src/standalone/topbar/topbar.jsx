@@ -79,6 +79,15 @@ export default class Topbar extends React.Component {
     let language = this.getDefinitionLanguage()
     let fileName = this.getFileName()
 
+    if(this.hasParserErrors()) {
+      if(language === "yaml") {
+        const shouldContinue = confirm("Swagger-Editor isn't able to parse your API definition. Are you sure you want to save the editor content as YAML?")
+        if(!shouldContinue) return
+      } else {
+        return alert("Save as YAML is not currently possible because Swagger-Editor wasn't able to parse your API definiton.")
+      }
+    }
+
     if(language === "yaml") {
       //// the content is YAML,
       //// so download as-is
@@ -98,6 +107,12 @@ export default class Topbar extends React.Component {
   saveAsJson = () => {
     let editorContent = this.props.specSelectors.specStr()
     let fileName = this.getFileName()
+
+    if(this.hasParserErrors()) {
+      // we can't recover from a parser error in save as JSON
+      // because we are always parsing so we can beautify
+      return alert("Save as JSON is not currently possible because Swagger-Editor wasn't able to parse your API definiton.")
+    }
 
     // JSON or YAML String -> JS object
     let jsContent = YAML.safeLoad(editorContent)
@@ -185,6 +200,10 @@ export default class Topbar extends React.Component {
   }
 
   // Logic helpers
+
+  hasParserErrors = () => {
+    return this.props.errSelectors.allErrors().filter(err => err.get("source") === "parser").size > 0
+  }
 
   getFileName = () => {
     // Use `isSwagger2` here, because we want to default to `openapi` if we don't know.
@@ -286,6 +305,7 @@ export default class Topbar extends React.Component {
 
 Topbar.propTypes = {
   specSelectors: PropTypes.object.isRequired,
+  errSelectors: PropTypes.object.isRequired,
   specActions: PropTypes.object.isRequired,
   getComponent: PropTypes.func.isRequired
 }
