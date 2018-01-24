@@ -168,6 +168,26 @@ export default class Topbar extends React.Component {
     this.refs.modal.hide()
   }
 
+  // Logic helpers
+
+  getFileName = () => {
+    if(this.props.specSelectors.isSwagger2 && this.props.specSelectors.isSwagger2()) {
+      return "swagger"
+    }
+
+    return "openapi"
+  }
+
+  getDefinitionLanguage = () => {
+    let editorContent = this.props.specSelectors.specStr() || ""
+
+    if(editorContent.trim()[0] === "{") {
+      return "json"
+    }
+
+    return "yaml"
+  }
+
   render() {
     let { getComponent, specSelectors: { isOAS3 } } = this.props
     const Link = getComponent("Link")
@@ -175,6 +195,11 @@ export default class Topbar extends React.Component {
     let showGenerateMenu = !(isOAS3 && isOAS3())
     let showServersMenu = this.state.servers && this.state.servers.length
     let showClientsMenu = this.state.clients && this.state.clients.length
+
+    let fileName = this.getFileName()
+    let definitionLanguage = this.getDefinitionLanguage()
+
+    let isJson = definitionLanguage === "json"
 
     let makeMenuOptions = (name) => {
       let stateKey = `is${name}MenuOpen`
@@ -199,8 +224,8 @@ export default class Topbar extends React.Component {
               <li><button type="button" onClick={this.importFromURL}>Import URL</button></li>
               <li><button type="button" onClick={this.showModal}>Import File</button></li>
               <li role="separator"></li>
-              <li><button type="button" onClick={this.saveAsYaml}>Download YAML</button></li>
-              <li><button type="button" onClick={this.saveAsJson}>Download JSON</button></li>
+              <li><button type="button" onClick={this.saveAsYaml}>{isJson ? "Convert and s" : "S"}ave as {`${fileName}.yaml`}</button></li>
+              <li><button type="button" onClick={this.saveAsJson}>{isJson ? "S" : "Convert and s"}ave as {`${fileName}.json`}</button></li>
               <li role="separator"></li>
               <li><button type="button" onClick={this.clearEditor}>Clear editor</button></li>
             </DropdownMenu>
