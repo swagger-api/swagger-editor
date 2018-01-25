@@ -4,7 +4,7 @@ import Swagger from "swagger-client"
 import "whatwg-fetch"
 import DropdownMenu from "./DropdownMenu"
 import Modal from "boron/DropModal"
-import downloadFile from "react-file-download"
+import reactFileDownload from "react-file-download"
 import YAML from "js-yaml"
 import beautifyJson from "json-beautify"
 
@@ -41,6 +41,10 @@ export default class Topbar extends React.Component {
     }
   }
 
+  downloadFile = (content, fileName) => {
+    return reactFileDownload(content, fileName)
+  }
+
   // Menu actions
 
   importFromURL = () => {
@@ -71,23 +75,50 @@ export default class Topbar extends React.Component {
   }
 
   saveAsYaml = () => {
-    // Editor content -> JS object -> YAML string
     let editorContent = this.props.specSelectors.specStr()
-    let isOAS3 = this.props.specSelectors.isOAS3()
-    let fileName = isOAS3 ? "openapi.yaml" : "swagger.yaml"
+    let language = this.getDefinitionLanguage()
+    let fileName = this.getFileName()
+
+    if(this.hasParserErrors()) {
+      if(language === "yaml") {
+        const shouldContinue = confirm("Swagger-Editor isn't able to parse your API definition. Are you sure you want to save the editor content as YAML?")
+        if(!shouldContinue) return
+      } else {
+        return alert("Save as YAML is not currently possible because Swagger-Editor wasn't able to parse your API definiton.")
+      }
+    }
+
+    if(language === "yaml") {
+      //// the content is YAML,
+      //// so download as-is
+      return this.downloadFile(editorContent, `${fileName}.yaml`)
+    }
+
+    //// the content is JSON,
+    //// so convert and download
+
+    // JSON String -> JS object
     let jsContent = YAML.safeLoad(editorContent)
+    // JS object -> YAML string
     let yamlContent = YAML.safeDump(jsContent)
-    downloadFile(yamlContent, fileName)
+    this.downloadFile(yamlContent, `${fileName}.yaml`)
   }
 
   saveAsJson = () => {
-    // Editor content  -> JS object -> Pretty JSON string
     let editorContent = this.props.specSelectors.specStr()
-    let isOAS3 = this.props.specSelectors.isOAS3()
-    let fileName = isOAS3 ? "openapi.json" : "swagger.json"
+    let fileName = this.getFileName()
+
+    if(this.hasParserErrors()) {
+      // we can't recover from a parser error in save as JSON
+      // because we are always parsing so we can beautify
+      return alert("Save as JSON is not currently possible because Swagger-Editor wasn't able to parse your API definiton.")
+    }
+
+    // JSON or YAML String -> JS object
     let jsContent = YAML.safeLoad(editorContent)
+    // JS Object -> pretty JSON string
     let prettyJsonContent = beautifyJson(jsContent, null, 2)
-    downloadFile(prettyJsonContent, fileName)
+    this.downloadFile(prettyJsonContent, `${fileName}.json`)
   }
 
   saveAsText = () => {
@@ -96,7 +127,7 @@ export default class Topbar extends React.Component {
     let editorContent = this.props.specSelectors.specStr()
     let isOAS3 = this.props.specSelectors.isOAS3()
     let fileName = isOAS3 ? "openapi.txt" : "swagger.txt"
-    downloadFile(editorContent, fileName)
+    this.downloadFile(editorContent, fileName)
   }
 
   convertToYaml = () => {
@@ -145,7 +176,7 @@ export default class Topbar extends React.Component {
       fetch(res.body.link)
         .then(res => res.blob())
         .then(res => {
-          downloadFile(res, `${name}-${type}-generated.zip`)
+          this.downloadFile(res, `${name}-${type}-generated.zip`)
         })
     }
 
@@ -168,6 +199,31 @@ export default class Topbar extends React.Component {
     this.refs.modal.hide()
   }
 
+  // Logic helpers
+
+  hasParserErrors = () => {
+    return this.props.errSelectors.allErrors().filter(err => err.get("source") === "parser").size > 0
+  }
+
+  getFileName = () => {
+    // Use `isSwagger2` here, because we want to default to `openapi` if we don't know.
+    if(this.props.specSelectors.isSwagger2 && this.props.specSelectors.isSwagger2()) {
+      return "swagger"
+    }
+
+    return "openapi"
+  }
+
+  getDefinitionLanguage = () => {
+    let editorContent = this.props.specSelectors.specStr() || ""
+
+    if(editorContent.trim()[0] === "{") {
+      return "json"
+    }
+
+    return "yaml"
+  }
+
   render() {
     let { getComponent, specSelectors: { isOAS3 } } = this.props
     const Link = getComponent("Link")
@@ -175,6 +231,11 @@ export default class Topbar extends React.Component {
     let showGenerateMenu = !(isOAS3 && isOAS3())
     let showServersMenu = this.state.servers && this.state.servers.length
     let showClientsMenu = this.state.clients && this.state.clients.length
+
+    let fileName = this.getFileName()
+    let definitionLanguage = this.getDefinitionLanguage()
+
+    let isJson = definitionLanguage === "json"
 
     let makeMenuOptions = (name) => {
       let stateKey = `is${name}MenuOpen`
@@ -185,6 +246,16 @@ export default class Topbar extends React.Component {
         align: "left",
         toggle: <span className="menu-item" onClick={toggleFn}>{ name }</span>
       }
+    }
+
+    const saveAsElements = []
+
+    if(isJson) {
+      saveAsElements.push(<li><button type="button" onClick={this.saveAsJson}>Save as {`${fileName}.json`}</button></li>)
+      saveAsElements.push(<li><button type="button" onClick={this.saveAsYaml}>Convert and save as {`${fileName}.yaml`}</button></li>)
+    } else {
+      saveAsElements.push(<li><button type="button" onClick={this.saveAsYaml}>Save as {`${fileName}.yaml`}</button></li>)
+      saveAsElements.push(<li><button type="button" onClick={this.saveAsJson}>Convert and save as {`${fileName}.json`}</button></li>)
     }
 
     return (
@@ -199,8 +270,7 @@ export default class Topbar extends React.Component {
               <li><button type="button" onClick={this.importFromURL}>Import URL</button></li>
               <li><button type="button" onClick={this.showModal}>Import File</button></li>
               <li role="separator"></li>
-              <li><button type="button" onClick={this.saveAsYaml}>Download YAML</button></li>
-              <li><button type="button" onClick={this.saveAsJson}>Download JSON</button></li>
+              {saveAsElements}
               <li role="separator"></li>
               <li><button type="button" onClick={this.clearEditor}>Clear editor</button></li>
             </DropdownMenu>
@@ -235,6 +305,7 @@ export default class Topbar extends React.Component {
 
 Topbar.propTypes = {
   specSelectors: PropTypes.object.isRequired,
+  errSelectors: PropTypes.object.isRequired,
   specActions: PropTypes.object.isRequired,
   getComponent: PropTypes.func.isRequired
 }
