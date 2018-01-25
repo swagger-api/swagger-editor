@@ -43,12 +43,12 @@
 - [ ] are not breaking changes.
 
 ### Documentation
-- [ ] My changes **do not** require a change to the project documentation.
+- [ ] My changes do not require a change to the project documentation.
 - [ ] My changes require a change to the project documentation.
 - [ ] If yes to above: I have updated the documentation accordingly.
 
 ### Automated tests
-- [ ] My changes **can not or do not** need to be tested.
+- [ ] My changes can not or do not need to be tested.
 - [ ] My changes can and should be tested by unit and/or integration tests.
 - [ ] If yes to above: I have added tests to cover my changes.
 - [ ] All new and existing tests passed.
