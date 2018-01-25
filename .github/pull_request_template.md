@@ -37,16 +37,18 @@
 - [ ] Features (non-breaking change which adds functionality)
 
 ### My changes...
-- [ ] are breaking changes to a public API (config options, System API, major UI change, etc)
-- [ ] are breaking changes to a private API (Redux, component props, utility functions, etc.)
-- [ ] are breaking changes to a developer API (npm script behavior changes, new dev system dependencies, etc)
-- [ ] are not breaking changes
+- [ ] are breaking changes to a public API (config options, System API, major UI change, etc).
+- [ ] are breaking changes to a private API (Redux, component props, utility functions, etc.).
+- [ ] are breaking changes to a developer API (npm script behavior changes, new dev system dependencies, etc).
+- [ ] are not breaking changes.
 
 ### Documentation
+- [ ] My changes **do not** require a change to the project documentation.
 - [ ] My changes require a change to the project documentation.
 - [ ] If yes to above: I have updated the documentation accordingly.
 
 ### Automated tests
-- [ ] My changes can and should be tested by unit and/or integration tests
-- [ ] If yes to above: I have added tests to cover my changes
+- [ ] My changes **can not or do not** need to be tested.
+- [ ] My changes can and should be tested by unit and/or integration tests.
+- [ ] If yes to above: I have added tests to cover my changes.
 - [ ] All new and existing tests passed.
