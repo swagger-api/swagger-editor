@@ -46,6 +46,41 @@ To help with the migration, here are the currently known issues with 3.X. This l
 - The integration with the codegen is still missing.
 - Importing specs from a URL is not implemented.
 
+## Docker
+
+### Running the image from DockerHub
+There is a docker image published in [DockerHub](https://hub.docker.com/r/swaggerapi/swagger-editor/).
+
+To use this, run the following:
+
+```
+docker pull swaggerapi/swagger-editor
+docker run -d -p 80:8080 swaggerapi/swagger-editor
+```
+
+This will run swagger-editor (in detached mode) on port 80 on your machine, so you can open it by navigating to `http://localhost` in your browser.
+
+### Building and running an image locally
+
+To build and run a docker image with the code checked out on your machine, run the following from the root directory of the project:
+
+```
+# Install npm packages (if needed)
+npm install
+
+# Build the app
+npm run build
+
+# Build an image
+docker build -t swagger-editor .
+
+# Run the container
+docker run -d -p 80:8080 swagger-editor
+
+```
+
+You can then view the app by navigating to `http://localhost` in your browser.
+
 ## Security contact
 
 Please disclose any security-related issues or vulnerabilities by emailing [security@swagger.io](mailto:security@swagger.io), instead of using the public issue tracker.
