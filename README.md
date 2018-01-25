@@ -46,7 +46,7 @@ To help with the migration, here are the currently known issues with 3.X. This l
 - The integration with the codegen is still missing.
 - Importing specs from a URL is not implemented.
 
-## Docker Support
+## Docker
 
 ### Running the image from DockerHub
 There is a docker image published in [DockerHub](https://hub.docker.com/r/swaggerapi/swagger-editor/).
