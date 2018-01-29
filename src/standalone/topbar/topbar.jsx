@@ -155,7 +155,7 @@ export default class Topbar extends React.Component {
           Accept: "application/json"
         })
       })
-        .then(res => handleResponse(res))
+        .then(res => this.handleResponse(res, { type }))
     }
 
     if(type === "client") {
@@ -165,21 +165,20 @@ export default class Topbar extends React.Component {
           spec: specSelectors.specJson()
         })
       })
-        .then(res => handleResponse(res))
+        .then(res => this.handleResponse(res, { type }))
+    }
+  }
+
+  handleResponse = (res, { type }) => {
+    if(!res.ok) {
+      return console.error(res)
     }
 
-    function handleResponse(res) {
-      if(!res.ok) {
-        return console.error(res)
-      }
-
-      fetch(res.body.link)
-        .then(res => res.blob())
-        .then(res => {
-          this.downloadFile(res, `${name}-${type}-generated.zip`)
-        })
-    }
-
+    fetch(res.body.link)
+      .then(res => res.blob())
+      .then(res => {
+        this.downloadFile(res, `${name}-${type}-generated.zip`)
+      })
   }
 
   clearEditor = () => {
