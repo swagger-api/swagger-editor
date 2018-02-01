@@ -155,7 +155,7 @@ export default class Topbar extends React.Component {
           Accept: "application/json"
         })
       })
-        .then(res => this.handleResponse(res, { type }))
+        .then(res => this.handleResponse(res, { type, name }))
     }
 
     if(type === "client") {
@@ -165,11 +165,11 @@ export default class Topbar extends React.Component {
           spec: specSelectors.specJson()
         })
       })
-        .then(res => this.handleResponse(res, { type }))
+        .then(res => this.handleResponse(res, { type, name }))
     }
   }
 
-  handleResponse = (res, { type }) => {
+  handleResponse = (res, { type, name }) => {
     if(!res.ok) {
       return console.error(res)
     }
