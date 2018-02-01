@@ -19,9 +19,11 @@ export default class EditorLayout extends React.Component {
   }
 
   onDrop = (acceptedFiles, rejectedFiles) => {
-    if (rejectedFiles.length > 0) {
-      alert("Please drag and drop one (and only one) .yaml or .json swagger spec file.")
-    } else if (acceptedFiles.length === 1) {
+    const someFilesWereRejected = rejectedFiles && rejectedFiles.length > 0
+    const thereIsExactlyOneAcceptedFile = acceptedFiles && acceptedFiles.length === 1
+    if ( someFilesWereRejected || !thereIsExactlyOneAcceptedFile) {
+      alert("Sorry, there was an error processing your file(s).\nPlease drag and drop one (and only one) .yaml or .json swagger spec file.")
+    } else {
       const file = acceptedFiles[0]
       const reader = new FileReader()
       reader.onloadend = () => {
@@ -72,8 +74,6 @@ export default class EditorLayout extends React.Component {
           </Dropzone>
         </Container>
       </div>
-
-  )
+    )
   }
-
 }

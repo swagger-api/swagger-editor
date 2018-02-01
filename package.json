@@ -110,6 +110,7 @@
     "react-immutable-proptypes": "^2.1.0",
     "reselect": "^2.5.4",
     "rimraf": "^2.6.0",
+    "sinon": "^4.2.2",
     "standard": "^8.6.0",
     "standard-loader": "^5.0.0",
     "style-loader": "0.13.0",
