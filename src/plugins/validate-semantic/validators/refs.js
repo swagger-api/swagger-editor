@@ -1,9 +1,8 @@
 import get from "lodash/get"
 
 export const validateRefHasNoSiblings = () => system => {
-  return Promise.all([
-    system.validateSelectors.all$refArtifacts(),
-  ]).then(([nodes]) => {
+  return system.validateSelectors.all$refArtifacts()
+  .then((nodes) => {
       const immSpecJson = system.specSelectors.specJson()
       const specJson = immSpecJson.toJS ? immSpecJson.toJS() : {}
 
@@ -28,16 +27,9 @@ export const validateRefHasNoSiblings = () => system => {
 
 // Add warnings for unused definitions
 export const validateUnusedDefinitions = () => (system) => {
-  return Promise.all([
-    system.validateSelectors.all$refs(),
-    system.validateSelectors.all$refArtifacts()
-  ]).then(([refs, refArtifacts]) => {
-    const references = (
-      (refs.length ? refs : null)
-      || (refArtifacts.length ? refArtifacts : null)
-      || []
-    ).map(node => node.node)
-
+  return system.validateSelectors.all$refArtifacts()
+  .then((nodes) => {
+    const references = nodes.map(node => node.node)
     const errors = []
 
     system.specSelectors.definitions()
@@ -57,18 +49,11 @@ export const validateUnusedDefinitions = () => (system) => {
 }
 
 export const validateRefPathFormatting = () => (system) => {
-  return Promise.all([
-    system.validateSelectors.all$refs(),
-    system.validateSelectors.all$refArtifacts()
-  ]).then(([refs, refArtifacts]) => {
-    const nodes = (
-      (refs.length ? refs : null)
-      || (refArtifacts.length ? refArtifacts : null)
-      || []
-    )
+  return system.validateSelectors.all$refArtifacts()
+  .then((refArtifacts) => {
 
     const errors = []
-    nodes.forEach((node) => {
+    refArtifacts.forEach((node) => {
       const value = node.node
       if(typeof value === "string") {
         // eslint-disable-next-line no-unused-vars
