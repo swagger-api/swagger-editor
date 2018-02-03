@@ -1,8 +1,7 @@
-import * as sinon from "sinon"
+import expect from "expect"
 
 describe("EditorLayout", function() {
   let EditorLayout
-  const sandbox = sinon.createSandbox()
   
   // If alert isn't defined, create a dummy one, and remember to clean it up afterwards
   if (typeof global.alert === "undefined") {
@@ -24,16 +23,18 @@ describe("EditorLayout", function() {
     })
   }
 
-  // Create sinon stubs for alert and FileReader, and then load the module under test.
+  // Create spies for alert and FileReader, and then load the module under test.
   before(function () {
-    sandbox.stub(global, "alert")
-    sandbox.stub(global, "FileReader")
+    expect.spyOn(global, "alert")
+    expect.spyOn(global, "FileReader")
     EditorLayout = require("src/layout").default
   })
+  // Undo the spies afterwards
   after(function () {
-    sandbox.restore()
+    expect.restoreSpies()
   })
 
+  // Reset spies after each test
   afterEach(function () {
     global.alert.reset()
     global.FileReader.reset()
@@ -47,8 +48,11 @@ describe("EditorLayout", function() {
         editorLayout.onDrop([], ["rejected.file.1"])
         editorLayout.onDrop([], ["rejected.file.1", "rejected.file.2"])
 
-        sinon.assert.calledTwice(global.alert)
-        sinon.assert.alwaysCalledWithMatch(global.alert, sinon.match(/^Sorry.*/))
+        expect(global.alert.calls.length).toEqual(2)
+
+        global.alert.calls.forEach(call => {
+          expect(call.arguments[0]).toMatch(/^Sorry.*/)
+        })
       })
     })
 
@@ -57,29 +61,29 @@ describe("EditorLayout", function() {
         const editorLayout = new EditorLayout()
 
         editorLayout.onDrop(["accepted.file.1", "accepted.file.2"], [])
-
-        sinon.assert.calledWithMatch(global.alert, sinon.match(/^Sorry.*/))
+        expect(global.alert.calls.length).toEqual(1)
+        expect(global.alert.calls[0].arguments[0]).toMatch(/^Sorry.*/)        
       })
     })
 
     describe("if exactly one file of an expected type is dropped", function() {
-      it("should call the updateSpec method on the specActions prop with the contents of the file", () => {
+      it("should call the updateSpec function passed in as props with the contents of the file", () => {
         const fileContents = "This is my awesome file!"
         const props = {
           specActions: {
-            updateSpec: sinon.stub()
+            updateSpec: expect.createSpy()
           }
         }
-        global.FileReader.returns({ 
+        global.FileReader.andReturn({ 
           readAsText: function () { this.onloadend() }, 
-          result: fileContents 
+          result: fileContents
         })
 
         const editorLayout = new EditorLayout(props)
 
         editorLayout.onDrop(["accepted.file"])
 
-        sinon.assert.calledWith(props.specActions.updateSpec, fileContents)
+        expect(props.specActions.updateSpec).toHaveBeenCalledWith(fileContents)
       })
     })
   })
