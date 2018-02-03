@@ -22,7 +22,7 @@ export default class EditorLayout extends React.Component {
     const someFilesWereRejected = rejectedFiles && rejectedFiles.length > 0
     const thereIsExactlyOneAcceptedFile = acceptedFiles && acceptedFiles.length === 1
     if ( someFilesWereRejected || !thereIsExactlyOneAcceptedFile) {
-      alert("Sorry, there was an error processing your file(s).\nPlease drag and drop one (and only one) .yaml or .json swagger spec file.")
+      alert("Sorry, there was an error processing your file(s).\nPlease drag and drop one (and only one) .yaml or .json OpenAPI spec file.")
     } else {
       const file = acceptedFiles[0]
       const reader = new FileReader()
@@ -59,7 +59,7 @@ export default class EditorLayout extends React.Component {
             if (isDragActive) {
               return (
                 <div className="dropzone__overlay">
-                  Please drop a .yaml or .json swagger spec.
+                  Please drop a .yaml or .json OpenAPI spec.
                 </div>
               )
             } else {
