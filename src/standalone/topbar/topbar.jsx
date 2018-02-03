@@ -250,11 +250,11 @@ export default class Topbar extends React.Component {
     const saveAsElements = []
 
     if(isJson) {
-      saveAsElements.push(<li><button type="button" onClick={this.saveAsJson}>Save as {`${fileName}.json`}</button></li>)
-      saveAsElements.push(<li><button type="button" onClick={this.saveAsYaml}>Convert and save as {`${fileName}.yaml`}</button></li>)
+      saveAsElements.push(<li><button type="button" onClick={this.saveAsJson}>Save as JSON</button></li>)
+      saveAsElements.push(<li><button type="button" onClick={this.saveAsYaml}>Convert and save as YAML</button></li>)
     } else {
-      saveAsElements.push(<li><button type="button" onClick={this.saveAsYaml}>Save as {`${fileName}.yaml`}</button></li>)
-      saveAsElements.push(<li><button type="button" onClick={this.saveAsJson}>Convert and save as {`${fileName}.json`}</button></li>)
+      saveAsElements.push(<li><button type="button" onClick={this.saveAsYaml}>Save as YAML</button></li>)
+      saveAsElements.push(<li><button type="button" onClick={this.saveAsJson}>Convert and save as JSON</button></li>)
     }
 
     return (
