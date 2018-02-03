@@ -85,6 +85,27 @@ describe("validation plugin - semantic - refs", function() {
       })
     })
 
+    it("should return no errors when a JSON pointer is a well-formed remote reference", () => {
+      const spec = {
+        paths: {
+          "/CoolPath": {
+            $ref: "http://google.com#/myObj/abc"
+          }
+        },
+        myObj: {
+          abc: {
+            type: "string"
+          }
+        }
+      }
+
+      return validateHelper(spec)
+      .then(system => {
+        const allErrors = system.errSelectors.allErrors().toJS()
+        expect(allErrors).toEqual([])
+      })
+    })
+
   })
   describe.skip("Refs are restricted in specific areas of a spec", () => {
     describe("Response $refs", () => {
