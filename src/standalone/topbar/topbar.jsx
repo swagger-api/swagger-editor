@@ -231,7 +231,6 @@ export default class Topbar extends React.Component {
     let showServersMenu = this.state.servers && this.state.servers.length
     let showClientsMenu = this.state.clients && this.state.clients.length
 
-    let fileName = this.getFileName()
     let definitionLanguage = this.getDefinitionLanguage()
 
     let isJson = definitionLanguage === "json"
