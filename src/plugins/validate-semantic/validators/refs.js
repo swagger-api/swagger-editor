@@ -1,9 +1,8 @@
 import get from "lodash/get"
 
 export const validateRefHasNoSiblings = () => system => {
-  return Promise.all([
-    system.validateSelectors.all$refArtifacts(),
-  ]).then(([nodes]) => {
+  return system.validateSelectors.all$refArtifacts()
+  .then((nodes) => {
       const immSpecJson = system.specSelectors.specJson()
       const specJson = immSpecJson.toJS ? immSpecJson.toJS() : {}
 
@@ -28,16 +27,9 @@ export const validateRefHasNoSiblings = () => system => {
 
 // Add warnings for unused definitions
 export const validateUnusedDefinitions = () => (system) => {
-  return Promise.all([
-    system.validateSelectors.all$refs(),
-    system.validateSelectors.all$refArtifacts()
-  ]).then(([refs, refArtifacts]) => {
-    const references = (
-      (refs.length ? refs : null)
-      || (refArtifacts.length ? refArtifacts : null)
-      || []
-    ).map(node => node.node)
-
+  return system.validateSelectors.all$refArtifacts()
+  .then((nodes) => {
+    const references = nodes.map(node => node.node)
     const errors = []
 
     system.specSelectors.definitions()
@@ -49,6 +41,32 @@ export const validateUnusedDefinitions = () => (system) => {
           path,
           message: "Definition was declared but never used in document"
         })
+      }
+    })
+
+    return errors
+  })
+}
+
+export const validateRefPathFormatting = () => (system) => {
+  return system.validateSelectors.all$refArtifacts()
+  .then((refArtifacts) => {
+
+    const errors = []
+    refArtifacts.forEach((node) => {
+      const value = node.node
+      if(typeof value === "string") {
+        // eslint-disable-next-line no-unused-vars
+        const [refUrl, refPath] = value.split("#")
+
+        if(!refPath || refPath[0] !== "/") {
+          errors.push({
+            // $ref instead of $$ref
+            path: [...node.path.slice(0, -1), "$ref"],
+            message: "$ref paths must begin with `#/`",
+            level: "error"
+          })
+        }
       }
     })
 
