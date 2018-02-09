@@ -155,7 +155,7 @@ export default class Topbar extends React.Component {
           Accept: "application/json"
         })
       })
-        .then(res => this.handleResponse(res, { type }))
+        .then(res => this.handleResponse(res, { type, name }))
     }
 
     if(type === "client") {
@@ -165,11 +165,11 @@ export default class Topbar extends React.Component {
           spec: specSelectors.specJson()
         })
       })
-        .then(res => this.handleResponse(res, { type }))
+        .then(res => this.handleResponse(res, { type, name }))
     }
   }
 
-  handleResponse = (res, { type }) => {
+  handleResponse = (res, { type, name }) => {
     if(!res.ok) {
       return console.error(res)
     }
@@ -231,7 +231,6 @@ export default class Topbar extends React.Component {
     let showServersMenu = this.state.servers && this.state.servers.length
     let showClientsMenu = this.state.clients && this.state.clients.length
 
-    let fileName = this.getFileName()
     let definitionLanguage = this.getDefinitionLanguage()
 
     let isJson = definitionLanguage === "json"
@@ -250,11 +249,11 @@ export default class Topbar extends React.Component {
     const saveAsElements = []
 
     if(isJson) {
-      saveAsElements.push(<li><button type="button" onClick={this.saveAsJson}>Save as {`${fileName}.json`}</button></li>)
-      saveAsElements.push(<li><button type="button" onClick={this.saveAsYaml}>Convert and save as {`${fileName}.yaml`}</button></li>)
+      saveAsElements.push(<li><button type="button" onClick={this.saveAsJson}>Save as JSON</button></li>)
+      saveAsElements.push(<li><button type="button" onClick={this.saveAsYaml}>Convert and save as YAML</button></li>)
     } else {
-      saveAsElements.push(<li><button type="button" onClick={this.saveAsYaml}>Save as {`${fileName}.yaml`}</button></li>)
-      saveAsElements.push(<li><button type="button" onClick={this.saveAsJson}>Convert and save as {`${fileName}.json`}</button></li>)
+      saveAsElements.push(<li><button type="button" onClick={this.saveAsYaml}>Save as YAML</button></li>)
+      saveAsElements.push(<li><button type="button" onClick={this.saveAsJson}>Convert and save as JSON</button></li>)
     }
 
     return (
