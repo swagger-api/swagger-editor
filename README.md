@@ -81,6 +81,10 @@ docker run -d -p 80:8080 swagger-editor
 
 You can then view the app by navigating to `http://localhost` in your browser.
 
+## Documentation
+
+* [Importing your OpenAPI document](docs/import.md)
+
 ## Security contact
 
 Please disclose any security-related issues or vulnerabilities by emailing [security@swagger.io](mailto:security@swagger.io), instead of using the public issue tracker.
