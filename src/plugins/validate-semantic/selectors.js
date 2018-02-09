@@ -14,9 +14,12 @@ export const isSubSchema = (state, node) => (sys) => {
   if(path.length < 3) {
     return false
   }
-
-  if(node.parent.key == "properties" || node.parent.key === "additionalProperties") {
+  if(node.parent.key == "properties") {
     if(node.parent.parent && node.parent.parent.node && node.parent.parent.node.type === "object") {
+      return !sys.validateSelectors.isVendorExt(node)
+    }
+  } else if(node.key === "additionalProperties") {
+    if(node.parent && node.parent.node && node.parent.node.type === "object") {
       return !sys.validateSelectors.isVendorExt(node)
     }
   } else if(node.key == "items") {

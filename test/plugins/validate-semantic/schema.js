@@ -239,6 +239,37 @@ describe("validation plugin - semantic - schema", function() {
           expect(allErrors.length).toEqual(0)
         })
     })
+    it("should not return an error when \"type\" is a property name inside additionalProperties", () => {
+      const spec = {
+        "definitions": {
+          "ApiResponse": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "object",
+              "properties": {
+                "code": {
+                  "type": "integer",
+                  "format": "int32"
+                },
+                "type": {
+                  "type": "string"
+                },
+                "message": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+
+      return validateHelper(spec)
+        .then(system => {
+          let allErrors = system.errSelectors.allErrors().toJS()
+          allErrors = allErrors.filter(a => a.level != "warning") // ignore warnings
+          expect(allErrors.length).toEqual(0)
+        })
+    })
     it("should not return an error when \"type\" is a model name", () => {
       const spec = {
         "definitions": {
