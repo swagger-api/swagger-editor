@@ -8,7 +8,7 @@ Click **Choose File** and select import. The file you are importing has to be a 
 
 ### File → Import URL
 
-Paste the URL to your OpenAPI Spec file. 
+Paste the URL to your OpenAPI document. 
 
 ### Drag and Drop
 
