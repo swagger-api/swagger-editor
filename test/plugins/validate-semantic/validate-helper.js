@@ -5,7 +5,7 @@ import ValidateBasePlugin from "plugins/validate-base"
 import ValidateSemanticPlugin from "plugins/validate-semantic"
 import ASTPlugin from "plugins/ast"
 
-const DELAY_MS = process.env.CI === "true" ? 100 : 60
+const DELAY_MS = process.env.CI === "true" ? 110 : 60
 
 export default function validateHelper(spec) {
   return new Promise((resolve) => {
