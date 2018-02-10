@@ -101,8 +101,9 @@ describe("validation plugin - semantic - refs", function() {
 
       return validateHelper(spec)
       .then(system => {
-        const allErrors = system.errSelectors.allErrors().toJS()
-        expect(allErrors).toEqual([])
+        const allSemanticErrors = system.errSelectors.allErrors().toJS()
+          .filter(err => err.source !== "resolver")
+        expect(allSemanticErrors).toEqual([])
       })
     })
 
