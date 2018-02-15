@@ -1,10 +1,27 @@
 #swagger-editor {
   #ace-editor {
-    height:~"calc(100vh - 46px)" !important;
+    height: ~"calc(100vh - 46px)" !important;
   }
 
   .SplitPane {
     height: ~"calc(100% - 46px)" !important;
+  }
+
+  .dropzone {
+    height: 100%;
+    width: 100%;
+
+    .dropzone__overlay {
+      padding-top: 20px;
+      height: 100%;
+      width: 100%;
+      position: absolute;
+      left: 0;
+      background: #2D2D2D;
+      text-align: center;
+      color: #fff;
+      font-size: 1rem;
+    }
   }
 }
 
