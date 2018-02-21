@@ -9,7 +9,7 @@ export function makeValidationWorker() {
   var worker = new BareValidationWorker()
   var validationWorker = new PromiseWorker(worker)
 
-  function runValidation({ specSelectors, errActions, resolvedSpec, mode }) {
+  function runValidation({ specSelectors, errActions, mode }) {
     let specStr = specSelectors.specStr()
 
     if(specStr.trim().length === 0) {
@@ -20,7 +20,6 @@ export function makeValidationWorker() {
     return validationWorker.postMessage({
       mode,
       jsSpec: specSelectors.specJson().toJS(),
-      resolvedSpec,
       specStr
     }).then(function (validationErrors) {
       errActions.clear({
