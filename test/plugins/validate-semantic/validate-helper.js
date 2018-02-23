@@ -5,22 +5,23 @@ import ValidateBasePlugin from "plugins/validate-base"
 import ValidateSemanticPlugin from "plugins/validate-semantic"
 import ASTPlugin from "plugins/ast"
 
-const DELAY_MS = process.env.CI === "true" ? 110 : 60
+const DELAY_MS = 130
 
 export default function validateHelper(spec) {
   return new Promise((resolve) => {
     const system = SwaggerUi({
       spec,
       domNode: null,
-      presets: [],
-      initialState: {
-        layout: undefined
-      },
-      plugins: [
+      presets: [
         SwaggerUi.plugins.SpecIndex,
         SwaggerUi.plugins.ErrIndex,
         SwaggerUi.plugins.DownloadUrl,
         SwaggerUi.plugins.SwaggerJsIndex,
+      ],
+      initialState: {
+        layout: undefined
+      },
+      plugins: [
         ASTPlugin,
         ValidateBasePlugin,
         ValidateSemanticPlugin,
@@ -28,7 +29,10 @@ export default function validateHelper(spec) {
       ]
     })
     system.validateActions.all()
-    setTimeout(resolve.bind(null, system), DELAY_MS)
+    setTimeout(() => {
+      console.log("resolving, allErrors is", system.errSelectors.allErrors())
+      resolve(system)
+    }, DELAY_MS)
   })
 
 }

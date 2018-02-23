@@ -3,6 +3,7 @@ import * as actions from "./actions"
 import traverse from "traverse"
 import {createSelector} from "reselect"
 import debounce from "lodash/debounce"
+import memoize from "lodash/memoize"
 
 import * as formDataValidateActions from "./validators/form-data"
 import * as schemaValidateActions from "./validators/schema"
@@ -21,6 +22,7 @@ export default function SemanticValidatorsPlugin({getSystem}) {
     fn: {
       traverse,
       traverseOnce,
+      memoizedResolveSubtree: makeMemoizedResolveSubtree(getSystem())
     },
     statePlugins: {
       spec: {
@@ -109,4 +111,16 @@ function makeTraverseOnce(getSystem) {
     debTraverse()
     return deferred.promise.then( a => a[name] )
   }
+}
+
+function makeMemoizedResolveSubtree(system) {
+  const cacheKeymaker = (obj, path) => {
+    return `${obj.toString()} ${path.join("<>")}`
+  }
+  return memoize(async (obj, path, opts) => {
+    console.log("resolveSubtree args: ", obj.toJS(), path)
+    const res = await system.fn.resolveSubtree(obj.toJS(), path, opts)
+    console.log("res", res)
+    return res
+  }, cacheKeymaker)
 }
