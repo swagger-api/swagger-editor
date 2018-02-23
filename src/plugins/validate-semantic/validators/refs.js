@@ -1,7 +1,7 @@
 import get from "lodash/get"
 
 export const validateRefHasNoSiblings = () => system => {
-  return system.validateSelectors.all$refArtifacts()
+  return system.validateSelectors.all$refs()
   .then((nodes) => {
       const immSpecJson = system.specSelectors.specJson()
       const specJson = immSpecJson.toJS ? immSpecJson.toJS() : {}
@@ -27,7 +27,7 @@ export const validateRefHasNoSiblings = () => system => {
 
 // Add warnings for unused definitions
 export const validateUnusedDefinitions = () => (system) => {
-  return system.validateSelectors.all$refArtifacts()
+  return system.validateSelectors.all$refs()
   .then((nodes) => {
     const references = nodes.map(node => node.node)
     const errors = []
@@ -49,7 +49,7 @@ export const validateUnusedDefinitions = () => (system) => {
 }
 
 export const validateRefPathFormatting = () => (system) => {
-  return system.validateSelectors.all$refArtifacts()
+  return system.validateSelectors.all$refs()
   .then((refArtifacts) => {
 
     const errors = []

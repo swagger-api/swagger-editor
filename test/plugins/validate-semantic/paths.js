@@ -312,22 +312,22 @@ describe("validation plugin - semantic - paths", function(){
     it("should return no problems for a templated and double-templated set of path strings", function(){
       const spec = {
         paths: {
-          "/CoolPath/{group_id}/all": {
+          "/CoolPath/{group_id1}/all": {
             parameters: [{
-              name: "group_id",
+              name: "group_id1",
               in: "path",
               required: true
             }]
           },
-          "/CoolPath/{group_id}/{user_id}": {
+          "/CoolPath/{group_id2}/{user_id2}": {
             parameters: [
               {
-                name: "group_id",
+                name: "group_id2",
                 in: "path",
                 required: true
               },
               {
-                name: "user_id",
+                name: "user_id2",
                 in: "path",
                 required: true
               },

@@ -9,15 +9,16 @@ function getSystem(spec) {
     const system = SwaggerUi({
       spec,
       domNode: null,
-      presets: [],
-      initialState: {
-        layout: undefined
-      },
-      plugins: [
+      presets: [
         SwaggerUi.plugins.SpecIndex,
         SwaggerUi.plugins.ErrIndex,
         SwaggerUi.plugins.DownloadUrl,
         SwaggerUi.plugins.SwaggerJsIndex,
+      ],
+      initialState: {
+        layout: undefined
+      },
+      plugins: [
         ASTPlugin,
         ValidateBasePlugin,
         ValidateSemanticPlugin,
@@ -27,7 +28,7 @@ function getSystem(spec) {
   })
 }
 
-describe("plugin - selectors", function() {
+describe("validation plugin - selectors", function() {
   this.timeout(10 * 1000)
 
   it("allSchemas should pick up parameter schemas", () => {
@@ -49,11 +50,9 @@ describe("plugin - selectors", function() {
     return getSystem(spec)
       .then(system => system.validateSelectors.allSchemas())
       .then(nodes => {
-        expect(nodes.length).toEqual(3) // the "common" parameter gets propagated to "get" method
+        expect(nodes.length).toEqual(2)
         expect(nodes[0].path).toEqual(["paths","test","parameters","0"])
         expect(nodes[1].path).toEqual(["paths","test","get","parameters","0"])
-        expect(nodes[2].path).toEqual(["paths","test","get","parameters","1"])
-        expect(nodes[2].node).toEqual({name: "common"})
       })
   })
 

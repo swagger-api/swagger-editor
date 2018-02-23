@@ -17,6 +17,7 @@ const debNewSpecErrBatch = debounce(() => {
       obj.source = SOURCE
     })
     system.errActions.newSpecErrBatch(errorCollector)
+    delete errorCollector.system
     errorCollector = [] // Clear stack
   } catch(e) {
     console.error(e)
