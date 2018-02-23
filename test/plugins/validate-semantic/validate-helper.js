@@ -30,7 +30,6 @@ export default function validateHelper(spec) {
     })
     system.validateActions.all()
     setTimeout(() => {
-      console.log("resolving, allErrors is", system.errSelectors.allErrors())
       resolve(system)
     }, DELAY_MS)
   })

@@ -118,9 +118,7 @@ function makeMemoizedResolveSubtree(system) {
     return `${obj.toString()} ${path.join("<>")}`
   }
   return memoize(async (obj, path, opts) => {
-    console.log("resolveSubtree args: ", obj.toJS(), path)
     const res = await system.fn.resolveSubtree(obj.toJS(), path, opts)
-    console.log("res", res)
     return res
   }, cacheKeymaker)
 }

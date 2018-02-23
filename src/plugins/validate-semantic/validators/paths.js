@@ -16,7 +16,6 @@ export const validatePathParameterDeclarationHasMatchingDefiniton = () => async 
           continue
         }
         const resolverResult = await system.fn.memoizedResolveSubtree(system.specSelectors.specJson(), node.path)
-        console.log("resolverResult", resolverResult.spec)
         const res = checkForDefinition(paramName, resolverResult.spec)
         if(res.inOperation && res.missingFromOperations.length) {
           const missingStr = res.missingFromOperations
@@ -104,7 +103,6 @@ export const validatePathParameterKeysDontContainQuestionMarks = () => system =>
 /// Helpers
 
 function checkForDefinition(paramName, pathItem) {
-  console.log("checkForDefinition args: ", paramName, pathItem)
   const pathItemParameters = pathItem.parameters
   const operationsInPathItem = (Object.keys(pathItem) || [])
     .filter(key => operationKeys.indexOf(key) > -1)
@@ -113,8 +111,6 @@ function checkForDefinition(paramName, pathItem) {
       obj.method = key
       return obj
     })
-
-    console.log("operationsInPathItem", operationsInPathItem)
 
   const res = {
     found: false,
@@ -151,6 +147,5 @@ function checkForDefinition(paramName, pathItem) {
       })
   }
 
-  console.log("checkForDefinition result", res)
   return res
 }

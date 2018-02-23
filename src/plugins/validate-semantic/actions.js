@@ -18,7 +18,6 @@ const debNewSpecErrBatch = debounce(() => {
     })
     system.errActions.newSpecErrBatch(errorCollector)
     delete errorCollector.system
-    console.log("this batch was added to state: ", errorCollector)
     errorCollector = [] // Clear stack
   } catch(e) {
     console.error(e)
@@ -50,9 +49,6 @@ export const all = () => (system) => {
     } else if(name.indexOf("validate") === 0) {
       Promise.resolve(fn())
         .then(validationObjs => {
-          if(name === "validatePathParameterDeclarationHasMatchingDefiniton") {
-            console.log("validator res:", validationObjs)
-          }
           if(validationObjs) {
             validationObjs.forEach(errCb)
           }
