@@ -7,7 +7,7 @@ import getTimestamp from "./get-timestamp"
 import registerPromiseWorker from "promise-worker/register"
 import modes from "./modes"
 
-registerPromiseWorker(function ({ jsSpec, resolvedSpec, specStr, mode }) {
+registerPromiseWorker(function ({ jsSpec, specStr, mode }) {
   let boundGetLineNumber = getLineNumberForPath.bind(null, specStr)
 
   if(!modes[mode]) {
@@ -18,7 +18,6 @@ registerPromiseWorker(function ({ jsSpec, resolvedSpec, specStr, mode }) {
 
   let inputs = {
     jsSpec,
-    resolvedSpec,
     specStr,
     settings,
     getLineNumberForPath: boundGetLineNumber
