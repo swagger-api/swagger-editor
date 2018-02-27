@@ -1,5 +1,6 @@
 import { createSelector } from "reselect"
 import { Set, Map } from "immutable"
+import { escapeJsonPointerToken } from "../refs-util"
 
 const SWAGGER2_REF_MAP = {
   "paths": "pathitems",
@@ -52,7 +53,7 @@ export const localRefs = (state) => (sys) => createSelector(
         .map( name => Map({
           name,
           type,
-          $ref: `#/${type}/${name}`,
+          $ref: `#/${type}/${escapeJsonPointerToken(name)}`,
         }))
     })
   }

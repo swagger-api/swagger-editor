@@ -58,6 +58,43 @@ describe("validation plugin - semantic - refs", function() {
       })
     })
 
+    it("should not return a warning when a definition with special character is declared and used", () => {
+      const spec = {
+        paths: {
+          "/CoolPath": {
+            get: {
+              responses: {
+                200: {
+                  schema: {
+                    $ref: "#/definitions/x~1Foo"
+                  }
+                },
+                400: {
+                  schema: {
+                    $ref: "#/definitions/x~0Bar"
+                  }
+                }
+              }
+            }
+          }
+        },
+        definitions: {
+          "x/Foo": {
+            type: "object"
+          },
+          "x~Bar": {
+            type: "object"
+          }
+        }
+      }
+
+      return validateHelper(spec)
+      .then(system => {
+        const allErrors = system.errSelectors.allErrors().toJS()
+        expect(allErrors.length).toEqual(0)
+      })
+    })
+
   })
   describe("Malformed $ref values", () => {
     it("should return an error when a JSON pointer lacks a leading `#/`", () => {

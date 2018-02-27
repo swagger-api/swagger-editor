@@ -1,3 +1,5 @@
+import { unescapeJsonPointerToken } from "../refs-util"
+
 export default function spec() {
   return {
     statePlugins: {
@@ -72,15 +74,4 @@ function jsonPointerToArray(pointer) {
   }
 
   return pointer.split("/").map(unescapeJsonPointerToken)
-}
-
-/**
- * Unescapes a JSON pointer.
- * @api public
- */
-function unescapeJsonPointerToken(token) {
-  if (typeof token !== "string") {
-    return token
-  }
-  return token.replace(/~1/g, "/").replace(/~0/g, "~")
 }
