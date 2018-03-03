@@ -1,4 +1,5 @@
 import get from "lodash/get"
+import { escapeJsonPointerToken } from "../../refs-util"
 
 export const validateRefHasNoSiblings = () => system => {
   return system.validateSelectors.all$refs()
@@ -34,6 +35,7 @@ export const validateUnusedDefinitions = () => (system) => {
 
     system.specSelectors.definitions()
     .forEach((val, key) => {
+      key = escapeJsonPointerToken(key)
       if(references.indexOf(`#/definitions/${key}`) < 0) {
         const path = ["definitions", key]
         errors.push({
