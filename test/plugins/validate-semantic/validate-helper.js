@@ -17,6 +17,7 @@ export default function validateHelper(spec) {
         SwaggerUi.plugins.ErrIndex,
         SwaggerUi.plugins.DownloadUrl,
         SwaggerUi.plugins.SwaggerJsIndex,
+        SwaggerUi.plugins.Oas3Index,
       ],
       initialState: {
         layout: undefined

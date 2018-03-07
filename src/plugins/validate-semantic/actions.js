@@ -46,13 +46,24 @@ export const all = () => (system) => {
   forEach(system.validateActions, (fn, name) => {
     if(name.indexOf("validateAsync") === 0) {
       fn(errCb) // Function send messages on its own, it won't be cached ( due to the nature of async operations )
-    } else if(name.indexOf("validate") === 0) {
-      Promise.resolve(fn())
+    } else if(name.indexOf("validateOAS3") === 0) {
+      if(system.specSelectors.isOAS3()) {
+        Promise.resolve(fn())
         .then(validationObjs => {
           if(validationObjs) {
             validationObjs.forEach(errCb)
           }
         })
+      }
+    } else if(name.indexOf("validate") === 0) {
+      if(!system.specSelectors.isOAS3()) {
+        Promise.resolve(fn())
+          .then(validationObjs => {
+            if(validationObjs) {
+              validationObjs.forEach(errCb)
+            }
+          })
+      }
     }
   })
 }
