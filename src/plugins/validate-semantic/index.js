@@ -9,7 +9,6 @@ import * as formDataValidateActions from "./validators/form-data"
 import * as schemaValidateActions from "./validators/schema"
 import * as pathsValidateActions from "./validators/paths"
 import * as securityValidateActions from "./validators/security"
-import * as refsValidateActions from "./validators/refs"
 import * as parametersValidateActions from "./validators/parameters"
 import * as operationsValidateActions from "./validators/operations"
 import * as operationsOAS3ValidateActions from "./validators/oas3/operations"
@@ -52,7 +51,6 @@ export default function SemanticValidatorsPlugin({getSystem}) {
           ...schemaValidateActions,
           ...pathsValidateActions,
           ...securityValidateActions,
-          ...refsValidateActions,
           ...parametersValidateActions,
           ...operationsValidateActions,
           ...refs2and3ValidateActions,
