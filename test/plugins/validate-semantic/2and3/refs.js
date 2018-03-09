@@ -1,7 +1,7 @@
 import expect from "expect"
 import validateHelper, { expectNoErrorsOrWarnings } from "../validate-helper.js"
 
-describe.only("validation plugin - semantic - 2and3 refs", function() {
+describe("validation plugin - semantic - 2and3 refs", function() {
   this.timeout(10 * 1000)
   describe("Ref siblings", () => {
 
