@@ -388,45 +388,6 @@ describe("validation plugin - semantic - paths", function(){
 
   })
 
-  describe("Paths cannot have query strings in them", () => {
-
-    it("should return one problem for an stray '?' in a path string", function(){
-      const spec = {
-        paths: {
-          "/report?": {
-
-          }
-        }
-      }
-
-      return validateHelper(spec)
-        .then( system => {
-          const allErrors = system.errSelectors.allErrors().toJS()
-          expect(allErrors.length).toEqual(1)
-          const firstError = allErrors[0]
-          expect(firstError.message).toEqual("Query strings in paths are not allowed.")
-          expect(firstError.path).toEqual(["paths", "/report?"])
-        })
-    })
-
-    it("should return no problems for a correct path template", function(){
-      const spec = {
-        paths: {
-          "/CoolPath/{id}": {
-            parameters: [{
-              name: "id",
-              in: "path",
-              required: true
-            }]
-          }
-        }
-      }
-
-      return expectNoErrors(spec)
-    })
-
-  })
-
   describe("Integrations", () => {
     it.skip("should return two problems for an equivalent path string missing a parameter definition", function(){
       // const spec = {
