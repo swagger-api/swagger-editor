@@ -2,7 +2,7 @@ import expect from "expect"
 
 import validateHelper, { expectNoErrorsOrWarnings } from "../validate-helper.js"
 
-describe.only("validation plugin - semantic - oas3 refs", () => {
+describe("validation plugin - semantic - oas3 refs", () => {
   describe("$refs for request bodies must reference a request body by position", () => {
     it("should return an error when a requestBody incorrectly references a local component schema", () => {
       const spec = {
