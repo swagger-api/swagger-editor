@@ -11,6 +11,9 @@ export const isRootResponse = (state, node) => node.path[0] === "responses" && n
 export const isRootHeader = (state, node) => node.path[0] === "headers" && node.path.length === 2
 export const isRef = (state, node) => node.key === "$ref" && typeof node.node === "string" // This selector can be fooled.
 export const isRefArtifact = (state, node) => node.key === "$$ref" && typeof node.node === "string"
+export const isOAS3RootRequestBody = (state, node) => node.path.length === 3 && node.path[1] === "requestBodies"
+export const isOAS3OperationRequestBody = (state, node) => node.path.length === 4 && node.path[3] === "requestBody"
+export const isOAS3OperationCallbackRequestBody = (state, node) => node.path.length === 8 && node.path[7] === "requestBody"
 
 export const isSubSchema = (state, node) => (sys) => {
   const path = node.path
@@ -42,6 +45,17 @@ export const isParameter = (state, node) => (sys) => {
       || ( node.path[0] === "paths"
            && node.path[3] === "parameters"
            && node.path.length === 5)
+  )
+}
+
+export const isOAS3RequestBody = (state, node) => (sys) => {
+  if(sys.validateSelectors.isVendorExt(node)) {
+    return false
+  }
+  return (
+    sys.validateSelectors.isOAS3RootRequestBody(node)
+      || sys.validateSelectors.isOAS3OperationRequestBody(node)
+      || sys.validateSelectors.isOAS3OperationCallbackRequestBody(node)
   )
 }
 
@@ -111,6 +125,17 @@ export const allParameters = () => (system) => {
     name: "allParameters",
     fn: (node) => {
       if(system.validateSelectors.isParameter(node)) {
+        return node
+      }
+    },
+  })
+}
+
+export const allOAS3RequestBodies = () => (system) => {
+  return system.fn.traverseOnce({
+    name: "allOAS3RequestBodies",
+    fn: (node) => {
+      if(system.validateSelectors.isOAS3RequestBody(node)) {
         return node
       }
     },
