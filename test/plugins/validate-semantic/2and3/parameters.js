@@ -1,0 +1,443 @@
+import expect from "expect"
+import validateHelper from "../validate-helper.js"
+
+describe(`validation plugin - semantic - multiversion parameters`, () => {
+  describe(`parameters must have unique name + in values`, () => {
+    describe(`direct siblings`, () => {
+      it("should return an error for an invalid Swagger 2 definition", () => {
+        const spec = {
+          swagger: "2.0",
+          "paths": {
+            "/pets": {
+              "get": {
+                "parameters": [
+                  {
+                    "name": "tags",
+                    "in": "query",
+                    "description": "tags to filter by",
+                    "type": "string"
+                  },
+                  {
+                    "name": "tags",
+                    "in": "query",
+                    "description": "tags to filter by",
+                    "type": "string"
+                  },
+                ]
+              }
+            }
+          }
+        }
+
+        return validateHelper(spec)
+        .then(system => {
+          const allErrors = system.errSelectors.allErrors().toJS()
+          const firstError = allErrors[0]
+          expect(allErrors.length).toEqual(1)
+          expect(firstError.path).toEqual(["paths", "/pets", "get", "parameters", "1"])
+          expect(firstError.message).toEqual("Sibling parameters, whether inherited or direct, must have unique name + in values")
+        })
+      })
+      it("should return an error for an invalid OpenAPI 3 definition", () => {
+        const spec = {
+          openapi: "3.0.0",
+          "paths": {
+            "/pets": {
+              "get": {
+                "parameters": [
+                  {
+                    "name": "tags",
+                    "in": "query",
+                    "description": "tags to filter by",
+                    "type": "string"
+                  },
+                  {
+                    "name": "tags",
+                    "in": "query",
+                    "description": "tags to filter by",
+                    "type": "string"
+                  },
+                ]
+              }
+            }
+          }
+        }
+
+        return validateHelper(spec)
+        .then(system => {
+          const allErrors = system.errSelectors.allErrors().toJS()
+          const firstError = allErrors[0]
+          expect(allErrors.length).toEqual(1)
+          expect(firstError.path).toEqual(["paths", "/pets", "get", "parameters", "1"])
+          expect(firstError.message).toEqual("Sibling parameters, whether inherited or direct, must have unique name + in values")
+        })
+      })
+      it("should return no errors for a valid Swagger 2 definition", () => {
+        const spec = {
+          swagger: "2.0",
+          "paths": {
+            "/pets": {
+              "get": {
+                "parameters": [
+                  {
+                    "name": "wags",
+                    "in": "query",
+                    "description": "wags to filter by",
+                    "type": "string"
+                  },
+                  {
+                    "name": "tags",
+                    "in": "query",
+                    "description": "tags to filter by",
+                    "type": "string"
+                  },
+                ]
+              }
+            }
+          }
+        }
+
+        return validateHelper(spec)
+        .then(system => {
+          const allErrors = system.errSelectors.allErrors().toJS()
+          expect(allErrors.length).toEqual(0)
+        })
+      })
+      it("should return no errors for a valid OpenAPI 3 definition", () => {
+        const spec = {
+          openapi: "3.0.0",
+          "paths": {
+            "/pets": {
+              "get": {
+                "parameters": [
+                  {
+                    "name": "wags",
+                    "in": "query",
+                    "description": "wags to filter by",
+                    "type": "string"
+                  },
+                  {
+                    "name": "tags",
+                    "in": "query",
+                    "description": "tags to filter by",
+                    "type": "string"
+                  },
+                ]
+              }
+            }
+          }
+        }
+
+        return validateHelper(spec)
+        .then(system => {
+          const allErrors = system.errSelectors.allErrors().toJS()
+          expect(allErrors.length).toEqual(0)
+        })
+      })
+    })
+    describe(`inherited siblings`, () => {
+      it("should return an error for an invalid Swagger 2 definition due to direct ancestor inheritance", () => {
+        const spec = {
+          swagger: "2.0",
+          parameters: [
+            {
+              name: "one",
+              in: "query"
+            }
+          ],
+          "paths": {
+            "/pets": {
+              "parameters": [
+                {
+                  name: "one",
+                  in: "query"
+                },
+                {
+                  name: "two",
+                  in: "query"
+                }
+              ],
+              "get": {
+                "parameters": [
+                  {
+                    name: "two",
+                    in: "query"
+                  },
+                  {
+                    name: "three",
+                    in: "query"
+                  }
+                ]
+              }
+            }
+          }
+        }
+
+        return validateHelper(spec)
+        .then(system => {
+          const allErrors = system.errSelectors.allErrors().toJS()
+          expect(allErrors.length).toEqual(2)
+          const firstError = allErrors[0]
+          const secondError = allErrors[1]
+          expect(firstError).toInclude({
+            path: ["paths", "/pets", "parameters", "0"],
+            message: "Sibling parameters, whether inherited or direct, must have unique name + in values"
+          })
+          expect(secondError).toInclude({
+            path: ["paths", "/pets", "get", "parameters", "0"],
+            message: "Sibling parameters, whether inherited or direct, must have unique name + in values"
+          })
+        })
+      })
+      it("should return an error for an invalid OpenAPI 3 definition due to direct ancestor inheritance", () => {
+        const spec = {
+          openapi: "3.0.0",
+          parameters: [
+            {
+              name: "one",
+              in: "query"
+            }
+          ],
+          "paths": {
+            "/pets": {
+              "parameters": [
+                {
+                  name: "one",
+                  in: "query"
+                },
+                {
+                  name: "two",
+                  in: "query"
+                }
+              ],
+              "get": {
+                "parameters": [
+                  {
+                    name: "two",
+                    in: "query"
+                  },
+                  {
+                    name: "three",
+                    in: "query"
+                  }
+                ]
+              }
+            }
+          }
+        }
+
+        return validateHelper(spec)
+        .then(system => {
+          const allErrors = system.errSelectors.allErrors().toJS()
+          expect(allErrors.length).toEqual(2)
+          const firstError = allErrors[0]
+          const secondError = allErrors[1]
+          expect(firstError).toInclude({
+            path: ["paths", "/pets", "parameters", "0"],
+            message: "Sibling parameters, whether inherited or direct, must have unique name + in values"
+          })
+          expect(secondError).toInclude({
+            path: ["paths", "/pets", "get", "parameters", "0"],
+            message: "Sibling parameters, whether inherited or direct, must have unique name + in values"
+          })
+        })
+      })
+      it("should return an error for an invalid Swagger 2 definition due to root->operation inheritance", () => {
+        const spec = {
+          swagger: "2.0",
+          parameters: [
+            {
+              name: "one",
+              in: "query"
+            }
+          ],
+          "paths": {
+            "/pets": {
+              "parameters": [
+                {
+                  name: "otherParam",
+                  in: "query"
+                }
+              ],
+              "get": {
+                "parameters": [
+                  {
+                    name: "one",
+                    in: "query"
+                  }
+                ]
+              }
+            }
+          }
+        }
+
+        return validateHelper(spec)
+        .then(system => {
+          const allErrors = system.errSelectors.allErrors().toJS()
+          expect(allErrors.length).toEqual(1)
+          const firstError = allErrors[0]
+          expect(firstError).toInclude({
+            path: ["paths", "/pets", "get", "parameters", "0"],
+            message: "Sibling parameters, whether inherited or direct, must have unique name + in values"
+          })
+
+        })
+      })
+      it("should return an error for an invalid OpenAPI 3 definition due to root->operation inheritance", () => {
+        const spec = {
+          openapi: "3.0.0",
+          parameters: [
+            {
+              name: "one",
+              in: "query"
+            }
+          ],
+          "paths": {
+            "/pets": {
+              "parameters": [
+                {
+                  name: "otherParam",
+                  in: "query"
+                }
+              ],
+              "get": {
+                "parameters": [
+                  {
+                    name: "one",
+                    in: "query"
+                  }
+                ]
+              }
+            }
+          }
+        }
+
+        return validateHelper(spec)
+        .then(system => {
+          const allErrors = system.errSelectors.allErrors().toJS()
+          expect(allErrors.length).toEqual(1)
+          const firstError = allErrors[0]
+          expect(firstError).toInclude({
+            path: ["paths", "/pets", "get", "parameters", "0"],
+            message: "Sibling parameters, whether inherited or direct, must have unique name + in values"
+          })
+        })
+      })
+      it("should return no errors for a valid Swagger 2 definition", () => {
+        const spec = {
+          swagger: "2.0",
+          parameters: [
+            {
+              name: "one",
+              in: "query"
+            },
+            {
+              name: "anotherParam1",
+              in: "query"
+            },
+          ],
+          "paths": {
+            "/pets/{one}/{two}": {
+              "parameters": [
+                {
+                  name: "one",
+                  in: "path",
+                  required: true
+                },
+                {
+                  name: "two",
+                  in: "query"
+                },
+                {
+                  name: "anotherParam2",
+                  in: "query"
+                },
+              ],
+              "get": {
+                "parameters": [
+                  {
+                    name: "two",
+                    in: "path",
+                    required: true
+                  },
+                  {
+                    name: "three",
+                    in: "query"
+                  },
+                  {
+                    name: "anotherParam3",
+                    in: "query"
+                  },
+                ]
+              }
+            }
+          }
+        }
+
+        return validateHelper(spec)
+        .then(system => {
+          const allErrors = system.errSelectors.allErrors().toJS()
+          expect(allErrors).toEqual([])
+        })
+      })
+      it("should return no errors for a valid OpenAPI 3 definition", () => {
+        const spec = {
+          openapi: "3.0.0",
+          parameters: [
+            {
+              name: "one",
+              in: "query"
+            },
+            {
+              name: "anotherParam1",
+              in: "query"
+            },
+          ],
+          "paths": {
+            "/pets/{one}/{two}": {
+              "parameters": [
+                {
+                  name: "one",
+                  in: "path",
+                  required: true
+                },
+                {
+                  name: "two",
+                  in: "query"
+                },
+                {
+                  name: "anotherParam2",
+                  in: "query"
+                },
+              ],
+              "get": {
+                "parameters": [
+                  {
+                    name: "two",
+                    in: "path",
+                    required: true
+                  },
+                  {
+                    name: "three",
+                    in: "query"
+                  },
+                  {
+                    name: "anotherParam3",
+                    in: "query"
+                  },
+                ]
+              }
+            }
+          }
+        }
+
+        return validateHelper(spec)
+        .then(system => {
+          const allErrors = system.errSelectors.allErrors().toJS()
+          expect(allErrors.length).toEqual(0)
+        })
+      })
+    })
+
+  })
+})

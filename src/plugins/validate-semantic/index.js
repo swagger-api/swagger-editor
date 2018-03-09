@@ -14,6 +14,7 @@ import * as parametersValidateActions from "./validators/parameters"
 import * as operationsValidateActions from "./validators/operations"
 import * as refsOAS3ValidateActions from "./validators/oas3/refs"
 import * as operationsOAS3ValidateActions from "./validators/oas3/operations"
+import * as parameters2and3ValidateActions from "./validators/2and3/parameters"
 
 export default function SemanticValidatorsPlugin({getSystem}) {
 
@@ -53,7 +54,8 @@ export default function SemanticValidatorsPlugin({getSystem}) {
           ...parametersValidateActions,
           ...operationsValidateActions,
           ...refsOAS3ValidateActions,
-          ...operationsOAS3ValidateActions
+          ...operationsOAS3ValidateActions,
+          ...parameters2and3ValidateActions
         }
       },
     }

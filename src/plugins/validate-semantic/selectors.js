@@ -4,6 +4,9 @@ export const isVendorExt = (state,node) => node.path.some(a => a.indexOf("x-") =
 export const isDefinition = (state,node) => node.path[0] == "definitions" && node.path.length == 2
 export const isRootParameter = (state, node) => node.path[0] === "parameters" && node.path.length === 2
 export const isPathItemParameter = (state, node) => node.path[2] === "parameters" && node.path.length === 4
+export const isRootParameters = (state, node) => node.path[0] === "parameters" && node.path.length === 1
+export const isPathItemParameters = (state, node) => node.path[2] === "parameters" && node.path.length === 3
+export const isOperationParameters = (state, node) => node.path[3] === "parameters" && node.path.length === 4
 export const isRootResponse = (state, node) => node.path[0] === "responses" && node.path.length === 2
 export const isRootHeader = (state, node) => node.path[0] === "headers" && node.path.length === 2
 export const isRef = (state, node) => node.key === "$ref" && typeof node.node === "string" // This selector can be fooled.
