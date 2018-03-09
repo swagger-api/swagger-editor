@@ -1,3 +1,5 @@
+import { getRootNode } from "src/plugins/validate-semantic/helpers"
+
 export const validate2And3ParametersHaveUniqueNameAndInCombinations = () => (system) => {
   return system.validateSelectors
     .allParameterArrays()
@@ -110,20 +112,7 @@ export const validate2And3ParameterDefaultsMatchAnEnum = () => (system) => {
     })
 }
 
-
-
-const HARD_LIMIT = 100
-
 function preserveOriginalIndices(obj, i) {
   obj.__i = i
   return obj
-}
-
-function getRootNode(node) {
-  var i = 0
-  while(node.notRoot && i < HARD_LIMIT) {
-    node = node.parent
-    i++
-  }
-  return node
 }

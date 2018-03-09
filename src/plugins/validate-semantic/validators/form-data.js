@@ -1,4 +1,6 @@
 import { SOURCE } from "../actions"
+import { getRootNode } from "src/plugins/validate-semantic/helpers"
+
 
 export const validateParameterFormDataCaseTypo = () => system => {
   return system.validateSelectors
@@ -52,14 +54,17 @@ export const validateParameterFormDataConsumesType = () => system => {
       return nodes.reduce((acc, node) => {
         const value = node.node
 
+        const globalConsumes = getRootNode(node).node.consumes ||[]
+
         // step out of parameter item and array
         const containingContext = node.parent.parent.node
         const contextConsumes = containingContext.consumes || []
 
+        const combinedConsumes = [...globalConsumes, ...contextConsumes]
         if(
           value.type === "file" &&
           value.in === "formData" &&
-          contextConsumes.indexOf("multipart/form-data") === -1
+          combinedConsumes.indexOf("multipart/form-data") === -1
         ) {
           acc.push({
             message: `Operations with parameters of "type: file" must include "multipart/form-data" in their "consumes" property`,
@@ -69,8 +74,8 @@ export const validateParameterFormDataConsumesType = () => system => {
           })
         } else if(
           value.in === "formData" &&
-          contextConsumes.indexOf("multipart/form-data") === -1 &&
-          contextConsumes.indexOf("application/x-www-form-urlencoded") === -1
+          combinedConsumes.indexOf("multipart/form-data") === -1 &&
+          combinedConsumes.indexOf("application/x-www-form-urlencoded") === -1
         ) {
           acc.push({
             message: `Operations with Parameters of "in: formData" must include "application/x-www-form-urlencoded" or "multipart/form-data" in their "consumes" property`,

@@ -113,7 +113,7 @@ describe("validation plugin - semantic - form data", function(){
         })
     })
 
-    it.skip("should not complain if 'in:formData` and consumes is set globally", function(){
+    it("should not complain if 'in:formData` and consumes is set globally", function(){
       const spec = {
         consumes: [
           "multipart/form-data"
