@@ -2,7 +2,7 @@
 import expect from "expect"
 import validateHelper, { expectNoErrors } from "../validate-helper.js"
 
-describe("validation plugin - semantic - multiversion paths", () => {
+describe("validation plugin - semantic - 2and3 paths", () => {
   describe("Paths cannot have query strings in them", () => {
     it("should return one problem for an stray '?' in a Swagger 2 path string", function(){
       const spec = {

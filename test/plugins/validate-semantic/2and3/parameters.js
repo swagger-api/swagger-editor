@@ -1,7 +1,7 @@
 import expect from "expect"
 import validateHelper from "../validate-helper.js"
 
-describe(`validation plugin - semantic - multiversion parameters`, () => {
+describe(`validation plugin - semantic - 2and3 parameters`, () => {
   describe(`parameters must have unique name + in values`, () => {
     describe(`direct siblings`, () => {
       it("should return an error for an invalid Swagger 2 definition", () => {

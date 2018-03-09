@@ -1,6 +1,6 @@
 import get from "lodash/get"
 
-export const validateOAS3RefHasNoSiblings = () => system => {
+export const validate2And3RefHasNoSiblings = () => system => {
   return system.validateSelectors.all$refs()
   .then((nodes) => {
       const immSpecJson = system.specSelectors.specJson()
