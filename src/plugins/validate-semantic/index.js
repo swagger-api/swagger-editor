@@ -12,6 +12,10 @@ import * as securityValidateActions from "./validators/security"
 import * as refsValidateActions from "./validators/refs"
 import * as parametersValidateActions from "./validators/parameters"
 import * as operationsValidateActions from "./validators/operations"
+import * as operationsOAS3ValidateActions from "./validators/oas3/operations"
+import * as refs2and3ValidateActions from "./validators/2and3/refs"
+import * as parameters2and3ValidateActions from "./validators/2and3/parameters"
+import * as paths2and3ValidateActions from "./validators/2and3/paths"
 
 export default function SemanticValidatorsPlugin({getSystem}) {
 
@@ -49,7 +53,11 @@ export default function SemanticValidatorsPlugin({getSystem}) {
           ...securityValidateActions,
           ...refsValidateActions,
           ...parametersValidateActions,
-          ...operationsValidateActions
+          ...operationsValidateActions,
+          ...refs2and3ValidateActions,
+          ...operationsOAS3ValidateActions,
+          ...parameters2and3ValidateActions,
+          ...paths2and3ValidateActions
         }
       },
     }
@@ -70,13 +78,6 @@ function makeTraverseOnce(getSystem) {
     const system = getSystem()
 
     const json = system.specSelectors.jsonAsJS()
-
-    const isSwagger2 = system.specSelectors.isSwagger2 || null
-    const isOAS3 = system.specSelectors.isOAS3 || null
-
-    if((isSwagger2 && !isSwagger2()) || (isOAS3 && isOAS3())) {
-      return
-    }
 
     getSystem().fn.traverse(json)
       .forEach(function() { // Remember: this cannot be a fat-arrow function, because we need to read "this"
