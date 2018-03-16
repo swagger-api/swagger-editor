@@ -240,8 +240,9 @@ describe("validation plugin - semantic - 2and3 refs", function() {
 
   })
   describe("Malformed $ref values", () => {
-    it("should return an error when a JSON pointer lacks a leading `#/`", () => {
+    it("should return an error when a JSON pointer lacks a leading `#/` in Swagger 2", () => {
       const spec = {
+        swagger: "2.0",
         paths: {
           "/CoolPath": {
             $ref: "#myObj/abc"
@@ -264,9 +265,56 @@ describe("validation plugin - semantic - 2and3 refs", function() {
         expect(firstError.path).toEqual(["paths", "/CoolPath", "$ref"])
       })
     })
-
-    it("should return no errors when a JSON pointer is a well-formed remote reference", () => {
+    it("should return an error when a JSON pointer lacks a leading `#/` in OpenAPI 3", () => {
       const spec = {
+        openapi: "3.0.0",
+        paths: {
+          "/CoolPath": {
+            $ref: "#myObj/abc"
+          }
+        },
+        myObj: {
+          abc: {
+            type: "string"
+          }
+        }
+      }
+
+      return validateHelper(spec)
+      .then(system => {
+        const allErrors = system.errSelectors.allErrors().toJS()
+        expect(allErrors.length).toEqual(1)
+        const firstError = allErrors[0]
+        expect(firstError.message).toMatch("$ref paths must begin with `#/`")
+        expect(firstError.level).toEqual("error")
+        expect(firstError.path).toEqual(["paths", "/CoolPath", "$ref"])
+      })
+    })
+    it("should return no errors when a JSON pointer is a well-formed remote reference in Swagger 2", () => {
+      const spec = {
+        swagger: "2.0",
+        paths: {
+          "/CoolPath": {
+            $ref: "http://google.com#/myObj/abc"
+          }
+        },
+        myObj: {
+          abc: {
+            type: "string"
+          }
+        }
+      }
+
+      return validateHelper(spec)
+      .then(system => {
+        const allSemanticErrors = system.errSelectors.allErrors().toJS()
+          .filter(err => err.source !== "resolver")
+        expect(allSemanticErrors).toEqual([])
+      })
+    })
+    it("should return no errors when a JSON pointer is a well-formed remote reference in OpenAPI 3", () => {
+      const spec = {
+        openapi: "3.0.0",
         paths: {
           "/CoolPath": {
             $ref: "http://google.com#/myObj/abc"
