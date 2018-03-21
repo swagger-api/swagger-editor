@@ -342,4 +342,147 @@ describe("validation plugin - semantic - 2and3 refs", function() {
     })
 
   })
+  describe("Nonexistent $ref pointers", () => {
+    it("should return an error when a local JSON pointer does not exist in Swagger 2", () => {
+      const spec = {
+        swagger: "2.0",
+        paths: {
+          "/CoolPath": {
+            $ref: "#/myObj/DoesNotExist"
+          }
+        },
+        myObj: {
+          abc: {
+            type: "string"
+          }
+        }
+      }
+
+      return validateHelper(spec)
+      .then(system => {
+        const allErrors = system.errSelectors.allErrors().toJS()
+        expect(allErrors.length).toEqual(1)
+        const firstError = allErrors[0]
+        expect(firstError.message).toMatch("$refs must reference a valid location in the document")
+        expect(firstError.level).toEqual("error")
+        expect(firstError.path).toEqual(["paths", "/CoolPath", "$ref"])
+      })
+    })
+    it("should return an error when a local JSON pointer does not exist in OpenAPI 3", () => {
+      const spec = {
+        openapi: "3.0.0",
+        paths: {
+          "/CoolPath": {
+            $ref: "#/myObj/DoesNotExist"
+          }
+        },
+        myObj: {
+          abc: {
+            type: "string"
+          }
+        }
+      }
+
+      return validateHelper(spec)
+      .then(system => {
+        const allErrors = system.errSelectors.allErrors().toJS()
+        expect(allErrors.length).toEqual(1)
+        const firstError = allErrors[0]
+        expect(firstError.message).toMatch("$refs must reference a valid location in the document")
+        expect(firstError.level).toEqual("error")
+        expect(firstError.path).toEqual(["paths", "/CoolPath", "$ref"])
+      })
+    })
+    it("should return no errors when a JSON pointer exists in Swagger 2", () => {
+      const spec = {
+        swagger: "2.0",
+        paths: {
+          "/CoolPath": {
+            $ref: "#/myObj/abc"
+          },
+        },
+        myObj: {
+          abc: {
+            type: "string"
+          }
+        }
+      }
+
+      return validateHelper(spec)
+      .then(system => {
+        const allSemanticErrors = system.errSelectors.allErrors().toJS()
+          .filter(err => err.source !== "resolver")
+        expect(allSemanticErrors).toEqual([])
+      })
+    })
+    it("should return no errors when a JSON pointer exists in OpenAPI 3", () => {
+      const spec = {
+        openapi: "3.0.0",
+        paths: {
+          "/CoolPath": {
+            $ref: "#/myObj/abc"
+          },
+        },
+        myObj: {
+          abc: {
+            type: "string",
+            properties: {
+              $ref: "http://google.com/MyRegularURLReference"
+            }
+          }
+        }
+      }
+
+      return validateHelper(spec)
+      .then(system => {
+        const allSemanticErrors = system.errSelectors.allErrors().toJS()
+          .filter(err => err.source !== "resolver")
+        expect(allSemanticErrors).toEqual([])
+      })
+    })
+    it("should return no errors when a JSON pointer is a remote reference in Swagger 2", () => {
+      const spec = {
+        swagger: "2.0",
+        paths: {
+          "/CoolPath": {
+            $ref: "http://google.com#/myObj/abc"
+          },
+        },
+        myObj: {
+          abc: {
+            type: "string"
+          }
+        }
+      }
+
+      return validateHelper(spec)
+      .then(system => {
+        const allSemanticErrors = system.errSelectors.allErrors().toJS()
+          .filter(err => err.source !== "resolver")
+        expect(allSemanticErrors).toEqual([])
+      })
+    })
+    it("should return no errors when a JSON pointer is a remote reference in OpenAPI 3", () => {
+      const spec = {
+        openapi: "3.0.0",
+        paths: {
+          "/CoolPath": {
+            $ref: "http://google.com#/myObj/abc"
+          },
+        },
+        myObj: {
+          abc: {
+            type: "string"
+          }
+        }
+      }
+
+      return validateHelper(spec)
+      .then(system => {
+        const allSemanticErrors = system.errSelectors.allErrors().toJS()
+          .filter(err => err.source !== "resolver")
+        expect(allSemanticErrors).toEqual([])
+      })
+    })
+  })
 })
