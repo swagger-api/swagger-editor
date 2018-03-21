@@ -440,5 +440,49 @@ describe("validation plugin - semantic - 2and3 refs", function() {
         expect(allSemanticErrors).toEqual([])
       })
     })
+    it("should return no errors when a JSON pointer is a remote reference in Swagger 2", () => {
+      const spec = {
+        swagger: "2.0",
+        paths: {
+          "/CoolPath": {
+            $ref: "http://google.com#/myObj/abc"
+          },
+        },
+        myObj: {
+          abc: {
+            type: "string"
+          }
+        }
+      }
+
+      return validateHelper(spec)
+      .then(system => {
+        const allSemanticErrors = system.errSelectors.allErrors().toJS()
+          .filter(err => err.source !== "resolver")
+        expect(allSemanticErrors).toEqual([])
+      })
+    })
+    it("should return no errors when a JSON pointer is a remote reference in OpenAPI 3", () => {
+      const spec = {
+        openapi: "3.0.0",
+        paths: {
+          "/CoolPath": {
+            $ref: "http://google.com#/myObj/abc"
+          },
+        },
+        myObj: {
+          abc: {
+            type: "string"
+          }
+        }
+      }
+
+      return validateHelper(spec)
+      .then(system => {
+        const allSemanticErrors = system.errSelectors.allErrors().toJS()
+          .filter(err => err.source !== "resolver")
+        expect(allSemanticErrors).toEqual([])
+      })
+    })
   })
 })
