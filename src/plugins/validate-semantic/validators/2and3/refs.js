@@ -1,5 +1,6 @@
 import get from "lodash/get"
 import { escapeJsonPointerToken } from "../../../refs-util"
+import { pathFromPtr } from "json-refs"
 
 export const validate2And3RefHasNoSiblings = () => system => {
   return system.validateSelectors.all$refs()
@@ -69,6 +70,33 @@ export const validate2And3RefPathFormatting = () => (system) => {
             // $ref instead of $$ref
             path: [...node.path.slice(0, -1), "$ref"],
             message: "$ref paths must begin with `#/`",
+            level: "error"
+          })
+        }
+      }
+    })
+
+    return errors
+  })
+}
+
+export const validate2And3RefPointersExist = () => (system) => {
+  const json = system.specSelectors.specJson()
+  return system.validateSelectors.all$refs()
+  .then((refs) => {
+    const errors = []
+
+    refs.forEach((node) => {
+      const value = node.node
+      if(typeof value === "string" && value[0] === "#") {
+        // if path starts with "#", i.e. it is a local ref
+        const path = pathFromPtr(value)
+
+        if(json.getIn(path) === undefined) {
+          errors.push({
+            // $ref instead of $$ref
+            path: [...node.path.slice(0, -1), "$ref"],
+            message: "$refs must reference a valid location in the document",
             level: "error"
           })
         }

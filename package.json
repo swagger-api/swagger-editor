@@ -48,6 +48,7 @@
     "immutable": "^3.x.x",
     "js-yaml": "^3.5.5",
     "json-beautify": "^1.0.1",
+    "json-refs": "^3.0.4",
     "prop-types": "15.6.0",
     "react": "^15.6.2",
     "react-addons-css-transition-group": "^15.4.2",
