@@ -16,29 +16,56 @@ export default class Topbar extends React.Component {
   constructor(props, context) {
     super(props, context)
 
-    Swagger("https://generator.swagger.io/api/swagger.json", {
+    this.state = {
+      swaggerClient: null,
+      clients: [],
+      servers: [],
+      definitionVersion: "Unknown"
+    }
+  }
+
+  instantiateGeneratorClient = () => {
+    const { isOAS3, isSwagger2 } = this.props.specSelectors
+    const { swagger2GeneratorUrl, oas3GeneratorUrl } = this.props.getConfigs()
+
+    const generatorUrl = isOAS3() ? oas3GeneratorUrl : (
+      isSwagger2() ? swagger2GeneratorUrl : null
+    )
+
+    if(!generatorUrl) {
+      return this.setState({
+        clients: [],
+        servers: []
+      })
+    }
+
+    Swagger(generatorUrl, {
       requestInterceptor: (req) => {
         req.headers["Accept"] = "application/json"
         req.headers["content-type"] = "application/json"
       }
     })
-      .then(client => {
-        this.setState({ swaggerClient: client })
-        client.apis.clients.clientOptions()
-          .then(res => {
-            this.setState({ clients: res.body || [] })
-          })
-        client.apis.servers.serverOptions()
-          .then(res => {
-            this.setState({ servers: res.body || [] })
-          })
+    .then(client => {
+      this.setState({
+        swaggerClient: client
       })
-
-    this.state = {
-      swaggerClient: null,
-      clients: [],
-      servers: []
-    }
+      client.apis.clients.clientOptions({}, {
+        // contextUrl is needed because swagger-client is curently
+        // not building relative server URLs correctly
+        contextUrl: generatorUrl
+      })
+      .then(res => {
+        this.setState({ clients: res.body || [] })
+      })
+      client.apis.servers.serverOptions({}, {
+        // contextUrl is needed because swagger-client is curently
+        // not building relative server URLs correctly
+        contextUrl: generatorUrl
+      })
+      .then(res => {
+        this.setState({ servers: res.body || [] })
+      })
+    })
   }
 
   downloadFile = (content, fileName) => {
@@ -223,11 +250,38 @@ export default class Topbar extends React.Component {
     return "yaml"
   }
 
+
+  getDefinitionVersion = () => {
+    const { isOAS3, isSwagger2 } = this.props.specSelectors
+
+    return isOAS3() ? "OAS3" : (
+      isSwagger2() ? "Swagger2" : "Unknown"
+    )
+  }
+
+  ///// Lifecycle
+
+  componentDidMount() {
+    this.instantiateGeneratorClient()
+  }
+
+  componentDidUpdate() {
+    const version = this.getDefinitionVersion()
+
+    if(this.state.definitionVersion !== version) {
+      // definition version has changed; need to reinstantiate
+      // our Generator client
+      this.setState({
+        definitionVersion: version
+      }, () => this.instantiateGeneratorClient())
+
+    }
+  }
+
   render() {
-    let { getComponent, specSelectors: { isOAS3 } } = this.props
+    let { getComponent } = this.props
     const Link = getComponent("Link")
 
-    let showGenerateMenu = !(isOAS3 && isOAS3())
     let showServersMenu = this.state.servers && this.state.servers.length
     let showClientsMenu = this.state.clients && this.state.clients.length
 
@@ -275,11 +329,11 @@ export default class Topbar extends React.Component {
             <DropdownMenu {...makeMenuOptions("Edit")}>
               <li><button type="button" onClick={this.convertToYaml}>Convert to YAML</button></li>
             </DropdownMenu>
-            { showGenerateMenu && showServersMenu ? <DropdownMenu className="long" {...makeMenuOptions("Generate Server")}>
+            { showServersMenu ? <DropdownMenu className="long" {...makeMenuOptions("Generate Server")}>
               { this.state.servers
                   .map((serv, i) => <li key={i}><button type="button" onClick={this.downloadGeneratedFile.bind(null, "server", serv)}>{serv}</button></li>) }
             </DropdownMenu> : null }
-            { showGenerateMenu && showClientsMenu ? <DropdownMenu className="long" {...makeMenuOptions("Generate Client")}>
+            { showClientsMenu ? <DropdownMenu className="long" {...makeMenuOptions("Generate Client")}>
               { this.state.clients
                   .map((cli, i) => <li key={i}><button type="button" onClick={this.downloadGeneratedFile.bind(null, "client", cli)}>{cli}</button></li>) }
             </DropdownMenu> : null }
