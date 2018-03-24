@@ -202,7 +202,6 @@ export default class Topbar extends React.Component {
         },
         contextUrl: this.getGeneratorUrl()
       }).then(res => {
-        debugger
         this.downloadFile(res.data, `${name}-${type}-generated.zip`)
       })
     } else if(type === "server") {
@@ -302,6 +301,9 @@ export default class Topbar extends React.Component {
     if(this.state.definitionVersion !== version) {
       // definition version has changed; need to reinstantiate
       // our Generator client
+      // --
+      // TODO: fix this if there's A Better Way
+      // eslint-disable-next-line react/no-did-update-set-state
       this.setState({
         definitionVersion: version
       }, () => this.instantiateGeneratorClient())
@@ -417,5 +419,6 @@ Topbar.propTypes = {
   specSelectors: PropTypes.object.isRequired,
   errSelectors: PropTypes.object.isRequired,
   specActions: PropTypes.object.isRequired,
-  getComponent: PropTypes.func.isRequired
+  getComponent: PropTypes.func.isRequired,
+  getConfigs: PropTypes.func.isRequired
 }
