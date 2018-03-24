@@ -12,6 +12,20 @@ import "react-dd-menu/dist/react-dd-menu.css"
 import "./topbar.less"
 import Logo from "./logo_small.png"
 
+class OAS3GeneratorMessage extends React.PureComponent {
+  render() {
+    const { isShown } = this.props
+
+    if(!isShown) {
+      return null
+    }
+
+    return <div onClick={this.props.showModal} className="long-menu-message">
+      Beta feature; click for more info.
+    </div>
+  }
+}
+
 export default class Topbar extends React.Component {
   constructor(props, context) {
     super(props, context)
@@ -234,12 +248,12 @@ export default class Topbar extends React.Component {
 
   // Helpers
 
-  showModal = () => {
-    this.refs.modal.show()
+  showModal = (name) => {
+    this.refs[name || "modal"].show()
   }
 
-  hideModal = () => {
-    this.refs.modal.hide()
+  hideModal = (name) => {
+    this.refs[name || "modal"].hide()
   }
 
   // Logic helpers
@@ -296,7 +310,7 @@ export default class Topbar extends React.Component {
   }
 
   render() {
-    let { getComponent } = this.props
+    let { getComponent, specSelectors: { isOAS3 } } = this.props
     const Link = getComponent("Link")
 
     let showServersMenu = this.state.servers && this.state.servers.length
@@ -347,10 +361,18 @@ export default class Topbar extends React.Component {
               <li><button type="button" onClick={this.convertToYaml}>Convert to YAML</button></li>
             </DropdownMenu>
             { showServersMenu ? <DropdownMenu className="long" {...makeMenuOptions("Generate Server")}>
+              <OAS3GeneratorMessage
+                showModal={this.refs.generatorModal.show}
+                hideModal={this.refs.generatorModal.hide}
+                isShown={isOAS3()} />
               { this.state.servers
                   .map((serv, i) => <li key={i}><button type="button" onClick={this.downloadGeneratedFile.bind(null, "server", serv)}>{serv}</button></li>) }
             </DropdownMenu> : null }
             { showClientsMenu ? <DropdownMenu className="long" {...makeMenuOptions("Generate Client")}>
+              <OAS3GeneratorMessage
+                showModal={this.refs.generatorModal.show}
+                hideModal={this.refs.generatorModal.hide}
+                isShown={isOAS3()} />
               { this.state.clients
                   .map((cli, i) => <li key={i}><button type="button" onClick={this.downloadGeneratedFile.bind(null, "client", cli)}>{cli}</button></li>) }
             </DropdownMenu> : null }
@@ -364,6 +386,25 @@ export default class Topbar extends React.Component {
           <div className="right">
             <button className="btn cancel" onClick={this.hideModal}>Cancel</button>
             <button className="btn" onClick={this.importFromFile}>Open file</button>
+          </div>
+        </Modal>
+        <Modal className="swagger-ui modal" ref="generatorModal">
+          <div className="modal-message">
+            <p>
+              Code generation for OAS3 is currently work in progress. The available languages is smaller than the for OAS/Swagger 2.0 and is constantly being updated.
+            </p>
+            <p>
+              If you encounter issues with the existing languages, please file a ticket at&nbsp;
+              <a href="https://github.com/swagger-api/swagger-codegen-generators" target={"_blank"}>swagger-codegen-generators</a>. Also, as this project highly depends on community contributions - please consider helping us migrate the templates for other languages. Details can be found at the same repository.
+            </p>
+            <p>
+              Thanks for helping us improve this feature.
+            </p>
+          </div>
+          <div className="right">
+            <button className="btn" onClick={this.hideModal.bind(null, "generatorModal")}>
+              Close
+            </button>
           </div>
         </Modal>
       </div>
