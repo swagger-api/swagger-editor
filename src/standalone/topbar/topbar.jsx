@@ -47,7 +47,7 @@ export default class Topbar extends React.Component {
     Swagger(generatorUrl, {
       requestInterceptor: (req) => {
         req.headers["Accept"] = "application/json"
-        req.headers["content-type"] = "application/json"
+        req.headers["Content-Type"] = "application/json"
       }
     })
     .then(client => {
@@ -187,6 +187,9 @@ export default class Topbar extends React.Component {
           }
         },
         contextUrl: this.getGeneratorUrl()
+      }).then(res => {
+        debugger
+        this.downloadFile(res.data, `${name}-${type}-generated.zip`)
       })
     } else if(type === "server") {
       swaggerClient.apis.servers.generateServerForLanguage({
@@ -199,9 +202,7 @@ export default class Topbar extends React.Component {
         })
       })
         .then(res => this.handleResponse(res, { type, name }))
-    }
-
-    if(type === "client") {
+    } else if(type === "client") {
       swaggerClient.apis.clients.generateClient({
         language : name,
         body: JSON.stringify({
