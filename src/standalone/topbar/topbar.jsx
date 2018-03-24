@@ -24,13 +24,18 @@ export default class Topbar extends React.Component {
     }
   }
 
-  instantiateGeneratorClient = () => {
+  getGeneratorUrl = () => {
     const { isOAS3, isSwagger2 } = this.props.specSelectors
     const { swagger2GeneratorUrl, oas3GeneratorUrl } = this.props.getConfigs()
 
-    const generatorUrl = isOAS3() ? oas3GeneratorUrl : (
+    return isOAS3() ? oas3GeneratorUrl : (
       isSwagger2() ? swagger2GeneratorUrl : null
     )
+  }
+
+  instantiateGeneratorClient = () => {
+
+    const generatorUrl = this.getGeneratorUrl()
 
     if(!generatorUrl) {
       return this.setState({
@@ -172,7 +177,18 @@ export default class Topbar extends React.Component {
       // Swagger client isn't ready yet.
       return
     }
-    if(type === "server") {
+
+    if(specSelectors.isOAS3()) {
+      swaggerClient.apis.default.generate1({}, {
+        requestBody: {
+          spec: specSelectors.specJson(),
+          options: {
+            lang: name
+          }
+        },
+        contextUrl: this.getGeneratorUrl()
+      })
+    } else if(type === "server") {
       swaggerClient.apis.servers.generateServerForLanguage({
         framework : name,
         body: JSON.stringify({
