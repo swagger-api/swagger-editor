@@ -353,7 +353,10 @@ describe("validation plugin - semantic - 2and3 refs", function() {
         },
         myObj: {
           abc: {
-            type: "string"
+            type: "string",
+            properties: {
+              $ref: "http://google.com/MyRegularURLReference"
+            }
           }
         }
       }
