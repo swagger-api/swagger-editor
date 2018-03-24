@@ -45,17 +45,25 @@
     &.long {
       display: flex;
       flex-wrap: wrap;
-      max-width:800px;
+      max-width: 800px;
       .dd-menu-items {
         width:600px;
         .dd-items-left {
           display: flex;
+          flex-direction: column;
+          max-height: 500px;
           flex-wrap: wrap;
           margin: 1.7em 0 0!important;
           li {
             flex:22%;
           }
         }
+      }
+
+      .long-menu-message {
+        padding: 1.5em;
+        color: #ccc;
+        cursor: pointer;
       }
     }
 
@@ -91,6 +99,15 @@
 
     button {
       margin-left: 1em;
+    }
+  }
+
+  .modal-message {
+    margin: 1.75em 2em;
+    font-size: 1.1em;
+    
+    p {
+      line-height: 1.3;
     }
   }
 }

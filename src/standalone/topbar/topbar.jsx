@@ -12,33 +12,79 @@ import "react-dd-menu/dist/react-dd-menu.css"
 import "./topbar.less"
 import Logo from "./logo_small.png"
 
+class OAS3GeneratorMessage extends React.PureComponent {
+  render() {
+    const { isShown } = this.props
+
+    if(!isShown) {
+      return null
+    }
+
+    return <div onClick={this.props.showModal} className="long-menu-message">
+      Beta feature; click for more info.
+    </div>
+  }
+}
+
 export default class Topbar extends React.Component {
   constructor(props, context) {
     super(props, context)
 
-    Swagger("https://generator.swagger.io/api/swagger.json", {
-      requestInterceptor: (req) => {
-        req.headers["Accept"] = "application/json"
-        req.headers["content-type"] = "application/json"
-      }
-    })
-      .then(client => {
-        this.setState({ swaggerClient: client })
-        client.apis.clients.clientOptions()
-          .then(res => {
-            this.setState({ clients: res.body || [] })
-          })
-        client.apis.servers.serverOptions()
-          .then(res => {
-            this.setState({ servers: res.body || [] })
-          })
-      })
-
     this.state = {
       swaggerClient: null,
       clients: [],
-      servers: []
+      servers: [],
+      definitionVersion: "Unknown"
     }
+  }
+
+  getGeneratorUrl = () => {
+    const { isOAS3, isSwagger2 } = this.props.specSelectors
+    const { swagger2GeneratorUrl, oas3GeneratorUrl } = this.props.getConfigs()
+
+    return isOAS3() ? oas3GeneratorUrl : (
+      isSwagger2() ? swagger2GeneratorUrl : null
+    )
+  }
+
+  instantiateGeneratorClient = () => {
+
+    const generatorUrl = this.getGeneratorUrl()
+
+    if(!generatorUrl) {
+      return this.setState({
+        clients: [],
+        servers: []
+      })
+    }
+
+    Swagger(generatorUrl, {
+      requestInterceptor: (req) => {
+        req.headers["Accept"] = "application/json"
+        req.headers["Content-Type"] = "application/json"
+      }
+    })
+    .then(client => {
+      this.setState({
+        swaggerClient: client
+      })
+      client.apis.clients.clientOptions({}, {
+        // contextUrl is needed because swagger-client is curently
+        // not building relative server URLs correctly
+        contextUrl: generatorUrl
+      })
+      .then(res => {
+        this.setState({ clients: res.body || [] })
+      })
+      client.apis.servers.serverOptions({}, {
+        // contextUrl is needed because swagger-client is curently
+        // not building relative server URLs correctly
+        contextUrl: generatorUrl
+      })
+      .then(res => {
+        this.setState({ servers: res.body || [] })
+      })
+    })
   }
 
   downloadFile = (content, fileName) => {
@@ -145,7 +191,20 @@ export default class Topbar extends React.Component {
       // Swagger client isn't ready yet.
       return
     }
-    if(type === "server") {
+
+    if(specSelectors.isOAS3()) {
+      swaggerClient.apis.default.generate1({}, {
+        requestBody: {
+          spec: specSelectors.specJson(),
+          options: {
+            lang: name
+          }
+        },
+        contextUrl: this.getGeneratorUrl()
+      }).then(res => {
+        this.downloadFile(res.data, `${name}-${type}-generated.zip`)
+      })
+    } else if(type === "server") {
       swaggerClient.apis.servers.generateServerForLanguage({
         framework : name,
         body: JSON.stringify({
@@ -156,9 +215,7 @@ export default class Topbar extends React.Component {
         })
       })
         .then(res => this.handleResponse(res, { type, name }))
-    }
-
-    if(type === "client") {
+    } else if(type === "client") {
       swaggerClient.apis.clients.generateClient({
         language : name,
         body: JSON.stringify({
@@ -190,12 +247,12 @@ export default class Topbar extends React.Component {
 
   // Helpers
 
-  showModal = () => {
-    this.refs.modal.show()
+  showModal = (name) => {
+    this.refs[name || "modal"].show()
   }
 
-  hideModal = () => {
-    this.refs.modal.hide()
+  hideModal = (name) => {
+    this.refs[name || "modal"].hide()
   }
 
   // Logic helpers
@@ -223,11 +280,41 @@ export default class Topbar extends React.Component {
     return "yaml"
   }
 
+
+  getDefinitionVersion = () => {
+    const { isOAS3, isSwagger2 } = this.props.specSelectors
+
+    return isOAS3() ? "OAS3" : (
+      isSwagger2() ? "Swagger2" : "Unknown"
+    )
+  }
+
+  ///// Lifecycle
+
+  componentDidMount() {
+    this.instantiateGeneratorClient()
+  }
+
+  componentDidUpdate() {
+    const version = this.getDefinitionVersion()
+
+    if(this.state.definitionVersion !== version) {
+      // definition version has changed; need to reinstantiate
+      // our Generator client
+      // --
+      // TODO: fix this if there's A Better Way
+      // eslint-disable-next-line react/no-did-update-set-state
+      this.setState({
+        definitionVersion: version
+      }, () => this.instantiateGeneratorClient())
+
+    }
+  }
+
   render() {
     let { getComponent, specSelectors: { isOAS3 } } = this.props
     const Link = getComponent("Link")
 
-    let showGenerateMenu = !(isOAS3 && isOAS3())
     let showServersMenu = this.state.servers && this.state.servers.length
     let showClientsMenu = this.state.clients && this.state.clients.length
 
@@ -275,11 +362,19 @@ export default class Topbar extends React.Component {
             <DropdownMenu {...makeMenuOptions("Edit")}>
               <li><button type="button" onClick={this.convertToYaml}>Convert to YAML</button></li>
             </DropdownMenu>
-            { showGenerateMenu && showServersMenu ? <DropdownMenu className="long" {...makeMenuOptions("Generate Server")}>
+            { showServersMenu ? <DropdownMenu className="long" {...makeMenuOptions("Generate Server")}>
+              <OAS3GeneratorMessage
+                showModal={this.refs.generatorModal.show}
+                hideModal={this.refs.generatorModal.hide}
+                isShown={isOAS3()} />
               { this.state.servers
                   .map((serv, i) => <li key={i}><button type="button" onClick={this.downloadGeneratedFile.bind(null, "server", serv)}>{serv}</button></li>) }
             </DropdownMenu> : null }
-            { showGenerateMenu && showClientsMenu ? <DropdownMenu className="long" {...makeMenuOptions("Generate Client")}>
+            { showClientsMenu ? <DropdownMenu className="long" {...makeMenuOptions("Generate Client")}>
+              <OAS3GeneratorMessage
+                showModal={this.refs.generatorModal.show}
+                hideModal={this.refs.generatorModal.hide}
+                isShown={isOAS3()} />
               { this.state.clients
                   .map((cli, i) => <li key={i}><button type="button" onClick={this.downloadGeneratedFile.bind(null, "client", cli)}>{cli}</button></li>) }
             </DropdownMenu> : null }
@@ -295,6 +390,25 @@ export default class Topbar extends React.Component {
             <button className="btn" onClick={this.importFromFile}>Open file</button>
           </div>
         </Modal>
+        <Modal className="swagger-ui modal" ref="generatorModal">
+          <div className="modal-message">
+            <p>
+              Code generation for OAS3 is currently work in progress. The available languages is smaller than the for OAS/Swagger 2.0 and is constantly being updated.
+            </p>
+            <p>
+              If you encounter issues with the existing languages, please file a ticket at&nbsp;
+              <a href="https://github.com/swagger-api/swagger-codegen-generators" target={"_blank"}>swagger-codegen-generators</a>. Also, as this project highly depends on community contributions - please consider helping us migrate the templates for other languages. Details can be found at the same repository.
+            </p>
+            <p>
+              Thanks for helping us improve this feature.
+            </p>
+          </div>
+          <div className="right">
+            <button className="btn" onClick={this.hideModal.bind(null, "generatorModal")}>
+              Close
+            </button>
+          </div>
+        </Modal>
       </div>
 
     )
@@ -305,5 +419,6 @@ Topbar.propTypes = {
   specSelectors: PropTypes.object.isRequired,
   errSelectors: PropTypes.object.isRequired,
   specActions: PropTypes.object.isRequired,
-  getComponent: PropTypes.func.isRequired
+  getComponent: PropTypes.func.isRequired,
+  getConfigs: PropTypes.func.isRequired
 }
