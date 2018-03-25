@@ -248,10 +248,12 @@ export default class Topbar extends React.Component {
   // Helpers
 
   showModal = (name) => {
+    name = typeof name === "string" ? name : null
     this.refs[name || "modal"].show()
   }
 
   hideModal = (name) => {
+    name = typeof name === "string" ? name : null
     this.refs[name || "modal"].hide()
   }
 
