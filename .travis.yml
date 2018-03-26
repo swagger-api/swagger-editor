@@ -7,8 +7,6 @@ branches:
   only:
   - master
   - /^v\d+\.\d+(\.\d+)?(-\S*)?$/
-before_deploy:
-  - "npm run build"
 env:
   - DOCKER_IMAGE_NAME=swaggerapi/swagger-editor
 deploy:
@@ -30,12 +28,13 @@ deploy:
       node: '6.9'
   - provider: script
     skip_cleanup: true
+    script: "sh build-tools/deploy-docker-hub-tag.sh"
     on:
       tags: true
       repo: swagger-api/swagger-editor
       node: '6.9'
-    script: build-tools/deploy-docker-hub-tag.sh
 after_success:
+  - "npm run build" # these artifacts are used for the deploys as well
   - if [ $DOCKER_HUB_USERNAME ]; then
       docker login --username=$DOCKER_HUB_USERNAME --password=$DOCKER_HUB_PASSWORD;
 
