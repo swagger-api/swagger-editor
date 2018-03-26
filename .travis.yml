@@ -30,6 +30,10 @@ deploy:
       node: '6.9'
   - provider: script
     skip_cleanup: true
+    on:
+      tags: true
+      repo: swagger-api/swagger-editor
+      node: '6.9'
     script: |
       if [ $DOCKER_HUB_USERNAME ]; then
           docker login --username=$DOCKER_HUB_USERNAME --password=$DOCKER_HUB_PASSWORD;
