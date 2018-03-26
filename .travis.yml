@@ -31,7 +31,7 @@ deploy:
   - provider: script
     skip_cleanup: true
     script: |
-      - if [ $DOCKER_HUB_USERNAME ]; then
+      if [ $DOCKER_HUB_USERNAME ]; then
           docker login --username=$DOCKER_HUB_USERNAME --password=$DOCKER_HUB_PASSWORD;
 
           if [ ! -z "$TRAVIS_TAG" ]; then
