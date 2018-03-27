@@ -34,8 +34,10 @@ deploy:
       repo: swagger-api/swagger-editor
       node: '6.9'
 after_success:
-  - if [ $TRAVIS_PULL_REQUEST == "false" ]; then
-      npm run build # these artifacts are used for the deploys as well
+  # artifacts from this `npm run build` are used in the deploy step as well
+  - |
+    if [ $TRAVIS_PULL_REQUEST == "false" ]; then
+      npm run build
       if [ $DOCKER_HUB_USERNAME ]; then
           docker login --username=$DOCKER_HUB_USERNAME --password=$DOCKER_HUB_PASSWORD;
 
@@ -46,4 +48,3 @@ after_success:
           docker push $DOCKER_IMAGE_NAME:$DOCKER_IMAGE_TAG;
         fi;
     fi;
- 
