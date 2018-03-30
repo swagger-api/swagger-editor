@@ -153,6 +153,11 @@ export default function makeEditor({ editorPluginsToRun }) {
     updateMarkerAnnotations = (props) => {
       const { editor } = this
 
+      // Remove old markers
+      if(this.removeMarkers) {
+        this.removeMarkers()
+      }
+
       const markers = Im.Map.isMap(props.markers) ? props.markers.toJS() : {}
       this.removeMarkers = placeMarkerDecorations({
         editor,
@@ -199,9 +204,7 @@ export default function makeEditor({ editorPluginsToRun }) {
       document.addEventListener("click", this.onClick)
       this.updateYaml()
 
-      if(this.props.markers) {
-        this.updateMarkerAnnotations(this.props)
-      }
+      this.updateMarkerAnnotations(this.props)
     }
 
     componentWillUnmount() {
@@ -223,12 +226,7 @@ export default function makeEditor({ editorPluginsToRun }) {
       //// Mange the yaml lifecycle...
       // If the yaml doesn't match _what we already have in state_ then update the yaml in the editor
       // Taking care to manage the other things in lifecycle
-      if(newValue !== this.props.value && !this.yaml.indexOf(newValue) > -1) {
-
-        // Remove markers
-        if(this.removeMarkers) {
-          this.removeMarkers()
-        }
+      if(newValue !== this.props.value && this.yaml.indexOf(newValue) == -1) {
 
         this.yaml = [newValue] // Clear our stack, and add the latest from props
         this.updateYaml()
