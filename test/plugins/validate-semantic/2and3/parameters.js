@@ -139,12 +139,12 @@ describe(`validation plugin - semantic - 2and3 parameters`, () => {
       it("should return an error for an invalid Swagger 2 definition due to direct ancestor inheritance", () => {
         const spec = {
           swagger: "2.0",
-          parameters: [
-            {
+          parameters: {
+            MyParam: {
               name: "one",
               in: "query"
             }
-          ],
+          },
           "paths": {
             "/pets": {
               "parameters": [
@@ -192,12 +192,12 @@ describe(`validation plugin - semantic - 2and3 parameters`, () => {
       it("should return an error for an invalid OpenAPI 3 definition due to direct ancestor inheritance", () => {
         const spec = {
           openapi: "3.0.0",
-          parameters: [
-            {
+          parameters: {
+            MyParam: {
               name: "one",
               in: "query"
             }
-          ],
+          },
           "paths": {
             "/pets": {
               "parameters": [
@@ -245,12 +245,12 @@ describe(`validation plugin - semantic - 2and3 parameters`, () => {
       it("should return an error for an invalid Swagger 2 definition due to root->operation inheritance", () => {
         const spec = {
           swagger: "2.0",
-          parameters: [
-            {
+          parameters: {
+            MyParam: {
               name: "one",
               in: "query"
             }
-          ],
+          },
           "paths": {
             "/pets": {
               "parameters": [
@@ -286,12 +286,12 @@ describe(`validation plugin - semantic - 2and3 parameters`, () => {
       it("should return an error for an invalid OpenAPI 3 definition due to root->operation inheritance", () => {
         const spec = {
           openapi: "3.0.0",
-          parameters: [
-            {
+          parameters: {
+            MyParam: {
               name: "one",
               in: "query"
             }
-          ],
+          },
           "paths": {
             "/pets": {
               "parameters": [
@@ -326,16 +326,16 @@ describe(`validation plugin - semantic - 2and3 parameters`, () => {
       it("should return no errors for a valid Swagger 2 definition", () => {
         const spec = {
           swagger: "2.0",
-          parameters: [
-            {
+          parameters: {
+            MyParamOne: {
               name: "one",
               in: "query"
             },
-            {
+            MyParamTwo: {
               name: "anotherParam1",
               in: "query"
             },
-          ],
+          },
           "paths": {
             "/pets/{one}/{two}": {
               "parameters": [
@@ -383,16 +383,16 @@ describe(`validation plugin - semantic - 2and3 parameters`, () => {
       it("should return no errors for a valid OpenAPI 3 definition", () => {
         const spec = {
           openapi: "3.0.0",
-          parameters: [
-            {
+          parameters: {
+            MyParamOne: {
               name: "one",
               in: "query"
             },
-            {
+            MyParamTwo: {
               name: "anotherParam1",
               in: "query"
             },
-          ],
+          },
           "paths": {
             "/pets/{one}/{two}": {
               "parameters": [

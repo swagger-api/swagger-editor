@@ -14,16 +14,26 @@ export const validate2And3ParametersHaveUniqueNameAndInCombinations = () => (sys
         if(isOperationParameters) {
           const pathItemParameters = (node.parent.parent.node.parameters || [])
             .map(preserveOriginalIndices)
-          const rootParameters = (getRootNode(node).node.parameters || [])
-            .map(preserveOriginalIndices)
+
+          const rootParameterObj = getRootNode(node).node.parameters || {}
+          const rootParameters = Object.keys(rootParameterObj)
+            .map((k, i) => {
+              const obj = rootParameterObj[k]
+              return preserveOriginalIndices(obj, i)
+            })
 
           inheritedParameters = [
             ...rootParameters,
             ...pathItemParameters
           ]
         } else if(isPathItemParameters) {
-          const rootParameters = (getRootNode(node).node.parameters || [])
-            .map(preserveOriginalIndices)
+
+          const rootParameterObj = getRootNode(node).node.parameters || {}
+          const rootParameters = Object.keys(rootParameterObj)
+            .map((k, i) => {
+              const obj = rootParameterObj[k]
+              return preserveOriginalIndices(obj, i)
+            })
 
           inheritedParameters = [
             ...rootParameters
