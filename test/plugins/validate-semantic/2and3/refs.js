@@ -364,6 +364,7 @@ describe("validation plugin - semantic - 2and3 refs", function() {
       return validateHelper(spec)
       .then(system => {
         const allErrors = system.errSelectors.allErrors().toJS()
+          .filter(err => err.source !== "resolver")
         expect(allErrors.length).toEqual(1)
         const firstError = allErrors[0]
         expect(firstError.message).toMatch("$refs must reference a valid location in the document")
@@ -392,6 +393,7 @@ describe("validation plugin - semantic - 2and3 refs", function() {
       return validateHelper(spec)
       .then(system => {
         const allErrors = system.errSelectors.allErrors().toJS()
+          .filter(err => err.source !== "resolver")
         expect(allErrors.length).toEqual(1)
         const firstError = allErrors[0]
         expect(firstError.message).toMatch("$refs must reference a valid location in the document")
