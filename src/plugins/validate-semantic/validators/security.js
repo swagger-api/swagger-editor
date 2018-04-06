@@ -37,12 +37,11 @@ export const validateSecurityRequirementReferenceExistingScopes = () => (system)
         const requiredSecurityDefinitions = Object.keys(value) || []
 
         requiredSecurityDefinitions.forEach(name => {
-
           const scopes = value[name]
           const definition = definedSecuritySchemes[name]
           if(Array.isArray(scopes) && scopes.length && definition) {
             scopes.forEach((scope, i) => {
-              if(!definition.scopes || !definition.scopes[scope]) {
+              if(!definition.scopes || definition.scopes[scope] === undefined) {
                 acc.push({
                   message: `Security scope definition ${scope} could not be resolved`,
                   path: [...node.path, i.toString()],

@@ -180,7 +180,7 @@ describe("validation plugin - semantic - security", function() {
           "name": "apikey",
           "in": "query",
           "scopes": {
-            "write:pets": "write to pets"
+            "write:pets": ""
           }
         }
       },
