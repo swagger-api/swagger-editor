@@ -37,8 +37,6 @@ export const validateSecurityRequirementReferenceExistingScopes = () => (system)
         const requiredSecurityDefinitions = Object.keys(value) || []
 
         requiredSecurityDefinitions.forEach(name => {
-          debugger
-
           const scopes = value[name]
           const definition = definedSecuritySchemes[name]
           if(Array.isArray(scopes) && scopes.length && definition) {
