@@ -6,6 +6,8 @@ import { placeMarkerDecorations } from "../editor-helpers/marker-placer"
 import Im, { fromJS } from "immutable"
 import ImPropTypes from "react-immutable-proptypes"
 
+import win from "src/window"
+
 import isUndefined from "lodash/isUndefined"
 import omit from "lodash/omit"
 import isEqual from "lodash/isEqual"
@@ -32,7 +34,10 @@ export default function makeEditor({ editorPluginsToRun }) {
 
       this.editor = null
       this.yaml = !isUndefined(props.value) ? [props.value] : []
-      this.debouncedOnChange = debounce(this.onChange, props.debounce)
+
+      this.debouncedOnChange = props.debounce > 0
+        ? debounce(this.onChange, props.debounce)
+        : this.onChange
     }
 
     static propTypes = {
@@ -48,6 +53,8 @@ export default function makeEditor({ editorPluginsToRun }) {
       goToLine: PropTypes.object,
       specObject: PropTypes.object.isRequired,
 
+      editorActions: PropTypes.object,
+
       AST: PropTypes.object.isRequired,
 
       errors: ImPropTypes.list,
@@ -61,6 +68,7 @@ export default function makeEditor({ editorPluginsToRun }) {
       markers: {},
       goToLine: {},
       errors: fromJS([]),
+      editorActions: {onLoad(){}},
       editorOptions: {},
       debounce: 800 // 0.5 imperial seconds™
 
@@ -82,6 +90,7 @@ export default function makeEditor({ editorPluginsToRun }) {
     }
 
     onLoad = (editor) => {
+
       const { props } = this
       const { AST, specObject } = props
 
@@ -106,7 +115,8 @@ export default function makeEditor({ editorPluginsToRun }) {
       editor.setHighlightActiveLine(false)
       editor.setHighlightActiveLine(true)
       this.syncOptionsFromState(this.props.editorOptions)
-      props.editorActions.onLoad({...props, langTools, editor})
+      if(props.editorActions && props.editorActions.onLoad)
+        props.editorActions.onLoad({...props, langTools, editor})
     }
 
     onResize = () => {
@@ -130,7 +140,7 @@ export default function makeEditor({ editorPluginsToRun }) {
     }
 
     getWidth = () => {
-      let el = document.getElementById("editor-wrapper")
+      let el = win.document.getElementById("editor-wrapper")
       return el ? el.getBoundingClientRect().width : null
     }
 
@@ -170,7 +180,7 @@ export default function makeEditor({ editorPluginsToRun }) {
       this.silent = false
     }
 
-    syncOptionsFromState = (editorOptions) => {
+    syncOptionsFromState = (editorOptions={}) => {
       const { editor } = this
       if(!editor) {
         return
@@ -178,6 +188,7 @@ export default function makeEditor({ editorPluginsToRun }) {
 
       const setOptions = omit(editorOptions, ["readOnly"])
       editor.setOptions(setOptions)
+
 
       const readOnly = isUndefined(editorOptions.readOnly)
             ? false
@@ -188,16 +199,19 @@ export default function makeEditor({ editorPluginsToRun }) {
     componentWillMount() {
       // add user agent info to document
       // allows our custom Editor styling for IE10 to take effect
-      var doc = document.documentElement
-      doc.setAttribute("data-useragent", navigator.userAgent)
+      var doc = win.document.documentElement
+      doc.setAttribute("data-useragent", win.navigator.userAgent)
       this.syncOptionsFromState(this.props.editorOptions)
     }
 
     componentDidMount() {
       // eslint-disable-next-line react/no-did-mount-set-state
+
       this.width = this.getWidth()
-      document.addEventListener("click", this.onClick)
-      this.updateYaml()
+      win.document.addEventListener("click", this.onClick)
+      if(this.editor) {
+        this.updateYaml()
+      }
 
       if(this.props.markers) {
         this.updateMarkerAnnotations(this.props)
@@ -205,7 +219,7 @@ export default function makeEditor({ editorPluginsToRun }) {
     }
 
     componentWillUnmount() {
-      document.removeEventListener("click", this.onClick)
+      win.document.removeEventListener("click", this.onClick)
     }
 
     componentWillReceiveProps(nextProps) {
@@ -217,7 +231,16 @@ export default function makeEditor({ editorPluginsToRun }) {
       // Change the debounce value/func
       if(this.props.debounce !== nextProps.debounce) {
         this.debouncedOnChange.flush()
-        this.debouncedOnChange = debounce(this.onChange, nextProps.debounce)
+
+        this.debouncedOnChange = props.debounce > 0
+          ? debounce(this.onChange, props.debounce)
+          : this.onChange
+
+        if(nextProps.debounce == 0) {
+          this.debouncedOnChange = this.onChange
+        } else {
+          this.debouncedOnChange = debounce(this.onChange, nextProps.debounce)
+        }
       }
 
       //// Mange the yaml lifecycle...

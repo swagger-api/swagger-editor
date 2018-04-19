@@ -1,21 +1,21 @@
-const request = require.context("./", true, /\.js$/)
+// const request = require.context("./", true, /\.js$/)
 const plugins = []
 
-request.keys().forEach( function( key ){
-  if( key === "./hook.js" ) {
-    return
-  }
+// request.keys().forEach( function( key ){
+//   if( key === "./hook.js" ) {
+//     return
+//   }
 
-  if( key.slice(2).indexOf("/") > -1) {
-    // skip files in subdirs
-    return
-  }
+//   if( key.slice(2).indexOf("/") > -1) {
+//     // skip files in subdirs
+//     return
+//   }
 
-  plugins.push({
-    name: toTitleCase(key),
-    fn: request(key).default
-  })
-})
+//   plugins.push({
+//     name: toTitleCase(key),
+//     fn: request(key).default
+//   })
+// })
 
 export default function (editor, props = {}, editorPluginsToRun = [], helpers = {}) {
   // TODO: refactor require context system to direct plugin references

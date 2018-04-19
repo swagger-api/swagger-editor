@@ -7,12 +7,17 @@
   "plugins": [
   "transform-runtime",
   "transform-async-to-generator",
+  "rewiremock/babel",
   [
     "module-alias",
     [
       {
         "expose": "plugins",
         "src": "src/plugins"
+      },
+      {
+        "expose": "test",
+        "src": "test"
       },
       {
         "expose": "src",
