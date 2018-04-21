@@ -1,5 +1,3 @@
-import { getRootNode } from "src/plugins/validate-semantic/helpers"
-
 export const validate2And3ParametersHaveUniqueNameAndInCombinations = () => (system) => {
   return system.validateSelectors
     .allParameterArrays()
