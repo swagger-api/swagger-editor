@@ -162,6 +162,11 @@ export default function makeEditor({ editorPluginsToRun }) {
     }
 
     updateYaml = () => {
+      if(this.editor.getValue() === this.yaml[0]) {
+        // editor is already aware of latest changes, so do nothing
+        return
+      }
+
       // this.silent is taken from react-ace module. It avoids firing onChange, when we update setValue
       this.silent = true
       const pos = this.editor.session.selection.toJSON()
