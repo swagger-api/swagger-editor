@@ -1,5 +1,3 @@
-import { getRootNode } from "src/plugins/validate-semantic/helpers"
-
 export const validate2And3ParametersHaveUniqueNameAndInCombinations = () => (system) => {
   return system.validateSelectors
     .allParameterArrays()
@@ -7,7 +5,6 @@ export const validate2And3ParametersHaveUniqueNameAndInCombinations = () => (sys
       return nodes.reduce((acc, node) => {
         const parameters = node.node || []
         const isOperationParameters = system.validateSelectors.isOperationParameters(node)
-        const isPathItemParameters = system.validateSelectors.isPathItemParameters(node)
 
         var inheritedParameters = []
 
@@ -15,29 +12,7 @@ export const validate2And3ParametersHaveUniqueNameAndInCombinations = () => (sys
           const pathItemParameters = (node.parent.parent.node.parameters || [])
             .map(preserveOriginalIndices)
 
-          const rootParameterObj = getRootNode(node).node.parameters || {}
-          const rootParameters = Object.keys(rootParameterObj)
-            .map((k, i) => {
-              const obj = rootParameterObj[k]
-              return preserveOriginalIndices(obj, i)
-            })
-
-          inheritedParameters = [
-            ...rootParameters,
-            ...pathItemParameters
-          ]
-        } else if(isPathItemParameters) {
-
-          const rootParameterObj = getRootNode(node).node.parameters || {}
-          const rootParameters = Object.keys(rootParameterObj)
-            .map((k, i) => {
-              const obj = rootParameterObj[k]
-              return preserveOriginalIndices(obj, i)
-            })
-
-          inheritedParameters = [
-            ...rootParameters
-          ]
+          inheritedParameters = [...pathItemParameters]
         } else {
           inheritedParameters = []
         }

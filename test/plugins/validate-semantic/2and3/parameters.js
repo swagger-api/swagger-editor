@@ -176,14 +176,9 @@ describe(`validation plugin - semantic - 2and3 parameters`, () => {
         return validateHelper(spec)
         .then(system => {
           const allErrors = system.errSelectors.allErrors().toJS()
-          expect(allErrors.length).toEqual(2)
+          expect(allErrors.length).toEqual(1)
           const firstError = allErrors[0]
-          const secondError = allErrors[1]
           expect(firstError).toInclude({
-            path: ["paths", "/pets", "parameters", "0"],
-            message: "Sibling parameters, whether inherited or direct, must have unique name + in values"
-          })
-          expect(secondError).toInclude({
             path: ["paths", "/pets", "get", "parameters", "0"],
             message: "Sibling parameters, whether inherited or direct, must have unique name + in values"
           })
@@ -229,20 +224,15 @@ describe(`validation plugin - semantic - 2and3 parameters`, () => {
         return validateHelper(spec)
         .then(system => {
           const allErrors = system.errSelectors.allErrors().toJS()
-          expect(allErrors.length).toEqual(2)
+          expect(allErrors.length).toEqual(1)
           const firstError = allErrors[0]
-          const secondError = allErrors[1]
           expect(firstError).toInclude({
-            path: ["paths", "/pets", "parameters", "0"],
-            message: "Sibling parameters, whether inherited or direct, must have unique name + in values"
-          })
-          expect(secondError).toInclude({
             path: ["paths", "/pets", "get", "parameters", "0"],
             message: "Sibling parameters, whether inherited or direct, must have unique name + in values"
           })
         })
       })
-      it("should return an error for an invalid Swagger 2 definition due to root->operation inheritance", () => {
+      it("should not return an error for root parameters in Swagger 2", () => {
         const spec = {
           swagger: "2.0",
           parameters: {
@@ -274,16 +264,10 @@ describe(`validation plugin - semantic - 2and3 parameters`, () => {
         return validateHelper(spec)
         .then(system => {
           const allErrors = system.errSelectors.allErrors().toJS()
-          expect(allErrors.length).toEqual(1)
-          const firstError = allErrors[0]
-          expect(firstError).toInclude({
-            path: ["paths", "/pets", "get", "parameters", "0"],
-            message: "Sibling parameters, whether inherited or direct, must have unique name + in values"
-          })
-
+          expect(allErrors.length).toEqual(0)
         })
       })
-      it("should return an error for an invalid OpenAPI 3 definition due to root->operation inheritance", () => {
+      it("should not return an error for root parameters in OpenAPI 3", () => {
         const spec = {
           openapi: "3.0.0",
           parameters: {
@@ -315,12 +299,7 @@ describe(`validation plugin - semantic - 2and3 parameters`, () => {
         return validateHelper(spec)
         .then(system => {
           const allErrors = system.errSelectors.allErrors().toJS()
-          expect(allErrors.length).toEqual(1)
-          const firstError = allErrors[0]
-          expect(firstError).toInclude({
-            path: ["paths", "/pets", "get", "parameters", "0"],
-            message: "Sibling parameters, whether inherited or direct, must have unique name + in values"
-          })
+          expect(allErrors.length).toEqual(0)
         })
       })
       it("should return no errors for a valid Swagger 2 definition", () => {
