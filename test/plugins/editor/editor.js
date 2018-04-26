@@ -17,13 +17,12 @@ const EVENTUALLY = 900 // ms
 **/
 
 describe.only("editor", function() {
-
   before(function () {
     // Enzyme.configure({ adapter: new Adapter()})
-    rewiremock.enable()
     Enzyme.configure({ adapter: new Adapter()})
 
     // Whole bunch of mocks!
+    rewiremock.enable()
     rewiremock("brace/mode/yaml").with({})
     rewiremock("brace/theme/tomorrow_night_eighties").with({})
     rewiremock("brace/ext/language_tools").with({})
@@ -34,6 +33,10 @@ describe.only("editor", function() {
 
   after(function() {
     rewiremock.disable()
+  })
+
+  beforeEach(function() {
+    delete require.cache[require.resolve("react-ace")]
   })
 
   describe("fake ace", function() {
@@ -253,7 +256,7 @@ describe.only("editor", function() {
 
     })
 
-    it("should put the contents of `value` prop into editor", (done) => {
+    it("should EVENTUALLY put the contents of `value` prop into editor", (done) => {
 
       // Given
       const fakeAce = new FakeAce()
@@ -266,15 +269,12 @@ describe.only("editor", function() {
         <Editor value={"original value"} />
       )
       wrapper.find("ReactAce").shallow()
-      wrapper.setProps({ value: "new" })
-      wrapper.find("ReactAce").shallow()
 
       // Then
       setTimeout(() => {
-        expect(fakeAce.getValue()).toEqual("foo")
+        expect(fakeAce.getValue()).toEqual("original value")
         done()
       }, EVENTUALLY)
-
     })
 
   })

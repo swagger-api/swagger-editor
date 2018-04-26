@@ -102,6 +102,7 @@ export default function makeEditor({ editorPluginsToRun }) {
       // fixes a warning, see https://github.com/ajaxorg/ace/issues/2499
       editor.$blockScrolling = Infinity
 
+
       session.setUseWrapMode(true)
       session.on("changeScrollLeft", xPos => { // eslint-disable-line no-unused-vars
         session.setScrollLeft(0)
@@ -117,6 +118,10 @@ export default function makeEditor({ editorPluginsToRun }) {
       this.syncOptionsFromState(this.props.editorOptions)
       if(props.editorActions && props.editorActions.onLoad)
         props.editorActions.onLoad({...props, langTools, editor})
+
+
+      this.updateYaml()
+      this.updateMarkerAnnotations(this.props)
     }
 
     onResize = () => {
@@ -209,13 +214,6 @@ export default function makeEditor({ editorPluginsToRun }) {
 
       this.width = this.getWidth()
       win.document.addEventListener("click", this.onClick)
-      if(this.editor) {
-        this.updateYaml()
-      }
-
-      if(this.props.markers) {
-        this.updateMarkerAnnotations(this.props)
-      }
     }
 
     componentWillUnmount() {

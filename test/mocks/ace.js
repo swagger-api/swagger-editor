@@ -37,11 +37,9 @@ export class Session extends EventEmitter {
       this[stub] = createSpy()
     })
 
-    this.selection = {
-      toJSON: createSpy().andReturn({fake: true}),
-      fromJSON: createSpy(),
-    }
-
+    this.selection = new EventEmitter()
+    this.selection.toJSON = createSpy().andReturn({fake: true})
+    this.selection.fromJSON = createSpy().andReturn({fake: true})
   }
 
   addMarker = createSpy().andCall((marker) => {
@@ -72,7 +70,8 @@ export default class Ace extends EventEmitter {
     })
 
     this.renderer = {
-      setShowGutter: createSpy()
+      setShowGutter: createSpy(),
+      setScrollMargin: createSpy()
     }
   }
 
