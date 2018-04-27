@@ -44,6 +44,7 @@ export default function makeEditor({ editorPluginsToRun }) {
       specId: PropTypes.string,
       value: PropTypes.string,
       editorOptions: PropTypes.object,
+      origin: PropTypes.string,
       debounce: PropTypes.number,
 
       onChange: PropTypes.func,
@@ -63,6 +64,7 @@ export default function makeEditor({ editorPluginsToRun }) {
     static defaultProps = {
       value: "",
       specId: "--unknown--",
+      origin: "not-editor",
       onChange: NOOP,
       onMarkerLineUpdate: NOOP,
       markers: {},
@@ -120,7 +122,7 @@ export default function makeEditor({ editorPluginsToRun }) {
         props.editorActions.onLoad({...props, langTools, editor})
 
 
-      this.updateYaml()
+      this.updateYamlIfOrigin()
       this.updateMarkerAnnotations(this.props)
     }
 
@@ -174,6 +176,12 @@ export default function makeEditor({ editorPluginsToRun }) {
         markers,
         onMarkerLineUpdate: props.onMarkerLineUpdate,
       })
+    }
+
+    updateYamlIfOrigin = () => {
+      if(this.props.origin !== "editor") {
+        this.updateYaml()
+      }
     }
 
     updateYaml = () => {
@@ -252,7 +260,7 @@ export default function makeEditor({ editorPluginsToRun }) {
         }
 
         this.yaml = [newValue] // Clear our stack, and add the latest from props
-        this.updateYaml()
+        this.updateYamlIfOrigin()
 
         // Add back the markers
         this.updateMarkerAnnotations(nextProps)

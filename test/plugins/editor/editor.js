@@ -5,6 +5,8 @@ import Adapter from "enzyme-adapter-react-15"
 import React from "react"
 import FakeAce, { Session } from "test/mocks/ace.js"
 
+const pause = (ms) => new Promise((res) => setTimeout(res, ms))
+
 const EVENTUALLY = 900 // ms
 
 /**
@@ -207,6 +209,14 @@ describe.only("editor", function() {
         expect(fakeSession.selection).toIncludeKey("toJSON")
         expect(fakeSession.selection).toIncludeKey("fromJSON")
       })
+
+      it.skip("should Add ctrl-z behaviour to fake ace", function() {
+        // Given
+        const fakeAce = new FakeAce()
+
+        // When
+        const fakeSession = fakeAce.getSession()
+      })
     })
 
     describe("renderer", function() {
@@ -256,7 +266,7 @@ describe.only("editor", function() {
 
     })
 
-    it("should EVENTUALLY put the contents of `value` prop into editor", (done) => {
+    it("should EVENTUALLY put the contents of `value` prop into editor, without regard to `origin` property", (done) => {
 
       // Given
       const fakeAce = new FakeAce()
@@ -276,6 +286,94 @@ describe.only("editor", function() {
         done()
       }, EVENTUALLY)
     })
+
+    it("should EVENTUALLY put the contents of `value` prop into editor, with `foo` origin property ", (done) => {
+
+      // Given
+      const fakeAce = new FakeAce()
+      rewiremock("brace").with(fakeAce)
+      const makeEditor = require("plugins/editor/components/editor.jsx").default
+      const Editor = makeEditor({})
+
+      // When
+      const wrapper = shallow(
+        <Editor value={"original value"} origin="foo" />
+      )
+      wrapper.find("ReactAce").shallow()
+
+      // Then
+      setTimeout(() => {
+        expect(fakeAce.getValue()).toEqual("original value")
+        done()
+      }, EVENTUALLY)
+    })
+
+    it("should NEVER update ace if the yaml originated in editor", (done) => {
+
+      // Given
+      const fakeAce = new FakeAce()
+      rewiremock("brace").with(fakeAce)
+      const makeEditor = require("plugins/editor/components/editor.jsx").default
+      const Editor = makeEditor({})
+
+      // When
+      const wrapper = shallow(
+        <Editor value="original value" origin="editor" />
+      )
+      wrapper.find("ReactAce").shallow()
+
+      // Then
+      setTimeout(() => {
+        expect(fakeAce.getValue()).toEqual("")
+        done()
+      }, EVENTUALLY)
+    })
+
+    // SKIPPED: Does this have any value at this level? And not editor-container?
+    it.skip("should EVENTUALLY call onChange ONCE if the user types/pauses/types", async function() {
+      this.timeout(10000)
+
+      // Given
+      const fakeAce = new FakeAce()
+      rewiremock("brace").with(fakeAce)
+      const makeEditor = require("plugins/editor/components/editor.jsx").default
+      const Editor = makeEditor({})
+      const spy = createSpy()
+      const wrapper = shallow(
+        <Editor value="original value" onChange={spy}/>
+      )
+      wrapper.find("ReactAce").shallow()
+
+      // When
+      fakeAce.emit("change", "one")
+      await pause(EVENTUALLY / 2)
+      fakeAce.emit("change", "two")
+      await pause(EVENTUALLY / 2)
+      fakeAce.emit("change", "three")
+      await pause(EVENTUALLY / 2)
+
+      await pause(EVENTUALLY * 2)
+      expect(fakeAce.getValue()).toEqual("three")
+      expect(spy.calls.length).toEqual(1)
+    })
+
+  })
+
+
+  it.skip("should Add origin property to updateSpec, and default to 'not-the-editor'", function() {
+    // Test in editor-container or higher
+  })
+
+  it.skip("should Test ctrl-z change propgates up (ie: calls onChange )", function() {
+
+  })
+  it.skip("should Test for redux state change ( editor-container )", function() {
+
+  })
+  it.skip("should Test for comments being disabled/enabled during a yaml update", function() {
+
+  })
+  it.skip("should Test for comments being disabled/enabled during ctrl-z", function() {
 
   })
 
