@@ -14,8 +14,10 @@ const EVENTUALLY = 900 // ms
 * so uses of the phrase "should see this in editor",
 * will match to the following Ace methods:
 *
-* - "what user see's in editor" => editor.getValue()
-* - "user types something" => editor.emit("change", "some value")
+* - "what user see's in editor" => fakeAce.userSees()
+* - "user types something (end of document)" => fakeAce.userTypes("hi")
+* - "Ctrl-Z" => fakeAce.userUndo()
+* - "Ctrl-Shift-Z" => fakeAce.userRedo()
 **/
 
 describe.only("editor", function() {
@@ -93,18 +95,6 @@ describe.only("editor", function() {
       expect(fakeAce.setValue.calls[0].arguments[0]).toEqual("foo")
     })
 
-    it("should tie change event to setValue", function() {
-      // Given
-      const fakeAce = new FakeAce()
-
-      // When
-      fakeAce.emit("change", "foo")
-
-      // Then
-      const res = fakeAce.getValue()
-      expect(res).toEqual("foo")
-    })
-
     it("should return a single session, with getSession", function() {
       // Given
       const fakeAce = new FakeAce()
@@ -128,21 +118,95 @@ describe.only("editor", function() {
       expect(res).toEqual("uno")
     })
 
-    describe("fake session", function() {
-      it("should be an event emitter", function() {
+    describe("userUndo/Redo", function() {
+
+      it("should revert to last input", function() {
         // Given
         const fakeAce = new FakeAce()
-        const fakeSession = fakeAce.getSession()
-        const spy = createSpy()
-        fakeSession.on("foo", spy)
+        fakeAce.userTypes("one")
 
         // When
-        fakeSession.emit("foo", "bar")
+        fakeAce.userTypes("two")
 
         // Then
-        expect(spy.calls.length).toEqual(1)
-        expect(spy.calls[0].arguments[0]).toEqual("bar")
+        fakeAce.userUndo()
+        expect(fakeAce.userSees()).toEqual("one")
       })
+
+      it("should revert to empty document, no changes were made", function() {
+        // Given
+        const fakeAce = new FakeAce()
+
+        // When
+        fakeAce.userUndo()
+
+        // Then
+        expect(fakeAce.userSees()).toEqual("")
+      })
+
+      it("should revert to empty document, after arbitrary undos", function() {
+        // Given
+        const fakeAce = new FakeAce()
+
+        // When
+        fakeAce.userUndo()
+        fakeAce.userUndo()
+        fakeAce.userUndo()
+        fakeAce.userUndo()
+
+        // Then
+        expect(fakeAce.userSees()).toEqual("")
+      })
+
+      it("should not extend redos after last change", function() {
+        // Given
+        const fakeAce = new FakeAce()
+        fakeAce.userTypes("x")
+
+        // When
+        fakeAce.userRedo()
+        fakeAce.userRedo()
+        fakeAce.userRedo()
+
+        // Then
+        expect(fakeAce.userSees()).toEqual("x")
+      })
+
+      it("should allow redo after single undo", function() {
+        // Given
+        const fakeAce = new FakeAce()
+        fakeAce.userTypes("x")
+        fakeAce.userTypes("x")
+        fakeAce.userUndo()
+
+        // When
+        fakeAce.userRedo()
+
+        // Then
+        expect(fakeAce.userSees()).toEqual("xx")
+      })
+
+      it("should create new thread of undo stack, after new change", function() {
+        // Given
+        const fakeAce = new FakeAce()
+        fakeAce.userTypes("1")
+        fakeAce.userTypes("2")
+        fakeAce.userTypes("3")
+        fakeAce.userTypes("4")
+        fakeAce.userUndo() // 123
+        fakeAce.userUndo() // 12
+        fakeAce.userTypes("5") // 125
+
+        // When
+        fakeAce.userRedo() // 125, don't extend beyond
+
+        // Then
+        expect(fakeAce.userSees()).toEqual("125")
+      })
+
+    })
+
+    describe("fake session", function() {
 
       it("should keep add state for markers", function() {
         // Given
@@ -210,13 +274,59 @@ describe.only("editor", function() {
         expect(fakeSession.selection).toIncludeKey("fromJSON")
       })
 
-      it.skip("should Add ctrl-z behaviour to fake ace", function() {
-        // Given
-        const fakeAce = new FakeAce()
 
-        // When
-        const fakeSession = fakeAce.getSession()
+      describe("userTypes", function() {
+        it("should emit 'change'", function() {
+          // Given
+          const fakeAce = new FakeAce()
+          const spy = createSpy()
+          fakeAce.on("change", spy)
+
+          // When
+          fakeAce.userTypes("hello")
+
+          // Then
+          expect(spy.calls.length).toBeGreaterThan(1)
+        })
+
+        it("should change the value", function() {
+          // Given
+          const fakeAce = new FakeAce()
+
+          // When
+          fakeAce.userTypes("hello")
+
+          // Then
+          expect(fakeAce.getValue()).toEqual("hello")
+        })
       })
+
+      describe("userSees", function() {
+        it("should match userTypes", function() {
+          // Given
+          const fakeAce = new FakeAce()
+
+          // When
+          fakeAce.userTypes("hi")
+
+          // Then
+          const res = fakeAce.userSees()
+          expect(res).toEqual("hi")
+        })
+
+        it("should match setValue", function() {
+          // Given
+          const fakeAce = new FakeAce()
+
+          // When
+          fakeAce.setValue("hello")
+
+          // Then
+          const res = fakeAce.userSees()
+          expect(res).toEqual("hello")
+        })
+      })
+
     })
 
     describe("renderer", function() {
@@ -254,10 +364,9 @@ describe.only("editor", function() {
 
       // When
       // Simulate user input
-      fakeAce.emit("change", "hello")
+      fakeAce.userTypes("hello")
 
       // Then
-      expect(fakeAce.edit.calls.length).toEqual(1)
       setTimeout(() => {
         expect(spy.calls.length).toEqual(1)
         expect(spy.calls[0].arguments[0]).toEqual("hello")
@@ -282,7 +391,7 @@ describe.only("editor", function() {
 
       // Then
       setTimeout(() => {
-        expect(fakeAce.getValue()).toEqual("original value")
+        expect(fakeAce.userSees()).toEqual("original value")
         done()
       }, EVENTUALLY)
     })
@@ -303,7 +412,7 @@ describe.only("editor", function() {
 
       // Then
       setTimeout(() => {
-        expect(fakeAce.getValue()).toEqual("original value")
+        expect(fakeAce.userSees()).toEqual("original value")
         done()
       }, EVENTUALLY)
     })
@@ -324,7 +433,7 @@ describe.only("editor", function() {
 
       // Then
       setTimeout(() => {
-        expect(fakeAce.getValue()).toEqual("")
+        expect(fakeAce.userSees()).toEqual("")
         done()
       }, EVENTUALLY)
     })
@@ -345,15 +454,15 @@ describe.only("editor", function() {
       wrapper.find("ReactAce").shallow()
 
       // When
-      fakeAce.emit("change", "one")
+      fakeAce.userTypes(" one")
       await pause(EVENTUALLY / 2)
-      fakeAce.emit("change", "two")
+      fakeAce.userTypes("two")
       await pause(EVENTUALLY / 2)
-      fakeAce.emit("change", "three")
+      fakeAce.userTypes("three")
       await pause(EVENTUALLY / 2)
 
       await pause(EVENTUALLY * 2)
-      expect(fakeAce.getValue()).toEqual("three")
+      expect(fakeAce.userSees()).toEqual("original value onetwothree")
       expect(spy.calls.length).toEqual(1)
     })
 
@@ -365,16 +474,16 @@ describe.only("editor", function() {
   })
 
   it.skip("should Test ctrl-z change propgates up (ie: calls onChange )", function() {
-
   })
   it.skip("should Test for redux state change ( editor-container )", function() {
 
   })
+
   it.skip("should Test for comments being disabled/enabled during a yaml update", function() {
 
   })
-  it.skip("should Test for comments being disabled/enabled during ctrl-z", function() {
 
+  it.skip("should Test for comments being disabled/enabled during ctrl-z", function() {
   })
 
 })

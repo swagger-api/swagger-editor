@@ -63,7 +63,8 @@ export default class Ace extends EventEmitter {
 
     this.session = new Session()
     this.$options = {}
-    this.on("change", this.setValue)
+    this._undoStack = [""]
+    this._undoPointer = 0 // It starts with nothing..
 
     ACE_STUBS.forEach(stub => {
       this[stub] = createSpy()
@@ -99,12 +100,42 @@ export default class Ace extends EventEmitter {
     return this.$options[optionName]
   })
 
-  setValue = createSpy().andCall((val) => {
+  setValue = createSpy().andCall((val, addToUndo=true) => {
+    if(addToUndo) {
+      // Wipe out line of redos
+      this._undoStack = this._undoStack.slice(0, this._undoPointer + 1)
+      // Add new value
+      this._undoStack.push(val)
+      this._undoPointer++
+    }
     this._value = val
+    this.emit("change") // Remove
+    this.emit("change") // Insert
   })
 
   getValue = createSpy().andCall(() => {
-    return this._value
+    return this._value || ""
+  })
+
+  // User API, which closer matches what we want to test ( ie: implementation can improve )
+  userTypes = createSpy().andCall((val) => {
+    this.setValue(this.getValue() + val)
+  })
+
+  userSees = createSpy().andCall(() => {
+    return this.getValue()
+  })
+
+  userUndo = createSpy().andCall(() => {
+    this._undoPointer = this._undoPointer > 0 ? this._undoPointer - 1 : 0
+    this.setValue(this._undoStack[this._undoPointer], false)
+  })
+
+  userRedo = createSpy().andCall(() => {
+    const max = this._undoStack.length - 1
+    // const oriPointer = this._undoPointer
+    this._undoPointer = this._undoPointer < max ? this._undoPointer + 1 : max
+    this.setValue(this._undoStack[this._undoPointer], false)
   })
 
 }
