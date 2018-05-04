@@ -101,7 +101,9 @@ export default class Topbar extends React.Component {
         .then(res => res.text())
         .then(text => {
           this.props.specActions.updateSpec(
-            YAML.safeDump(YAML.safeLoad(text))
+            YAML.safeDump(YAML.safeLoad(text), {
+              lineWidth: -1
+            })
           )
         })
     }
