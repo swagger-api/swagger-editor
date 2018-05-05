@@ -1,12 +1,13 @@
-var path = require('path')
+var path = require("path")
 
-var webpack = require('webpack')
-var ExtractTextPlugin = require('extract-text-webpack-plugin')
-var deepExtend = require('deep-extend')
-var autoprefixer = require('autoprefixer')
-const {gitDescribeSync} = require('git-describe')
+var webpack = require("webpack")
+var ExtractTextPlugin = require("extract-text-webpack-plugin")
+var UglifyJsPlugin = require("uglifyjs-webpack-plugin")
+var deepExtend = require("deep-extend")
+var autoprefixer = require("autoprefixer")
+const {gitDescribeSync} = require("git-describe")
 
-var pkg = require('./package.json')
+var pkg = require("./package.json")
 
 let gitInfo
 
@@ -14,12 +15,12 @@ try {
   gitInfo = gitDescribeSync(__dirname)
 } catch(e) {
   gitInfo = {
-    hash: 'noGit',
+    hash: "noGit",
     dirty: false
   }
 }
 
-var loadersByExtension = require('./build-tools/loadersByExtension')
+var loadersByExtension = require("./build-tools/loadersByExtension")
 
 module.exports = function(options) {
 
@@ -35,22 +36,25 @@ module.exports = function(options) {
   }, options._special)
 
   var loadersMap = {
-    'js(x)?': {
-      loader: 'babel?retainLines=true',
-      include: [ path.join(__dirname, 'src') ],
+    "js(x)?": {
+      loader: "babel?retainLines=true",
+      include: [
+        path.join(__dirname, "src"),
+        path.join(__dirname, "node_modules", "object-assign-deep")
+      ],
     },
-    'json': 'json-loader',
-    'txt|yaml': 'raw-loader',
-    'png|jpg|jpeg|gif|svg': specialOptions.disableAssets ? 'null-loader' : 'url-loader?limit=10000',
-    'woff|woff2': specialOptions.disableAssets ? 'null-loader' : 'url-loader?limit=100000',
-    'ttf|eot':  specialOptions.disableAssets ? 'null-loader' : 'file-loader' ,
+    "json": "json-loader",
+    "txt|yaml": "raw-loader",
+    "png|jpg|jpeg|gif|svg": specialOptions.disableAssets ? "null-loader" : "url-loader?limit=10000",
+    "woff|woff2": specialOptions.disableAssets ? "null-loader" : "url-loader?limit=100000",
+    "ttf|eot":  specialOptions.disableAssets ? "null-loader" : "file-loader" ,
     "worker.js": ["worker-loader?inline=true", "babel"]
   }
 
   var plugins = []
 
   if( specialOptions.separateStylesheets ) {
-    plugins.push(new ExtractTextPlugin('[name].css' + (specialOptions.longTermCaching ? '?[contenthash]' : ''), {
+    plugins.push(new ExtractTextPlugin("[name].css" + (specialOptions.longTermCaching ? "?[contenthash]" : ""), {
       allChunks: true
     }))
   }
@@ -58,16 +62,14 @@ module.exports = function(options) {
   if( specialOptions.minimize ) {
 
     plugins.push(
-      new webpack.optimize.UglifyJsPlugin({
-        compressor: {
-          warnings: false
-        }
+      new UglifyJsPlugin({
+        sourceMap: true,
       }),
       new webpack.optimize.DedupePlugin()
     )
 
     if(specialOptions.html) {
-      var HtmlWebpackPlugin = require('html-webpack-plugin');
+      var HtmlWebpackPlugin = require("html-webpack-plugin")
       plugins.push(new HtmlWebpackPlugin())
     }
 
@@ -76,34 +78,34 @@ module.exports = function(options) {
 
   plugins.push(
     new webpack.DefinePlugin({
-      'process.env': {
-        NODE_ENV:  specialOptions.minimize ? JSON.stringify('production') : null,
+      "process.env": {
+        NODE_ENV:  specialOptions.minimize ? JSON.stringify("production") : null,
         WEBPACK_INLINE_STYLES: !Boolean(specialOptions.separateStylesheets)
       },
-      'buildInfo': JSON.stringify({
+      "buildInfo": JSON.stringify({
         PACKAGE_VERSION: pkg.version,
         GIT_COMMIT: gitInfo.hash,
         GIT_DIRTY: gitInfo.dirty
       })
     }))
 
-  var cssLoader = 'css-loader!postcss-loader'
+  var cssLoader = "css-loader!postcss-loader"
 
   var completeStylesheetLoaders = deepExtend({
-    'css': cssLoader,
-    'less': cssLoader + '!' + 'less-loader',
+    "css": cssLoader,
+    "less": cssLoader + "!" + "less-loader",
   }, specialOptions.stylesheetLoaders)
 
   if(specialOptions.cssModules) {
-    cssLoader = cssLoader + '?module' +  (specialOptions.minimize ? '' : '&localIdentName=[path][name]---[local]---[hash:base64:5]')
+    cssLoader = cssLoader + "?module" + (specialOptions.minimize ? "" : "&localIdentName=[path][name]---[local]---[hash:base64:5]")
   }
 
   Object.keys(completeStylesheetLoaders).forEach(function(ext) {
     var ori = completeStylesheetLoaders[ext]
     if(specialOptions.separateStylesheets) {
-      completeStylesheetLoaders[ext] = ExtractTextPlugin.extract('style-loader', ori)
+      completeStylesheetLoaders[ext] = ExtractTextPlugin.extract("style-loader", ori)
     } else {
-      completeStylesheetLoaders[ext] = 'style-loader!' + ori
+      completeStylesheetLoaders[ext] = "style-loader!" + ori
     }
   })
 
@@ -115,21 +117,21 @@ module.exports = function(options) {
     delete options.module.loaders
   }
 
-  var completeConfig =  deepExtend({
+  var completeConfig = deepExtend({
     entry: {},
 
     output:  {
-      path: path.join(__dirname, 'dist'),
-      publicPath: '/',
-      filename: '[name].js',
-      chunkFilename: '[id].[chunkhash].js'
+      path: path.join(__dirname, "dist"),
+      publicPath: "/",
+      filename: "[name].js",
+      chunkFilename: "[id].[chunkhash].js"
     },
 
-    target: 'web',
+    target: "web",
 
     // yaml-js has a reference to `fs`, this is a workaround
     node: {
-      fs: 'empty'
+      fs: "empty"
     },
 
     module: {
@@ -137,21 +139,21 @@ module.exports = function(options) {
     },
 
     resolveLoader: {
-      root: path.join(__dirname, 'node_modules'),
+      root: path.join(__dirname, "node_modules"),
     },
 
     externals: {
-      'buffertools': true // json-react-schema/deeper depends on buffertools, which fails.
+      "buffertools": true // json-react-schema/deeper depends on buffertools, which fails.
     },
 
     resolve: {
-      root: path.join(__dirname, './src'),
-      modulesDirectories: ['node_modules'],
-      extensions: ['', '.js', '.jsx', 'json'],
-      packageAlias: 'browser',
+      root: path.join(__dirname, "./src"),
+      modulesDirectories: ["node_modules"],
+      extensions: ["", ".js", ".jsx", "json"],
+      packageAlias: "browser",
       alias: {
-        'react': path.resolve(__dirname, 'node_modules', 'react'),
-        'swagger-jx': path.resolve(__dirname, 'node_modules', 'swagger-jx')
+        "react": path.resolve(__dirname, "node_modules", "react"),
+        "swagger-jx": path.resolve(__dirname, "node_modules", "swagger-jx")
       }
     },
 
@@ -159,7 +161,7 @@ module.exports = function(options) {
       return [autoprefixer]
     },
 
-    devtool: specialOptions.sourcemaps ? 'nosource-source-map' : null,
+    devtool: specialOptions.sourcemaps ? "nosource-source-map" : null,
 
   }, options)
 
