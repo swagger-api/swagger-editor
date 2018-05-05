@@ -40,7 +40,7 @@ module.exports = function(options) {
       loader: "babel?retainLines=true",
       include: [
         path.join(__dirname, "src"),
-        path.join(__dirname, "node_modules", "object-assign-deep")
+        /(object\-assign\-deep)/
       ],
     },
     "json": "json-loader",
