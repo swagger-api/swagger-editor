@@ -7,6 +7,7 @@
   "plugins": [
   "transform-runtime",
   "transform-async-to-generator",
+  "transform-es2015-constants",
   [
     "module-alias",
     [
