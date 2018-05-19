@@ -376,7 +376,7 @@ describe("validation plugin - semantic - 2and3 refs", function() {
           expect(allSemanticErrors.length).toEqual(2)
           expect(allSemanticErrors[1]).toInclude({
             level: "error",
-            message: "$ref pointers must be RFC 3986-compliant percent-encoded values",
+            message: "$ref values must be RFC3986-compliant percent-encoded URIs",
             path: ["paths", "/foo", "get", "responses", "200", "schema", "$ref"]
           })
        })
@@ -419,7 +419,7 @@ describe("validation plugin - semantic - 2and3 refs", function() {
           expect(allSemanticErrors.length).toEqual(2)
           expect(allSemanticErrors[1]).toInclude({
             level: "error",
-            message: "$ref pointers must be RFC 3986-compliant percent-encoded values",
+            message: "$ref values must be RFC3986-compliant percent-encoded URIs",
             path: ["paths", "/foo", "get", "responses", "200", "schema", "$ref"]
           })
       })
