@@ -104,3 +104,35 @@ export const validate2And3RefPointersExist = () => (system) => {
     return errors
   })
 }
+
+// from RFC3986: https://tools.ietf.org/html/rfc3986#section-2.2
+// plus "%", since it is needed for encoding.
+const RFC3986_UNRESERVED_CHARACTERS = /[A-Z|a-z|0-9|\-|_|\.|~|%]/g
+
+export const validate2And3RefPointersAreProperlyEscaped = () => (system) => {
+  return system.validateSelectors.all$refs()
+  .then((refs) => {
+    const errors = []
+
+    refs.forEach((node) => {
+      const value = node.node
+      const hashIndex = value.indexOf("#")
+      const fragment = hashIndex > -1 ? value.slice(hashIndex + 1) : null
+      if(typeof fragment === "string") {
+        const rawPath = fragment.split("/")
+        const hasReservedChars = rawPath
+          .some(p => p.replace(RFC3986_UNRESERVED_CHARACTERS, "").length > 0)
+
+        if(hasReservedChars) {
+          errors.push({
+            path: [...node.path.slice(0, -1), "$ref"],
+            message: "$ref pointers must be RFC 3986-compliant percent-encoded values",
+            level: "error"
+          })
+        }
+      }
+    })
+
+    return errors
+  })
+}
