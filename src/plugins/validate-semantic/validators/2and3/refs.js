@@ -127,7 +127,7 @@ export const validate2And3RefPointersAreProperlyEscaped = () => (system) => {
         if(hasReservedChars) {
           errors.push({
             path: [...node.path.slice(0, -1), "$ref"],
-            message: "$ref pointers must be RFC 3986-compliant percent-encoded values",
+            message: "$ref values must be RFC3986-compliant percent-encoded URIs",
             level: "error"
           })
         }
