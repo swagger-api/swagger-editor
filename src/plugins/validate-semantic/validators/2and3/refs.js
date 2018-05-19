@@ -1,5 +1,5 @@
 import get from "lodash/get"
-import { escapeJsonPointerToken } from "../../../refs-util"
+import { escapeJsonPointerToken, unescapeJsonPointerToken } from "../../../refs-util"
 import { pathFromPtr } from "json-refs"
 
 export const validate2And3RefHasNoSiblings = () => system => {
@@ -89,7 +89,7 @@ export const validate2And3RefPointersExist = () => (system) => {
       const value = node.node
       if(typeof value === "string" && value[0] === "#") {
         // if pointer starts with "#", it is a local ref
-        const path = pathFromPtr(value)
+        const path = pathFromPtr(unescapeJsonPointerToken(value))
 
         if(json.getIn(path) === undefined) {
           errors.push({
