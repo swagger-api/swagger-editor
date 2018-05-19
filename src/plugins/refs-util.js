@@ -1,4 +1,4 @@
-import qs from "querystring"
+import qs from "querystring-browser"
 
 /**
  * Unescapes a JSON pointer.

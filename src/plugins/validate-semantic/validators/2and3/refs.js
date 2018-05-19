@@ -1,6 +1,6 @@
 import get from "lodash/get"
 import { escapeJsonPointerToken } from "../../../refs-util"
-import qs from "querystring"
+import qs from "querystring-browser"
 import { pathFromPtr } from "json-refs"
 
 export const validate2And3RefHasNoSiblings = () => system => {
