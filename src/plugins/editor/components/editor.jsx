@@ -117,7 +117,7 @@ export default function makeEditor({ editorPluginsToRun }) {
 
       editor.setHighlightActiveLine(false)
       editor.setHighlightActiveLine(true)
-      this.syncOptionsFromState(this.props.editorOptions)
+      this.syncOptionsFromState(props.editorOptions)
       if(props.editorActions && props.editorActions.onLoad)
         props.editorActions.onLoad({...props, langTools, editor})
 
@@ -236,8 +236,8 @@ export default function makeEditor({ editorPluginsToRun }) {
       if(this.props.debounce !== nextProps.debounce) {
         this.debouncedOnChange.flush()
 
-        this.debouncedOnChange = props.debounce > 0
-          ? debounce(this.onChange, props.debounce)
+        this.debouncedOnChange = nextProps.debounce > 0
+          ? debounce(this.onChange, nextProps.debounce)
           : this.onChange
 
         if(nextProps.debounce == 0) {

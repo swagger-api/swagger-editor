@@ -1,4 +1,4 @@
-import expect, { createSpy, spyOn } from "expect"
+import expect, { createSpy } from "expect"
 import rewiremock from "rewiremock"
 import Enzyme, { shallow } from "enzyme"
 import Adapter from "enzyme-adapter-react-15"
@@ -547,7 +547,7 @@ describe("editor", function() {
         fakeAce.setValue.andCall(() => order.push("setValue"))
         const spy = createSpy().andCall(() => {
           order.push("placeMarkers")
-          return () => order.push('removeMarkers')
+          return () => order.push("removeMarkers")
         })
         rewiremock("brace").with(fakeAce)
         rewiremock("../editor-helpers/marker-placer").with({placeMarkerDecorations: spy})
@@ -573,7 +573,7 @@ describe("editor", function() {
         fakeAce.setValue.andCall(() => order.push("setValue"))
         const spy = createSpy().andCall(() => {
           order.push("placeMarkers")
-          return () => order.push('removeMarkers')
+          return () => order.push("removeMarkers")
         })
         rewiremock("brace").with(fakeAce)
         rewiremock("../editor-helpers/marker-placer").with({placeMarkerDecorations: spy})

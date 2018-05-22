@@ -1,5 +1,5 @@
 import EventEmitter from "events"
-import { createSpy, spyOn } from "expect"
+import { createSpy } from "expect"
 
 export class Range {
   constructor(...args) {

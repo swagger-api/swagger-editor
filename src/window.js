@@ -1,6 +1,6 @@
 let win = {
   navigator: {
-    userAgent: 'fake!'
+    userAgent: "fake!"
   },
   document: {
     getElementById() {},
