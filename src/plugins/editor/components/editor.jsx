@@ -121,8 +121,6 @@ export default function makeEditor({ editorPluginsToRun }) {
       if(props.editorActions && props.editorActions.onLoad)
         props.editorActions.onLoad({...props, langTools, editor})
 
-
-      this.updateYamlIfOrigin()
       this.updateMarkerAnnotations(this.props)
     }
 
@@ -299,7 +297,7 @@ export default function makeEditor({ editorPluginsToRun }) {
     }
 
     shouldComponentUpdate() {
-      return false // Never update, see: componentWillRecieveProps and this.updateYaml for where we update things.
+      return true // Never update, see: componentWillRecieveProps and this.updateYaml for where we update things.
       // TODO this might affect changes to the "onLoad", "onChange" props...
     }
 
@@ -310,6 +308,7 @@ export default function makeEditor({ editorPluginsToRun }) {
         <AceEditor
           mode="yaml"
           theme="tomorrow_night_eighties"
+          value={this.props.value /* This will only load once, thereafter it'll be via updateYaml */}
           onLoad={this.onLoad}
           onChange={this.checkForSilentOnChange}
           name="ace-editor"

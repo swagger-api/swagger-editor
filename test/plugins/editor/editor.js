@@ -1,9 +1,10 @@
-import expect, { createSpy } from "expect"
+import expect, { createSpy, spyOn } from "expect"
 import rewiremock from "rewiremock"
 import Enzyme, { shallow } from "enzyme"
 import Adapter from "enzyme-adapter-react-15"
 import React from "react"
 import FakeAce, { Session } from "test/mocks/ace.js"
+import { fromJS } from "immutable"
 
 const pause = (ms) => new Promise((res) => setTimeout(res, ms))
 
@@ -20,7 +21,7 @@ const EVENTUALLY = 900 // ms
 * - "Ctrl-Shift-Z" => fakeAce.userRedo()
 **/
 
-describe.only("editor", function() {
+describe("editor", function() {
   before(function () {
     // Enzyme.configure({ adapter: new Adapter()})
     Enzyme.configure({ adapter: new Adapter()})
@@ -417,7 +418,7 @@ describe.only("editor", function() {
       }, EVENTUALLY)
     })
 
-    it("should NEVER update ace if the yaml originated in editor", (done) => {
+    it("should NEVER update ace if the yaml originated in editor", async () => {
 
       // Given
       const fakeAce = new FakeAce()
@@ -430,16 +431,15 @@ describe.only("editor", function() {
         <Editor value="original value" origin="editor" />
       )
       wrapper.find("ReactAce").shallow()
+      wrapper.setProps({value: "new value", origin: "bob"})
 
       // Then
-      setTimeout(() => {
-        expect(fakeAce.userSees()).toEqual("")
-        done()
-      }, EVENTUALLY)
+      await pause(EVENTUALLY / 2)
+      expect(fakeAce.userSees()).toEqual("original value")
     })
 
     // SKIPPED: Does this have any value at this level? And not editor-container?
-    it.skip("should EVENTUALLY call onChange ONCE if the user types/pauses/types", async function() {
+    it.skip("SKIP: should EVENTUALLY call onChange ONCE if the user types/pauses/types", async function() {
       this.timeout(10000)
 
       // Given
@@ -466,6 +466,133 @@ describe.only("editor", function() {
       expect(spy.calls.length).toEqual(1)
     })
 
+    it("should EVENTUALLY call onChange when ctrl-z", async function() {
+      this.timeout(10000)
+
+      // Given
+      const fakeAce = new FakeAce()
+      rewiremock("brace").with(fakeAce)
+      const makeEditor = require("plugins/editor/components/editor.jsx").default
+      const Editor = makeEditor({})
+      const spy = createSpy()
+      const wrapper = shallow(
+        <Editor value="original value" onChange={spy}/>
+      )
+      wrapper.find("ReactAce").shallow()
+      fakeAce.userTypes("one")
+
+      // When
+      fakeAce.userUndo()
+
+      await pause(EVENTUALLY)
+      expect(fakeAce.userSees()).toEqual("original value")
+      expect(spy.calls.length).toEqual(1)
+    })
+
+    it.skip("should Add origin property to updateSpec, and default to 'not-the-editor'", function() {
+
+    })
+
+    describe("markers", function() {
+
+      it("should place markers into editor", async function() {
+        // Given
+        const fakeAce = new FakeAce()
+        const spy = createSpy()
+        rewiremock("brace").with(fakeAce)
+        rewiremock("../editor-helpers/marker-placer").with({placeMarkerDecorations: spy})
+        const makeEditor = require("plugins/editor/components/editor.jsx").default
+        const Editor = makeEditor({})
+        const dummy = fromJS({one: 1})
+        const wrapper = shallow(
+          <Editor markers={dummy} />
+        )
+
+        // When
+        wrapper.find("ReactAce").shallow()
+        await pause(EVENTUALLY)
+
+        // Then
+        expect(spy.calls.length).toEqual(1)
+        expect(spy.calls[0].arguments[0]).toInclude({markers: {one: 1}})
+      })
+
+      it("should place markers after yaml", async function() {
+        // Given
+        const order = []
+        const fakeAce = new FakeAce()
+        fakeAce.setValue.andCall(() => order.push("setValue"))
+        const spy = createSpy().andCall(() => order.push("placeMarkers"))
+        rewiremock("brace").with(fakeAce)
+        rewiremock("../editor-helpers/marker-placer").with({placeMarkerDecorations: spy})
+        const makeEditor = require("plugins/editor/components/editor.jsx").default
+        const Editor = makeEditor({})
+        const wrapper = shallow(
+          <Editor value="original value" markers={{}} />
+        )
+
+        // When
+        wrapper.find("ReactAce").shallow()
+        await pause(EVENTUALLY)
+
+        // Then
+        expect(order).toEqual(["setValue", "placeMarkers"])
+      })
+
+
+      it.skip("should Test for markers being disabled/enabled during a yaml update", async function() {
+        // Given
+        const order = []
+        const fakeAce = new FakeAce()
+        fakeAce.setValue.andCall(() => order.push("setValue"))
+        const spy = createSpy().andCall(() => {
+          order.push("placeMarkers")
+          return () => order.push('removeMarkers')
+        })
+        rewiremock("brace").with(fakeAce)
+        rewiremock("../editor-helpers/marker-placer").with({placeMarkerDecorations: spy})
+        const makeEditor = require("plugins/editor/components/editor.jsx").default
+        const Editor = makeEditor({})
+        const wrapper = shallow(
+          <Editor value="original value" markers={{}} />
+        )
+        wrapper.find("ReactAce").shallow()
+
+        // When
+        wrapper.setProps({value: "new value", origin: "bob"})
+        await pause(EVENTUALLY)
+
+        // Then
+        expect(order).toEqual(["setValue", "placeMarkers", "removeMarkers", "setValue", "placeMarkers"])
+      })
+
+      it.skip("should Test for markers being disabled/enabled during ctrl-z", async function() {
+        // Given
+        const order = []
+        const fakeAce = new FakeAce()
+        fakeAce.setValue.andCall(() => order.push("setValue"))
+        const spy = createSpy().andCall(() => {
+          order.push("placeMarkers")
+          return () => order.push('removeMarkers')
+        })
+        rewiremock("brace").with(fakeAce)
+        rewiremock("../editor-helpers/marker-placer").with({placeMarkerDecorations: spy})
+        const makeEditor = require("plugins/editor/components/editor.jsx").default
+        const Editor = makeEditor({})
+        const wrapper = shallow(
+          <Editor value="original value" markers={{}} />
+        )
+        wrapper.find("ReactAce").shallow()
+
+        // When
+        fakeAce.userUndo()
+        await pause(EVENTUALLY)
+
+        // Then
+        expect(order).toEqual(["setValue", "placeMarkers", "removeMarkers", "setValue", "placeMarkers"])
+      })
+
+    })
   })
 
 
@@ -473,17 +600,8 @@ describe.only("editor", function() {
     // Test in editor-container or higher
   })
 
-  it.skip("should Test ctrl-z change propgates up (ie: calls onChange )", function() {
-  })
   it.skip("should Test for redux state change ( editor-container )", function() {
-
   })
 
-  it.skip("should Test for comments being disabled/enabled during a yaml update", function() {
-
-  })
-
-  it.skip("should Test for comments being disabled/enabled during ctrl-z", function() {
-  })
 
 })
