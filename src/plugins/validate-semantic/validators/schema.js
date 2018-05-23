@@ -33,24 +33,6 @@ export const validateMinAndMax = () => (system) => {
     })
 }
 
-export const validateTypeArrayRequiresItems = () => (system) => {
-  return system.validateSelectors
-    .allSchemas()
-    .then(nodes => {
-      return nodes.reduce((acc, node) => {
-        const schemaObj = node.node
-        if(schemaObj.type === "array" && typeof schemaObj.items === "undefined") {
-          acc.push({
-            message: "Schemas with 'type: array', require a sibling 'items: ' field",
-            path: node.path,
-            level: "error",
-          })
-        }
-        return acc
-      }, [])
-    })
-}
-
 export const validateTypeKeyShouldBeString = () => (system) => {
   return system.validateSelectors
     .allSchemas()
