@@ -60,6 +60,10 @@ export const isOAS3RequestBody = (state, node) => (sys) => {
 }
 
 export const isParameterSchema = (state, node) => (sys) => {
+  if(sys.specSelectors.isOAS3 && sys.specSelectors.isOAS3()) {
+    // OAS3
+    return node.key === "schema" && sys.validateSelectors.isParameter(node.parent)
+  }
   // parameter.x.in != body
   if(sys.validateSelectors.isParameter(node) && node.node.in !== "body") {
     return true
