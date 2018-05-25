@@ -428,13 +428,13 @@ describe("editor", function() {
 
       // When
       const wrapper = shallow(
-        <Editor value="original value" origin="editor" />
+        <Editor value="original value" />
       )
       wrapper.find("ReactAce").shallow()
-      wrapper.setProps({value: "new value", origin: "bob"})
+      wrapper.setProps({value: "new value", origin: "editor"})
 
       // Then
-      await pause(EVENTUALLY / 2)
+      await pause(EVENTUALLY)
       expect(fakeAce.userSees()).toEqual("original value")
     })
 
@@ -487,10 +487,6 @@ describe("editor", function() {
       await pause(EVENTUALLY)
       expect(fakeAce.userSees()).toEqual("original value")
       expect(spy.calls.length).toEqual(1)
-    })
-
-    it.skip("should Add origin property to updateSpec, and default to 'not-the-editor'", function() {
-
     })
 
     describe("markers", function() {
@@ -594,14 +590,5 @@ describe("editor", function() {
 
     })
   })
-
-
-  it.skip("should Add origin property to updateSpec, and default to 'not-the-editor'", function() {
-    // Test in editor-container or higher
-  })
-
-  it.skip("should Test for redux state change ( editor-container )", function() {
-  })
-
 
 })

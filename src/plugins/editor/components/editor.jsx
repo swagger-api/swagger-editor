@@ -33,11 +33,10 @@ export default function makeEditor({ editorPluginsToRun }) {
       super(props, context)
 
       this.editor = null
-      this.yaml = !isUndefined(props.value) ? [props.value] : []
 
       this.debouncedOnChange = props.debounce > 0
-        ? debounce(this.onChange, props.debounce)
-        : this.onChange
+        ? debounce(props.onChange, props.debounce)
+        : props.onChange
     }
 
     static propTypes = {
@@ -74,15 +73,6 @@ export default function makeEditor({ editorPluginsToRun }) {
       editorOptions: {},
       debounce: 800 // 0.5 imperial seconds™
 
-    }
-
-
-    // This should be debounced, not only to prevent too many re-renders, but to also capture the this.yaml value, at the same time we'll call the upstream onChange
-    onChange = (value) => {
-      // Send it upstream ( this.silent is taken from react-ace module). It avoids firing onChange, when we update setValue
-      this.yaml = this.yaml.slice(0,2) // Keep it small
-      this.yaml.unshift(value) // Add this yaml onto a stack (in reverse ), so we can see if upstream sends us back something we just sent it!
-      this.props.onChange(value)
     }
 
     checkForSilentOnChange = (value) => {
@@ -176,17 +166,17 @@ export default function makeEditor({ editorPluginsToRun }) {
       })
     }
 
-    updateYamlIfOrigin = () => {
-      if(this.props.origin !== "editor") {
-        this.updateYaml()
+    updateYamlIfOrigin = (props) => {
+      if(props.origin !== "editor") {
+        this.updateYaml(props)
       }
     }
 
-    updateYaml = () => {
+    updateYaml = (props) => {
       // this.silent is taken from react-ace module. It avoids firing onChange, when we update setValue
       this.silent = true
       const pos = this.editor.session.selection.toJSON()
-      this.editor.setValue(this.yaml[0]) // The first element is the most recent
+      this.editor.setValue(props.value)
       this.editor.session.selection.fromJSON(pos)
       this.silent = false
     }
@@ -237,53 +227,33 @@ export default function makeEditor({ editorPluginsToRun }) {
         this.debouncedOnChange.flush()
 
         this.debouncedOnChange = nextProps.debounce > 0
-          ? debounce(this.onChange, nextProps.debounce)
-          : this.onChange
+          ? debounce(nextProps.onChange, nextProps.debounce)
+          : nextProps.onChange
 
         if(nextProps.debounce == 0) {
-          this.debouncedOnChange = this.onChange
+          this.debouncedOnChange = nextProps.onChange
         } else {
-          this.debouncedOnChange = debounce(this.onChange, nextProps.debounce)
+          this.debouncedOnChange = debounce(nextProps.onChange, nextProps.debounce)
         }
       }
 
-      //// Mange the yaml lifecycle...
-      // If the yaml doesn't match _what we already have in state_ then update the yaml in the editor
-      // Taking care to manage the other things in lifecycle
-      if(newValue !== this.props.value && !this.yaml.indexOf(newValue) > -1) {
-
-        // Remove markers
-        if(this.removeMarkers) {
-          this.removeMarkers()
-        }
-
-        this.yaml = [newValue] // Clear our stack, and add the latest from props
-        this.updateYamlIfOrigin()
-
-        // Add back the markers
-        this.updateMarkerAnnotations(nextProps)
-
-        // Clear undo-stack if we've changed specId or it was empty before
-        if(hasChanged("specId") || wasEmptyBefore("value")) {
-          setTimeout(function () {
-            editor.getSession().getUndoManager().reset()
-          }, 100) // TODO: get rid of timeout
-        }
-      } else {
-        // Just update markers if they've changed
-        if(!Im.is(nextProps.markers, this.props.markers)) {
-          this.updateMarkerAnnotations(nextProps)
-        }
+      // Remove markers
+      if(this.removeMarkers) {
+        this.removeMarkers()
       }
 
-      // If the yaml was in our stack, we should clear it up
-      if(this.yaml.indexOf(newValue) > -1) {
-        // remove all previous yaml's ( leave newValue in though ).
-        // In case another onChange is still in flight
-        this.yaml = this.yaml.slice(this.yaml.indexOf(newValue) + 1)
-      }
+      this.updateYamlIfOrigin(nextProps)
 
+      // Add back the markers
+      this.updateMarkerAnnotations(nextProps)
       this.updateErrorAnnotations(nextProps)
+
+      // Clear undo-stack if we've changed specId or it was empty before
+      if(hasChanged("specId") || wasEmptyBefore("value")) {
+        setTimeout(function () {
+          editor.getSession().getUndoManager().reset()
+        }, 100) // TODO: get rid of timeout
+      }
 
       if(hasChanged("editorOptions")) {
         this.syncOptionsFromState(nextProps.editorOptions)
@@ -297,8 +267,7 @@ export default function makeEditor({ editorPluginsToRun }) {
     }
 
     shouldComponentUpdate() {
-      return true // Never update, see: componentWillRecieveProps and this.updateYaml for where we update things.
-      // TODO this might affect changes to the "onLoad", "onChange" props...
+      return false // Never update, see: componentWillRecieveProps and this.updateYaml for where we update things.
     }
 
     render() {
