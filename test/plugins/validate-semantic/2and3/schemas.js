@@ -88,6 +88,35 @@ describe(`validation plugin - semantic - 2and3 schemas`, () => {
         expect(firstError.path).toEqual(["paths", "/pets", "get", "parameters", "0"])
       })
     })
+    it("should return an error for a missing items value for an array schema in response in Swagger 2", () => {
+      const spec = {
+        swagger: "2.0",
+        "paths": {
+          "/pets": {
+            "get": {
+              "responses": {
+                "200": {
+                  schema: {
+                    name: "myParam",
+                    in: "query",
+                    type: "array"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+
+      return validateHelper(spec)
+      .then(system => {
+        const allErrors = system.errSelectors.allErrors().toJS()
+        const firstError = allErrors[0]
+        expect(allErrors.length).toEqual(1)
+        expect(firstError.message).toEqual("Schemas with 'type: array', require a sibling 'items: ' field")
+        expect(firstError.path).toEqual(["paths", "/pets", "get", "responses", "200", "schema"])
+      })
+    })
     it("should return an error for a missing items value for an array schema in OpenAPI 3", () => {
       const spec = {
         openapi: "3.0.0",
@@ -114,6 +143,66 @@ describe(`validation plugin - semantic - 2and3 schemas`, () => {
         const firstError = allErrors[0]
         expect(allErrors.length).toEqual(1)
         expect(firstError.path).toEqual(["paths", "/pets", "get", "parameters", "0", "schema"])
+        expect(firstError.message).toEqual("Schemas with 'type: array', require a sibling 'items: ' field")
+      })
+    })
+    it("should return an error for a missing items value for an array schema in request body in OpenAPI 3", () => {
+      const spec = {
+        openapi: "3.0.0",
+        "paths": {
+          "/pets": {
+            "post": {
+              "requestBody": {
+                content: {
+                  "application/json": {
+                    schema: {
+                      type: "array"
+                    }
+                  }
+                },
+              }
+            }
+          }
+        }
+      }
+
+      return validateHelper(spec)
+      .then(system => {
+        const allErrors = system.errSelectors.allErrors().toJS()
+        const firstError = allErrors[0]
+        expect(allErrors.length).toEqual(1)
+        expect(firstError.path).toEqual(["paths", "/pets", "post", "requestBody", "content", "application/json", "schema"])
+        expect(firstError.message).toEqual("Schemas with 'type: array', require a sibling 'items: ' field")
+      })
+    })
+    it("should return an error for a missing items value for an array schema in reponse in OpenAPI 3", () => {
+      const spec = {
+        openapi: "3.0.0",
+        "paths": {
+          "/pets": {
+            "post": {
+              "responses": {
+                "200": {
+                  "content": {
+                    "application/json": {
+                      schema: {
+                        type: "array"
+                      }
+                    }
+                  }
+                },
+              }
+            }
+          }
+        }
+      }
+
+      return validateHelper(spec)
+      .then(system => {
+        const allErrors = system.errSelectors.allErrors().toJS()
+        const firstError = allErrors[0]
+        expect(allErrors.length).toEqual(1)
+        expect(firstError.path).toEqual(["paths", "/pets", "post", "responses", "200", "content", "application/json", "schema"])
         expect(firstError.message).toEqual("Schemas with 'type: array', require a sibling 'items: ' field")
       })
     })
