@@ -62,7 +62,13 @@ export const isOAS3RequestBody = (state, node) => (sys) => {
 export const isParameterSchema = (state, node) => (sys) => {
   if(sys.specSelectors.isOAS3 && sys.specSelectors.isOAS3()) {
     // OAS3
-    return node.key === "schema" && sys.validateSelectors.isParameter(node.parent)
+    return node.key === "schema" && node.parent && (
+      sys.validateSelectors.isParameter(node.parent) 
+      || (node.parent.parent 
+        && node.parent.parent.parent 
+        && sys.validateSelectors.isOAS3OperationRequestBody(node.parent.parent.parent)
+      )
+    )
   }
   // parameter.x.in != body
   if(sys.validateSelectors.isParameter(node) && node.node.in !== "body") {
@@ -81,8 +87,8 @@ export const isResponse = (state, node) => (sys) => {
   return (
     sys.validateSelectors.isRootResponse(node)
       || ( node.path[0] === "paths"
-           && node.path[3] === "responses"
-           && node.path.length === 5)
+          && node.path[3] === "responses"
+          && node.path.length === 5)
   )
 }
 
@@ -100,6 +106,14 @@ export const isHeader = (state, node) => (sys) => {
 }
 
 export const isResponseSchema = (state, node) => (sys) => {
+  // paths.<operation>.<method>.responses.XXX.content.<content-type>.schema
+  if(sys.specSelectors.isOAS3 && sys.specSelectors.isOAS3()) {
+    return node.key === "schema"
+      && node.parent
+      && node.parent.parent
+      && node.parent.parent.parent
+      && sys.validateSelectors.isResponse(node.parent.parent.parent)
+  }
   // paths.<operation>.<method>.responses.XXX.schema
   // respones.<response>.schema
   if(node.key === "schema" && node.parent && sys.validateSelectors.isResponse(node.parent)) {
