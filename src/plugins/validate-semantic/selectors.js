@@ -74,6 +74,22 @@ export const isParameterSchema = (state, node) => (sys) => {
   }
 }
 
+export const isOAS3RequestBodySchema = (state, node) => () => {
+  const [key,, gpKey, ggpKey] = node.path.slice().reverse()
+
+  return key === "schema"
+    && gpKey === "content"
+    && ggpKey === "requestBody"
+}
+
+export const isOAS3ResponseSchema = (state, node) => () => {
+  const [key,, gpKey,, gggpKey] = node.path.slice().reverse()
+
+  return key === "schema"
+    && gpKey === "content"
+    && gggpKey === "responses"
+}
+
 export const isResponse = (state, node) => (sys) => {
   if(sys.validateSelectors.isVendorExt(node)) {
     return false
@@ -116,6 +132,7 @@ export const allSchemas = () => (system) => {
     validateSelectors.allDefinitions(),
     validateSelectors.allHeaders(),
     validateSelectors.allSubSchemas(),
+    validateSelectors.allOAS3OperationSchemas()
   ]
 
   return Promise.all(selectors)
@@ -205,6 +222,20 @@ export const allParameterSchemas = () => (system) => {
     name: "allParameterSchemas",
     fn: (node) => {
       if(system.validateSelectors.isParameterSchema(node)) {
+        return node
+      }
+    },
+  })
+}
+
+export const allOAS3OperationSchemas = () => (system) => {
+  return system.fn.traverseOnce({
+    name: "allOAS3OperationSchemas",
+    fn: (node) => {
+      if(
+        system.validateSelectors.isOAS3RequestBodySchema(node)
+         || system.validateSelectors.isOAS3ResponseSchema(node)
+       ) {
         return node
       }
     },

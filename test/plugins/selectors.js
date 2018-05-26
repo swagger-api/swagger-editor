@@ -245,4 +245,47 @@ describe("validation plugin - selectors", function() {
         expect(nodes[2].key).toEqual("foo")
       })
   })
+  it("allSchemas should pick up OAS3 request and response schemas", () => {
+    const spec = {
+      "openapi": "3.0.0",
+      "paths": {
+        "/ping": {
+          "post": {
+            "requestBody": {
+              "content": {
+                "application/myRequestMediaType": {
+                  "schema": {
+                    "type": "array"
+                  }
+                }
+              }
+            },
+            "responses": {
+              "200": {
+                "description": "OK",
+                "content": {
+                  "application/myResponseMediaType": {
+                    "schema": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+
+    return getSystem(spec)
+      .then(system => system.validateSelectors.allSchemas())
+      .then(nodes => {
+        expect(nodes.length).toEqual(2)
+        expect(nodes[0].node).toNotBe(nodes[1].node)
+        expect(nodes[0].key).toEqual("schema")
+        expect(nodes[0].parent.key).toEqual("application/myRequestMediaType")
+        expect(nodes[1].key).toEqual("schema")
+        expect(nodes[1].parent.key).toEqual("application/myResponseMediaType")
+      })
+  })
 })
