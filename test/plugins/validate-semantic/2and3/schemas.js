@@ -97,8 +97,6 @@ describe(`validation plugin - semantic - 2and3 schemas`, () => {
               "responses": {
                 "200": {
                   schema: {
-                    name: "myParam",
-                    in: "query",
                     type: "array"
                   }
                 }
