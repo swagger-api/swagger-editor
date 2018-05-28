@@ -224,17 +224,12 @@ export default function makeEditor({ editorPluginsToRun }) {
 
       // Change the debounce value/func
       if(this.props.debounce !== nextProps.debounce) {
-        this.debouncedOnChange.flush()
+        if(this.debouncedOnChange.flush)
+          this.debouncedOnChange.flush()
 
         this.debouncedOnChange = nextProps.debounce > 0
           ? debounce(nextProps.onChange, nextProps.debounce)
           : nextProps.onChange
-
-        if(nextProps.debounce == 0) {
-          this.debouncedOnChange = nextProps.onChange
-        } else {
-          this.debouncedOnChange = debounce(nextProps.onChange, nextProps.debounce)
-        }
       }
 
       // Remove markers
