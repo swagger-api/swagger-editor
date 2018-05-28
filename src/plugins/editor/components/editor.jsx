@@ -220,7 +220,6 @@ export default function makeEditor({ editorPluginsToRun }) {
       let hasChanged = (k) => !isEqual(nextProps[k], this.props[k])
       let wasEmptyBefore = (k) => nextProps[k] && (!this.props[k] || isEmpty(this.props[k]))
       const editor = this.editor
-      const newValue = nextProps.value
 
       // Change the debounce value/func
       if(this.props.debounce !== nextProps.debounce) {
