@@ -1,8 +1,12 @@
+import React from "react"
 import expect from "expect"
+import Enzyme, { shallow } from "enzyme"
+import rewiremock from "rewiremock"
+import Adapter from "enzyme-adapter-react-15"
 
 describe("EditorLayout", function() {
   let EditorLayout
-  
+
   // If alert isn't defined, create a dummy one, and remember to clean it up afterwards
   if (typeof global.alert === "undefined") {
     before(function () {
@@ -62,7 +66,7 @@ describe("EditorLayout", function() {
 
         editorLayout.onDrop(["accepted.file.1", "accepted.file.2"], [])
         expect(global.alert.calls.length).toEqual(1)
-        expect(global.alert.calls[0].arguments[0]).toMatch(/^Sorry.*/)        
+        expect(global.alert.calls[0].arguments[0]).toMatch(/^Sorry.*/)
       })
     })
 
@@ -74,8 +78,8 @@ describe("EditorLayout", function() {
             updateSpec: expect.createSpy()
           }
         }
-        global.FileReader.andReturn({ 
-          readAsText: function () { this.onloadend() }, 
+        global.FileReader.andReturn({
+          readAsText: function () { this.onloadend() },
           result: fileContents
         })
 
@@ -83,8 +87,83 @@ describe("EditorLayout", function() {
 
         editorLayout.onDrop(["accepted.file"])
 
-        expect(props.specActions.updateSpec).toHaveBeenCalledWith(fileContents)
+        expect(props.specActions.updateSpec).toHaveBeenCalledWith(fileContents, "fileDrop")
       })
+    })
+  })
+
+  describe("onChange", function() {
+    it("should call specActions.updateSpec with origin = editor by default", function() {
+      // Given
+      const spy = expect.createSpy()
+      const props ={
+        specActions: {
+          updateSpec: spy
+        }
+      }
+      const editorLayout = new EditorLayout(props)
+
+      // When
+      editorLayout.onChange("one: 1")
+
+      // Then
+      expect(spy.calls.length).toEqual(1)
+      expect(spy.calls[0].arguments).toEqual(["one: 1", "editor"])
+    })
+
+    it("should allow (onDrop) to override with different origin", function() {
+      // Given
+      const spy = expect.createSpy()
+      const props ={
+        specActions: {
+          updateSpec: spy
+        }
+      }
+      const editorLayout = new EditorLayout(props)
+
+      // When
+      editorLayout.onChange("one: 1", "somethingElse")
+
+      // Then
+      expect(spy.calls.length).toEqual(1)
+      expect(spy.calls[0].arguments).toEqual(["one: 1", "somethingElse"])
+    })
+  })
+
+  describe("rendering", function() {
+    before(function() {
+      Enzyme.configure({ adapter: new Adapter()})
+      rewiremock.enable()
+    })
+
+    after(function() {
+      rewiremock.disable()
+    })
+
+    it("should render EditorContainer, passing onChange and origin", function() {
+      // Given
+      const props = {
+        getComponent(name) {
+          const a = function(){ return null }
+          a.displayName = name
+          return a
+        },
+        specSelectors: {
+          specOrigin: () => "bob"
+        }
+      }
+      const wrapper = shallow(<EditorLayout {...props} />)
+
+      const dropzone = wrapper.find("Dropzone") // We need to add a displayName in src/layout.jsx to get this to work
+      const dropzoneChildren = dropzone.prop("children")
+      // We need to wrap with <span/> for it to show up in shallow rendering. Don't know why :/
+      const dropzoneWrapper = shallow(<span> { dropzoneChildren({isDragActive: false}) } </span>)
+
+      // When
+      const editorContainer = dropzoneWrapper.find("EditorContainer")
+
+      // Then
+      expect(editorContainer.prop("origin")).toEqual("bob")
     })
   })
 })

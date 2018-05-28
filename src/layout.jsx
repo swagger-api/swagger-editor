@@ -2,6 +2,8 @@ import React from "react"
 import PropTypes from "prop-types"
 import Dropzone from "react-dropzone"
 
+Dropzone.displayName = "Dropzone" // For testing
+
 export default class EditorLayout extends React.Component {
 
   static propTypes = {
@@ -14,8 +16,8 @@ export default class EditorLayout extends React.Component {
     layoutActions: PropTypes.object.isRequired
   }
 
-  onChange = (newYaml) => {
-    this.props.specActions.updateSpec(newYaml)
+  onChange = (newYaml, origin="editor") => {
+    this.props.specActions.updateSpec(newYaml, origin)
   }
 
   onDrop = (acceptedFiles, rejectedFiles) => {
@@ -28,7 +30,7 @@ export default class EditorLayout extends React.Component {
       const reader = new FileReader()
       reader.onloadend = () => {
         const spec = reader.result
-        this.onChange(spec)
+        this.onChange(spec, "fileDrop")
       }
 
       reader.readAsText(file, "utf-8")
@@ -36,13 +38,15 @@ export default class EditorLayout extends React.Component {
   }
 
   render() {
-    let { getComponent } = this.props
+    let { getComponent, specSelectors } = this.props
 
     let UIBaseLayout = getComponent("BaseLayout", true)
 
     let Container = getComponent("Container")
     let EditorContainer = getComponent("EditorContainer", true)
     const SplitPaneMode = getComponent("SplitPaneMode", true)
+
+    const origin = specSelectors.specOrigin()
 
     return (
       <div>
@@ -65,7 +69,7 @@ export default class EditorLayout extends React.Component {
             } else {
               return (
                 <SplitPaneMode>
-                  <EditorContainer onChange={this.onChange} />
+                  <EditorContainer onChange={this.onChange} origin={origin} />
                   <UIBaseLayout/>
                 </SplitPaneMode>
               )

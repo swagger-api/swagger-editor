@@ -3,13 +3,14 @@ import EditorContainer from "./components/editor-container"
 import * as actions from "./actions"
 import reducers from "./reducers"
 import * as selectors from "./selectors"
+import EditorSpecPlugin from "./spec"
 
 let Editor = makeEditor({
   editorPluginsToRun: ["gutterClick", "jsonToYaml", "pasteHandler"]
 })
 
 export default function () {
-  return {
+  return [EditorSpecPlugin, {
     components: { Editor, EditorContainer },
     statePlugins: {
       editor: {
@@ -18,5 +19,5 @@ export default function () {
         selectors
       }
     }
-  }
+  }]
 }
