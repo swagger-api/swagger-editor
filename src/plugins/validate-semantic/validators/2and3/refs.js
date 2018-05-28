@@ -1,5 +1,6 @@
 import get from "lodash/get"
 import { escapeJsonPointerToken } from "../../../refs-util"
+import qs from "querystring-browser"
 import { pathFromPtr } from "json-refs"
 
 export const validate2And3RefHasNoSiblings = () => system => {
@@ -89,12 +90,44 @@ export const validate2And3RefPointersExist = () => (system) => {
       const value = node.node
       if(typeof value === "string" && value[0] === "#") {
         // if pointer starts with "#", it is a local ref
-        const path = pathFromPtr(value)
+        const path = pathFromPtr(qs.unescape(value))
 
         if(json.getIn(path) === undefined) {
           errors.push({
             path: [...node.path.slice(0, -1), "$ref"],
             message: "$refs must reference a valid location in the document",
+            level: "error"
+          })
+        }
+      }
+    })
+
+    return errors
+  })
+}
+
+// from RFC3986: https://tools.ietf.org/html/rfc3986#section-2.2
+// plus "%", since it is needed for encoding.
+const RFC3986_UNRESERVED_CHARACTERS = /[A-Z|a-z|0-9|\-|_|\.|~|%]/g
+
+export const validate2And3RefPointersAreProperlyEscaped = () => (system) => {
+  return system.validateSelectors.all$refs()
+  .then((refs) => {
+    const errors = []
+
+    refs.forEach((node) => {
+      const value = node.node
+      const hashIndex = value.indexOf("#")
+      const fragment = hashIndex > -1 ? value.slice(hashIndex + 1) : null
+      if(typeof fragment === "string") {
+        const rawPath = fragment.split("/")
+        const hasReservedChars = rawPath
+          .some(p => p.replace(RFC3986_UNRESERVED_CHARACTERS, "").length > 0)
+
+        if(hasReservedChars) {
+          errors.push({
+            path: [...node.path.slice(0, -1), "$ref"],
+            message: "$ref values must be RFC3986-compliant percent-encoded URIs",
             level: "error"
           })
         }

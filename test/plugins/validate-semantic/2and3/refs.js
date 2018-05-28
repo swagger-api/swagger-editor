@@ -340,6 +340,154 @@ describe("validation plugin - semantic - 2and3 refs", function() {
         expect(allSemanticErrors).toEqual([])
       })
     })
+    it("should return an error when a JSON pointer uses incorrect percent-encoding in Swagger 2", () => {
+      const spec = {
+        "swagger": "2.0",
+        "paths": {
+          "/foo": {
+            "get": {
+              "responses": {
+                "200": {
+                  "description": "Success",
+                  "schema": {
+                    "$ref": "#/definitions/foo bar"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "definitions": {
+          "foo bar": {
+            "type": "string"
+          }
+        }
+      }
+
+      return validateHelper(spec)
+      .then(system => {
+        const allSemanticErrors = system.errSelectors.allErrors().toJS()
+          .filter(err => err.source !== "resolver")
+          expect(allSemanticErrors[0]).toInclude({
+            level: "warning",
+            message: "Definition was declared but never used in document",
+            path: ["definitions", "foo bar"]
+          })
+          expect(allSemanticErrors.length).toEqual(2)
+          expect(allSemanticErrors[1]).toInclude({
+            level: "error",
+            message: "$ref values must be RFC3986-compliant percent-encoded URIs",
+            path: ["paths", "/foo", "get", "responses", "200", "schema", "$ref"]
+          })
+       })
+    })
+    it("should return an error when a JSON pointer uses incorrect percent-encoding in OpenAPI 3", () => {
+      const spec = {
+        "openapi": "3.0.0",
+        "paths": {
+          "/foo": {
+            "get": {
+              "responses": {
+                "200": {
+                  "description": "Success",
+                  "schema": {
+                    "$ref": "#/components/schemas/foo bar"
+                  }
+                }
+              }
+            }
+          }
+        },
+        components: {
+          schemas: {
+            "foo bar": {
+              "type": "string"
+            }
+          }
+        }
+      }
+
+      return validateHelper(spec)
+      .then(system => {
+        const allSemanticErrors = system.errSelectors.allErrors().toJS()
+          .filter(err => err.source !== "resolver")
+          expect(allSemanticErrors[0]).toInclude({
+            level: "warning",
+            message: "Definition was declared but never used in document",
+            path: ["components", "schemas", "foo bar"]
+          })
+          expect(allSemanticErrors.length).toEqual(2)
+          expect(allSemanticErrors[1]).toInclude({
+            level: "error",
+            message: "$ref values must be RFC3986-compliant percent-encoded URIs",
+            path: ["paths", "/foo", "get", "responses", "200", "schema", "$ref"]
+          })
+      })
+    })
+    it("should return no errors when a JSON pointer uses correct percent-encoding in Swagger 2", () => {
+      const spec = {
+        "swagger": "2.0",
+        "paths": {
+          "/foo": {
+            "get": {
+              "responses": {
+                "200": {
+                  "description": "Success",
+                  "schema": {
+                    "$ref": "#/definitions/foo%20bar"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "definitions": {
+          "foo bar": {
+            "type": "string"
+          }
+        }
+      }
+
+      return validateHelper(spec)
+      .then(system => {
+        const allSemanticErrors = system.errSelectors.allErrors().toJS()
+          .filter(err => err.source !== "resolver")
+        expect(allSemanticErrors).toEqual([])
+      })
+    })
+    it("should return no errors when a JSON pointer uses correct percent-encoding in OpenAPI 3", () => {
+      const spec = {
+        "openapi": "3.0.0",
+        "paths": {
+          "/foo": {
+            "get": {
+              "responses": {
+                "200": {
+                  "description": "Success",
+                  "schema": {
+                    "$ref": "#/components/schemas/foo%20bar"
+                  }
+                }
+              }
+            }
+          }
+        },
+        components: {
+          schemas: {
+            "foo bar": {
+              "type": "string"
+            }
+          }
+        }
+      }
+
+      return validateHelper(spec)
+      .then(system => {
+        const allSemanticErrors = system.errSelectors.allErrors().toJS()
+          .filter(err => err.source !== "resolver")
+        expect(allSemanticErrors).toEqual([])
+      })
+    })
 
   })
   describe("Nonexistent $ref pointers", () => {

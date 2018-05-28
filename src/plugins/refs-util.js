@@ -1,3 +1,5 @@
+import qs from "querystring-browser"
+
 /**
  * Unescapes a JSON pointer.
  * @api public
@@ -6,7 +8,7 @@ export function unescapeJsonPointerToken(token) {
   if (typeof token !== "string") {
     return token
   }
-  return token.replace(/~1/g, "/").replace(/~0/g, "~")
+  return qs.unescape(token.replace(/~1/g, "/").replace(/~0/g, "~"))
 }
 
 /**
@@ -14,5 +16,5 @@ export function unescapeJsonPointerToken(token) {
  * @api public
  */
 export function escapeJsonPointerToken(token) {
-  return token.replace(/~/g, "~0").replace(/\//g, "~1")
+  return qs.escape(token.replace(/~/g, "~0").replace(/\//g, "~1"))
 }
