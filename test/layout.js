@@ -1,8 +1,4 @@
-import React from "react"
 import expect from "expect"
-import Enzyme, { shallow } from "enzyme"
-import rewiremock from "rewiremock"
-import Adapter from "enzyme-adapter-react-15"
 
 describe("EditorLayout", function() {
   let EditorLayout
@@ -127,43 +123,6 @@ describe("EditorLayout", function() {
       // Then
       expect(spy.calls.length).toEqual(1)
       expect(spy.calls[0].arguments).toEqual(["one: 1", "somethingElse"])
-    })
-  })
-
-  describe("rendering", function() {
-    before(function() {
-      Enzyme.configure({ adapter: new Adapter()})
-      rewiremock.enable()
-    })
-
-    after(function() {
-      rewiremock.disable()
-    })
-
-    it("should render EditorContainer, passing onChange and origin", function() {
-      // Given
-      const props = {
-        getComponent(name) {
-          const a = function(){ return null }
-          a.displayName = name
-          return a
-        },
-        specSelectors: {
-          specOrigin: () => "bob"
-        }
-      }
-      const wrapper = shallow(<EditorLayout {...props} />)
-
-      const dropzone = wrapper.find("Dropzone") // We need to add a displayName in src/layout.jsx to get this to work
-      const dropzoneChildren = dropzone.prop("children")
-      // We need to wrap with <span/> for it to show up in shallow rendering. Don't know why :/
-      const dropzoneWrapper = shallow(<span> { dropzoneChildren({isDragActive: false}) } </span>)
-
-      // When
-      const editorContainer = dropzoneWrapper.find("EditorContainer")
-
-      // Then
-      expect(editorContainer.prop("origin")).toEqual("bob")
     })
   })
 })

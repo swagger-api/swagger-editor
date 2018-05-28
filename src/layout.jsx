@@ -46,8 +46,6 @@ export default class EditorLayout extends React.Component {
     let EditorContainer = getComponent("EditorContainer", true)
     const SplitPaneMode = getComponent("SplitPaneMode", true)
 
-    const origin = specSelectors.specOrigin()
-
     return (
       <div>
         <Container className='container'>
@@ -69,7 +67,7 @@ export default class EditorLayout extends React.Component {
             } else {
               return (
                 <SplitPaneMode>
-                  <EditorContainer onChange={this.onChange} origin={origin} />
+                  <EditorContainer onChange={this.onChange} />
                   <UIBaseLayout/>
                 </SplitPaneMode>
               )
