@@ -10,7 +10,6 @@ export default class EditorLayout extends React.Component {
     errSelectors: PropTypes.object.isRequired,
     errActions: PropTypes.object.isRequired,
     specActions: PropTypes.object.isRequired,
-    specSelectors: PropTypes.object.isRequired,
     getComponent: PropTypes.func.isRequired,
     layoutSelectors: PropTypes.object.isRequired,
     layoutActions: PropTypes.object.isRequired
@@ -38,17 +37,17 @@ export default class EditorLayout extends React.Component {
   }
 
   render() {
-    let { getComponent, specSelectors } = this.props
+    const { getComponent } = this.props
 
-    let UIBaseLayout = getComponent("BaseLayout", true)
-
-    let Container = getComponent("Container")
-    let EditorContainer = getComponent("EditorContainer", true)
+    const UIBaseLayout = getComponent("BaseLayout", true)
+    const EditorContainer = getComponent("EditorContainer", true)
     const SplitPaneMode = getComponent("SplitPaneMode", true)
+
+    const Container = getComponent("Container")
 
     return (
       <div>
-        <Container className='container'>
+        <Container className="container">
           <Dropzone
             className="dropzone"
             accept=".yaml,application/json"
