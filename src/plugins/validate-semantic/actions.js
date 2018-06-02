@@ -41,6 +41,19 @@ export const all = () => (system) => {
     source: SOURCE
   })
 
+  // these will be functions or undefined
+  const { specSelectors: { isSwagger2, isOAS3 } } = system
+
+  // don't run validation if we don't recognize this content
+  if(isSwagger2 && isOAS3 && !isSwagger2() && !isOAS3()) {
+    return
+  }
+
+  // don't run validation if valid swagger and openapi is used together
+  if(isSwagger2 && isOAS3 && isSwagger2() && isOAS3()) {
+    return
+  }
+
   const errCb = (obj) => bufferedNewSpecErrBatch(system, obj)
 
   forEach(system.validateActions, (fn, name) => {
