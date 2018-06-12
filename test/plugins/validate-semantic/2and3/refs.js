@@ -542,6 +542,7 @@ describe("validation plugin - semantic - 2and3 refs", function() {
       .then(system => {
         const allErrors = system.errSelectors.allErrors().toJS()
           .filter(err => err.source !== "resolver")
+          .filter((el, i, arr) => arr.indexOf(el) === i)
         expect(allErrors.length).toEqual(1)
         const firstError = allErrors[0]
         expect(firstError.message).toMatch("$refs must reference a valid location in the document")
