@@ -6,6 +6,7 @@ describe("validation plugin - semantic - security", function() {
 
   it("should return an error when an operation references a non-existing security scope", () => {
     const spec = {
+      "swagger": "2.0",
       "securityDefinitions": {
         "api_key": {
           "type": "apiKey",
@@ -45,6 +46,7 @@ describe("validation plugin - semantic - security", function() {
   it("should return an error when an operation references a security definition with no scopes", () => {
 
     const spec = {
+      "swagger": "2.0",
       "securityDefinitions": {
         "api_key": {
           "type": "apiKey",
@@ -80,6 +82,7 @@ describe("validation plugin - semantic - security", function() {
 
   it("should return an error when an operation references a non-existing security definition", () => {
     const spec = {
+      "swagger": "2.0",
       "securityDefinitions": {
         "api_key": {
           "type": "apiKey",
@@ -115,6 +118,7 @@ describe("validation plugin - semantic - security", function() {
 
   it("should return an error when top-level security references a non-existing security definition", () => {
     const spec = {
+      "swagger": "2.0",
       "securityDefinitions": {
         "api_key": {
           "type": "apiKey",
@@ -143,6 +147,7 @@ describe("validation plugin - semantic - security", function() {
 
   it("should not return an error when an operation references an existing security scope", () => {
     const spec = {
+      "swagger": "2.0",
       "securityDefinitions": {
         "api_key": {
           "type": "apiKey",
@@ -174,6 +179,7 @@ describe("validation plugin - semantic - security", function() {
 
   it("should not return an error when an top-level security references an existing security scope", () => {
     const spec = {
+      "swagger": "2.0",
       "securityDefinitions": {
         "api_key": {
           "type": "apiKey",

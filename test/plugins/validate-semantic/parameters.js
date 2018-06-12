@@ -6,6 +6,7 @@ describe("validation plugin - semantic - parameters", function() {
 
   it("should return an error when an array type parameter omits an `items` property", () => {
     const spec = {
+      swagger: "2.0",
       "paths": {
         "/pets": {
           "get": {
@@ -35,6 +36,7 @@ describe("validation plugin - semantic - parameters", function() {
   describe("Operations cannot have both a 'body' parameter and a 'formData' parameter", () => {
     it("should complain about having both in the same operation", function(){
       const spec = {
+        swagger: "2.0",
         paths: {
           "/": {
             get: {
@@ -59,6 +61,7 @@ describe("validation plugin - semantic - parameters", function() {
     })
     it("should not complain about having only a body parameter in the same operation", function(){
       const spec = {
+        swagger: "2.0",
         paths: {
           "/": {
             get: {
@@ -75,6 +78,7 @@ describe("validation plugin - semantic - parameters", function() {
     })
     it("should not complain about having only a formData parameter in the same operation", function(){
       const spec = {
+        swagger: "2.0",
         paths: {
           "/": {
             get: {
@@ -94,6 +98,7 @@ describe("validation plugin - semantic - parameters", function() {
     describe("Operations must have only one body parameter", () => {
       it("should complain about having two body parameters in the same operation", function(){
         const spec = {
+          swagger: "2.0",
           paths: {
             "/": {
               get: {
@@ -118,6 +123,7 @@ describe("validation plugin - semantic - parameters", function() {
       })
       it("should not complain about having one body parameter in the same operation", function(){
         const spec = {
+          swagger: "2.0",
           paths: {
             "/": {
               get: {

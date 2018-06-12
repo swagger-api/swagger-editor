@@ -180,6 +180,7 @@ describe("validation plugin - semantic - 2and3 refs", function() {
 
     it("should return a warning when a definition is declared but not used in Swagger 2", () => {
       const spec = {
+        swagger: "2.0",
         paths: {
           "/CoolPath": {}
         },
@@ -203,6 +204,7 @@ describe("validation plugin - semantic - 2and3 refs", function() {
 
     it("should not return a warning when a definition with special character is declared and used in Swagger 2", () => {
       const spec = {
+        swagger: "2.0",
         paths: {
           "/CoolPath": {
             get: {
@@ -542,6 +544,7 @@ describe("validation plugin - semantic - 2and3 refs", function() {
       .then(system => {
         const allErrors = system.errSelectors.allErrors().toJS()
           .filter(err => err.source !== "resolver")
+          .filter((el, i, arr) => arr.indexOf(el) === i)
         expect(allErrors.length).toEqual(1)
         const firstError = allErrors[0]
         expect(firstError.message).toMatch("$refs must reference a valid location in the document")

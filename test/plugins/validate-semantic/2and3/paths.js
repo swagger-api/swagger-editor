@@ -240,6 +240,7 @@ describe("validation plugin - semantic - 2and3 paths", () => {
       describe("Swagger 2", () => {
         it("should not return problems for a valid path-level definiton/declaration pair", function(){
           const spec = {
+            swagger: "2.0",
             paths: {
               "/CoolPath/{id}": {
                 parameters: [{
@@ -257,6 +258,7 @@ describe("validation plugin - semantic - 2and3 paths", () => {
 
         it("should not return problems for a valid path-level definiton/declaration pair using a $ref", function(){
           const spec = {
+            swagger: "2.0",
             paths: {
               "/CoolPath/{id}": {
                 parameters: [
@@ -279,6 +281,7 @@ describe("validation plugin - semantic - 2and3 paths", () => {
 
         it("should not return problems for a valid operation-level definiton/declaration pair", function(){
           const spec = {
+            swagger: "2.0",
             paths: {
               "/CoolPath/{id}": {
                 get: {
@@ -298,6 +301,7 @@ describe("validation plugin - semantic - 2and3 paths", () => {
 
         it("should return one problem for a path parameter defined at the operation level that is not present within every operation on the path", function(){
           const spec = {
+            swagger: "2.0",
             paths: {
               "/CoolPath/{id}": {
                 get: {
@@ -330,6 +334,7 @@ describe("validation plugin - semantic - 2and3 paths", () => {
 
         it("should return one problem when the definition is completely absent", function(){
           const spec = {
+            swagger: "2.0",
             paths: {
               "/CoolPath/{id}": {
                 parameters: []
@@ -350,6 +355,7 @@ describe("validation plugin - semantic - 2and3 paths", () => {
 
         it("should return one error when no parameters are defined", function(){
           const spec = {
+            swagger: "2.0",
             paths: {
               "/CoolPath/{id}": {}
             }
@@ -368,6 +374,7 @@ describe("validation plugin - semantic - 2and3 paths", () => {
 
         it("should return one problem for a missed 'in' value", function(){
           const spec = {
+            swagger: "2.0",
             paths: {
               "/CoolPath/{id}": {
                 parameters: [{

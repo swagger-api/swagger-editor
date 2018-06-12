@@ -8,6 +8,7 @@ describe("validation plugin - semantic - refs", function() {
     describe("Response $refs", () => {
       it("should return a problem for a parameters $ref in a response position", function(){
         const spec = {
+          swagger: "2.0",
           paths: {
             "/CoolPath": {
               responses: {
@@ -34,6 +35,7 @@ describe("validation plugin - semantic - refs", function() {
       // PS: We have a flag in mapSpec, that adds $$refs known as metaPatches
       it("should return a problem for a definitions $ref in a response position", function(){
         const spec = {
+          swagger: "2.0",
           paths: {
             "/CoolPath": {
               schema: {
@@ -55,6 +57,7 @@ describe("validation plugin - semantic - refs", function() {
 
       it("should not return a problem for a responses $ref in a response position", function(){
         const spec = {
+          swagger: "2.0",
           paths: {
             "/CoolPath": {
               responses: {
@@ -107,6 +110,7 @@ describe("validation plugin - semantic - refs", function() {
 
       it("should not return a problem for a definition $ref in a schema position", function(){
         const spec = {
+          swagger: "2.0",
           paths: {
             "/CoolPath": {
               schema: {
@@ -126,6 +130,7 @@ describe("validation plugin - semantic - refs", function() {
       it("should not return a problem for a schema property named 'properties'", function(){
         // #492 regression
         const spec = {
+          "swagger": "2.0",
           "definitions": {
             "ServicePlan": {
               "description": "New Plan to be added to a service.",
@@ -157,6 +162,7 @@ describe("validation plugin - semantic - refs", function() {
 
       it("should return a problem for a definition $ref in a parameter position", function(){
         const spec = {
+          swagger: "2.0",
           paths: {
             "/CoolPath": {
               parameters: [{
@@ -178,6 +184,7 @@ describe("validation plugin - semantic - refs", function() {
 
       it("should return a problem for a responses $ref in a parameter position", function(){
         const spec = {
+          swagger: "2.0",
           paths: {
             "/CoolPath": {
               parameters: [{
@@ -199,6 +206,7 @@ describe("validation plugin - semantic - refs", function() {
 
       it("should not return a problem for a parameter $ref in a parameter position", function(){
         const spec = {
+          swagger: "2.0",
           paths: {
             "/CoolPath": {
               parameters: [{
