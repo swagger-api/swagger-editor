@@ -180,6 +180,7 @@ describe("validation plugin - semantic - 2and3 refs", function() {
 
     it("should return a warning when a definition is declared but not used in Swagger 2", () => {
       const spec = {
+        swagger: "2.0",
         paths: {
           "/CoolPath": {}
         },
@@ -203,6 +204,7 @@ describe("validation plugin - semantic - 2and3 refs", function() {
 
     it("should not return a warning when a definition with special character is declared and used in Swagger 2", () => {
       const spec = {
+        swagger: "2.0",
         paths: {
           "/CoolPath": {
             get: {

@@ -9,6 +9,7 @@ describe("validation plugin - semantic - schema", function() {
 
   it("should return an error when a definition's property is readOnly and required by the schema", () => {
     const spec = {
+      swagger: "2.0",
       blah: {
         $ref: "#/definitions/CoolModel"
       },
@@ -37,6 +38,7 @@ describe("validation plugin - semantic - schema", function() {
 
   it("should not return an error when a definition's property is not readOnly and required by the schema", () => {
     const spec = {
+      swagger: "2.0",
       definitions: {
         CoolModel: {
           required: ["BadProperty"],
@@ -62,6 +64,7 @@ describe("validation plugin - semantic - schema", function() {
 
   it("should return an error when a response schema's property is readOnly and required by the schema", () => {
     const spec = {
+      swagger: "2.0",
       paths: {
         "/CoolPath": {
           get: {
@@ -98,6 +101,7 @@ describe("validation plugin - semantic - schema", function() {
 
   it("should not return an error when a response schema's property is not readOnly and required by the schema", () => {
     const spec = {
+      swagger: "2.0",
       paths: {
         "/CoolPath": {
           get: {
@@ -123,6 +127,7 @@ describe("validation plugin - semantic - schema", function() {
 
   it("should return an error when a parameter schema's property is readOnly and required by the schema", () => {
     const spec = {
+      swagger: "2.0",
       paths: {
         "/CoolPath": {
           get: {
@@ -158,6 +163,7 @@ describe("validation plugin - semantic - schema", function() {
 
   it("should not return an error when a parameter schema's property is not readOnly and required by the schema", () => {
     const spec = {
+      swagger: "2.0",
       paths: {
         "/CoolPath": {
           get: {
@@ -184,6 +190,7 @@ describe("validation plugin - semantic - schema", function() {
   describe("Type key", () => {
     it("should return an error when \"type\" is an array", () => {
       const spec = {
+        swagger: "2.0",
         paths: {
           "/CoolPath": {
             get: {
@@ -213,6 +220,7 @@ describe("validation plugin - semantic - schema", function() {
     })
     it("should not return an error when \"type\" is a property name", () => {
       const spec = {
+        "swagger": "2.0",
         "definitions": {
           "ApiResponse": {
             "type": "object",
@@ -241,6 +249,7 @@ describe("validation plugin - semantic - schema", function() {
     })
     it("should not return an error when \"type\" is a property name inside additionalProperties", () => {
       const spec = {
+        "swagger": "2.0",
         "definitions": {
           "ApiResponse": {
             "type": "object",
@@ -272,6 +281,7 @@ describe("validation plugin - semantic - schema", function() {
     })
     it("should not return an error when \"type\" is a model name", () => {
       const spec = {
+        "swagger": "2.0",
         "definitions": {
           "type": {
             "type": "object",
@@ -295,6 +305,7 @@ describe("validation plugin - semantic - schema", function() {
   describe("Minimums and maximums", () => {
     it("should return an error when minimum is more than maximum", () => {
       const spec = {
+        swagger: "2.0",
         definitions: {
           MyNumber: {
             minimum: 5,
@@ -315,6 +326,7 @@ describe("validation plugin - semantic - schema", function() {
     })
     it("should not return an error when minimum is less than maximum", () => {
       const spec = {
+        swagger: "2.0",
         definitions: {
           MyNumber: {
             minimum: 1,
@@ -326,6 +338,7 @@ describe("validation plugin - semantic - schema", function() {
     })
     it("should return an error when minProperties is more than maxProperties", () => {
       const spec = {
+        swagger: "2.0",
         definitions: {
           MyNumber: {
             minProperties: 5,
@@ -346,6 +359,7 @@ describe("validation plugin - semantic - schema", function() {
     })
     it("should not return an error when minProperties is less than maxProperties", () => {
       const spec = {
+        swagger: "2.0",
         definitions: {
           MyNumber: {
             minProperties: "1",
@@ -358,6 +372,7 @@ describe("validation plugin - semantic - schema", function() {
     })
     it("should return an error when minLength is more than maxLength", () => {
       const spec = {
+        swagger: "2.0",
         definitions: {
           MyNumber: {
             minLength: 5,
@@ -378,6 +393,7 @@ describe("validation plugin - semantic - schema", function() {
     })
     it("should not return an error when minLength is less than maxLength", () => {
       const spec = {
+        swagger: "2.0",
         definitions: {
           MyNumber: {
             minLength: "1",
@@ -480,6 +496,7 @@ describe("validation plugin - semantic - schema", function() {
 
         // Given
         const spec = {
+          swagger: "2.0",
           paths: {
             $ref: "#/definitions/asdf"
           },
@@ -548,6 +565,7 @@ describe("validation plugin - semantic - schema", function() {
 
         // Given
         const spec = {
+          swagger: "2.0",
           paths: {
             $ref: "#/definitions/asdf"
           },
@@ -575,6 +593,7 @@ describe("validation plugin - semantic - schema", function() {
 
         // Given
         const spec = {
+          swagger: "2.0",
           paths: {
             "/": {
               get: {
@@ -610,6 +629,7 @@ describe("validation plugin - semantic - schema", function() {
 
       it("should not return an error when a regex pattern doesn't use a Z anchor", () => {
         const spec = {
+          swagger: "2.0",
           paths: {
             $ref: "#/definitions/asdf"
           },

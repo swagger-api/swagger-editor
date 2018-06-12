@@ -9,6 +9,7 @@ describe("validation plugin - semantic - paths", function(){
 
     it("should return one problem for an empty path template", function(){
       const spec = {
+        swagger: "2.0",
         paths: {
           "/CoolPath/{}": {}
         }
@@ -30,6 +31,7 @@ describe("validation plugin - semantic - paths", function(){
 
     it("should return one problem for an undefined declared path parameter", function(){
       const spec = {
+        swagger: "2.0",
         paths: {
           "/CoolPath/{id}": {}
         }
@@ -47,6 +49,7 @@ describe("validation plugin - semantic - paths", function(){
 
     it("should return one problem for an path parameter defined in another path", function(){
       const spec = {
+        swagger: "2.0",
         paths: {
           "/CoolPath/{id}": {},
           "/UncoolPath/{id}": {
@@ -71,6 +74,7 @@ describe("validation plugin - semantic - paths", function(){
 
     it("should return no problems for a path parameter defined in the path", function(){
       const spec = {
+        swagger: "2.0",
         paths: {
           "/CoolPath/{id}": {
             parameters: [{
@@ -87,6 +91,7 @@ describe("validation plugin - semantic - paths", function(){
 
     it("should return no problems for a path parameter defined in an operation", function(){
       const spec = {
+        swagger: "2.0",
         paths: {
           "/CoolPath/{id}": {
             get: {
@@ -109,6 +114,7 @@ describe("validation plugin - semantic - paths", function(){
 
     it("should return one problem for an equivalent templated path strings", function(){
       const spec = {
+        swagger: "2.0",
         paths: {
           "/CoolPath/{id}": {
             parameters: [{
@@ -139,6 +145,7 @@ describe("validation plugin - semantic - paths", function(){
 
     it("should return no problems for a templated and untemplated pair of path strings", function(){
       const spec = {
+        swagger: "2.0",
         paths: {
           "/CoolPath/": {},
           "/CoolPath/{count}": {
@@ -156,6 +163,7 @@ describe("validation plugin - semantic - paths", function(){
 
     it("should return no problems for a templated and double-templated set of path strings", function(){
       const spec = {
+        swagger: "2.0",
         paths: {
           "/CoolPath/{group_id1}/all": {
             parameters: [{
@@ -189,6 +197,7 @@ describe("validation plugin - semantic - paths", function(){
   describe("Paths must have unique name + in parameters", () => {
     it("should return no problems for a name collision only", function(){
       const spec = {
+        swagger: "2.0",
         paths: {
           "/CoolPath/{id}": {
             parameters: [
@@ -211,6 +220,7 @@ describe("validation plugin - semantic - paths", function(){
 
     it("should return no problems when 'in' is not defined", function(){
       const spec = {
+        swagger: "2.0",
         paths: {
           "/CoolPath/{id}": {
             parameters: [
