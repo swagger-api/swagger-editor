@@ -1,5 +1,6 @@
 import expect from "expect"
 import SwaggerUi from "swagger-ui"
+import throttle from "lodash/throttle"
 
 import ValidateBasePlugin from "plugins/validate-base"
 import ValidateSemanticPlugin from "plugins/validate-semantic"
@@ -7,7 +8,7 @@ import ASTPlugin from "plugins/ast"
 
 const envDelay = process.env.ASYNC_TEST_DELAY
 
-const DELAY_MS = (typeof envDelay === "string" ? parseInt(envDelay) : envDelay) || 130
+const DELAY_MS = (typeof envDelay === "string" ? parseInt(envDelay) : envDelay) || 50
 
 export default function validateHelper(spec) {
   return new Promise((resolve) => {
@@ -19,7 +20,7 @@ export default function validateHelper(spec) {
         SwaggerUi.plugins.ErrIndex,
         SwaggerUi.plugins.DownloadUrl,
         SwaggerUi.plugins.SwaggerJsIndex,
-        SwaggerUi.plugins.Oas3Index,
+        SwaggerUi.plugins.Oas3Index
       ],
       initialState: {
         layout: undefined
@@ -28,13 +29,29 @@ export default function validateHelper(spec) {
         ASTPlugin,
         ValidateBasePlugin,
         ValidateSemanticPlugin,
-
+        () => ({
+          statePlugins: {
+            configs: {
+              actions: {
+                loaded: () => {
+                  return {
+                    type: "noop"
+                  }
+                }
+              }
+            }
+          }
+        })
       ]
     })
+
     system.validateActions.all()
-    setTimeout(() => {
-      resolve(system)
-    }, DELAY_MS)
+
+    const registerActivity = throttle(() => resolve(system), DELAY_MS, {
+      leading: false
+    })
+
+    system.getStore().subscribe(registerActivity)
   })
 
 }
