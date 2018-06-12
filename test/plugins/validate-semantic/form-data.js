@@ -10,6 +10,7 @@ describe("validation plugin - semantic - form data", function(){
       it("should warn about formdata ( typo )", function(){
 
         const spec = {
+          swagger: "2.0",
           parameters: {
             CoolParam: [
               { in: "formdata" },
@@ -41,6 +42,7 @@ describe("validation plugin - semantic - form data", function(){
   describe("missing consumes", function(){
     it("should complain if 'type:file` and no 'in: formData", function(){
       const spec = {
+        swagger: "2.0",
         paths: {
           "/some": {
             post: {
@@ -65,6 +67,7 @@ describe("validation plugin - semantic - form data", function(){
     })
     it("should complain if 'type:file` and no consumes - 'multipart/form-data'", function(){
       const spec = {
+        swagger: "2.0",
         paths: {
           "/some": {
             post: {
@@ -90,6 +93,7 @@ describe("validation plugin - semantic - form data", function(){
     })
     it("should complain if 'in:formData` and no consumes - 'multipart/form-data' or 'application/x-www-form-urlencoded'", function(){
       const spec = {
+        swagger: "2.0",
         paths: {
           "/some": {
             post: {
@@ -115,6 +119,7 @@ describe("validation plugin - semantic - form data", function(){
 
     it("should not complain if 'in:formData` and consumes is set globally", function(){
       const spec = {
+        swagger: "2.0",
         consumes: [
           "multipart/form-data"
         ],
@@ -139,6 +144,7 @@ describe("validation plugin - semantic - form data", function(){
   describe("/pathitems/...", function(){
     it("should complain about having both in the same parameter", function(){
       const spec = {
+        swagger: "2.0",
         paths: {
           "/": {
             consumes: ["multipart/form-data"],
@@ -161,6 +167,7 @@ describe("validation plugin - semantic - form data", function(){
     })
     it("should complain if 'type:file` and no 'in: formData", function(){
       const spec = {
+        swagger: "2.0",
         paths: {
           "/": {
             consumes: ["multipart/form-data"],

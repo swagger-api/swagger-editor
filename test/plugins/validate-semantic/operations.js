@@ -10,6 +10,7 @@ describe("validation plugin - semantic - operations", () => {
   describe("Operations must have unique operationIds", () => {
     it("should return an error when operationId collisions exist", () => {
       const spec = {
+        swagger: "2.0",
         paths: {
           "/": {
             get: {
@@ -33,6 +34,7 @@ describe("validation plugin - semantic - operations", () => {
     })
     it("should not return an error when operationId collisions don't exist", () => {
       const spec = {
+        swagger: "2.0",
         paths: {
           "/": {
             get: {
