@@ -20,7 +20,7 @@ export default function validateHelper(spec) {
         SwaggerUi.plugins.ErrIndex,
         SwaggerUi.plugins.DownloadUrl,
         SwaggerUi.plugins.SwaggerJsIndex,
-        SwaggerUi.plugins.Oas3Index,
+        SwaggerUi.plugins.Oas3Index
       ],
       initialState: {
         layout: undefined
@@ -28,7 +28,20 @@ export default function validateHelper(spec) {
       plugins: [
         ASTPlugin,
         ValidateBasePlugin,
-        ValidateSemanticPlugin
+        ValidateSemanticPlugin,
+        () => ({
+          statePlugins: {
+            configs: {
+              actions: {
+                loaded: () => {
+                  return {
+                    type: "noop"
+                  }
+                }
+              }
+            }
+          }
+        })
       ]
     })
 

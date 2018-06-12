@@ -22,6 +22,19 @@ function getSystem(spec) {
         ASTPlugin,
         ValidateBasePlugin,
         ValidateSemanticPlugin,
+        () => ({
+          statePlugins: {
+            configs: {
+              actions: {
+                loaded: () => {
+                  return {
+                    type: "noop"
+                  }
+                }
+              }
+            }
+          }
+        })
       ]
     })
     resolve(system)
