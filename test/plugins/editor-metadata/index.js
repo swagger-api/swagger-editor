@@ -1,5 +1,4 @@
 import expect from "expect"
-import throttle from "lodash/throttle"
 import SwaggerUi from "swagger-ui"
 import EditorMetadataPlugin from "plugins/editor-metadata"
 
