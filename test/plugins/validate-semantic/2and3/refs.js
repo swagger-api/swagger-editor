@@ -97,6 +97,45 @@ describe("validation plugin - semantic - 2and3 refs", function() {
       return expectNoErrorsOrWarnings(spec)
     })
 
+    it("should return no warnings when a path item $ref has siblings in OpenAPI 3", () => {
+      const spec = {
+        openapi: "3.0.0",
+        paths: {
+          $ref: "#/components/schemas/abc",
+          "/CoolPath": {
+            get: {
+              $ref: "#/components/schemas/abc"
+            }
+          }
+        },
+        components: {
+          schemas: {
+            abc: {}
+          }
+        }
+      }
+
+      return expectNoErrorsOrWarnings(spec)
+    })
+    it("should return no warnings when a path item $ref has siblings in Swagger 2", () => {
+      const spec = {
+        swagger: "2.0",
+        paths: {
+          $ref: "#/definitions/abc",
+          "/CoolPath": {
+            get: {
+              $ref: "#/definitions/abc"
+            }
+          }
+        },
+        definitions: {
+          abc: {}
+        }
+      }
+
+      return expectNoErrorsOrWarnings(spec)
+    })
+
   })
   describe("Unused definitions", () => {
     it("should return a warning when a definition is declared but not used in OpenAPI 3", () => {
