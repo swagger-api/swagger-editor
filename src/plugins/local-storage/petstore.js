@@ -30,6 +30,7 @@ tags:
     description: "Find out more about our store"
     url: "http://swagger.io"
 schemes:
+- "https"
 - "http"
 paths:
   /pet:
