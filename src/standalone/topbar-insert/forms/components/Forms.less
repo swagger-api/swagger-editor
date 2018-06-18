@@ -1,0 +1,79 @@
+.map-form-left {
+  float: left;
+  width: 40%;
+}
+
+.map-form-right {
+  float: right;
+  width: 55%;
+}
+
+.d-inline-block {
+  display: inline-block;
+}
+
+.float-right {
+  float: right;
+}
+
+button.remove-item {
+  position: absolute;
+  right: 10px;
+  line-height: 0;
+  padding: 1rem;
+  margin: -1rem -1rem -1rem auto;
+}
+
+.form-container {
+  width: 750px;
+  a {
+    color: green;
+    font-size: 1.3em;
+    text-decoration: none;
+    &:hover {
+      cursor: pointer;
+    }
+  }
+
+  .close.remove-item {
+    font-size: 2em;
+    margin-top: -10px;
+    float: right;
+    &:hover {
+      cursor: pointer;
+    }
+  }
+}
+
+.card-body {
+  padding: 20px;
+  border: 1px solid lightgrey;
+  border-radius: 5px;
+  margin: 10px 0;
+  overflow: hidden;
+}
+
+.invalid-feedback {
+  color: red;
+}
+
+.form-group {
+  padding-bottom: 10px;
+  .input-label {
+    font-weight: 400;
+    .input-label-title {
+      font-weight: 600;
+    }
+  }
+  input[type=text] {
+    width: 100%;
+  }
+
+  input[type=text].border-danger{
+    border: 1px solid red;
+  }
+
+  select {
+    width: 100%;
+  }
+}

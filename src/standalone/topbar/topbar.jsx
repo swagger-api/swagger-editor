@@ -318,6 +318,7 @@ export default class Topbar extends React.Component {
   render() {
     let { getComponent, specSelectors: { isOAS3 } } = this.props
     const Link = getComponent("Link")
+    const TopbarInsert = getComponent("TopbarInsert")
 
     let showServersMenu = this.state.servers && this.state.servers.length
     let showClientsMenu = this.state.clients && this.state.clients.length
@@ -366,6 +367,7 @@ export default class Topbar extends React.Component {
             <DropdownMenu {...makeMenuOptions("Edit")}>
               <li><button type="button" onClick={this.convertToYaml}>Convert to YAML</button></li>
             </DropdownMenu>
+            <TopbarInsert {...this.props} />
             { showServersMenu ? <DropdownMenu className="long" {...makeMenuOptions("Generate Server")}>
               <OAS3GeneratorMessage
                 showModal={this.refs.generatorModal.show}
