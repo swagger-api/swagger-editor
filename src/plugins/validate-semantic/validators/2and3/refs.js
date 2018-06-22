@@ -12,10 +12,10 @@ export const validate2And3RefHasNoSiblings = () => system => {
       return nodes.reduce((acc, node) => {
         const unresolvedValue = get(specJson, node.parent.path) || {}
         const unresolvedKeys = Object.keys(unresolvedValue) || []
-
+        const isPathItem = node.parent.key === "paths" && node.path.length === 2
 
         unresolvedKeys.forEach(k => {
-          if(k !== "$ref" && unresolvedKeys.indexOf("$ref") > -1) {
+          if(!isPathItem && k !== "$ref" && unresolvedKeys.indexOf("$ref") > -1) {
             acc.push({
               message: `Sibling values are not allowed alongside $refs`,
               path: [...node.path.slice(0, -1), k],
