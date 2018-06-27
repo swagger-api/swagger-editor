@@ -2,7 +2,7 @@ import expect from "expect"
 
 describe("EditorLayout", function() {
   let EditorLayout
-  
+
   // If alert isn't defined, create a dummy one, and remember to clean it up afterwards
   if (typeof global.alert === "undefined") {
     before(function () {
@@ -62,7 +62,7 @@ describe("EditorLayout", function() {
 
         editorLayout.onDrop(["accepted.file.1", "accepted.file.2"], [])
         expect(global.alert.calls.length).toEqual(1)
-        expect(global.alert.calls[0].arguments[0]).toMatch(/^Sorry.*/)        
+        expect(global.alert.calls[0].arguments[0]).toMatch(/^Sorry.*/)
       })
     })
 
@@ -74,8 +74,8 @@ describe("EditorLayout", function() {
             updateSpec: expect.createSpy()
           }
         }
-        global.FileReader.andReturn({ 
-          readAsText: function () { this.onloadend() }, 
+        global.FileReader.andReturn({
+          readAsText: function () { this.onloadend() },
           result: fileContents
         })
 
@@ -83,8 +83,46 @@ describe("EditorLayout", function() {
 
         editorLayout.onDrop(["accepted.file"])
 
-        expect(props.specActions.updateSpec).toHaveBeenCalledWith(fileContents)
+        expect(props.specActions.updateSpec).toHaveBeenCalledWith(fileContents, "fileDrop")
       })
+    })
+  })
+
+  describe("onChange", function() {
+    it("should call specActions.updateSpec with origin = editor by default", function() {
+      // Given
+      const spy = expect.createSpy()
+      const props ={
+        specActions: {
+          updateSpec: spy
+        }
+      }
+      const editorLayout = new EditorLayout(props)
+
+      // When
+      editorLayout.onChange("one: 1")
+
+      // Then
+      expect(spy.calls.length).toEqual(1)
+      expect(spy.calls[0].arguments).toEqual(["one: 1", "editor"])
+    })
+
+    it("should allow (onDrop) to override with different origin", function() {
+      // Given
+      const spy = expect.createSpy()
+      const props ={
+        specActions: {
+          updateSpec: spy
+        }
+      }
+      const editorLayout = new EditorLayout(props)
+
+      // When
+      editorLayout.onChange("one: 1", "somethingElse")
+
+      // Then
+      expect(spy.calls.length).toEqual(1)
+      expect(spy.calls[0].arguments).toEqual(["one: 1", "somethingElse"])
     })
   })
 })

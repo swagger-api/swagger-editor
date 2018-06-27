@@ -16,6 +16,10 @@
         "src": "src/plugins"
       },
       {
+        "expose": "test",
+        "src": "test"
+      },
+      {
         "expose": "src",
         "src": "src"
       }
