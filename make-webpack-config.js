@@ -64,6 +64,9 @@ module.exports = function(options) {
     plugins.push(
       new UglifyJsPlugin({
         sourceMap: true,
+        uglifyOptions: {
+          keep_fnames: true
+        }
       }),
       new webpack.optimize.DedupePlugin()
     )
