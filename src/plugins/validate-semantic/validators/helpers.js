@@ -1,4 +1,4 @@
-const operationKeys = ["get", "post", "put", "delete", "options", "head", "patch"]
+const operationKeys = ["get", "post", "put", "delete", "options", "head", "patch", "trace"]
 
 export const PATH_TEMPLATES_REGEX = /\{(.*?)\}/g
 
