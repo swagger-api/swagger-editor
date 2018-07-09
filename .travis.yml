@@ -13,6 +13,8 @@ branches:
   - /^v\d+\.\d+(\.\d+)?(-\S*)?$/
 env:
   - DOCKER_IMAGE_NAME=swaggerapi/swagger-editor
+script:
+  - npm test
 deploy:
   - provider: npm
     email: apiteam@swagger.io
@@ -52,3 +54,4 @@ after_success:
           docker push $DOCKER_IMAGE_NAME:$DOCKER_IMAGE_TAG;
         fi;
     fi;
+  - bundlesize
