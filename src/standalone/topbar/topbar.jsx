@@ -5,7 +5,7 @@ import "whatwg-fetch"
 import DropdownMenu from "./DropdownMenu"
 import Modal from "boron/DropModal"
 import reactFileDownload from "react-file-download"
-import YAML from "js-yaml"
+import YAML from "@kyleshockey/js-yaml"
 import beautifyJson from "json-beautify"
 
 import "react-dd-menu/dist/react-dd-menu.css"
