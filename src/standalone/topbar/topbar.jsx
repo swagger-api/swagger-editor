@@ -384,7 +384,7 @@ export default class Topbar extends React.Component {
             </DropdownMenu> : null }
           </div>
         </div>
-        <Modal className="swagger-ui modal" ref="modal">
+        <Modal className="modal" ref="modal">
           <div className="container">
             <h2>Upload file</h2>
             <input type="file" ref="fileLoadInput"></input>
@@ -394,7 +394,7 @@ export default class Topbar extends React.Component {
             <button className="btn" onClick={this.importFromFile}>Open file</button>
           </div>
         </Modal>
-        <Modal className="swagger-ui modal" ref="generatorModal">
+        <Modal className="modal" ref="generatorModal">
           <div className="modal-message">
             <p>
               Code generation for OAS3 is currently work in progress. The available languages is smaller than the for OAS/Swagger 2.0 and is constantly being updated.
