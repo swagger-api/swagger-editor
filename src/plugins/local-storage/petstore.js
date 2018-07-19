@@ -19,9 +19,6 @@ basePath: "/v2"
 tags:
 - name: "pet"
   description: "Everything about your Pets"
-  externalDocs:
-    description: "Find out more"
-    url: "http://swagger.io"
 - name: "store"
   description: "Access to Petstore orders"
 - name: "user"
