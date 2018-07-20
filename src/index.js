@@ -16,6 +16,7 @@ import EditorAutosuggestRefsPlugin from "./plugins/editor-autosuggest-refs"
 import PerformancePlugin from "./plugins/performance"
 import JumpToPathPlugin from "./plugins/jump-to-path"
 import SplitPaneModePlugin from "./plugins/split-pane-mode"
+import ASTPlugin from "./plugins/ast"
 
 // eslint-disable-next-line no-undef
 const { GIT_DIRTY, GIT_COMMIT, PACKAGE_VERSION } = buildInfo
@@ -36,6 +37,7 @@ const plugins = {
   PerformancePlugin,
   JumpToPathPlugin,
   SplitPaneModePlugin,
+  ASTPlugin,
 }
 
 const defaults = {
