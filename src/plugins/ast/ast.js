@@ -1,7 +1,7 @@
 import YAML from "yaml-js"
 import isArray from "lodash/isArray"
 import lodashFind from "lodash/find"
-import { memoize } from "core/utils"
+import memoize from "lodash/memoize"
 
 let cachedCompose = memoize(YAML.compose) // TODO: build a custom cache based on content
 
