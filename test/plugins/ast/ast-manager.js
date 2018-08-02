@@ -3,43 +3,40 @@ import expect from "expect"
 import { pathForPosition, positionRangeForPath } from "plugins/ast/ast"
 
 describe("ASTManager", function() {
-  describe("#pathForPosition", function() {
-    describe("out of range", function() {
-      it("returns empty array for out of range row", function() {
-        let position = {line: 3, column: 0}
+  describe("#pathForPosition", function () {
+    describe("out of range", function () {
+      it("returns empty array for out of range row", function () {
+        let position = { line: 3, column: 0 }
         let path = pathForPosition("swagger: 2.0", position)
 
         expect(path).toEqual([])
       })
 
-      it("returns empty array for out of range column", function() {
-        let position = {line: 0, column: 100}
+      it("returns empty array for out of range column", function () {
+        let position = { line: 0, column: 100 }
         let path = pathForPosition("swagger: 2.0", position)
 
         expect(path).toEqual([])
       })
     })
 
-    describe("when document is a simple hash `swagger: 2.0`", function() {
-      it("should return empty array when pointer is at middle of the hash key", function() {
-        let position = {line: 0, column: 3}
+    describe("when document is a simple hash `swagger: 2.0`", function () {
+      it("should return empty array when pointer is at middle of the hash key", function () {
+        let position = { line: 0, column: 3 }
         let path = pathForPosition("swagger: 2.0", position)
 
         expect(path).toEqual([])
       })
 
-      it("should return ['swagger'] when pointer is at the value", function() {
-        let position = {
-          line: 0,
-          column: 10
-        }
+      it("should return ['swagger'] when pointer is at the value", function () {
+        let position = { line: 0, column: 10 }
         let path = pathForPosition("swagger: 2.0", position)
 
         expect(path).toEqual(["swagger"])
       })
     })
 
-    describe("when document is an array: ['abc', 'cde']", function() {
+    describe("when document is an array: ['abc', 'cde']", function () {
       let yaml = [
         /*
         0
@@ -48,42 +45,33 @@ describe("ASTManager", function() {
         /* 1 */ "- def"
       ].join("\n")
 
-      it("should return empty array when pointer is at array dash", function() {
-        let position = {
-          line: 0,
-          column: 0
-        }
+      it("should return empty array when pointer is at array dash", function () {
+        let position = { line: 0, column: 0 }
         let path = pathForPosition(yaml, position)
 
         expect(path).toEqual([])
       })
 
-      it("should return ['0'] when pointer is at abc", function() {
-        let position = {
-          line: 0,
-          column: 3
-        }
+      it("should return ['0'] when pointer is at abc", function () {
+        let position = { line: 0, column: 3 }
         let path = pathForPosition(yaml, position)
 
         expect(path).toEqual(["0"])
       })
 
-      it("should return ['1'] when pointer is at abc", function() {
-        let position = {
-          line: 1,
-          column: 3
-        }
+      it("should return ['1'] when pointer is at abc", function () {
+        let position = { line: 1, column: 3 }
         let path = pathForPosition(yaml, position)
 
         expect(path).toEqual(["1"])
       })
     })
 
-    describe("when document is an array of arrays", function() {
+    describe("when document is an array of arrays", function () {
       let yaml = [
         /*
-                 0         10
-                 0123456789012345 */
+        0         10
+        0123456789012345 */
         /* 0 */ "-",
         /* 1 */ " - abc",
         /* 2 */ " - def",
@@ -92,60 +80,48 @@ describe("ASTManager", function() {
         /* 5 */ " - DEF"
       ].join("\n")
 
-      it("should return ['0', '0'] when pointer is at 'abc'", function() {
-        let position = {
-          line: 1,
-          column: 5
-        }
+      it("should return ['0', '0'] when pointer is at 'abc'", function () {
+        let position = { line: 1, column: 5 }
         let path = pathForPosition(yaml, position)
 
         expect(path).toEqual(["0", "0"])
       })
     })
 
-    describe("when document is an array of hashs", function() {
+    describe("when document is an array of hashs", function () {
       let yaml = [
         /*
-                 0         10
-                 0123456789012345 */
+        0         10
+        0123456789012345 */
         /* 0 */ "- key: value",
         /* 1 */ "  num: 1",
         /* 2 */ "- name: Tesla",
         /* 3 */ "  year: 2016"
       ].join("\n")
 
-      it("should return ['0'] when pointer is at 'key'", function() {
-        let position = {
-          line: 0,
-          column: 3
-        }
+      it("should return ['0'] when pointer is at 'key'", function () {
+        let position = { line: 0, column: 3 }
         let path = pathForPosition(yaml, position)
 
         expect(path).toEqual(["0"])
       })
 
-      it("should return ['0', 'key'] when pointer is at 'value'", function() {
-        let position = {
-          line: 0,
-          column: 9
-        }
+      it("should return ['0', 'key'] when pointer is at 'value'", function () {
+        let position = { line: 0, column: 9 }
         let path = pathForPosition(yaml, position)
 
         expect(path).toEqual(["0", "key"])
       })
 
-      it("should return ['1', 'year'] when pointer is at '2016'", function() {
-        let position = {
-          line: 3,
-          column: 10
-        }
+      it("should return ['1', 'year'] when pointer is at '2016'", function () {
+        let position = { line: 3, column: 10 }
         let path = pathForPosition(yaml, position)
 
         expect(path).toEqual(["1", "year"])
       })
     })
 
-    describe("full document", function() {
+    describe("full document", function () {
       let yaml = [
         /*
         0         10        20        30
@@ -161,11 +137,8 @@ describe("ASTManager", function() {
         /* 8 */ "                         "
       ].join("\n")
 
-      it("should return ['info', 'contact', 'email'] when pointer is at me@", function() {
-        let position = {
-          line: 7,
-          column: 13
-        }
+      it("should return ['info', 'contact', 'email'] when pointer is at me@", function () {
+        let position = { line: 7, column: 13 }
         let path = pathForPosition(yaml, position)
 
         expect(path).toEqual(["info", "contact", "email"])
