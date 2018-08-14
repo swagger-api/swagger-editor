@@ -64,21 +64,27 @@ This will run Swagger Editor (in detached mode) on port 80 on your machine, so y
 To build and run a docker image with the code checked out on your machine, run the following from the root directory of the project:
 
 ```
-# Install npm packages (if needed)
-npm install
-
-# Build the app
-npm run build
-
-# Build an image
+# Build an image in a multistage build - no node/npm required 
 docker build -t swagger-editor .
 
-# Run the container
-docker run -d -p 80:8080 swagger-editor
+# Remove the intermediate builder images
+docker image prune --filter label=stage=intermediate
+
+# Run the container (add the --rm flag if you want to autoremove the container)
+docker run --name swagger-editor -d -p 80:8080 swagger-editor
+
+# Stop the container
+docker stop swagger-editor
 
 ```
 
 You can then view the app by navigating to `http://localhost` in your browser.
+
+### Notes
+
+The multistage build requires docker version later or equal to `17.06 CE`.
+Also - for security we use a non-privileged user (`nginx`) see
+[medium.com: Processes In Containers Should Not Run As Root](https://medium.com/@mccode/processes-in-containers-should-not-run-as-root-2feae3f0df3b)
 
 ## Documentation
 
