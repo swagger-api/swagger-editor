@@ -159,16 +159,59 @@ export default function makeEditor({ editorPluginsToRun }) {
       const { editor } = this
 
       const markers = Im.Map.isMap(props.markers) ? props.markers.toJS() : {}
-      this.removeMarkers = placeMarkerDecorations({
+      this._removeMarkers = placeMarkerDecorations({
         editor,
         markers,
         onMarkerLineUpdate: props.onMarkerLineUpdate,
       })
     }
 
-    updateYamlIfOrigin = (props) => {
-      if(props.origin !== "editor") {
+    removeMarkers = () => {
+      if(this._removeMarkers) {
+        this._removeMarkers()
+        this._removeMarkers = null
+      }
+    }
+
+    shouldUpdateYaml = (props) => {
+      // No editor instance
+      if(!this.editor)
+        return false
+
+      // Origin is editor
+      if(props.origin === "editor")
+        return false
+
+      // Redundant
+      if(this.editor.getValue() === props.value)
+        return false
+
+      // Value and origin are same, no update.
+      if(this.props.value === props.value
+        && this.props.origin === props.origin)
+        return false
+
+      return true
+    }
+
+    shouldUpdateMarkers = (props) => {
+      const { markers } = props
+      if(Im.Map.isMap(markers)) {
+        return !Im.is(markers, this.props.markers) // Different from previous?
+      }
+      return true // Not going to do a deep compare of object-like markers
+    }
+
+    updateYamlAndMarkers = (props) => {
+      // If we update the yaml, we need to "lift" the yaml first
+      if(this.shouldUpdateYaml(props)) {
+        this.removeMarkers()
         this.updateYaml(props)
+        this.updateMarkerAnnotations(props)
+
+      } else if (this.shouldUpdateMarkers(props)) {
+        this.removeMarkers()
+        this.updateMarkerAnnotations(props)
       }
     }
 
@@ -231,15 +274,7 @@ export default function makeEditor({ editorPluginsToRun }) {
           : nextProps.onChange
       }
 
-      // Remove markers
-      if(this.removeMarkers) {
-        this.removeMarkers()
-      }
-
-      this.updateYamlIfOrigin(nextProps)
-
-      // Add back the markers
-      this.updateMarkerAnnotations(nextProps)
+      this.updateYamlAndMarkers(nextProps)
       this.updateErrorAnnotations(nextProps)
 
       // Clear undo-stack if we've changed specId or it was empty before
