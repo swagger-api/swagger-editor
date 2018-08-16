@@ -11,7 +11,6 @@ import win from "src/window"
 import isUndefined from "lodash/isUndefined"
 import omit from "lodash/omit"
 import isEqual from "lodash/isEqual"
-import isEmpty from "lodash/isEmpty"
 import debounce from "lodash/debounce"
 
 import ace from "brace"
