@@ -258,7 +258,6 @@ export default function makeEditor({ editorPluginsToRun }) {
 
     componentWillReceiveProps(nextProps) {
       let hasChanged = (k) => !isEqual(nextProps[k], this.props[k])
-      let wasEmptyBefore = (k) => nextProps[k] && (!this.props[k] || isEmpty(this.props[k]))
       const editor = this.editor
 
       // Change the debounce value/func
@@ -273,13 +272,6 @@ export default function makeEditor({ editorPluginsToRun }) {
 
       this.updateYamlAndMarkers(nextProps)
       this.updateErrorAnnotations(nextProps)
-
-      // Clear undo-stack if we've changed specId or it was empty before
-      if(hasChanged("specId") || wasEmptyBefore("value")) {
-        setTimeout(function () {
-          editor.getSession().getUndoManager().reset()
-        }, 100) // TODO: get rid of timeout
-      }
 
       if(hasChanged("editorOptions")) {
         this.syncOptionsFromState(nextProps.editorOptions)
