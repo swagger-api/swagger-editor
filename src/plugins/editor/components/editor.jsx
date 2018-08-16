@@ -216,12 +216,9 @@ export default function makeEditor({ editorPluginsToRun }) {
     }
 
     updateYaml = (props) => {
-      // this.silent is taken from react-ace module. It avoids firing onChange, when we update setValue
-      this.silent = true
-      const pos = this.editor.session.selection.toJSON()
-      this.editor.setValue(props.value)
-      this.editor.session.selection.fromJSON(pos)
-      this.silent = false
+      // session.setValue does not trigger onChange, nor add to undo stack.
+      // Neither of which we want here.
+      this.editor.session.setValue(props.value)
     }
 
     syncOptionsFromState = (editorOptions={}) => {
