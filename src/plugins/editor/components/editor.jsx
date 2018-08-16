@@ -11,7 +11,6 @@ import win from "src/window"
 import isUndefined from "lodash/isUndefined"
 import omit from "lodash/omit"
 import isEqual from "lodash/isEqual"
-import isEmpty from "lodash/isEmpty"
 import debounce from "lodash/debounce"
 
 import ace from "brace"
@@ -159,26 +158,66 @@ export default function makeEditor({ editorPluginsToRun }) {
       const { editor } = this
 
       const markers = Im.Map.isMap(props.markers) ? props.markers.toJS() : {}
-      this.removeMarkers = placeMarkerDecorations({
+      this._removeMarkers = placeMarkerDecorations({
         editor,
         markers,
         onMarkerLineUpdate: props.onMarkerLineUpdate,
       })
     }
 
-    updateYamlIfOrigin = (props) => {
-      if(props.origin !== "editor") {
+    removeMarkers = () => {
+      if(this._removeMarkers) {
+        this._removeMarkers()
+        this._removeMarkers = null
+      }
+    }
+
+    shouldUpdateYaml = (props) => {
+      // No editor instance
+      if(!this.editor)
+        return false
+
+      // Origin is editor
+      if(props.origin === "editor")
+        return false
+
+      // Redundant
+      if(this.editor.getValue() === props.value)
+        return false
+
+      // Value and origin are same, no update.
+      if(this.props.value === props.value
+        && this.props.origin === props.origin)
+        return false
+
+      return true
+    }
+
+    shouldUpdateMarkers = (props) => {
+      const { markers } = props
+      if(Im.Map.isMap(markers)) {
+        return !Im.is(markers, this.props.markers) // Different from previous?
+      }
+      return true // Not going to do a deep compare of object-like markers
+    }
+
+    updateYamlAndMarkers = (props) => {
+      // If we update the yaml, we need to "lift" the yaml first
+      if(this.shouldUpdateYaml(props)) {
+        this.removeMarkers()
         this.updateYaml(props)
+        this.updateMarkerAnnotations(props)
+
+      } else if (this.shouldUpdateMarkers(props)) {
+        this.removeMarkers()
+        this.updateMarkerAnnotations(props)
       }
     }
 
     updateYaml = (props) => {
-      // this.silent is taken from react-ace module. It avoids firing onChange, when we update setValue
-      this.silent = true
-      const pos = this.editor.session.selection.toJSON()
-      this.editor.setValue(props.value)
-      this.editor.session.selection.fromJSON(pos)
-      this.silent = false
+      // session.setValue does not trigger onChange, nor add to undo stack.
+      // Neither of which we want here.
+      this.editor.session.setValue(props.value)
     }
 
     syncOptionsFromState = (editorOptions={}) => {
@@ -218,7 +257,6 @@ export default function makeEditor({ editorPluginsToRun }) {
 
     componentWillReceiveProps(nextProps) {
       let hasChanged = (k) => !isEqual(nextProps[k], this.props[k])
-      let wasEmptyBefore = (k) => nextProps[k] && (!this.props[k] || isEmpty(this.props[k]))
       const editor = this.editor
 
       // Change the debounce value/func
@@ -231,23 +269,8 @@ export default function makeEditor({ editorPluginsToRun }) {
           : nextProps.onChange
       }
 
-      // Remove markers
-      if(this.removeMarkers) {
-        this.removeMarkers()
-      }
-
-      this.updateYamlIfOrigin(nextProps)
-
-      // Add back the markers
-      this.updateMarkerAnnotations(nextProps)
+      this.updateYamlAndMarkers(nextProps)
       this.updateErrorAnnotations(nextProps)
-
-      // Clear undo-stack if we've changed specId or it was empty before
-      if(hasChanged("specId") || wasEmptyBefore("value")) {
-        setTimeout(function () {
-          editor.getSession().getUndoManager().reset()
-        }, 100) // TODO: get rid of timeout
-      }
 
       if(hasChanged("editorOptions")) {
         this.syncOptionsFromState(nextProps.editorOptions)
