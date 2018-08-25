@@ -3,7 +3,7 @@ import rewiremock from "rewiremock"
 import Enzyme, { shallow } from "enzyme"
 import Adapter from "enzyme-adapter-react-15"
 import React from "react"
-import FakeAce, { Session } from "test/mocks/ace.js"
+import FakeAce, { Session } from "test/unit/mocks/ace.js"
 import { fromJS } from "immutable"
 
 const pause = (ms) => new Promise((res) => setTimeout(res, ms))
