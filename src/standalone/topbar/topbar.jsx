@@ -1,6 +1,7 @@
 import React from "react"
 import PropTypes from "prop-types"
 import Swagger from "swagger-client"
+import URL from "url"
 import "whatwg-fetch"
 import DropdownMenu from "./DropdownMenu"
 import Modal from "boron/DropModal"
@@ -233,7 +234,16 @@ export default class Topbar extends React.Component {
       return console.error(res)
     }
 
-    fetch(res.body.link)
+    let downloadUrl = URL.parse(res.body.link)
+
+    // HACK: workaround for Swagger.io Generator 2.0's lack of HTTPS downloads
+    if(downloadUrl.hostname === "generator.swagger.io") {
+      downloadUrl.protocol = "https:"
+      delete downloadUrl.port
+      delete downloadUrl.host
+    }
+
+    fetch(URL.format(downloadUrl))
       .then(res => res.blob())
       .then(res => {
         this.downloadFile(res, `${name}-${type}-generated.zip`)
