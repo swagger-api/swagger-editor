@@ -31,7 +31,7 @@
     "lint-fix": "eslint --cache --ext '.js,.jsx' src test --fix",
     "e2e": "run-p -r e2e:hot-server e2e:cypress-test",
     "e2e:dev": "run-p -r e2e:hot-server e2e:cypress-open",
-    "e2e:hot-server": "webpack-dev-server --host 0.0.0.0 --config webpack-hot-dev-server.config.js --inline --hot --progress --content-base test/e2e/static",
+    "e2e:hot-server": "webpack-dev-server --port 3260 --host 0.0.0.0 --config webpack-hot-dev-server.config.js --inline --hot --progress --content-base test/e2e/static",
     "e2e:cypress-test": "cypress run",
     "e2e:cypress-open": "cypress open",
     "test": "run-s just-test-in-node e2e lint-errors",
