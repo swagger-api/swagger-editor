@@ -2,20 +2,21 @@ import React from "react"
 import PropTypes from "prop-types"
 import Dropzone from "react-dropzone"
 
+Dropzone.displayName = "Dropzone" // For testing
+
 export default class EditorLayout extends React.Component {
 
   static propTypes = {
     errSelectors: PropTypes.object.isRequired,
     errActions: PropTypes.object.isRequired,
     specActions: PropTypes.object.isRequired,
-    specSelectors: PropTypes.object.isRequired,
     getComponent: PropTypes.func.isRequired,
     layoutSelectors: PropTypes.object.isRequired,
     layoutActions: PropTypes.object.isRequired
   }
 
-  onChange = (newYaml) => {
-    this.props.specActions.updateSpec(newYaml)
+  onChange = (newYaml, origin="editor") => {
+    this.props.specActions.updateSpec(newYaml, origin)
   }
 
   onDrop = (acceptedFiles, rejectedFiles) => {
@@ -28,7 +29,7 @@ export default class EditorLayout extends React.Component {
       const reader = new FileReader()
       reader.onloadend = () => {
         const spec = reader.result
-        this.onChange(spec)
+        this.onChange(spec, "fileDrop")
       }
 
       reader.readAsText(file, "utf-8")
@@ -36,17 +37,17 @@ export default class EditorLayout extends React.Component {
   }
 
   render() {
-    let { getComponent } = this.props
+    const { getComponent } = this.props
 
-    let UIBaseLayout = getComponent("BaseLayout", true)
-
-    let Container = getComponent("Container")
-    let EditorContainer = getComponent("EditorContainer", true)
+    const UIBaseLayout = getComponent("BaseLayout", true)
+    const EditorContainer = getComponent("EditorContainer", true)
     const SplitPaneMode = getComponent("SplitPaneMode", true)
+
+    const Container = getComponent("Container")
 
     return (
       <div>
-        <Container className='container'>
+        <Container className="container">
           <Dropzone
             className="dropzone"
             accept=".yaml,application/json"

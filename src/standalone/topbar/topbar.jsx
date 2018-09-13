@@ -1,11 +1,12 @@
 import React from "react"
 import PropTypes from "prop-types"
 import Swagger from "swagger-client"
+import URL from "url"
 import "whatwg-fetch"
 import DropdownMenu from "./DropdownMenu"
 import Modal from "boron/DropModal"
 import reactFileDownload from "react-file-download"
-import YAML from "js-yaml"
+import YAML from "@kyleshockey/js-yaml"
 import beautifyJson from "json-beautify"
 
 import "react-dd-menu/dist/react-dd-menu.css"
@@ -233,7 +234,16 @@ export default class Topbar extends React.Component {
       return console.error(res)
     }
 
-    fetch(res.body.link)
+    let downloadUrl = URL.parse(res.body.link)
+
+    // HACK: workaround for Swagger.io Generator 2.0's lack of HTTPS downloads
+    if(downloadUrl.hostname === "generator.swagger.io") {
+      downloadUrl.protocol = "https:"
+      delete downloadUrl.port
+      delete downloadUrl.host
+    }
+
+    fetch(URL.format(downloadUrl))
       .then(res => res.blob())
       .then(res => {
         this.downloadFile(res, `${name}-${type}-generated.zip`)
@@ -386,7 +396,7 @@ export default class Topbar extends React.Component {
             </DropdownMenu> : null }
           </div>
         </div>
-        <Modal className="swagger-ui modal" ref="modal">
+        <Modal className="modal" ref="modal">
           <div className="container">
             <h2>Upload file</h2>
             <input type="file" ref="fileLoadInput"></input>
@@ -396,7 +406,7 @@ export default class Topbar extends React.Component {
             <button className="btn" onClick={this.importFromFile}>Open file</button>
           </div>
         </Modal>
-        <Modal className="swagger-ui modal" ref="generatorModal">
+        <Modal className="modal" ref="generatorModal">
           <div className="modal-message">
             <p>
               Code generation for OAS3 is currently work in progress. The available languages is smaller than the for OAS/Swagger 2.0 and is constantly being updated.

@@ -1,4 +1,4 @@
-import YAML from "js-yaml"
+import YAML from "@kyleshockey/js-yaml"
 
 export default function(editor) {
   editor.on("paste", e => {

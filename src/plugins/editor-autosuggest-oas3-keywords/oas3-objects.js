@@ -216,7 +216,7 @@ export const Response = {
 
 export const Responses = {
   default: anyOf(Response, Reference),
-  "\d\d\d|\d\dX|\dXX": anyOf(Response, Reference),
+  "\\d\\d\\d|\\d\\dX|\\dXX": anyOf(Response, Reference),
 }
 
 export const Callback = {

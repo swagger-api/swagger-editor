@@ -5,3 +5,7 @@ node_modules
 npm-debug.log*
 .eslintcache
 package-lock.json
+
+# Cypress
+test/e2e/screenshots
+test/e2e/videos

@@ -1,7 +1,7 @@
 {
   "name": "swagger-editor",
   "description": "Swagger Editor",
-  "version": "3.5.7",
+  "version": "3.6.10",
   "main": "dist/swagger-editor.js",
   "repository": "git@github.com:swagger-api/swagger-editor.git",
   "license": "Apache-2.0",
@@ -15,11 +15,11 @@
     "Sahar Jafari <shr.jafari@gmail.com>"
   ],
   "scripts": {
-    "build": "npm run build-core && npm run build-bundle && npm run build-standalone",
+    "build": "run-p --aggregate-output build-core build-bundle build-standalone",
     "build-bundle": "webpack --config webpack-dist-bundle.config.js --colors",
     "build-core": "webpack --config webpack-dist.config.js --colors",
     "build-standalone": "webpack --config webpack-standalone.config.js --colors",
-    "deps-check": "npm run deps-license && npm run deps-size",
+    "deps-check": "run-s deps-license deps-size",
     "deps-license": "license-checker --production --csv --out $npm_package_config_deps_check_dir/licenses.csv && license-checker --development --csv --out $npm_package_config_deps_check_dir/licenses-dev.csv",
     "deps-size": "webpack -p --config webpack.check.js --json | webpack-bundle-size-analyzer >| $npm_package_config_deps_check_dir/sizes.txt",
     "predev": "npm install",
@@ -29,10 +29,15 @@
     "lint": "eslint --cache --ext '.js,.jsx' src test",
     "lint-errors": "eslint --cache --quiet --ext '.js,.jsx' src test",
     "lint-fix": "eslint --cache --ext '.js,.jsx' src test --fix",
-    "test": "npm run just-test-in-node && npm run lint-errors",
-    "test-in-node": "npm run lint-errors && npm run just-test-in-node",
+    "e2e": "run-p -r e2e:hot-server e2e:cypress-test",
+    "e2e:dev": "run-p -r e2e:hot-server e2e:cypress-open",
+    "e2e:hot-server": "webpack-dev-server --host 0.0.0.0 --config webpack-hot-dev-server.config.js --inline --hot --progress --content-base test/e2e/static",
+    "e2e:cypress-test": "cypress run",
+    "e2e:cypress-open": "cypress open",
+    "test": "run-s just-test-in-node lint-errors",
+    "test-in-node": "run-s lint-errors just-test-in-node",
     "just-test": "karma start --config karma.conf.js",
-    "just-test-in-node": "cross-env NODE_ENV=test mocha --recursive --compilers js:babel-core/register test",
+    "just-test-in-node": "cross-env NODE_ENV=test mocha --require test/unit/setup.js --recursive --compilers js:babel-core/register --compilers jsx:babel-core/register test/unit",
     "just-test-in-node-watch": "npm run just-test-in-node -- -w",
     "serve-static": "http-server -i -a 0.0.0.0 -p 3001",
     "prestart": "npm install",
@@ -40,6 +45,7 @@
     "watch": "webpack --config  ./webpack-dist.config.js --watch --progress"
   },
   "dependencies": {
+    "@kyleshockey/js-yaml": "^1.0.1",
     "ajv": "^5.2.2",
     "boron": "^0.2.3",
     "brace": "^0.10.0",
@@ -47,9 +53,10 @@
     "core-js": "^2.4.1",
     "deepmerge": "^1.3.2",
     "immutable": "^3.x.x",
-    "js-yaml": "^3.5.5",
     "json-beautify": "^1.0.1",
     "json-refs": "^3.0.4",
+    "lodash": "^4.17.4",
+    "promise-worker": "^1.1.1",
     "prop-types": "15.6.0",
     "querystring-browser": "^1.0.4",
     "react": "^15.6.2",
@@ -57,15 +64,19 @@
     "react-addons-css-transition-group": "^15.4.2",
     "react-dd-menu": "^2.0.0",
     "react-dom": "^15.6.2",
-    "react-dropzone": "^4.2.7",
+    "react-dropzone": "4.2.11",
     "react-file-download": "^0.3.2",
+    "react-immutable-proptypes": "^2.1.0",
     "react-redux": "^4.x.x",
+    "react-split-pane": "^0.1.82",
     "react-transition-group": "^1.1.1",
     "redux": "^3.x.x",
-    "swagger-client": "^3.8.5",
-    "swagger-ui": "^3.16.0",
+    "reselect": "^2.5.4",
+    "swagger-client": "^3.8.15",
+    "swagger-ui": "^3.18.2",
     "traverse": "^0.6.6",
-    "whatwg-fetch": "^2.0.3"
+    "whatwg-fetch": "^2.0.3",
+    "yaml-js": "^0.1.4"
   },
   "devDependencies": {
     "autoprefixer": "6.6.1",
@@ -81,12 +92,18 @@
     "babel-preset-react": "^6.23.0",
     "babel-preset-stage-0": "^6.22.0",
     "babel-runtime": "^6.23.0",
+    "bundlesize": "^0.17.0",
     "cross-env": "^5.1.3",
     "css-loader": "0.22.0",
+    "cypress": "^3.1.0",
     "deep-extend": "^0.4.1",
     "deepmerge": "^1.3.2",
+    "enzyme": "^3.3.0",
+    "enzyme-adapter-react-15": "^1.0.5",
     "eslint": "^2.13.1",
+    "eslint-plugin-import": "^2.13.0",
     "eslint-plugin-react": "^4.3.0",
+    "expect": "^1.20.2",
     "expose-loader": "^0.7.3",
     "extract-text-webpack-plugin": "0.8.2",
     "file-loader": "0.8.4",
@@ -94,6 +111,8 @@
     "html-webpack-plugin": "^2.28.0",
     "http-server": "^0.9.0",
     "imports-loader": "0.6.5",
+    "jsdom": "11.12.0",
+    "jsdom-global": "3.0.2",
     "json-loader": "0.5.3",
     "karma": "^0.13.22",
     "karma-chrome-launcher": "^0.2.3",
@@ -103,18 +122,17 @@
     "less": "2.5.3",
     "less-loader": "2.2.1",
     "license-checker": "^8.0.4",
-    "lodash": "^4.17.4",
     "matcher": "^0.1.2",
     "mocha": "^3.2.0",
-    "npm-run-all": "3.1.1",
+    "mocha-jsdom": "^2.0.0",
+    "npm-run-all": "^4.1.3",
     "null-loader": "0.1.1",
     "open": "0.0.5",
     "postcss-loader": "0.7.0",
-    "promise-worker": "^1.1.1",
     "raw-loader": "0.5.1",
     "react-hot-loader": "^1.3.1",
-    "react-immutable-proptypes": "^2.1.0",
-    "reselect": "^2.5.4",
+    "react-test-renderer": "^15.6.2",
+    "rewiremock": "^3.7.4",
     "rimraf": "^2.6.0",
     "standard": "^8.6.0",
     "standard-loader": "^5.0.0",
@@ -123,8 +141,7 @@
     "url-loader": "0.5.6",
     "webpack": "^1.14.0",
     "webpack-bundle-size-analyzer": "^2.5.0",
-    "worker-loader": "^0.7.1",
-    "yaml-js": "^0.1.4"
+    "worker-loader": "^0.7.1"
   },
   "config": {
     "deps_check_dir": ".deps_check"
@@ -136,5 +153,12 @@
   ],
   "optionalDependencies": {
     "webpack-dev-server": "1.14.0"
-  }
+  },
+  "bundlesize": [
+    {
+      "path": "./dist/swagger-editor-bundle.js",
+      "maxSize": "2.8 MB",
+      "compression": "none"
+    }
+  ]
 }

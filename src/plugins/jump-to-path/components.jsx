@@ -42,7 +42,7 @@ export class JumpToPath extends React.Component {
   }
 
 
-  defaultJumpContent = <img src={JumpIcon} onClick={this.jumpToPath} className="view-line-link" />
+  defaultJumpContent = <img src={JumpIcon} onClick={this.jumpToPath} className="view-line-link" title={"Jump to definition"} />
 
   render() {
     let { content, showButton } = this.props

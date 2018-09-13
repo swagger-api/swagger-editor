@@ -35,6 +35,7 @@ export default class EditorContainer extends React.Component {
         <Editor
           {...propsForEditor}
           value={specSelectors.specStr()}
+          origin={specSelectors.specOrigin()}
           editorOptions={editorOptions}
           specObject={specSelectors.specJson().toJS()}
           errors={errSelectors.allErrors()}
