@@ -1,5 +1,5 @@
 {
-  "name": "swagger-editor",
+  "name": "swagger-editor-testing",
   "description": "Swagger Editor",
   "version": "3.6.10",
   "main": "dist/swagger-editor.js",
