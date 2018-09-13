@@ -15,6 +15,7 @@
     "Sahar Jafari <shr.jafari@gmail.com>"
   ],
   "scripts": {
+    "automated-release": "release-it --config ./release/.release-it.json",
     "build": "run-p --aggregate-output build-core build-bundle build-standalone",
     "build-bundle": "webpack --config webpack-dist-bundle.config.js --colors",
     "build-core": "webpack --config webpack-dist.config.js --colors",
