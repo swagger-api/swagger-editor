@@ -1,5 +1,5 @@
 {
-  "name": "swagger-editor-dist-testing",
+  "name": "swagger-editor-dist",
   "version": "$$VERSION",
   "main": "swagger-editor.js",
   "repository": "git@github.com:swagger-api/swagger-editor.git",
