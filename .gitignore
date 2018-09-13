@@ -4,7 +4,6 @@ node_modules
 .DS_Store
 npm-debug.log*
 .eslintcache
-package-lock.json
 
 # Cypress
 test/e2e/screenshots
