@@ -12,7 +12,7 @@
   },
   "github": {
     "release": true,
-    "releaseName": "Swagger Editor v%s Released!",
+    "releaseName": "Swagger Editor %s Released!",
     "draft": true
   }
 }
