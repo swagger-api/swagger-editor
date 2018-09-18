@@ -1,6 +1,6 @@
 import React, { Component } from "react"
 import PropTypes from "prop-types"
-import YAML from "js-yaml"
+import YAML from "@kyleshockey/js-yaml"
 import { getForm } from "./../helpers/form-data-helpers"
 import { checkForErrors } from "./../helpers/validation-helpers"
 
@@ -11,15 +11,15 @@ class AddForm extends Component {
     this.state = {
       formErrors: false,
       formData: this.props.existingData ? 
-        this.props.getFormData( (newForm, path) => this.UpdateForm(newForm, path), [], this.props.existingData) :
-        this.props.getFormData( (newForm, path) => this.UpdateForm(newForm, path), [] )
+        this.props.getFormData( (newForm, path) => this.updateForm(newForm, path), [], this.props.existingData) :
+        this.props.getFormData( (newForm, path) => this.updateForm(newForm, path), [] )
     }
 
-    this.UpdateForm = this.UpdateForm.bind(this)
-    this.Submit = this.Submit.bind(this)
+    this.updateForm = this.updateForm.bind(this)
+    this.submit = this.submit.bind(this)
   }
 
-  Submit = function () {
+  submit = function () {
     const formData = this.state.formData
 
     // Prevent form submission if the data was invalid.
@@ -41,13 +41,13 @@ class AddForm extends Component {
 
     // Update the spec string in the Swagger UI state with the new json.
     const currentJson = this.props.specSelectors.specJson()
-    this.props.specActions.updateSpec(YAML.safeDump(currentJson.toJS()))
+    this.props.specActions.updateSpec(YAML.safeDump(currentJson.toJS()), "insert")
 
     // Perform any parent component actions for the form.
     this.props.submit()
   }
 
-  UpdateForm(newFormData, path) {
+  updateForm(newFormData, path) {
     this.setState(prevState => ({ 
       formData: prevState.formData.setIn(path, newFormData) 
     }))
@@ -63,7 +63,7 @@ class AddForm extends Component {
         </div>
         <div className="modal-footer">
           { this.state.formErrors && <div className="invalid-feedback">Please fix errors before submitting.</div>}
-          <button className="btn btn-default" onClick={this.Submit}>{this.props.submitButtonText}</button>
+          <button className="btn btn-default" onClick={this.submit}>{this.props.submitButtonText}</button>
         </div>
       </div>
     )
@@ -82,7 +82,10 @@ AddForm.propTypes = {
   submitButtonText: PropTypes.string.isRequired,
   getFormData: PropTypes.func.isRequired,
   updateSpecJson: PropTypes.func.isRequired,
-  existingData: PropTypes.object
+  existingData: PropTypes.oneOfType([
+    PropTypes.object,
+    PropTypes.array
+  ])
 }
 
 export default AddForm

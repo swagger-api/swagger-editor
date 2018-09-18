@@ -5,10 +5,10 @@ class FormInput extends Component {
   constructor(props) {
     super(props)
     this.isNotRequiredAndEmpty = this.isNotRequiredAndEmpty.bind(this)
-    this.OnKeyPress = this.OnKeyPress.bind(this)
+    this.onKeyPress = this.onKeyPress.bind(this)
   }
 
-  OnKeyPress = (event) => {
+  onKeyPress = (event) => {
     if (!this.props.onKeyPress) {
       return
     } 
@@ -44,12 +44,12 @@ class FormInput extends Component {
 }
 
 FormInput.propTypes = {
-  isValid: PropTypes.bool.isRequired,
+  isValid: PropTypes.bool,
   placeholderText: PropTypes.string,
   validationMessage: PropTypes.string,
   inputValue: PropTypes.string.isRequired,
   onChange: PropTypes.func.isRequired,
-  isRequired: PropTypes.bool.isRequired,
+  isRequired: PropTypes.bool,
   onKeyPress: PropTypes.func
 }
 

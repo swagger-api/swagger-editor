@@ -1,6 +1,6 @@
-import { OrderedMap, List } from "immutable"
+import { fromJS } from "immutable"
 
-const EnumFormItem = (j, updateForm, path) => new OrderedMap({
+const enumFormItem = (j, updateForm, path) => fromJS({
   name: "Enum Value",
   description: "A value in the enumeration of possible variable values.",
   isRequired: false,
@@ -9,53 +9,53 @@ const EnumFormItem = (j, updateForm, path) => new OrderedMap({
   updateForm: newForm => updateForm(newForm, path.concat(["value", j]))
 })
 
-const ServerVariableFormItem = (i, updateForm, path) => new OrderedMap({ 
+const serverVariableFormItem = (i, updateForm, path) => fromJS({ 
   isRequired: true,
   name: "Variable Name",
   keyValue: "",
   description: "The name of the server variable.",
-  value: new OrderedMap({
-    default: new OrderedMap({
+  value: {
+    default: {
       value: "",
       isRequired: true,
       hasErrors: false,
       name: "Default",
       description: "REQUIRED. The default value to use for substitution, and to send, if an alternate value is not supplied. Unlike the Schema Object's default, this value MUST be provided by the consumer.",
       updateForm: newForm => updateForm(newForm, path.concat(["value", i, "value", "default"]))
-    }),
-    enum: new OrderedMap({
-      value: new List([EnumFormItem(0, updateForm, path.concat(["value", i, "value", "enum"]))]),
+    },
+    enum: {
+      value: [enumFormItem(0, updateForm, path.concat(["value", i, "value", "enum"]))],
       isRequired: false, 
       hasErrors: false,
       name: "Enum",
-      defaultItem: j => EnumFormItem(j, updateForm, path.concat(["value", i, "value", "enum"])),
+      defaultItem: j => enumFormItem(j, updateForm, path.concat(["value", i, "value", "enum"])),
       description: "An enumeration of string values to be used if the substitution options are from a limited set.",
       updateForm: newForm => updateForm(newForm, path.concat(["value", i, "value", "enum"]))
-    }),
-    vardescription: new OrderedMap({
+    },
+    vardescription: {
       value: "",
       isRequired: false,
       name: "Description",
       description: "A short description of the tag. CommonMark syntax MAY be used for rich text representation.",
       hasErrors: false,
       updateForm: newForm => updateForm(newForm, path.concat(["value", i, "value", "vardescription"]))
-    })
-  }),
+    }
+  },
   updateForm: newForm => updateForm(newForm, path.concat(["value", i]))
 })
 
-export const ServerVariableForm = (updateForm, path) =>
-  new OrderedMap({
-    value: new List([]),
+export const serverVariableForm = (updateForm, path) =>
+  fromJS({
+    value: [],
     isRequired: false,
     name: "Server Variables",
     description: "A map between a variable name and its value. The value is used for substitution in the server's URL template.",
     hasErrors: false,
     updateForm: newForm => updateForm(newForm, path),
-    defaultItem: i => ServerVariableFormItem(i, updateForm, path)
+    defaultItem: i => serverVariableFormItem(i, updateForm, path)
   })
 
-export const ServerVariableObject = (formData) => {
+export const serverVariableObject = (formData) => {
   const variables = formData.get("value")
   const newVariables = {}
 
@@ -65,6 +65,7 @@ export const ServerVariableObject = (formData) => {
 
     const enumVal = varValue.getIn(["enum", "value"])
     const enumValues = []
+
     if (enumVal) {
       enumVal.forEach((option) => {
         enumValues.push(option.get("value"))

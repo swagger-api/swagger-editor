@@ -15,12 +15,12 @@ const FormChild = (props) => {
 }
 
 FormChild.propTypes = {
-  name: PropTypes.string.isRequired,
-  description: PropTypes.string.isRequired,
-  isRequired: PropTypes.bool.isRequired,
+  name: PropTypes.string,
+  description: PropTypes.string,
+  isRequired: PropTypes.bool,
   childForm: PropTypes.any.isRequired,
   flipRequired: PropTypes.func.isRequired,
-  optional: PropTypes.bool.isRequired
+  optional: PropTypes.bool
 }
 
 export default FormChild

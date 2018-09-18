@@ -5,7 +5,7 @@ import FormInputWrapper from "./FormInputWrapper"
 
 const FormMap = (props) => {
   return (
-    <div>
+    <div key={props.name}>
       <div className="map-form-left float-left">
         <FormInputWrapper name={props.name} description={props.description} isRequired={props.isRequired}>
           <FormInput 
@@ -27,14 +27,14 @@ const FormMap = (props) => {
 }
 
 FormMap.propTypes = {
-  name: PropTypes.string.isRequired,
+  name: PropTypes.string,
   isValid: PropTypes.bool.isRequired,
-  description: PropTypes.string.isRequired,
+  description: PropTypes.string,
   validationMessage: PropTypes.string,
   placeholderText: PropTypes.string,
   keyValue: PropTypes.string.isRequired,
   onChange: PropTypes.func.isRequired,
-  isRequired: PropTypes.bool.isRequired,
+  isRequired: PropTypes.bool,
   childForm: PropTypes.any.isRequired
 }
 

@@ -1,8 +1,8 @@
-import { OrderedMap } from "immutable"
+import { fromJS } from "immutable"
 
-export const PathForm = (updateForm, path) => 
-  new OrderedMap({ 
-    path: new OrderedMap({ 
+export const pathForm = (updateForm, path) => 
+  fromJS({ 
+    path: { 
       value: "", 
       isRequired: true, 
       hasErrors: false,
@@ -10,8 +10,8 @@ export const PathForm = (updateForm, path) =>
       description: "REQUIRED. The path to add.",
       updateForm: event => updateForm(event, path.concat(["path"])),
       validationMessage: "Please enter a path. The field is required."
-    }),
-    summary: new OrderedMap({ 
+    },
+    summary: { 
       value: "", 
       isRequired: false, 
       hasErrors: false,
@@ -19,18 +19,18 @@ export const PathForm = (updateForm, path) =>
       description: "Enter a summary of the path.",
       updateForm: event => updateForm(event, path.concat(["summary"])),
       validationMessage: "Please select an operation. The field is required."
-    }),
-    description: new OrderedMap({
+    },
+    description: {
       value: "",
       isRequired: false, 
       hasErrors: false,
       name: "Description",
       description: "An optional, string description, intended to apply to all operations in this path. CommonMark syntax MAY be used for rich text representation.",
       updateForm: event => updateForm(event, path.concat(["description"]))
-    })
+    }
   })
 
-export const PathObject = (formData) => {
+export const pathObject = (formData) => {
   const pathSummary = formData.getIn(["summary", "value"])
   const pathDescription = formData.getIn(["description", "value"])
   const newPath = { key: formData.getIn(["path", "value"]), value: {} }

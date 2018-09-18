@@ -3,7 +3,7 @@ import PropTypes from "prop-types"
 import "./Forms.less"
 
 const FormInputWrapper = props => (
-  <div className="form-group">
+  <div className="form-group" key={props.description}>
     <label className="input-label">
       <span className="input-label-title">
         {props.name} { props.isRequired && <span>*</span> }

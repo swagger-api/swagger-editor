@@ -1,6 +1,6 @@
 import { OrderedMap, List } from "immutable"
 
-import TopbarInsert from "./topbar-insert.jsx"
+import TopbarInsert from "./topbar-insert"
 
 export default function () {
   const ADD_TO_SPEC = "add_to_spec"
@@ -15,7 +15,7 @@ export default function () {
           addToSpec: (path, item, key) => ({ 
             type: ADD_TO_SPEC,
             payload: { path, item, key }
-          })          
+          })         
         },
         reducers: {
           [ADD_TO_SPEC]: (state, { payload }) => {    

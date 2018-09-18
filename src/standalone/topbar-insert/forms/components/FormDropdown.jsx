@@ -12,20 +12,20 @@ class FormDropdown extends Component {
       isValidAddition: true
     }
 
-    this.UpdateToBeAdded = this.UpdateToBeAdded.bind(this)
-    this.ShowAddField = this.ShowAddField.bind(this)
-    this.OnEnterKeyPress = this.OnEnterKeyPress.bind(this)
-    this.SubmitAdded = this.SubmitAdded.bind(this)
-    this.OnChangeWrapper = this.OnChangeWrapper.bind(this)
+    this.updateToBeAdded = this.updateToBeAdded.bind(this)
+    this.showAddField = this.showAddField.bind(this)
+    this.onEnterKeyPress = this.onEnterKeyPress.bind(this)
+    this.submitAdded = this.submitAdded.bind(this)
+    this.onChangeWrapper = this.onChangeWrapper.bind(this)
   }
 
-  OnEnterKeyPress = (event) => {
+  onEnterKeyPress = (event) => {
     if (event.key === "Enter") {
-      this.SubmitAdded()
+      this.submitAdded()
     }
   }
 
-  SubmitAdded = () => {
+  submitAdded = () => {
     if (this.props.isValidAddition(this.state.toBeAdded)) {
       this.setState((prevState) => {
         prevState.addedOptions.push(prevState.toBeAdded)
@@ -42,7 +42,7 @@ class FormDropdown extends Component {
     }
   }
 
-  UpdateToBeAdded = (event) => {
+  updateToBeAdded = (event) => {
     this.setState({
       toBeAdded: event.target.value,
       isValidAddition: this.props.isValidAddition(event.target.value)
@@ -51,17 +51,17 @@ class FormDropdown extends Component {
     this.props.onChange(event)
   }
 
-  ShowAddField = () => {
+  showAddField = () => {
     this.setState({
       showAddOption: true
     })
 
     if (this.state.toBeAdded !== "") {
-      this.SubmitAdded()
+      this.submitAdded()
     }
   }
 
-  OnChangeWrapper = (event) => {
+  onChangeWrapper = (event) => {
     if (event.target.value === "Please Select" || event.target.value === this.props.placeholderText) {
       const updated = event
       updated.target.value = null
@@ -73,7 +73,7 @@ class FormDropdown extends Component {
 
   render() { 
     let addedOption = <span />
-    const addButton = <a role="button" className="d-inline-block float-right" onClick={this.ShowAddField} onKeyDown={this.OnEnterKeyPress} tabIndex={0}>Add</a>
+    const addButton = <a role="button" className="d-inline-block float-right" onClick={this.showAddField} onKeyDown={this.onEnterKeyPress} tabIndex={0}>Add</a>
     if (this.props.isValidAddition) {
       if (this.state.showAddOption) {
         addedOption = ( 
@@ -81,10 +81,10 @@ class FormDropdown extends Component {
             <input 
               className="form-control" 
               type="text"
-              onChange={this.UpdateToBeAdded} 
+              onChange={this.updateToBeAdded} 
               value={this.state.toBeAdded} 
               placeholder="Add Option" 
-              onKeyDown={this.AddField} 
+              onKeyDown={this.addField} 
             />
             { addButton }
             { !this.state.isValidAddition && this.props.isValidAdditionationMessage && <div className="invalid-feedback">{this.props.isValidAdditionationMessage}</div> }
@@ -98,13 +98,11 @@ class FormDropdown extends Component {
       <div>
         { !this.state.showAddOption &&
           <select 
-            value={this.props.selected} 
-            onChange={this.OnChangeWrapper}
+            value={this.props.selected || this.props.placeholderText || "Please Select"} 
+            onChange={this.onChangeWrapper}
             className= {classNames("custom-select", {"border-danger": !this.props.isValid}) } 
           >
-            <option value={null} selected> 
-              {this.props.placeholderText || "Please Select"} 
-            </option>
+            <option value={this.props.placeholderText || "Please Select"}>{this.props.placeholderText || "Please Select"}</option>
             { this.props.options.map((option, i) => 
               <option key={option + i} value={option}>{option}</option>)}
             { this.state.addedOptions.length && 
@@ -129,7 +127,10 @@ FormDropdown.propTypes = {
   isValid: PropTypes.bool.isRequired,
   placeholderText: PropTypes.string,
   validationMessage: PropTypes.string,
-  options: PropTypes.array.isRequired,
+  options: PropTypes.oneOfType([
+    PropTypes.array,
+    PropTypes.object 
+  ]),
   onChange: PropTypes.func.isRequired,
   selected: PropTypes.string,
   isValidAddition: PropTypes.func,

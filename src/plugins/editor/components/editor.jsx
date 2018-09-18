@@ -215,9 +215,15 @@ export default function makeEditor({ editorPluginsToRun }) {
     }
 
     updateYaml = (props) => {
-      // session.setValue does not trigger onChange, nor add to undo stack.
-      // Neither of which we want here.
-      this.editor.session.setValue(props.value)
+      if (props.origin === "insert") {
+        // Don't clobber the undo stack in this case.
+        this.editor.session.doc.setValue(props.value)
+        this.editor.selection.clearSelection()
+      } else {
+        // session.setValue does not trigger onChange, nor add to undo stack.
+        // Neither of which we want here.
+        this.editor.session.setValue(props.value)
+      }
     }
 
     syncOptionsFromState = (editorOptions={}) => {

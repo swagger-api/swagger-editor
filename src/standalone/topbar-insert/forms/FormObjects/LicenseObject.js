@@ -1,26 +1,26 @@
-import { OrderedMap } from "immutable"
-import { validateUrl } from "./../helpers/validation-helpers"
+import { fromJS } from "immutable"
+import { validateUrl } from "../helpers/validation-helpers"
 
-export const LicenseForm = (updateForm, path, existingValues) => 
-  new OrderedMap({ 
-    value: new OrderedMap({ 
-      name: new OrderedMap({
+export const licenseForm = (updateForm, path, existingValues) => 
+  fromJS({
+    value: { 
+      name: {
         name: "Name",
-        value: existingValues.get("name"), 
+        value: existingValues ? existingValues.get("name") : "", 
         isRequired: true, 
         hasErrors: false, 
         updateForm: newForm => updateForm(newForm, path.concat(["value", "name"]))
-      }), 
-      url: new OrderedMap({
+      }, 
+      url: {
         name: "URL",
-        value: existingValues.get("url"), 
+        value: existingValues ? existingValues.get("url") : "", 
         isRequired: false, 
-        hasErrors: !validateUrl(existingValues.get("url")),
+        hasErrors: !validateUrl(existingValues ? existingValues.get("url") : ""),
         updateForm: newForm => updateForm(newForm, path.concat(["value", "url"])),
         isValid: value => validateUrl(value),
         validationMessage: "Please enter a valid URL."
-      })
-    }), 
+      }
+    }, 
     name: "License",
     isRequired: false, 
     hasErrors: false,
@@ -28,7 +28,7 @@ export const LicenseForm = (updateForm, path, existingValues) =>
     updateForm: newForm => updateForm(newForm, path)
   })
 
-export const LicenseObject = (formData) => {
+export const licenseObject = (formData) => {
   const name = formData.getIn(["value", "name", "value"])
   const url = formData.getIn(["value", "url", "value"])
   const newLicense = {}

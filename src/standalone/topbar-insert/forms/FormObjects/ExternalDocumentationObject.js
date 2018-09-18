@@ -1,8 +1,8 @@
-import { OrderedMap } from "immutable"
+import { fromJS } from "immutable"
 
-export const ExternalDocumentationForm = (updateForm, path) => 
-  new OrderedMap({
-    url: new OrderedMap({
+export const externalDocumentationForm = (updateForm, path) => 
+  fromJS({
+    url: {
       value: "",
       isRequired: true, 
       hasErrors: false,
@@ -10,18 +10,18 @@ export const ExternalDocumentationForm = (updateForm, path) =>
       description: "REQUIRED. The URL for the target documentation. Value MUST be in the format of a URL.",
       updateForm: event => updateForm(event, path.concat(["url"])),
       validationMessage: "Please enter a valid URL."
-    }),
-    description: new OrderedMap({
+    },
+    description: {
       value: "",
       isRequired: false,
       name: "Description",
       description: "A short description of the target documentation. CommonMark syntax MAY be used for rich text representation.",
       hasErrors: false,
       updateForm: event => updateForm(event, path.concat(["description"]))
-    })
+    }
   })
 
-export const ExternalDocumentationObject = (formData) => { 
+export const externalDocumentationObject = (formData) => { 
   const url = formData.getIn(["url", "value"])
   const description = formData.getIn(["description", "value"])
 

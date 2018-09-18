@@ -1,8 +1,10 @@
-import { OrderedMap, List } from "immutable"
+import { OrderedMap, List, Map } from "immutable"
 
 export const checkForEmptyValue = (value) => {
   return !value || value === null || value === "" || !/\S/.test(value) || value === [] ||
-   (List.isList(value) && value.count() === 0)
+   (List.isList(value) && value.count() === 0) ||
+   (Map.isMap(value) && !value.size) ||
+   (OrderedMap.isOrderedMap(value) && !value.size )
 }
 
 // Returns [ updatedFormData, hasErrors ]. The updatedFormData
@@ -13,7 +15,7 @@ export const checkForErrors = (formData) => {
   let errors = false
 
   // Invalid object was provided.
-  if (!OrderedMap.isOrderedMap(formData)) {
+  if (!OrderedMap.isOrderedMap(formData) && !Map.isMap(formData)) {
     return [formData, true]
   }
 
@@ -69,12 +71,12 @@ export const checkForErrors = (formData) => {
 
       // If the value is an ordered map, recurse to determine
       // whether any child form data is valid.
-      if (OrderedMap.isOrderedMap(value) && isRequired) {
+      if ((OrderedMap.isOrderedMap(value) || Map.isMap(value)) && isRequired) {
         const itemHasErrors = checkForErrors(value)
         errors = errors || itemHasErrors[1]
         const newvalue = formItem.set("value", itemHasErrors[0])
         return newvalue.set("hasErrors", itemHasErrors[1])
-      } else if (OrderedMap.isOrderedMap(value) && !isRequired) {
+      } else if ((OrderedMap.isOrderedMap(value) || Map.isMap(value)) && !isRequired) {
         return formItem.set("hasErrors", false)
       }
 

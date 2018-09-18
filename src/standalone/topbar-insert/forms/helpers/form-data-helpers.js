@@ -1,18 +1,18 @@
 /* eslint react/jsx-no-bind: 0 */
 /* eslint no-use-before-define: 0 */
-import { OrderedMap, List } from "immutable"
+import { OrderedMap, Map, List } from "immutable"
 import React from "react"
 import { checkForEmptyValue } from "./validation-helpers"
-import FormInputWrapper from "./../components/FormInputWrapper"
-import FormDropdown from "./../components/FormDropdown"
-import FormInput from "./../components/FormInput"
-import FormMap from "./../components/FormMap"
-import FormChild from "./../components/FormChild"
+import FormInputWrapper from "../components/FormInputWrapper"
+import FormDropdown from "../components/FormDropdown"
+import FormInput from "../components/FormInput"
+import FormMap from "../components/FormMap"
+import FormChild from "../components/FormChild"
 
 // Updates a form input given an onChange event,
 // the location of the form input data in the form data object, and a function
 // 'updateForm' that will update the form data.
-const onChange = (event, formData, isKey) => {
+const onChange = (event, formData ) => {
   let updatedField
   const updateForm = formData.get("updateForm")
   const isRequired = formData.get("isRequired")
@@ -21,7 +21,7 @@ const onChange = (event, formData, isKey) => {
     return formData
   }
 
-  const field = isKey ? "keyValue" : "value"
+  const field = formData.has("keyValue") ? "keyValue" : "value"
   const fieldValue = formData.get(field)
   const value = event.target.value
 
@@ -47,9 +47,10 @@ const onChange = (event, formData, isKey) => {
 
 // Sets a formData isRequired attribute to !isRequired. Sets
 // a flag property "optional" to track the change that occurred if
-// the item was not already required.
+// the item was not already required. This allows the add/remove functionality for optional
+// child forms.
 const flipRequired = (formData) => {
-  if (OrderedMap.isOrderedMap(formData.get("value"))) {
+  if (OrderedMap.isOrderedMap(formData.get("value")) || Map.isMap(formData.get("value"))) {
     const isRequired = formData.get("isRequired")
     const updateForm = formData.get("updateForm")
     let updated = formData.set("isRequired", !isRequired)
@@ -90,19 +91,34 @@ const removeFormItem = (formData) => {
 // Generates a form UI based on the given form data.
 export const getForm = (formData) => {
   const formRows = []
+  let i = 0
 
   formData.forEach((v) => {
-    if (OrderedMap.isOrderedMap(v)) {
-      const jsx = getFormInput(v)
-      formRows.push(jsx)
+    if (OrderedMap.isOrderedMap(v) || Map.isMap(v)) {
+      // The form field has a prerequisite field that has been filled out.
+      const dependsOnNonEmpty = v.has("dependsOn") && !checkForEmptyValue(formData.getIn(v.get("dependsOn")))
+
+      if (dependsOnNonEmpty && v.has("dependsOnCallback")) {
+        // There is an action to perform when the prerequisite has been filled out.
+        const dependsOnValue = formData.getIn(v.get("dependsOn"))
+        const updateValues = v.get("dependsOnCallback")
+        const jsx = getFormInput(v.set("options", updateValues(dependsOnValue)), i)
+        formRows.push(jsx)
+      } else if (!v.has("dependsOn") || (!v.has("dependsOnCallback") && dependsOnNonEmpty)) {
+        // There is no prerequisite or the prerequisite has been filled out and there is no 
+        // additional action to take, so simply show the form field.
+        const jsx = getFormInput(v, i)
+        formRows.push(jsx)
+      } 
     }
+    i+=1
   })
 
   return formRows
 }
 
 // Generates a form input UI based on the given form data.
-export const getFormInput = (formData) => {
+const getFormInput = (formData, index) => {
   let input
   const value = formData.get("value")
 
@@ -110,6 +126,7 @@ export const getFormInput = (formData) => {
   if (formData.has("keyValue")) {
     return (
       <FormMap 
+        key={formData.get("name")}
         name={formData.get("name")}
         description={formData.get("description")}
         isRequired={formData.get("isRequired")}
@@ -117,14 +134,15 @@ export const getFormInput = (formData) => {
         placeholderText={formData.get("placeholder")} 
         validationMessage={formData.get("validationMessage")}
         keyValue={formData.get("keyValue") || ""}
-        onChange={event => onChange(event, formData, true)}
+        onChange={event => onChange(event, formData)}
         childForm={getForm(value)}
       />
     )
-  } else if (OrderedMap.isOrderedMap(value)) { 
+  } else if (OrderedMap.isOrderedMap(value) || Map.isMap(value)) { 
     // The form has a child form.
     return (
       <FormChild 
+        key={formData.get("name")}
         name={formData.get("name")}
         flipRequired={() => flipRequired(formData)}
         description={formData.get("description")}
@@ -137,11 +155,12 @@ export const getFormInput = (formData) => {
     // The input is a dropdown-type input.
     input = (
       <FormDropdown 
+        key={formData.get("name")}
         isValid={!formData.get("hasErrors")}
         placeholderText={formData.get("placeholder")} 
         validationMessage={formData.get("validationMessage")}
-        selected={value || ""}
-        onChange={event => onChange(event, formData, false)}
+        selected={value || formData.get("placeholder") || "Please Select"}
+        onChange={event => onChange(event, formData)}
         isRequired={formData.get("isRequired")}
         options={formData.get("options")}
         isValidAddition={formData.get("isValid")}
@@ -151,7 +170,7 @@ export const getFormInput = (formData) => {
     const childForm = getListControl(value, formData)
 
     input = (
-      <div>
+      <div key={formData.get("name")}>
         {childForm}
         <a href="javascript:void(0)" role="button" className="d-inline-block float-right" onClick={() => addFormItem(formData)}>Add {formData.get("name")}</a>
       </div>
@@ -159,18 +178,19 @@ export const getFormInput = (formData) => {
   } else { // The element is a basic input.
     input = (
       <FormInput 
+        key={formData.get("name")}
         isValid={!formData.get("hasErrors")} 
         placeholderText={formData.get("placeholder")} 
         validationMessage={formData.get("validationMessage")}
         inputValue={value || ""}
-        onChange={event => onChange(event, formData, false)}
+        onChange={event => onChange(event, formData)}
         isRequired={formData.get("isRequired")}
       />)
   }
   
   return (
     <FormInputWrapper 
-      key={formData.get("name")} 
+      key={`${formData.get("name")}-${index}` } 
       name={formData.get("name")} 
       description={formData.get("description")} 
       isRequired={formData.get("isRequired")}
@@ -197,10 +217,10 @@ const getListControl = (formData, parent) => {
     )
 
     jsx.push((
-      <div className="card-body">
+      <div className="card-body" key={`index-${index}`}>
         {showClose && close}
-        {(OrderedMap.isOrderedMap(item) && item.has("value")) ?
-          getFormInput(item) : 
+        {( (OrderedMap.isOrderedMap(item) || Map.isMap(item)) && item.has("value")) ?
+          getFormInput(item, index) : 
           getForm(item)
         }
       </div>
