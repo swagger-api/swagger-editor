@@ -6,7 +6,7 @@ const FormInputWrapper = props => (
   <div className="form-group" key={props.description}>
     <label className="input-label">
       <span className="input-label-title">
-        {props.name} { props.isRequired && <span>*</span> }
+        {props.name} {props.isRequired && <span>*</span>}
       </span>
       <div>
         {props.description}

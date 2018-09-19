@@ -7,7 +7,6 @@ export const infoForm = (updateForm, path, existingValues) =>
     title: { 
       value: existingValues ? existingValues.get("title") : "", 
       isRequired: true, 
-      hasErrors: false,
       name: "Title",
       description: "REQUIRED. The title of the application.",
       updateForm: newForm => updateForm(newForm, path.concat(["title"])),
@@ -15,8 +14,6 @@ export const infoForm = (updateForm, path, existingValues) =>
     }, 
     description: {
       value: existingValues ? existingValues.get("description") : "", 
-      isRequired: false, 
-      hasErrors: false,
       name: "Description",
       description: "A short description of the application. CommonMark syntax MAY be used for rich text representation.",
       updateForm: newForm => updateForm(newForm, path.concat(["description"]))
@@ -24,7 +21,6 @@ export const infoForm = (updateForm, path, existingValues) =>
     version: {
       value: existingValues ? existingValues.get("version") : "", 
       isRequired: true, 
-      hasErrors: false,
       name: "Version",
       description: "REQUIRED. The version of the OpenAPI document (which is distinct from the OpenAPI Specification version or the API implementation version).",
       updateForm: newForm => updateForm(newForm, path.concat(["version"])),
@@ -32,8 +28,6 @@ export const infoForm = (updateForm, path, existingValues) =>
     },
     termsofservice: {
       value: existingValues ? existingValues.get("termsofservice") : "", 
-      isRequired: false, 
-      hasErrors: false,
       name: "Terms of Service",
       description: "A URL to the Terms of Service for the API. MUST be in the format of a URL.",
       updateForm: newForm => updateForm(newForm, path.concat(["termsofservice"]))

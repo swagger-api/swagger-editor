@@ -7,15 +7,11 @@ export const contactForm = (updateForm, path) =>
       name: { 
         name: "Name",
         value: "", 
-        isRequired: false, 
-        hasErrors: false,
         updateForm: newForm => updateForm(newForm, path.concat(["value", "name"]))
       },
       url: {
         name: "URL",
         value: "", 
-        isRequired: false, 
-        hasErrors: false, 
         updateForm: newForm => updateForm(newForm, path.concat(["value", "url"])),
         isValid: value => validateUrl(value),
         validationMessage: "Please enter a valid URL."
@@ -23,15 +19,11 @@ export const contactForm = (updateForm, path) =>
       email: {
         name: "Email",
         value: "", 
-        isRequired: false, 
-        hasErrors: false,
         updateForm: newForm => updateForm(newForm, path.concat(["value", "email"]))
       }
     },
     name: "Contact",
     description: "The contact information for the exposed API.",
-    isRequired: false, 
-    hasErrors: false,
     updateForm: newForm => updateForm(newForm, path)
   })
 

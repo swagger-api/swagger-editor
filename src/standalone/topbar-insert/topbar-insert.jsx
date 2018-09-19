@@ -67,27 +67,17 @@ export default class TopbarInsert extends Component {
 
   getPaths = () => this.props.specSelectors.paths() ? Object.keys(this.props.specSelectors.paths().toJS()) : null;
 
-  
   addOperationTags(formData) {
     const operationTagsObject = addOperationTagsObject(formData)
     operationTagsObject.selectedOperation.push("tags")
     this.props.specActions.addToSpec(operationTagsObject.selectedOperation, operationTagsObject.tags, null)
   }
 
-  getOperations = (path) => {
-    const operations = path ? 
-      this.props.specSelectors.operations(this.getPaths()).toJS().filter(item => item.path === path) :
-      null
-
-    if (!operations) {
-      return null
-    }
-    const methods = []
-
-    operations.forEach(item => methods.push(item.method))
-
-    return methods
-  };
+  getOperations = (path) => 
+    path ? this.props.specSelectors.operations().toJS()
+      .filter(item => item.path === path)
+      .map(item => item.method) :
+    null
 
   updateOperation = (formData) => {
     const path = formData.getIn(["path", "value"])

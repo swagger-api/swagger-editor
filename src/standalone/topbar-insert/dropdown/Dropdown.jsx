@@ -45,7 +45,7 @@ class Dropdown extends Component {
         <span className="menu-item" role="button" aria-haspopup="true" aria-expanded={this.state.isExpanded} onClick={this.onToggleClick}>
           {this.props.displayName}
         </span>
-        { this.state.isExpanded && 
+        {this.state.isExpanded && 
           <div className="dd-menu-items" aria-labelledby="Dropdown" onClick={this.onToggleClick} role="menu" tabIndex={0}>
             <ul className="dd-items-left">
               {this.props.children}

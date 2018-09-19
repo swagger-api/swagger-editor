@@ -5,10 +5,8 @@ export const tagsForm = (updateForm, path) =>
   fromJS({
     tags: {
       value: [tagForm(updateForm, path.concat(["tags", "value", 0]))],
-      isRequired: false,
       name: "Tag Declarations",
       description: "A list of tags used by the specification with additional metadata. The order of the tags can be used to reflect on their order by the parsing tools. Not all tags that are used by the Operation Object must be declared. The tags that are not declared MAY be organized randomly or based on the tools' logic. Each tag name in the list MUST be unique.",
-      hasErrors: false,
       updateForm: newForm => updateForm(newForm, path.concat(["tags"])),
       defaultItem: i => tagForm(updateForm, path.concat(["tags", "value", i]))
     }

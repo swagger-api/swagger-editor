@@ -5,7 +5,6 @@ const tagItem = (updateForm, path) =>
     tag: {
       value: "",
       isRequired: true, 
-      hasErrors: false,
       name: "Tag",
       description: "REQUIRED. The name of the tag.",
       validationMessage: "Please enter a tag name. The field is required.",
@@ -18,7 +17,6 @@ export const operationForm = (updateForm, path, existingPaths) =>
     path: { 
       value: "", 
       isRequired: true, 
-      hasErrors: false,
       name: "Path",          
       description: "REQUIRED. The path to add the operation to.",
       updateForm: event => updateForm(event, path.concat(["path"])),
@@ -28,8 +26,7 @@ export const operationForm = (updateForm, path, existingPaths) =>
     },
     operation: { 
       value: "", 
-      isRequired: true, 
-      hasErrors: false,
+      isRequired: true,
       name: "Operation",          
       description: "REQUIRED. Select an operation.",
       updateForm: event => updateForm(event, path.concat(["operation"])),
@@ -38,8 +35,6 @@ export const operationForm = (updateForm, path, existingPaths) =>
     },
     summary: {
       value: "",
-      isRequired: false, 
-      hasErrors: false,
       name: "Summary",
       description: "Add a short summary of what the operation does.",
       updateForm: event => updateForm(event, path.concat(["summary"])),
@@ -47,7 +42,6 @@ export const operationForm = (updateForm, path, existingPaths) =>
     },
     description: {
       value: "",
-      isRequired: false,
       name: "Description",
       description: "A verbose explanation of the operation behavior. CommonMark syntax MAY be used for rich text representation.",
       hasErrors: false,
@@ -55,18 +49,14 @@ export const operationForm = (updateForm, path, existingPaths) =>
     },
     operationid:{
       value: "",
-      isRequired: false,
       name: "Operation ID",
       description: "Unique string used to identify the operation. The id MUST be unique among all operations described in the API. Tools and libraries MAY use the operationId to uniquely identify an operation, therefore, it is RECOMMENDED to follow common programming naming conventions.",
-      hasErrors: false,
       updateForm: event => updateForm(event, path.concat(["operationid"]))
     },
     tags: {
       value: [],
-      isRequired: false,
       name: "Tags",
       description: "A list of tags for API documentation control. Tags can be used for logical grouping of operations by resources or any other qualifier.",
-      hasErrors: false,
       updateForm: newForm => updateForm(newForm, path.concat(["tags"])),
       defaultItem: i => tagItem(updateForm, path.concat(["tags", "value", i]))
     }

@@ -18,15 +18,12 @@ const serverVariableFormItem = (i, updateForm, path) => fromJS({
     default: {
       value: "",
       isRequired: true,
-      hasErrors: false,
       name: "Default",
       description: "REQUIRED. The default value to use for substitution, and to send, if an alternate value is not supplied. Unlike the Schema Object's default, this value MUST be provided by the consumer.",
       updateForm: newForm => updateForm(newForm, path.concat(["value", i, "value", "default"]))
     },
     enum: {
       value: [enumFormItem(0, updateForm, path.concat(["value", i, "value", "enum"]))],
-      isRequired: false, 
-      hasErrors: false,
       name: "Enum",
       defaultItem: j => enumFormItem(j, updateForm, path.concat(["value", i, "value", "enum"])),
       description: "An enumeration of string values to be used if the substitution options are from a limited set.",
@@ -34,10 +31,8 @@ const serverVariableFormItem = (i, updateForm, path) => fromJS({
     },
     vardescription: {
       value: "",
-      isRequired: false,
       name: "Description",
       description: "A short description of the tag. CommonMark syntax MAY be used for rich text representation.",
-      hasErrors: false,
       updateForm: newForm => updateForm(newForm, path.concat(["value", i, "value", "vardescription"]))
     }
   },
@@ -47,10 +42,8 @@ const serverVariableFormItem = (i, updateForm, path) => fromJS({
 export const serverVariableForm = (updateForm, path) =>
   fromJS({
     value: [],
-    isRequired: false,
     name: "Server Variables",
     description: "A map between a variable name and its value. The value is used for substitution in the server's URL template.",
-    hasErrors: false,
     updateForm: newForm => updateForm(newForm, path),
     defaultItem: i => serverVariableFormItem(i, updateForm, path)
   })

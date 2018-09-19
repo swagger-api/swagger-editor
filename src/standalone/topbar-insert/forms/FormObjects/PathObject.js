@@ -5,7 +5,6 @@ export const pathForm = (updateForm, path) =>
     path: { 
       value: "", 
       isRequired: true, 
-      hasErrors: false,
       name: "Path",          
       description: "REQUIRED. The path to add.",
       updateForm: event => updateForm(event, path.concat(["path"])),
@@ -13,8 +12,6 @@ export const pathForm = (updateForm, path) =>
     },
     summary: { 
       value: "", 
-      isRequired: false, 
-      hasErrors: false,
       name: "Summary",          
       description: "Enter a summary of the path.",
       updateForm: event => updateForm(event, path.concat(["summary"])),
@@ -22,8 +19,6 @@ export const pathForm = (updateForm, path) =>
     },
     description: {
       value: "",
-      isRequired: false, 
-      hasErrors: false,
       name: "Description",
       description: "An optional, string description, intended to apply to all operations in this path. CommonMark syntax MAY be used for rich text representation.",
       updateForm: event => updateForm(event, path.concat(["description"]))

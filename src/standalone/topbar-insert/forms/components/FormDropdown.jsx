@@ -56,7 +56,7 @@ class FormDropdown extends Component {
       showAddOption: true
     })
 
-    if (this.state.toBeAdded !== "") {
+    if (this.state.toBeAdded) {
       this.submitAdded()
     }
   }
@@ -86,8 +86,13 @@ class FormDropdown extends Component {
               placeholder="Add Option" 
               onKeyDown={this.addField} 
             />
-            { addButton }
-            { !this.state.isValidAddition && this.props.isValidAdditionationMessage && <div className="invalid-feedback">{this.props.isValidAdditionationMessage}</div> }
+            {addButton}
+            {!this.state.isValidAddition &&
+              this.props.isValidAdditionMessage && 
+              <div className="invalid-feedback">
+                {this.props.isValidAdditionMessage}
+              </div>
+            }
           </div>)
       } else {
         addedOption = addButton
@@ -96,24 +101,25 @@ class FormDropdown extends Component {
     
     return (
       <div>
-        { !this.state.showAddOption &&
+        {!this.state.showAddOption &&
           <select 
             value={this.props.selected || this.props.placeholderText || "Please Select"} 
             onChange={this.onChangeWrapper}
             className= {classNames("custom-select", {"border-danger": !this.props.isValid}) } 
           >
-            <option value={this.props.placeholderText || "Please Select"}>{this.props.placeholderText || "Please Select"}</option>
-            { this.props.options.map((option, i) => 
+            <option value={this.props.placeholderText || "Please Select"}>
+              {this.props.placeholderText || "Please Select"}
+            </option>
+            {this.props.options.map((option, i) => 
               <option key={option + i} value={option}>{option}</option>)}
-            { this.state.addedOptions.length && 
+            {this.state.addedOptions.length && 
               this.state.addedOptions.map((option, i) =>
                 <option key={option + i} value={option}>{option}</option>)
             }
           </select>
         }
-      
-        { addedOption }
-        { !this.props.isValid && 
+        {addedOption}
+        {!this.props.isValid && 
           <div className="invalid-feedback d-block">
             {this.props.validationMessage}
           </div> 
@@ -134,7 +140,7 @@ FormDropdown.propTypes = {
   onChange: PropTypes.func.isRequired,
   selected: PropTypes.string,
   isValidAddition: PropTypes.func,
-  isValidAdditionationMessage: PropTypes.string
+  isValidAdditionMessage: PropTypes.string
 }
 
 export default FormDropdown 

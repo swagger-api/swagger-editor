@@ -5,7 +5,6 @@ export const selectOperationForm = (updateForm, path, existing) => (
     path: { 
       value: "", 
       isRequired: true, 
-      hasErrors: false,
       name: "Path",          
       description: "REQUIRED. The path to add the operation to.",
       updateForm: event => updateForm(event, path.concat(["path"])),
@@ -16,7 +15,6 @@ export const selectOperationForm = (updateForm, path, existing) => (
     operation: { 
       value: "", 
       isRequired: true, 
-      hasErrors: false,
       name: "Operation",          
       description: "REQUIRED. Select an operation.",
       updateForm: event => updateForm(event, path.concat(["operation"])),

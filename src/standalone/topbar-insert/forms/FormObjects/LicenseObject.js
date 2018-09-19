@@ -8,13 +8,11 @@ export const licenseForm = (updateForm, path, existingValues) =>
         name: "Name",
         value: existingValues ? existingValues.get("name") : "", 
         isRequired: true, 
-        hasErrors: false, 
         updateForm: newForm => updateForm(newForm, path.concat(["value", "name"]))
       }, 
       url: {
         name: "URL",
         value: existingValues ? existingValues.get("url") : "", 
-        isRequired: false, 
         hasErrors: !validateUrl(existingValues ? existingValues.get("url") : ""),
         updateForm: newForm => updateForm(newForm, path.concat(["value", "url"])),
         isValid: value => validateUrl(value),
@@ -22,8 +20,6 @@ export const licenseForm = (updateForm, path, existingValues) =>
       }
     }, 
     name: "License",
-    isRequired: false, 
-    hasErrors: false,
     description: "The license information for the exposed API.",
     updateForm: newForm => updateForm(newForm, path)
   })

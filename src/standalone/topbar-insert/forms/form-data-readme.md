@@ -34,6 +34,7 @@ These files describe a corresponding object in the Open Api specification using 
 ### Properties
 
 #### isRequired
+Defaults to false if not specified.
 Whether or not the generated form field is required. If isRequired is true, then required field validation will be automatically included.
 
 #### updateForm
@@ -44,6 +45,7 @@ A function that updates the form.
   }
 ```
 #### hasErrors
+Defaults to false if not specified.
 Used for validation purposes. Whether or not the form object or any children form objects have validation errors. Updated by ```checkForErrors(formData)```. 
 
 ### value

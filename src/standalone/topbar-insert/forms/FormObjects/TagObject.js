@@ -6,7 +6,6 @@ export const tagForm = (updateForm, path) =>
     name: {
       value: "",
       isRequired: true, 
-      hasErrors: false,
       name: "Name",
       description: "REQUIRED. The name of the tag.",
       validationMessage: "Please enter a tag name. The name field is required.",
@@ -14,17 +13,13 @@ export const tagForm = (updateForm, path) =>
     },
     description: {
       value: "",
-      isRequired: false,
       name: "Description",
       description: "A short description of the tag. CommonMark syntax MAY be used for rich text representation.",
-      hasErrors: false,
       updateForm: newForm => updateForm(newForm, path.concat(["description"]))
     },
     externalDocs: {
       value: externalDocumentationForm(updateForm, path.concat(["externalDocs", "value"])),
-      isRequired: false,
       name: "External Documentation",
-      hasErrors: false,
       updateForm: newForm => updateForm(newForm, path.concat(["externalDocs"]))
     }
   })

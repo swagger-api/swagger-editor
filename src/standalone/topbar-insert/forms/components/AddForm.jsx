@@ -19,7 +19,7 @@ class AddForm extends Component {
     this.submit = this.submit.bind(this)
   }
 
-  submit = function () {
+  submit = () => {
     const formData = this.state.formData
 
     // Prevent form submission if the data was invalid.
@@ -47,7 +47,7 @@ class AddForm extends Component {
     this.props.submit()
   }
 
-  updateForm(newFormData, path) {
+  updateForm = (newFormData, path) => {
     this.setState(prevState => ({ 
       formData: prevState.formData.setIn(path, newFormData) 
     }))

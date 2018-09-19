@@ -5,7 +5,6 @@ export const externalDocumentationForm = (updateForm, path) =>
     url: {
       value: "",
       isRequired: true, 
-      hasErrors: false,
       name: "URL",
       description: "REQUIRED. The URL for the target documentation. Value MUST be in the format of a URL.",
       updateForm: event => updateForm(event, path.concat(["url"])),
@@ -13,10 +12,8 @@ export const externalDocumentationForm = (updateForm, path) =>
     },
     description: {
       value: "",
-      isRequired: false,
       name: "Description",
       description: "A short description of the target documentation. CommonMark syntax MAY be used for rich text representation.",
-      hasErrors: false,
       updateForm: event => updateForm(event, path.concat(["description"]))
     }
   })

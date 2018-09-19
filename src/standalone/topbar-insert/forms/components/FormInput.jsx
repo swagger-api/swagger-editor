@@ -16,11 +16,8 @@ class FormInput extends Component {
     this.props.onKeyPress(event)
   }
 
-  isNotRequiredAndEmpty = () => {
-    const isEmpty = this.props.inputValue === "" || !this.props.inputValue    
-    return isEmpty && !this.props.isRequired
-  }
-
+  isNotRequiredAndEmpty = () => !this.props.inputValue && !this.props.isRequired
+  
   render() { 
     return (
       <div>
@@ -33,7 +30,7 @@ class FormInput extends Component {
           onKeyPress={this.OnKeyPress}
         />
 
-        { !this.props.isValid && !this.isNotRequiredAndEmpty() && this.props.validationMessage && 
+        {!this.props.isValid && !this.isNotRequiredAndEmpty() && this.props.validationMessage && 
           <div className="invalid-feedback">
             {this.props.validationMessage}
           </div> 
