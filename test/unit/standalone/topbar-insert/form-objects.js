@@ -7,7 +7,7 @@ import { fromJS, List } from "immutable"
 import { getForm } from "src/standalone/topbar-insert/forms/helpers/form-data-helpers"
 import { pathForm, pathObject } from "src/standalone/topbar-insert/forms/FormObjects/pathObject"
 import { operationForm, operationObject } from "src/standalone/topbar-insert/forms/FormObjects/operationObject"
-import { infoObject } from "src/standalone/topbar-insert/forms/FormObjects/infoObject"
+import { infoForm, infoObject } from "src/standalone/topbar-insert/forms/FormObjects/infoObject"
 import { licenseForm} from "src/standalone/topbar-insert/forms/FormObjects/licenseObject"
 import { contactForm } from "src/standalone/topbar-insert/forms/FormObjects/contactObject"
 import { tagsForm, tagsObject } from "src/standalone/topbar-insert/forms/FormObjects/tagsObject"
@@ -20,19 +20,13 @@ import { selectOperationForm } from "src/standalone/topbar-insert/forms/FormObje
 
 configure({ adapter: new Adapter() })
 
-let form
-
-const updateFormCallback = (newForm, path) => {    
-  form = form.setIn(path, newForm) 
-}
-
 describe("editor topbar insert forms", function() {
   this.timeout(10 * 1000)
 
   describe("operation object", function () {
-    form = operationForm(updateFormCallback, [])
+    let form = operationForm(null, [])
   
-    const tag = form.getIn(["tags", "defaultItem"])(updateFormCallback, [])
+    const tag = form.getIn(["tags", "defaultItem"])(null, [])
 
     form = form
       .setIn(["path", "value"], "/testpath")
@@ -59,7 +53,7 @@ describe("editor topbar insert forms", function() {
       expect(object).toEqual(expected)
     })
   
-    it ("should correctly render the form object with getForm", () => {
+    it ("should correctly render the form UI for the form object", () => {
       const element = <div> {getForm(form)} </div>
       const wrapper = mount(element)
   
@@ -69,24 +63,24 @@ describe("editor topbar insert forms", function() {
   })
 
   describe("info object", () => {
-    it("should correctly process the info form into the info object", () => {  
-      const license = licenseForm(updateFormCallback, [], null)
-        .setIn(["value", "name", "value"], "test name")
-        .setIn(["value", "url", "value"], "test url")
-        
-      const contact = contactForm(updateFormCallback, [])
-        .setIn(["value", "name", "value"], "test name")
-        .setIn(["value", "url", "value"], "test url")
-        .setIn(["value", "email", "value"], "testemail@test.com")
-  
-      form = form
-        .setIn(["title", "value"], "test title")
-        .setIn(["version", "value"], "test version")
-        .setIn(["description", "value"], "test description")
-        .setIn(["termsofservice", "value"], "testtermsofservice")
-        .setIn(["license"], license)
-        .setIn(["contact"], contact)
-      
+    const license = licenseForm(null, [], null)
+    .setIn(["value", "name", "value"], "test name")
+    .setIn(["value", "url", "value"], "test url")
+    
+    const contact = contactForm(null, [])
+      .setIn(["value", "name", "value"], "test name")
+      .setIn(["value", "url", "value"], "test url")
+      .setIn(["value", "email", "value"], "testemail@test.com")
+
+    let form = infoForm(null, [])
+      .setIn(["title", "value"], "test title")
+      .setIn(["version", "value"], "test version")
+      .setIn(["description", "value"], "test description")
+      .setIn(["termsofservice", "value"], "testtermsofservice")
+      .setIn(["license"], license)
+      .setIn(["contact"], contact)
+
+    it("should correctly process the info form into the info object", () => {        
       const object = infoObject(form)
   
       const expected = {
@@ -108,25 +102,24 @@ describe("editor topbar insert forms", function() {
       expect(object).toEqual(expected)
     })
 
-    it ("should correctly render the form object with getForm", () => {
+    it ("should correctly render the form UI for the form object", () => {
       const element = <div> {getForm(form)} </div>
       const wrapper = mount(element)
   
-      expect(wrapper.find("input").length).toEqual(7)
+      expect(wrapper.find("input").length).toEqual(4)
     })
   })
 
   describe("path object", () => {
-    it("should correctly process the path form into the path object", () => {
+    let form = pathForm(null, [])
 
-      form = pathForm(updateFormCallback, [])
-  
-      // Set some values as though the user had entered data
-      form = form
-        .setIn(["path", "value"], "/test")
-        .setIn(["summary", "value"], "test summary")
-        .setIn(["description", "value"], "test description")
-  
+    // Set some values as though the user had entered data
+    form = form
+      .setIn(["path", "value"], "/test")
+      .setIn(["summary", "value"], "test summary")
+      .setIn(["description", "value"], "test description")
+
+    it("should correctly process the path form into the path object", () => {  
       const object = pathObject(form)
       const expected = {
         key: "/test",
@@ -138,7 +131,7 @@ describe("editor topbar insert forms", function() {
       expect(object).toEqual(expected)
     })
 
-    it ("should correctly render the form object with getForm", () => {
+    it ("should correctly render the form UI for the form object", () => {
       const element = <div> {getForm(form)} </div>
       const wrapper = mount(element)
   
@@ -147,22 +140,21 @@ describe("editor topbar insert forms", function() {
   })
 
   describe("tag declarations object", () => {
-    it("should correctly process the tag declarations form into the tags object", () => {
+    let form = tagsForm(null, [])
+  
+    const externalDocs = externalDocumentationForm(null, [])
+      .setIn(["url", "value"], "test url")
+      .setIn(["description", "value"], "test description")
+  
+    const tag = tagForm(null, [])
+      .setIn(["name", "value"], "test tag name")
+      .setIn(["description", "value"], "test description")
+      .setIn(["externalDocs", "value"], externalDocs)
 
-      form = tagsForm(updateFormCallback, [])
-  
-      const externalDocs = externalDocumentationForm(updateFormCallback, [])
-        .setIn(["url", "value"], "test url")
-        .setIn(["description", "value"], "test description")
-    
-      const tag = tagForm(updateFormCallback, [])
-        .setIn(["name", "value"], "test tag name")
-        .setIn(["description", "value"], "test description")
-        .setIn(["externalDocs", "value"], externalDocs)
-  
-      // Set some values as though the user had entered data
-      form = form.setIn(["tags", "value"], new List([tag]))
-  
+    // Set some values as though the user had entered data
+    form = form.setIn(["tags", "value"], new List([tag]))
+
+    it("should correctly process the tag declarations form into the tags object", () => {
       const object = tagsObject(form)
       const expected = [
         {
@@ -177,7 +169,7 @@ describe("editor topbar insert forms", function() {
       expect(object).toEqual(expected)
     })  
 
-    it ("should correctly render the form object with getForm", () => {
+    it ("should correctly render the form UI for the form object", () => {
       const element = <div> {getForm(form)} </div>
       const wrapper = mount(element)
   
@@ -186,19 +178,19 @@ describe("editor topbar insert forms", function() {
   })
 
   describe("servers object", () => {
-    it ("should correctly process the servers form into the servers object", () => {
-      form = serversForm(updateFormCallback, [])
-      const serverVariable = serverVariableForm(updateFormCallback, [])
-        .setIn(["value", 0, "value", "default", "value"], "test default")
-        .setIn(["value", 0, "value", "enum", "value"], fromJS([{ value: "test enum value"}]) )
-        .setIn(["value", 0, "value", "vardescription", "value"], "test var description")
-        .setIn(["value", 0, "keyValue"], "keyvalue")
-  
-      form = form
-        .setIn(["servers", "value", 0, "url", "value"], "test url")
-        .setIn(["servers", "value", 0, "description", "value"], "test description")
-        .setIn(["servers", "value", 0, "variables"], serverVariable)
-  
+    let form = serversForm(null, [])
+    const serverVariable = serverVariableForm(null, [])
+      .setIn(["value", 0, "value", "default", "value"], "test default")
+      .setIn(["value", 0, "value", "enum", "value"], fromJS([{ value: "test enum value"}]) )
+      .setIn(["value", 0, "value", "vardescription", "value"], "test var description")
+      .setIn(["value", 0, "keyValue"], "keyvalue")
+
+    form = form
+      .setIn(["servers", "value", 0, "url", "value"], "test url")
+      .setIn(["servers", "value", 0, "description", "value"], "test description")
+      .setIn(["servers", "value", 0, "variables"], serverVariable)
+
+    it ("should correctly process the servers form into the servers object", () => {  
       const object = serversObject(form)
       const expected = [
         {
@@ -219,7 +211,7 @@ describe("editor topbar insert forms", function() {
       expect(object).toEqual(expected)
     })
 
-    it ("should correctly render the form object with getForm", () => {
+    it ("should correctly render the form UI for the form object", () => {
       const element = <div> {getForm(form)} </div>
       const wrapper = mount(element)
   
@@ -228,15 +220,15 @@ describe("editor topbar insert forms", function() {
   })
 
   describe("add tags object", () => {
-    it ("should correctly process the add tags to operation into the add tags object", () => {
-      const selectOperation = selectOperationForm(updateFormCallback, [])
+    const selectOperation = selectOperationForm(null, [])
         .setIn(["path", "value"], "/test")
         .setIn(["operation", "value"], "GET")
   
-      form = addOperationTagsForm(updateFormCallback, [])
+    let form = addOperationTagsForm(null, [])
         .setIn(["selectoperation", "value"], selectOperation)
         .setIn(["tags", "value", 0, "tag", "value"], "test tag")
-  
+
+    it ("should correctly process the add tags to operation into the add tags object", () => {  
       const object = addOperationTagsObject(form)
   
       const expected = {
@@ -249,7 +241,7 @@ describe("editor topbar insert forms", function() {
       expect(object).toEqual(expected)
     })
 
-    it ("should correctly render the form object with getForm", () => {
+    it ("should correctly render the form UI for the form object", () => {
       const element = <div> {getForm(form)} </div>
       const wrapper = mount(element)
   

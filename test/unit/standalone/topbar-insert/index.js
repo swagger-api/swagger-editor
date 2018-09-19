@@ -5,7 +5,6 @@ import insertPlugin from "src/standalone/topbar-insert"
 import { fromJS } from "immutable"
 import { configure, mount } from "enzyme"
 import Adapter from "enzyme-adapter-react-15"
-import InsertMenu from "src/standalone/topbar-insert/topbar-insert"
 
 configure({ adapter: new Adapter() })
 

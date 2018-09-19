@@ -25,7 +25,7 @@ describe("editor topbar insert form UI generation", function() {
     expect(wrapper.find("input").length).toEqual(1)
   })
 
-  it( "should produce a form ui with a dropdown for a form object specifying options", () => {
+  it("should produce a form ui with a dropdown for a form object specifying options", () => {
     const form = fromJS({
       fielda: {
         value: "",
