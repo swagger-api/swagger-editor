@@ -1,6 +1,6 @@
 import React from "react"
 import PropTypes from "prop-types"
-import "./Modal.less"
+import "./modal.less"
 
 const Modal = (props) => {
   return (

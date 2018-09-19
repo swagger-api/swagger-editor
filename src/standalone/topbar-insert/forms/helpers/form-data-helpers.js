@@ -98,13 +98,13 @@ export const getForm = (formData) => {
       // The form field has a prerequisite field that has been filled out.
       const dependsOnNonEmpty = v.has("dependsOn") && !checkForEmptyValue(formData.getIn(v.get("dependsOn")))
 
-      if (dependsOnNonEmpty && v.has("dependsOnCallback")) {
+      if (dependsOnNonEmpty && v.has("updateOptions")) {
         // There is an action to perform when the prerequisite has been filled out.
         const dependsOnValue = formData.getIn(v.get("dependsOn"))
-        const updateValues = v.get("dependsOnCallback")
-        const jsx = getFormInput(v.set("options", updateValues(dependsOnValue)), i)
+        const updateOptions = v.get("updateOptions")
+        const jsx = getFormInput(v.set("options", updateOptions(dependsOnValue)), i)
         formRows.push(jsx)
-      } else if (!v.has("dependsOn") || (!v.has("dependsOnCallback") && dependsOnNonEmpty)) {
+      } else if (!v.has("dependsOn") || (!v.has("updateOptions") && dependsOnNonEmpty)) {
         // There is no prerequisite or the prerequisite has been filled out and there is no 
         // additional action to take, so simply show the form field.
         const jsx = getFormInput(v, i)

@@ -70,12 +70,13 @@ export default class TopbarInsert extends Component {
   
   addOperationTags(formData) {
     const operationTagsObject = addOperationTagsObject(formData)
-    this.props.specActions.addToSpec(operationTagsObject.selectedOperation, operationTagsObject.tags, "tags")
+    operationTagsObject.selectedOperation.push("tags")
+    this.props.specActions.addToSpec(operationTagsObject.selectedOperation, operationTagsObject.tags, null)
   }
 
-  getOperations = (paths) => {
-    const operations = paths ? 
-      this.props.specSelectors.operations(paths).toJS() :
+  getOperations = (path) => {
+    const operations = path ? 
+      this.props.specSelectors.operations(this.getPaths()).toJS().filter(item => item.path === path) :
       null
 
     if (!operations) {
@@ -100,11 +101,11 @@ export default class TopbarInsert extends Component {
   }
 
   updateServers = (formData) => {
-    this.props.specActions.addToSpec([], serversObject(formData), "servers")
+    this.props.specActions.addToSpec(["servers"], serversObject(formData), null)
   }
 
   updateTags = (formData) => {
-    this.props.specActions.addToSpec([], tagsObject(formData), "tags")
+    this.props.specActions.addToSpec(["tags"], tagsObject(formData), null)
   }
 
   render() {

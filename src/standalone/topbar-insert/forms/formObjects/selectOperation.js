@@ -23,7 +23,7 @@ export const selectOperationForm = (updateForm, path, existing) => (
       validationMessage: "Please select an operation. The field is required.",
       options: [],
       dependsOn: ["path", "value"],
-      dependsOnCallback: existing ? existing.getOperations : () => []
+      updateOptions: existing ? existing.getOperations : () => []
     }
   }))
 

@@ -44,17 +44,17 @@ export const serversObject = (formData) => {
     const variables = serverVariableObject(server.get("variables"))
     const description = server.getIn(["description", "value"])
     const url = server.getIn(["url", "value"])
-    
+
+    if (url) {
+      newServer.url = url
+    }
+
     if (variables) {
       newServer.variables = variables
     }
 
     if (description) {
       newServer.description = description
-    }
-
-    if (url) {
-      newServer.url = url
     }
 
     newServers.push(newServer)

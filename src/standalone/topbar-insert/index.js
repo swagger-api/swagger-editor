@@ -26,7 +26,7 @@ export default function () {
               currentItem = key ? new OrderedMap({ [key]: item }) : new List()
             }
             
-            currentItem = key ? currentItem.set(key, item) : currentItem.push(item)
+            currentItem = key ? currentItem.set(key, item) : currentItem.concat(item)
                         
             return state.setIn(["json", ...path], currentItem)
           }
