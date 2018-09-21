@@ -89,6 +89,11 @@ export default class Topbar extends React.Component {
   }
 
   downloadFile = (content, fileName) => {
+    if(window.Cypress) {
+      // HACK: temporary workaround for https://github.com/cypress-io/cypress/issues/949
+      // allows e2e tests to proceed without choking on file download native event
+      return
+    }
     return reactFileDownload(content, fileName)
   }
 
