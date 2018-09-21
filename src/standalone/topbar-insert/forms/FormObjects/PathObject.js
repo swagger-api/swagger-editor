@@ -8,7 +8,8 @@ export const pathForm = (updateForm, path) =>
       name: "Path",          
       description: "REQUIRED. The path to add.",
       updateForm: event => updateForm(event, path.concat(["path"])),
-      validationMessage: "Please enter a path. The field is required."
+      validationMessage: "Please enter valid a path starting with a '/'. The field is required.",
+      isValid: (value) => value.startsWith("/")
     },
     summary: { 
       value: "", 

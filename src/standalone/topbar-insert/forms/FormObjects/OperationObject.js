@@ -74,12 +74,15 @@ export const operationObject = (formData) => {
     summary: formData.getIn(["summary", "value"]),
     description: formData.getIn(["description", "value"]),
     operationId: formData.getIn(["operationid", "value"]),
-    tags: parsedTags.length ? parsedTags : [""],
     responses: {
       default: {
         description: "Default error sample response"
       }
     }
+  }
+
+  if (parsedTags.length) {
+    newOp.tags = parsedTags
   }
 
   if (!formData.getIn(["path", "value"])) {
