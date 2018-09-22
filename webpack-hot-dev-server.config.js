@@ -22,6 +22,7 @@ module.exports = require("./make-webpack-config.js")({
       './src/index.js'
     ],
     'swagger-editor-standalone-preset': [
+      "./src/standalone/styles/main.less",
       "./src/polyfills.js",
       './src/standalone/index.js'
     ],

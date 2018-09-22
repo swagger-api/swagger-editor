@@ -10,7 +10,6 @@ import YAML from "@kyleshockey/js-yaml"
 import beautifyJson from "json-beautify"
 
 import "react-dd-menu/dist/react-dd-menu.css"
-import "./topbar.less"
 import Logo from "./logo_small.png"
 
 class OAS3GeneratorMessage extends React.PureComponent {

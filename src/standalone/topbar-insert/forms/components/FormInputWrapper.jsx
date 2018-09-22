@@ -1,6 +1,5 @@
 import React from "react"
 import PropTypes from "prop-types"
-import "./forms.less"
 
 const FormInputWrapper = props => (
   <div className="form-group" key={props.description}>

@@ -1,6 +1,5 @@
 import React from "react"
 import PropTypes from "prop-types"
-import "./modal.less"
 
 const Modal = (props) => (
   <div className="swagger-ui modal insert-modal" role="dialog">
