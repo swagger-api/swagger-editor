@@ -6,13 +6,13 @@ import Dropdown from "./dropdown/Dropdown"
 import DropdownItem from "./dropdown/DropdownItem"
 import AddForm from "./forms/components/AddForm"
 
-import { pathForm, pathObject } from "./forms/FormObjects/pathObject"
-import { operationForm, operationObject } from "./forms/FormObjects/operationObject"
-import { infoForm, infoObject } from "./forms/FormObjects/infoObject"
-import { tagsForm, tagsObject } from "./forms/FormObjects/tagsObject"
-import { serversForm, serversObject } from "./forms/FormObjects/serversObject"
-import { externalDocumentationForm, externalDocumentationObject } from "./forms/FormObjects/externalDocumentationObject"
-import { addOperationTagsForm, addOperationTagsObject } from "./forms/FormObjects/AddOperationTags"
+import { pathForm, pathObject } from "./forms/formObjects/pathObject"
+import { operationForm, operationObject } from "./forms/formObjects/operationObject"
+import { infoForm, infoObject } from "./forms/formObjects/infoObject"
+import { tagsForm, tagsObject } from "./forms/formObjects/tagsObject"
+import { serversForm, serversObject } from "./forms/formObjects/serversObject"
+import { externalDocumentationForm, externalDocumentationObject } from "./forms/formObjects/externalDocumentationObject"
+import { addOperationTagsForm, addOperationTagsObject } from "./forms/formObjects/addOperationTags"
 
 export default class TopbarInsert extends Component {
   constructor(props) {
