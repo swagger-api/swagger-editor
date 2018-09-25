@@ -1,8 +1,8 @@
 import React, { Component } from "react"
 import PropTypes from "prop-types"
 import YAML from "@kyleshockey/js-yaml"
-import { getForm } from "./../helpers/form-data-helpers"
-import { checkForErrors } from "./../helpers/validation-helpers"
+import { getForm } from "../helpers/form-data-helpers"
+import { checkForErrors } from "../helpers/validation-helpers"
 
 class AddForm extends Component {
   constructor(props) {

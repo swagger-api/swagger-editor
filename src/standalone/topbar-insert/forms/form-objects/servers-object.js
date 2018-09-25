@@ -1,5 +1,5 @@
 import { fromJS } from "immutable"
-import { serverVariableForm, serverVariableObject } from "./serverVariableObject"
+import { serverVariableForm, serverVariableObject } from "./server-variable-object"
 
 const serverFormItem = (i, updateForm, path) => fromJS({ 
   url: {

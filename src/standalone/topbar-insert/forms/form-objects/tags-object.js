@@ -1,5 +1,5 @@
 import { fromJS } from "immutable"
-import { tagObject, tagForm } from "./tagObject"
+import { tagObject, tagForm } from "./tag-object"
 
 export const tagsForm = (updateForm, path) =>
   fromJS({

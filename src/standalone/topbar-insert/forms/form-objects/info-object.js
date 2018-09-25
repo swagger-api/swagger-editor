@@ -1,6 +1,6 @@
 import { fromJS } from "immutable"
-import { licenseForm, licenseObject } from "./licenseObject"
-import { contactForm, contactObject } from "./contactObject"
+import { licenseForm, licenseObject } from "./license-object"
+import { contactForm, contactObject } from "./contact-object"
 
 export const infoForm = (updateForm, path, existingValues) =>
   fromJS({ 

@@ -1,5 +1,5 @@
 import { fromJS } from "immutable"
-import { selectOperationForm, selectOperationObject } from "./SelectOperation"
+import { selectOperationForm, selectOperationObject } from "./select-operation"
 
 const tagItem = (updateForm, path) => 
   fromJS({ 

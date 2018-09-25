@@ -1,5 +1,5 @@
 import { fromJS } from "immutable"
-import { externalDocumentationObject, externalDocumentationForm } from "./externalDocumentationObject"
+import { externalDocumentationObject, externalDocumentationForm } from "./external-documentation-object"
 
 export const tagForm = (updateForm, path) => 
   fromJS({ 
