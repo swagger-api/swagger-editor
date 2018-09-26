@@ -1,7 +1,7 @@
 {
   "name": "swagger-editor",
   "description": "Swagger Editor",
-  "version": "3.6.10",
+  "version": "3.6.11",
   "main": "dist/swagger-editor.js",
   "repository": "git@github.com:swagger-api/swagger-editor.git",
   "license": "Apache-2.0",
@@ -15,6 +15,7 @@
     "Sahar Jafari <shr.jafari@gmail.com>"
   ],
   "scripts": {
+    "automated-release": "release-it --config ./release/.release-it.json",
     "build": "run-p --aggregate-output build-core build-bundle build-standalone",
     "build-bundle": "webpack --config webpack-dist-bundle.config.js --colors",
     "build-core": "webpack --config webpack-dist.config.js --colors",
@@ -31,10 +32,10 @@
     "lint-fix": "eslint --cache --ext '.js,.jsx' src test --fix",
     "e2e": "run-p -r e2e:hot-server e2e:cypress-test",
     "e2e:dev": "run-p -r e2e:hot-server e2e:cypress-open",
-    "e2e:hot-server": "webpack-dev-server --host 0.0.0.0 --config webpack-hot-dev-server.config.js --inline --hot --progress --content-base test/e2e/static",
+    "e2e:hot-server": "webpack-dev-server --port 3260 --host 0.0.0.0 --config webpack-hot-dev-server.config.js --inline --hot --progress --content-base test/e2e/static",
     "e2e:cypress-test": "cypress run",
     "e2e:cypress-open": "cypress open",
-    "test": "run-s just-test-in-node lint-errors",
+    "test": "run-s just-test-in-node e2e lint-errors",
     "test-in-node": "run-s lint-errors just-test-in-node",
     "just-test": "karma start --config karma.conf.js",
     "just-test-in-node": "cross-env NODE_ENV=test mocha --require test/unit/setup.js --recursive --compilers js:babel-core/register --compilers jsx:babel-core/register test/unit",
@@ -72,8 +73,8 @@
     "react-transition-group": "^1.1.1",
     "redux": "^3.x.x",
     "reselect": "^2.5.4",
-    "swagger-client": "^3.8.15",
-    "swagger-ui": "^3.18.2",
+    "swagger-client": "^3.8.21",
+    "swagger-ui": "^3.19.0",
     "traverse": "^0.6.6",
     "whatwg-fetch": "^2.0.3",
     "yaml-js": "^0.1.4"
@@ -132,6 +133,7 @@
     "raw-loader": "0.5.1",
     "react-hot-loader": "^1.3.1",
     "react-test-renderer": "^15.6.2",
+    "release-it": "^7.6.1",
     "rewiremock": "^3.7.4",
     "rimraf": "^2.6.0",
     "standard": "^8.6.0",
