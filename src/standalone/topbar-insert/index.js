@@ -1,13 +1,15 @@
 import { OrderedMap, List } from "immutable"
 
 import TopbarInsert from "./topbar-insert"
+import TopbarModal from "./modal/Modal"
 
 export default function () {
   const ADD_TO_SPEC = "add_to_spec"
 
   return {
     components: {
-      TopbarInsert
+      TopbarInsert,
+      TopbarModal
     },
     statePlugins: {
       spec: {
