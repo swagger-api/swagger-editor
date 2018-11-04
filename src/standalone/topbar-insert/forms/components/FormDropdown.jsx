@@ -110,7 +110,7 @@ class FormDropdown extends Component {
             <option value={this.props.placeholderText || "Please Select"}>
               {this.props.placeholderText || "Please Select"}
             </option>
-            {this.props.options.map((option, i) => 
+            {(this.props.options || []).map((option, i) => 
               <option key={option + i} value={option}>{option}</option>)}
             {this.state.addedOptions.length && 
               this.state.addedOptions.map((option, i) =>
