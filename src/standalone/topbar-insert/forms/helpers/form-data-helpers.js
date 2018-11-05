@@ -1,4 +1,3 @@
-/* eslint react/jsx-no-bind: 0 */
 /* eslint no-use-before-define: 0 */
 import { OrderedMap, Map, List } from "immutable"
 import React from "react"
@@ -172,7 +171,7 @@ const getFormInput = (formData, index) => {
     input = (
       <div key={formData.get("name")}>
         {childForm}
-        <a href="javascript:void(0)" role="button" className="d-inline-block float-right" onClick={() => addFormItem(formData)}>Add {formData.get("name")}</a>
+        <a role="button" className="d-inline-block float-right" onClick={() => addFormItem(formData)}>Add {formData.get("name")}</a>
       </div>
     )
   } else { // The element is a basic input.
