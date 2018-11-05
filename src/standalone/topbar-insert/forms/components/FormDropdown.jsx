@@ -105,7 +105,7 @@ class FormDropdown extends Component {
           <select 
             value={this.props.selected || this.props.placeholderText || "Please Select"} 
             onChange={this.onChangeWrapper}
-            className= {classNames("custom-select", {"border-danger": !this.props.isValid}) } 
+            className={classNames("custom-select", {"border-danger": !this.props.isValid})} 
           >
             <option value={this.props.placeholderText || "Please Select"}>
               {this.props.placeholderText || "Please Select"}
