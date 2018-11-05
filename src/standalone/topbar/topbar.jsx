@@ -261,13 +261,13 @@ export default class Topbar extends React.Component {
   }
 
   // Helpers
-  showModal = (name) => () => {
+  showModal = (name) => {
     this.setState({
       [name]: true
     })
   }
 
-  hideModal = (name) => () => {
+  hideModal = (name) => {
     this.setState({
       [name]: false
     })
@@ -373,7 +373,7 @@ export default class Topbar extends React.Component {
             </Link>
             <DropdownMenu {...makeMenuOptions("File")}>
               <li><button type="button" onClick={this.importFromURL}>Import URL</button></li>
-              <li><button type="button" onClick={this.showModal("fileLoadModal")}>Import File</button></li>
+              <li><button type="button" onClick={() => this.showModal("fileLoadModal")}>Import File</button></li>
               <li role="separator"></li>
               {saveAsElements}
               <li role="separator"></li>
@@ -385,34 +385,34 @@ export default class Topbar extends React.Component {
             <TopbarInsert {...this.props} />
             { showServersMenu ? <DropdownMenu className="long" {...makeMenuOptions("Generate Server")}>
               <OAS3GeneratorMessage
-                showModal={this.showModal("generatorModal")}
-                hideModal={this.hideModal("generatorModal")}
+                showModal={() => this.showModal("generatorModal")}
+                hideModal={() => this.hideModal("generatorModal")}
                 isShown={isOAS3()} />
               { this.state.servers
                   .map((serv, i) => <li key={i}><button type="button" onClick={this.downloadGeneratedFile.bind(null, "server", serv)}>{serv}</button></li>) }
             </DropdownMenu> : null }
             { showClientsMenu ? <DropdownMenu className="long" {...makeMenuOptions("Generate Client")}>
               <OAS3GeneratorMessage
-                showModal={this.showModal("generatorModal")}
-                hideModal={this.hideModal("generatorModal")}
+                showModal={() => this.showModal("generatorModal")}
+                hideModal={() => this.hideModal("generatorModal")}
                 isShown={isOAS3()} />
               { this.state.clients
                   .map((cli, i) => <li key={i}><button type="button" onClick={this.downloadGeneratedFile.bind(null, "client", cli)}>{cli}</button></li>) }
             </DropdownMenu> : null }
           </div>
         </div>
-        { this.state.fileLoadModal && <Modal className="modal" onCloseClick={this.hideModal("fileLoadModal")} styleName="modal-dialog-sm">
+        {this.state.fileLoadModal && <Modal className="modal" onCloseClick={() => this.hideModal("fileLoadModal")} styleName="modal-dialog-sm">
           <div className="container modal-message">
             <h2>Upload file</h2>
             <input type="file" ref="fileLoadInput"></input>
           </div>
           <div className="right">
-            <button className="btn cancel" onClick={this.hideModal("fileLoadModal")}>Cancel</button>
+            <button className="btn cancel" onClick={() => this.hideModal("fileLoadModal")}>Cancel</button>
             <button className="btn" onClick={this.importFromFile}>Open file</button>
           </div>
         </Modal>
         }
-        { this.state.generatorModal && <Modal className="modal" onCloseClick={this.hideModal("generatorModal")}>
+        {this.state.generatorModal && <Modal className="modal" onCloseClick={() => this.hideModal("generatorModal")}>
           <div className="modal-message">
             <p>
               Code generation for OAS3 is currently work in progress. The available languages is smaller than the for OAS/Swagger 2.0 and is constantly being updated.
@@ -426,7 +426,7 @@ export default class Topbar extends React.Component {
             </p>
           </div>
           <div className="right">
-            <button className="btn" onClick={this.hideModal("generatorModal")}>
+            <button className="btn" onClick={() => this.hideModal("generatorModal")}>
               Close
             </button>
           </div>
