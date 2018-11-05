@@ -17,7 +17,7 @@ module.exports = require("./make-webpack-config.js")({
   },
 
   externals : {
-    react: "react"
+    react: "React"
   },
 
   output:  {
