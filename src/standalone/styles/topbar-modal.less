@@ -1,0 +1,60 @@
+#swagger-editor .modal.topbar-modal {
+  position: absolute;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  max-height: 90vh;
+
+  .modal-dialog-sm {
+    width: 400px;
+  }
+
+  .modal-dialog {
+    background-color: white;
+    border: 1px solid lightgrey;
+    border-radius: 5px;
+    max-width: 800px;
+    margin: auto;
+
+    .modal-content {
+      .modal-body {
+        max-height: 80vh;
+        overflow-y: auto;
+        padding: 20px;
+    
+        .label {
+          font-size: 18px;
+        }
+      }
+    
+      .modal-footer {
+        padding: 20px;
+        width: 100%;
+        border-top: 1px solid lightgrey;
+        text-align: right;
+      }
+
+      .modal-header-border {
+        border-bottom: 1px solid lightgrey;
+      }
+
+      .modal-header {
+        width: 100%;
+        padding: 10px 20px;
+        
+        .modal-title {
+          font-size: 1.8em;
+          padding-bottom: 15px;
+        }
+    
+        .close {
+          float: right;
+          font-size: 1.8em;
+          &:hover {
+            cursor: pointer;
+          }
+        }
+      }
+    }
+  }
+}

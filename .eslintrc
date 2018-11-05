@@ -32,7 +32,7 @@
     "no-unused-expressions": 1,
     "comma-dangle": 0,
     "no-console": ["error", { allow: ["warn", "error"] }],
-    "react/jsx-no-bind": 1,
+    "react/jsx-no-bind": [1, { "allowArrowFunctions": true }], // TODO: make this an error
     "react/display-name": 0,
     "import/no-extraneous-dependencies": [2]
   }

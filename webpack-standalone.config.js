@@ -10,13 +10,14 @@ module.exports = require("./make-webpack-config.js")({
 
   entry: {
     "swagger-editor-standalone-preset": [
+      "./src/standalone/styles/main.less",
       "./src/polyfills.js",
       "./src/standalone/index.js"
     ]
   },
 
   externals : {
-    react: 'React'
+    react: "react"
   },
 
   output:  {
