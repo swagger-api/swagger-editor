@@ -4,7 +4,16 @@ import { configure, mount } from "enzyme"
 import Adapter from "enzyme-adapter-react-15"
 import { fromJS, List } from "immutable"
 
-import { getForm } from "src/standalone/topbar-insert/forms/helpers/form-data-helpers"
+import AddForm from "src/standalone/topbar-insert/forms/components/AddForm"
+import FormChild from "src/standalone/topbar-insert/forms/components/FormChild"
+import FormDropdown from "src/standalone/topbar-insert/forms/components/FormDropdown"
+import FormInput from "src/standalone/topbar-insert/forms/components/FormInput"
+import FormInputWrapper from "src/standalone/topbar-insert/forms/components/FormInputWrapper"
+import FormMap from "src/standalone/topbar-insert/forms/components/FormMap"
+import InsertForm from "src/standalone/topbar-insert/forms/components/InsertForm"
+import InsertFormInput from "src/standalone/topbar-insert/forms/components/InsertFormInput"
+import InsertFormList from "src/standalone/topbar-insert/forms/components/InsertFormList"
+
 import { pathForm, pathObject } from "src/standalone/topbar-insert/forms/form-objects/path-object"
 import { operationForm, operationObject } from "src/standalone/topbar-insert/forms/form-objects/operation-object"
 import { infoForm, infoObject } from "src/standalone/topbar-insert/forms/form-objects/info-object"
@@ -22,6 +31,26 @@ configure({ adapter: new Adapter() })
 
 describe("editor topbar insert forms", function() {
   this.timeout(10 * 1000)
+  let components, props
+
+  beforeEach(() => {
+    components = {
+      FormDropdown,
+      AddForm,
+      FormChild,
+      FormInput,
+      FormInputWrapper,
+      FormMap,
+      InsertForm,
+      InsertFormInput,
+      InsertFormList
+    }
+
+    props = {
+      getComponent: (c) => components[c]
+    }
+  })
+
 
   describe("operation object", function () {
     let form = operationForm(null, [])
@@ -54,7 +83,7 @@ describe("editor topbar insert forms", function() {
     })
   
     it ("should correctly render the form UI for the form object", () => {
-      const element = <div> {getForm(form)} </div>
+      const element = <InsertForm {...props} formData={form} />
       const wrapper = mount(element)
   
       expect(wrapper.find("input").length).toEqual(4)
@@ -103,7 +132,7 @@ describe("editor topbar insert forms", function() {
     })
 
     it ("should correctly render the form UI for the form object", () => {
-      const element = <div> {getForm(form)} </div>
+      const element = <InsertForm {...props} formData={form} />
       const wrapper = mount(element)
   
       expect(wrapper.find("input").length).toEqual(4)
@@ -132,7 +161,7 @@ describe("editor topbar insert forms", function() {
     })
 
     it ("should correctly render the form UI for the form object", () => {
-      const element = <div> {getForm(form)} </div>
+      const element = <InsertForm {...props} formData={form} />
       const wrapper = mount(element)
   
       expect(wrapper.find("input").length).toEqual(3)
@@ -170,7 +199,7 @@ describe("editor topbar insert forms", function() {
     })  
 
     it ("should correctly render the form UI for the form object", () => {
-      const element = <div> {getForm(form)} </div>
+      const element = <InsertForm {...props} formData={form} />
       const wrapper = mount(element)
   
       expect(wrapper.find("input").length).toEqual(2)
@@ -212,7 +241,7 @@ describe("editor topbar insert forms", function() {
     })
 
     it ("should correctly render the form UI for the form object", () => {
-      const element = <div> {getForm(form)} </div>
+      const element = <InsertForm {...props} formData={form} />
       const wrapper = mount(element)
   
       expect(wrapper.find("input").length).toEqual(6)
@@ -242,7 +271,7 @@ describe("editor topbar insert forms", function() {
     })
 
     it ("should correctly render the form UI for the form object", () => {
-      const element = <div> {getForm(form)} </div>
+      const element = <InsertForm {...props} formData={form} />
       const wrapper = mount(element)
   
       expect(wrapper.find("input").length).toEqual(1)
