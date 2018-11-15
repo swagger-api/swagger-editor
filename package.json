@@ -1,7 +1,7 @@
 {
   "name": "swagger-editor",
   "description": "Swagger Editor",
-  "version": "3.6.14",
+  "version": "3.6.15",
   "main": "dist/swagger-editor.js",
   "repository": "git@github.com:swagger-api/swagger-editor.git",
   "license": "Apache-2.0",
@@ -143,6 +143,7 @@
     "url-loader": "0.5.6",
     "webpack": "^1.14.0",
     "webpack-bundle-size-analyzer": "^2.5.0",
+    "webpack-dev-server": "1.14.0",
     "worker-loader": "^0.7.1"
   },
   "config": {
@@ -153,9 +154,6 @@
     "last 2 versions",
     "IE 10"
   ],
-  "optionalDependencies": {
-    "webpack-dev-server": "1.14.0"
-  },
   "bundlesize": [
     {
       "path": "./dist/swagger-editor-bundle.js",
