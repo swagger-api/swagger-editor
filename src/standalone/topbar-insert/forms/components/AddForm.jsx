@@ -1,7 +1,6 @@
 import React, { Component } from "react"
 import PropTypes from "prop-types"
 import YAML from "@kyleshockey/js-yaml"
-import { getForm } from "../helpers/form-data-helpers"
 import { checkForErrors } from "../helpers/validation-helpers"
 
 class AddForm extends Component {
@@ -54,11 +53,14 @@ class AddForm extends Component {
   }
 
   render() {
+    const { getComponent } = this.props
+    const InsertForm = getComponent("InsertForm")
+
     return (
       <div>
         <div className="modal-body">
           <div className="form-container">
-            { getForm(this.state.formData) }
+            <InsertForm formData={this.state.formData} getComponent={getComponent} />
           </div> 
         </div>
         <div className="modal-footer">
@@ -85,7 +87,8 @@ AddForm.propTypes = {
   existingData: PropTypes.oneOfType([
     PropTypes.object,
     PropTypes.array
-  ])
+  ]),
+  getComponent: PropTypes.func.isRequired
 }
 
 export default AddForm

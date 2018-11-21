@@ -3,13 +3,36 @@ import { OrderedMap, List } from "immutable"
 import TopbarInsert from "./topbar-insert"
 import TopbarModal from "./modal/Modal"
 
+import InsertDropdown from "./dropdown/Dropdown"
+import InsertDropdownItem from "./dropdown/DropdownItem"
+import AddForm from "./forms/components/AddForm"
+import FormChild from "./forms/components/FormChild"
+import FormDropdown from "./forms/components/FormDropdown"
+import FormInput from "./forms/components/FormInput"
+import FormInputWrapper from "./forms/components/FormInputWrapper"
+import FormMap from "./forms/components/FormMap"
+import InsertForm from "./forms/components/InsertForm"
+import InsertFormInput from "./forms/components/InsertFormInput"
+import InsertFormList from "./forms/components/InsertFormList"
+
 export default function () {
   const ADD_TO_SPEC = "add_to_spec"
 
   return {
     components: {
       TopbarInsert,
-      TopbarModal
+      TopbarModal,
+      InsertDropdown,
+      InsertDropdownItem,
+      AddForm,
+      FormChild,
+      FormDropdown,
+      FormInput,
+      FormInputWrapper,
+      FormMap,
+      InsertForm,
+      InsertFormInput,
+      InsertFormList
     },
     statePlugins: {
       spec: {

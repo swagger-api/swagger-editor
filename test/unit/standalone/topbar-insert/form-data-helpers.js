@@ -3,12 +3,39 @@ import React from "react"
 import expect from "expect"
 import { configure, mount } from "enzyme"
 import Adapter from "enzyme-adapter-react-15"
-import { getForm } from "src/standalone/topbar-insert/forms/helpers/form-data-helpers"
+import AddForm from "src/standalone/topbar-insert/forms/components/AddForm"
+import FormChild from "src/standalone/topbar-insert/forms/components/FormChild"
+import FormDropdown from "src/standalone/topbar-insert/forms/components/FormDropdown"
+import FormInput from "src/standalone/topbar-insert/forms/components/FormInput"
+import FormInputWrapper from "src/standalone/topbar-insert/forms/components/FormInputWrapper"
+import FormMap from "src/standalone/topbar-insert/forms/components/FormMap"
+import InsertForm from "src/standalone/topbar-insert/forms/components/InsertForm"
+import InsertFormInput from "src/standalone/topbar-insert/forms/components/InsertFormInput"
+import InsertFormList from "src/standalone/topbar-insert/forms/components/InsertFormList"
 
 configure({ adapter: new Adapter() })
 
 describe("editor topbar insert form UI generation", function() {
   this.timeout(10 * 1000)
+  let components, props
+
+  beforeEach(() => {
+    components = {
+      FormDropdown,
+      AddForm,
+      FormChild,
+      FormInput,
+      FormInputWrapper,
+      FormMap,
+      InsertForm,
+      InsertFormInput,
+      InsertFormList
+    }
+
+    props = {
+      getComponent: (c) => components[c]
+    }
+  })
 
   it("should produce a valid form UI for a simple form object", () => { 
     const form = fromJS({
@@ -20,7 +47,7 @@ describe("editor topbar insert form UI generation", function() {
       }
     })
 
-    const element = <div> {getForm(form)} </div>
+    const element = <InsertForm {...props} formData={form} />
     const wrapper = mount(element)
 
     expect(wrapper.find("input").length).toEqual(1)
@@ -37,7 +64,7 @@ describe("editor topbar insert form UI generation", function() {
       }
     })
 
-    const element = <div> {getForm(form)} </div>
+    const element = <InsertForm {...props} formData={form} />
     const wrapper = mount(element)
 
     expect(wrapper.find("select").length).toEqual(1)
@@ -64,7 +91,7 @@ describe("editor topbar insert form UI generation", function() {
       }
     })
 
-    const element = <div> {getForm(form)} </div>
+    const element = <InsertForm {...props} formData={form} />
     const wrapper = mount(element)
 
     expect(wrapper.find("input").length).toEqual(1)
@@ -89,7 +116,7 @@ describe("editor topbar insert form UI generation", function() {
       }
     })
 
-    const element = <div> {getForm(form)} </div>
+    const element = <InsertForm {...props} formData={form} />
     const wrapper = mount(element)
 
     expect(wrapper.find("input").length).toEqual(2)
@@ -115,7 +142,7 @@ describe("editor topbar insert form UI generation", function() {
       },
     })
 
-    const element = <div> {getForm(form)} </div>
+    const element = <InsertForm {...props} formData={form} />
     const wrapper = mount(element)
 
     expect(wrapper.find("select").length).toEqual(1)
@@ -141,7 +168,7 @@ describe("editor topbar insert form UI generation", function() {
       },
     })
 
-    const element = <div> {getForm(form)} </div>
+    const element = <InsertForm {...props} formData={form} />
     const wrapper = mount(element)
 
     expect(wrapper.find("select").length).toEqual(2)

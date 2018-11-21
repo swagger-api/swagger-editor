@@ -1,11 +1,6 @@
 import React, { Component } from "react"
 import PropTypes from "prop-types"
 
-import Modal from "./modal/Modal"
-import Dropdown from "./dropdown/Dropdown"
-import DropdownItem from "./dropdown/DropdownItem"
-import AddForm from "./forms/components/AddForm"
-
 import { pathForm, pathObject } from "./forms/form-objects/path-object"
 import { operationForm, operationObject } from "./forms/form-objects/operation-object"
 import { infoForm, infoObject } from "./forms/form-objects/info-object"
@@ -99,7 +94,14 @@ export default class TopbarInsert extends Component {
   }
 
   render() {
-    if (!this.props.specSelectors.isOAS3()) {
+    let { specSelectors, getComponent } = this.props
+
+    const Modal = getComponent("TopbarModal")
+    const Dropdown = getComponent("InsertDropdown")
+    const DropdownItem = getComponent("InsertDropdownItem")
+    const AddForm = getComponent("AddForm")
+
+    if (!specSelectors.isOAS3()) {
       return null
     }
 
@@ -225,6 +227,7 @@ export default class TopbarInsert extends Component {
 }
 
 TopbarInsert.propTypes = {
+  getComponent: PropTypes.func.isRequired,
   specSelectors: PropTypes.shape({
     specStr: PropTypes.func.isRequired,
     info: PropTypes.func.isRequired,

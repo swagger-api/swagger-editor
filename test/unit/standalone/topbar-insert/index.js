@@ -66,7 +66,7 @@ describe("editor topbar insert menu plugin", function() {
     const spec = {}
     const system = await getSystem(spec)
     const InsertMenu = system.getSystem().getComponents("TopbarInsert")
-    let wrapper = mount(<InsertMenu {...system} />)
+    let wrapper = mount(<InsertMenu {...system} getComponent={(c) => system.getSystem().getComponents(c)} />)
     expect(wrapper.find(".menu-item").length).toEqual(1)
   })
   
