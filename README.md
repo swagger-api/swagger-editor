@@ -54,7 +54,7 @@ To use this, run the following:
 
 ```
 docker pull swaggerapi/swagger-editor
-docker run -d -p 80:8080 swaggerapi/swagger-editor
+docker run -d -p 8080:8080 swaggerapi/swagger-editor
 ```
 
 This will run Swagger Editor (in detached mode) on port 80 on your machine, so you can open it by navigating to `http://localhost` in your browser.
@@ -74,7 +74,7 @@ npm run build
 docker build -t swagger-editor .
 
 # Run the container
-docker run -d -p 80:8080 swagger-editor
+docker run -d -p 8080:8080 swagger-editor
 
 ```
 
