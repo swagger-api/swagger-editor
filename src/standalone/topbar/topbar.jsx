@@ -9,7 +9,7 @@ import YAML from "@kyleshockey/js-yaml"
 import beautifyJson from "json-beautify"
 
 import "react-dd-menu/dist/react-dd-menu.css"
-import Logo from "./logo_small.png"
+import Logo from "./logo_small.svg"
 
 class OAS3GeneratorMessage extends React.PureComponent {
   render() {
@@ -368,8 +368,7 @@ export default class Topbar extends React.Component {
         <div className="topbar">
           <div className="topbar-wrapper">
             <Link href="#">
-              <img height="30" width="30" className="topbar-logo__img" src={ Logo } alt=""/>
-              <span className="topbar-logo__title">Swagger Editor</span>
+              <img height="30" className="topbar-logo__img" src={ Logo } alt=""/>
             </Link>
             <DropdownMenu {...makeMenuOptions("File")}>
               <li><button type="button" onClick={this.importFromURL}>Import URL</button></li>
