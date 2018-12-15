@@ -368,7 +368,7 @@ export default class Topbar extends React.Component {
         <div className="topbar">
           <div className="topbar-wrapper">
             <Link href="#">
-              <img height="30" className="topbar-logo__img" src={ Logo } alt=""/>
+              <img height="35" className="topbar-logo__img" src={ Logo } alt=""/>
             </Link>
             <DropdownMenu {...makeMenuOptions("File")}>
               <li><button type="button" onClick={this.importFromURL}>Import URL</button></li>
