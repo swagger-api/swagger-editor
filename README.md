@@ -1,4 +1,4 @@
-# Swagger Editor
+# <img src="https://raw.githubusercontent.com/swagger-api/swagger.io/wordpress/images/assets/SWE-logo-clr.png" height="80">
 [![NPM version](https://badge.fury.io/js/swagger-ui.svg)](http://badge.fury.io/js/swagger-editor)
 [![Build Status](https://travis-ci.org/swagger-api/swagger-editor.svg?branch=master)](https://travis-ci.org/swagger-api/swagger-editor)
 [![Code Climate](https://codeclimate.com/github/swagger-api/swagger-editor/badges/gpa.svg)](https://codeclimate.com/github/swagger-api/swagger-editor)
@@ -31,7 +31,7 @@ If you have Node.js and npm installed, you can run `npm start` to spin up a stat
 
 Otherwise, you can open `index.html` directly from your filesystem in your browser.
 
-If you'd like to make code changes to Swagger-Editor, you can start up a Webpack hot-reloading dev server via `npm run dev`. 
+If you'd like to make code changes to Swagger Editor, you can start up a Webpack hot-reloading dev server via `npm run dev`. 
 
 ##### Browser support
 
