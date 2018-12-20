@@ -11,20 +11,6 @@ import beautifyJson from "json-beautify"
 import "react-dd-menu/dist/react-dd-menu.css"
 import Logo from "./logo_small.svg"
 
-class OAS3GeneratorMessage extends React.PureComponent {
-  render() {
-    const { isShown } = this.props
-
-    if(!isShown) {
-      return null
-    }
-
-    return <div onClick={this.props.showModal} className="long-menu-message">
-      Beta feature; click for more info.
-    </div>
-  }
-}
-
 export default class Topbar extends React.Component {
   constructor(props, context) {
     super(props, context)
@@ -50,6 +36,8 @@ export default class Topbar extends React.Component {
 
     const generatorUrl = this.getGeneratorUrl()
 
+    const isOAS3 = this.props.specSelectors.isOAS3()
+
     if(!generatorUrl) {
       return this.setState({
         clients: [],
@@ -67,7 +55,12 @@ export default class Topbar extends React.Component {
       this.setState({
         swaggerClient: client
       })
-      client.apis.clients.clientOptions({}, {
+
+      const clientGetter = isOAS3 ? client.apis.clients.clientLanguages : client.apis.clients.clientOptions
+      const serverGetter = isOAS3 ? client.apis.servers.serverLanguages : client.apis.servers.serverOptions
+
+
+      clientGetter({}, {
         // contextUrl is needed because swagger-client is curently
         // not building relative server URLs correctly
         contextUrl: generatorUrl
@@ -75,7 +68,8 @@ export default class Topbar extends React.Component {
       .then(res => {
         this.setState({ clients: res.body || [] })
       })
-      client.apis.servers.serverOptions({}, {
+      
+      serverGetter({}, {
         // contextUrl is needed because swagger-client is curently
         // not building relative server URLs correctly
         contextUrl: generatorUrl
@@ -199,12 +193,13 @@ export default class Topbar extends React.Component {
     }
 
     if(specSelectors.isOAS3()) {
-      swaggerClient.apis.default.generate1({}, {
+      // Generator 3 only has one generate endpoint for all types of things...
+      // since we're using the tags interface we may as well use the client reference to it
+      swaggerClient.apis.clients.generate({}, {
         requestBody: {
           spec: specSelectors.specJson(),
-          options: {
-            lang: name
-          }
+          type: type.toUpperCase(),
+          lang: name
         },
         contextUrl: this.getGeneratorUrl()
       }).then(res => {
@@ -383,18 +378,10 @@ export default class Topbar extends React.Component {
             </DropdownMenu>
             <TopbarInsert {...this.props} />
             { showServersMenu ? <DropdownMenu className="long" {...makeMenuOptions("Generate Server")}>
-              <OAS3GeneratorMessage
-                showModal={() => this.showModal("generatorModal")}
-                hideModal={() => this.hideModal("generatorModal")}
-                isShown={isOAS3()} />
               { this.state.servers
                   .map((serv, i) => <li key={i}><button type="button" onClick={this.downloadGeneratedFile.bind(null, "server", serv)}>{serv}</button></li>) }
             </DropdownMenu> : null }
             { showClientsMenu ? <DropdownMenu className="long" {...makeMenuOptions("Generate Client")}>
-              <OAS3GeneratorMessage
-                showModal={() => this.showModal("generatorModal")}
-                hideModal={() => this.hideModal("generatorModal")}
-                isShown={isOAS3()} />
               { this.state.clients
                   .map((cli, i) => <li key={i}><button type="button" onClick={this.downloadGeneratedFile.bind(null, "client", cli)}>{cli}</button></li>) }
             </DropdownMenu> : null }
@@ -408,26 +395,6 @@ export default class Topbar extends React.Component {
           <div className="right">
             <button className="btn cancel" onClick={() => this.hideModal("fileLoadModal")}>Cancel</button>
             <button className="btn" onClick={this.importFromFile}>Open file</button>
-          </div>
-        </Modal>
-        }
-        {this.state.generatorModal && <Modal className="modal" onCloseClick={() => this.hideModal("generatorModal")}>
-          <div className="modal-message">
-            <p>
-              Code generation for OAS3 is currently work in progress. The available languages is smaller than the for OAS/Swagger 2.0 and is constantly being updated.
-            </p>
-            <p>
-              If you encounter issues with the existing languages, please file a ticket at&nbsp;
-              <a href="https://github.com/swagger-api/swagger-codegen-generators" target={"_blank"}>swagger-codegen-generators</a>. Also, as this project highly depends on community contributions - please consider helping us migrate the templates for other languages. Details can be found at the same repository.
-            </p>
-            <p>
-              Thanks for helping us improve this feature.
-            </p>
-          </div>
-          <div className="right">
-            <button className="btn" onClick={() => this.hideModal("generatorModal")}>
-              Close
-            </button>
           </div>
         </Modal>
         }
