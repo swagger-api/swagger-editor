@@ -325,7 +325,7 @@ export default class Topbar extends React.Component {
   }
 
   render() {
-    let { getComponent, specSelectors: { isOAS3 } } = this.props
+    let { getComponent } = this.props
     const Link = getComponent("Link")
     const TopbarInsert = getComponent("TopbarInsert")
     const Modal = getComponent("TopbarModal")
