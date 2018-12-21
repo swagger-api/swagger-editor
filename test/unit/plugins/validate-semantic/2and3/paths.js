@@ -372,7 +372,7 @@ describe("validation plugin - semantic - 2and3 paths", () => {
 
         })
 
-        it("should return one problem for a missed 'in' value", function(){
+        it.skip("should return one problem for a missed 'in' value", function(){
           const spec = {
             swagger: "2.0",
             paths: {
