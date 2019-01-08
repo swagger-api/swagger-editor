@@ -73,8 +73,3 @@ export const validate2And3ParameterDefaultsMatchAnEnum = () => (system) => {
       }, [])
     })
 }
-
-function preserveOriginalIndices(obj, i) {
-  obj.__i = i
-  return obj
-}
