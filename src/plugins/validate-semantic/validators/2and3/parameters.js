@@ -4,31 +4,8 @@ export const validate2And3ParametersHaveUniqueNameAndInCombinations = () => (sys
     .then(nodes => {
       return nodes.reduce((acc, node) => {
         const parameters = node.node || []
-        const isOperationParameters = system.validateSelectors.isOperationParameters(node)
-
-        var inheritedParameters = []
-
-        if(isOperationParameters) {
-          const pathItemParameters = (node.parent.parent.node.parameters || [])
-            .map(preserveOriginalIndices)
-
-          inheritedParameters = [...pathItemParameters]
-        } else {
-          inheritedParameters = []
-        }
 
         const seen = []
-
-        inheritedParameters.forEach(param => {
-          const { name: paramName, in: paramIn } = param
-
-          if(!paramName || !paramIn) {
-            // name or in is missing, so we can't match the param to anything else
-            return
-          }
-          const key = `${paramName}::${paramIn}`
-          seen.push(key)
-        })
 
         parameters.forEach((param, i) => {
           const { name: paramName, in: paramIn } = param
@@ -41,7 +18,7 @@ export const validate2And3ParametersHaveUniqueNameAndInCombinations = () => (sys
           if(seen.indexOf(key) > -1) {
             acc.push({
               level: "error",
-              message: "Sibling parameters, whether inherited or direct, must have unique name + in values",
+              message: "Sibling parameters must have unique name + in values",
               path: [
                 ...node.path,
                 (param.__i || i).toString()
@@ -95,9 +72,4 @@ export const validate2And3ParameterDefaultsMatchAnEnum = () => (system) => {
         return acc
       }, [])
     })
-}
-
-function preserveOriginalIndices(obj, i) {
-  obj.__i = i
-  return obj
 }
