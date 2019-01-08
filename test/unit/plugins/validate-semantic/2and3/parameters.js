@@ -9,16 +9,30 @@ describe(`validation plugin - semantic - 2and3 parameters`, () => {
           swagger: "2.0",
           "paths": {
             "/pets": {
+              "parameters": [
+                {
+                  "name": "pathLevel",
+                  "in": "query",
+                  "description": "tags to filter by",
+                  "type": "string"
+                },
+                {
+                  "name": "pathLevel",
+                  "in": "query",
+                  "description": "tags to filter by",
+                  "type": "string"
+                },
+              ],
               "get": {
                 "parameters": [
                   {
-                    "name": "tags",
+                    "name": "opLevel",
                     "in": "query",
                     "description": "tags to filter by",
                     "type": "string"
                   },
                   {
-                    "name": "tags",
+                    "name": "opLevel",
                     "in": "query",
                     "description": "tags to filter by",
                     "type": "string"
@@ -33,9 +47,12 @@ describe(`validation plugin - semantic - 2and3 parameters`, () => {
         .then(system => {
           const allErrors = system.errSelectors.allErrors().toJS()
           const firstError = allErrors[0]
-          expect(allErrors.length).toEqual(1)
-          expect(firstError.path).toEqual(["paths", "/pets", "get", "parameters", "1"])
+          const secondError = allErrors[1]
+          expect(allErrors.length).toEqual(2)
+          expect(firstError.path).toEqual(["paths", "/pets", "parameters", "1"])
           expect(firstError.message).toEqual("Sibling parameters must have unique name + in values")
+          expect(secondError.path).toEqual(["paths", "/pets", "get", "parameters", "1"])
+          expect(secondError.message).toEqual("Sibling parameters must have unique name + in values")
         })
       })
       it("should return an error for an invalid OpenAPI 3 definition", () => {
@@ -43,19 +60,41 @@ describe(`validation plugin - semantic - 2and3 parameters`, () => {
           openapi: "3.0.0",
           "paths": {
             "/pets": {
+              "parameters": [
+                {
+                  "name": "pathLevel",
+                  "in": "query",
+                  "description": "tags to filter by",
+                  "schema": {
+                    "type": "string"
+                  }
+                },
+                {
+                  "name": "pathLevel",
+                  "in": "query",
+                  "description": "tags to filter by",
+                  "schema": {
+                    "type": "string"
+                  }
+                },
+              ],
               "get": {
                 "parameters": [
                   {
-                    "name": "tags",
+                    "name": "opLevel",
                     "in": "query",
                     "description": "tags to filter by",
-                    "type": "string"
+                    "schema": {
+                      "type": "string"
+                    }
                   },
                   {
-                    "name": "tags",
+                    "name": "opLevel",
                     "in": "query",
                     "description": "tags to filter by",
-                    "type": "string"
+                    "schema": {
+                      "type": "string"
+                    }
                   },
                 ]
               }
@@ -67,9 +106,12 @@ describe(`validation plugin - semantic - 2and3 parameters`, () => {
         .then(system => {
           const allErrors = system.errSelectors.allErrors().toJS()
           const firstError = allErrors[0]
-          expect(allErrors.length).toEqual(1)
-          expect(firstError.path).toEqual(["paths", "/pets", "get", "parameters", "1"])
+          const secondError = allErrors[1]
+          expect(allErrors.length).toEqual(2)
+          expect(firstError.path).toEqual(["paths", "/pets", "parameters", "1"])
           expect(firstError.message).toEqual("Sibling parameters must have unique name + in values")
+          expect(secondError.path).toEqual(["paths", "/pets", "get", "parameters", "1"])
+          expect(secondError.message).toEqual("Sibling parameters must have unique name + in values")
         })
       })
       it("should return no errors for a valid Swagger 2 definition", () => {
