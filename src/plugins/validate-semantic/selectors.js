@@ -338,3 +338,47 @@ export const allSecurityRequirements = () => (system) => {
     }
   })
 }
+
+// List of validators to run...
+export const validators = () => (system) => {
+  return Object.keys(system.validateActions)
+    .filter(name => {
+      // The action needs to start with the prefix "validate..."
+      if(name.indexOf("validate") !== 0)
+        return false
+
+      // This is for both types...
+      if(name.startsWith("validate2And3"))
+        return true
+
+      // Now for the exclusive validations...
+      if(system.specSelectors.isOAS3())
+        return name.startsWith("validateOAS3")
+
+      // Swagger2 only...
+      return !name.startsWith("validateOAS3")
+
+      //TODO: This doesn't account for validateAsync with oas3 or swagger2...
+    })
+}
+
+// Should we validate at all?
+export const shouldValidate = () => (system) => {
+  // don't run validation if spec is empty
+  if(system.specSelectors.specStr().trim().length === 0) {
+    return
+  }
+
+  // Don't validate if ambiguous version...
+  const { specSelectors: { isSwagger2=Function.prototype, isOAS3=Function.prototype } } = system
+
+  // Can't handle TWO versions!
+  if(isSwagger2() && isOAS3())
+    return false
+
+  // Can't handle no version!
+  if(!isSwagger2() && !isOAS3())
+    return false
+
+  return true
+}
