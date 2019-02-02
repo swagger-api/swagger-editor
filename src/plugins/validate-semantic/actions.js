@@ -30,8 +30,8 @@ const bufferedNewSpecErrBatch = (system, obj) => {
   debNewSpecErrBatch()
 }
 
-export const all = (ori, system) => () => {
-  if(!system.validateSelectors.shouldValidate()) {
+export const all = () => system => {
+  if (!system.validateSelectors.shouldValidate()) {
     return
   }
 
