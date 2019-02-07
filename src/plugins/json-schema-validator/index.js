@@ -8,12 +8,12 @@ import oas3Schema from "./oas3-schema"
 // Lazily created promise worker
 let _promiseWorker
 const promiseWorker = () => {
-  if(!_promiseWorker)
+  if (!_promiseWorker)
     _promiseWorker = new PromiseWorker(new JsonSchemaWebWorker())
   return _promiseWorker
 }
 
-export const addSchema = (schema, schemaPath=[]) => () => {
+export const addSchema = (schema, schemaPath = []) => () => {
   promiseWorker().postMessage({
     type: "add-schema",
     payload: {
@@ -29,30 +29,26 @@ export const getSchemaBasePath = () => ({ specSelectors }) => {
   // Eg: [openapi-3.0] or [openapi-2-0]
   // later on... ["openapi-2.0", "paths", "get"]
   const isOAS3 = specSelectors.isOAS3 ? specSelectors.isOAS3() : false
-  const isSwagger2 = specSelectors.isSwagger2 ? specSelectors.isSwagger2() : false
+  const isSwagger2 = specSelectors.isSwagger2
+    ? specSelectors.isSwagger2()
+    : false
   const isAmbiguousVersion = isOAS3 && isSwagger2
 
   // Refuse to handle ambiguity
-  if(isAmbiguousVersion)
-    return []
+  if (isAmbiguousVersion) return []
 
-  if(isSwagger2)
-    return ["openapi-2.0"]
+  if (isSwagger2) return ["openapi-2.0"]
 
-  if(isOAS3)
-    return ["openapi-3.0"]
-
+  if (isOAS3) return ["openapi-3.0"]
 }
 
-
-export const setup = () => ({jsonSchemaValidatorActions}) => {
+export const setup = () => ({ jsonSchemaValidatorActions }) => {
   // Add schemas , once off
   jsonSchemaValidatorActions.addSchema(swagger2Schema, ["openapi-2.0"])
   jsonSchemaValidatorActions.addSchema(oas3Schema, ["openapi-3.0"])
 }
 
-
-export const validate = ({spec, path=[], ...rest}) => system => {
+export const validate = ({ spec, path = [], ...rest }) => system => {
   // stagger clearing errors, in case there is another debounced validation
   // run happening, which can occur when the user's typing cadence matches
   // the latency of validation
@@ -63,14 +59,14 @@ export const validate = ({spec, path=[], ...rest}) => system => {
       source: system.jsonSchemaValidatorSelectors.errSource()
     })
   }, 50)
-  system.jsonSchemaValidatorActions.validateDebounced({spec, path, ...rest})
+  system.jsonSchemaValidatorActions.validateDebounced({ spec, path, ...rest })
 }
 
 // Create a debounced validate, that is lazy
 let _debValidate
 export const validateDebounced = (...args) => system => {
   // Lazily create one...
-  if(!_debValidate) {
+  if (!_debValidate) {
     _debValidate = debounce((...args) => {
       system.jsonSchemaValidatorActions.validateImmediate(...args)
     }, 200)
@@ -78,37 +74,48 @@ export const validateDebounced = (...args) => system => {
   return _debValidate(...args)
 }
 
-export const validateImmediate = ({spec, path=[]}) => system => {
+export const validateImmediate = ({ spec, path = [] }) => system => {
   // schemaPath refers to type of schema, and later might refer to sub-schema
   const baseSchemaPath = system.jsonSchemaValidatorSelectors.getSchemaBasePath()
 
   // No base path? Then we're unable to do anything...
-  if(!baseSchemaPath.length)
+  if (!baseSchemaPath.length)
     throw new Error("Ambiguous schema path, unable to run validation")
 
-  return system.jsonSchemaValidatorActions.validateWithBaseSchema({spec, path: [...baseSchemaPath, ...path]})
-}
-
-export const validateWithBaseSchema = ({spec, path=[]}) => system => {
-  const errSource = system.jsonSchemaValidatorSelectors.errSource()
-
-  return promiseWorker().postMessage({
-    type: "validate",
-    payload: {
-      jsSpec: spec,
-      specStr: system.specSelectors.specStr(),
-      schemaPath: path,
-      source: errSource,
-    }
-  }).then(({results, path}) => {
-    system.jsonSchemaValidatorActions.handleResults(null, {results, path})
-  }, err => {
-    system.jsonSchemaValidatorActions.handleResults(err, {})
+  return system.jsonSchemaValidatorActions.validateWithBaseSchema({
+    spec,
+    path: [...baseSchemaPath, ...path]
   })
 }
 
-export const handleResults = (err, {results}) => system => {
-  if(err) {
+export const validateWithBaseSchema = ({ spec, path = [] }) => system => {
+  const errSource = system.jsonSchemaValidatorSelectors.errSource()
+
+  return promiseWorker()
+    .postMessage({
+      type: "validate",
+      payload: {
+        jsSpec: spec,
+        specStr: system.specSelectors.specStr(),
+        schemaPath: path,
+        source: errSource
+      }
+    })
+    .then(
+      ({ results, path }) => {
+        system.jsonSchemaValidatorActions.handleResults(null, {
+          results,
+          path
+        })
+      },
+      err => {
+        system.jsonSchemaValidatorActions.handleResults(err, {})
+      }
+    )
+}
+
+export const handleResults = (err, { results }) => system => {
+  if (err) {
     // Something bad happened with validation.
     throw err
   }
@@ -117,14 +124,14 @@ export const handleResults = (err, {results}) => system => {
     source: system.jsonSchemaValidatorSelectors.errSource()
   })
 
-  if(!Array.isArray(results)) {
+  if (!Array.isArray(results)) {
     results = [results]
   }
 
   // Filter out anything funky
   results = results.filter(val => typeof val === "object" && val !== null)
 
-  if(results.length) {
+  if (results.length) {
     system.errActions.newSpecErrBatch(results)
   }
 }
@@ -141,7 +148,7 @@ export default function() {
           validateDebounced,
           validateImmediate,
           validateWithBaseSchema,
-          setup,
+          setup
         },
         selectors: {
           getSchemaBasePath,
@@ -153,12 +160,12 @@ export default function() {
       },
       spec: {
         wrapActions: {
-          validateSpec: (ori,system) => (...args) => {
+          validateSpec: (ori, system) => (...args) => {
             ori(...args)
-            const [ spec, path ] = args
-            system.jsonSchemaValidatorActions.validate({spec,path})
+            const [spec, path] = args
+            system.jsonSchemaValidatorActions.validate({ spec, path })
           }
-        },
+        }
       }
     }
   }
