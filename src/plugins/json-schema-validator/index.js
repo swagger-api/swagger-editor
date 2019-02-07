@@ -131,6 +131,7 @@ export const handleResults = (err, {results}) => system => {
 
 export default function() {
   return {
+    afterLoad: system => system.jsonSchemaValidatorActions.setup(),
     statePlugins: {
       jsonSchemaValidator: {
         actions: {
