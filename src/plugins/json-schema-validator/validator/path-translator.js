@@ -1,9 +1,10 @@
 import get from "lodash/get"
 
 export function transformPathToArray(property, jsSpec) {
-  if(property.slice(0,9) === "instance.") {
+  if (property.slice(0, 9) === "instance.") {
     var str = property.slice(9)
-  } else { // eslint-disable-next-line no-redeclare
+  } else {
+    // eslint-disable-next-line no-redeclare
     var str = property
   }
 
@@ -22,7 +23,7 @@ export function transformPathToArray(property, jsSpec) {
   str
     .map(item => {
       // "key[0]" becomes ["key", "0"]
-      if(item.indexOf("[") > -1) {
+      if (item.indexOf("[") > -1) {
         let index = parseInt(item.match(/\[(.*)\]/)[1])
         let keyName = item.slice(0, item.indexOf("["))
         return [keyName, index.toString()]
@@ -38,11 +39,11 @@ export function transformPathToArray(property, jsSpec) {
     .reduce((buffer, curr) => {
       let obj = pathArr.length ? get(jsSpec, pathArr) : jsSpec
 
-      if(get(obj, makeAccessArray(buffer, curr))) {
-        if(buffer.length) {
+      if (get(obj, makeAccessArray(buffer, curr))) {
+        if (buffer.length) {
           pathArr.push(buffer)
         }
-        if(curr.length) {
+        if (curr.length) {
           pathArr.push(curr)
         }
         return ""
@@ -52,7 +53,7 @@ export function transformPathToArray(property, jsSpec) {
       }
     }, "")
 
-  if(typeof get(jsSpec, pathArr) !== "undefined") {
+  if (typeof get(jsSpec, pathArr) !== "undefined") {
     return pathArr
   } else {
     // if our path is not correct (there is no value at the path),
@@ -64,11 +65,11 @@ export function transformPathToArray(property, jsSpec) {
 function makeAccessArray(buffer, curr) {
   let arr = []
 
-  if(buffer.length) {
+  if (buffer.length) {
     arr.push(buffer)
   }
 
-  if(curr.length) {
+  if (curr.length) {
     arr.push(curr)
   }
 

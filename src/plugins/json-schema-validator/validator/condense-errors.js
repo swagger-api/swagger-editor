@@ -8,7 +8,7 @@
 // 6. return all condensed errors as an array
 
 export function condenseErrors(errors) {
-  if(!Array.isArray(errors)) {
+  if (!Array.isArray(errors)) {
     return []
   }
 
@@ -21,9 +21,9 @@ export function condenseErrors(errors) {
   errors.forEach(err => {
     const { dataPath, message } = err
 
-    if(tree[dataPath] && tree[dataPath][message]) {
+    if (tree[dataPath] && tree[dataPath][message]) {
       tree[dataPath][message].push(err)
-    } else if(tree[dataPath]) {
+    } else if (tree[dataPath]) {
       tree[dataPath][message] = [err]
     } else {
       tree[dataPath] = {
@@ -32,30 +32,33 @@ export function condenseErrors(errors) {
     }
   })
 
-
   const dataPaths = Object.keys(tree)
 
   return dataPaths.reduce((res, path) => {
     const messages = Object.keys(tree[path])
 
-    const mostFrequentMessageNames = messages.reduce((obj, msg) => {
-      const count = countFor(path, msg)
+    const mostFrequentMessageNames = messages.reduce(
+      (obj, msg) => {
+        const count = countFor(path, msg)
 
-      if(count > obj.max) {
-        return {
-          messages: [msg],
-          max: count
+        if (count > obj.max) {
+          return {
+            messages: [msg],
+            max: count
+          }
+        } else if (count === obj.max) {
+          obj.messages.push(msg)
+          return obj
+        } else {
+          return obj
         }
-      } else if(count === obj.max) {
-        obj.messages.push(msg)
-        return obj
-      } else {
-        return obj
-      }
-    }, { max: 0, messages: [] }).messages
+      },
+      { max: 0, messages: [] }
+    ).messages
 
-
-    const mostFrequentMessages = mostFrequentMessageNames.map(name => tree[path][name])
+    const mostFrequentMessages = mostFrequentMessageNames.map(
+      name => tree[path][name]
+    )
 
     const condensedErrors = mostFrequentMessages.map(messages => {
       return messages.reduce((prev, err) => {
@@ -63,7 +66,7 @@ export function condenseErrors(errors) {
           params: mergeParams(prev.params, err.params)
         })
 
-        if(!prev.params && !err.params) {
+        if (!prev.params && !err.params) {
           delete obj.params
         }
         return obj
@@ -77,7 +80,7 @@ export function condenseErrors(errors) {
 // Helpers
 
 function mergeParams(objA = {}, objB = {}) {
-  if(!objA && !objB) {
+  if (!objA && !objB) {
     return undefined
   }
 
@@ -89,9 +92,9 @@ function mergeParams(objA = {}, objB = {}) {
     }
   }
 
-  for(let k in objB) {
+  for (let k in objB) {
     if (objB.hasOwnProperty(k)) {
-      if(res[k]) {
+      if (res[k]) {
         const curr = res[k]
         res[k] = curr.concat(arrayify(objB[k]))
       } else {
@@ -104,10 +107,10 @@ function mergeParams(objA = {}, objB = {}) {
 }
 
 function arrayify(thing) {
-  if(thing === undefined || thing === null) {
+  if (thing === undefined || thing === null) {
     return thing
   }
-  if(Array.isArray(thing)) {
+  if (Array.isArray(thing)) {
     return thing
   } else {
     return [thing]
