@@ -40,12 +40,12 @@ export default class JSONSchemaValidator {
         }
       }
 
+      const errorPathArray = transformPathToArray(err.dataPath.slice(1), jsSpec)
+
       return {
         level: "error",
-        line: boundGetLineNumber(
-          transformPathToArray(err.dataPath.slice(1), jsSpec) || []
-        ),
-        path: err.dataPath.slice(1), // slice leading "." from ajv
+        line: boundGetLineNumber(errorPathArray || []),
+        path: errorPathArray,
         message: preparedMessage,
         source,
         original: err
