@@ -1,4 +1,4 @@
-export const validateOperationHasUniqueId = () => sys => {
+export const validate2And3OperationHasUniqueId = () => sys => {
   return sys.validateSelectors
     .allOperations()
     .then(nodes => {
@@ -8,8 +8,8 @@ export const validateOperationHasUniqueId = () => sys => {
 
         const id = value.operationId
 
-        if(id) {
-          if(seen.indexOf(id) > -1) {
+        if (id) {
+          if (seen.indexOf(id) > -1) {
             acc.push({
               level: "error",
               message: "Operations must have unique operationIds.",
