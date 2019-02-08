@@ -47,7 +47,7 @@ export const validate2And3ParameterDefaultsMatchAnEnum = () => (system) => {
           const schema = parameter.schema
           if(!schema || schema.enum === undefined || schema.default === undefined) {
             // nothing to do
-            return
+            return acc
           }
           paramEnum = schema.enum
           paramDefault = schema.default
@@ -55,7 +55,7 @@ export const validate2And3ParameterDefaultsMatchAnEnum = () => (system) => {
         } else {
           if(!parameter || parameter.enum === undefined || parameter.default === undefined) {
             // nothing to do
-            return
+            return acc
           }
           paramEnum = parameter.enum
           paramDefault = parameter.default

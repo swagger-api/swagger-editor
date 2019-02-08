@@ -14,6 +14,7 @@ export const isRefArtifact = (state, node) => node.key === "$$ref" && typeof nod
 export const isOAS3RootRequestBody = (state, node) => node.path.length === 3 && node.path[1] === "requestBodies"
 export const isOAS3OperationRequestBody = (state, node) => node.path.length === 4 && node.path[3] === "requestBody"
 export const isOAS3OperationCallbackRequestBody = (state, node) => node.path.length === 8 && node.path[7] === "requestBody"
+export const isOAS3RootParameter = (state, node) => node.path[0] === "components" && node.path[1] === "parameters" && node.path.length === 3
 
 export const isSubSchema = (state, node) => (sys) => {
   const path = node.path
@@ -41,8 +42,9 @@ export const isParameter = (state, node) => (sys) => {
   }
   return (
     sys.validateSelectors.isRootParameter(node)
+    || sys.validateSelectors.isOAS3RootParameter(node)
       || sys.validateSelectors.isPathItemParameter(node)
-      || ( node.path[0] === "paths"
+    || (node.path[0] === "paths"
            && node.path[3] === "parameters"
            && node.path.length === 5)
   )
