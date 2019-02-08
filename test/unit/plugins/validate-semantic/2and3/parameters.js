@@ -44,16 +44,16 @@ describe(`validation plugin - semantic - 2and3 parameters`, () => {
         }
 
         return validateHelper(spec)
-        .then(system => {
-          const allErrors = system.errSelectors.allErrors().toJS()
-          const firstError = allErrors[0]
-          const secondError = allErrors[1]
-          expect(allErrors.length).toEqual(2)
-          expect(firstError.path).toEqual(["paths", "/pets", "parameters", "1"])
-          expect(firstError.message).toEqual("Sibling parameters must have unique name + in values")
-          expect(secondError.path).toEqual(["paths", "/pets", "get", "parameters", "1"])
-          expect(secondError.message).toEqual("Sibling parameters must have unique name + in values")
-        })
+          .then(system => {
+            const allErrors = system.errSelectors.allErrors().toJS()
+            const firstError = allErrors[0]
+            const secondError = allErrors[1]
+            expect(allErrors.length).toEqual(2)
+            expect(firstError.path).toEqual(["paths", "/pets", "parameters", "1"])
+            expect(firstError.message).toEqual("Sibling parameters must have unique name + in values")
+            expect(secondError.path).toEqual(["paths", "/pets", "get", "parameters", "1"])
+            expect(secondError.message).toEqual("Sibling parameters must have unique name + in values")
+          })
       })
       it("should return an error for an invalid OpenAPI 3 definition", () => {
         const spec = {
@@ -103,16 +103,16 @@ describe(`validation plugin - semantic - 2and3 parameters`, () => {
         }
 
         return validateHelper(spec)
-        .then(system => {
-          const allErrors = system.errSelectors.allErrors().toJS()
-          const firstError = allErrors[0]
-          const secondError = allErrors[1]
-          expect(allErrors.length).toEqual(2)
-          expect(firstError.path).toEqual(["paths", "/pets", "parameters", "1"])
-          expect(firstError.message).toEqual("Sibling parameters must have unique name + in values")
-          expect(secondError.path).toEqual(["paths", "/pets", "get", "parameters", "1"])
-          expect(secondError.message).toEqual("Sibling parameters must have unique name + in values")
-        })
+          .then(system => {
+            const allErrors = system.errSelectors.allErrors().toJS()
+            const firstError = allErrors[0]
+            const secondError = allErrors[1]
+            expect(allErrors.length).toEqual(2)
+            expect(firstError.path).toEqual(["paths", "/pets", "parameters", "1"])
+            expect(firstError.message).toEqual("Sibling parameters must have unique name + in values")
+            expect(secondError.path).toEqual(["paths", "/pets", "get", "parameters", "1"])
+            expect(secondError.message).toEqual("Sibling parameters must have unique name + in values")
+          })
       })
       it("should return no errors for a valid Swagger 2 definition", () => {
         const spec = {
@@ -140,10 +140,10 @@ describe(`validation plugin - semantic - 2and3 parameters`, () => {
         }
 
         return validateHelper(spec)
-        .then(system => {
-          const allErrors = system.errSelectors.allErrors().toJS()
-          expect(allErrors.length).toEqual(0)
-        })
+          .then(system => {
+            const allErrors = system.errSelectors.allErrors().toJS()
+            expect(allErrors.length).toEqual(0)
+          })
       })
       it("should return no errors for a valid OpenAPI 3 definition", () => {
         const spec = {
@@ -171,10 +171,10 @@ describe(`validation plugin - semantic - 2and3 parameters`, () => {
         }
 
         return validateHelper(spec)
-        .then(system => {
-          const allErrors = system.errSelectors.allErrors().toJS()
-          expect(allErrors.length).toEqual(0)
-        })
+          .then(system => {
+            const allErrors = system.errSelectors.allErrors().toJS()
+            expect(allErrors.length).toEqual(0)
+          })
       })
     })
     describe(`inherited siblings`, () => {
@@ -216,10 +216,10 @@ describe(`validation plugin - semantic - 2and3 parameters`, () => {
         }
 
         return validateHelper(spec)
-        .then(system => {
-          const allErrors = system.errSelectors.allErrors().toJS()
-          expect(allErrors.length).toEqual(0)
-        })
+          .then(system => {
+            const allErrors = system.errSelectors.allErrors().toJS()
+            expect(allErrors.length).toEqual(0)
+          })
       })
       it("should return no errors for a valid OpenAPI 3 definition due to inheritance", () => {
         const spec = {
@@ -259,10 +259,10 @@ describe(`validation plugin - semantic - 2and3 parameters`, () => {
         }
 
         return validateHelper(spec)
-        .then(system => {
-          const allErrors = system.errSelectors.allErrors().toJS()
-          expect(allErrors.length).toEqual(0)
-        })
+          .then(system => {
+            const allErrors = system.errSelectors.allErrors().toJS()
+            expect(allErrors.length).toEqual(0)
+          })
       })
       it("should not return an error for root parameters in Swagger 2", () => {
         const spec = {
@@ -294,10 +294,10 @@ describe(`validation plugin - semantic - 2and3 parameters`, () => {
         }
 
         return validateHelper(spec)
-        .then(system => {
-          const allErrors = system.errSelectors.allErrors().toJS()
-          expect(allErrors.length).toEqual(0)
-        })
+          .then(system => {
+            const allErrors = system.errSelectors.allErrors().toJS()
+            expect(allErrors.length).toEqual(0)
+          })
       })
       it("should not return an error for root parameters in OpenAPI 3", () => {
         const spec = {
@@ -329,10 +329,10 @@ describe(`validation plugin - semantic - 2and3 parameters`, () => {
         }
 
         return validateHelper(spec)
-        .then(system => {
-          const allErrors = system.errSelectors.allErrors().toJS()
-          expect(allErrors.length).toEqual(0)
-        })
+          .then(system => {
+            const allErrors = system.errSelectors.allErrors().toJS()
+            expect(allErrors.length).toEqual(0)
+          })
       })
       it("should return no errors for a valid Swagger 2 definition", () => {
         const spec = {
@@ -386,10 +386,10 @@ describe(`validation plugin - semantic - 2and3 parameters`, () => {
         }
 
         return validateHelper(spec)
-        .then(system => {
-          const allErrors = system.errSelectors.allErrors().toJS()
-          expect(allErrors).toEqual([])
-        })
+          .then(system => {
+            const allErrors = system.errSelectors.allErrors().toJS()
+            expect(allErrors).toEqual([])
+          })
       })
       it("should return no errors for a valid OpenAPI 3 definition", () => {
         const spec = {
@@ -443,10 +443,10 @@ describe(`validation plugin - semantic - 2and3 parameters`, () => {
         }
 
         return validateHelper(spec)
-        .then(system => {
-          const allErrors = system.errSelectors.allErrors().toJS()
-          expect(allErrors.length).toEqual(0)
-        })
+          .then(system => {
+            const allErrors = system.errSelectors.allErrors().toJS()
+            expect(allErrors.length).toEqual(0)
+          })
       })
     })
 
@@ -473,13 +473,13 @@ describe(`validation plugin - semantic - 2and3 parameters`, () => {
       }
 
       return validateHelper(spec)
-      .then(system => {
-        const allErrors = system.errSelectors.allErrors().toJS()
-        const firstError = allErrors[0]
-        expect(allErrors.length).toEqual(1)
-        expect(firstError.path).toEqual(["paths", "/pets", "get", "parameters", "0", "default"])
-        expect(firstError.message).toEqual("Default values must be present in `enum`")
-      })
+        .then(system => {
+          const allErrors = system.errSelectors.allErrors().toJS()
+          const firstError = allErrors[0]
+          expect(allErrors.length).toEqual(1)
+          expect(firstError.path).toEqual(["paths", "/pets", "get", "parameters", "0", "default"])
+          expect(firstError.message).toEqual("Default values must be present in `enum`")
+        })
     })
     it("should return an error for an invalid OpenAPI 3 definition", () => {
       const spec = {
@@ -504,13 +504,40 @@ describe(`validation plugin - semantic - 2and3 parameters`, () => {
       }
 
       return validateHelper(spec)
-      .then(system => {
-        const allErrors = system.errSelectors.allErrors().toJS()
-        const firstError = allErrors[0]
-        expect(allErrors.length).toEqual(1)
-        expect(firstError.path).toEqual(["paths", "/pets", "get", "parameters", "0", "schema", "default"])
-        expect(firstError.message).toEqual("Default values must be present in `enum`")
-      })
+        .then(system => {
+          const allErrors = system.errSelectors.allErrors().toJS()
+          const firstError = allErrors[0]
+          expect(allErrors.length).toEqual(1)
+          expect(firstError.path).toEqual(["paths", "/pets", "get", "parameters", "0", "schema", "default"])
+          expect(firstError.message).toEqual("Default values must be present in `enum`")
+        })
+    })
+    it("should return an error for an invalid OpenAPI 3 definition", () => {
+      const spec = {
+        openapi: "3.0.0",
+        components: {
+          parameters: {
+            MyParam: {
+              "name": "num",
+              "in": "query",
+              "type": "number",
+              schema: {
+                enum: [1, 2, 3],
+                default: 0
+              }
+            }
+          }
+        }
+      }
+
+      return validateHelper(spec)
+        .then(system => {
+          const allErrors = system.errSelectors.allErrors().toJS()
+          const firstError = allErrors[0]
+          expect(allErrors.length).toEqual(1)
+          expect(firstError.path).toEqual(["components", "parameters", "MyParam", "schema", "default"])
+          expect(firstError.message).toEqual("Default values must be present in `enum`")
+        })
     })
     it("should return no errors for a Swagger 2 definition without default set", () => {
       const spec = {
@@ -532,10 +559,10 @@ describe(`validation plugin - semantic - 2and3 parameters`, () => {
       }
 
       return validateHelper(spec)
-      .then(system => {
-        const allErrors = system.errSelectors.allErrors().toJS()
-        expect(allErrors.length).toEqual(0)
-      })
+        .then(system => {
+          const allErrors = system.errSelectors.allErrors().toJS()
+          expect(allErrors.length).toEqual(0)
+        })
     })
     it("should return no errors for an OpenAPI 3 definition without default set", () => {
       const spec = {
@@ -559,10 +586,10 @@ describe(`validation plugin - semantic - 2and3 parameters`, () => {
       }
 
       return validateHelper(spec)
-      .then(system => {
-        const allErrors = system.errSelectors.allErrors().toJS()
-        expect(allErrors.length).toEqual(0)
-      })
+        .then(system => {
+          const allErrors = system.errSelectors.allErrors().toJS()
+          expect(allErrors.length).toEqual(0)
+        })
     })
     it("should return no errors for a Swagger 2 definition without enum set", () => {
       const spec = {
@@ -584,10 +611,10 @@ describe(`validation plugin - semantic - 2and3 parameters`, () => {
       }
 
       return validateHelper(spec)
-      .then(system => {
-        const allErrors = system.errSelectors.allErrors().toJS()
-        expect(allErrors.length).toEqual(0)
-      })
+        .then(system => {
+          const allErrors = system.errSelectors.allErrors().toJS()
+          expect(allErrors.length).toEqual(0)
+        })
     })
     it("should return no errors for an OpenAPI 3 definition without enum set", () => {
       const spec = {
@@ -611,10 +638,10 @@ describe(`validation plugin - semantic - 2and3 parameters`, () => {
       }
 
       return validateHelper(spec)
-      .then(system => {
-        const allErrors = system.errSelectors.allErrors().toJS()
-        expect(allErrors.length).toEqual(0)
-      })
+        .then(system => {
+          const allErrors = system.errSelectors.allErrors().toJS()
+          expect(allErrors.length).toEqual(0)
+        })
     })
   })
 })
