@@ -20,6 +20,7 @@ export const exampleForm = (updateForm, path, existing) => (
     exampleValue: {
       name: "Example Value",
       value: "",
+      bigTextBox: true,
       updateForm: event => updateForm(event, path.concat(["exampleValue"])),
       description: "The value of the sample response. This can be an arbitrary string, json, xml, etc.",
       isRequired: true,

@@ -112,8 +112,13 @@ export default class TopbarInsert extends Component {
   }
 
   getMediaTypes = (response, formData) => {
+    const defaultOptions = [
+      "application/json", 
+      "text/plain; charset=utf-8", 
+      "application/xml" ]
+
     if (!formData) {  
-      return []
+      return defaultOptions
     }
 
     // Operation = 'depends on' value
@@ -125,11 +130,15 @@ export default class TopbarInsert extends Component {
       const response = responses.get(formData.getIn(["response", "value"]))
 
       if (response && response.has("content")) {
-        return Object.keys(response.get("content").toJS())
+        const existing = Object.keys(response.get("content").toJS())
+        const combined = defaultOptions.concat(existing)
+
+        // Remove duplicates.
+        return combined.filter((item, pos) => combined.indexOf(item) == pos)
       }
     }
 
-    return []
+    return defaultOptions
   }
 
   addExampleResponse = (formData) => {

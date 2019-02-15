@@ -80,6 +80,7 @@ const InsertFormInput = ({ getComponent, index, formData }) => {
         inputValue={value || ""}
         onChange={event => onChange(event, formData)}
         isRequired={formData.get("isRequired")}
+        bigTextBox={formData.get("bigTextBox")}
       />)
   }
   
