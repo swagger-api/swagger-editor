@@ -10,7 +10,7 @@ export const validateOAS3RefsForRequestBodiesReferenceRequestBodyPositions = () 
           return acc
         }
 
-        const [, refPath] = ref.split("#")
+        const [, refPath = ""] = ref.split("#")
         const pathArr = refPath.split("/") || []
         const parentRefKey = pathArr.slice(-2)[0]
         const targetRefKey = pathArr.slice(-1)[0]
