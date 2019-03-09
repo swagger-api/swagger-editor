@@ -18,6 +18,7 @@ export default {
         {props.topbarSelectors.showModal("convert") && <ConvertModal 
           getComponent={props.getComponent}
           editorContent={props.specSelectors.specStr()}
+          converterUrl={props.getConfigs().swagger2ConverterUrl}
           updateEditorContent={content => props.specActions.updateSpec(content, "insert")}
           onClose={() => props.topbarActions.hideModal("convert")}
           />}

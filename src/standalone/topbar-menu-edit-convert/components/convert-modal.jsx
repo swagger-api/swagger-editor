@@ -46,13 +46,14 @@ export default class ConvertModal extends Component {
   }
 
   render() {
-    const { onClose, getComponent } = this.props
+    const { onClose, getComponent, converterUrl } = this.props
 
     if(this.state.status === "new") {
       return <ConvertModalStepNew
         onClose={onClose}
         onContinue={() => this.convertDefinition()}
         getComponent={getComponent}
+        converterUrl={converterUrl}
         />
     }
 
@@ -84,24 +85,24 @@ export default class ConvertModal extends Component {
 
 ConvertModal.propTypes = {
   editorContent: PropTypes.string.isRequired,
+  converterUrl: PropTypes.string.isRequired,
   getComponent: PropTypes.func.isRequired,
   updateEditorContent: PropTypes.func.isRequired,
   onClose: PropTypes.func.isRequired,
 }
 
-const ConvertModalStepNew = ({ getComponent, onClose, onContinue }) => {
+const ConvertModalStepNew = ({ getComponent, onClose, onContinue, converterUrl }) => {
   const Modal = getComponent("TopbarModal")
 
   return <Modal className="modal" styleName="modal-dialog-sm" onCloseClick={onClose}>
     <div className="container modal-message">
       <h2>Convert to OpenAPI 3</h2>
       <p>
-        This feature uses the&nbsp;
-          <a href="http://converter.swagger.io/" target="_blank">Swagger Converter API</a>
-        &nbsp;to convert your Swagger 2.0 definition to OpenAPI 3.
+        This feature uses the Swagger Converter API to convert your Swagger 2.0 
+        definition to OpenAPI 3.
         </p>
       <p>
-        Swagger Editor's contents will be sent to a remote conversion service and overwritten
+        Swagger Editor's contents will be sent to <b><code>{converterUrl}</code></b> and overwritten
         by the conversion result.
       </p>
     </div>
@@ -116,6 +117,7 @@ ConvertModalStepNew.propTypes = {
   getComponent: PropTypes.func.isRequired,
   onClose: PropTypes.func.isRequired,
   onContinue: PropTypes.func.isRequired,
+  converterUrl: PropTypes.string.isRequired,
 }
 
 const ConvertModalStepConverting = ({ getComponent }) => {
