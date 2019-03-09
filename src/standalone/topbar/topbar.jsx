@@ -412,6 +412,7 @@ Topbar.propTypes = {
   specSelectors: PropTypes.object.isRequired,
   errSelectors: PropTypes.object.isRequired,
   specActions: PropTypes.object.isRequired,
+  topbarActions: PropTypes.object.isRequired,
   getComponent: PropTypes.func.isRequired,
   getConfigs: PropTypes.func.isRequired
 }

@@ -85,6 +85,7 @@ export default class ConvertModal extends Component {
 ConvertModal.propTypes = {
   editorContent: PropTypes.string.isRequired,
   getComponent: PropTypes.func.isRequired,
+  updateEditorContent: PropTypes.func.isRequired,
   onClose: PropTypes.func.isRequired,
 }
 
@@ -102,13 +103,19 @@ const ConvertModalStepNew = ({ getComponent, onClose, onContinue }) => {
       <p>
         Swagger Editor's contents will be sent to a remote conversion service and overwritten
         by the conversion result.
-        </p>
+      </p>
     </div>
     <div className="right">
       <button className="btn cancel" onClick={onClose}>Cancel</button>
       <button className="btn" onClick={onContinue}>Convert</button>
     </div>
   </Modal>
+}
+
+ConvertModalStepNew.propTypes = {
+  getComponent: PropTypes.func.isRequired,
+  onClose: PropTypes.func.isRequired,
+  onContinue: PropTypes.func.isRequired,
 }
 
 const ConvertModalStepConverting = ({ getComponent }) => {
@@ -122,6 +129,10 @@ const ConvertModalStepConverting = ({ getComponent }) => {
       </p>
     </div>
   </Modal>
+}
+
+ConvertModalStepConverting.propTypes = {
+  getComponent: PropTypes.func.isRequired,
 }
 
 const ConvertModalStepSuccess = ({ getComponent, onClose }) => {
@@ -138,6 +149,12 @@ const ConvertModalStepSuccess = ({ getComponent, onClose }) => {
       <button className="btn" onClick={onClose}>Close</button>
     </div>
   </Modal>
+}
+
+
+ConvertModalStepSuccess.propTypes = {
+  getComponent: PropTypes.func.isRequired,
+  onClose: PropTypes.func.isRequired,
 }
 
 const ConvertModalStepErrored = ({ getComponent, onClose, error }) => {
@@ -160,4 +177,10 @@ const ConvertModalStepErrored = ({ getComponent, onClose, error }) => {
       <button className="btn" onClick={onClose}>Close</button>
     </div>
   </Modal>
+}
+
+ConvertModalStepErrored.propTypes = {
+  getComponent: PropTypes.func.isRequired,
+  onClose: PropTypes.func.isRequired,
+  error: PropTypes.any.isRequired,
 }

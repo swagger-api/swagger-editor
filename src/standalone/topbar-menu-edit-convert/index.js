@@ -1,3 +1,5 @@
+/* eslint-disable react/prop-types */
+
 import React from "react"
 
 import ConvertDefinitionMenuItem from "./components/convert-definition-menu-item"

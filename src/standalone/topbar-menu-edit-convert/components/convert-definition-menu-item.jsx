@@ -17,4 +17,5 @@ export default class ConvertDefinitionMenuItem extends Component {
 
 ConvertDefinitionMenuItem.propTypes = {
   isSwagger2: PropTypes.bool.isRequired,
+  onClick: PropTypes.func.isRequired,
 }
