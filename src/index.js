@@ -52,7 +52,8 @@ const defaults = {
   },
   showExtensions: true,
   swagger2GeneratorUrl: "https://generator.swagger.io/api/swagger.json",
-  oas3GeneratorUrl: "https://generator3.swagger.io/openapi.json"
+  oas3GeneratorUrl: "https://generator3.swagger.io/openapi.json",
+  swagger2ConverterUrl: "https://converter.swagger.io/api/convert",
 }
 
 module.exports = function SwaggerEditor(options) {
