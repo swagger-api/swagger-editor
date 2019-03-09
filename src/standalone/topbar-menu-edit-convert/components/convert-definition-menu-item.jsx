@@ -1,6 +1,5 @@
 import React, { Component } from "react"
 import PropTypes from "prop-types"
-import { Portal } from "react-portal"
 
 export default class ConvertDefinitionMenuItem extends Component {
   render() {
