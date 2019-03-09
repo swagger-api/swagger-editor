@@ -8,7 +8,7 @@ import ASTPlugin from "plugins/ast"
 
 const envDelay = process.env.ASYNC_TEST_DELAY
 
-const DELAY_MS = (typeof envDelay === "string" ? parseInt(envDelay) : envDelay) || 50
+const DELAY_MS = (typeof envDelay === "string" ? parseInt(envDelay) : envDelay) || 200
 
 export default function validateHelper(spec) {
   return new Promise((resolve) => {
