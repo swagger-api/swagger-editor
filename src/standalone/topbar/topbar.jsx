@@ -325,10 +325,11 @@ export default class Topbar extends React.Component {
   }
 
   render() {
-    let { getComponent } = this.props
+    let { getComponent, specSelectors, topbarActions } = this.props
     const Link = getComponent("Link")
     const TopbarInsert = getComponent("TopbarInsert")
     const Modal = getComponent("TopbarModal")
+    const ConvertDefinitionMenuItem = getComponent("ConvertDefinitionMenuItem")
 
     let showServersMenu = this.state.servers && this.state.servers.length
     let showClientsMenu = this.state.clients && this.state.clients.length
@@ -375,6 +376,10 @@ export default class Topbar extends React.Component {
             </DropdownMenu>
             <DropdownMenu {...makeMenuOptions("Edit")}>
               <li><button type="button" onClick={this.convertToYaml}>Convert to YAML</button></li>
+              <ConvertDefinitionMenuItem 
+                isSwagger2={specSelectors.isSwagger2()}
+                onClick={() => topbarActions.showModal("convert")}
+                />
             </DropdownMenu>
             <TopbarInsert {...this.props} />
             { showServersMenu ? <DropdownMenu className="long" {...makeMenuOptions("Generate Server")}>
@@ -407,6 +412,7 @@ Topbar.propTypes = {
   specSelectors: PropTypes.object.isRequired,
   errSelectors: PropTypes.object.isRequired,
   specActions: PropTypes.object.isRequired,
+  topbarActions: PropTypes.object.isRequired,
   getComponent: PropTypes.func.isRequired,
   getConfigs: PropTypes.func.isRequired
 }
