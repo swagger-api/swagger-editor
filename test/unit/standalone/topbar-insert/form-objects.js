@@ -309,7 +309,7 @@ describe("editor topbar insert forms", function() {
       const element = <InsertForm {...props} formData={form} />
       const wrapper = mount(element)
   
-      expect(wrapper.find("input").length).toEqual(2)
+      expect(wrapper.find("input").length).toEqual(1)
       expect(wrapper.find("select").length).toEqual(4)
     })
   })
