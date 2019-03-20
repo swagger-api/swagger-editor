@@ -353,7 +353,7 @@ describe("validation plugin - semantic - 2and3 paths", () => {
 
         })
 
-        it.only("should return one error when no parameters are defined", function(){
+        it("should return one error when no parameters are defined", function(){
           const spec = {
             swagger: "2.0",
             info: {
