@@ -107,19 +107,6 @@ export default class Topbar extends React.Component {
     }
   }
 
-  importFromFile = () => {
-    let fileToLoad = this.refs.fileLoadInput.files.item(0)
-    let fileReader = new FileReader()
-
-    fileReader.onload = fileLoadedEvent => {
-      let textFromFileLoaded = fileLoadedEvent.target.result
-      this.props.specActions.updateSpec(YAML.safeDump(YAML.safeLoad(textFromFileLoaded)))
-      this.hideModal()
-    }
-
-    fileReader.readAsText(fileToLoad, "UTF-8")
-  }
-
   saveAsYaml = () => {
     let editorContent = this.props.specSelectors.specStr()
     let language = this.getDefinitionLanguage()
@@ -328,7 +315,7 @@ export default class Topbar extends React.Component {
     let { getComponent, specSelectors, topbarActions } = this.props
     const Link = getComponent("Link")
     const TopbarInsert = getComponent("TopbarInsert")
-    const Modal = getComponent("TopbarModal")
+    const ImportFileMenuItem = getComponent("ImportFileMenuItem")
     const ConvertDefinitionMenuItem = getComponent("ConvertDefinitionMenuItem")
 
     let showServersMenu = this.state.servers && this.state.servers.length
@@ -368,7 +355,9 @@ export default class Topbar extends React.Component {
             </Link>
             <DropdownMenu {...makeMenuOptions("File")}>
               <li><button type="button" onClick={this.importFromURL}>Import URL</button></li>
-              <li><button type="button" onClick={() => this.showModal("fileLoadModal")}>Import File</button></li>
+              <ImportFileMenuItem
+                onDocumentLoad={(content) => alert(content)}
+                />
               <li role="separator"></li>
               {saveAsElements}
               <li role="separator"></li>
@@ -392,17 +381,6 @@ export default class Topbar extends React.Component {
             </DropdownMenu> : null }
           </div>
         </div>
-        {this.state.fileLoadModal && <Modal className="modal" onCloseClick={() => this.hideModal("fileLoadModal")} styleName="modal-dialog-sm">
-          <div className="container modal-message">
-            <h2>Upload file</h2>
-            <input type="file" ref="fileLoadInput"></input>
-          </div>
-          <div className="right">
-            <button className="btn cancel" onClick={() => this.hideModal("fileLoadModal")}>Cancel</button>
-            <button className="btn" onClick={this.importFromFile}>Open file</button>
-          </div>
-        </Modal>
-        }
       </div>
     )
   }
