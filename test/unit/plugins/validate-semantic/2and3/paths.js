@@ -356,6 +356,37 @@ describe("validation plugin - semantic - 2and3 paths", () => {
         it("should return one error when no parameters are defined", function(){
           const spec = {
             swagger: "2.0",
+            info: {
+              title: "test",
+              version: "1.0.0"
+            },
+            paths: {
+              "/{12345instanceABCDE_instance_12345}": {
+                get: {
+                  responses: {
+                    "200": {
+                      description: "ok"
+                    }
+                  }
+                }
+              }
+            }
+          }
+
+          return validateHelper(spec)
+          .then(system => {
+            const allErrors = system.errSelectors.allErrors().toJS()
+            const firstError = allErrors[0]
+            expect(allErrors.length).toEqual(1)
+            expect(firstError.message).toEqual( "Declared path parameter \"12345instanceABCDE_instance_12345\" needs to be defined as a path parameter at either the path or operation level")
+            expect(firstError.path).toEqual(["paths", "/{12345instanceABCDE_instance_12345}"])
+          })
+
+        })
+
+        it("should return a well-formed error when ", function(){
+          const spec = {
+            swagger: "2.0",
             paths: {
               "/CoolPath/{id}": {}
             }
