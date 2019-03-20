@@ -15,6 +15,8 @@ ADD ./dist/*.css /usr/share/nginx/html/dist/
 ADD ./dist/*.png /usr/share/nginx/html/dist/
 ADD ./docker-run.sh /usr/share/nginx/
 
+RUN find /usr/share/nginx/html/ -type f -regex ".*\.\(html\|js\|css\)" -exec sh -c "gzip < {} > {}.gz" \;
+
 EXPOSE 8080
 
 CMD ["sh", "/usr/share/nginx/docker-run.sh"]

@@ -7,7 +7,7 @@ import EditorPlugin from "./plugins/editor"
 import LocalStoragePlugin from "./plugins/local-storage"
 import ValidateBasePlugin from "./plugins/validate-base"
 import ValidateSemanticPlugin from "./plugins/validate-semantic"
-import ValidateJsonSchemaPlugin from "./plugins/validate-json-schema"
+import ValidateJsonSchemaPlugin from "./plugins/json-schema-validator"
 import EditorAutosuggestPlugin from "./plugins/editor-autosuggest"
 import EditorAutosuggestSnippetsPlugin from "./plugins/editor-autosuggest-snippets"
 import EditorAutosuggestKeywordsPlugin from "./plugins/editor-autosuggest-keywords"
@@ -52,7 +52,8 @@ const defaults = {
   },
   showExtensions: true,
   swagger2GeneratorUrl: "https://generator.swagger.io/api/swagger.json",
-  oas3GeneratorUrl: "https://generator3.swagger.io/openapi.json"
+  oas3GeneratorUrl: "https://generator3.swagger.io/openapi.json",
+  swagger2ConverterUrl: "https://converter.swagger.io/api/convert",
 }
 
 module.exports = function SwaggerEditor(options) {
