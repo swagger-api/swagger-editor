@@ -29,8 +29,6 @@ export default class ImportFileMenuItem extends Component {
     fileReader.readAsText(fileList.item(0), "UTF-8")
   }
   render() {
-    // const {  } = this.props
-
     return <li>
       <button type="button" onClick={this.onClick}>Import file</button>
     </li>
