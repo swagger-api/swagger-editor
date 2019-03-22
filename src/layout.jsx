@@ -23,7 +23,7 @@ export default class EditorLayout extends React.Component {
     const someFilesWereRejected = rejectedFiles && rejectedFiles.length > 0
     const thereIsExactlyOneAcceptedFile = acceptedFiles && acceptedFiles.length === 1
     if ( someFilesWereRejected || !thereIsExactlyOneAcceptedFile) {
-      alert("Sorry, there was an error processing your file(s).\nPlease drag and drop one (and only one) .yaml or .json OpenAPI spec file.")
+      alert("Sorry, there was an error processing your file.\nPlease drag and drop exactly one .yaml or .json OpenAPI definition file.")
     } else {
       const file = acceptedFiles[0]
       const reader = new FileReader()
