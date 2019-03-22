@@ -356,7 +356,7 @@ export default class Topbar extends React.Component {
             <DropdownMenu {...makeMenuOptions("File")}>
               <li><button type="button" onClick={this.importFromURL}>Import URL</button></li>
               <ImportFileMenuItem
-                onDocumentLoad={(content) => alert(content)}
+                onDocumentLoad={content => this.props.specActions.updateSpec(content)}
                 />
               <li role="separator"></li>
               {saveAsElements}
