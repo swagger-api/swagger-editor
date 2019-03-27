@@ -4,6 +4,7 @@ import mapValues from "lodash/mapValues"
 import isPlainObject from "lodash/isPlainObject"
 import toArray from "lodash/toArray"
 import isString from "lodash/isString"
+import get from "lodash/get"
 
 export default function getKeywordsForPath({ system, path, keywordMap }) {
   keywordMap = Object.assign({}, keywordMap)
@@ -128,7 +129,7 @@ function getChild(object, key) {
 
 function suggestionFromSchema(map) {
   const res = toArray(mapValues(map, (val, key) => {
-    const keyword = val.__value === undefined ? key : val.__value
+    const keyword = get(val, "__value", key)
     const meta = isPlainObject(val) ? "object" : "keyword"
 
     return constructAceCompletion(meta, keyword)
