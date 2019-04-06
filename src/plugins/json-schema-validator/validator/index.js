@@ -75,11 +75,6 @@ function jsonPointerStringToArray(str) {
     .filter(str => str.length > 0)
 }
 
-// For completeness, if we need to denormalize the key...
-// function JSONPointerToPath(str) {
-//   return str.split('/').map(a => a.replace('~1', '/').replace('~0', '~'))
-// }
-
 // Convert arrays into a string. Safely, by using the JSONPath spec
 function normalizeKey(key) {
   if (!Array.isArray(key)) key = [key]

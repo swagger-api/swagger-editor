@@ -251,10 +251,15 @@ definitions:
         $ref: "#/definitions/vendorExtension"
     not:
       type: object
+      minProperties: 1
       additionalProperties: false
       patternProperties:
         "^x-":
           $ref: "#/definitions/vendorExtension"
+    errorMessage:
+      minProperties: "should define at least one response"
+      not: "should define at least one response, in addition to any vendor extension (`x-*`) fields"
+      additionalProperties: "should only have three-digit status codes, `default`, and vendor extensions (`x-*`) as properties"
   responseValue:
     oneOf:
     - $ref: "#/definitions/response"
