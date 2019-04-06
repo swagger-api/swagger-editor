@@ -1,15 +1,20 @@
 import Ajv from "ajv"
+import AjvErrors from "ajv-errors"
 import { getLineNumberForPath } from "./shared.js"
 import { transformPathToArray } from "./path-translator.js"
 import { condenseErrors } from "./condense-errors.js"
 import jsonSchema from "./jsonSchema"
-const IGNORED_AJV_PARAMS = ["type"]
+const IGNORED_AJV_PARAMS = ["type", "errors"]
 
 export default class JSONSchemaValidator {
   constructor() {
     this.ajv = new Ajv({
-      allErrors: true
+      allErrors: true,
+      jsonPointers: true,
     })
+
+    AjvErrors(this.ajv)
+
     this.addSchema(jsonSchema)
   }
 
@@ -40,7 +45,7 @@ export default class JSONSchemaValidator {
         }
       }
 
-      const errorPathArray = transformPathToArray(err.dataPath.slice(1), jsSpec)
+      const errorPathArray = jsonPointerStringToArray(err.dataPath)
 
       return {
         level: "error",
@@ -62,6 +67,12 @@ function dedupe(arr) {
 
 function pathToJSONPointer(arr) {
   return arr.map(a => (a + "").replace("~", "~0").replace("/", "~1")).join("/")
+}
+
+function jsonPointerStringToArray(str) {
+  return str.split("/")
+    .map(char => (char + "").replace("~0", "~").replace("~1", "/"))
+    .filter(str => str.length > 0)
 }
 
 // For completeness, if we need to denormalize the key...
