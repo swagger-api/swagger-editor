@@ -562,6 +562,16 @@ definitions:
       "^x-": {}
     minProperties: 1
     additionalProperties: false
+    not:
+      type: object
+      minProperties: 1
+      additionalProperties: false
+      patternProperties:
+        "^x-": {}
+    errorMessage:
+      minProperties: "should define at least one response"
+      not: "should define at least one response, in addition to any vendor extension (`x-*`) fields"
+      additionalProperties: "should only have three-digit status codes, `default`, and vendor extensions (`x-*`) as properties"
   SecurityRequirement:
     type: object
     additionalProperties:
