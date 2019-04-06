@@ -39,9 +39,9 @@ definitions:
   Reference:
     type: object
     required:
-    - $ref
-    properties:
-      $ref:
+    - "$ref"
+    patternProperties:
+      "^\\$ref$":
         type: string
         format: uri-reference
   Info:
