@@ -607,6 +607,7 @@ definitions:
     additionalProperties: false
   ExampleXORExamples:
     description: Example and examples are mutually exclusive
+    errorMessage: "should not have both `example` and `examples`, as they are mutually exclusive"
     not:
       required:
       - example
