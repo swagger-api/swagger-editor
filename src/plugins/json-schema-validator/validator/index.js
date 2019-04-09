@@ -58,7 +58,7 @@ export default class JSONSchemaValidator {
         level: "error",
         line: err.problem_mark && err.problem_mark.line + 1 || 0,
         message: err.problem,
-        source,
+        source: "parser",
         original: err
       }
     }
