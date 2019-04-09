@@ -472,6 +472,8 @@ definitions:
         $ref: "#/definitions/PathItem"
       "^x-": {}
     additionalProperties: false
+    errorMessage:
+      additionalProperties: "should only have path names that start with `/`"
   PathItem:
     type: object
     properties:
