@@ -71,7 +71,7 @@ function pathToJSONPointer(arr) {
 
 function jsonPointerStringToArray(str) {
   return str.split("/")
-    .map(char => (char + "").replace("~0", "~").replace("~1", "/"))
+    .map(part => (part + "").replace(/~0/g, "~").replace(/~1/g, "/"))
     .filter(str => str.length > 0)
 }
 
