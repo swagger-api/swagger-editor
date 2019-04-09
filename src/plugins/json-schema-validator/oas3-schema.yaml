@@ -519,9 +519,16 @@ definitions:
       parameters:
         type: array
         items:
-          oneOf:
-          - $ref: "#/definitions/Parameter"
-          - $ref: "#/definitions/Reference"
+          switch:
+          - if:
+              required: [$ref]
+            then:
+              $ref: "#/definitions/Reference"
+          - then:
+              $ref: "#/definitions/Parameter"
+          # oneOf:
+          # - $ref: "#/definitions/Parameter"
+          # - $ref: "#/definitions/Reference"
         uniqueItems: true
       requestBody:
         oneOf:
@@ -617,31 +624,31 @@ definitions:
   SchemaXORContent:
     description: Schema and content are mutually exclusive, at least one is required
     not:
-      required:
-      - schema
-      - content
+        required:
+        - schema
+        - content
     oneOf:
     - required:
       - schema
     - required:
       - content
-      description: Some properties are not allowed if content is present
-      allOf:
-      - not:
-          required:
-          - style
-      - not:
-          required:
-          - explode
-      - not:
-          required:
-          - allowReserved
-      - not:
-          required:
-          - example
-      - not:
-          required:
-          - examples
+        description: Some properties are not allowed if content is present
+        allOf:
+        - not:
+            required:
+            - style
+        - not:
+            required:
+            - explode
+        - not:
+            required:
+            - allowReserved
+        - not:
+            required:
+            - example
+        - not:
+            required:
+            - examples
   Parameter:
     type: object
     properties:
