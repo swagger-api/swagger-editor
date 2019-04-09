@@ -174,9 +174,16 @@ definitions:
         type: object
         patternProperties:
           "^[a-zA-Z0-9\\.\\-_]+$":
-            oneOf:
-            - $ref: "#/definitions/Reference"
-            - $ref: "#/definitions/SecurityScheme"
+            switch:
+            - if:
+                required: [$ref]
+              then:
+                $ref: "#/definitions/Reference"
+            - then:
+                $ref: "#/definitions/SecurityScheme"
+            # oneOf:
+            # - $ref: "#/definitions/Reference"
+            # - $ref: "#/definitions/SecurityScheme"
       links:
         type: object
         patternProperties:
