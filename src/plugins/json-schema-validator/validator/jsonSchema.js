@@ -123,15 +123,16 @@ export default {
       uniqueItems: true
     },
     type: {
-      anyOf: [
-        { $ref: "#/definitions/simpleTypes" },
-        {
-          type: "array",
-          items: { $ref: "#/definitions/simpleTypes" },
-          minItems: 1,
-          uniqueItems: true
-        }
-      ]
+      $ref: "#/definitions/simpleTypes"
+      // anyOf: [
+      //   { $ref: "#/definitions/simpleTypes" },
+      //   {
+      //     type: "array",
+      //     items: { $ref: "#/definitions/simpleTypes" },
+      //     minItems: 1,
+      //     uniqueItems: true
+      //   }
+      // ]
     },
     allOf: { $ref: "#/definitions/schemaArray" },
     anyOf: { $ref: "#/definitions/schemaArray" },
