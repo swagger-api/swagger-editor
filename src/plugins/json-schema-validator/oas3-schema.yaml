@@ -777,11 +777,42 @@ definitions:
       "^x-": {}
     additionalProperties: false
   SecurityScheme:
-    oneOf:
-    - $ref: "#/definitions/APIKeySecurityScheme"
-    - $ref: "#/definitions/HTTPSecurityScheme"
-    - $ref: "#/definitions/OAuth2SecurityScheme"
-    - $ref: "#/definitions/OpenIdConnectSecurityScheme"
+    type: object
+    switch:
+    - if:
+        properties:
+          type:
+            enum: [apiKey]
+      then:
+        $ref: "#/definitions/APIKeySecurityScheme"
+    - if:
+        properties:
+          type:
+            enum: [http]
+      then:
+        $ref: "#/definitions/HTTPSecurityScheme"
+    - if:
+        properties:
+          type:
+            enum: [oauth2]
+      then:
+        $ref: "#/definitions/OAuth2SecurityScheme"
+    - if:
+        properties:
+          type:
+            enum: [openIdConnect]
+      then:
+        $ref: "#/definitions/OpenIdConnectSecurityScheme"
+    - then:
+        properties:
+          type:
+            type: string
+            enum: [apiKey, http, oauth2, openIdConnect]
+    # oneOf:
+    # - $ref: "#/definitions/APIKeySecurityScheme"
+    # - $ref: "#/definitions/HTTPSecurityScheme"
+    # - $ref: "#/definitions/OAuth2SecurityScheme"
+    # - $ref: "#/definitions/OpenIdConnectSecurityScheme"
   APIKeySecurityScheme:
     type: object
     required:
