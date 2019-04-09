@@ -1,5 +1,6 @@
 import Ajv from "ajv"
 import AjvErrors from "ajv-errors"
+import AjvKeywords from "ajv-keywords"
 import { getLineNumberForPath } from "./shared.js"
 import { transformPathToArray } from "./path-translator.js"
 import { condenseErrors } from "./condense-errors.js"
@@ -13,6 +14,7 @@ export default class JSONSchemaValidator {
       jsonPointers: true,
     })
 
+    AjvKeywords(this.ajv, "switch")
     AjvErrors(this.ajv)
 
     this.addSchema(jsonSchema)
