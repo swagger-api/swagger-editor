@@ -623,15 +623,19 @@ definitions:
       - examples
   SchemaXORContent:
     description: Schema and content are mutually exclusive, at least one is required
-    not:
+    switch:
+    - if:
+        # fails mutual exclusion of `schema` and `content` 
         required:
         - schema
         - content
-    oneOf:
-    - required:
-      - schema
-    - required:
-      - content
+      then: false
+    - if:
+        required: [schema]
+      then: true
+    - if:
+        required: [content]
+      then:
         description: Some properties are not allowed if content is present
         allOf:
         - not:
@@ -649,6 +653,11 @@ definitions:
         - not:
             required:
             - examples
+    - if: 
+        not:
+          required: [schema, content]
+      then: false
+    errorMessage: "should have either a `schema` or `content` value"
   Parameter:
     type: object
     properties:
