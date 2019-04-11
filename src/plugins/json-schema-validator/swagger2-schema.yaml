@@ -855,13 +855,30 @@ definitions:
   securityDefinitions:
     type: object
     additionalProperties:
-      oneOf:
-      - $ref: "#/definitions/basicAuthenticationSecurity"
-      - $ref: "#/definitions/apiKeySecurity"
-      - $ref: "#/definitions/oauth2ImplicitSecurity"
-      - $ref: "#/definitions/oauth2PasswordSecurity"
-      - $ref: "#/definitions/oauth2ApplicationSecurity"
-      - $ref: "#/definitions/oauth2AccessCodeSecurity"
+      switch:
+      - if: { properties: { type: { enum: [basic] } } }
+        then: { $ref: "#/definitions/basicAuthenticationSecurity" }
+      - if: { properties: { type: { enum: [apiKey] } } }
+        then: { $ref: "#/definitions/apiKeySecurity" }
+      - if: { properties: { type: { enum: [oauth2] } } }
+        then:
+          switch:
+          - if: { properties: { flow: { enum: [implicit] } } }
+            then: { $ref: "#/definitions/oauth2ImplicitSecurity" }
+          - if: { properties: { flow: { enum: [password] } } }
+            then: { $ref: "#/definitions/oauth2PasswordSecurity" }
+          - if: { properties: { flow: { enum: [application] } } }
+            then: { $ref: "#/definitions/oauth2ApplicationSecurity" }
+          - if: { properties: { flow: { enum: [accessCode] } } }
+            then: { $ref: "#/definitions/oauth2AccessCodeSecurity" }
+          - then: 
+              properties:
+                flow:
+                  enum: [implicit, password, application, accessCode]
+      - then: 
+          properties:
+            type:
+              enum: [basic, apiKey, oauth2]
   basicAuthenticationSecurity:
     type: object
     additionalProperties: false
