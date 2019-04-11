@@ -756,53 +756,49 @@ definitions:
     - $ref: "#/definitions/ParameterLocation"
   ParameterLocation:
     description: Parameter location
-    oneOf:
-    - description: Parameter in path
-      required:
-      - required
-      properties:
-        in:
-          enum:
-          - path
-        style:
-          enum:
-          - matrix
-          - label
-          - simple
-          default: simple
+    switch:
+    - if: { properties: { in: { enum: [path] } } }
+      then:
+        description: Parameter in path
         required:
-          enum:
-          - true
-    - description: Parameter in query
-      properties:
-        in:
-          enum:
-          - query
-        style:
-          enum:
-          - form
-          - spaceDelimited
-          - pipeDelimited
-          - deepObject
-          default: form
-    - description: Parameter in header
-      properties:
-        in:
-          enum:
-          - header
-        style:
-          enum:
-          - simple
-          default: simple
-    - description: Parameter in cookie
-      properties:
-        in:
-          enum:
-          - cookie
-        style:
-          enum:
-          - form
-          default: form
+        - required
+        properties:
+          style:
+            enum:
+            - matrix
+            - label
+            - simple
+            default: simple
+          required:
+            enum:
+            - true
+    - if: { properties: { in: { enum: [query] } } }
+      then:
+        description: Parameter in query
+        properties:
+          style:
+            enum:
+            - form
+            - spaceDelimited
+            - pipeDelimited
+            - deepObject
+            default: form
+    - if: { properties: { in: { enum: [header] } } }
+      then:
+        description: Parameter in header
+        properties:
+          style:
+            enum:
+            - simple
+            default: simple
+    - if: { properties: { in: { enum: [cookie] } } }
+      then:
+        description: Parameter in cookie
+        properties:
+          style:
+            enum:
+            - form
+            default: form
   RequestBody:
     type: object
     required:
