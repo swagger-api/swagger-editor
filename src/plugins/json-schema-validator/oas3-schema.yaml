@@ -260,6 +260,8 @@ definitions:
           type: string
         minItems: 1
         uniqueItems: true
+        errorMessage: 
+          type: " should be an array of property names required within an object schema"
       enum:
         type: array
         items: {}
