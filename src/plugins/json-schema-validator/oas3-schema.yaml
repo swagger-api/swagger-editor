@@ -602,9 +602,16 @@ definitions:
         - $ref: "#/definitions/Reference"
     patternProperties:
       "^[1-5](?:\\d{2}|XX)$":
-        oneOf:
-        - $ref: "#/definitions/Response"
-        - $ref: "#/definitions/Reference"
+        switch: 
+        - if:
+            required: [$ref]
+          then:
+            $ref: "#/definitions/Reference"
+        - then:
+            $ref: "#/definitions/Response"
+        # oneOf:
+        # - $ref: "#/definitions/Response"
+        # - $ref: "#/definitions/Reference"
       "^x-": {}
     minProperties: 1
     additionalProperties: false
