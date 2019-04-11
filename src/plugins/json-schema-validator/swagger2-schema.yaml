@@ -939,6 +939,8 @@ definitions:
       authorizationUrl:
         type: string
         format: uri
+        errorMessage:
+          format: should be an absolute URI
       description:
         type: string
     patternProperties:
@@ -965,6 +967,8 @@ definitions:
       tokenUrl:
         type: string
         format: uri
+        errorMessage:
+          format: should be an absolute URI
       description:
         type: string
     patternProperties:
@@ -991,6 +995,8 @@ definitions:
       tokenUrl:
         type: string
         format: uri
+        errorMessage:
+          format: should be an absolute URI
       description:
         type: string
     patternProperties:
@@ -1018,9 +1024,13 @@ definitions:
       authorizationUrl:
         type: string
         format: uri
+        errorMessage:
+          format: should be an absolute URI
       tokenUrl:
         type: string
         format: uri
+        errorMessage:
+          format: should be an absolute URI
       description:
         type: string
     patternProperties:
