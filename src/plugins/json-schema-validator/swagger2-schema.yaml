@@ -663,9 +663,9 @@ definitions:
     - if: { properties: { in: { enum: [path] } } }
       then: { $ref: "#/definitions/pathParameterSubSchema" }
     - then:
-    type: object
-    required:
-    - in
+        type: object
+        required:
+        - in
         properties:
           in:
             enum: [body, header, formData, query, path]
