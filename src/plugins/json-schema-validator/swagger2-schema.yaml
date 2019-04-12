@@ -1073,9 +1073,13 @@ definitions:
     description: The parameters needed to send a valid API call.
     additionalItems: false
     items:
-      oneOf:
-      - $ref: "#/definitions/parameter"
-      - $ref: "#/definitions/jsonReference"
+      switch:
+      - if:
+          required: [$ref]
+        then:
+          $ref: "#/definitions/jsonReference"
+      - then:
+          $ref: "#/definitions/parameter"
     uniqueItems: true
   schemesList:
     type: array
