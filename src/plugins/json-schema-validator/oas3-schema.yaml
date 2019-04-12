@@ -701,7 +701,7 @@ definitions:
         not:
           required: [schema, content]
       then: false
-    errorMessage: "should have either a `schema` or `content` value"
+    errorMessage: "should have either a `schema` or `content` property"
   Parameter:
     type: object
     properties:
