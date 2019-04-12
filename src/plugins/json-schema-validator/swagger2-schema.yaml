@@ -372,6 +372,11 @@ definitions:
         $ref: "#/definitions/schema"
     additionalProperties: false
   headerParameterSubSchema:
+    type: object
+    required:
+    - name
+    - in
+    - type
     additionalProperties: false
     patternProperties:
       "^x-":
@@ -434,6 +439,11 @@ definitions:
       multipleOf:
         $ref: "#/definitions/multipleOf"
   queryParameterSubSchema:
+    type: object
+    required:
+    - name
+    - in
+    - type
     additionalProperties: false
     patternProperties:
       "^x-":
@@ -500,6 +510,11 @@ definitions:
       multipleOf:
         $ref: "#/definitions/multipleOf"
   formDataParameterSubSchema:
+    type: object
+    required:
+    - name
+    - in
+    - type
     additionalProperties: false
     patternProperties:
       "^x-":
@@ -567,11 +582,15 @@ definitions:
       multipleOf:
         $ref: "#/definitions/multipleOf"
   pathParameterSubSchema:
+    type: object
     additionalProperties: false
     patternProperties:
       "^x-":
         $ref: "#/definitions/vendorExtension"
     required:
+    - name
+    - in
+    - type
     - required
     properties:
       required:
@@ -631,21 +650,25 @@ definitions:
         $ref: "#/definitions/enum"
       multipleOf:
         $ref: "#/definitions/multipleOf"
-  nonBodyParameter:
+  parameter:
+    switch:
+    - if: { properties: { in: { enum: [body] } } }
+      then: { $ref: "#/definitions/bodyParameter" }
+    - if: { properties: { in: { enum: [header] } } }
+      then: { $ref: "#/definitions/headerParameterSubSchema" }
+    - if: { properties: { in: { enum: [formData] } } }
+      then: { $ref: "#/definitions/formDataParameterSubSchema" }
+    - if: { properties: { in: { enum: [query] } } }
+      then: { $ref: "#/definitions/queryParameterSubSchema" }
+    - if: { properties: { in: { enum: [path] } } }
+      then: { $ref: "#/definitions/pathParameterSubSchema" }
+    - then:
     type: object
     required:
-    - name
     - in
-    - type
-    oneOf:
-    - $ref: "#/definitions/headerParameterSubSchema"
-    - $ref: "#/definitions/formDataParameterSubSchema"
-    - $ref: "#/definitions/queryParameterSubSchema"
-    - $ref: "#/definitions/pathParameterSubSchema"
-  parameter:
-    oneOf:
-    - $ref: "#/definitions/bodyParameter"
-    - $ref: "#/definitions/nonBodyParameter"
+        properties:
+          in:
+            enum: [body, header, formData, query, path]
   schema:
     type: object
     description: A deterministic version of a JSON Schema object.
