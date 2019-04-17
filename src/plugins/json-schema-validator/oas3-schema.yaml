@@ -40,8 +40,8 @@ definitions:
     type: object
     required:
     - "$ref"
-    patternProperties:
-      "^\\$ref$":
+    properties:
+      $ref:
         type: string
         format: uri-reference
   Info:
