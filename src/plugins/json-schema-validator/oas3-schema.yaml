@@ -39,7 +39,7 @@ definitions:
   Reference:
     type: object
     required:
-    - "$ref"
+    - $ref
     properties:
       $ref:
         type: string
