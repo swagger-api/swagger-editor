@@ -108,7 +108,7 @@
     "eslint": "^2.13.1",
     "eslint-plugin-import": "^2.13.0",
     "eslint-plugin-react": "^4.3.0",
-    "expect": "^24.7.1",
+    "expect": "^1.20.2",
     "expose-loader": "^0.7.3",
     "extract-text-webpack-plugin": "0.8.2",
     "file-loader": "0.8.4",

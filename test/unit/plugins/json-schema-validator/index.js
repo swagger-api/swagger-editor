@@ -31,7 +31,7 @@ testDocuments.forEach(doc => {
 
   const rootDescribe = meta.skip ? describe.skip : describe
 
-  rootDescribe(meta.title || path, function() {
+  rootDescribe(`schema validation plugin - ` + (meta.title || path), function() {
     if(content.input && content.output) {
       // fold simple input/output docs into implicit cases
       cases.push({
@@ -69,14 +69,14 @@ function assertCaseExpectations(currentCase, result) {
   const itFn = currentCase.skip ? it.skip : it
   if (currentCase.output.match !== undefined) {
     itFn("should match expected error output", function () {
-      expect(result).toMatchObject(currentCase.output.match)
+      expect(result).toMatch(currentCase.output.match)
     })
   }
 
   if (currentCase.output.length !== undefined) {
     itFn("should have expected array length", function () {
-      expect(result).toBeInstanceOf(Array)
-      expect(result).toHaveLength(currentCase.output.length)
+      expect(result).toBeAn(Array)
+      expect(result.length).toBe(currentCase.output.length)
     })
   }
 
