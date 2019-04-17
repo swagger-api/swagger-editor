@@ -2,7 +2,6 @@ import Ajv from "ajv"
 import AjvErrors from "ajv-errors"
 import AjvKeywords from "ajv-keywords"
 import { getLineNumberForPath } from "./shared.js"
-import { transformPathToArray } from "./path-translator.js"
 import { condenseErrors } from "./condense-errors.js"
 import jsonSchema from "./jsonSchema"
 const IGNORED_AJV_PARAMS = ["type", "errors"]

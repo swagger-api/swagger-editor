@@ -4,7 +4,6 @@ import swagger2SchemaYaml from "src/plugins/json-schema-validator/swagger2-schem
 import oas3SchemaYaml from "src/plugins/json-schema-validator/oas3-schema.yaml"
 import fs from "fs"
 import expect from "expect"
-import { isValidElement } from "react";
 
 const swagger2Schema = swagger2SchemaYaml[0]
 const oas3Schema = oas3SchemaYaml[0]
