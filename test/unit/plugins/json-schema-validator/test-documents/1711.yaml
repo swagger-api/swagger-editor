@@ -38,13 +38,7 @@ cases:
     info:
       title: wow
       version: 1.0.0
-    paths:
-      /:
-        get:
-          description: ok
-          responses:
-            200:
-              description: ok
+    paths: {}
     securityDefinitions:
       apikey:
         type: apiKey
@@ -64,13 +58,7 @@ cases:
     info:
       title: wow
       version: 1.0.0
-    paths:
-      /:
-        get:
-          description: ok
-          responses:
-            200:
-              description: ok
+    paths: {}
     securityDefinitions:
       basic:
         type: basic
