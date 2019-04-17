@@ -139,9 +139,6 @@ definitions:
                 $ref: "#/definitions/Reference"
             - then:
                 $ref: "#/definitions/Schema"
-            # oneOf:
-            # - $ref: "#/definitions/Schema"
-            # - $ref: "#/definitions/Reference"
       responses:
         type: object
         patternProperties:
@@ -188,9 +185,6 @@ definitions:
                 $ref: "#/definitions/Reference"
             - then:
                 $ref: "#/definitions/SecurityScheme"
-            # oneOf:
-            # - $ref: "#/definitions/Reference"
-            # - $ref: "#/definitions/SecurityScheme"
       links:
         type: object
         patternProperties:
@@ -312,9 +306,6 @@ definitions:
               $ref: "#/definitions/Reference"
           - then:
               $ref: "#/definitions/Schema"
-          # oneOf:
-          # - $ref: "#/definitions/Schema"
-          # - $ref: "#/definitions/Reference"
       additionalProperties:
         oneOf:
         - $ref: "#/definitions/Schema"
@@ -415,9 +406,6 @@ definitions:
             $ref: "#/definitions/Reference"
         - then:
             $ref: "#/definitions/Schema"
-        # oneOf:
-        # - $ref: "#/definitions/Schema"
-        # - $ref: "#/definitions/Reference"
       example: {}
       examples:
         type: object
@@ -556,9 +544,6 @@ definitions:
               $ref: "#/definitions/Reference"
           - then:
               $ref: "#/definitions/Parameter"
-          # oneOf:
-          # - $ref: "#/definitions/Parameter"
-          # - $ref: "#/definitions/Reference"
         uniqueItems: true
       requestBody:
         switch:
@@ -568,9 +553,6 @@ definitions:
             $ref: "#/definitions/Reference"
         - then:
             $ref: "#/definitions/RequestBody"
-        # oneOf:
-        # - $ref: "#/definitions/RequestBody"
-        # - $ref: "#/definitions/Reference"
       responses:
         $ref: "#/definitions/Responses"
       callbacks:
@@ -609,9 +591,6 @@ definitions:
             $ref: "#/definitions/Reference"
         - then:
             $ref: "#/definitions/Response"
-        # oneOf:
-        # - $ref: "#/definitions/Response"
-        # - $ref: "#/definitions/Reference"
       "^x-": {}
     minProperties: 1
     additionalProperties: false
@@ -848,11 +827,6 @@ definitions:
           type:
             type: string
             enum: [apiKey, http, oauth2, openIdConnect]
-    # oneOf:
-    # - $ref: "#/definitions/APIKeySecurityScheme"
-    # - $ref: "#/definitions/HTTPSecurityScheme"
-    # - $ref: "#/definitions/OAuth2SecurityScheme"
-    # - $ref: "#/definitions/OpenIdConnectSecurityScheme"
   APIKeySecurityScheme:
     type: object
     required:
