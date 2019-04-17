@@ -1,6 +1,5 @@
 meta:
-  title: "#1832 - Schema Object "
-  skip: true
+  title: "#1832 - Schema Object with a non-valid type"
 input:
   swagger: '2.0'
   info:

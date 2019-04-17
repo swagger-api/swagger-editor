@@ -20,7 +20,7 @@ export default {
         "array",
         "boolean",
         "integer",
-        "null",
+        /* "null", */ // removed per https://github.com/swagger-api/swagger-editor/issues/1832#issuecomment-483717197
         "number",
         "object",
         "string"
