@@ -28,5 +28,5 @@ output:
     message: |-
       should NOT have additional properties
       additionalProperty: example
-    path: [paths, "/", get, parameters, "0"]
+    path: [paths, /, get, parameters, "0"]
     source: structural

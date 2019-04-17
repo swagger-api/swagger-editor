@@ -22,5 +22,5 @@ output:
   match:
   - level: error
     message: should not have both `example` and `examples`, as they are mutually exclusive
-    path: [paths, "/", get, responses, "200", content, text/plain]
+    path: [paths, /, get, responses, "200", content, text/plain]
     source: structural

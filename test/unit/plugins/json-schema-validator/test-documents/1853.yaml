@@ -7,7 +7,7 @@ input:
     description: CRUD a simple Contact item.
     version: '0.1'
   paths:
-    /contact/{contactId}:
+    /:
       get:
         summary: Get a single contact by Id
         operationId: getContactById
@@ -24,5 +24,5 @@ output:
   match:
   - level: error
     message: should have either a `schema` or `content` property
-    path: [paths, "/contact/{contactId}", get, parameters, "0"]
+    path: [paths, /, get, parameters, "0"]
     source: structural

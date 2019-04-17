@@ -6,7 +6,7 @@ input:
     title: Foo OpenApi Spec
     version: 1.0.0
   paths:
-    '/Account/{id}':
+    /:
       get:
         parameters:
           - name: id
@@ -25,5 +25,5 @@ output:
     message: |-
       should have required property 'required'
       missingProperty: required
-    path: [paths, "/Account/{id}", get, parameters, "0"]
+    path: [paths, /, get, parameters, "0"]
     source: structural

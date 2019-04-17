@@ -8,7 +8,7 @@ cases:
       version: 0.0.0
       title: test
     paths:
-      /foo:
+      /:
         get:
           responses: {}
   output:
@@ -16,7 +16,7 @@ cases:
     match:
     - level: error
       message: should define at least one response
-      path: [paths, /foo, get, responses]
+      path: [paths, /, get, responses]
       source: structural
 - name: in OpenAPI 3.0
   input:
@@ -25,7 +25,7 @@ cases:
       version: 0.0.0
       title: test
     paths:
-      /foo:
+      /:
         get:
           responses: {}
   output:
@@ -33,5 +33,5 @@ cases:
     match:
     - level: error
       message: should define at least one response
-      path: [paths, /foo, get, responses]
+      path: [paths, /, get, responses]
       source: structural
