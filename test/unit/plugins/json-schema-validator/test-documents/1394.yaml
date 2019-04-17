@@ -2,7 +2,6 @@ meta:
   title: "#1394 - path key that does not start with `/`"
 cases:
 - name: in Swagger 2
-  skip: true
   input:
     swagger: "2.0"
     info:

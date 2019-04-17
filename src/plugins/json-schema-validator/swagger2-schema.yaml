@@ -131,6 +131,8 @@ definitions:
       "^/":
         $ref: "#/definitions/pathItem"
     additionalProperties: false
+    errorMessage:
+      additionalProperties: "should only have path names that start with `/`"
   definitions:
     type: object
     additionalProperties:
