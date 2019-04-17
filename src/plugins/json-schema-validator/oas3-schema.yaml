@@ -660,6 +660,7 @@ definitions:
         required: [content]
       then:
         description: Some properties are not allowed if content is present
+        errorMessage: "should not have `style`, `explode`, `allowReserved`, `example`, or `examples` when `content` is present"
         allOf:
         - not:
             required:
@@ -676,10 +677,8 @@ definitions:
         - not:
             required:
             - examples
-    - if: 
-        not:
-          required: [schema, content]
-      then: false
+    - then:
+        required: [schema, content]
     errorMessage: "should have either a `schema` or `content` property"
   Parameter:
     type: object

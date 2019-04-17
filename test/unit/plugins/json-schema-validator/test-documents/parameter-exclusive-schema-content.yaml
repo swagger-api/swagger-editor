@@ -1,0 +1,75 @@
+meta:
+  title: 3.0 Parameter Object schema/content exclusivity
+cases:
+- name: both schema and content defined
+  input:
+    openapi: "3.0.0"
+    info:
+      version: 1.0.0
+      title: Swagger Petstore
+    paths:
+      /:
+        get:
+          parameters:
+            - name: limit
+              in: query
+              description: How many items to return at one time (max 100)
+              schema:
+                type: string
+              content:
+                application/json:    
+                  schema:
+                    type: string
+          responses:
+            '200':
+              description: ok
+  output:
+    length: 1
+    match:
+    - message: should have either a `schema` or `content` property
+- name: content defined with disallowed siblings also present
+  input:
+    openapi: "3.0.0"
+    info:
+      version: 1.0.0
+      title: Swagger Petstore
+    paths:
+      /:
+        get:
+          parameters:
+            - name: limit
+              in: query
+              description: How many items to return at one time (max 100)
+              explode: true
+              content:
+                application/json:    
+                  schema:
+                    type: string
+          responses:
+            '200':
+              description: ok
+  output:
+    length: 1
+    match:
+    - message: "should not have `style`, `explode`, `allowReserved`, `example`, or `examples` when `content` is present"
+- name: neither schema or content defined
+  input:
+    openapi: "3.0.0"
+    info:
+      version: 1.0.0
+      title: Swagger Petstore
+    paths:
+      /:
+        get:
+          parameters:
+            - name: limit
+              in: query
+              description: How many items to return at one time (max 100)
+
+          responses:
+            '200':
+              description: ok
+  output:
+    length: 1
+    match:
+    - message: should have either a `schema` or `content` property

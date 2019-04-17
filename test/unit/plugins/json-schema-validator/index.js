@@ -22,7 +22,7 @@ var testDocuments = fs
 
 testDocuments.forEach(doc => {
   const { path, content } = doc
-  const { meta, cases = [] } = content
+  const { meta = {}, cases = [] } = content
 
   const validator = new JSONSchemaValidator()
   validator.addSchema(swagger2Schema, ["openapi-2.0"])
