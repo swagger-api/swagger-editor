@@ -1,7 +1,7 @@
 meta:
   title: "#1853 - OpenAPI 3.0 path parameter missing both `schema` and `content`"
 input:
-  openapi: 3.0.1
+  openapi: 3.0.0
   info:
     title: Contact List API
     description: CRUD a simple Contact item.

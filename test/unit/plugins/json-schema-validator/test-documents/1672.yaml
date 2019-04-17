@@ -1,7 +1,7 @@
 meta:
   title: "#1672 - Header Security Scheme Object lacking a `name`"
 input:
-  openapi: 3.0.1
+  openapi: 3.0.0
   info:
     title: "#1672"
     version: 1.0.0
