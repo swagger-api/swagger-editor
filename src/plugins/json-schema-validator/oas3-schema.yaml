@@ -735,7 +735,9 @@ definitions:
   ParameterLocation:
     description: Parameter location
     switch:
-    - if: { properties: { in: { enum: [path] } } }
+    - if:
+        required: [in]
+        properties: { in: { enum: [path] } }
       then:
         description: Parameter in path
         required:
@@ -750,7 +752,9 @@ definitions:
           required:
             enum:
             - true
-    - if: { properties: { in: { enum: [query] } } }
+    - if:
+        required: [in]
+        properties: { in: { enum: [query] } }
       then:
         description: Parameter in query
         properties:
@@ -761,7 +765,9 @@ definitions:
             - pipeDelimited
             - deepObject
             default: form
-    - if: { properties: { in: { enum: [header] } } }
+    - if:
+        required: [in]
+        properties: { in: { enum: [header] } }
       then:
         description: Parameter in header
         properties:
@@ -769,7 +775,9 @@ definitions:
             enum:
             - simple
             default: simple
-    - if: { properties: { in: { enum: [cookie] } } }
+    - if:
+        required: [in]
+        properties: { in: { enum: [cookie] } }
       then:
         description: Parameter in cookie
         properties:
@@ -777,6 +785,11 @@ definitions:
             enum:
             - form
             default: form
+    - then:
+        required: [in]
+        properties:
+          in:
+            enum: [path, query, header, cookie]
   RequestBody:
     type: object
     required:
@@ -798,30 +811,35 @@ definitions:
     type: object
     switch:
     - if:
+        required: [type]
         properties:
           type:
             enum: [apiKey]
       then:
         $ref: "#/definitions/APIKeySecurityScheme"
     - if:
+        required: [type]
         properties:
           type:
             enum: [http]
       then:
         $ref: "#/definitions/HTTPSecurityScheme"
     - if:
+        required: [type]
         properties:
           type:
             enum: [oauth2]
       then:
         $ref: "#/definitions/OAuth2SecurityScheme"
     - if:
+        required: [type]
         properties:
           type:
             enum: [openIdConnect]
       then:
         $ref: "#/definitions/OpenIdConnectSecurityScheme"
     - then:
+        required: [type]
         properties:
           type:
             type: string

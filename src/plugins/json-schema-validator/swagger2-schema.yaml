@@ -654,20 +654,29 @@ definitions:
         $ref: "#/definitions/multipleOf"
   parameter:
     switch:
-    - if: { properties: { in: { enum: [body] } } }
+    - if:
+        required: [in]
+        properties: { in: { enum: [body] } }
       then: { $ref: "#/definitions/bodyParameter" }
-    - if: { properties: { in: { enum: [header] } } }
+    - if:
+        required: [in]
+        properties: { in: { enum: [header] } }
       then: { $ref: "#/definitions/headerParameterSubSchema" }
-    - if: { properties: { in: { enum: [formData] } } }
+    - if:
+        required: [in]
+        properties: { in: { enum: [formData] } }
       then: { $ref: "#/definitions/formDataParameterSubSchema" }
-    - if: { properties: { in: { enum: [query] } } }
+    - if:
+        required: [in]
+        properties: { in: { enum: [query] } }
       then: { $ref: "#/definitions/queryParameterSubSchema" }
-    - if: { properties: { in: { enum: [path] } } }
+    - if:
+        required: [in]
+        properties: { in: { enum: [path] } }
       then: { $ref: "#/definitions/pathParameterSubSchema" }
     - then:
         type: object
-        required:
-        - in
+        required: [in]
         properties:
           in:
             enum: [body, header, formData, query, path]
@@ -881,26 +890,42 @@ definitions:
     type: object
     additionalProperties:
       switch:
-      - if: { properties: { type: { enum: [basic] } } }
+      - if:
+          required: [type]
+          properties: { type: { enum: [basic] } }
         then: { $ref: "#/definitions/basicAuthenticationSecurity" }
-      - if: { properties: { type: { enum: [apiKey] } } }
+      - if:
+          required: [type]
+          properties: { type: { enum: [apiKey] } }
         then: { $ref: "#/definitions/apiKeySecurity" }
-      - if: { properties: { type: { enum: [oauth2] } } }
+      - if:
+          required: [type]
+          properties: { type: { enum: [oauth2] } }
         then:
           switch:
-          - if: { properties: { flow: { enum: [implicit] } } }
+          - if:
+              required: [flow]
+              properties: { flow: { enum: [implicit] } }
             then: { $ref: "#/definitions/oauth2ImplicitSecurity" }
-          - if: { properties: { flow: { enum: [password] } } }
+          - if:
+              required: [flow]
+              properties: { flow: { enum: [password] } }
             then: { $ref: "#/definitions/oauth2PasswordSecurity" }
-          - if: { properties: { flow: { enum: [application] } } }
+          - if:
+              required: [flow]
+              properties: { flow: { enum: [application] } }
             then: { $ref: "#/definitions/oauth2ApplicationSecurity" }
-          - if: { properties: { flow: { enum: [accessCode] } } }
+          - if:
+              required: [flow]
+              properties: { flow: { enum: [accessCode] } }
             then: { $ref: "#/definitions/oauth2AccessCodeSecurity" }
           - then: 
+              required: [flow]
               properties:
                 flow:
                   enum: [implicit, password, application, accessCode]
       - then: 
+          required: [type]
           properties:
             type:
               enum: [basic, apiKey, oauth2]
