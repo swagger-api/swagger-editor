@@ -1,0 +1,41 @@
+meta:
+  title: "#1394 - path key that does not start with `/`"
+cases:
+- name: in Swagger 2
+  input:
+    swagger: "2.0"
+    info:
+      version: "#1394"
+      title: "bug #1394"
+    paths:
+      myPath:
+        get:
+          responses:
+            '200':
+              description: OK
+  output:
+    length: 1
+    match:
+    - level: error
+      message: should only have path names that start with `/`
+      path: [paths]
+      source: structural
+- name: in OpenAPI 3
+  input:
+    openapi: "3.0.0"
+    info:
+      version: "#1394"
+      title: "bug #1394"
+    paths:
+      myPath:
+        get:
+          responses:
+            '200':
+              description: OK
+  output:
+    length: 1
+    match:
+    - level: error
+      message: should only have path names that start with `/`
+      path: [paths]
+      source: structural

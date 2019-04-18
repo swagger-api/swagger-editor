@@ -131,6 +131,8 @@ definitions:
       "^/":
         $ref: "#/definitions/pathItem"
     additionalProperties: false
+    errorMessage:
+      additionalProperties: "should only have path names that start with `/`"
   definitions:
     type: object
     additionalProperties:
@@ -251,10 +253,15 @@ definitions:
         $ref: "#/definitions/vendorExtension"
     not:
       type: object
+      minProperties: 1
       additionalProperties: false
       patternProperties:
         "^x-":
           $ref: "#/definitions/vendorExtension"
+    errorMessage:
+      minProperties: "should define at least one response"
+      not: "should define at least one response, in addition to any vendor extension (`x-*`) fields"
+      additionalProperties: "should only have three-digit status codes, `default`, and vendor extensions (`x-*`) as properties"
   responseValue:
     oneOf:
     - $ref: "#/definitions/response"
@@ -367,6 +374,11 @@ definitions:
         $ref: "#/definitions/schema"
     additionalProperties: false
   headerParameterSubSchema:
+    type: object
+    required:
+    - name
+    - in
+    - type
     additionalProperties: false
     patternProperties:
       "^x-":
@@ -429,6 +441,11 @@ definitions:
       multipleOf:
         $ref: "#/definitions/multipleOf"
   queryParameterSubSchema:
+    type: object
+    required:
+    - name
+    - in
+    - type
     additionalProperties: false
     patternProperties:
       "^x-":
@@ -495,6 +512,11 @@ definitions:
       multipleOf:
         $ref: "#/definitions/multipleOf"
   formDataParameterSubSchema:
+    type: object
+    required:
+    - name
+    - in
+    - type
     additionalProperties: false
     patternProperties:
       "^x-":
@@ -562,11 +584,15 @@ definitions:
       multipleOf:
         $ref: "#/definitions/multipleOf"
   pathParameterSubSchema:
+    type: object
     additionalProperties: false
     patternProperties:
       "^x-":
         $ref: "#/definitions/vendorExtension"
     required:
+    - name
+    - in
+    - type
     - required
     properties:
       required:
@@ -626,21 +652,34 @@ definitions:
         $ref: "#/definitions/enum"
       multipleOf:
         $ref: "#/definitions/multipleOf"
-  nonBodyParameter:
-    type: object
-    required:
-    - name
-    - in
-    - type
-    oneOf:
-    - $ref: "#/definitions/headerParameterSubSchema"
-    - $ref: "#/definitions/formDataParameterSubSchema"
-    - $ref: "#/definitions/queryParameterSubSchema"
-    - $ref: "#/definitions/pathParameterSubSchema"
   parameter:
-    oneOf:
-    - $ref: "#/definitions/bodyParameter"
-    - $ref: "#/definitions/nonBodyParameter"
+    switch:
+    - if:
+        required: [in]
+        properties: { in: { enum: [body] } }
+      then: { $ref: "#/definitions/bodyParameter" }
+    - if:
+        required: [in]
+        properties: { in: { enum: [header] } }
+      then: { $ref: "#/definitions/headerParameterSubSchema" }
+    - if:
+        required: [in]
+        properties: { in: { enum: [formData] } }
+      then: { $ref: "#/definitions/formDataParameterSubSchema" }
+    - if:
+        required: [in]
+        properties: { in: { enum: [query] } }
+      then: { $ref: "#/definitions/queryParameterSubSchema" }
+    - if:
+        required: [in]
+        properties: { in: { enum: [path] } }
+      then: { $ref: "#/definitions/pathParameterSubSchema" }
+    - then:
+        type: object
+        required: [in]
+        properties:
+          in:
+            enum: [body, header, formData, query, path]
   schema:
     type: object
     description: A deterministic version of a JSON Schema object.
@@ -850,13 +889,46 @@ definitions:
   securityDefinitions:
     type: object
     additionalProperties:
-      oneOf:
-      - $ref: "#/definitions/basicAuthenticationSecurity"
-      - $ref: "#/definitions/apiKeySecurity"
-      - $ref: "#/definitions/oauth2ImplicitSecurity"
-      - $ref: "#/definitions/oauth2PasswordSecurity"
-      - $ref: "#/definitions/oauth2ApplicationSecurity"
-      - $ref: "#/definitions/oauth2AccessCodeSecurity"
+      switch:
+      - if:
+          required: [type]
+          properties: { type: { enum: [basic] } }
+        then: { $ref: "#/definitions/basicAuthenticationSecurity" }
+      - if:
+          required: [type]
+          properties: { type: { enum: [apiKey] } }
+        then: { $ref: "#/definitions/apiKeySecurity" }
+      - if:
+          required: [type]
+          properties: { type: { enum: [oauth2] } }
+        then:
+          switch:
+          - if:
+              required: [flow]
+              properties: { flow: { enum: [implicit] } }
+            then: { $ref: "#/definitions/oauth2ImplicitSecurity" }
+          - if:
+              required: [flow]
+              properties: { flow: { enum: [password] } }
+            then: { $ref: "#/definitions/oauth2PasswordSecurity" }
+          - if:
+              required: [flow]
+              properties: { flow: { enum: [application] } }
+            then: { $ref: "#/definitions/oauth2ApplicationSecurity" }
+          - if:
+              required: [flow]
+              properties: { flow: { enum: [accessCode] } }
+            then: { $ref: "#/definitions/oauth2AccessCodeSecurity" }
+          - then: 
+              required: [flow]
+              properties:
+                flow:
+                  enum: [implicit, password, application, accessCode]
+      - then: 
+          required: [type]
+          properties:
+            type:
+              enum: [basic, apiKey, oauth2]
   basicAuthenticationSecurity:
     type: object
     additionalProperties: false
@@ -917,6 +989,8 @@ definitions:
       authorizationUrl:
         type: string
         format: uri
+        errorMessage:
+          format: should be an absolute URI
       description:
         type: string
     patternProperties:
@@ -943,6 +1017,8 @@ definitions:
       tokenUrl:
         type: string
         format: uri
+        errorMessage:
+          format: should be an absolute URI
       description:
         type: string
     patternProperties:
@@ -969,6 +1045,8 @@ definitions:
       tokenUrl:
         type: string
         format: uri
+        errorMessage:
+          format: should be an absolute URI
       description:
         type: string
     patternProperties:
@@ -996,9 +1074,13 @@ definitions:
       authorizationUrl:
         type: string
         format: uri
+        errorMessage:
+          format: should be an absolute URI
       tokenUrl:
         type: string
         format: uri
+        errorMessage:
+          format: should be an absolute URI
       description:
         type: string
     patternProperties:
@@ -1018,9 +1100,13 @@ definitions:
     description: The parameters needed to send a valid API call.
     additionalItems: false
     items:
-      oneOf:
-      - $ref: "#/definitions/parameter"
-      - $ref: "#/definitions/jsonReference"
+      switch:
+      - if:
+          required: [$ref]
+        then:
+          $ref: "#/definitions/jsonReference"
+      - then:
+          $ref: "#/definitions/parameter"
     uniqueItems: true
   schemesList:
     type: array

@@ -132,9 +132,13 @@ definitions:
         type: object
         patternProperties:
           "^[a-zA-Z0-9\\.\\-_]+$":
-            oneOf:
-            - $ref: "#/definitions/Schema"
-            - $ref: "#/definitions/Reference"
+            switch:
+            - if:
+                required: [$ref]
+              then:
+                $ref: "#/definitions/Reference"
+            - then:
+                $ref: "#/definitions/Schema"
       responses:
         type: object
         patternProperties:
@@ -174,9 +178,13 @@ definitions:
         type: object
         patternProperties:
           "^[a-zA-Z0-9\\.\\-_]+$":
-            oneOf:
-            - $ref: "#/definitions/Reference"
-            - $ref: "#/definitions/SecurityScheme"
+            switch:
+            - if:
+                required: [$ref]
+              then:
+                $ref: "#/definitions/Reference"
+            - then:
+                $ref: "#/definitions/SecurityScheme"
       links:
         type: object
         patternProperties:
@@ -246,6 +254,8 @@ definitions:
           type: string
         minItems: 1
         uniqueItems: true
+        errorMessage: 
+          type: "should be an array of property names required within an object schema"
       enum:
         type: array
         items: {}
@@ -289,9 +299,13 @@ definitions:
       properties:
         type: object
         additionalProperties:
-          oneOf:
-          - $ref: "#/definitions/Schema"
-          - $ref: "#/definitions/Reference"
+          switch:
+          - if:
+              required: [$ref]
+            then:
+              $ref: "#/definitions/Reference"
+          - then:
+              $ref: "#/definitions/Schema"
       additionalProperties:
         oneOf:
         - $ref: "#/definitions/Schema"
@@ -385,9 +399,13 @@ definitions:
     type: object
     properties:
       schema:
-        oneOf:
-        - $ref: "#/definitions/Schema"
-        - $ref: "#/definitions/Reference"
+        switch:
+        - if:
+            required: [$ref]
+          then:
+            $ref: "#/definitions/Reference"
+        - then:
+            $ref: "#/definitions/Schema"
       example: {}
       examples:
         type: object
@@ -472,6 +490,8 @@ definitions:
         $ref: "#/definitions/PathItem"
       "^x-": {}
     additionalProperties: false
+    errorMessage:
+      additionalProperties: "should only have path names that start with `/`"
   PathItem:
     type: object
     properties:
@@ -517,14 +537,22 @@ definitions:
       parameters:
         type: array
         items:
-          oneOf:
-          - $ref: "#/definitions/Parameter"
-          - $ref: "#/definitions/Reference"
+          switch:
+          - if:
+              required: [$ref]
+            then:
+              $ref: "#/definitions/Reference"
+          - then:
+              $ref: "#/definitions/Parameter"
         uniqueItems: true
       requestBody:
-        oneOf:
-        - $ref: "#/definitions/RequestBody"
-        - $ref: "#/definitions/Reference"
+        switch:
+        - if:
+            required: [$ref]
+          then:
+            $ref: "#/definitions/Reference"
+        - then:
+            $ref: "#/definitions/RequestBody"
       responses:
         $ref: "#/definitions/Responses"
       callbacks:
@@ -556,12 +584,26 @@ definitions:
         - $ref: "#/definitions/Reference"
     patternProperties:
       "^[1-5](?:\\d{2}|XX)$":
-        oneOf:
-        - $ref: "#/definitions/Response"
-        - $ref: "#/definitions/Reference"
+        switch: 
+        - if:
+            required: [$ref]
+          then:
+            $ref: "#/definitions/Reference"
+        - then:
+            $ref: "#/definitions/Response"
       "^x-": {}
     minProperties: 1
     additionalProperties: false
+    not:
+      type: object
+      minProperties: 1
+      additionalProperties: false
+      patternProperties:
+        "^x-": {}
+    errorMessage:
+      minProperties: "should define at least one response"
+      not: "should define at least one response, in addition to any vendor extension (`x-*`) fields"
+      additionalProperties: "should only have three-digit status codes, `default`, and vendor extensions (`x-*`) as properties"
   SecurityRequirement:
     type: object
     additionalProperties:
@@ -597,38 +639,47 @@ definitions:
     additionalProperties: false
   ExampleXORExamples:
     description: Example and examples are mutually exclusive
+    errorMessage: "should not have both `example` and `examples`, as they are mutually exclusive"
     not:
       required:
       - example
       - examples
   SchemaXORContent:
     description: Schema and content are mutually exclusive, at least one is required
-    not:
-      required:
-      - schema
-      - content
-    oneOf:
-    - required:
-      - schema
-    - required:
-      - content
-      description: Some properties are not allowed if content is present
-      allOf:
-      - not:
-          required:
-          - style
-      - not:
-          required:
-          - explode
-      - not:
-          required:
-          - allowReserved
-      - not:
-          required:
-          - example
-      - not:
-          required:
-          - examples
+    switch:
+    - if:
+        # fails mutual exclusion of `schema` and `content` 
+        required:
+        - schema
+        - content
+      then: false
+    - if:
+        required: [schema]
+      then: true
+    - if:
+        required: [content]
+      then:
+        description: Some properties are not allowed if content is present
+        errorMessage: "should not have `style`, `explode`, `allowReserved`, `example`, or `examples` when `content` is present"
+        allOf:
+        - not:
+            required:
+            - style
+        - not:
+            required:
+            - explode
+        - not:
+            required:
+            - allowReserved
+        - not:
+            required:
+            - example
+        - not:
+            required:
+            - examples
+    - then:
+        required: [schema, content]
+    errorMessage: "should have either a `schema` or `content` property"
   Parameter:
     type: object
     properties:
@@ -683,53 +734,62 @@ definitions:
     - $ref: "#/definitions/ParameterLocation"
   ParameterLocation:
     description: Parameter location
-    oneOf:
-    - description: Parameter in path
-      required:
-      - required
-      properties:
-        in:
-          enum:
-          - path
-        style:
-          enum:
-          - matrix
-          - label
-          - simple
-          default: simple
+    switch:
+    - if:
+        required: [in]
+        properties: { in: { enum: [path] } }
+      then:
+        description: Parameter in path
         required:
-          enum:
-          - true
-    - description: Parameter in query
-      properties:
-        in:
-          enum:
-          - query
-        style:
-          enum:
-          - form
-          - spaceDelimited
-          - pipeDelimited
-          - deepObject
-          default: form
-    - description: Parameter in header
-      properties:
-        in:
-          enum:
-          - header
-        style:
-          enum:
-          - simple
-          default: simple
-    - description: Parameter in cookie
-      properties:
-        in:
-          enum:
-          - cookie
-        style:
-          enum:
-          - form
-          default: form
+        - required
+        properties:
+          style:
+            enum:
+            - matrix
+            - label
+            - simple
+            default: simple
+          required:
+            enum:
+            - true
+    - if:
+        required: [in]
+        properties: { in: { enum: [query] } }
+      then:
+        description: Parameter in query
+        properties:
+          style:
+            enum:
+            - form
+            - spaceDelimited
+            - pipeDelimited
+            - deepObject
+            default: form
+    - if:
+        required: [in]
+        properties: { in: { enum: [header] } }
+      then:
+        description: Parameter in header
+        properties:
+          style:
+            enum:
+            - simple
+            default: simple
+    - if:
+        required: [in]
+        properties: { in: { enum: [cookie] } }
+      then:
+        description: Parameter in cookie
+        properties:
+          style:
+            enum:
+            - form
+            default: form
+    - then:
+        required: [in]
+        properties:
+          in:
+            enum: [path, query, header, cookie]
   RequestBody:
     type: object
     required:
@@ -748,11 +808,42 @@ definitions:
       "^x-": {}
     additionalProperties: false
   SecurityScheme:
-    oneOf:
-    - $ref: "#/definitions/APIKeySecurityScheme"
-    - $ref: "#/definitions/HTTPSecurityScheme"
-    - $ref: "#/definitions/OAuth2SecurityScheme"
-    - $ref: "#/definitions/OpenIdConnectSecurityScheme"
+    type: object
+    switch:
+    - if:
+        required: [type]
+        properties:
+          type:
+            enum: [apiKey]
+      then:
+        $ref: "#/definitions/APIKeySecurityScheme"
+    - if:
+        required: [type]
+        properties:
+          type:
+            enum: [http]
+      then:
+        $ref: "#/definitions/HTTPSecurityScheme"
+    - if:
+        required: [type]
+        properties:
+          type:
+            enum: [oauth2]
+      then:
+        $ref: "#/definitions/OAuth2SecurityScheme"
+    - if:
+        required: [type]
+        properties:
+          type:
+            enum: [openIdConnect]
+      then:
+        $ref: "#/definitions/OpenIdConnectSecurityScheme"
+    - then:
+        required: [type]
+        properties:
+          type:
+            type: string
+            enum: [apiKey, http, oauth2, openIdConnect]
   APIKeySecurityScheme:
     type: object
     required:

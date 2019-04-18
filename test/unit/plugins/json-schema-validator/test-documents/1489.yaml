@@ -1,0 +1,26 @@
+meta:
+  title: "#1489 - illegal presence of both `example` and `examples` in Media Type Object"
+input:
+  openapi: 3.0.0
+  info:
+    version: "validation"
+    title: Spec with both example and examples
+  paths:
+    /:
+      get:
+        responses:
+          '200':
+            description: OK
+            content:
+              text/plain:
+                example: sample response
+                examples:
+                  foo:
+                    value: anonther response
+output:
+  length: 1
+  match:
+  - level: error
+    message: should not have both `example` and `examples`, as they are mutually exclusive
+    path: [paths, /, get, responses, "200", content, text/plain]
+    source: structural

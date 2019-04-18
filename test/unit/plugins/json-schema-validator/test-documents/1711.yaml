@@ -1,0 +1,74 @@
+meta:
+  title: "#1711 - Misleading 2.0 Security Scheme object errors"
+cases:
+- name: oauth2 definitions with non-absolute URIs
+  input:
+    swagger: "2.0"
+    paths: {}
+    info:
+      title: wow
+      version: 1.0.0
+    securityDefinitions:
+      oauth2_Password:
+        type: oauth2
+        tokenUrl: /authorizationserver/oauth/token
+        flow: password
+        scopes:
+          basic: ''
+      oauth2_client_credentials:
+        type: oauth2
+        tokenUrl: /authorizationserver/oauth/token
+        flow: application
+        scopes:
+          extended: ''
+  output:
+    length: 2
+    match:
+    - level: error
+      message: should be an absolute URI
+      path: [securityDefinitions, oauth2_Password, tokenUrl]
+      source: structural
+    - level: error
+      message: should be an absolute URI
+      path: [securityDefinitions, oauth2_client_credentials, tokenUrl]
+      source: structural
+- name: apiKey definition missing `in` property
+  input:
+    swagger: "2.0"
+    info:
+      title: wow
+      version: 1.0.0
+    paths: {}
+    securityDefinitions:
+      apikey:
+        type: apiKey
+        name: myAuth
+  output:
+    length: 1
+    match:
+    - level: error
+      message: |-
+        should have required property 'in'
+        missingProperty: in
+      path: [securityDefinitions, apikey]
+      source: structural
+- name: basic definition with a superfluous `in` property
+  input:
+    swagger: "2.0"
+    info:
+      title: wow
+      version: 1.0.0
+    paths: {}
+    securityDefinitions:
+      basic:
+        type: basic
+        in: header
+  output:
+    length: 1
+    match:
+    - level: error
+      message: |-
+        should NOT have additional properties
+        additionalProperty: in
+      path: [securityDefinitions, basic]
+      source: structural
