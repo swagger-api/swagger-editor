@@ -278,9 +278,22 @@ definitions:
       description:
         type: string
       schema:
-        oneOf:
-        - $ref: "#/definitions/schema"
-        - $ref: "#/definitions/fileSchema"
+        switch:
+        - if:
+            required: [$ref]
+          then:
+            $ref: "#/definitions/jsonReference"
+        - if: 
+            required: [type]
+            properties: { type: { enum: [file] } }
+          then:
+            $ref: "#/definitions/fileSchema"
+        - then: 
+            allOf:
+            - $ref: "#/definitions/schema"
+            - properties:
+                type:
+                  enum: [array, boolean, integer, number, object, string, file]
       headers:
         $ref: "#/definitions/headers"
       examples:
