@@ -355,11 +355,20 @@ definitions:
           - then:
               $ref: "#/definitions/Schema"
       additionalProperties:
-        oneOf:
-        - $ref: "#/definitions/Schema"
-        - $ref: "#/definitions/Reference"
-        - type: boolean
         default: true
+        switch:
+        - if:
+            type: object
+            required: [$ref]
+          then:
+            $ref: "#/definitions/Reference"
+        - if: 
+            type: object
+          then:
+            $ref: "#/definitions/Schema"
+        - then: 
+            type: boolean
+            errorMessage: "should be a Reference Object, Schema Object, or boolean value"
       description:
         type: string
       format:
