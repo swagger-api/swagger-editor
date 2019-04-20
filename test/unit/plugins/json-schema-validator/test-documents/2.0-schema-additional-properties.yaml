@@ -1,0 +1,103 @@
+
+cases:
+- name: a valid additionalProperties schema
+  input:
+    swagger: "2.0"
+    info:
+      title: ""
+      version: 1.0.0
+    paths: {}
+    definitions:
+      mySchema:
+        type: object
+        additionalProperties:
+          type: string
+  output:
+    equal: null
+- name: a valid schema with an invalid additionalProperties schema
+  input:
+    swagger: "2.0"
+    info:
+      title: ""
+      version: 1.0.0
+    paths: {}
+    definitions:
+      mySchema:
+        type: object
+        additionalProperties:
+          type: int
+  output:
+    length: 1
+    match:
+    - message: |-
+        should be equal to one of the allowed values
+        allowedValues: array, boolean, integer, number, object, string
+      path: [definitions, mySchema, additionalProperties]
+- name: a valid schema with an invalid additionalProperties string value
+  input:
+    swagger: "2.0"
+    info:
+      title: ""
+      version: 1.0.0
+    paths: {}
+    definitions:
+      mySchema:
+        type: object
+        additionalProperties: "wow"
+  output:
+    length: 1
+    match:
+    - message: "should be either a Schema Object or a boolean value"
+      path: [definitions, mySchema, additionalProperties]
+- name: a valid schema with a valid additionalProperties reference
+  input:
+    swagger: "2.0"
+    info:
+      title: ""
+      version: 1.0.0
+    paths: {}
+    definitions:
+      mySchema:
+        type: object
+        additionalProperties:
+          $ref: "#"
+  output:
+    equal: null
+- name: "a valid schema with `additionalProperties: true`"
+  input:
+    swagger: "2.0"
+    info:
+      title: ""
+      version: 1.0.0
+    paths: {}
+    definitions:
+      mySchema:
+        type: object
+        additionalProperties: true
+  output:
+    equal: null
+- name: "a valid schema with `additionalProperties: false`"
+  input:
+    swagger: "2.0"
+    info:
+      title: ""
+      version: 1.0.0
+    paths: {}
+    definitions:
+      mySchema:
+        type: object
+        additionalProperties: false
+  output:
+    equal: null
+- name: "a valid schema without `additionalProperties`"
+  input:
+    swagger: "2.0"
+    info:
+      title: ""
+      version: 1.0.0
+    paths: {}
+    definitions:
+      mySchema:
+        type: object
+  output:
+    equal: null

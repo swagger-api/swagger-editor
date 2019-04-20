@@ -745,9 +745,15 @@ definitions:
       enum:
         $ref: http://json-schema.org/draft-04/schema#/properties/enum
       additionalProperties:
-        anyOf:
-        - $ref: "#/definitions/schema"
-        - type: boolean
+        switch:
+        - if: 
+            type: object
+          then:
+            $ref: "#/definitions/schema"
+        - then:
+            type: boolean
+            errorMessage:
+              type: "should be either a Schema Object or a boolean value"
         default: {}
       type:
         $ref: http://json-schema.org/draft-04/schema#/properties/type
