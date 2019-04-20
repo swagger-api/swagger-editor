@@ -983,22 +983,20 @@ definitions:
         - http
     patternProperties:
       "^x-": {}
+    switch:
+    # the inverse (no `bearerFormat` in properties + using a switch to add it
+    # in the case of `scheme: bearer`) doesn't work because of `switch`'s
+    # limitations, so this is the best we can do.
+    - if:
+        not:
+          required: [scheme]
+          properties: { scheme: { enum: [bearer] } }
+      then:
+        properties:
+          bearerFormat:
+            enum: [null]
+        errorMessage: "should NOT have a `bearerFormat` property without `scheme: bearer` being set"
     additionalProperties: false
-    oneOf:
-    - description: Bearer
-      properties:
-        scheme:
-          enum:
-          - bearer
-    - description: Non Bearer
-      not:
-        required:
-        - bearerFormat
-      properties:
-        scheme:
-          not:
-            enum:
-            - bearer
   OAuth2SecurityScheme:
     type: object
     required:

@@ -1,0 +1,54 @@
+cases:
+- name: valid HTTP/bearer security scheme
+  input:
+    openapi: 3.0.0
+    info: { title: "", version: 1.0.0 }
+    paths: {}
+    components:
+      securitySchemes:
+        myScheme:
+          type: http
+          scheme: bearer
+  output:
+    equal: null
+- name: valid HTTP/bearer+bearerFormat security scheme
+  input:
+    openapi: 3.0.0
+    info: { title: "", version: 1.0.0 }
+    paths: {}
+    components:
+      securitySchemes:
+        myScheme:
+          type: http
+          scheme: bearer
+          bearerFormat: Bearer
+  output:
+    equal: null
+- name: valid HTTP/basic security scheme
+  input:
+    openapi: 3.0.0
+    info: { title: "", version: 1.0.0 }
+    paths: {}
+    components:
+      securitySchemes:
+        myScheme:
+          type: http
+          scheme: basic
+  output:
+    equal: null
+- name: invalid HTTP/basic+bearerFormat security scheme
+  input:
+    openapi: 3.0.0
+    info: { title: "", version: 1.0.0 }
+    paths: {}
+    components:
+      securitySchemes:
+        myScheme:
+          type: http
+          scheme: basic
+          bearerFormat: Bearer
+  output:
+    length: 1
+    match:
+    - message: "should NOT have a `bearerFormat` property without `scheme: bearer` being set"
+      path: [components, securitySchemes, myScheme]
