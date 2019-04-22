@@ -263,9 +263,13 @@ definitions:
       not: "should define at least one response, in addition to any vendor extension (`x-*`) fields"
       additionalProperties: "should only have three-digit status codes, `default`, and vendor extensions (`x-*`) as properties"
   responseValue:
-    oneOf:
-    - $ref: "#/definitions/response"
-    - $ref: "#/definitions/jsonReference"
+    switch:
+    - if:
+        required: [$ref]
+      then:
+        $ref: "#/definitions/jsonReference"
+    - then:
+        $ref: "#/definitions/response"
   response:
     type: object
     required:
@@ -274,9 +278,22 @@ definitions:
       description:
         type: string
       schema:
-        oneOf:
-        - $ref: "#/definitions/schema"
-        - $ref: "#/definitions/fileSchema"
+        switch:
+        - if:
+            required: [$ref]
+          then:
+            $ref: "#/definitions/jsonReference"
+        - if: 
+            required: [type]
+            properties: { type: { enum: [file] } }
+          then:
+            $ref: "#/definitions/fileSchema"
+        - then: 
+            allOf:
+            - $ref: "#/definitions/schema"
+            - properties:
+                type:
+                  enum: [array, boolean, integer, number, object, string, file]
       headers:
         $ref: "#/definitions/headers"
       examples:
@@ -728,19 +745,20 @@ definitions:
       enum:
         $ref: http://json-schema.org/draft-04/schema#/properties/enum
       additionalProperties:
-        anyOf:
-        - $ref: "#/definitions/schema"
-        - type: boolean
+        switch:
+        - if: 
+            type: object
+          then:
+            $ref: "#/definitions/schema"
+        - then:
+            type: boolean
+            errorMessage:
+              type: "should be either a Schema Object or a boolean value"
         default: {}
       type:
         $ref: http://json-schema.org/draft-04/schema#/properties/type
       items:
-        anyOf:
-        - $ref: "#/definitions/schema"
-        - type: array
-          minItems: 1
-          items:
-            $ref: "#/definitions/schema"
+        $ref: "#/definitions/schema"
         default: {}
       allOf:
         type: array
