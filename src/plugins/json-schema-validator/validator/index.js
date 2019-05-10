@@ -31,32 +31,43 @@ export default class JSONSchemaValidator {
     }
 
     const condensedErrors = condenseErrors(this.ajv.errors)
-    const boundGetLineNumber = getLineNumberForPath.bind(null, specStr)
+    try {
+      const boundGetLineNumber = getLineNumberForPath.bind(null, specStr)
 
-    return condensedErrors.map(err => {
-      let preparedMessage = err.message
-      if (err.params) {
-        preparedMessage += "\n"
-        for (var k in err.params) {
-          if (IGNORED_AJV_PARAMS.indexOf(k) === -1) {
-            const ori = err.params[k]
-            const value = Array.isArray(ori) ? dedupe(ori).join(", ") : ori
-            preparedMessage += `${k}: ${value}\n`
+      return condensedErrors.map(err => {
+        let preparedMessage = err.message
+        if (err.params) {
+          preparedMessage += "\n"
+          for (var k in err.params) {
+            if (IGNORED_AJV_PARAMS.indexOf(k) === -1) {
+              const ori = err.params[k]
+              const value = Array.isArray(ori) ? dedupe(ori).join(", ") : ori
+              preparedMessage += `${k}: ${value}\n`
+            }
           }
         }
-      }
 
-      const errorPathArray = jsonPointerStringToArray(err.dataPath)
+        const errorPathArray = jsonPointerStringToArray(err.dataPath)
 
+        return {
+          level: "error",
+          line: boundGetLineNumber(errorPathArray || []),
+          path: errorPathArray,
+          message: preparedMessage.trim(),
+          source,
+          original: err
+        }
+      })
+    }
+    catch (err) {
       return {
         level: "error",
-        line: boundGetLineNumber(errorPathArray || []),
-        path: errorPathArray,
-        message: preparedMessage.trim(),
-        source,
+        line: err.problem_mark && err.problem_mark.line + 1 || 0,
+        message: err.problem,
+        source: "parser",
         original: err
       }
-    })
+    }
   }
 }
 
