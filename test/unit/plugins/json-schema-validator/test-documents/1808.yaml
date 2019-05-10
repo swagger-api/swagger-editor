@@ -1,0 +1,37 @@
+meta:
+  title: "#1808 - Misleading errors for a Responses Object within Operation Object"
+cases:
+- name: in OpenAPI 2.0
+  input:
+    swagger: "2.0"
+    info:
+      version: 0.0.0
+      title: test
+    paths:
+      /:
+        get:
+          responses: {}
+  output:
+    length: 1
+    match:
+    - level: error
+      message: should define at least one response
+      path: [paths, /, get, responses]
+      source: structural
+- name: in OpenAPI 3.0
+  input:
+    openapi: "3.0.0"
+    info:
+      version: 0.0.0
+      title: test
+    paths:
+      /:
+        get:
+          responses: {}
+  output:
+    length: 1
+    match:
+    - level: error
+      message: should define at least one response
+      path: [paths, /, get, responses]
+      source: structural
