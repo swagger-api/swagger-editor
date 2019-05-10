@@ -53,7 +53,7 @@ export default class JSONSchemaValidator {
           level: "error",
           line: boundGetLineNumber(errorPathArray || []),
           path: errorPathArray,
-          message: preparedMessage,
+          message: preparedMessage.trim(),
           source,
           original: err
         }
