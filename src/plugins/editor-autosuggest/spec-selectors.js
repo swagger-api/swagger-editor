@@ -11,7 +11,8 @@ const SWAGGER2_REF_MAP = {
 }
 
 const OAS3_REF_MAP = {
-  schema: "components/schemas",
+  schemas: "components/schemas", // for Schemas within Components
+  schema: "components/schemas", // for Schemas throughout document
   parameters: "components/parameters",
   requestBody: "components/requestBodies",
   callbacks: "components/callbacks",
@@ -30,6 +31,7 @@ const OAS3_TYPES = Set(Object.values(OAS3_REF_MAP))
 export const getRefType = (state, path) => (sys) => createSelector(
   () => {
   for( var i=path.length-1; i>-1; i-- ) {
+    debugger
     let tag = path[i]
     if(sys.specSelectors.isOAS3 && sys.specSelectors.isOAS3()) {
       if(OAS3_REF_MAP[tag]) {
