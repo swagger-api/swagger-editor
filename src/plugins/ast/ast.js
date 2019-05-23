@@ -196,7 +196,7 @@ export function pathForPosition(yaml, position) {
     const errorTraceMessage = [
       yaml.split("\n").slice(problemMark.line - 5, problemMark.line).join("\n"),
       Array(problemMark.column).fill(" ").join("") + `^----- ${e.name}: ${e.toString().split("\n")[0]}`,
-      yaml.split("\n").slice(problemMark.line + 1, problemMark.line + 5).join("\n")
+      yaml.split("\n").slice(problemMark.line, problemMark.line + 5).join("\n")
     ].join("\n")
 
     console.error(errorTraceMessage)
