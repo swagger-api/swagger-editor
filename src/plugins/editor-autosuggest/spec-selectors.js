@@ -31,7 +31,6 @@ const OAS3_TYPES = Set(Object.values(OAS3_REF_MAP))
 export const getRefType = (state, path) => (sys) => createSelector(
   () => {
   for( var i=path.length-1; i>-1; i-- ) {
-    debugger
     let tag = path[i]
     if(sys.specSelectors.isOAS3 && sys.specSelectors.isOAS3()) {
       if(OAS3_REF_MAP[tag]) {
