@@ -115,6 +115,11 @@ function getChild(object, key) {
 
   for (var i = 0; i < keys.length; i++) {
     let childVal = object[keys[i]]
+
+    if (!childVal) {
+      return null
+    }
+
     regex = new RegExp(childVal.__regex || keys[i])
 
     if (regex.test(key) && childVal) {
