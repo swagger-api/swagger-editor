@@ -1,6 +1,6 @@
 export function getPathForPosition({ pos: originalPos, prefix, editorValue, AST }) {
   var pos = Object.assign({}, originalPos)
-  var lines = editorValue.split("\n")
+  var lines = editorValue.split(/\r\n|\r|\n/)
   var previousLine = lines[pos.row - 1] || ""
   var currentLine = lines[pos.row]
   var nextLine = lines[pos.row + 1] || ""
