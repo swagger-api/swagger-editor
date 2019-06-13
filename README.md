@@ -45,6 +45,38 @@ To help with the migration, here are the currently known issues with 3.X. This l
 - The integration with the codegen is still missing.
 - Importing specs from a URL is not implemented.
 
+## Running locally from npx
+
+Simply call
+
+```bash
+npx swagger-editor
+```
+
+## Running locally as a binary
+
+Install swagger editor as a global binary with either
+
+```bash
+npm i -g swagger-editor
+```
+
+to install from npm. Or
+
+```bash
+npm i -g swagger-api/swagger-editor
+```
+
+to install from GitHub.
+
+Then, once installed, simply call
+
+```bash
+swagger-editor
+```
+
+from the command line.
+
 ## Docker
 
 ### Running the image from DockerHub
