@@ -11,7 +11,8 @@ const SWAGGER2_REF_MAP = {
 }
 
 const OAS3_REF_MAP = {
-  schema: "components/schemas",
+  schemas: "components/schemas", // for Schemas within Components
+  schema: "components/schemas", // for Schemas throughout document
   parameters: "components/parameters",
   requestBody: "components/requestBodies",
   callbacks: "components/callbacks",
