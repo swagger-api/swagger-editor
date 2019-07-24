@@ -55,7 +55,7 @@ const defaults = {
   swagger2ConverterUrl: "https://converter.swagger.io/api/convert",
 }
 
-module.exports = function SwaggerEditor(options) {
+export default function SwaggerEditor(options) {
   let mergedOptions = deepMerge(defaults, options)
 
   mergedOptions.presets = defaults.presets.concat(options.presets || [])
@@ -63,4 +63,4 @@ module.exports = function SwaggerEditor(options) {
   return SwaggerUI(mergedOptions)
 }
 
-module.exports.plugins = plugins
+SwaggerEditor.plugins = plugins
