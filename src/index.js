@@ -1,7 +1,6 @@
 import deepMerge from "deepmerge"
 import SwaggerUI from "swagger-ui"
 import EditorLayout from "./layout"
-import "swagger-ui/dist/swagger-ui.css"
 
 import EditorPlugin from "./plugins/editor"
 import LocalStoragePlugin from "./plugins/local-storage"
