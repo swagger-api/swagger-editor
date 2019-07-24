@@ -1,4 +1,3 @@
-
 /**
  * @prettier
  */
@@ -19,8 +18,8 @@ const result = configBuilder(
       "swagger-editor-bundle": [
         "./src/styles/main.less",
         "./src/polyfills.js",
-        './src/index.js'
-      ]
+        "./src/index.js",
+      ],
     },
 
     output: {

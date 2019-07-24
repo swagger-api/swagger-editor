@@ -13,9 +13,7 @@ export default {
   mode: "production",
 
   entry: {
-    "swagger-editor": [
-      "./src/styles/main.less"
-    ],
+    "swagger-editor": ["./src/styles/main.less"],
   },
 
   module: {
@@ -33,7 +31,6 @@ export default {
           {
             loader: "postcss-loader",
             options: {
-              
               sourceMap: true,
               plugins: loader => [
                 require("cssnano")(),
@@ -44,7 +41,7 @@ export default {
           {
             loader: "less-loader",
             options: {
-              sourceMap: true
+              sourceMap: true,
             },
           },
         ],

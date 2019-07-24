@@ -31,7 +31,7 @@ const devConfig = configBuilder(
     },
 
     performance: {
-      hints: false
+      hints: false,
     },
 
     output: {

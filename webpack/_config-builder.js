@@ -41,7 +41,7 @@ const baseRules = [
       limit: 10000,
     },
   },
-  { test: /\.(ttf|eot)$/, loader: "file-loader" }
+  { test: /\.(ttf|eot)$/, loader: "file-loader" },
 ]
 
 export default function buildConfig(
@@ -68,7 +68,7 @@ export default function buildConfig(
         BUILD_TIME: new Date().toUTCString(),
       }),
     }),
-    new RemoveSourcemapsLackingMatchingAssetsPlugin()
+    new RemoveSourcemapsLackingMatchingAssetsPlugin(),
   ]
 
   //// Workers
@@ -81,45 +81,42 @@ export default function buildConfig(
         options: {
           inline: true,
           name: "[name].js",
-          fallback: !!emitWorkerAssets
-        }
+          fallback: !!emitWorkerAssets,
+        },
       },
-      "babel-loader"
-    ]
+      "babel-loader",
+    ],
   })
 
   //// Styles
 
   baseRules.push({
     test: [/\.less$/],
-    use: includeStyles ? (
-      [
-        "style-loader",
-        {
-          loader: "css-loader",
-          options: { sourceMap: true },
-        },
-        {
-          loader: "postcss-loader",
-          options: {
-            
-            sourceMap: true,
-            plugins: loader => [
-              require("cssnano")(),
-              require("autoprefixer")(),
-            ],
+    use: includeStyles
+      ? [
+          "style-loader",
+          {
+            loader: "css-loader",
+            options: { sourceMap: true },
           },
-        },
-        {
-          loader: "less-loader",
-          options: {
-            sourceMap: true
+          {
+            loader: "postcss-loader",
+            options: {
+              sourceMap: true,
+              plugins: loader => [
+                require("cssnano")(),
+                require("autoprefixer")(),
+              ],
+            },
           },
-        },
-      ]
-    ) : (
-      "null-loader"
-    ),
+          {
+            loader: "less-loader",
+            options: {
+              sourceMap: true,
+            },
+          },
+        ]
+      : "null-loader",
   })
 
   const completeConfig = deepExtend(
@@ -171,7 +168,7 @@ export default function buildConfig(
       resolve: {
         extensions: [".js", ".jsx", "json"],
         alias: {
-          "react": path.resolve(projectBasePath, "node_modules", "react"),
+          react: path.resolve(projectBasePath, "node_modules", "react"),
           "js-yaml": "@kyleshockey/js-yaml", // TODO: fix??
         },
       },
@@ -200,7 +197,7 @@ export default function buildConfig(
               terserOptions: {
                 mangle: !!mangle,
               },
-            }).apply(compiler)
+            }).apply(compiler),
         ],
       },
     },
