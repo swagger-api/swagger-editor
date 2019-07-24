@@ -87,13 +87,13 @@ function mergeParams(objA = {}, objB = {}) {
   const res = {}
 
   for (let k in objA) {
-    if (objA.hasOwnProperty(k)) {
+    if (Object.prototype.hasOwnProperty.call(objA, k)) {
       res[k] = arrayify(objA[k])
     }
   }
 
   for (let k in objB) {
-    if (objB.hasOwnProperty(k)) {
+    if (Object.prototype.hasOwnProperty.call(objB, k)) {
       if (res[k]) {
         const curr = res[k]
         res[k] = curr.concat(arrayify(objB[k]))

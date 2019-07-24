@@ -8,7 +8,6 @@ import reactFileDownload from "react-file-download"
 import YAML from "@kyleshockey/js-yaml"
 import beautifyJson from "json-beautify"
 
-import "react-dd-menu/dist/react-dd-menu.css"
 import Logo from "./logo_small.svg"
 
 export default class Topbar extends React.Component {
