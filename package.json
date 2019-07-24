@@ -39,7 +39,7 @@
     "test": "run-s just-test-in-node e2e lint-errors",
     "test-in-node": "run-s lint-errors just-test-in-node",
     "just-test": "karma start --config karma.conf.js",
-    "just-test-in-node": "cross-env NODE_ENV=test mocha --require test/unit/setup.js --recursive --compilers js:@babel/register --compilers jsx:babel-core/register test/unit",
+    "just-test-in-node": "cross-env NODE_ENV=test mocha --require test/unit/setup.js --recursive --compilers js:@babel/register --compilers jsx:@babel/register test/unit",
     "just-test-in-node-watch": "npm run just-test-in-node -- -w",
     "serve-static": "http-server -i -a 0.0.0.0 -p 3001",
     "prestart": "npm install",
