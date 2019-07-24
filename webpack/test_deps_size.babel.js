@@ -8,9 +8,9 @@ import configBuilder from "./_config-builder"
 
 const result = configBuilder(
   {
-    minimize: true,
-    mangle: true,
-    sourcemaps: true,
+    minimize: false,
+    mangle: false,
+    sourcemaps: false,
     includeDependencies: true,
     includeStyles: true,
     emitWorkerAssets: false,
