@@ -1,6 +1,6 @@
 // JSON-Schema ( draf04 ) validator
 import JsonSchemaWebWorker from "./validator.worker.js"
-import YAML from "@kyleshockey/js-yaml"
+import YAML from "js-yaml"
 import PromiseWorker from "promise-worker"
 import debounce from "lodash/debounce"
 import swagger2SchemaYaml from "./swagger2-schema.yaml"

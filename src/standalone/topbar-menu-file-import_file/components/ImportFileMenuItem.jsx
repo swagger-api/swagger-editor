@@ -2,7 +2,7 @@ import React, { Component } from "react"
 import PropTypes from "prop-types"
 
 import fileDialog from "file-dialog"
-import YAML from "@kyleshockey/js-yaml"
+import YAML from "js-yaml"
 import isJsonObject from "is-json"
 
 export default class ImportFileMenuItem extends Component {
