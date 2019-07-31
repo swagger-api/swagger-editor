@@ -49,7 +49,6 @@
     "watch": "webpack --config  webpack/core.babel.js --watch --progress"
   },
   "dependencies": {
-    "@kyleshockey/js-yaml": "^1.0.1",
     "ajv": "^5.2.2",
     "ajv-errors": "^1.0.1",
     "ajv-keywords": "^3.4.0",
@@ -61,6 +60,7 @@
     "file-dialog": "0.0.7",
     "immutable": "^3.x.x",
     "is-json": "^2.0.1",
+    "js-yaml": "^3.13.1",
     "json-beautify": "^1.0.1",
     "json-refs": "^3.0.4",
     "lodash": "^4.17.15",

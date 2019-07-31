@@ -150,6 +150,7 @@ export default function buildConfig(
         ? {
             // json-react-schema/deeper depends on buffertools, which fails.
             buffertools: true,
+            esprima: true,
           }
         : (context, request, cb) => {
             // webpack injects some stuff into the resulting file,
@@ -168,8 +169,7 @@ export default function buildConfig(
       resolve: {
         extensions: [".js", ".jsx", "json"],
         alias: {
-          react: path.resolve(projectBasePath, "node_modules", "react"),
-          "js-yaml": "@kyleshockey/js-yaml", // TODO: fix??
+          react: path.resolve(projectBasePath, "node_modules", "react")
         },
       },
 

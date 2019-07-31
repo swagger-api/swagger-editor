@@ -5,7 +5,7 @@ import URL from "url"
 import "whatwg-fetch"
 import DropdownMenu from "./DropdownMenu"
 import reactFileDownload from "react-file-download"
-import YAML from "@kyleshockey/js-yaml"
+import YAML from "js-yaml"
 import beautifyJson from "json-beautify"
 
 import Logo from "./logo_small.svg"
