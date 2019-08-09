@@ -26,7 +26,7 @@ describe("validation plugin - semantic - 2and3 tags", () => {
           const allErrors = system.errSelectors.allErrors().toJS()
           const firstError = allErrors[0]
           expect(allErrors.length).toEqual(1)
-          expect(firstError.message).toEqual("Tag Objects must have a unique `name` field value.")
+          expect(firstError.message).toEqual("Tag Objects must have unique `name` field values.")
           expect(firstError.path).toEqual(["tags", "1"])
         })
       })
@@ -48,7 +48,7 @@ describe("validation plugin - semantic - 2and3 tags", () => {
           const allErrors = system.errSelectors.allErrors().toJS()
           const firstError = allErrors[0]
           expect(allErrors.length).toEqual(1)
-          expect(firstError.message).toEqual("Tag Objects must have a unique `name` field value.")
+          expect(firstError.message).toEqual("Tag Objects must have unique `name` field values.")
           expect(firstError.path).toEqual(["tags", "1"])
         })
       })
@@ -86,7 +86,7 @@ describe("validation plugin - semantic - 2and3 tags", () => {
           const allErrors = system.errSelectors.allErrors().toJS()
           const firstError = allErrors[0]
           expect(allErrors.length).toEqual(1)
-          expect(firstError.message).toEqual("Tag Objects must have a unique `name` field value.")
+          expect(firstError.message).toEqual("Tag Objects must have unique `name` field values.")
           expect(firstError.path).toEqual(["tags", "1"])
         })
       })
@@ -108,7 +108,7 @@ describe("validation plugin - semantic - 2and3 tags", () => {
           const allErrors = system.errSelectors.allErrors().toJS()
           const firstError = allErrors[0]
           expect(allErrors.length).toEqual(1)
-          expect(firstError.message).toEqual("Tag Objects must have a unique `name` field value.")
+          expect(firstError.message).toEqual("Tag Objects must have unique `name` field values.")
           expect(firstError.path).toEqual(["tags", "1"])
         })
       })

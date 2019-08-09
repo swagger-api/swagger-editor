@@ -8,7 +8,7 @@ export const validate2And3TagObjectsHaveUniqueNames = () => (system) => {
         const { name } = tagObj || {}
         if(!name || seenNames.indexOf(name) > -1) {
           acc.push({
-            message: "Tag Objects must have a unique `name` field value.",
+            message: "Tag Objects must have unique `name` field values.",
             path: node.path,
             level: "error",
           })
