@@ -2,6 +2,7 @@ import flatten from "lodash/flatten"
 
 export const isVendorExt = (state,node) => node.path.some(a => a.indexOf("x-") === 0)
 export const isDefinition = (state,node) => node.path[0] == "definitions" && node.path.length == 2
+export const isTag = (state, node) => node.path[0] === "tags" && node.path.length === 2
 export const isRootParameter = (state, node) => node.path[0] === "parameters" && node.path.length === 2
 export const isPathItemParameter = (state, node) => node.path[2] === "parameters" && node.path.length === 4
 export const isRootParameters = (state, node) => node.path[0] === "parameters" && node.path.length === 1
@@ -173,6 +174,17 @@ export const allParameterArrays = () => (system) => {
         return Array.isArray(node.node) && arr.indexOf(node) === i
       })
     })
+}
+
+export const allTags = () => (system) => {
+  return system.fn.traverseOnce({
+    name: "allTags",
+    fn: (node) => {
+      if(system.validateSelectors.isTag(node)) {
+        return node
+      }
+    },
+  })
 }
 
 export const allSubSchemas = () => (system) => {
