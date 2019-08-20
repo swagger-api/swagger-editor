@@ -15,10 +15,7 @@
 
   "extends": ["eslint:recommended", "plugin:react/recommended"],
 
-  "plugins": [
-    "react",
-    "import"
-  ],
+  "plugins": ["react", "import"],
 
   "rules": {
     "semi": [2, "never"],
@@ -27,13 +24,14 @@
     "no-unused-vars": 2,
     "no-multi-spaces": 1,
     "camelcase": 1,
-    "no-use-before-define": [2,"nofunc"],
+    "no-use-before-define": [2, "nofunc"],
     "no-underscore-dangle": 0,
     "no-unused-expressions": 1,
     "comma-dangle": 0,
-    "no-console": ["error", { allow: ["warn", "error"] }],
+    "no-console": ["error", { "allow": ["warn", "error"] }],
     "react/jsx-no-bind": [1, { "allowArrowFunctions": true }], // TODO: make this an error
     "react/display-name": 0,
-    "import/no-extraneous-dependencies": [2]
+    "import/no-extraneous-dependencies": [2],
+    "no-useless-escape": 1
   }
 }

@@ -1,0 +1,34 @@
+# The Editor's semantic validation handles this better than JSON Schema can,
+# so we want it to be disabled in the schema validator.
+
+meta:
+  title: "Tag Objects should not be validated for uniqueness"
+cases:
+- name: in Swagger 2.0
+  input:
+    swagger: '2.0'
+    info:
+      version: 0.0.0
+      title: test
+    tags:
+    - name: pet
+    - name: pet
+    - name: pet
+      description: Everything about your Pets
+    paths: {}
+  output:
+    equal: null
+- name: in OpenAPI 3.0
+  input:
+    openapi: 3.0.2
+    info:
+      version: 0.0.0
+      title: test
+    tags:
+    - name: pet
+    - name: pet
+    - name: pet
+      description: Everything about your Pets
+    paths: {}
+  output:
+    equal: null

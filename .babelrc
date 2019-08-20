@@ -1,29 +1,49 @@
 {
   "presets": [
-    "es2015",
-    "react",
-    "stage-0"
+    [
+      "@babel/env",
+      {
+        "targets": {
+          "browsers": [
+            /* benefit of C/S/FF/Edge only? */
+            "> 1%",
+            "last 2 versions",
+            "Firefox ESR",
+            "not dead",
+          ]
+        },
+        "useBuiltIns": "entry",
+        "corejs": "2"
+      }
+    ],
+    "@babel/preset-react"
   ],
   "plugins": [
-  "transform-runtime",
-  "transform-async-to-generator",
-  "transform-es2015-constants",
-  [
-    "module-alias",
     [
+      "@babel/plugin-transform-runtime",
       {
-        "expose": "plugins",
-        "src": "src/plugins"
-      },
+        "corejs": "2"
+      }
+    ],
+    "@babel/plugin-proposal-class-properties",
+    "@babel/plugin-proposal-optional-chaining",
+    [
+      "transform-react-remove-prop-types",
       {
-        "expose": "test",
-        "src": "test"
-      },
+        "additionalLibraries": [
+          "react-immutable-proptypes"
+        ]
+      }
+    ],
+    [
+      "babel-plugin-module-resolver",
       {
-        "expose": "src",
-        "src": "src"
+        "alias": {
+          "plugins": "./src/plugins",
+          "test": "./test",
+          "src": "./src"
+        }
       }
     ]
   ]
-]
 }
