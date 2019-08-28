@@ -1,8 +1,7 @@
-FROM alpine:3.4
+FROM nginx:1.17-alpine
 
 MAINTAINER fehguy
 
-RUN apk add --update nginx
 RUN mkdir -p /run/nginx
 
 COPY nginx.conf /etc/nginx/
