@@ -346,7 +346,7 @@ export default class Topbar extends React.Component {
     }
 
     return (
-      <div>
+      <div className="swagger-editor-standalone">
         <div className="topbar">
           <div className="topbar-wrapper">
             <Link href="#">

@@ -46,7 +46,7 @@ export default class EditorLayout extends React.Component {
     const Container = getComponent("Container")
 
     return (
-      <div>
+      <div className="swagger-editor">
         <Container className="container">
           <Dropzone
             className="dropzone"
