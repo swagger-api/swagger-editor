@@ -426,6 +426,36 @@ describe("validation plugin - semantic - 2and3 paths", () => {
             expect(firstError.path).toEqual(["paths", "/CoolPath/{id}"])
           })
         })
+
+        it("should return a specific error for parameters with different casing characters OpenAPI 3 definition", () => {
+          const spec = {
+            openapi: "3.0.1",
+            "paths": {
+              "/{myParam}": {
+                "get": {
+                  "parameters": [
+                    {
+                      "name": "myparam",
+                      "in": "path",
+                      "required": true,
+                      "schema": {
+                        "type": "string"
+                      }
+                    },
+                  ]
+                }
+              }
+            }
+          }
+  
+          return validateHelper(spec)
+            .then(system => {
+              const allErrors = system.errSelectors.allErrors().toJS()
+              const firstError = allErrors[0]
+              expect(allErrors.length).toEqual(1)
+              expect(firstError.message).toEqual("Parameter names are case-sensitive. The parameter named \"myParam\" does not match the case used in the path \"/{myParam}\".")    
+            })
+        })
       })
 
     })
