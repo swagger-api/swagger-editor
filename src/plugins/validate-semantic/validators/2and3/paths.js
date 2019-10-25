@@ -47,7 +47,7 @@ export const validate2And3PathParameterDeclarationHasMatchingDefiniton = () => a
           })
         } else if(res.caseMatch) {
           acc.push({
-            message: `Parameter names are case-sensitive. The parameter named "${paramName}" does not match the case used in the path "${node.key}".`,
+            message: `Parameter names are case-sensitive. The parameter named "${res.paramCase}" does not match the case used in the path "${node.key}".`,
             path: [...node.path],
             level: "error",
           })
