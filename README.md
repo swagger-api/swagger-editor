@@ -60,10 +60,10 @@ docker run -d -p 80:8080 swaggerapi/swagger-editor
 
 This will run Swagger Editor (in detached mode) on port 80 on your machine, so you can open it by navigating to `http://localhost` in your browser.
 
-Or you can provide your own swagger.json on your host
+Or you can provide your own `json` or `yaml` definition file on your host
 
 ```
-docker run -d -p 80:8080 -v $(pwd):/tmp -e SWAGGER_JSON=/tmp/swagger.json swaggerapi/swagger-editor
+docker run -d -p 80:8080 -v $(pwd):/tmp -e SWAGGER_FILE=/tmp/swagger.json swaggerapi/swagger-editor
 ```
 
 ### Building and running an image locally
