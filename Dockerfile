@@ -8,6 +8,7 @@ COPY nginx.conf /etc/nginx/
 
 # copy swagger files to the `/js` folder
 COPY ./index.html /usr/share/nginx/html/
+COPY ./dist/oauth2-redirect.html /usr/share/nginx/html/
 ADD ./dist/*.js /usr/share/nginx/html/dist/
 ADD ./dist/*.map /usr/share/nginx/html/dist/
 ADD ./dist/*.css /usr/share/nginx/html/dist/
