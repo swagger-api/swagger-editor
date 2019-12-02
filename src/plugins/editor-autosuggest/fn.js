@@ -35,7 +35,7 @@ export function getPathForPosition({ pos: originalPos, prefix, editorValue, AST 
   // if current position is in at a free line with whitespace insert a fake
   // key value pair so the generated AST in ASTManager has current position in
   // editing node
-  if ( !prepared && currentLine.replace(prefix, "").trim() === "") {
+  if ( !prepared && isCurrentLineEmpty) {
     currentLine += "a: b" // fake key value pair
     pos.column += 1
     prepared = true
