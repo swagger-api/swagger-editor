@@ -15,7 +15,13 @@ export function getPathForPosition({ pos: originalPos, prefix, editorValue, AST 
   let prevLineIndent = getIndent(previousLine).length
   let currLineIndent = getIndent(currentLine).length
 
-  if((previousLine.trim()[0] === "-" || nextLine.trim()[0] === "-") && currLineIndent >= prevLineIndent) {
+  const isCurrentLineEmpty = currentLine.replace(prefix, "").trim() === ""
+
+  if(
+    (previousLine.trim()[0] === "-" || nextLine.trim()[0] === "-")
+    && currLineIndent >= prevLineIndent
+    && isCurrentLineEmpty
+  ) {
     // for arrays with existing items under it, on blank lines
     // example:
     // myArray:
