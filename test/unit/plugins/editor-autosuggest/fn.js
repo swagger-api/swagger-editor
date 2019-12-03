@@ -43,7 +43,7 @@ describe("Editor Autosuggest Plugin", function() {
       expect(AST.pathForPosition).toHaveBeenCalled()
 
       const [preparedEditorValue] = AST.pathForPosition.calls[0].arguments
-      expect(preparedEditorValue).toEqual(editorValue + ' ~')
+      expect(preparedEditorValue).toEqual(editorValue + " ~")
     })
   })
 })
