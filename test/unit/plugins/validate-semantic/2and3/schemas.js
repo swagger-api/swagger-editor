@@ -169,3 +169,330 @@ describe(`validation plugin - semantic - 2and3 schemas`, () => {
     })
   })
 })
+
+describe(`values in Enum must be instance of the defined type`, () => {
+  // Numbers tests
+  it("should return an error for a text value in a enum number type in OpenApi 3", () => {
+    const spec = {
+      openapi: "3.0.0",
+      "paths": {
+        "/pets": {
+          "get": {
+            "parameters": [
+              {
+                name: "number",
+                in: "query",
+                schema: {
+                  type: "number",
+                  schema: {
+                    enum: [1, Text, 3]
+                  }
+                }
+              },
+            ]
+          }
+        }
+      }
+    }
+
+    return validateHelper(spec)
+    .then(system => {
+      const allErrors = system.errSelectors.allErrors().toJS()
+      const firstError = allErrors[0]
+      expect(allErrors.length).toEqual(1)
+      expect(firstError.level).toEqual("warning")
+      expect(firstError.message).toEqual("enum value should conform to its schema's `type`")
+    })
+  })
+
+  it("should return an error for a number value inside quotes in a enum number type in OpenApi 3", () => {
+    const spec = {
+      openapi: "3.0.0",
+      "paths": {
+        "/pets": {
+          "get": {
+            "parameters": [
+              {
+                name: "number",
+                in: "query",
+                schema: {
+                  type: "number",
+                  schema: {
+                    enum: [1, "2", 3]
+                  }
+                }
+              },
+            ]
+          }
+        }
+      }
+    }
+
+    return validateHelper(spec)
+    .then(system => {
+      const allErrors = system.errSelectors.allErrors().toJS()
+      const firstError = allErrors[0]
+      expect(allErrors.length).toEqual(1)
+      expect(firstError.level).toEqual("warning")
+      expect(firstError.message).toEqual("enum value should conform to its schema's `type`")
+    })
+  })
+  
+  it("should not return an error when all items are number in a enum number type in OpenApi 3", () => {
+    const spec = {
+      openapi: "3.0.0",
+      "paths": {
+        "/pets": {
+          "get": {
+            "parameters": [
+              {
+                name: "number",
+                in: "query",
+                schema: {
+                  type: "number",
+                  schema: {
+                    enum: [1, 2, 3]
+                  }
+                }
+              },
+            ]
+          }
+        }
+      }
+    }
+
+    return validateHelper(spec)
+    .then(system => {
+      const allErrors = system.errSelectors.allErrors().toJS()
+      expect(allErrors.length).toEqual(0)
+    })
+  })
+
+  //Array Tests
+
+  it("should return an error for a non array value in a enum array type in OpenApi 3", () => {
+    const spec = {
+      openapi: "3.0.0",
+      "paths": {
+        "/pets": {
+          "get": {
+            "parameters": [
+              {
+                name: "arraySample",
+                in: "query",
+                schema: {
+                  type: "array",
+                  schema: {
+                    enum: [1, 2, 3]
+                  }
+                }
+              },
+            ]
+          }
+        }
+      }
+    }
+
+    return validateHelper(spec)
+    .then(system => {
+      const allErrors = system.errSelectors.allErrors().toJS()
+      const firstError = allErrors[0]
+      expect(allErrors.length).toEqual(1)
+      expect(firstError.level).toEqual("warning")
+      expect(firstError.message).toEqual("enum value should conform to its schema's `type`")
+    })
+  })
+  
+  it("should not return an error when all items are array in a enum array type in OpenApi 3", () => {
+    const spec = {
+      openapi: "3.0.0",
+      "paths": {
+        "/pets": {
+          "get": {
+            "parameters": [
+              {
+                name: "arraySample",
+                in: "query",
+                schema: {
+                  type: "array",
+                  schema: {
+                    enum: [[1,2],[3,4]]
+                  }
+                }
+              },
+            ]
+          }
+        }
+      }
+    }
+
+    return validateHelper(spec)
+    .then(system => {
+      const allErrors = system.errSelectors.allErrors().toJS()
+      expect(allErrors.length).toEqual(0)
+    })
+  })
+
+  //Object Tests
+
+  it("should return an error for a non object value (array) in a enum object type in OpenApi 3", () => {
+    const spec = {
+      openapi: "3.0.0",
+      "paths": {
+        "/pets": {
+          "get": {
+            "parameters": [
+              {
+                name: "objectSample",
+                in: "query",
+                schema: {
+                  type: "object",
+                  schema: {
+                    enum: [[1,3], 2, 3]
+                  }
+                }
+              },
+            ]
+          }
+        }
+      }
+    }
+
+    return validateHelper(spec)
+    .then(system => {
+      const allErrors = system.errSelectors.allErrors().toJS()
+      const firstError = allErrors[0]
+      expect(allErrors.length).toEqual(1)
+      expect(firstError.level).toEqual("warning")
+      expect(firstError.message).toEqual("enum value should conform to its schema's `type`")
+    })
+  })
+
+  it("should return an error for a null value in a enum object type in OpenApi 3", () => {
+    const spec = {
+      openapi: "3.0.0",
+      "paths": {
+        "/pets": {
+          "get": {
+            "parameters": [
+              {
+                name: "objectSample",
+                in: "query",
+                schema: {
+                  type: "object",
+                  schema: {
+                    enum: [null]
+                  }
+                }
+              },
+            ]
+          }
+        }
+      }
+    }
+
+    return validateHelper(spec)
+    .then(system => {
+      const allErrors = system.errSelectors.allErrors().toJS()
+      const firstError = allErrors[0]
+      expect(allErrors.length).toEqual(1)
+      expect(firstError.level).toEqual("warning")
+      expect(firstError.message).toEqual("enum value should conform to its schema's `type`")
+    })
+  })
+  
+  it("should not return an error when all items are array in a enum array type in OpenApi 3", () => {
+    const spec = {
+      openapi: "3.0.0",
+      "paths": {
+        "/pets": {
+          "get": {
+            "parameters": [
+              {
+                name: "objectSample",
+                in: "query",
+                schema: {
+                  type: "object",
+                  schema: {
+                    enum: [{ok: "Sample"},{}]
+                  }
+                }
+              },
+            ]
+          }
+        }
+      }
+    }
+
+    return validateHelper(spec)
+    .then(system => {
+      const allErrors = system.errSelectors.allErrors().toJS()
+      expect(allErrors.length).toEqual(0)
+    })
+  })
+
+  //Boolean Tests
+
+  it("should return an error for a non boolean value in a boolean array type in OpenApi 3", () => {
+    const spec = {
+      openapi: "3.0.0",
+      "paths": {
+        "/pets": {
+          "get": {
+            "parameters": [
+              {
+                name: "booleanEnum",
+                in: "query",
+                schema: {
+                  type: "boolean",
+                  schema: {
+                    enum: [1, true, false]
+                  }
+                }
+              },
+            ]
+          }
+        }
+      }
+    }
+
+    return validateHelper(spec)
+    .then(system => {
+      const allErrors = system.errSelectors.allErrors().toJS()
+      const firstError = allErrors[0]
+      expect(allErrors.length).toEqual(1)
+      expect(firstError.level).toEqual("warning")
+      expect(firstError.message).toEqual("enum value should conform to its schema's `type`")
+    })
+  })
+  
+  it("should not return an error when all items are boolean in a boolean array type in OpenApi 3", () => {
+    const spec = {
+      openapi: "3.0.0",
+      "paths": {
+        "/pets": {
+          "get": {
+            "parameters": [
+              {
+                name: "booleanEnum",
+                in: "query",
+                schema: {
+                  type: "boolean",
+                  schema: {
+                    enum: [true, false]
+                  }
+                }
+              },
+            ]
+          }
+        }
+      }
+    }
+
+    return validateHelper(spec)
+    .then(system => {
+      const allErrors = system.errSelectors.allErrors().toJS()
+      expect(allErrors.length).toEqual(0)
+    })
+  })
+})
