@@ -184,9 +184,7 @@ describe(`values in Enum must be instance of the defined type`, () => {
                 in: "query",
                 schema: {
                   type: "number",
-                  schema: {
-                    enum: [1, Text, 3]
-                  }
+                  enum: [1, Text, 3]
                 }
               },
             ]
@@ -217,9 +215,7 @@ describe(`values in Enum must be instance of the defined type`, () => {
                 in: "query",
                 schema: {
                   type: "number",
-                  schema: {
-                    enum: [1, "2", 3]
-                  }
+                  enum: [1, "2", 3]
                 }
               },
             ]
@@ -250,9 +246,7 @@ describe(`values in Enum must be instance of the defined type`, () => {
                 in: "query",
                 schema: {
                   type: "number",
-                  schema: {
-                    enum: [1, 2, 3]
-                  }
+                  enum: [1, 2, 3]
                 }
               },
             ]
@@ -282,9 +276,7 @@ describe(`values in Enum must be instance of the defined type`, () => {
                 in: "query",
                 schema: {
                   type: "array",
-                  schema: {
-                    enum: [1, 2, 3]
-                  }
+                  enum: [1, 2, 3]                  
                 }
               },
             ]
@@ -296,10 +288,12 @@ describe(`values in Enum must be instance of the defined type`, () => {
     return validateHelper(spec)
     .then(system => {
       const allErrors = system.errSelectors.allErrors().toJS()
-      const firstError = allErrors[0]
-      expect(allErrors.length).toEqual(1)
-      expect(firstError.level).toEqual("warning")
-      expect(firstError.message).toEqual("enum value should conform to its schema's `type`")
+      const secondError = allErrors[1]
+      expect(allErrors.length).toEqual(2)
+      expect(secondError.level).toEqual("warning")
+      expect(secondError.message).toEqual("enum value should conform to its schema's `type`")
+      expect(secondError.level).toEqual("warning")
+      expect(secondError.message).toEqual("enum value should conform to its schema's `type`")
     })
   })
   
@@ -315,9 +309,7 @@ describe(`values in Enum must be instance of the defined type`, () => {
                 in: "query",
                 schema: {
                   type: "array",
-                  schema: {
-                    enum: [[1,2],[3,4]]
-                  }
+                  enum: [[1,2],[3,4]]
                 }
               },
             ]
@@ -329,7 +321,7 @@ describe(`values in Enum must be instance of the defined type`, () => {
     return validateHelper(spec)
     .then(system => {
       const allErrors = system.errSelectors.allErrors().toJS()
-      expect(allErrors.length).toEqual(0)
+      expect(allErrors.length).toEqual(1)
     })
   })
 
@@ -347,9 +339,7 @@ describe(`values in Enum must be instance of the defined type`, () => {
                 in: "query",
                 schema: {
                   type: "object",
-                  schema: {
-                    enum: [[1,3], 2, 3]
-                  }
+                  enum: [[1,3], 2, 3]
                 }
               },
             ]
@@ -380,9 +370,7 @@ describe(`values in Enum must be instance of the defined type`, () => {
                 in: "query",
                 schema: {
                   type: "object",
-                  schema: {
-                    enum: [null]
-                  }
+                  enum: [null]
                 }
               },
             ]
@@ -413,9 +401,7 @@ describe(`values in Enum must be instance of the defined type`, () => {
                 in: "query",
                 schema: {
                   type: "object",
-                  schema: {
-                    enum: [{ok: "Sample"},{}]
-                  }
+                  enum: [{ok: "Sample"},{}]
                 }
               },
             ]
@@ -445,9 +431,7 @@ describe(`values in Enum must be instance of the defined type`, () => {
                 in: "query",
                 schema: {
                   type: "boolean",
-                  schema: {
-                    enum: [1, true, false]
-                  }
+                  enum: [1, true, false]
                 }
               },
             ]
@@ -478,9 +462,7 @@ describe(`values in Enum must be instance of the defined type`, () => {
                 in: "query",
                 schema: {
                   type: "boolean",
-                  schema: {
-                    enum: [true, false]
-                  }
+                  enum: [true, false]
                 }
               },
             ]
