@@ -198,6 +198,7 @@ describe(`values in Enum must be instance of the defined type`, () => {
       const allErrors = system.errSelectors.allErrors().toJS()
       const firstError = allErrors[0]
       expect(allErrors.length).toEqual(1)
+      expect(firstError.path).toEqual(["paths", "/pets", "get", "parameters", "0", "schema", "enum", 1])
       expect(firstError.level).toEqual("warning")
       expect(firstError.message).toEqual("enum value should conform to its schema's `type`")
     })
@@ -229,6 +230,7 @@ describe(`values in Enum must be instance of the defined type`, () => {
       const allErrors = system.errSelectors.allErrors().toJS()
       const firstError = allErrors[0]
       expect(allErrors.length).toEqual(1)
+      expect(firstError.path).toEqual(["paths", "/pets", "get", "parameters", "0", "schema", "enum", 1])
       expect(firstError.level).toEqual("warning")
       expect(firstError.message).toEqual("enum value should conform to its schema's `type`")
     })
@@ -290,14 +292,13 @@ describe(`values in Enum must be instance of the defined type`, () => {
       const allErrors = system.errSelectors.allErrors().toJS()
       const secondError = allErrors[1]
       expect(allErrors.length).toEqual(2)
-      expect(secondError.level).toEqual("warning")
-      expect(secondError.message).toEqual("enum value should conform to its schema's `type`")
+      expect(secondError.path).toEqual(["paths", "/pets", "get", "parameters", "0", "schema", "enum", 2])
       expect(secondError.level).toEqual("warning")
       expect(secondError.message).toEqual("enum value should conform to its schema's `type`")
     })
   })
   
-  it("should not return an error when all items are array in a enum array type in OpenApi 3", () => {
+  it("should not return a type error when all items are array in a enum array type in OpenApi 3", () => {
     const spec = {
       openapi: "3.0.0",
       "paths": {
@@ -321,6 +322,7 @@ describe(`values in Enum must be instance of the defined type`, () => {
     return validateHelper(spec)
     .then(system => {
       const allErrors = system.errSelectors.allErrors().toJS()
+      // It's throwing another error
       expect(allErrors.length).toEqual(1)
     })
   })

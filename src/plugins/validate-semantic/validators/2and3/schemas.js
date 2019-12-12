@@ -29,26 +29,31 @@ export const validate2And3TypesInDefaultValuesMatchesWithEnum = () => (system) =
     .then(nodes => {
       return nodes.reduce((acc, node) => {
         const schemaObj = node.node
-        const { type, items } = schemaObj || {}
+        const { type } = schemaObj || {}
         const enumeration = schemaObj.enum
         var isValidFormat = true
-        enumeration.forEach(element => {
+        var enumIndex = 0
+        enumeration.forEach((element, index) => {
           if (type === "array" && (!Array.isArray(element) || element === null)) {
             isValidFormat = false
+            enumIndex = index
           } else if ((type === "number" || type === "string" || type === "boolean") && !(typeof element === type)) {
             isValidFormat = false
+            enumIndex = index
           } else if (type === "integer" && !Number.isInteger(element)) {
             isValidFormat = false
-          } else if (type === "object" && ((element == null) || !(typeof element === type))) {
+            enumIndex = index
+          } else if (type === "object" && ((element === null) || !(typeof element === type))) {
             isValidFormat = false
+            enumIndex = index
           }
-        });
+        })
         if (!isValidFormat) {
           acc.push({
             message: "enum value should conform to its schema's `type`",
-            path: [...node.path, "enum"],
+            path: [...node.path, "enum", enumIndex],
             level: "warning",
-          });
+          })
         }
         return acc
       }, [])
