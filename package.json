@@ -147,7 +147,6 @@
     "rimraf": "^2.6.0",
     "standard": "^8.6.0",
     "style-loader": "0.13.0",
-    "uglifyjs-webpack-plugin": "^1.2.5",
     "url-loader": "^2.1.0",
     "webpack": "^4.36.1",
     "webpack-bundle-size-analyzer": "^2.5.0",
