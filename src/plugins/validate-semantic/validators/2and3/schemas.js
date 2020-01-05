@@ -31,29 +31,31 @@ export const validate2And3TypesInDefaultValuesMatchesWithEnum = () => (system) =
         const schemaObj = node.node
         const { type } = schemaObj || {}
         const enumeration = schemaObj.enum
-        var isValidFormat = true
-        var enumIndex = 0
-        enumeration.forEach((element, index) => {
-          if (type === "array" && (!Array.isArray(element) || element === null)) {
-            isValidFormat = false
-            enumIndex = index
-          } else if ((type === "number" || type === "string" || type === "boolean") && !(typeof element === type)) {
-            isValidFormat = false
-            enumIndex = index
-          } else if (type === "integer" && !Number.isInteger(element)) {
-            isValidFormat = false
-            enumIndex = index
-          } else if (type === "object" && ((element === null) || !(typeof element === type))) {
-            isValidFormat = false
-            enumIndex = index
-          }
-        })
-        if (!isValidFormat) {
-          acc.push({
-            message: "enum value should conform to its schema's `type`",
-            path: [...node.path, "enum", enumIndex],
-            level: "warning",
-          })
+        if (enumeration !== null && typeof enumeration !== "undefined") {
+          var enumIndex = 0
+          enumeration.forEach((element, index) => {
+            var isValidFormat = true
+            if (type === "array" && (!Array.isArray(element) || element === null)) {
+              isValidFormat = false
+              enumIndex = index
+            } else if ((type === "number" || type === "string" || type === "boolean") && !(typeof element === type)) {
+              isValidFormat = false
+              enumIndex = index
+            } else if (type === "integer" && !Number.isInteger(element)) {
+              isValidFormat = false
+              enumIndex = index
+            } else if (type === "object" && ((element === null) || !(typeof element === type))) {
+              isValidFormat = false
+              enumIndex = index
+            }
+            if (!isValidFormat) {
+              acc.push({
+                message: "enum value should conform to its schema's `type`",
+                path: [...node.path, "enum", enumIndex],
+                level: "warning",
+              })
+            }
+          }) 
         }
         return acc
       }, [])

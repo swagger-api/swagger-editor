@@ -184,7 +184,7 @@ describe(`values in Enum must be instance of the defined type`, () => {
                 in: "query",
                 schema: {
                   type: "number",
-                  enum: [1, Text, 3]
+                  enum: [1, "text", 3]
                 }
               },
             ]
@@ -196,11 +196,12 @@ describe(`values in Enum must be instance of the defined type`, () => {
     return validateHelper(spec)
     .then(system => {
       const allErrors = system.errSelectors.allErrors().toJS()
-      const firstError = allErrors[0]
       expect(allErrors.length).toEqual(1)
-      expect(firstError.path).toEqual(["paths", "/pets", "get", "parameters", "0", "schema", "enum", 1])
-      expect(firstError.level).toEqual("warning")
-      expect(firstError.message).toEqual("enum value should conform to its schema's `type`")
+      expect(allErrors[0]).toInclude({
+        level: "warning",
+        message: "enum value should conform to its schema's `type`",
+        path: ["paths", "/pets", "get", "parameters", "0", "schema", "enum", 1]
+      })
     })
   })
 
@@ -216,7 +217,7 @@ describe(`values in Enum must be instance of the defined type`, () => {
                 in: "query",
                 schema: {
                   type: "number",
-                  enum: [1, "2", 3]
+                  enum: [1, 2, "3"]
                 }
               },
             ]
@@ -228,11 +229,12 @@ describe(`values in Enum must be instance of the defined type`, () => {
     return validateHelper(spec)
     .then(system => {
       const allErrors = system.errSelectors.allErrors().toJS()
-      const firstError = allErrors[0]
       expect(allErrors.length).toEqual(1)
-      expect(firstError.path).toEqual(["paths", "/pets", "get", "parameters", "0", "schema", "enum", 1])
-      expect(firstError.level).toEqual("warning")
-      expect(firstError.message).toEqual("enum value should conform to its schema's `type`")
+      expect(allErrors[0]).toInclude({
+        level: "warning",
+        message: "enum value should conform to its schema's `type`",
+        path: ["paths", "/pets", "get", "parameters", "0", "schema", "enum", 2]
+      })
     })
   })
   
@@ -278,7 +280,13 @@ describe(`values in Enum must be instance of the defined type`, () => {
                 in: "query",
                 schema: {
                   type: "array",
-                  enum: [1, 2, 3]                  
+                  enum: [1, 2, 3],     
+                  items: {
+                    type: "array",
+                    items: {
+                      type: "number"
+                    }             
+                  }
                 }
               },
             ]
@@ -289,12 +297,23 @@ describe(`values in Enum must be instance of the defined type`, () => {
 
     return validateHelper(spec)
     .then(system => {
-      const allErrors = system.errSelectors.allErrors().toJS()
-      const secondError = allErrors[1]
-      expect(allErrors.length).toEqual(2)
-      expect(secondError.path).toEqual(["paths", "/pets", "get", "parameters", "0", "schema", "enum", 2])
-      expect(secondError.level).toEqual("warning")
-      expect(secondError.message).toEqual("enum value should conform to its schema's `type`")
+      const allErrors = system.errSelectors.allErrors().toJS().filter((err => err.source !== "")) 
+      expect(allErrors.length).toEqual(3)
+      expect(allErrors[0]).toInclude({
+        level: "warning",
+        message: "enum value should conform to its schema's `type`",
+        path: ["paths", "/pets", "get", "parameters", "0", "schema", "enum", 0]
+      })
+      expect(allErrors[1]).toInclude({
+        level: "warning",
+        message: "enum value should conform to its schema's `type`",
+        path: ["paths", "/pets", "get", "parameters", "0", "schema", "enum", 1]
+      })
+      expect(allErrors[2]).toInclude({
+        level: "warning",
+        message: "enum value should conform to its schema's `type`",
+        path: ["paths", "/pets", "get", "parameters", "0", "schema", "enum", 2]
+      })
     })
   })
   
@@ -310,7 +329,13 @@ describe(`values in Enum must be instance of the defined type`, () => {
                 in: "query",
                 schema: {
                   type: "array",
-                  enum: [[1,2],[3,4]]
+                  enum: [[1,2],[3,4]],     
+                  items: {
+                    type: "number",
+                    items: {
+                      type: "number"
+                    }                         
+                  }
                 }
               },
             ]
@@ -322,8 +347,7 @@ describe(`values in Enum must be instance of the defined type`, () => {
     return validateHelper(spec)
     .then(system => {
       const allErrors = system.errSelectors.allErrors().toJS()
-      // It's throwing another error
-      expect(allErrors.length).toEqual(1)
+      expect(allErrors.length).toEqual(0)
     })
   })
 
@@ -353,10 +377,17 @@ describe(`values in Enum must be instance of the defined type`, () => {
     return validateHelper(spec)
     .then(system => {
       const allErrors = system.errSelectors.allErrors().toJS()
-      const firstError = allErrors[0]
-      expect(allErrors.length).toEqual(1)
-      expect(firstError.level).toEqual("warning")
-      expect(firstError.message).toEqual("enum value should conform to its schema's `type`")
+      expect(allErrors.length).toEqual(2)
+      expect(allErrors[0]).toInclude({
+        level: "warning",
+        message: "enum value should conform to its schema's `type`",
+        path: ["paths", "/pets", "get", "parameters", "0", "schema", "enum", 1]
+      })
+      expect(allErrors[1]).toInclude({
+        level: "warning",
+        message: "enum value should conform to its schema's `type`",
+        path: ["paths", "/pets", "get", "parameters", "0", "schema", "enum", 2]
+      })
     })
   })
 
@@ -384,10 +415,11 @@ describe(`values in Enum must be instance of the defined type`, () => {
     return validateHelper(spec)
     .then(system => {
       const allErrors = system.errSelectors.allErrors().toJS()
-      const firstError = allErrors[0]
-      expect(allErrors.length).toEqual(1)
-      expect(firstError.level).toEqual("warning")
-      expect(firstError.message).toEqual("enum value should conform to its schema's `type`")
+      expect(allErrors[0]).toInclude({
+        level: "warning",
+        message: "enum value should conform to its schema's `type`",
+        path: ["paths", "/pets", "get", "parameters", "0", "schema", "enum", 0]
+      })
     })
   })
   
@@ -418,7 +450,7 @@ describe(`values in Enum must be instance of the defined type`, () => {
       expect(allErrors.length).toEqual(0)
     })
   })
-
+ 
   //Boolean Tests
 
   it("should return an error for a non boolean value in a boolean array type in OpenApi 3", () => {
@@ -445,10 +477,11 @@ describe(`values in Enum must be instance of the defined type`, () => {
     return validateHelper(spec)
     .then(system => {
       const allErrors = system.errSelectors.allErrors().toJS()
-      const firstError = allErrors[0]
-      expect(allErrors.length).toEqual(1)
-      expect(firstError.level).toEqual("warning")
-      expect(firstError.message).toEqual("enum value should conform to its schema's `type`")
+      expect(allErrors[0]).toInclude({
+        level: "warning",
+        message: "enum value should conform to its schema's `type`",
+        path: ["paths", "/pets", "get", "parameters", "0", "schema", "enum", 0]
+      }) 
     })
   })
   
