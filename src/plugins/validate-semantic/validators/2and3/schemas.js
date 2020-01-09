@@ -44,7 +44,7 @@ export const validate2And3TypesInDefaultValuesMatchesWithEnum = () => (system) =
             } else if (type === "integer" && !Number.isInteger(element)) {
               isValidFormat = false
               enumIndex = index
-            } else if (type === "object" && ((element === null) || !(typeof element === type))) {
+            } else if (type === "object" && ((element === null) || !(typeof element === type) || Array.isArray(element))) {
               isValidFormat = false
               enumIndex = index
             }
