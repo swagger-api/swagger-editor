@@ -49,7 +49,7 @@ export const validateParameterFormDataForFileTypes = () => system => {
 
 export const validateParameterFormDataConsumesType = () => system => {
   return system.validateSelectors
-    .allParameters()
+    .allOperations()
     .then(nodes => {
       return nodes.reduce((acc, node) => {
         const value = node.node
@@ -60,7 +60,37 @@ export const validateParameterFormDataConsumesType = () => system => {
         const containingContext = node.parent.parent.node
         const contextConsumes = containingContext.consumes || []
 
-        const combinedConsumes = [...globalConsumes, ...contextConsumes]
+
+      /*  var parameters = value.parameters
+
+        var isThereAnyFormData = false
+
+        parameters.forEach(parameter => {
+          if (parameter.in === "formData") {
+            isThereAnyFormData = true
+          }
+        });
+
+        if (isThereAnyFormData) {
+          if (value.post != null && value.post.consumes != "multipart/form-data") {
+            acc.push({
+              message: `Operations with parameters of "type: file" must include "multipart/form-data" in their "consumes" property`,
+              path: [...node.path],
+              level: "error",
+              source: SOURCE
+            })
+          }
+          if (value.patch != null && value.patch.consumes != "multipart/form-data") {
+            acc.push({
+              message: `Operations with parameters of "type: file" must include "multipart/form-data" in their "consumes" property`,
+              path: [...node.path],
+              level: "error",
+              source: SOURCE
+            })
+          }
+        }*/
+
+       /* const combinedConsumes = [...globalConsumes, ...contextConsumes]
         if(
           value.type === "file" &&
           value.in === "formData" &&
@@ -83,7 +113,7 @@ export const validateParameterFormDataConsumesType = () => system => {
             level: "error",
             source: SOURCE
           })
-        }
+        }*/
         return acc
       }, [])
     })
