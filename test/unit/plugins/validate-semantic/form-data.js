@@ -74,7 +74,7 @@ describe("validation plugin - semantic - form data", function(){
               parameters: [
                 {
                     in: "formData",
-                  type: "file",
+                    type: "file",
                 },
               ]
             }
@@ -88,7 +88,7 @@ describe("validation plugin - semantic - form data", function(){
           const firstError = allErrors[0]
           expect(allErrors.length).toEqual(1)
           expect(firstError.message).toEqual(`Operations with parameters of "type: file" must include "multipart/form-data" in their "consumes" property`)
-          expect(firstError.path).toEqual(["paths", "/some", "post", "parameters", "0"])
+          expect(firstError.path).toEqual(["paths", "/some", "post"])
         })
     })
     it("should complain if 'in:formData` and no consumes - 'multipart/form-data' or 'application/x-www-form-urlencoded'", function(){

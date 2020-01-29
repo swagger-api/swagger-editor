@@ -1,6 +1,6 @@
 import { SOURCE } from "../actions"
 import { getRootNode } from "src/plugins/validate-semantic/helpers"
-
+const operationKeys = ["get", "post", "put", "delete", "options", "head", "patch", "trace"]
 
 export const validateParameterFormDataCaseTypo = () => system => {
   return system.validateSelectors
@@ -53,67 +53,39 @@ export const validateParameterFormDataConsumesType = () => system => {
     .then(nodes => {
       return nodes.reduce((acc, node) => {
         const value = node.node
-
-        const globalConsumes = getRootNode(node).node.consumes ||[]
-
-        // step out of parameter item and array
-        const containingContext = node.parent.parent.node
-        const contextConsumes = containingContext.consumes || []
-
+        const globalConsumes = getRootNode(node).node.consumes ||[] 
         var parameters = value.parameters
 
-        var isThereAnyFormData = false
+        var isThereAnyFormData = parameters != null && parameters.find(parameter => parameter.in === "formData")
+        var isThereAnyFile = parameters != null && parameters.find(parameter => parameter.type === "file")
 
-        parameters.forEach(parameter => {
-          if (parameter.in === "formData") {
-            isThereAnyFormData = true
-          }
-        });
-
-        if (isThereAnyFormData) {
-          if (value.post != null && value.post.consumes != "multipart/form-data") {
-            acc.push({
-              message: `Operations with parameters of "type: file" must include "multipart/form-data" in their "consumes" property`,
-              path: [...node.path],
-              level: "error",
-              source: SOURCE
-            })
-          }
-          if (value.patch != null && value.patch.consumes != "multipart/form-data") {
-            acc.push({
-              message: `Operations with parameters of "type: file" must include "multipart/form-data" in their "consumes" property`,
-              path: [...node.path],
-              level: "error",
-              source: SOURCE
-            })
-          }
+        for (var method of operationKeys) {
+          if (value[method] != null) {
+            parameters = value[method].parameters 
+            if(isThereAnyFile || parameters != null && parameters.find(parameter => parameter.type === "file")){            
+              if ((value[method].consumes != null && value[method].consumes != "multipart/form-data") || 
+                  (value[method].consumes == null && globalConsumes != "multipart/form-data")) {
+                acc.push({
+                  message: `Operations with parameters of "type: file" must include "multipart/form-data" in their "consumes" property`,
+                  path: [...node.path, method],
+                  level: "error",
+                  source: SOURCE
+                })
+              }
+            } else if (isThereAnyFormData || (parameters != null && parameters.find(parameter => parameter.in === "formData"))) {
+              if ((value[method].consumes != null && value[method].consumes != "multipart/form-data" && value[method].consumes != "application/x-www-form-urlencoded") || 
+                  (value[method].consumes == null && globalConsumes != "multipart/form-data" && value[method].consumes != "application/x-www-form-urlencoded")) {
+                acc.push({
+                  message: `Operations with Parameters of "in: formData" must include "application/x-www-form-urlencoded" or "multipart/form-data" in their "consumes" property`,
+                  path: [...node.path, method],
+                  level: "error",
+                  source: SOURCE
+                })
+              } 
+            }
+          } 
         }
 
-
-       /* const combinedConsumes = [...globalConsumes, ...contextConsumes]
-        if(
-          value.type === "file" &&
-          value.in === "formData" &&
-          combinedConsumes.indexOf("multipart/form-data") === -1
-        ) {
-          acc.push({
-            message: `Operations with parameters of "type: file" must include "multipart/form-data" in their "consumes" property`,
-            path: [...node.path],
-            level: "error",
-            source: SOURCE
-          })
-        } else if(
-          value.in === "formData" &&
-          combinedConsumes.indexOf("multipart/form-data") === -1 &&
-          combinedConsumes.indexOf("application/x-www-form-urlencoded") === -1
-        ) {
-          acc.push({
-            message: `Operations with Parameters of "in: formData" must include "application/x-www-form-urlencoded" or "multipart/form-data" in their "consumes" property`,
-            path: [...node.path.slice(0, -2)],
-            level: "error",
-            source: SOURCE
-          })
-        }*/
         return acc
       }, [])
     })
