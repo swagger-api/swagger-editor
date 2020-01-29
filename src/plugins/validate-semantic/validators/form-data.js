@@ -49,7 +49,7 @@ export const validateParameterFormDataForFileTypes = () => system => {
 
 export const validateParameterFormDataConsumesType = () => system => {
   return system.validateSelectors
-    .allOperations()
+    .allPathItems()
     .then(nodes => {
       return nodes.reduce((acc, node) => {
         const value = node.node
@@ -60,8 +60,7 @@ export const validateParameterFormDataConsumesType = () => system => {
         const containingContext = node.parent.parent.node
         const contextConsumes = containingContext.consumes || []
 
-
-      /*  var parameters = value.parameters
+        var parameters = value.parameters
 
         var isThereAnyFormData = false
 
@@ -88,7 +87,8 @@ export const validateParameterFormDataConsumesType = () => system => {
               source: SOURCE
             })
           }
-        }*/
+        }
+
 
        /* const combinedConsumes = [...globalConsumes, ...contextConsumes]
         if(
