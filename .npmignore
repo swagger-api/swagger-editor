@@ -8,3 +8,6 @@
 !dist/swagger-editor.css.map
 !dist/validation.worker.js
 !dist/validation.worker.js.map
+!bin
+!src
+!wepback
