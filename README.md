@@ -36,7 +36,7 @@ If you'd like to make code changes to Swagger Editor, you can start up a Webpack
 
 ##### Browser support
 
-Swagger Editor works in the latest versions of Chrome, Safari, Firefox, Edge and IE11.
+Swagger Editor works in the latest versions of Chrome, Safari, Firefox, and Edge.
 
 ### Known Issues
 
