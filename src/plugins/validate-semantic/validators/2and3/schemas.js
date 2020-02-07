@@ -23,6 +23,8 @@ export const validate2And3TypeArrayRequiresItems = () => (system) => {
     })
 }
 
+
+
 export const validate2And3TypesInDefaultValuesMatchesWithEnum = () => (system) => {
   return system.validateSelectors
     .allSchemas()
@@ -30,11 +32,15 @@ export const validate2And3TypesInDefaultValuesMatchesWithEnum = () => (system) =
       return nodes.reduce((acc, node) => {
         const schemaObj = node.node
         const { type } = schemaObj || {}
+        const isNullable = !!schemaObj.nullable
         const enumeration = schemaObj.enum
         if (enumeration !== null && typeof enumeration !== "undefined") {
           var enumIndex = 0
           enumeration.forEach((element, index) => {
             var isValidFormat = true
+            if (element === null && isNullable) {
+              return
+            }
             if (type === "array" && (!Array.isArray(element) || element === null)) {
               isValidFormat = false
               enumIndex = index
@@ -55,6 +61,7 @@ export const validate2And3TypesInDefaultValuesMatchesWithEnum = () => (system) =
                 level: "warning",
               })
             }
+
           }) 
         }
         return acc
