@@ -514,4 +514,33 @@ describe(`values in Enum must be instance of the defined type`, () => {
       expect(allErrors.length).toEqual(0)
     })
   })
+
+  it("should not return an error for a null value in a enum object when nullable is true type in OpenApi 3", () => {
+    const spec = {
+      openapi: "3.0.0",
+      "paths": {
+        "/pets": {
+          "get": {
+            "parameters": [
+              {
+                name: "objectSample",
+                in: "query",
+                schema: {
+                  type: "object",
+                  nullable: true,
+                  enum: [null]
+                }
+              },
+            ]
+          }
+        }
+      }
+    }
+
+    return validateHelper(spec)
+    .then(system => {
+      const allErrors = system.errSelectors.allErrors().toJS()
+      expect(allErrors.length).toEqual(0)
+    })
+  })
 })
