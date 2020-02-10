@@ -537,7 +537,7 @@ describe("validation plugin - semantic - 2and3 refs", function() {
         expect(allSemanticErrors[0]).toInclude({
           level: "error",
           message: "Component names can only contain the characters A-Z a-z 0-9 - . _",
-          path: ["paths", "/foo", "get", "responses", "200", "content", "application/json", "schema", "$ref"]
+          path: ["components", "schemas", "foo bar"]
         })
       })
     })
