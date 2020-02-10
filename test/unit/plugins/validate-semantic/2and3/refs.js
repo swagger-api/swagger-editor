@@ -141,25 +141,9 @@ describe("validation plugin - semantic - 2and3 refs", function() {
     it("should return a warning when a definition is declared but not used in OpenAPI 3", () => {
       const spec = {
         openapi: "3.0.0",
-        paths: {
-          "/CoolPath": {
-            get: {
-              responses: {
-                200: {
-                  schema: {
-                    $ref: "#/components/schemas/x~1Foo"
-                  }
-                }
-              }
-            }
-          }
-        },
         components: {
           schemas: {
-            "x/Foo": {
-              type: "object"
-            },
-            "x~Bar": {
+            "x-Foo": {
               type: "object"
             }
           }
@@ -173,11 +157,11 @@ describe("validation plugin - semantic - 2and3 refs", function() {
         const firstError = allErrors[0]
         expect(firstError.message).toMatch("Definition was declared but never used in document")
         expect(firstError.level).toEqual("warning")
-        expect(firstError.path).toEqual(["components", "schemas", "x~Bar"])
+        expect(firstError.path).toEqual(["components", "schemas", "x-Foo"])
       })
     })
 
-    it("should not return a warning when a definition with special character is declared and used in OpenAPI 3", () => {
+    it("should not return a warning when a definition with special characters is properly referenced in OpenAPI 3", () => {
       const spec = {
         openapi: "3.0.0",
         paths: {
@@ -185,13 +169,21 @@ describe("validation plugin - semantic - 2and3 refs", function() {
             get: {
               responses: {
                 200: {
-                  schema: {
-                    $ref: "#/components/schemas/x~1Foo"
+                  content: {
+                    "application/json": {
+                      schema: {
+                        $ref: "#/components/schemas/x~1Foo"
+                      }
+                    }
                   }
                 },
                 400: {
-                  schema: {
-                    $ref: "#/components/schemas/x~0Bar"
+                  content: {
+                    "application/json": {
+                      schema: {
+                        $ref: "#/components/schemas/x~0Bar"
+                      }
+                    }
                   }
                 }
               }
@@ -212,8 +204,10 @@ describe("validation plugin - semantic - 2and3 refs", function() {
 
       return validateHelper(spec)
       .then(system => {
-        const allErrors = system.errSelectors.allErrors().toJS()
-        expect(allErrors.length).toEqual(0)
+        // We want warnings only, without errors about invalid component names
+        const allWarnings = system.errSelectors.allErrors().toJS()
+          .filter(err => err.level === "warning")
+        expect(allWarnings.length).toEqual(0)
       })
     })
 
@@ -431,8 +425,12 @@ describe("validation plugin - semantic - 2and3 refs", function() {
               "responses": {
                 "200": {
                   "description": "Success",
-                  "schema": {
-                    "$ref": "#/components/schemas/foo bar"
+                  "content": {
+                    "application/json": {
+                      "schema": {
+                        "$ref": "#/components/schemas/foo bar"
+                      }
+                    }
                   }
                 }
               }
@@ -452,16 +450,21 @@ describe("validation plugin - semantic - 2and3 refs", function() {
       .then(system => {
         const allSemanticErrors = system.errSelectors.allErrors().toJS()
           .filter(err => err.source !== "resolver")
+          expect(allSemanticErrors.length).toEqual(3)
           expect(allSemanticErrors[0]).toInclude({
             level: "warning",
             message: "Definition was declared but never used in document",
             path: ["components", "schemas", "foo bar"]
           })
-          expect(allSemanticErrors.length).toEqual(2)
           expect(allSemanticErrors[1]).toInclude({
             level: "error",
             message: "$ref values must be RFC3986-compliant percent-encoded URIs",
-            path: ["paths", "/foo", "get", "responses", "200", "schema", "$ref"]
+            path: ["paths", "/foo", "get", "responses", "200", "content", "application/json", "schema", "$ref"]
+          }),
+          expect(allSemanticErrors[2]).toInclude({
+            level: "error",
+            message: "Component names can only contain the characters A-Z a-z 0-9 - . _",
+            path: ["components", "schemas", "foo bar"]
           })
       })
     })
@@ -505,8 +508,12 @@ describe("validation plugin - semantic - 2and3 refs", function() {
               "responses": {
                 "200": {
                   "description": "Success",
-                  "schema": {
-                    "$ref": "#/components/schemas/foo%20bar"
+                  "content": {
+                    "application/json": {
+                      "schema": {
+                        "$ref": "#/components/schemas/foo%20bar"
+                      }
+                    }
                   }
                 }
               }
@@ -526,7 +533,12 @@ describe("validation plugin - semantic - 2and3 refs", function() {
       .then(system => {
         const allSemanticErrors = system.errSelectors.allErrors().toJS()
           .filter(err => err.source !== "resolver")
-        expect(allSemanticErrors).toEqual([])
+        expect(allSemanticErrors.length).toEqual(1)
+        expect(allSemanticErrors[0]).toInclude({
+          level: "error",
+          message: "Component names can only contain the characters A-Z a-z 0-9 - . _",
+          path: ["paths", "/foo", "get", "responses", "200", "content", "application/json", "schema", "$ref"]
+        })
       })
     })
 
