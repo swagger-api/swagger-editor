@@ -17,6 +17,7 @@ import * as parameters2and3ValidateActions from "./validators/2and3/parameters"
 import * as paths2and3ValidateActions from "./validators/2and3/paths"
 import * as schemas2and3ValidateActions from "./validators/2and3/schemas"
 import * as operations2and3ValidateActions from "./validators/2and3/operations"
+import * as security2and3ValidateActions from "./validators/2and3/security"
 import * as tags2and3ValidateActions from "./validators/2and3/tags"
 
 export default function SemanticValidatorsPlugin({getSystem}) {
@@ -61,6 +62,7 @@ export default function SemanticValidatorsPlugin({getSystem}) {
           ...parameters2and3ValidateActions,
           ...paths2and3ValidateActions,
           ...schemas2and3ValidateActions,
+          ...security2and3ValidateActions,
           ...tags2and3ValidateActions
         }
       },

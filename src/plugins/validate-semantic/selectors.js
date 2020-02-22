@@ -319,10 +319,15 @@ export const allSecurityDefinitions = () => (system) => {
       const isSecurityDefinition = (
         node.path[0] == "securityDefinitions"
           && node.path.length === 2
-          && !system.validateSelectors.isVendorExt(node)
       )
 
-      if(isSecurityDefinition) {
+      const isOAS3SecurityScheme = (
+        node.path[0] == "components"
+          && node.path[1] == "securitySchemes"
+          && node.path.length === 3
+      )
+
+      if(isSecurityDefinition || isOAS3SecurityScheme) {
         return node
       }
     }
@@ -336,14 +341,14 @@ export const allSecurityRequirements = () => (system) => {
       const isGlobalSecurityRequirement = (
         node.path[0] == "security"
           && node.path.length === 2
-          && !system.validateSelectors.isVendorExt(node)
       )
 
       const isOperationSecurityRequirement = (
         node.path[0] == "paths"
           && node.path[3] == "security"
           && node.path.length === 5
-          && !system.validateSelectors.isVendorExt(node)
+          && !system.validateSelectors.isVendorExt(node.parent) // ignore extension keys in path items
+          && !system.validateSelectors.isVendorExt(node.parent.parent.parent) // ignore extension keys in "paths"
       )
 
       if(isGlobalSecurityRequirement || isOperationSecurityRequirement) {

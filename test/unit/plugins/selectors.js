@@ -301,4 +301,235 @@ describe("validation plugin - selectors", function() {
         expect(nodes[1].parent.key).toEqual("application/myResponseMediaType")
       })
   })
+
+  describe("allSecurityDefinitions", () => {
+    it("should pick up OAS2 security schemes", () => {
+      const spec = {
+        swagger: "2.0",
+        securityDefinitions: {
+          basicAuth: {
+            type: "basic"
+          },
+          apiKeyAuth: {
+            type: "apiKey"
+          }
+        }
+      }
+
+      return getSystem(spec)
+        .then(system => system.validateSelectors.allSecurityDefinitions())
+        .then(nodes => {
+          expect(nodes.length).toEqual(2)
+          expect(nodes[0].node).toNotBe(nodes[1].node)
+          expect(nodes[0].key).toEqual("basicAuth")
+          expect(nodes[1].key).toEqual("apiKeyAuth")
+        })
+    })
+    it("should pick up OAS3 security schemes", () => {
+      const spec = {
+        openapi: "3.0.0",
+        components: {
+          securitySchemes: {
+            basicAuth: {
+              type: "http"
+            },
+            apiKeyAuth: {
+              type: "apiKey"
+            }
+          }
+        }
+      }
+
+      return getSystem(spec)
+        .then(system => system.validateSelectors.allSecurityDefinitions())
+        .then(nodes => {
+          expect(nodes.length).toEqual(2)
+          expect(nodes[0].node).toNotBe(nodes[1].node)
+          expect(nodes[0].key).toEqual("basicAuth")
+          expect(nodes[1].key).toEqual("apiKeyAuth")
+        })
+    })
+    it("should pick up OAS2 security schemes named x- (i.e. not consider them extensions)", () => {
+      const spec = {
+        swagger: "2.0",
+        securityDefinitions: {
+          "x-auth": {
+            type: "basic"
+          }
+        }
+      }
+
+      return getSystem(spec)
+        .then(system => system.validateSelectors.allSecurityDefinitions())
+        .then(nodes => {
+          expect(nodes.length).toEqual(1)
+          expect(nodes[0].key).toEqual("x-auth")
+        })
+    })
+    it("should pick up OAS3 security schemes named x- (i.e. not consider them extensions)", () => {
+      const spec = {
+        openapi: "3.0.0",
+        components: {
+          securitySchemes: {
+            "x-auth": {
+              type: "basic"
+            }
+          }
+        }
+      }
+
+      return getSystem(spec)
+        .then(system => system.validateSelectors.allSecurityDefinitions())
+        .then(nodes => {
+          expect(nodes.length).toEqual(1)
+          expect(nodes[0].key).toEqual("x-auth")
+        })
+    })
+    it("should not pick up arbitrary OAS2 nodes named `securityDefinitions`", () => {
+      const spec = {
+        swagger: "2.0",
+        definitions: {
+          securityDefinitions: {
+            type: "object"
+          }
+        }
+      }
+
+      return getSystem(spec)
+        .then(system => system.validateSelectors.allSecurityDefinitions())
+        .then(nodes => {
+          expect(nodes.length).toEqual(0)
+        })
+    })
+    it("should not pick up arbitrary OAS3 nodes named `securitySchemes`", () => {
+      const spec = {
+        openapi: "3.0.0",
+        components: {
+          schemas: {
+            securitySchemes: {
+              type: "object"
+            }
+          }
+        }
+      }
+
+      return getSystem(spec)
+        .then(system => system.validateSelectors.allSecurityDefinitions())
+        .then(nodes => {
+          expect(nodes.length).toEqual(0)
+        })
+    })
+  })
+
+  describe("allSecurityRequirements", () => {
+    it("should pick up global security requirements", () => {
+      const spec = {
+        security: [
+          {
+            auth1: []
+          },
+          {
+            auth2: [],
+            auth3: []
+          }
+        ]
+      }
+
+      return getSystem(spec)
+        .then(system => system.validateSelectors.allSecurityRequirements())
+        .then(nodes => {
+          expect(nodes.length).toEqual(2)
+          expect(nodes[0].node).toNotBe(nodes[1].node)
+          expect(nodes[0].node).toEqual(
+            { "auth1": [] }
+          )
+          expect(nodes[1].node).toEqual(
+            { "auth2": [], "auth3": [] }
+          )
+        })
+    })
+    it("should pick up operation-level security requirements", () => {
+      const spec = {
+        paths: {
+          "/": {
+            get: {
+              security: [
+                {
+                  auth1: []
+                },
+                {
+                  auth2: [],
+                  auth3: []
+                }
+              ]
+            }
+          }
+        }
+      }
+
+      return getSystem(spec)
+        .then(system => system.validateSelectors.allSecurityRequirements())
+        .then(nodes => {
+          expect(nodes.length).toEqual(2)
+          expect(nodes[0].node).toNotBe(nodes[1].node)
+          expect(nodes[0].node).toEqual(
+            { "auth1": [] }
+          )
+          expect(nodes[1].node).toEqual(
+            { "auth2": [], "auth3": [] }
+          )
+        })
+    })
+    it("should pick up empty security requirements", () => {
+      const spec = {
+        security: [
+          {}
+        ],
+        paths: {
+          "/": {
+            get: {
+              security: [
+                {}
+              ]
+            }
+          }
+        }
+      }
+
+      return getSystem(spec)
+        .then(system => system.validateSelectors.allSecurityRequirements())
+        .then(nodes => {
+          expect(nodes.length).toEqual(2)
+          expect(nodes[0].node).toNotBe(nodes[1].node)
+          expect(nodes[0].node).toEqual({})
+          expect(nodes[1].node).toEqual({})
+        })
+    })
+    it("should not pick up the `security` key inside extensions", () => {
+      const spec = {
+        paths: {
+          "/": {
+            "x-ext1": {
+              security: [
+                { foo: [] }
+              ]
+            }
+          },
+          "x-ext2": {
+            get: {
+              security: [
+                { bar: [] }
+              ]
+            }
+          }
+        }
+      }
+
+      return getSystem(spec)
+        .then(system => system.validateSelectors.allSecurityRequirements())
+        .then(nodes => {
+          expect(nodes.length).toEqual(0)
+        })
+    })
+  })
 })
