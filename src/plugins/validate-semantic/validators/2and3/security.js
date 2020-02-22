@@ -32,7 +32,10 @@ export const validate2And3UnusedSecuritySchemes = () => (system) => {
       // Get just the names of security schemes used in `security`
       const usedSecurities = securityRequirements
         .map(node => Object.keys(node.node) || [])
-        .flat()
+        .reduce(function(a, b) {
+          // flatten!
+          return a.concat(b)
+        }, [])
 
       return securitySchemes.reduce((acc, node) => {
         if(usedSecurities.indexOf(node.key) < 0) {
