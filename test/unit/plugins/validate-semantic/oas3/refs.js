@@ -206,4 +206,84 @@ describe("validation plugin - semantic - oas3 refs", () => {
       return expectNoErrorsOrWarnings(spec)
     })
   })
+
+  describe("$refs for requestbody schemas must reference a schema by position", () => {
+    it("should return an error when a requestBody schema incorrectly references a local component schema", () => {
+      const spec = {
+        openapi: "3.0.0",
+        paths: {
+          "/foo": {
+            post: {
+              requestBody: {
+                content: {
+                  "application/json": {
+                    schema: {
+                      $ref: "#/components/requestbodies/Foo"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        components: {
+          schemas: {
+            Foo: {
+              type: "string"
+            }
+          }
+        }
+      }
+
+      return validateHelper(spec)
+        .then(system => {
+          const allErrors = system.errSelectors.allErrors().toJS()
+          expect(allErrors.length).toEqual(3)
+          const firstError = allErrors[0]
+          expect(firstError.message).toEqual(`Definition was declared but never used in document`)
+          expect(firstError.path).toEqual(["components", "schemas", "Foo"])
+          const secondError = allErrors[1]
+          expect(secondError.message).toEqual(`$refs must reference a valid location in the document`)
+          expect(secondError.path).toEqual(["paths", "/foo", "post", "requestBody", "content", "application/json", "schema", "$ref"])
+          const thirdError = allErrors[2]
+          expect(thirdError.message).toEqual(`requestBody schemas $refs must point to a position where a schema can be legally placed`)
+          expect(thirdError.path).toEqual(["paths", "/foo", "post", "requestBody", "content", "application/json", "schema", "$ref"])
+
+        })
+    })
+
+    it("should not return an error when a requestBody schema references a local component schema", () => {
+      const spec = {
+        openapi: "3.0.0",
+        paths: {
+          "/foo": {
+            post: {
+              requestBody: {
+                content: {
+                  "application/json": {
+                    schema: {
+                      $ref: "#/components/schemas/Foo"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        components: {
+          schemas: {
+            Foo: {
+              type: "string"
+            }
+          }
+        }
+      }
+
+      return validateHelper(spec)
+        .then(system => {
+          const allErrors = system.errSelectors.allErrors().toJS()
+          expect(allErrors.length).toEqual(0)
+        })
+    })
+  })
 })
