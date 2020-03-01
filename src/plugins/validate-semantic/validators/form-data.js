@@ -56,13 +56,13 @@ export const validateParameterFormDataConsumesType = () => system => {
         const globalConsumes = getRootNode(node).node.consumes ||[] 
         var pathItemParameters = value.parameters
 
-        const isThereAnyFormData = pathItemParameters != null && pathItemParameters.find(parameter => parameter.in === "formData")
-        const isThereAnyFile = pathItemParameters != null && pathItemParameters.find(parameter => parameter.type === "file")
+        const hasPathItemFormDataParameter = pathItemParameters != null && pathItemParameters.find(parameter => parameter.in === "formData")
+        const hasPathItemFileParameter = pathItemParameters != null && pathItemParameters.find(parameter => parameter.type === "file")
 
         for (var method of operationKeys) {
           if (value[method] != null) {
             const operationParameters = value[method].parameters 
-            if(isThereAnyFile || operationParameters != null && operationParameters.find(parameter => parameter.type === "file")){            
+            if(hasPathItemFileParameter || operationParameters != null && operationParameters.find(parameter => parameter.type === "file")){
               if ((value[method].consumes != null && value[method].consumes != "multipart/form-data") || 
                   (value[method].consumes == null && globalConsumes != "multipart/form-data")) {
                 acc.push({
@@ -72,7 +72,7 @@ export const validateParameterFormDataConsumesType = () => system => {
                   source: SOURCE
                 })
               }
-            } else if (isThereAnyFormData || (operationParameters != null && operationParameters.find(parameter => parameter.in === "formData"))) {
+            } else if (hasPathItemFormDataParameter || (operationParameters != null && operationParameters.find(parameter => parameter.in === "formData"))) {
               if ((value[method].consumes != null && value[method].consumes != "multipart/form-data" && value[method].consumes != "application/x-www-form-urlencoded") || 
                   (value[method].consumes == null && globalConsumes != "multipart/form-data" && value[method].consumes != "application/x-www-form-urlencoded")) {
                 acc.push({
