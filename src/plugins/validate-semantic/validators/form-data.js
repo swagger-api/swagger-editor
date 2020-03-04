@@ -62,7 +62,7 @@ export const validateParameterFormDataConsumesType = () => system => {
         for (var method of operationKeys) {
           const operationValue = pathItemValue[method]
 
-          if (operationValue != null) {
+          if (operationValue) {
             const operationParameters = operationValue.parameters || []
             const hasOperationFormDataParameter = operationParameters.find(parameter => parameter.in === "formData")
             const hasOperationFileParameter = operationParameters.find(parameter => parameter.type === "file")
