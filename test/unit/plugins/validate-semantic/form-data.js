@@ -112,7 +112,7 @@ describe("validation plugin - semantic - form data", function(){
           const allErrors = system.errSelectors.allErrors().toJS()
           const firstError = allErrors[0]
           expect(allErrors.length).toEqual(1)
-          expect(firstError.message).toEqual(`Operations with Parameters of "in: formData" must include "application/x-www-form-urlencoded" or "multipart/form-data" in their "consumes" property`)
+          expect(firstError.message).toEqual(`Operations with parameters of "in: formData" must include "application/x-www-form-urlencoded" or "multipart/form-data" in their "consumes" property`)
           expect(firstError.path).toEqual(["paths", "/some", "post"])
         })
     })
@@ -188,7 +188,7 @@ describe("validation plugin - semantic - form data", function(){
         })
     })
     
-    describe.only("Path-level form parameters and operation-level consumes", function(){
+    describe("Path-level form parameters and operation-level consumes", function(){
       describe("`in: formData` + `type: file`", function() {
         it("should report an error for missing consumes with a path-level parameter", function(){
           const spec = {
