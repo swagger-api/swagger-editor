@@ -80,7 +80,7 @@ export const validateParameterFormDataConsumesType = () => system => {
             } else if (hasPathItemFormDataParameter || hasOperationFormDataParameter) {
               if (!effectiveConsumes.includes("application/x-www-form-urlencoded") && !effectiveConsumes.includes("multipart/form-data")) {
                 acc.push({
-                  message: `Operations with Parameters of "in: formData" must include "application/x-www-form-urlencoded" or "multipart/form-data" in their "consumes" property`,
+                  message: `Operations with parameters of "in: formData" must include "application/x-www-form-urlencoded" or "multipart/form-data" in their "consumes" property`,
                   path: [...node.path, method],
                   level: "error",
                   source: SOURCE
