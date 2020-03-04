@@ -116,6 +116,7 @@
     "enzyme-adapter-react-15": "^1.0.5",
     "eslint": "^6.1.0",
     "eslint-plugin-import": "^2.13.0",
+    "eslint-plugin-mocha": "^6.3.0",
     "eslint-plugin-react": "^4.3.0",
     "expect": "^1.20.2",
     "extract-text-webpack-plugin": "0.8.2",
