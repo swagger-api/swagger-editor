@@ -54,12 +54,12 @@ export const validateParameterFormDataConsumesType = () => system => {
       return nodes.reduce((acc, node) => {
         const pathItemValue = node.node
         const globalConsumes = getRootNode(node).node.consumes
-        var pathItemParameters = pathItemValue.parameters
+        const pathItemParameters = pathItemValue.parameters
 
         const hasPathItemFormDataParameter = pathItemParameters != null && pathItemParameters.find(parameter => parameter.in === "formData")
         const hasPathItemFileParameter = pathItemParameters != null && pathItemParameters.find(parameter => parameter.type === "file")
 
-        for (var method of operationKeys) {
+        for (const method of operationKeys) {
           const operationValue = pathItemValue[method]
 
           if (operationValue) {
