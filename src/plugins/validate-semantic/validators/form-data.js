@@ -53,7 +53,7 @@ export const validateParameterFormDataConsumesType = () => system => {
     .then(nodes => {
       return nodes.reduce((acc, node) => {
         const pathItemValue = node.node
-        const globalConsumes = getRootNode(node).node.consumes ||[]
+        const globalConsumes = getRootNode(node).node.consumes
         var pathItemParameters = pathItemValue.parameters
 
         const hasPathItemFormDataParameter = pathItemParameters != null && pathItemParameters.find(parameter => parameter.in === "formData")
@@ -63,13 +63,13 @@ export const validateParameterFormDataConsumesType = () => system => {
           const operationValue = pathItemValue[method]
 
           if (operationValue) {
+            const effectiveConsumes = operationValue.consumes || globalConsumes || []
             const operationParameters = operationValue.parameters || []
             const hasOperationFormDataParameter = operationParameters.find(parameter => parameter.in === "formData")
             const hasOperationFileParameter = operationParameters.find(parameter => parameter.type === "file")
 
             if(hasPathItemFileParameter || hasOperationFileParameter){
-              if ((operationValue.consumes != null && operationValue.consumes != "multipart/form-data") ||
-                  (operationValue.consumes == null && globalConsumes != "multipart/form-data")) {
+              if (!effectiveConsumes.includes("multipart/form-data")) {
                 acc.push({
                   message: `Operations with parameters of "type: file" must include "multipart/form-data" in their "consumes" property`,
                   path: [...node.path, method],
@@ -78,8 +78,7 @@ export const validateParameterFormDataConsumesType = () => system => {
                 })
               }
             } else if (hasPathItemFormDataParameter || hasOperationFormDataParameter) {
-              if ((operationValue.consumes != null && operationValue.consumes != "multipart/form-data" && operationValue.consumes != "application/x-www-form-urlencoded") ||
-                  (operationValue.consumes == null && globalConsumes != "multipart/form-data" && operationValue.consumes != "application/x-www-form-urlencoded")) {
+              if (!effectiveConsumes.includes("application/x-www-form-urlencoded") && !effectiveConsumes.includes("multipart/form-data")) {
                 acc.push({
                   message: `Operations with Parameters of "in: formData" must include "application/x-www-form-urlencoded" or "multipart/form-data" in their "consumes" property`,
                   path: [...node.path, method],
