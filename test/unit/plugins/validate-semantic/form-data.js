@@ -188,7 +188,7 @@ describe("validation plugin - semantic - form data", function(){
         })
     })
     
-    describe.only("Path-level form parameters and operation-level consumes", function(){
+    describe("Path-level form parameters and operation-level consumes", function(){
       describe("`in: formData` + `type: file`", function() {
         it("should report an error for missing consumes with a path-level parameter", function(){
           const spec = {
