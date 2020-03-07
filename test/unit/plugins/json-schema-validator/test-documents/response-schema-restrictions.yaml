@@ -9,7 +9,7 @@ cases:
       /:
         get:
           responses:
-            200:
+            "200":
               description: ""
               schema:
                 $ref: "abc"
@@ -32,7 +32,7 @@ cases:
       /:
         get:
           responses:
-            200:
+            "200":
               description: ""
               schema:
                 type: blah
@@ -52,7 +52,7 @@ cases:
       /:
         get:
           responses:
-            200:
+            "200":
               description: ""
               schema:
                 properties:
@@ -74,7 +74,7 @@ cases:
       /:
         get:
           responses:
-            200:
+            "200":
               description: ""
               schema:
                 properties:
