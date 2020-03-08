@@ -25,14 +25,28 @@ For the older version of swagger-editor, refer to the [*2.x branch*](https://git
 ## Running locally
 
 ##### Prerequisites
-- Node 6.x
-- NPM 3.x
+
+- NPM 6.x
+
+Generally, we recommend following guidelines from [Node.js Releases](https://nodejs.org/en/about/releases/) to only use Active LTS or Maintenance LTS releases.
+
+Current Node.js Active LTS:
+- Node.js 12.x
+- NPM 6.x
+
+Current Node.js Maintenance LTS:
+- Node.js 10.x
+- NPM 6.x
+
+Unsupported Node.js LTS that should still work:
+- Node.js 8.13.0 or greater
+- NPM 6.x
 
 If you have Node.js and npm installed, you can run `npm start` to spin up a static server.
 
 Otherwise, you can open `index.html` directly from your filesystem in your browser.
 
-If you'd like to make code changes to Swagger Editor, you can start up a Webpack hot-reloading dev server via `npm run dev`. 
+If you'd like to make code changes to Swagger Editor, you can start up a Webpack hot-reloading dev server via `npm run dev`.
 
 ##### Browser support
 
