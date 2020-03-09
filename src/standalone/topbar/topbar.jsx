@@ -5,10 +5,9 @@ import URL from "url"
 import "whatwg-fetch"
 import DropdownMenu from "./DropdownMenu"
 import reactFileDownload from "react-file-download"
-import YAML from "@kyleshockey/js-yaml"
+import YAML from "js-yaml"
 import beautifyJson from "json-beautify"
 
-import "react-dd-menu/dist/react-dd-menu.css"
 import Logo from "./logo_small.svg"
 
 export default class Topbar extends React.Component {
@@ -347,7 +346,7 @@ export default class Topbar extends React.Component {
     }
 
     return (
-      <div>
+      <div className="swagger-editor-standalone">
         <div className="topbar">
           <div className="topbar-wrapper">
             <Link href="#">

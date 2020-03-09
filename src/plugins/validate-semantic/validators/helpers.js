@@ -16,6 +16,8 @@ export function checkForDefinition(paramName, pathItem) {
     found: false,
     inPath: false,
     inOperation: false,
+    caseMatch: false,
+    paramCase: "",
     missingFromOperations: []
   }
 
@@ -36,9 +38,17 @@ export function checkForDefinition(paramName, pathItem) {
         const inThisOperation = (op.parameters || [])
           .some(param => param.name === paramName && param.in === "path")
 
+        const caseMatch = (op.parameters || [])
+        .find(param => !(param.name === paramName) && (param.name.toLowerCase() === paramName.toLowerCase()) && param.in === "path")
+
         if(inThisOperation) {
           res.found = true
           res.inOperation = true
+        }
+
+        if(caseMatch) {
+          res.caseMatch = true
+          res.paramCase = caseMatch.name
         }
 
         if(!inThisOperation) {

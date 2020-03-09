@@ -1,6 +1,6 @@
 import React, { Component } from "react"
 import PropTypes from "prop-types"
-import YAML from "@kyleshockey/js-yaml"
+import YAML from "js-yaml"
 import { checkForErrors } from "../helpers/validation-helpers"
 
 class AddForm extends Component {

@@ -12,7 +12,7 @@ let StandaloneLayoutPlugin = function() {
   }
 }
 
-module.exports = function () {
+export default function () {
   return [
     TopbarPlugin,
     TopbarInsertPlugin,
