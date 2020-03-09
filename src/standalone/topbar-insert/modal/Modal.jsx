@@ -8,9 +8,9 @@ const Modal = (props) => (
       <div className="modal-content">
         <div className={classNames("modal-header", {"modal-header-border" : props.title})} >
           <span className="modal-title">{props.title}</span>
-          <a type="button" className="close" aria-label="Close" onClick={props.onCloseClick}>
+          {!props.hideCloseButton && <a type="button" className="close" aria-label="Close" onClick={props.onCloseClick}>
             <span aria-hidden="true">&times;</span>
-          </a>
+          </a> }
         </div>
         {props.children}
       </div>
@@ -22,6 +22,7 @@ Modal.propTypes = {
   title: PropTypes.string,
   styleName: PropTypes.string,
   onCloseClick: PropTypes.func,
+  hideCloseButton: PropTypes.bool,
   children: PropTypes.oneOfType([ 
     PropTypes.array, 
     PropTypes.element 

@@ -1,6 +1,6 @@
 /* eslint-env mocha */
 import expect from "expect"
-import { transformPathToArray } from "src/plugins/validate-json-schema/path-translator"
+import { transformPathToArray } from "src/plugins/json-schema-validator/validator/path-translator"
 
 describe("validation plugin - path translator", function(){
 

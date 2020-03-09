@@ -1,0 +1,35 @@
+.editor-readonly-watermark {
+    position: absolute;
+    top: 0;
+    height: 40px;
+    left: 0;
+    right: 0;
+    padding-right: 20px;
+    padding-top: 10px;
+    margin: 0;
+
+    z-index: 2;
+    color: #fff;
+    font-weight: bold;
+    text-align: right;
+    user-select: none;
+    pointer-events: none;
+
+    &:before {
+      z-index: 1;
+      pointer-events: none;
+      position: absolute;
+      content: ' ';
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+
+      background: linear-gradient(
+        to right,
+        rgba(255,255,255,0) 60%,
+        rgba(145, 145, 145, 0.31) 74%,
+        rgba(255, 255, 255, 0.17) 100%);
+
+    }
+  }

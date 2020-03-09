@@ -1,0 +1,8 @@
+/.git
+/.github
+/dev-helpers
+/docs
+/src
+/swagger-editor-dist-package
+/test
+/node_modules

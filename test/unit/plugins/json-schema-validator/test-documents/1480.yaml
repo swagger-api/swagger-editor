@@ -1,0 +1,30 @@
+meta:
+  title: "#1480 - illegal `tokenUrl` in implicit OAuth Flow Object"
+input:
+  openapi: "3.0.0"
+  info:
+    version: 1.0.0
+    title: Swagger Petstore
+    license:
+      name: MIT
+  paths: {}
+  components:
+    securitySchemes:
+      apiOAuth:
+        type: oauth2
+        flows:
+          implicit:
+            authorizationUrl: 'https://myapi.com/oauth/authorize'
+            tokenUrl: 'https://myapi.com/oauth/token'
+            refreshUrl: 'https://myapi.com/oauth/token/refresh'
+            scopes:
+              -'write:pets': "modify pets in your account"
+output:
+  length: 1
+  match:
+  - level: error
+    message: |-
+      should NOT have additional properties
+      additionalProperty: tokenUrl
+    path: [components, securitySchemes, apiOAuth, flows, implicit]
+    source: structural

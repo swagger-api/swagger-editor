@@ -1,0 +1,28 @@
+meta:
+  title: "#1853 - OpenAPI 3.0 path parameter missing both `schema` and `content`"
+input:
+  openapi: 3.0.0
+  info:
+    title: Contact List API
+    description: CRUD a simple Contact item.
+    version: '0.1'
+  paths:
+    /:
+      get:
+        summary: Get a single contact by Id
+        operationId: getContactById
+        responses:
+          "200":
+            description: ok
+        parameters: 
+          - name: contactId
+            in: path
+            description: ID of contact to return
+            required: true
+output:
+  length: 1
+  match:
+  - level: error
+    message: should have either a `schema` or `content` property
+    path: [paths, /, get, parameters, "0"]
+    source: structural

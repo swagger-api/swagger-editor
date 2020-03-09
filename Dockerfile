@@ -1,8 +1,7 @@
-FROM alpine:3.4
+FROM nginx:1.17-alpine
 
 MAINTAINER fehguy
 
-RUN apk add --update nginx
 RUN mkdir -p /run/nginx
 
 COPY nginx.conf /etc/nginx/
@@ -14,6 +13,8 @@ ADD ./dist/*.map /usr/share/nginx/html/dist/
 ADD ./dist/*.css /usr/share/nginx/html/dist/
 ADD ./dist/*.png /usr/share/nginx/html/dist/
 ADD ./docker-run.sh /usr/share/nginx/
+
+RUN find /usr/share/nginx/html/ -type f -regex ".*\.\(html\|js\|css\)" -exec sh -c "gzip < {} > {}.gz" \;
 
 EXPOSE 8080
 

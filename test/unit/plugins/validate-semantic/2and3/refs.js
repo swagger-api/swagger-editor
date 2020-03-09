@@ -28,7 +28,7 @@ describe("validation plugin - semantic - 2and3 refs", function() {
         const allErrors = system.errSelectors.allErrors().toJS()
         expect(allErrors.length).toEqual(1)
         const firstError = allErrors[0]
-        expect(firstError.message).toMatch("Sibling values are not allowed alongside $refs")
+        expect(firstError.message).toMatch("Sibling values alongside $refs are ignored.\nTo add properties to a $ref, wrap the $ref into allOf, or move the extra properties into the referenced definition (if applicable).")
         expect(firstError.level).toEqual("warning")
         expect(firstError.path).toEqual(["paths", "/CoolPath", "get", "description"])
       })
@@ -54,7 +54,7 @@ describe("validation plugin - semantic - 2and3 refs", function() {
         const allErrors = system.errSelectors.allErrors().toJS()
         expect(allErrors.length).toEqual(1)
         const firstError = allErrors[0]
-        expect(firstError.message).toMatch("Sibling values are not allowed alongside $refs")
+        expect(firstError.message).toMatch("Sibling values alongside $refs are ignored.\nTo add properties to a $ref, wrap the $ref into allOf, or move the extra properties into the referenced definition (if applicable).")
         expect(firstError.level).toEqual("warning")
         expect(firstError.path).toEqual(["paths", "/CoolPath", "get", "description"])
       })

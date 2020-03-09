@@ -1,0 +1,110 @@
+
+cases:
+- name: a valid additionalProperties schema
+  input:
+    openapi: 3.0.0
+    info:
+      title: ""
+      version: 1.0.0
+    paths: {}
+    components:
+      schemas:
+        mySchema:
+          type: object
+          additionalProperties:
+            type: string
+  output:
+    equal: null
+- name: a valid schema with an invalid additionalProperties schema
+  input:
+    openapi: 3.0.0
+    info:
+      title: ""
+      version: 1.0.0
+    paths: {}
+    components:
+      schemas:
+        mySchema:
+          type: object
+          additionalProperties:
+            type: int
+  output:
+    length: 1
+    match:
+    - message: |-
+        should be equal to one of the allowed values
+        allowedValues: array, boolean, integer, number, object, string
+      path: [components, schemas, mySchema, additionalProperties]
+- name: a valid schema with an invalid additionalProperties string value
+  input:
+    openapi: 3.0.0
+    info:
+      title: ""
+      version: 1.0.0
+    paths: {}
+    components:
+      schemas:
+        mySchema:
+          type: object
+          additionalProperties: "wow"
+  output:
+    length: 1
+    match:
+    - message: should be a Reference Object, Schema Object, or boolean value
+      path: [components, schemas, mySchema, additionalProperties]
+- name: a valid schema with a valid additionalProperties reference
+  input:
+    openapi: 3.0.0
+    info:
+      title: ""
+      version: 1.0.0
+    paths: {}
+    components:
+      schemas:
+        mySchema:
+          type: object
+          additionalProperties:
+            $ref: "#"
+  output:
+    equal: null
+- name: "a valid schema with `additionalProperties: true`"
+  input:
+    openapi: 3.0.0
+    info:
+      title: ""
+      version: 1.0.0
+    paths: {}
+    components:
+      schemas:
+        mySchema:
+          type: object
+          additionalProperties: true
+  output:
+    equal: null
+- name: "a valid schema with `additionalProperties: false`"
+  input:
+    openapi: 3.0.0
+    info:
+      title: ""
+      version: 1.0.0
+    paths: {}
+    components:
+      schemas:
+        mySchema:
+          type: object
+          additionalProperties: false
+  output:
+    equal: null
+- name: "a valid schema without `additionalProperties`"
+  input:
+    openapi: 3.0.0
+    info:
+      title: ""
+      version: 1.0.0
+    paths: {}
+    components:
+      schemas:
+        mySchema:
+          type: object
+  output:
+    equal: null

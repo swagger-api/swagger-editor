@@ -1,0 +1,25 @@
+meta:
+  title: "#1672 - Header Security Scheme Object lacking a `name`"
+input:
+  openapi: 3.0.0
+  info:
+    title: "#1672"
+    version: 1.0.0
+  paths: {}
+  components:
+    schemas: {}
+    securitySchemes:
+      headerFoo:
+        type: apiKey
+        in: header
+    links: {}
+    callbacks: {}
+output:
+  length: 1
+  match:
+  - level: error
+    message: |-
+      should have required property 'name'
+      missingProperty: name
+    path: [components, securitySchemes, headerFoo]
+    source: structural

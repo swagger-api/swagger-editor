@@ -1,13 +1,12 @@
 import deepMerge from "deepmerge"
 import SwaggerUI from "swagger-ui"
 import EditorLayout from "./layout"
-import "swagger-ui/dist/swagger-ui.css"
 
 import EditorPlugin from "./plugins/editor"
 import LocalStoragePlugin from "./plugins/local-storage"
 import ValidateBasePlugin from "./plugins/validate-base"
 import ValidateSemanticPlugin from "./plugins/validate-semantic"
-import ValidateJsonSchemaPlugin from "./plugins/validate-json-schema"
+import ValidateJsonSchemaPlugin from "./plugins/json-schema-validator"
 import EditorAutosuggestPlugin from "./plugins/editor-autosuggest"
 import EditorAutosuggestSnippetsPlugin from "./plugins/editor-autosuggest-snippets"
 import EditorAutosuggestKeywordsPlugin from "./plugins/editor-autosuggest-keywords"
@@ -41,7 +40,8 @@ const plugins = {
 }
 
 const defaults = {
-  dom_id: "#swagger-editor", // eslint-disable-line camelcase, we have this prop for legacy reasons.
+  // we have the `dom_id` prop for legacy reasons
+  dom_id: "#swagger-editor", // eslint-disable-line camelcase
   layout: "EditorLayout",
   presets: [
     SwaggerUI.presets.apis
@@ -52,10 +52,11 @@ const defaults = {
   },
   showExtensions: true,
   swagger2GeneratorUrl: "https://generator.swagger.io/api/swagger.json",
-  oas3GeneratorUrl: "https://generator3.swagger.io/openapi.json"
+  oas3GeneratorUrl: "https://generator3.swagger.io/openapi.json",
+  swagger2ConverterUrl: "https://converter.swagger.io/api/convert",
 }
 
-module.exports = function SwaggerEditor(options) {
+export default function SwaggerEditor(options) {
   let mergedOptions = deepMerge(defaults, options)
 
   mergedOptions.presets = defaults.presets.concat(options.presets || [])
@@ -63,4 +64,4 @@ module.exports = function SwaggerEditor(options) {
   return SwaggerUI(mergedOptions)
 }
 
-module.exports.plugins = plugins
+SwaggerEditor.plugins = plugins
