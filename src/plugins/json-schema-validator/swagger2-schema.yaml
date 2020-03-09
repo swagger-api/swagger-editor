@@ -53,7 +53,9 @@ properties:
     type: array
     items:
       $ref: "#/definitions/tag"
-    uniqueItems: true
+    ### disabled, see 
+    ### test/unit/plugins/json-schema-validator/test-documents/tag-object-uniqueness.yaml 
+    # uniqueItems: true 
   externalDocs:
     $ref: "#/definitions/externalDocs"
 definitions:

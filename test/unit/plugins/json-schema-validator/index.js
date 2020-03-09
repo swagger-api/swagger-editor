@@ -1,4 +1,4 @@
-import YAML from "@kyleshockey/js-yaml"
+import YAML from "js-yaml"
 import JSONSchemaValidator from "src/plugins/json-schema-validator/validator/index.js"
 import swagger2SchemaYaml from "src/plugins/json-schema-validator/swagger2-schema.yaml"
 import oas3SchemaYaml from "src/plugins/json-schema-validator/oas3-schema.yaml"

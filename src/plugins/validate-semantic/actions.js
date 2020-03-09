@@ -3,7 +3,8 @@ import debounce from "lodash/debounce"
 export const SOURCE = "semantic"
 
 // the test system does not tolerate slowness!
-const { NODE_ENV, CI } = process.env
+const NODE_ENV = process.env.NODE_ENV
+const CI = process.env.CI
 const DEBOUNCE_MS = (NODE_ENV === "test" || CI === "true") ? 0 : 30
 
 // System for buffering/batching errors

@@ -27,7 +27,9 @@ properties:
     type: array
     items:
       $ref: "#/definitions/Tag"
-    uniqueItems: true
+    ### disabled, see 
+    ### test/unit/plugins/json-schema-validator/test-documents/tag-object-uniqueness.yaml 
+    # uniqueItems: true 
   paths:
     $ref: "#/definitions/Paths"
   components:

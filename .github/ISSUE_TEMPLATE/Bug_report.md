@@ -11,7 +11,7 @@ about: Report an issue you're experiencing
 
   If you're here to report a security issue, please STOP writing an issue and
   contact us at security@swagger.io instead!
-f
+
   Search open/closed issues before submitting!
 
   Issues on GitHub are only related to problems of Swagger-Editor itself. We'll try
