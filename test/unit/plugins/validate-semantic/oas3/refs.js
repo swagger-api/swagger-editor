@@ -238,16 +238,14 @@ describe("validation plugin - semantic - oas3 refs", () => {
       return validateHelper(spec)
         .then(system => {
           const allErrors = system.errSelectors.allErrors().toJS()
-          expect(allErrors.length).toEqual(3)
-          const firstError = allErrors[0]
-          expect(firstError.message).toEqual(`Definition was declared but never used in document`)
-          expect(firstError.path).toEqual(["components", "schemas", "Foo"])
-          const secondError = allErrors[1]
-          expect(secondError.message).toEqual(`$refs must reference a valid location in the document`)
-          expect(secondError.path).toEqual(["paths", "/foo", "post", "requestBody", "content", "application/json", "schema", "$ref"])
-          const thirdError = allErrors[2]
-          expect(thirdError.message).toEqual(`requestBody schemas $refs must point to a position where a schema can be legally placed`)
-          expect(thirdError.path).toEqual(["paths", "/foo", "post", "requestBody", "content", "application/json", "schema", "$ref"])
+          const allSemanticErrors = allErrors.filter(err => err.source === "semantic")
+          
+          expect(allSemanticErrors.length).toEqual(3)
+          
+          const firstError = allSemanticErrors[2]
+          
+          expect(firstError.message).toEqual(`requestBody schemas $refs must point to a position where a schema can be legally placed`)
+          expect(firstError.path).toEqual(["paths", "/foo", "post", "requestBody", "content", "application/json", "schema", "$ref"])
 
         })
     })

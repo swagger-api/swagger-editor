@@ -32,7 +32,7 @@ export const validateOAS3RefsForRequestBodiesReferenceRequestBodyPositions = () 
 }
 
   
-export const validateOAS3RefsForRequestBodieSchemasReferenceSchemaPositions = () => sys => {
+export const validateOAS3RequestBodyRefsReferenceAllowableSchemaPositions = () => sys => {
   return sys.validateSelectors
     .allOAS3RequestBodySchemas()
     .then(nodes => {
