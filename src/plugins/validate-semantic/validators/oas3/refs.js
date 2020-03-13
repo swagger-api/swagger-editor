@@ -49,9 +49,11 @@ export const validateOAS3RequestBodyRefsReferenceAllowableSchemaPositions = () =
         const parentRefKey = pathArr.slice(-2)[0]
         const targetRefKey = pathArr.slice(-1)[0]
         if(
-          targetRefKey !== "schemas"
+          targetRefKey !== "schema"
           && parentRefKey !== "schemas"
-          && parentRefKey !== "schemas"
+          && !ref.startsWith("http://")
+          && !ref.startsWith("https://")
+          && !ref.endsWith(".yaml")
         ) {
           acc.push({
             level: "error",

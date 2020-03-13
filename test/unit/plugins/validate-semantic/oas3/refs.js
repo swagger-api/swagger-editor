@@ -227,7 +227,7 @@ describe("validation plugin - semantic - oas3 refs", () => {
           }
         },
         components: {
-          schemas: {
+          requestbodies: {
             Foo: {
               type: "string"
             }
@@ -240,9 +240,9 @@ describe("validation plugin - semantic - oas3 refs", () => {
           const allErrors = system.errSelectors.allErrors().toJS()
           const allSemanticErrors = allErrors.filter(err => err.source === "semantic")
           
-          expect(allSemanticErrors.length).toEqual(3)
+          expect(allSemanticErrors.length).toEqual(1)
           
-          const firstError = allSemanticErrors[2]
+          const firstError = allSemanticErrors[0]
           
           expect(firstError.message).toEqual(`requestBody schemas $refs must point to a position where a schema can be legally placed`)
           expect(firstError.path).toEqual(["paths", "/foo", "post", "requestBody", "content", "application/json", "schema", "$ref"])
@@ -272,6 +272,108 @@ describe("validation plugin - semantic - oas3 refs", () => {
           schemas: {
             Foo: {
               type: "string"
+            }
+          }
+        }
+      }
+
+      return validateHelper(spec)
+        .then(system => {
+          const allErrors = system.errSelectors.allErrors().toJS()
+          expect(allErrors.length).toEqual(0)
+        })
+    })
+
+    it("should not return an error when a requestBody schema references remote references", () => {
+      const spec = {
+        openapi: "3.0.0",
+        paths: {
+          "/foo": {
+            post: {
+              requestBody: {
+                content: {
+                  "application/json": {
+                    schema: {
+                      $ref: "http://google.com#/Foo"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+
+      return validateHelper(spec)
+        .then(system => {
+          const allErrors = system.errSelectors.allErrors().toJS()
+          expect(allErrors.length).toEqual(0)
+        })
+    })
+
+    it("should not return an error when a requestBody schema references remote references", () => {
+      const spec = {
+        openapi: "3.0.0",
+        paths: {
+          "/foo": {
+            post: {
+              requestBody: {
+                content: {
+                  "application/json": {
+                    schema: {
+                      $ref: "addPetBody.yaml"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+
+      return validateHelper(spec)
+        .then(system => {
+          const allErrors = system.errSelectors.allErrors().toJS()
+          expect(allErrors.length).toEqual(0)
+        })
+    })
+
+    it("should not return an error when a requestBody schema references to local operations", () => {
+      const spec = {
+        openapi: "3.0.0",
+        paths: {
+          "/foo": {
+            post: {
+              responses: {
+                "200": {
+                  description: "OK"
+                }
+              },
+              requestBody: {
+                content: {
+                  "application/json": {
+                    schema: {
+                      type: "string"
+                    }
+                  }
+                }
+              }
+            },
+            put: {
+              requestBody: {
+                responses: {
+                  "200": {
+                    description: "OK"
+                  }
+                },
+                content: {
+                  "application/json": {
+                    schema: {
+                      $ref: "#/paths/~1foo/post/requestBody/content/application~1json/schema"
+                    }
+                  }
+                }
+              }
             }
           }
         }
