@@ -54,6 +54,7 @@ export const validateOAS3RequestBodyRefsReferenceAllowableSchemaPositions = () =
           && !ref.startsWith("http://")
           && !ref.startsWith("https://")
           && !ref.endsWith(".yaml")
+          && ref.startsWith("#/")
         ) {
           acc.push({
             level: "error",

@@ -218,7 +218,7 @@ describe("validation plugin - semantic - oas3 refs", () => {
                 content: {
                   "application/json": {
                     schema: {
-                      $ref: "#/components/requestbodies/Foo"
+                      $ref: "#/components/requestBodies/Foo"
                     }
                   }
                 }
@@ -227,7 +227,7 @@ describe("validation plugin - semantic - oas3 refs", () => {
           }
         },
         components: {
-          requestbodies: {
+          requestBodies: {
             Foo: {
               type: "string"
             }
