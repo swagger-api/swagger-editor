@@ -50,11 +50,7 @@ describe("validation plugin - semantic - oas3 refs", () => {
         }
       }
 
-      return validateHelper(spec)
-        .then(system => {
-          const allErrors = system.errSelectors.allErrors().toJS()
-          expect(allErrors.length).toEqual(0) 
-        })
+      return expectNoErrorsOrWarnings(spec)
     })
     it("should return an error when a requestBody in a callback incorrectly references a local component schema", () => {
       const spec = {
