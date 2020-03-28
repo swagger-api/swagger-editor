@@ -84,7 +84,7 @@
     "swagger-ui": "^3.25.0",
     "traverse": "^0.6.6",
     "whatwg-fetch": "^2.0.3",
-    "yaml-js": "^0.1.4"
+    "yaml-js": "^0.2.3"
   },
   "devDependencies": {
     "@babel/cli": "^7.5.5",
