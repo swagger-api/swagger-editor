@@ -1,4 +1,3 @@
-
 export const validateOAS3RefsForRequestBodiesReferenceRequestBodyPositions = () => sys => {
   return sys.validateSelectors
     .allOAS3RequestBodies()
@@ -31,7 +30,6 @@ export const validateOAS3RefsForRequestBodiesReferenceRequestBodyPositions = () 
     })
 }
 
-  
 export const validateOAS3RequestBodyRefsReferenceAllowableSchemaPositions = () => sys => {
   return sys.validateSelectors
     .allOAS3RequestBodySchemas()
@@ -55,7 +53,7 @@ export const validateOAS3RequestBodyRefsReferenceAllowableSchemaPositions = () =
         ) {
           acc.push({
             level: "error",
-            message: `requestBody schemas $refs must point to a position where a schema can be legally placed`,
+            message: `requestBody schema $refs must point to a position where a Schema Object can be legally placed`,
             path: [...node.path, "$ref"]
           })
         }

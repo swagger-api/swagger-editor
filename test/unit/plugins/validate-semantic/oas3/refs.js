@@ -208,7 +208,7 @@ describe("validation plugin - semantic - oas3 refs", () => {
   })
 
   describe("$refs for requestbody schemas must reference a schema by position", () => {
-    it("should return an error when a requestBody schema incorrectly references a local component schema", () => {
+    it("should return an error when a requestBody schema incorrectly references a local component requestBody", () => {
       const spec = {
         openapi: "3.0.0",
         paths: {
@@ -244,7 +244,7 @@ describe("validation plugin - semantic - oas3 refs", () => {
           
           const firstError = allSemanticErrors[0]
           
-          expect(firstError.message).toEqual(`requestBody schemas $refs must point to a position where a schema can be legally placed`)
+          expect(firstError.message).toEqual(`requestBody schema $refs must point to a position where a Schema Object can be legally placed`)
           expect(firstError.path).toEqual(["paths", "/foo", "post", "requestBody", "content", "application/json", "schema", "$ref"])
 
         })
@@ -284,7 +284,7 @@ describe("validation plugin - semantic - oas3 refs", () => {
         })
     })
 
-    it("should not return an error when a requestBody schema references remote references", () => {
+    it("should not return an error when a requestBody schema references remote document paths", () => {
       const spec = {
         openapi: "3.0.0",
         paths: {
@@ -311,7 +311,7 @@ describe("validation plugin - semantic - oas3 refs", () => {
         })
     })
 
-    it("should not return an error when a requestBody schema references remote references", () => {
+    it("should not return an error when a requestBody schema references entire remote documents", () => {
       const spec = {
         openapi: "3.0.0",
         paths: {
@@ -338,7 +338,7 @@ describe("validation plugin - semantic - oas3 refs", () => {
         })
     })
 
-    it("should not return an error when a requestBody schema references to local operations", () => {
+    it("should not return an error when a requestBody schema references local operation requestBody schemas", () => {
       const spec = {
         openapi: "3.0.0",
         paths: {
