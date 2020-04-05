@@ -206,4 +206,109 @@ describe("validation plugin - semantic - oas3 refs", () => {
       return expectNoErrorsOrWarnings(spec)
     })
   })
+
+  describe("$refs for headers must reference a header by position", () => {
+    it("should return an error when a header incorrectly references a local parameter schema", () => {
+      const spec = {
+        openapi: "3.0.0",
+        paths: {
+          "/foo": {
+            get: {
+              responses: {
+                "200": {
+                  description: "OK",
+                  headers: {
+                    "X-MyHeader": {
+                      $ref: "#/components/parameters/MyHeader"
+                    }
+                  }
+
+                }
+              }
+            }
+          }
+        },
+        components: {
+          headers: {
+            MyHeader: {
+              $ref: "#/components/headers/MyHeader"
+            }
+          }
+        }
+      }
+
+      return validateHelper(spec)
+        .then(system => {
+          const allErrors = system.errSelectors.allErrors().toJS()
+          const firstError = allErrors[1]
+          expect(allErrors.length).toEqual(2)
+          expect(firstError.message).toEqual(`headers $refs must point to a position where a header can be legally placed`)
+          expect(firstError.path).toEqual(["paths", "/foo", "get","responses","200", "headers", "X-MyHeader", "$ref"])
+        })
+    })
+    
+    it("should return no errors when a header correctly references a local component header", () => {
+      const spec = {
+        openapi: "3.0.0",
+        paths: {
+          "/foo": {
+            get: {
+              responses: {
+                "200": {
+                  description: "OK",
+                  headers: {
+                    "X-MyHeader": {
+                      $ref: "#/components/headers/MyHeader"
+                    }
+                  }
+
+                }
+              }
+            }
+          }
+        },
+        components: {
+          headers: {
+            MyHeader: {
+              $ref: "#/components/headers/MyHeader"
+            }
+          }
+        }
+      }
+
+      return expectNoErrorsOrWarnings(spec)
+    })
+    
+    it("should return no errors when a header correctly references a remote component header", () => {
+      const spec = {
+        openapi: "3.0.0",
+        paths: {
+          "/foo": {
+            get: {
+              responses: {
+                "200": {
+                  description: "OK",
+                  headers: {
+                    "X-MyHeader": {
+                      $ref: "https://www.google.com/#/components/parameter/MyHeader"
+                    }
+                  }
+
+                }
+              }
+            }
+          }
+        },
+        components: {
+          headers: {
+            MyHeader: {
+              $ref: "#/components/headers/MyHeader"
+            }
+          }
+        }
+      }
+
+      return expectNoErrorsOrWarnings(spec)
+    })
+  })
 })

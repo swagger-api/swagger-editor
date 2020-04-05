@@ -29,3 +29,31 @@ export const validateOAS3RefsForRequestBodiesReferenceRequestBodyPositions = () 
       }, [])
     })
 }
+
+export const validateOAS3RefsForHeadersReferenceHeadersPositions = () => sys => {
+  return sys.validateSelectors
+    .allHeaders()
+    .then(nodes => {
+      return nodes.reduce((acc, node) => {
+        const value = node.node
+        const ref = value.$ref
+
+        if(!ref) {
+          return acc
+        }
+        
+        // Ignore external references
+        if (ref.startsWith("#/")) {
+          if (ref.startsWith("#/components/parameters")) {
+            acc.push({
+              level: "error",
+              message: `headers $refs must point to a position where a header can be legally placed`,
+              path: [...node.path, "$ref"]
+            })
+          }
+        }
+        
+        return acc
+      }, [])
+    })
+}
