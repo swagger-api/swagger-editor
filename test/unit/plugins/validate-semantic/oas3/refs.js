@@ -242,7 +242,7 @@ describe("validation plugin - semantic - oas3 refs", () => {
           const allErrors = system.errSelectors.allErrors().toJS()
           const firstError = allErrors[1]
           expect(allErrors.length).toEqual(2)
-          expect(firstError.message).toEqual(`headers $refs must point to a position where a header can be legally placed`)
+          expect(firstError.message).toEqual(`OAS3 response header $refs should point to #/components/headers/... and not #/components/parameters/...`)
           expect(firstError.path).toEqual(["paths", "/foo", "get","responses","200", "headers", "X-MyHeader", "$ref"])
         })
     })

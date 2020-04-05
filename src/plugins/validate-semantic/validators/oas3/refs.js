@@ -47,7 +47,7 @@ export const validateOAS3RefsForHeadersReferenceHeadersPositions = () => sys => 
           if (ref.startsWith("#/components/parameters")) {
             acc.push({
               level: "error",
-              message: `headers $refs must point to a position where a header can be legally placed`,
+              message: `OAS3 response header $refs should point to #/components/headers/... and not #/components/parameters/...`,
               path: [...node.path, "$ref"]
             })
           }
