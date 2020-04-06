@@ -213,25 +213,29 @@ describe("validation plugin - semantic - oas3 refs", () => {
         openapi: "3.0.0",
         paths: {
           "/foo": {
+            parameters: {
+              myParam: {
+                $ref: "#/components/headers/foo"
+              }
+            },
             get: {
+              parameters: {
+                myParam: {
+                  $ref: "#/components/headers/foo"
+                }
+              },
               responses: {
                 "200": {
-                  description: "OK",
-                  headers: {
-                    "X-MyHeader": {
-                      $ref: "#/components/parameters/MyHeader"
-                    }
-                  }
-
+                  description: "OK"
                 }
               }
             }
           }
         },
         components: {
-          headers: {
-            MyHeader: {
-              $ref: "#/components/headers/MyHeader"
+          parameters: {
+            myParam: {
+              $ref: "#/components/headers/foo"
             }
           }
         }
@@ -240,10 +244,16 @@ describe("validation plugin - semantic - oas3 refs", () => {
       return validateHelper(spec)
         .then(system => {
           const allErrors = system.errSelectors.allErrors().toJS()
-          const firstError = allErrors[1]
-          expect(allErrors.length).toEqual(2)
-          expect(firstError.message).toEqual(`headers $refs must point to a position where a header can be legally placed`)
-          expect(firstError.path).toEqual(["paths", "/foo", "get","responses","200", "headers", "X-MyHeader", "$ref"])
+          expect(allErrors.length).toEqual(6)
+          const firstError = allErrors[3]
+          expect(firstError.message).toEqual(`OAS3 response parameter $refs should point to #/components/parameters/... and not #/components/headers/...`)
+          expect(firstError.path).toEqual(["paths","/foo","parameters", "myParam", "$ref"])
+          const secondError = allErrors[4]
+          expect(secondError.message).toEqual(`OAS3 response parameter $refs should point to #/components/parameters/... and not #/components/headers/...`)
+          expect(secondError.path).toEqual(["paths","/foo","get","parameters", "myParam", "$ref"])
+          const thirdError = allErrors[5]
+          expect(thirdError.message).toEqual(`OAS3 response parameter $refs should point to #/components/parameters/... and not #/components/headers/...`)
+          expect(thirdError.path).toEqual(["components","parameters", "myParam", "$ref"])
         })
     })
     
@@ -252,25 +262,25 @@ describe("validation plugin - semantic - oas3 refs", () => {
         openapi: "3.0.0",
         paths: {
           "/foo": {
+            parameters: {
+              $ref: "#/components/parameters/foo"
+            },
             get: {
+              parameters: {
+                $ref: "#/components/parameters/foo"
+              },
               responses: {
                 "200": {
-                  description: "OK",
-                  headers: {
-                    "X-MyHeader": {
-                      $ref: "#/components/headers/MyHeader"
-                    }
-                  }
-
+                  description: "OK"
                 }
               }
             }
           }
         },
         components: {
-          headers: {
-            MyHeader: {
-              $ref: "#/components/headers/MyHeader"
+          parameters: {
+            foo: {
+              $ref: "#/components/parameters/foo"
             }
           }
         }
@@ -284,25 +294,29 @@ describe("validation plugin - semantic - oas3 refs", () => {
         openapi: "3.0.0",
         paths: {
           "/foo": {
+            parameters: {
+              myParam:{
+                $ref: "http://www.google.com/#/components/parameters/foo"
+              }
+            },
             get: {
+              parameters: {
+                myParam:{
+                  $ref: "http://www.google.com/#/components/parameters/foo"
+                }
+              },
               responses: {
                 "200": {
-                  description: "OK",
-                  headers: {
-                    "X-MyHeader": {
-                      $ref: "https://www.google.com/#/components/parameter/MyHeader"
-                    }
-                  }
-
+                  description: "OK"
                 }
               }
             }
           }
         },
         components: {
-          headers: {
-            MyHeader: {
-              $ref: "#/components/headers/MyHeader"
+          parameters: {
+            foo: {
+              $ref: "http://www.google.com/#/components/parameters/foo"
             }
           }
         }

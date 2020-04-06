@@ -32,7 +32,7 @@ export const validateOAS3RefsForRequestBodiesReferenceRequestBodyPositions = () 
 
 export const validateOAS3RefsForHeadersReferenceHeadersPositions = () => sys => {
   return sys.validateSelectors
-    .allHeaders()
+    .allParameters()
     .then(nodes => {
       return nodes.reduce((acc, node) => {
         const value = node.node
@@ -44,10 +44,10 @@ export const validateOAS3RefsForHeadersReferenceHeadersPositions = () => sys => 
         
         // Ignore external references
         if (ref.startsWith("#/")) {
-          if (ref.startsWith("#/components/parameters")) {
+          if (ref.startsWith("#/components/headers")) {
             acc.push({
               level: "error",
-              message: `headers $refs must point to a position where a header can be legally placed`,
+              message: `OAS3 response parameter $refs should point to #/components/parameters/... and not #/components/headers/...`,
               path: [...node.path, "$ref"]
             })
           }
