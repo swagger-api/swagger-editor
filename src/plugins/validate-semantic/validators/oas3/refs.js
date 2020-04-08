@@ -41,17 +41,14 @@ export const validateOAS3RefsForHeadersReferenceHeadersPositions = () => sys => 
         if(!ref) {
           return acc
         }
-        
-        // Ignore external references
-        if (ref.startsWith("#/")) {
-          if (ref.startsWith("#/components/parameters")) {
-            acc.push({
-              level: "error",
-              message: `OAS3 response header $refs should point to #/components/headers/... and not #/components/parameters/...`,
-              path: [...node.path, "$ref"]
-            })
-          }
-        }
+
+        if (ref.startsWith("#/components/parameters")) {
+          acc.push({
+            level: "error",
+            message: `OAS3 header $refs should point to #/components/headers/... and not #/components/parameters/...`,
+            path: [...node.path, "$ref"]
+          })
+        }        
         
         return acc
       }, [])

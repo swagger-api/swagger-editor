@@ -207,8 +207,8 @@ describe("validation plugin - semantic - oas3 refs", () => {
     })
   })
 
-  describe("$refs for headers must reference a header by position", () => {
-    it("should return an error when a header incorrectly references a local parameter schema", () => {
+  describe("response header $refs should not point to parameters", () => {
+    it("should return an error when a response header incorrectly references a local parameter component", () => {
       const spec = {
         openapi: "3.0.0",
         paths: {
@@ -231,7 +231,7 @@ describe("validation plugin - semantic - oas3 refs", () => {
         components: {
           headers: {
             MyHeader: {
-              $ref: "#/components/headers/MyHeader"
+              $ref: "#/components/parameters/MyHeader"
             }
           }
         }
@@ -240,14 +240,14 @@ describe("validation plugin - semantic - oas3 refs", () => {
       return validateHelper(spec)
         .then(system => {
           const allErrors = system.errSelectors.allErrors().toJS()
-          const firstError = allErrors[1]
-          expect(allErrors.length).toEqual(2)
-          expect(firstError.message).toEqual(`OAS3 response header $refs should point to #/components/headers/... and not #/components/parameters/...`)
+          const firstError = allErrors[2]
+          expect(allErrors.length).toEqual(3)
+          expect(firstError.message).toEqual(`OAS3 header $refs should point to #/components/headers/... and not #/components/parameters/...`)
           expect(firstError.path).toEqual(["paths", "/foo", "get","responses","200", "headers", "X-MyHeader", "$ref"])
         })
     })
     
-    it("should return no errors when a header correctly references a local component header", () => {
+    it("should return no errors when a response header correctly references a local header component", () => {
       const spec = {
         openapi: "3.0.0",
         paths: {
@@ -279,7 +279,7 @@ describe("validation plugin - semantic - oas3 refs", () => {
       return expectNoErrorsOrWarnings(spec)
     })
     
-    it("should return no errors when a header correctly references a remote component header", () => {
+    it("should return no errors for external $refs in response headers", () => {
       const spec = {
         openapi: "3.0.0",
         paths: {
