@@ -207,23 +207,23 @@ describe("validation plugin - semantic - oas3 refs", () => {
     })
   })
 
-  describe("$refs for headers must reference a header by position", () => {
-    it("should return an error when a header incorrectly references a local parameter schema", () => {
+  describe("parameter $refs should not point to header components", () => {
+    it("should return an error when a parameter incorrectly references a response header component", () => {
       const spec = {
         openapi: "3.0.0",
         paths: {
           "/foo": {
-            parameters: {
-              myParam: {
+            parameters: [
+              {
                 $ref: "#/components/headers/foo"
               }
-            },
+            ],
             get: {
-              parameters: {
-                myParam: {
+              parameters: [
+                {
                   $ref: "#/components/headers/foo"
                 }
-              },
+              ],
               responses: {
                 "200": {
                   description: "OK"
@@ -246,29 +246,33 @@ describe("validation plugin - semantic - oas3 refs", () => {
           const allErrors = system.errSelectors.allErrors().toJS()
           expect(allErrors.length).toEqual(6)
           const firstError = allErrors[3]
-          expect(firstError.message).toEqual(`OAS3 response parameter $refs should point to #/components/parameters/... and not #/components/headers/...`)
-          expect(firstError.path).toEqual(["paths","/foo","parameters", "myParam", "$ref"])
+          expect(firstError.message).toEqual(`OAS3 parameter $refs should point to #/components/parameters/... and not #/components/headers/...`)
+          expect(firstError.path).toEqual(["paths","/foo","parameters", "0", "$ref"])
           const secondError = allErrors[4]
-          expect(secondError.message).toEqual(`OAS3 response parameter $refs should point to #/components/parameters/... and not #/components/headers/...`)
-          expect(secondError.path).toEqual(["paths","/foo","get","parameters", "myParam", "$ref"])
+          expect(secondError.message).toEqual(`OAS3 parameter $refs should point to #/components/parameters/... and not #/components/headers/...`)
+          expect(secondError.path).toEqual(["paths","/foo","get","parameters", "0", "$ref"])
           const thirdError = allErrors[5]
-          expect(thirdError.message).toEqual(`OAS3 response parameter $refs should point to #/components/parameters/... and not #/components/headers/...`)
+          expect(thirdError.message).toEqual(`OAS3 parameter $refs should point to #/components/parameters/... and not #/components/headers/...`)
           expect(thirdError.path).toEqual(["components","parameters", "myParam", "$ref"])
         })
     })
     
-    it("should return no errors when a header correctly references a local component header", () => {
+    it("should return no errors when a parameter correctly references a parameter component", () => {
       const spec = {
         openapi: "3.0.0",
         paths: {
           "/foo": {
-            parameters: {
-              $ref: "#/components/parameters/foo"
-            },
-            get: {
-              parameters: {
+            parameters: [
+              {
                 $ref: "#/components/parameters/foo"
-              },
+              }
+            ],
+            get: {
+               parameters: [
+              {
+                $ref: "#/components/parameters/foo"
+              }
+            ],
               responses: {
                 "200": {
                   description: "OK"
@@ -289,22 +293,22 @@ describe("validation plugin - semantic - oas3 refs", () => {
       return expectNoErrorsOrWarnings(spec)
     })
     
-    it("should return no errors when a header correctly references a remote component header", () => {
+    it("should return no errors for external parameter $refs", () => {
       const spec = {
         openapi: "3.0.0",
         paths: {
           "/foo": {
-            parameters: {
-              myParam:{
+            parameters: [
+              {
                 $ref: "http://www.google.com/#/components/parameters/foo"
               }
-            },
+            ],
             get: {
-              parameters: {
-                myParam:{
+              parameters: [
+                {
                   $ref: "http://www.google.com/#/components/parameters/foo"
                 }
-              },
+              ],
               responses: {
                 "200": {
                   description: "OK"
