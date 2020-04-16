@@ -233,6 +233,9 @@ describe("validation plugin - semantic - oas3 refs", () => {
             MyHeader: {
               $ref: "#/components/parameters/MyHeader"
             }
+          },
+          parameters: {
+            MyHeader: {}
           }
         }
       }
@@ -240,8 +243,8 @@ describe("validation plugin - semantic - oas3 refs", () => {
       return validateHelper(spec)
         .then(system => {
           const allErrors = system.errSelectors.allErrors().toJS()
-          const firstError = allErrors[2]
-          expect(allErrors.length).toEqual(3)
+          const firstError = allErrors[0]
+          expect(allErrors.length).toEqual(1)
           expect(firstError.message).toEqual(`OAS3 header $refs should point to #/components/headers/... and not #/components/parameters/...`)
           expect(firstError.path).toEqual(["paths", "/foo", "get","responses","200", "headers", "X-MyHeader", "$ref"])
         })
@@ -302,7 +305,7 @@ describe("validation plugin - semantic - oas3 refs", () => {
         components: {
           headers: {
             MyHeader: {
-              $ref: "#/components/headers/MyHeader"
+              $ref: "https://www.google.com/#/components/parameter/MyHeader"
             }
           }
         }
