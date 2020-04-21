@@ -1,3 +1,7 @@
+import {
+  validate2And3DefaultsMatchAnEnum
+} from "../helpers"
+
 export const validate2And3TypeArrayRequiresItems = () => (system) => {
   return system.validateSelectors
     .allSchemas()
@@ -65,6 +69,16 @@ export const validate2And3TypesInDefaultValuesMatchesWithEnum = () => (system) =
           }) 
         }
         return acc
+      }, [])
+    })
+}
+
+export const validate2And3SchemasDefaultsMatchAnEnum = () => (system) => {
+  return system.validateSelectors
+    .allSchemas()
+    .then(nodes => {
+      return nodes.reduce((acc, node) => {
+        //return validate2And3DefaultsMatchAnEnum(system, acc, node)
       }, [])
     })
 }

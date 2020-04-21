@@ -1,3 +1,7 @@
+import {
+  validate2And3DefaultsMatchAnEnum
+} from "../helpers"
+
 export const validate2And3ParametersHaveUniqueNameAndInCombinations = () => (system) => {
   return system.validateSelectors
     .allParameterArrays()
@@ -38,38 +42,7 @@ export const validate2And3ParameterDefaultsMatchAnEnum = () => (system) => {
     .allParameters()
     .then(nodes => {
       return nodes.reduce((acc, node) => {
-        const parameter = node.node || {}
-        const isOAS3 = system.specSelectors.isOAS3()
-        let paramEnum, paramDefault, internalLocation
-
-
-        if(isOAS3) {
-          const schema = parameter.schema
-          if(!schema || schema.enum === undefined || schema.default === undefined) {
-            // nothing to do
-            return acc
-          }
-          paramEnum = schema.enum
-          paramDefault = schema.default
-          internalLocation = ["schema", "default"]
-        } else {
-          if(!parameter || parameter.enum === undefined || parameter.default === undefined) {
-            // nothing to do
-            return acc
-          }
-          paramEnum = parameter.enum
-          paramDefault = parameter.default
-          internalLocation = ["default"]
-        }
-
-        if(paramEnum.indexOf(paramDefault) === -1) {
-          acc.push({
-            message: "Default values must be present in `enum`",
-            path: [...node.path, ...internalLocation]
-          })
-        }
-
-        return acc
+        return validate2And3DefaultsMatchAnEnum(system, acc, node)
       }, [])
     })
 }
