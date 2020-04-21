@@ -1,7 +1,3 @@
-import {
-  validate2And3DefaultsMatchAnEnum
-} from "../helpers"
-
 export const validate2And3ParametersHaveUniqueNameAndInCombinations = () => (system) => {
   return system.validateSelectors
     .allParameterArrays()
@@ -33,16 +29,6 @@ export const validate2And3ParametersHaveUniqueNameAndInCombinations = () => (sys
         })
 
         return acc
-      }, [])
-    })
-}
-
-export const validate2And3ParameterDefaultsMatchAnEnum = () => (system) => {
-  return system.validateSelectors
-    .allParameters()
-    .then(nodes => {
-      return nodes.reduce((acc, node) => {
-        return validate2And3DefaultsMatchAnEnum(system, acc, node)
       }, [])
     })
 }

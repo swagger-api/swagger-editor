@@ -59,37 +59,3 @@ export function checkForDefinition(paramName, pathItem) {
 
   return res
 }
-
-export function validate2And3DefaultsMatchAnEnum(system, acc, node) {
-  const element = node.node || {}
-  const isOAS3 = system.specSelectors.isOAS3()
-  let elementEnum, elementDefault, internalLocation
-
-  if(isOAS3) {
-    const schema = element.in === undefined ? element : element.schema
-    if(!schema || schema.enum === undefined || schema.default === undefined) {
-      // nothing to do
-      return acc
-    }
-    elementEnum = schema.enum
-    elementDefault = schema.default
-    internalLocation = ["schema", "default"]
-  } else {
-    if(!element || element.enum === undefined || element.default === undefined) {
-      // nothing to do
-      return acc
-    }
-    elementEnum = element.enum
-    elementDefault = element.default
-    internalLocation = ["default"]
-  }
-
-  if(elementEnum.indexOf(elementDefault) === -1) {
-    acc.push({
-      message: "Default values must be present in `enum`",
-      path: [...node.path, ...internalLocation]
-    })
-  }
-
-  return acc
-}

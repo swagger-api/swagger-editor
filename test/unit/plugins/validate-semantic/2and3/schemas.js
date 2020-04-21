@@ -543,4 +543,232 @@ describe(`values in Enum must be instance of the defined type`, () => {
       expect(allErrors.length).toEqual(0)
     })
   })
+
+  describe(`schema defaults must be present in enums`, () => {
+    it("should return an error for an invalid Swagger 2 definition", () => {
+      const spec = {
+        swagger: "2.0",
+        "paths": {
+          "/pets": {
+            "get": {
+              "parameters": [
+                {
+                  "name": "num",
+                  "in": "query",
+                  "type": "number",
+                  enum: [1, 2, 3],
+                  default: 0
+                },
+              ]
+            }
+          }
+        }
+      }
+
+      return validateHelper(spec)
+        .then(system => {
+          const allErrors = system.errSelectors.allErrors().toJS()
+          const firstError = allErrors[0]
+          expect(allErrors.length).toEqual(1)
+          expect(firstError.path).toEqual(["paths", "/pets", "get", "parameters", "0", "default"])
+          expect(firstError.message).toEqual("Default values must be present in `enum`")
+        })
+    })
+    it("should return an error for an invalid Swagger 2 definition", () => {
+      const spec = {
+        swagger: "2.0",
+        "paths": {
+          "/pets": {
+            "get": {
+              responses: {
+                200: {
+                  schema: {
+                    $ref: "#/definitions/MySchema"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "definitions": {
+          "MySchema": {
+            "type": "number",
+            enum: [1, 2, 3],
+            default: 0
+          }
+        }
+      }
+
+      return validateHelper(spec)
+        .then(system => {
+          const allErrors = system.errSelectors.allErrors().toJS()
+          const firstError = allErrors[0]
+          expect(allErrors.length).toEqual(1)
+          expect(firstError.path).toEqual(["definitions", "MySchema","default"])
+          expect(firstError.message).toEqual("Default values must be present in `enum`")
+        })
+    })
+    it("should return an error for an invalid OpenAPI 3 definition", () => {
+      const spec = {
+        openapi: "3.0.0",
+        "paths": {
+          "/pets": {
+            "get": {
+              "parameters": [
+                {
+                  "name": "num",
+                  "in": "query",
+                  "type": "number",
+                  schema: {
+                    enum: [1, 2, 3],
+                    default: 0
+                  }
+                },
+              ]
+            }
+          }
+        }
+      }
+
+      return validateHelper(spec)
+        .then(system => {
+          const allErrors = system.errSelectors.allErrors().toJS()
+          const firstError = allErrors[0]
+          expect(allErrors.length).toEqual(1)
+          expect(firstError.path).toEqual(["paths", "/pets", "get", "parameters", "0", "schema", "default"])
+          expect(firstError.message).toEqual("Default values must be present in `enum`")
+        })
+    })
+    it("should return an error for an invalid OpenAPI 3 definition", () => {
+      const spec = {
+        openapi: "3.0.0",
+        components: {
+          parameters: {
+            MyParam: {
+              "name": "num",
+              "in": "query",
+              "type": "number",
+              schema: {
+                enum: [1, 2, 3],
+                default: 0
+              }
+            }
+          }
+        }
+      }
+
+      return validateHelper(spec)
+        .then(system => {
+          const allErrors = system.errSelectors.allErrors().toJS()
+          const firstError = allErrors[0]
+          expect(allErrors.length).toEqual(1)
+          expect(firstError.path).toEqual(["components", "parameters", "MyParam", "schema", "default"])
+          expect(firstError.message).toEqual("Default values must be present in `enum`")
+        })
+    })
+    it("should return no errors for a Swagger 2 definition without default set", () => {
+      const spec = {
+        swagger: "2.0",
+        "paths": {
+          "/pets": {
+            "get": {
+              "parameters": [
+                {
+                  "name": "num",
+                  "in": "query",
+                  "type": "number",
+                  enum: [1, 2, 3]
+                },
+              ]
+            }
+          }
+        }
+      }
+
+      return validateHelper(spec)
+        .then(system => {
+          const allErrors = system.errSelectors.allErrors().toJS()
+          expect(allErrors.length).toEqual(0)
+        })
+    })
+    it("should return no errors for an OpenAPI 3 definition without default set", () => {
+      const spec = {
+        openapi: "3.0.0",
+        "paths": {
+          "/pets": {
+            "get": {
+              "parameters": [
+                {
+                  "name": "num",
+                  "in": "query",
+                  "type": "number",
+                  schema: {
+                    enum: [1, 2, 3]
+                  }
+                },
+              ]
+            }
+          }
+        }
+      }
+
+      return validateHelper(spec)
+        .then(system => {
+          const allErrors = system.errSelectors.allErrors().toJS()
+          expect(allErrors.length).toEqual(0)
+        })
+    })
+    it("should return no errors for a Swagger 2 definition without enum set", () => {
+      const spec = {
+        swagger: "2.0",
+        "paths": {
+          "/pets": {
+            "get": {
+              "parameters": [
+                {
+                  "name": "num",
+                  "in": "query",
+                  "type": "number",
+                  default: 0
+                },
+              ]
+            }
+          }
+        }
+      }
+
+      return validateHelper(spec)
+        .then(system => {
+          const allErrors = system.errSelectors.allErrors().toJS()
+          expect(allErrors.length).toEqual(0)
+        })
+    })
+    it("should return no errors for an OpenAPI 3 definition without enum set", () => {
+      const spec = {
+        openapi: "3.0.0",
+        "paths": {
+          "/pets": {
+            "get": {
+              "parameters": [
+                {
+                  "name": "num",
+                  "in": "query",
+                  "type": "number",
+                  schema: {
+                    default: 0
+                  }
+                },
+              ]
+            }
+          }
+        }
+      }
+
+      return validateHelper(spec)
+        .then(system => {
+          const allErrors = system.errSelectors.allErrors().toJS()
+          expect(allErrors.length).toEqual(0)
+        })
+    })
+  })
 })
