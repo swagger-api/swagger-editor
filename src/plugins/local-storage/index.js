@@ -13,7 +13,7 @@ export default function(system) {
   // setTimeout runs on the next tick
   setTimeout(() => {
     if(localStorage.getItem(CONTENT_KEY)) {
-      system.specActions.updateSpec(localStorage.getItem(CONTENT_KEY))
+      system.specActions.updateSpec(localStorage.getItem(CONTENT_KEY), "local-storage")
     } else if(localStorage.getItem("ngStorage-SwaggerEditorCache")) {
       // Legacy migration for swagger-editor 2.x
       try {
