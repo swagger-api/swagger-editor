@@ -237,6 +237,9 @@ describe("validation plugin - semantic - oas3 refs", () => {
             myParam: {
               $ref: "#/components/headers/foo"
             }
+          },
+          headers: {
+            foo: {}
           }
         }
       }
@@ -244,14 +247,14 @@ describe("validation plugin - semantic - oas3 refs", () => {
       return validateHelper(spec)
         .then(system => {
           const allErrors = system.errSelectors.allErrors().toJS()
-          expect(allErrors.length).toEqual(6)
-          const firstError = allErrors[3]
+          expect(allErrors.length).toEqual(3)
+          const firstError = allErrors[0]
           expect(firstError.message).toEqual(`OAS3 parameter $refs should point to #/components/parameters/... and not #/components/headers/...`)
           expect(firstError.path).toEqual(["paths","/foo","parameters", "0", "$ref"])
-          const secondError = allErrors[4]
+          const secondError = allErrors[1]
           expect(secondError.message).toEqual(`OAS3 parameter $refs should point to #/components/parameters/... and not #/components/headers/...`)
           expect(secondError.path).toEqual(["paths","/foo","get","parameters", "0", "$ref"])
-          const thirdError = allErrors[5]
+          const thirdError = allErrors[2]
           expect(thirdError.message).toEqual(`OAS3 parameter $refs should point to #/components/parameters/... and not #/components/headers/...`)
           expect(thirdError.path).toEqual(["components","parameters", "myParam", "$ref"])
         })
