@@ -74,7 +74,7 @@ export default class SplitPaneMode extends React.Component {
         size={size}
         onDragFinished={this.onDragFinished}
         allowResize={mode !== MODE_LEFT && mode !== MODE_RIGHT }
-        resizerStyle={{"flex": "0 0 auto", "position": "relative"}}
+        resizerStyle={{"flex": "0 0 auto", "position": "relative", "background": "#000", "opacity": ".2", "width": "11px", "cursor": "col-resize"}}
       >
         { left }
         { right }
