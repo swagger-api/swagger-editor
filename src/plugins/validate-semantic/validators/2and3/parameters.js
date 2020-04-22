@@ -73,3 +73,29 @@ export const validate2And3ParameterDefaultsMatchAnEnum = () => (system) => {
       }, [])
     })
 }
+
+export const validate2And3PathParameterIsDefinedInPath = () => (system) => {
+  return system.validateSelectors
+    .allParameters()
+    .then(nodes => {
+      return nodes.reduce((acc, node) => {
+        const parameter = node.node || {}
+        const path = node.path
+        const isFromPath = path[0] === "paths" ? true : false
+        const pathString = path[1]
+        const paramName = parameter.name
+        const paramInPath = "{" +  paramName + "}"
+        if (parameter !== undefined && parameter.in === "path") {
+          if (isFromPath) {
+            if (pathString !== undefined && !pathString.includes("" + paramInPath)) {
+              acc.push({
+                message: "Path parameter " + paramName + " must have the corresponding " + paramInPath + " segment in the " + pathString + " path",
+                path: [...node.path, "name"]
+              })
+            }
+          } 
+        } 
+        return acc
+      }, [])
+    })
+}

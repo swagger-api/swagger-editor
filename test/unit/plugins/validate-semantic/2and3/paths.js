@@ -450,10 +450,12 @@ describe("validation plugin - semantic - 2and3 paths", () => {
   
           return validateHelper(spec)
             .then(system => {
-              const allErrors = system.errSelectors.allErrors().toJS()
+              const allErrors = system.errSelectors.allErrors().toJS()    
+              expect(allErrors.length).toEqual(2)
               const firstError = allErrors[0]
-              expect(allErrors.length).toEqual(1)
-              expect(firstError.message).toEqual("Parameter names are case-sensitive. The parameter named \"myparam\" does not match the case used in the path \"/{myParam}\".")    
+              expect(firstError.message).toEqual("Path parameter myparam must have the corresponding {myparam} segment in the /{myParam} path")    
+              const secondError = allErrors[1]
+              expect(secondError.message).toEqual("Parameter names are case-sensitive. The parameter named \"myparam\" does not match the case used in the path \"/{myParam}\".")    
             })
         })
       })
