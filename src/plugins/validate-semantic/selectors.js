@@ -256,6 +256,19 @@ export const allOAS3OperationSchemas = () => (system) => {
   })
 }
 
+export const allOAS3RequestBodySchemas = () => (system) => {
+  return system.fn.traverseOnce({
+    name: "allOAS3RequestBodySchemas",
+    fn: (node) => {
+      if(
+        system.validateSelectors.isOAS3RequestBodySchema(node)
+       ) {
+        return node
+      }
+    },
+  })
+}
+
 export const allHeaders = () => (system) => {
   return system.fn.traverseOnce({
     name: "allHeader",

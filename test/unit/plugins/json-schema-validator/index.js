@@ -1,12 +1,15 @@
 import YAML from "js-yaml"
 import JSONSchemaValidator from "src/plugins/json-schema-validator/validator/index.js"
-import swagger2SchemaYaml from "src/plugins/json-schema-validator/swagger2-schema.yaml"
-import oas3SchemaYaml from "src/plugins/json-schema-validator/oas3-schema.yaml"
 import fs from "fs"
+import path from "path"
 import expect from "expect"
 
-const swagger2Schema = swagger2SchemaYaml[0]
-const oas3Schema = oas3SchemaYaml[0]
+const swagger2SchemaYaml = fs.readFileSync(path.join(__dirname, "../../../../src/plugins/json-schema-validator/swagger2-schema.yaml")).toString()
+const oas3SchemaYaml = fs.readFileSync(path.join(__dirname, "../../../../src/plugins/json-schema-validator/oas3-schema.yaml")).toString()
+
+const swagger2Schema = YAML.safeLoad(swagger2SchemaYaml)
+const oas3Schema = YAML.safeLoad(oas3SchemaYaml)
+
 
 var testDocuments = fs
   .readdirSync(__dirname + "/test-documents")

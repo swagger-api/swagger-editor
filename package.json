@@ -84,7 +84,7 @@
     "swagger-ui": "^3.25.0",
     "traverse": "^0.6.6",
     "whatwg-fetch": "^2.0.3",
-    "yaml-js": "^0.1.4"
+    "yaml-js": "^0.2.3"
   },
   "devDependencies": {
     "@babel/cli": "^7.5.5",
@@ -116,13 +116,14 @@
     "enzyme-adapter-react-15": "^1.0.5",
     "eslint": "^6.1.0",
     "eslint-plugin-import": "^2.13.0",
+    "eslint-plugin-mocha": "^6.3.0",
     "eslint-plugin-react": "^4.3.0",
     "expect": "^1.20.2",
     "extract-text-webpack-plugin": "0.8.2",
     "file-loader": "0.8.4",
     "git-describe": "^4.0.1",
     "html-webpack-plugin": "^2.28.0",
-    "http-server": "^0.11.1",
+    "http-server": "^0.12.1",
     "ignore-assets-webpack-plugin": "^2.0.1",
     "jsdom": "11.12.0",
     "jsdom-global": "3.0.2",
