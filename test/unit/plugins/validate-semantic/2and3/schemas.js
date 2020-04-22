@@ -545,7 +545,7 @@ describe(`values in Enum must be instance of the defined type`, () => {
   })
 
   describe(`schema defaults must be present in enums`, () => {
-    it("should return an error for an invalid Swagger 2 definition", () => {
+    it("should return an error for an invalid Swagger 2 parameter definition", () => {
       const spec = {
         swagger: "2.0",
         "paths": {
@@ -574,7 +574,7 @@ describe(`values in Enum must be instance of the defined type`, () => {
           expect(firstError.message).toEqual("Default values must be present in `enum`")
         })
     })
-    it("should return an error for an invalid Swagger 2 definition", () => {
+    it("should return an error for an invalid Swagger 2 schema definition", () => {
       const spec = {
         swagger: "2.0",
         "paths": {
@@ -608,7 +608,7 @@ describe(`values in Enum must be instance of the defined type`, () => {
           expect(firstError.message).toEqual("Default values must be present in `enum`")
         })
     })
-    it("should return an error for an invalid OpenAPI 3 definition", () => {
+    it("should return an error for an invalid OpenAPI 3 parameter definition", () => {
       const spec = {
         openapi: "3.0.0",
         "paths": {
@@ -639,7 +639,7 @@ describe(`values in Enum must be instance of the defined type`, () => {
           expect(firstError.message).toEqual("Default values must be present in `enum`")
         })
     })
-    it("should return an error for an invalid OpenAPI 3 definition", () => {
+    it("should return an error for an invalid OpenAPI 3 parameter component", () => {
       const spec = {
         openapi: "3.0.0",
         components: {

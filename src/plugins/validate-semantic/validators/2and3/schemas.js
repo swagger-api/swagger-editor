@@ -75,20 +75,16 @@ export const validate2And3SchemasDefaultsMatchAnEnum = () => (system) => {
     .then(nodes => {
       return nodes.reduce((acc, node) => {
         const element = node.node || {}
-        let elementEnum, elementDefault, internalLocation
 
         if(!element || element.enum === undefined || element.default === undefined) {
           // nothing to do
           return acc
         }
-        elementEnum = element.enum
-        elementDefault = element.default
-        internalLocation = ["default"]
 
-        if(elementEnum.indexOf(elementDefault) === -1) {
+        if(element.enum.indexOf(element.default) === -1) {
           acc.push({
             message: "Default values must be present in `enum`",
-            path: [...node.path, ...internalLocation]
+            path: [...node.path, "default"]
           })
         }
 
