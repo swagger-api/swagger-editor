@@ -41,8 +41,14 @@ export default function SemanticValidatorsPlugin({getSystem}) {
         },
         wrapActions: {
           validateSpec: (ori, system) => (...args) => {
-            ori(...args)
-            debAll(system)
+            // verify editor plugin already loaded and function is available (for tests)
+            if (system.specSelectors.specOrigin) {
+              const specOrigin = system.specSelectors.specOrigin()
+              if (specOrigin === "editor") {
+                ori(...args)
+                debAll(system)
+              }
+            }
           }
         }
       },

@@ -29,7 +29,7 @@ cases:
                       type: string
                       required: true
           responses:
-            200:
+            "200":
               description: ok
   output:
     length: 2
