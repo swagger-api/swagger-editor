@@ -305,7 +305,7 @@ describe("validation plugin - semantic - oas3 refs", () => {
         components: {
           headers: {
             MyHeader: {
-              $ref: "https://www.google.com/#/components/parameter/MyHeader"
+              $ref: "#/components/headers/MyHeader"
             }
           }
         }
