@@ -75,6 +75,7 @@ export const validate2And3ParameterDefaultsMatchAnEnum = () => (system) => {
 }
 
 export const validate2And3PathParameterIsDefinedInPath = () => (system) => {
+  const refArray = []
   return system.validateSelectors
     .allParameters()
     .then(nodes => {
@@ -82,18 +83,30 @@ export const validate2And3PathParameterIsDefinedInPath = () => (system) => {
         const parameter = node.node || {}
         const path = node.path
         const isFromPath = path[0] === "paths" ? true : false
-        const pathString = path[1]
+        let pathString = path[1]
         const paramName = parameter.name
         const paramInPath = "{" +  paramName + "}"
-        if (parameter !== undefined && parameter.in === "path") {
-          if (isFromPath) {
-            if (pathString !== undefined && !pathString.includes("" + paramInPath)) {
+        const ref = parameter.$ref
+        if (parameter !== undefined) {
+          if (parameter.in === "path") {
+            if (!isFromPath) {
+              const paramReference = refArray.find( ({ referenceParamName }) => referenceParamName === paramName )
+              if (paramReference !== undefined) {
+                pathString = paramReference.pathString
+              }
+            } 
+
+            if (pathString !== undefined && !pathString.toUpperCase().includes("" + paramInPath.toUpperCase())) {
               acc.push({
                 message: "Path parameter " + paramName + " must have the corresponding " + paramInPath + " segment in the " + pathString + " path",
-                path: [...node.path, "name"]
+                path: [...node.path, "name"],
+                level: "error"
               })
             }
-          } 
+          } else if (ref !== undefined) {
+            const refStrings = ref.split("/")
+            refArray.push({referenceParamName:refStrings[refStrings.length-1], pathString:pathString})
+          }
         } 
         return acc
       }, [])
