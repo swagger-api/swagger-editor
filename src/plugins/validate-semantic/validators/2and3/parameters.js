@@ -92,7 +92,7 @@ export const validate2And3PathParameterIsDefinedInPath = () => (system) => {
             if (isFromPath) {
               if (pathString !== undefined && !pathString.toUpperCase().includes("" + paramInPath.toUpperCase())) {
                 acc.push({
-                  message: "Path parameter " + paramName + " must have the corresponding " + paramInPath + " segment in the " + pathString + " path",
+                  message: `Path parameter "${paramName}" must have the corresponding ${paramInPath} segment in the "${pathString}" path`,
                   path: [...node.path, "name"],
                   level: "error"
                 })
@@ -102,7 +102,7 @@ export const validate2And3PathParameterIsDefinedInPath = () => (system) => {
               if (paramReference !== undefined) {
                 if (paramReference.pathString !== undefined && !paramReference.pathString.toUpperCase().includes("" + paramInPath.toUpperCase())) {
                   acc.push({
-                    message: "Path parameter " + paramName + " must have the corresponding " + paramInPath + " segment in the " + paramReference.pathString + " path",
+                    message: `Path parameter "${paramName}" must have the corresponding ${paramInPath} segment in the "${paramReference.pathString}" path`,
                     path: [...paramReference.node.path, "name"],
                     level: "error"
                   })
