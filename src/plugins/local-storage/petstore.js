@@ -3,17 +3,17 @@
 export default `swagger: "2.0"
 info:
   description: "This is a sample server Petstore server.  You can find out more about\
-    \ Swagger at [http://swagger.io](http://swagger.io) or on [irc.freenode.net, #swagger](http://swagger.io/irc/).\
+    \ Swagger at [https://swagger.io](https://swagger.io) or on [irc.freenode.net, #swagger](https://swagger.io/irc/).\
     \  For this sample, you can use the api key \`special-key\` to test the authorization\
     \ filters."
   version: "1.0.0"
   title: "Swagger Petstore"
-  termsOfService: "http://swagger.io/terms/"
+  termsOfService: "https://swagger.io/terms/"
   contact:
     email: "apiteam@swagger.io"
   license:
     name: "Apache 2.0"
-    url: "http://www.apache.org/licenses/LICENSE-2.0.html"
+    url: "https://www.apache.org/licenses/LICENSE-2.0.html"
 host: "petstore.swagger.io"
 basePath: "/v2"
 tags:
@@ -21,14 +21,14 @@ tags:
   description: "Everything about your Pets"
   externalDocs:
     description: "Find out more"
-    url: "http://swagger.io"
+    url: "https://swagger.io"
 - name: "store"
   description: "Access to Petstore orders"
 - name: "user"
   description: "Operations about user"
   externalDocs:
     description: "Find out more about our store"
-    url: "http://swagger.io"
+    url: "https://swagger.io"
 schemes:
 - "https"
 - "http"
@@ -575,7 +575,7 @@ paths:
 securityDefinitions:
   petstore_auth:
     type: "oauth2"
-    authorizationUrl: "http://petstore.swagger.io/oauth/dialog"
+    authorizationUrl: "https://petstore.swagger.io/oauth/dialog"
     flow: "implicit"
     scopes:
       write:pets: "modify pets in your account"
@@ -705,4 +705,4 @@ definitions:
         type: "string"
 externalDocs:
   description: "Find out more about Swagger"
-  url: "http://swagger.io"`
+  url: "https://swagger.io"`
