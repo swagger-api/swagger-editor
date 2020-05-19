@@ -16,6 +16,7 @@ export const isOAS3RootRequestBody = (state, node) => node.path.length === 3 && 
 export const isOAS3OperationRequestBody = (state, node) => node.path.length === 4 && node.path[3] === "requestBody"
 export const isOAS3OperationCallbackRequestBody = (state, node) => node.path.length === 8 && node.path[7] === "requestBody"
 export const isOAS3RootParameter = (state, node) => node.path[0] === "components" && node.path[1] === "parameters" && node.path.length === 3
+export const isOAS3RootResponse = (state, node) => node.path[0] === "components" && node.path[1] === "responses" && node.path.length === 3
 
 export const isSubSchema = (state, node) => (sys) => {
   const path = node.path
@@ -94,15 +95,29 @@ export const isOAS3ResponseSchema = (state, node) => () => {
 }
 
 export const isResponse = (state, node) => (sys) => {
-  if(sys.validateSelectors.isVendorExt(node)) {
-    return false
-  }
-  return (
-    sys.validateSelectors.isRootResponse(node)
-      || ( node.path[0] === "paths"
-           && node.path[3] === "responses"
-           && node.path.length === 5)
+  const isOperationResponse = (
+    node.path[0] === "paths"
+      && node.path[3] === "responses"
+      && node.path.length === 5
+      && !sys.validateSelectors.isVendorExt(node)
   )
+
+  return (
+    isOperationResponse
+      || sys.validateSelectors.isRootResponse(node)
+      || sys.validateSelectors.isOAS3RootResponse(node)
+  )
+}
+
+export const allResponses = () => (system) => {
+  return system.fn.traverseOnce({
+    name: "allResponses",
+    fn: (node) => {
+      if(system.validateSelectors.isResponse(node)) {
+        return node
+      }
+    },
+  })
 }
 
 export const isHeader = (state, node) => (sys) => {
