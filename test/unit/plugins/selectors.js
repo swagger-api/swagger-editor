@@ -301,4 +301,167 @@ describe("validation plugin - selectors", function() {
         expect(nodes[1].parent.key).toEqual("application/myResponseMediaType")
       })
   })
+
+  describe("allResponses", function() {
+    it("should pick up operation responses with specific codes like 200", () => {
+      const spec = {
+        paths: {
+          "/foo": {
+            get: {
+              responses: {
+                "200": {
+                  description: "ok"
+                }
+              }
+            }
+          }
+        }
+      }
+
+      return getSystem(spec)
+        .then(system => system.validateSelectors.allResponses())
+        .then(nodes => {
+          expect(nodes.length).toEqual(1)
+          expect(nodes[0].path).toEqual(["paths","/foo","get","responses","200"])
+        })
+    })
+    it("should pick up the 'default' response", () => {
+      const spec = {
+        paths: {
+          "/foo": {
+            get: {
+              responses: {
+                default: {
+                  description: "ok"
+                }
+              }
+            }
+          }
+        }
+      }
+
+      return getSystem(spec)
+        .then(system => system.validateSelectors.allResponses())
+        .then(nodes => {
+          expect(nodes.length).toEqual(1)
+          expect(nodes[0].path).toEqual(["paths","/foo","get","responses","default"])
+        })
+    })
+    it("should pick up OAS3 response code ranges like 2XX", () => {
+      const spec = {
+        openapi: "3.0.0",
+        paths: {
+          "/foo": {
+            get: {
+              responses: {
+                "2XX": {
+                  description: "ok"
+                }
+              }
+            }
+          }
+        }
+      }
+
+      return getSystem(spec)
+        .then(system => system.validateSelectors.allResponses())
+        .then(nodes => {
+          expect(nodes.length).toEqual(1)
+          expect(nodes[0].path).toEqual(["paths","/foo","get","responses","2XX"])
+        })
+    })
+    it("should ignore x- extension keys in an operation's `responses` section", () => {
+      const spec = {
+        paths: {
+          "/foo": {
+            get: {
+              responses: {
+                "x-ext": {
+                  foo: "bar"
+                }
+              }
+            }
+          }
+        }
+      }
+
+      return getSystem(spec)
+        .then(system => system.validateSelectors.allResponses())
+        .then(nodes => {
+          expect(nodes.length).toEqual(0)
+        })
+    })
+    it("should pick up OpenAPI 2 global response definitions", () => {
+      const spec = {
+        swagger: "2.0",
+        responses: {
+          OkResponse: {
+            description: "ok"
+          }
+        }
+      }
+
+      return getSystem(spec)
+        .then(system => system.validateSelectors.allResponses())
+        .then(nodes => {
+          expect(nodes.length).toEqual(1)
+          expect(nodes[0].path).toEqual(["responses","OkResponse"])
+        })
+    })
+    it("should pick up OpenAPI 2 response definitions named 'x-'", () => {
+      const spec = {
+        swagger: "2.0",
+        responses: {
+          "x-MyResponse": {
+            description: "ok"
+          }
+        }
+      }
+
+      return getSystem(spec)
+        .then(system => system.validateSelectors.allResponses())
+        .then(nodes => {
+          expect(nodes.length).toEqual(1)
+          expect(nodes[0].path).toEqual(["responses","x-MyResponse"])
+        })
+    })
+    it("should pick up OpenAPI 3 response components", () => {
+      const spec = {
+        openapi: "3.0.0",
+        components : {
+          responses: {
+            OkResponse: {
+              description: "ok"
+            }
+          }
+        }
+      }
+
+      return getSystem(spec)
+        .then(system => system.validateSelectors.allResponses())
+        .then(nodes => {
+          expect(nodes.length).toEqual(1)
+          expect(nodes[0].path).toEqual(["components","responses","OkResponse"])
+        })
+    })
+    it("should pick up OpenAPI 3 response components named 'x-'", () => {
+      const spec = {
+        openapi: "3.0.0",
+        components : {
+          responses: {
+            "x-MyResponse": {
+              description: "ok"
+            }
+          }
+        }
+      }
+
+      return getSystem(spec)
+        .then(system => system.validateSelectors.allResponses())
+        .then(nodes => {
+          expect(nodes.length).toEqual(1)
+          expect(nodes[0].path).toEqual(["components","responses","x-MyResponse"])
+        })
+    })
+  })
 })
