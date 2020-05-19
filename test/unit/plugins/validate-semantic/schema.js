@@ -336,11 +336,23 @@ describe("validation plugin - semantic - schema", function() {
       }
       return expectNoErrors(spec)
     })
-    it("should return an error when minProperties is more than maxProperties", () => {
+    it("should not return an error when minimum is equal to maximum", () => {
       const spec = {
         swagger: "2.0",
         definitions: {
           MyNumber: {
+            minimum: 1,
+            maximum: 1
+          }
+        }
+      }
+      return expectNoErrors(spec)
+    })
+    it("should return an error when minProperties is more than maxProperties", () => {
+      const spec = {
+        swagger: "2.0",
+        definitions: {
+          MyObject: {
             minProperties: 5,
             maxProperties: 2
           }
@@ -354,16 +366,29 @@ describe("validation plugin - semantic - schema", function() {
           expect(allErrors.length).toEqual(1)
           const firstError = allErrors[0]
           expect(firstError.message).toMatch(/.*minProperties.*lower.*maxProperties.*/)
-          expect(firstError.path).toEqual(["definitions", "MyNumber", "minProperties"])
+          expect(firstError.path).toEqual(["definitions", "MyObject", "minProperties"])
         })
     })
     it("should not return an error when minProperties is less than maxProperties", () => {
       const spec = {
         swagger: "2.0",
         definitions: {
-          MyNumber: {
-            minProperties: "1",
-            maxProperties: "2"
+          MyObject: {
+            minProperties: 1,
+            maxProperties: 2
+          }
+        }
+      }
+
+      return expectNoErrors(spec)
+    })
+    it("should not return an error when minProperties is equal to maxProperties", () => {
+      const spec = {
+        swagger: "2.0",
+        definitions: {
+          MyObject: {
+            minProperties: 1,
+            maxProperties: 1
           }
         }
       }
@@ -374,7 +399,7 @@ describe("validation plugin - semantic - schema", function() {
       const spec = {
         swagger: "2.0",
         definitions: {
-          MyNumber: {
+          MyString: {
             minLength: 5,
             maxLength: 2
           }
@@ -387,7 +412,7 @@ describe("validation plugin - semantic - schema", function() {
           allErrors = allErrors.filter(a => a.level === "error") // ignore warnings
           expect(allErrors.length).toEqual(1)
           const firstError = allErrors[0]
-          expect(firstError.path).toEqual(["definitions", "MyNumber", "minLength"])
+          expect(firstError.path).toEqual(["definitions", "MyString", "minLength"])
           expect(firstError.message).toMatch(/.*minLength.*lower.*maxLength.*/)
         })
     })
@@ -395,9 +420,69 @@ describe("validation plugin - semantic - schema", function() {
       const spec = {
         swagger: "2.0",
         definitions: {
-          MyNumber: {
-            minLength: "1",
-            maxLength: "2"
+          MyString: {
+            minLength: 1,
+            maxLength: 2
+          }
+        }
+      }
+
+      return expectNoErrors(spec)
+    })
+    it("should not return an error when minLength is equal to maxLength", () => {
+      const spec = {
+        swagger: "2.0",
+        definitions: {
+          MyString: {
+            minLength: 1,
+            maxLength: 1
+          }
+        }
+      }
+
+      return expectNoErrors(spec)
+    })
+    it("should return an error when minItems is more than maxItems", () => {
+      const spec = {
+        swagger: "2.0",
+        definitions: {
+          MyArray: {
+            minItems: 5,
+            maxItems: 2
+          }
+        }
+      }
+
+      return validateHelper(spec)
+        .then(system => {
+          let allErrors = system.errSelectors.allErrors().toJS()
+          allErrors = allErrors.filter(a => a.level === "error") // ignore warnings
+          expect(allErrors.length).toEqual(1)
+          const firstError = allErrors[0]
+          expect(firstError.path).toEqual(["definitions", "MyArray", "minItems"])
+          expect(firstError.message).toMatch(/.*minItems.*lower.*maxItems.*/)
+        })
+    })
+    it("should not return an error when minItems is less than maxItems", () => {
+      const spec = {
+        swagger: "2.0",
+        definitions: {
+          MyArray: {
+            minItems: 1,
+            maxItems: 2
+          }
+        }
+      }
+
+      return expectNoErrors(spec)
+    })
+    it("should not return an error when minItems is equal to maxItems", () => {
+      const spec = {
+        swagger: "2.0",
+        definitions: {
+          MyArray: {
+            minItems: 1,
+            maxItems: 1
           }
         }
       }
