@@ -16,6 +16,7 @@ export const isOAS3RootRequestBody = (state, node) => node.path.length === 3 && 
 export const isOAS3OperationRequestBody = (state, node) => node.path.length === 4 && node.path[3] === "requestBody"
 export const isOAS3OperationCallbackRequestBody = (state, node) => node.path.length === 8 && node.path[7] === "requestBody"
 export const isOAS3RootParameter = (state, node) => node.path[0] === "components" && node.path[1] === "parameters" && node.path.length === 3
+export const isOAS3RootResponse = (state, node) => node.path[0] === "components" && node.path[1] === "responses" && node.path.length === 3
 
 export const isSubSchema = (state, node) => (sys) => {
   const path = node.path
@@ -94,15 +95,29 @@ export const isOAS3ResponseSchema = (state, node) => () => {
 }
 
 export const isResponse = (state, node) => (sys) => {
-  if(sys.validateSelectors.isVendorExt(node)) {
-    return false
-  }
-  return (
-    sys.validateSelectors.isRootResponse(node)
-      || ( node.path[0] === "paths"
-           && node.path[3] === "responses"
-           && node.path.length === 5)
+  const isOperationResponse = (
+    node.path[0] === "paths"
+      && node.path[3] === "responses"
+      && node.path.length === 5
+      && !sys.validateSelectors.isVendorExt(node)
   )
+
+  return (
+    isOperationResponse
+      || sys.validateSelectors.isRootResponse(node)
+      || sys.validateSelectors.isOAS3RootResponse(node)
+  )
+}
+
+export const allResponses = () => (system) => {
+  return system.fn.traverseOnce({
+    name: "allResponses",
+    fn: (node) => {
+      if(system.validateSelectors.isResponse(node)) {
+        return node
+      }
+    },
+  })
 }
 
 export const isHeader = (state, node) => (sys) => {
@@ -332,10 +347,15 @@ export const allSecurityDefinitions = () => (system) => {
       const isSecurityDefinition = (
         node.path[0] == "securityDefinitions"
           && node.path.length === 2
-          && !system.validateSelectors.isVendorExt(node)
       )
 
-      if(isSecurityDefinition) {
+      const isOAS3SecurityScheme = (
+        node.path[0] == "components"
+          && node.path[1] == "securitySchemes"
+          && node.path.length === 3
+      )
+
+      if(isSecurityDefinition || isOAS3SecurityScheme) {
         return node
       }
     }
@@ -349,14 +369,14 @@ export const allSecurityRequirements = () => (system) => {
       const isGlobalSecurityRequirement = (
         node.path[0] == "security"
           && node.path.length === 2
-          && !system.validateSelectors.isVendorExt(node)
       )
 
       const isOperationSecurityRequirement = (
         node.path[0] == "paths"
           && node.path[3] == "security"
           && node.path.length === 5
-          && !system.validateSelectors.isVendorExt(node)
+          && !system.validateSelectors.isVendorExt(node.parent) // ignore extension keys in path items
+          && !system.validateSelectors.isVendorExt(node.parent.parent.parent) // ignore extension keys in "paths"
       )
 
       if(isGlobalSecurityRequirement || isOperationSecurityRequirement) {
