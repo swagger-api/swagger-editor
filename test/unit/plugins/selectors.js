@@ -44,242 +44,42 @@ function getSystem(spec) {
 describe("validation plugin - selectors", function() {
   this.timeout(10 * 1000)
 
-  it("allSchemas should pick up parameter schemas", () => {
-    const spec = {
-      paths: {
-        test: {
-          parameters: [{
-            name: "common"
-          }],
-          get: {
-            parameters: [{
-              name: "tags"
-            }]
-          }
-        }
-      }
-    }
-
-    return getSystem(spec)
-      .then(system => system.validateSelectors.allSchemas())
-      .then(nodes => {
-        expect(nodes.length).toEqual(2)
-        expect(nodes[0].path).toEqual(["paths","test","parameters","0"])
-        expect(nodes[1].path).toEqual(["paths","test","get","parameters","0"])
-      })
-  })
-
-  it("allSchemas should pick up response schemas", () => {
-    const spec = {
-      paths: {
-        test: {
-          get: {
-            responses: {
-              "200": {
-                schema: {
-                  type: "string"
-                }
+  describe("allSchemas", function() {
+    describe("OpenAPI 2.0", function() {
+      it("should pick up parameter schemas", () => {
+        const spec = {
+          paths: {
+            test: {
+              parameters: [{
+                name: "common"
+              }],
+              get: {
+                parameters: [{
+                  name: "tags"
+                }]
               }
             }
           }
         }
-      }
-    }
 
-    return getSystem(spec)
-      .then(system => system.validateSelectors.allSchemas())
-      .then(nodes => {
-        expect(nodes.length).toEqual(1)
-        expect(nodes[0].path.join(".")).toEqual("paths.test.get.responses.200.schema")
+        return getSystem(spec)
+          .then(system => system.validateSelectors.allSchemas())
+          .then(nodes => {
+            expect(nodes.length).toEqual(2)
+            expect(nodes[0].path).toEqual(["paths","test","parameters","0"])
+            expect(nodes[1].path).toEqual(["paths","test","get","parameters","0"])
+          })
       })
-  })
 
-  it("allSchemas should pick up definitions", () => {
-    const spec = {
-      definitions: {
-        fooModel: {
-          type: "object",
-          properties: {
-          }
-        }
-      }
-    }
-
-    return getSystem(spec)
-      .then(system => system.validateSelectors.allSchemas())
-      .then(nodes => {
-        expect(nodes.length).toEqual(1)
-        expect(nodes[0].key).toEqual("fooModel")
-      })
-  })
-
-  it("allSchemas should pick up headers", () => {
-    const spec = {
-      paths: {
-        test: {
-          get: {
-            responses: {
-              "200": {
-                headers: {
-                  foo: {
-                    "type": "integer"
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
-    }
-
-    return getSystem(spec)
-      .then(system => system.validateSelectors.allSchemas())
-      .then(nodes => {
-        expect(nodes.length).toEqual(1)
-        expect(nodes[0].path.join(".")).toEqual("paths.test.get.responses.200.headers.foo")
-      })
-  })
-
-  it("allSchemas should pick up subschemas in properties", () => {
-    const spec = {
-      definitions: {
-        fooModel: {
-          type: "object",
-          properties: {
-            foo: {
-              type: "string"
-            }
-          }
-        }
-      }
-    }
-
-    return getSystem(spec)
-      .then(system => system.validateSelectors.allSchemas())
-      .then(nodes => {
-        expect(nodes.length).toEqual(2)
-        expect(nodes[0].key).toEqual("fooModel")
-        expect(nodes[1].key).toEqual("foo")
-      })
-  })
-
-  it("allSchemas should pick up subschemas in additionalProperties - simple", () => {
-    const spec = {
-      definitions: {
-        fooModel: {
-          type: "object",
-          additionalProperties: {
-            type: "string"
-          }
-        }
-      }
-    }
-
-    return getSystem(spec)
-      .then(system => system.validateSelectors.allSchemas())
-      .then(nodes => {
-        expect(nodes.length).toEqual(2)
-        expect(nodes[0].key).toEqual("fooModel")
-        expect(nodes[1].key).toEqual("additionalProperties")
-      })
-  })
-
-  it("allSchemas should pick up subschemas in additionalProperties - complex", () => {
-    const spec = {
-      definitions: {
-        fooModel: {
-          type: "object",
-          additionalProperties: {
-            type: "object",
-            properties: {
-              foo: {
-                type: "string"
-              }
-            }
-          }
-        }
-      }
-    }
-
-    return getSystem(spec)
-      .then(system => system.validateSelectors.allSchemas())
-      .then(nodes => {
-        expect(nodes.length).toEqual(3)
-        expect(nodes[0].key).toEqual("fooModel")
-        expect(nodes[1].key).toEqual("additionalProperties")
-        expect(nodes[2].key).toEqual("foo")
-      })
-  })
-
-  it("allSchemas should pick up subschemas in array", () => {
-    const spec = {
-      definitions: {
-        fooModel: {
-          type: "array",
-          items: {
-            type: "string"
-          }
-        }
-      }
-    }
-
-    return getSystem(spec)
-      .then(system => system.validateSelectors.allSchemas())
-      .then(nodes => {
-        expect(nodes.length).toEqual(2)
-        expect(nodes[0].key).toEqual("fooModel")
-        expect(nodes[1].key).toEqual("items")
-      })
-  })
-
-  it("allSchemas should pick up subschemas in array of objects", () => {
-    const spec = {
-      definitions: {
-        fooModel: {
-          type: "array",
-          items: {
-            type: "object",
-            properties: {
-              foo: {
-                type: "string"
-              }
-            }
-          }
-        }
-      }
-    }
-
-    return getSystem(spec)
-      .then(system => system.validateSelectors.allSchemas())
-      .then(nodes => {
-        expect(nodes.length).toEqual(3)
-        expect(nodes[0].key).toEqual("fooModel")
-        expect(nodes[1].key).toEqual("items")
-        expect(nodes[2].key).toEqual("foo")
-      })
-  })
-  it("allSchemas should pick up OAS3 request and response schemas", () => {
-    const spec = {
-      "openapi": "3.0.0",
-      "paths": {
-        "/ping": {
-          "post": {
-            "requestBody": {
-              "content": {
-                "application/myRequestMediaType": {
-                  "schema": {
-                    "type": "array"
-                  }
-                }
-              }
-            },
-            "responses": {
-              "200": {
-                "description": "OK",
-                "content": {
-                  "application/myResponseMediaType": {
-                    "schema": {
-                      "type": "string"
+      it("should pick up response schemas", () => {
+        const spec = {
+          paths: {
+            test: {
+              get: {
+                responses: {
+                  "200": {
+                    schema: {
+                      type: "string"
                     }
                   }
                 }
@@ -287,19 +87,443 @@ describe("validation plugin - selectors", function() {
             }
           }
         }
-      }
-    }
 
-    return getSystem(spec)
-      .then(system => system.validateSelectors.allSchemas())
-      .then(nodes => {
-        expect(nodes.length).toEqual(2)
-        expect(nodes[0].node).toNotBe(nodes[1].node)
-        expect(nodes[0].key).toEqual("schema")
-        expect(nodes[0].parent.key).toEqual("application/myRequestMediaType")
-        expect(nodes[1].key).toEqual("schema")
-        expect(nodes[1].parent.key).toEqual("application/myResponseMediaType")
+        return getSystem(spec)
+          .then(system => system.validateSelectors.allSchemas())
+          .then(nodes => {
+            expect(nodes.length).toEqual(1)
+            expect(nodes[0].path.join(".")).toEqual("paths.test.get.responses.200.schema")
+          })
       })
+
+      it("should pick up global definitions", () => {
+        const spec = {
+          definitions: {
+            fooModel: {
+              type: "object",
+              properties: {
+              }
+            }
+          }
+        }
+
+        return getSystem(spec)
+          .then(system => system.validateSelectors.allSchemas())
+          .then(nodes => {
+            expect(nodes.length).toEqual(1)
+            expect(nodes[0].key).toEqual("fooModel")
+          })
+      })
+
+      it("should pick up global definitions named 'x-' (i.e. not consider them extensions)", () => {
+        const spec = {
+          definitions: {
+            "x-fooModel": {
+              type: "string"
+            }
+          }
+        }
+
+        return getSystem(spec)
+          .then(system => system.validateSelectors.allSchemas())
+          .then(nodes => {
+            expect(nodes.length).toEqual(1)
+            expect(nodes[0].key).toEqual("x-fooModel")
+          })
+      })
+
+      it("should pick up response headers", () => {
+        const spec = {
+          paths: {
+            test: {
+              get: {
+                responses: {
+                  "200": {
+                    headers: {
+                      foo: {
+                        "type": "integer"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+
+        return getSystem(spec)
+          .then(system => system.validateSelectors.allSchemas())
+          .then(nodes => {
+            expect(nodes.length).toEqual(1)
+            expect(nodes[0].path.join(".")).toEqual("paths.test.get.responses.200.headers.foo")
+          })
+      })
+
+      it("should pick up subschemas in properties", () => {
+        const spec = {
+          definitions: {
+            fooModel: {
+              type: "object",
+              properties: {
+                foo: {
+                  type: "string"
+                }
+              }
+            }
+          }
+        }
+
+        return getSystem(spec)
+          .then(system => system.validateSelectors.allSchemas())
+          .then(nodes => {
+            expect(nodes.length).toEqual(2)
+            expect(nodes[0].key).toEqual("fooModel")
+            expect(nodes[1].key).toEqual("foo")
+          })
+      })
+
+      it("should pick up subschemas in additionalProperties - simple", () => {
+        const spec = {
+          definitions: {
+            fooModel: {
+              type: "object",
+              additionalProperties: {
+                type: "string"
+              }
+            }
+          }
+        }
+
+        return getSystem(spec)
+          .then(system => system.validateSelectors.allSchemas())
+          .then(nodes => {
+            expect(nodes.length).toEqual(2)
+            expect(nodes[0].key).toEqual("fooModel")
+            expect(nodes[1].key).toEqual("additionalProperties")
+          })
+      })
+
+      it("should pick up subschemas in additionalProperties - complex", () => {
+        const spec = {
+          definitions: {
+            fooModel: {
+              type: "object",
+              additionalProperties: {
+                type: "object",
+                properties: {
+                  foo: {
+                    type: "string"
+                  }
+                }
+              }
+            }
+          }
+        }
+
+        return getSystem(spec)
+          .then(system => system.validateSelectors.allSchemas())
+          .then(nodes => {
+            expect(nodes.length).toEqual(3)
+            expect(nodes[0].key).toEqual("fooModel")
+            expect(nodes[1].key).toEqual("additionalProperties")
+            expect(nodes[2].key).toEqual("foo")
+          })
+      })
+
+      it("should pick up subschemas in array", () => {
+        const spec = {
+          definitions: {
+            fooModel: {
+              type: "array",
+              items: {
+                type: "string"
+              }
+            }
+          }
+        }
+
+        return getSystem(spec)
+          .then(system => system.validateSelectors.allSchemas())
+          .then(nodes => {
+            expect(nodes.length).toEqual(2)
+            expect(nodes[0].key).toEqual("fooModel")
+            expect(nodes[1].key).toEqual("items")
+          })
+      })
+
+      it("should pick up subschemas in array of objects", () => {
+        const spec = {
+          definitions: {
+            fooModel: {
+              type: "array",
+              items: {
+                type: "object",
+                properties: {
+                  foo: {
+                    type: "string"
+                  }
+                }
+              }
+            }
+          }
+        }
+
+        return getSystem(spec)
+          .then(system => system.validateSelectors.allSchemas())
+          .then(nodes => {
+            expect(nodes.length).toEqual(3)
+            expect(nodes[0].key).toEqual("fooModel")
+            expect(nodes[1].key).toEqual("items")
+            expect(nodes[2].key).toEqual("foo")
+          })
+      })
+    })
+
+    describe("OpenAPI 3.0", function() {
+      it("should pick up schemas in 'components'", () => {
+        const spec = {
+          openapi: "3.0.0",
+          components: {
+            schemas: {
+              fooModel: {
+                type: "string"
+              }
+            }
+          }
+        }
+
+        return getSystem(spec)
+          .then(system => system.validateSelectors.allSchemas())
+          .then(nodes => {
+            expect(nodes.length).toEqual(1)
+            expect(nodes[0].key).toEqual("fooModel")
+          })
+      })
+
+      it("should pick up schemas named 'x-' (i.e. not consider them extensions)", () => {
+        const spec = {
+          openapi: "3.0.0",
+          components: {
+            schemas: {
+              "x-fooModel": {
+                type: "string"
+              }
+            }
+          }
+        }
+
+        return getSystem(spec)
+          .then(system => system.validateSelectors.allSchemas())
+          .then(nodes => {
+            expect(nodes.length).toEqual(1)
+            expect(nodes[0].key).toEqual("x-fooModel")
+          })
+      })
+
+      it("should pick up request body schemas and response schemas", () => {
+        const spec = {
+          "openapi": "3.0.0",
+          "paths": {
+            "/ping": {
+              "post": {
+                "requestBody": {
+                  "content": {
+                    "application/myRequestMediaType": {
+                      "schema": {
+                        "type": "array"
+                      }
+                    }
+                  }
+                },
+                "responses": {
+                  "200": {
+                    "description": "OK",
+                    "content": {
+                      "application/myResponseMediaType": {
+                        "schema": {
+                          "type": "string"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+
+        return getSystem(spec)
+          .then(system => system.validateSelectors.allSchemas())
+          .then(nodes => {
+            expect(nodes.length).toEqual(2)
+            expect(nodes[0].node).toNotBe(nodes[1].node)
+            expect(nodes[0].key).toEqual("schema")
+            expect(nodes[0].parent.key).toEqual("application/myRequestMediaType")
+            expect(nodes[1].key).toEqual("schema")
+            expect(nodes[1].parent.key).toEqual("application/myResponseMediaType")
+          })
+      })
+
+      it("should pick up schemas in response components", () => {
+        const spec = {
+          openapi: "3.0.0",
+          components: {
+            responses: {
+              MyResponse: {
+                content: {
+                  "application/json": {
+                    schema: {
+                      type: "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+
+        return getSystem(spec)
+          .then(system => system.validateSelectors.allSchemas())
+          .then(nodes => {
+            expect(nodes.length).toEqual(1)
+            expect(nodes[0].path).toEqual(["components","responses","MyResponse","content","application/json","schema"])
+          })
+      })
+
+      it("should pick up subschemas in properties", () => {
+        const spec = {
+          openapi: "3.0.0",
+          components: {
+            schemas: {
+              fooModel: {
+                type: "object",
+                properties: {
+                  foo: {
+                    type: "string"
+                  }
+                }
+              }
+            }
+          }
+        }
+
+        return getSystem(spec)
+          .then(system => system.validateSelectors.allSchemas())
+          .then(nodes => {
+            expect(nodes.length).toEqual(2)
+            expect(nodes[0].key).toEqual("fooModel")
+            expect(nodes[1].key).toEqual("foo")
+          })
+      })
+
+      it("should pick up subschemas in additionalProperties - simple", () => {
+        const spec = {
+          openapi: "3.0.0",
+          components: {
+            schemas: {
+              fooModel: {
+                type: "object",
+                additionalProperties: {
+                  type: "string"
+                }
+              }
+            }
+          }
+        }
+
+        return getSystem(spec)
+          .then(system => system.validateSelectors.allSchemas())
+          .then(nodes => {
+            expect(nodes.length).toEqual(2)
+            expect(nodes[0].key).toEqual("fooModel")
+            expect(nodes[1].key).toEqual("additionalProperties")
+          })
+      })
+
+      it("should pick up subschemas in additionalProperties - complex", () => {
+        const spec = {
+          openapi: "3.0.0",
+          components: {
+            schemas: {
+              fooModel: {
+                type: "object",
+                additionalProperties: {
+                  type: "object",
+                  properties: {
+                    foo: {
+                      type: "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+
+        return getSystem(spec)
+          .then(system => system.validateSelectors.allSchemas())
+          .then(nodes => {
+            expect(nodes.length).toEqual(3)
+            expect(nodes[0].key).toEqual("fooModel")
+            expect(nodes[1].key).toEqual("additionalProperties")
+            expect(nodes[2].key).toEqual("foo")
+          })
+      })
+
+      it("should pick up subschemas in array", () => {
+        const spec = {
+          openapi: "3.0.0",
+          components: {
+            schemas: {
+              fooModel: {
+                type: "array",
+                items: {
+                  type: "string"
+                }
+              }
+            }
+          }
+        }
+
+        return getSystem(spec)
+          .then(system => system.validateSelectors.allSchemas())
+          .then(nodes => {
+            expect(nodes.length).toEqual(2)
+            expect(nodes[0].key).toEqual("fooModel")
+            expect(nodes[1].key).toEqual("items")
+          })
+      })
+
+      it("should pick up subschemas in array of objects", () => {
+        const spec = {
+          openapi: "3.0.0",
+          components: {
+            schemas: {
+              fooModel: {
+                type: "array",
+                items: {
+                  type: "object",
+                  properties: {
+                    foo: {
+                      type: "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+
+        return getSystem(spec)
+          .then(system => system.validateSelectors.allSchemas())
+          .then(nodes => {
+            expect(nodes.length).toEqual(3)
+            expect(nodes[0].key).toEqual("fooModel")
+            expect(nodes[1].key).toEqual("items")
+            expect(nodes[2].key).toEqual("foo")
+          })
+      })
+    })
   })
 
   describe("allResponses", function() {
