@@ -469,4 +469,112 @@ describe("validation plugin - semantic - oas3 refs", () => {
         })
     })
   })
+
+  describe("response header $refs should not point to parameters", () => {
+    it("should return an error when a response header incorrectly references a local parameter component", () => {
+      const spec = {
+        openapi: "3.0.0",
+        paths: {
+          "/foo": {
+            get: {
+              responses: {
+                "200": {
+                  description: "OK",
+                  headers: {
+                    "X-MyHeader": {
+                      $ref: "#/components/parameters/MyHeader"
+                    }
+                  }
+
+                }
+              }
+            }
+          }
+        },
+        components: {
+          headers: {
+            MyHeader: {
+              $ref: "#/components/parameters/MyHeader"
+            }
+          },
+          parameters: {
+            MyHeader: {}
+          }
+        }
+      }
+
+      return validateHelper(spec)
+        .then(system => {
+          const allErrors = system.errSelectors.allErrors().toJS()
+          const firstError = allErrors[0]
+          expect(allErrors.length).toEqual(1)
+          expect(firstError.message).toEqual(`OAS3 header $refs should point to #/components/headers/... and not #/components/parameters/...`)
+          expect(firstError.path).toEqual(["paths", "/foo", "get","responses","200", "headers", "X-MyHeader", "$ref"])
+        })
+    })
+    
+    it("should return no errors when a response header correctly references a local header component", () => {
+      const spec = {
+        openapi: "3.0.0",
+        paths: {
+          "/foo": {
+            get: {
+              responses: {
+                "200": {
+                  description: "OK",
+                  headers: {
+                    "X-MyHeader": {
+                      $ref: "#/components/headers/MyHeader"
+                    }
+                  }
+
+                }
+              }
+            }
+          }
+        },
+        components: {
+          headers: {
+            MyHeader: {
+              $ref: "#/components/headers/MyHeader"
+            }
+          }
+        }
+      }
+
+      return expectNoErrorsOrWarnings(spec)
+    })
+    
+    it("should return no errors for external $refs in response headers", () => {
+      const spec = {
+        openapi: "3.0.0",
+        paths: {
+          "/foo": {
+            get: {
+              responses: {
+                "200": {
+                  description: "OK",
+                  headers: {
+                    "X-MyHeader": {
+                      $ref: "https://www.google.com/#/components/parameter/MyHeader"
+                    }
+                  }
+
+                }
+              }
+            }
+          }
+        },
+        components: {
+          headers: {
+            MyHeader: {
+              $ref: "#/components/headers/MyHeader"
+            }
+          }
+        }
+      }
+
+      return expectNoErrorsOrWarnings(spec)
+    })
+  })
 })
