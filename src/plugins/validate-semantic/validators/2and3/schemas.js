@@ -68,3 +68,27 @@ export const validate2And3TypesInDefaultValuesMatchesWithEnum = () => (system) =
       }, [])
     })
 }
+
+export const validate2And3SchemasDefaultsMatchAnEnum = () => (system) => {
+  return system.validateSelectors
+    .allSchemas()
+    .then(nodes => {
+      return nodes.reduce((acc, node) => {
+        const element = node.node || {}
+
+        if(!element || element.enum === undefined || element.default === undefined) {
+          // nothing to do
+          return acc
+        }
+
+        if(element.enum.indexOf(element.default) === -1) {
+          acc.push({
+            message: "Default values must be present in `enum`",
+            path: [...node.path, "default"]
+          })
+        }
+
+        return acc
+      }, [])
+    })
+}

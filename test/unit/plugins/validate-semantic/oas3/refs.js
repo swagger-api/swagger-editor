@@ -10,6 +10,8 @@ describe("validation plugin - semantic - oas3 refs", () => {
         paths: {
           "/": {
             post: {
+              
+              
               operationId: "myId",
               requestBody: {
                 $ref: "#/components/schemas/MySchema"
@@ -31,11 +33,11 @@ describe("validation plugin - semantic - oas3 refs", () => {
           const allErrors = system.errSelectors.allErrors().toJS()
           const firstError = allErrors[0]
           expect(allErrors.length).toEqual(1)
-          expect(firstError.message).toEqual(`requestBody $refs must point to a position where a requestBody can be legally placed`)
+          expect(firstError.message).toEqual(`requestBody $refs cannot point to '#/components/schemas/…', they must point to '#/components/requestBodies/…'`)
           expect(firstError.path).toEqual(["paths", "/", "post", "requestBody", "$ref"])
         })
     })
-    it("should return an error when a requestBody incorrectly references a remote component schema", () => {
+    it("should not return an error when a requestBody references a remote component schema", () => {
       const spec = {
         openapi: "3.0.0",
         paths: {
@@ -50,14 +52,7 @@ describe("validation plugin - semantic - oas3 refs", () => {
         }
       }
 
-      return validateHelper(spec)
-        .then(system => {
-          const allErrors = system.errSelectors.allErrors().toJS()
-          const firstError = allErrors[0]
-          expect(allErrors.length).toEqual(1)
-          expect(firstError.message).toEqual(`requestBody $refs must point to a position where a requestBody can be legally placed`)
-          expect(firstError.path).toEqual(["paths", "/", "post", "requestBody", "$ref"])
-        })
+      return expectNoErrorsOrWarnings(spec)
     })
     it("should return an error when a requestBody in a callback incorrectly references a local component schema", () => {
       const spec = {
@@ -112,7 +107,7 @@ describe("validation plugin - semantic - oas3 refs", () => {
           const allErrors = system.errSelectors.allErrors().toJS()
           const firstError = allErrors[0]
           expect(allErrors.length).toEqual(1)
-          expect(firstError.message).toEqual(`requestBody $refs must point to a position where a requestBody can be legally placed`)
+          expect(firstError.message).toEqual(`requestBody $refs cannot point to '#/components/schemas/…', they must point to '#/components/requestBodies/…'`)
           expect(firstError.path).toEqual(["paths", "/api/callbacks", "post", "callbacks",
           "callback", "/callback", "post", "requestBody", "$ref"])
         })
@@ -205,9 +200,389 @@ describe("validation plugin - semantic - oas3 refs", () => {
 
       return expectNoErrorsOrWarnings(spec)
     })
+    it("should return no errors when a requestBody correctly references a remote https component request body", () => {
+      const spec = {
+        openapi: "3.0.0",
+        paths: {
+          "/": {
+            post: {
+              operationId: "myId",
+              requestBody: {
+                $ref: "https://example.com/file.yaml#/components/requestBodies/group1/addPetBody"
+              }
+            }
+          }
+        },
+        components: {
+          requestBodies: {
+            MyBody: {
+              content: {
+                "application/json": {
+                  schema: {
+                    type: "string"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+
+      return expectNoErrorsOrWarnings(spec)
+    })
+    it("should return no errors when a requestBody correctly references an external yaml file", () => {
+      const spec = {
+        openapi: "3.0.0",
+        paths: {
+          "/": {
+            post: {
+              operationId: "myId",
+              requestBody: {
+                $ref: "addPetBody.yaml"
+              }
+            }
+          }
+        },
+        components: {
+          requestBodies: {
+            MyBody: {
+              content: {
+                "application/json": {
+                  schema: {
+                    type: "string"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+
+      return expectNoErrorsOrWarnings(spec)
+    })
+    it("should return no errors when a requestBody correctly references an external yaml pointing some node", () => {
+      const spec = {
+        openapi: "3.0.0",
+        paths: {
+          "/": {
+            post: {
+              operationId: "myId",
+              requestBody: {
+                $ref: "./components.yaml#/path/to/some/node"
+              }
+            }
+          }
+        },
+        components: {
+          requestBodies: {
+            MyBody: {
+              content: {
+                "application/json": {
+                  schema: {
+                    type: "string"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+
+      return expectNoErrorsOrWarnings(spec)
+    })
   })
 
-  describe("parameter $refs should not point to header components", () => {
+  describe("$refs for requestbody schemas must reference a schema by position", () => {
+    it("should return an error when a requestBody schema incorrectly references a local component requestBody", () => {
+      const spec = {
+        openapi: "3.0.0",
+        paths: {
+          "/foo": {
+            post: {
+              requestBody: {
+                content: {
+                  "application/json": {
+                    schema: {
+                      $ref: "#/components/requestBodies/Foo"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        components: {
+          requestBodies: {
+            Foo: {
+              type: "string"
+            }
+          }
+        }
+      }
+
+      return validateHelper(spec)
+        .then(system => {
+          const allErrors = system.errSelectors.allErrors().toJS()
+          const allSemanticErrors = allErrors.filter(err => err.source === "semantic")
+          
+          expect(allSemanticErrors.length).toEqual(1)
+          
+          const firstError = allSemanticErrors[0]
+          
+          expect(firstError.message).toEqual(`requestBody schema $refs must point to a position where a Schema Object can be legally placed`)
+          expect(firstError.path).toEqual(["paths", "/foo", "post", "requestBody", "content", "application/json", "schema", "$ref"])
+
+        })
+    })
+
+    it("should not return an error when a requestBody schema references a local component schema", () => {
+      const spec = {
+        openapi: "3.0.0",
+        paths: {
+          "/foo": {
+            post: {
+              requestBody: {
+                content: {
+                  "application/json": {
+                    schema: {
+                      $ref: "#/components/schemas/Foo"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        components: {
+          schemas: {
+            Foo: {
+              type: "string"
+            }
+          }
+        }
+      }
+
+      return validateHelper(spec)
+        .then(system => {
+          const allErrors = system.errSelectors.allErrors().toJS()
+          expect(allErrors.length).toEqual(0)
+        })
+    })
+
+    it("should not return an error when a requestBody schema references remote document paths", () => {
+      const spec = {
+        openapi: "3.0.0",
+        paths: {
+          "/foo": {
+            post: {
+              requestBody: {
+                content: {
+                  "application/json": {
+                    schema: {
+                      $ref: "http://google.com#/Foo"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+
+      return validateHelper(spec)
+        .then(system => {
+          const allErrors = system.errSelectors.allErrors().toJS()
+          expect(allErrors.length).toEqual(0)
+        })
+    })
+
+    it("should not return an error when a requestBody schema references entire remote documents", () => {
+      const spec = {
+        openapi: "3.0.0",
+        paths: {
+          "/foo": {
+            post: {
+              requestBody: {
+                content: {
+                  "application/json": {
+                    schema: {
+                      $ref: "addPetBody.yaml"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+
+      return validateHelper(spec)
+        .then(system => {
+          const allErrors = system.errSelectors.allErrors().toJS()
+          expect(allErrors.length).toEqual(0)
+        })
+    })
+
+    it("should not return an error when a requestBody schema references local operation requestBody schemas", () => {
+      const spec = {
+        openapi: "3.0.0",
+        paths: {
+          "/foo": {
+            post: {
+              responses: {
+                "200": {
+                  description: "OK"
+                }
+              },
+              requestBody: {
+                content: {
+                  "application/json": {
+                    schema: {
+                      type: "string"
+                    }
+                  }
+                }
+              }
+            },
+            put: {
+              requestBody: {
+                responses: {
+                  "200": {
+                    description: "OK"
+                  }
+                },
+                content: {
+                  "application/json": {
+                    schema: {
+                      $ref: "#/paths/~1foo/post/requestBody/content/application~1json/schema"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+
+      return validateHelper(spec)
+        .then(system => {
+          const allErrors = system.errSelectors.allErrors().toJS()
+          expect(allErrors.length).toEqual(0)
+        })
+    })
+  })
+
+  describe("response 
+           
+           er $refs should not point to parameters", () => {
+    it("should return an error when a response header incorrectly references a local parameter component", () => {
+      const spec = {
+        openapi: "3.0.0",
+        paths: {
+          "/foo": {
+            get: {
+              responses: {
+                "200": {
+                  description: "OK",
+                  headers: {
+                    "X-MyHeader": {
+                      $ref: "#/components/parameters/MyHeader"
+                    }
+                  }
+
+                }
+              }
+            }
+          }
+        },
+        components: {
+          headers: {
+            MyHeader: {
+              $ref: "#/components/parameters/MyHeader"
+            }
+          },
+          parameters: {
+            MyHeader: {}
+          }
+        }
+      }
+
+      return validateHelper(spec)
+        .then(system => {
+          const allErrors = system.errSelectors.allErrors().toJS()
+          const firstError = allErrors[0]
+          expect(allErrors.length).toEqual(1)
+          expect(firstError.message).toEqual(`OAS3 header $refs should point to #/components/headers/... and not #/components/parameters/...`)
+          expect(firstError.path).toEqual(["paths", "/foo", "get","responses","200", "headers", "X-MyHeader", "$ref"])
+        })
+    })
+    
+    it("should return no errors when a response header correctly references a local header component", () => {
+      const spec = {
+        openapi: "3.0.0",
+        paths: {
+          "/foo": {
+            get: {
+              responses: {
+                "200": {
+                  description: "OK",
+                  headers: {
+                    "X-MyHeader": {
+                      $ref: "#/components/headers/MyHeader"
+                    }
+                  }
+
+                }
+              }
+            }
+          }
+        },
+        components: {
+          headers: {
+            MyHeader: {
+              $ref: "#/components/headers/MyHeader"
+            }
+          }
+        }
+      }
+
+      return expectNoErrorsOrWarnings(spec)
+    })
+    
+    it("should return no errors for external $refs in response headers", () => {
+      const spec = {
+        openapi: "3.0.0",
+        paths: {
+          "/foo": {
+            get: {
+              responses: {
+                "200": {
+                  description: "OK",
+                  headers: {
+                    "X-MyHeader": {
+                      $ref: "https://www.google.com/#/components/parameter/MyHeader"
+                    }
+                  }
+
+                }
+              }
+            }
+          }
+        },
+        components: {
+          headers: {
+            MyHeader: {
+              $ref: "#/components/headers/MyHeader"
+            }
+          }
+        }
+      }
+
+      return expectNoErrorsOrWarnings(spec)
+    })
+  })
+  
+    describe("parameter $refs should not point to header components", () => {
     it("should return an error when a parameter incorrectly references a response header component", () => {
       const spec = {
         openapi: "3.0.0",
@@ -332,4 +707,5 @@ describe("validation plugin - semantic - oas3 refs", () => {
       return expectNoErrorsOrWarnings(spec)
     })
   })
+
 })
