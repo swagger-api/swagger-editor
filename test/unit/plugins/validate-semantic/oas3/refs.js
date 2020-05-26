@@ -31,11 +31,11 @@ describe("validation plugin - semantic - oas3 refs", () => {
           const allErrors = system.errSelectors.allErrors().toJS()
           const firstError = allErrors[0]
           expect(allErrors.length).toEqual(1)
-          expect(firstError.message).toEqual(`requestBody $refs must point to a position where a requestBody can be legally placed`)
+          expect(firstError.message).toEqual(`requestBody $refs cannot point to '#/components/schemas/…', they must point to '#/components/requestBodies/…'`)
           expect(firstError.path).toEqual(["paths", "/", "post", "requestBody", "$ref"])
         })
     })
-    it("should return an error when a requestBody incorrectly references a remote component schema", () => {
+    it("should not return an error when a requestBody references a remote component schema", () => {
       const spec = {
         openapi: "3.0.0",
         paths: {
@@ -50,14 +50,7 @@ describe("validation plugin - semantic - oas3 refs", () => {
         }
       }
 
-      return validateHelper(spec)
-        .then(system => {
-          const allErrors = system.errSelectors.allErrors().toJS()
-          const firstError = allErrors[0]
-          expect(allErrors.length).toEqual(1)
-          expect(firstError.message).toEqual(`requestBody $refs must point to a position where a requestBody can be legally placed`)
-          expect(firstError.path).toEqual(["paths", "/", "post", "requestBody", "$ref"])
-        })
+      return expectNoErrorsOrWarnings(spec)
     })
     it("should return an error when a requestBody in a callback incorrectly references a local component schema", () => {
       const spec = {
@@ -112,7 +105,7 @@ describe("validation plugin - semantic - oas3 refs", () => {
           const allErrors = system.errSelectors.allErrors().toJS()
           const firstError = allErrors[0]
           expect(allErrors.length).toEqual(1)
-          expect(firstError.message).toEqual(`requestBody $refs must point to a position where a requestBody can be legally placed`)
+          expect(firstError.message).toEqual(`requestBody $refs cannot point to '#/components/schemas/…', they must point to '#/components/requestBodies/…'`)
           expect(firstError.path).toEqual(["paths", "/api/callbacks", "post", "callbacks",
           "callback", "/callback", "post", "requestBody", "$ref"])
         })
@@ -184,6 +177,96 @@ describe("validation plugin - semantic - oas3 refs", () => {
               operationId: "myId",
               requestBody: {
                 $ref: "http://google.com/#/components/requestBodies/MyBody"
+              }
+            }
+          }
+        },
+        components: {
+          requestBodies: {
+            MyBody: {
+              content: {
+                "application/json": {
+                  schema: {
+                    type: "string"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+
+      return expectNoErrorsOrWarnings(spec)
+    })
+    it("should return no errors when a requestBody correctly references a remote https component request body", () => {
+      const spec = {
+        openapi: "3.0.0",
+        paths: {
+          "/": {
+            post: {
+              operationId: "myId",
+              requestBody: {
+                $ref: "https://example.com/file.yaml#/components/requestBodies/group1/addPetBody"
+              }
+            }
+          }
+        },
+        components: {
+          requestBodies: {
+            MyBody: {
+              content: {
+                "application/json": {
+                  schema: {
+                    type: "string"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+
+      return expectNoErrorsOrWarnings(spec)
+    })
+    it("should return no errors when a requestBody correctly references an external yaml file", () => {
+      const spec = {
+        openapi: "3.0.0",
+        paths: {
+          "/": {
+            post: {
+              operationId: "myId",
+              requestBody: {
+                $ref: "addPetBody.yaml"
+              }
+            }
+          }
+        },
+        components: {
+          requestBodies: {
+            MyBody: {
+              content: {
+                "application/json": {
+                  schema: {
+                    type: "string"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+
+      return expectNoErrorsOrWarnings(spec)
+    })
+    it("should return no errors when a requestBody correctly references an external yaml pointing some node", () => {
+      const spec = {
+        openapi: "3.0.0",
+        paths: {
+          "/": {
+            post: {
+              operationId: "myId",
+              requestBody: {
+                $ref: "./components.yaml#/path/to/some/node"
               }
             }
           }
