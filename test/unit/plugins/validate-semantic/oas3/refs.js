@@ -206,4 +206,184 @@ describe("validation plugin - semantic - oas3 refs", () => {
       return expectNoErrorsOrWarnings(spec)
     })
   })
+
+  describe("$refs for requestbody schemas must reference a schema by position", () => {
+    it("should return an error when a requestBody schema incorrectly references a local component requestBody", () => {
+      const spec = {
+        openapi: "3.0.0",
+        paths: {
+          "/foo": {
+            post: {
+              requestBody: {
+                content: {
+                  "application/json": {
+                    schema: {
+                      $ref: "#/components/requestBodies/Foo"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        components: {
+          requestBodies: {
+            Foo: {
+              type: "string"
+            }
+          }
+        }
+      }
+
+      return validateHelper(spec)
+        .then(system => {
+          const allErrors = system.errSelectors.allErrors().toJS()
+          const allSemanticErrors = allErrors.filter(err => err.source === "semantic")
+          
+          expect(allSemanticErrors.length).toEqual(1)
+          
+          const firstError = allSemanticErrors[0]
+          
+          expect(firstError.message).toEqual(`requestBody schema $refs must point to a position where a Schema Object can be legally placed`)
+          expect(firstError.path).toEqual(["paths", "/foo", "post", "requestBody", "content", "application/json", "schema", "$ref"])
+
+        })
+    })
+
+    it("should not return an error when a requestBody schema references a local component schema", () => {
+      const spec = {
+        openapi: "3.0.0",
+        paths: {
+          "/foo": {
+            post: {
+              requestBody: {
+                content: {
+                  "application/json": {
+                    schema: {
+                      $ref: "#/components/schemas/Foo"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        components: {
+          schemas: {
+            Foo: {
+              type: "string"
+            }
+          }
+        }
+      }
+
+      return validateHelper(spec)
+        .then(system => {
+          const allErrors = system.errSelectors.allErrors().toJS()
+          expect(allErrors.length).toEqual(0)
+        })
+    })
+
+    it("should not return an error when a requestBody schema references remote document paths", () => {
+      const spec = {
+        openapi: "3.0.0",
+        paths: {
+          "/foo": {
+            post: {
+              requestBody: {
+                content: {
+                  "application/json": {
+                    schema: {
+                      $ref: "http://google.com#/Foo"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+
+      return validateHelper(spec)
+        .then(system => {
+          const allErrors = system.errSelectors.allErrors().toJS()
+          expect(allErrors.length).toEqual(0)
+        })
+    })
+
+    it("should not return an error when a requestBody schema references entire remote documents", () => {
+      const spec = {
+        openapi: "3.0.0",
+        paths: {
+          "/foo": {
+            post: {
+              requestBody: {
+                content: {
+                  "application/json": {
+                    schema: {
+                      $ref: "addPetBody.yaml"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+
+      return validateHelper(spec)
+        .then(system => {
+          const allErrors = system.errSelectors.allErrors().toJS()
+          expect(allErrors.length).toEqual(0)
+        })
+    })
+
+    it("should not return an error when a requestBody schema references local operation requestBody schemas", () => {
+      const spec = {
+        openapi: "3.0.0",
+        paths: {
+          "/foo": {
+            post: {
+              responses: {
+                "200": {
+                  description: "OK"
+                }
+              },
+              requestBody: {
+                content: {
+                  "application/json": {
+                    schema: {
+                      type: "string"
+                    }
+                  }
+                }
+              }
+            },
+            put: {
+              requestBody: {
+                responses: {
+                  "200": {
+                    description: "OK"
+                  }
+                },
+                content: {
+                  "application/json": {
+                    schema: {
+                      $ref: "#/paths/~1foo/post/requestBody/content/application~1json/schema"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+
+      return validateHelper(spec)
+        .then(system => {
+          const allErrors = system.errSelectors.allErrors().toJS()
+          expect(allErrors.length).toEqual(0)
+        })
+    })
+  })
 })

@@ -29,3 +29,35 @@ export const validateOAS3RefsForRequestBodiesReferenceRequestBodyPositions = () 
       }, [])
     })
 }
+
+export const validateOAS3RequestBodyRefsReferenceAllowableSchemaPositions = () => sys => {
+  return sys.validateSelectors
+    .allOAS3RequestBodySchemas()
+    .then(nodes => {
+      return nodes.reduce((acc, node) => {
+        const value = node.node
+        const ref = value.$ref
+
+        if(!ref) {
+          return acc
+        }
+
+        const [, refPath = ""] = ref.split("#")
+        const pathArr = refPath.split("/") || []
+        const parentRefKey = pathArr.slice(-2)[0]
+        const targetRefKey = pathArr.slice(-1)[0]
+        if(
+          targetRefKey !== "schema"
+          && parentRefKey !== "schemas"
+          && ref.startsWith("#/")
+        ) {
+          acc.push({
+            level: "error",
+            message: `requestBody schema $refs must point to a position where a Schema Object can be legally placed`,
+            path: [...node.path, "$ref"]
+          })
+        }
+        return acc
+      }, [])
+    })
+}
