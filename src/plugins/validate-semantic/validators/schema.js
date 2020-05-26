@@ -4,7 +4,7 @@ export const validateMinAndMax = () => (system) => {
     .then(nodes => {
       return nodes.reduce((acc, node) => {
         const schemaObj = node.node
-        const {minimum, maximum, minLength, maxLength, minProperties, maxProperties} = schemaObj
+        const {minimum, maximum, minLength, maxLength, minProperties, maxProperties, minItems, maxItems} = schemaObj
         if(typeof minimum === "number" && typeof maximum === "number" && (minimum > maximum)) {
           acc.push({
             message: "'minimum' must be lower value than 'maximum'",
@@ -25,6 +25,14 @@ export const validateMinAndMax = () => (system) => {
           acc.push({
             message: "'minProperties' must be lower value than 'maxProperties'",
             path: [...node.path, "minProperties"],
+            level: "error",
+          })
+        }
+
+        if(typeof minItems === "number" && typeof maxItems === "number" && (minItems > maxItems)) {
+          acc.push({
+            message: "'minItems' must be lower value than 'maxItems'",
+            path: [...node.path, "minItems"],
             level: "error",
           })
         }
