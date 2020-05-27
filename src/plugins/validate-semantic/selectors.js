@@ -386,6 +386,23 @@ export const allSecurityRequirements = () => (system) => {
   })
 }
 
+export const allOAS3Components = () => (system) => {
+  return system.fn.traverseOnce({
+    name: "allOAS3Components",
+    fn: (node) => {
+      const isComponent = (
+        node.path[0] === "components"
+          && node.path.length === 3
+          && !system.validateSelectors.isVendorExt(node.parent)
+      )
+
+      if(isComponent) {
+        return node
+      }
+    }
+  })
+}
+
 // List of validators to run...
 export const validators = () => (system) => {
   return Object.keys(system.validateActions)
