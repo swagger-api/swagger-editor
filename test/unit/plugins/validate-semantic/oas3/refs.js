@@ -577,4 +577,130 @@ describe("validation plugin - semantic - oas3 refs", () => {
       return expectNoErrorsOrWarnings(spec)
     })
   })
+
+  describe("parameter $refs should not point to header components", () => {
+    it("should return an error when a parameter incorrectly references a response header component", () => {
+      const spec = {
+        openapi: "3.0.0",
+        paths: {
+          "/foo": {
+            parameters: [
+              {
+                $ref: "#/components/headers/foo"
+              }
+            ],
+            get: {
+              parameters: [
+                {
+                  $ref: "#/components/headers/foo"
+                }
+              ],
+              responses: {
+                "200": {
+                  description: "OK"
+                }
+              }
+            }
+          }
+        },
+        components: {
+          parameters: {
+            myParam: {
+              $ref: "#/components/headers/foo"
+            }
+          },
+          headers: {
+            foo: {}
+          }
+        }
+      }
+
+      return validateHelper(spec)
+        .then(system => {
+          const allErrors = system.errSelectors.allErrors().toJS()
+          expect(allErrors.length).toEqual(3)
+          const firstError = allErrors[0]
+          expect(firstError.message).toEqual(`OAS3 parameter $refs should point to #/components/parameters/... and not #/components/headers/...`)
+          expect(firstError.path).toEqual(["paths","/foo","parameters", "0", "$ref"])
+          const secondError = allErrors[1]
+          expect(secondError.message).toEqual(`OAS3 parameter $refs should point to #/components/parameters/... and not #/components/headers/...`)
+          expect(secondError.path).toEqual(["paths","/foo","get","parameters", "0", "$ref"])
+          const thirdError = allErrors[2]
+          expect(thirdError.message).toEqual(`OAS3 parameter $refs should point to #/components/parameters/... and not #/components/headers/...`)
+          expect(thirdError.path).toEqual(["components","parameters", "myParam", "$ref"])
+        })
+    })
+    
+    it("should return no errors when a parameter correctly references a parameter component", () => {
+      const spec = {
+        openapi: "3.0.0",
+        paths: {
+          "/foo": {
+            parameters: [
+              {
+                $ref: "#/components/parameters/foo"
+              }
+            ],
+            get: {
+               parameters: [
+              {
+                $ref: "#/components/parameters/foo"
+              }
+            ],
+              responses: {
+                "200": {
+                  description: "OK"
+                }
+              }
+            }
+          }
+        },
+        components: {
+          parameters: {
+            foo: {
+              $ref: "#/components/parameters/foo"
+            }
+          }
+        }
+      }
+
+      return expectNoErrorsOrWarnings(spec)
+    })
+    
+    it("should return no errors for external parameter $refs", () => {
+      const spec = {
+        openapi: "3.0.0",
+        paths: {
+          "/foo": {
+            parameters: [
+              {
+                $ref: "http://www.google.com/#/components/parameters/foo"
+              }
+            ],
+            get: {
+              parameters: [
+                {
+                  $ref: "http://www.google.com/#/components/parameters/foo"
+                }
+              ],
+              responses: {
+                "200": {
+                  description: "OK"
+                }
+              }
+            }
+          }
+        },
+        components: {
+          parameters: {
+            foo: {
+              $ref: "http://www.google.com/#/components/parameters/foo"
+            }
+          }
+        }
+      }
+
+      return expectNoErrorsOrWarnings(spec)
+    })
+  })
 })
