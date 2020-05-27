@@ -17,6 +17,7 @@ export const isOAS3OperationRequestBody = (state, node) => node.path.length === 
 export const isOAS3OperationCallbackRequestBody = (state, node) => node.path.length === 8 && node.path[7] === "requestBody"
 export const isOAS3RootParameter = (state, node) => node.path[0] === "components" && node.path[1] === "parameters" && node.path.length === 3
 export const isOAS3RootResponse = (state, node) => node.path[0] === "components" && node.path[1] === "responses" && node.path.length === 3
+export const isOAS3RootSchema = (state, node) => node.path[0] === "components" && node.path[1] === "schemas" && node.path.length === 3
 
 export const isSubSchema = (state, node) => (sys) => {
   const path = node.path
@@ -239,7 +240,10 @@ export const allDefinitions = () => (system) => {
   return system.fn.traverseOnce({
     name: "allDefinitions",
     fn: (node) => {
-      if(system.validateSelectors.isDefinition(node)) {
+      if(
+        system.validateSelectors.isDefinition(node)
+         || system.validateSelectors.isOAS3RootSchema(node)
+       ) {
         return node
       }
     },
