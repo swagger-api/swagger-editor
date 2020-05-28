@@ -1,5 +1,5 @@
 import expect from "expect"
-import validateHelper from "../validate-helper.js"
+import validateHelper, { expectNoErrors } from "../validate-helper.js"
 
 describe(`validation plugin - semantic - 2and3 schemas`, () => {
   describe(`array schemas must have an Object value in "items"`, () => {
@@ -165,6 +165,410 @@ describe(`validation plugin - semantic - 2and3 schemas`, () => {
       .then(system => {
         const allErrors = system.errSelectors.allErrors().toJS()
         expect(allErrors.length).toEqual(0)
+      })
+    })
+  })
+
+  describe("minimums and maximums", () => {
+    describe("OpenAPI 2.0", () => {
+      it("should return an error when minimum is more than maximum", () => {
+        const spec = {
+          swagger: "2.0",
+          definitions: {
+            MyNumber: {
+              minimum: 5,
+              maximum: 2
+            }
+          }
+        }
+
+        return validateHelper(spec)
+          .then(system => {
+            let allErrors = system.errSelectors.allErrors().toJS()
+            allErrors = allErrors.filter( a => a.level == "error") // Ignore warnings
+            expect(allErrors.length).toEqual(1)
+            const firstError = allErrors[0]
+            expect(firstError.message).toMatch(/.*minimum.*lower.*maximum.*/)
+            expect(firstError.path).toEqual(["definitions", "MyNumber", "minimum"])
+          })
+      })
+      it("should not return an error when minimum is less than maximum", () => {
+        const spec = {
+          swagger: "2.0",
+          definitions: {
+            MyNumber: {
+              minimum: 1,
+              maximum: 2
+            }
+          }
+        }
+        return expectNoErrors(spec)
+      })
+      it("should not return an error when minimum is equal to maximum", () => {
+        const spec = {
+          swagger: "2.0",
+          definitions: {
+            MyNumber: {
+              minimum: 1,
+              maximum: 1
+            }
+          }
+        }
+        return expectNoErrors(spec)
+      })
+      it("should return an error when minProperties is more than maxProperties", () => {
+        const spec = {
+          swagger: "2.0",
+          definitions: {
+            MyObject: {
+              minProperties: 5,
+              maxProperties: 2
+            }
+          }
+        }
+
+        return validateHelper(spec)
+          .then(system => {
+            let allErrors = system.errSelectors.allErrors().toJS()
+            allErrors = allErrors.filter(a => a.level === "error") // ignore warnings
+            expect(allErrors.length).toEqual(1)
+            const firstError = allErrors[0]
+            expect(firstError.message).toMatch(/.*minProperties.*lower.*maxProperties.*/)
+            expect(firstError.path).toEqual(["definitions", "MyObject", "minProperties"])
+          })
+      })
+      it("should not return an error when minProperties is less than maxProperties", () => {
+        const spec = {
+          swagger: "2.0",
+          definitions: {
+            MyObject: {
+              minProperties: 1,
+              maxProperties: 2
+            }
+          }
+        }
+
+        return expectNoErrors(spec)
+      })
+      it("should not return an error when minProperties is equal to maxProperties", () => {
+        const spec = {
+          swagger: "2.0",
+          definitions: {
+            MyObject: {
+              minProperties: 1,
+              maxProperties: 1
+            }
+          }
+        }
+
+        return expectNoErrors(spec)
+      })
+      it("should return an error when minLength is more than maxLength", () => {
+        const spec = {
+          swagger: "2.0",
+          definitions: {
+            MyString: {
+              minLength: 5,
+              maxLength: 2
+            }
+          }
+        }
+
+        return validateHelper(spec)
+          .then(system => {
+            let allErrors = system.errSelectors.allErrors().toJS()
+            allErrors = allErrors.filter(a => a.level === "error") // ignore warnings
+            expect(allErrors.length).toEqual(1)
+            const firstError = allErrors[0]
+            expect(firstError.path).toEqual(["definitions", "MyString", "minLength"])
+            expect(firstError.message).toMatch(/.*minLength.*lower.*maxLength.*/)
+          })
+      })
+      it("should not return an error when minLength is less than maxLength", () => {
+        const spec = {
+          swagger: "2.0",
+          definitions: {
+            MyString: {
+              minLength: 1,
+              maxLength: 2
+            }
+          }
+        }
+
+        return expectNoErrors(spec)
+      })
+      it("should not return an error when minLength is equal to maxLength", () => {
+        const spec = {
+          swagger: "2.0",
+          definitions: {
+            MyString: {
+              minLength: 1,
+              maxLength: 1
+            }
+          }
+        }
+
+        return expectNoErrors(spec)
+      })
+      it("should return an error when minItems is more than maxItems", () => {
+        const spec = {
+          swagger: "2.0",
+          definitions: {
+            MyArray: {
+              minItems: 5,
+              maxItems: 2
+            }
+          }
+        }
+
+        return validateHelper(spec)
+          .then(system => {
+            let allErrors = system.errSelectors.allErrors().toJS()
+            allErrors = allErrors.filter(a => a.level === "error") // ignore warnings
+            expect(allErrors.length).toEqual(1)
+            const firstError = allErrors[0]
+            expect(firstError.path).toEqual(["definitions", "MyArray", "minItems"])
+            expect(firstError.message).toMatch(/.*minItems.*lower.*maxItems.*/)
+          })
+      })
+      it("should not return an error when minItems is less than maxItems", () => {
+        const spec = {
+          swagger: "2.0",
+          definitions: {
+            MyArray: {
+              minItems: 1,
+              maxItems: 2
+            }
+          }
+        }
+
+        return expectNoErrors(spec)
+      })
+      it("should not return an error when minItems is equal to maxItems", () => {
+        const spec = {
+          swagger: "2.0",
+          definitions: {
+            MyArray: {
+              minItems: 1,
+              maxItems: 1
+            }
+          }
+        }
+
+        return expectNoErrors(spec)
+      })
+    })
+
+    describe("OpenAPI 3.0", () => {
+      it("should return an error when minimum is more than maximum", () => {
+        const spec = {
+          openapi: "3.0.0",
+          components: {
+            schemas: {
+              MyNumber: {
+                minimum: 5,
+                maximum: 2
+              }
+            }
+          }
+        }
+
+        return validateHelper(spec)
+          .then(system => {
+            let allErrors = system.errSelectors.allErrors().toJS()
+            allErrors = allErrors.filter( a => a.level == "error") // Ignore warnings
+            expect(allErrors.length).toEqual(1)
+            const firstError = allErrors[0]
+            expect(firstError.message).toMatch(/.*minimum.*lower.*maximum.*/)
+            expect(firstError.path).toEqual(["components", "schemas", "MyNumber", "minimum"])
+          })
+      })
+      it("should not return an error when minimum is less than maximum", () => {
+        const spec = {
+          openapi: "3.0.0",
+          components: {
+            schemas: {
+              MyNumber: {
+                minimum: 1,
+                maximum: 2
+              }
+            }
+          }
+        }
+        return expectNoErrors(spec)
+      })
+      it("should not return an error when minimum is equal to maximum", () => {
+        const spec = {
+          openapi: "3.0.0",
+          components: {
+            schemas: {
+              MyNumber: {
+                minimum: 1,
+                maximum: 1
+              }
+            }
+          }
+        }
+        return expectNoErrors(spec)
+      })
+      it("should return an error when minProperties is more than maxProperties", () => {
+        const spec = {
+          openapi: "3.0.0",
+          components: {
+            schemas: {
+              MyObject: {
+                minProperties: 5,
+                maxProperties: 2
+              }
+            }
+          }
+        }
+
+        return validateHelper(spec)
+          .then(system => {
+            let allErrors = system.errSelectors.allErrors().toJS()
+            allErrors = allErrors.filter(a => a.level === "error") // ignore warnings
+            expect(allErrors.length).toEqual(1)
+            const firstError = allErrors[0]
+            expect(firstError.message).toMatch(/.*minProperties.*lower.*maxProperties.*/)
+            expect(firstError.path).toEqual(["components", "schemas", "MyObject", "minProperties"])
+          })
+      })
+      it("should not return an error when minProperties is less than maxProperties", () => {
+        const spec = {
+          openapi: "3.0.0",
+          components: {
+            schemas: {
+              MyObject: {
+                minProperties: 1,
+                maxProperties: 2
+              }
+            }
+          }
+        }
+
+        return expectNoErrors(spec)
+      })
+      it("should not return an error when minProperties is equal to maxProperties", () => {
+        const spec = {
+          openapi: "3.0.0",
+          components: {
+            schemas: {
+              MyObject: {
+                minProperties: 1,
+                maxProperties: 1
+              }
+            }
+          }
+        }
+
+        return expectNoErrors(spec)
+      })
+      it("should return an error when minLength is more than maxLength", () => {
+        const spec = {
+          openapi: "3.0.0",
+          components: {
+            schemas: {
+              MyString: {
+                minLength: 5,
+                maxLength: 2
+              }
+            }
+          }
+        }
+
+        return validateHelper(spec)
+          .then(system => {
+            let allErrors = system.errSelectors.allErrors().toJS()
+            allErrors = allErrors.filter(a => a.level === "error") // ignore warnings
+            expect(allErrors.length).toEqual(1)
+            const firstError = allErrors[0]
+            expect(firstError.path).toEqual(["components", "schemas", "MyString", "minLength"])
+            expect(firstError.message).toMatch(/.*minLength.*lower.*maxLength.*/)
+          })
+      })
+      it("should not return an error when minLength is less than maxLength", () => {
+        const spec = {
+          openapi: "3.0.0",
+          components: {
+            schemas: {
+              MyString: {
+                minLength: 1,
+                maxLength: 2
+              }
+            }
+          }
+        }
+
+        return expectNoErrors(spec)
+      })
+      it("should not return an error when minLength is equal to maxLength", () => {
+        const spec = {
+          openapi: "3.0.0",
+          components: {
+            schemas: {
+              MyString: {
+                minLength: 1,
+                maxLength: 1
+              }
+            }
+          }
+        }
+
+        return expectNoErrors(spec)
+      })
+      it("should return an error when minItems is more than maxItems", () => {
+        const spec = {
+          openapi: "3.0.0",
+          components: {
+            schemas: {
+              MyArray: {
+                minItems: 5,
+                maxItems: 2
+              }
+            }
+          }
+        }
+
+        return validateHelper(spec)
+          .then(system => {
+            let allErrors = system.errSelectors.allErrors().toJS()
+            allErrors = allErrors.filter(a => a.level === "error") // ignore warnings
+            expect(allErrors.length).toEqual(1)
+            const firstError = allErrors[0]
+            expect(firstError.path).toEqual(["components", "schemas", "MyArray", "minItems"])
+            expect(firstError.message).toMatch(/.*minItems.*lower.*maxItems.*/)
+          })
+      })
+      it("should not return an error when minItems is less than maxItems", () => {
+        const spec = {
+          openapi: "3.0.0",
+          components: {
+            schemas: {
+              MyArray: {
+                minItems: 1,
+                maxItems: 2
+              }
+            }
+          }
+        }
+
+        return expectNoErrors(spec)
+      })
+      it("should not return an error when minItems is equal to maxItems", () => {
+        const spec = {
+          openapi: "3.0.0",
+          components: {
+            schemas: {
+              MyArray: {
+                minItems: 1,
+                maxItems: 1
+              }
+            }
+          }
+        }
+
+        return expectNoErrors(spec)
       })
     })
   })
