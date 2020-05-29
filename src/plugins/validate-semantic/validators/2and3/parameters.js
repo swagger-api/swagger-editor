@@ -32,3 +32,44 @@ export const validate2And3ParametersHaveUniqueNameAndInCombinations = () => (sys
       }, [])
     })
 }
+
+export const validate2And3PathParameterIsDefinedInPath = () => (system) => {
+  const refArray = []
+  return system.validateSelectors
+    .allParameters()
+    .then(nodes => {
+      return nodes.reduce((acc, node) => {
+        const parameter = node.node || {}
+        const path = node.path
+        const isFromPath = path[0] === "paths" ? true : false
+        const pathString = path[1]
+        const paramName = parameter.name
+        const paramInPath = `{${paramName}}`
+        const ref = parameter.$ref
+        const pathStringIncludesParamInPath = pathString && !pathString.toUpperCase().includes("" + paramInPath.toUpperCase())
+        if (parameter.in === "path") {
+          if (isFromPath && pathStringIncludesParamInPath) {
+            acc.push({
+              message: `Path parameter "${paramName}" must have the corresponding ${paramInPath} segment in the "${pathString}" path`,
+              path: [...node.path, "name"],
+              level: "error"
+            })
+          } else {
+            const paramReference = refArray.find(({ referenceParamName }) => referenceParamName === node.key) 
+            if (paramReference && paramReference.pathString && !paramReference.pathString.toUpperCase().includes("" + paramInPath.toUpperCase())) {
+              acc.push({
+                message: `Path parameter "${paramName}" must have the corresponding ${paramInPath} segment in the "${paramReference.pathString}" path`,
+                path: [...paramReference.node.path, "name"],
+                level: "error"
+              })
+            }
+          }
+        } else if (ref !== undefined) {
+          const refStrings = ref.split("/")
+          refArray.push({referenceParamName:refStrings[refStrings.length-1], pathString:pathString, node: node})
+        }
+        
+        return acc
+      }, [])
+    })
+}
