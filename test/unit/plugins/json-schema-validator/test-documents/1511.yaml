@@ -1,0 +1,32 @@
+meta:
+  title: "#1511 - illegal `example` in Path Parameter Object"
+input:
+  swagger: '2.0'
+  info:
+    version: '1'
+    title: oneOf validation fail
+    description: ok
+
+  paths:
+    /:
+      get:
+        summary: Extra `example` field in parameter
+        description: ok
+        parameters: 
+        - in: path
+          name: name
+          type: string
+          required: true
+          example: ok
+        responses:
+          "200":
+            description: Ok
+output:
+  length: 1
+  match:
+  - level: error
+    message: |-
+      should NOT have additional properties
+      additionalProperty: example
+    path: [paths, /, get, parameters, "0"]
+    source: structural

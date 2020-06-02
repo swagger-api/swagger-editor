@@ -17,7 +17,7 @@ export const validate2And3RefHasNoSiblings = () => system => {
         unresolvedKeys.forEach(k => {
           if(!isPathItem && k !== "$ref" && unresolvedKeys.indexOf("$ref") > -1) {
             acc.push({
-              message: `Sibling values are not allowed alongside $refs`,
+              message: `Sibling values alongside $refs are ignored.\nTo add properties to a $ref, wrap the $ref into allOf, or move the extra properties into the referenced definition (if applicable).`,
               path: [...node.path.slice(0, -1), k],
               level: "warning"
             })
@@ -108,7 +108,7 @@ export const validate2And3RefPointersExist = () => (system) => {
 
 // from RFC3986: https://tools.ietf.org/html/rfc3986#section-2.2
 // plus "%", since it is needed for encoding.
-const RFC3986_UNRESERVED_CHARACTERS = /[A-Z|a-z|0-9|\-|_|\.|~|%]/g
+const RFC3986_UNRESERVED_CHARACTERS = /[A-Za-z0-9\-_\.~%]/g
 
 export const validate2And3RefPointersAreProperlyEscaped = () => (system) => {
   return system.validateSelectors.all$refs()

@@ -1,0 +1,29 @@
+meta:
+  title: "#1797 - Missing `required: true` within a 3.0 Path Parameter Object"
+input:
+  openapi: 3.0.0
+  info:
+    title: Foo OpenApi Spec
+    version: 1.0.0
+  paths:
+    /:
+      get:
+        parameters:
+          - name: id
+            in: path
+            allowEmptyValue: true
+            schema:
+              type: integer
+              format: int32
+        responses:
+          '200':
+            description: ok
+output:
+  length: 1
+  match:
+  - level: error
+    message: |-
+      should have required property 'required'
+      missingProperty: required
+    path: [paths, /, get, parameters, "0"]
+    source: structural

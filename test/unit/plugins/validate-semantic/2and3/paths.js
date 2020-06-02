@@ -356,6 +356,37 @@ describe("validation plugin - semantic - 2and3 paths", () => {
         it("should return one error when no parameters are defined", function(){
           const spec = {
             swagger: "2.0",
+            info: {
+              title: "test",
+              version: "1.0.0"
+            },
+            paths: {
+              "/{12345instanceABCDE_instance_12345}": {
+                get: {
+                  responses: {
+                    "200": {
+                      description: "ok"
+                    }
+                  }
+                }
+              }
+            }
+          }
+
+          return validateHelper(spec)
+          .then(system => {
+            const allErrors = system.errSelectors.allErrors().toJS()
+            const firstError = allErrors[0]
+            expect(allErrors.length).toEqual(1)
+            expect(firstError.message).toEqual( "Declared path parameter \"12345instanceABCDE_instance_12345\" needs to be defined as a path parameter at either the path or operation level")
+            expect(firstError.path).toEqual(["paths", "/{12345instanceABCDE_instance_12345}"])
+          })
+
+        })
+
+        it("should return a well-formed error when ", function(){
+          const spec = {
+            swagger: "2.0",
             paths: {
               "/CoolPath/{id}": {}
             }
@@ -395,7 +426,59 @@ describe("validation plugin - semantic - 2and3 paths", () => {
             expect(firstError.path).toEqual(["paths", "/CoolPath/{id}"])
           })
         })
+
+        it("should return a specific error for parameters with different casing characters OpenAPI 3 definition", () => {
+          const spec = {
+            openapi: "3.0.1",
+            "paths": {
+              "/{myParam}": {
+                "get": {
+                  "parameters": [
+                    {
+                      "name": "myparam",
+                      "in": "path",
+                      "required": true,
+                      "schema": {
+                        "type": "string"
+                      }
+                    },
+                  ]
+                }
+              }
+            }
+          }
+  
+          return validateHelper(spec)
+            .then(system => {
+              const allErrors = system.errSelectors.allErrors().toJS()    
+              const firstError = allErrors[0]
+              expect(allErrors.length).toEqual(1)
+              expect(firstError.message).toEqual("Parameter names are case-sensitive. The parameter named \"myparam\" does not match the case used in the path \"/{myParam}\".")    
+            })
+        })
       })
 
+      it("should return no errors for parameters with same characters in path and parameters definition", () => {
+        const spec = {
+          openapi: "3.0.1",
+          "paths": {
+            "/{myParam}": {
+              "get": {
+                "parameters": [
+                  {
+                    "name": "myParam",
+                    "in": "path",
+                    "required": true,
+                    "schema": {
+                      "type": "string"
+                    }
+                  },
+                ]
+              }
+            }
+          }
+        }
+        return expectNoErrors(spec)
+      })
     })
 })

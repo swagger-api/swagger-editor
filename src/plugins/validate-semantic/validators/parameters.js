@@ -3,13 +3,6 @@ export const validateParameterBadKeys = () => (system) => {
     .allParameters()
     .then(nodes => {
       return nodes.reduce((acc, node) => {
-        if(node.keys.indexOf("example") > -1) {
-          acc.push({
-            level: "error",
-            message: "'example' field is not allowed in parameter",
-            path: [...node.path, "example"]
-          })
-        }
         if(node.node.required !== true && node.node.in === "path") {
           acc.push({
             level: "error",

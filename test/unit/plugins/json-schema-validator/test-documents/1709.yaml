@@ -1,0 +1,17 @@
+meta:
+  title: "#1709 - relative (badly-formed) OIDC URIs"
+input:
+  openapi: 3.0.0
+  info:
+    title: "#1709"
+    version: "1.0"
+  servers:
+  - url: https://api.example.com/v2
+  paths: {}
+  components:
+    securitySchemes:
+      openId:
+        type: openIdConnect
+        openIdConnectUrl: /.well-known/openid-configuration 
+output:
+  equal: null # no errors

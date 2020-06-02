@@ -1,9 +1,13 @@
 // JSON-Schema ( draf04 ) validator
 import JsonSchemaWebWorker from "./validator.worker.js"
+import YAML from "js-yaml"
 import PromiseWorker from "promise-worker"
 import debounce from "lodash/debounce"
-import swagger2Schema from "./swagger2-schema.js"
-import oas3Schema from "./oas3-schema"
+import swagger2SchemaYaml from "./swagger2-schema.yaml"
+import oas3SchemaYaml from "./oas3-schema.yaml"
+
+const swagger2Schema = YAML.safeLoad(swagger2SchemaYaml)
+const oas3Schema = YAML.safeLoad(oas3SchemaYaml)
 
 // Lazily created promise worker
 let _promiseWorker

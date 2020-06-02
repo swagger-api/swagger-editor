@@ -1,0 +1,72 @@
+meta:
+  title: "#1519 - incorrect usage of Schema Object properties"
+cases:
+- name: "`required: true` in an object schema property subschema"
+  input:
+    openapi: 3.0.0
+    info:
+      title: Example API
+      version: 1.0.0
+    paths:
+      /:
+        post:
+          tags:
+            - login
+          summary: Login using email or nickname
+          description: Returns customer info and jwt access and refresh tokens
+          security:
+            - apiKey: []
+          requestBody:
+            content:
+              application/json:
+                schema:
+                  type: object
+                  properties:
+                    emailOrNickname:
+                      type: string
+                      required: true
+                    password:
+                      type: string
+                      required: true
+          responses:
+            "200":
+              description: ok
+  output:
+    length: 2
+    match:
+    - level: error
+      message: should be an array of property names required within an object schema
+      path: [paths, "/", post, requestBody, content, application/json, schema, properties, emailOrNickname, required]
+      source: structural
+    - level: error
+      message: should be an array of property names required within an object schema
+      path: [paths, "/", post, requestBody, content, application/json, schema, properties, password, required]
+      source: structural
+- name: "`type: bool` instead of `type: boolean`"
+  input:
+    openapi: "3.0.0"
+    info:
+      version: 1.0.0
+      title: A thing
+      license:
+        name: AGPL-3.0
+
+    paths: {}
+    components:
+      schemas:
+        ExcellentThing:
+          description: "Something excellent"
+          properties:
+            extremelyExcellent:
+              description: "If false, this item is only somewhat excellent"
+              type: bool
+              example: true
+  output:
+    length: 1
+    match:
+    - level: error
+      source: structural
+      message: |-
+        should be equal to one of the allowed values
+        allowedValues: array, boolean, integer, number, object, string
+      path: [components, schemas, ExcellentThing, properties, extremelyExcellent, type]

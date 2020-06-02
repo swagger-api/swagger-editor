@@ -1,0 +1,84 @@
+cases:
+- name: schema reference with additional property
+  input: 
+    swagger: "2.0"
+    info:
+      title: ""
+      version: 1.0.0
+    paths: 
+      /:
+        get:
+          responses:
+            "200":
+              description: ""
+              schema:
+                $ref: "abc"
+                xyz: 123
+  output:
+    length: 1
+    match:
+    - message: |-
+        should NOT have additional properties
+        additionalProperty: xyz
+      path: [paths, /, get, responses, 200, schema]
+
+- name: schema with invalid `type`
+  input: 
+    swagger: "2.0"
+    info:
+      title: ""
+      version: 1.0.0
+    paths: 
+      /:
+        get:
+          responses:
+            "200":
+              description: ""
+              schema:
+                type: blah
+  output:
+    length: 1
+    match:
+    - message: |-
+        should be equal to one of the allowed values
+        allowedValues: array, boolean, integer, number, object, string, file
+- name: valid schema with invalid subschema type
+  input: 
+    swagger: "2.0"
+    info:
+      title: ""
+      version: 1.0.0
+    paths: 
+      /:
+        get:
+          responses:
+            "200":
+              description: ""
+              schema:
+                properties:
+                  a:
+                    type: str
+  output:
+    length: 1
+    match: 
+    - message: |-
+        should be equal to one of the allowed values
+        allowedValues: array, boolean, integer, number, object, string
+- name: valid schema with no `type`
+  input: 
+    swagger: "2.0"
+    info:
+      title: ""
+      version: 1.0.0
+    paths: 
+      /:
+        get:
+          responses:
+            "200":
+              description: ""
+              schema:
+                properties:
+                  a:
+                    type: string
+  output:
+    equal: null

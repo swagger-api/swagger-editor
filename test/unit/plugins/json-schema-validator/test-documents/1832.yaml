@@ -1,0 +1,20 @@
+meta:
+  title: "#1832 - Schema Object with a non-valid type"
+input:
+  swagger: '2.0'
+  info:
+    title: test
+    version: 0.0.0
+  paths: {}
+  definitions:
+    Model1:
+      type: int
+output:
+  length: 1
+  match:
+  - level: error
+    message: |-
+      should be equal to one of the allowed values
+      allowedValues: array, boolean, integer, number, object, string
+    path: [definitions, Model1, type]
+    source: structural
