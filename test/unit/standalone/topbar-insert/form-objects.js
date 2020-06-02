@@ -26,6 +26,8 @@ import { serverVariableForm } from "src/standalone/topbar-insert/forms/form-obje
 import { externalDocumentationForm } from "src/standalone/topbar-insert/forms/form-objects/external-documentation-object"
 import { addOperationTagsForm, addOperationTagsObject } from "src/standalone/topbar-insert/forms/form-objects/add-operation-tags"
 import { selectOperationForm } from "src/standalone/topbar-insert/forms/form-objects/select-operation"
+import { selectResponseForm } from "src/standalone/topbar-insert/forms/form-objects/select-response"
+import { exampleObject, exampleForm } from "src/standalone/topbar-insert/forms/form-objects/example-value-object"
 
 configure({ adapter: new Adapter() })
 
@@ -276,6 +278,39 @@ describe("editor topbar insert forms", function() {
   
       expect(wrapper.find("input").length).toEqual(1)
       expect(wrapper.find("select").length).toEqual(2)
+    })
+  })
+
+  describe("add example response object", () => {
+    const selectResponse = selectResponseForm(null, [])
+      .setIn(["path", "value"], "/test")
+      .setIn(["operation", "value"], "GET")
+      .setIn(["response", "value"], "200")
+      .setIn(["mediatype", "value"], "application/json")
+  
+    let form = exampleForm(null, [])
+        .setIn(["selectresponse", "value"], selectResponse)
+        .setIn(["exampleName", "value"], "sample example name")
+        .setIn(["exampleValue", "value"], "sample example value")
+
+    it ("should correctly process the add example form into the form values object", () => {  
+      const object = exampleObject(form)
+  
+      const expected = {
+        responsePath: ["paths", "/test", "GET", "responses", "200", "content", "application/json", "examples"],
+        exampleValue: "sample example value",
+        exampleName: "sample example name"
+      }
+  
+      expect(object).toEqual(expected)
+    })
+
+    it ("should correctly render the form UI for the form object", () => {
+      const element = <InsertForm {...props} formData={form} />
+      const wrapper = mount(element)
+  
+      expect(wrapper.find("input").length).toEqual(1)
+      expect(wrapper.find("select").length).toEqual(4)
     })
   })
 })

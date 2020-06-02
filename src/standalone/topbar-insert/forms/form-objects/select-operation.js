@@ -6,7 +6,7 @@ export const selectOperationForm = (updateForm, path, existing) => (
       value: "", 
       isRequired: true, 
       name: "Path",          
-      description: "REQUIRED. The path to add the operation to.",
+      description: "REQUIRED. The path the operation is under.",
       updateForm: event => updateForm(event, path.concat(["path"])),
       validationMessage: "Please select a path. The field is required.",
       options: existing ? existing.getPaths() : [],
