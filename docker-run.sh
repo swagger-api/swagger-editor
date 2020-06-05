@@ -9,7 +9,7 @@ INDEX_FILE=$NGINX_ROOT/index.html
 
 ## Adding env var support for swagger file (json or yaml)
 if [[ -f "$SWAGGER_FILE" ]]; then
-  cp -s $SWAGGER_FILE $NGINX_ROOT
+  cp -s "$SWAGGER_FILE" "$NGINX_ROOT"
   REL_PATH="/$(basename $SWAGGER_FILE)"
   sed -i "s|https://petstore.swagger.io/v2/swagger.json|$REL_PATH|g" $INDEX_FILE
 fi
