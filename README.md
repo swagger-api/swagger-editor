@@ -38,9 +38,6 @@ Current Node.js Maintenance LTS:
 - Node.js 10.x
 - NPM 6.x
 
-Unsupported Node.js LTS that should still work:
-- Node.js 8.13.0 or greater
-- NPM 6.x
 
 If you have Node.js and npm installed, you can run `npm start` to spin up a static server.
 
@@ -72,9 +69,16 @@ docker pull swaggerapi/swagger-editor
 docker run -d -p 80:8080 swaggerapi/swagger-editor
 ```
 
-This will run Swagger Editor (in detached mode) on port 80 on your machine, so you can open it by navigating to `http://localhost` in your browser.
+This will run Swagger Editor (in detached mode) on port 80 on your machine, so you can open it by navigating to `http://localhost` in your browser.  
 
-You can also provide a API document from your local machine — for example, if you have a file at `./bar/swagger.json`:
+
+* You can provide your own `json` or `yaml` definition file on your host
+
+```
+docker run -d -p 80:8080 -v $(pwd):/tmp -e SWAGGER_FILE=/tmp/swagger.json swaggerapi/swagger-editor
+```
+
+* You can provide a API document from your local machine — for example, if you have a file at `./bar/swagger.json`:
 
 ```
 docker run -d -p 80:8080 -e URL=/foo/swagger.json -v /bar:/usr/share/nginx/html/foo swaggerapi/swagger-editor
