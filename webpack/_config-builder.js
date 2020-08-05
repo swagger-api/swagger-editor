@@ -169,7 +169,8 @@ export default function buildConfig(
       resolve: {
         extensions: [".js", ".jsx", "json"],
         alias: {
-          react: path.resolve(projectBasePath, "node_modules", "react")
+          react: path.resolve(projectBasePath, "node_modules", "react"),
+          lodash: path.resolve(projectBasePath, "node_modules", "lodash"),
         },
       },
 
