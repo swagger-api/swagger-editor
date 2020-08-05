@@ -52,6 +52,30 @@ module.exports = {
         "@babel/plugin-proposal-optional-chaining",
       ]
     },
+    "browser": {
+      "sourceType": "unambiguous", // https://github.com/webpack/webpack/issues/4039#issuecomment-419284940
+      "presets": [
+        [
+          "@babel/preset-env",
+          {
+            "debug": false,
+          }
+        ],
+        "@babel/preset-react",
+      ],
+      "plugins": [
+        [
+          "@babel/plugin-transform-runtime",
+          {
+            "corejs": 2,
+            "version": "^7.10.4"
+          }
+        ],
+        "@babel/proposal-class-properties",
+        "@babel/proposal-object-rest-spread",
+        "@babel/plugin-proposal-optional-chaining",
+      ]
+    },
     "development": {
       "presets": [
         [

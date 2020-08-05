@@ -18,6 +18,8 @@ const result = configBuilder(
     emitWorkerAssets: true,
   },
   {
+    mode: "production",
+
     entry: {
       "swagger-editor-bundle": [
         "./src/styles/main.less",
@@ -35,6 +37,7 @@ const result = configBuilder(
       maxEntrypointSize: 1024000 * 3.25, // MB
       maxAssetSize: 1024000 * 3.25, // MB
     },
+
     plugins: [
       new DuplicatesPlugin({
         // emit compilation warning or error? (Default: `false`)
