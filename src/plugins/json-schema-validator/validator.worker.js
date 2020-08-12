@@ -1,4 +1,4 @@
-import "../../polyfills" // todo: remove?
+// import "../../polyfills" // todo: remove?
 import registerPromiseWorker from "promise-worker/register"
 import Validator from "./validator"
 
