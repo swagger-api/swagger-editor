@@ -106,7 +106,7 @@
     "babel-plugin-transform-react-remove-prop-types": "^0.4.24",
     "bundlesize": "^0.18.0",
     "cross-env": "=7.0.2",
-    "css-loader": "^3.1.0",
+    "css-loader": "^3.5.3",
     "cssnano": "^4.1.10",
     "cypress": "=4.12.1",
     "dedent": "^0.7.0",
