@@ -16,7 +16,7 @@ const result = configBuilder(
   {
     entry: {
       "swagger-editor-standalone-preset": [
-        "./src/polyfills.js",
+        // "./src/polyfills.js",
         "./src/standalone/index.js",
       ],
     },
