@@ -96,7 +96,7 @@
     "@babel/preset-env": "^7.10.2",
     "@babel/preset-react": "^7.10.1",
     "@babel/register": "^7.10.1",
-    "@babel/runtime-corejs2": "^7.0.0",
+    "@babel/runtime-corejs2": "^7.10.4",
     "@release-it/conventional-changelog": "=1.1.4",
     "babel-eslint": "^10.0.2",
     "babel-loader": "^8.1.0",
