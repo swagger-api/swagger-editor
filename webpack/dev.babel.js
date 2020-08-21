@@ -20,11 +20,9 @@ const devConfig = configBuilder(
     mode: "development",
     entry: {
       "swagger-editor-bundle": [
-        "./src/polyfills.js", // TODO: remove?
         "./src/index.js",
       ],
       "swagger-editor-standalone-preset": [
-        "./src/polyfills", // TODO: remove?
         "./src/standalone/index.js",
       ],
       "swagger-editor": "./src/styles/main.less",
