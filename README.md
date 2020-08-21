@@ -22,6 +22,40 @@ If you're building a single-page application, using `swagger-editor` is strongly
 
 For the older version of swagger-editor, refer to the [*2.x branch*](https://github.com/swagger-api/swagger-editor/tree/2.x).
 
+## Helpful scripts
+
+Any of the scripts below can be run by typing `npm run <script name>` in the project's root directory.
+
+### Developing
+Script name | Description
+--- | ---
+`dev` | Spawn a hot-reloading dev server on port 3200.
+`deps-check` | Generate a size and licensing report on Swagger Editors's dependencies.
+`lint` | Report ESLint style errors and warnings.
+`lint-errors` | Report ESLint style errors, without warnings.
+`lint-fix` | Attempt to fix style errors automatically.
+`watch` | Rebuild the core files in `/dist` when the source code changes. Useful for `npm link`.
+
+### Building
+Script name | Description
+--- | ---
+`build` | Build a new set of JS and CSS assets, and output them to `/dist`.
+`build:bundle` | Build `swagger-editor-bundle.js` only (commonJS). 
+`build:core` | Build `swagger-editor.(js\|css)` only (commonJS).
+`build:standalone` | Build `swagger-editor-standalone-preset.js` only (commonJS).
+`build:stylesheets` | Build `swagger-editor.css` only.
+`build:es:bundle` | Build `swagger-editor-es-bundle.js` only (es2015).
+`build:es:bundle:core` | Build `swagger-editor-es-bundle-core.js` only (es2015).
+
+### Testing
+Script name | Description
+--- | ---
+`test` | Run unit tests in Node, run Cypress end-to-end tests, and run ESLint in errors-only mode.
+`just-test-in-node` | Run Mocha unit tests in Node.
+`e2e` | Run end-to-end browser tests with Cypress.
+`lint` | Run ESLint test
+
+
 ## Running locally
 
 ##### Prerequisites
