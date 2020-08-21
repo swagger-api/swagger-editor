@@ -35,6 +35,7 @@ const result = configBuilder(
     },
 
     output: {
+      globalObject: "this",
       library: "SwaggerEditorBundle",
       libraryTarget: "commonjs2",
     },
