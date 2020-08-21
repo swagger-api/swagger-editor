@@ -4,6 +4,7 @@ node_modules
 .DS_Store
 npm-debug.log*
 .eslintcache
+dist/log*
 
 # Cypress
 test/e2e/screenshots

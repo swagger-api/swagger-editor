@@ -7,7 +7,7 @@
  * when enabled, rebuilding the bundle will cause error for assetSizeLimit,
  * which we want to keep out of CI/CD
  * post build, cli command: npx webpack-bundle-analyzer <path>
- */ 
+ */
 
 import configBuilder from "./_config-builder"
 import { DuplicatesPlugin } from "inspectpack/plugin"
@@ -20,7 +20,7 @@ const result = configBuilder(
     minimize: true,
     mangle: true,
     sourcemaps: true,
-    includeDependencies: true,
+    includeDependencies: false,
     includeStyles: true,
     emitWorkerAssets: true,
   },
@@ -28,14 +28,16 @@ const result = configBuilder(
     mode: "production",
 
     entry: {
-      "swagger-editor-bundle": [
+      "swagger-editor-es-bundle-core": [
         "./src/styles/main.less",
         "./src/index.js",
       ],
     },
 
     output: {
+      globalObject: "this",
       library: "SwaggerEditorBundle",
+      libraryTarget: "commonjs2",
     },
 
     performance: {
@@ -51,9 +53,9 @@ const result = configBuilder(
         // display full duplicates information? (Default: `false`)
         verbose: true,
       }),
-      new WebpackBundleSizeAnalyzerPlugin("log.bundle-sizes.swagger-editor.txt"),
+      new WebpackBundleSizeAnalyzerPlugin("log.es-bundle-sizes.swagger-editor.txt"),
       // new StatsWriterPlugin({
-      //   filename: path.join("log.bundle-stats.swagger-editor.json"),
+      //   filename: path.join("log.es-bundle-stats.swagger-editor.json"),
       //   fields: null,
       // }),
     ]
