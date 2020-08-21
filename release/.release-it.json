@@ -18,7 +18,7 @@
   },
   "github": {
     "release": true,
-    "releaseName": "Swagger Editor %s Released!",
+    "releaseName": "Swagger Editor v${version} Released!",
     "draft": true
   },
   "plugins": {
