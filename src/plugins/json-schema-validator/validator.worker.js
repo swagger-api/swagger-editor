@@ -1,4 +1,4 @@
-import "src/polyfills"
+import "../../polyfills"
 import registerPromiseWorker from "promise-worker/register"
 import Validator from "./validator"
 

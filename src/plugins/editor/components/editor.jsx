@@ -6,7 +6,7 @@ import { placeMarkerDecorations } from "../editor-helpers/marker-placer"
 import Im, { fromJS } from "immutable"
 import ImPropTypes from "react-immutable-proptypes"
 
-import win from "src/window"
+import win from "../../../window"
 
 import isUndefined from "lodash/isUndefined"
 import omit from "lodash/omit"
