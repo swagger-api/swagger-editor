@@ -1,5 +1,5 @@
 import { SOURCE } from "../actions"
-import { getRootNode } from "src/plugins/validate-semantic/helpers"
+import { getRootNode } from "../helpers"
 const operationKeys = ["get", "post", "put", "delete", "options", "head", "patch", "trace"]
 
 export const validateParameterFormDataCaseTypo = () => system => {
