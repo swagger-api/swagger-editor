@@ -54,6 +54,10 @@ Script name | Description
 `just-test-in-node` | Run Mocha unit tests in Node.
 `e2e` | Run end-to-end browser tests with Cypress.
 `lint` | Run ESLint test
+`test:artifact` | Run list of bundle artifact tests in Jest
+`test:artifact:umd:bundle` | Run unit test that confirms `swagger-editor-bundle` exports as a Function
+`test:artifact:es:bundle` | Run unit test that confirms `swagger-editor-es-bundle` exports as a Function
+`test:artifact:es:bundle:core` | Run unit test that confirms `swagger-editor-es-bundle-core` exports as a Function
 
 
 ## Running locally

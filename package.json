@@ -48,6 +48,10 @@
     "security-audit": "run-s -sc security-audit:all security-audit:prod",
     "security-audit:prod": "npm-audit-ci-wrapper -p -t low",
     "security-audit:all": "npm-audit-ci-wrapper -t moderate",
+    "test:artifact": "run-s test:artifact:umd:bundle test:artifact:es:bundle test:artifact:es:bundle:core",
+    "test:artifact:umd:bundle": "npm run build:bundle && cross-env BABEL_ENV=commonjs jest --config ./config/jest/jest.artifact-umd-bundle.config.js",
+    "test:artifact:es:bundle": "npm run build:es:bundle && cross-env BABEL_ENV=commonjs jest --config ./config/jest/jest.artifact-es-bundle.config.js",
+    "test:artifact:es:bundle:core": "npm run build:es:bundle:core && cross-env BABEL_ENV=commonjs jest --config ./config/jest/jest.artifact-es-bundle-core.config.js",
     "start": "npm-run-all --parallel serve-static open-static",
     "watch": "webpack --config  webpack/core.babel.js --watch --progress"
   },
@@ -126,6 +130,7 @@
     "http-server": "^0.12.3",
     "ignore-assets-webpack-plugin": "^2.0.1",
     "inspectpack": "=4.5.2",
+    "jest": "=26.4.1",
     "jsdom": "11.12.0",
     "jsdom-global": "3.0.2",
     "json-loader": "0.5.7",
