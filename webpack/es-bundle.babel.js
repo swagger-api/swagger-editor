@@ -28,7 +28,7 @@ const result = configBuilder(
     mode: "production",
 
     entry: {
-      "swagger-editor-bundle": [
+      "swagger-editor-es-bundle": [
         "./src/styles/main.less",
         "./src/index.js",
       ],
@@ -36,6 +36,7 @@ const result = configBuilder(
 
     output: {
       library: "SwaggerEditorBundle",
+      libraryTarget: "commonjs2",
     },
 
     performance: {
@@ -51,9 +52,9 @@ const result = configBuilder(
         // display full duplicates information? (Default: `false`)
         verbose: true,
       }),
-      new WebpackBundleSizeAnalyzerPlugin("log.bundle-sizes.swagger-editor.txt"),
+      new WebpackBundleSizeAnalyzerPlugin("log.es-bundle-sizes.swagger-editor.txt"),
       // new StatsWriterPlugin({
-      //   filename: path.join("log.bundle-stats.swagger-editor.json"),
+      //   filename: path.join("log.es-bundle-stats.swagger-editor.json"),
       //   fields: null,
       // }),
     ]
