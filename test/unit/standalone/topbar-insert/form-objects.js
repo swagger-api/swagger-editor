@@ -1,4 +1,4 @@
-import expect from "expect"
+import { expect } from "@jest/globals"
 import React from "react"
 import { configure, mount } from "enzyme"
 import Adapter from "enzyme-adapter-react-15"
@@ -31,8 +31,8 @@ import { exampleObject, exampleForm } from "src/standalone/topbar-insert/forms/f
 
 configure({ adapter: new Adapter() })
 
-describe("editor topbar insert forms", function() {
-  this.timeout(10 * 1000)
+describe("editor topbar insert forms", () => {
+  // this.timeout(10 * 1000)
   let components, props
 
   beforeEach(() => {
@@ -54,7 +54,7 @@ describe("editor topbar insert forms", function() {
   })
 
 
-  describe("operation object", function () {
+  describe("operation object", () => {
     let form = operationForm(null, [])
   
     const tag = form.getIn(["tags", "defaultItem"])(null, [])
@@ -68,23 +68,26 @@ describe("editor topbar insert forms", function() {
     
     const object = operationObject(form)
 
-    it("should correctly process the operation form into the operation object", () => {  
-      const expected = {
-        summary: "test summary",
-        description: "test description",
-        operationId: "testid",
-        tags: ["test tag"],
-        responses: {
-          default: {
-            description: "Default error sample response"
+    it(
+      "should correctly process the operation form into the operation object",
+      () => {  
+        const expected = {
+          summary: "test summary",
+          description: "test description",
+          operationId: "testid",
+          tags: ["test tag"],
+          responses: {
+            default: {
+              description: "Default error sample response"
+            }
           }
         }
+    
+        expect(object).toEqual(expected)
       }
+    )
   
-      expect(object).toEqual(expected)
-    })
-  
-    it ("should correctly render the form UI for the form object", () => {
+    it("should correctly render the form UI for the form object", () => {
       const element = <InsertForm {...props} formData={form} />
       const wrapper = mount(element)
   
@@ -111,29 +114,32 @@ describe("editor topbar insert forms", function() {
       .setIn(["license"], license)
       .setIn(["contact"], contact)
 
-    it("should correctly process the info form into the info object", () => {        
-      const object = infoObject(form)
-  
-      const expected = {
-        title: "test title",
-        version: "test version",
-        description: "test description",
-        termsOfService: "testtermsofservice",
-        license: {
-          name: "test name",
-          url: "test url"
-        },
-        contact: {
-          name: "test name",
-          url: "test url",
-          email: "testemail@test.com"
+    it(
+      "should correctly process the info form into the info object",
+      () => {        
+        const object = infoObject(form)
+    
+        const expected = {
+          title: "test title",
+          version: "test version",
+          description: "test description",
+          termsOfService: "testtermsofservice",
+          license: {
+            name: "test name",
+            url: "test url"
+          },
+          contact: {
+            name: "test name",
+            url: "test url",
+            email: "testemail@test.com"
+          }
         }
+    
+        expect(object).toEqual(expected)
       }
-  
-      expect(object).toEqual(expected)
-    })
+    )
 
-    it ("should correctly render the form UI for the form object", () => {
+    it("should correctly render the form UI for the form object", () => {
       const element = <InsertForm {...props} formData={form} />
       const wrapper = mount(element)
   
@@ -162,7 +168,7 @@ describe("editor topbar insert forms", function() {
       expect(object).toEqual(expected)
     })
 
-    it ("should correctly render the form UI for the form object", () => {
+    it("should correctly render the form UI for the form object", () => {
       const element = <InsertForm {...props} formData={form} />
       const wrapper = mount(element)
   
@@ -185,22 +191,25 @@ describe("editor topbar insert forms", function() {
     // Set some values as though the user had entered data
     form = form.setIn(["tags", "value"], new List([tag]))
 
-    it("should correctly process the tag declarations form into the tags object", () => {
-      const object = tagsObject(form)
-      const expected = [
-        {
-          name: "test tag name",
-          description: "test description",
-          externalDocs: {
-            url: "test url",
-            description: "test description"
+    it(
+      "should correctly process the tag declarations form into the tags object",
+      () => {
+        const object = tagsObject(form)
+        const expected = [
+          {
+            name: "test tag name",
+            description: "test description",
+            externalDocs: {
+              url: "test url",
+              description: "test description"
+            }
           }
-        }
-      ]
-      expect(object).toEqual(expected)
-    })  
+        ]
+        expect(object).toEqual(expected)
+      }
+    )  
 
-    it ("should correctly render the form UI for the form object", () => {
+    it("should correctly render the form UI for the form object", () => {
       const element = <InsertForm {...props} formData={form} />
       const wrapper = mount(element)
   
@@ -221,28 +230,31 @@ describe("editor topbar insert forms", function() {
       .setIn(["servers", "value", 0, "description", "value"], "test description")
       .setIn(["servers", "value", 0, "variables"], serverVariable)
 
-    it ("should correctly process the servers form into the servers object", () => {  
-      const object = serversObject(form)
-      const expected = [
-        {
-          url: "test url",
-          description: "test description",
-          variables: {
-            keyvalue: {
-              default: "test default",
-              description: "test var description",
-              enum: [
-                "test enum value"
-              ]
+    it(
+      "should correctly process the servers form into the servers object",
+      () => {  
+        const object = serversObject(form)
+        const expected = [
+          {
+            url: "test url",
+            description: "test description",
+            variables: {
+              keyvalue: {
+                default: "test default",
+                description: "test var description",
+                enum: [
+                  "test enum value"
+                ]
+              }
             }
           }
-        }
-      ]
-  
-      expect(object).toEqual(expected)
-    })
+        ]
+    
+        expect(object).toEqual(expected)
+      }
+    )
 
-    it ("should correctly render the form UI for the form object", () => {
+    it("should correctly render the form UI for the form object", () => {
       const element = <InsertForm {...props} formData={form} />
       const wrapper = mount(element)
   
@@ -259,20 +271,23 @@ describe("editor topbar insert forms", function() {
         .setIn(["selectoperation", "value"], selectOperation)
         .setIn(["tags", "value", 0, "tag", "value"], "test tag")
 
-    it ("should correctly process the add tags to operation into the add tags object", () => {  
-      const object = addOperationTagsObject(form)
-  
-      const expected = {
-        selectedOperation: ["paths", "/test", "GET"],
-        tags: [
-          "test tag"
-        ]
+    it(
+      "should correctly process the add tags to operation into the add tags object",
+      () => {  
+        const object = addOperationTagsObject(form)
+    
+        const expected = {
+          selectedOperation: ["paths", "/test", "GET"],
+          tags: [
+            "test tag"
+          ]
+        }
+    
+        expect(object).toEqual(expected)
       }
-  
-      expect(object).toEqual(expected)
-    })
+    )
 
-    it ("should correctly render the form UI for the form object", () => {
+    it("should correctly render the form UI for the form object", () => {
       const element = <InsertForm {...props} formData={form} />
       const wrapper = mount(element)
   
@@ -293,19 +308,22 @@ describe("editor topbar insert forms", function() {
         .setIn(["exampleName", "value"], "sample example name")
         .setIn(["exampleValue", "value"], "sample example value")
 
-    it ("should correctly process the add example form into the form values object", () => {  
-      const object = exampleObject(form)
-  
-      const expected = {
-        responsePath: ["paths", "/test", "GET", "responses", "200", "content", "application/json", "examples"],
-        exampleValue: "sample example value",
-        exampleName: "sample example name"
+    it(
+      "should correctly process the add example form into the form values object",
+      () => {  
+        const object = exampleObject(form)
+    
+        const expected = {
+          responsePath: ["paths", "/test", "GET", "responses", "200", "content", "application/json", "examples"],
+          exampleValue: "sample example value",
+          exampleName: "sample example name"
+        }
+    
+        expect(object).toEqual(expected)
       }
-  
-      expect(object).toEqual(expected)
-    })
+    )
 
-    it ("should correctly render the form UI for the form object", () => {
+    it("should correctly render the form UI for the form object", () => {
       const element = <InsertForm {...props} formData={form} />
       const wrapper = mount(element)
   

@@ -1,4 +1,4 @@
-import expect from "expect"
+import { expect } from "@jest/globals"
 import React from "react"
 import SwaggerUi from "swagger-ui"
 import insertPlugin from "src/standalone/topbar-insert"
@@ -53,22 +53,25 @@ function getSystem(spec) {
   })
 }
 
-describe("editor topbar insert menu plugin", function() {
-  this.timeout(10 * 1000)
+describe("editor topbar insert menu plugin", () => {
+  // this.timeout(10 * 1000)
 
   it("should provide a `addToSpec` method as a spec action", async () => {
     const spec = {}
     const system = await getSystem(spec)
-    expect(system.specActions.addToSpec).toBeA(Function)
+    expect(system.specActions.addToSpec).toBeInstanceOf(Function)
   })
 
-  it("should provide an <InsertMenu /> component to render a menu option", async function(){
-    const spec = {}
-    const system = await getSystem(spec)
-    const InsertMenu = system.getSystem().getComponents("TopbarInsert")
-    let wrapper = mount(<InsertMenu {...system} getComponent={(c) => system.getSystem().getComponents(c)} />)
-    expect(wrapper.find(".menu-item").length).toEqual(1)
-  })
+  it(
+    "should provide an <InsertMenu /> component to render a menu option",
+    async () => {
+      const spec = {}
+      const system = await getSystem(spec)
+      const InsertMenu = system.getSystem().getComponents("TopbarInsert")
+      let wrapper = mount(<InsertMenu {...system} getComponent={(c) => system.getSystem().getComponents(c)} />)
+      expect(wrapper.find(".menu-item").length).toEqual(1)
+    }
+  )
   
   it("should correctly update the spec when addToSpec is called", async () => {
     const spec = {

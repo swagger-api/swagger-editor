@@ -1,6 +1,6 @@
+import { expect } from "@jest/globals"
 import { fromJS } from "immutable"
 import React from "react"
-import expect from "expect"
 import { configure, mount } from "enzyme"
 import Adapter from "enzyme-adapter-react-15"
 import AddForm from "src/standalone/topbar-insert/forms/components/AddForm"
@@ -15,8 +15,8 @@ import InsertFormList from "src/standalone/topbar-insert/forms/components/Insert
 
 configure({ adapter: new Adapter() })
 
-describe("editor topbar insert form UI generation", function() {
-  this.timeout(10 * 1000)
+describe("editor topbar insert form UI generation", () => {
+  // this.timeout(10 * 1000)
   let components, props
 
   beforeEach(() => {
@@ -122,31 +122,34 @@ describe("editor topbar insert form UI generation", function() {
     expect(wrapper.find("input").length).toEqual(2)
   })
 
-  it("should not render an input that depends on an input with no value", () => {
-    const form = fromJS({
-      fielda: {
-        value: "",
-        isRequired: true,
-        name: "field a",
-        options: ["optiona", "optionb"],
-        updateForm: () => null
-      },
-      fieldb: {
-        dependsOn: ["fielda", "value"],
-        updateOptions: () => { return ["option c", "option d"] },
-        value: "",
-        isRequired: true,
-        name: "field a",
-        options: [],
-        updateForm: () => null
-      },
-    })
+  it(
+    "should not render an input that depends on an input with no value",
+    () => {
+      const form = fromJS({
+        fielda: {
+          value: "",
+          isRequired: true,
+          name: "field a",
+          options: ["optiona", "optionb"],
+          updateForm: () => null
+        },
+        fieldb: {
+          dependsOn: ["fielda", "value"],
+          updateOptions: () => { return ["option c", "option d"] },
+          value: "",
+          isRequired: true,
+          name: "field a",
+          options: [],
+          updateForm: () => null
+        },
+      })
 
-    const element = <InsertForm {...props} formData={form} />
-    const wrapper = mount(element)
+      const element = <InsertForm {...props} formData={form} />
+      const wrapper = mount(element)
 
-    expect(wrapper.find("select").length).toEqual(1)
-  })
+      expect(wrapper.find("select").length).toEqual(1)
+    }
+  )
 
   it("should render an input that depends on an input with a value", () => {
     const form = fromJS({
