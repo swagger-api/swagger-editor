@@ -1,8 +1,8 @@
+import { expect } from "@jest/globals"
 import YAML from "js-yaml"
 import JSONSchemaValidator from "src/plugins/json-schema-validator/validator/index.js"
 import fs from "fs"
 import path from "path"
-import expect from "expect"
 
 const swagger2SchemaYaml = fs.readFileSync(path.join(__dirname, "../../../../src/plugins/json-schema-validator/swagger2-schema.yaml")).toString()
 const oas3SchemaYaml = fs.readFileSync(path.join(__dirname, "../../../../src/plugins/json-schema-validator/oas3-schema.yaml")).toString()
@@ -55,7 +55,7 @@ testDocuments.forEach(doc => {
 
         if(currentCase.name) {
           // only create a new describe block if we have a name
-          describe(currentCase.name || "", function () {
+          describe(currentCase.name || "", () => {
             assertCaseExpectations(currentCase, result)
           })
         } else {
@@ -71,13 +71,13 @@ function assertCaseExpectations(currentCase, result) {
   const itFn = currentCase.skip ? it.skip : it
   if (currentCase.output.match !== undefined) {
     itFn("should match expected error output", function () {
-      expect(result).toMatch(currentCase.output.match)
+      expect(result.toString()).toMatch(currentCase.output.match.toString())
     })
   }
 
   if (currentCase.output.length !== undefined) {
     itFn("should have expected array length", function () {
-      expect(result).toBeAn(Array)
+      expect(result).toBeInstanceOf(Array)
       expect(result.length).toBe(currentCase.output.length)
     })
   }
