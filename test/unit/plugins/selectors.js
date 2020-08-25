@@ -366,7 +366,7 @@ describe("validation plugin - selectors", () => {
             expect(nodes[0].parent.key).toEqual("application/myRequestMediaType")
             expect(nodes[1].key).toEqual("schema")
             expect(nodes[1].parent.key).toEqual("application/myResponseMediaType")
-          });
+          })
       })
 
       it("should pick up schemas in response components", () => {
@@ -718,7 +718,7 @@ describe("validation plugin - selectors", () => {
           expect(nodes[0].node).not.toBe(nodes[1].node)
           expect(nodes[0].key).toEqual("basicAuth")
           expect(nodes[1].key).toEqual("apiKeyAuth")
-        });
+        })
     })
     it("should pick up OAS3 security schemes", () => {
       const spec = {
@@ -742,7 +742,7 @@ describe("validation plugin - selectors", () => {
           expect(nodes[0].node).not.toBe(nodes[1].node)
           expect(nodes[0].key).toEqual("basicAuth")
           expect(nodes[1].key).toEqual("apiKeyAuth")
-        });
+        })
     })
     it(
       "should pick up OAS2 security schemes named x- (i.e. not consider them extensions)",
@@ -850,7 +850,7 @@ describe("validation plugin - selectors", () => {
           expect(nodes[1].node).toEqual(
             { "auth2": [], "auth3": [] }
           )
-        });
+        })
     })
     it("should pick up operation-level security requirements", () => {
       const spec = {
@@ -882,7 +882,7 @@ describe("validation plugin - selectors", () => {
           expect(nodes[1].node).toEqual(
             { "auth2": [], "auth3": [] }
           )
-        });
+        })
     })
     it("should pick up empty security requirements", () => {
       const spec = {
@@ -907,7 +907,7 @@ describe("validation plugin - selectors", () => {
           expect(nodes[0].node).not.toBe(nodes[1].node)
           expect(nodes[0].node).toEqual({})
           expect(nodes[1].node).toEqual({})
-        });
+        })
     })
     it("should not pick up the `security` key inside extensions", () => {
       const spec = {
