@@ -2,8 +2,7 @@
  * @prettier
  */
 
-import expect from "expect"
-
+import { expect } from "@jest/globals"
 import validateHelper, { expectNoErrors } from "../validate-helper.js"
 
 describe("validation plugin - semantic - 2and3 tags", () => {
