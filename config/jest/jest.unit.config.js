@@ -3,7 +3,7 @@ const path = require('path');
 module.exports = {
   rootDir: path.join(__dirname, '..', '..'),
   testEnvironment: 'jsdom',
-  testMatch: ['**/test/unit/standalone/topbar-insert/*.js'],
+  testMatch: ['**/test/unit/plugins/*.js'],
   // testMatch: ['**/test/unit/*.js', '**/test/unit/**/*.js'],
   // setupFilesAfterEnv: ['<rootDir>/test/unit/setup.js'],
   testPathIgnorePatterns: [

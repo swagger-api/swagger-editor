@@ -1,4 +1,4 @@
-import expect from "expect"
+import { expect } from "@jest/globals"
 import SwaggerUi from "swagger-ui"
 import ValidateBasePlugin from "plugins/validate-base"
 import ValidateSemanticPlugin from "plugins/validate-semantic"
@@ -41,11 +41,10 @@ function getSystem(spec) {
   })
 }
 
-describe("validation plugin - selectors", function() {
-  this.timeout(10 * 1000)
+describe("validation plugin - selectors", () => {
 
-  describe("allSchemas", function() {
-    describe("OpenAPI 2.0", function() {
+  describe("allSchemas", () => {
+    describe("OpenAPI 2.0", () => {
       it("should pick up parameter schemas", () => {
         const spec = {
           paths: {
@@ -115,22 +114,25 @@ describe("validation plugin - selectors", function() {
           })
       })
 
-      it("should pick up global definitions named 'x-' (i.e. not consider them extensions)", () => {
-        const spec = {
-          definitions: {
-            "x-fooModel": {
-              type: "string"
+      it(
+        "should pick up global definitions named 'x-' (i.e. not consider them extensions)",
+        () => {
+          const spec = {
+            definitions: {
+              "x-fooModel": {
+                type: "string"
+              }
             }
           }
-        }
 
-        return getSystem(spec)
-          .then(system => system.validateSelectors.allSchemas())
-          .then(nodes => {
-            expect(nodes.length).toEqual(1)
-            expect(nodes[0].key).toEqual("x-fooModel")
-          })
-      })
+          return getSystem(spec)
+            .then(system => system.validateSelectors.allSchemas())
+            .then(nodes => {
+              expect(nodes.length).toEqual(1)
+              expect(nodes[0].key).toEqual("x-fooModel")
+            })
+        }
+      )
 
       it("should pick up response headers", () => {
         const spec = {
@@ -279,7 +281,7 @@ describe("validation plugin - selectors", function() {
       })
     })
 
-    describe("OpenAPI 3.0", function() {
+    describe("OpenAPI 3.0", () => {
       it("should pick up schemas in 'components'", () => {
         const spec = {
           openapi: "3.0.0",
@@ -300,25 +302,28 @@ describe("validation plugin - selectors", function() {
           })
       })
 
-      it("should pick up schemas named 'x-' (i.e. not consider them extensions)", () => {
-        const spec = {
-          openapi: "3.0.0",
-          components: {
-            schemas: {
-              "x-fooModel": {
-                type: "string"
+      it(
+        "should pick up schemas named 'x-' (i.e. not consider them extensions)",
+        () => {
+          const spec = {
+            openapi: "3.0.0",
+            components: {
+              schemas: {
+                "x-fooModel": {
+                  type: "string"
+                }
               }
             }
           }
-        }
 
-        return getSystem(spec)
-          .then(system => system.validateSelectors.allSchemas())
-          .then(nodes => {
-            expect(nodes.length).toEqual(1)
-            expect(nodes[0].key).toEqual("x-fooModel")
-          })
-      })
+          return getSystem(spec)
+            .then(system => system.validateSelectors.allSchemas())
+            .then(nodes => {
+              expect(nodes.length).toEqual(1)
+              expect(nodes[0].key).toEqual("x-fooModel")
+            })
+        }
+      )
 
       it("should pick up request body schemas and response schemas", () => {
         const spec = {
@@ -356,12 +361,12 @@ describe("validation plugin - selectors", function() {
           .then(system => system.validateSelectors.allSchemas())
           .then(nodes => {
             expect(nodes.length).toEqual(2)
-            expect(nodes[0].node).toNotBe(nodes[1].node)
+            expect(nodes[0].node).not.toBe(nodes[1].node)
             expect(nodes[0].key).toEqual("schema")
             expect(nodes[0].parent.key).toEqual("application/myRequestMediaType")
             expect(nodes[1].key).toEqual("schema")
             expect(nodes[1].parent.key).toEqual("application/myResponseMediaType")
-          })
+          });
       })
 
       it("should pick up schemas in response components", () => {
@@ -526,7 +531,7 @@ describe("validation plugin - selectors", function() {
     })
   })
 
-  describe("allResponses", function() {
+  describe("allResponses", () => {
     it("should pick up operation responses with specific codes like 200", () => {
       const spec = {
         paths: {
@@ -594,27 +599,30 @@ describe("validation plugin - selectors", function() {
           expect(nodes[0].path).toEqual(["paths","/foo","get","responses","2XX"])
         })
     })
-    it("should ignore x- extension keys in an operation's `responses` section", () => {
-      const spec = {
-        paths: {
-          "/foo": {
-            get: {
-              responses: {
-                "x-ext": {
-                  foo: "bar"
+    it(
+      "should ignore x- extension keys in an operation's `responses` section",
+      () => {
+        const spec = {
+          paths: {
+            "/foo": {
+              get: {
+                responses: {
+                  "x-ext": {
+                    foo: "bar"
+                  }
                 }
               }
             }
           }
         }
-      }
 
-      return getSystem(spec)
-        .then(system => system.validateSelectors.allResponses())
-        .then(nodes => {
-          expect(nodes.length).toEqual(0)
-        })
-    })
+        return getSystem(spec)
+          .then(system => system.validateSelectors.allResponses())
+          .then(nodes => {
+            expect(nodes.length).toEqual(0)
+          })
+      }
+    )
     it("should pick up OpenAPI 2 global response definitions", () => {
       const spec = {
         swagger: "2.0",
@@ -707,10 +715,10 @@ describe("validation plugin - selectors", function() {
         .then(system => system.validateSelectors.allSecurityDefinitions())
         .then(nodes => {
           expect(nodes.length).toEqual(2)
-          expect(nodes[0].node).toNotBe(nodes[1].node)
+          expect(nodes[0].node).not.toBe(nodes[1].node)
           expect(nodes[0].key).toEqual("basicAuth")
           expect(nodes[1].key).toEqual("apiKeyAuth")
-        })
+        });
     })
     it("should pick up OAS3 security schemes", () => {
       const spec = {
@@ -731,63 +739,72 @@ describe("validation plugin - selectors", function() {
         .then(system => system.validateSelectors.allSecurityDefinitions())
         .then(nodes => {
           expect(nodes.length).toEqual(2)
-          expect(nodes[0].node).toNotBe(nodes[1].node)
+          expect(nodes[0].node).not.toBe(nodes[1].node)
           expect(nodes[0].key).toEqual("basicAuth")
           expect(nodes[1].key).toEqual("apiKeyAuth")
-        })
+        });
     })
-    it("should pick up OAS2 security schemes named x- (i.e. not consider them extensions)", () => {
-      const spec = {
-        swagger: "2.0",
-        securityDefinitions: {
-          "x-auth": {
-            type: "basic"
-          }
-        }
-      }
-
-      return getSystem(spec)
-        .then(system => system.validateSelectors.allSecurityDefinitions())
-        .then(nodes => {
-          expect(nodes.length).toEqual(1)
-          expect(nodes[0].key).toEqual("x-auth")
-        })
-    })
-    it("should pick up OAS3 security schemes named x- (i.e. not consider them extensions)", () => {
-      const spec = {
-        openapi: "3.0.0",
-        components: {
-          securitySchemes: {
+    it(
+      "should pick up OAS2 security schemes named x- (i.e. not consider them extensions)",
+      () => {
+        const spec = {
+          swagger: "2.0",
+          securityDefinitions: {
             "x-auth": {
               type: "basic"
             }
           }
         }
-      }
 
-      return getSystem(spec)
-        .then(system => system.validateSelectors.allSecurityDefinitions())
-        .then(nodes => {
-          expect(nodes.length).toEqual(1)
-          expect(nodes[0].key).toEqual("x-auth")
-        })
-    })
-    it("should not pick up arbitrary OAS2 nodes named `securityDefinitions`", () => {
-      const spec = {
-        swagger: "2.0",
-        definitions: {
-          securityDefinitions: {
-            type: "object"
+        return getSystem(spec)
+          .then(system => system.validateSelectors.allSecurityDefinitions())
+          .then(nodes => {
+            expect(nodes.length).toEqual(1)
+            expect(nodes[0].key).toEqual("x-auth")
+          })
+      }
+    )
+    it(
+      "should pick up OAS3 security schemes named x- (i.e. not consider them extensions)",
+      () => {
+        const spec = {
+          openapi: "3.0.0",
+          components: {
+            securitySchemes: {
+              "x-auth": {
+                type: "basic"
+              }
+            }
           }
         }
-      }
 
-      return getSystem(spec)
-        .then(system => system.validateSelectors.allSecurityDefinitions())
-        .then(nodes => {
-          expect(nodes.length).toEqual(0)
-        })
-    })
+        return getSystem(spec)
+          .then(system => system.validateSelectors.allSecurityDefinitions())
+          .then(nodes => {
+            expect(nodes.length).toEqual(1)
+            expect(nodes[0].key).toEqual("x-auth")
+          })
+      }
+    )
+    it(
+      "should not pick up arbitrary OAS2 nodes named `securityDefinitions`",
+      () => {
+        const spec = {
+          swagger: "2.0",
+          definitions: {
+            securityDefinitions: {
+              type: "object"
+            }
+          }
+        }
+
+        return getSystem(spec)
+          .then(system => system.validateSelectors.allSecurityDefinitions())
+          .then(nodes => {
+            expect(nodes.length).toEqual(0)
+          })
+      }
+    )
     it("should not pick up arbitrary OAS3 nodes named `securitySchemes`", () => {
       const spec = {
         openapi: "3.0.0",
@@ -826,14 +843,14 @@ describe("validation plugin - selectors", function() {
         .then(system => system.validateSelectors.allSecurityRequirements())
         .then(nodes => {
           expect(nodes.length).toEqual(2)
-          expect(nodes[0].node).toNotBe(nodes[1].node)
+          expect(nodes[0].node).not.toBe(nodes[1].node)
           expect(nodes[0].node).toEqual(
             { "auth1": [] }
           )
           expect(nodes[1].node).toEqual(
             { "auth2": [], "auth3": [] }
           )
-        })
+        });
     })
     it("should pick up operation-level security requirements", () => {
       const spec = {
@@ -858,14 +875,14 @@ describe("validation plugin - selectors", function() {
         .then(system => system.validateSelectors.allSecurityRequirements())
         .then(nodes => {
           expect(nodes.length).toEqual(2)
-          expect(nodes[0].node).toNotBe(nodes[1].node)
+          expect(nodes[0].node).not.toBe(nodes[1].node)
           expect(nodes[0].node).toEqual(
             { "auth1": [] }
           )
           expect(nodes[1].node).toEqual(
             { "auth2": [], "auth3": [] }
           )
-        })
+        });
     })
     it("should pick up empty security requirements", () => {
       const spec = {
@@ -887,10 +904,10 @@ describe("validation plugin - selectors", function() {
         .then(system => system.validateSelectors.allSecurityRequirements())
         .then(nodes => {
           expect(nodes.length).toEqual(2)
-          expect(nodes[0].node).toNotBe(nodes[1].node)
+          expect(nodes[0].node).not.toBe(nodes[1].node)
           expect(nodes[0].node).toEqual({})
           expect(nodes[1].node).toEqual({})
-        })
+        });
     })
     it("should not pick up the `security` key inside extensions", () => {
       const spec = {
