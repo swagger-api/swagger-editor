@@ -1,9 +1,9 @@
-import expect, { createSpy } from "expect"
+import { jest, expect } from "@jest/globals"
 import dedent from "dedent"
 import { getPathForPosition } from "src/plugins/editor-autosuggest/fn.js"
 
-describe("Editor Autosuggest Plugin", function() {
-  describe("getPathForPosition - YAML value preparation", function() {
+describe("Editor Autosuggest Plugin", () => {
+  describe("getPathForPosition - YAML value preparation", () => {
     it.skip("should not modify a valid simple map", function() {
       // Given
       const editorValue = dedent(`
@@ -12,7 +12,7 @@ describe("Editor Autosuggest Plugin", function() {
       `)
       const pos = { row: 0, col: 0 }
       const AST = {
-        pathForPosition: createSpy()
+        pathForPosition: jest.fn()
       }
 
       // When
@@ -21,10 +21,11 @@ describe("Editor Autosuggest Plugin", function() {
       // Then
       expect(AST.pathForPosition).toHaveBeenCalled()
 
-      const [preparedEditorValue] = AST.pathForPosition.calls[0].arguments
+      const [preparedEditorValue] = AST.pathForPosition.mock.calls[0]
       expect(preparedEditorValue).toEqual(editorValue) // should be unchanged
     })
-    it("should modify an array member map fragment", function() {
+
+    it("should modify an array member map fragment", () => {
       // Given
       const editorValue = dedent(`
         myArray:
@@ -33,7 +34,7 @@ describe("Editor Autosuggest Plugin", function() {
       `)
       const pos = { row: 2, col: 6 }
       const AST = {
-        pathForPosition: createSpy()
+        pathForPosition: jest.fn()
       }
 
       // When
@@ -41,8 +42,7 @@ describe("Editor Autosuggest Plugin", function() {
 
       // Then
       expect(AST.pathForPosition).toHaveBeenCalled()
-
-      const [preparedEditorValue] = AST.pathForPosition.calls[0].arguments
+      const [preparedEditorValue] = AST.pathForPosition.mock.calls[0]
       expect(preparedEditorValue).toEqual(editorValue + " ~")
     })
   })
