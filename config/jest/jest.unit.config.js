@@ -3,7 +3,7 @@ const path = require('path');
 module.exports = {
   rootDir: path.join(__dirname, '..', '..'),
   testEnvironment: 'jsdom',
-  testMatch: ['**/test/unit/plugins/validate-semantic/*.js'],
+  testMatch: ['**/test/unit/plugins/validate-semantic/2and3/*.js'],
   // testMatch: ['**/test/unit/*.js', '**/test/unit/**/*.js'],
   // setupFilesAfterEnv: ['<rootDir>/test/unit/setup.js'],
   testPathIgnorePatterns: [
