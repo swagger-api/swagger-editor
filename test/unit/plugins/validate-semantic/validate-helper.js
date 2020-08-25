@@ -1,4 +1,4 @@
-import expect from "expect"
+import { expect } from "@jest/globals"
 import SwaggerUi from "swagger-ui"
 import debounce from "lodash/debounce"
 
