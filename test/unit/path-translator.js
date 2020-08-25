@@ -1,12 +1,12 @@
 /* eslint-env mocha */
-import expect from "expect"
-import { transformPathToArray } from "src/plugins/json-schema-validator/validator/path-translator"
+import { expect } from "@jest/globals"
+import { transformPathToArray } from "src/plugins/json-schema-validator/validator/path-translator";
 
-describe("validation plugin - path translator", function(){
+describe("validation plugin - path translator", () => {
 
-  describe("string paths", function(){
+  describe("string paths", () => {
 
-    it("should translate a simple string path to an array", function(){
+    it("should translate a simple string path to an array", () => {
       // Given
       let jsSpec = {
         one: {
@@ -24,7 +24,7 @@ describe("validation plugin - path translator", function(){
 
     })
 
-    it("should translate an ambiguous string path to an array", function(){
+    it("should translate an ambiguous string path to an array", () => {
       // Since JSONSchema uses periods to mark different properties,
       // a key with a period in it is ambiguous, because it can mean at least two things.
       // In our case, the path can mean:
@@ -50,7 +50,7 @@ describe("validation plugin - path translator", function(){
 
     })
 
-    it("should translate paths separated by brackets", function() {
+    it("should translate paths separated by brackets", () => {
       // Given
       let jsSpec = {
         definitions: {
@@ -65,86 +65,98 @@ describe("validation plugin - path translator", function(){
       expect(transformPathToArray(path, jsSpec)).toEqual(["definitions", "One.Two"])
     })
 
-    it("should translate paths separated by brackets using single quotes", function() {
-      // Given
-      let jsSpec = {
-        definitions: {
-          "One.Two": {
-            a: {
-              b: {
-                c: {
-                  d: 123
+    it(
+      "should translate paths separated by brackets using single quotes",
+      () => {
+        // Given
+        let jsSpec = {
+          definitions: {
+            "One.Two": {
+              a: {
+                b: {
+                  c: {
+                    d: 123
+                  }
                 }
               }
             }
           }
         }
+        let path = "instance.definitions[\'One.Two\'].a.b[\'c\'].d"
+
+        // Then
+        expect(transformPathToArray(path, jsSpec)).toEqual(["definitions", "One.Two", "a", "b", "c", "d"])
       }
-      let path = "instance.definitions[\'One.Two\'].a.b[\'c\'].d"
+    )
 
-      // Then
-      expect(transformPathToArray(path, jsSpec)).toEqual(["definitions", "One.Two", "a", "b", "c", "d"])
-    })
-
-    it("should translate paths separated by brackets with string keys, and then periods", function() {
-      // Given
-      let jsSpec = {
-        definitions: {
-          "One.Two": {
-            a: "1",
-            abc123: "1"
+    it(
+      "should translate paths separated by brackets with string keys, and then periods",
+      () => {
+        // Given
+        let jsSpec = {
+          definitions: {
+            "One.Two": {
+              a: "1",
+              abc123: "1"
+            }
           }
         }
+        let path = "instance.definitions[\"One.Two\"].abc123"
+
+        // Then
+        expect(transformPathToArray(path, jsSpec)).toEqual(["definitions", "One.Two", "abc123"])
       }
-      let path = "instance.definitions[\"One.Two\"].abc123"
+    )
 
-      // Then
-      expect(transformPathToArray(path, jsSpec)).toEqual(["definitions", "One.Two", "abc123"])
-    })
-
-    it("should translate paths separated by brackets with string keys & single quotes, and then periods", function() {
-      // Given
-      let jsSpec = {
-        definitions: {
-          "One.Two": {
-            a: "1",
-            abc123: "1"
+    it(
+      "should translate paths separated by brackets with string keys & single quotes, and then periods",
+      () => {
+        // Given
+        let jsSpec = {
+          definitions: {
+            "One.Two": {
+              a: "1",
+              abc123: "1"
+            }
           }
         }
+        let path = "instance.definitions[\'One.Two\'].abc123"
+
+        // Then
+        expect(transformPathToArray(path, jsSpec)).toEqual(["definitions", "One.Two", "abc123"])
       }
-      let path = "instance.definitions[\'One.Two\'].abc123"
+    )
 
-      // Then
-      expect(transformPathToArray(path, jsSpec)).toEqual(["definitions", "One.Two", "abc123"])
-    })
-
-    it("should translate an doubly ambiguous string path to an array", function(){
-      // Since JSONSchema uses periods to mark different properties,
-      // a key with two periods in it (like "www.google.com") is doubly ambiguous,
-      // because it can mean at least three things.
+    it(
+      "should translate an doubly ambiguous string path to an array",
+      () => {
+        // Since JSONSchema uses periods to mark different properties,
+        // a key with two periods in it (like "www.google.com") is doubly ambiguous,
+        // because it can mean at least three things.
 
 
-      // Given
-      let jsSpec = {
-        "www.google.com": {
-          a: "a thing",
-          b: "another thing",
-          c: "one more thing"
-        },
-        "gmail.com": {
-          d: "more stuff",
-          e: "even more stuff"
+        // Given
+        let jsSpec = {
+          "www.google.com": {
+            a: "a thing",
+            b: "another thing",
+            c: "one more thing"
+          },
+          "gmail.com": {
+            d: "more stuff",
+            e: "even more stuff"
+          }
         }
+
+        let path = "instance.www.google.com.a"
+
+        // Then
+        expect(transformPathToArray(path, jsSpec)).toEqual(["www.google.com", "a"])
+
       }
+    )
 
-      let path = "instance.www.google.com.a"
-
-      // Then
-      expect(transformPathToArray(path, jsSpec)).toEqual(["www.google.com", "a"])
-
-    })
-
-    it("should return null for an invalid path", function(){
+    it("should return null for an invalid path", () => {
 
       // Given
       let jsSpec = {
@@ -166,7 +178,7 @@ describe("validation plugin - path translator", function(){
 
     })
 
-    it("should return inline array indices in their own value", function(){
+    it("should return inline array indices in their own value", () => {
       // "a[1]" => ["a", "1"]
 
       // Given
@@ -192,59 +204,65 @@ describe("validation plugin - path translator", function(){
 
     })
 
-    it("should return the correct path when the last part is ambiguous", function(){
+    it(
+      "should return the correct path when the last part is ambiguous",
+      () => {
 
-      // Given
-      let jsSpec = {
-        "google.com": {
-          a: [
-            "hello",
-            {
-              "gmail.com": 1234
-            }
-          ],
-          b: "another thing",
-          c: "one more thing"
-        },
-        "gmail.com": {
-          d: "more stuff",
-          e: "even more stuff"
+        // Given
+        let jsSpec = {
+          "google.com": {
+            a: [
+              "hello",
+              {
+                "gmail.com": 1234
+              }
+            ],
+            b: "another thing",
+            c: "one more thing"
+          },
+          "gmail.com": {
+            d: "more stuff",
+            e: "even more stuff"
+          }
         }
+
+        let path = "instance.google.com.a[1].gmail.com"
+
+        // Then
+        expect(transformPathToArray(path, jsSpec)).toEqual(["google.com", "a", "1", "gmail.com"])
+
       }
+    )
 
-      let path = "instance.google.com.a[1].gmail.com"
+    it(
+      "should return the correct path when the last part is doubly ambiguous",
+      () => {
 
-      // Then
-      expect(transformPathToArray(path, jsSpec)).toEqual(["google.com", "a", "1", "gmail.com"])
-
-    })
-
-    it("should return the correct path when the last part is doubly ambiguous", function(){
-
-      // Given
-      let jsSpec = {
-        "google.com": {
-          a: [
-            "hello",
-            {
-              "www.gmail.com": 1234
-            }
-          ],
-          b: "another thing",
-          c: "one more thing"
-        },
-        "gmail.com": {
-          d: "more stuff",
-          e: "even more stuff"
+        // Given
+        let jsSpec = {
+          "google.com": {
+            a: [
+              "hello",
+              {
+                "www.gmail.com": 1234
+              }
+            ],
+            b: "another thing",
+            c: "one more thing"
+          },
+          "gmail.com": {
+            d: "more stuff",
+            e: "even more stuff"
+          }
         }
+
+        let path = "instance.google.com.a[1].www.gmail.com"
+
+        // Then
+        expect(transformPathToArray(path, jsSpec)).toEqual(["google.com", "a", "1", "www.gmail.com"])
+
       }
-
-      let path = "instance.google.com.a[1].www.gmail.com"
-
-      // Then
-      expect(transformPathToArray(path, jsSpec)).toEqual(["google.com", "a", "1", "www.gmail.com"])
-
-    })
+    )
 
   })
 

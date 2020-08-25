@@ -1,115 +1,96 @@
-import expect from "expect"
+import { jest, expect } from "@jest/globals"
 
-describe("EditorLayout", function() {
-  let EditorLayout
+import EditorLayout from "src/layout"
 
-  // If alert isn't defined, create a dummy one, and remember to clean it up afterwards
-  if (typeof global.alert === "undefined") {
-    before(function () {
-      global.alert = function() { }
-    })
-    after(function () {
-      delete global.alert
-    })
-  }
+describe("EditorLayout", () => {
+  // Mock global.alert, aka window.alert
+  global.alert = jest.fn()
 
-  // Same for FileReader
-  if (typeof global.FileReader === "undefined") {
-    before(function () {
-      global.FileReader = function() {}
-    })
-    after(function () {
-      delete global.FileReader
-    })
-  }
-
-  // Create spies for alert and FileReader, and then load the module under test.
-  before(function () {
-    expect.spyOn(global, "alert")
-    expect.spyOn(global, "FileReader")
-    EditorLayout = require("src/layout").default
-  })
-  // Undo the spies afterwards
-  after(function () {
-    expect.restoreSpies()
+  // Reset mocks after each test
+  afterEach(() => {
+    jest.clearAllMocks()
   })
 
-  // Reset spies after each test
-  afterEach(function () {
-    global.alert.reset()
-    global.FileReader.reset()
-  })
-
-  describe("when file(s) are dropped", function() {
-    describe("if one or more files are of an unexpected type", function() {
+  describe("when file(s) are dropped", () => {
+    describe("if one or more files are of an unexpected type", () => {
       it("should alert the user that their file(s) were rejected", () => {
         const editorLayout = new EditorLayout()
 
         editorLayout.onDrop([], ["rejected.file.1"])
         editorLayout.onDrop([], ["rejected.file.1", "rejected.file.2"])
 
-        expect(global.alert.calls.length).toEqual(2)
-
-        global.alert.calls.forEach(call => {
-          expect(call.arguments[0]).toMatch(/^Sorry.*/)
+        expect(global.alert.mock.calls.length).toEqual(2)
+        global.alert.mock.calls.forEach(call => {
+          expect(call[0]).toMatch(/^Sorry.*/)
         })
       })
     })
 
-    describe("if more than one file of an expected type is dropped", function() {
+    describe("if more than one file of an expected type is dropped", () => {
       it("should alert the user that their file(s) were rejected", () => {
         const editorLayout = new EditorLayout()
 
         editorLayout.onDrop(["accepted.file.1", "accepted.file.2"], [])
-        expect(global.alert.calls.length).toEqual(1)
-        expect(global.alert.calls[0].arguments[0]).toMatch(/^Sorry.*/)
+        expect(global.alert.mock.calls.length).toEqual(1)
+        expect(global.alert.mock.calls[0][0]).toMatch(/^Sorry.*/)
       })
     })
 
-    describe("if exactly one file of an expected type is dropped", function() {
-      it("should call the updateSpec function passed in as props with the contents of the file", () => {
-        const fileContents = "This is my awesome file!"
-        const props = {
-          specActions: {
-            updateSpec: expect.createSpy()
+    describe("if exactly one file of an expected type is dropped", () => {
+      it(
+        "should call the updateSpec function passed in as props with the contents of the file",
+        () => {
+          const fileContents = "This is my awesome file!"
+          const props = {
+            specActions: {
+              updateSpec: jest.fn()
+            }
           }
+          // global.FileReader.andReturn({
+          //   readAsText: function () { this.onloadend() },
+          //   result: fileContents
+          // })
+          jest.spyOn(global, "FileReader")
+          .mockImplementation(function() {
+            this.readAsText = function () { this.onloadend() }
+            this.result = fileContents
+          })
+
+          const editorLayout = new EditorLayout(props)
+
+          editorLayout.onDrop(["accepted.file"])
+
+          expect(props.specActions.updateSpec).toHaveBeenCalledWith(fileContents, "fileDrop")
         }
-        global.FileReader.andReturn({
-          readAsText: function () { this.onloadend() },
-          result: fileContents
-        })
-
-        const editorLayout = new EditorLayout(props)
-
-        editorLayout.onDrop(["accepted.file"])
-
-        expect(props.specActions.updateSpec).toHaveBeenCalledWith(fileContents, "fileDrop")
-      })
+      )
     })
   })
 
-  describe("onChange", function() {
-    it("should call specActions.updateSpec with origin = editor by default", function() {
-      // Given
-      const spy = expect.createSpy()
-      const props ={
-        specActions: {
-          updateSpec: spy
+  describe("onChange", () => {
+    it(
+      "should call specActions.updateSpec with origin = editor by default",
+      () => {
+        // Given
+        const spy = jest.fn()
+        const props ={
+          specActions: {
+            updateSpec: spy
+          }
         }
+        const editorLayout = new EditorLayout(props)
+
+        // When
+        editorLayout.onChange("one: 1")
+
+        // Then
+        expect(spy.mock.calls.length).toEqual(1)
+        expect(spy.mock.calls[0]).toEqual(["one: 1", "editor"])
       }
-      const editorLayout = new EditorLayout(props)
+    )
 
-      // When
-      editorLayout.onChange("one: 1")
-
-      // Then
-      expect(spy.calls.length).toEqual(1)
-      expect(spy.calls[0].arguments).toEqual(["one: 1", "editor"])
-    })
-
-    it("should allow (onDrop) to override with different origin", function() {
+    it("should allow (onDrop) to override with different origin", () => {
       // Given
-      const spy = expect.createSpy()
+      const spy = jest.fn()
       const props ={
         specActions: {
           updateSpec: spy
@@ -121,8 +102,8 @@ describe("EditorLayout", function() {
       editorLayout.onChange("one: 1", "somethingElse")
 
       // Then
-      expect(spy.calls.length).toEqual(1)
-      expect(spy.calls[0].arguments).toEqual(["one: 1", "somethingElse"])
+      expect(spy.mock.calls.length).toEqual(1)
+      expect(spy.mock.calls[0]).toEqual(["one: 1", "somethingElse"])
     })
   })
 })
