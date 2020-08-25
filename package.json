@@ -39,6 +39,7 @@
     "e2e:hot-server": "webpack-dev-server --port 3260 --host 0.0.0.0 --config webpack/dev.babel.js --inline --hot --progress --content-base test/e2e/static",
     "e2e:cypress-test": "cypress run",
     "e2e:cypress-open": "cypress open",
+    "test:unit-jest": "cross-env BABEL_ENV=test jest --config ./config/jest/jest.unit.config.js",
     "test": "run-s just-test-in-node e2e lint-errors",
     "test-in-node": "run-s lint-errors just-test-in-node",
     "just-test-in-node": "cross-env BABEL_ENV=test mocha --require test/unit/setup.js --recursive --require @babel/register test/unit",
