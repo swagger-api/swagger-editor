@@ -1,6 +1,6 @@
 /* eslint-env mocha */
 import { expect } from "@jest/globals"
-import { transformPathToArray } from "src/plugins/json-schema-validator/validator/path-translator";
+import { transformPathToArray } from "src/plugins/json-schema-validator/validator/path-translator"
 
 describe("validation plugin - path translator", () => {
 
