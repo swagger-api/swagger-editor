@@ -1,10 +1,10 @@
+import { expect } from "@jest/globals"
 import SwaggerUi from "swagger-ui"
 import EditorSpecPlugin from "src/plugins/editor/spec"
-import expect from "expect"
 
-describe("editor state plugins", function() {
-  describe("specSelectors.specOrigin", function() {
-    it("should default to 'non-editor'", function() {
+describe("editor state plugins", () => {
+  describe("specSelectors.specOrigin", () => {
+    it("should default to 'non-editor'", () => {
       // Given
       const system = SwaggerUi({plugins: [EditorSpecPlugin]})
 
@@ -15,8 +15,8 @@ describe("editor state plugins", function() {
       expect(res).toEqual("not-editor")
     })
   })
-  describe("specActions.updateSpec", function() {
-    it("should add a parameter - origin - to state", function() {
+  describe("specActions.updateSpec", () => {
+    it("should add a parameter - origin - to state", () => {
       // Given
       const system = SwaggerUi({plugins: [EditorSpecPlugin]})
 
@@ -28,7 +28,7 @@ describe("editor state plugins", function() {
       expect(res).toEqual("editor")
     })
 
-    it("should default to 'non-editor'", function() {
+    it("should default to 'non-editor'", () => {
       // Given
       const system = SwaggerUi({plugins: [EditorSpecPlugin]})
 

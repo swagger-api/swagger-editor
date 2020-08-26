@@ -1,5 +1,5 @@
 import EventEmitter from "events"
-import { createSpy } from "expect"
+import { jest } from "@jest/globals"
 
 export class Range {
   constructor(...args) {
@@ -34,23 +34,27 @@ export class Session extends EventEmitter {
     this._markers = []
 
     SESSION_STUBS.forEach(stub => {
-      this[stub] = createSpy()
+      this[stub] = jest.fn()
     })
 
     this.selection = new EventEmitter()
-    this.selection.toJSON = createSpy().andReturn({fake: true})
-    this.selection.fromJSON = createSpy().andReturn({fake: true})
+    this.selection.toJSON = jest.fn().mockImplementation(function() {
+      return { fake: true }
+    })
+    this.selection.fromJSON = jest.fn().mockImplementation(function() {
+      return { fake: true }
+    })
   }
 
-  addMarker = createSpy().andCall((marker) => {
+  addMarker = jest.fn().mockImplementation(function(marker) {
     this._markers.push({...marker, id: this.$markerId++ })
   })
 
-  getMarkers = createSpy().andCall(() => {
+  getMarkers = jest.fn().mockImplementation(function() {
     return this._markers
   })
 
-  removeMarker = createSpy().andCall((markerId) => {
+  removeMarker = jest.fn().mockImplementation(function(markerId) {
     this._markers = this._markers.filter(a => a.id !== markerId)
   })
 
@@ -67,40 +71,40 @@ export default class Ace extends EventEmitter {
     this._undoPointer = 0 // It starts with nothing..
 
     ACE_STUBS.forEach(stub => {
-      this[stub] = createSpy()
+      this[stub] = jest.fn()
     })
 
     this.renderer = {
-      setShowGutter: createSpy(),
-      setScrollMargin: createSpy()
+      setShowGutter: jest.fn(),
+      setScrollMargin: jest.fn()
     }
   }
 
-  edit = createSpy().andReturn(this)
+  edit = jest.fn().mockImplementation(function() { return this})
 
-  acequire = createSpy().andCall((module) => {
+  acequire = jest.fn().mockImplementation(function(module) {
     if(module == "ace/range") {
       return { Range }
     }
   })
 
-  getSession = createSpy().andCall(() => {
+  getSession = jest.fn().mockImplementation(function() {
     return this.session
   })
 
-  setOption = createSpy().andCall((option, val) => {
+  setOption = jest.fn().mockImplementation(function(option, val) {
    this.$options[option] = val
   })
 
-  setOptions = createSpy().andCall((options) => {
+  setOptions = jest.fn().mockImplementation(function(options) {
     this.$options = {...this.$options, ...options}
   })
 
-  getOption = createSpy().andCall((optionName) => {
+  getOption = jest.fn().mockImplementation(function(optionName) {
     return this.$options[optionName]
   })
 
-  setValue = createSpy().andCall((val, addToUndo=true) => {
+  setValue = jest.fn().mockImplementation(function(val, addToUndo=true) {
     if(addToUndo) {
       // Wipe out line of redos
       this._undoStack = this._undoStack.slice(0, this._undoPointer + 1)
@@ -113,25 +117,25 @@ export default class Ace extends EventEmitter {
     this.emit("change") // Insert
   })
 
-  getValue = createSpy().andCall(() => {
+  getValue = jest.fn().mockImplementation(function() {
     return this._value || ""
   })
 
   // User API, which closer matches what we want to test ( ie: implementation can improve )
-  userTypes = createSpy().andCall((val) => {
+  userTypes = jest.fn().mockImplementation(function(val) {
     this.setValue(this.getValue() + val)
   })
 
-  userSees = createSpy().andCall(() => {
+  userSees = jest.fn().mockImplementation(function() {
     return this.getValue()
   })
 
-  userUndo = createSpy().andCall(() => {
+  userUndo = jest.fn().mockImplementation(function() {
     this._undoPointer = this._undoPointer > 0 ? this._undoPointer - 1 : 0
     this.setValue(this._undoStack[this._undoPointer], false)
   })
 
-  userRedo = createSpy().andCall(() => {
+  userRedo = jest.fn().mockImplementation(function() {
     const max = this._undoStack.length - 1
     // const oriPointer = this._undoPointer
     this._undoPointer = this._undoPointer < max ? this._undoPointer + 1 : max
