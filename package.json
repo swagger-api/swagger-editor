@@ -133,7 +133,7 @@
     "http-server": "^0.12.3",
     "ignore-assets-webpack-plugin": "^2.0.1",
     "inspectpack": "=4.5.2",
-    "jest": "=26.4.1",
+    "jest": "=25.5.4",
     "jsdom": "11.12.0",
     "jsdom-global": "3.0.2",
     "json-loader": "0.5.7",
