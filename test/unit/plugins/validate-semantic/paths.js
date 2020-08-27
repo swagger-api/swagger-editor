@@ -1,270 +1,268 @@
-/* eslint-env mocha */
-import { expect } from "@jest/globals"
-import validateHelper, { expectNoErrors } from "./validate-helper.js"
+import validateHelper, { expectNoErrors } from './validate-helper.js';
 
-describe("validation plugin - semantic - paths", () => {
-  describe("Empty path templates are not allowed", () => {
+describe('validation plugin - semantic - paths', () => {
+  describe('Empty path templates are not allowed', () => {
 
-    it("should return one problem for an empty path template", () => {
+    it('should return one problem for an empty path template', () => {
       const spec = {
-        swagger: "2.0",
+        swagger: '2.0',
         paths: {
-          "/CoolPath/{}": {}
+          '/CoolPath/{}': {}
         }
-      }
+      };
 
       return validateHelper(spec)
         .then(system => {
-          const allErrors = system.errSelectors.allErrors().toJS()
-          const firstError = allErrors[0]
-          expect(allErrors.length).toEqual(1)
-          expect(firstError.message).toEqual( "Empty path parameter declarations are not valid")
-          expect(firstError.path).toEqual(["paths", "/CoolPath/{}"])
-        })
-    })
+          const allErrors = system.errSelectors.allErrors().toJS();
+          const firstError = allErrors[0];
+          expect(allErrors.length).toEqual(1);
+          expect(firstError.message).toEqual( 'Empty path parameter declarations are not valid');
+          expect(firstError.path).toEqual(['paths', '/CoolPath/{}']);
+        });
+    });
 
-  })
+  });
 
-  describe("Path parameters declared in the path string need matching definitions", () => {
+  describe('Path parameters declared in the path string need matching definitions', () => {
 
     it(
-      "should return one problem for an undefined declared path parameter",
+      'should return one problem for an undefined declared path parameter',
       () => {
         const spec = {
-          swagger: "2.0",
+          swagger: '2.0',
           paths: {
-            "/CoolPath/{id}": {}
+            '/CoolPath/{id}': {}
           }
-        }
+        };
 
         return validateHelper(spec)
           .then( system => {
-            const allErrors = system.errSelectors.allErrors().toJS()
-            expect(allErrors.length).toEqual(1)
-            const firstError = allErrors[0]
-            expect(firstError.message).toEqual( "Declared path parameter \"id\" needs to be defined as a path parameter at either the path or operation level")
-            expect(firstError.path).toEqual(["paths", "/CoolPath/{id}"])
-          })
+            const allErrors = system.errSelectors.allErrors().toJS();
+            expect(allErrors.length).toEqual(1);
+            const firstError = allErrors[0];
+            expect(firstError.message).toEqual( 'Declared path parameter "id" needs to be defined as a path parameter at either the path or operation level');
+            expect(firstError.path).toEqual(['paths', '/CoolPath/{id}']);
+          });
       }
-    )
+    );
 
     it(
-      "should return one problem for an path parameter defined in another path",
+      'should return one problem for an path parameter defined in another path',
       () => {
         const spec = {
-          swagger: "2.0",
+          swagger: '2.0',
           paths: {
-            "/CoolPath/{id}": {},
-            "/UncoolPath/{id}": {
+            '/CoolPath/{id}': {},
+            '/UncoolPath/{id}': {
               parameters: [{
-                name: "id",
-                in: "path",
+                name: 'id',
+                in: 'path',
                 required: true
               }]
             }
           }
-        }
+        };
 
         return validateHelper(spec)
           .then( system => {
-            const allErrors = system.errSelectors.allErrors().toJS()
-            expect(allErrors.length).toEqual(1)
-            const firstError = allErrors[0]
-            expect(firstError.message).toEqual("Declared path parameter \"id\" needs to be defined as a path parameter at either the path or operation level")
-            expect(firstError.path).toEqual(["paths", "/CoolPath/{id}"])
-          })
+            const allErrors = system.errSelectors.allErrors().toJS();
+            expect(allErrors.length).toEqual(1);
+            const firstError = allErrors[0];
+            expect(firstError.message).toEqual('Declared path parameter "id" needs to be defined as a path parameter at either the path or operation level');
+            expect(firstError.path).toEqual(['paths', '/CoolPath/{id}']);
+          });
       }
-    )
+    );
 
     it(
-      "should return no problems for a path parameter defined in the path",
+      'should return no problems for a path parameter defined in the path',
       () => {
         const spec = {
-          swagger: "2.0",
+          swagger: '2.0',
           paths: {
-            "/CoolPath/{id}": {
+            '/CoolPath/{id}': {
               parameters: [{
-                name: "id",
-                in: "path",
+                name: 'id',
+                in: 'path',
                 required: true
               }]
             }
           }
-        }
+        };
 
-        return expectNoErrors(spec)
+        return expectNoErrors(spec);
       }
-    )
+    );
 
     it(
-      "should return no problems for a path parameter defined in an operation",
+      'should return no problems for a path parameter defined in an operation',
       () => {
         const spec = {
-          swagger: "2.0",
+          swagger: '2.0',
           paths: {
-            "/CoolPath/{id}": {
+            '/CoolPath/{id}': {
               get: {
                 parameters: [{
-                  name: "id",
-                  in: "path",
+                  name: 'id',
+                  in: 'path',
                   required: true
                 }]
               }
             }
           }
-        }
+        };
 
-        return expectNoErrors(spec)
+        return expectNoErrors(spec);
       }
-    )
+    );
 
-  })
+  });
 
-  describe("Path strings must be equivalently different", () => {
+  describe('Path strings must be equivalently different', () => {
 
     it(
-      "should return one problem for an equivalent templated path strings",
+      'should return one problem for an equivalent templated path strings',
       () => {
         const spec = {
-          swagger: "2.0",
+          swagger: '2.0',
           paths: {
-            "/CoolPath/{id}": {
+            '/CoolPath/{id}': {
               parameters: [{
-                name: "id",
-                in: "path",
+                name: 'id',
+                in: 'path',
                 required: true
               }]
             },
-            "/CoolPath/{count}": {
+            '/CoolPath/{count}': {
               parameters: [{
-                name: "count",
-                in: "path",
+                name: 'count',
+                in: 'path',
                 required: true
               }]
             }
           }
-        }
+        };
 
         return validateHelper(spec)
           .then( system => {
-            const allErrors = system.errSelectors.allErrors().toJS()
-            expect(allErrors.length).toEqual(1)
-            const firstError = allErrors[0]
-            expect(firstError.message).toEqual("Equivalent paths are not allowed.")
-            expect(firstError.path).toEqual(["paths", "/CoolPath/{count}"])
-          })
+            const allErrors = system.errSelectors.allErrors().toJS();
+            expect(allErrors.length).toEqual(1);
+            const firstError = allErrors[0];
+            expect(firstError.message).toEqual('Equivalent paths are not allowed.');
+            expect(firstError.path).toEqual(['paths', '/CoolPath/{count}']);
+          });
       }
-    )
+    );
 
     it(
-      "should return no problems for a templated and untemplated pair of path strings",
+      'should return no problems for a templated and untemplated pair of path strings',
       () => {
         const spec = {
-          swagger: "2.0",
+          swagger: '2.0',
           paths: {
-            "/CoolPath/": {},
-            "/CoolPath/{count}": {
+            '/CoolPath/': {},
+            '/CoolPath/{count}': {
               parameters: [{
-                name: "count",
-                in: "path",
+                name: 'count',
+                in: 'path',
                 required: true
               }]
             }
           }
-        }
+        };
 
-        return expectNoErrors(spec)
+        return expectNoErrors(spec);
       }
-    )
+    );
 
     it(
-      "should return no problems for a templated and double-templated set of path strings",
+      'should return no problems for a templated and double-templated set of path strings',
       () => {
         const spec = {
-          swagger: "2.0",
+          swagger: '2.0',
           paths: {
-            "/CoolPath/{group_id1}/all": {
+            '/CoolPath/{group_id1}/all': {
               parameters: [{
-                name: "group_id1",
-                in: "path",
+                name: 'group_id1',
+                in: 'path',
                 required: true
               }]
             },
-            "/CoolPath/{group_id2}/{user_id2}": {
+            '/CoolPath/{group_id2}/{user_id2}': {
               parameters: [
                 {
-                  name: "group_id2",
-                  in: "path",
+                  name: 'group_id2',
+                  in: 'path',
                   required: true
                 },
                 {
-                  name: "user_id2",
-                  in: "path",
+                  name: 'user_id2',
+                  in: 'path',
                   required: true
                 },
               ]
             },
           }
-        }
+        };
 
-        return expectNoErrors(spec)
+        return expectNoErrors(spec);
       }
-    )
+    );
 
-  })
+  });
 
-  describe("Paths must have unique name + in parameters", () => {
-    it("should return no problems for a name collision only", () => {
+  describe('Paths must have unique name + in parameters', () => {
+    it('should return no problems for a name collision only', () => {
       const spec = {
-        swagger: "2.0",
+        swagger: '2.0',
         paths: {
-          "/CoolPath/{id}": {
+          '/CoolPath/{id}': {
             parameters: [
               {
-                name: "id",
-                in: "path",
+                name: 'id',
+                in: 'path',
                 required: true
               },
               {
-                name: "id",
-                in: "query"
+                name: 'id',
+                in: 'query'
               }
             ]
           }
         }
-      }
+      };
 
-      return expectNoErrors(spec)
-    })
+      return expectNoErrors(spec);
+    });
 
-    it("should return no problems when 'in' is not defined", () => {
+    it('should return no problems when \'in\' is not defined', () => {
       const spec = {
-        swagger: "2.0",
+        swagger: '2.0',
         paths: {
-          "/CoolPath/{id}": {
+          '/CoolPath/{id}': {
             parameters: [
               {
-                name: "id",
-                in: "path",
+                name: 'id',
+                in: 'path',
                 required: true
               },
               {
-                name: "id",
+                name: 'id',
                 // in: "path"
               }
             ]
           }
         }
-      }
+      };
 
-      return expectNoErrors(spec)
-    })
+      return expectNoErrors(spec);
+    });
 
-  })
+  });
 
-  describe("Integrations", () => {
+  describe('Integrations', () => {
     it.skip(
-      "should return two problems for an equivalent path string missing a parameter definition",
+      'should return two problems for an equivalent path string missing a parameter definition',
       function(){
         // const spec = {
         //   paths: {
@@ -291,7 +289,7 @@ describe("validation plugin - semantic - paths", () => {
         // ])
         // expect(res.warnings).toEqual([])
       }
-    )
+    );
 
-  })
-})
+  });
+});

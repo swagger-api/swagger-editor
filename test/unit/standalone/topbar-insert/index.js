@@ -1,12 +1,12 @@
-import { expect } from "@jest/globals"
-import React from "react"
-import SwaggerUi from "swagger-ui"
-import insertPlugin from "src/standalone/topbar-insert"
-import { fromJS } from "immutable"
-import { configure, mount } from "enzyme"
-import Adapter from "enzyme-adapter-react-15"
 
-configure({ adapter: new Adapter() })
+import React from 'react';
+import SwaggerUi from 'swagger-ui';
+import insertPlugin from 'src/standalone/topbar-insert';
+import { fromJS } from 'immutable';
+import { configure, mount } from 'enzyme';
+import Adapter from 'enzyme-adapter-react-15';
+
+configure({ adapter: new Adapter() });
 
 function getSystem(spec) {
   return new Promise((resolve) => {
@@ -39,101 +39,101 @@ function getSystem(spec) {
               actions: {
                 loaded: () => {
                   return {
-                    type: "noop"
-                  }
+                    type: 'noop'
+                  };
                 }
               }
             }
           }
         })
       ]
-    })
+    });
     
-    resolve(system)
-  })
+    resolve(system);
+  });
 }
 
-describe("editor topbar insert menu plugin", () => {
+describe('editor topbar insert menu plugin', () => {
   // this.timeout(10 * 1000)
 
-  it("should provide a `addToSpec` method as a spec action", async () => {
-    const spec = {}
-    const system = await getSystem(spec)
-    expect(system.specActions.addToSpec).toBeInstanceOf(Function)
-  })
+  it('should provide a `addToSpec` method as a spec action', async () => {
+    const spec = {};
+    const system = await getSystem(spec);
+    expect(system.specActions.addToSpec).toBeInstanceOf(Function);
+  });
 
   it(
-    "should provide an <InsertMenu /> component to render a menu option",
+    'should provide an <InsertMenu /> component to render a menu option',
     async () => {
-      const spec = {}
-      const system = await getSystem(spec)
-      const InsertMenu = system.getSystem().getComponents("TopbarInsert")
-      let wrapper = mount(<InsertMenu {...system} getComponent={(c) => system.getSystem().getComponents(c)} />)
-      expect(wrapper.find(".menu-item").length).toEqual(1)
+      const spec = {};
+      const system = await getSystem(spec);
+      const InsertMenu = system.getSystem().getComponents('TopbarInsert');
+      let wrapper = mount(<InsertMenu {...system} getComponent={(c) => system.getSystem().getComponents(c)} />);
+      expect(wrapper.find('.menu-item').length).toEqual(1);
     }
-  )
+  );
   
-  it("should correctly update the spec when addToSpec is called", async () => {
+  it('should correctly update the spec when addToSpec is called', async () => {
     const spec = {
-      "openapi": "3.0.0",
-      "info": {
-        "version": "1.0.0",
-        "title": "My New Service"
+      'openapi': '3.0.0',
+      'info': {
+        'version': '1.0.0',
+        'title': 'My New Service'
       },
-      "paths": {
-        "/test": {
-          "get": {
-            "summary": "Sample endpoint for my awesome service.",
-            "responses": {
-              "200": {
-                "description": "OK"
+      'paths': {
+        '/test': {
+          'get': {
+            'summary': 'Sample endpoint for my awesome service.',
+            'responses': {
+              '200': {
+                'description': 'OK'
               }
             }
           }
         }
       }
-    }
+    };
 
     const toAdd = fromJS({
-      "summary": "Sample endpoint for my awesome service.",
-      "responses": {
-        "200": {
-          "description": "OK"
+      'summary': 'Sample endpoint for my awesome service.',
+      'responses': {
+        '200': {
+          'description': 'OK'
         }
       }
-    })
+    });
 
     const expected = {
-      "openapi": "3.0.0",
-      "info": {
-        "version": "1.0.0",
-        "title": "My New Service"
+      'openapi': '3.0.0',
+      'info': {
+        'version': '1.0.0',
+        'title': 'My New Service'
       },
-      "paths": {
-        "/test": {
-          "get": {
-            "summary": "Sample endpoint for my awesome service.",
-            "responses": {
-              "200": {
-                "description": "OK"
+      'paths': {
+        '/test': {
+          'get': {
+            'summary': 'Sample endpoint for my awesome service.',
+            'responses': {
+              '200': {
+                'description': 'OK'
               }
             }
           },
-          "post": {
-            "summary": "Sample endpoint for my awesome service.",
-            "responses": {
-              "200": {
-                "description": "OK"
+          'post': {
+            'summary': 'Sample endpoint for my awesome service.',
+            'responses': {
+              '200': {
+                'description': 'OK'
               }
             }
           }
         }
       }
-    }
+    };
 
-    const system = await getSystem(spec)
+    const system = await getSystem(spec);
 
-    system.specActions.addToSpec(["paths", "/test"], toAdd, "post")
-    expect(system.specSelectors.specJson().toJS()).toEqual(expected)
-  })
-})
+    system.specActions.addToSpec(['paths', '/test'], toAdd, 'post');
+    expect(system.specSelectors.specJson().toJS()).toEqual(expected);
+  });
+});

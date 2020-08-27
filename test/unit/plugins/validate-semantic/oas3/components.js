@@ -1,239 +1,239 @@
-import { expect } from "@jest/globals"
-import validateHelper, { expectNoErrors } from "../validate-helper.js"
 
-describe("validation plugin - semantic - oas3 components", () => {
-  describe("OAS3 component names must consist of allowed characters", () => {
+import validateHelper, { expectNoErrors } from '../validate-helper.js';
+
+describe('validation plugin - semantic - oas3 components', () => {
+  describe('OAS3 component names must consist of allowed characters', () => {
     it(
-      "should return an error when OAS3 component names contain forbidden characters",
+      'should return an error when OAS3 component names contain forbidden characters',
       () => {
         const spec = {
-          openapi: "3.0.0",
+          openapi: '3.0.0',
           components: {
             schemas: {
-              "Foo«Bar»": {}
+              'Foo«Bar»': {}
             },
             parameters: {
-              "Foo«Bar»": {
-                in: "query",
-                name: "foo",
+              'Foo«Bar»': {
+                in: 'query',
+                name: 'foo',
                 schema: {
-                  type: "string"
+                  type: 'string'
                 }
               }
             },
             responses: {
-              "Foo«Bar»": {
-                description: "ok"
+              'Foo«Bar»': {
+                description: 'ok'
               }
             },
             examples: {
-              "Foo«Bar»": {
+              'Foo«Bar»': {
                 value: 1
               }
             },
             requestBodies: {
-              "Foo«Bar»": {
+              'Foo«Bar»': {
                 content: {
-                  "text/plain": {}
+                  'text/plain': {}
                 }
               }
             },
             headers: {
-              "Foo«Bar»": {
+              'Foo«Bar»': {
                 schema: {
-                  type: "string"
+                  type: 'string'
                 }
               }
             },
             securitySchemes: {
-              "Foo«Bar»": {
-                type: "http",
-                scheme: "basic"
+              'Foo«Bar»': {
+                type: 'http',
+                scheme: 'basic'
               }
             },
             callbacks: {
-              "Foo«Bar»": {
-                "{$request.body#/callbackUrl}": {}
+              'Foo«Bar»': {
+                '{$request.body#/callbackUrl}': {}
               }
             },
             links: {
-              "Foo«Bar»": {
-                operationId: "getUser"
+              'Foo«Bar»': {
+                operationId: 'getUser'
               }
             }
           }
-        }
+        };
 
         return validateHelper(spec)
           .then(system => {
             // We want errors only, without "unused definition" warnings
             const allErrors = system.errSelectors.allErrors().toJS()
-              .filter(err => err.level === "error")
+              .filter(err => err.level === 'error');
 
-            const errorMessage = "Component names can only contain the characters A-Z a-z 0-9 - . _"
+            const errorMessage = 'Component names can only contain the characters A-Z a-z 0-9 - . _';
 
-            expect(allErrors.length).toEqual(9)
+            expect(allErrors.length).toEqual(9);
             expect(allErrors[0]).toEqual(expect.objectContaining({
-              level: "error",
+              level: 'error',
               message: errorMessage,
-              path: ["components", "schemas", "Foo«Bar»"]
-            }))
+              path: ['components', 'schemas', 'Foo«Bar»']
+            }));
             expect(allErrors[1]).toEqual(expect.objectContaining({
-              level: "error",
+              level: 'error',
               message: errorMessage,
-              path: ["components", "parameters", "Foo«Bar»"]
-            }))
+              path: ['components', 'parameters', 'Foo«Bar»']
+            }));
             expect(allErrors[2]).toEqual(expect.objectContaining({
-              level: "error",
+              level: 'error',
               message: errorMessage,
-              path: ["components", "responses", "Foo«Bar»"]
-            }))
+              path: ['components', 'responses', 'Foo«Bar»']
+            }));
             expect(allErrors[3]).toEqual(expect.objectContaining({
-              level: "error",
+              level: 'error',
               message: errorMessage,
-              path: ["components", "examples", "Foo«Bar»"]
-            }))
+              path: ['components', 'examples', 'Foo«Bar»']
+            }));
             expect(allErrors[4]).toEqual(expect.objectContaining({
-              level: "error",
+              level: 'error',
               message: errorMessage,
-              path: ["components", "requestBodies", "Foo«Bar»"]
-            }))
+              path: ['components', 'requestBodies', 'Foo«Bar»']
+            }));
             expect(allErrors[5]).toEqual(expect.objectContaining({
-              level: "error",
+              level: 'error',
               message: errorMessage,
-              path: ["components", "headers", "Foo«Bar»"]
-            }))
+              path: ['components', 'headers', 'Foo«Bar»']
+            }));
             expect(allErrors[6]).toEqual(expect.objectContaining({
-              level: "error",
+              level: 'error',
               message: errorMessage,
-              path: ["components", "securitySchemes", "Foo«Bar»"]
-            }))
+              path: ['components', 'securitySchemes', 'Foo«Bar»']
+            }));
             expect(allErrors[7]).toEqual(expect.objectContaining({
-              level: "error",
+              level: 'error',
               message: errorMessage,
-              path: ["components", "callbacks", "Foo«Bar»"]
-            }))
+              path: ['components', 'callbacks', 'Foo«Bar»']
+            }));
             expect(allErrors[8]).toEqual(expect.objectContaining({
-              level: "error",
+              level: 'error',
               message: errorMessage,
-              path: ["components", "links", "Foo«Bar»"]
-            }))
-          })
+              path: ['components', 'links', 'Foo«Bar»']
+            }));
+          });
       }
-    )
+    );
 
     it(
-      "should not return errors when OAS3 component names consist of allowed characters",
+      'should not return errors when OAS3 component names consist of allowed characters',
       () => {
         const spec = {
-          openapi: "3.0.0",
+          openapi: '3.0.0',
           components: {
             schemas: {
-              "A-a.0_": {}
+              'A-a.0_': {}
             },
             parameters: {
-              "B-b.1_": {
-                in: "query",
-                name: "foo",
+              'B-b.1_': {
+                in: 'query',
+                name: 'foo',
                 schema: {
-                  type: "string"
+                  type: 'string'
                 }
               }
             },
             responses: {
-              "C-c.3_": {
-                description: "ok"
+              'C-c.3_': {
+                description: 'ok'
               }
             },
             examples: {
-              "D-d.4_": {
+              'D-d.4_': {
                 value: 1
               }
             },
             requestBodies: {
-              "E-e.5_": {
+              'E-e.5_': {
                 content: {
-                  "test/plain": {}
+                  'test/plain': {}
                 }
               }
             },
             headers: {
-              "F-f.6_": {
+              'F-f.6_': {
                 schema: {
-                  type: "string"
+                  type: 'string'
                 }
               }
             },
             securitySchemes: {
-              "G-g.7_": {
-                type: "http",
-                scheme: "basic"
+              'G-g.7_': {
+                type: 'http',
+                scheme: 'basic'
               }
             },
             callbacks: {
-              "H-h.8_": {
-                "{$request.body#/callbackUrl}": {}
+              'H-h.8_': {
+                '{$request.body#/callbackUrl}': {}
               }
             },
             links: {
-              "I-i.9_": {
-                operationId: "getUser"
+              'I-i.9_': {
+                operationId: 'getUser'
               }
             }
           }
-        }
+        };
 
-        return expectNoErrors(spec)
+        return expectNoErrors(spec);
       }
-    )
+    );
 
     it(
-      "should not return errors when an x- extension key contains special characters",
+      'should not return errors when an x- extension key contains special characters',
       () => {
         const spec = {
-          openapi: "3.0.0",
+          openapi: '3.0.0',
           components: {
-            "x-foo«bar»": {
-               "key with spaces": 42
+            'x-foo«bar»': {
+               'key with spaces': 42
             }
           }
-        }
+        };
 
-        return expectNoErrors(spec)
+        return expectNoErrors(spec);
       }
-    )
+    );
 
     it(
-      "should not return errors when OAS2 component names contain special characters",
+      'should not return errors when OAS2 component names contain special characters',
       () => {
         const spec = {
-          swagger: "2.0",
+          swagger: '2.0',
           definitions: {
-            "Foo«Bar»": {
-              type: "object"
+            'Foo«Bar»': {
+              type: 'object'
             }
           },
           parameters: {
-            "Foo«Bar»": {
-              in: "query",
-              name: "foo",
-              type: "string"
+            'Foo«Bar»': {
+              in: 'query',
+              name: 'foo',
+              type: 'string'
             }
           },
           responses: {
-            "Foo«Bar»": {
-              description: "ok"
+            'Foo«Bar»': {
+              description: 'ok'
             }
           },
           securityDefinitions: {
-            "Foo«Bar»": {
-              type: "basic"
+            'Foo«Bar»': {
+              type: 'basic'
             }
           }
-        }
+        };
 
-        return expectNoErrors(spec)
+        return expectNoErrors(spec);
       }
-    )
-  })
-})
+    );
+  });
+});

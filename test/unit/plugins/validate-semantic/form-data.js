@@ -1,569 +1,567 @@
-/* eslint-env mocha */
-import { expect } from "@jest/globals"
-import validateHelper, { expectNoErrors } from "./validate-helper.js"
+import validateHelper, { expectNoErrors } from './validate-helper.js';
 
-describe("validation plugin - semantic - form data", () => {
-  describe("/parameters/...", () => {
-    describe("typo in formdata", () => {
-      it("should warn about formdata ( typo )", () => {
+describe('validation plugin - semantic - form data', () => {
+  describe('/parameters/...', () => {
+    describe('typo in formdata', () => {
+      it('should warn about formdata ( typo )', () => {
 
         const spec = {
-          swagger: "2.0",
+          swagger: '2.0',
           parameters: {
             CoolParam: [
-              { in: "formdata" },
+              { in: 'formdata' },
             ]
           },
           paths: {
-            "/some": {
+            '/some': {
               post: {
                 parameters: [
-                  { in: "formdata" },
+                  { in: 'formdata' },
                 ]
               }
             }
           }
-        }
+        };
 
         return validateHelper(spec)
           .then( system => {
-            const allErrors = system.errSelectors.allErrors().toJS()
-            const firstError = allErrors[0]
-            expect(allErrors.length).toEqual(1)
-            expect(firstError.message).toEqual(`Parameter "in: formdata" is invalid, did you mean "in: formData"?`)
-            expect(firstError.path).toEqual(["paths", "/some", "post", "parameters", "0"])
-          })
-      })
-    })
-  })
+            const allErrors = system.errSelectors.allErrors().toJS();
+            const firstError = allErrors[0];
+            expect(allErrors.length).toEqual(1);
+            expect(firstError.message).toEqual('Parameter "in: formdata" is invalid, did you mean "in: formData"?');
+            expect(firstError.path).toEqual(['paths', '/some', 'post', 'parameters', '0']);
+          });
+      });
+    });
+  });
 
-  describe("missing consumes", () => {
-    it("should complain if 'type:file` and no 'in: formData", () => {
+  describe('missing consumes', () => {
+    it('should complain if \'type:file` and no \'in: formData', () => {
       const spec = {
-        swagger: "2.0",
+        swagger: '2.0',
         paths: {
-          "/some": {
+          '/some': {
             post: {
-              consumes: ["multipart/form-data"],
+              consumes: ['multipart/form-data'],
               parameters: [
                 {
-                  type: "file",
+                  type: 'file',
                 },
               ]
             }
           }
         }
-      }
+      };
       return validateHelper(spec)
         .then( system => {
-          const allErrors = system.errSelectors.allErrors().toJS()
-          const firstError = allErrors[0]
-          expect(allErrors.length).toEqual(1)
-          expect(firstError.message).toEqual(`Parameters with "type: file" must have "in: formData"`)
-          expect(firstError.path).toEqual(["paths", "/some", "post", "parameters", "0"])
-        })
-    })
+          const allErrors = system.errSelectors.allErrors().toJS();
+          const firstError = allErrors[0];
+          expect(allErrors.length).toEqual(1);
+          expect(firstError.message).toEqual('Parameters with "type: file" must have "in: formData"');
+          expect(firstError.path).toEqual(['paths', '/some', 'post', 'parameters', '0']);
+        });
+    });
     it(
-      "should complain if 'type:file` and no consumes - 'multipart/form-data'",
+      'should complain if \'type:file` and no consumes - \'multipart/form-data\'',
       () => {
         const spec = {
-          swagger: "2.0",
+          swagger: '2.0',
           paths: {
-            "/some": {
+            '/some': {
               post: {
                 parameters: [
                   {
-                      in: "formData",
-                      type: "file",
+                      in: 'formData',
+                      type: 'file',
                   },
                 ]
               }
             }
           }
-        }
+        };
 
         return validateHelper(spec)
           .then( system => {
-            const allErrors = system.errSelectors.allErrors().toJS()
-            const firstError = allErrors[0]
-            expect(allErrors.length).toEqual(1)
-            expect(firstError.message).toEqual(`Operations with parameters of "type: file" must include "multipart/form-data" in their "consumes" property`)
-            expect(firstError.path).toEqual(["paths", "/some", "post"])
-          })
+            const allErrors = system.errSelectors.allErrors().toJS();
+            const firstError = allErrors[0];
+            expect(allErrors.length).toEqual(1);
+            expect(firstError.message).toEqual('Operations with parameters of "type: file" must include "multipart/form-data" in their "consumes" property');
+            expect(firstError.path).toEqual(['paths', '/some', 'post']);
+          });
       }
-    )
+    );
     it(
-      "should complain if 'in:formData` and no consumes - 'multipart/form-data' or 'application/x-www-form-urlencoded'",
+      'should complain if \'in:formData` and no consumes - \'multipart/form-data\' or \'application/x-www-form-urlencoded\'',
       () => {
         const spec = {
-          swagger: "2.0",
+          swagger: '2.0',
           paths: {
-            "/some": {
+            '/some': {
               post: {
                 parameters: [
                   {
-                      in: "formData",
+                      in: 'formData',
                   },
                 ]
               }
             }
           }
-        }
+        };
 
         return validateHelper(spec)
           .then(system => {
-            const allErrors = system.errSelectors.allErrors().toJS()
-            const firstError = allErrors[0]
-            expect(allErrors.length).toEqual(1)
-            expect(firstError.message).toEqual(`Operations with parameters of "in: formData" must include "application/x-www-form-urlencoded" or "multipart/form-data" in their "consumes" property`)
-            expect(firstError.path).toEqual(["paths", "/some", "post"])
-          })
+            const allErrors = system.errSelectors.allErrors().toJS();
+            const firstError = allErrors[0];
+            expect(allErrors.length).toEqual(1);
+            expect(firstError.message).toEqual('Operations with parameters of "in: formData" must include "application/x-www-form-urlencoded" or "multipart/form-data" in their "consumes" property');
+            expect(firstError.path).toEqual(['paths', '/some', 'post']);
+          });
       }
-    )
+    );
 
     it(
-      "should not complain if 'in:formData` and consumes is set globally",
+      'should not complain if \'in:formData` and consumes is set globally',
       () => {
         const spec = {
-          swagger: "2.0",
+          swagger: '2.0',
           consumes: [
-            "multipart/form-data"
+            'multipart/form-data'
           ],
           paths: {
-            "/some": {
+            '/some': {
               post: {
                 parameters: [
                   {
-                      in: "formData",
+                      in: 'formData',
                   },
                 ]
               }
             }
           }
-        }
+        };
 
-        return expectNoErrors(spec)
+        return expectNoErrors(spec);
       }
-    )
+    );
 
-  })
+  });
 
-  describe("/pathitems/...", () => {
-    it("should complain about having both in the same parameter", () => {
+  describe('/pathitems/...', () => {
+    it('should complain about having both in the same parameter', () => {
       const spec = {
-        swagger: "2.0",
+        swagger: '2.0',
         paths: {
-          "/": {
-            consumes: ["multipart/form-data"],
+          '/': {
+            consumes: ['multipart/form-data'],
             parameters: [
-              { in: "formData" },
-              { in: "body" },
+              { in: 'formData' },
+              { in: 'body' },
             ]
           }
         }
-      }
+      };
 
       return validateHelper(spec)
         .then(system => {
-          const allErrors = system.errSelectors.allErrors().toJS()
-          const firstError = allErrors[0]
-          expect(allErrors.length).toEqual(1)
-          expect(firstError.message).toEqual(`Parameters cannot have both a "in: body" and "in: formData", as "formData" _will_ be the body`)
-          expect(firstError.path).toEqual(["paths", "/", "parameters"])
-        })
-    })
-    it("should complain if 'type:file` and no 'in: formData", () => {
+          const allErrors = system.errSelectors.allErrors().toJS();
+          const firstError = allErrors[0];
+          expect(allErrors.length).toEqual(1);
+          expect(firstError.message).toEqual('Parameters cannot have both a "in: body" and "in: formData", as "formData" _will_ be the body');
+          expect(firstError.path).toEqual(['paths', '/', 'parameters']);
+        });
+    });
+    it('should complain if \'type:file` and no \'in: formData', () => {
       const spec = {
-        swagger: "2.0",
+        swagger: '2.0',
         paths: {
-          "/": {
-            consumes: ["multipart/form-data"],
+          '/': {
+            consumes: ['multipart/form-data'],
             parameters: [
-              { type: "file" }
+              { type: 'file' }
             ]
           }
         }
-      }
+      };
 
       return validateHelper(spec)
         .then(system => {
-          const allErrors = system.errSelectors.allErrors().toJS()
-          const firstError = allErrors[0]
-          expect(allErrors.length).toEqual(1)
-          expect(firstError.message).toEqual(`Parameters with "type: file" must have "in: formData"`)
-          expect(firstError.path).toEqual(["paths", "/", "parameters", "0"])
-        })
-    })
+          const allErrors = system.errSelectors.allErrors().toJS();
+          const firstError = allErrors[0];
+          expect(allErrors.length).toEqual(1);
+          expect(firstError.message).toEqual('Parameters with "type: file" must have "in: formData"');
+          expect(firstError.path).toEqual(['paths', '/', 'parameters', '0']);
+        });
+    });
     
-    describe("Path-level form parameters and operation-level consumes", () => {
-      describe("`in: formData` + `type: file`", () => {
+    describe('Path-level form parameters and operation-level consumes', () => {
+      describe('`in: formData` + `type: file`', () => {
         it(
-          "should report an error for missing consumes with a path-level parameter",
+          'should report an error for missing consumes with a path-level parameter',
           () => {
             const spec = {
-              swagger: "2.0",
+              swagger: '2.0',
               paths: {
-                "/foo": {
+                '/foo': {
                   parameters: [
                     {
-                      name: "param",
-                      in: "formData",
+                      name: 'param',
+                      in: 'formData',
                       required: true,
-                      type: "file"
+                      type: 'file'
                     }
                   ],
                   post: {
                     responses: {
-                      "200": {
-                        description: "ok"
+                      '200': {
+                        description: 'ok'
                       }
                     }
                   }
                 }
               }
-            }
+            };
 
             return validateHelper(spec)
               .then(system => {
-                const allErrors = system.errSelectors.allErrors().toJS()  
-                expect(allErrors.length).toEqual(1)
-                const firstError = allErrors[0]
-                expect(firstError.message).toEqual(`Operations with parameters of "type: file" must include "multipart/form-data" in their "consumes" property`)
-                expect(firstError.path).toEqual(["paths", "/foo", "post"])
-              })
+                const allErrors = system.errSelectors.allErrors().toJS();  
+                expect(allErrors.length).toEqual(1);
+                const firstError = allErrors[0];
+                expect(firstError.message).toEqual('Operations with parameters of "type: file" must include "multipart/form-data" in their "consumes" property');
+                expect(firstError.path).toEqual(['paths', '/foo', 'post']);
+              });
           }
-        )
+        );
 
         it(
-          "should report an error for incorrect global consumes with a path-level parameter",
+          'should report an error for incorrect global consumes with a path-level parameter',
           () => {
             const spec = {
-              swagger: "2.0",
-              consumes: ["application/json"],
+              swagger: '2.0',
+              consumes: ['application/json'],
               paths: {
-                "/foo": {
+                '/foo': {
                   parameters: [
                     {
-                      name: "param",
-                      in: "formData",
+                      name: 'param',
+                      in: 'formData',
                       required: true,
-                      type: "file"
+                      type: 'file'
                     }
                   ],
                   post: {
                     responses: {
-                      "200": {
-                        description: "ok"
+                      '200': {
+                        description: 'ok'
                       }
                     }
                   }
                 }
               }
-            }
+            };
 
             return validateHelper(spec)
               .then(system => {
-                const allErrors = system.errSelectors.allErrors().toJS()  
-                expect(allErrors.length).toEqual(1)
-                const firstError = allErrors[0]
-                expect(firstError.message).toEqual(`Operations with parameters of "type: file" must include "multipart/form-data" in their "consumes" property`)
-                expect(firstError.path).toEqual(["paths", "/foo", "post"])
-              })
+                const allErrors = system.errSelectors.allErrors().toJS();  
+                expect(allErrors.length).toEqual(1);
+                const firstError = allErrors[0];
+                expect(firstError.message).toEqual('Operations with parameters of "type: file" must include "multipart/form-data" in their "consumes" property');
+                expect(firstError.path).toEqual(['paths', '/foo', 'post']);
+              });
           }
-        )
+        );
 
         it(
-          "should report an error for incorrect operation-level consumes with a path-level parameter",
+          'should report an error for incorrect operation-level consumes with a path-level parameter',
           () => {
             const spec = {
-              swagger: "2.0",
+              swagger: '2.0',
               paths: {
-                "/foo": {
+                '/foo': {
                   parameters: [
                     {
-                      name: "param",
-                      in: "formData",
+                      name: 'param',
+                      in: 'formData',
                       required: true,
-                      type: "file"
+                      type: 'file'
                     }
                   ],
                   post: {
-                    consumes: ["application/json"],
+                    consumes: ['application/json'],
                     responses: {
-                      "200": {
-                        description: "ok"
+                      '200': {
+                        description: 'ok'
                       }
                     }
                   }
                 }
               }
-            }
+            };
 
             return validateHelper(spec)
               .then(system => {
-                const allErrors = system.errSelectors.allErrors().toJS()  
-                expect(allErrors.length).toEqual(1)
-                const firstError = allErrors[0]
-                expect(firstError.message).toEqual(`Operations with parameters of "type: file" must include "multipart/form-data" in their "consumes" property`)
-                expect(firstError.path).toEqual(["paths", "/foo", "post"])
-              })
+                const allErrors = system.errSelectors.allErrors().toJS();  
+                expect(allErrors.length).toEqual(1);
+                const firstError = allErrors[0];
+                expect(firstError.message).toEqual('Operations with parameters of "type: file" must include "multipart/form-data" in their "consumes" property');
+                expect(firstError.path).toEqual(['paths', '/foo', 'post']);
+              });
           }
-        )
+        );
 
         it(
-          "should not report an error for correct global consumes with a path-level parameter",
+          'should not report an error for correct global consumes with a path-level parameter',
           () => {
             const spec = {
-              swagger: "2.0",
-              consumes: ["multipart/form-data"],
+              swagger: '2.0',
+              consumes: ['multipart/form-data'],
               paths: {
-                "/foo": {
+                '/foo': {
                   parameters: [
                     {
-                      name: "param",
-                      in: "formData",
+                      name: 'param',
+                      in: 'formData',
                       required: true,
-                      type: "file"
+                      type: 'file'
                     }
                   ],
                   post: {
                     responses: {
-                      "200": {
-                        description: "ok"
+                      '200': {
+                        description: 'ok'
                       }
                     }
                   }
                 }
               }
-            }
+            };
 
             return validateHelper(spec)
               .then(system => {
-                const allErrors = system.errSelectors.allErrors().toJS()  
-                expect(allErrors.length).toEqual(0)
-              })
+                const allErrors = system.errSelectors.allErrors().toJS();  
+                expect(allErrors.length).toEqual(0);
+              });
           }
-        )
+        );
 
         it(
-          "should not report an error for correct operation consumes with a path-level parameter",
+          'should not report an error for correct operation consumes with a path-level parameter',
           () => {
             const spec = {
-              swagger: "2.0",
+              swagger: '2.0',
               paths: {
-                "/foo": {
+                '/foo': {
                   parameters: [
                     {
-                      name: "param",
-                      in: "formData",
+                      name: 'param',
+                      in: 'formData',
                       required: true,
-                      type: "file"
+                      type: 'file'
                     }
                   ],
                   post: {
-                    consumes: ["multipart/form-data"],
+                    consumes: ['multipart/form-data'],
                     responses: {
-                      "200": {
-                        description: "ok"
+                      '200': {
+                        description: 'ok'
                       }
                     }
                   }
                 }
               }
-            }
+            };
 
             return validateHelper(spec)
               .then(system => {
-                const allErrors = system.errSelectors.allErrors().toJS()  
-                expect(allErrors.length).toEqual(0)
-              })
+                const allErrors = system.errSelectors.allErrors().toJS();  
+                expect(allErrors.length).toEqual(0);
+              });
           }
-        )
-      })
-    describe("`in: formData`", () => {
+        );
+      });
+    describe('`in: formData`', () => {
         it(
-          "should report an error for missing consumes with a path-level formData parameter",
+          'should report an error for missing consumes with a path-level formData parameter',
           () => {
             const spec = {
-              swagger: "2.0",
+              swagger: '2.0',
               paths: {
-                "/foo": {
+                '/foo': {
                   parameters: [
                     {
-                      name: "param",
-                      in: "formData",
+                      name: 'param',
+                      in: 'formData',
                       required: true,
-                      type: "string"
+                      type: 'string'
                     }
                   ],
                   post: {
                     responses: {
-                      "200": {
-                        description: "ok"
+                      '200': {
+                        description: 'ok'
                       }
                     }
                   }
                 }
               }
-            }
+            };
 
             return validateHelper(spec)
               .then(system => {
-                const allErrors = system.errSelectors.allErrors().toJS()  
-                expect(allErrors.length).toEqual(1)
-                const firstError = allErrors[0]
-                expect(firstError.message).toEqual(`Operations with parameters of "in: formData" must include "application/x-www-form-urlencoded" or "multipart/form-data" in their "consumes" property`)
-                expect(firstError.path).toEqual(["paths", "/foo", "post"])
-              })
+                const allErrors = system.errSelectors.allErrors().toJS();  
+                expect(allErrors.length).toEqual(1);
+                const firstError = allErrors[0];
+                expect(firstError.message).toEqual('Operations with parameters of "in: formData" must include "application/x-www-form-urlencoded" or "multipart/form-data" in their "consumes" property');
+                expect(firstError.path).toEqual(['paths', '/foo', 'post']);
+              });
           }
-        )
+        );
 
         it(
-          "should report an error for incorrect global consumes with a path-level formData parameter",
+          'should report an error for incorrect global consumes with a path-level formData parameter',
           () => {
             const spec = {
-              swagger: "2.0",
-              consumes: ["application/json"],
+              swagger: '2.0',
+              consumes: ['application/json'],
               paths: {
-                "/foo": {
+                '/foo': {
                   parameters: [
                     {
-                      name: "param",
-                      in: "formData",
+                      name: 'param',
+                      in: 'formData',
                       required: true,
-                      type: "string"
+                      type: 'string'
                     }
                   ],
                   post: {
                     responses: {
-                      "200": {
-                        description: "ok"
+                      '200': {
+                        description: 'ok'
                       }
                     }
                   }
                 }
               }
-            }
+            };
 
             return validateHelper(spec)
               .then(system => {
-                const allErrors = system.errSelectors.allErrors().toJS()  
-                expect(allErrors.length).toEqual(1)
-                const firstError = allErrors[0]
-                expect(firstError.message).toEqual(`Operations with parameters of "in: formData" must include "application/x-www-form-urlencoded" or "multipart/form-data" in their "consumes" property`)
-                expect(firstError.path).toEqual(["paths", "/foo", "post"])
-              })
+                const allErrors = system.errSelectors.allErrors().toJS();  
+                expect(allErrors.length).toEqual(1);
+                const firstError = allErrors[0];
+                expect(firstError.message).toEqual('Operations with parameters of "in: formData" must include "application/x-www-form-urlencoded" or "multipart/form-data" in their "consumes" property');
+                expect(firstError.path).toEqual(['paths', '/foo', 'post']);
+              });
           }
-        )
+        );
 
         it(
-          "should report an error for incorrect operation-level consumes with a path-level formData parameter",
+          'should report an error for incorrect operation-level consumes with a path-level formData parameter',
           () => {
             const spec = {
-              swagger: "2.0",
+              swagger: '2.0',
               paths: {
-                "/foo": {
+                '/foo': {
                   parameters: [
                     {
-                      name: "param",
-                      in: "formData",
+                      name: 'param',
+                      in: 'formData',
                       required: true,
-                      type: "string"
+                      type: 'string'
                     }
                   ],
                   post: {
-                    consumes: ["application/json"],
+                    consumes: ['application/json'],
                     responses: {
-                      "200": {
-                        description: "ok"
+                      '200': {
+                        description: 'ok'
                       }
                     }
                   }
                 }
               }
-            }
+            };
 
             return validateHelper(spec)
               .then(system => {
-                const allErrors = system.errSelectors.allErrors().toJS()  
-                expect(allErrors.length).toEqual(1)
-                const firstError = allErrors[0]
-                expect(firstError.message).toEqual(`Operations with parameters of "in: formData" must include "application/x-www-form-urlencoded" or "multipart/form-data" in their "consumes" property`)
-                expect(firstError.path).toEqual(["paths", "/foo", "post"])
-              })
+                const allErrors = system.errSelectors.allErrors().toJS();  
+                expect(allErrors.length).toEqual(1);
+                const firstError = allErrors[0];
+                expect(firstError.message).toEqual('Operations with parameters of "in: formData" must include "application/x-www-form-urlencoded" or "multipart/form-data" in their "consumes" property');
+                expect(firstError.path).toEqual(['paths', '/foo', 'post']);
+              });
           }
-        )
+        );
 
         it(
-          "should not report an error for correct global consumes with a path-level parameter",
+          'should not report an error for correct global consumes with a path-level parameter',
           () => {
             const spec = {
-              swagger: "2.0",
-              consumes: ["multipart/form-data"],
+              swagger: '2.0',
+              consumes: ['multipart/form-data'],
               paths: {
-                "/foo": {
+                '/foo': {
                   parameters: [
                     {
-                      name: "param",
-                      in: "formData",
+                      name: 'param',
+                      in: 'formData',
                       required: true,
-                      type: "string"
+                      type: 'string'
                     }
                   ],
                   post: {
                     responses: {
-                      "200": {
-                        description: "ok"
+                      '200': {
+                        description: 'ok'
                       }
                     }
                   }
                 }
               }
-            }
+            };
 
             return validateHelper(spec)
               .then(system => {
-                const allErrors = system.errSelectors.allErrors().toJS()  
-                expect(allErrors.length).toEqual(0)
-              })
+                const allErrors = system.errSelectors.allErrors().toJS();  
+                expect(allErrors.length).toEqual(0);
+              });
           }
-        )
+        );
 
         it(
-          "should not report an error for correct operation consumes with a path-level parameter",
+          'should not report an error for correct operation consumes with a path-level parameter',
           () => {
             const spec = {
-              swagger: "2.0",
+              swagger: '2.0',
               paths: {
-                "/foo": {
+                '/foo': {
                   parameters: [
                     {
-                      name: "param",
-                      in: "formData",
+                      name: 'param',
+                      in: 'formData',
                       required: true,
-                      type: "string"
+                      type: 'string'
                     }
                   ],
                   post: {
-                    consumes: ["multipart/form-data"],
+                    consumes: ['multipart/form-data'],
                     responses: {
-                      "200": {
-                        description: "ok"
+                      '200': {
+                        description: 'ok'
                       }
                     }
                   }
                 }
               }
-            }
+            };
 
             return validateHelper(spec)
               .then(system => {
-                const allErrors = system.errSelectors.allErrors().toJS()  
-                expect(allErrors.length).toEqual(0)
-              })
+                const allErrors = system.errSelectors.allErrors().toJS();  
+                expect(allErrors.length).toEqual(0);
+              });
           }
-        )
-      })
-    })
-  })
-})
+        );
+      });
+    });
+  });
+});

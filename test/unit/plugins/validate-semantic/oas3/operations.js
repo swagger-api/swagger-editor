@@ -1,22 +1,22 @@
-import { expect } from "@jest/globals"
-import validateHelper, { expectNoErrors } from "../validate-helper.js"
 
-describe("validation plugin - semantic - oas3 operations", () => {
-  describe("GET and DELETE operations may not have a requestBody", () => {
+import validateHelper, { expectNoErrors } from '../validate-helper.js';
+
+describe('validation plugin - semantic - oas3 operations', () => {
+  describe('GET and DELETE operations may not have a requestBody', () => {
     it(
-      "should return an error when a requestBody exists in a GET operation",
+      'should return an error when a requestBody exists in a GET operation',
       () => {
         const spec = {
-          openapi: "3.0.0",
+          openapi: '3.0.0',
           paths: {
-            "/": {
+            '/': {
               get: {
-                operationId: "myId",
+                operationId: 'myId',
                 requestBody: {
                   content: {
-                    "application/json": {
+                    'application/json': {
                       schema: {
-                        type: "string"
+                        type: 'string'
                       }
                     }
                   }
@@ -24,32 +24,32 @@ describe("validation plugin - semantic - oas3 operations", () => {
               }
             }
           }
-        }
+        };
 
         return validateHelper(spec)
           .then(system => {
-            const allErrors = system.errSelectors.allErrors().toJS()
-            const firstError = allErrors[0]
-            expect(allErrors.length).toEqual(1)
-            expect(firstError.message).toEqual(`GET operations cannot have a requestBody.`)
-            expect(firstError.path).toEqual(["paths", "/", "get", "requestBody"])
-          })
+            const allErrors = system.errSelectors.allErrors().toJS();
+            const firstError = allErrors[0];
+            expect(allErrors.length).toEqual(1);
+            expect(firstError.message).toEqual('GET operations cannot have a requestBody.');
+            expect(firstError.path).toEqual(['paths', '/', 'get', 'requestBody']);
+          });
       }
-    )
+    );
     it(
-      "should return an error when a requestBody exists in a DELETE operation",
+      'should return an error when a requestBody exists in a DELETE operation',
       () => {
         const spec = {
-          openapi: "3.0.0",
+          openapi: '3.0.0',
           paths: {
-            "/": {
+            '/': {
               delete: {
-                operationId: "myId",
+                operationId: 'myId',
                 requestBody: {
                   content: {
-                    "application/json": {
+                    'application/json': {
                       schema: {
-                        type: "string"
+                        type: 'string'
                       }
                     }
                   }
@@ -57,32 +57,32 @@ describe("validation plugin - semantic - oas3 operations", () => {
               }
             }
           }
-        }
+        };
 
         return validateHelper(spec)
           .then(system => {
-            const allErrors = system.errSelectors.allErrors().toJS()
-            const firstError = allErrors[0]
-            expect(allErrors.length).toEqual(1)
-            expect(firstError.message).toEqual(`DELETE operations cannot have a requestBody.`)
-            expect(firstError.path).toEqual(["paths", "/", "delete", "requestBody"])
-          })
+            const allErrors = system.errSelectors.allErrors().toJS();
+            const firstError = allErrors[0];
+            expect(allErrors.length).toEqual(1);
+            expect(firstError.message).toEqual('DELETE operations cannot have a requestBody.');
+            expect(firstError.path).toEqual(['paths', '/', 'delete', 'requestBody']);
+          });
       }
-    )
+    );
     it(
-      "should not return an error when other methods contain a requestBody",
+      'should not return an error when other methods contain a requestBody',
       () => {
         const spec = {
-          openapi: "3.0.0",
+          openapi: '3.0.0',
           paths: {
-            "/": {
+            '/': {
               post: {
-                operationId: "myId",
+                operationId: 'myId',
                 requestBody: {
                   content: {
-                    "application/json": {
+                    'application/json': {
                       schema: {
-                        type: "string"
+                        type: 'string'
                       }
                     }
                   }
@@ -90,10 +90,10 @@ describe("validation plugin - semantic - oas3 operations", () => {
               }
             }
           }
-        }
+        };
 
-        return expectNoErrors(spec)
+        return expectNoErrors(spec);
       }
-    )
-  })
-})
+    );
+  });
+});
