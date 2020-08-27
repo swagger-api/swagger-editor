@@ -1,3 +1,1 @@
-if (typeof process === "object") {
-  require("jsdom-global")()
-}
+// Jest config globals can go here

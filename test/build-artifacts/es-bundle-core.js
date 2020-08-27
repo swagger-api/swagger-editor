@@ -1,4 +1,3 @@
-import { describe, expect, test } from '@jest/globals';
 import SwaggerEditor from '../../dist/swagger-editor-es-bundle-core';
 
 describe('webpack browser es-bundle build', () => {
