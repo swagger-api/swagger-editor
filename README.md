@@ -51,7 +51,8 @@ Script name | Description
 Script name | Description
 --- | ---
 `test` | Run unit tests in Node, run Cypress end-to-end tests, and run ESLint in errors-only mode.
-`just-test-in-node` | Run Mocha unit tests in Node.
+`test:unit-mocha` | Run Mocha-based unit tests in Node.
+`test:unit-juest` | Run Jest-based unit tests in Node.
 `e2e` | Run end-to-end browser tests with Cypress.
 `lint` | Run ESLint test
 `test:artifact` | Run list of bundle artifact tests in Jest
