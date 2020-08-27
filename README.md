@@ -20,7 +20,7 @@ This repository publishes to two different NPM modules:
 
 If you're building a single-page application, using `swagger-editor` is strongly recommended, since `swagger-editor-dist` is significantly larger.
 
-For the older version of the swagger-editor, refer to the [*2.x branch*](https://github.com/swagger-api/swagger-editor/tree/2.x).
+For the older version of swagger-editor, refer to the [*2.x branch*](https://github.com/swagger-api/swagger-editor/tree/2.x).
 
 ## Helpful scripts
 
