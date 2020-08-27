@@ -32,7 +32,6 @@ import { exampleObject, exampleForm } from 'src/standalone/topbar-insert/forms/f
 configure({ adapter: new Adapter() });
 
 describe('editor topbar insert forms', () => {
-  // this.timeout(10 * 1000)
   let components, props;
 
   beforeEach(() => {

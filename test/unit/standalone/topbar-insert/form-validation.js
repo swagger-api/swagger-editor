@@ -8,7 +8,6 @@ import {
 } from 'src/standalone/topbar-insert/forms/helpers/validation-helpers';
 
 describe('editor topbar insert form validation', () => {
-  // this.timeout(10 * 1000)
 
   it('should produce no errors for a valid form', () => { 
     const form = fromJS({

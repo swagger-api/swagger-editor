@@ -54,7 +54,6 @@ function getSystem(spec) {
 }
 
 describe('editor topbar insert menu plugin', () => {
-  // this.timeout(10 * 1000)
 
   it('should provide a `addToSpec` method as a spec action', async () => {
     const spec = {};

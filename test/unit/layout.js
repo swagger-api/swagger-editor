@@ -44,15 +44,12 @@ describe('EditorLayout', () => {
               updateSpec: jest.fn()
             }
           };
-          // global.FileReader.andReturn({
-          //   readAsText: function () { this.onloadend() },
-          //   result: fileContents
-          // })
+
           jest.spyOn(global, 'FileReader')
-          .mockImplementation(function() {
-            this.readAsText = function () { this.onloadend(); };
-            this.result = fileContents;
-          });
+            .mockImplementation(function () {
+              this.readAsText = function () { this.onloadend(); };
+              this.result = fileContents;
+            });
 
           const editorLayout = new EditorLayout(props);
 
