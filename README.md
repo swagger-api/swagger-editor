@@ -67,7 +67,7 @@ Script name | Description
 
 - NPM 6.x
 
-Generally, we recommend following guidelines from [Node.js Releases](https://nodejs.org/en/about/releases/) to only use Active LTS or Maintenance LTS releases.
+Generally, we recommend the following guidelines from [Node.js Releases](https://nodejs.org/en/about/releases/) to only use Active LTS or Maintenance LTS releases.
 
 Current Node.js Active LTS:
 - Node.js 12.x
