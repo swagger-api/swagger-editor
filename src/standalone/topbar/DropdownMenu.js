@@ -56,7 +56,7 @@ export default class DropdownMenu extends PureComponent {
       return
     }
 
-    const menuItems = document.querySelector(".dd-menu > .dd-menu-items")
+    const menuItems = this.dropdownMenuRef.querySelector(".dd-menu > .dd-menu-items")
     if(this.props.isOpen && !prevProps.isOpen) {
       this.lastWindowClickEvent = this.handleClickOutside
       document.addEventListener("click", this.lastWindowClickEvent)
@@ -94,7 +94,7 @@ export default class DropdownMenu extends PureComponent {
       return
     }
 
-    const node = this.dropdownMenuRef.current
+    const node = this.dropdownMenuRef
     let target = e.target
 
     while(target.parentNode) {
