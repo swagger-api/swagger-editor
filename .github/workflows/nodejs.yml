@@ -30,7 +30,7 @@ jobs:
       env:
         CI: true
 
-  bundle:
+  artifact-bundle:
     runs-on: ubuntu-latest
 
     strategy:
