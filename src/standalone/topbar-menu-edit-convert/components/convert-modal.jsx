@@ -102,7 +102,7 @@ const ConvertModalStepNew = ({ getComponent, onClose, onContinue, converterUrl }
         definition to OpenAPI 3.
         </p>
       <p>
-        Swagger Editor's contents will be sent to <b><code>{converterUrl}</code></b> and overwritten
+        Swagger Editor&apos;s contents will be sent to <b><code>{converterUrl}</code></b> and overwritten
         by the conversion result.
       </p>
     </div>
@@ -169,7 +169,7 @@ const ConvertModalStepErrored = ({ getComponent, onClose, error }) => {
         The converter service was unable to convert your definition.
       </p>
       <p>
-        Here's what the service told us:
+        Here&apos;s what the service told us:
       </p>
       <code>
         {error.toString()}
