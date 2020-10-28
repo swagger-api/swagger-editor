@@ -240,7 +240,11 @@ export default function makeEditor({ editorPluginsToRun }) {
       editor.setReadOnly(readOnly)
     }
 
-    UNSAFE_componentWillMount() {
+    componentDidMount() {
+      // eslint-disable-next-line react/no-did-mount-set-state
+
+      this.width = this.getWidth()
+      win.document.addEventListener("click", this.onClick)
       // add user agent info to document
       // allows our custom Editor styling for IE10 to take effect
       var doc = win.document.documentElement
@@ -248,18 +252,12 @@ export default function makeEditor({ editorPluginsToRun }) {
       this.syncOptionsFromState(this.props.editorOptions)
     }
 
-    componentDidMount() {
-      // eslint-disable-next-line react/no-did-mount-set-state
-
-      this.width = this.getWidth()
-      win.document.addEventListener("click", this.onClick)
-    }
-
     componentWillUnmount() {
       win.document.removeEventListener("click", this.onClick)
     }
 
-    UNSAFE_componentWillReceiveProps(nextProps) {
+    // eslint-disable-next-line react/no-deprecated
+    componentWillReceiveProps(nextProps) {
       let hasChanged = (k) => !isEqual(nextProps[k], this.props[k])
       const editor = this.editor
 
