@@ -1,7 +1,7 @@
 {
   "name": "swagger-editor",
   "description": "Swagger Editor",
-  "version": "3.14.4",
+  "version": "3.14.5",
   "main": "dist/swagger-editor.js",
   "module": "dist/swagger-editor-es-bundle.js",
   "repository": "git@github.com:swagger-api/swagger-editor.git",
@@ -88,8 +88,8 @@
     "react-transition-group": "^1.1.1",
     "redux": "^3.x.x",
     "reselect": "^4.0.0",
-    "swagger-client": "^3.11.1",
-    "swagger-ui": "^3.36.0",
+    "swagger-client": "^3.12.0",
+    "swagger-ui": "^3.36.1",
     "traverse": "^0.6.6",
     "whatwg-fetch": "^2.0.3",
     "yaml-js": "^0.2.3"
