@@ -1,0 +1,13 @@
+{
+  "env": {
+    "jest": true
+  },
+  "globals": {
+  },
+  "rules": {
+    "global-require": 0, // needs to be eliminated in future
+    "import/no-dynamic-require": 0,
+    "max-classes-per-file": 0,
+    "no-underscore-dangle": 0
+  }
+}

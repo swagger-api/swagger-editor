@@ -1,0 +1,28 @@
+{
+  "root": true,
+  "env": {
+    "browser": true,
+    "es6": true,
+    "es2017": true
+  },
+  "parserOptions": {
+    "sourceType": "module",
+    "ecmaFeatures": {
+      "impliedStrict": true
+    }
+  },
+  "extends": ["eslint-config-airbnb-base", "prettier"],
+  "plugins": ["eslint-plugin-prettier", "prettier"],
+  "rules": {
+    "import/order": ["error", {
+      "groups": [
+        ["builtin", "external", "internal"],
+        ["parent", "sibling", "index"]
+      ],
+      "newlines-between": "always"
+    }],
+    "prettier/prettier": "error",
+    "no-param-reassign": 0, // needs to be eliminated in future
+    "no-use-before-define": [2, "nofunc"] // needs to be eliminated in future
+  }
+}
