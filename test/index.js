@@ -1,7 +1,9 @@
-import testFn from '../src';
+import { assert } from 'chai';
 
-describe('suite', () => {
-  test('test', () => {
-    expect(testFn()).toBe(true);
+import testFn from '../src/index';
+
+describe('suite', function () {
+  it('test', function () {
+    assert.isTrue(testFn());
   });
 });

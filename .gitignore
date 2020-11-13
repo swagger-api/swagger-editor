@@ -2,3 +2,5 @@
 /es
 /cjs
 /node_modules
+/coverage
+/apidom-built

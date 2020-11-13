@@ -1,17 +1,42 @@
+const apiDOMResolverPlugin = [
+  'module-resolver',
+  {
+    root: ['./src'],
+    alias: {
+      apidom: '../../apidom/packages/apidom/cjs',
+      'apidom-ast': '../../apidom/packages/apidom-ast',
+      'apidom-ns-asyncapi-2-0': '../../apidom/packages/apidom-ns-asyncapi-2-0',
+      'apidom-ns-openapi-3-1': '../../apidom/packages/apidom-ns-openapi-3-1',
+      'apidom-parser': '../../apidom/packages/apidom-parser',
+      'apidom-parser-adapter-asyncapi-json-2-0':
+        '../../apidom/packages/apidom-parser-adapter-asyncapi-json-2-0',
+      'apidom-parser-adapter-asyncapi-yaml-2-0':
+        '../../apidom/packages/apidom-parser-adapter-asyncapi-yaml-2-0',
+      'apidom-parser-adapter-json': '../../apidom/packages/apidom-parser-adapter-json',
+      'apidom-parser-adapter-openapi-json-3-1':
+        '../../apidom/packages/apidom-parser-adapter-openapi-json-3-1',
+      'apidom-parser-adapter-openapi-yaml-3-1':
+        '../../apidom/packages/apidom-parser-adapter-openapi-yaml-3-1',
+      'apidom-parser-adapter-yaml-1-2': '../../apidom/packages/apidom-parser-adapter-yaml-1-2',
+    },
+  },
+];
+
 module.exports = {
   env: {
     cjs: {
+      ignore: ['../../apidom/packages/'],
       presets: [
         [
           '@babel/preset-env',
           {
             debug: false,
             modules: 'commonjs',
-            corejs: { version: 3 },
-            useBuiltIns: false,
             targets: {
-              node: '8',
+              node: '10',
             },
+            useBuiltIns: false,
+            corejs: 3,
             forceAllTransforms: false,
             ignoreBrowserslistConfig: true,
           },
@@ -26,6 +51,14 @@ module.exports = {
         ],
         '@babel/proposal-class-properties',
         '@babel/proposal-object-rest-spread',
+        [
+          '@babel/plugin-transform-runtime',
+          {
+            corejs: 3,
+            version: '^7.11.2',
+          },
+        ],
+        apiDOMResolverPlugin,
       ],
     },
     es: {
@@ -35,8 +68,8 @@ module.exports = {
           {
             debug: false,
             modules: false,
-            corejs: { version: 3 },
             useBuiltIns: false,
+            corejs: 3,
           },
         ],
       ],
@@ -44,14 +77,15 @@ module.exports = {
         [
           '@babel/plugin-transform-runtime',
           {
-            absoluteRuntime: false,
             corejs: 3,
             version: '^7.11.2',
+            useESModules: true,
           },
         ],
         '@babel/proposal-class-properties',
         '@babel/proposal-object-rest-spread',
         'lodash',
+        apiDOMResolverPlugin,
       ],
     },
     browser: {
@@ -60,9 +94,9 @@ module.exports = {
         [
           '@babel/preset-env',
           {
-            debug: false,
-            corejs: { version: 3 },
+            debug: true,
             useBuiltIns: false,
+            corejs: 3,
           },
         ],
       ],
@@ -72,11 +106,13 @@ module.exports = {
           {
             corejs: 3,
             version: '^7.11.2',
+            useESModules: true,
           },
         ],
         '@babel/proposal-class-properties',
         '@babel/proposal-object-rest-spread',
         'lodash',
+        apiDOMResolverPlugin,
       ],
     },
   },

@@ -8,6 +8,7 @@
   "jsnext:main": "es/index.js",
   "unpkg": "dist/generic-editor.browser.min.js",
   "scripts": {
+    "preinstall": "node ./scripts/file-exists.js apidom-built && exit 0 || touch apidom-built && cd ../../apidom && npm i && npm run build",
     "build": "npm run clean && npm run build:es && npm run build:cjs && npm run build:umd:browser",
     "build:es": "cross-env BABEL_ENV=es babel src --out-dir es",
     "build:cjs": "cross-env BABEL_ENV=cjs babel src --out-dir cjs",
@@ -15,9 +16,7 @@
     "lint": "eslint ./",
     "lint:fix": "eslint ./ --fix",
     "clean": "rimraf ./es ./cjs ./dist",
-    "test": "run-s test:unit:coverage",
-    "test:unit": "cross-env BABEL_ENV=cjs jest --runInBand --config ./config/jest/jest.unit.config.js",
-    "test:unit:coverage": "cross-env BABEL_ENV=cjs jest --runInBand --config ./config/jest/jest.unit.coverage.config.js",
+    "test": "cross-env BABEL_ENV=cjs mocha",
     "security-audit": "run-s -sc security-audit:prod security-audit:dev",
     "security-audit:prod": "npm-audit --production --only=prod --audit-level=low",
     "security-audit:dev": "npm-audit --only=dev --audit-level=moderate"
@@ -36,24 +35,28 @@
     "@commitlint/cli": "=11.0.0",
     "@commitlint/config-conventional": "=11.0.0",
     "babel-loader": "=8.2.1",
-    "babel-plugin-lodash": "^3.3.4",
-    "core-js": "^3.7.0",
+    "babel-plugin-lodash": "=3.3.4",
+    "babel-plugin-module-resolver": "=4.0.0",
+    "chai": "=4.2.0",
     "cross-env": "=7.0.2",
     "eslint": "=7.13.0",
     "eslint-config-airbnb-base": "=14.2.1",
     "eslint-config-prettier": "=6.15.0",
     "eslint-plugin-import": "=2.22.1",
+    "eslint-plugin-mocha": "=8.0.0",
     "eslint-plugin-prettier": "=3.1.4",
-    "expect": "^26.6.2",
+    "file-loader": "=6.2.0",
     "husky": "=4.3.0",
-    "jest": "^26.6.3",
     "lint-staged": "=10.5.1",
     "lodash-webpack-plugin": "=0.11.5",
-    "npm-run-all": "^4.1.5",
+    "mocha": "=8.2.1",
+    "npm-run-all": "=4.1.5",
     "prettier": "=2.1.2",
-    "regenerator-runtime": "^0.13.7",
     "rimraf": "=3.0.2",
     "webpack": "=4.44.2",
     "webpack-cli": "=4.2.0"
+  },
+  "dependencies": {
+    "@babel/runtime-corejs3": "=7.12.5"
   }
 }
