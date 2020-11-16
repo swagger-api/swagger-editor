@@ -16,8 +16,10 @@
     "security-audit:dev": "npm-audit --only=dev --audit-level=moderate"
   },
   "dependencies": {
+    "prop-types": "^15.7.2",
     "react": "^17.0.1",
-    "react-dom": "^17.0.1"
+    "react-dom": "^17.0.1",
+    "swagger-ui-react": "^3.36.2"
   },
   "devDependencies": {
     "@babel/core": "7.12.3",

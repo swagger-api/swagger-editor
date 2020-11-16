@@ -1,22 +1,18 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import ApiDOMParser from 'apidom-parser';
-import * as jsonAdapter from 'apidom-parser-adapter-json';
+import SwaggerUI from 'swagger-ui-react';
+import GenericEditorPlugin from 'plugin';
 
 import './index.scss';
-
-import App from './App';
 import reportWebVitals from './reportWebVitals';
-
-(async () => {
-  const parser = ApiDOMParser();
-  parser.use(jsonAdapter);
-  await jsonAdapter.parse('{"prop":"val"}');
-})();
 
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+    <SwaggerUI
+      plugins={[GenericEditorPlugin]}
+      layout="GenericEditorLayout"
+      url="https://petstore.swagger.io/v2/swagger.json"
+    />
   </React.StrictMode>,
   document.getElementById('root')
 );
