@@ -1,6 +1,5 @@
-/dist
-/es
-/lib
+/build
 /config
 /scripts
 /node_modules
+/babel.config.js
