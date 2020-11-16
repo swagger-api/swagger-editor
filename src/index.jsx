@@ -11,8 +11,7 @@ import reportWebVitals from './reportWebVitals';
 (async () => {
   const parser = ApiDOMParser();
   parser.use(jsonAdapter);
-  const result = await jsonAdapter.parse('{"prop":"val"}');
-  console.dir(result);
+  await jsonAdapter.parse('{"prop":"val"}');
 })();
 
 ReactDOM.render(
