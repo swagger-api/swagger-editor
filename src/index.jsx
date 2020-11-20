@@ -1,8 +1,11 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+/* eslint-disable import/no-extraneous-dependencies */
 import SwaggerUI from 'swagger-ui-react';
-import GenericEditorPlugin from 'plugin';
+import 'swagger-ui-react/swagger-ui.css';
+/* eslint-enable */
 
+import GenericEditorPlugin from './plugin';
 import './index.scss';
 import reportWebVitals from './reportWebVitals';
 
