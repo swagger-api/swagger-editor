@@ -1,6 +1,8 @@
 FROM nginx:1.19-alpine
 
-MAINTAINER fehguy
+LABEL maintainer="fehguy"
+
+ENV BASE_URL ""
 
 RUN mkdir -p /run/nginx
 
@@ -8,10 +10,8 @@ COPY nginx.conf /etc/nginx/
 
 # copy swagger files to the `/js` folder
 COPY ./index.html /usr/share/nginx/html/
-ADD ./dist/*.js /usr/share/nginx/html/dist/
-ADD ./dist/*.map /usr/share/nginx/html/dist/
-ADD ./dist/*.css /usr/share/nginx/html/dist/
-ADD ./dist/*.png /usr/share/nginx/html/dist/
+COPY ./dist/* /usr/share/nginx/html/
+COPY ./docker/run.sh /usr/share/nginx/
 ADD ./docker-run.sh /usr/share/nginx/
 
 EXPOSE 8080
