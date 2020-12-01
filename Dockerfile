@@ -8,11 +8,11 @@ RUN mkdir -p /run/nginx
 
 COPY nginx.conf /etc/nginx/
 
-# copy swagger files to the `/js` folder
 COPY ./index.html /usr/share/nginx/html/
 COPY ./dist/* /usr/share/nginx/html/
-COPY ./docker/run.sh /usr/share/nginx/
-ADD ./docker-run.sh /usr/share/nginx/
+COPY ./docker-run.sh /usr/share/nginx/
+
+RUN chmod +x /usr/share/nginx/docker-run.sh
 
 EXPOSE 8080
 
