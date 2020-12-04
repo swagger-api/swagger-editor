@@ -16,9 +16,23 @@
     "security-audit:dev": "npm-audit --only=dev --audit-level=moderate"
   },
   "dependencies": {
+    "axios": "^0.21.0",
+    "deepmerge": "^4.2.2",
+    "file-dialog": "0.0.8",
+    "is-json": "^2.0.1",
+    "js-file-download": "^0.4.12",
+    "js-yaml": "^3.14.0",
+    "json-beautify": "^1.1.1",
+    "monaco-editor": "^0.21.2",
     "prop-types": "^15.7.2",
     "react": "^17.0.1",
-    "react-dom": "^17.0.1"
+    "react-dom": "^17.0.1",
+    "react-redux": "^7.2.2",
+    "react-split-pane": "^0.1.92",
+    "redux": "^4.0.5",
+    "reselect": "^4.0.0",
+    "swagger-client": "^3.12.1",
+    "url": "^0.11.0"
   },
   "devDependencies": {
     "@babel/core": "7.12.3",
@@ -68,6 +82,7 @@
     "jest-watch-typeahead": "0.6.1",
     "lint-staged": "^10.5.1",
     "mini-css-extract-plugin": "0.11.3",
+    "monaco-editor-webpack-plugin": "^2.0.0",
     "node-sass": "^4.14.1",
     "optimize-css-assets-webpack-plugin": "5.0.4",
     "pnp-webpack-plugin": "1.6.4",

@@ -7,9 +7,9 @@
     "prettier",
     "prettier/react"
   ],
-  parserOptions: {
-    ecmaFeatures: {
-      jsx: true
+  "parserOptions": {
+    "ecmaFeatures": {
+      "jsx": true
     }
   },
   "plugins": [
