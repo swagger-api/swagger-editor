@@ -14,8 +14,6 @@ if [[ "${BASE_URL}" != "/" ]]; then
   sed -i "s|location / {|location $BASE_URL {|g" $NGINX_CONF
 fi
 
-replace_in_index myApiKeyXXXX123456789 $API_KEY
-
 ## Adding env var support for swagger file (json or yaml)
 if [[ -f "$SWAGGER_FILE" ]]; then
   cp -s "$SWAGGER_FILE" "$NGINX_ROOT"
