@@ -1,37 +1,16 @@
-// Converts an object of environment variables into a Swagger UI config object
+// Converts an object of environment variables into a Swagger Editor config object
 const configSchema = require("./variables")
 
 const defaultBaseConfig = {
-  url: {
-    value: "https://petstore.swagger.io/v2/swagger.json",
-    schema: {
-      type: "string",
-      base: true
-    }
-  },
   dom_id: {
-    value: "#swagger-ui",
+    value: "#swagger-editor",
     schema: {
       type: "string",
-      base: true
-    }
-  },
-  deepLinking: {
-    value: "true",
-    schema: {
-      type: "boolean",
       base: true
     }
   },
   presets: {
-    value: `[\n  SwaggerUIBundle.presets.apis,\n  SwaggerUIStandalonePreset\n]`,
-    schema: {
-      type: "array",
-      base: true
-    }
-  },
-  plugins: {
-    value: `[\n  SwaggerUIBundle.plugins.DownloadUrl\n]`,
+    value: `[\n  SwaggerEditorStandalonePreset\n]`,
     schema: {
       type: "array",
       base: true
