@@ -14,6 +14,6 @@ const GenericEditorPlugin = () => {
 };
 
 // should load into swagger-ui as a 'preset'
-export default function genericEditorPlugin() {
+export default function genericEditorPreset() {
   return [GenericEditorPlugin, EditorPlugin, SplitPaneModePlugin];
 }
