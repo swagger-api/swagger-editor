@@ -1,12 +1,12 @@
 import React, { PureComponent } from 'react';
 import SwaggerUI from 'swagger-ui-react';
 
-import SwaggerEditor from './plugins/generic-editor';
+import GenericEditorPlugin from './plugins/generic-editor';
 import SwaggerEditorStandalonePreset from './plugins/standalone';
 
 const editor = (
   <SwaggerUI
-    plugins={[SwaggerEditor, SwaggerEditorStandalonePreset]}
+    presets={[SwaggerEditorStandalonePreset, GenericEditorPlugin]}
     layout="StandaloneLayout"
     url="https://petstore.swagger.io/v2/swagger.json"
   />
