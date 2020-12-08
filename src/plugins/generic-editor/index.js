@@ -1,20 +1,35 @@
 import EditorLayout from './layout';
-// import EditorPlugin from '../monaco';
-// import SplitPaneModePlugin from '../split-pane-mode';
+import EditorPlugin from '../monaco';
+import SplitPaneModePlugin from '../split-pane-mode';
 
-const GenericEditorPlugin = () => ({
-  statePlugin: {
-    genericEditor: {},
-  },
-  components: {
-    EditorLayout,
-    // EditorPlugin,
-    // SplitPaneModePlugin,
-  },
-  // plugins: [EditorPlugin, SplitPaneModePlugin],
-});
+// const GenericEditorPlugin = () => ({
+//   statePlugin: {
+//     genericEditor: {},
+//   },
+//   components: {
+//     EditorLayout,
+//     EditorPlugin,
+//     SplitPaneModePlugin,
+//   },
+//   // plugins: [EditorPlugin, SplitPaneModePlugin],
+// });
 
-export default GenericEditorPlugin;
+// export default GenericEditorPlugin;
+
+const GenericEditorPlugin = () => {
+  return {
+    statePlugin: {
+      genericEditor: {},
+    },
+    components: {
+      EditorLayout,
+    },
+  };
+};
+
+export default function genericEditorPlugin() {
+  return [GenericEditorPlugin, EditorPlugin, SplitPaneModePlugin];
+}
 
 // import deepMerge from 'deepmerge';
 // import SwaggerUI from 'swagger-ui-react';
