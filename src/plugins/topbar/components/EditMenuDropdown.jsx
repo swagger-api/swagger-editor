@@ -1,26 +1,40 @@
-// This is a React.Component container of dropdownItems
+// This will be a React.Component container of dropdownItems
+// This will be a React.Component container of dropdownItems
 // no special list handling; all "clicks" pass props in same format
 // If we need to later, we can migrate this file as a separate file,
-// and define this index as a plugin wrapper
+// as define this index as a plugin wrapper
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
 export default class EditMenuDropdown extends Component {
-  onConvertToOas3Click = async () => {
-    // ref legacy method: topbarActions.showModal("convert")
-    const { topbarActions } = this.props;
+  constructor(props) {
+    super(props);
+    this.onConvertToOas3Click = this.onConvertToOas3Click.bind(this);
+    this.onConvertToYamlClick = this.onConvertToYamlClick.bind(this);
+  }
 
-    const convertedResult = await topbarActions.convertDefinitionToOas3();
-    if (convertedResult && convertedResult.error) {
+  onConvertToOas3Click = async () => {
+    // console.log('got a click for onConvertToOas3Click ');
+    // ref old method: topbarActions.showModal("convert")
+    const { topbarActions } = this.props;
+    // Todo: Try not using this.props.getConfigs(); instead, let topbarActions method handle
+    // const { swagger2ConverterUrl } = this.props.getConfigs();
+    // console.log('component swagger2ConverterUrl', swagger2ConverterUrl);
+    const convertedResult = await topbarActions.convertDefinitionToOas3({
+      editorContent: 'nyi: get from state',
+      swagger2ConverterUrl: 'nyi: get from configs',
+    });
+    if (convertedResult.error) {
       // display the error message
     }
   };
 
   onConvertToYamlClick = async () => {
-    // ref legacy method: convertToYaml
+    // console.log('got a click for onConvertToYamlClick ');
+    // ref old method: convertToYaml
     const { topbarActions } = this.props;
     const convertedResult = await topbarActions.convertToYaml();
-    if (convertedResult && convertedResult.error) {
+    if (convertedResult.error) {
       // display the error message
     }
   };
@@ -43,4 +57,5 @@ export default class EditMenuDropdown extends Component {
 EditMenuDropdown.propTypes = {
   getComponent: PropTypes.func.isRequired,
   topbarActions: PropTypes.oneOfType([PropTypes.object]).isRequired,
+  // getConfigs: PropTypes.func,
 };

@@ -18,14 +18,17 @@ const readFileAsTextAsync = (file) => {
   });
 };
 
-export const importFile = async (system) => {
-  const { specActions } = system;
+export const importFile = async () => {
+  // const { onDocumentLoad } = this.props; from legacy, this is a wrapped method
   const fileList = await fileDialog();
   try {
     const content = await readFileAsTextAsync(fileList.item(0));
+    // eslint-disable-next-line no-unused-vars
     const preparedContent = isJsonObject(content) ? YAML.safeDump(YAML.safeLoad(content)) : content;
-    // on success,
-    specActions.updateSpec(preparedContent);
+    // console.log('todo: actions.importFile ready to do more with preparedContent');
+    // if (typeof onDocumentLoad === 'function') {
+    //   // onDocumentLoad(preparedContent);
+    // }
     return { data: 'success' };
   } catch (e) {
     const errMessage = `Oh no! There was an error loading your document:\n\n${e.message || e}`;

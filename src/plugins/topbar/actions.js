@@ -53,14 +53,6 @@ export const setOasGeneratorClientsList = ({ value }) => {
 
 // mock data for dev/testing
 
-export const defaultFixtures = {
-  isOAS3: true,
-  isSwagger2: true,
-  swagger2GeneratorUrl: 'https://generator.swagger.io/api/swagger.json',
-  oas3GeneratorUrl: 'https://generator3.swagger.io/openapi.json',
-  swagger2ConverterUrl: 'https://converter.swagger.io/api/convert',
-};
-
 export const mockOas2Spec = {
   swagger: '2.0',
   info: {
@@ -144,59 +136,8 @@ export const mockOas3Spec = {
 };
 
 // Utils Actions
-const getConfigsWithDefaultFallback = (system) => {
-  let { swagger2GeneratorUrl, oas3GeneratorUrl, swagger2ConverterUrl } = system.getConfigs();
-  if (!swagger2GeneratorUrl) {
-    swagger2GeneratorUrl = defaultFixtures.swagger2GeneratorUrl;
-  }
-  if (!oas3GeneratorUrl) {
-    oas3GeneratorUrl = defaultFixtures.oas3GeneratorUrl;
-  }
-  if (!swagger2ConverterUrl) {
-    swagger2ConverterUrl = defaultFixtures.swagger2ConverterUrl;
-  }
-  return { swagger2GeneratorUrl, oas3GeneratorUrl, swagger2ConverterUrl };
-};
-
-const getSpecVersion = (system) => {
-  // currently matching swagger-editor@3 use of flags.
-  // extendable to use additional spec versions/types.
-  // Todo: still in dev-mode state
-
-  // eslint-disable-next-line no-unused-vars
-  const { specSelectors } = system;
-
-  let isSwagger2 = false;
-  // eslint-disable-next-line prefer-const
-  let isOAS3 = true;
-
-  isOAS3 = specSelectors.isOAS3();
-  if (!isOAS3) {
-    // isSwagger2 = specSelectors.isSwagger2(); // this sometimes returns undefined
-    isSwagger2 = true; // hard override until above line resolved
-  }
-
-  return { isOAS3, isSwagger2 };
-};
-
-const getSpecVersionString = ({ isOAS3, isSwagger2 }) => {
-  // extendable to use additional string constants
-  const specStringConstants = {
-    OAS_3_0: 'OAS_3_0',
-    OAS_3_1: 'OAS_3_1',
-    SWAGGER_2: 'SWAGGER_2',
-  };
-  if (isOAS3 && !isSwagger2) {
-    return specStringConstants.OAS_3_0;
-  }
-  if (isSwagger2 && !isOAS3) {
-    return specStringConstants.SWAGGER_2;
-  }
-  return 'unvailable';
-};
 
 const getGeneratorUrl = (args) => {
-  // return a string if args match, or null if not
   const { isOAS3, isSwagger2, swagger2GeneratorUrl, oas3GeneratorUrl } = args;
 
   if (isOAS3) {
@@ -257,15 +198,20 @@ const fetchSwaggerClientGetters = async ({ generatorUrl, isOAS3 }) => {
   return data;
 };
 
-export const instantiateGeneratorClient = () => async (system) => {
+export const instantiateGeneratorClient = ({ swagger2GeneratorUrl, oas3GeneratorUrl }) => async (
+  system
+) => {
   // console.log('topbarActions.instantiateGeneratorClient called');
   // set of http call to retrieve generator servers and clients lists
   // which will set a redux state
-  const { isOAS3, isSwagger2 } = getSpecVersion(system);
+  const { specSelectors } = system;
+  let isSwagger2 = false;
+  const isOAS3 = specSelectors.isOAS3();
+  if (!isOAS3) {
+    isSwagger2 = specSelectors.isSwagger2();
+  }
   // console.log('...instantiateGeneratorClient isOAS3:', isOAS3);
   // console.log('...instantiateGeneratorClient isSwagger2:', isSwagger2);
-  const { swagger2GeneratorUrl, oas3GeneratorUrl } = getConfigsWithDefaultFallback(system);
-  const specVersion = getSpecVersionString({ isOAS3, isSwagger2 });
   // console.log(
   //   '...instantiateGeneratorClient args: swagger2GeneratorUrl',
   //   swagger2GeneratorUrl,
@@ -280,9 +226,17 @@ export const instantiateGeneratorClient = () => async (system) => {
     swagger2GeneratorUrl,
     oas3GeneratorUrl,
   };
-  const generatorUrl = getGeneratorUrl(argsForGeneratorUrl);
+  // const generatorUrl = getGeneratorUrl(argsForGeneratorUrl);
   // TODO: next-line is for dev.
-  // const generatorUrl = getGeneratorUrl(defaultFixtures);
+  // eslint-disable-next-line no-unused-vars
+  const mockOptions = {
+    isOAS3: false,
+    isSwagger2: true,
+    swagger2GeneratorUrl: 'https://generator.swagger.io/api/swagger.json',
+    oas3GeneratorUrl: 'https://generator3.swagger.io/openapi.json',
+    swagger2ConverterUrl: 'https://converter.swagger.io/api/convert',
+  };
+  const generatorUrl = getGeneratorUrl(mockOptions);
   // console.log('...instantiateGeneratorClient generatorUrl:', generatorUrl);
   const generatorServersClients = await fetchSwaggerClientGetters({ generatorUrl, isOAS3 });
   // console.log('...instantiateGeneratorClient generatorServersClients:', generatorServersClients);
@@ -296,17 +250,12 @@ export const instantiateGeneratorClient = () => async (system) => {
   return Promise.resolve({
     servers: generatorServersClients.servers,
     clients: generatorServersClients.servers,
-    specVersion,
   });
 };
 
-export const shouldReInstantiateGeneratorClient = ({ specVersion }) => (system) => {
+export const shouldReInstantiateGeneratorClient = () => () => {
   // console.log('topbarActions.shouldReInstantiateGeneratorClient called');
-  const { isOAS3, isSwagger2 } = getSpecVersion(system);
-  const updatedSpecVersion = getSpecVersionString({ isOAS3, isSwagger2 });
-  if (specVersion !== updatedSpecVersion) {
-    return true;
-  }
+  // return boolean
   return false;
 };
 
@@ -323,10 +272,6 @@ export const importFromURL = ({ url }) => async (system) => {
   // as well as any other apidom actions to take
   // note, in theory, we could still return an error after post-processing
   // console.log('we should YAML.safedump and updateSpec', data);
-  const jsContent = YAML.safeLoad(JSON.stringify(data));
-  const yamlContent = YAML.safeDump(jsContent, { lineWidth: -1 });
-  // on success,
-  specActions.updateSpec(yamlContent); // nyi: render yaml from props/load in monaco
   return { data: 'success' };
 };
 
@@ -445,26 +390,47 @@ const fetchGeneratorLinkFromSwaggerClientApis = async ({
   return generatorLinkOrBlob;
 };
 
-export const downloadGeneratedFile = ({ type, name }) => async (system) => {
+export const downloadGeneratedFile = ({
+  type,
+  name,
+  swagger2GeneratorUrl,
+  oas3GeneratorUrl,
+}) => async (system) => {
   const { specSelectors } = system;
-  const { swagger2GeneratorUrl, oas3GeneratorUrl } = getConfigsWithDefaultFallback(system);
-  const { isOAS3, isSwagger2 } = getSpecVersion(system);
-
+  // start duplication of this.instantiateGeneratorClient
+  let isSwagger2 = false;
+  const isOAS3 = specSelectors.isOAS3();
+  if (!isOAS3) {
+    isSwagger2 = specSelectors.isSwagger2();
+  }
+  // TODO: next-line is production
+  // eslint-disable-next-line no-unused-vars
   const argsForGeneratorUrl = {
     isOAS3,
     isSwagger2,
     swagger2GeneratorUrl,
     oas3GeneratorUrl,
   };
-  const generatorUrl = getGeneratorUrl(argsForGeneratorUrl);
+  // const generatorUrl = getGeneratorUrl(argsForGeneratorUrl);
+  // TODO: next-line is for dev.
+  // eslint-disable-next-line no-unused-vars
+  const mockOptions = {
+    isOAS3: true,
+    isSwagger2: false,
+    swagger2GeneratorUrl: 'https://generator.swagger.io/api/swagger.json',
+    oas3GeneratorUrl: 'https://generator3.swagger.io/openapi.json',
+    swagger2ConverterUrl: 'https://converter.swagger.io/api/convert',
+  };
+  const generatorUrl = getGeneratorUrl(mockOptions);
   // console.log('...downloadGeneratedFile generatorUrl:', generatorUrl);
-  const spec = specSelectors.specJson();
+  // end duplication
+  // const spec = specSelectors.specJson();
   // const spec = mockOas2Spec;
-  // const spec = mockOas3Spec;
+  const spec = mockOas3Spec;
   const generatorLink = await fetchGeneratorLinkFromSwaggerClientApis({
     generatorUrl,
-    isOAS3: argsForGeneratorUrl.isOAS3,
-    isSwagger2: argsForGeneratorUrl.isSwagger2,
+    isOAS3: mockOptions.isOAS3,
+    isSwagger2: mockOptions.isSwagger2,
     name,
     type,
     spec,
@@ -487,26 +453,24 @@ export const downloadGeneratedFile = ({ type, name }) => async (system) => {
   return { data: 'ok' };
 };
 
-export const convertDefinitionToOas3 = () => async (system) => {
-  const { specSelectors, specActions } = system;
-
-  const { swagger2ConverterUrl } = getConfigsWithDefaultFallback(system);
-  const swagger2editorContent = specSelectors.specStr();
-
+// eslint-disable-next-line no-unused-vars
+export const convertDefinitionToOas3 = ({ editorContent }) => async (system) => {
+  // Todo: try getting swagger2ConverterUrl from system, and not from args
+  // Todo: handle case if swagger2ConverterUrl is undefined, which should not happen once integration happens
+  // const { swagger2ConverterUrl } = system.getConfigs();
+  // console.log('checking swagger2ConverterUrl', swagger2ConverterUrl);
+  // console.log('checking system:', system);
+  const mockOptions = {
+    mockOas2Spec,
+    swagger2ConverterUrl: 'https://converter.swagger.io/api/convert',
+  };
   // eslint-disable-next-line no-unused-vars
-  // const mockOptions = {
-  //   swagger2editorContent: mockOas2Spec,
-  // };
   const conversionResult = await postPerformOasConversion({
-    url: swagger2ConverterUrl,
-    data: swagger2editorContent,
+    url: mockOptions.swagger2ConverterUrl,
+    data: mockOptions.mockOas2Spec,
   });
   // console.log('conversionResult:', conversionResult);
-  if (!conversionResult.error) {
-    specActions.updateSpec(conversionResult, 'insert');
-    return { data: 'success' };
-  }
-  return { error: 'unable to convert spec to OAS3' };
+  // on success, this.props.updateEditorContent (wrapComponents)
 };
 
 export const convertToYaml = () => async (system) => {
@@ -523,15 +487,13 @@ export const convertToYaml = () => async (system) => {
   const yamlContent = YAML.safeDump(jsContent);
   // on success,
   specActions.updateSpec(yamlContent);
-  // we should also update monaco value
-  return { data: 'success' };
 };
 
 export const saveAsJson = () => async (system) => {
   const { specSelectors, errSelectors } = system;
   const editorContent = specSelectors.specStr();
   // eslint-disable-next-line no-unused-vars
-  const { isOAS3, isSwagger2 } = getSpecVersion(system);
+  const { isOAS3, isSwagger2 } = specSelectors;
   // eslint-disable-next-line no-unused-vars
   const options = { isOAS3, isSwagger2 };
 
@@ -572,7 +534,7 @@ export const saveAsYaml = ({ overrideWarning }) => async (system) => {
   const { specSelectors, errSelectors } = system;
   const editorContent = specSelectors.specStr();
   // eslint-disable-next-line no-unused-vars
-  const { isOAS3, isSwagger2 } = getSpecVersion(system);
+  const { isOAS3, isSwagger2 } = specSelectors;
   // eslint-disable-next-line no-unused-vars
   const options = { isOAS3, isSwagger2 };
 

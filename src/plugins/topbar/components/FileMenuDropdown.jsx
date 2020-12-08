@@ -1,125 +1,84 @@
-// This is a React.Component container of dropdownItems
+/* eslint-disable no-restricted-globals */
+// This will be a React.Component container of dropdownItems
 // no special list handling; all "clicks" pass props in same format
 // If we need to later, we can migrate this file as a separate file,
-// and define this index as a plugin wrapper
+// as define this index as a plugin wrapper
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import Modal from 'react-modal';
-
-if (process.env.NODE_ENV !== 'test') {
-  Modal.setAppElement('#root');
-}
 
 export default class FileMenuDropdown extends Component {
   constructor(props) {
     super(props);
-
-    this.state = {
-      showImportUrlModal: false,
-      importUrlString: '',
-      showErrorModal: false,
-      errorMessage: '',
-      showConfirmModal: false,
-      confirmMessage: '',
-    };
+    this.onImportFileClick = this.onImportFileClick.bind(this);
+    this.onImportUrlClick = this.onImportUrlClick.bind(this);
+    this.onClearEditorClick = this.onClearEditorClick.bind(this);
+    this.onSaveAsJsonClick = this.onSaveAsJsonClick.bind(this);
+    this.onSaveAsYamlClick = this.onSaveAsYamlClick.bind(this);
   }
 
-  closeModalClick = (showModalProperty) => () => {
-    this.setState({ [showModalProperty]: false });
+  onImportFileClick = async () => {
+    // console.log('got a click for onImportFileClick ');
+    // ref inline old method: onDocumentLoad
+    // moved to separate component/file. reminder to also remove .bind above
   };
 
   onImportUrlClick = async () => {
-    // ref legacy method: importFromURL
-    this.setState({
-      showImportUrlModal: true,
-      importUrlString: '',
-    });
-  };
-
-  onImportUrlChange = (e) => {
-    this.setState({
-      importUrlString: e.target.value,
-    });
-  };
-
-  onSubmitImportUrl = async () => {
-    const { importUrlString } = this.state;
-    // todo refactor: we should send importUrlString through a safety check
-    if (importUrlString) {
-      this.handleImportFromURL(importUrlString);
-    }
-    this.setState({
-      showImportUrlModal: false,
-    });
-  };
-
-  handleImportFromURL = async (url) => {
+    // console.log('got a click for onImportUrlClick ');
+    // ref old method: importFromURL
+    // tests to implement (also equivalent topbarActions.importFromURL tests):
+    // 1. user clicks on link, but then clicks on cancel prompt.
+    // 2. user clicks on link, but inputs an invalid url; importedData.error exists && importedData.data does not exist
+    // 3. user clicks on link, inputs valid url is valid; importedData.data exists && importedData.error does not exist
+    // 4. user clicks on link, inputs valid url is valid; should not see a case where both importedData.data && importedData.error exists
     const { topbarActions } = this.props;
-    // dev note for copy/paste testing https://petstore.swagger.io/v2/swagger.json
-    // another url: https://petstore3.swagger.io/api/v3/openapi.json
-    const importedData = await topbarActions.importFromURL({ url });
-    if (importedData && importedData.error) {
-      // show error message
-      this.setState({
-        showErrorModal: true,
-        errorMessage: importedData.error,
-      });
+    // eslint-disable-next-line no-alert
+    const url = prompt('Enter the URL to import from:');
+    if (!url) {
+      // user cancelled prompt
+      return;
     }
+    // dev note for copy/paste testing https://petstore.swagger.io/v2/swagger.json
+    const importedData = await topbarActions.importFromURL({ url });
+    if (importedData.error) {
+      // console.log('we should open an error modal with text:', importedData.error);
+      return;
+    }
+    // eslint-disable-next-line no-console
+    console.log('importedData generic success message:', importedData.data);
   };
 
   onClearEditorClick = async () => {
     // console.log('got a click for onClearEditorClick ');
-    // ref legacy method: clearEditor
+    // ref old method: clearEditor
   };
 
   onSaveAsJsonClick = async () => {
-    // ref legacy method: saveAsJson
+    // console.log('got a click for onSaveAsJsonClick ');
+    // ref old method: saveAsJson
     const { topbarActions } = this.props;
     const saveResult = await topbarActions.saveAsJson();
-    if (saveResult && saveResult.error) {
+    if (saveResult.error) {
       // display the error message
-      this.setState({
-        showErrorModal: true,
-        errorMessage: saveResult.error,
-      });
     }
   };
 
   onSaveAsYamlClick = async () => {
-    // ref legacy method: saveAsYaml
+    // console.log('got a click for onSaveAsYamlClick ');
+    // ref old method: saveAsYaml
     const { topbarActions } = this.props;
-    const saveResult = await topbarActions.saveAsYaml({ overrideWarning: false });
-    if (saveResult && saveResult.warning) {
+    let saveResult = await topbarActions.saveAsYaml({ overrideWarning: false });
+    if (saveResult.warning) {
       // display warning if user wants to continue
-      this.setState({
-        showConfirmModal: true,
-        confirmMessage: saveResult.warning,
-      });
+      // eslint-disable-next-line no-alert
+      const allowOverride = confirm(saveResult.warning);
+      if (allowOverride) {
+        // try again, this time with override
+        saveResult = await topbarActions.saveAsYaml({ overrideWarning: true });
+      }
     }
-    if (saveResult && saveResult.error) {
+    if (saveResult.error) {
       // display the error message
-      this.setState({
-        showErrorModal: true,
-        errorMessage: saveResult.error,
-      });
     }
-  };
-
-  onSaveAsYamlWithOverride = async () => {
-    const { topbarActions } = this.props;
-    const saveResult = await topbarActions.saveAsYaml({ overrideWarning: true });
-    if (saveResult && saveResult.error) {
-      // display the error message
-      this.setState({
-        showErrorModal: true,
-        errorMessage: saveResult.error,
-      });
-      return;
-    }
-    this.setState({
-      showConfirmModal: false,
-      confirmMessage: '',
-    });
   };
 
   render() {
@@ -128,61 +87,19 @@ export default class FileMenuDropdown extends Component {
     const DropdownItem = getComponent('DropdownItem');
     const ImportFileDropdownItem = getComponent('ImportFileDropdownItem');
 
-    const {
-      showImportUrlModal,
-      showErrorModal,
-      errorMessage,
-      showConfirmModal,
-      confirmMessage,
-    } = this.state;
-
     return (
-      <div>
-        <Modal isOpen={showImportUrlModal} contentLabel="Import URL">
-          <h2>Enter the URL to import from</h2>
-          <input
-            type="text"
-            className="form-control"
-            placeholder="type url here"
-            onChange={this.onImportUrlChange}
-          />
-          <button type="button" onClick={() => this.onSubmitImportUrl()}>
-            submit
-          </button>
-          <button type="button" onClick={this.closeModalClick('showImportUrlModal')}>
-            Cancel
-          </button>
-        </Modal>
-        <Modal isOpen={showErrorModal} contentLabel="Error Message">
-          <h2>Uh oh, an error has occured</h2>
-          {errorMessage}
-          <button type="button" onClick={this.closeModalClick('showErrorModal')}>
-            Close
-          </button>
-        </Modal>
-        <Modal isOpen={showConfirmModal} contentLabel="Confirm">
-          <h2>Are you sure?</h2>
-          {confirmMessage}
-          <button type="button" onClick={() => this.onSaveAsYamlWithOverride()}>
-            Yes
-          </button>
-          <button type="button" onClick={this.closeModalClick('showConfirmModal')}>
-            Cancel
-          </button>
-        </Modal>
-
-        <DropdownMenu displayName="File">
-          <DropdownItem onClick={() => this.onImportUrlClick()} name="Import URL" />
-          <ImportFileDropdownItem getComponent={getComponent} topbarActions={topbarActions} />
-          <li role="separator" />
-          <DropdownItem onClick={() => this.onSaveAsJsonClick()} name="Save as JSON" />
-          <DropdownItem onClick={() => this.onSaveAsYamlClick()} name="Save as YAML" />
-          <DropdownItem onClick={() => this.onSaveAsJsonClick()} name="Convert and save as JSON" />
-          <DropdownItem onClick={() => this.onSaveAsYamlClick()} name="Convert and save as YAML" />
-          <li role="separator" />
-          <DropdownItem onClick={() => this.onClearEditorClick()} name="Clear Editor" />
-        </DropdownMenu>
-      </div>
+      <DropdownMenu displayName="File">
+        <DropdownItem onClick={() => this.onImportUrlClick()} name="Import URL" />
+        <DropdownItem onClick={() => this.onImportFileClick()} name="Import File" />
+        <li role="separator" />
+        <DropdownItem onClick={() => this.onSaveAsJsonClick()} name="Save as JSON" />
+        <DropdownItem onClick={() => this.onSaveAsYamlClick()} name="Save as YAML" />
+        <DropdownItem onClick={() => this.onSaveAsJsonClick()} name="Convert and save as JSON" />
+        <DropdownItem onClick={() => this.onSaveAsYamlClick()} name="Convert and save as YAML" />
+        <li role="separator" />
+        <DropdownItem onClick={() => this.onClearEditorClick()} name="Clear Editor" />
+        <ImportFileDropdownItem getComponent={getComponent} topbarActions={topbarActions} />
+      </DropdownMenu>
     );
   }
 }

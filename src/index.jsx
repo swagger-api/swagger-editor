@@ -20,8 +20,7 @@ import 'swagger-ui-react/swagger-ui.css';
 //   document.getElementById('root')
 // );
 
-// import App from './AppAsFunc';
-import App from './App';
+import App from './AppAsFunc';
 
 ReactDOM.render(<App />, document.getElementById('root'));
 

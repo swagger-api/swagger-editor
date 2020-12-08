@@ -1,8 +1,5 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
-// import './topbar.scss';
-// import './react-dd-menu.scss';
-import './style.main.scss';
 
 export default class StandaloneLayout extends PureComponent {
   render() {

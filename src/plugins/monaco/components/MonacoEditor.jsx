@@ -1,9 +1,8 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import * as monaco from 'monaco-editor';
+import * as monaco from 'monaco-editor'; // eslint-disable-line import/no-unresolved
 
-import noop from '../../../utils/utils-noop';
-// import * as monaco from 'monaco-editor/esm/vs/editor/editor.api';
+function noop() {} // export to utils later
 
 export default class MonacoEditor extends Component {
   constructor(props) {
@@ -23,16 +22,7 @@ export default class MonacoEditor extends Component {
     if (this.currentValue !== value) {
       this.currentValue = value;
       if (editor) {
-        console.log('editor componentDidUpdate');
-        // console.log('editor componentDidUpdate, will set to this.currentValue', this.currentValue);
         editor.setValue(this.currentValue);
-        // the following retrieves the stored language option. does not interpret value
-        // exists utils-converter.getDefinitionLanguage
-        // language will only change appearance and not data,
-        // eslint-disable-next-line no-underscore-dangle
-        // const test = editor._configuration._rawOptions.language;
-        // console.log('test, editor:', editor);
-        // console.log('test:', test);
       }
     }
     if (prevProps.language !== language) {
@@ -71,13 +61,10 @@ export default class MonacoEditor extends Component {
     const { language, theme, options, defaultValue } = this.props;
     let { value } = this.props;
 
-    if (defaultValue && !value) {
+    if (!value) {
       value = defaultValue;
-      // console.log('monacoEditor reset to defaultValue?', value);
     }
     if (this.containerElement) {
-      // console.log('monaco editor create');
-      // console.log('monaco editor create with value:', value);
       this.editor = monaco.editor.create(this.containerElement, {
         value,
         language,
@@ -85,21 +72,19 @@ export default class MonacoEditor extends Component {
         ...(theme ? { theme } : {}),
       });
       // After initializing monaco editor
-      this.localEditorDidMount(this.editor);
+      this.editorDidMount(this.editor);
     }
   }
 
-  localEditorDidMount(editor) {
+  editorDidMount(editor) {
     const { editorDidMount, onChange } = this.props;
-    // console.log('start localEditorDidMount');
+
     editorDidMount(editor, monaco);
     editor.onDidChangeModelContent((event) => {
-      const currentEditorValue = editor.getValue();
+      const value = editor.getValue();
       // Always refer to the latest value
-      // console.log('localEditorDidMount checking for change. (editor) value:', currentEditorValue);
-      // console.log('localEditorDidMount checking for change. (props) value:', value);
-      this.currentValue = currentEditorValue;
-      onChange(currentEditorValue, event);
+      this.currentValue = value;
+      onChange(value, event);
     });
   }
 
@@ -119,7 +104,7 @@ export default class MonacoEditor extends Component {
 MonacoEditor.propTypes = {
   width: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   height: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-  value: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
+  value: PropTypes.string,
   defaultValue: PropTypes.string,
   language: PropTypes.string,
   theme: PropTypes.string,

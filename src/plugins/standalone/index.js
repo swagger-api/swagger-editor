@@ -3,7 +3,8 @@
 
 import TopbarPlugin from '../topbar';
 // import TopbarInsertPlugin from './topbar-insert';
-import LinkHome from '../topbar/components/LinkHome';
+// import TopbarMenuFileImportFile from './topbar-menu-file-import_file';
+// import TopbarMenuEditConvert from './topbar-menu-edit-convert';
 import DropdownMenu from '../topbar/components/DropdownMenu';
 import DropdownItem from '../topbar/components/DropdownItem';
 import FileMenuDropdown from '../topbar/components/FileMenuDropdown';
@@ -15,7 +16,6 @@ const StandalonePlugin = () => {
   return {
     components: {
       StandaloneLayout,
-      LinkHome,
       DropdownMenu,
       DropdownItem,
       FileMenuDropdown,
@@ -25,11 +25,12 @@ const StandalonePlugin = () => {
   };
 };
 
-// should load into swagger-ui as a 'preset'
-export default function standalonePreset() {
+export default function standalonePlugin() {
   return [
     TopbarPlugin,
     // TopbarInsertPlugin,
+    // TopbarMenuFileImportFile,
+    // TopbarMenuEditConvert,
     StandalonePlugin,
   ];
 }

@@ -1,25 +1,21 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
-import './style.main.scss';
 
 export default class EditorLayout extends PureComponent {
   render() {
-    const { getComponent, specActions, specSelectors } = this.props;
+    const { getComponent } = this.props;
 
     const UIBaseLayout = getComponent('BaseLayout', true);
-    const GenericEditorContainer = getComponent('GenericEditorContainer', true);
+    const MonacoEditorContainer = getComponent('MonacoEditorContainer', true);
     const SplitPaneMode = getComponent('SplitPaneMode', true);
     const Container = getComponent('Container');
 
     return (
       <div className="swagger-editor">
+        <h2>Render a page heading</h2>
         <Container className="container">
           <SplitPaneMode>
-            <GenericEditorContainer
-              specActions={specActions}
-              getComponent={getComponent}
-              specSelectors={specSelectors}
-            />
+            <MonacoEditorContainer />
             <UIBaseLayout />
           </SplitPaneMode>
         </Container>
@@ -33,8 +29,6 @@ EditorLayout.propTypes = {
   // errActions: PropTypes.object.isRequired,
   // specActions: PropTypes.object.isRequired,
   getComponent: PropTypes.func.isRequired,
-  specActions: PropTypes.oneOfType([PropTypes.object]).isRequired,
-  specSelectors: PropTypes.oneOfType([PropTypes.object]).isRequired,
   // layoutSelectors: PropTypes.object.isRequired,
   // layoutActions: PropTypes.object.isRequired,
 };
