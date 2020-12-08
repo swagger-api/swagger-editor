@@ -62,9 +62,11 @@ export default class MonacoEditor extends Component {
     let { value } = this.props;
 
     if (!value) {
+      console.log('monacoEditor reset to defaultValue');
       value = defaultValue;
     }
     if (this.containerElement) {
+      console.log('monaco create');
       this.editor = monaco.editor.create(this.containerElement, {
         value,
         language,
@@ -104,7 +106,7 @@ export default class MonacoEditor extends Component {
 MonacoEditor.propTypes = {
   width: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   height: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-  value: PropTypes.string,
+  value: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
   defaultValue: PropTypes.string,
   language: PropTypes.string,
   theme: PropTypes.string,
