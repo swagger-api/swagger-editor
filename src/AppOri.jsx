@@ -1,3 +1,4 @@
+// Marked for removal
 import React, { PureComponent } from 'react';
 import SwaggerUI from 'swagger-ui-react';
 

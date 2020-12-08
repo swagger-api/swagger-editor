@@ -1,3 +1,4 @@
+// Marked for removal
 import SwaggerEditor from './plugins/generic-editor/SwaggerEditor';
 import SwaggerEditorStandalonePreset from './plugins/standalone';
 // import EditorLayout from './plugins/generic-editor/layout';
