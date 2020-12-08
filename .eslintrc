@@ -7,6 +7,10 @@
     "prettier",
     "prettier/react"
   ],
+  "globals": {
+    "File": true,
+    "Blob": true
+  },
   "parserOptions": {
     "ecmaFeatures": {
       "jsx": true
