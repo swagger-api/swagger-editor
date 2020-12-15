@@ -8,8 +8,8 @@
 
 ### POC -> Apidom migration notes
 [x] migrate existing POC to apidom/experiments
-[ ] init oas spec via swagger-ui
-[ ] connect & sync generic-editor updates to swagger-ui
+[x] init oas spec via swagger-ui
+[x] connect & sync generic-editor updates to swagger-ui
 [ ] init oas spec via import File (finish action)
 [ ] init oas spec via import Url (finish action)
 [ ] CSS/Less/Saas styling
@@ -18,6 +18,11 @@
 [ ] try react-modal lib instead of creating internal version
 
 ...more to come
+[ ] fix editor configuration/onChange to always word-wrap.
+  - currently on refresh, displays single line. dev hot-reload, sometimes will wordwrap if monaco is created with a full definition (instead of default string value)
+  - monaco editor currently expects a string (we'll need to support yaml/json)
+[ ] fix exploding styling/rendering when using in-browser (ctrl+f) find text within monaco
+  - monaco's find+replace feature
 
 ...reminder of existing features
 [ ] match and extend configurability options
