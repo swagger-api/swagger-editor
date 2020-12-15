@@ -18,8 +18,9 @@ const readFileAsTextAsync = (file) => {
   });
 };
 
-export const importFile = async () => {
+export const importFile = async (system) => {
   // const { onDocumentLoad } = this.props; from legacy, this is a wrapped method
+  const { specActions } = system;
   const fileList = await fileDialog();
   try {
     const content = await readFileAsTextAsync(fileList.item(0));
@@ -29,6 +30,8 @@ export const importFile = async () => {
     // if (typeof onDocumentLoad === 'function') {
     //   // onDocumentLoad(preparedContent);
     // }
+    // on success,
+    specActions.updateSpec(preparedContent);
     return { data: 'success' };
   } catch (e) {
     const errMessage = `Oh no! There was an error loading your document:\n\n${e.message || e}`;
