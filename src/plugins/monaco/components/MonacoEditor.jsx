@@ -22,6 +22,8 @@ export default class MonacoEditor extends Component {
     if (this.currentValue !== value) {
       this.currentValue = value;
       if (editor) {
+        console.log('editor componentDidUpdate');
+        // console.log('editor componentDidUpdate, will set to this.currentValue', this.currentValue);
         editor.setValue(this.currentValue);
       }
     }
@@ -61,12 +63,13 @@ export default class MonacoEditor extends Component {
     const { language, theme, options, defaultValue } = this.props;
     let { value } = this.props;
 
-    if (!value) {
-      console.log('monacoEditor reset to defaultValue');
+    if (defaultValue && !value) {
       value = defaultValue;
+      // console.log('monacoEditor reset to defaultValue?', value);
     }
     if (this.containerElement) {
-      console.log('monaco create');
+      // console.log('monaco editor create');
+      // console.log('monaco editor create with value:', value);
       this.editor = monaco.editor.create(this.containerElement, {
         value,
         language,
@@ -74,19 +77,21 @@ export default class MonacoEditor extends Component {
         ...(theme ? { theme } : {}),
       });
       // After initializing monaco editor
-      this.editorDidMount(this.editor);
+      this.localEditorDidMount(this.editor);
     }
   }
 
-  editorDidMount(editor) {
+  localEditorDidMount(editor) {
     const { editorDidMount, onChange } = this.props;
-
+    // console.log('start localEditorDidMount');
     editorDidMount(editor, monaco);
     editor.onDidChangeModelContent((event) => {
-      const value = editor.getValue();
+      const currentEditorValue = editor.getValue();
       // Always refer to the latest value
-      this.currentValue = value;
-      onChange(value, event);
+      // console.log('localEditorDidMount checking for change. (editor) value:', currentEditorValue);
+      // console.log('localEditorDidMount checking for change. (props) value:', value);
+      this.currentValue = currentEditorValue;
+      onChange(currentEditorValue, event);
     });
   }
 

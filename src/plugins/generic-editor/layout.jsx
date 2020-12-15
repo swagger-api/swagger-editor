@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 export default class EditorLayout extends PureComponent {
   render() {
-    const { getComponent } = this.props;
+    const { getComponent, specActions } = this.props;
 
     const UIBaseLayout = getComponent('BaseLayout', true);
     const MonacoEditorContainer = getComponent('MonacoEditorContainer', true);
@@ -15,7 +15,7 @@ export default class EditorLayout extends PureComponent {
         <h2>Render a page heading</h2>
         <Container className="container">
           <SplitPaneMode>
-            <MonacoEditorContainer />
+            <MonacoEditorContainer specActions={specActions} />
             <UIBaseLayout />
           </SplitPaneMode>
         </Container>
@@ -28,6 +28,7 @@ EditorLayout.propTypes = {
   // errSelectors: PropTypes.object.isRequired,
   // errActions: PropTypes.object.isRequired,
   // specActions: PropTypes.object.isRequired,
+  specActions: PropTypes.oneOfType([PropTypes.object]).isRequired,
   getComponent: PropTypes.func.isRequired,
   // layoutSelectors: PropTypes.object.isRequired,
   // layoutActions: PropTypes.object.isRequired,
