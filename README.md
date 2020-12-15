@@ -16,9 +16,10 @@ refer `docs/swagger-client.md` for some notes
 [x] migrate existing POC to apidom/experiments
 [x] init oas spec via swagger-ui
 [x] connect & sync generic-editor updates to swagger-ui
-[ ] init oas spec via import File (finish action)
+[x] init oas spec via import File (finish action) - Json
+[x] init oas spec via import File (finish action) - Yaml
 [ ] init oas spec via import Url (finish action)
-[ ] CSS/Less/Saas styling
+[x] CSS/Less/Saas styling
 
 [ ] additional initial style and configuration of monaco editor, as appropriate
 [ ] try react-modal lib instead of creating internal version
@@ -29,6 +30,7 @@ refer `docs/swagger-client.md` for some notes
   - monaco editor currently expects a string (we'll need to support yaml/json)
 [ ] fix exploding styling/rendering when using in-browser (ctrl+f) find text within monaco
   - monaco's find+replace feature
+[ ] fix importFile not updating generic editor
 
 ...reminder of existing features
 [ ] match and extend configurability options
@@ -48,7 +50,7 @@ Extract menu action methods from React to Actions
 [x] downloadGeneratedFile
 [x] importFile
 [ ] clearEditor
-[ ] onDocumentLoad prop
+[x] onDocumentLoad prop - removed. handled now in actions. Theoretically, we could expose as a user-overwritable function. Maybe SH needed it?
 [ ] updateEditorContent prop
 
 Deprecate methods from React

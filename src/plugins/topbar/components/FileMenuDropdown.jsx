@@ -9,18 +9,11 @@ import PropTypes from 'prop-types';
 export default class FileMenuDropdown extends Component {
   constructor(props) {
     super(props);
-    this.onImportFileClick = this.onImportFileClick.bind(this);
     this.onImportUrlClick = this.onImportUrlClick.bind(this);
     this.onClearEditorClick = this.onClearEditorClick.bind(this);
     this.onSaveAsJsonClick = this.onSaveAsJsonClick.bind(this);
     this.onSaveAsYamlClick = this.onSaveAsYamlClick.bind(this);
   }
-
-  onImportFileClick = async () => {
-    // console.log('got a click for onImportFileClick ');
-    // ref inline old method: onDocumentLoad
-    // moved to separate component/file. reminder to also remove .bind above
-  };
 
   onImportUrlClick = async () => {
     // console.log('got a click for onImportUrlClick ');
@@ -90,7 +83,7 @@ export default class FileMenuDropdown extends Component {
     return (
       <DropdownMenu displayName="File">
         <DropdownItem onClick={() => this.onImportUrlClick()} name="Import URL" />
-        <DropdownItem onClick={() => this.onImportFileClick()} name="Import File" />
+        <ImportFileDropdownItem getComponent={getComponent} topbarActions={topbarActions} />
         <li role="separator" />
         <DropdownItem onClick={() => this.onSaveAsJsonClick()} name="Save as JSON" />
         <DropdownItem onClick={() => this.onSaveAsYamlClick()} name="Save as YAML" />
@@ -98,7 +91,6 @@ export default class FileMenuDropdown extends Component {
         <DropdownItem onClick={() => this.onSaveAsYamlClick()} name="Convert and save as YAML" />
         <li role="separator" />
         <DropdownItem onClick={() => this.onClearEditorClick()} name="Clear Editor" />
-        <ImportFileDropdownItem getComponent={getComponent} topbarActions={topbarActions} />
       </DropdownMenu>
     );
   }
