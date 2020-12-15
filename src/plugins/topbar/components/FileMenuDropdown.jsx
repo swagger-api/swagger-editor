@@ -31,6 +31,7 @@ export default class FileMenuDropdown extends Component {
       return;
     }
     // dev note for copy/paste testing https://petstore.swagger.io/v2/swagger.json
+    // another url: https://petstore3.swagger.io/api/v3/openapi.json
     const importedData = await topbarActions.importFromURL({ url });
     if (importedData.error) {
       // console.log('we should open an error modal with text:', importedData.error);

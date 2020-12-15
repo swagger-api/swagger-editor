@@ -18,7 +18,7 @@ refer `docs/swagger-client.md` for some notes
 [x] connect & sync generic-editor updates to swagger-ui
 [x] init oas spec via import File (finish action) - Json
 [x] init oas spec via import File (finish action) - Yaml
-[ ] init oas spec via import Url (finish action)
+[x] init oas spec via import Url (finish action)
 [x] CSS/Less/Saas styling
 
 [ ] additional initial style and configuration of monaco editor, as appropriate
@@ -30,11 +30,13 @@ refer `docs/swagger-client.md` for some notes
   - monaco editor currently expects a string (we'll need to support yaml/json)
 [ ] fix exploding styling/rendering when using in-browser (ctrl+f) find text within monaco
   - monaco's find+replace feature
-[ ] fix importFile not updating generic editor
+[ ] fix importFile not updating generic editor, json & yaml
+[ ] fix importFromURL not updating generic editor, json & yaml
 
 ...reminder of existing features
 [ ] match and extend configurability options
 [ ] if refresh empty monaco, should load a default definition
+[ ] localStorage
 
 ### POC notes
 
