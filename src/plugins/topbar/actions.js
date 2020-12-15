@@ -272,12 +272,10 @@ export const importFromURL = ({ url }) => async (system) => {
   // as well as any other apidom actions to take
   // note, in theory, we could still return an error after post-processing
   // console.log('we should YAML.safedump and updateSpec', data);
-  // const jsContent = YAML.safeLoad(data);
-  // const yamlContent = YAML.safeDump(jsContent);
+  const jsContent = YAML.safeLoad(JSON.stringify(data));
+  const yamlContent = YAML.safeDump(jsContent, { lineWidth: -1 });
   // on success,
-  // specActions.updateSpec(yamlContent); // nyi: render yaml from props/load in monaco
-  // on success,
-  // specActions.updateSpec(data); // this is causing an error, but is a valid func
+  specActions.updateSpec(yamlContent); // nyi: render yaml from props/load in monaco
   return { data: 'success' };
 };
 
