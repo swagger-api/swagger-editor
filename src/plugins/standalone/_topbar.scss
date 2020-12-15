@@ -1,0 +1,114 @@
+// imported from LESS as a partial
+.topbar {
+  background-color: #1b1b1b;
+  width: 100%;
+}
+
+.topbar-wrapper {
+  padding: 0.7em;
+  display: flex;
+
+  & > * {
+    margin-left: 1em;
+    margin-right: 1em;
+    align-self: center;
+    color: white;
+    font-size: 1.0em;
+    font-weight: 500;
+  }
+
+  & .menu-item {
+    cursor: pointer;
+    font-size:14px;
+
+    &::after {
+      content: '▼';
+      margin-left: 6px;
+      font-size: 8px;
+    }
+  }
+}
+
+.topbar-logo__img {
+  float: left;
+}
+
+.topbar-logo__title {
+  display: inline-block;
+  color: #fff;
+  font-size: 1.5em;
+  font-weight: bold;
+  margin: 0.1em 1.2em 0 0.5em;
+}
+
+.dd-menu {
+  &.long {
+    display: flex;
+    flex-wrap: wrap;
+    max-width: 800px;
+    .dd-menu-items {
+      width: 700px;
+      .dd-items-left {
+        display: flex;
+        flex-direction: column;
+        max-height: 500px;
+        flex-wrap: wrap;
+        margin: 1.7em 0 0!important;
+        li {
+          flex:22%;
+        }
+      }
+    }
+
+    .long-menu-message {
+      padding: 1.5em;
+      color: #ccc;
+      cursor: pointer;
+    }
+  }
+
+  .dd-menu-items {
+    margin: 1.1em 0 0 0 !important;
+    ol,ul {
+      border-radius:0 0 4px 4px;
+
+      li {
+        &:last-of-type {
+          &:hover {
+            border-radius:0 0 4px 4px;
+          }
+        }
+      }
+    }
+  }
+}
+
+.modal {
+  font-family: sans-serif;
+  color: #3b4151;
+  padding: 1em;
+  position: relative;
+  min-height: 12em;
+
+  div.container {
+    height: 100%;
+  }
+
+  .right {
+    margin: 1em;
+    text-align: right;
+  }
+
+  button {
+    margin-left: 1em;
+  }
+}
+
+.modal-message {
+  margin: 1.75em 2em;
+  font-size: 1.1em;
+  
+  p {
+    line-height: 1.3;
+  }
+}

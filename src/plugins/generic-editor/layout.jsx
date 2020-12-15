@@ -1,5 +1,6 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
+import './style.main.scss';
 
 export default class EditorLayout extends PureComponent {
   render() {
@@ -12,7 +13,6 @@ export default class EditorLayout extends PureComponent {
 
     return (
       <div className="swagger-editor">
-        <h2>Render a page heading</h2>
         <Container className="container">
           <SplitPaneMode>
             <MonacoEditorContainer specActions={specActions} />
