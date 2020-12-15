@@ -19,17 +19,11 @@ const readFileAsTextAsync = (file) => {
 };
 
 export const importFile = async (system) => {
-  // const { onDocumentLoad } = this.props; from legacy, this is a wrapped method
   const { specActions } = system;
   const fileList = await fileDialog();
   try {
     const content = await readFileAsTextAsync(fileList.item(0));
-    // eslint-disable-next-line no-unused-vars
     const preparedContent = isJsonObject(content) ? YAML.safeDump(YAML.safeLoad(content)) : content;
-    // console.log('todo: actions.importFile ready to do more with preparedContent');
-    // if (typeof onDocumentLoad === 'function') {
-    //   // onDocumentLoad(preparedContent);
-    // }
     // on success,
     specActions.updateSpec(preparedContent);
     return { data: 'success' };
