@@ -24,8 +24,10 @@
   - monaco editor currently expects a string (we'll need to support yaml/json)
 [ ] fix exploding styling/rendering when using in-browser (ctrl+f) find text within monaco
   - monaco's find+replace feature
-[ ] fix importFile not updating generic editor, json & yaml
-[ ] fix importFromURL not updating generic editor, json & yaml
+[x] fix importFile not updating generic editor, json
+[x] fix importFromURL not updating generic editor, json
+[x] fix importFile not updating generic editor, yaml
+[x] fix importFromURL not updating generic editor, yaml
 
 ...reminder of existing features
 [ ] match and extend configurability options
@@ -47,7 +49,7 @@ Extract menu action methods from React to Actions
 [x] importFile
 [ ] clearEditor
 [x] onDocumentLoad prop - removed. handled now in actions. Theoretically, we could expose as a user-overwritable function. Maybe SH needed it?
-[ ] updateEditorContent prop
+[ ] updateEditorContent prop - will be removed, and handled in actions.
 
 Deprecate methods from React
 [x] saveAsText
@@ -96,7 +98,7 @@ Migrate React Components
 
 Integration
 [ ] swagger-ui redux state
-[ ] connect monaco state to swagger-ui redux state
+[x] connect monaco state to swagger-ui redux state
 [ ] connect actions with monaco state, e.g. updateEditorContent
 [ ] mixed monaco css with swagger css/less/sass
 
@@ -113,7 +115,7 @@ which also includes function methods alongside data objects.
 * should add unit tests when both swagger2 and oas3 flags set to same value (both true, both false)
 * should add unit tests allowing exclusion of both swagger2 and oas3, e.g. future asynapi, graphql, etc.
 * there exists 1 case of 'require', but the lib does not have an es6 support. we could make a PR, or bring in house.
-
+* Difference between Ace and Monaco: It appears Monaco does not/should not need an initial value. There exists default value, which atm, is set to a welcome string so that the component can load quickly and immediately.
 
 Proposals:
 *1*. React component onClick => `on<ActionMethod>Click`
