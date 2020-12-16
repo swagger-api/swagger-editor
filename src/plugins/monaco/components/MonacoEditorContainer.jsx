@@ -15,23 +15,24 @@ export default class MonacoEditorContainer extends PureComponent {
     super(props);
     this.state = {
       initialValue: 'Welcome to Swagger Editor',
-      currentValue: null,
+      currentValue: '',
       specInitialized: false,
     };
     this.onChangeEditorValue = this.onChangeEditorValue.bind(this);
     this.editorDidMount = this.editorDidMount.bind(this);
+    this.getValueFromSpec = this.getValueFromSpec.bind(this);
   }
 
   componentDidMount() {
-    this.getInitialValueToLoad();
+    // this.getInitialValueToLoad();
   }
 
   componentDidUpdate() {
     // console.log('container componentDidUpdate');
-    const { specInitialized } = this.state;
-    if (!specInitialized) {
-      this.getInitialValueToLoad();
-    }
+    // const { specInitialized } = this.state;
+    // if (!specInitialized) {
+    //   this.getInitialValueToLoad();
+    // }
   }
 
   getInitialValueToLoad = async () => {
@@ -53,11 +54,18 @@ export default class MonacoEditorContainer extends PureComponent {
       // this.currentValue = spec;
       // console.log('currentValue !== spec, spec:', spec);
       // console.log('currentValue !== spec, currentValue:', currentValue);
-      this.setState({ currentValue: spec, specInitialized: true });
+      this.setState({ specInitialized: true });
       console.log('set initial spec done; should only be done once.');
     } else {
       console.log('already set. should not appear before initial spec done!!!*');
     }
+  };
+
+  getValueFromSpec = () => {
+    const { specSelectors } = this.props;
+    const { initialValue } = this.state;
+    const spec = specSelectors.specStr();
+    return spec || initialValue;
   };
 
   onChangeEditorValue = (val) => {
@@ -66,7 +74,7 @@ export default class MonacoEditorContainer extends PureComponent {
     // update swagger-ui state.spec
     specActions.updateSpec(val);
     // update editor value
-    this.setState({ currentValue: val });
+    // this.setState({ currentValue: val });
   };
 
   editorDidMount = (editor) => {
@@ -76,7 +84,7 @@ export default class MonacoEditorContainer extends PureComponent {
 
   render() {
     const {
-      // specSelectors,
+      specSelectors,
       // getComponent,
       // errSelectors,
       // fn,
@@ -87,12 +95,14 @@ export default class MonacoEditorContainer extends PureComponent {
     // const MonacoEditor = getComponent('MonacoEditor');
     // const monacoEditorOptions = {};
     const { initialValue, currentValue } = this.state;
+    const valueForEditor = this.getValueFromSpec();
+    // console.log('valueForEditor:', valueForEditor);
 
     return (
       <div id="editor-wrapper" className="editor-wrapper">
         <MonacoEditor
           language="json"
-          value={currentValue}
+          value={valueForEditor}
           defaultValue={initialValue}
           height="90vh"
           width="50"
