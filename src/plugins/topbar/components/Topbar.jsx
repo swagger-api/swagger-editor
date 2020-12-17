@@ -33,13 +33,9 @@ export default class Topbar extends Component {
   instantiateGeneratorClient = async () => {
     // call to topbarActions.instantiateGeneratorClient
     // which will set a redux state
-    const { topbarActions, getConfigs } = this.props;
-    const { swagger2GeneratorUrl, oas3GeneratorUrl } = getConfigs();
+    const { topbarActions } = this.props;
 
-    const instantiate = await topbarActions.instantiateGeneratorClient({
-      swagger2GeneratorUrl,
-      oas3GeneratorUrl,
-    });
+    const instantiate = await topbarActions.instantiateGeneratorClient();
     // console.log('result.instantiate', instantiate);
     if (instantiate.error) {
       // probably should not display error
