@@ -158,6 +158,27 @@ const getConfigsWithDefaultFallback = (system) => {
   return { swagger2GeneratorUrl, oas3GeneratorUrl, swagger2ConverterUrl };
 };
 
+const getSpecVersion = (system) => {
+  // currently matching swagger-editor@3 use of flags.
+  // extendable to use additional spec versions/types.
+  // Todo: still in dev-mode state
+
+  // eslint-disable-next-line no-unused-vars
+  const { specSelectors } = system;
+
+  let isSwagger2 = false;
+  // eslint-disable-next-line prefer-const
+  let isOAS3 = true;
+
+  // isOAS3 = specSelectors.isOAS3();
+  if (!isOAS3) {
+    // isSwagger2 = specSelectors.isSwagger2(); // this sometimes returns undefined
+    isSwagger2 = true; // hard override until above line resolved
+  }
+
+  return { isOAS3, isSwagger2 };
+};
+
 const getGeneratorUrl = (args) => {
   // return a string if args match, or null if not
   const { isOAS3, isSwagger2, swagger2GeneratorUrl, oas3GeneratorUrl } = args;
@@ -224,13 +245,7 @@ export const instantiateGeneratorClient = () => async (system) => {
   // console.log('topbarActions.instantiateGeneratorClient called');
   // set of http call to retrieve generator servers and clients lists
   // which will set a redux state
-  const { specSelectors } = system;
-  let isSwagger2 = false;
-  const isOAS3 = specSelectors.isOAS3();
-  if (!isOAS3) {
-    // isSwagger2 = specSelectors.isSwagger2(); // this is not always working
-    isSwagger2 = true; // hard override until above line resolved
-  }
+  const { isOAS3, isSwagger2 } = getSpecVersion(system);
   // console.log('...instantiateGeneratorClient isOAS3:', isOAS3);
   // console.log('...instantiateGeneratorClient isSwagger2:', isSwagger2);
   const { swagger2GeneratorUrl, oas3GeneratorUrl } = getConfigsWithDefaultFallback(system);
@@ -414,13 +429,8 @@ export const downloadGeneratedFile = ({
   swagger2GeneratorUrl,
   oas3GeneratorUrl,
 }) => async (system) => {
-  const { specSelectors } = system;
   // start duplication of this.instantiateGeneratorClient
-  let isSwagger2 = false;
-  const isOAS3 = specSelectors.isOAS3();
-  if (!isOAS3) {
-    isSwagger2 = specSelectors.isSwagger2();
-  }
+  const { isOAS3, isSwagger2 } = getSpecVersion(system);
   // TODO: next-line is production
   // eslint-disable-next-line no-unused-vars
   const argsForGeneratorUrl = {
@@ -515,7 +525,7 @@ export const saveAsJson = () => async (system) => {
   const { specSelectors, errSelectors } = system;
   const editorContent = specSelectors.specStr();
   // eslint-disable-next-line no-unused-vars
-  const { isOAS3, isSwagger2 } = specSelectors;
+  const { isOAS3, isSwagger2 } = getSpecVersion(system);
   // eslint-disable-next-line no-unused-vars
   const options = { isOAS3, isSwagger2 };
 
@@ -556,7 +566,7 @@ export const saveAsYaml = ({ overrideWarning }) => async (system) => {
   const { specSelectors, errSelectors } = system;
   const editorContent = specSelectors.specStr();
   // eslint-disable-next-line no-unused-vars
-  const { isOAS3, isSwagger2 } = specSelectors;
+  const { isOAS3, isSwagger2 } = getSpecVersion(system);
   // eslint-disable-next-line no-unused-vars
   const options = { isOAS3, isSwagger2 };
 
