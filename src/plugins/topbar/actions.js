@@ -53,6 +53,14 @@ export const setOasGeneratorClientsList = ({ value }) => {
 
 // mock data for dev/testing
 
+export const defaultFixtures = {
+  isOAS3: true,
+  isSwagger2: true,
+  swagger2GeneratorUrl: 'https://generator.swagger.io/api/swagger.json',
+  oas3GeneratorUrl: 'https://generator3.swagger.io/openapi.json',
+  swagger2ConverterUrl: 'https://converter.swagger.io/api/convert',
+};
+
 export const mockOas2Spec = {
   swagger: '2.0',
   info: {
@@ -136,8 +144,22 @@ export const mockOas3Spec = {
 };
 
 // Utils Actions
+const getConfigsWithDefaultFallback = (system) => {
+  let { swagger2GeneratorUrl, oas3GeneratorUrl, swagger2ConverterUrl } = system.getConfigs();
+  if (!swagger2GeneratorUrl) {
+    swagger2GeneratorUrl = defaultFixtures.swagger2GeneratorUrl;
+  }
+  if (!oas3GeneratorUrl) {
+    oas3GeneratorUrl = defaultFixtures.oas3GeneratorUrl;
+  }
+  if (!swagger2ConverterUrl) {
+    swagger2ConverterUrl = defaultFixtures.swagger2ConverterUrl;
+  }
+  return { swagger2GeneratorUrl, oas3GeneratorUrl, swagger2ConverterUrl };
+};
 
 const getGeneratorUrl = (args) => {
+  // return a string if args match, or null if not
   const { isOAS3, isSwagger2, swagger2GeneratorUrl, oas3GeneratorUrl } = args;
 
   if (isOAS3) {
@@ -198,9 +220,7 @@ const fetchSwaggerClientGetters = async ({ generatorUrl, isOAS3 }) => {
   return data;
 };
 
-export const instantiateGeneratorClient = ({ swagger2GeneratorUrl, oas3GeneratorUrl }) => async (
-  system
-) => {
+export const instantiateGeneratorClient = () => async (system) => {
   // console.log('topbarActions.instantiateGeneratorClient called');
   // set of http call to retrieve generator servers and clients lists
   // which will set a redux state
@@ -208,10 +228,12 @@ export const instantiateGeneratorClient = ({ swagger2GeneratorUrl, oas3Generator
   let isSwagger2 = false;
   const isOAS3 = specSelectors.isOAS3();
   if (!isOAS3) {
-    isSwagger2 = specSelectors.isSwagger2();
+    // isSwagger2 = specSelectors.isSwagger2(); // this is not always working
+    isSwagger2 = true; // hard override until above line resolved
   }
   // console.log('...instantiateGeneratorClient isOAS3:', isOAS3);
   // console.log('...instantiateGeneratorClient isSwagger2:', isSwagger2);
+  const { swagger2GeneratorUrl, oas3GeneratorUrl } = getConfigsWithDefaultFallback(system);
   // console.log(
   //   '...instantiateGeneratorClient args: swagger2GeneratorUrl',
   //   swagger2GeneratorUrl,
@@ -226,17 +248,9 @@ export const instantiateGeneratorClient = ({ swagger2GeneratorUrl, oas3Generator
     swagger2GeneratorUrl,
     oas3GeneratorUrl,
   };
-  // const generatorUrl = getGeneratorUrl(argsForGeneratorUrl);
+  const generatorUrl = getGeneratorUrl(argsForGeneratorUrl);
   // TODO: next-line is for dev.
-  // eslint-disable-next-line no-unused-vars
-  const mockOptions = {
-    isOAS3: false,
-    isSwagger2: true,
-    swagger2GeneratorUrl: 'https://generator.swagger.io/api/swagger.json',
-    oas3GeneratorUrl: 'https://generator3.swagger.io/openapi.json',
-    swagger2ConverterUrl: 'https://converter.swagger.io/api/convert',
-  };
-  const generatorUrl = getGeneratorUrl(mockOptions);
+  // const generatorUrl = getGeneratorUrl(defaultFixtures);
   // console.log('...instantiateGeneratorClient generatorUrl:', generatorUrl);
   const generatorServersClients = await fetchSwaggerClientGetters({ generatorUrl, isOAS3 });
   // console.log('...instantiateGeneratorClient generatorServersClients:', generatorServersClients);
@@ -475,6 +489,7 @@ export const convertDefinitionToOas3 = ({ editorContent }) => async (system) => 
   });
   // console.log('conversionResult:', conversionResult);
   // on success, this.props.updateEditorContent (wrapComponents)
+  // updateEditorContent={content => props.specActions.updateSpec(content, "insert")}
 };
 
 export const convertToYaml = () => async (system) => {

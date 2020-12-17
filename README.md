@@ -28,6 +28,7 @@
 [x] fix importFromURL not updating generic editor, json
 [x] fix importFile not updating generic editor, yaml
 [x] fix importFromURL not updating generic editor, yaml
+[ ] fix updating spec from oas2 to oas3, or vice versa, should reinstatiate server/client generator lists
 
 ...reminder of existing features
 [ ] match and extend configurability options
