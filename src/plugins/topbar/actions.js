@@ -471,25 +471,26 @@ export const downloadGeneratedFile = ({
   return { data: 'ok' };
 };
 
-// eslint-disable-next-line no-unused-vars
-export const convertDefinitionToOas3 = ({ editorContent }) => async (system) => {
-  // Todo: try getting swagger2ConverterUrl from system, and not from args
-  // Todo: handle case if swagger2ConverterUrl is undefined, which should not happen once integration happens
-  // const { swagger2ConverterUrl } = system.getConfigs();
-  // console.log('checking swagger2ConverterUrl', swagger2ConverterUrl);
-  // console.log('checking system:', system);
-  const mockOptions = {
-    mockOas2Spec,
-    swagger2ConverterUrl: 'https://converter.swagger.io/api/convert',
-  };
+export const convertDefinitionToOas3 = () => async (system) => {
+  const { specSelectors, specActions } = system;
+
+  const { swagger2ConverterUrl } = getConfigsWithDefaultFallback(system);
+  const swagger2editorContent = specSelectors.specStr();
+
   // eslint-disable-next-line no-unused-vars
+  // const mockOptions = {
+  //   swagger2editorContent: mockOas2Spec,
+  // };
   const conversionResult = await postPerformOasConversion({
-    url: mockOptions.swagger2ConverterUrl,
-    data: mockOptions.mockOas2Spec,
+    url: swagger2ConverterUrl,
+    data: swagger2editorContent,
   });
   // console.log('conversionResult:', conversionResult);
-  // on success, this.props.updateEditorContent (wrapComponents)
-  // updateEditorContent={content => props.specActions.updateSpec(content, "insert")}
+  if (!conversionResult.error) {
+    specActions.updateSpec(conversionResult, 'insert');
+    return { data: 'success' };
+  }
+  return { error: 'unable to convert spec to OAS3' };
 };
 
 export const convertToYaml = () => async (system) => {

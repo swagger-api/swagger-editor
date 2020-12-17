@@ -17,13 +17,8 @@ export default class EditMenuDropdown extends Component {
     // console.log('got a click for onConvertToOas3Click ');
     // ref old method: topbarActions.showModal("convert")
     const { topbarActions } = this.props;
-    // Todo: Try not using this.props.getConfigs(); instead, let topbarActions method handle
-    // const { swagger2ConverterUrl } = this.props.getConfigs();
-    // console.log('component swagger2ConverterUrl', swagger2ConverterUrl);
-    const convertedResult = await topbarActions.convertDefinitionToOas3({
-      editorContent: 'nyi: get from state',
-      swagger2ConverterUrl: 'nyi: get from configs',
-    });
+
+    const convertedResult = await topbarActions.convertDefinitionToOas3();
     if (convertedResult.error) {
       // display the error message
     }
