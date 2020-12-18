@@ -179,6 +179,22 @@ const getSpecVersion = (system) => {
   return { isOAS3, isSwagger2 };
 };
 
+const getSpecVersionString = ({ isOAS3, isSwagger2 }) => {
+  // extendable to use additional string constants
+  const specStringConstants = {
+    OAS_3_0: 'OAS_3_0',
+    OAS_3_1: 'OAS_3_1',
+    SWAGGER_2: 'SWAGGER_2',
+  };
+  if (isOAS3 && !isSwagger2) {
+    return specStringConstants.OAS_3_0;
+  }
+  if (isSwagger2 && !isOAS3) {
+    return specStringConstants.SWAGGER_2;
+  }
+  return 'unvailable';
+};
+
 const getGeneratorUrl = (args) => {
   // return a string if args match, or null if not
   const { isOAS3, isSwagger2, swagger2GeneratorUrl, oas3GeneratorUrl } = args;
@@ -249,6 +265,7 @@ export const instantiateGeneratorClient = () => async (system) => {
   // console.log('...instantiateGeneratorClient isOAS3:', isOAS3);
   // console.log('...instantiateGeneratorClient isSwagger2:', isSwagger2);
   const { swagger2GeneratorUrl, oas3GeneratorUrl } = getConfigsWithDefaultFallback(system);
+  const specVersion = getSpecVersionString({ isOAS3, isSwagger2 });
   // console.log(
   //   '...instantiateGeneratorClient args: swagger2GeneratorUrl',
   //   swagger2GeneratorUrl,
@@ -279,12 +296,17 @@ export const instantiateGeneratorClient = () => async (system) => {
   return Promise.resolve({
     servers: generatorServersClients.servers,
     clients: generatorServersClients.servers,
+    specVersion,
   });
 };
 
-export const shouldReInstantiateGeneratorClient = () => () => {
+export const shouldReInstantiateGeneratorClient = ({ specVersion }) => (system) => {
   // console.log('topbarActions.shouldReInstantiateGeneratorClient called');
-  // return boolean
+  const { isOAS3, isSwagger2 } = getSpecVersion(system);
+  const updatedSpecVersion = getSpecVersionString({ isOAS3, isSwagger2 });
+  if (specVersion !== updatedSpecVersion) {
+    return true;
+  }
   return false;
 };
 

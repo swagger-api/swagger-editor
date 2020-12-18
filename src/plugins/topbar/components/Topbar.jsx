@@ -18,6 +18,7 @@ export default class Topbar extends Component {
     this.state = {
       clients: [],
       servers: [],
+      specVersion: '',
     };
     this.onDownloadGeneratedFileClick = this.onDownloadGeneratedFileClick.bind(this);
   }
@@ -45,14 +46,17 @@ export default class Topbar extends Component {
     this.setState({
       clients: instantiate.clients,
       servers: instantiate.servers,
+      specVersion: instantiate.specVersion,
     });
   };
 
   shouldReInstantiateGeneratorClient = () => {
     // call to topbarActions.shouldReInstantiateGeneratorClient
     // which will return boolean to this.instantiateGeneratorClient or not
+    // for test: oas3 will NOT include 'ada-server' as a list item
     const { topbarActions } = this.props;
-    const shouldReinstantiate = topbarActions.shouldReInstantiateGeneratorClient();
+    const { specVersion } = this.state;
+    const shouldReinstantiate = topbarActions.shouldReInstantiateGeneratorClient({ specVersion });
     if (shouldReinstantiate) {
       this.instantiateGeneratorClient();
     }
