@@ -170,7 +170,7 @@ const getSpecVersion = (system) => {
   // eslint-disable-next-line prefer-const
   let isOAS3 = true;
 
-  // isOAS3 = specSelectors.isOAS3();
+  isOAS3 = specSelectors.isOAS3();
   if (!isOAS3) {
     // isSwagger2 = specSelectors.isSwagger2(); // this sometimes returns undefined
     isSwagger2 = true; // hard override until above line resolved
@@ -423,42 +423,26 @@ const fetchGeneratorLinkFromSwaggerClientApis = async ({
   return generatorLinkOrBlob;
 };
 
-export const downloadGeneratedFile = ({
-  type,
-  name,
-  swagger2GeneratorUrl,
-  oas3GeneratorUrl,
-}) => async (system) => {
-  // start duplication of this.instantiateGeneratorClient
+export const downloadGeneratedFile = ({ type, name }) => async (system) => {
+  const { specSelectors } = system;
+  const { swagger2GeneratorUrl, oas3GeneratorUrl } = getConfigsWithDefaultFallback(system);
   const { isOAS3, isSwagger2 } = getSpecVersion(system);
-  // TODO: next-line is production
-  // eslint-disable-next-line no-unused-vars
+
   const argsForGeneratorUrl = {
     isOAS3,
     isSwagger2,
     swagger2GeneratorUrl,
     oas3GeneratorUrl,
   };
-  // const generatorUrl = getGeneratorUrl(argsForGeneratorUrl);
-  // TODO: next-line is for dev.
-  // eslint-disable-next-line no-unused-vars
-  const mockOptions = {
-    isOAS3: true,
-    isSwagger2: false,
-    swagger2GeneratorUrl: 'https://generator.swagger.io/api/swagger.json',
-    oas3GeneratorUrl: 'https://generator3.swagger.io/openapi.json',
-    swagger2ConverterUrl: 'https://converter.swagger.io/api/convert',
-  };
-  const generatorUrl = getGeneratorUrl(mockOptions);
+  const generatorUrl = getGeneratorUrl(argsForGeneratorUrl);
   // console.log('...downloadGeneratedFile generatorUrl:', generatorUrl);
-  // end duplication
-  // const spec = specSelectors.specJson();
+  const spec = specSelectors.specJson();
   // const spec = mockOas2Spec;
-  const spec = mockOas3Spec;
+  // const spec = mockOas3Spec;
   const generatorLink = await fetchGeneratorLinkFromSwaggerClientApis({
     generatorUrl,
-    isOAS3: mockOptions.isOAS3,
-    isSwagger2: mockOptions.isSwagger2,
+    isOAS3: argsForGeneratorUrl.isOAS3,
+    isSwagger2: argsForGeneratorUrl.isSwagger2,
     name,
     type,
     spec,
