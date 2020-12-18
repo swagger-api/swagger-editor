@@ -20,6 +20,7 @@ refer `docs/swagger-client.md` for some notes
 [x] init oas spec via import File (finish action) - Yaml
 [x] init oas spec via import Url (finish action)
 [x] CSS/Less/Saas styling
+[x] remove use of mock data in topbarActions. (mock fixtures not removed yet)
 
 [ ] additional initial style and configuration of monaco editor, as appropriate
 [ ] try react-modal lib instead of creating internal version
@@ -45,7 +46,7 @@ refer `docs/swagger-client.md` for some notes
 
 The todo list
 
-Last updated: 12/3/2020
+Last updated: 12/17/2020
 
 Extract menu action methods from React to Actions
 [x] importFromURL
@@ -56,7 +57,7 @@ Extract menu action methods from React to Actions
 [x] importFile
 [ ] clearEditor
 [x] onDocumentLoad prop - removed. handled now in actions. Theoretically, we could expose as a user-overwritable function. Maybe SH needed it?
-[ ] updateEditorContent prop - will be removed, and handled in actions.
+[x] updateEditorContent prop - will be removed, and handled in actions.
 
 Deprecate methods from React
 [x] saveAsText
@@ -106,7 +107,7 @@ Migrate React Components
 Integration
 [ ] swagger-ui redux state
 [x] connect monaco state to swagger-ui redux state
-[ ] connect actions with monaco state, e.g. updateEditorContent
+[x] connect actions with monaco state, e.g. updateEditorContent
 [ ] mixed monaco css with swagger css/less/sass
 
 Optimization
