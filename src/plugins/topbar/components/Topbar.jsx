@@ -64,7 +64,7 @@ export default class Topbar extends Component {
     // downloadGeneratedFile
     // handleResponse
     // downloadFile -> reactFileDownload (lib)
-    const { topbarActions, getConfigs } = this.props;
+    const { topbarActions } = this.props;
     // non-optimal. we need these params again to instantiate swagger-client,
     // just to retreive swagger-client.apis methods
     // clients:
@@ -78,13 +78,13 @@ export default class Topbar extends Component {
     //   getServerOptions: ƒ(parameters)
     //   serverOptions: ƒ(parameters)
     // It would be better if we can access these methods directly from swagger-client
-    const { swagger2GeneratorUrl, oas3GeneratorUrl } = getConfigs();
+    // const { swagger2GeneratorUrl, oas3GeneratorUrl } = getConfigs();
 
     const downloadData = await topbarActions.downloadGeneratedFile({
       type,
       name,
-      swagger2GeneratorUrl,
-      oas3GeneratorUrl,
+      // swagger2GeneratorUrl,
+      // oas3GeneratorUrl,
     });
     if (downloadData.error) {
       // display the error message
@@ -145,7 +145,7 @@ Topbar.propTypes = {
   // specActions: PropTypes.object.isRequired,
   topbarActions: PropTypes.oneOfType([PropTypes.object]).isRequired,
   getComponent: PropTypes.func.isRequired,
-  getConfigs: PropTypes.func.isRequired,
+  // getConfigs: PropTypes.func.isRequired,
   // servers: PropTypes.array,
   // clients: PropTypes.array,
 };
