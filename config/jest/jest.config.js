@@ -20,13 +20,19 @@ module.exports = {
     '^(?!.*\\.(js|jsx|mjs|cjs|ts|tsx|css|json)$)': '<rootDir>/config/jest/fileTransform.js',
   },
   transformIgnorePatterns: [
-    '[/\\\\]node_modules[/\\\\].+\\.(js|jsx|mjs|cjs|ts|tsx)$',
+    // 'node_modules\/(?!(monaco-editor)\/)',
+    '/node_modules/(?!monaco-editor).+\\.js$',
+    // '[/\\\\]node_modules[/\\\\].+\\.(js|jsx|mjs|cjs|ts|tsx)$',
     '^.+\\.module\\.(css|sass|scss)$',
   ],
   modulePaths: [],
   moduleNameMapper: {
     '^react-native$': 'react-native-web',
     '^.+\\.module\\.(css|sass|scss)$': 'identity-obj-proxy',
+    '^monaco-editor$': '<rootDir>/node_modules/monaco-editor/esm/vs/editor/editor.api.js',
+    // '^monaco-editor$': '<rootDir>/node_modules/monaco-editor/esm/vs/editor/editor.main.js',
+    // '^monaco-editor$': '<rootDir>/node_modules/monaco-editor/esm/vs/editor/editor.all.js',
+    // '^monaco-editor$': '<rootDir>/node_modules/monaco-editor/esm/vs/editor/editor.api.d.ts',
   },
   moduleFileExtensions: [
     'web.js',

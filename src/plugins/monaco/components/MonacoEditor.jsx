@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import * as monaco from 'monaco-editor'; // eslint-disable-line import/no-unresolved
+import * as monaco from 'monaco-editor';
+// import * as monaco from 'monaco-editor/esm/vs/editor/editor.api';
 
 function noop() {} // export to utils later
 
