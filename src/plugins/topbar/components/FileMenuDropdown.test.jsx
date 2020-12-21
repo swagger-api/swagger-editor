@@ -49,10 +49,10 @@ describe('renders FileMenuDopdown', () => {
     expect(buttonElement).toBeInTheDocument();
     fireEvent.click(buttonElement);
     expect(global.prompt.mock.calls.length).toEqual(1);
+
     // window.prompt not supported. will replace with modals, eventually
     // await waitFor(() => screen.getByRole('prompt'));
     // expect(screen.getByRole('prompt')).toBeInTheDocument();
-    // so we probably need to mock topbarActions
   });
 
   test('on dropdown, should be able to click on "Import File', async () => {
@@ -70,6 +70,8 @@ describe('renders FileMenuDopdown', () => {
   });
 
   test('on dropdown, should be able to click on "Save as JSON', async () => {
+    // This spy is likely working correctly, but we need to define a system.spec to pass
+    // const spy = jest.spyOn(topbarActions, 'saveAsJson');
     const linkElement = screen.getByText(/File/i);
     fireEvent.click(linkElement);
 
@@ -77,6 +79,7 @@ describe('renders FileMenuDopdown', () => {
     await waitFor(() => buttonElement);
     expect(buttonElement).toBeInTheDocument();
     fireEvent.click(buttonElement);
+    // expect(spy).toBeCalled();
     // we could mock topbarActions, to check calls.length
     // we could mock a download and verify e2e result
   });
