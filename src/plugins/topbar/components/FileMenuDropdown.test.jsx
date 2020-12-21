@@ -1,16 +1,23 @@
 import React from 'react';
 import { fireEvent, render, screen, waitFor } from '@testing-library/react';
-import ReactModal from 'react-modal';
 
-import FileMenuDropdown from './FileMenuDropdown';
+import FileMenuDopdown from './FileMenuDropdown';
 import DropdownItem from './DropdownItem';
 import DropdownMenu from './DropdownMenu';
 import ImportFileDropdownItem from './ImportFileDropdownItem';
 import * as topbarActions from '../actions';
 
-ReactModal.setAppElement('*'); // suppresses modal-related test warnings.
+// roadmap to eliminate use of window.alert, window.prompt
+beforeEach(() => {
+  global.alert = jest.fn();
+  global.prompt = jest.fn();
+});
 
-describe('renders FileMenuDropdown', () => {
+afterEach(() => {
+  jest.clearAllMocks();
+});
+
+describe('renders FileMenuDopdown', () => {
   beforeEach(() => {
     const components = {
       DropdownItem,
@@ -19,7 +26,7 @@ describe('renders FileMenuDropdown', () => {
     };
 
     render(
-      <FileMenuDropdown
+      <FileMenuDopdown
         getComponent={(c) => {
           return components[c];
         }}
@@ -34,8 +41,6 @@ describe('renders FileMenuDropdown', () => {
   });
 
   test('on dropdown, should be able to click on "Import URL', async () => {
-    // only call spy if user input in prompt/modal is mocked
-    // const spy = jest.spyOn(topbarActions, 'importFromURL').mockImplementation();
     const linkElement = screen.getByText(/File/i);
     fireEvent.click(linkElement);
 
@@ -43,13 +48,11 @@ describe('renders FileMenuDropdown', () => {
     await waitFor(() => buttonElement);
     expect(buttonElement).toBeInTheDocument();
     fireEvent.click(buttonElement);
-
-    const modalElement = screen.getByText('Enter the URL to import from');
-    await waitFor(() => modalElement);
-    expect(modalElement).toBeInTheDocument();
-
-    // we could mock user input, then click "submit"
-    // expect(spy).toBeCalled();
+    expect(global.prompt.mock.calls.length).toEqual(1);
+    // window.prompt not supported. will replace with modals, eventually
+    // await waitFor(() => screen.getByRole('prompt'));
+    // expect(screen.getByRole('prompt')).toBeInTheDocument();
+    // so we probably need to mock topbarActions
   });
 
   test('on dropdown, should be able to click on "Import File', async () => {
@@ -61,14 +64,12 @@ describe('renders FileMenuDropdown', () => {
     expect(buttonElement).toBeInTheDocument();
     fireEvent.click(buttonElement);
     // we may be able to check that the file dialog box opens
-    // then we could define a file to upload with "userEvent.upload",
-    // then we could mock topbarActions, to check calls.length
-    // though as user, Dropdown doesn't see changes to editor or swagger-ui, or modals
+    // we could mock topbarActions, to check calls.length
+    // we could define a file to upload with "userEvent.upload",
+    // though as user, Dropdown doesn't see changes to editor or swagger-ui, or nyi modals
   });
 
   test('on dropdown, should be able to click on "Save as JSON', async () => {
-    const spy = jest.spyOn(topbarActions, 'saveAsJson').mockImplementation();
-
     const linkElement = screen.getByText(/File/i);
     fireEvent.click(linkElement);
 
@@ -76,13 +77,11 @@ describe('renders FileMenuDropdown', () => {
     await waitFor(() => buttonElement);
     expect(buttonElement).toBeInTheDocument();
     fireEvent.click(buttonElement);
-    expect(spy).toBeCalled();
-    // we could mock a download and spyOn().mockImplementation with FileDownload
+    // we could mock topbarActions, to check calls.length
+    // we could mock a download and verify e2e result
   });
 
   test('on dropdown, should be able to click on "Convert and save as JSON', async () => {
-    const spy = jest.spyOn(topbarActions, 'saveAsJson').mockImplementation();
-
     const linkElement = screen.getByText(/File/i);
     fireEvent.click(linkElement);
 
@@ -90,41 +89,35 @@ describe('renders FileMenuDropdown', () => {
     await waitFor(() => buttonElement);
     expect(buttonElement).toBeInTheDocument();
     fireEvent.click(buttonElement);
-    expect(spy).toBeCalled();
-    // we could mock a download and spyOn().mockImplementation with FileDownload
+    // we could mock topbarActions, to check calls.length
+    // we could mock a download and verify e2e result
   });
 
   test('on dropdown, should be able to click on "Save as YAML', async () => {
-    const spy = jest.spyOn(topbarActions, 'saveAsYaml').mockImplementation();
-
     const linkElement = screen.getByText(/File/i);
     fireEvent.click(linkElement);
 
-    const buttonElement = screen.getByText('Save as YAML');
+    const buttonElement = screen.getByText('Save as JSON');
     await waitFor(() => buttonElement);
     expect(buttonElement).toBeInTheDocument();
     fireEvent.click(buttonElement);
-    expect(spy).toBeCalled();
-    // we could mock a download and spyOn().mockImplementation with FileDownload
+    // we could mock topbarActions, to check calls.length
+    // we could mock a download and verify e2e result
   });
 
   test('on dropdown, should be able to click on "Convert and save as YAML', async () => {
-    const spy = jest.spyOn(topbarActions, 'saveAsYaml').mockImplementation();
-
     const linkElement = screen.getByText(/File/i);
     fireEvent.click(linkElement);
 
-    const buttonElement = screen.getByText('Convert and save as YAML');
+    const buttonElement = screen.getByText('Convert and save as JSON');
     await waitFor(() => buttonElement);
     expect(buttonElement).toBeInTheDocument();
     fireEvent.click(buttonElement);
-    expect(spy).toBeCalled();
-    // we could mock a download and spyOn().mockImplementation with FileDownload
+    // we could mock topbarActions, to check calls.length
+    // we could mock a download and verify e2e result
   });
 
   test('on dropdown, should be able to click on "Clear Editor', async () => {
-    // This action method is NYI
-    // const spy = jest.spyOn(topbarActions, '???').mockImplementation();
     const linkElement = screen.getByText(/File/i);
     fireEvent.click(linkElement);
 
@@ -132,17 +125,7 @@ describe('renders FileMenuDropdown', () => {
     await waitFor(() => buttonElement);
     expect(buttonElement).toBeInTheDocument();
     fireEvent.click(buttonElement);
-    // expect(spy).toBeCalled();
+    // we could mock topbarActions, to check calls.length
     // topbar doesn't render editor, so unlikely any other user visible changes
   });
-});
-
-describe.skip('importUrl e2e', () => {
-  // todo: refactor descriptions once implemented
-  // ref: importedData.data/importedData.error are references within component
-  // todo: could also implement equivalent topbarActions.importFromURL unit tests
-  test('(normal) user clicks on link, but then clicks on cancel prompt.', async () => {});
-  test('(default) user clicks on link, inputs valid url is valid; importedData.data exists && importedData.error does not exist', async () => {});
-  test('(normal) user clicks on link, but inputs an invalid url; importedData.error exists && importedData.data does not exist', async () => {});
-  test('(exception) user clicks on link, inputs valid url is valid; should not see a case where both importedData.data && importedData.error exists', async () => {});
 });
