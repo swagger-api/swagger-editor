@@ -1,12 +1,12 @@
 import React from 'react';
 import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 
-import EditMenuDropdown from './EditMenuDropdown';
+import EditMenuDopdown from './EditMenuDropdown';
 import DropdownItem from './DropdownItem';
 import DropdownMenu from './DropdownMenu';
 import * as topbarActions from '../actions';
 
-describe('renders EditMenuDropdown', () => {
+describe('renders EditMenuDopdown', () => {
   beforeEach(() => {
     const components = {
       DropdownItem,
@@ -14,7 +14,7 @@ describe('renders EditMenuDropdown', () => {
     };
 
     render(
-      <EditMenuDropdown
+      <EditMenuDopdown
         getComponent={(c) => {
           return components[c];
         }}
@@ -29,8 +29,6 @@ describe('renders EditMenuDropdown', () => {
   });
 
   test('on dropdown, should be able to click on "Convert To YAML', async () => {
-    const spy = jest.spyOn(topbarActions, 'convertToYaml').mockImplementation();
-
     const linkElement = screen.getByText(/Edit/i);
     fireEvent.click(linkElement);
 
@@ -38,14 +36,12 @@ describe('renders EditMenuDropdown', () => {
     await waitFor(() => buttonElement);
     expect(buttonElement).toBeInTheDocument();
     fireEvent.click(buttonElement);
-    expect(spy).toBeCalled();
+    // we could mock topbarActions, to check calls.length
     // topbar doesn't render editor, so unlikely any other user visible changes
     // also note, we will need to mock props when this list item is hidden
   });
 
   test('on dropdown, should be able to click on "Convert To OpenAPI 3', async () => {
-    const spy = jest.spyOn(topbarActions, 'convertDefinitionToOas3').mockImplementation();
-
     const linkElement = screen.getByText(/Edit/i);
     fireEvent.click(linkElement);
 
@@ -53,7 +49,7 @@ describe('renders EditMenuDropdown', () => {
     await waitFor(() => buttonElement);
     expect(buttonElement).toBeInTheDocument();
     fireEvent.click(buttonElement);
-    expect(spy).toBeCalled();
+    // we could mock topbarActions, to check calls.length
     // topbar doesn't render editor, so unlikely any other user visible changes
     // also note, we will need to mock props when this list item is hidden
   });
