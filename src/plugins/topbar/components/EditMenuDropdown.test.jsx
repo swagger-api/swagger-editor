@@ -6,7 +6,7 @@ import DropdownItem from './DropdownItem';
 import DropdownMenu from './DropdownMenu';
 import * as topbarActions from '../actions';
 
-describe('renders EditMenuDopdown', () => {
+describe('renders EditMenuDropdown', () => {
   beforeEach(() => {
     const components = {
       DropdownItem,
