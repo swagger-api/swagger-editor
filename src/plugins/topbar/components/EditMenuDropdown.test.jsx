@@ -29,6 +29,8 @@ describe('renders EditMenuDopdown', () => {
   });
 
   test('on dropdown, should be able to click on "Convert To YAML', async () => {
+    const spy = jest.spyOn(topbarActions, 'convertToYaml').mockImplementation();
+
     const linkElement = screen.getByText(/Edit/i);
     fireEvent.click(linkElement);
 
@@ -36,12 +38,14 @@ describe('renders EditMenuDopdown', () => {
     await waitFor(() => buttonElement);
     expect(buttonElement).toBeInTheDocument();
     fireEvent.click(buttonElement);
-    // we could mock topbarActions, to check calls.length
+    expect(spy).toBeCalled();
     // topbar doesn't render editor, so unlikely any other user visible changes
     // also note, we will need to mock props when this list item is hidden
   });
 
   test('on dropdown, should be able to click on "Convert To OpenAPI 3', async () => {
+    const spy = jest.spyOn(topbarActions, 'convertDefinitionToOas3').mockImplementation();
+
     const linkElement = screen.getByText(/Edit/i);
     fireEvent.click(linkElement);
 
@@ -49,7 +53,7 @@ describe('renders EditMenuDopdown', () => {
     await waitFor(() => buttonElement);
     expect(buttonElement).toBeInTheDocument();
     fireEvent.click(buttonElement);
-    // we could mock topbarActions, to check calls.length
+    expect(spy).toBeCalled();
     // topbar doesn't render editor, so unlikely any other user visible changes
     // also note, we will need to mock props when this list item is hidden
   });
