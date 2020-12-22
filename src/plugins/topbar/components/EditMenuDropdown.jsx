@@ -19,7 +19,7 @@ export default class EditMenuDropdown extends Component {
     const { topbarActions } = this.props;
 
     const convertedResult = await topbarActions.convertDefinitionToOas3();
-    if (convertedResult.error) {
+    if (convertedResult && convertedResult.error) {
       // display the error message
     }
   };
@@ -29,7 +29,7 @@ export default class EditMenuDropdown extends Component {
     // ref old method: convertToYaml
     const { topbarActions } = this.props;
     const convertedResult = await topbarActions.convertToYaml();
-    if (convertedResult.error) {
+    if (convertedResult && convertedResult.error) {
       // display the error message
     }
   };

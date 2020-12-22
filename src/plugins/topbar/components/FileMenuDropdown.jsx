@@ -33,7 +33,7 @@ export default class FileMenuDropdown extends Component {
     // dev note for copy/paste testing https://petstore.swagger.io/v2/swagger.json
     // another url: https://petstore3.swagger.io/api/v3/openapi.json
     const importedData = await topbarActions.importFromURL({ url });
-    if (importedData.error) {
+    if (importedData && importedData.error) {
       // console.log('we should open an error modal with text:', importedData.error);
       return;
     }
@@ -51,7 +51,7 @@ export default class FileMenuDropdown extends Component {
     // ref old method: saveAsJson
     const { topbarActions } = this.props;
     const saveResult = await topbarActions.saveAsJson();
-    if (saveResult.error) {
+    if (saveResult && saveResult.error) {
       // display the error message
     }
   };
@@ -61,7 +61,7 @@ export default class FileMenuDropdown extends Component {
     // ref old method: saveAsYaml
     const { topbarActions } = this.props;
     let saveResult = await topbarActions.saveAsYaml({ overrideWarning: false });
-    if (saveResult.warning) {
+    if (saveResult && saveResult.warning) {
       // display warning if user wants to continue
       // eslint-disable-next-line no-alert
       const allowOverride = confirm(saveResult.warning);
@@ -70,7 +70,7 @@ export default class FileMenuDropdown extends Component {
         saveResult = await topbarActions.saveAsYaml({ overrideWarning: true });
       }
     }
-    if (saveResult.error) {
+    if (saveResult && saveResult.error) {
       // display the error message
     }
   };
