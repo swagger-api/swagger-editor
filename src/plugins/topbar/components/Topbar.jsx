@@ -6,11 +6,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
-import Logo from '../assets/logo_small.svg';
-// import FileMenuDropdown from './topbar-file-menu'; // this works to, but then not available as getComponent
-// import DropdownMenu from './topbar-dropdown/DropdownMenu'; // this works to, but then not available as getComponent
-// import DropdownMenuItem from './topbar-dropdown/DropdownMenuItem'; // this works to, but then not available as getComponent
-
 export default class Topbar extends Component {
   constructor(props, context) {
     super(props, context);
@@ -98,8 +93,8 @@ export default class Topbar extends Component {
   render() {
     const { servers, clients } = this.state;
     const { getComponent, topbarActions } = this.props;
-    // Link (to swagger) | each top-level DropdownMenu
-    const Link = getComponent('Link'); // via swagger-ui
+
+    const LinkHome = getComponent('LinkHome');
     const DropdownMenu = getComponent('DropdownMenu');
     const DropdownItem = getComponent('DropdownItem');
     const FileMenuDropdown = getComponent('FileMenuDropdown');
@@ -109,9 +104,7 @@ export default class Topbar extends Component {
       <div className="swagger-editor-standalone">
         <div className="topbar">
           <div className="topbar-wrapper">
-            <Link href="/">
-              <img height="35" className="topbar-logo__img" src={Logo} alt="" />
-            </Link>
+            <LinkHome />
             <FileMenuDropdown getComponent={getComponent} topbarActions={topbarActions} />
             <EditMenuDropdown getComponent={getComponent} topbarActions={topbarActions} />
             <DropdownMenu displayName="Generate Server">

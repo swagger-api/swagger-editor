@@ -3,6 +3,7 @@
 
 import TopbarPlugin from '../topbar';
 // import TopbarInsertPlugin from './topbar-insert';
+import LinkHome from '../topbar/components/LinkHome';
 import DropdownMenu from '../topbar/components/DropdownMenu';
 import DropdownItem from '../topbar/components/DropdownItem';
 import FileMenuDropdown from '../topbar/components/FileMenuDropdown';
@@ -14,6 +15,7 @@ const StandalonePlugin = () => {
   return {
     components: {
       StandaloneLayout,
+      LinkHome,
       DropdownMenu,
       DropdownItem,
       FileMenuDropdown,
