@@ -33,16 +33,18 @@ export default class Topbar extends Component {
 
     const instantiate = await topbarActions.instantiateGeneratorClient();
     // console.log('result.instantiate', instantiate);
-    if (instantiate.error) {
+    if (instantiate && instantiate.error) {
       // probably should not display error
       return;
     }
-    // intended as temporary setState
-    this.setState({
-      clients: instantiate.clients,
-      servers: instantiate.servers,
-      specVersion: instantiate.specVersion,
-    });
+    if (instantiate) {
+      // intended as temporary setState
+      this.setState({
+        clients: instantiate.clients,
+        servers: instantiate.servers,
+        specVersion: instantiate.specVersion,
+      });
+    }
   };
 
   shouldReInstantiateGeneratorClient = () => {
