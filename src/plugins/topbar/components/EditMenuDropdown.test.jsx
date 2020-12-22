@@ -1,7 +1,7 @@
 import React from 'react';
 import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 
-import EditMenuDopdown from './EditMenuDropdown';
+import EditMenuDropdown from './EditMenuDropdown';
 import DropdownItem from './DropdownItem';
 import DropdownMenu from './DropdownMenu';
 import * as topbarActions from '../actions';
@@ -14,7 +14,7 @@ describe('renders EditMenuDopdown', () => {
     };
 
     render(
-      <EditMenuDopdown
+      <EditMenuDropdown
         getComponent={(c) => {
           return components[c];
         }}

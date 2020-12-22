@@ -1,7 +1,7 @@
 import React from 'react';
 import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 
-import FileMenuDopdown from './FileMenuDropdown';
+import FileMenuDropdown from './FileMenuDropdown';
 import DropdownItem from './DropdownItem';
 import DropdownMenu from './DropdownMenu';
 import ImportFileDropdownItem from './ImportFileDropdownItem';
@@ -17,7 +17,7 @@ afterEach(() => {
   jest.clearAllMocks();
 });
 
-describe('renders FileMenuDopdown', () => {
+describe('renders FileMenuDropdown', () => {
   beforeEach(() => {
     const components = {
       DropdownItem,
@@ -26,7 +26,7 @@ describe('renders FileMenuDopdown', () => {
     };
 
     render(
-      <FileMenuDopdown
+      <FileMenuDropdown
         getComponent={(c) => {
           return components[c];
         }}
