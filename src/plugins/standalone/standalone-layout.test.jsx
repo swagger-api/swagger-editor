@@ -50,7 +50,7 @@ const mockOas3Spec = {
   },
 };
 
-test('can get swagger-ui (mock editor)', async () => {
+test.skip('can get swagger-ui (mock editor)', async () => {
   // Given
   const editor = (
     <SwaggerUI
