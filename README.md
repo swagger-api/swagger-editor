@@ -36,6 +36,15 @@
 [ ] if refresh empty monaco, should load a default definition
 [ ] localStorage
 
+### Test Coverage
+[x] Topbar rendering; spies/mocks on calls to topbarActions, to avoid live http methods
+[ ] topbarActions: http calls with swagger-generator + swagger-client; response includes additional functions
+[ ] topbarActions: downloadFile (mock download)
+[ ] monaco-editor render
+[ ] monaco-editor features
+[ ] swagger-ui render
+[ ] actions that affect swagger-ui spec
+
 ### POC notes
 
 The todo list
