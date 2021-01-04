@@ -123,6 +123,12 @@ docker run -d -p 80:8080 -v $(pwd):/tmp -e SWAGGER_FILE=/tmp/swagger.json swagge
 docker run -d -p 80:8080 -e URL=/foo/swagger.json -v /bar:/usr/share/nginx/html/foo swaggerapi/swagger-editor
 ```
 
+* You can specify a different base url at which where to access the application - for example if you want to application to be available at `http://localhost/swagger-editor/`:
+
+```
+docker run -d -p 80:8080 -e BASE_URL=/swagger-editor swaggerapi/swagger-editor
+```
+
 ### Building and running an image locally
 
 To build and run a docker image with the code checked out on your machine, run the following from the root directory of the project:
