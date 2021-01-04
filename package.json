@@ -86,6 +86,7 @@
     "lint-staged": "^10.5.1",
     "mini-css-extract-plugin": "0.11.3",
     "monaco-editor-webpack-plugin": "^2.0.0",
+    "msw": "^0.24.2",
     "node-sass": "^4.14.1",
     "optimize-css-assets-webpack-plugin": "5.0.4",
     "pnp-webpack-plugin": "1.6.4",
