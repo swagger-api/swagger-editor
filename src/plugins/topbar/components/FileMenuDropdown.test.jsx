@@ -1,5 +1,6 @@
 import React from 'react';
 import { fireEvent, render, screen, waitFor } from '@testing-library/react';
+import ReactModal from 'react-modal';
 
 import FileMenuDropdown from './FileMenuDropdown';
 import DropdownItem from './DropdownItem';
@@ -7,15 +8,16 @@ import DropdownMenu from './DropdownMenu';
 import ImportFileDropdownItem from './ImportFileDropdownItem';
 import * as topbarActions from '../actions';
 
+ReactModal.setAppElement('*'); // suppresses modal-related test warnings.
 // roadmap to eliminate use of window.alert, window.prompt
-beforeEach(() => {
-  global.alert = jest.fn();
-  global.prompt = jest.fn();
-});
+// beforeEach(() => {
+//   global.alert = jest.fn();
+//   global.prompt = jest.fn();
+// });
 
-afterEach(() => {
-  jest.clearAllMocks();
-});
+// afterEach(() => {
+//   jest.clearAllMocks();
+// });
 
 describe('renders FileMenuDropdown', () => {
   beforeEach(() => {
@@ -51,11 +53,11 @@ describe('renders FileMenuDropdown', () => {
     expect(buttonElement).toBeInTheDocument();
     fireEvent.click(buttonElement);
     // expect(spy).toBeCalled();
-    expect(global.prompt.mock.calls.length).toEqual(1);
+    // expect(global.prompt.mock.calls.length).toEqual(1);
 
-    // window.prompt not supported. will replace with modals, eventually
-    // await waitFor(() => screen.getByRole('prompt'));
-    // expect(screen.getByRole('prompt')).toBeInTheDocument();
+    const modalElement = screen.getByText('Enter the URL to import from');
+    await waitFor(() => modalElement);
+    expect(modalElement).toBeInTheDocument();
   });
 
   test('on dropdown, should be able to click on "Import File', async () => {
