@@ -13,6 +13,7 @@ export default class FileMenuDropdown extends Component {
     this.onClearEditorClick = this.onClearEditorClick.bind(this);
     this.onSaveAsJsonClick = this.onSaveAsJsonClick.bind(this);
     this.onSaveAsYamlClick = this.onSaveAsYamlClick.bind(this);
+    this.handleImportFromURL = this.handleImportFromURL.bind(this);
   }
 
   onImportUrlClick = async () => {
@@ -23,13 +24,18 @@ export default class FileMenuDropdown extends Component {
     // 2. user clicks on link, but inputs an invalid url; importedData.error exists && importedData.data does not exist
     // 3. user clicks on link, inputs valid url is valid; importedData.data exists && importedData.error does not exist
     // 4. user clicks on link, inputs valid url is valid; should not see a case where both importedData.data && importedData.error exists
-    const { topbarActions } = this.props;
+
     // eslint-disable-next-line no-alert
     const url = prompt('Enter the URL to import from:');
     if (!url) {
       // user cancelled prompt
       return;
     }
+    this.handleImportFromURL(url);
+  };
+
+  handleImportFromURL = async (url) => {
+    const { topbarActions } = this.props;
     // dev note for copy/paste testing https://petstore.swagger.io/v2/swagger.json
     // another url: https://petstore3.swagger.io/api/v3/openapi.json
     const importedData = await topbarActions.importFromURL({ url });
