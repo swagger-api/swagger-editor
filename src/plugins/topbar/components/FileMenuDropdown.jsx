@@ -21,12 +21,19 @@ export default class FileMenuDropdown extends Component {
     this.handleImportFromURL = this.handleImportFromURL.bind(this);
     this.onSubmitImportUrl = this.onSubmitImportUrl.bind(this);
     this.onImportUrlChange = this.onImportUrlChange.bind(this);
+    this.closeModalClick = this.closeModalClick.bind(this);
 
     this.state = {
       showImportUrlModal: false,
       importUrlString: '',
+      showErrorModal: false,
+      errorMessage: '',
     };
   }
+
+  closeModalClick = (showModalProperty) => () => {
+    this.setState({ [showModalProperty]: false });
+  };
 
   onImportUrlClick = async () => {
     // console.log('got a click for onImportUrlClick ');
@@ -74,6 +81,10 @@ export default class FileMenuDropdown extends Component {
     const importedData = await topbarActions.importFromURL({ url });
     if (importedData && importedData.error) {
       console.log('we should open an error modal with text:', importedData.error);
+      this.setState({
+        showErrorModal: true,
+        errorMessage: importedData.error,
+      });
       return;
     }
     // eslint-disable-next-line no-console
@@ -120,7 +131,7 @@ export default class FileMenuDropdown extends Component {
     const DropdownItem = getComponent('DropdownItem');
     const ImportFileDropdownItem = getComponent('ImportFileDropdownItem');
 
-    const { showImportUrlModal } = this.state;
+    const { showImportUrlModal, showErrorModal, errorMessage } = this.state;
 
     return (
       <div>
@@ -134,6 +145,13 @@ export default class FileMenuDropdown extends Component {
           />
           <button type="button" onClick={() => this.onSubmitImportUrl()}>
             submit
+          </button>
+        </Modal>
+        <Modal isOpen={showErrorModal} contentLabel="Error Message">
+          <h2>Uh oh, an error has occured</h2>
+          {errorMessage}
+          <button type="button" onClick={this.closeModalClick('showErrorModal')}>
+            Close
           </button>
         </Modal>
 
