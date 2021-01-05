@@ -5,6 +5,11 @@
 // as define this index as a plugin wrapper
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import Modal from 'react-modal';
+
+if (process.env.NODE_ENV !== 'test') {
+  Modal.setAppElement('#root');
+}
 
 export default class FileMenuDropdown extends Component {
   constructor(props) {
@@ -14,6 +19,13 @@ export default class FileMenuDropdown extends Component {
     this.onSaveAsJsonClick = this.onSaveAsJsonClick.bind(this);
     this.onSaveAsYamlClick = this.onSaveAsYamlClick.bind(this);
     this.handleImportFromURL = this.handleImportFromURL.bind(this);
+    this.onSubmitImportUrl = this.onSubmitImportUrl.bind(this);
+    this.onImportUrlChange = this.onImportUrlChange.bind(this);
+
+    this.state = {
+      showImportUrlModal: false,
+      importUrlString: '',
+    };
   }
 
   onImportUrlClick = async () => {
@@ -24,14 +36,35 @@ export default class FileMenuDropdown extends Component {
     // 2. user clicks on link, but inputs an invalid url; importedData.error exists && importedData.data does not exist
     // 3. user clicks on link, inputs valid url is valid; importedData.data exists && importedData.error does not exist
     // 4. user clicks on link, inputs valid url is valid; should not see a case where both importedData.data && importedData.error exists
-
+    this.setState({
+      showImportUrlModal: true,
+      importUrlString: '',
+    });
     // eslint-disable-next-line no-alert
-    const url = prompt('Enter the URL to import from:');
-    if (!url) {
-      // user cancelled prompt
-      return;
+    // const url = prompt('Enter the URL to import from:');
+    // if (!url) {
+    //   // user cancelled prompt
+    //   return;
+    // }
+    // this.handleImportFromURL(url);
+  };
+
+  onImportUrlChange = (e) => {
+    console.log('onImportUrlChange:', e.target.value);
+    this.setState({
+      importUrlString: e.target.value,
+    });
+  };
+
+  onSubmitImportUrl = async () => {
+    const { importUrlString } = this.state;
+    // refactor: we should send importUrlString through a safety check
+    if (importUrlString) {
+      this.handleImportFromURL(importUrlString);
     }
-    this.handleImportFromURL(url);
+    this.setState({
+      showImportUrlModal: false,
+    });
   };
 
   handleImportFromURL = async (url) => {
@@ -40,7 +73,7 @@ export default class FileMenuDropdown extends Component {
     // another url: https://petstore3.swagger.io/api/v3/openapi.json
     const importedData = await topbarActions.importFromURL({ url });
     if (importedData && importedData.error) {
-      // console.log('we should open an error modal with text:', importedData.error);
+      console.log('we should open an error modal with text:', importedData.error);
       return;
     }
     // eslint-disable-next-line no-console
@@ -87,18 +120,35 @@ export default class FileMenuDropdown extends Component {
     const DropdownItem = getComponent('DropdownItem');
     const ImportFileDropdownItem = getComponent('ImportFileDropdownItem');
 
+    const { showImportUrlModal } = this.state;
+
     return (
-      <DropdownMenu displayName="File">
-        <DropdownItem onClick={() => this.onImportUrlClick()} name="Import URL" />
-        <ImportFileDropdownItem getComponent={getComponent} topbarActions={topbarActions} />
-        <li role="separator" />
-        <DropdownItem onClick={() => this.onSaveAsJsonClick()} name="Save as JSON" />
-        <DropdownItem onClick={() => this.onSaveAsYamlClick()} name="Save as YAML" />
-        <DropdownItem onClick={() => this.onSaveAsJsonClick()} name="Convert and save as JSON" />
-        <DropdownItem onClick={() => this.onSaveAsYamlClick()} name="Convert and save as YAML" />
-        <li role="separator" />
-        <DropdownItem onClick={() => this.onClearEditorClick()} name="Clear Editor" />
-      </DropdownMenu>
+      <div>
+        <Modal isOpen={showImportUrlModal} contentLabel="Import URL">
+          <h2>Enter the URL to import from</h2>
+          <input
+            type="text"
+            className="form-control"
+            placeholder="type url here"
+            onChange={this.onImportUrlChange}
+          />
+          <button type="button" onClick={() => this.onSubmitImportUrl()}>
+            submit
+          </button>
+        </Modal>
+
+        <DropdownMenu displayName="File">
+          <DropdownItem onClick={() => this.onImportUrlClick()} name="Import URL" />
+          <ImportFileDropdownItem getComponent={getComponent} topbarActions={topbarActions} />
+          <li role="separator" />
+          <DropdownItem onClick={() => this.onSaveAsJsonClick()} name="Save as JSON" />
+          <DropdownItem onClick={() => this.onSaveAsYamlClick()} name="Save as YAML" />
+          <DropdownItem onClick={() => this.onSaveAsJsonClick()} name="Convert and save as JSON" />
+          <DropdownItem onClick={() => this.onSaveAsYamlClick()} name="Convert and save as YAML" />
+          <li role="separator" />
+          <DropdownItem onClick={() => this.onClearEditorClick()} name="Clear Editor" />
+        </DropdownMenu>
+      </div>
     );
   }
 }
