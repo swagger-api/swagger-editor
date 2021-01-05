@@ -106,6 +106,10 @@ export default class FileMenuDropdown extends Component {
     const saveResult = await topbarActions.saveAsJson();
     if (saveResult && saveResult.error) {
       // display the error message
+      this.setState({
+        showErrorModal: true,
+        errorMessage: saveResult.error,
+      });
     }
   };
 
@@ -130,6 +134,10 @@ export default class FileMenuDropdown extends Component {
     }
     if (saveResult && saveResult.error) {
       // display the error message
+      this.setState({
+        showErrorModal: true,
+        errorMessage: saveResult.error,
+      });
     }
   };
 
@@ -138,6 +146,10 @@ export default class FileMenuDropdown extends Component {
     const saveResult = await topbarActions.saveAsYaml({ overrideWarning: true });
     if (saveResult && saveResult.error) {
       // display the error message
+      this.setState({
+        showErrorModal: true,
+        errorMessage: saveResult.error,
+      });
       return;
     }
     this.setState({
