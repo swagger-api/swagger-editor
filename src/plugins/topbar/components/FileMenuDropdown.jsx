@@ -22,12 +22,15 @@ export default class FileMenuDropdown extends Component {
     this.onSubmitImportUrl = this.onSubmitImportUrl.bind(this);
     this.onImportUrlChange = this.onImportUrlChange.bind(this);
     this.closeModalClick = this.closeModalClick.bind(this);
+    this.onSaveAsYamlWithOverride = this.onSaveAsYamlWithOverride.bind(this);
 
     this.state = {
       showImportUrlModal: false,
       importUrlString: '',
       showErrorModal: false,
       errorMessage: '',
+      showConfirmModal: false,
+      confirmMessage: '',
     };
   }
 
@@ -110,19 +113,37 @@ export default class FileMenuDropdown extends Component {
     // console.log('got a click for onSaveAsYamlClick ');
     // ref old method: saveAsYaml
     const { topbarActions } = this.props;
-    let saveResult = await topbarActions.saveAsYaml({ overrideWarning: false });
+    const saveResult = await topbarActions.saveAsYaml({ overrideWarning: false });
     if (saveResult && saveResult.warning) {
       // display warning if user wants to continue
+      this.setState({
+        showConfirmModal: true,
+        confirmMessage: saveResult.warning,
+      });
       // eslint-disable-next-line no-alert
-      const allowOverride = confirm(saveResult.warning);
-      if (allowOverride) {
-        // try again, this time with override
-        saveResult = await topbarActions.saveAsYaml({ overrideWarning: true });
-      }
+      // const allowOverride = confirm(saveResult.warning);
+      // if (allowOverride) {
+      //   // try again, this time with override
+      //   // saveResult = await topbarActions.saveAsYaml({ overrideWarning: true });
+      //   this.onSaveAsYamlWithOverride();
+      // }
     }
     if (saveResult && saveResult.error) {
       // display the error message
     }
+  };
+
+  onSaveAsYamlWithOverride = async () => {
+    const { topbarActions } = this.props;
+    const saveResult = await topbarActions.saveAsYaml({ overrideWarning: true });
+    if (saveResult && saveResult.error) {
+      // display the error message
+      return;
+    }
+    this.setState({
+      showConfirmModal: false,
+      confirmMessage: '',
+    });
   };
 
   render() {
@@ -131,7 +152,13 @@ export default class FileMenuDropdown extends Component {
     const DropdownItem = getComponent('DropdownItem');
     const ImportFileDropdownItem = getComponent('ImportFileDropdownItem');
 
-    const { showImportUrlModal, showErrorModal, errorMessage } = this.state;
+    const {
+      showImportUrlModal,
+      showErrorModal,
+      errorMessage,
+      showConfirmModal,
+      confirmMessage,
+    } = this.state;
 
     return (
       <div>
@@ -155,6 +182,16 @@ export default class FileMenuDropdown extends Component {
           {errorMessage}
           <button type="button" onClick={this.closeModalClick('showErrorModal')}>
             Close
+          </button>
+        </Modal>
+        <Modal isOpen={showConfirmModal} contentLabel="Confirm">
+          <h2>Are you sure?</h2>
+          {confirmMessage}
+          <button type="button" onClick={() => this.onSaveAsYamlWithOverride()}>
+            Yes
+          </button>
+          <button type="button" onClick={this.closeModalClick('showConfirmModal')}>
+            Cancel
           </button>
         </Modal>
 
