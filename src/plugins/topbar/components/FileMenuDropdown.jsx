@@ -146,6 +146,9 @@ export default class FileMenuDropdown extends Component {
           <button type="button" onClick={() => this.onSubmitImportUrl()}>
             submit
           </button>
+          <button type="button" onClick={this.closeModalClick('showImportUrlModal')}>
+            Cancel
+          </button>
         </Modal>
         <Modal isOpen={showErrorModal} contentLabel="Error Message">
           <h2>Uh oh, an error has occured</h2>
