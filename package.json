@@ -84,7 +84,7 @@
     "react-file-download": "^0.3.2",
     "react-immutable-proptypes": "^2.1.0",
     "react-redux": "^4.x.x",
-    "react-split-pane": "^0.1.82",
+    "react-split-pane": "^2.0.3",
     "react-transition-group": "^1.1.1",
     "redux": "^3.x.x",
     "reselect": "^4.0.0",
