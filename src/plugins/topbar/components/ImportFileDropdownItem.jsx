@@ -8,12 +8,12 @@ export default class ImportFileDropdownItem extends Component {
   }
 
   onImportFileClick = async () => {
-    // console.log('got a click for onImportFileClick ');
     // ref inline old method: onDocumentLoad
     const { topbarActions } = this.props;
-    // eslint-disable-next-line no-unused-vars
-    const result = await topbarActions.handleImportFile();
-    // console.log('result:', result);
+    const importResult = await topbarActions.handleImportFile();
+    if (importResult && importResult.error) {
+      // display the error message
+    }
   };
 
   render() {
