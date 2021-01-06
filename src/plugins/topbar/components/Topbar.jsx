@@ -27,18 +27,15 @@ export default class Topbar extends Component {
   }
 
   instantiateGeneratorClient = async () => {
-    // call to topbarActions.instantiateGeneratorClient
-    // which will set a redux state
     const { topbarActions } = this.props;
 
     const instantiate = await topbarActions.instantiateGeneratorClient();
-    // console.log('result.instantiate', instantiate);
     if (instantiate && instantiate.error) {
       // probably should not display error
       return;
     }
     if (instantiate) {
-      // intended as temporary setState
+      // intended as temporary setState, prefer set a redux state instead
       this.setState({
         clients: instantiate.clients,
         servers: instantiate.servers,
@@ -48,44 +45,22 @@ export default class Topbar extends Component {
   };
 
   shouldReInstantiateGeneratorClient = () => {
-    // call to topbarActions.shouldReInstantiateGeneratorClient
-    // which will return boolean to this.instantiateGeneratorClient or not
-    // for test: oas3 will NOT include 'ada-server' as a list item
+    // for live e2e test: oas3 will NOT include 'ada-server' as a list item
     const { topbarActions } = this.props;
     const { specVersion } = this.state;
     const shouldReinstantiate = topbarActions.shouldReInstantiateGeneratorClient({ specVersion });
+    // expect shouldReinstantiate to be boolean
     if (shouldReinstantiate) {
       this.instantiateGeneratorClient();
     }
   };
 
   onDownloadGeneratedFileClick = async ({ type, name }) => {
-    // console.log('we clicked on name:', name, ' of type:', type);
-    // old methods to refactor:
-    // downloadGeneratedFile
-    // handleResponse
-    // downloadFile -> reactFileDownload (lib)
+    // ref legacy methods: downloadGeneratedFile -> handleResponse -> downloadFile -> reactFileDownload (lib)
     const { topbarActions } = this.props;
-    // non-optimal. we need these params again to instantiate swagger-client,
-    // just to retreive swagger-client.apis methods
-    // clients:
-    //   clientOptions: ƒ(parameters)
-    //   downloadFile: ƒ(parameters)
-    //   generateClient: ƒ(parameters)
-    //   getClientOptions: ƒ(parameters)
-    // servers:
-    //   downloadFile: ƒ(parameters)
-    //   generateServerForLanguage: ƒ(parameters)
-    //   getServerOptions: ƒ(parameters)
-    //   serverOptions: ƒ(parameters)
-    // It would be better if we can access these methods directly from swagger-client
-    // const { swagger2GeneratorUrl, oas3GeneratorUrl } = getConfigs();
-
     const downloadData = await topbarActions.downloadGeneratedFile({
       type,
       name,
-      // swagger2GeneratorUrl,
-      // oas3GeneratorUrl,
     });
     if (downloadData.error) {
       // display the error message
@@ -139,12 +114,6 @@ export default class Topbar extends Component {
 }
 
 Topbar.propTypes = {
-  // specSelectors: PropTypes.object.isRequired,
-  // errSelectors: PropTypes.object.isRequired,
-  // specActions: PropTypes.object.isRequired,
   topbarActions: PropTypes.oneOfType([PropTypes.object]).isRequired,
   getComponent: PropTypes.func.isRequired,
-  // getConfigs: PropTypes.func.isRequired,
-  // servers: PropTypes.array,
-  // clients: PropTypes.array,
 };
