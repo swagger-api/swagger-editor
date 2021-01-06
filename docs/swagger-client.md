@@ -1,5 +1,9 @@
-fetch GET call to `SwaggerClient(url, [options])` will return `response.apis` methods.
+Swagger-client is used as middleware to transform `generator` responses,
+which also includes function methods alongside data objects.
 
+fetch GET call to `SwaggerClient(url, [options])` will return `response.apis` methods.
+- reminder to attach `.catch()` to any `response.apis.[method]` call
+```
 response.apis.clients:
 - clientOptions: ƒ(parameters)
 - downloadFile: ƒ(parameters)
@@ -11,6 +15,9 @@ response.apis.servers:
 - generateServerForLanguage: ƒ(parameters)
 - getServerOptions: ƒ(parameters)
 - serverOptions: ƒ(parameters)
+```
+
+### Summary
 In order to render a list of server/client generators, swagger-client will fetch methods created by swagger-generator, then process the response into a more usable `response.apis.clients` format. swagger-editor then needs to make a subsequent call to swagger-client for the appropriate method to call to yield the final result.
 
 In legacy version, swagger-editor saved these methods to React state for general purpose use, e.g. downloadFile vs clientOptions. In this new version of swagger-editor, these methods are not currently saved, and are immediately and sequentially called by `topbarActions` to yield a deterministic final result.
