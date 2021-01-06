@@ -1,8 +1,7 @@
-/* eslint-disable no-restricted-globals */
-// This will be a React.Component container of dropdownItems
+// This is a React.Component container of dropdownItems
 // no special list handling; all "clicks" pass props in same format
 // If we need to later, we can migrate this file as a separate file,
-// as define this index as a plugin wrapper
+// and define this index as a plugin wrapper
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import Modal from 'react-modal';
@@ -39,28 +38,14 @@ export default class FileMenuDropdown extends Component {
   };
 
   onImportUrlClick = async () => {
-    // console.log('got a click for onImportUrlClick ');
-    // ref old method: importFromURL
-    // tests to implement (also equivalent topbarActions.importFromURL tests):
-    // 1. user clicks on link, but then clicks on cancel prompt.
-    // 2. user clicks on link, but inputs an invalid url; importedData.error exists && importedData.data does not exist
-    // 3. user clicks on link, inputs valid url is valid; importedData.data exists && importedData.error does not exist
-    // 4. user clicks on link, inputs valid url is valid; should not see a case where both importedData.data && importedData.error exists
+    // ref legacy method: importFromURL
     this.setState({
       showImportUrlModal: true,
       importUrlString: '',
     });
-    // eslint-disable-next-line no-alert
-    // const url = prompt('Enter the URL to import from:');
-    // if (!url) {
-    //   // user cancelled prompt
-    //   return;
-    // }
-    // this.handleImportFromURL(url);
   };
 
   onImportUrlChange = (e) => {
-    console.log('onImportUrlChange:', e.target.value);
     this.setState({
       importUrlString: e.target.value,
     });
@@ -68,7 +53,7 @@ export default class FileMenuDropdown extends Component {
 
   onSubmitImportUrl = async () => {
     const { importUrlString } = this.state;
-    // refactor: we should send importUrlString through a safety check
+    // todo refactor: we should send importUrlString through a safety check
     if (importUrlString) {
       this.handleImportFromURL(importUrlString);
     }
@@ -83,25 +68,21 @@ export default class FileMenuDropdown extends Component {
     // another url: https://petstore3.swagger.io/api/v3/openapi.json
     const importedData = await topbarActions.importFromURL({ url });
     if (importedData && importedData.error) {
-      console.log('we should open an error modal with text:', importedData.error);
+      // show error message
       this.setState({
         showErrorModal: true,
         errorMessage: importedData.error,
       });
-      return;
     }
-    // eslint-disable-next-line no-console
-    console.log('importedData generic success message:', importedData.data);
   };
 
   onClearEditorClick = async () => {
     // console.log('got a click for onClearEditorClick ');
-    // ref old method: clearEditor
+    // ref legacy method: clearEditor
   };
 
   onSaveAsJsonClick = async () => {
-    // console.log('got a click for onSaveAsJsonClick ');
-    // ref old method: saveAsJson
+    // ref legacy method: saveAsJson
     const { topbarActions } = this.props;
     const saveResult = await topbarActions.saveAsJson();
     if (saveResult && saveResult.error) {
@@ -114,8 +95,7 @@ export default class FileMenuDropdown extends Component {
   };
 
   onSaveAsYamlClick = async () => {
-    // console.log('got a click for onSaveAsYamlClick ');
-    // ref old method: saveAsYaml
+    // ref legacy method: saveAsYaml
     const { topbarActions } = this.props;
     const saveResult = await topbarActions.saveAsYaml({ overrideWarning: false });
     if (saveResult && saveResult.warning) {
@@ -124,13 +104,6 @@ export default class FileMenuDropdown extends Component {
         showConfirmModal: true,
         confirmMessage: saveResult.warning,
       });
-      // eslint-disable-next-line no-alert
-      // const allowOverride = confirm(saveResult.warning);
-      // if (allowOverride) {
-      //   // try again, this time with override
-      //   // saveResult = await topbarActions.saveAsYaml({ overrideWarning: true });
-      //   this.onSaveAsYamlWithOverride();
-      // }
     }
     if (saveResult && saveResult.error) {
       // display the error message

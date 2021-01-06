@@ -9,15 +9,6 @@ import ImportFileDropdownItem from './ImportFileDropdownItem';
 import * as topbarActions from '../actions';
 
 ReactModal.setAppElement('*'); // suppresses modal-related test warnings.
-// roadmap to eliminate use of window.alert, window.prompt
-// beforeEach(() => {
-//   global.alert = jest.fn();
-//   global.prompt = jest.fn();
-// });
-
-// afterEach(() => {
-//   jest.clearAllMocks();
-// });
 
 describe('renders FileMenuDropdown', () => {
   beforeEach(() => {
@@ -52,12 +43,13 @@ describe('renders FileMenuDropdown', () => {
     await waitFor(() => buttonElement);
     expect(buttonElement).toBeInTheDocument();
     fireEvent.click(buttonElement);
-    // expect(spy).toBeCalled();
-    // expect(global.prompt.mock.calls.length).toEqual(1);
 
     const modalElement = screen.getByText('Enter the URL to import from');
     await waitFor(() => modalElement);
     expect(modalElement).toBeInTheDocument();
+
+    // we could mock user input, then click "submit"
+    // expect(spy).toBeCalled();
   });
 
   test('on dropdown, should be able to click on "Import File', async () => {
@@ -71,7 +63,7 @@ describe('renders FileMenuDropdown', () => {
     // we may be able to check that the file dialog box opens
     // then we could define a file to upload with "userEvent.upload",
     // then we could mock topbarActions, to check calls.length
-    // though as user, Dropdown doesn't see changes to editor or swagger-ui, or nyi modals
+    // though as user, Dropdown doesn't see changes to editor or swagger-ui, or modals
   });
 
   test('on dropdown, should be able to click on "Save as JSON', async () => {
@@ -143,4 +135,14 @@ describe('renders FileMenuDropdown', () => {
     // expect(spy).toBeCalled();
     // topbar doesn't render editor, so unlikely any other user visible changes
   });
+});
+
+describe.skip('importUrl e2e', () => {
+  // todo: refactor descriptions once implemented
+  // ref: importedData.data/importedData.error are references within component
+  // todo: could also implement equivalent topbarActions.importFromURL unit tests
+  test('(normal) user clicks on link, but then clicks on cancel prompt.', async () => {});
+  test('(default) user clicks on link, inputs valid url is valid; importedData.data exists && importedData.error does not exist', async () => {});
+  test('(normal) user clicks on link, but inputs an invalid url; importedData.error exists && importedData.data does not exist', async () => {});
+  test('(exception) user clicks on link, inputs valid url is valid; should not see a case where both importedData.data && importedData.error exists', async () => {});
 });
