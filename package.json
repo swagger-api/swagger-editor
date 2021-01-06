@@ -114,7 +114,6 @@
     "babel-plugin-module-resolver": "^4.0.0",
     "babel-plugin-transform-es2015-constants": "^6.1.4",
     "babel-plugin-transform-react-remove-prop-types": "^0.4.24",
-    "bundlesize": "^0.18.0",
     "cross-env": "=7.0.2",
     "css-loader": "^3.5.3",
     "cssnano": "^4.1.10",
@@ -170,12 +169,5 @@
   },
   "config": {
     "deps_check_dir": ".deps_check"
-  },
-  "bundlesize": [
-    {
-      "path": "./dist/swagger-editor-bundle.js",
-      "maxSize": "2.8 MB",
-      "compression": "none"
-    }
-  ]
+  }
 }
