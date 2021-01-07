@@ -68,7 +68,7 @@
     "file-dialog": "0.0.8",
     "immutable": "^3.x.x",
     "is-json": "^2.0.1",
-    "js-yaml": "^3.13.1",
+    "js-yaml": "^4.0.0",
     "json-beautify": "^1.0.1",
     "json-refs": "^3.0.4",
     "lodash": "=4.17.20",
