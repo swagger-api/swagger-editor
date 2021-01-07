@@ -91,7 +91,6 @@
     "swagger-client": "^3.12.1",
     "swagger-ui": "=3.38.0",
     "traverse": "^0.6.6",
-    "whatwg-fetch": "^2.0.3",
     "yaml-js": "^0.2.3"
   },
   "devDependencies": {
