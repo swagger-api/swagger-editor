@@ -63,7 +63,6 @@
     "boron": "^0.2.3",
     "brace": "^0.10.0",
     "classnames": "^2.2.6",
-    "core-js": "^2.4.1",
     "deepmerge": "^4.0.0",
     "file-dialog": "0.0.8",
     "immutable": "^3.x.x",
