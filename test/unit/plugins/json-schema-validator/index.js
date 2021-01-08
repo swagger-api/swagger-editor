@@ -6,8 +6,8 @@ import path from 'path';
 const swagger2SchemaYaml = fs.readFileSync(path.join(__dirname, '../../../../src/plugins/json-schema-validator/swagger2-schema.yaml')).toString();
 const oas3SchemaYaml = fs.readFileSync(path.join(__dirname, '../../../../src/plugins/json-schema-validator/oas3-schema.yaml')).toString();
 
-const swagger2Schema = YAML.safeLoad(swagger2SchemaYaml);
-const oas3Schema = YAML.safeLoad(oas3SchemaYaml);
+const swagger2Schema = YAML.load(swagger2SchemaYaml);
+const oas3Schema = YAML.load(oas3SchemaYaml);
 
 
 var testDocuments = fs
@@ -19,7 +19,7 @@ var testDocuments = fs
   }))
   .map(doc => ({
     path: doc.path,
-    content: YAML.safeLoad(doc.contentString)
+    content: YAML.load(doc.contentString)
   }));
 
 testDocuments.forEach(doc => {

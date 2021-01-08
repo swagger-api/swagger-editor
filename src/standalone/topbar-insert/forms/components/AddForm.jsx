@@ -40,7 +40,7 @@ class AddForm extends Component {
 
     // Update the spec string in the Swagger UI state with the new json.
     const currentJson = this.props.specSelectors.specJson()
-    this.props.specActions.updateSpec(YAML.safeDump(currentJson.toJS()), "insert")
+    this.props.specActions.updateSpec(YAML.dump(currentJson.toJS()), "insert")
 
     // Perform any parent component actions for the form.
     this.props.submit()

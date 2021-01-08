@@ -97,7 +97,7 @@ export default class Topbar extends React.Component {
         .then(res => res.text())
         .then(text => {
           this.props.specActions.updateSpec(
-            YAML.safeDump(YAML.safeLoad(text), {
+            YAML.dump(YAML.load(text), {
               lineWidth: -1
             })
           )
@@ -129,9 +129,9 @@ export default class Topbar extends React.Component {
     //// so convert and download
 
     // JSON String -> JS object
-    let jsContent = YAML.safeLoad(editorContent)
+    let jsContent = YAML.load(editorContent)
     // JS object -> YAML string
-    let yamlContent = YAML.safeDump(jsContent)
+    let yamlContent = YAML.dump(jsContent)
     this.downloadFile(yamlContent, `${fileName}.yaml`)
   }
 
@@ -146,7 +146,7 @@ export default class Topbar extends React.Component {
     }
 
     // JSON or YAML String -> JS object
-    let jsContent = YAML.safeLoad(editorContent)
+    let jsContent = YAML.load(editorContent)
     // JS Object -> pretty JSON string
     let prettyJsonContent = beautifyJson(jsContent, null, 2)
     this.downloadFile(prettyJsonContent, `${fileName}.json`)
@@ -164,8 +164,8 @@ export default class Topbar extends React.Component {
   convertToYaml = () => {
     // Editor content -> JS object -> YAML string
     let editorContent = this.props.specSelectors.specStr()
-    let jsContent = YAML.safeLoad(editorContent)
-    let yamlContent = YAML.safeDump(jsContent)
+    let jsContent = YAML.load(editorContent)
+    let yamlContent = YAML.dump(jsContent)
     this.props.specActions.updateSpec(yamlContent)
   }
 
