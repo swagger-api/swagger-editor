@@ -140,7 +140,6 @@
     "less-loader": "^7.2.1",
     "license-checker": "^25.0.0",
     "lint-staged": "=10.5.3",
-    "matcher": "^3.0.0",
     "mini-css-extract-plugin": "=0.12.0",
     "mocha": "^7.2.0",
     "npm-audit-ci-wrapper": "^3.0.1",
