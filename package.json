@@ -97,7 +97,7 @@
     "@babel/core": "=7.12.10",
     "@babel/plugin-proposal-class-properties": "=7.12.1",
     "@babel/plugin-proposal-optional-chaining": "=7.12.7",
-    "@babel/plugin-transform-runtime": "=7.11.5",
+    "@babel/plugin-transform-runtime": "=7.12.10",
     "@babel/preset-env": "=7.11.5",
     "@babel/preset-react": "=7.12.10",
     "@babel/register": "=7.12.10",
