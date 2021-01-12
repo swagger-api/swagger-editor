@@ -75,7 +75,7 @@
     "prop-types": "15.7.2",
     "querystring-browser": "^1.0.4",
     "react": "=15.7.0",
-    "react-ace": "^4.1.6",
+    "react-ace": "^9.2.1",
     "react-addons-css-transition-group": "^15.4.2",
     "react-dd-menu": "^2.0.0",
     "react-dom": "=15.7.0",
