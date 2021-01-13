@@ -5,6 +5,8 @@ import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 
 import MonacoEditor from './MonacoEditor'; // wip: will refactor to use getComponent instead of import
+import LanguageSelection from './LanguageSelection'; // this is a dev component
+import { getDefinitionLanguage } from '../../../utils/utils-converter';
 
 function noop() {} // export to utils later
 
@@ -17,6 +19,7 @@ export default class MonacoEditorContainer extends PureComponent {
       initialValue: 'Welcome to Swagger Editor',
       currentValue: '',
       specInitialized: false,
+      language: 'json',
     };
     this.onChangeEditorValue = this.onChangeEditorValue.bind(this);
     this.editorDidMount = this.editorDidMount.bind(this);
@@ -77,6 +80,22 @@ export default class MonacoEditorContainer extends PureComponent {
     // this.setState({ currentValue: val });
   };
 
+  onChangeLanguageValue = async (val) => {
+    console.log('attempt to onChangeLanguageValue. val:', val);
+    if (val !== 'detect') {
+      this.setState({ language: val });
+    } else {
+      console.log('... detecting language');
+      const { specSelectors } = this.props;
+      const spec = await specSelectors.specStr();
+      if (spec) {
+        const result = getDefinitionLanguage({ data: spec });
+        console.log('... detected and will change to be:', result);
+        this.setState({ language: result });
+      }
+    }
+  };
+
   editorDidMount = (editor) => {
     editor.focus();
     // console.log('container editor mounted, should focus');
@@ -94,14 +113,15 @@ export default class MonacoEditorContainer extends PureComponent {
     } = this.props; // wip: Remove line 1: "eslint-disable no-unused-vars" as this.props gets built out
     // const MonacoEditor = getComponent('MonacoEditor');
     // const monacoEditorOptions = {};
-    const { initialValue, currentValue } = this.state;
+    const { initialValue, currentValue, language } = this.state;
     const valueForEditor = this.getValueFromSpec();
     // console.log('valueForEditor:', valueForEditor);
 
     return (
       <div id="editor-wrapper" className="editor-wrapper">
+        <LanguageSelection onChange={this.onChangeLanguageValue} />
         <MonacoEditor
-          language="json"
+          language={language}
           value={valueForEditor}
           defaultValue={initialValue}
           height="90vh"
