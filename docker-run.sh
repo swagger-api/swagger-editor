@@ -18,7 +18,7 @@ if [[ -f "$SWAGGER_FILE" ]]; then
   sed -i "s|SwaggerEditorBundle({|SwaggerEditorBundle({\n      url: '$REL_PATH',|g" $INDEX_FILE
 
   if [[ -z "$SWAGGER_ROOT" ]]; then
-    SWAGGER_ROOT="$(dirname $SWAGGER_JSON)"
+    SWAGGER_ROOT="$(dirname $SWAGGER_FILE)"
   fi
 
   if [[ "$BASE_URL" != "/" ]]
