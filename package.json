@@ -84,7 +84,7 @@
     "react-immutable-proptypes": "^2.1.0",
     "react-redux": "^4.x.x",
     "react-split-pane": "^0.1.82",
-    "react-transition-group": "^1.1.1",
+    "react-transition-group": "^2.9.0",
     "redux": "^3.x.x",
     "reselect": "^4.0.0",
     "swagger-client": "^3.12.1",
