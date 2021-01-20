@@ -1,8 +1,6 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 
-import DemoTextAreaContainer from './DemoTextAreaContainer'; // dev demo only; remove for production
-
 /**
  * This container should contain all Swagger-internal methods,
  * which can be passed as props in an "editor"-agnostic way
@@ -80,11 +78,8 @@ export default class GenericEditorContainer extends PureComponent {
 
     const MonacoEditorContainer = getComponent('MonacoEditorContainer', true);
 
-    const valueForDemo = JSON.stringify(this.getValueFromSpec());
-
     return (
       <div id="generic-editor-wrapper" className="generic-editor-wrapper">
-        <DemoTextAreaContainer valueForDemo={valueForDemo} onChange={this.onChangeEditorValue} />
         <MonacoEditorContainer
           initialValue={initialValue}
           getValueFromSpec={this.getValueFromSpec}
