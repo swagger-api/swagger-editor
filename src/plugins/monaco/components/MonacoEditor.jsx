@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import * as monaco from 'monaco-editor';
-// import * as monaco from 'monaco-editor/esm/vs/editor/editor.api';
 
-function noop() {} // export to utils later
+import noop from '../../../utils/utils-noop';
+// import * as monaco from 'monaco-editor/esm/vs/editor/editor.api';
 
 export default class MonacoEditor extends Component {
   constructor(props) {
@@ -26,6 +26,13 @@ export default class MonacoEditor extends Component {
         console.log('editor componentDidUpdate');
         // console.log('editor componentDidUpdate, will set to this.currentValue', this.currentValue);
         editor.setValue(this.currentValue);
+        // the following retrieves the stored language option. does not interpret value
+        // exists utils-converter.getDefinitionLanguage
+        // language will only change appearance and not data,
+        // eslint-disable-next-line no-underscore-dangle
+        // const test = editor._configuration._rawOptions.language;
+        // console.log('test, editor:', editor);
+        // console.log('test:', test);
       }
     }
     if (prevProps.language !== language) {
