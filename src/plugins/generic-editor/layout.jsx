@@ -4,10 +4,10 @@ import './style.main.scss';
 
 export default class EditorLayout extends PureComponent {
   render() {
-    const { getComponent, specActions } = this.props;
+    const { getComponent, specActions, specSelectors } = this.props;
 
     const UIBaseLayout = getComponent('BaseLayout', true);
-    const MonacoEditorContainer = getComponent('MonacoEditorContainer', true);
+    const GenericEditorContainer = getComponent('GenericEditorContainer', true);
     const SplitPaneMode = getComponent('SplitPaneMode', true);
     const Container = getComponent('Container');
 
@@ -15,7 +15,11 @@ export default class EditorLayout extends PureComponent {
       <div className="swagger-editor">
         <Container className="container">
           <SplitPaneMode>
-            <MonacoEditorContainer specActions={specActions} />
+            <GenericEditorContainer
+              specActions={specActions}
+              getComponent={getComponent}
+              specSelectors={specSelectors}
+            />
             <UIBaseLayout />
           </SplitPaneMode>
         </Container>
@@ -28,8 +32,9 @@ EditorLayout.propTypes = {
   // errSelectors: PropTypes.object.isRequired,
   // errActions: PropTypes.object.isRequired,
   // specActions: PropTypes.object.isRequired,
-  specActions: PropTypes.oneOfType([PropTypes.object]).isRequired,
   getComponent: PropTypes.func.isRequired,
+  specActions: PropTypes.oneOfType([PropTypes.object]).isRequired,
+  specSelectors: PropTypes.oneOfType([PropTypes.object]).isRequired,
   // layoutSelectors: PropTypes.object.isRequired,
   // layoutActions: PropTypes.object.isRequired,
 };

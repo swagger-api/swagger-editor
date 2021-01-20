@@ -1,5 +1,6 @@
 import EditorLayout from './layout';
 import EditorPlugin from '../monaco';
+import GenericEditorContainer from './components/GenericEditorContainer';
 import SplitPaneModePlugin from '../split-pane-mode';
 
 const GenericEditorPlugin = () => {
@@ -9,6 +10,7 @@ const GenericEditorPlugin = () => {
     },
     components: {
       EditorLayout,
+      GenericEditorContainer,
     },
   };
 };
