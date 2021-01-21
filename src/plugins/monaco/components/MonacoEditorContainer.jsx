@@ -58,6 +58,7 @@ export default class MonacoEditorContainer extends PureComponent {
 
     return (
       <div id="editor-wrapper" className="editor-wrapper">
+        <h3>Monaco Editor (remove this heading for production)</h3>
         <LanguageSelection onChange={this.onChangeLanguageValue} />
         <MonacoEditor
           language={language}
