@@ -22,6 +22,8 @@ const apiDOMResolverPlugin = [
         "../../apidom/packages/apidom-parser-adapter-openapi-yaml-3-1",
       "apidom-parser-adapter-yaml-1-2":
         "../../apidom/packages/apidom-parser-adapter-yaml-1-2",
+      "apidom-ls":
+        "../../apidom/packages/apidom-ls",
     },
   },
 ];
