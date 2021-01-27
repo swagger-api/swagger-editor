@@ -9,7 +9,7 @@ import DropdownItem from '../topbar/components/DropdownItem';
 import FileMenuDropdown from '../topbar/components/FileMenuDropdown';
 import EditMenuDropdown from '../topbar/components/EditMenuDropdown';
 import ImportFileDropdownItem from '../topbar/components/ImportFileDropdownItem';
-import StandaloneLayout from './standalone-layout';
+import StandaloneLayout from './StandaloneLayout';
 
 const StandalonePlugin = () => {
   return {

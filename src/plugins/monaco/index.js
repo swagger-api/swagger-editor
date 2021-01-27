@@ -1,5 +1,5 @@
 // This is the MonacoEditorPlugin
-import EditorSpecOriginPlugin from '../editorSpecOrigin';
+import EditorSpecOriginPlugin from '../editor-spec-origin';
 // // import MonacoEditor from './monacoEditor';
 import MonacoEditorContainer from './components/MonacoEditorContainer';
 // import * as actions from './actions';

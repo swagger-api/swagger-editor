@@ -2,7 +2,7 @@
 import deepMerge from 'deepmerge';
 import SwaggerUI from 'swagger-ui';
 
-import EditorLayout from './layout';
+import EditorLayout from './GenericEditorLayout';
 import EditorPlugin from '../monaco';
 import SplitPaneModePlugin from '../split-pane-mode';
 
