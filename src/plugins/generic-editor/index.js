@@ -1,4 +1,4 @@
-import EditorLayout from './layout';
+import EditorLayout from './GenericEditorLayout';
 import EditorPlugin from '../monaco';
 import GenericEditorContainer from './components/GenericEditorContainer';
 import SplitPaneModePlugin from '../split-pane-mode';
