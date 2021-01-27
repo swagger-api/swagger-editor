@@ -10,7 +10,6 @@
 [ ] remove "dev mode" case when editor content is undefined
 [ ] handle case(s) when specSelectors.method returns undefined
 [ ] remove mock data/fixtures/configuration from `actions.js`
-[ ] remove deprecated lifecycle methods, e.g. `componentWillUnmount` (react hooks can help)
 
 
 ### Legacy Swagger Editor Migrated Features
