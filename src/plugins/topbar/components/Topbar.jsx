@@ -15,7 +15,6 @@ export default class Topbar extends Component {
       servers: [],
       specVersion: '',
     };
-    this.onDownloadGeneratedFileClick = this.onDownloadGeneratedFileClick.bind(this);
   }
 
   componentDidMount() {
