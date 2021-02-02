@@ -155,7 +155,7 @@ export function doValidateJson({ editor, document, setModelMarkers }) {
   // console.log('doValidateJson, jsonDocument:', jsonDocument);
   jsonService.doValidation(document, jsonDocument).then((diagnostics) => {
     const markers = p2m.asDiagnostics(diagnostics);
-    console.log('doValidateJson markers:', markers);
+    // console.log('doValidateJson markers:', markers);
     setModelMarkers(getModel({ editor }), 'default', markers); // not a function here or from props
   });
 }
@@ -174,7 +174,7 @@ export function validate({ editor, setModelMarkers }) {
   );
 }
 
-const defaultExports = {
+export const ApidomWorker = {
   validate,
 };
-export default defaultExports;
+export default ApidomWorker;
