@@ -3,7 +3,8 @@ import PropTypes from 'prop-types';
 import * as monaco from 'monaco-editor';
 
 import noop from '../../../utils/utils-noop';
-import { validate } from '../../../workers/apidomWorker';
+// eslint-disable-next-line no-unused-vars
+import { validate, provideDocumentSymbols, provideHover } from '../../../workers/apidomWorker';
 // import * as monaco from 'monaco-editor/esm/vs/editor/editor.api';
 
 export default class MonacoEditor extends Component {
@@ -61,13 +62,13 @@ export default class MonacoEditor extends Component {
     this.containerElement = component;
   };
 
-  destroyMonaco() {
+  destroyMonaco = () => {
     if (this.editor) {
       this.editor.dispose();
     }
-  }
+  };
 
-  initMonacoEditor() {
+  initMonacoEditor = () => {
     // const value = this.props.value !== null ? this.props.value : this.props.defaultValue;
     const { language, theme, options, defaultValue } = this.props;
     let { value } = this.props;
@@ -95,11 +96,12 @@ export default class MonacoEditor extends Component {
       // 3: if necessary, editorLoadedCondition & operationContextCondition
       // 4: editor.addCommand
       // After initializing monaco editor
+      this.registerProviders(this.editor);
       this.localEditorDidMount(this.editor);
     }
-  }
+  };
 
-  localEditorDidMount(editor) {
+  localEditorDidMount = (editor) => {
     const { editorDidMount, onChange } = this.props;
     // console.log('start localEditorDidMount');
     editorDidMount(editor, monaco);
@@ -113,12 +115,31 @@ export default class MonacoEditor extends Component {
       const testSetModelMarkers2 = monaco.editor.setModelMarkers; // this works
       // console.log('testSetModelMarkers2', testSetModelMarkers2);
       // const { validate } = apidomWorker;
+      // eslint-disable-next-line no-unused-vars
       const result = validate({ editor, setModelMarkers: testSetModelMarkers2 });
-      console.log('localEditor... validate result:', result);
+      // console.log('localEditor... validate result:', result);
       this.currentValue = currentEditorValue;
       onChange(currentEditorValue, event);
     });
-  }
+  };
+
+  // eslint-disable-next-line no-unused-vars
+  registerProviders = (editor) => {
+    // const languageId = 'json';
+    // const model = editor.getModel();
+    // monaco.languages.registerDocumentSymbolProvider(languageId, {
+    //   provideDocumentSymbols: provideDocumentSymbols({
+    //     editor,
+    //   }),
+    // });
+    // const position = new monaco.Position();
+    // monaco.languages.registerHoverProvider(languageId, {
+    //   provideHover: provideHover({
+    //     editor,
+    //     position,
+    //   }),
+    // });
+  };
 
   render() {
     const { width, height } = this.props;

@@ -174,6 +174,44 @@ export function validate({ editor, setModelMarkers }) {
   );
 }
 
+/*
+ * Providers
+ */
+
+/*
+ * monaco.languages.registerDocumentSymbolProvider(languageId, {
+ *   provideDocumentSymbols: importPath.provideDocumentSymbols({
+ *     editor,
+ * })})
+ */
+export function provideDocumentSymbols({ editor }) {
+  const model = getModel({ editor });
+  const document = createDocument({ model });
+  const jsonDocument = jsonService.parseJSONDocument(document);
+  return p2m.asSymbolInformations(jsonService.findDocumentSymbols(document, jsonDocument));
+}
+
+/*
+ * pre: const position = monaco.Position();
+ * monaco.languages.registerHoverProvider(languageId, {
+ *   provideHover: importPath.provideHover({
+ *     editor,
+ *     position,
+ * })})
+ */
+export function provideHover({ editor, position }) {
+  const model = getModel({ editor });
+  const document = createDocument({ model });
+  // const document = createDocument(model);
+  const jsonDocument = jsonService.parseJSONDocument(document);
+  return jsonService
+    .doHover(document, m2p.asPosition(position.lineNumber, position.column), jsonDocument)
+    .then((hover) => {
+      console.log('so far so good on hover', hover);
+      return p2m.asHover(hover);
+    });
+}
+
 export const ApidomWorker = {
   validate,
 };
