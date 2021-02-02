@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import * as monaco from 'monaco-editor';
 
 import noop from '../../../utils/utils-noop';
+import { validate } from '../../../workers/apidomWorker';
 // import * as monaco from 'monaco-editor/esm/vs/editor/editor.api';
 
 export default class MonacoEditor extends Component {
@@ -78,12 +79,21 @@ export default class MonacoEditor extends Component {
     if (this.containerElement) {
       // console.log('monaco editor create');
       // console.log('monaco editor create with value:', value);
+      // 1: register language, ref utils
+      // 1A: register a language in component: monaco.languages.register({id: mylang})
+      // 1B: or via web worker: monaco.languages.onLanguage('mylang', () => {})
       this.editor = monaco.editor.create(this.containerElement, {
         value,
         language,
         ...options,
         ...(theme ? { theme } : {}),
       });
+      // Possible to init 2, 3, 4 below during the monaco.editor.create call?
+      // if not, call a separate 'post-editor-load-init' method
+      // or incorporate into this.props.editorDidMount
+      // 2: setTheme, ref utils
+      // 3: if necessary, editorLoadedCondition & operationContextCondition
+      // 4: editor.addCommand
       // After initializing monaco editor
       this.localEditorDidMount(this.editor);
     }
@@ -98,6 +108,13 @@ export default class MonacoEditor extends Component {
       // Always refer to the latest value
       // console.log('localEditorDidMount checking for change. (editor) value:', currentEditorValue);
       // console.log('localEditorDidMount checking for change. (props) value:', value);
+      // const testSetModelMarkers = editor.setModelMarkers; // undefined
+      // console.log('testSetModelMarkers', testSetModelMarkers);
+      const testSetModelMarkers2 = monaco.editor.setModelMarkers; // this works
+      // console.log('testSetModelMarkers2', testSetModelMarkers2);
+      // const { validate } = apidomWorker;
+      const result = validate({ editor, setModelMarkers: testSetModelMarkers2 });
+      console.log('localEditor... validate result:', result);
       this.currentValue = currentEditorValue;
       onChange(currentEditorValue, event);
     });
