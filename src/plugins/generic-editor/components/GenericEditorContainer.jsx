@@ -41,11 +41,11 @@ export default class GenericEditorContainer extends PureComponent {
     const { specInitialized } = this.state;
     const spec = await specSelectors.specStr();
     if (!spec) {
-      console.log('spec not available');
+      // console.log('spec not available');
       return;
     }
     if (specInitialized) {
-      console.log('spec already initialized (once only)');
+      // console.log('spec already initialized (once only)');
       return;
     }
     if (spec) {
@@ -53,9 +53,9 @@ export default class GenericEditorContainer extends PureComponent {
       // console.log('currentValue !== spec, spec:', spec);
       // console.log('currentValue !== spec, currentValue:', currentValue);
       this.setState({ specInitialized: true });
-      console.log('set initial spec done; should only be done once.');
+      // console.log('set initial spec done; should only be done once.');
     } else {
-      console.log('already set. should not appear before initial spec done!!!*');
+      // console.log('already set. should not appear before initial spec done!!!*');
     }
   };
 
