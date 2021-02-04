@@ -168,8 +168,7 @@ module.exports = function (webpackEnv) {
       : isEnvDevelopment && "cheap-module-source-map",
     // These are the "entry points" to our application.
     // This means they will be the "root" imports that are included in JS bundle.
-    entry:
-      isEnvDevelopment && !shouldUseReactRefresh
+    entry: isEnvDevelopment && !shouldUseReactRefresh
         ? [
             // Include an alternative client for WebpackDevServer. A client's job is to
             // connect to WebpackDevServer by a socket and get notified about changes.
@@ -193,6 +192,11 @@ module.exports = function (webpackEnv) {
             // changing JS code would still trigger a refresh.
           ]
         : paths.appIndexJs,
+      // 'editor.worker': [path.resolve('node_modules/monaco-editor/esm/vs/editor/editor.worker.js')],
+      // 'apidom.worker': 'path.resolve(__dirname, './src/workers/apidom.js' // monorepo path? and/or /src?
+      // 'json.worker': [path.resolve('node_modules/monaco-editor/esm/vs/language/json/json.worker')],
+      // 'yaml.worker': need to separately load different npm module, which MonacoWebpackPlugin bundles
+    // }, // for use when entry is an object
     output: {
       // The build folder.
       path: isEnvProduction ? paths.appBuild : undefined,
@@ -582,6 +586,15 @@ module.exports = function (webpackEnv) {
       ),
       new MonacoWebpackPlugin({
         languages: ['json', 'yaml'],
+        // customLanguages: [{
+        //   label: 'apidom',
+        //   entry: main,
+        //   worker: {
+        //     id: 'apidom.worker',
+        //     label: 'apidom-worker',
+        //     entry: 'apidom'
+        //   }
+        // }]
       }),
       // Inlines the webpack runtime script. This script is too small to warrant
       // a network request.
