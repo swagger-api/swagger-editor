@@ -1,3 +1,4 @@
+/* eslint-disable global-require */
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import * as monaco from 'monaco-editor';
@@ -6,6 +7,55 @@ import noop from '../../../utils/utils-noop';
 // eslint-disable-next-line no-unused-vars
 import { validate, provideDocumentSymbols, provideHover } from '../../../workers/apidomWorker';
 // import * as monaco from 'monaco-editor/esm/vs/editor/editor.api';
+
+// global.MonacoEnvironment = {
+//   getWorker(moduleId, label) {
+//     let MonacoWorker;
+
+//     switch (label) {
+//       case 'json':
+//         MonacoWorker = require('worker-loader!monaco-editor/esm/vs/language/json/json.worker');
+//         // MonacoWorker = require('worker-loader!./json.worker');
+//         break;
+//       case 'javascript':
+//         MonacoWorker = require('worker-loader!monaco-editor/esm/vs/langage/typescript/ts.worker');
+//         // MonacoWorker = require('worker-loader!./ts.worker');
+//         break;
+//       default:
+//         MonacoWorker = require('worker-loader!monaco-editor/esm/vs/editor/editor.worker');
+//       // MonacoWorker = require('worker-loader!./editor.worker');
+//     }
+
+//     return new MonacoWorker();
+//   },
+// };
+
+// global.MonacoEnvironment = {
+//   getWorkerUrl(moduleId, label) {
+//     switch (label) {
+//       case 'json':
+//         return './json.worker';
+//       case 'javascript':
+//         return './ts.worker';
+//       default:
+//         return './editor.worker.chunk';
+//     }
+//   },
+// };
+
+// eslint-disable-next-line no-restricted-globals
+self.MonacoEnvironment = {
+  getWorkerUrl: (moduleId, label) => {
+    console.log('try MonacoEnvironment');
+    if (label === 'json') {
+      return './json.worker.chunk.js';
+    }
+    if (label === 'javascript') {
+      return './ts.worker.chunk.js';
+    }
+    return './editor.worker.chunk.js';
+  },
+};
 
 export default class MonacoEditor extends Component {
   constructor(props) {

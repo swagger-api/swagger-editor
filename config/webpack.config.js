@@ -194,9 +194,9 @@ module.exports = function (webpackEnv) {
               ]
             : paths.appIndexJs,
       // 'editor.worker': [path.resolve('node_modules/monaco-editor/esm/vs/editor/editor.worker.js')],
-      // 'apidom.worker': 'path.resolve(__dirname, './src/workers/apidom.js' // monorepo path? and/or /src?
       // 'json.worker': [path.resolve('node_modules/monaco-editor/esm/vs/language/json/json.worker')],
       // 'javascript.worker': [path.resolve('node_modules/monaco-editor/esm/vs/language/typescript/ts.worker')],
+      // 'apidom.worker': 'path.resolve(__dirname, './src/workers/apidom.js' // monorepo path? and/or /src?
       // 'yaml.worker': need to separately load different npm module, which MonacoWebpackPlugin bundles
     },
     output: {
@@ -400,16 +400,16 @@ module.exports = function (webpackEnv) {
                 name: "static/media/[name].[hash:8].[ext]",
               },
             },
-            {
-              test: /\.worker\.js$/,
-              use: {
-                loader: require.resolve("worker-loader"),
-                // exclude: /node_modules/,
-                options: {
-                  name: "[name].[hash].js"
-                }
-              }
-            },
+            // {
+            //   test: /\.worker\.js$/,
+            //   use: {
+            //     loader: require.resolve("worker-loader"),
+            //     // exclude: /node_modules/,
+            //     options: {
+            //       name: "[name].[hash].js"
+            //     }
+            //   }
+            // },
             // Process application JS with Babel.
             // The preset includes JSX, Flow, TypeScript, and some ESnext features.
             {
