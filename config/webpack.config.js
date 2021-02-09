@@ -198,9 +198,9 @@ module.exports = function (webpackEnv) {
                 // changing JS code would still trigger a refresh.
               ]
             : paths.appIndexJs,
-      'editor.worker': [path.resolve('node_modules/monaco-editor-core/esm/vs/editor/editor.worker.js')],
-      'json.worker': [path.resolve('node_modules/monaco-editor/esm/vs/language/json/json.worker')],
-      'javascript.worker': [path.resolve('node_modules/monaco-editor/esm/vs/language/typescript/ts.worker')],
+      "editor.worker": [path.resolve("node_modules/monaco-editor-core/esm/vs/editor/editor.worker.js")],
+      "json.worker": [path.resolve("node_modules/monaco-editor/esm/vs/language/json/json.worker")],
+      "ts.worker": [path.resolve("node_modules/monaco-editor/esm/vs/language/typescript/ts.worker")],
       // 'apidom.worker': 'path.resolve(__dirname, './src/workers/apidom.js' // monorepo path? and/or /src?
       // 'yaml.worker': need to separately load different npm module, which MonacoWebpackPlugin bundles
     },
@@ -217,12 +217,12 @@ module.exports = function (webpackEnv) {
       filename: (chunkData) => {
         // todo: refactor with isWorker() and filter func (instead of switch)
         switch (chunkData.chunk.name) {
-          case isEnvDevelopment && 'editor.worker':
-            return 'static/js/[name].js'
-          case isEnvDevelopment &&'json.worker':
-            return 'static/js/json.worker.js'
-          case isEnvDevelopment &&'javascript.worker':
-            return 'static/js/javascript.worker.js'
+          case isEnvDevelopment && "editor.worker":
+            return "static/js/[name].js"
+          case isEnvDevelopment && "json.worker":
+            return "static/js/[name].js"
+          case isEnvDevelopment && "ts.worker":
+            return "static/js/[name].js"
           default:
             return isEnvProduction
               ? "static/js/[name].[contenthash:8].js"
@@ -655,9 +655,9 @@ module.exports = function (webpackEnv) {
       // We are using ChunkRenamePlugin to manually rename (worker) files
       // b/c webpack@4 doesn't allow a function
       new ChunkRenamePlugin({
-        'editor.worker': 'static/js/[name].js',
-        'json.worker': 'static/js/[name].js',
-        'javascript.worker': 'static/js/[name].js',
+        "editor.worker": "static/js/[name].js",
+        "json.worker": "static/js/[name].js",
+        "ts.worker": "static/js/[name].js",
       }),
       // Inlines the webpack runtime script. This script is too small to warrant
       // a network request.
