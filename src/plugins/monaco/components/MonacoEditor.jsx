@@ -2,14 +2,18 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 // import * as monaco from 'monaco-editor';
-import * as monaco from 'monaco-editor/esm/vs/editor/editor.main';
+// import * as monaco from 'monaco-editor/esm/vs/editor/editor.main';
+import * as monaco from 'monaco-editor-core';
 // import * as EditorWorker from 'monaco-editor/esm/vs/editor/editor.worker?worker';
 // import * as JsonWorker from 'monaco-editor/esm/vs/language/json/json.worker?worker';
 // import * as JsTsWorker from 'monaco-editor/esm/vs/language/typescript/ts.worker?worker';
-import * as EditorWorker from 'monaco-editor/esm/vs/editor/editor.worker';
-import * as JsonWorker from 'monaco-editor/esm/vs/language/json/json.worker';
-import * as JsTsWorker from 'monaco-editor/esm/vs/language/typescript/ts.worker';
+// import * as EditorWorker from 'monaco-editor/esm/vs/editor/editor.worker';
+// import * as JsonWorker from 'monaco-editor/esm/vs/language/json/json.worker';
+// import * as JsTsWorker from 'monaco-editor/esm/vs/language/typescript/ts.worker';
 
+// import * as EditorWorker from './editor.worker.chunk';
+// import * as JsonWorker from './json.worker.chunk';
+// import * as JsTsWorker from './ts.worker.chunk';
 // import * as editorWorker from './editor.worker.chunk';
 // import * as jsonWorker from './json.worker.chunk';
 // import * as jsTsWorker from './ts.worker.chunk';
@@ -64,28 +68,34 @@ function setupLanguage() {
       console.log('try MonacoEnvironment');
       if (label === 'json') {
         console.log('should return jsonWorker');
+        return './json.worker.js';
         // return './json.worker.chunk.js';
         // return './static/js/json.worker.chunk.js';
         // return new JsonWorker();
-        return JsonWorker;
+        // return JsonWorker;
       }
       if (label === 'typescript' || label === 'javascript') {
         console.log('should return jsTsWorker');
+        return './ts.worker.js';
         // return './ts.worker.chunk.js';
         // return './static/js/ts.worker.chunk.js';
         // return new JsTsWorker();
-        return JsTsWorker;
+        // return JsTsWorker;
       }
       console.log('should return default editorWorker');
+      return './editor.worker.js';
       // return './editor.worker.chunk.js';
-      // return './static/js/editor.worker.chunk.js';
+      // return '../static/js/editor.worker.chunk.js';
       // return new EditorWorker();
-      return EditorWorker;
+      // return EditorWorker;
     },
   };
   monaco.languages.register({
     id: languageID,
     aliases: ['JSON', 'json'],
+  });
+  monaco.languages.register({
+    id: 'javascript',
   });
   // monaco.languages.onLanguage(languageID, () => {
   //   monaco.languages.setMonarchTokensProvider(languageID, monarchLanguage);

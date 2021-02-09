@@ -193,9 +193,9 @@ module.exports = function (webpackEnv) {
                 // changing JS code would still trigger a refresh.
               ]
             : paths.appIndexJs,
-      // 'editor.worker': [path.resolve('node_modules/monaco-editor/esm/vs/editor/editor.worker.js')],
-      // 'json.worker': [path.resolve('node_modules/monaco-editor/esm/vs/language/json/json.worker')],
-      // 'javascript.worker': [path.resolve('node_modules/monaco-editor/esm/vs/language/typescript/ts.worker')],
+      'editor.worker': [path.resolve('node_modules/monaco-editor-core/esm/vs/editor/editor.worker.js')],
+      'json.worker': [path.resolve('node_modules/monaco-editor/esm/vs/language/json/json.worker')],
+      'javascript.worker': [path.resolve('node_modules/monaco-editor/esm/vs/language/typescript/ts.worker')],
       // 'apidom.worker': 'path.resolve(__dirname, './src/workers/apidom.js' // monorepo path? and/or /src?
       // 'yaml.worker': need to separately load different npm module, which MonacoWebpackPlugin bundles
     },
@@ -206,15 +206,51 @@ module.exports = function (webpackEnv) {
       pathinfo: isEnvDevelopment,
       // There will be one main bundle, and one file per asynchronous chunk.
       // In development, it does not produce real files.
-      filename: isEnvProduction
-        ? "static/js/[name].[contenthash:8].js"
-        : isEnvDevelopment && "static/js/bundle.js",
+      // filename: isEnvProduction
+      //   ? "static/js/[name].[contenthash:8].js"
+      //   : isEnvDevelopment && "static/js/bundle.js",
+      filename: (chunkData) => {
+        console.log("checking filenme:", chunkData.chunk.name);
+        switch (chunkData.chunk.name) {
+          case isEnvDevelopment && 'editor.worker':
+            console.log("...editor")
+            return 'static/js/[name].js'
+          case isEnvDevelopment &&'json.worker':
+            console.log("...json")
+            return 'static/js/json.worker.js'
+          case isEnvDevelopment &&'javascript.worker':
+            console.log("...javascript")
+            return 'static/js/javascript.worker.js'
+          default:
+            return isEnvProduction
+              ? "static/js/[name].[contenthash:8].js"
+              : isEnvDevelopment && "static/js/bundle.js"
+        }
+      },
       // TODO: remove this when upgrading to webpack 5
       futureEmitAssets: true,
       // There are also additional JS chunk files if you use code splitting.
       chunkFilename: isEnvProduction
         ? "static/js/[name].[contenthash:8].chunk.js"
         : isEnvDevelopment && "static/js/[name].chunk.js",
+      // chunkFilename: (chunkData) => { // webpack 5 supports function
+      //   console.log("checking filenme:", chunkData.chunk.name);
+      //   switch (chunkData.chunk.name) {
+      //     case 'editor.worker':
+      //       console.log("...editor")
+      //       return 'static/js/[name].js'
+      //     case 'json.worker':
+      //       console.log("...json")
+      //       return 'static/js/[name].js'
+      //     case 'javascript.worker':
+      //       console.log("...javascript")
+      //       return 'static/js/[name].js'
+      //     default:
+      //       return isEnvProduction
+      //         ? "static/js/[name].[contenthash:8].chunk.js"
+      //         : isEnvDevelopment && "static/js/[name].chunk.js"
+      //   }
+      // },
       // webpack uses `publicPath` to determine where the app is being served from.
       // It requires a trailing slash, or the file assets will get an incorrect path.
       // We inferred the "public path" (such as / or /my-project) from homepage.
