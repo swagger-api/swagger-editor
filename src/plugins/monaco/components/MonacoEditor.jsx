@@ -1,8 +1,18 @@
 /* eslint-disable global-require */
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import * as monaco from 'monaco-editor';
+// import * as monaco from 'monaco-editor';
+import * as monaco from 'monaco-editor/esm/vs/editor/editor.main';
+// import * as EditorWorker from 'monaco-editor/esm/vs/editor/editor.worker?worker';
+// import * as JsonWorker from 'monaco-editor/esm/vs/language/json/json.worker?worker';
+// import * as JsTsWorker from 'monaco-editor/esm/vs/language/typescript/ts.worker?worker';
+import * as EditorWorker from 'monaco-editor/esm/vs/editor/editor.worker';
+import * as JsonWorker from 'monaco-editor/esm/vs/language/json/json.worker';
+import * as JsTsWorker from 'monaco-editor/esm/vs/language/typescript/ts.worker';
 
+// import * as editorWorker from './editor.worker.chunk';
+// import * as jsonWorker from './json.worker.chunk';
+// import * as jsTsWorker from './ts.worker.chunk';
 import noop from '../../../utils/utils-noop';
 // eslint-disable-next-line no-unused-vars
 import { validate, provideDocumentSymbols, provideHover } from '../../../workers/apidomWorker';
@@ -43,19 +53,44 @@ import { validate, provideDocumentSymbols, provideHover } from '../../../workers
 //   },
 // };
 
-// eslint-disable-next-line no-restricted-globals
-self.MonacoEnvironment = {
-  getWorkerUrl: (moduleId, label) => {
-    console.log('try MonacoEnvironment');
-    if (label === 'json') {
-      return './json.worker.chunk.js';
-    }
-    if (label === 'javascript') {
-      return './ts.worker.chunk.js';
-    }
-    return './editor.worker.chunk.js';
-  },
-};
+// once working, we should export this function
+function setupLanguage() {
+  const languageID = 'json'; // can export to config
+  // const languageExtensionPoint = { id: languageID }; // can export to config
+  // const monarchLanguage; // can we import directly, to start?
+  // eslint-disable-next-line no-restricted-globals
+  self.MonacoEnvironment = {
+    getWorkerUrl: (moduleId, label) => {
+      console.log('try MonacoEnvironment');
+      if (label === 'json') {
+        console.log('should return jsonWorker');
+        // return './json.worker.chunk.js';
+        // return './static/js/json.worker.chunk.js';
+        // return new JsonWorker();
+        return JsonWorker;
+      }
+      if (label === 'typescript' || label === 'javascript') {
+        console.log('should return jsTsWorker');
+        // return './ts.worker.chunk.js';
+        // return './static/js/ts.worker.chunk.js';
+        // return new JsTsWorker();
+        return JsTsWorker;
+      }
+      console.log('should return default editorWorker');
+      // return './editor.worker.chunk.js';
+      // return './static/js/editor.worker.chunk.js';
+      // return new EditorWorker();
+      return EditorWorker;
+    },
+  };
+  monaco.languages.register({
+    id: languageID,
+    aliases: ['JSON', 'json'],
+  });
+  // monaco.languages.onLanguage(languageID, () => {
+  //   monaco.languages.setMonarchTokensProvider(languageID, monarchLanguage);
+  // });
+}
 
 export default class MonacoEditor extends Component {
   constructor(props) {
@@ -65,6 +100,7 @@ export default class MonacoEditor extends Component {
   }
 
   componentDidMount() {
+    setupLanguage();
     this.initMonacoEditor();
   }
 
