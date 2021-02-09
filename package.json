@@ -29,6 +29,7 @@
     "js-yaml": "^3.14.0",
     "json-beautify": "^1.1.1",
     "monaco-editor": "^0.21.2",
+    "monaco-editor-core": "^0.22.3",
     "monaco-languageclient": "^0.13.0",
     "prop-types": "^15.7.2",
     "react": "^17.0.1",
