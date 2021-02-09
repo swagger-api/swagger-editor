@@ -32,6 +32,7 @@ const postcssNormalize = require("postcss-normalize");
 const appPackageJson = require(paths.appPackageJson);
 
 const MonacoWebpackPlugin = require('monaco-editor-webpack-plugin');
+const ChunkRenamePlugin = require("webpack-chunk-rename-plugin");
 
 // Source maps are resource heavy and can cause out of memory issue for large source files.
 const shouldUseSourceMap = process.env.GENERATE_SOURCEMAP !== "false";
@@ -75,6 +76,10 @@ const hasJsxRuntime = (() => {
     return false;
   }
 })();
+
+const isWorker = (pathname) => {
+  return pathname.includes('.worker');
+};
 
 // This is the production and development configuration.
 // It is focused on developer experience, fast rebuilds, and a minimal bundle.
@@ -210,16 +215,13 @@ module.exports = function (webpackEnv) {
       //   ? "static/js/[name].[contenthash:8].js"
       //   : isEnvDevelopment && "static/js/bundle.js",
       filename: (chunkData) => {
-        console.log("checking filenme:", chunkData.chunk.name);
+        // todo: refactor with isWorker() and filter func (instead of switch)
         switch (chunkData.chunk.name) {
           case isEnvDevelopment && 'editor.worker':
-            console.log("...editor")
             return 'static/js/[name].js'
           case isEnvDevelopment &&'json.worker':
-            console.log("...json")
             return 'static/js/json.worker.js'
           case isEnvDevelopment &&'javascript.worker':
-            console.log("...javascript")
             return 'static/js/javascript.worker.js'
           default:
             return isEnvProduction
@@ -233,7 +235,10 @@ module.exports = function (webpackEnv) {
       chunkFilename: isEnvProduction
         ? "static/js/[name].[contenthash:8].chunk.js"
         : isEnvDevelopment && "static/js/[name].chunk.js",
-      // chunkFilename: (chunkData) => { // webpack 5 supports function
+      // chunkFilename: isEnvProduction
+      //   ? "static/js/[name].[contenthash:8].chunk.js"
+      //   : isEnvDevelopment && isWorker('[name]') ? "static/js/[name].js" : isEnvDevelopment && "static/js/[name].chunk.js",
+      // chunkFilename: (chunkData) => { // this is only supported in webpack@5
       //   console.log("checking filenme:", chunkData.chunk.name);
       //   switch (chunkData.chunk.name) {
       //     case 'editor.worker':
@@ -647,6 +652,13 @@ module.exports = function (webpackEnv) {
       //   //   }
       //   // }]
       // }),
+      // We are using ChunkRenamePlugin to manually rename (worker) files
+      // b/c webpack@4 doesn't allow a function
+      new ChunkRenamePlugin({
+        'editor.worker': 'static/js/[name].js',
+        'json.worker': 'static/js/[name].js',
+        'javascript.worker': 'static/js/[name].js',
+      }),
       // Inlines the webpack runtime script. This script is too small to warrant
       // a network request.
       // https://github.com/facebook/create-react-app/issues/5358
