@@ -198,9 +198,9 @@ module.exports = function (webpackEnv) {
                 // changing JS code would still trigger a refresh.
               ]
             : paths.appIndexJs,
-      "editor.worker": [path.resolve("node_modules/monaco-editor-core/esm/vs/editor/editor.worker.js")],
-      "json.worker": [path.resolve("node_modules/monaco-editor/esm/vs/language/json/json.worker")],
-      "ts.worker": [path.resolve("node_modules/monaco-editor/esm/vs/language/typescript/ts.worker")],
+      // "editor.worker": [path.resolve("node_modules/monaco-editor-core/esm/vs/editor/editor.worker.js")],
+      // "json.worker": [path.resolve("node_modules/monaco-editor/esm/vs/language/json/json.worker")],
+      // "ts.worker": [path.resolve("node_modules/monaco-editor/esm/vs/language/typescript/ts.worker")],
       // 'apidom.worker': 'path.resolve(__dirname, './src/workers/apidom.js' // monorepo path? and/or /src?
       // 'yaml.worker': need to separately load different npm module, which MonacoWebpackPlugin bundles
     },
@@ -211,24 +211,24 @@ module.exports = function (webpackEnv) {
       pathinfo: isEnvDevelopment,
       // There will be one main bundle, and one file per asynchronous chunk.
       // In development, it does not produce real files.
-      // filename: isEnvProduction
-      //   ? "static/js/[name].[contenthash:8].js"
-      //   : isEnvDevelopment && "static/js/bundle.js",
-      filename: (chunkData) => {
-        // todo: refactor with isWorker() and filter func (instead of switch)
-        switch (chunkData.chunk.name) {
-          case isEnvDevelopment && "editor.worker":
-            return "static/js/[name].js"
-          case isEnvDevelopment && "json.worker":
-            return "static/js/[name].js"
-          case isEnvDevelopment && "ts.worker":
-            return "static/js/[name].js"
-          default:
-            return isEnvProduction
-              ? "static/js/[name].[contenthash:8].js"
-              : isEnvDevelopment && "static/js/bundle.js"
-        }
-      },
+      filename: isEnvProduction
+        ? "static/js/[name].[contenthash:8].js"
+        : isEnvDevelopment && "static/js/bundle.js",
+      // filename: (chunkData) => {
+      //   // todo: refactor with isWorker() and filter func (instead of switch)
+      //   switch (chunkData.chunk.name) {
+      //     case isEnvDevelopment && "editor.worker":
+      //       return "static/js/[name].js"
+      //     case isEnvDevelopment && "json.worker":
+      //       return "static/js/[name].js"
+      //     case isEnvDevelopment && "ts.worker":
+      //       return "static/js/[name].js"
+      //     default:
+      //       return isEnvProduction
+      //         ? "static/js/[name].[contenthash:8].js"
+      //         : isEnvDevelopment && "static/js/bundle.js"
+      //   }
+      // },
       // TODO: remove this when upgrading to webpack 5
       futureEmitAssets: true,
       // There are also additional JS chunk files if you use code splitting.
@@ -451,6 +451,60 @@ module.exports = function (webpackEnv) {
             //     }
             //   }
             // },
+            // Process WebWorkers JS with Babel
+            // The preset includes JSX, Flow, TypeScript, and some ESnext features.
+            {
+              test: /\.worker\.(js|mjs|ts)$/,
+              include: paths.appSrc,
+              use: [
+                {
+                  loader: require.resolve('worker-loader'),
+                  options: {
+                    filename: "[name].js",
+                    // inline: true, // placeholder if we need it; may couple with 'fallback'
+                  },
+                },
+                // require.resolve('worker-loader'),
+                // This loader parallelizes code compilation, it is optional but
+                // improves compile time on larger projects
+                // require.resolve('thread-loader'),
+                {
+                  loader: require.resolve('babel-loader'),
+                  options: {
+                    customize: require.resolve(
+                      'babel-preset-react-app/webpack-overrides'
+                      ),
+                    // eject begin (extracted, may need, and may need more)
+                    // ref: https://github.com/facebook/create-react-app/pull/5886 (created 10/2018, last update 11/2020)
+                    // comment about Webpack 5 support
+                    // comment about using Workerize as an alternative
+                    babelrc: false,
+                    presets: [require.resolve('babel-preset-react-app')],
+                    // eject end
+                    plugins: [
+                      [
+                        require.resolve('babel-plugin-named-asset-import'),
+                        {
+                          loaderMap: {
+                            svg: {
+                              ReactComponent:
+                                '@svgr/webpack?-prettier,-svgo![path]',
+                            },
+                          },
+                        },
+                      ],
+                    ],
+                    // This is a feature of `babel-loader` for webpack (not Babel itself).
+                    // It enables caching results in ./node_modules/.cache/babel-loader/
+                    // directory for faster rebuilds.
+                    cacheDirectory: true,
+                    cacheCompression: isEnvProduction,
+                    compact: isEnvProduction,
+                    // highlightCode: true,
+                  }
+                }
+              ]
+            },
             // Process application JS with Babel.
             // The preset includes JSX, Flow, TypeScript, and some ESnext features.
             {
@@ -654,11 +708,11 @@ module.exports = function (webpackEnv) {
       // }),
       // We are using ChunkRenamePlugin to manually rename (worker) files
       // b/c webpack@4 doesn't allow a function
-      new ChunkRenamePlugin({
-        "editor.worker": "static/js/[name].js",
-        "json.worker": "static/js/[name].js",
-        "ts.worker": "static/js/[name].js",
-      }),
+      // new ChunkRenamePlugin({
+      //   "editor.worker": "static/js/[name].js",
+      //   "json.worker": "static/js/[name].js",
+      //   "ts.worker": "static/js/[name].js",
+      // }),
       // Inlines the webpack runtime script. This script is too small to warrant
       // a network request.
       // https://github.com/facebook/create-react-app/issues/5358
