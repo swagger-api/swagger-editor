@@ -1,5 +1,5 @@
-import * as editorworker from 'node-modules/monaco-editor/esm/vs/editor/editor.worker';
-
+// import * as editorworker from 'node-modules/monaco-editor/esm/vs/editor/editor.worker';
+import * as editorworker from './editor.worker';
 import { ApidomWorker } from './apidomWorker';
 
 /**
