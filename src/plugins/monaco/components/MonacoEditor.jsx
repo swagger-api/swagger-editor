@@ -20,6 +20,7 @@ import * as monaco from 'monaco-editor-core';
 import EditorWorker from '../../../workers/editor.worker';
 import JsonWorker from '../../../workers/json.worker';
 import JsTsWorker from '../../../workers/ts.worker';
+import ApidomWorker from '../../../workers/apidom.worker';
 import noop from '../../../utils/utils-noop';
 // eslint-disable-next-line no-unused-vars
 import { validate, provideDocumentSymbols, provideHover } from '../../../workers/apidomWorker';
@@ -30,6 +31,7 @@ async function initializeWorkers() {
   await new EditorWorker();
   await new JsonWorker();
   await new JsTsWorker();
+  await new ApidomWorker();
 }
 
 // global.MonacoEnvironment = {
