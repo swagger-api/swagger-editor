@@ -17,10 +17,20 @@ import * as monaco from 'monaco-editor-core';
 // import * as editorWorker from './editor.worker.chunk';
 // import * as jsonWorker from './json.worker.chunk';
 // import * as jsTsWorker from './ts.worker.chunk';
+import EditorWorker from '../../../workers/editor.worker';
+import JsonWorker from '../../../workers/json.worker';
+import JsTsWorker from '../../../workers/ts.worker';
 import noop from '../../../utils/utils-noop';
 // eslint-disable-next-line no-unused-vars
 import { validate, provideDocumentSymbols, provideHover } from '../../../workers/apidomWorker';
 // import * as monaco from 'monaco-editor/esm/vs/editor/editor.api';
+
+async function initializeWorkers() {
+  // before loading monaco, we need to initialize the workers so that the files exist
+  await new EditorWorker();
+  await new JsonWorker();
+  await new JsTsWorker();
+}
 
 // global.MonacoEnvironment = {
 //   getWorker(moduleId, label) {
@@ -58,14 +68,17 @@ import { validate, provideDocumentSymbols, provideHover } from '../../../workers
 // };
 
 // once working, we should export this function
+// eslint-disable-next-line no-unused-vars
 function setupLanguage() {
+  initializeWorkers();
+
   const languageID = 'json'; // can export to config
   // const languageExtensionPoint = { id: languageID }; // can export to config
   // const monarchLanguage; // can we import directly, to start?
   // eslint-disable-next-line no-restricted-globals
   self.MonacoEnvironment = {
     getWorkerUrl: (moduleId, label) => {
-      console.log('try MonacoEnvironment');
+      console.log('try MonacoEnvironment with label:', label);
       if (label === 'json') {
         console.log('should return jsonWorker');
         return './json.worker.js';
