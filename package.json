@@ -40,8 +40,8 @@
     "redux": "^4.0.5",
     "reselect": "^4.0.0",
     "swagger-client": "^3.12.1",
-    "swagger-ui": "^3.37.2",
-    "swagger-ui-react": "^3.37.2",
+    "swagger-ui": "^3.43.0",
+    "swagger-ui-react": "^3.43.0",
     "typescript": "^4.1.3",
     "url": "^0.11.0",
     "vscode-json-languageservice": "^4.0.2"
