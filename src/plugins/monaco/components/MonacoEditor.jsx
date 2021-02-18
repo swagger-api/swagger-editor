@@ -20,6 +20,7 @@ import * as monaco from 'monaco-editor-core';
 import EditorWorker from '../../../workers/editor.worker';
 import JsonWorker from '../../../workers/json.worker';
 import JsTsWorker from '../../../workers/ts.worker';
+// eslint-disable-next-line no-unused-vars
 import ApidomWorker from '../../../workers/apidom.worker';
 import noop from '../../../utils/utils-noop';
 // eslint-disable-next-line no-unused-vars
@@ -31,8 +32,37 @@ async function initializeWorkers() {
   await new EditorWorker();
   await new JsonWorker();
   await new JsTsWorker();
-  await new ApidomWorker();
+  // await new ApidomWorker();
 }
+
+// eslint-disable-next-line no-restricted-globals
+self.MonacoEnvironment = {
+  getWorkerUrl: (moduleId, label) => {
+    console.log('try MonacoEnvironment with label:', label);
+    if (label === 'json') {
+      console.log('should return jsonWorker');
+      return './json.worker.js';
+      // return './json.worker.chunk.js';
+      // return './static/js/json.worker.chunk.js';
+      // return new JsonWorker();
+      // return JsonWorker;
+    }
+    if (label === 'typescript' || label === 'javascript') {
+      console.log('should return jsTsWorker');
+      return './ts.worker.js';
+      // return './ts.worker.chunk.js';
+      // return './static/js/ts.worker.chunk.js';
+      // return new JsTsWorker();
+      // return JsTsWorker;
+    }
+    console.log('should return default editorWorker');
+    return './editor.worker.js';
+    // return './editor.worker.chunk.js';
+    // return '../static/js/editor.worker.chunk.js';
+    // return new EditorWorker();
+    // return EditorWorker;
+  },
+};
 
 // global.MonacoEnvironment = {
 //   getWorker(moduleId, label) {
@@ -72,39 +102,9 @@ async function initializeWorkers() {
 // once working, we should export this function
 // eslint-disable-next-line no-unused-vars
 function setupLanguage() {
-  initializeWorkers();
-
   const languageID = 'json'; // can export to config
   // const languageExtensionPoint = { id: languageID }; // can export to config
   // const monarchLanguage; // can we import directly, to start?
-  // eslint-disable-next-line no-restricted-globals
-  self.MonacoEnvironment = {
-    getWorkerUrl: (moduleId, label) => {
-      console.log('try MonacoEnvironment with label:', label);
-      if (label === 'json') {
-        console.log('should return jsonWorker');
-        return './json.worker.js';
-        // return './json.worker.chunk.js';
-        // return './static/js/json.worker.chunk.js';
-        // return new JsonWorker();
-        // return JsonWorker;
-      }
-      if (label === 'typescript' || label === 'javascript') {
-        console.log('should return jsTsWorker');
-        return './ts.worker.js';
-        // return './ts.worker.chunk.js';
-        // return './static/js/ts.worker.chunk.js';
-        // return new JsTsWorker();
-        // return JsTsWorker;
-      }
-      console.log('should return default editorWorker');
-      return './editor.worker.js';
-      // return './editor.worker.chunk.js';
-      // return '../static/js/editor.worker.chunk.js';
-      // return new EditorWorker();
-      // return EditorWorker;
-    },
-  };
   monaco.languages.register({
     id: languageID,
     aliases: ['JSON', 'json'],
@@ -112,9 +112,10 @@ function setupLanguage() {
   monaco.languages.register({
     id: 'javascript',
   });
-  // monaco.languages.onLanguage(languageID, () => {
-  //   monaco.languages.setMonarchTokensProvider(languageID, monarchLanguage);
-  // });
+  monaco.languages.onLanguage(languageID, () => {
+    console.log('language.onLanguage callback for languageID:', languageID);
+    // monaco.languages.setMonarchTokensProvider(languageID, monarchLanguage);
+  });
 }
 
 export default class MonacoEditor extends Component {
@@ -125,6 +126,7 @@ export default class MonacoEditor extends Component {
   }
 
   componentDidMount() {
+    initializeWorkers();
     setupLanguage();
     this.initMonacoEditor();
   }
@@ -223,11 +225,11 @@ export default class MonacoEditor extends Component {
       // console.log('localEditorDidMount checking for change. (props) value:', value);
       // const testSetModelMarkers = editor.setModelMarkers; // undefined
       // console.log('testSetModelMarkers', testSetModelMarkers);
-      const testSetModelMarkers2 = monaco.editor.setModelMarkers; // this works
+      // const testSetModelMarkers2 = monaco.editor.setModelMarkers; // this works
       // console.log('testSetModelMarkers2', testSetModelMarkers2);
       // const { validate } = apidomWorker;
       // eslint-disable-next-line no-unused-vars
-      const result = validate({ editor, setModelMarkers: testSetModelMarkers2 });
+      // const result = validate({ editor, setModelMarkers: testSetModelMarkers2 });
       // console.log('localEditor... validate result:', result);
       this.currentValue = currentEditorValue;
       onChange(currentEditorValue, event);
