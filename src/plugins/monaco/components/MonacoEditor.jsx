@@ -1,3 +1,4 @@
+/* eslint-disable no-param-reassign */
 /* eslint-disable global-require */
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
@@ -22,6 +23,10 @@ import JsonWorker from '../../../workers/json.worker';
 import JsTsWorker from '../../../workers/ts.worker';
 // eslint-disable-next-line no-unused-vars
 import ApidomWorker from '../../../workers/apidom.worker';
+// eslint-disable-next-line no-unused-vars
+import getStyleMetadataLight from '../../../utils/utils-monaco-theme-light';
+// eslint-disable-next-line no-unused-vars
+import getStyleMetadataDark from '../../../utils/utils-monaco-theme-dark';
 import noop from '../../../utils/utils-noop';
 // eslint-disable-next-line no-unused-vars
 import { validate, provideDocumentSymbols, provideHover } from '../../../workers/apidomWorker';
@@ -200,7 +205,7 @@ export default class MonacoEditor extends Component {
         value,
         language,
         ...options,
-        ...(theme ? { theme } : {}),
+        ...(theme ? { theme } : {}), // think this is inactive, and may not be necessary; based on a sample
       });
       // Possible to init 2, 3, 4 below during the monaco.editor.create call?
       // if not, call a separate 'post-editor-load-init' method
@@ -210,6 +215,7 @@ export default class MonacoEditor extends Component {
       // 4: editor.addCommand
       // After initializing monaco editor
       this.registerProviders(this.editor);
+      this.setupTheme(this.editor);
       this.localEditorDidMount(this.editor);
     }
   };
@@ -234,6 +240,19 @@ export default class MonacoEditor extends Component {
       this.currentValue = currentEditorValue;
       onChange(currentEditorValue, event);
     });
+  };
+
+  setupTheme = (editor) => {
+    // eslint-disable-next-line no-underscore-dangle
+    // const testTheme = editor._themeService._theme.getTokenStyleMetadata;
+    // console.log('testTheme:', testTheme);
+    monaco.editor.setTheme('vs-dark');
+    // eslint-disable-next-line no-underscore-dangle
+    editor._themeService._theme.getTokenStyleMetadata = getStyleMetadataDark;
+    // monaco.editor.setTheme('vs-light');
+    // eslint-disable-next-line no-underscore-dangle
+    // editor._themeService._theme.getTokenStyleMetadata = getStyleMetadataLight;
+    // eslint-disable-next-line no-underscore-dangle
   };
 
   // eslint-disable-next-line no-unused-vars
