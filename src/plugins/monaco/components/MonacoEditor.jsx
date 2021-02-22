@@ -1,130 +1,22 @@
 /* eslint-disable no-param-reassign */
-/* eslint-disable global-require */
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 // import * as monaco from 'monaco-editor';
 // import * as monaco from 'monaco-editor/esm/vs/editor/editor.main';
+// import * as monaco from 'monaco-editor/esm/vs/editor/editor.api';
 import * as monaco from 'monaco-editor-core';
-// import * as EditorWorker from 'monaco-editor/esm/vs/editor/editor.worker?worker';
-// import * as JsonWorker from 'monaco-editor/esm/vs/language/json/json.worker?worker';
-// import * as JsTsWorker from 'monaco-editor/esm/vs/language/typescript/ts.worker?worker';
-// import * as EditorWorker from 'monaco-editor/esm/vs/editor/editor.worker';
-// import * as JsonWorker from 'monaco-editor/esm/vs/language/json/json.worker';
-// import * as JsTsWorker from 'monaco-editor/esm/vs/language/typescript/ts.worker';
 
-// import * as EditorWorker from './editor.worker.chunk';
-// import * as JsonWorker from './json.worker.chunk';
-// import * as JsTsWorker from './ts.worker.chunk';
-// import * as editorWorker from './editor.worker.chunk';
-// import * as jsonWorker from './json.worker.chunk';
-// import * as jsTsWorker from './ts.worker.chunk';
-import EditorWorker from '../../../workers/editor.worker';
-import JsonWorker from '../../../workers/json.worker';
-import JsTsWorker from '../../../workers/ts.worker';
+import noop from '../../../utils/utils-noop';
 // eslint-disable-next-line no-unused-vars
 import ApidomWorker from '../../../workers/apidom.worker';
 // eslint-disable-next-line no-unused-vars
 import getStyleMetadataLight from '../../../utils/utils-monaco-theme-light';
 // eslint-disable-next-line no-unused-vars
 import getStyleMetadataDark from '../../../utils/utils-monaco-theme-dark';
-import noop from '../../../utils/utils-noop';
 // eslint-disable-next-line no-unused-vars
 import { validate, provideDocumentSymbols, provideHover } from '../../../workers/apidomWorker';
-// import * as monaco from 'monaco-editor/esm/vs/editor/editor.api';
-import { languageExtensionPoint, languageID } from '../../../utils/samples/config';
-import { monarchLanguage } from '../../../utils/samples/monarchLang';
-
-async function initializeWorkers() {
-  // before loading monaco, we need to initialize the workers so that the files exist
-  await new EditorWorker();
-  await new JsonWorker();
-  await new JsTsWorker();
-  // await new ApidomWorker();
-}
-
-// eslint-disable-next-line no-restricted-globals
-self.MonacoEnvironment = {
-  getWorkerUrl: (moduleId, label) => {
-    console.log('try MonacoEnvironment with label:', label);
-    if (label === 'json') {
-      console.log('should return jsonWorker');
-      return './json.worker.js';
-      // return './json.worker.chunk.js';
-      // return './static/js/json.worker.chunk.js';
-      // return new JsonWorker();
-      // return JsonWorker;
-    }
-    if (label === 'typescript' || label === 'javascript') {
-      console.log('should return jsTsWorker');
-      return './ts.worker.js';
-      // return './ts.worker.chunk.js';
-      // return './static/js/ts.worker.chunk.js';
-      // return new JsTsWorker();
-      // return JsTsWorker;
-    }
-    console.log('should return default editorWorker');
-    return './editor.worker.js';
-    // return './editor.worker.chunk.js';
-    // return '../static/js/editor.worker.chunk.js';
-    // return new EditorWorker();
-    // return EditorWorker;
-  },
-};
-
-// global.MonacoEnvironment = {
-//   getWorker(moduleId, label) {
-//     let MonacoWorker;
-
-//     switch (label) {
-//       case 'json':
-//         MonacoWorker = require('worker-loader!monaco-editor/esm/vs/language/json/json.worker');
-//         // MonacoWorker = require('worker-loader!./json.worker');
-//         break;
-//       case 'javascript':
-//         MonacoWorker = require('worker-loader!monaco-editor/esm/vs/langage/typescript/ts.worker');
-//         // MonacoWorker = require('worker-loader!./ts.worker');
-//         break;
-//       default:
-//         MonacoWorker = require('worker-loader!monaco-editor/esm/vs/editor/editor.worker');
-//       // MonacoWorker = require('worker-loader!./editor.worker');
-//     }
-
-//     return new MonacoWorker();
-//   },
-// };
-
-// global.MonacoEnvironment = {
-//   getWorkerUrl(moduleId, label) {
-//     switch (label) {
-//       case 'json':
-//         return './json.worker';
-//       case 'javascript':
-//         return './ts.worker';
-//       default:
-//         return './editor.worker.chunk';
-//     }
-//   },
-// };
-
-// once working, we should export this function
-// eslint-disable-next-line no-unused-vars
-function setupLanguage() {
-  // const languageID = 'json'; // can export to config
-  // const languageExtensionPoint = { id: languageID }; // can export to config
-  // const monarchLanguage; // can we import directly, to start?
-  // monaco.languages.register({
-  //   id: languageID,
-  //   aliases: ['JSON', 'json'],
-  // });
-  // monaco.languages.register({
-  //   id: 'javascript',
-  // });
-  monaco.languages.register(languageExtensionPoint);
-  monaco.languages.onLanguage(languageID, () => {
-    console.log('language.onLanguage callback for languageID:', languageID);
-    monaco.languages.setMonarchTokensProvider(languageID, monarchLanguage);
-  });
-}
+import { languageID } from '../../../utils/samples/config';
+import { setupLanguage, initializeWorkers } from '../../../utils/samples/setup';
 
 export default class MonacoEditor extends Component {
   constructor(props) {
