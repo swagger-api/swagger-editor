@@ -70,7 +70,7 @@
     "js-yaml": "^3.13.1",
     "json-beautify": "^1.0.1",
     "json-refs": "^3.0.4",
-    "lodash": "=4.17.20",
+    "lodash": "=4.17.21",
     "promise-worker": "^2.0.1",
     "prop-types": "15.7.2",
     "querystring-browser": "^1.0.4",
