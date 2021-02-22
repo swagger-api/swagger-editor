@@ -31,6 +31,8 @@ import noop from '../../../utils/utils-noop';
 // eslint-disable-next-line no-unused-vars
 import { validate, provideDocumentSymbols, provideHover } from '../../../workers/apidomWorker';
 // import * as monaco from 'monaco-editor/esm/vs/editor/editor.api';
+import { languageExtensionPoint, languageID } from '../../../utils/samples/config';
+import { monarchLanguage } from '../../../utils/samples/monarchLang';
 
 async function initializeWorkers() {
   // before loading monaco, we need to initialize the workers so that the files exist
@@ -107,19 +109,20 @@ self.MonacoEnvironment = {
 // once working, we should export this function
 // eslint-disable-next-line no-unused-vars
 function setupLanguage() {
-  const languageID = 'json'; // can export to config
+  // const languageID = 'json'; // can export to config
   // const languageExtensionPoint = { id: languageID }; // can export to config
   // const monarchLanguage; // can we import directly, to start?
-  monaco.languages.register({
-    id: languageID,
-    aliases: ['JSON', 'json'],
-  });
-  monaco.languages.register({
-    id: 'javascript',
-  });
+  // monaco.languages.register({
+  //   id: languageID,
+  //   aliases: ['JSON', 'json'],
+  // });
+  // monaco.languages.register({
+  //   id: 'javascript',
+  // });
+  monaco.languages.register(languageExtensionPoint);
   monaco.languages.onLanguage(languageID, () => {
     console.log('language.onLanguage callback for languageID:', languageID);
-    // monaco.languages.setMonarchTokensProvider(languageID, monarchLanguage);
+    monaco.languages.setMonarchTokensProvider(languageID, monarchLanguage);
   });
 }
 
@@ -188,6 +191,7 @@ export default class MonacoEditor extends Component {
 
   initMonacoEditor = () => {
     // const value = this.props.value !== null ? this.props.value : this.props.defaultValue;
+    // eslint-disable-next-line no-unused-vars
     const { language, theme, options, defaultValue } = this.props;
     let { value } = this.props;
 
@@ -203,7 +207,7 @@ export default class MonacoEditor extends Component {
       // 1B: or via web worker: monaco.languages.onLanguage('mylang', () => {})
       this.editor = monaco.editor.create(this.containerElement, {
         value,
-        language,
+        language: languageID,
         ...options,
         ...(theme ? { theme } : {}), // think this is inactive, and may not be necessary; based on a sample
       });
@@ -242,13 +246,14 @@ export default class MonacoEditor extends Component {
     });
   };
 
+  // eslint-disable-next-line no-unused-vars
   setupTheme = (editor) => {
     // eslint-disable-next-line no-underscore-dangle
     // const testTheme = editor._themeService._theme.getTokenStyleMetadata;
     // console.log('testTheme:', testTheme);
-    monaco.editor.setTheme('vs-dark');
+    // monaco.editor.setTheme('vs-dark');
     // eslint-disable-next-line no-underscore-dangle
-    editor._themeService._theme.getTokenStyleMetadata = getStyleMetadataDark;
+    // editor._themeService._theme.getTokenStyleMetadata = getStyleMetadataDark;
     // monaco.editor.setTheme('vs-light');
     // eslint-disable-next-line no-underscore-dangle
     // editor._themeService._theme.getTokenStyleMetadata = getStyleMetadataLight;
