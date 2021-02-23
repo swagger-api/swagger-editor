@@ -1,6 +1,7 @@
 // import * as editorworker from 'node-modules/monaco-editor/esm/vs/editor/editor.worker';
 import * as editorworker from './editor.worker';
-import { ApidomWorker } from './apidomWorker';
+// import { ApidomWorker } from './apidomWorker';
+import { ApidomWorker } from './apidomWorker2';
 
 /**
  * webpack entry: worker script to create a new object instance
@@ -9,6 +10,7 @@ import { ApidomWorker } from './apidomWorker';
 // eslint-disable-next-line no-restricted-globals
 self.onmessage = () => {
   // ignore the first message
+  // ref: .initialize(foreignModule)
   editorworker.initialize((ctx, createData) => {
     return new ApidomWorker(ctx, createData);
   });
