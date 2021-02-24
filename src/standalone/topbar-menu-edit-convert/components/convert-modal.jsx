@@ -9,11 +9,11 @@ export default class ConvertModal extends Component {
       status: "new"
     }
   }
-  convertDefinition = async () => {
+  convertDefinition = async (converterUrl) => {
     this.setState({ status: "converting" })
 
     try {
-      const conversionResult = await this.performConversion()
+      const conversionResult = await this.performConversion(converterUrl)
       this.setState({
         status: "success",
       })
@@ -26,8 +26,8 @@ export default class ConvertModal extends Component {
     }
   }
 
-  performConversion = async () => {
-    const res = await fetch("//converter.swagger.io/api/convert", {
+  performConversion = async (converterUrl) => {
+    const res = await fetch(converterUrl, {
       method: "POST",
       headers: {
         "Content-Type": "application/yaml",
@@ -51,7 +51,7 @@ export default class ConvertModal extends Component {
     if(this.state.status === "new") {
       return <ConvertModalStepNew
         onClose={onClose}
-        onContinue={() => this.convertDefinition()}
+        onContinue={() => this.convertDefinition(converterUrl)}
         getComponent={getComponent}
         converterUrl={converterUrl}
         />
@@ -98,11 +98,11 @@ const ConvertModalStepNew = ({ getComponent, onClose, onContinue, converterUrl }
     <div className="container modal-message">
       <h2>Convert to OpenAPI 3</h2>
       <p>
-        This feature uses the Swagger Converter API to convert your Swagger 2.0 
+        This feature uses the Swagger Converter API to convert your Swagger 2.0
         definition to OpenAPI 3.
         </p>
       <p>
-        Swagger Editor's contents will be sent to <b><code>{converterUrl}</code></b> and overwritten
+        Swagger Editor&apos;s contents will be sent to <b><code>{converterUrl}</code></b> and overwritten
         by the conversion result.
       </p>
     </div>
@@ -169,7 +169,7 @@ const ConvertModalStepErrored = ({ getComponent, onClose, error }) => {
         The converter service was unable to convert your definition.
       </p>
       <p>
-        Here's what the service told us:
+        Here&apos;s what the service told us:
       </p>
       <code>
         {error.toString()}

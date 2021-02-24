@@ -11,12 +11,15 @@ import * as pathsValidateActions from "./validators/paths"
 import * as securityValidateActions from "./validators/security"
 import * as parametersValidateActions from "./validators/parameters"
 import * as operationsOAS3ValidateActions from "./validators/oas3/operations"
+import * as parametersOAS3ValidateActions from "./validators/oas3/parameters"
+import * as componentsOAS3ValidateActions from "./validators/oas3/components"
 import * as refsOAS3ValidateActions from "./validators/oas3/refs"
 import * as refs2and3ValidateActions from "./validators/2and3/refs"
 import * as parameters2and3ValidateActions from "./validators/2and3/parameters"
 import * as paths2and3ValidateActions from "./validators/2and3/paths"
 import * as schemas2and3ValidateActions from "./validators/2and3/schemas"
 import * as operations2and3ValidateActions from "./validators/2and3/operations"
+import * as security2and3ValidateActions from "./validators/2and3/security"
 import * as tags2and3ValidateActions from "./validators/2and3/tags"
 
 export default function SemanticValidatorsPlugin({getSystem}) {
@@ -40,8 +43,14 @@ export default function SemanticValidatorsPlugin({getSystem}) {
         },
         wrapActions: {
           validateSpec: (ori, system) => (...args) => {
-            ori(...args)
-            debAll(system)
+            // verify editor plugin already loaded and function is available (for tests)
+            if (system.specSelectors.specOrigin) {
+              const specOrigin = system.specSelectors.specOrigin()
+              if (specOrigin === "editor") {
+                ori(...args)
+                debAll(system)
+              }
+            }
           }
         }
       },
@@ -57,10 +66,13 @@ export default function SemanticValidatorsPlugin({getSystem}) {
           ...operations2and3ValidateActions,
           ...refs2and3ValidateActions,
           ...operationsOAS3ValidateActions,
+          ...parametersOAS3ValidateActions,
+          ...componentsOAS3ValidateActions,
           ...refsOAS3ValidateActions,
           ...parameters2and3ValidateActions,
           ...paths2and3ValidateActions,
           ...schemas2and3ValidateActions,
+          ...security2and3ValidateActions,
           ...tags2and3ValidateActions
         }
       },

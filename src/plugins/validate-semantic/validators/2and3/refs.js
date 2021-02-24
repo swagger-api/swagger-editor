@@ -90,14 +90,18 @@ export const validate2And3RefPointersExist = () => (system) => {
       const value = node.node
       if(typeof value === "string" && value[0] === "#") {
         // if pointer starts with "#", it is a local ref
-        const path = pathFromPtr(qs.unescape(value))
-
-        if(json.getIn(path) === undefined) {
-          errors.push({
-            path: [...node.path.slice(0, -1), "$ref"],
-            message: "$refs must reference a valid location in the document",
-            level: "error"
-          })
+        let path
+        try {
+          path = pathFromPtr(qs.unescape(value))
+          if(json.getIn(path) === undefined) {
+            errors.push({
+              path: [...node.path.slice(0, -1), "$ref"],
+              message: "$refs must reference a valid location in the document",
+              level: "error"
+            })
+          }
+        } catch (e) {
+          // pathFromPtr from json-refs lib will throw new Error
         }
       }
     })
@@ -108,7 +112,7 @@ export const validate2And3RefPointersExist = () => (system) => {
 
 // from RFC3986: https://tools.ietf.org/html/rfc3986#section-2.2
 // plus "%", since it is needed for encoding.
-const RFC3986_UNRESERVED_CHARACTERS = /[A-Z|a-z|0-9|\-|_|\.|~|%]/g
+const RFC3986_UNRESERVED_CHARACTERS = /[A-Za-z0-9\-_\.~%]/g
 
 export const validate2And3RefPointersAreProperlyEscaped = () => (system) => {
   return system.validateSelectors.all$refs()

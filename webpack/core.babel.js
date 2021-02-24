@@ -15,7 +15,7 @@ const result = configBuilder(
   },
   {
     entry: {
-      "swagger-editor": ["./src/polyfills.js", "./src/index.js"],
+      "swagger-editor": ["./src/index.js"],
     },
 
     output: {

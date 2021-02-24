@@ -19,7 +19,7 @@ input:
           required: true
           example: ok
         responses:
-          200:
+          "200":
             description: Ok
 output:
   length: 1

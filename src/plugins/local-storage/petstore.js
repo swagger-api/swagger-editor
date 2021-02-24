@@ -54,7 +54,7 @@ paths:
         schema:
           $ref: "#/definitions/Pet"
       responses:
-        405:
+        "405":
           description: "Invalid input"
       security:
       - petstore_auth:
@@ -80,11 +80,11 @@ paths:
         schema:
           $ref: "#/definitions/Pet"
       responses:
-        400:
+        "400":
           description: "Invalid ID supplied"
-        404:
+        "404":
           description: "Pet not found"
-        405:
+        "405":
           description: "Validation exception"
       security:
       - petstore_auth:
@@ -115,13 +115,13 @@ paths:
           default: "available"
         collectionFormat: "multi"
       responses:
-        200:
+        "200":
           description: "successful operation"
           schema:
             type: "array"
             items:
               $ref: "#/definitions/Pet"
-        400:
+        "400":
           description: "Invalid status value"
       security:
       - petstore_auth:
@@ -148,13 +148,13 @@ paths:
           type: "string"
         collectionFormat: "multi"
       responses:
-        200:
+        "200":
           description: "successful operation"
           schema:
             type: "array"
             items:
               $ref: "#/definitions/Pet"
-        400:
+        "400":
           description: "Invalid tag value"
       security:
       - petstore_auth:
@@ -179,13 +179,13 @@ paths:
         type: "integer"
         format: "int64"
       responses:
-        200:
+        "200":
           description: "successful operation"
           schema:
             $ref: "#/definitions/Pet"
-        400:
+        "400":
           description: "Invalid ID supplied"
-        404:
+        "404":
           description: "Pet not found"
       security:
       - api_key: []
@@ -218,7 +218,7 @@ paths:
         required: false
         type: "string"
       responses:
-        405:
+        "405":
           description: "Invalid input"
       security:
       - petstore_auth:
@@ -245,9 +245,9 @@ paths:
         type: "integer"
         format: "int64"
       responses:
-        400:
+        "400":
           description: "Invalid ID supplied"
-        404:
+        "404":
           description: "Pet not found"
       security:
       - petstore_auth:
@@ -282,7 +282,7 @@ paths:
         required: false
         type: "file"
       responses:
-        200:
+        "200":
           description: "successful operation"
           schema:
             $ref: "#/definitions/ApiResponse"
@@ -301,7 +301,7 @@ paths:
       - "application/json"
       parameters: []
       responses:
-        200:
+        "200":
           description: "successful operation"
           schema:
             type: "object"
@@ -328,11 +328,11 @@ paths:
         schema:
           $ref: "#/definitions/Order"
       responses:
-        200:
+        "200":
           description: "successful operation"
           schema:
             $ref: "#/definitions/Order"
-        400:
+        "400":
           description: "Invalid Order"
   /store/order/{orderId}:
     get:
@@ -355,13 +355,13 @@ paths:
         minimum: 1.0
         format: "int64"
       responses:
-        200:
+        "200":
           description: "successful operation"
           schema:
             $ref: "#/definitions/Order"
-        400:
+        "400":
           description: "Invalid ID supplied"
-        404:
+        "404":
           description: "Order not found"
     delete:
       tags:
@@ -382,9 +382,9 @@ paths:
         minimum: 1.0
         format: "int64"
       responses:
-        400:
+        "400":
           description: "Invalid ID supplied"
-        404:
+        "404":
           description: "Order not found"
   /user:
     post:
@@ -472,7 +472,7 @@ paths:
         required: true
         type: "string"
       responses:
-        200:
+        "200":
           description: "successful operation"
           schema:
             type: "string"
@@ -485,7 +485,7 @@ paths:
               type: "string"
               format: "date-time"
               description: "date in UTC when token expires"
-        400:
+        "400":
           description: "Invalid username/password supplied"
   /user/logout:
     get:
@@ -518,13 +518,13 @@ paths:
         required: true
         type: "string"
       responses:
-        200:
+        "200":
           description: "successful operation"
           schema:
             $ref: "#/definitions/User"
-        400:
+        "400":
           description: "Invalid username supplied"
-        404:
+        "404":
           description: "User not found"
     put:
       tags:
@@ -548,9 +548,9 @@ paths:
         schema:
           $ref: "#/definitions/User"
       responses:
-        400:
+        "400":
           description: "Invalid user supplied"
-        404:
+        "404":
           description: "User not found"
     delete:
       tags:
@@ -568,9 +568,9 @@ paths:
         required: true
         type: "string"
       responses:
-        400:
+        "400":
           description: "Invalid username supplied"
-        404:
+        "404":
           description: "User not found"
 securityDefinitions:
   petstore_auth:

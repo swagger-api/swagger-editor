@@ -12,7 +12,7 @@ input:
         summary: Get a single contact by Id
         operationId: getContactById
         responses:
-          200:
+          "200":
             description: ok
         parameters: 
           - name: contactId

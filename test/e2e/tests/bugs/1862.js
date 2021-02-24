@@ -29,19 +29,19 @@ describe("Editor #1862: codegen download links downgrade HTTPS", () => {
           "code": "a92bc815-f6e3-4a56-839b-fd2e6f379d52",
           "link": "http://generator.swagger.io:80/api/gen/download/a92bc815-f6e3-4a56-839b-fd2e6f379d52"
         }
-      })
+      }).as("httpsServerNodejs")
 
       cy.route({
         url: "http://generator.swagger.io/api/gen/download/*",
         onRequest: () => wasHttpHit = true,
         response: {}
-      })
+      }).as("httpServerGenDownload")
 
       cy.route({
         url: "https://generator.swagger.io/api/gen/download/*",
         onRequest: () => wasHttpsHit = true,
         response: {}
-      })
+      }).as("httpsServerGenDownload")
 
       // Then
       cy.contains("Generate Server")
@@ -50,7 +50,7 @@ describe("Editor #1862: codegen download links downgrade HTTPS", () => {
       cy.contains("nodejs")
         .click()
 
-      cy.wait(100)
+      cy.wait(["@httpsServerNodejs", "@httpsServerGenDownload"])
         .then(() => {
           expect(wasHttpHit).to.equal(false, "has HTTP server been hit")
           expect(wasHttpsHit).to.equal(true, "has HTTPS server been hit")
@@ -70,19 +70,19 @@ describe("Editor #1862: codegen download links downgrade HTTPS", () => {
           "code": "a92bc815-f6e3-4a56-839b-fd2e6f379d52",
           "link": "http://generator.swagger.io:80/api/gen/download/a92bc815-f6e3-4a56-839b-fd2e6f379d52"
         }
-      })
+      }).as("httpsClientJavascript")
 
       cy.route({
         url: "http://generator.swagger.io/api/gen/download/*",
         onRequest: () => wasHttpHit = true,
         response: {}
-      })
+      }).as("httpClientGenDownload")
 
       cy.route({
         url: "https://generator.swagger.io/api/gen/download/*",
         onRequest: () => wasHttpsHit = true,
         response: {}
-      })
+      }).as("httpsClientGenDownload")
 
       // Then
       cy.contains("Generate Client")
@@ -91,7 +91,7 @@ describe("Editor #1862: codegen download links downgrade HTTPS", () => {
       cy.contains("javascript")
         .click()
 
-      cy.wait(100)
+      cy.wait(["@httpsClientJavascript", "@httpsClientGenDownload"])
         .then(() => {
           expect(wasHttpHit).to.equal(false, "has HTTP server been hit")
           expect(wasHttpsHit).to.equal(true, "has HTTPS server been hit")

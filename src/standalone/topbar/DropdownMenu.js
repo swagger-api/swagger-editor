@@ -2,7 +2,6 @@
 
 import React, { PureComponent } from "react"
 import PropTypes from "prop-types"
-import ReactDOM from "react-dom"
 import CSSTransitionGroup from "react-transition-group/CSSTransitionGroup"
 import classnames from "classnames"
 
@@ -57,7 +56,7 @@ export default class DropdownMenu extends PureComponent {
       return
     }
 
-    const menuItems = ReactDOM.findDOMNode(this).querySelector(".dd-menu > .dd-menu-items")
+    const menuItems = this.dropdownMenuRef.querySelector(".dd-menu > .dd-menu-items")
     if(this.props.isOpen && !prevProps.isOpen) {
       this.lastWindowClickEvent = this.handleClickOutside
       document.addEventListener("click", this.lastWindowClickEvent)
@@ -95,7 +94,7 @@ export default class DropdownMenu extends PureComponent {
       return
     }
 
-    const node = ReactDOM.findDOMNode(this)
+    const node = this.dropdownMenuRef
     let target = e.target
 
     while(target.parentNode) {
@@ -115,7 +114,7 @@ export default class DropdownMenu extends PureComponent {
       return
     }
 
-    const items = ReactDOM.findDOMNode(this).querySelectorAll("button,a")
+    const items = this.dropdownMenuRef.current.querySelectorAll("button,a")
     const id = e.shiftKey ? 1 : items.length - 1
 
     if(e.target === items[id]) {
@@ -150,7 +149,7 @@ export default class DropdownMenu extends PureComponent {
     }
 
     return (
-      <div className={menuClassName}>
+      <div className={menuClassName} ref={node => this.dropdownMenuRef = node}>
         {this.props.toggle}
         <CSSTransitionGroup {...transitionProps}>
           {this.props.isOpen &&

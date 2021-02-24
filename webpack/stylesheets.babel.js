@@ -32,7 +32,7 @@ export default {
             loader: "postcss-loader",
             options: {
               sourceMap: true,
-              plugins: loader => [
+              plugins: [
                 require("cssnano")(),
                 require("autoprefixer")(),
               ],

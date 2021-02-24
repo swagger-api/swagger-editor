@@ -1,38 +1,3 @@
-export const validateMinAndMax = () => (system) => {
-  return system.validateSelectors
-    .allSchemas()
-    .then(nodes => {
-      return nodes.reduce((acc, node) => {
-        const schemaObj = node.node
-        const {minimum, maximum, minLength, maxLength, minProperties, maxProperties} = schemaObj
-        if(typeof minimum === "number" && typeof maximum === "number" && (minimum > maximum)) {
-          acc.push({
-            message: "'minimum' must be lower value than 'maximum'",
-            path: [...node.path, "minimum"],
-            level: "error",
-          })
-        }
-
-        if(typeof minLength === "number" && typeof maxLength === "number" && (minLength > maxLength)) {
-          acc.push({
-            message: "'minLength' must be lower value than 'maxLength'",
-            path: [...node.path, "minLength"],
-            level: "error",
-          })
-        }
-
-        if(typeof minProperties === "number" && typeof maxProperties === "number" && (minProperties > maxProperties)) {
-          acc.push({
-            message: "'minProperties' must be lower value than 'maxProperties'",
-            path: [...node.path, "minProperties"],
-            level: "error",
-          })
-        }
-        return acc
-      }, [])
-    })
-}
-
 export const validateTypeKeyShouldBeString = () => (system) => {
   return system.validateSelectors
     .allSchemas()

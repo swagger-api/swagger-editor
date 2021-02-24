@@ -1,6 +1,5 @@
-import expect from "expect"
-import SwaggerUi from "swagger-ui"
-import EditorMetadataPlugin from "plugins/editor-metadata"
+import SwaggerUi from 'swagger-ui';
+import EditorMetadataPlugin from 'plugins/editor-metadata';
 
 function getSystem(spec) {
   return new Promise((resolve) => {
@@ -24,140 +23,145 @@ function getSystem(spec) {
               actions: {
                 loaded: () => {
                   return {
-                    type: "noop"
-                  }
+                    type: 'noop'
+                  };
                 }
               }
             }
           }
         })
       ]
-    })
+    });
     
-    resolve(system)
-  })
+    resolve(system);
+  });
 }
 
-describe("editor metadata plugin", function() {
-  this.timeout(10 * 1000)
+describe('editor metadata plugin', () => {
 
-  it("should provide a `getEditorMetadata` method", async () => {
-    const spec = {}
+  it('should provide a `getEditorMetadata` method', async () => {
+    const spec = {};
 
-    const system = await getSystem(spec)
+    const system = await getSystem(spec);
 
-    expect(system.getEditorMetadata).toBeA(Function)
-  })
+    expect(system.getEditorMetadata).toBeInstanceOf(Function);
+  });
 
-  it("should return JS object spec content from the `getEditorMetadata` method", async () => {
-    const spec = {
-      swagger: "2.0",
-      paths: {
-        "/": {
-          get: {
-            description: "hello there!",
-            responses: {
-              "200": {
-                description: "ok"
+  it(
+    'should return JS object spec content from the `getEditorMetadata` method',
+    async () => {
+      const spec = {
+        swagger: '2.0',
+        paths: {
+          '/': {
+            get: {
+              description: 'hello there!',
+              responses: {
+                '200': {
+                  description: 'ok'
+                }
               }
             }
           }
         }
-      }
+      };
+
+      const system = await getSystem(spec);
+
+      expect(system.getEditorMetadata().contentString).toEqual('{"swagger":"2.0","paths":{"/":{"get":{"description":"hello there!","responses":{"200":{"description":"ok"}}}}}}');
+      expect(system.getEditorMetadata().contentObject).toEqual(spec);
     }
-
-    const system = await getSystem(spec)
-
-    expect(system.getEditorMetadata().contentString).toEqual(`{"swagger":"2.0","paths":{"/":{"get":{"description":"hello there!","responses":{"200":{"description":"ok"}}}}}}`)
-    expect(system.getEditorMetadata().contentObject).toEqual(spec)
-  })
+  );
 
 
-  it("should return YAML string spec content from the `getEditorMetadata` method", async () => {
-    const spec = `---
-    swagger: '2.0'
-    paths:
-      "/":
-        get:
-          description: hello there!
-          responses:
-            '200':
-              description: ok`
+  it(
+    'should return YAML string spec content from the `getEditorMetadata` method',
+    async () => {
+      const spec = `---
+      swagger: '2.0'
+      paths:
+        "/":
+          get:
+            description: hello there!
+            responses:
+              '200':
+                description: ok`;
 
-    const system = await getSystem()
+      const system = await getSystem();
 
-    system.specActions.updateSpec(spec)
+      system.specActions.updateSpec(spec);
 
-    expect(system.getEditorMetadata().contentString).toEqual(spec)
-    expect(system.getEditorMetadata().contentObject).toEqual({
-      swagger: "2.0",
-      paths: {
-        "/": {
-          get: {
-            description: "hello there!",
-            responses: {
-              "200": {
-                description: "ok"
+      expect(system.getEditorMetadata().contentString).toEqual(spec);
+      expect(system.getEditorMetadata().contentObject).toEqual({
+        swagger: '2.0',
+        paths: {
+          '/': {
+            get: {
+              description: 'hello there!',
+              responses: {
+                '200': {
+                  description: 'ok'
+                }
               }
             }
           }
         }
-      }
-    })
-  })
+      });
+    }
+  );
   
-  it("should return isValid for a valid spec", async () => {
+  it('should return isValid for a valid spec', async () => {
     const spec = {
-      swagger: "2.0",
+      swagger: '2.0',
       paths: {
-        "/": {
+        '/': {
           get: {
-            description: "hello there!",
+            description: 'hello there!',
             responses: {
-              "200": {
-                description: "ok"
+              '200': {
+                description: 'ok'
               }
             }
           }
         }
       }
-    }
+    };
 
-    const system = await getSystem(spec)
+    const system = await getSystem(spec);
 
-    expect(system.getEditorMetadata().isValid).toBeA("boolean")
-    expect(system.getEditorMetadata().isValid).toBe(true)
-  })
+    expect(typeof system.getEditorMetadata().isValid).toBe('boolean');
+    expect(system.getEditorMetadata().isValid).toBe(true);
+  });
 
     
-  it("should return isValid for an invalid spec", async () => {
+  it('should return isValid for an invalid spec', async () => {
     const spec = {
-      swagger: "2.0",
+      swagger: '2.0',
       paths: {
-        "/": {
+        '/': {
           get: {
-            description: "hello there!",
+            description: 'hello there!',
             responses: {
-              "200": {
-                description: "ok"
+              '200': {
+                description: 'ok'
               }
             }
           }
         }
       }
-    }
+    };
 
     const err = {
-      type: "spec",
-      message: "it's broken!"
-    }
+      type: 'spec',
+      message: 'it\'s broken!'
+    };
 
-    const system = await getSystem(spec)
+    const system = await getSystem(spec);
 
-    system.errActions.newSpecErr(err)
+    system.errActions.newSpecErr(err);
 
-    expect(system.getEditorMetadata().isValid).toBeA("boolean")
-    expect(system.getEditorMetadata().isValid).toBe(false)
-    expect(system.getEditorMetadata().errors).toEqual([err])
-  })
-})
+    expect(typeof system.getEditorMetadata().isValid).toBe('boolean');
+    expect(system.getEditorMetadata().isValid).toBe(false);
+    expect(system.getEditorMetadata().errors).toEqual([err]);
+  });
+});

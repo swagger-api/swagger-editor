@@ -6,7 +6,7 @@ import { placeMarkerDecorations } from "../editor-helpers/marker-placer"
 import Im, { fromJS } from "immutable"
 import ImPropTypes from "react-immutable-proptypes"
 
-import win from "src/window"
+import win from "../../../window"
 
 import isUndefined from "lodash/isUndefined"
 import omit from "lodash/omit"
@@ -240,7 +240,11 @@ export default function makeEditor({ editorPluginsToRun }) {
       editor.setReadOnly(readOnly)
     }
 
-    componentWillMount() {
+    componentDidMount() {
+      // eslint-disable-next-line react/no-did-mount-set-state
+
+      this.width = this.getWidth()
+      win.document.addEventListener("click", this.onClick)
       // add user agent info to document
       // allows our custom Editor styling for IE10 to take effect
       var doc = win.document.documentElement
@@ -248,17 +252,11 @@ export default function makeEditor({ editorPluginsToRun }) {
       this.syncOptionsFromState(this.props.editorOptions)
     }
 
-    componentDidMount() {
-      // eslint-disable-next-line react/no-did-mount-set-state
-
-      this.width = this.getWidth()
-      win.document.addEventListener("click", this.onClick)
-    }
-
     componentWillUnmount() {
       win.document.removeEventListener("click", this.onClick)
     }
 
+    // eslint-disable-next-line react/no-deprecated
     componentWillReceiveProps(nextProps) {
       let hasChanged = (k) => !isEqual(nextProps[k], this.props[k])
       const editor = this.editor

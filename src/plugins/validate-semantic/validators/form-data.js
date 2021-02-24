@@ -1,6 +1,6 @@
 import { SOURCE } from "../actions"
-import { getRootNode } from "src/plugins/validate-semantic/helpers"
-
+import { getRootNode } from "../helpers"
+const operationKeys = ["get", "post", "put", "delete", "options", "head", "patch", "trace"]
 
 export const validateParameterFormDataCaseTypo = () => system => {
   return system.validateSelectors
@@ -49,41 +49,47 @@ export const validateParameterFormDataForFileTypes = () => system => {
 
 export const validateParameterFormDataConsumesType = () => system => {
   return system.validateSelectors
-    .allParameters()
+    .allPathItems()
     .then(nodes => {
       return nodes.reduce((acc, node) => {
-        const value = node.node
+        const pathItemValue = node.node
+        const globalConsumes = getRootNode(node).node.consumes
+        const pathItemParameters = pathItemValue.parameters
 
-        const globalConsumes = getRootNode(node).node.consumes ||[]
+        const hasPathItemFormDataParameter = pathItemParameters != null && pathItemParameters.find(parameter => parameter.in === "formData")
+        const hasPathItemFileParameter = pathItemParameters != null && pathItemParameters.find(parameter => parameter.type === "file")
 
-        // step out of parameter item and array
-        const containingContext = node.parent.parent.node
-        const contextConsumes = containingContext.consumes || []
+        for (const method of operationKeys) {
+          const operationValue = pathItemValue[method]
 
-        const combinedConsumes = [...globalConsumes, ...contextConsumes]
-        if(
-          value.type === "file" &&
-          value.in === "formData" &&
-          combinedConsumes.indexOf("multipart/form-data") === -1
-        ) {
-          acc.push({
-            message: `Operations with parameters of "type: file" must include "multipart/form-data" in their "consumes" property`,
-            path: [...node.path],
-            level: "error",
-            source: SOURCE
-          })
-        } else if(
-          value.in === "formData" &&
-          combinedConsumes.indexOf("multipart/form-data") === -1 &&
-          combinedConsumes.indexOf("application/x-www-form-urlencoded") === -1
-        ) {
-          acc.push({
-            message: `Operations with Parameters of "in: formData" must include "application/x-www-form-urlencoded" or "multipart/form-data" in their "consumes" property`,
-            path: [...node.path.slice(0, -2)],
-            level: "error",
-            source: SOURCE
-          })
+          if (operationValue) {
+            const effectiveConsumes = operationValue.consumes || globalConsumes || []
+            const operationParameters = operationValue.parameters || []
+            const hasOperationFormDataParameter = operationParameters.find(parameter => parameter.in === "formData")
+            const hasOperationFileParameter = operationParameters.find(parameter => parameter.type === "file")
+
+            if(hasPathItemFileParameter || hasOperationFileParameter){
+              if (!effectiveConsumes.includes("multipart/form-data")) {
+                acc.push({
+                  message: `Operations with parameters of "type: file" must include "multipart/form-data" in their "consumes" property`,
+                  path: [...node.path, method],
+                  level: "error",
+                  source: SOURCE
+                })
+              }
+            } else if (hasPathItemFormDataParameter || hasOperationFormDataParameter) {
+              if (!effectiveConsumes.includes("application/x-www-form-urlencoded") && !effectiveConsumes.includes("multipart/form-data")) {
+                acc.push({
+                  message: `Operations with parameters of "in: formData" must include "application/x-www-form-urlencoded" or "multipart/form-data" in their "consumes" property`,
+                  path: [...node.path, method],
+                  level: "error",
+                  source: SOURCE
+                })
+              }
+            }
+          }
         }
+
         return acc
       }, [])
     })

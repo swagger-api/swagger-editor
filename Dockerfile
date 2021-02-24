@@ -1,21 +1,20 @@
-FROM nginx:1.17-alpine
+FROM nginx:1.19-alpine
 
-MAINTAINER fehguy
+LABEL maintainer="fehguy"
 
-RUN mkdir -p /run/nginx
+ENV BASE_URL ""
 
 COPY nginx.conf /etc/nginx/
 
-# copy swagger files to the `/js` folder
 COPY ./index.html /usr/share/nginx/html/
 COPY ./dist/oauth2-redirect.html /usr/share/nginx/html/
-ADD ./dist/*.js /usr/share/nginx/html/dist/
-ADD ./dist/*.map /usr/share/nginx/html/dist/
-ADD ./dist/*.css /usr/share/nginx/html/dist/
-ADD ./dist/*.png /usr/share/nginx/html/dist/
-ADD ./docker-run.sh /usr/share/nginx/
+COPY ./dist/* /usr/share/nginx/html/dist/
+COPY ./docker-run.sh /usr/share/nginx/
 
-RUN find /usr/share/nginx/html/ -type f -regex ".*\.\(html\|js\|css\)" -exec sh -c "gzip < {} > {}.gz" \;
+
+RUN chmod +x /usr/share/nginx/docker-run.sh && \
+    chmod -R a+rw /usr/share/nginx && \
+    chmod -R a+rw /etc/nginx
 
 EXPOSE 8080
 

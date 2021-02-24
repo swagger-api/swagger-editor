@@ -1,57 +1,60 @@
-import EventEmitter from "events"
-import { createSpy } from "expect"
+import EventEmitter from 'events';
 
 export class Range {
   constructor(...args) {
-    this._args = args
+    this._args = args;
   }
 }
 
 const ACE_STUBS = [
-  "setKeyboardHandler",
-  "focus",
-  "resize",
-  "destroy",
-  "setTheme",
-  "setFontSize",
-  "setHighlightActiveLine",
-  "setReadOnly",
-  "setShowPrintMargin",
-]
+  'setKeyboardHandler',
+  'focus',
+  'resize',
+  'destroy',
+  'setTheme',
+  'setFontSize',
+  'setHighlightActiveLine',
+  'setReadOnly',
+  'setShowPrintMargin',
+];
 
 
 const SESSION_STUBS = [
-  "setMode",
-  "setUseWrapMode",
-  "setAnnotations"
-]
+  'setMode',
+  'setUseWrapMode',
+  'setAnnotations'
+];
 
 export class Session extends EventEmitter {
   constructor() {
-    super()
+    super();
 
-    this.$markerId = 0
-    this._markers = []
+    this.$markerId = 0;
+    this._markers = [];
 
     SESSION_STUBS.forEach(stub => {
-      this[stub] = createSpy()
-    })
+      this[stub] = jest.fn();
+    });
 
-    this.selection = new EventEmitter()
-    this.selection.toJSON = createSpy().andReturn({fake: true})
-    this.selection.fromJSON = createSpy().andReturn({fake: true})
+    this.selection = new EventEmitter();
+    this.selection.toJSON = jest.fn().mockImplementation(function() {
+      return { fake: true };
+    });
+    this.selection.fromJSON = jest.fn().mockImplementation(function() {
+      return { fake: true };
+    });
   }
 
-  addMarker = createSpy().andCall((marker) => {
-    this._markers.push({...marker, id: this.$markerId++ })
+  addMarker = jest.fn().mockImplementation(function(marker) {
+    this._markers.push({...marker, id: this.$markerId++ });
   })
 
-  getMarkers = createSpy().andCall(() => {
-    return this._markers
+  getMarkers = jest.fn().mockImplementation(function() {
+    return this._markers;
   })
 
-  removeMarker = createSpy().andCall((markerId) => {
-    this._markers = this._markers.filter(a => a.id !== markerId)
+  removeMarker = jest.fn().mockImplementation(function(markerId) {
+    this._markers = this._markers.filter(a => a.id !== markerId);
   })
 
 }
@@ -59,83 +62,83 @@ export class Session extends EventEmitter {
 export default class Ace extends EventEmitter {
 
   constructor() {
-    super()
+    super();
 
-    this.session = new Session()
-    this.$options = {}
-    this._undoStack = [""]
-    this._undoPointer = 0 // It starts with nothing..
+    this.session = new Session();
+    this.$options = {};
+    this._undoStack = [''];
+    this._undoPointer = 0; // It starts with nothing..
 
     ACE_STUBS.forEach(stub => {
-      this[stub] = createSpy()
-    })
+      this[stub] = jest.fn();
+    });
 
     this.renderer = {
-      setShowGutter: createSpy(),
-      setScrollMargin: createSpy()
-    }
+      setShowGutter: jest.fn(),
+      setScrollMargin: jest.fn()
+    };
   }
 
-  edit = createSpy().andReturn(this)
+  edit = jest.fn().mockImplementation(function() { return this;})
 
-  acequire = createSpy().andCall((module) => {
-    if(module == "ace/range") {
-      return { Range }
+  acequire = jest.fn().mockImplementation(function(module) {
+    if(module == 'ace/range') {
+      return { Range };
     }
   })
 
-  getSession = createSpy().andCall(() => {
-    return this.session
+  getSession = jest.fn().mockImplementation(function() {
+    return this.session;
   })
 
-  setOption = createSpy().andCall((option, val) => {
-   this.$options[option] = val
+  setOption = jest.fn().mockImplementation(function(option, val) {
+   this.$options[option] = val;
   })
 
-  setOptions = createSpy().andCall((options) => {
-    this.$options = {...this.$options, ...options}
+  setOptions = jest.fn().mockImplementation(function(options) {
+    this.$options = {...this.$options, ...options};
   })
 
-  getOption = createSpy().andCall((optionName) => {
-    return this.$options[optionName]
+  getOption = jest.fn().mockImplementation(function(optionName) {
+    return this.$options[optionName];
   })
 
-  setValue = createSpy().andCall((val, addToUndo=true) => {
+  setValue = jest.fn().mockImplementation(function(val, addToUndo=true) {
     if(addToUndo) {
       // Wipe out line of redos
-      this._undoStack = this._undoStack.slice(0, this._undoPointer + 1)
+      this._undoStack = this._undoStack.slice(0, this._undoPointer + 1);
       // Add new value
-      this._undoStack.push(val)
-      this._undoPointer++
+      this._undoStack.push(val);
+      this._undoPointer++;
     }
-    this._value = val
-    this.emit("change") // Remove
-    this.emit("change") // Insert
+    this._value = val;
+    this.emit('change'); // Remove
+    this.emit('change'); // Insert
   })
 
-  getValue = createSpy().andCall(() => {
-    return this._value || ""
+  getValue = jest.fn().mockImplementation(function() {
+    return this._value || '';
   })
 
   // User API, which closer matches what we want to test ( ie: implementation can improve )
-  userTypes = createSpy().andCall((val) => {
-    this.setValue(this.getValue() + val)
+  userTypes = jest.fn().mockImplementation(function(val) {
+    this.setValue(this.getValue() + val);
   })
 
-  userSees = createSpy().andCall(() => {
-    return this.getValue()
+  userSees = jest.fn().mockImplementation(function() {
+    return this.getValue();
   })
 
-  userUndo = createSpy().andCall(() => {
-    this._undoPointer = this._undoPointer > 0 ? this._undoPointer - 1 : 0
-    this.setValue(this._undoStack[this._undoPointer], false)
+  userUndo = jest.fn().mockImplementation(function() {
+    this._undoPointer = this._undoPointer > 0 ? this._undoPointer - 1 : 0;
+    this.setValue(this._undoStack[this._undoPointer], false);
   })
 
-  userRedo = createSpy().andCall(() => {
-    const max = this._undoStack.length - 1
+  userRedo = jest.fn().mockImplementation(function() {
+    const max = this._undoStack.length - 1;
     // const oriPointer = this._undoPointer
-    this._undoPointer = this._undoPointer < max ? this._undoPointer + 1 : max
-    this.setValue(this._undoStack[this._undoPointer], false)
+    this._undoPointer = this._undoPointer < max ? this._undoPointer + 1 : max;
+    this.setValue(this._undoStack[this._undoPointer], false);
   })
 
 }

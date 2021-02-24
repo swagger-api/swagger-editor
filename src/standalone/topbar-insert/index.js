@@ -52,7 +52,7 @@ export default function () {
             }
             
             currentItem = key ? currentItem.set(key, item) : currentItem.concat(item)
-                        
+
             return state.setIn(["json", ...path], currentItem)
           }
         }

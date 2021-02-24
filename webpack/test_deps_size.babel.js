@@ -2,6 +2,7 @@
  * @prettier
  */
 
+import path from "path"
 import configBuilder from "./_config-builder"
 
 const result = configBuilder(
@@ -17,7 +18,6 @@ const result = configBuilder(
     entry: {
       "swagger-editor-bundle": [
         "./src/styles/main.less",
-        "./src/polyfills.js",
         "./src/index.js",
       ],
     },

@@ -4,7 +4,8 @@
   "env": {
     "browser": true,
     "node": true,
-    "es6": true
+    "es6": true,
+    "jest/globals": true
   },
 
   "parserOptions": {
@@ -15,7 +16,7 @@
 
   "extends": ["eslint:recommended", "plugin:react/recommended"],
 
-  "plugins": ["react", "import"],
+  "plugins": ["react", "import", "mocha", "jest"],
 
   "rules": {
     "semi": [2, "never"],
@@ -32,6 +33,7 @@
     "react/jsx-no-bind": [1, { "allowArrowFunctions": true }], // TODO: make this an error
     "react/display-name": 0,
     "import/no-extraneous-dependencies": [2],
-    "no-useless-escape": 1
+    "no-useless-escape": 1,
+    "mocha/no-exclusive-tests": 2
   }
 }

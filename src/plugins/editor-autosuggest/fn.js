@@ -15,7 +15,13 @@ export function getPathForPosition({ pos: originalPos, prefix, editorValue, AST 
   let prevLineIndent = getIndent(previousLine).length
   let currLineIndent = getIndent(currentLine).length
 
-  if((previousLine.trim()[0] === "-" || nextLine.trim()[0] === "-") && currLineIndent >= prevLineIndent) {
+  const isCurrentLineEmpty = currentLine.replace(prefix, "").trim() === ""
+
+  if(
+    (previousLine.trim()[0] === "-" || nextLine.trim()[0] === "-")
+    && currLineIndent >= prevLineIndent
+    && isCurrentLineEmpty
+  ) {
     // for arrays with existing items under it, on blank lines
     // example:
     // myArray:
@@ -29,7 +35,7 @@ export function getPathForPosition({ pos: originalPos, prefix, editorValue, AST 
   // if current position is in at a free line with whitespace insert a fake
   // key value pair so the generated AST in ASTManager has current position in
   // editing node
-  if ( !prepared && currentLine.replace(prefix, "").trim() === "") {
+  if ( !prepared && isCurrentLineEmpty) {
     currentLine += "a: b" // fake key value pair
     pos.column += 1
     prepared = true
