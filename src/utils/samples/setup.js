@@ -49,21 +49,28 @@ export function setupLanguage() {
     monaco.languages.setMonarchTokensProvider(languageID, monarchLanguage);
     // we could do this too for additional configuration:
     // monaco.languages.setLanguageConfiguration(languageID, richLanguageConfiguration);
+
+    // Note: likely refactor this section into import of 'setupMode'
+    // which will include the worker and providers
+    // per the example in (css) monaco.contribution.ts
+    // https://github.com/microsoft/monaco-css/blob/main/src/monaco.contribution.ts
     // next, instantiate a new WorkerManager() to proxy monaco.editor.createWebWorker()
-    const client = new WorkerManager();
-    console.log('client:', client);
-    // const uri = monaco.Uri();
+    const client = new WorkerManager(); // with defaults?
+    // console.log('client:', client);
+    // const uri = new monaco.Uri();
     // console.log('uri:', uri);
     const MODEL_URI = 'inmemory://model.json';
     // eslint-disable-next-line no-unused-vars
     const MONACO_URI = monaco.Uri.parse(MODEL_URI);
+    console.log('MONACO_URI:', MONACO_URI);
     // next, define a worker promise to actually getLanguageServiceWorker
+    // uris: Uri[]
     // eslint-disable-next-line no-unused-vars
     const worker = (...uris) => {
       console.log('got here');
       return client.getLanguageServiceWorker(...uris);
     };
-    // worker(MONACO_URI);
+    worker(MONACO_URI);
     // next, call the errors provider, with the languageServiceWorker
     // new DiagnosticsAdapter(worker);
   });

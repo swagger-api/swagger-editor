@@ -12,7 +12,7 @@ export class WorkerManager {
   }
 
   // intent, private
-  async getClientproxy() {
+  getClientproxy() {
     if (!this.workerClientProxy) {
       // console.log('should createWebWorker');
       this.worker = monaco.editor.createWebWorker({
@@ -31,15 +31,17 @@ export class WorkerManager {
       this.workerClientProxy = this.worker.getProxy(); // Promise pending
     }
     console.log('returning proxy');
-    console.log('this.workerClientProxy:', this.workerClientProxy);
+    // console.log('this.workerClientProxy:', this.workerClientProxy);
     return this.workerClientProxy;
   }
 
-  async getLanguageServiceWorker(uri) {
-    console.log('resources:', uri);
-    const _client = await this.getClientproxy(); // FAILS
-    console.log('_client:', _client);
-    await this.worker.withSyncedResources(uri);
+  // resources: Uri[]
+  async getLanguageServiceWorker(...resources) {
+    console.log('resources:', resources);
+    const _client = await this.getClientproxy();
+    console.log('_client done:', _client);
+    await this.worker.withSyncedResources(resources);
+    console.log('withSyncedResources done');
     return _client;
   }
 }
