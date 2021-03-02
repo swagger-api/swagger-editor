@@ -30,18 +30,18 @@ export class WorkerManager {
       // console.log('lookahead, this.worker.withSyncedResources:', this.worker.withSyncedResources); // ok, exists
       this.workerClientProxy = this.worker.getProxy(); // Promise pending
     }
-    console.log('returning proxy');
+    // console.log('returning proxy');
     // console.log('this.workerClientProxy:', this.workerClientProxy);
     return this.workerClientProxy;
   }
 
   // resources: Uri[]
   async getLanguageServiceWorker(...resources) {
-    console.log('resources:', resources);
+    // console.log('resources:', resources);
     const _client = await this.getClientproxy();
-    console.log('_client done:', _client);
+    // console.log('_client done:', _client);
     await this.worker.withSyncedResources(resources);
-    console.log('withSyncedResources done');
+    // console.log('withSyncedResources done');
     return _client;
   }
 }

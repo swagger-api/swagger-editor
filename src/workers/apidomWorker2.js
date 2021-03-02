@@ -42,7 +42,7 @@ export class ApidomWorker {
   _getTextDocument(uri) {
     // console.log('_getTextDocument... args: uri', uri);
     const models = this._ctx.getMirrorModels()[0]; // When there are multiple files open, this will be an array
-    console.log('_getTextDocument.models', models);
+    // console.log('_getTextDocument.models', models);
     // models: _lines[], _uri, _versionId
     // fyi, reference more complete example in cssWorker
     // https://github.com/microsoft/monaco-css/blob/master/src/cssWorker.ts
@@ -58,12 +58,11 @@ export class ApidomWorker {
       models._versionId,
       models.getValue()
     );
-    console.log('_getTextDocument.textDocumentToReturn', textDocumentToReturn);
+    // console.log('_getTextDocument.textDocumentToReturn', textDocumentToReturn);
     return textDocumentToReturn;
     // }
     // console.log('_getTextDocument... early return. uri not match');
     // return null;
-    // return models.getValue();
   }
 }
 

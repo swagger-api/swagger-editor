@@ -24,9 +24,8 @@ export function setupLanguage() {
       //   // console.log('should return jsTsWorker, will remove later');
       //   return './ts.worker.js';
       // }
-      // Placeholder, once implemented. detech openapi/asyncapi/etc.
       if (label === languageID) {
-        console.log('should return apidomWorker');
+        // console.log('should return apidomWorker');
         return './apidom.worker.js';
       }
       // console.log('should return default editorWorker');
@@ -63,16 +62,14 @@ export function setupLanguage() {
     const MODEL_URI = 'inmemory://model.json';
     // eslint-disable-next-line no-unused-vars
     const MONACO_URI = monaco.Uri.parse(MODEL_URI);
-    console.log('MONACO_URI:', MONACO_URI);
+    // console.log('MONACO_URI:', MONACO_URI);
     // next, define a worker promise to actually getLanguageServiceWorker
     // uris: Uri[]
-    // eslint-disable-next-line no-unused-vars
     const worker = (...uris) => {
-      console.log('got here');
       return client.getLanguageServiceWorker(...uris);
     };
     worker(MONACO_URI);
-    // next, call the errors provider, with the languageServiceWorker
+    // next, call the errors provider, with the languageServiceWorker we just created
     // eslint-disable-next-line no-unused-vars
     const diagnostics = new DiagnosticsAdapter(worker);
   });

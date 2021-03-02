@@ -24,6 +24,7 @@ export default class DiagnosticsAdapter {
       this.validate(model.uri);
     };
     monaco.editor.onDidCreateModel(onModelAdd);
+    // Monaco supports multiple models, though we only use a single model
     monaco.editor.getModels().forEach(onModelAdd);
   }
 
@@ -31,10 +32,10 @@ export default class DiagnosticsAdapter {
   async validate(resource) {
     // get the worker proxy (ts interface)
     const worker = await this.worker(resource);
-    console.log('diagnostics. worker:', worker);
-    // call the validate methode proxy from the langauge service and get errors
+    // call the validate methode proxy from the language service and get errors
     const errorMarkers = await worker.doValidation(resource);
-    // get the current model(editor or file) which is only one
+    console.log('diagnosticsAdapter... errorMarkers:', errorMarkers);
+    // get the current model (editor or file)
     const model = monaco.editor.getModel(resource);
     // add the error markers and underline them with severity of Error
     monaco.editor.setModelMarkers(model, languageID, errorMarkers.map(toDiagnostics));
