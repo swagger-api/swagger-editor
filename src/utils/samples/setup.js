@@ -9,6 +9,7 @@ import JsTsWorker from '../../workers/ts.worker';
 // eslint-disable-next-line no-unused-vars
 import ApidomWorker from '../../workers/apidom.worker';
 import { WorkerManager } from './workerManager';
+import DiagnosticsAdapter from './diagnosticsAdapter';
 
 export function setupLanguage() {
   // eslint-disable-next-line no-restricted-globals
@@ -72,7 +73,8 @@ export function setupLanguage() {
     };
     worker(MONACO_URI);
     // next, call the errors provider, with the languageServiceWorker
-    // new DiagnosticsAdapter(worker);
+    // eslint-disable-next-line no-unused-vars
+    const diagnostics = new DiagnosticsAdapter(worker);
   });
 }
 
