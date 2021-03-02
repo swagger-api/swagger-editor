@@ -4,16 +4,12 @@
 import { TextDocument } from 'vscode-languageserver-textdocument'; // this is true source
 import { getLanguageService } from 'vscode-json-languageservice'; // will eventually come from apidom
 // import {
-//   // eslint-disable-next-line no-unused-vars
-//   CompletionContext,
+//   // CompletionContext,
 //   getLanguageService,
-//   // eslint-disable-next-line no-unused-vars
-//   LanguageServiceContext,
+//   // LanguageServiceContext,
 // } from 'apidom-ls';
 
 import { languageID } from '../utils/samples/config';
-// import TodoLangLanguageService from "../language-service/LanguageService";
-// import { ITodoLangError } from "../language-service/TodoLangErrorListener";
 
 export class ApidomWorker {
   // eslint-disable-next-line no-unused-vars
@@ -29,10 +25,11 @@ export class ApidomWorker {
     // console.log('inside worker. document:', document); // ok
     if (document) {
       // note: in cssWorker example, doValidation(document, parsedStylesheet)
-      // const jsonDocument = this._languageService.parseJSONDocument(document);
+      const jsonDocument = this._languageService.parseJSONDocument(document);
       // console.log('doValidation... jsonDocument', jsonDocument);
-      const diagnostics = await this._languageService.doValidation(document);
-      console.log('doValidation... diagnostics:', diagnostics); // pending Promise
+      // the jsonService version expects (textDocument, jsonDocument)
+      const diagnostics = await this._languageService.doValidation(document, jsonDocument);
+      // console.log('doValidation... diagnostics:', diagnostics); // pending Promise
       // const finish = Promise.resolve(diagnostics);
       // console.log('doValidation... finish:', finish);
       return Promise.resolve(diagnostics);
