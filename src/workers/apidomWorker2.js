@@ -37,6 +37,28 @@ export class ApidomWorker {
     return Promise.resolve([]);
   }
 
+  async doComplete(uri, position) {
+    const document = this._getTextDocument(uri); // call a private method
+    const jsonDocument = this._languageService.parseJSONDocument(document);
+    const completions = await this._languageService.doComplete(document, position, jsonDocument);
+    return Promise.resolve(completions);
+  }
+
+  async doHover(uri, position) {
+    const document = this._getTextDocument(uri); // call a private method
+    const jsonDocument = this._languageService.parseJSONDocument(document);
+    const hover = await this._languageService.doHover(document, position, jsonDocument);
+    console.log('doHover... hover:', hover);
+    return Promise.resolve(hover);
+  }
+
+  async findDocumentSymbols(uri) {
+    const document = this._getTextDocument(uri); // call a private method
+    const jsonDocument = this._languageService.parseJSONDocument(document);
+    const symbols = await this._languageService.findDocumentSymbols(document, jsonDocument);
+    return Promise.resolve(symbols);
+  }
+
   // intended as private method
   // eslint-disable-next-line no-unused-vars
   _getTextDocument(uri) {

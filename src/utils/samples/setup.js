@@ -10,6 +10,7 @@ import JsTsWorker from '../../workers/ts.worker';
 import ApidomWorker from '../../workers/apidom.worker';
 import { WorkerManager } from './workerManager';
 import DiagnosticsAdapter from './diagnosticsAdapter';
+import HoverAdapter from './hoverAdapter';
 
 export function setupLanguage() {
   // eslint-disable-next-line no-restricted-globals
@@ -72,6 +73,9 @@ export function setupLanguage() {
     // next, call the errors provider, with the languageServiceWorker we just created
     // eslint-disable-next-line no-unused-vars
     const diagnostics = new DiagnosticsAdapter(worker);
+    // register the provider(s)
+    const hover = new HoverAdapter(worker);
+    monaco.languages.registerHoverProvider(languageID, hover);
   });
 }
 
