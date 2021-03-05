@@ -5,7 +5,7 @@ const apiDOMResolverPlugin = [
   {
     root: ["./src"],
     alias: {
-      apidom: "../../apidom/packages/apidom/cjs",
+      apidom: "../../apidom/packages/apidom",
       "apidom-ast": "../../apidom/packages/apidom-ast",
       "apidom-ns-asyncapi-2-0": "../../apidom/packages/apidom-ns-asyncapi-2-0",
       "apidom-ns-openapi-3-1": "../../apidom/packages/apidom-ns-openapi-3-1",
@@ -22,6 +22,7 @@ const apiDOMResolverPlugin = [
         "../../apidom/packages/apidom-parser-adapter-openapi-yaml-3-1",
       "apidom-parser-adapter-yaml-1-2":
         "../../apidom/packages/apidom-parser-adapter-yaml-1-2",
+      "apidom-reference": "../../apidom/packages/apidom-reference",
       "apidom-ls":
         "../../apidom/packages/apidom-ls",
     },

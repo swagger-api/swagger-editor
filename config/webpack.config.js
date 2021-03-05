@@ -380,6 +380,33 @@ module.exports = function (webpackEnv) {
           "react-dom$": "react-dom/profiling",
           "scheduler/tracing": "scheduler/tracing-profiling",
         }),
+        apidom: path.resolve(paths.apidomPath, 'apidom'),
+        'apidom-ast': path.resolve(paths.apidomPath, 'apidom-ast'),
+        'apidom-ns-asyncapi-2-0': path.resolve(paths.apidomPath, 'apidom-ns-asyncapi-2-0'),
+        'apidom-ns-openapi-3-1': path.resolve(paths.apidomPath, 'apidom-ns-openapi-3-1'),
+        'apidom-parser': path.resolve(paths.apidomPath, 'apidom-parser'),
+        'apidom-parser-adapter-asyncapi-json-2-0': path.resolve(
+          paths.apidomPath,
+          'apidom-parser-adapter-asyncapi-json-2-0'
+        ),
+        'apidom-parser-adapter-asyncapi-yaml-2-0': path.resolve(
+          paths.apidomPath,
+          'apidom-parser-adapter-asyncapi-yaml-2-0'
+        ),
+        'apidom-parser-adapter-json': path.resolve(paths.apidomPath, 'apidom-parser-adapter-json'),
+        'apidom-parser-adapter-openapi-json-3-1': path.resolve(
+          paths.apidomPath,
+          'apidom-parser-adapter-openapi-json-3-1'
+        ),
+        'apidom-parser-adapter-openapi-yaml-3-1': path.resolve(
+          paths.apidomPath,
+          'apidom-parser-adapter-openapi-yaml-3-1'
+        ),
+        'apidom-parser-adapter-yaml-1-2': path.resolve(
+          paths.apidomPath,
+          'apidom-parser-adapter-yaml-1-2'
+        ),
+        'apidom-reference': path.resolve(paths.apidomPath, 'apidom-reference'),
         ...(modules.webpackAliases || {}),
       },
       plugins: [
