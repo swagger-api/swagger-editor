@@ -1,5 +1,9 @@
 /* eslint-disable import/prefer-default-export */
 import * as monaco from 'monaco-editor-core';
+import * as apiDOM from 'apidom';
+import ApiDOMParser from 'apidom-parser';
+// eslint-disable-next-line camelcase
+import * as openapi3_1Adapter from 'apidom-parser-adapter-openapi-json-3-1';
 
 import { languageExtensionPoint, languageID } from './config';
 import { monarchLanguage } from './monarchLang';
@@ -85,4 +89,15 @@ export async function initializeWorkers() {
   await new JsonWorker();
   await new JsTsWorker();
   await new ApidomWorker();
+}
+
+export async function initializeParsers() {
+  const parser = ApiDOMParser();
+  // console.log('what is parser:', parser); // { use, parse, findNamespace }
+  parser.use(openapi3_1Adapter);
+  // console.log('what is parser after use:', parser); // { use, parse, findNamespace }
+  const parseResult = await parser.parse('{"openapi": "3.1.0"}');
+  const spec = apiDOM.toValue(parseResult.api);
+
+  console.dir(spec);
 }

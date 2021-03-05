@@ -25,13 +25,14 @@ export class ApidomWorker {
     // console.log('inside worker. document:', document); // ok
     if (document) {
       // note: in cssWorker example, doValidation(document, parsedStylesheet)
+      // Case: json
       const jsonDocument = this._languageService.parseJSONDocument(document);
       // console.log('doValidation... jsonDocument', jsonDocument);
       // the jsonService version expects (textDocument, jsonDocument)
       const diagnostics = await this._languageService.doValidation(document, jsonDocument);
       // console.log('doValidation... diagnostics:', diagnostics); // pending Promise
-      // const finish = Promise.resolve(diagnostics);
-      // console.log('doValidation... finish:', finish);
+      // Case: apidom
+      // const diagnostics = await this._languageService.doValidation(document);
       return Promise.resolve(diagnostics);
     }
     return Promise.resolve([]);
@@ -46,8 +47,11 @@ export class ApidomWorker {
 
   async doHover(uri, position) {
     const document = this._getTextDocument(uri); // call a private method
+    // Case: json
     const jsonDocument = this._languageService.parseJSONDocument(document);
     const hover = await this._languageService.doHover(document, position, jsonDocument);
+    // Case: apidom
+    // const hover = await this._languageService.doHover(document, position);
     console.log('doHover... hover:', hover);
     return Promise.resolve(hover);
   }

@@ -16,7 +16,8 @@ import getStyleMetadataDark from '../../../utils/utils-monaco-theme-dark';
 // eslint-disable-next-line no-unused-vars
 import { validate, provideDocumentSymbols, provideHover } from '../../../workers/apidomWorker';
 import { languageID } from '../../../utils/samples/config';
-import { setupLanguage, initializeWorkers } from '../../../utils/samples/setup';
+// eslint-disable-next-line no-unused-vars
+import { setupLanguage, initializeWorkers, initializeParsers } from '../../../utils/samples/setup';
 
 export default class MonacoEditor extends Component {
   constructor(props) {
@@ -26,6 +27,7 @@ export default class MonacoEditor extends Component {
   }
 
   componentDidMount() {
+    // initializeParsers();
     initializeWorkers();
     setupLanguage();
     this.initMonacoEditor();
