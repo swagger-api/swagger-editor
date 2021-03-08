@@ -8,7 +8,8 @@ const editor = (
   <SwaggerUI
     presets={[SwaggerEditorStandalonePreset, GenericEditorPreset]}
     layout="StandaloneLayout"
-    url="https://petstore.swagger.io/v2/swagger.json"
+    // url="https://petstore.swagger.io/v2/swagger.json"
+    url="https://petstore3.swagger.io/api/v3/openapi.json"
   />
 );
 
