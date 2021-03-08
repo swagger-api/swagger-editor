@@ -2,21 +2,24 @@
 /* eslint-disable import/prefer-default-export */
 // import * as monaco from 'monaco-editor-core'; // TS interface
 import { TextDocument } from 'vscode-languageserver-textdocument'; // this is true source
-import { getLanguageService } from 'vscode-json-languageservice'; // will eventually come from apidom
-// import {
-//   // CompletionContext,
-//   getLanguageService,
-//   // LanguageServiceContext,
-// } from 'apidom-ls';
+// import { getLanguageService } from 'vscode-json-languageservice'; // will eventually come from apidom
+import {
+  // CompletionContext,
+  getLanguageService,
+  // LanguageServiceContext,
+} from 'apidom-ls';
 
 import { languageID } from '../utils/samples/config';
+// eslint-disable-next-line no-unused-vars
+import metadata from './metadataJs';
 
 export class ApidomWorker {
   // eslint-disable-next-line no-unused-vars
   constructor(ctx, createData) {
     this._ctx = ctx;
     // define this._x for languageSettings, languageId, languageService
-    this._languageService = getLanguageService(this._ctx);
+    // this._languageService = getLanguageService(this._ctx);
+    this._languageService = getLanguageService(metadata); // use apidom metadata
     // this._languageService.configure(this._languageSettings);
   }
 
@@ -26,13 +29,13 @@ export class ApidomWorker {
     if (document) {
       // note: in cssWorker example, doValidation(document, parsedStylesheet)
       // Case: json
-      const jsonDocument = this._languageService.parseJSONDocument(document);
+      // const jsonDocument = this._languageService.parseJSONDocument(document);
       // console.log('doValidation... jsonDocument', jsonDocument);
       // the jsonService version expects (textDocument, jsonDocument)
-      const diagnostics = await this._languageService.doValidation(document, jsonDocument);
+      // const diagnostics = await this._languageService.doValidation(document, jsonDocument);
       // console.log('doValidation... diagnostics:', diagnostics); // pending Promise
       // Case: apidom
-      // const diagnostics = await this._languageService.doValidation(document);
+      const diagnostics = await this._languageService.doValidation(document);
       return Promise.resolve(diagnostics);
     }
     return Promise.resolve([]);
@@ -48,10 +51,10 @@ export class ApidomWorker {
   async doHover(uri, position) {
     const document = this._getTextDocument(uri); // call a private method
     // Case: json
-    const jsonDocument = this._languageService.parseJSONDocument(document);
-    const hover = await this._languageService.doHover(document, position, jsonDocument);
+    // const jsonDocument = this._languageService.parseJSONDocument(document);
+    // const hover = await this._languageService.doHover(document, position, jsonDocument);
     // Case: apidom
-    // const hover = await this._languageService.doHover(document, position);
+    const hover = await this._languageService.doHover(document, position);
     console.log('doHover... hover:', hover);
     return Promise.resolve(hover);
   }
