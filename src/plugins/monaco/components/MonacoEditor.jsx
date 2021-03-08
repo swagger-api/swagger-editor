@@ -27,7 +27,7 @@ export default class MonacoEditor extends Component {
   }
 
   componentDidMount() {
-    // initializeParsers();
+    initializeParsers();
     initializeWorkers();
     setupLanguage();
     this.initMonacoEditor();
