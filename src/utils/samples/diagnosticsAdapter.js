@@ -33,11 +33,19 @@ export default class DiagnosticsAdapter {
     // get the worker proxy (ts interface)
     const worker = await this.worker(resource);
     // call the validate methode proxy from the language service and get errors
-    const errorMarkers = await worker.doValidation(resource);
-    console.log('diagnosticsAdapter... errorMarkers:', errorMarkers);
-    // get the current model (editor or file)
-    const model = monaco.editor.getModel(resource);
-    // add the error markers and underline them with severity of Error
-    monaco.editor.setModelMarkers(model, languageID, errorMarkers.map(toDiagnostics));
+    try {
+      const errorMarkers = await worker.doValidation(resource);
+      if (!errorMarkers) {
+        return Promise.resolve({ error: 'unable to doValidation' });
+      }
+      console.log('diagnosticsAdapter... errorMarkers:', errorMarkers);
+      // get the current model (editor or file)
+      const model = monaco.editor.getModel(resource);
+      // add the error markers and underline them with severity of Error
+      monaco.editor.setModelMarkers(model, languageID, errorMarkers.map(toDiagnostics));
+      return Promise.resolve({ message: 'doValidation success' });
+    } catch (e) {
+      return Promise.resolve({ error: 'unable to doValidation' });
+    }
   }
 }
