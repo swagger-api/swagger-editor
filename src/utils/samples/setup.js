@@ -127,12 +127,13 @@ export async function initializeParsers() {
 
   // console.log('what is parser:', parser); // { use, parse, findNamespace }
   const parseResult = await parser.parse('{"openapi": "3.1.0"}');
-  if (!parseResult.api) {
+  if (!parseResult || !parseResult.api) {
     console.log(
       'initializeParsers. unable to parse argument. you probably tried to "use" multiple adapters'
     );
-    return;
+    return Promise.resolve({ error: 'unable to parse' });
   }
   const spec = apiDOM.toValue(parseResult.api);
   console.log('initializeParsers. spec:', spec);
+  return Promise.resolve({ message: 'parse completed' });
 }
