@@ -20,6 +20,10 @@ import ApidomWorker from '../../workers/apidom.worker';
 import { WorkerManager } from './workerManager';
 import DiagnosticsAdapter from './diagnosticsAdapter';
 import HoverAdapter from './hoverAdapter';
+// import CompletionItemsAdapter from './completionItemsAdapter';
+// import SemanticTokensAdapter from './semanticTokensAdapter';
+// import CodeActionsAdapter from './codeActions';
+// import DocumentSymbolsAdapter from './documentSymbolsAdapter';
 
 export function setupLanguage() {
   // eslint-disable-next-line no-restricted-globals
@@ -85,6 +89,14 @@ export function setupLanguage() {
     // register the provider(s)
     const hover = new HoverAdapter(worker);
     monaco.languages.registerHoverProvider(languageID, hover);
+    // const completionItems = new CompletionItemsAdapter(worker);
+    // monaco.languages.registerCompletionItemProvider(languageID, completionItems);
+    // const semanticTokens = new SemanticTokensAdapter(worker);
+    // monaco.languages.registerDocumentSemanticTokensProvider(languageID, semanticTokens);
+    // const codeActions = new CodeActionsAdapter(worker);
+    // monaco.languages.registerCodeActionProvider(languageID, codeActions);
+    // const documentSymbols = new DocumentSymbolsAdapter(worker);
+    // monaco.languages.registerDocumentSymbolProvider(languageID, documentSymbols);
   });
 }
 
