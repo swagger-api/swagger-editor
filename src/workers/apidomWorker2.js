@@ -43,8 +43,12 @@ export class ApidomWorker {
 
   async doComplete(uri, position) {
     const document = this._getTextDocument(uri); // call a private method
-    const jsonDocument = this._languageService.parseJSONDocument(document);
-    const completions = await this._languageService.doComplete(document, position, jsonDocument);
+    // Case: json
+    // const jsonDocument = this._languageService.parseJSONDocument(document);
+    // const completions = await this._languageService.doComplete(document, position, jsonDocument);
+    // Case: apidom
+    const completions = await this._languageService.doCompletion(document, position);
+    console.log('doComplete... completions:', completions);
     return Promise.resolve(completions);
   }
 
@@ -61,8 +65,12 @@ export class ApidomWorker {
 
   async findDocumentSymbols(uri) {
     const document = this._getTextDocument(uri); // call a private method
-    const jsonDocument = this._languageService.parseJSONDocument(document);
-    const symbols = await this._languageService.findDocumentSymbols(document, jsonDocument);
+    // Case: json
+    // const jsonDocument = this._languageService.parseJSONDocument(document);
+    // const symbols = await this._languageService.findDocumentSymbols(document, jsonDocument);
+    // Case: apidom
+    const symbols = await this._languageService.doFindDocumentSymbols(document);
+    console.log('findDocumentSymbols... symbols:', symbols);
     return Promise.resolve(symbols);
   }
 
