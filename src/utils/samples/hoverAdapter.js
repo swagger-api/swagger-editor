@@ -40,9 +40,9 @@ export default class HoverAdapter {
     // call the validate method proxy from the language service and get hover info
     // const info = await worker.doHover(resource.toString(), fromPosition(position));
     const info = await worker.doHover(uri, computedPosition);
-    console.log('hoverAdapter. info:', info);
+    // console.log('hoverAdapter. info:', info);
     if (!info) {
-      console.log('hoverAdapter, !info case');
+      // console.log('hoverAdapter, !info case');
       return Promise.resolve(null);
     }
     // return p2m.asHover(hover);
