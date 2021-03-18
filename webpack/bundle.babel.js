@@ -21,7 +21,6 @@ const result = configBuilder(
     mangle: true,
     sourcemaps: true,
     includeDependencies: true,
-    includeStyles: true,
     emitWorkerAssets: true,
   },
   {
@@ -29,7 +28,6 @@ const result = configBuilder(
 
     entry: {
       "swagger-editor-bundle": [
-        "./src/styles/main.less",
         "./src/index.js",
       ],
     },

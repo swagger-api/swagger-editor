@@ -10,7 +10,6 @@ const result = configBuilder(
     mangle: true,
     sourcemaps: true,
     includeDependencies: true,
-    includeStyles: false,
     emitWorkerAssets: false,
   },
   {
