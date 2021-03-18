@@ -16,7 +16,6 @@ const result = configBuilder(
   {
     entry: {
       "swagger-editor-bundle": [
-        "./src/styles/main.less",
         "./src/index.js",
       ],
     },

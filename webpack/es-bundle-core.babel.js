@@ -28,7 +28,6 @@ const result = configBuilder(
 
     entry: {
       "swagger-editor-es-bundle-core": [
-        "./src/styles/main.less",
         "./src/index.js",
       ],
     },
