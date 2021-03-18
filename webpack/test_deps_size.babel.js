@@ -11,7 +11,6 @@ const result = configBuilder(
     mangle: false,
     sourcemaps: false,
     includeDependencies: true,
-    includeStyles: true,
     emitWorkerAssets: false,
   },
   {

@@ -13,7 +13,6 @@ const devConfig = configBuilder(
     mangle: false,
     sourcemaps: true,
     includeDependencies: true,
-    includeStyles: true,
     emitWorkerAssets: false,
   },
   {
