@@ -1,8 +1,13 @@
+import { ProtocolToMonacoConverter } from 'monaco-languageclient/lib/monaco-converter';
+
+// eslint-disable-next-line no-unused-vars
 import { fromPosition, toRange } from './utils-helpers';
 
 export default class HoverAdapter {
-  constructor(worker) {
+  // experimental: accept a monaco instance
+  constructor(worker, monaco) {
     this.worker = worker;
+    this.monaco = monaco;
   }
 
   async provideHover(model, position) {
@@ -18,9 +23,14 @@ export default class HoverAdapter {
       // console.log('hoverAdapter, !info case');
       return Promise.resolve(null);
     }
-    return Promise.resolve({
-      range: toRange(info.range),
-      contents: info.contents, // do we need to support markdown, via utils func?
-    });
+    // Working in-house version:
+    // return Promise.resolve({
+    //   range: toRange(info.range),
+    //   contents: info.contents, // do we need to support markdown, via utils func?
+    // });
+    // experimental with an unstable build of monaco-converter, which can now accept a monaco instance
+    const p2m = new ProtocolToMonacoConverter(this.monaco);
+    const result = p2m.asHover(info);
+    return Promise.resolve(result);
   }
 }

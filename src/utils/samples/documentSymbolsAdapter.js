@@ -1,8 +1,9 @@
 import { ProtocolToMonacoConverter } from 'monaco-languageclient/lib/monaco-converter';
 
 export default class DocumentSymbolAdapter {
-  constructor(worker) {
+  constructor(worker, monaco) {
     this.worker = worker;
+    this.monaco = monaco;
   }
 
   async provideDocumentSymbols(model) {
@@ -21,7 +22,8 @@ export default class DocumentSymbolAdapter {
     // https://github.com/TypeFox/monaco-languageclient/blob/f020bfd815bc7bb7fec000ed08cc59ccec8124a4/client/src/monaco-converter.ts#L728
     // monaco-playground has a shortcut "ctrl+shift+0" in the editor to display dropdown
     // which doesn't work (yet) in generic-editor
-    const p2m = new ProtocolToMonacoConverter();
+    // experimental: accept monaco instance
+    const p2m = new ProtocolToMonacoConverter(this.monaco);
     const result = p2m.asDocumentSymbols(items);
     // console.log('provideDocumentSymbols result:', result);
     // const result = items.map((item) => ({
