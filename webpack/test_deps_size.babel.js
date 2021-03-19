@@ -11,13 +11,11 @@ const result = configBuilder(
     mangle: false,
     sourcemaps: false,
     includeDependencies: true,
-    includeStyles: true,
     emitWorkerAssets: false,
   },
   {
     entry: {
       "swagger-editor-bundle": [
-        "./src/styles/main.less",
         "./src/index.js",
       ],
     },

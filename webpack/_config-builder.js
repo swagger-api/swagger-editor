@@ -59,7 +59,6 @@ export default function buildConfig(
     mangle = true,
     sourcemaps = true,
     includeDependencies = true,
-    includeStyles = false,
     emitWorkerAssets = false,
   },
   customConfig
@@ -97,36 +96,6 @@ export default function buildConfig(
     ],
   })
 
-  //// Styles
-
-  baseRules.push({
-    test: [/\.less$/],
-    use: includeStyles
-      ? [
-          "style-loader",
-          {
-            loader: "css-loader",
-            options: { sourceMap: true },
-          },
-          {
-            loader: "postcss-loader",
-            options: {
-              sourceMap: true,
-              plugins: () => [
-                require("cssnano")(),
-                require("autoprefixer")(),
-              ],
-            },
-          },
-          {
-            loader: "less-loader",
-            options: {
-              sourceMap: true,
-            },
-          },
-        ]
-      : "null-loader",
-  })
 
   const completeConfig = deepExtend(
     {},

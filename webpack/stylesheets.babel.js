@@ -31,11 +31,13 @@ export default {
           {
             loader: "postcss-loader",
             options: {
-              sourceMap: true,
-              plugins: [
-                require("cssnano")(),
-                require("autoprefixer")(),
-              ],
+              postcssOptions: {
+                sourceMap: true,
+                plugins: [
+                  require("cssnano")(),
+                  "postcss-preset-env" // applies autoprefixer
+                ],
+              },
             },
           },
           {
