@@ -1,3 +1,4 @@
+// eslint-disable-next-line no-unused-vars
 import { ProtocolToMonacoConverter } from 'monaco-languageclient/lib/monaco-converter';
 
 // eslint-disable-next-line no-unused-vars
@@ -23,14 +24,20 @@ export default class HoverAdapter {
       // console.log('hoverAdapter, !info case');
       return Promise.resolve(null);
     }
-    // Working in-house version:
+    // partially working in-house version:
+    // except that onDisplay, we don't see the tooltip
+    // but the return object looks correct.
+    // more to do here before return?
+    // e.g diagnosticsAdapter invokes monaco.editor.setModelMarkers here
     // return Promise.resolve({
     //   range: toRange(info.range),
     //   contents: info.contents, // do we need to support markdown, via utils func?
     // });
     // experimental with an unstable build of monaco-converter, which can now accept a monaco instance
     const p2m = new ProtocolToMonacoConverter(this.monaco);
+    // eslint-disable-next-line no-unused-vars
     const result = p2m.asHover(info);
     return Promise.resolve(result);
+    // return Promise.resolve({ message: 'hover success' }); This does not generate the tooltip
   }
 }
