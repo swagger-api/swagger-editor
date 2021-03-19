@@ -14,7 +14,7 @@ jobs:
         uses: WyriHaximus/github-action-wait-for-status@v1
         with:
           ignoreActions: Merge me!
-          checkInterval: 360
+          checkInterval: 180
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: Merge me!
