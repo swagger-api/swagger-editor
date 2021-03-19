@@ -87,8 +87,7 @@ export function setupLanguage() {
     // eslint-disable-next-line no-unused-vars
     const diagnostics = new DiagnosticsAdapter(worker);
     // register the provider(s)
-    // experimental: pass monaco instance
-    const hover = new HoverAdapter(worker, monaco);
+    const hover = new HoverAdapter(worker);
     monaco.languages.registerHoverProvider(languageID, hover);
     const completionItems = new CompletionItemsAdapter(worker);
     monaco.languages.registerCompletionItemProvider(languageID, completionItems);
@@ -96,8 +95,7 @@ export function setupLanguage() {
     // monaco.languages.registerDocumentSemanticTokensProvider(languageID, semanticTokens);
     // const codeActions = new CodeActionsAdapter(worker);
     // monaco.languages.registerCodeActionProvider(languageID, codeActions);
-    // experimental: pass monaco instance
-    const documentSymbols = new DocumentSymbolsAdapter(worker, monaco);
+    const documentSymbols = new DocumentSymbolsAdapter(worker);
     monaco.languages.registerDocumentSymbolProvider(languageID, documentSymbols);
   });
 }

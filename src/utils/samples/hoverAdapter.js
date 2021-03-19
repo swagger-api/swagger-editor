@@ -1,14 +1,14 @@
 // eslint-disable-next-line no-unused-vars
+import * as monaco from 'monaco-editor-core';
+// eslint-disable-next-line no-unused-vars
 import { ProtocolToMonacoConverter } from 'monaco-languageclient/lib/monaco-converter';
 
 // eslint-disable-next-line no-unused-vars
 import { fromPosition, toRange } from './utils-helpers';
 
 export default class HoverAdapter {
-  // experimental: accept a monaco instance
-  constructor(worker, monaco) {
+  constructor(worker) {
     this.worker = worker;
-    this.monaco = monaco;
   }
 
   async provideHover(model, position) {
@@ -26,7 +26,7 @@ export default class HoverAdapter {
     }
     // partially working in-house version:
     // except that onDisplay, we don't see the tooltip
-    // but the return object looks correct.
+    // but the info object looks correct.
     // more to do here before return?
     // e.g diagnosticsAdapter invokes monaco.editor.setModelMarkers here
     // return Promise.resolve({
@@ -34,7 +34,10 @@ export default class HoverAdapter {
     //   contents: info.contents, // do we need to support markdown, via utils func?
     // });
     // experimental with an unstable build of monaco-converter, which can now accept a monaco instance
-    const p2m = new ProtocolToMonacoConverter(this.monaco);
+    // update: it is not required to include monaco in the class constructor
+    // it also is not required to pass monaco to p2m, though it's better to be clear
+    // however, it is required to import monaco above for p2m
+    const p2m = new ProtocolToMonacoConverter(monaco);
     // eslint-disable-next-line no-unused-vars
     const result = p2m.asHover(info);
     return Promise.resolve(result);
