@@ -1,218 +1,143 @@
-import { getLanguageService, TextDocument } from 'vscode-json-languageservice';
+/* eslint-disable no-underscore-dangle */
+/* eslint-disable import/prefer-default-export */
+import { TextDocument } from 'vscode-languageserver-textdocument'; // this is true source
+// import { getLanguageService } from 'vscode-json-languageservice'; // will eventually come from apidom
 import {
-  MonacoToProtocolConverter,
-  ProtocolToMonacoConverter,
-} from 'monaco-languageclient/lib/monaco-converter';
+  // CompletionContext,
+  getLanguageService,
+  // LanguageServiceContext,
+} from 'apidom-ls';
 
-// import { metadata } from './metadata';
+import { languageID } from '../utils/samples/config';
+import metadata from './metadataJs';
 
-// export a new Class
+export class ApidomWorker {
+  // eslint-disable-next-line no-unused-vars
+  constructor(ctx, createData) {
+    this._ctx = ctx;
+    // define this._x for languageSettings, languageId, languageService
+    // this._languageService = getLanguageService(this._ctx);
+    this._languageService = getLanguageService(metadata); // use apidom metadata
+    // this._languageService.configure(this._languageSettings);
+  }
 
-// from GH issue, this is enough to load the worker
-// The onLanguage subscription should be run BEFORE the editor is created, or else it never fires
-// The worker is served per Webpack entry definition
+  async doValidation(uri) {
+    const document = this._getTextDocument(uri); // call a private method
+    if (!document) {
+      return Promise.resolve([]);
+    }
+    // console.log('inside worker. document:', document); // ok
+    // note: in cssWorker example, doValidation(document, parsedStylesheet)
+    // Case: json
+    // const jsonDocument = this._languageService.parseJSONDocument(document);
+    // console.log('doValidation... jsonDocument', jsonDocument);
+    // the jsonService version expects (textDocument, jsonDocument)
+    // const diagnostics = await this._languageService.doValidation(document, jsonDocument);
+    // console.log('doValidation... diagnostics:', diagnostics); // pending Promise
+    // Case: apidom
+    const diagnostics = await this._languageService.doValidation(document);
+    return Promise.resolve(diagnostics);
+  }
 
-// monaco.languages.onLanguage('mylang', () => {
-//   this._worker = editor.createWebWorker<MyWorker>({
-//     moduleId: 'static/js/mylang.worker.chunk.js', // or 'static/js/mylang.worker.chunk'
-//   });
-// });
+  async doComplete(uri, position) {
+    const document = this._getTextDocument(uri); // call a private method
+    if (!document) {
+      return Promise.resolve([]);
+    }
+    // Case: json
+    // const jsonDocument = this._languageService.parseJSONDocument(document);
+    // const completions = await this._languageService.doComplete(document, position, jsonDocument);
+    // Case: apidom
+    const completions = await this._languageService.doCompletion(document, position);
+    console.log('worker:doComplete... completions:', completions);
+    return Promise.resolve(completions);
+  }
 
-// example reference: https://github.com/microsoft/monaco-css/blob/master/src/cssWorker.ts
+  async doHover(uri, position) {
+    const document = this._getTextDocument(uri); // call a private method
+    if (!document) {
+      return Promise.resolve([]);
+    }
+    // Case: json
+    // const jsonDocument = this._languageService.parseJSONDocument(document);
+    // const hover = await this._languageService.doHover(document, position, jsonDocument);
+    // Case: apidom
+    const hover = await this._languageService.doHover(document, position);
+    console.log('worker:doHover... hover:', hover);
+    return Promise.resolve(hover);
+  }
 
-// --- model sync -----------------------
+  async findDocumentSymbols(uri) {
+    const document = this._getTextDocument(uri); // call a private method
+    if (!document) {
+      return Promise.resolve([]);
+    }
+    // Case: json
+    // const jsonDocument = this._languageService.parseJSONDocument(document);
+    // const symbols = await this._languageService.findDocumentSymbols(document, jsonDocument);
+    // Case: apidom
+    const symbols = await this._languageService.doFindDocumentSymbols(document);
+    console.log('worker:findDocumentSymbols... symbols:', symbols);
+    return Promise.resolve(symbols);
+  }
 
-// languageId
-// languageService
-// languageSettings
+  async doCodeActions(uri) {
+    const document = this._getTextDocument(uri); // call a private method
+    if (!document) {
+      return Promise.resolve([]);
+    }
+    const diagnostics = await this._languageService.doValidation(document);
+    // todo: do we have to account for !diagnostics?
+    const codeActions = await this._languageService.doCodeActions(document, diagnostics);
+    console.log('worker:doCodeActions... codeActions:', codeActions);
+    return Promise.resolve(codeActions);
+  }
 
-// --- language service host ---------------
+  async findSemanticTokens(uri) {
+    const document = this._getTextDocument(uri); // call a private method
+    if (!document) {
+      return Promise.resolve([]);
+    }
+    const semanticTokens = await this._languageService.computeSemanticTokens(document);
+    console.log('worker:findSemanticTokens... semanticTokens:', semanticTokens);
+    return Promise.resolve(semanticTokens);
+  }
 
-// CSS Worker methods:
-// async doValidation
-// async doComplete
-// async doHover
-// async findDefinition
-// async findReferences
-// async findDocumentHighlights
-// async findDocumentSymbols
-// async doCodeActions
-// async findDocumentColors
-// async getColorPresentations
-// async getFoldingRanges
-// async getSelectionRanges
-// async doRename
-// private _getTextDocument
+  async getSemanticTokensLegend() {
+    const semanticTokensLegend = await this._languageService.getSemanticTokensLegend();
+    console.log('worker:getSemanticTokensLegend... semanticTokensLegend:', semanticTokensLegend);
+    return Promise.resolve(semanticTokensLegend);
+  }
 
-// --- export interface, export function ---------------
-// export function create(ctx, createData);
-
-// --- Apidom experiment ---------------
-// Apidom LSP methods:
-
-// Apidom experiment: export create({ monaco, containerId })
-// but most of this experiment should be extracted into its own web worker, like the CSSWorker example
-
-// TS
-// const monacoModel: monaco.editor.IModel = editor.getModel();
-// function getModel(): monaco.editor.IModel {
-//   return monacoModel;
-// }
-
-// diff note: monaco.editor already created
-export function getModel({ editor }) {
-  return editor.getModel();
-}
-
-// TS
-// function createDocument(model: monaco.editor.IReadOnlyModel) {
-//   return TextDocument.create(
-//     MODEL_URI,
-//     model.getModeId(),
-//     model.getVersionId(),
-//     model.getValue()
-//   );
-// }
-
-export function createDocument({ model, modelUri }) {
-  return TextDocument.create(modelUri, model.getModeId(), model.getVersionId(), model.getValue());
-}
-
-// TS
-// function resolveSchema(url: string): Promise<string> {
-//   const promise = new Promise<string>((resolve, reject) => {
-//     const xhr = new XMLHttpRequest();
-//     xhr.onload = () => resolve(xhr.responseText);
-//     xhr.onerror = () => reject(xhr.statusText);
-//     xhr.open("GET", url, true);
-//     xhr.send();
-//   });
-//   return promise;
-// }
-
-export function resolveSchema({ url }) {
-  const promise = new Promise((resolve, reject) => {
-    const xhr = new XMLHttpRequest();
-    xhr.onload = () => resolve(xhr.responseText);
-    xhr.onerror = () => reject(xhr.statusText);
-    xhr.open('GET', url, true);
-    xhr.send();
-  });
-  return promise;
-}
-
-// eslint-disable-next-line no-unused-vars
-const m2p = new MonacoToProtocolConverter();
-const p2m = new ProtocolToMonacoConverter();
-
-/**
- * Validation
- */
-
-const pendingValidationRequests = new Map();
-
-/* @type (document: TextDocument) */
-export function cleanPendingValidation({ document }) {
-  const request = pendingValidationRequests.get(document.uri);
-  if (request !== undefined) {
-    clearTimeout(request);
-    pendingValidationRequests.delete(document.uri);
+  // intended as private method
+  // eslint-disable-next-line no-unused-vars
+  _getTextDocument(uri) {
+    // console.log('_getTextDocument... args: uri', uri);
+    const models = this._ctx.getMirrorModels()[0]; // When there are multiple files open, this will be an array
+    // console.log('_getTextDocument.models', models);
+    // models: _lines[], _uri, _versionId
+    // fyi, reference more complete example in cssWorker
+    // https://github.com/microsoft/monaco-css/blob/master/src/cssWorker.ts
+    // which we might want later to handle multiple URIs
+    // expect return a TextDocument/TextDocument.create()
+    // const testModelsUri = models.uri.toString(); // singular
+    // console.log('testModelsUri:', testModelsUri); // inmemory://model/1
+    // if (models.uri.toString() === uri) {
+    const textDocumentToReturn = TextDocument.create(
+      uri,
+      // this._languageId,
+      languageID,
+      models._versionId,
+      models.getValue()
+    );
+    // console.log('_getTextDocument.textDocumentToReturn', textDocumentToReturn);
+    return textDocumentToReturn;
+    // }
+    // console.log('_getTextDocument... early return. uri not match');
+    // return null;
   }
 }
 
-export function cleanDiagnostics({ editor }) {
-  editor.setModelMarkers(getModel({ editor }), 'default', []);
+export function create(ctx, createData) {
+  return new ApidomWorker(ctx, createData);
 }
-// const context = {
-//   metadata: metadata(), // TODO: create metadata file, and import it
-// };
-
-// const apidomService = getLanguageService(context);
-
-// export function doValidate({ editor, document }) {
-//   if (document.getText().length === 0) {
-//     cleanDiagnostics({ editor });
-//     return;
-//   }
-//   apidomService.doValidation(document).then((diagnostics) => {
-//     const markers = p2m.asDiagnostics(diagnostics);
-//     editor.setModelMarkers(getModel({ editor }), 'default', markers);
-//   });
-// }
-
-// TODO: replace jsonService with apidomService (above), once available
-const jsonService = getLanguageService({
-  schemaRequestService: resolveSchema,
-});
-
-/* @type (document: TextDocument) */
-export function doValidateJson({ editor, document, setModelMarkers }) {
-  if (document.getText().length === 0) {
-    cleanDiagnostics({ editor });
-    return;
-  }
-  const jsonDocument = jsonService.parseJSONDocument(document);
-  // console.log('doValidateJson, jsonDocument:', jsonDocument);
-  jsonService.doValidation(document, jsonDocument).then((diagnostics) => {
-    const markers = p2m.asDiagnostics(diagnostics);
-    // console.log('doValidateJson markers:', markers);
-    setModelMarkers(getModel({ editor }), 'default', markers); // not a function here or from props
-  });
-}
-
-export function validate({ editor, setModelMarkers }) {
-  const model = getModel({ editor });
-  const document = createDocument({ model });
-  cleanPendingValidation({ editor, document });
-  pendingValidationRequests.set(
-    document.uri,
-    setTimeout(() => {
-      pendingValidationRequests.delete(document.uri);
-      // doValidate({ editor, setModelMarkers, document });
-      doValidateJson({ editor, setModelMarkers, document });
-    })
-  );
-}
-
-/*
- * Providers
- */
-
-/*
- * monaco.languages.registerDocumentSymbolProvider(languageId, {
- *   provideDocumentSymbols: importPath.provideDocumentSymbols({
- *     editor,
- * })})
- */
-export function provideDocumentSymbols({ editor }) {
-  const model = getModel({ editor });
-  const document = createDocument({ model });
-  const jsonDocument = jsonService.parseJSONDocument(document);
-  return p2m.asSymbolInformations(jsonService.findDocumentSymbols(document, jsonDocument));
-}
-
-/*
- * pre: const position = monaco.Position();
- * monaco.languages.registerHoverProvider(languageId, {
- *   provideHover: importPath.provideHover({
- *     editor,
- *     position,
- * })})
- */
-export function provideHover({ editor, position }) {
-  const model = getModel({ editor });
-  const document = createDocument({ model });
-  // const document = createDocument(model);
-  const jsonDocument = jsonService.parseJSONDocument(document);
-  return jsonService
-    .doHover(document, m2p.asPosition(position.lineNumber, position.column), jsonDocument)
-    .then((hover) => {
-      console.log('so far so good on hover', hover);
-      return p2m.asHover(hover);
-    });
-}
-
-export const ApidomWorker = {
-  validate,
-};
-export default ApidomWorker;
