@@ -4,11 +4,7 @@ export default class DocumentSymbolAdapter {
     this.worker = worker;
   }
 
-  // eslint-disable-next-line no-unused-vars
-  async getLegend(model) {
-    // const resource = model.uri;
-    // get the worker proxy (ts interface)
-    // const worker = await this.worker(resource);
+  async getLegend() {
     const worker = await this.worker();
     try {
       const semanticTokensLegend = await worker.getSemanticTokensLegend();
@@ -29,12 +25,10 @@ export default class DocumentSymbolAdapter {
     } catch (e) {
       return Promise.resolve({ error: 'unable to provideDocumentSemanticTokens' });
     }
-    // const document = createDocument(model);
-    // return apidomService.computeSemanticTokens(document);
   }
 
   async releaseDocumentSemanticTokens() {
     // nothing to do
-    return Promise.resolve(null);
+    return Promise.resolve({});
   }
 }
