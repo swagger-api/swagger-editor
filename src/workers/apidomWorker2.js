@@ -95,6 +95,22 @@ export class ApidomWorker {
     return Promise.resolve(codeActions);
   }
 
+  async findSemanticTokens(uri) {
+    const document = this._getTextDocument(uri); // call a private method
+    if (!document) {
+      return Promise.resolve([]);
+    }
+    const semanticTokens = await this._languageService.computeSemanticTokens(document);
+    console.log('findSemanticTokens... semanticTokens:', semanticTokens);
+    return Promise.resolve(semanticTokens);
+  }
+
+  async getSemanticTokensLegend() {
+    const semanticTokensLegend = await this._languageService.getSemanticTokensLegend();
+    console.log('getSemanticTokensLegend... semanticTokensLegend:', semanticTokensLegend);
+    return Promise.resolve(semanticTokensLegend);
+  }
+
   // intended as private method
   // eslint-disable-next-line no-unused-vars
   _getTextDocument(uri) {

@@ -21,7 +21,7 @@ import { WorkerManager } from './workerManager';
 import DiagnosticsAdapter from './diagnosticsAdapter';
 import HoverAdapter from './hoverAdapter';
 import CompletionItemsAdapter from './completionItemsAdapter';
-// import SemanticTokensAdapter from './semanticTokensAdapter';
+import SemanticTokensAdapter from './semanticTokensAdapter';
 import CodeActionsAdapter from './codeActionsAdapter';
 import DocumentSymbolsAdapter from './documentSymbolsAdapter';
 
@@ -91,12 +91,12 @@ export function setupLanguage() {
     monaco.languages.registerHoverProvider(languageID, hover);
     const completionItems = new CompletionItemsAdapter(worker);
     monaco.languages.registerCompletionItemProvider(languageID, completionItems);
-    // const semanticTokens = new SemanticTokensAdapter(worker);
-    // monaco.languages.registerDocumentSemanticTokensProvider(languageID, semanticTokens);
     const codeActions = new CodeActionsAdapter(worker);
     monaco.languages.registerCodeActionProvider(languageID, codeActions);
     const documentSymbols = new DocumentSymbolsAdapter(worker);
     monaco.languages.registerDocumentSymbolProvider(languageID, documentSymbols);
+    const semanticTokens = new SemanticTokensAdapter(worker);
+    monaco.languages.registerDocumentSemanticTokensProvider(languageID, semanticTokens);
   });
 }
 
