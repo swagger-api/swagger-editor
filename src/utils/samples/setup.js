@@ -22,7 +22,7 @@ import DiagnosticsAdapter from './diagnosticsAdapter';
 import HoverAdapter from './hoverAdapter';
 import CompletionItemsAdapter from './completionItemsAdapter';
 // import SemanticTokensAdapter from './semanticTokensAdapter';
-// import CodeActionsAdapter from './codeActions';
+import CodeActionsAdapter from './codeActionsAdapter';
 import DocumentSymbolsAdapter from './documentSymbolsAdapter';
 
 export function setupLanguage() {
@@ -93,8 +93,8 @@ export function setupLanguage() {
     monaco.languages.registerCompletionItemProvider(languageID, completionItems);
     // const semanticTokens = new SemanticTokensAdapter(worker);
     // monaco.languages.registerDocumentSemanticTokensProvider(languageID, semanticTokens);
-    // const codeActions = new CodeActionsAdapter(worker);
-    // monaco.languages.registerCodeActionProvider(languageID, codeActions);
+    const codeActions = new CodeActionsAdapter(worker);
+    monaco.languages.registerCodeActionProvider(languageID, codeActions);
     const documentSymbols = new DocumentSymbolsAdapter(worker);
     monaco.languages.registerDocumentSymbolProvider(languageID, documentSymbols);
   });

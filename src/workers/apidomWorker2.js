@@ -74,6 +74,18 @@ export class ApidomWorker {
     return Promise.resolve(symbols);
   }
 
+  async doCodeActions(uri) {
+    const document = this._getTextDocument(uri); // call a private method
+    if (!document) {
+      return Promise.resolve([]);
+    }
+    const diagnostics = await this._languageService.doValidation(document);
+    // todo: do we have to account for !diagnostics?
+    const codeActions = await this._languageService.doCodeActions(document, diagnostics);
+    console.log('doCodeActions... codeActions:', codeActions);
+    return Promise.resolve(codeActions);
+  }
+
   // intended as private method
   // eslint-disable-next-line no-unused-vars
   _getTextDocument(uri) {
