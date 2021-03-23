@@ -25,24 +25,27 @@ export class ApidomWorker {
 
   async doValidation(uri) {
     const document = this._getTextDocument(uri); // call a private method
-    // console.log('inside worker. document:', document); // ok
-    if (document) {
-      // note: in cssWorker example, doValidation(document, parsedStylesheet)
-      // Case: json
-      // const jsonDocument = this._languageService.parseJSONDocument(document);
-      // console.log('doValidation... jsonDocument', jsonDocument);
-      // the jsonService version expects (textDocument, jsonDocument)
-      // const diagnostics = await this._languageService.doValidation(document, jsonDocument);
-      // console.log('doValidation... diagnostics:', diagnostics); // pending Promise
-      // Case: apidom
-      const diagnostics = await this._languageService.doValidation(document);
-      return Promise.resolve(diagnostics);
+    if (!document) {
+      return Promise.resolve([]);
     }
-    return Promise.resolve([]);
+    // console.log('inside worker. document:', document); // ok
+    // note: in cssWorker example, doValidation(document, parsedStylesheet)
+    // Case: json
+    // const jsonDocument = this._languageService.parseJSONDocument(document);
+    // console.log('doValidation... jsonDocument', jsonDocument);
+    // the jsonService version expects (textDocument, jsonDocument)
+    // const diagnostics = await this._languageService.doValidation(document, jsonDocument);
+    // console.log('doValidation... diagnostics:', diagnostics); // pending Promise
+    // Case: apidom
+    const diagnostics = await this._languageService.doValidation(document);
+    return Promise.resolve(diagnostics);
   }
 
   async doComplete(uri, position) {
     const document = this._getTextDocument(uri); // call a private method
+    if (!document) {
+      return Promise.resolve([]);
+    }
     // Case: json
     // const jsonDocument = this._languageService.parseJSONDocument(document);
     // const completions = await this._languageService.doComplete(document, position, jsonDocument);
@@ -54,6 +57,9 @@ export class ApidomWorker {
 
   async doHover(uri, position) {
     const document = this._getTextDocument(uri); // call a private method
+    if (!document) {
+      return Promise.resolve([]);
+    }
     // Case: json
     // const jsonDocument = this._languageService.parseJSONDocument(document);
     // const hover = await this._languageService.doHover(document, position, jsonDocument);
@@ -65,6 +71,9 @@ export class ApidomWorker {
 
   async findDocumentSymbols(uri) {
     const document = this._getTextDocument(uri); // call a private method
+    if (!document) {
+      return Promise.resolve([]);
+    }
     // Case: json
     // const jsonDocument = this._languageService.parseJSONDocument(document);
     // const symbols = await this._languageService.findDocumentSymbols(document, jsonDocument);
