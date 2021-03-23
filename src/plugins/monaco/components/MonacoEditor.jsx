@@ -14,10 +14,14 @@ import getStyleMetadataLight from '../../../utils/utils-monaco-theme-light';
 // eslint-disable-next-line no-unused-vars
 import getStyleMetadataDark from '../../../utils/utils-monaco-theme-dark';
 // eslint-disable-next-line no-unused-vars
-import { validate, provideDocumentSymbols, provideHover } from '../../../workers/apidomWorker';
-import { languageID } from '../../../utils/samples/config';
+// import { validate, provideDocumentSymbols, provideHover } from '../../../workers/apidomWorker';
+import { languageID } from '../../../utils/monaco-adapter/config';
 // eslint-disable-next-line no-unused-vars
-import { setupLanguage, initializeWorkers, initializeParsers } from '../../../utils/samples/setup';
+import {
+  setupLanguage,
+  initializeWorkers,
+  initializeParsers,
+} from '../../../utils/monaco-adapter/setup';
 
 export default class MonacoEditor extends Component {
   constructor(props) {
