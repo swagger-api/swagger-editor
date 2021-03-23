@@ -1,6 +1,5 @@
 /* eslint-disable no-underscore-dangle */
 /* eslint-disable import/prefer-default-export */
-// import * as monaco from 'monaco-editor-core'; // TS interface
 import { TextDocument } from 'vscode-languageserver-textdocument'; // this is true source
 // import { getLanguageService } from 'vscode-json-languageservice'; // will eventually come from apidom
 import {
@@ -10,7 +9,6 @@ import {
 } from 'apidom-ls';
 
 import { languageID } from '../utils/samples/config';
-// eslint-disable-next-line no-unused-vars
 import metadata from './metadataJs';
 
 export class ApidomWorker {
@@ -51,7 +49,7 @@ export class ApidomWorker {
     // const completions = await this._languageService.doComplete(document, position, jsonDocument);
     // Case: apidom
     const completions = await this._languageService.doCompletion(document, position);
-    console.log('doComplete... completions:', completions);
+    console.log('worker:doComplete... completions:', completions);
     return Promise.resolve(completions);
   }
 
@@ -65,7 +63,7 @@ export class ApidomWorker {
     // const hover = await this._languageService.doHover(document, position, jsonDocument);
     // Case: apidom
     const hover = await this._languageService.doHover(document, position);
-    console.log('doHover... hover:', hover);
+    console.log('worker:doHover... hover:', hover);
     return Promise.resolve(hover);
   }
 
@@ -79,7 +77,7 @@ export class ApidomWorker {
     // const symbols = await this._languageService.findDocumentSymbols(document, jsonDocument);
     // Case: apidom
     const symbols = await this._languageService.doFindDocumentSymbols(document);
-    console.log('findDocumentSymbols... symbols:', symbols);
+    console.log('worker:findDocumentSymbols... symbols:', symbols);
     return Promise.resolve(symbols);
   }
 
@@ -91,7 +89,7 @@ export class ApidomWorker {
     const diagnostics = await this._languageService.doValidation(document);
     // todo: do we have to account for !diagnostics?
     const codeActions = await this._languageService.doCodeActions(document, diagnostics);
-    console.log('doCodeActions... codeActions:', codeActions);
+    console.log('worker:doCodeActions... codeActions:', codeActions);
     return Promise.resolve(codeActions);
   }
 
@@ -101,13 +99,13 @@ export class ApidomWorker {
       return Promise.resolve([]);
     }
     const semanticTokens = await this._languageService.computeSemanticTokens(document);
-    console.log('findSemanticTokens... semanticTokens:', semanticTokens);
+    console.log('worker:findSemanticTokens... semanticTokens:', semanticTokens);
     return Promise.resolve(semanticTokens);
   }
 
   async getSemanticTokensLegend() {
     const semanticTokensLegend = await this._languageService.getSemanticTokensLegend();
-    console.log('getSemanticTokensLegend... semanticTokensLegend:', semanticTokensLegend);
+    console.log('worker:getSemanticTokensLegend... semanticTokensLegend:', semanticTokensLegend);
     return Promise.resolve(semanticTokensLegend);
   }
 
