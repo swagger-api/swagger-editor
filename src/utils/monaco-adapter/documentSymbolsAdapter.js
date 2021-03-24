@@ -12,7 +12,7 @@ export default class DocumentSymbolAdapter {
     const worker = await this.worker(resource);
     const uri = resource.toString();
     // call the validate method proxy from the language service and get document symbol items
-    const items = await worker.doFindDocumentSymbols(uri);
+    const items = await worker.findDocumentSymbols(uri);
     if (!items) {
       return Promise.resolve(null);
     }
