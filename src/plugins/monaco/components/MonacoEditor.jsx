@@ -116,7 +116,6 @@ export default class MonacoEditor extends Component {
       // 3: if necessary, editorLoadedCondition & operationContextCondition
       // 4: editor.addCommand
       // After initializing monaco editor
-      this.registerProviders(this.editor);
       this.setupTheme(this.editor);
       this.localEditorDidMount(this.editor);
     }
@@ -156,24 +155,6 @@ export default class MonacoEditor extends Component {
     // eslint-disable-next-line no-underscore-dangle
     // editor._themeService._theme.getTokenStyleMetadata = getStyleMetadataLight;
     // eslint-disable-next-line no-underscore-dangle
-  };
-
-  // eslint-disable-next-line no-unused-vars
-  registerProviders = (editor) => {
-    // const languageId = 'json';
-    // const model = editor.getModel();
-    // monaco.languages.registerDocumentSymbolProvider(languageId, {
-    //   provideDocumentSymbols: provideDocumentSymbols({
-    //     editor,
-    //   }),
-    // });
-    // const position = new monaco.Position();
-    // monaco.languages.registerHoverProvider(languageId, {
-    //   provideHover: provideHover({
-    //     editor,
-    //     position,
-    //   }),
-    // });
   };
 
   render() {
