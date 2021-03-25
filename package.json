@@ -57,7 +57,7 @@
     "watch": "webpack --config  webpack/core.babel.js --watch --progress"
   },
   "dependencies": {
-    "ajv": "^5.2.2",
+    "ajv": "^7.2.3",
     "ajv-errors": "^1.0.1",
     "ajv-keywords": "^3.4.0",
     "boron": "^0.2.3",
