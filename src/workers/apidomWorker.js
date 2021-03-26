@@ -17,7 +17,10 @@ export class ApidomWorker {
     this._ctx = ctx;
     // define this._x for languageSettings, languageId, languageService
     // this._languageService = getLanguageService(this._ctx);
-    this._languageService = getLanguageService(metadata); // use apidom metadata
+    const apidomContext = {
+      metadata: metadata(),
+    };
+    this._languageService = getLanguageService(apidomContext); // use apidom metadata
     // this._languageService.configure(this._languageSettings);
   }
 
@@ -87,6 +90,7 @@ export class ApidomWorker {
       return Promise.resolve([]);
     }
     const diagnostics = await this._languageService.doValidation(document);
+    console.log('worker:doCodeActions... diagnostics:', diagnostics);
     // todo: do we have to account for !diagnostics?
     const codeActions = await this._languageService.doCodeActions(document, diagnostics);
     console.log('worker:doCodeActions... codeActions:', codeActions);
