@@ -52,7 +52,7 @@ export class ApidomWorker {
     // const completions = await this._languageService.doComplete(document, position, jsonDocument);
     // Case: apidom
     const completions = await this._languageService.doCompletion(document, position);
-    console.log('worker:doComplete... completions:', completions);
+    // console.log('worker:doComplete... completions:', completions);
     return Promise.resolve(completions);
   }
 
@@ -66,7 +66,7 @@ export class ApidomWorker {
     // const hover = await this._languageService.doHover(document, position, jsonDocument);
     // Case: apidom
     const hover = await this._languageService.doHover(document, position);
-    console.log('worker:doHover... hover:', hover);
+    // console.log('worker:doHover... hover:', hover);
     return Promise.resolve(hover);
   }
 
@@ -80,7 +80,7 @@ export class ApidomWorker {
     // const symbols = await this._languageService.findDocumentSymbols(document, jsonDocument);
     // Case: apidom
     const symbols = await this._languageService.doFindDocumentSymbols(document);
-    console.log('worker:findDocumentSymbols... symbols:', symbols);
+    // console.log('worker:findDocumentSymbols... symbols:', symbols);
     return Promise.resolve(symbols);
   }
 
@@ -90,10 +90,10 @@ export class ApidomWorker {
       return Promise.resolve([]);
     }
     const diagnostics = await this._languageService.doValidation(document);
-    console.log('worker:doCodeActions... diagnostics:', diagnostics);
+    // console.log('worker:doCodeActions... diagnostics:', diagnostics);
     // todo: do we have to account for !diagnostics?
     const codeActions = await this._languageService.doCodeActions(document, diagnostics);
-    console.log('worker:doCodeActions... codeActions:', codeActions);
+    // console.log('worker:doCodeActions... codeActions:', codeActions);
     return Promise.resolve(codeActions);
   }
 
@@ -103,13 +103,13 @@ export class ApidomWorker {
       return Promise.resolve([]);
     }
     const semanticTokens = await this._languageService.computeSemanticTokens(document);
-    console.log('worker:findSemanticTokens... semanticTokens:', semanticTokens);
+    // console.log('worker:findSemanticTokens... semanticTokens:', semanticTokens);
     return Promise.resolve(semanticTokens);
   }
 
   async getSemanticTokensLegend() {
     const semanticTokensLegend = await this._languageService.getSemanticTokensLegend();
-    console.log('worker:getSemanticTokensLegend... semanticTokensLegend:', semanticTokensLegend);
+    // console.log('worker:getSemanticTokensLegend... semanticTokensLegend:', semanticTokensLegend);
     return Promise.resolve(semanticTokensLegend);
   }
 

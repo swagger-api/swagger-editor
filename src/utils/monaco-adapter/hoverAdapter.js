@@ -40,6 +40,12 @@ export default class HoverAdapter {
     const p2m = new ProtocolToMonacoConverter(monaco);
     // eslint-disable-next-line no-unused-vars
     const result = p2m.asHover(info);
+    // console.log('hoverAdapter... hoverAsp2m:', result);
+    // const hoverNonp2m = {
+    //   range: toRange(info.range),
+    //   contents: info.contents, // do we need to support markdown, via utils func?
+    // };
+    // console.log('hoverAdapter... hover (hoverNonp2m):', hoverNonp2m);
     return Promise.resolve(result);
     // return Promise.resolve({ message: 'hover success' }); This does not generate the tooltip
   }
