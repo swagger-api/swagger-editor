@@ -106,8 +106,18 @@ export default class MonacoEditor extends Component {
       this.editor = monaco.editor.create(this.containerElement, {
         value,
         language: languageID,
-        ...options,
-        ...(theme ? { theme } : {}), // think this is inactive, and may not be necessary; based on a sample
+        // semantic tokens provider is disabled by default
+        // https://github.com/microsoft/monaco-editor/issues/1833
+        'semanticHighlighting.enabled': true,
+        theme: 'vs',
+        glyphMargin: true,
+        lightbulb: {
+          enabled: true,
+        },
+        lineNumbers: 'on',
+        autoIndent: 'full',
+        // ...options,
+        // ...(theme ? { theme } : {}), // think this is inactive, and may not be necessary; based on a sample
       });
       // Possible to init 2, 3, 4 below during the monaco.editor.create call?
       // if not, call a separate 'post-editor-load-init' method
@@ -148,13 +158,18 @@ export default class MonacoEditor extends Component {
     // eslint-disable-next-line no-underscore-dangle
     // const testTheme = editor._themeService._theme.getTokenStyleMetadata;
     // console.log('testTheme:', testTheme);
-    // monaco.editor.setTheme('vs-dark');
+    monaco.editor.setTheme('vs-dark');
     // eslint-disable-next-line no-underscore-dangle
-    // editor._themeService._theme.getTokenStyleMetadata = getStyleMetadataDark;
-    // monaco.editor.setTheme('vs-light');
+    editor._themeService._theme.getTokenStyleMetadata = getStyleMetadataDark;
     // eslint-disable-next-line no-underscore-dangle
-    // editor._themeService._theme.getTokenStyleMetadata = getStyleMetadataLight;
+    // const testThemeDark = editor._themeService._theme.getTokenStyleMetadata;
+    // console.log('testThemeDark:', testThemeDark);
+    monaco.editor.setTheme('vs-light');
     // eslint-disable-next-line no-underscore-dangle
+    editor._themeService._theme.getTokenStyleMetadata = getStyleMetadataLight;
+    // eslint-disable-next-line no-underscore-dangle
+    // const testThemeLight = editor._themeService._theme.getTokenStyleMetadata;
+    // console.log('testThemeLight:', testThemeLight);
   };
 
   render() {
