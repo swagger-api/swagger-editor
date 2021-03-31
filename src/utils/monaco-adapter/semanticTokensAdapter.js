@@ -1,16 +1,32 @@
 /* eslint-disable class-methods-use-this */
-export default class DocumentSymbolAdapter {
+import { getLanguageService } from 'apidom-ls';
+
+export default class SemanticTokensAdapter {
   constructor(worker) {
     this.worker = worker;
   }
 
-  async getLegend() {
+  // Ideally, we can use async, promises, and workers
+  // If/when monaco editor support it, rename this method to "getLegend"
+  // Note, worker.getSemanticTokensLegend() does return the expected result
+  async getLegendAsync() {
     const worker = await this.worker();
     try {
       const semanticTokensLegend = await worker.getSemanticTokensLegend();
       return Promise.resolve(semanticTokensLegend);
     } catch (e) {
       return Promise.resolve({ error: 'unable to getLegend' });
+    }
+  }
+
+  // monaco editor current expects a synchronous method
+  // so we import getLanguageService (above) directly in this adapter
+  getLegend() {
+    try {
+      return getLanguageService({}).getSemanticTokensLegend();
+    } catch (e) {
+      // console.error('semanticTokensAdapter.getLegend error:', e, e.stack);
+      return { error: 'unable to getLegend' };
     }
   }
 
