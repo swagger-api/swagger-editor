@@ -40,7 +40,8 @@ export default class MonacoEditor extends Component {
   componentDidUpdate(prevProps) {
     const { value, language, theme, height, width, options } = this.props;
     const { editor } = this;
-
+    // console.log('editor component. props.theme:', theme);
+    // console.log('editor component. prevProps.theme:', prevProps.theme);
     if (this.currentValue !== value) {
       this.currentValue = value;
       if (editor) {
@@ -60,7 +61,9 @@ export default class MonacoEditor extends Component {
       monaco.editor.setModelLanguage(editor.getModel(), language);
     }
     if (prevProps.theme !== theme) {
-      monaco.editor.setTheme(theme);
+      // console.log('editor component. should change theme');
+      // monaco.editor.setTheme(theme);
+      this.changeTheme(theme);
     }
     if (editor && (width !== prevProps.width || height !== prevProps.height)) {
       editor.layout();
@@ -170,6 +173,19 @@ export default class MonacoEditor extends Component {
     // eslint-disable-next-line no-underscore-dangle
     // const testThemeLight = editor._themeService._theme.getTokenStyleMetadata;
     // console.log('testThemeLight:', testThemeLight);
+  };
+
+  // eslint-disable-next-line no-unused-vars
+  changeTheme = (newThemeValue) => {
+    // console.log('editor component... changeTheme, newThemeValue:', newThemeValue);
+    if (newThemeValue === 'vs-dark') {
+      console.log('editor component... changeTheme, vs-dark:');
+      monaco.editor.setTheme('vs-dark');
+    }
+    if (newThemeValue === 'vs-light' || newThemeValue === 'vs') {
+      console.log('editor component... changeTheme, vs-light:');
+      monaco.editor.setTheme('vs');
+    }
   };
 
   render() {
