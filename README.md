@@ -94,7 +94,6 @@ To help with the migration, here are the currently known issues with 3.X. This l
 
 - Everything listed in [Swagger UI's Known Issues](https://github.com/swagger-api/swagger-ui/blob/master/README.md#known-issues).
 - The integration with the codegen is still missing.
-- Importing specs from a URL is not implemented.
 
 ## Docker
 
