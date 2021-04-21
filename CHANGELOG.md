@@ -10,6 +10,7 @@
 [ ] remove "dev mode" case when editor content is undefined
 [ ] handle case(s) when specSelectors.method returns undefined
 [ ] remove mock data/fixtures/configuration from `actions.js`
+[ ] warning: overlapping semantic tokens
 
 
 ### Legacy Swagger Editor Migrated Features
@@ -67,8 +68,8 @@ Migrate React Components
 [ ] react-dropzone
 [ ] topbar-insert (plugin); this should be a copy/paste
 [ ] jump-to-path; this should be a copy/paste
-[ ] topbar-menu-generator-clients; if done, probably as PureComponent
-[ ] topbar-menu-generator-servers; if done, probably as PureComponent
+[x] topbar-menu-generator-clients; if done, probably as PureComponent
+[x] topbar-menu-generator-servers; if done, probably as PureComponent
 [ ] match and extend configurability options
 [ ] if refresh empty monaco, should load a default definition
 [ ] localStorage
@@ -91,6 +92,7 @@ Migrate React Components
 [ ] pull-in SH validation pane
 [ ] pull-in SH left sidebar (search, op/schema/etc sections)
 [ ] modify generic-editor plugin to have a default editor placeholder (instead of calling GenericEditorContainer directly)
+[ ] onLoad definition, detect and parse with matching apidom-parser
 
 
 ### Optimization
