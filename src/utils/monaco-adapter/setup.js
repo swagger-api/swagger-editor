@@ -1,14 +1,5 @@
-/* eslint-disable camelcase */
 /* eslint-disable import/prefer-default-export */
 import * as monaco from 'monaco-editor-core';
-import * as apiDOM from 'apidom';
-import ApiDOMParser from 'apidom-parser';
-import * as openapi3_1AdapterJson from 'apidom-parser-adapter-openapi-json-3-1';
-// import * as openapi3_1AdapterYaml from 'apidom-parser-adapter-openapi-yaml-3-1';
-// import * as jsonAdapter from 'apidom-parser-adapter-json';
-// import * as yamlAdapter from 'apidom-parser-adapter-yaml-1-2';
-// import * as asyncapi2_0AdapterJson from 'apidom-parser-adapter-asyncapi-json-2-0';
-// import * as asyncapi2_0AdapterYaml from 'apidom-parser-adapter-asyncapi-yaml-2-0';
 
 import { languageExtensionPoint, languageID } from './config';
 import { monarchLanguage } from './monarchLang';
@@ -106,34 +97,4 @@ export async function initializeWorkers() {
   await new JsonWorker();
   await new JsTsWorker();
   await new ApidomWorker();
-}
-
-// This is a sample function to demonstrate that the parser loads
-// and can parse a simple string
-// However, as-is, it only supports the use of a single adapter,
-// and cannot chain multiple ".use()" without additional work
-// refer to 'apidom-playground' for a sample using multiple adapters
-// https://github.com/swagger-api/apidom/blob/b375f5755d0233120544e2709e5d6614d2554712/experiments/apidom-playground/src/features/app/apidom.worker.js
-// Expect to remove this function for production
-export async function initializeParsers() {
-  // eslint-disable-next-line prettier/prettier
-  const parser = ApiDOMParser()
-    // .use(jsonAdapter)
-    // .use(yamlAdapter)
-    .use(openapi3_1AdapterJson);
-  // .use(openapi3_1AdapterYaml);
-  // .use(asyncapi2_0AdapterJson)
-  // .use(asyncapi2_0AdapterYaml);
-
-  // console.log('what is parser:', parser); // { use, parse, findNamespace }
-  const parseResult = await parser.parse('{"openapi": "3.1.0"}');
-  if (!parseResult || !parseResult.api) {
-    console.log(
-      'initializeParsers. unable to parse argument. you probably tried to "use" multiple adapters'
-    );
-    return Promise.resolve({ error: 'unable to parse' });
-  }
-  const spec = apiDOM.toValue(parseResult.api);
-  console.log('initializeParsers. spec:', spec);
-  return Promise.resolve({ message: 'parse completed' });
 }

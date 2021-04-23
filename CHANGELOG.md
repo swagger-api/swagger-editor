@@ -92,7 +92,6 @@ Migrate React Components
 [ ] pull-in SH validation pane
 [ ] pull-in SH left sidebar (search, op/schema/etc sections)
 [ ] modify generic-editor plugin to have a default editor placeholder (instead of calling GenericEditorContainer directly)
-[ ] onLoad definition, detect and parse with matching apidom-parser
 [ ] add disposables array, and ability to dispose()
 
 
