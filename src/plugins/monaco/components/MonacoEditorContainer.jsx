@@ -1,6 +1,5 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
-// import * as apidomLS from 'apidom-ls'; // this does not load as Module, "Module not found: Can't resolve"
 
 import MonacoEditor from './MonacoEditor'; // load directly, do not use getComponent
 import ThemeSelection from './ThemeSelection';
@@ -24,13 +23,6 @@ export default class MonacoEditorContainer extends PureComponent {
 
   componentDidMount() {
     // add if/when necessary
-    // console.log('test: expect import to be `Module` of apidomLS', apidomLS); // this experiment works
-    // eslint-disable-next-line no-unused-vars
-    // const { getLanguageService } = apidomLS;
-    // console.log('and getLanguageService:', getLanguageService);
-    // const context: LanguageServiceContext = {};
-    // const languageService = getLanguageService(context);
-    // console.log(JSON.stringify(languageService.getSemanticTokensLegend()));
   }
 
   componentDidUpdate() {
@@ -38,7 +30,6 @@ export default class MonacoEditorContainer extends PureComponent {
   }
 
   onChangeThemeValue = async (val) => {
-    console.log('attempt to onChangeThemeValue. val:', val);
     const defaultThemeList = ['vs', 'vs-light', 'vs-dark'];
     if (!defaultThemeList.includes(val)) {
       return;
@@ -48,7 +39,6 @@ export default class MonacoEditorContainer extends PureComponent {
 
   editorDidMount = (editor) => {
     editor.focus();
-    // console.log('container editor mounted, should focus');
   };
 
   render() {
