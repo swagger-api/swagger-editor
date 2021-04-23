@@ -3,9 +3,7 @@ import PropTypes from 'prop-types';
 // import * as apidomLS from 'apidom-ls'; // this does not load as Module, "Module not found: Can't resolve"
 
 import MonacoEditor from './MonacoEditor'; // load directly, do not use getComponent
-import LanguageSelection from './LanguageSelection'; // this is a dev component; expect to remove
 import ThemeSelection from './ThemeSelection';
-import { getDefinitionLanguage } from '../../../utils/utils-converter';
 // import monaco from '../../../../test/__mocks__/monacoMock';
 
 /**
@@ -18,7 +16,7 @@ export default class MonacoEditorContainer extends PureComponent {
   constructor(props) {
     super(props);
     this.state = {
-      language: 'json',
+      language: 'apidom',
       theme: 'vs',
     };
     this.editorDidMount = this.editorDidMount.bind(this);
@@ -38,22 +36,6 @@ export default class MonacoEditorContainer extends PureComponent {
   componentDidUpdate() {
     // add if/when necessary
   }
-
-  onChangeLanguageValue = async (val) => {
-    console.log('attempt to onChangeLanguageValue. val:', val);
-    if (val !== 'detect') {
-      this.setState({ language: val });
-    } else {
-      console.log('... detecting language');
-      const { specSelectors } = this.props;
-      const spec = await specSelectors.specStr();
-      if (spec) {
-        const result = getDefinitionLanguage({ data: spec });
-        console.log('... detected and will change to be:', result);
-        this.setState({ language: result });
-      }
-    }
-  };
 
   onChangeThemeValue = async (val) => {
     console.log('attempt to onChangeThemeValue. val:', val);
@@ -78,7 +60,6 @@ export default class MonacoEditorContainer extends PureComponent {
     return (
       <div id="editor-wrapper" className="editor-wrapper">
         <h3>Monaco Editor (remove this heading for production)</h3>
-        <LanguageSelection onChange={this.onChangeLanguageValue} />
         <ThemeSelection onChange={this.onChangeThemeValue} />
         <MonacoEditor
           language={language}
@@ -103,5 +84,4 @@ MonacoEditorContainer.propTypes = {
   initialValue: PropTypes.string,
   onChange: PropTypes.func.isRequired,
   getValueFromSpec: PropTypes.func.isRequired,
-  specSelectors: PropTypes.oneOfType([PropTypes.object]).isRequired,
 };

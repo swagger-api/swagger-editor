@@ -1,4 +1,4 @@
-export const languageID = 'openapi';
+export const languageID = 'apidom';
 
 export const languageExtensionPoint = {
   id: languageID,
