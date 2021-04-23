@@ -594,12 +594,12 @@ export const saveAsYaml = ({ overrideWarning }) => async (system) => {
   };
   // end dev mode scaffold
   const fileName = getFileName({ options: mockOptions.isOAS3 });
-  const language = getDefinitionLanguage({ data: contentToConvert });
+  const languageSubType = getDefinitionLanguage({ data: contentToConvert });
   const parserErrorExists = hasParserErrors({ errors: errSelectors.allErrors() });
   // const parserErrorExists = true; // mock test
   if (parserErrorExists && !overrideWarning) {
     // legacy method, if already yaml, displays confirm window if parser error
-    if (language === 'yaml') {
+    if (languageSubType === 'yaml') {
       return {
         warning:
           'Swagger - Editor is not able to parse your API definition. Are you sure you want to save the editor content as YAML?',
@@ -612,7 +612,7 @@ export const saveAsYaml = ({ overrideWarning }) => async (system) => {
     };
   }
 
-  if (language === 'yaml') {
+  if (languageSubType === 'yaml') {
     // console.log('download yaml as-is');
     // content is already yaml, so download as-is
     getFileDownload({ blob: contentToConvert, filename: `${fileName}.yaml` });
