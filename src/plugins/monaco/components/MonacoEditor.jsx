@@ -1,22 +1,14 @@
 /* eslint-disable no-param-reassign */
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-// import * as monaco from 'monaco-editor';
-// import * as monaco from 'monaco-editor/esm/vs/editor/editor.main';
-// import * as monaco from 'monaco-editor/esm/vs/editor/editor.api';
 import * as monaco from 'monaco-editor-core';
 
 import noop from '../../../utils/utils-noop';
 // eslint-disable-next-line no-unused-vars
-import ApidomWorker from '../../../workers/apidom.worker';
-// eslint-disable-next-line no-unused-vars
 import getStyleMetadataLight from '../../../utils/utils-monaco-theme-light';
 // eslint-disable-next-line no-unused-vars
 import getStyleMetadataDark from '../../../utils/utils-monaco-theme-dark';
-// eslint-disable-next-line no-unused-vars
-// import { validate, provideDocumentSymbols, provideHover } from '../../../workers/apidomWorker';
 import { languageID } from '../../../utils/monaco-adapter/config';
-// eslint-disable-next-line no-unused-vars
 import { setupLanguage, initializeWorkers } from '../../../utils/monaco-adapter/setup';
 
 export default class MonacoEditor extends Component {
@@ -35,29 +27,17 @@ export default class MonacoEditor extends Component {
   componentDidUpdate(prevProps) {
     const { value, language, theme, height, width, options } = this.props;
     const { editor } = this;
-    // console.log('editor component. props.theme:', theme);
-    // console.log('editor component. prevProps.theme:', prevProps.theme);
+
     if (this.currentValue !== value) {
       this.currentValue = value;
       if (editor) {
-        console.log('editor componentDidUpdate');
-        // console.log('editor componentDidUpdate, will set to this.currentValue', this.currentValue);
         editor.setValue(this.currentValue);
-        // the following retrieves the stored language option. does not interpret value
-        // exists utils-converter.getDefinitionLanguage
-        // language will only change appearance and not data,
-        // eslint-disable-next-line no-underscore-dangle
-        // const test = editor._configuration._rawOptions.language;
-        // console.log('test, editor:', editor);
-        // console.log('test:', test);
       }
     }
     if (prevProps.language !== language) {
       monaco.editor.setModelLanguage(editor.getModel(), language);
     }
     if (prevProps.theme !== theme) {
-      // console.log('editor component. should change theme');
-      // monaco.editor.setTheme(theme);
       this.changeTheme(theme);
     }
     if (editor && (width !== prevProps.width || height !== prevProps.height)) {
@@ -86,7 +66,6 @@ export default class MonacoEditor extends Component {
   };
 
   initMonacoEditor = () => {
-    // const value = this.props.value !== null ? this.props.value : this.props.defaultValue;
     // eslint-disable-next-line no-unused-vars
     const { language, theme, options, defaultValue } = this.props;
     let { value } = this.props;
@@ -136,16 +115,6 @@ export default class MonacoEditor extends Component {
     editor.onDidChangeModelContent((event) => {
       const currentEditorValue = editor.getValue();
       // Always refer to the latest value
-      // console.log('localEditorDidMount checking for change. (editor) value:', currentEditorValue);
-      // console.log('localEditorDidMount checking for change. (props) value:', value);
-      // const testSetModelMarkers = editor.setModelMarkers; // undefined
-      // console.log('testSetModelMarkers', testSetModelMarkers);
-      // const testSetModelMarkers2 = monaco.editor.setModelMarkers; // this works
-      // console.log('testSetModelMarkers2', testSetModelMarkers2);
-      // const { validate } = apidomWorker;
-      // eslint-disable-next-line no-unused-vars
-      // const result = validate({ editor, setModelMarkers: testSetModelMarkers2 });
-      // console.log('localEditor... validate result:', result);
       this.currentValue = currentEditorValue;
       onChange(currentEditorValue, event);
     });
@@ -174,11 +143,11 @@ export default class MonacoEditor extends Component {
   changeTheme = (newThemeValue) => {
     // console.log('editor component... changeTheme, newThemeValue:', newThemeValue);
     if (newThemeValue === 'vs-dark') {
-      console.log('editor component... changeTheme, vs-dark:');
+      // console.log('editor component... changeTheme, vs-dark:');
       monaco.editor.setTheme('vs-dark');
     }
     if (newThemeValue === 'vs-light' || newThemeValue === 'vs') {
-      console.log('editor component... changeTheme, vs-light:');
+      // console.log('editor component... changeTheme, vs-light:');
       monaco.editor.setTheme('vs');
     }
   };
