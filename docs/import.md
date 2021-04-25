@@ -22,7 +22,7 @@ Paste the URL to your OpenAPI document.
 
 ### GET Parameter
 
-Request editor.swagger.io to import an OpenAPI specification from publically accessible content via the `?url=` parameter:
+Request editor.swagger.io to import an OpenAPI specification from publicly accessible content via the `?url=` parameter:
 ```
 https://editor.swagger.io/?url=https://raw.githubusercontent.com/OAI/OpenAPI-Specification/main/examples/v2.0/yaml/api-with-examples.yaml
 ```
