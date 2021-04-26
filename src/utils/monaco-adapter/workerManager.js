@@ -5,10 +5,17 @@ import * as monaco from 'monaco-editor-core';
 import { languageID } from './config';
 // import ApidomWorker from '../../workers/apidom.worker';
 
+const STOP_WHEN_IDLE_FOR = 2 * 60 * 1000; // 2min
+
 export class WorkerManager {
-  constructor() {
+  // eslint-disable-next-line no-unused-vars
+  constructor(defaults) {
     this.worker = null;
     this.workerClientProxy = null;
+    // this.defaults = defaults; // from constructor
+    // this.idleCheckInterval = setInterval(() => this.checkIfIdle(), 30 * 1000);
+    // this.lastUsedTime = 0;
+    // this.configChangeListener = this.defaults.onDidChange(() => this.stopWorker());
   }
 
   // intent, private
@@ -43,5 +50,32 @@ export class WorkerManager {
     await this.worker.withSyncedResources(resources);
     // console.log('withSyncedResources done');
     return _client;
+  }
+
+  // intended private
+  stopWorker() {
+    if (this.worker) {
+      this.worker.dispose();
+      this.worker = null;
+    }
+    this.client = null;
+  }
+
+  checkIfIdle() {
+    if (!this.worker) {
+      return;
+    }
+    const timePassedSinceLastUsed = Date.now() - this.lastUsedTime;
+    if (timePassedSinceLastUsed > STOP_WHEN_IDLE_FOR) {
+      console.log('testing stopWorker after idle');
+      this.stopWorker();
+    }
+  }
+
+  // public
+  dispose() {
+    // clearInterval(this.idleCheckInterval);
+    // this.configChangeListener.dispose();
+    this.stopWorker();
   }
 }
