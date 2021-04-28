@@ -6,11 +6,12 @@
   - monaco editor currently expects a string (we'll need to support yaml/json)
 [ ] fix exploding styling/rendering when using in-browser (ctrl+f) find text within monaco
   - monaco's find+replace feature
-[ ] fix monaco syntax highlighting
+[ ] ~~fix~~ update monaco syntax highlighting
 [ ] remove "dev mode" case when editor content is undefined
 [ ] handle case(s) when specSelectors.method returns undefined
 [ ] remove mock data/fixtures/configuration from `actions.js`
 [ ] warning: overlapping semantic tokens
+[ ] in codeActionUi, sometimes recieve an Uncaught promise TypeError: d.dispose is not a funtion
 
 
 ### Legacy Swagger Editor Migrated Features
@@ -91,14 +92,14 @@ Migrate React Components
 [x] try react-modal lib instead of creating internal version
 [ ] pull-in SH validation pane
 [ ] pull-in SH left sidebar (search, op/schema/etc sections)
-[ ] modify generic-editor plugin to have a default editor placeholder (instead of calling GenericEditorContainer directly)
-[ ] add disposables array, and ability to dispose()
+[x] modify generic-editor plugin to have a default editor placeholder (instead of calling GenericEditorContainer directly)
+[x] add disposables array, and ability to dispose()
 
 
 ### Optimization
 [ ] breakdown `actions.js` into smaller files (new)
 [ ] further extraction in `actions.js` of business logic from action creators
-[ ] monaco-editor should only load specified languages; webpack required
+[x] monaco-editor should only load specified languages; webpack required
 [ ] overall styling and consistency
 
 
