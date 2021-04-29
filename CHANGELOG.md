@@ -94,6 +94,7 @@ Migrate React Components
 [ ] pull-in SH left sidebar (search, op/schema/etc sections)
 [x] modify generic-editor plugin to have a default editor placeholder (instead of calling GenericEditorContainer directly)
 [x] add disposables array, and ability to dispose()
+[ ] add generic error catch component, e.g. SHub uses react-error-boundary
 
 
 ### Optimization
