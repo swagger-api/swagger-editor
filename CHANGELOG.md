@@ -95,6 +95,8 @@ Migrate React Components
 [x] modify generic-editor plugin to have a default editor placeholder (instead of calling GenericEditorContainer directly)
 [x] add disposables array, and ability to dispose()
 [ ] add generic error catch component, e.g. SHub uses react-error-boundary
+[ ] debounce initial load of definition. this may help with single vs. multi-line render in editor. atm, this would also apply to all user updates
+[ ] debounce user updates (might not be needed)
 
 
 ### Optimization
