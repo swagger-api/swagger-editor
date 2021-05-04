@@ -1,44 +1,44 @@
 // imported from LESS as a partial
 .topbar {
-  background-color: #1b1b1b;
+  background-color: #173647;
   width: 100%;
+  // font-family: 'Roboto', sans-serif;
 }
 
 .topbar-wrapper {
-  padding: 0.7em;
   display: flex;
 
   & > * {
-    margin-left: 1em;
-    margin-right: 1em;
+    margin-left: 1.0rem;
+    margin-right: 1.0rem;
     align-self: center;
     color: white;
-    font-size: 1.0em;
+    font-size: 1.0rem;
     font-weight: 500;
   }
 
   & .menu-item {
     cursor: pointer;
-    font-size:14px;
+    font-size: 0.95rem;
 
     &::after {
       content: '▼';
       margin-left: 6px;
-      font-size: 8px;
+      font-size: 0.5rem;
     }
   }
 }
 
 .topbar-logo__img {
-  float: left;
+  padding: 0.6rem 0 0.6rem 0;
 }
 
 .topbar-logo__title {
   display: inline-block;
   color: #fff;
-  font-size: 1.5em;
+  font-size: 1.5rem;
   font-weight: bold;
-  margin: 0.1em 1.2em 0 0.5em;
+  margin: 0.1rem 1.2rem 0 0.5rem;
 }
 
 .dd-menu {
@@ -53,7 +53,7 @@
         flex-direction: column;
         max-height: 500px;
         flex-wrap: wrap;
-        margin: 1.7em 0 0!important;
+        margin: 1.7rem 0 0!important;
         li {
           flex:22%;
         }
@@ -61,14 +61,14 @@
     }
 
     .long-menu-message {
-      padding: 1.5em;
+      padding: 1.5rem;
       color: #ccc;
       cursor: pointer;
     }
   }
 
   .dd-menu-items {
-    margin: 1.1em 0 0 0 !important;
+    margin: 1.1rem 0 0 0 !important;
     ol,ul {
       border-radius:0 0 4px 4px;
 
@@ -78,6 +78,7 @@
             border-radius:0 0 4px 4px;
           }
         }
+        font-size: 0.9rem;
       }
     }
   }
@@ -86,27 +87,27 @@
 .modal {
   font-family: sans-serif;
   color: #3b4151;
-  padding: 1em;
+  padding: 1rem;
   position: relative;
-  min-height: 12em;
+  min-height: 12rem;
 
   div.container {
     height: 100%;
   }
 
   .right {
-    margin: 1em;
+    margin: 1rem;
     text-align: right;
   }
 
   button {
-    margin-left: 1em;
+    margin-left: 1rem;
   }
 }
 
 .modal-message {
-  margin: 1.75em 2em;
-  font-size: 1.1em;
+  margin: 1.75rem 2rem;
+  font-size: 1.1rem;
   
   p {
     line-height: 1.3;
