@@ -9,7 +9,7 @@ import 'swagger-ui-react/swagger-ui.css';
 /* eslint-enable */
 
 // import GenericEditorPlugin from './plugin';
-// import './index.scss';
+import './index.scss';
 // import reportWebVitals from './reportWebVitals';
 
 // ReactDOM.render(
