@@ -2,11 +2,6 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
 export default class ImportFileDropdownItem extends Component {
-  constructor(props) {
-    super(props);
-    this.onImportFileClick = this.onImportFileClick.bind(this);
-  }
-
   onImportFileClick = async () => {
     // ref inline old method: onDocumentLoad
     const { topbarActions } = this.props;

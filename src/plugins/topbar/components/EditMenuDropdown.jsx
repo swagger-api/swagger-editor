@@ -6,12 +6,6 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
 export default class EditMenuDropdown extends Component {
-  constructor(props) {
-    super(props);
-    this.onConvertToOas3Click = this.onConvertToOas3Click.bind(this);
-    this.onConvertToYamlClick = this.onConvertToYamlClick.bind(this);
-  }
-
   onConvertToOas3Click = async () => {
     // ref legacy method: topbarActions.showModal("convert")
     const { topbarActions } = this.props;

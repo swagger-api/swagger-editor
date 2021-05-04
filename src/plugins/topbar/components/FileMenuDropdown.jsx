@@ -13,15 +13,6 @@ if (process.env.NODE_ENV !== 'test') {
 export default class FileMenuDropdown extends Component {
   constructor(props) {
     super(props);
-    this.onImportUrlClick = this.onImportUrlClick.bind(this);
-    this.onClearEditorClick = this.onClearEditorClick.bind(this);
-    this.onSaveAsJsonClick = this.onSaveAsJsonClick.bind(this);
-    this.onSaveAsYamlClick = this.onSaveAsYamlClick.bind(this);
-    this.handleImportFromURL = this.handleImportFromURL.bind(this);
-    this.onSubmitImportUrl = this.onSubmitImportUrl.bind(this);
-    this.onImportUrlChange = this.onImportUrlChange.bind(this);
-    this.closeModalClick = this.closeModalClick.bind(this);
-    this.onSaveAsYamlWithOverride = this.onSaveAsYamlWithOverride.bind(this);
 
     this.state = {
       showImportUrlModal: false,

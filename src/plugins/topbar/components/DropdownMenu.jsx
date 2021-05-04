@@ -8,10 +8,6 @@ class Dropdown extends Component {
     this.state = {
       isExpanded: false,
     };
-
-    this.onToggleClick = this.onToggleClick.bind(this);
-    this.handleClickOutside = this.handleClickOutside.bind(this);
-    this.setWrapperRef = this.setWrapperRef.bind(this);
   }
 
   componentDidMount = () => {
