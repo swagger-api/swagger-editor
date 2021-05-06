@@ -48,10 +48,10 @@
   flex-direction: column;
   align-items: flex-start;
   justify-content: space-between;
-  border-bottom: 1px solid #dee2e6;
+  // border-bottom: 1px solid #dee2e6;
   border-top-left-radius: calc(.3rem - 1px);
   border-top-right-radius: calc(.3rem - 1px);
-  padding: 1.0rem 2.0rem;
+  padding: 1.0rem 2.0rem 0.25rem 2.0rem;
 }
 
 .modal-header .close {
@@ -74,7 +74,8 @@
 .modal-body {
   position: relative;
   flex: 1 1 auto;
-  padding: 1.0rem;
+  padding: 0.75rem 2.0rem;
+  font-size: 0.8rem;
 }
 
 .modal-footer {
@@ -82,8 +83,8 @@
   flex-wrap: wrap;
   align-items: center;
   justify-content: flex-end;
-  padding: 0.75rem;
-  border-top: 1px solid #dee2e6;
+  padding: 0.75rem 2.0rem 1.0rem 2.0rem;
+  // border-top: 1px solid #dee2e6;
   border-bottom-right-radius: calc(.3rem - 1px);
   border-bottom-left-radius: calc(.3rem - 1px);
 }
@@ -136,7 +137,6 @@ button.close {
 .input-group {
   display: flex;
   flex-direction: column;
-  padding: 0 1.0rem;
 }
 
 .input-group label {
