@@ -1,4 +1,6 @@
 /* eslint-disable jsx-a11y/label-has-associated-control */
+// todo (when extract modal to component): https://github.com/jsx-eslint/eslint-plugin-jsx-a11y/blob/master/docs/rules/label-has-associated-control.md
+
 // This is a React.Component container of dropdownItems
 // no special list handling; all "clicks" pass props in same format
 // If we need to later, we can migrate this file as a separate file,
@@ -104,6 +106,16 @@ export default class FileMenuDropdown extends Component {
         errorMessage: saveResult.error,
       });
     }
+    // comment out above, use this to test warning
+    // this.setState({
+    //   showConfirmModal: true,
+    //   confirmMessage: 'saveResult.warning lorem ipsum',
+    // });
+    // comment out above, use this to test error
+    // this.setState({
+    //   showErrorModal: true,
+    //   errorMessage: 'saveResult.error lorem ipsum',
+    // });
   };
 
   onSaveAsYamlWithOverride = async () => {
@@ -141,8 +153,8 @@ export default class FileMenuDropdown extends Component {
       <div>
         <Modal
           isOpen={showImportUrlModal}
-          closeTimeoutMS={200}
           contentLabel="Import URL"
+          closeTimeoutMS={200}
           className="ReactModalDefault"
           overlayClassName="ReactModalOverlay"
         >
@@ -186,22 +198,78 @@ export default class FileMenuDropdown extends Component {
             </div>
           </div>
         </Modal>
-        <Modal isOpen={showErrorModal} contentLabel="Error Message">
-          <h2>Uh oh, an error has occured</h2>
-          {errorMessage}
-          <button type="button" onClick={this.closeModalClick('showErrorModal')}>
-            Close
-          </button>
+        <Modal
+          isOpen={showErrorModal}
+          contentLabel="Error Message"
+          closeTimeoutMS={200}
+          className="ReactModalDefault"
+          overlayClassName="ReactModalOverlay"
+        >
+          <div className="modal-content">
+            <div className="modal-header">
+              <button
+                type="button"
+                className="close"
+                onClick={this.closeModalClick('showConfirmModal')}
+              >
+                <span aria-hidden="true">x</span>
+              </button>
+              <div className="modal-title">Uh oh, an error has occured</div>
+            </div>
+            <div className="modal-body">
+              <div>{errorMessage}</div>
+            </div>
+            <div className="modal-footer">
+              <button
+                type="button"
+                className="btn btn-primary"
+                onClick={this.closeModalClick('showErrorModal')}
+              >
+                Close
+              </button>
+            </div>
+          </div>
         </Modal>
-        <Modal isOpen={showConfirmModal} contentLabel="Confirm">
-          <h2>Are you sure?</h2>
-          {confirmMessage}
-          <button type="button" onClick={() => this.onSaveAsYamlWithOverride()}>
-            Yes
-          </button>
-          <button type="button" onClick={this.closeModalClick('showConfirmModal')}>
-            Cancel
-          </button>
+        <Modal
+          isOpen={showConfirmModal}
+          contentLabel="Confirm"
+          closeTimeoutMS={200}
+          className="ReactModalDefault"
+          overlayClassName="ReactModalOverlay"
+        >
+          <div className="modal-content">
+            <div className="modal-header">
+              <button
+                type="button"
+                className="close"
+                onClick={this.closeModalClick('showConfirmModal')}
+              >
+                <span aria-hidden="true">x</span>
+              </button>
+              <div className="modal-title">Please Confirm</div>
+            </div>
+            <div className="modal-body">
+              <div>Warning: {confirmMessage}</div>
+              <br />
+              <div>Are you sure you want to continue?</div>
+            </div>
+            <div className="modal-footer">
+              <button
+                type="button"
+                className="btn btn-secondary"
+                onClick={this.closeModalClick('showConfirmModal')}
+              >
+                Cancel
+              </button>
+              <button
+                type="button"
+                className="btn btn-primary"
+                onClick={() => this.onSaveAsYamlWithOverride()}
+              >
+                Continue
+              </button>
+            </div>
+          </div>
         </Modal>
 
         <DropdownMenu displayName="File">
