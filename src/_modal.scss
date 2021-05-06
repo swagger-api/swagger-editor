@@ -54,7 +54,7 @@
   padding: 1.0rem 2.0rem;
 }
 
-.modal-header > .close {
+.modal-header .close {
   padding: 0.8rem;
   margin: -1rem -2rem -1rem auto;
   color: #758491;
@@ -127,11 +127,11 @@
   // border-radius: 4px;
 }
 
-// button .close {
-//   padding: 0;
-//   background-color: transparent;
-//   border: 0;
-// }
+button.close {
+  padding: 0;
+  background-color: transparent;
+  border: 0;
+}
 
 .input-group {
   display: flex;

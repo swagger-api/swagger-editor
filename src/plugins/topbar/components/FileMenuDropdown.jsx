@@ -148,7 +148,13 @@ export default class FileMenuDropdown extends Component {
         >
           <div className="modal-content">
             <div className="modal-header">
-              <div className="close">x</div>
+              <button
+                type="button"
+                className="close"
+                onClick={this.closeModalClick('showImportUrlModal')}
+              >
+                <span aria-hidden="true">x</span>
+              </button>
               <div className="modal-title">Import URL</div>
             </div>
             <div className="modal-body">
