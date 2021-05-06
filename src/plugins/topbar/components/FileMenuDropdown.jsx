@@ -138,20 +138,34 @@ export default class FileMenuDropdown extends Component {
 
     return (
       <div>
-        <Modal isOpen={showImportUrlModal} contentLabel="Import URL">
-          <h2>Enter the URL to import from</h2>
-          <input
-            type="text"
-            className="form-control"
-            placeholder="type url here"
-            onChange={this.onImportUrlChange}
-          />
-          <button type="button" onClick={() => this.onSubmitImportUrl()}>
-            submit
-          </button>
-          <button type="button" onClick={this.closeModalClick('showImportUrlModal')}>
-            Cancel
-          </button>
+        <Modal
+          isOpen={showImportUrlModal}
+          closeTimeoutMS={200}
+          contentLabel="Import URL"
+          className="mymodal"
+          overlayClassName="myoverlay"
+        >
+          <div className="modal-content">
+            <div className="modal-header">
+              <div className="modal-title">Enter the URL to import from</div>
+            </div>
+            <div className="modal-body">
+              <input
+                type="text"
+                className="form-control"
+                placeholder="type url here"
+                onChange={this.onImportUrlChange}
+              />
+            </div>
+            <div className="modal-footer">
+              <button type="button" onClick={() => this.onSubmitImportUrl()}>
+                submit
+              </button>
+              <button type="button" onClick={this.closeModalClick('showImportUrlModal')}>
+                Cancel
+              </button>
+            </div>
+          </div>
         </Modal>
         <Modal isOpen={showErrorModal} contentLabel="Error Message">
           <h2>Uh oh, an error has occured</h2>
