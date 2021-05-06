@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/label-has-associated-control */
 // This is a React.Component container of dropdownItems
 // no special list handling; all "clicks" pass props in same format
 // If we need to later, we can migrate this file as a separate file,
@@ -142,27 +143,39 @@ export default class FileMenuDropdown extends Component {
           isOpen={showImportUrlModal}
           closeTimeoutMS={200}
           contentLabel="Import URL"
-          className="mymodal"
-          overlayClassName="myoverlay"
+          className="ReactModalDefault"
+          overlayClassName="ReactModalOverlay"
         >
           <div className="modal-content">
             <div className="modal-header">
-              <div className="modal-title">Enter the URL to import from</div>
+              <div className="close">x</div>
+              <div className="modal-title">Import URL</div>
             </div>
             <div className="modal-body">
-              <input
-                type="text"
-                className="form-control"
-                placeholder="type url here"
-                onChange={this.onImportUrlChange}
-              />
+              <div className="input-group">
+                <label>Enter the URL to import from</label>
+                <input
+                  type="text"
+                  className="form-control"
+                  placeholder="type url here"
+                  onChange={this.onImportUrlChange}
+                />
+              </div>
             </div>
             <div className="modal-footer">
-              <button type="button" onClick={() => this.onSubmitImportUrl()}>
-                submit
-              </button>
-              <button type="button" onClick={this.closeModalClick('showImportUrlModal')}>
+              <button
+                type="button"
+                className="btn btn-secondary"
+                onClick={this.closeModalClick('showImportUrlModal')}
+              >
                 Cancel
+              </button>
+              <button
+                type="button"
+                className="btn btn-primary"
+                onClick={() => this.onSubmitImportUrl()}
+              >
+                Submit
               </button>
             </div>
           </div>
