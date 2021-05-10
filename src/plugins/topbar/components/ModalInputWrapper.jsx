@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
-import Modal from 'react-modal';
+import ReactModal from 'react-modal';
 
 export default class ModalInputWrapper extends PureComponent {
   render() {
@@ -14,7 +14,7 @@ export default class ModalInputWrapper extends PureComponent {
       modalBodyContent,
     } = this.props;
     return (
-      <Modal
+      <ReactModal
         isOpen={isOpen}
         contentLabel={contentLabel}
         closeTimeoutMS={200}
@@ -38,7 +38,7 @@ export default class ModalInputWrapper extends PureComponent {
             </button>
           </div>
         </div>
-      </Modal>
+      </ReactModal>
     );
   }
 }
