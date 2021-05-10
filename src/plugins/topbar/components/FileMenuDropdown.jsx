@@ -1,6 +1,3 @@
-/* eslint-disable jsx-a11y/label-has-associated-control */
-// todo (when extract modal to component): https://github.com/jsx-eslint/eslint-plugin-jsx-a11y/blob/master/docs/rules/label-has-associated-control.md
-
 // This is a React.Component container of dropdownItems
 // no special list handling; all "clicks" pass props in same format
 // If we need to later, we can migrate this file as a separate file,
@@ -9,9 +6,8 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import Modal from 'react-modal';
 
-// if (process.env.NODE_ENV !== 'test') {
-//   Modal.setAppElement('#root');
-// }
+import ModalInputWrapper from './ModalInputWrapper';
+import ImportUrl from './ImportUrl';
 
 export default class FileMenuDropdown extends Component {
   constructor(props) {
@@ -151,53 +147,15 @@ export default class FileMenuDropdown extends Component {
 
     return (
       <div>
-        <Modal
+        <ModalInputWrapper
           isOpen={showImportUrlModal}
           contentLabel="Import URL"
-          closeTimeoutMS={200}
-          className="ReactModalDefault"
-          overlayClassName="ReactModalOverlay"
-        >
-          <div className="modal-content">
-            <div className="modal-header">
-              <button
-                type="button"
-                className="close"
-                onClick={this.closeModalClick('showImportUrlModal')}
-              >
-                <span aria-hidden="true">x</span>
-              </button>
-              <div className="modal-title">Import URL</div>
-            </div>
-            <div className="modal-body">
-              <div className="input-group">
-                <label>Enter the URL to import from</label>
-                <input
-                  type="text"
-                  className="form-control"
-                  placeholder="type url here"
-                  onChange={this.onImportUrlChange}
-                />
-              </div>
-            </div>
-            <div className="modal-footer">
-              <button
-                type="button"
-                className="btn btn-secondary"
-                onClick={this.closeModalClick('showImportUrlModal')}
-              >
-                Cancel
-              </button>
-              <button
-                type="button"
-                className="btn btn-primary"
-                onClick={() => this.onSubmitImportUrl()}
-              >
-                Submit
-              </button>
-            </div>
-          </div>
-        </Modal>
+          modalTitle="Import URL"
+          closeModalClick={this.closeModalClick('showImportUrlModal')}
+          cancelModalClick={this.closeModalClick('showImportUrlModal')}
+          submitModalClick={() => this.onSubmitImportUrl()}
+          modalBodyContent={<ImportUrl onImportUrlChange={this.onImportUrlChange} />}
+        />
         <Modal
           isOpen={showErrorModal}
           contentLabel="Error Message"
