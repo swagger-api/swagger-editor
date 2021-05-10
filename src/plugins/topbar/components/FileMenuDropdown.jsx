@@ -4,10 +4,13 @@
 // and define this index as a plugin wrapper
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import Modal from 'react-modal';
 
+// eslint-disable-next-line no-unused-vars
+import noop from '../../../utils/utils-noop';
 import ModalInputWrapper from './ModalInputWrapper';
 import ImportUrl from './ImportUrl';
+import ModalConfirmWrapper from './ModalConfirmWrapper';
+import ModalErrorWrapper from './ModalErrorWrapper';
 
 export default class FileMenuDropdown extends Component {
   constructor(props) {
@@ -156,79 +159,24 @@ export default class FileMenuDropdown extends Component {
           submitModalClick={() => this.onSubmitImportUrl()}
           modalBodyContent={<ImportUrl onImportUrlChange={this.onImportUrlChange} />}
         />
-        <Modal
-          isOpen={showErrorModal}
-          contentLabel="Error Message"
-          closeTimeoutMS={200}
-          className="ReactModalDefault"
-          overlayClassName="ReactModalOverlay"
-        >
-          <div className="modal-content">
-            <div className="modal-header">
-              <button
-                type="button"
-                className="close"
-                onClick={this.closeModalClick('showConfirmModal')}
-              >
-                <span aria-hidden="true">x</span>
-              </button>
-              <div className="modal-title">Uh oh, an error has occured</div>
-            </div>
-            <div className="modal-body">
-              <div>{errorMessage}</div>
-            </div>
-            <div className="modal-footer">
-              <button
-                type="button"
-                className="btn btn-primary"
-                onClick={this.closeModalClick('showErrorModal')}
-              >
-                Close
-              </button>
-            </div>
-          </div>
-        </Modal>
-        <Modal
+        <ModalConfirmWrapper
           isOpen={showConfirmModal}
           contentLabel="Confirm"
-          closeTimeoutMS={200}
-          className="ReactModalDefault"
-          overlayClassName="ReactModalOverlay"
-        >
-          <div className="modal-content">
-            <div className="modal-header">
-              <button
-                type="button"
-                className="close"
-                onClick={this.closeModalClick('showConfirmModal')}
-              >
-                <span aria-hidden="true">x</span>
-              </button>
-              <div className="modal-title">Please Confirm</div>
-            </div>
-            <div className="modal-body">
-              <div>Warning: {confirmMessage}</div>
-              <br />
-              <div>Are you sure you want to continue?</div>
-            </div>
-            <div className="modal-footer">
-              <button
-                type="button"
-                className="btn btn-secondary"
-                onClick={this.closeModalClick('showConfirmModal')}
-              >
-                Cancel
-              </button>
-              <button
-                type="button"
-                className="btn btn-primary"
-                onClick={() => this.onSaveAsYamlWithOverride()}
-              >
-                Continue
-              </button>
-            </div>
-          </div>
-        </Modal>
+          modalTitle="Please Confirm"
+          closeModalClick={this.closeModalClick('showConfirmModal')}
+          cancelModalClick={this.closeModalClick('showConfirmModal')}
+          submitModalClick={() => this.onSaveAsYamlWithOverride()}
+          modalBodyContent={confirmMessage}
+        />
+        <ModalErrorWrapper
+          isOpen={showErrorModal}
+          contentLabel="Error Message"
+          modalTitle="Uh oh, an error has occured"
+          closeModalClick={this.closeModalClick('showErrorModal')}
+          cancelModalClick={this.closeModalClick('showErrorModal')}
+          submitModalClick={() => noop}
+          modalBodyContent={errorMessage}
+        />
 
         <DropdownMenu displayName="File">
           <DropdownItem onClick={() => this.onImportUrlClick()} name="Import URL" />
