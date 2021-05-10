@@ -5,6 +5,12 @@
  */
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import ReactModal from 'react-modal';
+
+// for screenreader aria-hidden
+if (process.env.NODE_ENV !== 'test') {
+  ReactModal.setAppElement('#root');
+}
 
 export default class Topbar extends Component {
   constructor(props, context) {

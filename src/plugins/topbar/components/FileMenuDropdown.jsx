@@ -9,9 +9,9 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import Modal from 'react-modal';
 
-if (process.env.NODE_ENV !== 'test') {
-  Modal.setAppElement('#root');
-}
+// if (process.env.NODE_ENV !== 'test') {
+//   Modal.setAppElement('#root');
+// }
 
 export default class FileMenuDropdown extends Component {
   constructor(props) {
