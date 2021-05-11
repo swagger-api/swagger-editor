@@ -65,7 +65,7 @@ Migrate React Components
 [x] topbar-file-menu
 [x] convert from swagger2 to oas3 (plugin -> edit menu)
 [x] ImportFileMenuItem (plugin); effective a DropdownItem, so try re-use
-[ ] modal system (all-new)
+[x] modal system (all-new)
 [ ] react-dropzone
 [ ] topbar-insert (plugin); this should be a copy/paste
 [ ] jump-to-path; this should be a copy/paste
