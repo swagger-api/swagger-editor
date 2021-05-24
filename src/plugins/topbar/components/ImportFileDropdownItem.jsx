@@ -1,22 +1,19 @@
-import React, { Component } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 
-export default class ImportFileDropdownItem extends Component {
-  onImportFileClick = async () => {
+export default function ImportFileDropdownItem(props) {
+  const onImportFileClick = async () => {
     // ref inline old method: onDocumentLoad
-    const { topbarActions } = this.props;
+    const { topbarActions } = props;
     const importResult = await topbarActions.handleImportFile();
     if (importResult && importResult.error) {
       // display the error message
     }
   };
+  const { getComponent } = props;
+  const DropdownItem = getComponent('DropdownItem');
 
-  render() {
-    const { getComponent } = this.props;
-    const DropdownItem = getComponent('DropdownItem');
-
-    return <DropdownItem onClick={() => this.onImportFileClick()} name="Import File" />;
-  }
+  return <DropdownItem onClick={() => onImportFileClick()} name="Import File" />;
 }
 
 ImportFileDropdownItem.propTypes = {

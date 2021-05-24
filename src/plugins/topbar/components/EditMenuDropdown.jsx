@@ -1,43 +1,40 @@
-// This is a React.Component container of dropdownItems
-// no special list handling; all "clicks" pass props in same format
 // If we need to later, we can migrate this file as a separate file,
 // and define this index as a plugin wrapper
-import React, { Component } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 
-export default class EditMenuDropdown extends Component {
-  onConvertToOas3Click = async () => {
+export default function EditMenuDropdown(props) {
+  const onConvertToOas3Click = async () => {
     // ref legacy method: topbarActions.showModal("convert")
-    const { topbarActions } = this.props;
-
+    const { topbarActions } = props;
     const convertedResult = await topbarActions.convertDefinitionToOas3();
     if (convertedResult && convertedResult.error) {
       // display the error message
     }
   };
 
-  onConvertToYamlClick = async () => {
+  const onConvertToYamlClick = async () => {
     // ref legacy method: convertToYaml
-    const { topbarActions } = this.props;
+    const { topbarActions } = props;
     const convertedResult = await topbarActions.convertToYaml();
     if (convertedResult && convertedResult.error) {
       // display the error message
     }
   };
 
-  render() {
-    const { getComponent } = this.props;
-    const DropdownMenu = getComponent('DropdownMenu');
-    const DropdownItem = getComponent('DropdownItem');
-    // Todo: render convert to OAS3 only if currently 'isSwagger2`, which we can get from specSelectors.isSwagger2()
-    // Todo: implement Modal progress
-    return (
-      <DropdownMenu displayName="Edit">
-        <DropdownItem onClick={() => this.onConvertToYamlClick()} name="Convert To YAML" />
-        <DropdownItem onClick={() => this.onConvertToOas3Click()} name="Convert To OpenAPI 3" />
-      </DropdownMenu>
-    );
-  }
+  const { getComponent } = props;
+  const DropdownMenu = getComponent('DropdownMenu');
+  const DropdownItem = getComponent('DropdownItem');
+  // Todo: render convert to OAS3 only if currently 'isSwagger2`, which we can get from specSelectors.isSwagger2()
+  // note: convert method still works on an OAS3 definition, so this is strictly a UX/UI issue
+  // Todo: implement Modal progress/status? Imo, a "success" message not needed b/c user
+  // will see UI update, but consult UX
+  return (
+    <DropdownMenu displayName="Edit">
+      <DropdownItem onClick={() => onConvertToYamlClick()} name="Convert To YAML" />
+      <DropdownItem onClick={() => onConvertToOas3Click()} name="Convert To OpenAPI 3" />
+    </DropdownMenu>
+  );
 }
 
 EditMenuDropdown.propTypes = {
