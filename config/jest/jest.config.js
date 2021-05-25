@@ -30,6 +30,7 @@ module.exports = {
     '^react-native$': 'react-native-web',
     '^.+\\.module\\.(css|sass|scss)$': 'identity-obj-proxy',
     '^monaco-editor$': '<rootDir>/test/__mocks__/monacoMock.js',
+    '^monaco-editor-core$': '<rootDir>/test/__mocks__/monacoMock.js',
     // '^monaco-editor$': '<rootDir>/node_modules/monaco-editor/esm/vs/editor/editor.api.js',
     // '^monaco-editor$': '<rootDir>/node_modules/monaco-editor/esm/vs/editor/editor.main.js',
     // '^monaco-editor$': '<rootDir>/node_modules/monaco-editor/esm/vs/editor/editor.all.js',
