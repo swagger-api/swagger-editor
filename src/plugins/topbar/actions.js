@@ -7,6 +7,7 @@ import {
   getDefinitionFromUrl,
   getGeneratedDefinition,
   postPerformOasConversion,
+  getGeneratorsList,
 } from '../../utils/utils-http';
 import { getFileName, hasParserErrors, getDefinitionLanguage } from '../../utils/utils-converter';
 import { importFile } from './importFileActions';
@@ -59,6 +60,10 @@ export const defaultFixtures = {
   swagger2GeneratorUrl: 'https://generator.swagger.io/api/swagger.json',
   oas3GeneratorUrl: 'https://generator3.swagger.io/openapi.json',
   swagger2ConverterUrl: 'https://converter.swagger.io/api/convert',
+  oas3GeneratorServersUrl: 'https://generator3.swagger.io/api/servers',
+  oas3GeneratorClientsUrl: 'https://generator3.swagger.io/api/clients',
+  oas2GeneratorServersUrl: 'https://generator.swagger.io/api/gen/servers',
+  oas2GeneratorClientsUrl: 'https://generator.swagger.io/api/gen/clients',
 };
 
 export const mockOas2Spec = {
@@ -208,6 +213,24 @@ const getGeneratorUrl = (args) => {
   return null;
 };
 
+const fetchOasGeneratorLists = async ({ isOAS3 }) => {
+  const generatorClientsUrl = isOAS3
+    ? defaultFixtures.oas3GeneratorClientsUrl
+    : defaultFixtures.oas2GeneratorServersUrl;
+  const generatorServersUrl = isOAS3
+    ? defaultFixtures.oas3GeneratorServersUrl
+    : defaultFixtures.oas2GeneratorServersUrl;
+
+  const clientData = await getGeneratorsList({ url: generatorClientsUrl });
+  const serverData = await getGeneratorsList({ url: generatorServersUrl });
+
+  const clientsList = clientData.error ? [] : clientData;
+  const serversList = serverData.error ? [] : serverData;
+
+  return { clients: clientsList, servers: serversList };
+};
+
+// eslint-disable-next-line no-unused-vars
 const fetchSwaggerClientGetters = async ({ generatorUrl, isOAS3 }) => {
   // swagger-client interface: ".makeApisTagOperation()", which transforms raw res.data
   // await a Promise, and attach a .catch to a non-async function
@@ -280,11 +303,13 @@ export const instantiateGeneratorClient = () => async (system) => {
     swagger2GeneratorUrl,
     oas3GeneratorUrl,
   };
+  // eslint-disable-next-line no-unused-vars
   const generatorUrl = getGeneratorUrl(argsForGeneratorUrl);
   // TODO: next-line is for dev.
   // const generatorUrl = getGeneratorUrl(defaultFixtures);
   // console.log('...instantiateGeneratorClient generatorUrl:', generatorUrl);
-  const generatorServersClients = await fetchSwaggerClientGetters({ generatorUrl, isOAS3 });
+  // const generatorServersClients = await fetchSwaggerClientGetters({ generatorUrl, isOAS3 });
+  const generatorServersClients = await fetchOasGeneratorLists({ isOAS3 });
   // console.log('...instantiateGeneratorClient generatorServersClients:', generatorServersClients);
   if (generatorServersClients.error) {
     return Promise.resolve({

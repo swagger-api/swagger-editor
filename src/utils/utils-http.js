@@ -1,19 +1,27 @@
 import axios from 'axios';
 
-// Although this call works, we can't use this directly,
-// because the intended replacement of SwaggerClient has a transform interface
-// export async function getGeneratorsList({ url }) {
-//   const config = {
-//     headers: {
-//       'Content-Type': 'application/json',
-//       // eslint-disable-next-line prettier/prettier
-//       'Accept': 'application/json',
-//     },
-//   };
-//   const res = await axios.get(url, config);
-//   console.log("utils. res:", res);
-//   return res.data;
-// };
+// legacy note: SwaggerClient would transform this response before sending to UI
+// so previously not able to use this request directly
+export async function getGeneratorsList({ url }) {
+  const config = {
+    headers: {
+      'Content-Type': 'application/json',
+      // eslint-disable-next-line prettier/prettier
+      'Accept': 'application/json',
+    },
+  };
+  const res = await axios.get(url, config);
+  if (!res) {
+    return { error: 'Network Error' };
+  }
+  if (res instanceof Error && res.message) {
+    return { error: res.message }; // 'Request failed with status code 4xx'
+  }
+  if (res instanceof Error) {
+    return { error: 'unknown error' };
+  }
+  return res.data;
+}
 
 // importFromURL
 export async function getDefinitionFromUrl({ url }) {
