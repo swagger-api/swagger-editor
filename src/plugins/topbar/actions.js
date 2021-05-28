@@ -8,6 +8,7 @@ import {
   getGeneratedDefinition,
   postPerformOasConversion,
   getGeneratorsList,
+  postGenerator3WithSpec,
 } from '../../utils/utils-http';
 import { getFileName, hasParserErrors, getDefinitionLanguage } from '../../utils/utils-converter';
 import { importFile } from './importFileActions';
@@ -66,8 +67,12 @@ export const defaultFixtures = {
   oas2GeneratorServersUrl: 'https://generator.swagger.io/api/gen/servers',
   oas2GeneratorClientsUrl: 'https://generator.swagger.io/api/gen/clients',
   // NYI: replace need for swagger-client
-  // oas3GenerateSpecUrl: 'https://generator3.swagger.io/api/generate', // POST { lang: 'aspnetcore', spec: {}, type: 'SERVER' }
-  // oas2GenerateSpecUrl: '',
+  oas3GenerateSpecUrl: 'https://generator3.swagger.io/api/generate', // POST { lang: 'aspnetcore', spec: {}, type: 'SERVER' }
+  oas2GenerateSpecServersUrl: 'https://generator.swagger.io/api/gen/servers',
+  oas2GenerateSpecClientsUrl: 'https://generator.swagger.io/api/gen/clients',
+  // oas2 examples:
+  // https://generator.swagger.io/api/gen/servers/ada-server // OPTIONS req, then POST req. { spec: {} }
+  // https://generator.swagger.io/api/gen/clients/ada // POST { spec: {} }
 };
 
 export const mockOas2Spec = {
@@ -371,6 +376,69 @@ const formatParsedUrl = ({ link }) => {
   return formattedUrl;
 };
 
+const fetchGeneratorLinkOrBlob = async ({ isSwagger2, isOAS3, name, type, spec }) => {
+  // generator 3 will return a Blob
+  // generator 2 will return a json object
+  if (!spec) {
+    return { error: 'unable to create generator url. missing spec' };
+  }
+  if (!type) {
+    return { error: 'unable to create generator url. missing type' };
+  }
+  if (!name) {
+    return { error: 'unable to create generator url. missing name' };
+  }
+
+  if (isOAS3) {
+    // Generator 3 only has one generate endpoint for all types of things...
+    // Return an object with Blob, regardless of type (server/client)
+    const generatorData = await postGenerator3WithSpec({
+      url: defaultFixtures.oas3GenerateSpecUrl,
+      data: {
+        spec,
+        type: type.toUpperCase(),
+        lang: name,
+      },
+    });
+    if (generatorData.error) {
+      return generatorData; // res.body.error
+    }
+    return generatorData; // generatorData = { data: Blob}
+  }
+  if (isSwagger2) {
+    if (type !== 'server' || type !== 'client') {
+      return { error: 'unable to create generator url. invalid type' };
+    }
+    let urlWithType;
+    if (type === 'server') {
+      urlWithType = `${defaultFixtures.oas2GenerateSpecServersUrl}/${name}`;
+    }
+    if (type === 'client') {
+      urlWithType = `${defaultFixtures.oas2GenerateSpecClientsUrl}/${name}`;
+    }
+    // todo: verify not needed to JSON.stringify(spec)
+    const generatorData = await postGenerator3WithSpec({
+      url: urlWithType,
+      data: {
+        spec,
+        options: {
+          responseType: 'json',
+        },
+      },
+    });
+    if (generatorData.error) {
+      return generatorData; // res.body.error
+    }
+    // console.log('generator...swagger 2 case.. generatorData:', generatorData);
+    // expecting generatorData = { code: '', link: ''}
+    const link = formatParsedUrl({ link: generatorData.link });
+    return { link };
+  }
+  // default empty case
+  return { error: 'unable to create generator url' };
+};
+
+// eslint-disable-next-line no-unused-vars
 const fetchGeneratorLinkFromSwaggerClientApis = async ({
   generatorUrl,
   isOAS3,
@@ -485,13 +553,22 @@ export const downloadGeneratedFile = ({ type, name }) => async (system) => {
     swagger2GeneratorUrl,
     oas3GeneratorUrl,
   };
+  // eslint-disable-next-line no-unused-vars
   const generatorUrl = getGeneratorUrl(argsForGeneratorUrl);
   // console.log('...downloadGeneratedFile generatorUrl:', generatorUrl);
   const spec = specSelectors.specJson();
   // const spec = mockOas2Spec;
   // const spec = mockOas3Spec;
-  const generatorLink = await fetchGeneratorLinkFromSwaggerClientApis({
-    generatorUrl,
+  // SwaggerClient version
+  // const generatorLink = await fetchGeneratorLinkFromSwaggerClientApis({
+  //   generatorUrl,
+  //   isOAS3: argsForGeneratorUrl.isOAS3,
+  //   isSwagger2: argsForGeneratorUrl.isSwagger2,
+  //   name,
+  //   type,
+  //   spec,
+  // });
+  const generatorLink = await fetchGeneratorLinkOrBlob({
     isOAS3: argsForGeneratorUrl.isOAS3,
     isSwagger2: argsForGeneratorUrl.isSwagger2,
     name,
@@ -510,7 +587,7 @@ export const downloadGeneratedFile = ({ type, name }) => async (system) => {
       getFileDownload({ blob: fetchedDataWithBlob.data, filename });
     }
   } else if (generatorLink.data && generatorLink.data instanceof Blob) {
-    // oas3: check swagger-client responseType: 'blob', then download
+    // oas3: generator3 returns blob already, so just download
     getFileDownload({ blob: generatorLink.data, filename });
   }
   return { data: 'ok' };

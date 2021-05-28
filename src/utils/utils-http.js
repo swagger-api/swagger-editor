@@ -23,6 +23,31 @@ export async function getGeneratorsList({ url }) {
   return res.data;
 }
 
+export async function postGenerator3WithSpec({ url, data, options }) {
+  // default generator 3 returns Blob
+  // legacy generator 2 returns json
+  const optionsResponseType = options?.responseType;
+  const config = {
+    headers: {
+      'Content-Type': 'application/json',
+      // eslint-disable-next-line prettier/prettier
+      'Accept': ' application/octet-stream, application/json',
+    },
+    responseType: optionsResponseType || 'blob',
+  };
+  const res = await axios.post(url, data, config);
+  if (!res) {
+    return { error: 'Network Error' };
+  }
+  if (res instanceof Error && res.message) {
+    return { error: res.message };
+  }
+  if (res instanceof Error) {
+    return { error: 'unknown error' }; // statusCode: 400
+  }
+  return res; // response could be Blob or json object
+}
+
 // importFromURL
 export async function getDefinitionFromUrl({ url }) {
   const config = {};
