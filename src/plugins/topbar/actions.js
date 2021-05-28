@@ -1,4 +1,3 @@
-import SwaggerClient from 'swagger-client';
 import URL from 'url';
 import YAML from 'js-yaml';
 import beautifyJson from 'json-beautify';
@@ -209,6 +208,7 @@ const getSpecVersionString = ({ isOAS3, isSwagger2 }) => {
   return 'unvailable';
 };
 
+// eslint-disable-next-line no-unused-vars
 const getGeneratorUrl = (args) => {
   // return a string if args match, or null if not
   const { isOAS3, isSwagger2, swagger2GeneratorUrl, oas3GeneratorUrl } = args;
@@ -239,85 +239,13 @@ const fetchOasGeneratorLists = async ({ isOAS3 }) => {
   return { clients: clientsList, servers: serversList };
 };
 
-// eslint-disable-next-line no-unused-vars
-const fetchSwaggerClientGetters = async ({ generatorUrl, isOAS3 }) => {
-  // swagger-client interface: ".makeApisTagOperation()", which transforms raw res.data
-  // await a Promise, and attach a .catch to a non-async function
-  const data = await SwaggerClient(generatorUrl, {
-    requestInterceptor: (req) => {
-      // eslint-disable-next-line dot-notation
-      req.headers['Accept'] = 'application/json';
-      req.headers['Content-Type'] = 'application/json';
-    },
-  })
-    .then(async (client) => {
-      const clientGetter = isOAS3
-        ? client.apis.clients.clientLanguages
-        : client.apis.clients.clientOptions;
-      const serverGetter = isOAS3
-        ? client.apis.servers.serverLanguages
-        : client.apis.servers.serverOptions;
-      // calling the methods from generator response
-      const clientResults = await clientGetter(
-        {},
-        {
-          // contextUrl is needed because swagger-client is curently
-          // not building relative server URLs correctly
-          contextUrl: generatorUrl,
-        }
-      ).then((res) => {
-        // expect an array of strings
-        return res.body || [];
-      });
-      // calling the methods from generator response
-      const serverResults = await serverGetter(
-        {},
-        {
-          // contextUrl is needed because swagger-client is curently
-          // not building relative server URLs correctly
-          contextUrl: generatorUrl,
-        }
-      ).then((res) => {
-        // expect an array of strings
-        return res.body || [];
-      });
-      return { clients: clientResults, servers: serverResults };
-    })
-    .catch(() => {
-      return { error: 'unable to retrieve generator url.' };
-    });
-  return data;
-};
-
 export const instantiateGeneratorClient = () => async (system) => {
   // console.log('topbarActions.instantiateGeneratorClient called');
   // set of http call to retrieve generator servers and clients lists
   // which will set a redux state
   const { isOAS3, isSwagger2 } = getSpecVersion(system);
-  // console.log('...instantiateGeneratorClient isOAS3:', isOAS3);
-  // console.log('...instantiateGeneratorClient isSwagger2:', isSwagger2);
-  const { swagger2GeneratorUrl, oas3GeneratorUrl } = getConfigsWithDefaultFallback(system);
   const specVersion = getSpecVersionString({ isOAS3, isSwagger2 });
-  // console.log(
-  //   '...instantiateGeneratorClient args: swagger2GeneratorUrl',
-  //   swagger2GeneratorUrl,
-  //   ' | and oas3GeneratorUrl ',
-  //   oas3GeneratorUrl
-  // );
-  // TODO: next-line is production
-  // eslint-disable-next-line no-unused-vars
-  const argsForGeneratorUrl = {
-    isOAS3,
-    isSwagger2,
-    swagger2GeneratorUrl,
-    oas3GeneratorUrl,
-  };
-  // eslint-disable-next-line no-unused-vars
-  const generatorUrl = getGeneratorUrl(argsForGeneratorUrl);
-  // TODO: next-line is for dev.
-  // const generatorUrl = getGeneratorUrl(defaultFixtures);
-  // console.log('...instantiateGeneratorClient generatorUrl:', generatorUrl);
-  // const generatorServersClients = await fetchSwaggerClientGetters({ generatorUrl, isOAS3 });
+
   const generatorServersClients = await fetchOasGeneratorLists({ isOAS3 });
   // console.log('...instantiateGeneratorClient generatorServersClients:', generatorServersClients);
   if (generatorServersClients.error) {
@@ -351,7 +279,6 @@ export const importFromURL = ({ url }) => async (system) => {
     // e.g. data.error = 'Request failed with status code 404'
     return { error: data.error };
   }
-  // eslint-disable-next-line no-unused-vars
   const { specActions } = system;
   // we will use swagger-ui's specActions to updateSpec
   // as well as any other apidom actions to take
@@ -438,110 +365,6 @@ const fetchGeneratorLinkOrBlob = async ({ isSwagger2, isOAS3, name, type, spec }
   return { error: 'unable to create generator url' };
 };
 
-// eslint-disable-next-line no-unused-vars
-const fetchGeneratorLinkFromSwaggerClientApis = async ({
-  generatorUrl,
-  isOAS3,
-  isSwagger2,
-  name,
-  type,
-  spec,
-}) => {
-  // swagger-client interface: ".makeApisTagOperation()", which transforms raw res.data
-  const generatorLinkOrBlob = await SwaggerClient(generatorUrl, {
-    requestInterceptor: (req) => {
-      // eslint-disable-next-line dot-notation
-      req.headers['Accept'] = 'application/json';
-      req.headers['Content-Type'] = 'application/json';
-    },
-  }).then(async (client) => {
-    // console.log('TEST: do we have direct swagger-client method apis?', client.apis);
-    let swaggerClientData;
-    // Generator 3 only has one generate endpoint for all types of things...
-    // since we're using the tags interface we may as well use the client reference to it
-    if (isOAS3) {
-      // Return an object with Blob, regardless of type (server/client)
-      // await a Promise, and attach a .catch to a non-async function
-      swaggerClientData = await client.apis.clients
-        .generate(
-          {},
-          {
-            requestBody: {
-              spec,
-              type: type.toUpperCase(),
-              lang: name,
-            },
-            contextUrl: generatorUrl,
-          }
-        )
-        .then((res) => res)
-        .catch(() => {
-          // e.g. empty spec provided, or provided invalid name for oas3
-          return { error: 'unable to retrieve generator url.' };
-        });
-      if (swaggerClientData.error) {
-        return swaggerClientData;
-      }
-      // returning full object, with data: Blob
-      return swaggerClientData;
-    }
-    if (isSwagger2 && type === 'server') {
-      // await a Promise, and attach a .catch to a non-async function
-      swaggerClientData = await client.apis.servers
-        .generateServerForLanguage({
-          framework: name,
-          body: JSON.stringify({
-            spec,
-          }),
-          headers: JSON.stringify({
-            Accept: 'application/json',
-          }),
-        })
-        .then((res) => res)
-        .catch(() => {
-          // e.g. empty spec provided
-          return { error: 'unable to retrieve generator url.' };
-        });
-      if (swaggerClientData.error) {
-        return swaggerClientData;
-      }
-      if (!swaggerClientData.body || !swaggerClientData.body.link) {
-        return { error: 'invalid or missing generator url' };
-      }
-      const link = formatParsedUrl({ link: swaggerClientData.body.link });
-      return { link };
-    }
-    if (isSwagger2 && type === 'client') {
-      // await a Promise, and attach a .catch to a non-async function
-      swaggerClientData = await client.apis.clients
-        .generateClient({
-          language: name,
-          body: JSON.stringify({
-            spec,
-          }),
-        })
-        .then((res) => res)
-        .catch(() => {
-          // e.g. empty spec provided
-          return { error: 'unable to retrieve generator url.' };
-        });
-      if (swaggerClientData.error) {
-        return swaggerClientData;
-      }
-      if (!swaggerClientData.body || !swaggerClientData.body.link) {
-        return { error: 'invalid or missing generator url' };
-      }
-      const link = formatParsedUrl({ link: swaggerClientData.body.link });
-      // in a different case, we return {...data }, so we return 'link' key here instead
-      return { link };
-    }
-    // default empty case
-    return { error: 'unable to create generator url' };
-  });
-  // expect return object with single key, oneOf [data, link, error]
-  return generatorLinkOrBlob;
-};
-
 export const downloadGeneratedFile = ({ type, name }) => async (system) => {
   const { specSelectors } = system;
   const { swagger2GeneratorUrl, oas3GeneratorUrl } = getConfigsWithDefaultFallback(system);
@@ -553,21 +376,8 @@ export const downloadGeneratedFile = ({ type, name }) => async (system) => {
     swagger2GeneratorUrl,
     oas3GeneratorUrl,
   };
-  // eslint-disable-next-line no-unused-vars
-  const generatorUrl = getGeneratorUrl(argsForGeneratorUrl);
-  // console.log('...downloadGeneratedFile generatorUrl:', generatorUrl);
   const spec = specSelectors.specJson();
-  // const spec = mockOas2Spec;
-  // const spec = mockOas3Spec;
-  // SwaggerClient version
-  // const generatorLink = await fetchGeneratorLinkFromSwaggerClientApis({
-  //   generatorUrl,
-  //   isOAS3: argsForGeneratorUrl.isOAS3,
-  //   isSwagger2: argsForGeneratorUrl.isSwagger2,
-  //   name,
-  //   type,
-  //   spec,
-  // });
+
   const generatorLink = await fetchGeneratorLinkOrBlob({
     isOAS3: argsForGeneratorUrl.isOAS3,
     isSwagger2: argsForGeneratorUrl.isSwagger2,
@@ -636,7 +446,6 @@ export const convertToYaml = () => async (system) => {
 export const saveAsJson = () => async (system) => {
   const { specSelectors, errSelectors } = system;
   const editorContent = specSelectors.specStr();
-  // eslint-disable-next-line no-unused-vars
   const { isOAS3, isSwagger2 } = getSpecVersion(system);
   // eslint-disable-next-line no-unused-vars
   const options = { isOAS3, isSwagger2 };
@@ -651,12 +460,13 @@ export const saveAsJson = () => async (system) => {
   } else {
     contentToConvert = editorContent;
   }
-  const mockOptions = {
-    isOAS3: true,
-    isSwagger2: true,
-  };
+  // eslint-disable-next-line no-unused-vars
+  // const mockOptions = {
+  //   isOAS3: true,
+  //   isSwagger2: true,
+  // };
   // end dev mode scaffold
-  const fileName = getFileName({ options: mockOptions.isOAS3 });
+  const fileName = getFileName({ options: options.isOAS3 });
   const parserErrorExists = hasParserErrors({ errors: errSelectors.allErrors() });
   if (parserErrorExists) {
     // legacy alert window, which we should use a generic modal instead
@@ -694,12 +504,13 @@ export const saveAsYaml = ({ overrideWarning }) => async (system) => {
   } else {
     contentToConvert = editorContent;
   }
-  const mockOptions = {
-    isOAS3: true,
-    isSwagger2: true,
-  };
+  // eslint-disable-next-line no-unused-vars
+  // const mockOptions = {
+  //   isOAS3: true,
+  //   isSwagger2: true,
+  // };
   // end dev mode scaffold
-  const fileName = getFileName({ options: mockOptions.isOAS3 });
+  const fileName = getFileName({ options: options.isOAS3 });
   const languageSubType = getDefinitionLanguage({ data: contentToConvert });
   const parserErrorExists = hasParserErrors({ errors: errSelectors.allErrors() });
   // const parserErrorExists = true; // mock test
