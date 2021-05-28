@@ -44,7 +44,7 @@ Extract menu logic helpers to utils-converter
 
 Create (axios) http method to utils-http
 [x] getDefinitionFromUrl
-[x] getGeneratedDefinition
+[x] getGenerator2Definition
 [x] postPerformOasConversion
 
 Remove unnecessary state:

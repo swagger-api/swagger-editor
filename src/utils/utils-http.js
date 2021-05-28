@@ -66,7 +66,7 @@ export async function getDefinitionFromUrl({ url }) {
 
 // downloadGeneratedFile -> handleResponse -> downloadFile
 // given a swagger2 spec, Generator 3 response with a "builder url" -> where we make a fetch call in handleResponse -> afterwards, we download the blob
-export async function getGeneratedDefinition({ url }) {
+export async function getGenerator2Definition({ url }) {
   const config = { responseType: 'blob' };
   const res = await axios.get(url, config);
   if (!res) {

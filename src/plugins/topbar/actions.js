@@ -5,7 +5,7 @@ import beautifyJson from 'json-beautify';
 
 import {
   getDefinitionFromUrl,
-  getGeneratedDefinition,
+  getGenerator2Definition,
   postPerformOasConversion,
   getGeneratorsList,
   postGenerator3WithSpec,
@@ -582,7 +582,7 @@ export const downloadGeneratedFile = ({ type, name }) => async (system) => {
   const filename = `${name}-${type}-generated.zip`;
   if (generatorLink.link) {
     // swagger2: check axios fetch responseType: 'blob', then download
-    const fetchedDataWithBlob = await getGeneratedDefinition({ url: generatorLink.link });
+    const fetchedDataWithBlob = await getGenerator2Definition({ url: generatorLink.link });
     if (fetchedDataWithBlob.data && fetchedDataWithBlob.data instanceof Blob) {
       getFileDownload({ blob: fetchedDataWithBlob.data, filename });
     }
