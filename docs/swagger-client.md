@@ -18,8 +18,14 @@ response.apis.servers:
 ```
 
 ### Summary
-In order to render a list of server/client generators, swagger-client will fetch methods created by swagger-generator, then process the response into a more usable `response.apis.clients` format. swagger-editor then needs to make a subsequent call to swagger-client for the appropriate method to call to yield the final result.
+In order to download a generated definition, `legacy swagger-editor` made two calls to swagger-client.
 
-In legacy version, swagger-editor saved these methods to React state for general purpose use, e.g. downloadFile vs clientOptions. In this new version of swagger-editor, these methods are not currently saved, and are immediately and sequentially called by `topbarActions` to yield a deterministic final result.
+1. Given OAS3 or Swagger2/OAS2 definition, swagger-editor makes a request to Generator3 or Generator2 respectively.
 
-Ideally, it would be better if swagger-editor could access these methods directly from swagger-client, assuming that the methods could be ensured to be stable from swagger-generator.
+Generator3/Generator2 returns a response that includes it's own definition, which `swagger-client`, as middleware, translates the defintion included in Generator's response into a more usable `response.apis.clients` format. This format also includes new `execute` methods for `swagger-editor` to call.
+
+2. `swagger-editor` calls the appropriate `execute` method that was created by `swagger-client` to download the generated definition. Note, Generator3 returns the Blob directly, while Generator2 returns a json object containing an URI link to the Blob.
+
+Additionally, `legacy swagger-editor` saved these methods to React state for general purpose use, e.g. downloadFile vs clientOptions.
+
+In this new version of swagger-editor, use of `swagger-client` has been deprecated, so these methods are no longer available or saved. Equivalent functionality to directly interface with Generator3/Generator2 now exists in `topbarActions`. This change also should now always yield a deterministic final result. 
