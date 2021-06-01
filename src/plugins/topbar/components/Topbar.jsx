@@ -33,15 +33,15 @@ if (process.env.NODE_ENV !== 'test') {
 //       //   servers: instantiate.servers,
 //       //   specVersion: instantiate.specVersion,
 //       // });
-// if (instantiate.clients) {
-//   setClients(instantiate.clients);
-// }
-// if (instantiate.servers) {
-//   setServers(instantiate.servers);
-// }
-// if (instantiate.specVersion) {
-//   setSpecVersion(instantiate.specVersion);
-// }
+//       if (instantiate.clients) {
+//         setClients(instantiate.clients);
+//       }
+//       if (instantiate.servers) {
+//         setServers(instantiate.servers);
+//       }
+//       if (instantiate.specVersion) {
+//         setSpecVersion(instantiate.specVersion);
+//       }
 //     }
 //   };
 
