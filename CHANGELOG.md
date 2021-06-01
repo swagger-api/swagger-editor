@@ -12,6 +12,7 @@
 [ ] remove mock data/fixtures/configuration from `actions.js`
 [ ] warning: overlapping semantic tokens
 [ ] in codeActionUi, sometimes recieve an Uncaught promise TypeError: d.dispose is not a funtion
+[ ] asyncapi support: anywhere we should be detecting async api (or any other supported spec); e.g. clearEditor
 
 
 ### Legacy Swagger Editor Migrated Features
@@ -25,7 +26,7 @@ Extract menu action methods from React to Actions
 [x] importFile
 [x] onDocumentLoad prop - removed. handled now in actions. Theoretically, we could expose as a user-overwritable function. Maybe SH needed it?
 [x] updateEditorContent prop - will be removed, and handled in actions.
-[ ] clearEditor
+[x] clearEditor
 
 Deprecate methods from React
 [x] saveAsText
@@ -94,6 +95,8 @@ Migrate React Components
 [ ] pull-in SH left sidebar (search, op/schema/etc sections)
 [x] modify generic-editor plugin to have a default editor placeholder (instead of calling GenericEditorContainer directly)
 [x] add disposables array, and ability to dispose()
+[ ] make generator servers/clients toggleable; enable oas3.1/others when supported
+[ ] update generator (plugin?) for oas3.1, asyncapi, etc. support when available
 [ ] add generic error catch component, e.g. SHub uses react-error-boundary
 [ ] debounce initial load of definition. this may help with single vs. multi-line render in editor. atm, this would also apply to all user updates
 [ ] debounce user updates (might not be needed)
@@ -104,6 +107,7 @@ Migrate React Components
 [ ] further extraction in `actions.js` of business logic from action creators
 [x] monaco-editor should only load specified languages; webpack required
 [ ] overall styling and consistency
+[x] deprecate use of `swagger-client`
 
 
 ### Test Coverage
