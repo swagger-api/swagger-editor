@@ -544,6 +544,21 @@ export const saveAsYaml = ({ overrideWarning }) => async (system) => {
   return { data: 'ok' };
 };
 
+export const clearEditor = () => async (system) => {
+  const { specActions } = system;
+  // todo: using an empty string will throw an apidom parser error
+  // we will want to detect for various specs, e.g. openapi, asyncapi
+  // so for now, we'll use a nearly blank OAS3.0.x spec
+  // we also should detect for current yaml vs json, and keep as format
+  // for the minimal spec
+  const minimalSpec = {
+    openapi: '3.0.2',
+  };
+  specActions.updateSpec(JSON.stringify(minimalSpec));
+  // we should also update monaco value
+  return { data: 'success' };
+};
+
 // This is an example of an imported action that we re-export
 export const handleImportFile = () => importFile;
 

@@ -72,6 +72,14 @@ export default class FileMenuDropdown extends Component {
   onClearEditorClick = async () => {
     // console.log('got a click for onClearEditorClick ');
     // ref legacy method: clearEditor
+    // note: in actions, we should detect the spec
+    // todo: in monaco editor, we should handle a non-supported spec
+    // which, for now, we "clear" with a minimal supported spec
+    const { topbarActions } = this.props;
+    const clearResult = await topbarActions.clearEditor();
+    if (clearResult && clearResult.error) {
+      // should not occur
+    }
   };
 
   onSaveAsJsonClick = async () => {

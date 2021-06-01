@@ -123,8 +123,7 @@ describe('renders FileMenuDropdown', () => {
   });
 
   test('on dropdown, should be able to click on "Clear Editor', async () => {
-    // This action method is NYI
-    // const spy = jest.spyOn(topbarActions, '???').mockImplementation();
+    const spy = jest.spyOn(topbarActions, 'clearEditor').mockImplementation();
     const linkElement = screen.getByText(/File/i);
     fireEvent.click(linkElement);
 
@@ -132,7 +131,7 @@ describe('renders FileMenuDropdown', () => {
     await waitFor(() => buttonElement);
     expect(buttonElement).toBeInTheDocument();
     fireEvent.click(buttonElement);
-    // expect(spy).toBeCalled();
+    expect(spy).toBeCalled();
     // topbar doesn't render editor, so unlikely any other user visible changes
   });
 });
