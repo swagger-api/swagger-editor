@@ -540,7 +540,7 @@ export const saveAsYaml = ({ overrideWarning }) => async (system) => {
   const jsContent = YAML.safeLoad(contentToConvert);
   // JS Object -> YAML string
   const yamlContent = YAML.safeDump(jsContent);
-  getFileDownload({ blob: yamlContent, filename: `${fileName}.json` });
+  getFileDownload({ blob: yamlContent, filename: `${fileName}.yaml` });
   return { data: 'ok' };
 };
 
