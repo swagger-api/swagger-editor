@@ -3,7 +3,6 @@ import YAML from 'js-yaml';
 import beautifyJson from 'json-beautify';
 
 import {
-  getDefinitionFromUrl,
   getGenerator2Definition,
   postPerformOasConversion,
   postGenerator3WithSpec,
@@ -24,6 +23,7 @@ export {
   shouldReInstantiateGeneratorClient,
 } from './generator.actions';
 
+export { importFromURL } from './importUrl.actions';
 export { importFile as handleImportFile } from './importFile.actions';
 
 // Action Types:
@@ -176,25 +176,6 @@ const getSpecVersion = (system) => {
   }
 
   return { isOAS3, isSwagger2 };
-};
-
-export const importFromURL = ({ url }) => async (system) => {
-  // console.log('topbarActions.importFromURL called with url:', url);
-  const data = await getDefinitionFromUrl({ url });
-  if (data.error) {
-    // e.g. data.error = 'Request failed with status code 404'
-    return { error: data.error };
-  }
-  const { specActions } = system;
-  // we will use swagger-ui's specActions to updateSpec
-  // as well as any other apidom actions to take
-  // note, in theory, we could still return an error after post-processing
-  // console.log('we should YAML.safedump and updateSpec', data);
-  const jsContent = YAML.safeLoad(JSON.stringify(data));
-  const yamlContent = YAML.safeDump(jsContent, { lineWidth: -1 });
-  // on success,
-  specActions.updateSpec(yamlContent); // nyi: render yaml from props/load in monaco
-  return { data: 'success' };
 };
 
 const formatParsedUrl = ({ link }) => {
