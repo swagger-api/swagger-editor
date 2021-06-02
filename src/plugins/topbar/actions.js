@@ -6,12 +6,9 @@ import {
   getDefinitionFromUrl,
   getGenerator2Definition,
   postPerformOasConversion,
-  // eslint-disable-next-line no-unused-vars
-  getGeneratorsList,
   postGenerator3WithSpec,
 } from '../../utils/utils-http';
 import { getFileName, hasParserErrors, getDefinitionLanguage } from '../../utils/utils-converter';
-import { importFile } from './importFileActions';
 
 const FileDownload = require('js-file-download'); // replaces deprecated react-file-download
 
@@ -26,6 +23,8 @@ export {
   instantiateGeneratorClient,
   shouldReInstantiateGeneratorClient,
 } from './generator.actions';
+
+export { importFile as handleImportFile } from './importFile.actions';
 
 // Action Types:
 // openModal
@@ -473,9 +472,6 @@ export const clearEditor = () => async (system) => {
   }
   return { data: 'success' };
 };
-
-// This is an example of an imported action that we re-export
-export const handleImportFile = () => importFile;
 
 /** menu action methods:
  * importFromURL

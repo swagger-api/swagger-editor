@@ -1,4 +1,3 @@
-/* eslint-disable import/prefer-default-export */
 import YAML from 'js-yaml';
 import fileDialog from 'file-dialog';
 import isJsonObject from 'is-json';
@@ -18,7 +17,7 @@ const readFileAsTextAsync = (file) => {
   });
 };
 
-export const importFile = async (system) => {
+export const importFile = () => async (system) => {
   const { specActions } = system;
   const fileList = await fileDialog();
   try {
@@ -32,3 +31,5 @@ export const importFile = async (system) => {
     return { error: errMessage };
   }
 };
+
+export default { importFile };
