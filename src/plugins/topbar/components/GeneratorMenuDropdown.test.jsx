@@ -8,6 +8,9 @@ import DropdownItem from './DropdownItem';
 import DropdownMenu from './DropdownMenu';
 import * as topbarActions from '../actions';
 
+// mock es6 re-exports
+jest.mock('../actions');
+
 test('renders GeneratorMenuDropdown and download a generated Server file', async () => {
   const spyGeneratorList = jest
     .spyOn(topbarActions, 'instantiateGeneratorClient')

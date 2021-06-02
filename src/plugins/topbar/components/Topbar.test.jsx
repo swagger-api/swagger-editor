@@ -12,6 +12,9 @@ import ImportFileDropdownItem from './ImportFileDropdownItem';
 import GeneratorMenuDropdown from './GeneratorMenuDropdown';
 import * as topbarActions from '../actions';
 
+// mock es6 re-exports
+jest.mock('../actions');
+
 test('renders Topbar with required components', async () => {
   // These two spies are needed to render the GeneratorMenuDropdown component
   const spyGeneratorList = jest
