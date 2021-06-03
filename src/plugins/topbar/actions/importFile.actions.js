@@ -1,6 +1,7 @@
 import YAML from 'js-yaml';
 import fileDialog from 'file-dialog';
-import isJsonObject from 'is-json';
+
+import { isValidJson } from '../../../utils/utils-valid-json-yaml';
 
 // Wrap the browser FileReader into a Promise
 const readFileAsTextAsync = (file) => {
@@ -22,7 +23,9 @@ export const importFile = () => async (system) => {
   const fileList = await fileDialog();
   try {
     const content = await readFileAsTextAsync(fileList.item(0));
-    const preparedContent = isJsonObject(content) ? YAML.safeDump(YAML.safeLoad(content)) : content;
+    const preparedContent = isValidJson(content)
+      ? YAML.safeDump(YAML.safeLoad(content), { lineWidth: -1 })
+      : content;
     // on success,
     specActions.updateSpec(preparedContent);
     return { data: 'success' };
