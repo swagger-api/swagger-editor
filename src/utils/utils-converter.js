@@ -1,9 +1,18 @@
 export function getFileName({ options }) {
   if (options.isSwagger2) {
-    return 'swagger';
+    return 'swagger2';
+  }
+  if (options.isOAS2) {
+    return 'openapi2';
   }
   if (options.isOAS3) {
-    return 'openapi';
+    return 'openapi3_0';
+  }
+  if (options.isOAS3_1) {
+    return 'openapi3_1';
+  }
+  if (options.isAsyncApi2) {
+    return 'asyncapi2';
   }
   return 'file';
 }
@@ -18,10 +27,19 @@ export function getDefinitionLanguage({ data }) {
 
 export function getDefinitionVersion({ options }) {
   if (options.isSwagger2) {
-    return 'swagger';
+    return 'swagger2';
+  }
+  if (options.isOAS2) {
+    return 'openapi2';
   }
   if (options.isOAS3) {
-    return 'openapi';
+    return 'openapi3_0';
+  }
+  if (options.isOAS3_1) {
+    return 'openapi3_1';
+  }
+  if (options.isAsyncApi2) {
+    return 'asyncapi2';
   }
   return 'unknown';
 }
