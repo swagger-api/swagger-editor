@@ -1,5 +1,4 @@
 import URL from 'url';
-import YAML from 'js-yaml';
 
 import {
   getGenerator2Definition,
@@ -24,6 +23,7 @@ export {
 export { importFromURL } from './importUrl.actions';
 export { clearEditor } from './clearEditor.actions';
 export { saveAsJson, saveAsYaml } from './saveAsJsonOrYaml.actions';
+export { convertToYaml } from './convertJsonToYaml.actions';
 export { importFile as handleImportFile } from './importFile.actions';
 
 // Action Types:
@@ -310,24 +310,6 @@ export const convertDefinitionToOas3 = () => async (system) => {
     return { data: 'success' };
   }
   return { error: 'unable to convert spec to OAS3' };
-};
-
-export const convertToYaml = () => async (system) => {
-  const { specSelectors, specActions } = system;
-  const editorContent = specSelectors.specStr();
-  // dev mode; refactor 'contentToConvert' to handle case if editorContent is undefined
-  let contentToConvert;
-  if (!editorContent) {
-    contentToConvert = JSON.stringify(mockOas2Spec);
-  } else {
-    contentToConvert = editorContent;
-  }
-  const jsContent = YAML.safeLoad(contentToConvert);
-  const yamlContent = YAML.safeDump(jsContent);
-  // on success,
-  specActions.updateSpec(yamlContent);
-  // we should also update monaco value
-  return { data: 'success' };
 };
 
 /** menu action methods:

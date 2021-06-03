@@ -6,6 +6,9 @@ import DropdownItem from './DropdownItem';
 import DropdownMenu from './DropdownMenu';
 import * as topbarActions from '../actions';
 
+// mock es6 re-exports
+jest.mock('../actions');
+
 describe('renders EditMenuDropdown', () => {
   beforeEach(() => {
     const components = {
