@@ -103,7 +103,7 @@ Migrate React Components
 
 
 ### Optimization
-[ ] breakdown `actions.js` into smaller files (new)
+[x] breakdown `actions.js` into smaller files (new)
 [ ] further extraction in `actions.js` of business logic from action creators
 [x] monaco-editor should only load specified languages; webpack required
 [ ] overall styling and consistency
