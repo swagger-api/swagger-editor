@@ -9,6 +9,8 @@ import ImportFileDropdownItem from './ImportFileDropdownItem';
 import * as topbarActions from '../actions';
 
 ReactModal.setAppElement('*'); // suppresses modal-related test warnings.
+// mock es6 re-exports
+jest.mock('../actions');
 
 describe('renders FileMenuDropdown', () => {
   beforeEach(() => {
