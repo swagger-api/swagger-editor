@@ -1,5 +1,7 @@
 import { getGeneratorsList } from '../../utils/utils-http';
+import { defaultFixtures } from './fixtures.actions';
 
+// Redux
 export const SET_OAS_GENERATOR_SERVERS_LIST = 'topbar_set_oas_generator_servers_list';
 export const SET_OAS_GENERATOR_CLIENTS_LIST = 'topbar_set_oas_generator_clients_list';
 export const CLEAR_OAS_GENERATOR_SERVERS_LIST = 'topbar_clear_oas_generator_servers_list';
@@ -7,7 +9,6 @@ export const CLEAR_OAS_GENERATOR_CLIENTS_LIST = 'topbar_clear_oas_generator_clie
 
 // Redux Actions
 export function setOasGeneratorServersList({ value }) {
-  // console.log('call redux action with value length:', value.length);
   return {
     type: SET_OAS_GENERATOR_SERVERS_LIST,
     payload: { value },
@@ -21,30 +22,7 @@ export const setOasGeneratorClientsList = ({ value }) => {
   };
 };
 
-// Begin non-redux
-
-// this is re-used
-const defaultFixtures = {
-  isOAS3: true,
-  isSwagger2: true,
-  swagger2GeneratorUrl: 'https://generator.swagger.io/api/swagger.json',
-  oas3GeneratorUrl: 'https://generator3.swagger.io/openapi.json',
-  swagger2ConverterUrl: 'https://converter.swagger.io/api/convert',
-  // oas3 & oas2 generator constants for servers list and clients list
-  oas3GeneratorServersUrl: 'https://generator3.swagger.io/api/servers',
-  oas3GeneratorClientsUrl: 'https://generator3.swagger.io/api/clients',
-  oas2GeneratorServersUrl: 'https://generator.swagger.io/api/gen/servers',
-  oas2GeneratorClientsUrl: 'https://generator.swagger.io/api/gen/clients',
-  // NYI: replace need for swagger-client
-  oas3GenerateSpecUrl: 'https://generator3.swagger.io/api/generate', // POST { lang: 'aspnetcore', spec: {}, type: 'SERVER' }
-  oas2GenerateSpecServersUrl: 'https://generator.swagger.io/api/gen/servers',
-  oas2GenerateSpecClientsUrl: 'https://generator.swagger.io/api/gen/clients',
-  // oas2 examples:
-  // https://generator.swagger.io/api/gen/servers/ada-server // OPTIONS req, then POST req. { spec: {} }
-  // https://generator.swagger.io/api/gen/clients/ada // POST { spec: {} }
-};
-
-// Begin actions
+// Begin non-redux actions
 
 // currently re-used
 const getSpecVersion = (system) => {
