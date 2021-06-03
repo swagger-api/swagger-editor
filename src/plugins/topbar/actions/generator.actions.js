@@ -4,8 +4,8 @@ import {
   getGeneratorsList,
   getGenerator2Definition,
   postGenerator3WithSpec,
-} from '../../utils/utils-http';
-import { getFileDownload } from '../../utils/utils-file-download';
+} from '../../../utils/utils-http';
+import { getFileDownload } from '../../../utils/utils-file-download';
 import { defaultFixtures } from './fixtures.actions';
 
 // Redux

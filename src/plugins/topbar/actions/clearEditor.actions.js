@@ -1,6 +1,6 @@
 import YAML from 'js-yaml';
 
-import { getDefinitionLanguage } from '../../utils/utils-converter';
+import { getDefinitionLanguage } from '../../../utils/utils-converter';
 
 export const clearEditor = () => async (system) => {
   const { specActions, specSelectors } = system;

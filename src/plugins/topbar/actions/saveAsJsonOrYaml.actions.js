@@ -1,8 +1,12 @@
 import YAML from 'js-yaml';
 import beautifyJson from 'json-beautify';
 
-import { getFileName, hasParserErrors, getDefinitionLanguage } from '../../utils/utils-converter';
-import { getFileDownload } from '../../utils/utils-file-download';
+import {
+  getFileName,
+  hasParserErrors,
+  getDefinitionLanguage,
+} from '../../../utils/utils-converter';
+import { getFileDownload } from '../../../utils/utils-file-download';
 import { mockOas3Spec } from './fixtures.actions';
 
 // currently re-used

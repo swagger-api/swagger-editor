@@ -3,11 +3,11 @@ export {
   instantiateGeneratorClient,
   shouldReInstantiateGeneratorClient,
   downloadGeneratedFile,
-} from './generator.actions';
+} from './actions/generator.actions';
 
-export { importFromURL } from './importUrl.actions';
-export { clearEditor } from './clearEditor.actions';
-export { saveAsJson, saveAsYaml } from './saveAsJsonOrYaml.actions';
-export { convertToYaml } from './convertJsonToYaml.actions';
-export { convertDefinitionToOas3 } from './convertOas2ToOas3.actions';
-export { importFile as handleImportFile } from './importFile.actions';
+export { importFromURL } from './actions/importUrl.actions';
+export { clearEditor } from './actions/clearEditor.actions';
+export { saveAsJson, saveAsYaml } from './actions/saveAsJsonOrYaml.actions';
+export { convertToYaml } from './actions/convertJsonToYaml.actions';
+export { convertDefinitionToOas3 } from './actions/convertOas2ToOas3.actions';
+export { importFile as handleImportFile } from './actions/importFile.actions';

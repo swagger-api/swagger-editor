@@ -1,6 +1,6 @@
 import YAML from 'js-yaml';
 
-import { getDefinitionFromUrl } from '../../utils/utils-http';
+import { getDefinitionFromUrl } from '../../../utils/utils-http';
 
 export const importFromURL = ({ url }) => async (system) => {
   // console.log('topbarActions.importFromURL called with url:', url);

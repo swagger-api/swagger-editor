@@ -1,5 +1,5 @@
 import { defaultFixtures } from './fixtures.actions';
-import { postPerformOasConversion } from '../../utils/utils-http';
+import { postPerformOasConversion } from '../../../utils/utils-http';
 
 // currently re-used
 const getConfigsWithDefaultFallback = (system) => {
