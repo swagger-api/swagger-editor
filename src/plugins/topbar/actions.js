@@ -1,10 +1,6 @@
 import URL from 'url';
 
-import {
-  getGenerator2Definition,
-  postPerformOasConversion,
-  postGenerator3WithSpec,
-} from '../../utils/utils-http';
+import { getGenerator2Definition, postGenerator3WithSpec } from '../../utils/utils-http';
 
 const FileDownload = require('js-file-download'); // replaces deprecated react-file-download
 
@@ -24,6 +20,7 @@ export { importFromURL } from './importUrl.actions';
 export { clearEditor } from './clearEditor.actions';
 export { saveAsJson, saveAsYaml } from './saveAsJsonOrYaml.actions';
 export { convertToYaml } from './convertJsonToYaml.actions';
+export { convertDefinitionToOas3 } from './convertOas2ToOas3.actions';
 export { importFile as handleImportFile } from './importFile.actions';
 
 // Action Types:
@@ -288,28 +285,6 @@ export const downloadGeneratedFile = ({ type, name }) => async (system) => {
     getFileDownload({ blob: generatorLink.data, filename });
   }
   return { data: 'ok' };
-};
-
-export const convertDefinitionToOas3 = () => async (system) => {
-  const { specSelectors, specActions } = system;
-
-  const { swagger2ConverterUrl } = getConfigsWithDefaultFallback(system);
-  const swagger2editorContent = specSelectors.specStr();
-
-  // eslint-disable-next-line no-unused-vars
-  // const mockOptions = {
-  //   swagger2editorContent: mockOas2Spec,
-  // };
-  const conversionResult = await postPerformOasConversion({
-    url: swagger2ConverterUrl,
-    data: swagger2editorContent,
-  });
-  // console.log('conversionResult:', conversionResult);
-  if (!conversionResult.error) {
-    specActions.updateSpec(conversionResult, 'insert');
-    return { data: 'success' };
-  }
-  return { error: 'unable to convert spec to OAS3' };
 };
 
 /** menu action methods:
