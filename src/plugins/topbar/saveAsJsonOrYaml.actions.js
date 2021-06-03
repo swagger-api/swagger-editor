@@ -103,7 +103,7 @@ export const saveAsYaml = ({ overrideWarning }) => async (system) => {
     if (languageSubType === 'yaml') {
       return {
         warning:
-          'Swagger - Editor is not able to parse your API definition. Are you sure you want to save the editor content as YAML?',
+          'Swagger Editor is not able to parse your API definition. Are you sure you want to save the editor content as YAML?',
       };
     }
     // legacy alert window, which we should use a generic modal instead
