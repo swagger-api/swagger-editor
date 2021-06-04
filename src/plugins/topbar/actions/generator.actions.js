@@ -6,6 +6,7 @@ import {
   postGenerator3WithSpec,
 } from '../../../utils/utils-http';
 import { getFileDownload } from '../../../utils/utils-file-download';
+import { getSpecVersion } from '../../../utils/utils-getSpecVersion';
 import { defaultFixtures } from './fixtures.actions';
 
 // Redux
@@ -30,28 +31,6 @@ export const setOasGeneratorClientsList = ({ value }) => {
 };
 
 // Begin non-redux actions
-
-// currently re-used
-const getSpecVersion = (system) => {
-  // currently matching swagger-editor@3 use of flags.
-  // extendable to use additional spec versions/types.
-  // Todo: still in dev-mode state
-
-  // eslint-disable-next-line no-unused-vars
-  const { specSelectors } = system;
-
-  let isSwagger2 = false;
-  // eslint-disable-next-line prefer-const
-  let isOAS3 = true;
-
-  isOAS3 = specSelectors.isOAS3();
-  if (!isOAS3) {
-    // isSwagger2 = specSelectors.isSwagger2(); // this sometimes returns undefined
-    isSwagger2 = true; // hard override until above line resolved
-  }
-
-  return { isOAS3, isSwagger2 };
-};
 
 // currently re-used
 const getConfigsWithDefaultFallback = (system) => {
