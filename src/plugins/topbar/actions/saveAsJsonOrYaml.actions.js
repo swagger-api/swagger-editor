@@ -7,36 +7,15 @@ import {
   getDefinitionLanguage,
 } from '../../../utils/utils-converter';
 import { getFileDownload } from '../../../utils/utils-file-download';
+import { getSpecVersion } from '../../../utils/utils-getSpecVersion';
 import { mockOas3Spec } from './fixtures.actions';
-
-// currently re-used
-const getSpecVersion = (system) => {
-  // currently matching swagger-editor@3 use of flags.
-  // extendable to use additional spec versions/types.
-  // Todo: still in dev-mode state
-
-  // eslint-disable-next-line no-unused-vars
-  const { specSelectors } = system;
-
-  let isSwagger2 = false;
-  // eslint-disable-next-line prefer-const
-  let isOAS3 = true;
-
-  isOAS3 = specSelectors.isOAS3();
-  if (!isOAS3) {
-    // isSwagger2 = specSelectors.isSwagger2(); // this sometimes returns undefined
-    isSwagger2 = true; // hard override until above line resolved
-  }
-
-  return { isOAS3, isSwagger2 };
-};
 
 export const saveAsJson = () => async (system) => {
   const { specSelectors, errSelectors } = system;
   const editorContent = specSelectors.specStr();
-  const { isOAS3, isSwagger2 } = getSpecVersion(system);
+  const { isOAS3, isSwagger2, isAsyncApi2 } = getSpecVersion(system);
   // eslint-disable-next-line no-unused-vars
-  const options = { isOAS3, isSwagger2 };
+  const options = { isOAS3, isSwagger2, isAsyncApi2 };
 
   // dev mode; refactor 'contentToConvert' to handle case if editorContent is undefined
   // create a mock yaml from mock json (ref: convertToYaml)
@@ -54,7 +33,7 @@ export const saveAsJson = () => async (system) => {
   //   isSwagger2: true,
   // };
   // end dev mode scaffold
-  const fileName = getFileName({ options: options.isOAS3 });
+  const fileName = getFileName({ options });
   const parserErrorExists = hasParserErrors({ errors: errSelectors.allErrors() });
   if (parserErrorExists) {
     // legacy alert window, which we should use a generic modal instead
@@ -76,9 +55,9 @@ export const saveAsYaml = ({ overrideWarning }) => async (system) => {
   const { specSelectors, errSelectors } = system;
   const editorContent = specSelectors.specStr();
   // eslint-disable-next-line no-unused-vars
-  const { isOAS3, isSwagger2 } = getSpecVersion(system);
+  const { isOAS3, isSwagger2, isAsyncApi2 } = getSpecVersion(system);
   // eslint-disable-next-line no-unused-vars
-  const options = { isOAS3, isSwagger2 };
+  const options = { isOAS3, isSwagger2, isAsyncApi2 };
 
   // dev mode; refactor 'contentToConvert' to handle case if editorContent is undefined
   // create a mock yaml from mock json (ref: convertToYaml)
@@ -98,7 +77,7 @@ export const saveAsYaml = ({ overrideWarning }) => async (system) => {
   //   isSwagger2: true,
   // };
   // end dev mode scaffold
-  const fileName = getFileName({ options: options.isOAS3 });
+  const fileName = getFileName({ options });
   const languageSubType = getDefinitionLanguage({ data: contentToConvert });
   const parserErrorExists = hasParserErrors({ errors: errSelectors.allErrors() });
   // const parserErrorExists = true; // mock test
