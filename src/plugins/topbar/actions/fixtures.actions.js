@@ -99,3 +99,40 @@ export const mockOas3Spec = {
     },
   },
 };
+
+export const MockAsyncapi = {
+  asyncapi: '2.0.0',
+  info: {
+    version: '0.1.9',
+  },
+  servers: {
+    prod: { url: 'https://petstore3.swagger.io/api/v3/pet' },
+  },
+  channels: {
+    4: {
+      subscribe: {
+        summary: 'A user signed up.',
+        message: {
+          payload: {
+            type: 'string',
+          },
+        },
+      },
+    },
+  },
+};
+
+export const asyncapiYaml =
+  'asyncapi: 2.0.0\n' +
+  'info:\n' +
+  '  version: 0.1.9\n' +
+  'servers:\n' +
+  '  prod:\n' +
+  '    url: https://petstore3.swagger.io/api/v3/pet\n' +
+  'channels:\n' +
+  '  4:\n' +
+  '    subscribe:\n' +
+  '      summary: A user signed up.\n' +
+  '      message:\n' +
+  '        payload:\n' +
+  '          type: string\n';
