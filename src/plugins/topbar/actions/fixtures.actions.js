@@ -100,7 +100,7 @@ export const mockOas3Spec = {
   },
 };
 
-export const MockAsyncapi = {
+export const mockAsyncapi2Spec = {
   asyncapi: '2.0.0',
   info: {
     version: '0.1.9',
@@ -122,7 +122,7 @@ export const MockAsyncapi = {
   },
 };
 
-export const asyncapiYaml =
+export const mockAsyncapiYaml =
   'asyncapi: 2.0.0\n' +
   'info:\n' +
   '  version: 0.1.9\n' +
