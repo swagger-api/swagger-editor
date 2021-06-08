@@ -1,3 +1,4 @@
+/* eslint-disable camelcase */
 /**
  * Note: as we add more specifications and versions
  * this will generate a lot of flags to track
@@ -24,6 +25,22 @@ const testForAsyncApi2SpecVersion = (src) => {
   return false;
 };
 
+const testForOas3_1SpecVersion = (src) => {
+  const specMatchJson = src.startsWith('openapi', 2); // acccount for `"{`
+  const specMatchYaml = src.startsWith('openapi');
+  if (!specMatchJson && !specMatchYaml) {
+    return false;
+  }
+  // starts with, but is not `n.x.y` exactly
+  // may want to gate against `n.z.z`, e.g. (OAS) `3.0.x` and exclude `3.1.x`
+  const pos = src.indexOf('3.1.');
+  if (pos > 8 && pos < 12) {
+    // expect pos = 9, but perhaps some input string variance with spaces
+    return true;
+  }
+  return false;
+};
+
 // Todo: could be refactored/optimized to not need `specSelectors`
 // currently matching swagger-editor@3 use of flags.
 // extendable to use additional spec versions/types.
@@ -36,8 +53,9 @@ export const getSpecVersion = (system) => {
   // just validating first part of potentially very long string
   const editorContent = specSelectors.specStr().substring(0, 20) || '';
   const isAsyncApi2 = testForAsyncApi2SpecVersion(editorContent) || false;
+  const isOAS3_1 = testForOas3_1SpecVersion(editorContent) || false;
 
-  return { isOAS3, isSwagger2, isAsyncApi2 };
+  return { isOAS3, isOAS3_1, isSwagger2, isAsyncApi2 };
 };
 
 export default { getSpecVersion };

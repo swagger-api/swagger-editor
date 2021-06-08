@@ -48,8 +48,8 @@ test('renders GeneratorMenuDropdown and download a generated Server file', async
   );
 
   // async http call
-  expect(spyGeneratorList).toBeCalled();
-  // top-level dropdown menu
+  await waitFor(() => expect(spyGeneratorList).toBeCalled());
+  // top-level dropdown menu, exists after mock resolves
   const linkElement = screen.getByText(/Generate Server/i);
   await waitFor(() => linkElement);
   expect(linkElement).toBeInTheDocument();
@@ -104,8 +104,8 @@ test('renders GeneratorMenuDropdown and download a generated Client file', async
   );
 
   // async http call
-  expect(spyGeneratorList).toBeCalled();
-  // top-level dropdown menu
+  await waitFor(() => expect(spyGeneratorList).toBeCalled());
+  // top-level dropdown menu, exists after mock resolves
   const linkElement = screen.getByText(/Generate Client/i);
   await waitFor(() => linkElement);
   expect(linkElement).toBeInTheDocument();
@@ -119,6 +119,84 @@ test('renders GeneratorMenuDropdown and download a generated Client file', async
   expect(spyDownloadGenerated).toBeCalled();
   expect(spyDownloadGenerated.mock.calls.length).toBe(1);
   expect(spyDownloadGenerated.mock.calls[0][0]).toEqual({ type: 'client', name: 'apple' });
+  // action method call, that we we want to suppress in test
+  expect(spyShouldReInstantiate).toBeCalled();
+});
+
+test('renders null GeneratorMenuDropdown when oneOf state lists are empty', async () => {
+  const spyGeneratorList = jest
+    .spyOn(topbarActions, 'instantiateGeneratorClient')
+    .mockImplementation(() => ({
+      servers: [],
+      clients: ['apple', 'avocado'],
+      specVersion: 'some string',
+    }));
+
+  const spyShouldReInstantiate = jest
+    .spyOn(topbarActions, 'shouldReInstantiateGeneratorClient')
+    .mockImplementation(() => {
+      return false;
+    });
+
+  const components = {
+    DropdownMenu,
+    DropdownItem,
+    GeneratorMenuDropdown,
+  };
+
+  render(
+    <GeneratorMenuDropdown
+      getComponent={(c) => {
+        return components[c];
+      }}
+      topbarActions={topbarActions}
+    />
+  );
+
+  // async http call
+  await waitFor(() => expect(spyGeneratorList).toBeCalled());
+  // top-level dropdown menu, exists after mock resolves
+  const linkElement = screen.queryByText(/Generate Client/i);
+  expect(linkElement).not.toBeInTheDocument();
+  // action method call, that we we want to suppress in test
+  expect(spyShouldReInstantiate).toBeCalled();
+});
+
+test('renders null GeneratorMenuDropdown when allOf state lists are empty', async () => {
+  const spyGeneratorList = jest
+    .spyOn(topbarActions, 'instantiateGeneratorClient')
+    .mockImplementation(() => ({
+      servers: [],
+      clients: [],
+      specVersion: 'some string',
+    }));
+
+  const spyShouldReInstantiate = jest
+    .spyOn(topbarActions, 'shouldReInstantiateGeneratorClient')
+    .mockImplementation(() => {
+      return false;
+    });
+
+  const components = {
+    DropdownMenu,
+    DropdownItem,
+    GeneratorMenuDropdown,
+  };
+
+  render(
+    <GeneratorMenuDropdown
+      getComponent={(c) => {
+        return components[c];
+      }}
+      topbarActions={topbarActions}
+    />
+  );
+
+  // async http call
+  await waitFor(() => expect(spyGeneratorList).toBeCalled());
+  // top-level dropdown menu, exists after mock resolves
+  const linkElement = screen.queryByText(/Generate Client/i);
+  expect(linkElement).not.toBeInTheDocument();
   // action method call, that we we want to suppress in test
   expect(spyShouldReInstantiate).toBeCalled();
 });

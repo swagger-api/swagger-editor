@@ -51,7 +51,7 @@ test('renders Topbar with required components', async () => {
   );
 
   // GeneratorMenuDropdown:1: async http call
-  expect(spyGeneratorList).toBeCalled();
+  await waitFor(() => expect(spyGeneratorList).toBeCalled());
   // top-level dropdown menu. currently 4 menu items.
   const linkElement1 = screen.getByText(/File/i);
   await waitFor(() => linkElement1);
@@ -59,9 +59,11 @@ test('renders Topbar with required components', async () => {
   const linkElement2 = screen.getByText(/Edit/i);
   await waitFor(() => linkElement2);
   expect(linkElement2).toBeInTheDocument();
+  // element dependent on async mock resolve
   const linkElement3 = screen.getByText(/Generate Server/i);
   await waitFor(() => linkElement3);
   expect(linkElement3).toBeInTheDocument();
+  // element dependent on async mock resolve
   const linkElement4 = screen.getByText(/Generate Client/i);
   await waitFor(() => linkElement4);
   expect(linkElement4).toBeInTheDocument();

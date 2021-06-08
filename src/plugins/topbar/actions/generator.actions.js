@@ -1,3 +1,4 @@
+/* eslint-disable camelcase */
 import URL from 'url'; // wrapper for node method
 
 import {
@@ -47,12 +48,13 @@ const getConfigsWithDefaultFallback = (system) => {
   return { swagger2GeneratorUrl, oas3GeneratorUrl, swagger2ConverterUrl };
 };
 
-const getSpecVersionString = ({ isOAS3, isSwagger2 }) => {
+const getSpecVersionString = ({ isOAS3, isSwagger2, isOAS3_1, isAsyncApi2 }) => {
   // extendable to use additional string constants
   const specStringConstants = {
     OAS_3_0: 'OAS_3_0',
     OAS_3_1: 'OAS_3_1',
     SWAGGER_2: 'SWAGGER_2',
+    ASYNCAPI_2: 'ASYNCAPI_2',
   };
   if (isOAS3 && !isSwagger2) {
     return specStringConstants.OAS_3_0;
@@ -60,7 +62,20 @@ const getSpecVersionString = ({ isOAS3, isSwagger2 }) => {
   if (isSwagger2 && !isOAS3) {
     return specStringConstants.SWAGGER_2;
   }
+  if (isOAS3_1) {
+    return specStringConstants.OAS_3_1;
+  }
+  if (isAsyncApi2) {
+    return specStringConstants.ASYNCAPI_2;
+  }
   return 'unvailable';
+};
+
+const validateHttpGeneratorsExists = ({ specVersion }) => {
+  if (specVersion === 'OAS_3_0' || specVersion === 'SWAGGER_2') {
+    return true;
+  }
+  return false;
 };
 
 const fetchOasGeneratorLists = async ({ isOAS3 }) => {
@@ -84,8 +99,16 @@ export const instantiateGeneratorClient = () => async (system) => {
   // console.log('topbarActions.instantiateGeneratorClient called');
   // set of http call to retrieve generator servers and clients lists
   // which will set a redux state
-  const { isOAS3, isSwagger2 } = getSpecVersion(system);
-  const specVersion = getSpecVersionString({ isOAS3, isSwagger2 });
+  const { isOAS3, isSwagger2, isOAS3_1, isAsyncApi2 } = getSpecVersion(system);
+  const specVersion = getSpecVersionString({ isOAS3, isSwagger2, isOAS3_1, isAsyncApi2 });
+  const generatorHttpExists = validateHttpGeneratorsExists({ specVersion });
+  if (!generatorHttpExists) {
+    return Promise.resolve({
+      servers: [],
+      clients: [],
+      specVersion,
+    });
+  }
 
   const generatorServersClients = await fetchOasGeneratorLists({ isOAS3 });
   // console.log('...instantiateGeneratorClient generatorServersClients:', generatorServersClients);
@@ -105,8 +128,8 @@ export const instantiateGeneratorClient = () => async (system) => {
 
 export const shouldReInstantiateGeneratorClient = ({ specVersion }) => (system) => {
   // console.log('topbarActions.shouldReInstantiateGeneratorClient called');
-  const { isOAS3, isSwagger2 } = getSpecVersion(system);
-  const updatedSpecVersion = getSpecVersionString({ isOAS3, isSwagger2 });
+  const { isOAS3, isSwagger2, isOAS3_1, isAsyncApi2 } = getSpecVersion(system);
+  const updatedSpecVersion = getSpecVersionString({ isOAS3, isSwagger2, isOAS3_1, isAsyncApi2 });
   if (specVersion !== updatedSpecVersion) {
     return true;
   }

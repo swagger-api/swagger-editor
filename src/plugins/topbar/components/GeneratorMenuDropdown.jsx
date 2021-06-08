@@ -68,8 +68,9 @@ export default class GeneratorMenuDropdown extends Component {
 
     const DropdownMenu = getComponent('DropdownMenu');
     const DropdownItem = getComponent('DropdownItem');
+    const shouldDisplayGeneratorLists = servers.length > 0 && clients.length > 0;
 
-    return (
+    return !shouldDisplayGeneratorLists ? null : (
       <div className="topbar-sub-group">
         <DropdownMenu displayName="Generate Server">
           {servers.map((server, i) => (
