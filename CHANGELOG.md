@@ -109,6 +109,7 @@ Migrate React Components
 [x] monaco-editor should only load specified languages; webpack required
 [ ] overall styling and consistency
 [x] deprecate use of `swagger-client`
+[ ] update "minimal" specs for `clearEditor`; oas2, oas3, oas3_1, asycapi2
 
 
 ### Test Coverage
