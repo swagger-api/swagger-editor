@@ -9,10 +9,11 @@
 [ ] ~~fix~~ update monaco syntax highlighting
 [ ] remove "dev mode" case when editor content is undefined
 [ ] handle case(s) when specSelectors.method returns undefined
-[ ] remove mock data/fixtures/configuration from `actions.js`
+[x] remove mock data/fixtures/configuration from `actions.js`
 [ ] warning: overlapping semantic tokens
 [ ] in codeActionUi, sometimes recieve an Uncaught promise TypeError: d.dispose is not a funtion
-[ ] asyncapi support: anywhere we should be detecting async api (or any other supported spec); e.g. clearEditor
+[x] asyncapi support: anywhere we should be detecting async api (or any other supported spec); e.g. clearEditor
+[ ] handle apidom parser throw, when unable to detect langugage. e.g. empty string, or oas2
 
 
 ### Legacy Swagger Editor Migrated Features
@@ -95,7 +96,7 @@ Migrate React Components
 [ ] pull-in SH left sidebar (search, op/schema/etc sections)
 [x] modify generic-editor plugin to have a default editor placeholder (instead of calling GenericEditorContainer directly)
 [x] add disposables array, and ability to dispose()
-[ ] make generator servers/clients toggleable; enable oas3.1/others when supported
+[x] make generator servers/clients toggleable; enable oas3.1/others when supported
 [ ] update generator (plugin?) for oas3.1, asyncapi, etc. support when available
 [ ] add generic error catch component, e.g. SHub uses react-error-boundary
 [ ] debounce initial load of definition. this may help with single vs. multi-line render in editor. atm, this would also apply to all user updates
@@ -104,7 +105,7 @@ Migrate React Components
 
 ### Optimization
 [x] breakdown `actions.js` into smaller files (new)
-[ ] further extraction in `actions.js` of business logic from action creators
+[x] further extraction in `actions.js` of business logic from action creators
 [x] monaco-editor should only load specified languages; webpack required
 [ ] overall styling and consistency
 [x] deprecate use of `swagger-client`
