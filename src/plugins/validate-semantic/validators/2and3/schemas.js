@@ -30,8 +30,8 @@ export const validate2And3TypesInDefaultValuesMatchesWithEnum = () => (system) =
     .allSchemas()
     .then(nodes => {
       return nodes.reduce((acc, node) => {
-        const schemaObj = node.node
-        const { type } = schemaObj || {}
+        const schemaObj = node.node || {}
+        const { type } = schemaObj
         const isNullable = !!schemaObj.nullable
         const enumeration = schemaObj.enum
         if (enumeration !== null && typeof enumeration !== "undefined") {
@@ -98,7 +98,7 @@ export const validate2And3MinAndMax = () => (system) => {
     .allSchemas()
     .then(nodes => {
       return nodes.reduce((acc, node) => {
-        const schemaObj = node.node
+        const schemaObj = node.node || {}
         const {minimum, maximum, minLength, maxLength, minProperties, maxProperties, minItems, maxItems} = schemaObj
         if(typeof minimum === "number" && typeof maximum === "number" && (minimum > maximum)) {
           acc.push({
