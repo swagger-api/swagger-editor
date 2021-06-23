@@ -65,17 +65,21 @@ Script name | Description
 
 ##### Prerequisites
 
-- NPM 6.x
+- NPM >=6.12.x
 
 Generally, we recommend the following guidelines from [Node.js Releases](https://nodejs.org/en/about/releases/) to only use Active LTS or Maintenance LTS releases.
 
+Current Node.js:
+- Node.js 16.x
+- NPM >=7.10.x
+
 Current Node.js Active LTS:
-- Node.js 12.x
-- NPM 6.x
+- Node.js 14.x
+- NPM >=6.12.x
 
 Current Node.js Maintenance LTS:
-- Node.js 10.x
-- NPM 6.x
+- Node.js 12.x
+- NPM >= 6.12.x
 
 
 If you have Node.js and npm installed, you can run `npm start` to spin up a static server.
