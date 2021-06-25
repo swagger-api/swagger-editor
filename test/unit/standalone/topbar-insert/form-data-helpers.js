@@ -2,7 +2,7 @@
 import { fromJS } from 'immutable';
 import React from 'react';
 import { configure, mount } from 'enzyme';
-import Adapter from 'enzyme-adapter-react-15';
+import Adapter from '@wojtekmaj/enzyme-adapter-react-17';
 import AddForm from 'src/standalone/topbar-insert/forms/components/AddForm';
 import FormChild from 'src/standalone/topbar-insert/forms/components/FormChild';
 import FormDropdown from 'src/standalone/topbar-insert/forms/components/FormDropdown';
@@ -36,7 +36,7 @@ describe('editor topbar insert form UI generation', () => {
     };
   });
 
-  it('should produce a valid form UI for a simple form object', () => { 
+  it('should produce a valid form UI for a simple form object', () => {
     const form = fromJS({
       fielda: {
         value: 'test value',
@@ -77,7 +77,7 @@ describe('editor topbar insert form UI generation', () => {
         updateForm: newForm => updateForm(newForm, path.concat(['listItem']))
       }
     });
-    
+
     let path = [];
 
     const form = fromJS({

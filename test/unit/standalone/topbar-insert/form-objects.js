@@ -1,7 +1,7 @@
 
 import React from 'react';
 import { configure, mount } from 'enzyme';
-import Adapter from 'enzyme-adapter-react-15';
+import Adapter from '@wojtekmaj/enzyme-adapter-react-17';
 import { fromJS, List } from 'immutable';
 
 import AddForm from 'src/standalone/topbar-insert/forms/components/AddForm';
@@ -55,7 +55,7 @@ describe('editor topbar insert forms', () => {
 
   describe('operation object', () => {
     let form = operationForm(null, []);
-  
+
     const tag = form.getIn(['tags', 'defaultItem'])(null, []);
 
     form = form
@@ -64,12 +64,12 @@ describe('editor topbar insert forms', () => {
       .setIn(['description', 'value'], 'test description')
       .setIn(['operationid', 'value'], 'testid')
       .setIn(['tags', 'value'], new List([tag.setIn(['tag', 'value'], 'test tag' )]));
-    
+
     const object = operationObject(form);
 
     it(
       'should correctly process the operation form into the operation object',
-      () => {  
+      () => {
         const expected = {
           summary: 'test summary',
           description: 'test description',
@@ -81,15 +81,15 @@ describe('editor topbar insert forms', () => {
             }
           }
         };
-    
+
         expect(object).toEqual(expected);
       }
     );
-  
+
     it('should correctly render the form UI for the form object', () => {
       const element = <InsertForm {...props} formData={form} />;
       const wrapper = mount(element);
-  
+
       expect(wrapper.find('input').length).toEqual(4);
       expect(wrapper.find('select').length).toEqual(2);
     });
@@ -99,7 +99,7 @@ describe('editor topbar insert forms', () => {
     const license = licenseForm(null, [], null)
     .setIn(['value', 'name', 'value'], 'test name')
     .setIn(['value', 'url', 'value'], 'test url');
-    
+
     const contact = contactForm(null, [])
       .setIn(['value', 'name', 'value'], 'test name')
       .setIn(['value', 'url', 'value'], 'test url')
@@ -115,9 +115,9 @@ describe('editor topbar insert forms', () => {
 
     it(
       'should correctly process the info form into the info object',
-      () => {        
+      () => {
         const object = infoObject(form);
-    
+
         const expected = {
           title: 'test title',
           version: 'test version',
@@ -133,7 +133,7 @@ describe('editor topbar insert forms', () => {
             email: 'testemail@test.com'
           }
         };
-    
+
         expect(object).toEqual(expected);
       }
     );
@@ -141,7 +141,7 @@ describe('editor topbar insert forms', () => {
     it('should correctly render the form UI for the form object', () => {
       const element = <InsertForm {...props} formData={form} />;
       const wrapper = mount(element);
-  
+
       expect(wrapper.find('input').length).toEqual(4);
     });
   });
@@ -155,7 +155,7 @@ describe('editor topbar insert forms', () => {
       .setIn(['summary', 'value'], 'test summary')
       .setIn(['description', 'value'], 'test description');
 
-    it('should correctly process the path form into the path object', () => {  
+    it('should correctly process the path form into the path object', () => {
       const object = pathObject(form);
       const expected = {
         key: '/test',
@@ -170,18 +170,18 @@ describe('editor topbar insert forms', () => {
     it('should correctly render the form UI for the form object', () => {
       const element = <InsertForm {...props} formData={form} />;
       const wrapper = mount(element);
-  
+
       expect(wrapper.find('input').length).toEqual(3);
     });
   });
 
   describe('tag declarations object', () => {
     let form = tagsForm(null, []);
-  
+
     const externalDocs = externalDocumentationForm(null, [])
       .setIn(['url', 'value'], 'test url')
       .setIn(['description', 'value'], 'test description');
-  
+
     const tag = tagForm(null, [])
       .setIn(['name', 'value'], 'test tag name')
       .setIn(['description', 'value'], 'test description')
@@ -206,12 +206,12 @@ describe('editor topbar insert forms', () => {
         ];
         expect(object).toEqual(expected);
       }
-    );  
+    );
 
     it('should correctly render the form UI for the form object', () => {
       const element = <InsertForm {...props} formData={form} />;
       const wrapper = mount(element);
-  
+
       expect(wrapper.find('input').length).toEqual(2);
     });
   });
@@ -231,7 +231,7 @@ describe('editor topbar insert forms', () => {
 
     it(
       'should correctly process the servers form into the servers object',
-      () => {  
+      () => {
         const object = serversObject(form);
         const expected = [
           {
@@ -248,7 +248,7 @@ describe('editor topbar insert forms', () => {
             }
           }
         ];
-    
+
         expect(object).toEqual(expected);
       }
     );
@@ -256,7 +256,7 @@ describe('editor topbar insert forms', () => {
     it('should correctly render the form UI for the form object', () => {
       const element = <InsertForm {...props} formData={form} />;
       const wrapper = mount(element);
-  
+
       expect(wrapper.find('input').length).toEqual(6);
     });
   });
@@ -265,23 +265,23 @@ describe('editor topbar insert forms', () => {
     const selectOperation = selectOperationForm(null, [])
         .setIn(['path', 'value'], '/test')
         .setIn(['operation', 'value'], 'GET');
-  
+
     let form = addOperationTagsForm(null, [])
         .setIn(['selectoperation', 'value'], selectOperation)
         .setIn(['tags', 'value', 0, 'tag', 'value'], 'test tag');
 
     it(
       'should correctly process the add tags to operation into the add tags object',
-      () => {  
+      () => {
         const object = addOperationTagsObject(form);
-    
+
         const expected = {
           selectedOperation: ['paths', '/test', 'GET'],
           tags: [
             'test tag'
           ]
         };
-    
+
         expect(object).toEqual(expected);
       }
     );
@@ -289,7 +289,7 @@ describe('editor topbar insert forms', () => {
     it('should correctly render the form UI for the form object', () => {
       const element = <InsertForm {...props} formData={form} />;
       const wrapper = mount(element);
-  
+
       expect(wrapper.find('input').length).toEqual(1);
       expect(wrapper.find('select').length).toEqual(2);
     });
@@ -301,7 +301,7 @@ describe('editor topbar insert forms', () => {
       .setIn(['operation', 'value'], 'GET')
       .setIn(['response', 'value'], '200')
       .setIn(['mediatype', 'value'], 'application/json');
-  
+
     let form = exampleForm(null, [])
         .setIn(['selectresponse', 'value'], selectResponse)
         .setIn(['exampleName', 'value'], 'sample example name')
@@ -309,15 +309,15 @@ describe('editor topbar insert forms', () => {
 
     it(
       'should correctly process the add example form into the form values object',
-      () => {  
+      () => {
         const object = exampleObject(form);
-    
+
         const expected = {
           responsePath: ['paths', '/test', 'GET', 'responses', '200', 'content', 'application/json', 'examples'],
           exampleValue: 'sample example value',
           exampleName: 'sample example name'
         };
-    
+
         expect(object).toEqual(expected);
       }
     );
@@ -325,7 +325,7 @@ describe('editor topbar insert forms', () => {
     it('should correctly render the form UI for the form object', () => {
       const element = <InsertForm {...props} formData={form} />;
       const wrapper = mount(element);
-  
+
       expect(wrapper.find('input').length).toEqual(1);
       expect(wrapper.find('select').length).toEqual(4);
     });
