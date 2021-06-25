@@ -62,6 +62,13 @@ export default class MonacoEditor extends Component {
   destroyMonaco = () => {
     if (this.editor) {
       this.editor.dispose();
+      const model = this.editor.getModel();
+      if (model?.dispose) {
+        model.dispose();
+      }
+    }
+    if (this.subscription?.dispose) {
+      this.subscription.dispose();
     }
   };
 
@@ -112,7 +119,7 @@ export default class MonacoEditor extends Component {
     const { editorDidMount, onChange } = this.props;
     // console.log('start localEditorDidMount');
     editorDidMount(editor, monaco);
-    editor.onDidChangeModelContent((event) => {
+    this.subscription = editor.onDidChangeModelContent((event) => {
       const currentEditorValue = editor.getValue();
       // Always refer to the latest value
       this.currentValue = currentEditorValue;
