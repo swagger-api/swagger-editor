@@ -1,5 +1,4 @@
-
-import SwaggerUi from 'swagger-ui';
+import SwaggerUI from 'swagger-ui';
 import debounce from 'lodash/debounce';
 
 import ValidateBasePlugin from 'plugins/validate-base';
@@ -12,15 +11,16 @@ const DELAY_MS = (typeof envDelay === 'string' ? parseInt(envDelay) : envDelay) 
 
 export default function validateHelper(spec) {
   return new Promise((resolve) => {
-    const system = SwaggerUi({
+    const system = SwaggerUI({
       spec,
       domNode: null,
       presets: [
-        SwaggerUi.plugins.SpecIndex,
-        SwaggerUi.plugins.ErrIndex,
-        SwaggerUi.plugins.DownloadUrl,
-        SwaggerUi.plugins.SwaggerJsIndex,
-        SwaggerUi.plugins.Oas3Index
+        SwaggerUI.plugins.SpecIndex,
+        SwaggerUI.plugins.ErrIndex,
+        SwaggerUI.plugins.DownloadUrl,
+        SwaggerUI.plugins.SwaggerJsIndex,
+        SwaggerUI.plugins.Oas3Index,
+        SwaggerUI.plugins.RequestSnippetsIndex,
       ],
       initialState: {
         layout: undefined

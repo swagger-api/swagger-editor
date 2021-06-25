@@ -1,18 +1,19 @@
-import SwaggerUi from 'swagger-ui';
+import SwaggerUI from 'swagger-ui';
 import ValidateBasePlugin from 'plugins/validate-base';
 import ValidateSemanticPlugin from 'plugins/validate-semantic';
 import ASTPlugin from 'plugins/ast';
 
 function getSystem(spec) {
   return new Promise((resolve) => {
-    const system = SwaggerUi({
+    const system = SwaggerUI({
       spec,
       domNode: null,
       presets: [
-        SwaggerUi.plugins.SpecIndex,
-        SwaggerUi.plugins.ErrIndex,
-        SwaggerUi.plugins.DownloadUrl,
-        SwaggerUi.plugins.SwaggerJsIndex,
+        SwaggerUI.plugins.SpecIndex,
+        SwaggerUI.plugins.ErrIndex,
+        SwaggerUI.plugins.DownloadUrl,
+        SwaggerUI.plugins.SwaggerJsIndex,
+        SwaggerUI.plugins.RequestSnippetsIndex,
       ],
       initialState: {
         layout: undefined
