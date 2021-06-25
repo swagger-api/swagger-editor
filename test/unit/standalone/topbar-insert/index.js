@@ -4,7 +4,7 @@ import SwaggerUi from 'swagger-ui';
 import insertPlugin from 'src/standalone/topbar-insert';
 import { fromJS } from 'immutable';
 import { configure, mount } from 'enzyme';
-import Adapter from 'enzyme-adapter-react-15';
+import Adapter from '@wojtekmaj/enzyme-adapter-react-17';
 
 configure({ adapter: new Adapter() });
 
@@ -48,7 +48,7 @@ function getSystem(spec) {
         })
       ]
     });
-    
+
     resolve(system);
   });
 }
@@ -71,7 +71,7 @@ describe('editor topbar insert menu plugin', () => {
       expect(wrapper.find('.menu-item').length).toEqual(1);
     }
   );
-  
+
   it('should correctly update the spec when addToSpec is called', async () => {
     const spec = {
       'openapi': '3.0.0',
