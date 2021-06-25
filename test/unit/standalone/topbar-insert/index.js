@@ -1,6 +1,5 @@
-
 import React from 'react';
-import SwaggerUi from 'swagger-ui';
+import SwaggerUI from 'swagger-ui';
 import insertPlugin from 'src/standalone/topbar-insert';
 import { fromJS } from 'immutable';
 import { configure, mount } from 'enzyme';
@@ -10,14 +9,15 @@ configure({ adapter: new Adapter() });
 
 function getSystem(spec) {
   return new Promise((resolve) => {
-    const system = SwaggerUi({
+    const system = SwaggerUI({
       spec,
       domNode: null,
       presets: [
-        SwaggerUi.plugins.SpecIndex,
-        SwaggerUi.plugins.ErrIndex,
-        SwaggerUi.plugins.DownloadUrl,
-        SwaggerUi.plugins.SwaggerJsIndex,
+        SwaggerUI.plugins.SpecIndex,
+        SwaggerUI.plugins.ErrIndex,
+        SwaggerUI.plugins.DownloadUrl,
+        SwaggerUI.plugins.SwaggerJsIndex,
+        SwaggerUI.plugins.RequestSnippetsIndex,
       ],
       initialState: {
         layout: undefined
