@@ -10,10 +10,11 @@
 [ ] remove "dev mode" case when editor content is undefined
 [ ] handle case(s) when specSelectors.method returns undefined
 [x] remove mock data/fixtures/configuration from `actions.js`
-[ ] warning: overlapping semantic tokens
-[ ] in codeActionUi, sometimes recieve an Uncaught promise TypeError: d.dispose is not a funtion
+~~ [ ] warning: overlapping semantic tokens ~~ THIS IS APIDOM-LS ISSUE
+[x] in codeActionUi, sometimes recieve an Uncaught promise TypeError: d.dispose is not a funtion
 [x] asyncapi support: anywhere we should be detecting async api (or any other supported spec); e.g. clearEditor
-[ ] handle apidom parser throw, when unable to detect langugage. e.g. empty string, or oas2
+[x] handle apidom parser throw, when unable to detect langugage. e.g. empty string, or oas2
+[ ] load default -> import OAS2. note the topbar generate server/client exists. -> clear all. user may type random string. note that the topbar generate server/client did NOT disappear
 
 
 ### Legacy Swagger Editor Migrated Features
@@ -123,6 +124,9 @@ Migrate React Components
 [ ] actions that affect swagger-ui spec
 [ ] should add unit tests when both swagger2 and oas3 flags set to same value (both true, both false)
 [ ] should add unit tests allowing exclusion of both swagger2 and oas3, e.g. future asynapi, graphql, etc.
+[ ] e2e:monaco. user "select all" + "clear/cut" definition.
+[ ] e2e:monaco. upload unsupported spec -> hover should not cause UI error
+[ ] e2e:monaco. upload unsupported spec -> user edit should not cause UI error
 
 
 ### Additional Notes:
