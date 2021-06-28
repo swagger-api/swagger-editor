@@ -12,8 +12,10 @@ export default class HoverAdapter {
     // get the worker proxy (ts interface)
     const worker = await this.worker(resource);
     const uri = resource.toString();
+    // call the validate method proxy from the language service and get code actions
+    let actions;
     try {
-      const actions = await worker.doCodeActions(uri);
+      actions = await worker.doCodeActions(uri);
       if (!actions) {
         return Promise.resolve({
           actions: null,
@@ -21,17 +23,6 @@ export default class HoverAdapter {
           error: 'unable to doCodeActions',
         });
       }
-      // console.log('codeActionsAdapter... actions:', actions);
-      const monacoActions = [];
-      const p2m = new ProtocolToMonacoConverter(monaco);
-      actions.forEach((action) => {
-        monacoActions.push(p2m.asCodeAction(action));
-      });
-      const result = {
-        actions: monacoActions,
-        dispose: () => {},
-      };
-      return Promise.resolve(result);
     } catch (e) {
       return Promise.resolve({
         actions: null,
@@ -39,5 +30,16 @@ export default class HoverAdapter {
         error: 'unable to doCodeActions',
       });
     }
+    // console.log('codeActionsAdapter... actions:', actions);
+    const monacoActions = [];
+    const p2m = new ProtocolToMonacoConverter(monaco);
+    actions.forEach((action) => {
+      monacoActions.push(p2m.asCodeAction(action));
+    });
+    const result = {
+      actions: monacoActions,
+      dispose: () => {},
+    };
+    return Promise.resolve(result);
   }
 }
