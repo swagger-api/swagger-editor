@@ -37,9 +37,11 @@ export default class SemanticTokensAdapter {
     const uri = resource.toString();
     try {
       const semanticTokens = await worker.findSemanticTokens(uri);
+      // console.log('debug 1A: semanticTokens:', semanticTokens); // { data: Array(2525) }
       return Promise.resolve(semanticTokens);
     } catch (e) {
-      return Promise.resolve({ error: 'unable to provideDocumentSemanticTokens' });
+      // console.log('debug 1A: semanticTokens error:', e);
+      return Promise.resolve({ data: [], error: 'unable to provideDocumentSemanticTokens' });
     }
   }
 

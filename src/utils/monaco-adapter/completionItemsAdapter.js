@@ -17,8 +17,14 @@ export default class CompletionItemsAdapter {
     const uri = resource.toString();
     const computedPosition = fromPosition(position);
     // call the validate method proxy from the language service and get completionItems info
-    const info = await worker.doComplete(uri, computedPosition, this.completionContext);
-    if (!info) {
+    let info;
+    try {
+      info = await worker.doComplete(uri, computedPosition, this.completionContext);
+      if (!info) {
+        return Promise.resolve(null);
+      }
+    } catch (e) {
+      // console.log('completion info error:', e);
       return Promise.resolve(null);
     }
     const wordInfo = model.getWordUntilPosition(position);
