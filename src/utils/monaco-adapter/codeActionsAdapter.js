@@ -15,7 +15,11 @@ export default class HoverAdapter {
     try {
       const actions = await worker.doCodeActions(uri);
       if (!actions) {
-        return Promise.resolve({ error: 'unable to doCodeActions' });
+        return Promise.resolve({
+          actions: null,
+          dispose: () => {},
+          error: 'unable to doCodeActions',
+        });
       }
       // console.log('codeActionsAdapter... actions:', actions);
       const monacoActions = [];
@@ -29,7 +33,11 @@ export default class HoverAdapter {
       };
       return Promise.resolve(result);
     } catch (e) {
-      return Promise.resolve({ error: 'unable to doCodeActions' });
+      return Promise.resolve({
+        actions: null,
+        dispose: () => {},
+        error: 'unable to doCodeActions',
+      });
     }
   }
 }
