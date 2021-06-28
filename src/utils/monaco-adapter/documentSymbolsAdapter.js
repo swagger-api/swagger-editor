@@ -12,8 +12,13 @@ export default class DocumentSymbolAdapter {
     const worker = await this.worker(resource);
     const uri = resource.toString();
     // call the validate method proxy from the language service and get document symbol items
-    const items = await worker.findDocumentSymbols(uri);
-    if (!items) {
+    let items;
+    try {
+      items = await worker.findDocumentSymbols(uri);
+      if (!items) {
+        return Promise.resolve(null);
+      }
+    } catch (e) {
       return Promise.resolve(null);
     }
     // Todo: confirm this works. Might be expecting "monaco not defined"
