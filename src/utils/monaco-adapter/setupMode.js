@@ -19,8 +19,6 @@ const asDisposable = (disposables) => {
   return { dispose: () => disposeAll(disposables) };
 };
 
-// todo?: async/await?
-// bug: codeActions sometimes doesn't load fast enough for monaco to register its .dispose()
 const registerProviders = ({ languageID, providers, worker }) => {
   disposeAll(providers);
 
