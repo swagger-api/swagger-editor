@@ -100,6 +100,10 @@ export default class MonacoEditor extends Component {
         },
         lineNumbers: 'on',
         autoIndent: 'full',
+        wordWrap: 'on',
+        minimap: {
+          enabled: false, //  can track via state, and toggle via `editor.updateOptions({ minimap: { enabled: true }})`
+        },
         // ...options,
         // ...(theme ? { theme } : {}), // think this is inactive, and may not be necessary; based on a sample
       });
@@ -121,6 +125,7 @@ export default class MonacoEditor extends Component {
     editorDidMount(editor, monaco);
     this.subscription = editor.onDidChangeModelContent((event) => {
       const currentEditorValue = editor.getValue();
+      // console.log('start localEditorDidMount, currentEditorValue', currentEditorValue);
       // Always refer to the latest value
       this.currentValue = currentEditorValue;
       onChange(currentEditorValue, event);
