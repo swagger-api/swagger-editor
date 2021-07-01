@@ -1,5 +1,8 @@
 describe('Monaco Editor with Parser', () => {
   beforeEach(() => {
+    // wait for external https request
+    // to help page finish loading and rendering
+    cy.intercept('GET', '/api/servers').as('externalRequest');
     cy.visit('/', {
       onBeforeLoad: (contentWindow) => {
         if (contentWindow.console.error) {
@@ -8,6 +11,7 @@ describe('Monaco Editor with Parser', () => {
         cy.stub(contentWindow.console, 'error').as('consoleError');
       },
     });
+    cy.wait('@externalRequest');
   });
 
   const detectedPlatform = Cypress.platform;
@@ -21,6 +25,7 @@ describe('Monaco Editor with Parser', () => {
   it('should not throw console.error when parsing empty string', () => {
     cy.get('.monaco-editor textarea:first').click().focused().type(selectAllKeys).clear();
     cy.get('@consoleError').should('not.be.called');
+    cy.get('.monaco-editor .view-lines').should('contains.text', '');
   });
 
   it('should not throw console.error when parsing unsupported definition', () => {
@@ -30,5 +35,6 @@ describe('Monaco Editor with Parser', () => {
       .type(selectAllKeys)
       .type('randomapi: 1.0.0\n');
     cy.get('@consoleError').should('not.be.called');
+    cy.get('.monaco-editor .view-lines').should('contains.text', 'randomapi');
   });
 });
