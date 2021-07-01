@@ -104,6 +104,7 @@ Migrate React Components
 [ ] Edit menu dropdown - render convert to OAS3 only if currently 'isSwagger2`  
 [ ] Edit menu dropdown - render convert to Yaml only if currently 'json'  
 [ ] monaco - config/remove minimap. UX discussion.  
+[ ] onboard - default definition should be in YAML format
 
 
 ### Optimization
@@ -126,7 +127,7 @@ Migrate React Components
 [ ] actions that affect swagger-ui spec  
 [ ] should add unit tests when both swagger2 and oas3 flags set to same value (both true, both false)  
 [ ] should add unit tests allowing exclusion of both swagger2 and oas3, e.g. future asynapi, graphql, etc.  
-[ ] e2e:monaco. user "select all" + "clear/cut" definition.  
+[x] e2e:monaco. user "select all" + "clear/cut" definition.  
 [ ] e2e:monaco. upload unsupported spec -> hover should not cause UI error  
 [ ] e2e:monaco. upload unsupported spec -> user edit should not cause UI error  
 
