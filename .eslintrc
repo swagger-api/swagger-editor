@@ -9,7 +9,9 @@
   ],
   "globals": {
     "File": true,
-    "Blob": true
+    "Blob": true,
+    "cy": false,
+    "Cypress": false
   },
   "parserOptions": {
     "ecmaFeatures": {
