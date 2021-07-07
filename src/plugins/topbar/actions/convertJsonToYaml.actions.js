@@ -5,7 +5,6 @@ import { mockOas3Spec } from './fixtures.actions';
 export const convertToYaml = () => async (system) => {
   const { specSelectors, specActions } = system;
   const editorContent = specSelectors.specStr();
-  // dev mode; refactor 'contentToConvert' to handle case if editorContent is undefined
   let contentToConvert;
   if (!editorContent) {
     contentToConvert = JSON.stringify(mockOas3Spec);

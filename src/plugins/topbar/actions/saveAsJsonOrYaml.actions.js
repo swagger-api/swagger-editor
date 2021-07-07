@@ -14,10 +14,8 @@ export const saveAsJson = () => async (system) => {
   const { specSelectors, errSelectors } = system;
   const editorContent = specSelectors.specStr();
   const { isOAS3, isSwagger2, isAsyncApi2 } = getSpecVersion(system);
-  // eslint-disable-next-line no-unused-vars
   const options = { isOAS3, isSwagger2, isAsyncApi2 };
 
-  // dev mode; refactor 'contentToConvert' to handle case if editorContent is undefined
   // create a mock yaml from mock json (ref: convertToYaml)
   let contentToConvert;
   if (!editorContent) {
@@ -27,12 +25,7 @@ export const saveAsJson = () => async (system) => {
   } else {
     contentToConvert = editorContent;
   }
-  // eslint-disable-next-line no-unused-vars
-  // const mockOptions = {
-  //   isOAS3: true,
-  //   isSwagger2: true,
-  // };
-  // end dev mode scaffold
+
   const fileName = getFileName({ options });
   const parserErrorExists = hasParserErrors({ errors: errSelectors.allErrors() });
   if (parserErrorExists) {
@@ -54,29 +47,19 @@ export const saveAsYaml = ({ overrideWarning }) => async (system) => {
   // console.log('actions.saveAsYaml');
   const { specSelectors, errSelectors } = system;
   const editorContent = specSelectors.specStr();
-  // eslint-disable-next-line no-unused-vars
   const { isOAS3, isSwagger2, isAsyncApi2 } = getSpecVersion(system);
-  // eslint-disable-next-line no-unused-vars
   const options = { isOAS3, isSwagger2, isAsyncApi2 };
 
-  // dev mode; refactor 'contentToConvert' to handle case if editorContent is undefined
   // create a mock yaml from mock json (ref: convertToYaml)
   let contentToConvert;
   if (!editorContent) {
     const tempjsContent = YAML.safeLoad(JSON.stringify(mockOas3Spec));
-    // eslint-disable-next-line no-unused-vars
     const tempyamlContent = YAML.safeDump(tempjsContent);
     contentToConvert = tempyamlContent;
-    // contentToConvert = JSON.stringify(mockOas3Spec);
   } else {
     contentToConvert = editorContent;
   }
-  // eslint-disable-next-line no-unused-vars
-  // const mockOptions = {
-  //   isOAS3: true,
-  //   isSwagger2: true,
-  // };
-  // end dev mode scaffold
+
   const fileName = getFileName({ options });
   const languageSubType = getDefinitionLanguage({ data: contentToConvert });
   const parserErrorExists = hasParserErrors({ errors: errSelectors.allErrors() });
