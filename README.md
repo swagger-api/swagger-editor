@@ -17,11 +17,71 @@ Change directory to `./apidom/` monorepo and run following commands:
  $ npm run build
 ```
 
-Now change directory to `./experiments/generic-editor` and run the following commands
+Now change directory to `./experiments/generic-editor` and run the following commands  
 
 ```shell script
  $ npm i
  $ npm start
 ```
 
-Edit files in `./src` directory
+Edit files in `./src` directory  
+
+The default development port is `port=3000`. If a port is already in use, `npm start` will increment the port.  
+
+## Test
+
+Both Jest and Cypress include `@testing-library` plugin support.  
+
+**Jest Unit Tests**
+```sh
+ $ npm test
+```
+
+**Cypress E2E Tests**
+
+
+*Option 1a:* 
+* `.env.development`  
+* two terminal windows  
+* Cypress headless mode  
+* Cypress port=3000  
+* Useful for quickly running Cypress tests while in development mode  
+
+```sh
+ $ npm start # terminal 1
+ $ npm run test:cy:run # terminal 2
+```
+
+*Option 1b:*  
+* `.env.development`  
+* two terminal windows  
+* Cypress interactive mode  
+* Cypress port=3000  
+* Useful for updating Cypress test(s) while already in development mode  
+
+```sh
+ $ npm start # terminal 1
+ $ npm run test:cy:open # terminal 2
+```
+
+*Option 2a:*  
+* `.env.test`  
+* single terminal window  
+* Cypress interactive mode  
+* Cypress port=3260  
+* Useful for working on adding/updating Cypress tests independent of development in `./src`  
+
+```sh
+ $ npm run test:cy:dev
+```
+
+*Option 2b:*  
+* `.env.test`  
+* single terminal window  
+* Cypress headless mode  
+* Cypress port=3260  
+* Useful settings and environment variables appropriate for CI
+
+```sh
+ $ npm run test:cy:ci
+```
