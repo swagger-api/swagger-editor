@@ -4,7 +4,7 @@
 [x] fix editor configuration/onChange to always word-wrap.  
 [ ] ~~fix exploding styling/rendering when using in-browser (ctrl+f) find text within monaco; monaco's find+replace feature~~  
 [ ] update monaco syntax highlighting  
-[ ] remove "dev mode" case when editor content is undefined  
+[x] remove "dev mode" case when editor content is undefined  
 [ ] handle case(s) when specSelectors.method returns undefined  
 [x] remove mock data/fixtures/configuration from `actions.js`  
 [ ] ~~warning: overlapping semantic tokens~~ THIS IS APIDOM-LS ISSUE  
@@ -121,7 +121,7 @@ Migrate React Components
 [ ] topbarActions: http calls with swagger-generator + swagger-client; response   includes additional functions;  
 [ ] should add unit tests with bad/invalid urls; generator, import Url  
 [ ] topbarActions: downloadFile (mock download)  
-[ ] monaco-editor render  
+[x] monaco-editor render  
 [ ] monaco-editor features  
 [ ] swagger-ui render  
 [ ] actions that affect swagger-ui spec  
