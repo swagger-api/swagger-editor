@@ -24,8 +24,41 @@ export default class FileMenuDropdown extends Component {
       errorMessage: '',
       showConfirmModal: false,
       confirmMessage: '',
+      languageFormat: 'yaml',
     };
   }
+
+  componentDidMount() {
+    this.getLanguageFormat();
+  }
+
+  componentDidUpdate() {
+    this.shouldUpdateLanguageFormat();
+  }
+
+  getLanguageFormat = async () => {
+    const { topbarActions } = this.props;
+    const result = await topbarActions.getDefinitionLanguageFormat();
+    if (result.languageFormat) {
+      this.setState({
+        languageFormat: result.languageFormat,
+      });
+    }
+  };
+
+  shouldUpdateLanguageFormat = async () => {
+    const { topbarActions } = this.props;
+    const { languageFormat } = this.state;
+    const result = await topbarActions.shouldUpdateDefinitionLanguageFormat({
+      languageFormat,
+    });
+    // expect result to be boolean
+    if (result.shouldUpdate && result.languageFormat) {
+      this.setState({
+        languageFormat: result.languageFormat,
+      });
+    }
+  };
 
   closeModalClick = (showModalProperty) => () => {
     this.setState({ [showModalProperty]: false });
@@ -155,6 +188,7 @@ export default class FileMenuDropdown extends Component {
       errorMessage,
       showConfirmModal,
       confirmMessage,
+      languageFormat,
     } = this.state;
 
     return (
@@ -191,10 +225,24 @@ export default class FileMenuDropdown extends Component {
           <DropdownItem onClick={() => this.onImportUrlClick()} name="Import URL" />
           <ImportFileDropdownItem getComponent={getComponent} topbarActions={topbarActions} />
           <li role="separator" />
-          <DropdownItem onClick={() => this.onSaveAsJsonClick()} name="Save as JSON" />
-          <DropdownItem onClick={() => this.onSaveAsYamlClick()} name="Save as YAML" />
-          <DropdownItem onClick={() => this.onSaveAsJsonClick()} name="Convert and save as JSON" />
-          <DropdownItem onClick={() => this.onSaveAsYamlClick()} name="Convert and save as YAML" />
+          {languageFormat !== 'json' ? null : (
+            <DropdownItem onClick={() => this.onSaveAsJsonClick()} name="Save (as JSON)" />
+          )}
+          {languageFormat !== 'json' ? null : (
+            <DropdownItem
+              onClick={() => this.onSaveAsYamlClick()}
+              name="Convert and save as YAML"
+            />
+          )}
+          {languageFormat !== 'yaml' ? null : (
+            <DropdownItem onClick={() => this.onSaveAsYamlClick()} name="Save (as YAML)" />
+          )}
+          {languageFormat !== 'yaml' ? null : (
+            <DropdownItem
+              onClick={() => this.onSaveAsJsonClick()}
+              name="Convert and save as JSON"
+            />
+          )}
           <li role="separator" />
           <DropdownItem onClick={() => this.onClearEditorClick()} name="Clear Editor" />
         </DropdownMenu>
