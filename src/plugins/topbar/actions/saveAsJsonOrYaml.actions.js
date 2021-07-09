@@ -61,12 +61,12 @@ export const saveAsYaml = ({ overrideWarning }) => async (system) => {
   }
 
   const fileName = getFileName({ options });
-  const languageSubType = getDefinitionLanguage({ data: contentToConvert });
+  const languageFormat = getDefinitionLanguage({ data: contentToConvert });
   const parserErrorExists = hasParserErrors({ errors: errSelectors.allErrors() });
   // const parserErrorExists = true; // mock test
   if (parserErrorExists && !overrideWarning) {
     // legacy method, if already yaml, displays confirm window if parser error
-    if (languageSubType === 'yaml') {
+    if (languageFormat === 'yaml') {
       return {
         warning:
           'Swagger Editor is not able to parse your API definition. Are you sure you want to save the editor content as YAML?',
@@ -79,7 +79,7 @@ export const saveAsYaml = ({ overrideWarning }) => async (system) => {
     };
   }
 
-  if (languageSubType === 'yaml') {
+  if (languageFormat === 'yaml') {
     // console.log('download yaml as-is');
     // content is already yaml, so download as-is
     getFileDownload({ blob: contentToConvert, filename: `${fileName}.yaml` });

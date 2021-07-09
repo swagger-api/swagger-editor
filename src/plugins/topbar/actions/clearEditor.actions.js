@@ -24,7 +24,7 @@ export const clearEditor = () => async (system) => {
   // Using an empty string will throw an apidom parser error
   // we will want to detect for various specs, e.g. openapi, asyncapi
   const editorContent = specSelectors.specStr();
-  const languageSubType = getDefinitionLanguage({ data: editorContent });
+  const languageFormat = getDefinitionLanguage({ data: editorContent });
   const { isOAS3, isSwagger2, isAsyncApi2 } = getSpecVersion(system);
   if (!editorContent || (!isOAS3 && !isSwagger2 && !isAsyncApi2)) {
     // default to oas3 yaml
@@ -33,7 +33,7 @@ export const clearEditor = () => async (system) => {
     // JS Object -> YAML string
     const yamlContent = YAML.safeDump(jsContent);
     specActions.updateSpec(yamlContent, { lineWidth: -1 });
-  } else if (languageSubType !== 'json') {
+  } else if (languageFormat !== 'json') {
     const jsContent = getInitialDefinitionObj({ isOAS3, isSwagger2, isAsyncApi2 });
     const yamlContent = YAML.safeDump(jsContent);
     specActions.updateSpec(yamlContent, { lineWidth: -1 });
