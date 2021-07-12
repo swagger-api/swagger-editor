@@ -52,8 +52,8 @@ export default class FileMenuDropdown extends Component {
     const result = await topbarActions.shouldUpdateDefinitionLanguageFormat({
       languageFormat,
     });
-    // expect result to be boolean
-    if (result.shouldUpdate && result.languageFormat) {
+    // expect result.shouldUpdate to be boolean
+    if (result.shouldUpdate && result.languageFormat !== languageFormat) {
       this.setState({
         languageFormat: result.languageFormat,
       });
