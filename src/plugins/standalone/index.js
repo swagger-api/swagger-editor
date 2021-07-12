@@ -10,6 +10,7 @@ import FileMenuDropdown from '../topbar/components/FileMenuDropdown';
 import EditMenuDropdown from '../topbar/components/EditMenuDropdown';
 import ImportFileDropdownItem from '../topbar/components/ImportFileDropdownItem';
 import GeneratorMenuDropdown from '../topbar/components/GeneratorMenuDropdown';
+import SaveAsJsonOrYaml from '../topbar/components/SaveAsJsonOrYaml';
 import StandaloneLayout from './StandaloneLayout';
 
 const StandalonePlugin = () => {
@@ -23,6 +24,7 @@ const StandalonePlugin = () => {
       EditMenuDropdown,
       ImportFileDropdownItem,
       GeneratorMenuDropdown,
+      SaveAsJsonOrYaml,
     },
   };
 };

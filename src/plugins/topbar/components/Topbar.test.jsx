@@ -10,6 +10,7 @@ import FileMenuDropdown from './FileMenuDropdown';
 import EditMenuDropdown from './EditMenuDropdown';
 import ImportFileDropdownItem from './ImportFileDropdownItem';
 import GeneratorMenuDropdown from './GeneratorMenuDropdown';
+import SaveAsJsonOrYaml from './SaveAsJsonOrYaml';
 import * as topbarActions from '../actions';
 
 // mock es6 re-exports
@@ -52,6 +53,7 @@ test('renders Topbar with required components', async () => {
     EditMenuDropdown,
     ImportFileDropdownItem,
     GeneratorMenuDropdown,
+    SaveAsJsonOrYaml,
   };
 
   render(

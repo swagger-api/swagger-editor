@@ -181,6 +181,7 @@ export default class FileMenuDropdown extends Component {
     const DropdownMenu = getComponent('DropdownMenu');
     const DropdownItem = getComponent('DropdownItem');
     const ImportFileDropdownItem = getComponent('ImportFileDropdownItem');
+    const SaveAsJsonOrYaml = getComponent('SaveAsJsonOrYaml');
 
     const {
       showImportUrlModal,
@@ -225,24 +226,12 @@ export default class FileMenuDropdown extends Component {
           <DropdownItem onClick={() => this.onImportUrlClick()} name="Import URL" />
           <ImportFileDropdownItem getComponent={getComponent} topbarActions={topbarActions} />
           <li role="separator" />
-          {languageFormat !== 'json' ? null : (
-            <DropdownItem onClick={() => this.onSaveAsJsonClick()} name="Save (as JSON)" />
-          )}
-          {languageFormat !== 'json' ? null : (
-            <DropdownItem
-              onClick={() => this.onSaveAsYamlClick()}
-              name="Convert and save as YAML"
-            />
-          )}
-          {languageFormat !== 'yaml' ? null : (
-            <DropdownItem onClick={() => this.onSaveAsYamlClick()} name="Save (as YAML)" />
-          )}
-          {languageFormat !== 'yaml' ? null : (
-            <DropdownItem
-              onClick={() => this.onSaveAsJsonClick()}
-              name="Convert and save as JSON"
-            />
-          )}
+          <SaveAsJsonOrYaml
+            getComponent={getComponent}
+            languageFormat={languageFormat}
+            onSaveAsJsonClick={this.onSaveAsJsonClick}
+            onSaveAsYamlClick={this.onSaveAsYamlClick}
+          />
           <li role="separator" />
           <DropdownItem onClick={() => this.onClearEditorClick()} name="Clear Editor" />
         </DropdownMenu>

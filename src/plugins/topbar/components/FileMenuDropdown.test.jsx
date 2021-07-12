@@ -6,6 +6,7 @@ import FileMenuDropdown from './FileMenuDropdown';
 import DropdownItem from './DropdownItem';
 import DropdownMenu from './DropdownMenu';
 import ImportFileDropdownItem from './ImportFileDropdownItem';
+import SaveAsJsonOrYaml from './SaveAsJsonOrYaml';
 import * as topbarActions from '../actions';
 
 ReactModal.setAppElement('*'); // suppresses modal-related test warnings.
@@ -34,6 +35,7 @@ describe('renders FileMenuDropdown', () => {
       DropdownItem,
       DropdownMenu,
       ImportFileDropdownItem,
+      SaveAsJsonOrYaml,
     };
 
     render(
