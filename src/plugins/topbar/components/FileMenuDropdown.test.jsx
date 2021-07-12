@@ -14,6 +14,22 @@ jest.mock('../actions');
 
 describe('renders FileMenuDropdown', () => {
   beforeEach(() => {
+    // These two spies are needed to render the FileMenuDropdown component
+    // Note that mocking these two spies does not cause state change in test
+    // eslint-disable-next-line no-unused-vars
+    const spyLanguageFormat = jest
+      .spyOn(topbarActions, 'getDefinitionLanguageFormat')
+      .mockImplementation(() => ({
+        languageFormat: 'yaml',
+      }));
+    // eslint-disable-next-line no-unused-vars
+    const spyShouldUpdateLanguageFormat = jest
+      .spyOn(topbarActions, 'shouldUpdateDefinitionLanguageFormat')
+      .mockImplementation(() => ({
+        languageFormat: 'yaml',
+        shouldUpdate: false,
+      }));
+
     const components = {
       DropdownItem,
       DropdownMenu,
@@ -68,13 +84,13 @@ describe('renders FileMenuDropdown', () => {
     // though as user, Dropdown doesn't see changes to editor or swagger-ui, or modals
   });
 
-  test('on dropdown, should be able to click on "Save as JSON', async () => {
+  test('on dropdown, should be able to click on "Save (as JSON)', async () => {
     const spy = jest.spyOn(topbarActions, 'saveAsJson').mockImplementation();
 
     const linkElement = screen.getByText(/File/i);
     fireEvent.click(linkElement);
 
-    const buttonElement = screen.getByText('Save as JSON');
+    const buttonElement = screen.getByText('Save (as JSON)');
     await waitFor(() => buttonElement);
     expect(buttonElement).toBeInTheDocument();
     fireEvent.click(buttonElement);
@@ -96,13 +112,13 @@ describe('renders FileMenuDropdown', () => {
     // we could mock a download and spyOn().mockImplementation with FileDownload
   });
 
-  test('on dropdown, should be able to click on "Save as YAML', async () => {
+  test('on dropdown, should be able to click on "Save (as YAML)', async () => {
     const spy = jest.spyOn(topbarActions, 'saveAsYaml').mockImplementation();
 
     const linkElement = screen.getByText(/File/i);
     fireEvent.click(linkElement);
 
-    const buttonElement = screen.getByText('Save as YAML');
+    const buttonElement = screen.getByText('Save (as YAML)');
     await waitFor(() => buttonElement);
     expect(buttonElement).toBeInTheDocument();
     fireEvent.click(buttonElement);
