@@ -100,7 +100,7 @@ Migrate React Components
 [ ] add generic error catch component, e.g. SHub uses react-error-boundary  
 [ ] debounce initial load of definition. this may help with single vs. multi-line render in editor. atm, this would also apply to all user updates  
 [ ] debounce user updates (might not be needed)  
-[ ] File Menu dropdown - add json/yaml detection to display appropriate link  
+[x] File Menu dropdown - add json/yaml detection to display appropriate link  
 [ ] Edit menu dropdown - render convert to OAS3 only if currently 'isSwagger2`  
 [ ] Edit menu dropdown - render convert to Yaml only if currently 'json'  
 [ ] monaco - config/remove minimap. UX discussion.  
