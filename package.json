@@ -21,6 +21,7 @@
     "security-audit:dev": "npm-audit --only=dev --audit-level=moderate"
   },
   "dependencies": {
+    "@primer/octicons-react": "^14.2.2",
     "@types/jest": "^26.0.20",
     "@types/node": "^14.14.25",
     "@types/react": "^17.0.1",
