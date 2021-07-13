@@ -86,62 +86,6 @@ describe('renders FileMenuDropdown', () => {
     // though as user, Dropdown doesn't see changes to editor or swagger-ui, or modals
   });
 
-  test('on dropdown, should be able to click on "Save (as JSON)', async () => {
-    const spy = jest.spyOn(topbarActions, 'saveAsJson').mockImplementation();
-
-    const linkElement = screen.getByText(/File/i);
-    fireEvent.click(linkElement);
-
-    const buttonElement = screen.getByText('Save (as JSON)');
-    await waitFor(() => buttonElement);
-    expect(buttonElement).toBeInTheDocument();
-    fireEvent.click(buttonElement);
-    expect(spy).toBeCalled();
-    // we could mock a download and spyOn().mockImplementation with FileDownload
-  });
-
-  test('on dropdown, should be able to click on "Convert and save as JSON', async () => {
-    const spy = jest.spyOn(topbarActions, 'saveAsJson').mockImplementation();
-
-    const linkElement = screen.getByText(/File/i);
-    fireEvent.click(linkElement);
-
-    const buttonElement = screen.getByText('Convert and save as JSON');
-    await waitFor(() => buttonElement);
-    expect(buttonElement).toBeInTheDocument();
-    fireEvent.click(buttonElement);
-    expect(spy).toBeCalled();
-    // we could mock a download and spyOn().mockImplementation with FileDownload
-  });
-
-  test('on dropdown, should be able to click on "Save (as YAML)', async () => {
-    const spy = jest.spyOn(topbarActions, 'saveAsYaml').mockImplementation();
-
-    const linkElement = screen.getByText(/File/i);
-    fireEvent.click(linkElement);
-
-    const buttonElement = screen.getByText('Save (as YAML)');
-    await waitFor(() => buttonElement);
-    expect(buttonElement).toBeInTheDocument();
-    fireEvent.click(buttonElement);
-    expect(spy).toBeCalled();
-    // we could mock a download and spyOn().mockImplementation with FileDownload
-  });
-
-  test('on dropdown, should be able to click on "Convert and save as YAML', async () => {
-    const spy = jest.spyOn(topbarActions, 'saveAsYaml').mockImplementation();
-
-    const linkElement = screen.getByText(/File/i);
-    fireEvent.click(linkElement);
-
-    const buttonElement = screen.getByText('Convert and save as YAML');
-    await waitFor(() => buttonElement);
-    expect(buttonElement).toBeInTheDocument();
-    fireEvent.click(buttonElement);
-    expect(spy).toBeCalled();
-    // we could mock a download and spyOn().mockImplementation with FileDownload
-  });
-
   test('on dropdown, should be able to click on "Clear Editor', async () => {
     const spy = jest.spyOn(topbarActions, 'clearEditor').mockImplementation();
     const linkElement = screen.getByText(/File/i);
@@ -152,7 +96,27 @@ describe('renders FileMenuDropdown', () => {
     expect(buttonElement).toBeInTheDocument();
     fireEvent.click(buttonElement);
     expect(spy).toBeCalled();
-    // topbar doesn't render editor, so unlikely any other user visible changes
+    // topbar doesn't render editor, so no other user visible changes
+  });
+
+  test('on dropdown, should render partial text: "Save (as', async () => {
+    // ref: SaveAsJsonOrYaml component test for display toggle
+    const linkElement = screen.getByText(/File/i);
+    fireEvent.click(linkElement);
+
+    const buttonElement = screen.getByText(/Save \(as/);
+    await waitFor(() => buttonElement);
+    expect(buttonElement).toBeInTheDocument();
+  });
+
+  test('on dropdown, should rener partial text: "Convert and save as', async () => {
+    // ref: SaveAsJsonOrYaml component test for display toggle
+    const linkElement = screen.getByText(/File/i);
+    fireEvent.click(linkElement);
+
+    const buttonElement = screen.getByText(/Convert and save as/);
+    await waitFor(() => buttonElement);
+    expect(buttonElement).toBeInTheDocument();
   });
 });
 
