@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 
 import MonacoEditor from './MonacoEditor'; // load directly, do not use getComponent
 import ThemeSelection from './ThemeSelection';
+import ThemeSelectionIcon from './ThemeSelectionIcon';
 // import monaco from '../../../../test/__mocks__/monacoMock';
 
 /**
@@ -30,6 +31,7 @@ export default class MonacoEditorContainer extends PureComponent {
   }
 
   onChangeThemeValue = async (val) => {
+    console.log('onChangeThemeValue, val:', val);
     const defaultThemeList = ['vs', 'vs-light', 'vs-dark'];
     if (!defaultThemeList.includes(val)) {
       return;
@@ -49,8 +51,8 @@ export default class MonacoEditorContainer extends PureComponent {
 
     return (
       <div id="editor-wrapper" className="editor-wrapper">
-        <h3>Monaco Editor (remove this heading for production)</h3>
         <ThemeSelection onChange={this.onChangeThemeValue} />
+        <ThemeSelectionIcon theme={theme} onChange={this.onChangeThemeValue} />
         <MonacoEditor
           language={language}
           theme={theme}
