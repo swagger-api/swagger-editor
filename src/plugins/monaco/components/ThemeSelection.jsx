@@ -10,10 +10,10 @@ export default class ThemeSelection extends PureComponent {
 
     return (
       <div>
-        <button type="button" onClick={() => onChange('vs')}>
-          vs
+        <button type="button" onClick={() => onChange('my-vs-light')}>
+          vs-light
         </button>
-        <button type="button" onClick={() => onChange('vs-dark')}>
+        <button type="button" onClick={() => onChange('my-vs-dark')}>
           vs-dark
         </button>
       </div>

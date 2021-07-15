@@ -134,24 +134,63 @@ export default class MonacoEditor extends Component {
 
   // eslint-disable-next-line no-unused-vars
   setupTheme = (editor) => {
+    // monaco.editor.setTheme('vs-dark');
     // eslint-disable-next-line no-underscore-dangle
-    // const testTheme = editor._themeService._theme.getTokenStyleMetadata;
-    // console.log('testTheme:', testTheme);
-    monaco.editor.setTheme('vs-dark');
+    // editor._themeService._theme.getTokenStyleMetadata = getStyleMetadataDark;
+    monaco.editor.setTheme('my-vs-dark');
     // eslint-disable-next-line no-underscore-dangle
     editor._themeService._theme.getTokenStyleMetadata = getStyleMetadataDark;
+    // monaco.editor.setTheme('vs-light');
     // eslint-disable-next-line no-underscore-dangle
-    // const testThemeDark = editor._themeService._theme.getTokenStyleMetadata;
-    // console.log('testThemeDark:', testThemeDark);
-    monaco.editor.setTheme('vs-light');
+    // editor._themeService._theme.getTokenStyleMetadata = getStyleMetadataLight;
+    monaco.editor.setTheme('my-vs-light');
     // eslint-disable-next-line no-underscore-dangle
     editor._themeService._theme.getTokenStyleMetadata = getStyleMetadataLight;
-    // eslint-disable-next-line no-underscore-dangle
-    // const testThemeLight = editor._themeService._theme.getTokenStyleMetadata;
-    // console.log('testThemeLight:', testThemeLight);
+
+    monaco.editor.defineTheme('my-vs-dark', {
+      base: 'vs-dark',
+      inherit: true,
+      rules: [
+        { token: 'keyword', foreground: '#C678DD', fontStyle: 'bold' }, // atom purple; e.g. externalDocs, tags, paths, swagger
+        { token: 'identifier', foreground: '#D19A66', fontStyle: 'italic' }, // atom orange
+        // add various identifier.nestedKey
+        // response codes, comments, colons/slashes, are interpreted as 'invalid'
+        { token: 'type', foreground: '#61AFEF', fontStyle: 'italic' }, // atom blue
+        { token: 'pathItem', foreground: '66afce', fontStyle: 'italic' }, // light blue
+        { token: 'operation', foreground: '66afce', fontStyle: 'underline' }, // light blue
+        { token: 'comment', foreground: '5c6370', fontStyle: 'italic' }, // atom grey
+      ],
+      colors: {
+        'editor.background': '#282c34',
+        'editor.foreground': '#abb2bf',
+        'editorLineNumber.foreground': '#636D83',
+        'editorLineNumber.activeForeground': '#ABB2BF',
+      },
+    });
+
+    monaco.editor.defineTheme('my-vs-light', {
+      base: 'vs', // can also be vs-dark or hc-black
+      inherit: true, // can also be false to completely replace the builtin rules
+      rules: [
+        { token: 'keyword', foreground: '#C678DD', fontStyle: 'bold' }, // atom purple; e.g. externalDocs, tags, paths, swagger
+        { token: 'identifier', foreground: '#D19A66', fontStyle: 'italic' }, // atom orange
+        // add various identifier.nestedKey
+        // response codes, comments, colons/slashes, are interpreted as 'invalid'
+        { token: 'type', foreground: '#61AFEF', fontStyle: 'bold' }, // atom blue
+        { token: 'pathItem', foreground: '66afce', fontStyle: 'bold italic' }, // light blue
+        { token: 'operation', foreground: '66afce', fontStyle: 'bold underline' }, // light blue
+        { token: 'comment', foreground: '5c6370', fontStyle: 'italic' }, // atom grey
+        { token: 'String', foreground: '#50A14F' }, // atom
+      ],
+      colors: {
+        'editor.background': '#FAFAFA',
+        'editor.foreground': '#383a42',
+        'editorLineNumber.foreground': '#9D9D9F',
+        'editorLineNumber.activeForeground': '#383A42',
+      },
+    });
   };
 
-  // eslint-disable-next-line no-unused-vars
   changeTheme = (newThemeValue) => {
     // console.log('editor component... changeTheme, newThemeValue:', newThemeValue);
     if (newThemeValue === 'vs-dark') {
@@ -161,6 +200,14 @@ export default class MonacoEditor extends Component {
     if (newThemeValue === 'vs-light' || newThemeValue === 'vs') {
       // console.log('editor component... changeTheme, vs-light:');
       monaco.editor.setTheme('vs');
+    }
+    if (newThemeValue === 'my-vs-dark') {
+      // console.log('editor component... changeTheme, my-vs-dark:');
+      monaco.editor.setTheme('my-vs-dark');
+    }
+    if (newThemeValue === 'my-vs-light') {
+      // console.log('editor component... changeTheme, my-vs-light:');
+      monaco.editor.setTheme('my-vs-light');
     }
   };
 

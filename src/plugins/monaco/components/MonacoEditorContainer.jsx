@@ -17,7 +17,7 @@ export default class MonacoEditorContainer extends PureComponent {
     super(props);
     this.state = {
       language: 'apidom',
-      theme: 'vs',
+      theme: 'my-vs-light',
     };
     this.editorDidMount = this.editorDidMount.bind(this);
   }
@@ -31,8 +31,8 @@ export default class MonacoEditorContainer extends PureComponent {
   }
 
   onChangeThemeValue = async (val) => {
-    console.log('onChangeThemeValue, val:', val);
-    const defaultThemeList = ['vs', 'vs-light', 'vs-dark'];
+    // console.log('onChangeThemeValue, val:', val);
+    const defaultThemeList = ['vs', 'vs-light', 'vs-dark', 'my-vs-light', 'my-vs-dark'];
     if (!defaultThemeList.includes(val)) {
       return;
     }
