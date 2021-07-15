@@ -1,0 +1,16 @@
+{
+  "name": "swagger-api/swagger-editor",
+  "description": " Swagger Editor.",
+  "keywords": [
+    "Swagger",
+    "OpenAPI",
+    "specification",
+    "documentation",
+    "API",
+    "Editor"
+  ],
+  "homepage": "http://swagger.io",
+  "license": "Apache-2.0",
+  "minimum-stability": "dev",
+  "prefer-stable": true
+}
