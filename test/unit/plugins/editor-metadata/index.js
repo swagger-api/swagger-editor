@@ -1,16 +1,17 @@
-import SwaggerUi from 'swagger-ui';
+import SwaggerUI  from 'swagger-ui';
 import EditorMetadataPlugin from 'plugins/editor-metadata';
 
 function getSystem(spec) {
   return new Promise((resolve) => {
-    const system = SwaggerUi({
+    const system = SwaggerUI({
       spec,
       domNode: null,
       presets: [
-        SwaggerUi.plugins.SpecIndex,
-        SwaggerUi.plugins.ErrIndex,
-        SwaggerUi.plugins.DownloadUrl,
-        SwaggerUi.plugins.SwaggerJsIndex,
+        SwaggerUI.plugins.SpecIndex,
+        SwaggerUI.plugins.ErrIndex,
+        SwaggerUI.plugins.DownloadUrl,
+        SwaggerUI.plugins.SwaggerJsIndex,
+        SwaggerUI.plugins.RequestSnippetsIndex,
       ],
       initialState: {
         layout: undefined
@@ -32,7 +33,7 @@ function getSystem(spec) {
         })
       ]
     });
-    
+
     resolve(system);
   });
 }
@@ -109,7 +110,7 @@ describe('editor metadata plugin', () => {
       });
     }
   );
-  
+
   it('should return isValid for a valid spec', async () => {
     const spec = {
       swagger: '2.0',
@@ -133,7 +134,7 @@ describe('editor metadata plugin', () => {
     expect(system.getEditorMetadata().isValid).toBe(true);
   });
 
-    
+
   it('should return isValid for an invalid spec', async () => {
     const spec = {
       swagger: '2.0',
