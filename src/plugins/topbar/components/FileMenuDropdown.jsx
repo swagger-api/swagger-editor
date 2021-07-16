@@ -30,10 +30,15 @@ export default class FileMenuDropdown extends Component {
 
   componentDidMount() {
     this.getLanguageFormat();
+    document.addEventListener('keydown', this.handleKeydown, true);
   }
 
   componentDidUpdate() {
     this.shouldUpdateLanguageFormat();
+  }
+
+  componentWillUnmount() {
+    document.removeEventListener('keydown', this.handleKeydown, true);
   }
 
   getLanguageFormat = async () => {
@@ -181,6 +186,23 @@ export default class FileMenuDropdown extends Component {
     const loadResult = await topbarActions.loadDefaultDefinition(language);
     if (loadResult && loadResult.error) {
       console.log('onLoadDefaultDefinition error:', loadResult.error);
+    }
+  };
+
+  handleKeydown = (e) => {
+    // console.log('handleKeydown e:', e);
+    switch (e.code) {
+      case 'F5':
+        this.onLoadDefaultDefinition('oas3');
+        break;
+      case 'F6':
+        this.onLoadDefaultDefinition('asyncapi2');
+        break;
+      case 'F7':
+        this.onLoadDefaultDefinition('oas2');
+        break;
+      default:
+        break;
     }
   };
 
