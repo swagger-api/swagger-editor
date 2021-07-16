@@ -15,7 +15,6 @@ export const convertToYaml = () => async (system) => {
   const yamlContent = YAML.safeDump(jsContent);
   // on success,
   specActions.updateSpec(yamlContent);
-  // we should also update monaco value
   return { data: 'success' };
 };
 

@@ -15,3 +15,4 @@ export {
   getDefinitionLanguageFormat,
   shouldUpdateDefinitionLanguageFormat,
 } from './actions/languageFormat.actions';
+export { loadDefaultDefinition } from './actions/loadDefaultDefinition.actions';

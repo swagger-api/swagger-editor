@@ -176,6 +176,14 @@ export default class FileMenuDropdown extends Component {
     });
   };
 
+  onLoadDefaultDefinition = async (language) => {
+    const { topbarActions } = this.props;
+    const loadResult = await topbarActions.loadDefaultDefinition(language);
+    if (loadResult && loadResult.error) {
+      console.log('onLoadDefaultDefinition error:', loadResult.error);
+    }
+  };
+
   render() {
     const { getComponent, topbarActions } = this.props;
     const DropdownMenu = getComponent('DropdownMenu');
@@ -234,6 +242,19 @@ export default class FileMenuDropdown extends Component {
           />
           <li role="separator" />
           <DropdownItem onClick={() => this.onClearEditorClick()} name="Clear Editor" />
+          <li role="separator" />
+          <DropdownItem
+            onClick={() => this.onLoadDefaultDefinition('oas3')}
+            name="Load Default OAS3.0"
+          />
+          <DropdownItem
+            onClick={() => this.onLoadDefaultDefinition('oas2')}
+            name="Load Default OAS2.0"
+          />
+          <DropdownItem
+            onClick={() => this.onLoadDefaultDefinition('asyncapi2')}
+            name="Load Default AsyncAPI 2.0"
+          />
         </DropdownMenu>
       </div>
     );
