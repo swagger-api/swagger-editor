@@ -102,7 +102,7 @@ export const mockOas3Spec = {
 
 // eslint-disable-next-line camelcase
 export const mockOas3_1Spec = {
-  openapi: '3.0.0',
+  openapi: '3.1.0',
   info: {
     title: 'deref',
     version: '1.0.0',
