@@ -13,8 +13,9 @@ import { mockOas3Spec } from './fixtures.actions';
 export const saveAsJson = () => async (system) => {
   const { specSelectors, errSelectors } = system;
   const editorContent = specSelectors.specStr();
-  const { isOAS3, isSwagger2, isAsyncApi2 } = getSpecVersion(system);
-  const options = { isOAS3, isSwagger2, isAsyncApi2 };
+  // eslint-disable-next-line camelcase
+  const { isOAS3, isSwagger2, isOAS3_1, isAsyncApi2 } = getSpecVersion(system);
+  const options = { isOAS3, isSwagger2, isOAS3_1, isAsyncApi2 };
 
   // create a mock yaml from mock json (ref: convertToYaml)
   let contentToConvert;
@@ -47,8 +48,9 @@ export const saveAsYaml = ({ overrideWarning }) => async (system) => {
   // console.log('actions.saveAsYaml');
   const { specSelectors, errSelectors } = system;
   const editorContent = specSelectors.specStr();
-  const { isOAS3, isSwagger2, isAsyncApi2 } = getSpecVersion(system);
-  const options = { isOAS3, isSwagger2, isAsyncApi2 };
+  // eslint-disable-next-line camelcase
+  const { isOAS3, isSwagger2, isOAS3_1, isAsyncApi2 } = getSpecVersion(system);
+  const options = { isOAS3, isSwagger2, isOAS3_1, isAsyncApi2 };
 
   // create a mock yaml from mock json (ref: convertToYaml)
   let contentToConvert;
