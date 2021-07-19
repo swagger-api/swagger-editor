@@ -198,8 +198,8 @@ export default class FileMenuDropdown extends Component {
       case 'F6':
         this.onLoadDefaultDefinition('asyncapi2');
         break;
-      case 'F7':
-        this.onLoadDefaultDefinition('oas2');
+      case 'F4':
+        this.onLoadDefaultDefinition('oas3_1');
         break;
       default:
         break;
@@ -268,6 +268,10 @@ export default class FileMenuDropdown extends Component {
           <DropdownItem
             onClick={() => this.onLoadDefaultDefinition('oas3')}
             name="Load Default OAS3.0"
+          />
+          <DropdownItem
+            onClick={() => this.onLoadDefaultDefinition('oas3_1')}
+            name="Load Default OAS3.1"
           />
           <DropdownItem
             onClick={() => this.onLoadDefaultDefinition('oas2')}

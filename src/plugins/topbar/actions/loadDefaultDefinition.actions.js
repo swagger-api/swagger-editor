@@ -1,11 +1,7 @@
 import YAML from 'js-yaml';
 
-import {
-  mockOas2Spec,
-  mockOas3Spec,
-  mockAsyncapi2Spec,
-  // mockOas31Spec, // NYI
-} from './fixtures.actions';
+// eslint-disable-next-line camelcase
+import { mockOas2Spec, mockOas3Spec, mockAsyncapi2Spec, mockOas3_1Spec } from './fixtures.actions';
 
 export const loadDefaultDefinition = (language) => async (system) => {
   const { specActions } = system;
@@ -18,8 +14,7 @@ export const loadDefaultDefinition = (language) => async (system) => {
   if (language === 'oas3') {
     contentToLoad = JSON.stringify(mockOas3Spec);
   } else if (language === 'oas3_1') {
-    // contentToLoad = JSON.stringify(mockOas31Spec);
-    contentToLoad = JSON.stringify(mockOas3Spec);
+    contentToLoad = JSON.stringify(mockOas3_1Spec);
   } else if (language === 'asyncapi2') {
     contentToLoad = JSON.stringify(mockAsyncapi2Spec);
   } else if (language === 'oas2') {
