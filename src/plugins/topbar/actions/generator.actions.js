@@ -72,17 +72,21 @@ const getSpecVersionString = ({ isOAS3, isSwagger2, isOAS3_1, isAsyncApi2 }) => 
 };
 
 const validateHttpGeneratorsExists = ({ specVersion }) => {
-  if (specVersion === 'OAS_3_0' || specVersion === 'SWAGGER_2') {
+  if (specVersion === 'OAS_3_0' || specVersion === 'SWAGGER_2' || specVersion === 'OAS_3_1') {
     return true;
   }
   return false;
 };
 
-const fetchOasGeneratorLists = async ({ isOAS3 }) => {
-  const generatorClientsUrl = isOAS3
+const fetchOasGeneratorLists = async ({ isOAS3, isOAS3_1 }) => {
+  let isAnyVersionOAS3 = false;
+  if (isOAS3 || isOAS3_1) {
+    isAnyVersionOAS3 = true;
+  }
+  const generatorClientsUrl = isAnyVersionOAS3
     ? defaultFixtures.oas3GeneratorClientsUrl
     : defaultFixtures.oas2GeneratorServersUrl;
-  const generatorServersUrl = isOAS3
+  const generatorServersUrl = isAnyVersionOAS3
     ? defaultFixtures.oas3GeneratorServersUrl
     : defaultFixtures.oas2GeneratorServersUrl;
 
@@ -109,8 +113,7 @@ export const instantiateGeneratorClient = () => async (system) => {
       specVersion,
     });
   }
-
-  const generatorServersClients = await fetchOasGeneratorLists({ isOAS3 });
+  const generatorServersClients = await fetchOasGeneratorLists({ isOAS3, isOAS3_1 });
   // console.log('...instantiateGeneratorClient generatorServersClients:', generatorServersClients);
   if (generatorServersClients.error) {
     return Promise.resolve({

@@ -59,6 +59,7 @@ export default class GeneratorMenuDropdown extends Component {
     });
     if (downloadData.error) {
       // display the error message
+      console.log('generator download error:', downloadData.error);
     }
   };
 
