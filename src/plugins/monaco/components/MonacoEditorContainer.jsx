@@ -1,5 +1,6 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
+import ReactResizeDetector from 'react-resize-detector';
 
 import MonacoEditor from './MonacoEditor'; // load directly, do not use getComponent
 import ThemeSelection from './ThemeSelection';
@@ -17,9 +18,10 @@ export default class MonacoEditorContainer extends PureComponent {
     super(props);
     this.state = {
       language: 'apidom',
-      theme: 'my-vs-light',
+      theme: 'my-vs-dark',
+      height: '90vh',
+      width: '50',
     };
-    this.editorDidMount = this.editorDidMount.bind(this);
   }
 
   componentDidMount() {
@@ -43,9 +45,15 @@ export default class MonacoEditorContainer extends PureComponent {
     editor.focus();
   };
 
+  // eslint-disable-next-line no-unused-vars
+  handleEditorResize = (width, height) => {
+    // console.log('handleEditorResize. args:', width, ' | ', height);
+    this.setState({ width });
+  };
+
   render() {
     const { initialValue, onChange, getValueFromSpec } = this.props;
-    const { language, theme } = this.state;
+    const { language, theme, height, width } = this.state;
 
     const valueForEditor = getValueFromSpec();
 
@@ -53,13 +61,20 @@ export default class MonacoEditorContainer extends PureComponent {
       <div id="editor-wrapper" className="editor-wrapper">
         <ThemeSelection onChange={this.onChangeThemeValue} />
         <ThemeSelectionIcon theme={theme} onChange={this.onChangeThemeValue} />
+        <ReactResizeDetector
+          handleWidth
+          handleHeight={false}
+          onResize={this.handleEditorResize}
+          refreshMode="debounce"
+          refreshRate={100}
+        />
         <MonacoEditor
           language={language}
           theme={theme}
           value={valueForEditor}
           defaultValue={initialValue}
-          height="90vh"
-          width="50"
+          height={height}
+          width={width}
           onChange={onChange}
           editorDidMount={this.editorDidMount}
         />
