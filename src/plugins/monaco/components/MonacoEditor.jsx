@@ -5,9 +5,11 @@ import * as monaco from 'monaco-editor-core';
 
 import noop from '../../../utils/utils-noop';
 // eslint-disable-next-line no-unused-vars
-import getStyleMetadataLight from '../../../utils/utils-monaco-theme-light';
+import getStyleMetadataLight, {
+  themes as themesLight,
+} from '../../../utils/utils-monaco-theme-light';
 // eslint-disable-next-line no-unused-vars
-import getStyleMetadataDark from '../../../utils/utils-monaco-theme-dark';
+import getStyleMetadataDark, { themes as themesDark } from '../../../utils/utils-monaco-theme-dark';
 import { languageID } from '../../../utils/monaco-adapter/config';
 import { setupLanguage, initializeWorkers } from '../../../utils/monaco-adapter/setup';
 
@@ -134,61 +136,22 @@ export default class MonacoEditor extends Component {
 
   // eslint-disable-next-line no-unused-vars
   setupTheme = (editor) => {
+    monaco.editor.defineTheme('my-vs-dark', themesDark.seVsDark);
+    monaco.editor.defineTheme('my-vs-light', themesLight.seVsLight);
+
+    monaco.editor.setTheme('my-vs-dark'); // todo: we should set based on prop value
     // monaco.editor.setTheme('vs-dark');
     // eslint-disable-next-line no-underscore-dangle
     // editor._themeService._theme.getTokenStyleMetadata = getStyleMetadataDark;
-    monaco.editor.setTheme('my-vs-dark');
+    // monaco.editor.setTheme('my-vs-dark');
     // eslint-disable-next-line no-underscore-dangle
-    editor._themeService._theme.getTokenStyleMetadata = getStyleMetadataDark;
+    // editor._themeService._theme.getTokenStyleMetadata = getStyleMetadataDark;
     // monaco.editor.setTheme('vs-light');
     // eslint-disable-next-line no-underscore-dangle
     // editor._themeService._theme.getTokenStyleMetadata = getStyleMetadataLight;
-    monaco.editor.setTheme('my-vs-light');
+    // monaco.editor.setTheme('my-vs-light');
     // eslint-disable-next-line no-underscore-dangle
-    editor._themeService._theme.getTokenStyleMetadata = getStyleMetadataLight;
-
-    monaco.editor.defineTheme('my-vs-dark', {
-      base: 'vs-dark',
-      inherit: true,
-      rules: [
-        { token: 'keyword', foreground: '#C678DD', fontStyle: 'bold' }, // atom purple; e.g. externalDocs, tags, paths, swagger
-        { token: 'identifier', foreground: '#D19A66', fontStyle: 'italic' }, // atom orange
-        // add various identifier.nestedKey
-        // response codes, comments, colons/slashes, are interpreted as 'invalid'
-        { token: 'type', foreground: '#61AFEF', fontStyle: 'italic' }, // atom blue
-        { token: 'pathItem', foreground: '66afce', fontStyle: 'italic' }, // light blue
-        { token: 'operation', foreground: '66afce', fontStyle: 'underline' }, // light blue
-        { token: 'comment', foreground: '5c6370', fontStyle: 'italic' }, // atom grey
-      ],
-      colors: {
-        'editor.background': '#282c34',
-        'editor.foreground': '#abb2bf',
-        'editorLineNumber.foreground': '#636D83',
-        'editorLineNumber.activeForeground': '#ABB2BF',
-      },
-    });
-
-    monaco.editor.defineTheme('my-vs-light', {
-      base: 'vs', // can also be vs-dark or hc-black
-      inherit: true, // can also be false to completely replace the builtin rules
-      rules: [
-        { token: 'keyword', foreground: '#C678DD', fontStyle: 'bold' }, // atom purple; e.g. externalDocs, tags, paths, swagger
-        { token: 'identifier', foreground: '#D19A66', fontStyle: 'italic' }, // atom orange
-        // add various identifier.nestedKey
-        // response codes, comments, colons/slashes, are interpreted as 'invalid'
-        { token: 'type', foreground: '#61AFEF', fontStyle: 'bold' }, // atom blue
-        { token: 'pathItem', foreground: '66afce', fontStyle: 'bold italic' }, // light blue
-        { token: 'operation', foreground: '66afce', fontStyle: 'bold underline' }, // light blue
-        { token: 'comment', foreground: '5c6370', fontStyle: 'italic' }, // atom grey
-        { token: 'String', foreground: '#50A14F' }, // atom
-      ],
-      colors: {
-        'editor.background': '#FAFAFA',
-        'editor.foreground': '#383a42',
-        'editorLineNumber.foreground': '#9D9D9F',
-        'editorLineNumber.activeForeground': '#383A42',
-      },
-    });
+    // editor._themeService._theme.getTokenStyleMetadata = getStyleMetadataLight;
   };
 
   changeTheme = (newThemeValue) => {
