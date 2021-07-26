@@ -40,7 +40,7 @@ export default class MonacoEditor extends Component {
       monaco.editor.setModelLanguage(editor.getModel(), language);
     }
     if (prevProps.theme !== theme) {
-      this.changeTheme(theme);
+      this.changeTheme(editor, theme);
     }
     if (editor && (width !== prevProps.width || height !== prevProps.height)) {
       editor.layout();
@@ -95,7 +95,7 @@ export default class MonacoEditor extends Component {
         // semantic tokens provider is disabled by default
         // https://github.com/microsoft/monaco-editor/issues/1833
         'semanticHighlighting.enabled': true,
-        theme: 'vs',
+        theme: theme || 'vs-dark',
         glyphMargin: true,
         lightbulb: {
           enabled: true,
@@ -116,7 +116,7 @@ export default class MonacoEditor extends Component {
       // 3: if necessary, editorLoadedCondition & operationContextCondition
       // 4: editor.addCommand
       // After initializing monaco editor
-      this.setupTheme(this.editor);
+      this.setupTheme(this.editor, theme);
       this.localEditorDidMount(this.editor);
     }
   };
@@ -135,41 +135,35 @@ export default class MonacoEditor extends Component {
   };
 
   // eslint-disable-next-line no-unused-vars
-  setupTheme = (editor) => {
+  setupTheme = (editor, theme) => {
+    // define custom themes
     monaco.editor.defineTheme('my-vs-dark', themesDark.seVsDark);
     monaco.editor.defineTheme('my-vs-light', themesLight.seVsLight);
-
-    monaco.editor.setTheme('my-vs-dark'); // todo: we should set based on prop value
-    // monaco.editor.setTheme('vs-dark');
-    // eslint-disable-next-line no-underscore-dangle
-    // editor._themeService._theme.getTokenStyleMetadata = getStyleMetadataDark;
-    // monaco.editor.setTheme('my-vs-dark');
-    // eslint-disable-next-line no-underscore-dangle
-    // editor._themeService._theme.getTokenStyleMetadata = getStyleMetadataDark;
-    // monaco.editor.setTheme('vs-light');
-    // eslint-disable-next-line no-underscore-dangle
-    // editor._themeService._theme.getTokenStyleMetadata = getStyleMetadataLight;
-    // monaco.editor.setTheme('my-vs-light');
-    // eslint-disable-next-line no-underscore-dangle
-    // editor._themeService._theme.getTokenStyleMetadata = getStyleMetadataLight;
+    // apply (default) theme
+    if (!theme) {
+      monaco.editor.setTheme('my-vs-dark');
+    } else {
+      monaco.editor.setTheme(theme);
+    }
   };
 
-  changeTheme = (newThemeValue) => {
-    // console.log('editor component... changeTheme, newThemeValue:', newThemeValue);
+  changeTheme = (editor, newThemeValue) => {
     if (newThemeValue === 'vs-dark') {
-      // console.log('editor component... changeTheme, vs-dark:');
       monaco.editor.setTheme('vs-dark');
+      // Apply token styles to built-in vs-dark theme default;
+      // eslint-disable-next-line no-underscore-dangle
+      editor._themeService._theme.getTokenStyleMetadata = getStyleMetadataDark;
     }
     if (newThemeValue === 'vs-light' || newThemeValue === 'vs') {
-      // console.log('editor component... changeTheme, vs-light:');
       monaco.editor.setTheme('vs');
+      // Apply token styles to built-in vs-light theme default;
+      // eslint-disable-next-line no-underscore-dangle
+      editor._themeService._theme.getTokenStyleMetadata = getStyleMetadataLight;
     }
     if (newThemeValue === 'my-vs-dark') {
-      // console.log('editor component... changeTheme, my-vs-dark:');
       monaco.editor.setTheme('my-vs-dark');
     }
     if (newThemeValue === 'my-vs-light') {
-      // console.log('editor component... changeTheme, my-vs-light:');
       monaco.editor.setTheme('my-vs-light');
     }
   };

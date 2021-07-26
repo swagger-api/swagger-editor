@@ -11,9 +11,15 @@ export default class ThemeSelection extends PureComponent {
     return (
       <div>
         <button type="button" onClick={() => onChange('my-vs-light')}>
-          vs-light
+          swagger-light
         </button>
         <button type="button" onClick={() => onChange('my-vs-dark')}>
+          swagger-dark
+        </button>
+        <button type="button" onClick={() => onChange('vs-light')}>
+          vs-light
+        </button>
+        <button type="button" onClick={() => onChange('vs-dark')}>
           vs-dark
         </button>
       </div>
