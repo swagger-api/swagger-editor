@@ -80,18 +80,18 @@ export const themes = {
     base: 'vs', // can also be vs-dark or hc-black
     inherit: true, // can also be false to completely replace the builtin rules
     rules: [
-      { token: 'keyword', foreground: '#C678DD', fontStyle: 'bold' }, // atom purple; e.g. externalDocs, tags, paths, swagger
-      { token: 'info', foreground: '#C678DD', fontStyle: 'bold' }, // atom purple keyword
-      { token: 'identifier', foreground: '#D19A66', fontStyle: 'italic' }, // atom orange
-      { token: 'type', foreground: '#61AFEF', fontStyle: 'italic' }, // atom blue
-      { token: 'pathItem', foreground: '66afce', fontStyle: 'italic' }, // light blue
-      { token: 'operation', foreground: '66afce', fontStyle: 'underline' }, // light blue
+      { token: 'keyword', foreground: '#a626a4', fontStyle: 'bold' }, // purple; e.g. externalDocs, tags, paths, swagger
+      { token: 'info', foreground: '#a626a4', fontStyle: 'bold' }, // purple keyword
+      { token: 'identifier', foreground: '#e45649', fontStyle: 'italic' }, // orange
+      { token: 'type', foreground: '#268bd2', fontStyle: 'italic' }, // blue
+      { token: 'pathItem', foreground: '268bd2', fontStyle: 'italic' }, // blue
+      { token: 'operation', foreground: '268bd2', fontStyle: 'underline' }, // blue
       { token: 'operation.httpMethod-POST', fontStyle: 'bold' },
       { token: 'operation.httpMethod-GET', fontStyle: 'bold' },
-      { token: 'version', foreground: '#D19A66', fontStyle: 'bold' }, // atom orange
-      { token: 'value', foreground: '#98C379' }, // green
-      { token: 'value.string', foreground: '#98C379' }, // green
-      { token: 'value.number', foreground: '#98C379', fontStyle: 'bold' }, // green
+      { token: 'version', foreground: '#e45649', fontStyle: 'bold' }, // orange
+      { token: 'value', foreground: '#859900' }, // green
+      { token: 'value.string', foreground: '#859900' }, // green
+      { token: 'value.number', foreground: '#859900', fontStyle: 'bold' }, // green
       // response codes, comments, colons/slashes, are interpreted as 'invalid'
       // { token: 'comment', foreground: '5c6370', fontStyle: 'italic' }, // atom grey
       // { token: 'identifier.version', foreground: '#D19A66', fontStyle: 'italic' }, // atom orange
@@ -113,10 +113,78 @@ export const themes = {
       // { token: 'key.number', foreground: '#98C379', fontStyle: 'bold' }, // green
     ],
     colors: {
-      'editor.background': '#FAFAFA',
+      'editor.background': '#fdf6e3',
       'editor.foreground': '#383a42',
       'editorLineNumber.foreground': '#9D9D9F',
       'editorLineNumber.activeForeground': '#383A42',
     },
   },
 };
+
+/**
+ * One Light, bg: #fafafa, color: #383a42
+ * purple-magenta #a626a4
+ * reddish-orange other: #e45649
+ * brown numeric: #b76b01
+ * green quoted: #50a14f
+ * blue: #4078f2
+ * grey: #a0a1a7
+ */
+
+/**
+ * Atom Light, bg: white, color: 555
+ * teal: #008080
+ * dark blue: #458
+ * reddish string/num: #d14
+ * brown: #900
+ * grey: #999988
+ */
+
+/**
+ * solarized light, bg: #fdf6e3 color: #657b83 highlight?: #e8e4d9
+ * olive green keyword: #859900
+ * teal: #2aa198
+ * blue: #268bd2
+ * purple-magenta: #d33682
+ * dark grey string text: #657b83
+ * grey: #93a1a1
+ */
+
+/**
+ * One Dark; bg: #282c34, color: #abb2bf
+ * purple keyword: #c678dd
+ * blue: #61afef
+ * reddish: #e06c75
+ * green: #98c379
+ * orange: #d19a66
+ * grey: #5c6370
+ */
+
+/**
+ * Atom dark, bg: #1d1f21, color: c5c8c6
+ * light blue keyword: #96CBFE
+ * olive type (function): #CFCB90
+ * tan function: #FFD2A7
+ * light purple parameter function, other: #C6C5FE
+ * light green quoted: #A8FF60
+ * pink numeric & boolean: #FF73FD
+ */
+
+/**
+ * solarized dark, bg: #002b36 color: #839496 highlight?: #e8e4d9
+ * olive green keyword: #859900
+ * teal: #2aa198
+ * blue: #268bd2
+ * purple-magenta: #d33682
+ * dark gray? plain text?: #657b83
+ * grey: #93a1a1
+ */
+
+/**
+ * keyword
+ * other
+ * quoted/string
+ * numeric/boolean
+ * comment
+ * default/unknown color
+ */
