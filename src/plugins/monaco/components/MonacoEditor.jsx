@@ -106,6 +106,7 @@ export default class MonacoEditor extends Component {
         minimap: {
           enabled: true, //  can track via state, and toggle via `editor.updateOptions({ minimap: { enabled: true }})`
         },
+        fixedOverflowWidgets: true,
         // ...options,
         // ...(theme ? { theme } : {}), // think this is inactive, and may not be necessary; based on a sample
       });
