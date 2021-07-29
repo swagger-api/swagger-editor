@@ -117,6 +117,9 @@ export const themes = {
       'editor.foreground': '#383a42',
       'editorLineNumber.foreground': '#9D9D9F',
       'editorLineNumber.activeForeground': '#383A42',
+      'editorHoverWidget.background': '#fdf6e3',
+      'editorHoverWidget.border': '#9D9D9F',
+      'minimap.background': '#fdf6e3',
     },
   },
 };
