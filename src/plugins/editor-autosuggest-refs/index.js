@@ -1,10 +1,10 @@
-import * as wrapActions from "./wrap-actions"
+import { addAutosuggestionCompleters } from "./wrap-actions"
 
 export default function EditorAutosuggestRefsPlugin() {
   return {
     statePlugins: {
       editor: {
-        wrapActions,
+        wrapActions: { addAutosuggestionCompleters },
       }
     }
   }
