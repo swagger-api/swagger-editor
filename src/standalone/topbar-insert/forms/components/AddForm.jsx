@@ -9,7 +9,7 @@ class AddForm extends Component {
 
     this.state = {
       formErrors: false,
-      formData: this.props.existingData ? 
+      formData: this.props.existingData ?
         this.props.getFormData( (newForm, path) => this.updateForm(newForm, path), [], this.props.existingData) :
         this.props.getFormData( (newForm, path) => this.updateForm(newForm, path), [] )
     }
@@ -40,15 +40,15 @@ class AddForm extends Component {
 
     // Update the spec string in the Swagger UI state with the new json.
     const currentJson = this.props.specSelectors.specJson()
-    this.props.specActions.updateSpec(YAML.safeDump(currentJson.toJS()), "insert")
+    this.props.specActions.updateSpec(YAML.dump(currentJson.toJS()), "insert")
 
     // Perform any parent component actions for the form.
     this.props.submit()
   }
 
   updateForm = (newFormData, path) => {
-    this.setState(prevState => ({ 
-      formData: prevState.formData.setIn(path, newFormData) 
+    this.setState(prevState => ({
+      formData: prevState.formData.setIn(path, newFormData)
     }))
   }
 
@@ -61,7 +61,7 @@ class AddForm extends Component {
         <div className="modal-body">
           <div className="form-container">
             <InsertForm formData={this.state.formData} getComponent={getComponent} />
-          </div> 
+          </div>
         </div>
         <div className="modal-footer">
           { this.state.formErrors && <div className="invalid-feedback">Please fix errors before submitting.</div>}
@@ -69,7 +69,7 @@ class AddForm extends Component {
         </div>
       </div>
     )
-  } 
+  }
 }
 
 AddForm.propTypes = {

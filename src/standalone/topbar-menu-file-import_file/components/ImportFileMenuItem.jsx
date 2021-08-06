@@ -14,9 +14,9 @@ export default class ImportFileMenuItem extends Component {
 
     fileReader.onload = fileLoadedEvent => {
       let content = fileLoadedEvent.target.result
-  
+
       try {
-        const preparedContent = isJsonObject(content) ? YAML.safeDump(YAML.safeLoad(content)) : content
+        const preparedContent = isJsonObject(content) ? YAML.dump(YAML.load(content)) : content
 
         if (typeof onDocumentLoad === "function") {
           onDocumentLoad(preparedContent)

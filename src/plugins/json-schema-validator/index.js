@@ -6,8 +6,8 @@ import debounce from "lodash/debounce"
 import swagger2SchemaYaml from "./swagger2-schema.yaml"
 import oas3SchemaYaml from "./oas3-schema.yaml"
 
-const swagger2Schema = YAML.safeLoad(swagger2SchemaYaml)
-const oas3Schema = YAML.safeLoad(oas3SchemaYaml)
+const swagger2Schema = YAML.load(swagger2SchemaYaml)
+const oas3Schema = YAML.load(oas3SchemaYaml)
 
 // Lazily created promise worker
 let _promiseWorker
