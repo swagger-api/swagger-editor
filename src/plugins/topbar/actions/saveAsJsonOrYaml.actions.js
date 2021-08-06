@@ -1,14 +1,17 @@
 import YAML from 'js-yaml';
 import beautifyJson from 'json-beautify';
+import { getLanguageService } from 'apidom-ls';
+import { TextDocument } from 'vscode-languageserver-textdocument'; // this is true source
 
 import {
+  getDefinitionLanguage,
   getFileName,
   hasParserErrors,
-  getDefinitionLanguage,
 } from '../../../utils/utils-converter';
 import { getFileDownload } from '../../../utils/utils-file-download';
 import { getSpecVersion } from '../../../utils/utils-getSpecVersion';
 import { mockOas3Spec } from './fixtures.actions';
+import metadata from '../../../workers/metadataJs';
 
 export const saveAsJson = () => async (system) => {
   const { specSelectors, errSelectors } = system;
@@ -41,6 +44,89 @@ export const saveAsJson = () => async (system) => {
   // JS Object -> pretty JSON string
   const prettyJsonContent = beautifyJson(jsContent, null, 2);
   getFileDownload({ blob: prettyJsonContent, filename: `${fileName}.json` });
+  return { data: 'ok' };
+};
+
+export const saveAsJsonResolved = () => async (system) => {
+  const { specSelectors, errSelectors } = system;
+  const editorContent = specSelectors.specStr();
+  // eslint-disable-next-line camelcase
+  const { isOAS3, isSwagger2, isOAS3_1, isAsyncApi2 } = getSpecVersion(system);
+  const options = { isOAS3, isSwagger2, isOAS3_1, isAsyncApi2 };
+
+  // create a mock yaml from mock json (ref: convertToYaml)
+  let contentToConvert;
+  if (!editorContent) {
+    const tempjsContent = YAML.safeLoad(JSON.stringify(mockOas3Spec));
+    const tempyamlContent = YAML.safeDump(tempjsContent);
+    contentToConvert = tempyamlContent;
+  } else {
+    contentToConvert = editorContent;
+  }
+
+  const fileName = getFileName({ options });
+  const parserErrorExists = hasParserErrors({ errors: errSelectors.allErrors() });
+  if (parserErrorExists) {
+    // legacy alert window, which we should use a generic modal instead
+    return {
+      error:
+        'Save as JSON is not currently possible because Swagger-Editor was not able to parse your API definiton.',
+    };
+  }
+
+  const apidomContext = {
+    metadata: metadata(),
+  };
+  const languageService = getLanguageService(apidomContext); // use apidom metadata
+
+  const doc = TextDocument.create('foo://bar/file.json', 'apidom', 0, contentToConvert);
+
+  const result = await languageService.doDeref(doc);
+
+  getFileDownload({ blob: result, filename: `${fileName}.json` });
+  return { data: 'ok' };
+};
+
+export const saveAsYamlResolved = () => async (system) => {
+  const { specSelectors, errSelectors } = system;
+  const editorContent = specSelectors.specStr();
+  // eslint-disable-next-line camelcase
+  const { isOAS3, isSwagger2, isOAS3_1, isAsyncApi2 } = getSpecVersion(system);
+  const options = { isOAS3, isSwagger2, isOAS3_1, isAsyncApi2 };
+
+  // create a mock yaml from mock json (ref: convertToYaml)
+  let contentToConvert;
+  if (!editorContent) {
+    const tempjsContent = YAML.safeLoad(JSON.stringify(mockOas3Spec));
+    const tempyamlContent = YAML.safeDump(tempjsContent);
+    contentToConvert = tempyamlContent;
+  } else {
+    contentToConvert = editorContent;
+  }
+
+  const fileName = getFileName({ options });
+  const parserErrorExists = hasParserErrors({ errors: errSelectors.allErrors() });
+  if (parserErrorExists) {
+    // legacy alert window, which we should use a generic modal instead
+    return {
+      error:
+        'Save as JSON is not currently possible because Swagger-Editor was not able to parse your API definiton.',
+    };
+  }
+
+  const apidomContext = {
+    metadata: metadata(),
+  };
+  const languageService = getLanguageService(apidomContext); // use apidom metadata
+
+  const doc = TextDocument.create('foo://bar/file.json', 'apidom', 0, contentToConvert);
+
+  const result = await languageService.doDeref(doc);
+
+  const jsContent = YAML.safeLoad(result);
+  const yamlResult = YAML.safeDump(jsContent);
+
+  getFileDownload({ blob: yamlResult, filename: `${fileName}.yaml` });
   return { data: 'ok' };
 };
 
@@ -96,4 +182,4 @@ export const saveAsYaml = ({ overrideWarning }) => async (system) => {
   return { data: 'ok' };
 };
 
-export default { saveAsJson, saveAsYaml };
+export default { saveAsJson, saveAsYaml, saveAsJsonResolved, saveAsYamlResolved };

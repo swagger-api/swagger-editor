@@ -2,7 +2,11 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import * as monaco from 'monaco-editor-core';
+import { getLanguageService, isJsonDoc, FORMAT } from 'apidom-ls';
+import YAML from 'js-yaml';
+import { TextDocument } from 'vscode-languageserver-textdocument';
 
+import metadata from '../../../workers/metadataJs';
 import noop from '../../../utils/utils-noop';
 // eslint-disable-next-line no-unused-vars
 import getStyleMetadataLight, {
@@ -102,10 +106,14 @@ export default class MonacoEditor extends Component {
         },
         lineNumbers: 'on',
         autoIndent: 'full',
+        formatOnPaste: true,
+        formatOnType: true,
         wordWrap: 'on',
         minimap: {
           enabled: true, //  can track via state, and toggle via `editor.updateOptions({ minimap: { enabled: true }})`
         },
+        wordBasedSuggestions: false,
+        // quickSuggestions: false,
         fixedOverflowWidgets: true,
         // ...options,
         // ...(theme ? { theme } : {}), // think this is inactive, and may not be necessary; based on a sample
@@ -132,6 +140,39 @@ export default class MonacoEditor extends Component {
       // Always refer to the latest value
       this.currentValue = currentEditorValue;
       onChange(currentEditorValue, event);
+    });
+
+    const apidomContext = {
+      metadata: metadata(),
+    };
+    const languageService = getLanguageService(apidomContext);
+
+    // TODO (francesco.tumanischvili@smartbear.com) move this elsewhere (worker?)
+    editor.addAction({
+      id: 'de-reference',
+      label: 'resolve document',
+      // eslint-disable-next-line no-unused-vars
+      run: (ed) => {
+        const textDoc = TextDocument.create(
+          editor.getModel().uri.toString(),
+          editor.getModel().getModeId(),
+          editor.getModel().getVersionId(),
+          editor.getModel().getValue()
+        );
+        const context = {
+          format: isJsonDoc(textDoc) ? FORMAT.JSON : FORMAT.YAML,
+          baseURI: window.location.href,
+        };
+        languageService.doDeref(textDoc, context).then((result) => {
+          if (!isJsonDoc(textDoc)) {
+            const tempjsContent = YAML.safeLoad(result);
+            const tempyamlContent = YAML.safeDump(tempjsContent);
+            editor.setValue(tempyamlContent);
+          } else {
+            editor.setValue(result);
+          }
+        });
+      },
     });
   };
 

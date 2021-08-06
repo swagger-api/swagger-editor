@@ -1,5 +1,8 @@
 import * as monaco from 'monaco-editor-core';
-import { ProtocolToMonacoConverter } from 'monaco-languageclient/lib/monaco-converter';
+import {
+  ProtocolToMonacoConverter,
+  MonacoToProtocolConverter,
+} from 'monaco-languageclient/lib/monaco-converter';
 
 export default class HoverAdapter {
   constructor(worker) {
@@ -12,10 +15,12 @@ export default class HoverAdapter {
     // get the worker proxy (ts interface)
     const worker = await this.worker(resource);
     const uri = resource.toString();
+    const m2p = new MonacoToProtocolConverter(monaco);
+    const diagnostics = m2p.asDiagnostics(ctx.markers);
     // call the validate method proxy from the language service and get code actions
     let actions;
     try {
-      actions = await worker.doCodeActions(uri);
+      actions = await worker.doCodeActions(uri, diagnostics);
       if (!actions) {
         return Promise.resolve({
           actions: null,

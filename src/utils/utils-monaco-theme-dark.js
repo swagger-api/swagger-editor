@@ -1,66 +1,59 @@
 const darkThemeMap = {
-  keyword: 12,
-  comment: 7,
-  parameter: 6,
-  property: 14,
-  label: 16,
-  class: 3,
-  macro: 11,
-  string: 5,
-  variable: {
-    declaration: 8,
-    definition: 8,
-    deprecated: 8,
-    reference: 4,
-  },
-  operator: 1,
-  specVersion: 7,
-  version: 14,
+  parameter: 5,
+  specVersion: 6,
+  version: 6,
   info: 6,
-  // 'operation': 12,
   operation: {
-    'httpMethod-GET': 12,
-    'httpMethod-POST': 8,
+    default: 7,
+    'httpMethod-GET': 5, // light blue
+    'httpMethod-POST': 7, // light green
   },
-  pathItem: 11,
   key: {
-    string: 5,
-    number: 6,
+    string: 0,
+    number: 5,
   },
   value: {
-    string: 16,
-    number: 6,
+    string: 0,
+    number: 5,
   },
-  number: 6,
+  pathItem: 13,
+  components: 9,
+  'components-parameters': 17,
+  'components-schemas': 17,
+  'components-messages': 17,
+  'openapi-reference': 9,
+  'server-url': 0,
+  'Asyncapi-reference': 9,
+  'json-reference': 9,
+  'reference-element': 7,
+  'reference-value': 13,
+  content: 5,
+  mediaType: 5,
+  openapi: 6,
+  parameters: 17,
+  paths: 17,
+  reference: 9,
+  requestBody: 12,
+  response: 12,
+  responses: 17,
+  schema: 9,
+  server: 5,
+  servers: 17,
+  title: 6,
+  asyncApiVersion: 6,
+  channelItem: 13,
+  channels: 17,
 };
 
-// TS
-// function getStyleMetadataDark(type: string, modifiers: string[]) {
-//   let color = (darkThemeMap as any)[type];
-//   if (type === "variable") {
-//     color = (darkThemeMap[type] as any)[modifiers[0]];
-//   }
-//   if (type === "operation" || type === "key" || type === "value") {
-//     color = (darkThemeMap[type] as any)[modifiers[0]];
-//   }
-//   const style = {
-//     foreground: color,
-//     bold: false,
-//     underline: false,
-//     italic: false
-//   };
-//   if (true) {
-//     return style;
-//   }
-// };
-
 export default function getStyleMetadataDark(type, modifiers) {
-  let color = darkThemeMap[type];
-  if (type === 'variable') {
-    color = darkThemeMap[type][modifiers[0]];
-  }
-  if (type === 'operation' || type === 'key' || type === 'value') {
-    color = darkThemeMap[type][modifiers[0]];
+  let color = 5;
+  if (modifiers && modifiers.length > 0) {
+    color = darkThemeMap[type][modifiers[0]] ? darkThemeMap[type][modifiers[0]] : 5;
+  } else {
+    color = darkThemeMap[type];
+    if (!color) {
+      color = darkThemeMap[type] && darkThemeMap[type].default ? darkThemeMap[type].default : 5;
+    }
   }
   const style = {
     foreground: color,
@@ -80,37 +73,57 @@ export const themes = {
     base: 'vs-dark',
     inherit: true,
     rules: [
-      { token: 'keyword', foreground: '#C678DD', fontStyle: 'bold' }, // atom purple; e.g. externalDocs, tags, paths, swagger
-      { token: 'info', foreground: '#C678DD', fontStyle: 'bold' }, // atom purple keyword
-      { token: 'identifier', foreground: '#D19A66', fontStyle: 'italic' }, // atom orange
-      { token: 'type', foreground: '#61AFEF', fontStyle: 'italic' }, // atom blue
-      { token: 'pathItem', foreground: '66afce', fontStyle: 'italic' }, // light blue
-      { token: 'operation', foreground: '66afce', fontStyle: 'underline' }, // light blue
-      { token: 'operation.httpMethod-POST', fontStyle: 'bold' },
-      { token: 'operation.httpMethod-GET', fontStyle: 'bold' },
-      { token: 'version', foreground: '#D19A66', fontStyle: 'bold' }, // atom orange
+      { token: 'info', foreground: '#1de2fa', fontStyle: 'bold' },
+      { token: 'version', foreground: '#1de2fa' },
+      { token: 'title', foreground: '#1de2fa' },
+      { token: 'openapi', foreground: '#1de2fa', fontStyle: 'bold' },
+      { token: 'specVersion', foreground: '#1de2fa' },
+      { token: 'asyncApiVersion', foreground: '#1de2fa' },
+
+      { token: 'components', foreground: '#d0d0e3', fontStyle: 'bold' },
+      { token: 'components-parameters', foreground: '#d0d0e3', fontStyle: 'bold' },
+      { token: 'components-schemas', foreground: '#d0d0e3', fontStyle: 'bold' },
+      { token: 'components-messages', foreground: '#d0d0e3', fontStyle: 'bold' },
+      { token: 'parameters', foreground: '#d0d0e3', fontStyle: 'bold' },
+      { token: 'paths', foreground: '#d0d0e3', fontStyle: 'bold' },
+      { token: 'responses', foreground: '#d0d0e3', fontStyle: 'bold' },
+      { token: 'servers', foreground: '#d0d0e3', fontStyle: 'bold' },
+      { token: 'channels', foreground: '#d0d0e3', fontStyle: 'bold' },
+
+      { token: 'openapi-reference', foreground: '#ff2328', fontStyle: 'bold' },
+      { token: 'reference', foreground: '#ff2328', fontStyle: 'bold' },
+      { token: 'Asyncapi-reference', foreground: '#ff2328', fontStyle: 'bold' },
+      { token: 'json-reference', foreground: '#ff2328', fontStyle: 'bold' },
+      { token: 'reference-element', foreground: '#ff2328', fontStyle: 'bold' },
+
+      { token: 'reference-value', foreground: '#ff2328', fontStyle: 'italic' },
+
+      { token: 'server-url', foreground: '#ceca84' },
+      { token: 'content', foreground: '#ceca84' },
+      { token: 'mediaType', foreground: '#ceca84' },
+
+      { token: 'requestBody', foreground: '#ceca84' },
+      { token: 'response', foreground: '#ceca84' },
+      { token: 'server', foreground: '#ceca84' },
+
+      { token: 'parameter', foreground: '#ceca84' },
+
+      { token: 'schema', foreground: '#ceca84', fontStyle: 'bold' },
+
+      { token: 'channelItem', foreground: '#ceca84' },
+
+      { token: 'key.string', foreground: '#e8b9bb', fontStyle: 'bold' },
+      { token: 'key.number', foreground: '#e8b9bb', fontStyle: 'bold' },
+
+      { token: 'pathItem', foreground: '#66afce', fontStyle: 'italic' }, // light blue
+
+      { token: 'operation', foreground: '#66afce', fontStyle: 'bold' },
+      { token: 'operation.httpMethod-POST', foreground: '#C678DD', fontStyle: 'bold' },
+      { token: 'operation.httpMethod-GET', foreground: '#D19A66', fontStyle: 'bold' },
+
       { token: 'value', foreground: '#98C379' }, // green
       { token: 'value.string', foreground: '#98C379' }, // green
       { token: 'value.number', foreground: '#98C379', fontStyle: 'bold' }, // green
-      // response codes, comments, colons/slashes, are interpreted as 'invalid'
-      // { token: 'comment', foreground: '5c6370', fontStyle: 'italic' }, // atom grey
-      // { token: 'identifier.version', foreground: '#D19A66', fontStyle: 'italic' }, // atom orange
-      // { token: 'parameter', foreground: '#98C379', fontStyle: 'bold' }, // green
-      // { token: 'property', foreground: '#98C379', fontStyle: 'bold' }, // green
-      // { token: 'label', foreground: '#98C379', fontStyle: 'italic' }, // green
-      // { token: 'class', foreground: '#98C379', fontStyle: 'italic' }, // green
-      // { token: 'macro', foreground: '#98C379' }, // green
-      // { token: 'operator', foreground: '#98C379' }, // green
-      // { token: 'specVersion', foreground: '#98C379' }, // green
-      // { token: 'string', foreground: '#98C379' }, // green
-      // { token: 'variable', foreground: '#98C379' }, // green
-      // { token: 'variable.declaration', foreground: '#98C379' }, // green
-      // { token: 'variable.definition', foreground: '#98C379' }, // green
-      // { token: 'variable.deprecated', foreground: '#98C379' }, // green
-      // { token: 'variable.reference', foreground: '#98C379', fontStyle: 'bold' }, // green
-      // { token: 'key', foreground: '#98C379' }, // green
-      // { token: 'key.string', foreground: '#98C379' }, // green
-      // { token: 'key.number', foreground: '#98C379', fontStyle: 'bold' }, // green
     ],
     colors: {
       'editor.background': '#282c34',

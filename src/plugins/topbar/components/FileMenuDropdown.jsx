@@ -134,6 +134,30 @@ export default class FileMenuDropdown extends Component {
     }
   };
 
+  onSaveAsJsonResolvedClick = async () => {
+    const { topbarActions } = this.props;
+    const saveResult = await topbarActions.saveAsJsonResolved();
+    if (saveResult && saveResult.error) {
+      // display the error message
+      this.setState({
+        showErrorModal: true,
+        errorMessage: saveResult.error,
+      });
+    }
+  };
+
+  onSaveAsYamlResolvedClick = async () => {
+    const { topbarActions } = this.props;
+    const saveResult = await topbarActions.saveAsYamlResolved();
+    if (saveResult && saveResult.error) {
+      // display the error message
+      this.setState({
+        showErrorModal: true,
+        errorMessage: saveResult.error,
+      });
+    }
+  };
+
   onSaveAsYamlClick = async () => {
     // ref legacy method: saveAsYaml
     const { topbarActions } = this.props;
@@ -192,13 +216,13 @@ export default class FileMenuDropdown extends Component {
   handleKeydown = (e) => {
     // console.log('handleKeydown e:', e);
     switch (e.code) {
-      case 'F5':
+      case 'F8':
         this.onLoadDefaultDefinition('oas3');
         break;
-      case 'F6':
+      case 'F7':
         this.onLoadDefaultDefinition('asyncapi2');
         break;
-      case 'F4':
+      case 'F6':
         this.onLoadDefaultDefinition('oas3_1');
         break;
       default:
@@ -261,6 +285,15 @@ export default class FileMenuDropdown extends Component {
             languageFormat={languageFormat}
             onSaveAsJsonClick={this.onSaveAsJsonClick}
             onSaveAsYamlClick={this.onSaveAsYamlClick}
+          />
+          <li role="separator" />
+          <DropdownItem
+            onClick={() => this.onSaveAsJsonResolvedClick()}
+            name="Download Resolved JSON"
+          />
+          <DropdownItem
+            onClick={() => this.onSaveAsYamlResolvedClick()}
+            name="Download Resolved YAML"
           />
           <li role="separator" />
           <DropdownItem onClick={() => this.onClearEditorClick()} name="Clear Editor" />

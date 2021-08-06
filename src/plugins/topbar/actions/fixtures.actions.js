@@ -106,7 +106,6 @@ export const mockOas3_1Spec = {
   info: {
     title: 'deref',
     version: '1.0.0',
-    description: 'deref',
   },
   servers: [
     {
@@ -191,18 +190,70 @@ export const mockOas3_1Spec = {
 export const mockAsyncapi2Spec = {
   asyncapi: '2.0.0',
   info: {
+    title: 'async',
     version: '0.1.9',
   },
   servers: {
-    prod: { url: 'https://petstore3.swagger.io/api/v3/pet' },
+    prod: {
+      url: 'http://localhost:8082/',
+      protocol: 'http',
+    },
   },
   channels: {
-    4: {
+    'user/signedup': {
       subscribe: {
         summary: 'A user signed up.',
-        message: {
-          payload: {
+        operationId: 'emitUserSignUpEvent',
+        message: [
+          {
+            $ref: '#/components/messages/UserSignedUp',
+          },
+        ],
+      },
+    },
+  },
+  components: {
+    parameters: {
+      userId: {
+        $ref: '#/components/parameters/indirection1',
+      },
+      indirection1: {
+        $ref: '#/components/parameters/indirection2',
+      },
+      indirection2: {
+        $ref: '#/components/parameters/userIdRef',
+      },
+      userIdRef: {
+        description: 'Id of the user.',
+        schema: {
+          type: 'string',
+        },
+      },
+      externalRef: {
+        $ref: './asyncex.json#/externalParameter',
+      },
+    },
+    messages: {
+      UserSignedUp: {
+        name: 'userSignedUp',
+        title: 'User signed up event',
+        summary: 'Inform about a new user',
+        contentType: 'application/json',
+        payload: {
+          $ref: '#/components/schemas/userSignedUpPayload',
+        },
+      },
+    },
+    schemas: {
+      userSignedUpPayload: {
+        type: 'object',
+        title: 'User signed up event',
+        summary: 'Inform about a new user',
+        contentType: 'application/json',
+        properties: {
+          firstName: {
             type: 'string',
+            description: 'foo',
           },
         },
       },

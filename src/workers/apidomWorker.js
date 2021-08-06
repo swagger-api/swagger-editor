@@ -84,14 +84,23 @@ export class ApidomWorker {
     return Promise.resolve(symbols);
   }
 
-  async doCodeActions(uri) {
+  async provideDefinition(uri, position) {
     const document = this._getTextDocument(uri); // call a private method
     if (!document) {
       return Promise.resolve([]);
     }
-    const diagnostics = await this._languageService.doValidation(document);
-    // console.log('worker:doCodeActions... diagnostics:', diagnostics);
-    // todo: do we have to account for !diagnostics?
+    const definitions = await this._languageService.doProvideDefinition(document, {
+      uri,
+      position,
+    });
+    return Promise.resolve(definitions);
+  }
+
+  async doCodeActions(uri, diagnostics) {
+    const document = this._getTextDocument(uri); // call a private method
+    if (!document) {
+      return Promise.resolve([]);
+    }
     const codeActions = await this._languageService.doCodeActions(document, diagnostics);
     // console.log('worker:doCodeActions... codeActions:', codeActions);
     return Promise.resolve(codeActions);

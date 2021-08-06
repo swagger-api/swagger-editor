@@ -1,3 +1,4 @@
+import * as monaco from 'monaco-editor-core';
 import { ProtocolToMonacoConverter } from 'monaco-languageclient/lib/monaco-converter';
 
 import { fromPosition } from './utils-helpers';
@@ -20,7 +21,7 @@ export default class CompletionItemsAdapter {
     let info;
     try {
       info = await worker.doComplete(uri, computedPosition, this.completionContext);
-      if (!info) {
+      if (!info || info.items.length === 0) {
         return Promise.resolve(null);
       }
     } catch (e) {
@@ -28,14 +29,14 @@ export default class CompletionItemsAdapter {
       return Promise.resolve(null);
     }
     const wordInfo = model.getWordUntilPosition(position);
-    const wordRange = new Range(
+    const wordRange = new monaco.Range(
       position.lineNumber,
       wordInfo.startColumn,
       position.lineNumber,
       wordInfo.endColumn
     );
-    const p2m = new ProtocolToMonacoConverter();
-    const result = p2m.asCompletionResult(info, wordRange);
+    const p2m = new ProtocolToMonacoConverter(monaco);
+    const result = p2m.asCompletionResult(info || null, wordRange);
     return Promise.resolve(result);
   }
 }

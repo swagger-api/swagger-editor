@@ -1,5 +1,7 @@
 /* eslint-disable class-methods-use-this */
+import * as monaco from 'monaco-editor-core';
 import { getLanguageService } from 'apidom-ls';
+import { ProtocolToMonacoConverter } from 'monaco-languageclient/lib/monaco-converter';
 
 export default class SemanticTokensAdapter {
   constructor(worker) {
@@ -37,10 +39,10 @@ export default class SemanticTokensAdapter {
     const uri = resource.toString();
     try {
       const semanticTokens = await worker.findSemanticTokens(uri);
-      // console.log('debug 1A: semanticTokens:', semanticTokens); // { data: Array(2525) }
-      return Promise.resolve(semanticTokens);
+      const p2m = new ProtocolToMonacoConverter(monaco);
+      const monacoTokens = p2m.asSemanticTokens(semanticTokens);
+      return Promise.resolve(monacoTokens);
     } catch (e) {
-      // console.log('debug 1A: semanticTokens error:', e);
       return Promise.resolve({ data: [], error: 'unable to provideDocumentSemanticTokens' });
     }
   }

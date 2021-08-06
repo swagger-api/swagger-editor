@@ -8,6 +8,7 @@ import CompletionItemsAdapter from './completionItemsAdapter';
 import SemanticTokensAdapter from './semanticTokensAdapter';
 import CodeActionsAdapter from './codeActionsAdapter';
 import DocumentSymbolsAdapter from './documentSymbolsAdapter';
+import DefinitionAdapter from './definitionAdapter';
 
 const disposeAll = (disposables) => {
   while (disposables.length) {
@@ -36,7 +37,8 @@ const registerProviders = ({ languageID, providers, worker }) => {
   providers.push(
     monaco.languages.registerDocumentSemanticTokensProvider(languageID, semanticTokens)
   );
-
+  const definitions = new DefinitionAdapter(worker);
+  providers.push(monaco.languages.registerDefinitionProvider(languageID, definitions));
   return providers;
 };
 

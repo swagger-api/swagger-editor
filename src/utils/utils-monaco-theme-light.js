@@ -1,66 +1,59 @@
 const lightThemeMap = {
-  keyword: 0,
-  comment: 7,
   parameter: 5,
-  property: 4,
-  label: 11,
-  class: 5,
-  macro: 3,
-  string: 11,
-  variable: {
-    declaration: 12,
-    definition: 12,
-    deprecated: 12,
-    reference: 13,
-  },
-  operator: 1,
-  specVersion: 7,
-  version: 4,
-  info: 5,
-  // 'operation': 0,
+  specVersion: 6,
+  version: 6,
+  info: 6,
   operation: {
-    'httpMethod-GET': 13,
-    'httpMethod-POST': 12,
+    default: 7,
+    'httpMethod-GET': 5, // light blue
+    'httpMethod-POST': 7, // light green
   },
-  pathItem: 3,
   key: {
-    string: 11,
+    string: 0,
     number: 5,
   },
   value: {
-    string: 5,
-    number: 4,
+    string: 0,
+    number: 5,
   },
-  number: 4,
+  pathItem: 13,
+  components: 9,
+  'components-parameters': 17,
+  'components-schemas': 17,
+  'components-messages': 17,
+  'openapi-reference': 9,
+  'server-url': 0,
+  'Asyncapi-reference': 9,
+  'json-reference': 9,
+  'reference-element': 7,
+  'reference-value': 13,
+  content: 5,
+  mediaType: 5,
+  openapi: 6,
+  parameters: 17,
+  paths: 17,
+  reference: 9,
+  requestBody: 12,
+  response: 12,
+  responses: 17,
+  schema: 9,
+  server: 5,
+  servers: 17,
+  title: 6,
+  asyncApiVersion: 6,
+  channelItem: 13,
+  channels: 17,
 };
 
-// TS
-// function getStyleMetadataLight(type: string, modifiers: string[]) {
-//   let color = (lightThemeMap as any)[type];
-//   if (type === "variable") {
-//     color = (lightThemeMap[type] as any)[modifiers[0]];
-//   }
-//   if (type === "operation" || type === "key" || type === "value") {
-//     color = (lightThemeMap[type] as any)[modifiers[0]];
-//   }
-//   const style = {
-//     foreground: color,
-//     bold: false,
-//     underline: false,
-//     italic: false
-//   };
-//   if (true) {
-//     return style;
-//   }
-// };
-
 export default function getStyleMetadataLight(type, modifiers) {
-  let color = lightThemeMap[type];
-  if (type === 'variable') {
-    color = lightThemeMap[type][modifiers[0]];
-  }
-  if (type === 'operation' || type === 'key' || type === 'value') {
-    color = lightThemeMap[type][modifiers[0]];
+  let color = 5;
+  if (modifiers && modifiers.length > 0) {
+    color = lightThemeMap[type][modifiers[0]] ? lightThemeMap[type][modifiers[0]] : 5;
+  } else {
+    color = lightThemeMap[type];
+    if (!color) {
+      color = lightThemeMap[type] && lightThemeMap[type].default ? lightThemeMap[type].default : 5;
+    }
   }
   const style = {
     foreground: color,
@@ -80,37 +73,57 @@ export const themes = {
     base: 'vs', // can also be vs-dark or hc-black
     inherit: true, // can also be false to completely replace the builtin rules
     rules: [
-      { token: 'keyword', foreground: '#a626a4', fontStyle: 'bold' }, // purple; e.g. externalDocs, tags, paths, swagger
-      { token: 'info', foreground: '#a626a4', fontStyle: 'bold' }, // purple keyword
-      { token: 'identifier', foreground: '#e45649', fontStyle: 'italic' }, // orange
-      { token: 'type', foreground: '#268bd2', fontStyle: 'italic' }, // blue
-      { token: 'pathItem', foreground: '268bd2', fontStyle: 'italic' }, // blue
-      { token: 'operation', foreground: '268bd2', fontStyle: 'underline' }, // blue
-      { token: 'operation.httpMethod-POST', fontStyle: 'bold' },
-      { token: 'operation.httpMethod-GET', fontStyle: 'bold' },
-      { token: 'version', foreground: '#e45649', fontStyle: 'bold' }, // orange
-      { token: 'value', foreground: '#859900' }, // green
-      { token: 'value.string', foreground: '#859900' }, // green
-      { token: 'value.number', foreground: '#859900', fontStyle: 'bold' }, // green
-      // response codes, comments, colons/slashes, are interpreted as 'invalid'
-      // { token: 'comment', foreground: '5c6370', fontStyle: 'italic' }, // atom grey
-      // { token: 'identifier.version', foreground: '#D19A66', fontStyle: 'italic' }, // atom orange
-      // { token: 'parameter', foreground: '#98C379', fontStyle: 'bold' }, // green
-      // { token: 'property', foreground: '#98C379', fontStyle: 'bold' }, // green
-      // { token: 'label', foreground: '#98C379', fontStyle: 'italic' }, // green
-      // { token: 'class', foreground: '#98C379', fontStyle: 'italic' }, // green
-      // { token: 'macro', foreground: '#98C379' }, // green
-      // { token: 'operator', foreground: '#98C379' }, // green
-      // { token: 'specVersion', foreground: '#98C379' }, // green
-      // { token: 'string', foreground: '#98C379' }, // green
-      // { token: 'variable', foreground: '#98C379' }, // green
-      // { token: 'variable.declaration', foreground: '#98C379' }, // green
-      // { token: 'variable.definition', foreground: '#98C379' }, // green
-      // { token: 'variable.deprecated', foreground: '#98C379' }, // green
-      // { token: 'variable.reference', foreground: '#98C379', fontStyle: 'bold' }, // green
-      // { token: 'key', foreground: '#98C379' }, // green
-      // { token: 'key.string', foreground: '#98C379' }, // green
-      // { token: 'key.number', foreground: '#98C379', fontStyle: 'bold' }, // green
+      { token: 'info', foreground: '#1de2fa', fontStyle: 'bold' },
+      { token: 'version', foreground: '#1de2fa' },
+      { token: 'title', foreground: '#1de2fa' },
+      { token: 'openapi', foreground: '#1de2fa', fontStyle: 'bold' },
+      { token: 'specVersion', foreground: '#1de2fa' },
+      { token: 'asyncApiVersion', foreground: '#1de2fa' },
+
+      { token: 'components', foreground: '#d0d0e3', fontStyle: 'bold' },
+      { token: 'components-parameters', foreground: '#d0d0e3', fontStyle: 'bold' },
+      { token: 'components-schemas', foreground: '#d0d0e3', fontStyle: 'bold' },
+      { token: 'components-messages', foreground: '#d0d0e3', fontStyle: 'bold' },
+      { token: 'parameters', foreground: '#d0d0e3', fontStyle: 'bold' },
+      { token: 'paths', foreground: '#d0d0e3', fontStyle: 'bold' },
+      { token: 'responses', foreground: '#d0d0e3', fontStyle: 'bold' },
+      { token: 'servers', foreground: '#d0d0e3', fontStyle: 'bold' },
+      { token: 'channels', foreground: '#d0d0e3', fontStyle: 'bold' },
+
+      { token: 'openapi-reference', foreground: '#ff2328', fontStyle: 'bold' },
+      { token: 'reference', foreground: '#ff2328', fontStyle: 'bold' },
+      { token: 'Asyncapi-reference', foreground: '#ff2328', fontStyle: 'bold' },
+      { token: 'json-reference', foreground: '#ff2328', fontStyle: 'bold' },
+      { token: 'reference-element', foreground: '#ff2328', fontStyle: 'bold' },
+
+      { token: 'reference-value', foreground: '#ff2328', fontStyle: 'italic' },
+
+      { token: 'server-url', foreground: '#ceca84' },
+      { token: 'content', foreground: '#ceca84' },
+      { token: 'mediaType', foreground: '#ceca84' },
+
+      { token: 'requestBody', foreground: '#ceca84' },
+      { token: 'response', foreground: '#ceca84' },
+      { token: 'server', foreground: '#ceca84' },
+
+      { token: 'parameter', foreground: '#ceca84' },
+
+      { token: 'schema', foreground: '#ceca84', fontStyle: 'bold' },
+
+      { token: 'channelItem', foreground: '#ceca84' },
+
+      { token: 'key.string', foreground: '#e8b9bb', fontStyle: 'bold' },
+      { token: 'key.number', foreground: '#e8b9bb', fontStyle: 'bold' },
+
+      { token: 'pathItem', foreground: '#66afce', fontStyle: 'italic' }, // light blue
+
+      { token: 'operation', foreground: '#66afce', fontStyle: 'bold' },
+      { token: 'operation.httpMethod-POST', foreground: '#C678DD', fontStyle: 'bold' },
+      { token: 'operation.httpMethod-GET', foreground: '#D19A66', fontStyle: 'bold' },
+
+      { token: 'value', foreground: '#98C379' }, // green
+      { token: 'value.string', foreground: '#98C379' }, // green
+      { token: 'value.number', foreground: '#98C379', fontStyle: 'bold' }, // green
     ],
     colors: {
       'editor.background': '#fdf6e3',

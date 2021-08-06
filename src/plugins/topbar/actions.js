@@ -7,7 +7,12 @@ export {
 
 export { importFromURL } from './actions/importUrl.actions';
 export { clearEditor } from './actions/clearEditor.actions';
-export { saveAsJson, saveAsYaml } from './actions/saveAsJsonOrYaml.actions';
+export {
+  saveAsJson,
+  saveAsYaml,
+  saveAsJsonResolved,
+  saveAsYamlResolved,
+} from './actions/saveAsJsonOrYaml.actions';
 export { convertToYaml } from './actions/convertJsonToYaml.actions';
 export { convertDefinitionToOas3 } from './actions/convertOas2ToOas3.actions';
 export { importFile as handleImportFile } from './actions/importFile.actions';
