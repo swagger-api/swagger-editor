@@ -1,7 +1,6 @@
 import expect, { createSpy } from "expect"
 import rewiremock from "rewiremock"
-import Enzyme, { shallow } from "enzyme"
-import Adapter from "@wojtekmaj/enzyme-adapter-react-17"
+import { shallow } from "enzyme"
 import React from "react"
 import FakeAce from "test/mocha/mocks/ace.js"
 import { fromJS } from "immutable"
@@ -23,9 +22,6 @@ const EVENTUALLY = 900 // ms
 
 describe("editor", function () {
   before(function () {
-    // Enzyme.configure({ adapter: new Adapter()})
-    Enzyme.configure({ adapter: new Adapter() })
-
     // Whole bunch of mocks!
     rewiremock.enable()
     rewiremock("brace/mode/yaml").with({})
