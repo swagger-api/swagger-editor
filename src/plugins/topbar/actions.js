@@ -14,7 +14,10 @@ export {
   saveAsYamlResolved,
 } from './actions/saveAsJsonOrYaml.actions';
 export { convertToYaml } from './actions/convertJsonToYaml.actions';
-export { convertDefinitionToOas3 } from './actions/convertOas2ToOas3.actions';
+export {
+  convertDefinitionToOas3,
+  allowConvertDefinitionToOas3,
+} from './actions/convertOas2ToOas3.actions';
 export { importFile as handleImportFile } from './actions/importFile.actions';
 export {
   getDefinitionLanguageFormat,

@@ -1,5 +1,6 @@
 import { defaultFixtures } from './fixtures.actions';
 import { postPerformOasConversion } from '../../../utils/utils-http';
+import { getSpecVersion } from '../../../utils/utils-getSpecVersion';
 
 // currently re-used
 const getConfigsWithDefaultFallback = (system) => {
@@ -38,4 +39,12 @@ export const convertDefinitionToOas3 = () => async (system) => {
   return { error: 'unable to convert spec to OAS3' };
 };
 
-export default { convertDefinitionToOas3 };
+export const allowConvertDefinitionToOas3 = () => async (system) => {
+  const { isSwagger2 } = getSpecVersion(system);
+  if (isSwagger2) {
+    return true;
+  }
+  return false;
+};
+
+export default { convertDefinitionToOas3, allowConvertDefinitionToOas3 };
