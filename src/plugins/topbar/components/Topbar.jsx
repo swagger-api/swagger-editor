@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import ReactModal from 'react-modal';
 
 import EditMenuDropdownHooks from './EditMenuDropdownHooks'; // getComponent incompatible with React hooks (due to nested functions?)
+import FileMenuDropdownHooks from './FileMenuDropdownHooks'; // getComponent incompatible with React hooks (due to nested functions?)
 
 // for screenreader aria-hidden
 if (process.env.NODE_ENV !== 'test') {
@@ -23,8 +24,9 @@ export default function Topbar(props) {
         <div className="topbar-wrapper">
           <LinkHome />
           <FileMenuDropdown getComponent={getComponent} topbarActions={topbarActions} />
-          <EditMenuDropdownHooks getComponent={getComponent} topbarActions={topbarActions} />
           <EditMenuDropdown getComponent={getComponent} topbarActions={topbarActions} />
+          <FileMenuDropdownHooks getComponent={getComponent} topbarActions={topbarActions} />
+          <EditMenuDropdownHooks getComponent={getComponent} topbarActions={topbarActions} />
           <GeneratorMenuDropdown getComponent={getComponent} topbarActions={topbarActions} />
         </div>
       </div>
