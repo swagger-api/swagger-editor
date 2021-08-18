@@ -86,19 +86,6 @@ describe('renders FileMenuDropdown', () => {
     // though as user, Dropdown doesn't see changes to editor or swagger-ui, or modals
   });
 
-  test('on dropdown, should be able to click on "Clear Editor', async () => {
-    const spy = jest.spyOn(topbarActions, 'clearEditor').mockImplementation();
-    const linkElement = screen.getByText(/File/i);
-    fireEvent.click(linkElement);
-
-    const buttonElement = screen.getByText('Clear Editor');
-    await waitFor(() => buttonElement);
-    expect(buttonElement).toBeInTheDocument();
-    fireEvent.click(buttonElement);
-    expect(spy).toBeCalled();
-    // topbar doesn't render editor, so no other user visible changes
-  });
-
   test('on dropdown, should render partial text: "Save (as', async () => {
     // ref: SaveAsJsonOrYaml component test for display toggle
     const linkElement = screen.getByText(/File/i);

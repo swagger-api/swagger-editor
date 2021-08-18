@@ -30,15 +30,10 @@ export default class FileMenuDropdown extends Component {
 
   componentDidMount() {
     this.getLanguageFormat();
-    document.addEventListener('keydown', this.handleKeydown, true);
   }
 
   componentDidUpdate() {
     this.shouldUpdateLanguageFormat();
-  }
-
-  componentWillUnmount() {
-    document.removeEventListener('keydown', this.handleKeydown, true);
   }
 
   getLanguageFormat = async () => {
@@ -105,19 +100,6 @@ export default class FileMenuDropdown extends Component {
         showErrorModal: true,
         errorMessage: importedData.error,
       });
-    }
-  };
-
-  onClearEditorClick = async () => {
-    // console.log('got a click for onClearEditorClick ');
-    // ref legacy method: clearEditor
-    // note: in actions, we should detect the spec
-    // todo: in monaco editor, we should handle a non-supported spec
-    // which, for now, we "clear" with a minimal supported spec
-    const { topbarActions } = this.props;
-    const clearResult = await topbarActions.clearEditor();
-    if (clearResult && clearResult.error) {
-      // should not occur
     }
   };
 
@@ -205,31 +187,6 @@ export default class FileMenuDropdown extends Component {
     });
   };
 
-  onLoadDefaultDefinition = async (language) => {
-    const { topbarActions } = this.props;
-    const loadResult = await topbarActions.loadDefaultDefinition(language);
-    if (loadResult && loadResult.error) {
-      console.log('onLoadDefaultDefinition error:', loadResult.error);
-    }
-  };
-
-  handleKeydown = (e) => {
-    // console.log('handleKeydown e:', e);
-    switch (e.code) {
-      case 'F8':
-        this.onLoadDefaultDefinition('oas3');
-        break;
-      case 'F7':
-        this.onLoadDefaultDefinition('asyncapi2');
-        break;
-      case 'F6':
-        this.onLoadDefaultDefinition('oas3_1');
-        break;
-      default:
-        break;
-    }
-  };
-
   render() {
     const { getComponent, topbarActions } = this.props;
     const DropdownMenu = getComponent('DropdownMenu');
@@ -294,25 +251,6 @@ export default class FileMenuDropdown extends Component {
           <DropdownItem
             onClick={() => this.onSaveAsYamlResolvedClick()}
             name="Download Resolved YAML"
-          />
-          <li role="separator" />
-          <DropdownItem onClick={() => this.onClearEditorClick()} name="Clear Editor" />
-          <li role="separator" />
-          <DropdownItem
-            onClick={() => this.onLoadDefaultDefinition('oas3')}
-            name="Load Default OAS3.0"
-          />
-          <DropdownItem
-            onClick={() => this.onLoadDefaultDefinition('oas3_1')}
-            name="Load Default OAS3.1"
-          />
-          <DropdownItem
-            onClick={() => this.onLoadDefaultDefinition('oas2')}
-            name="Load Default OAS2.0"
-          />
-          <DropdownItem
-            onClick={() => this.onLoadDefaultDefinition('asyncapi2')}
-            name="Load Default AsyncAPI 2.0"
           />
         </DropdownMenu>
       </div>

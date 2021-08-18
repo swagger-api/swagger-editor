@@ -26,7 +26,7 @@ describe('renders EditMenuDropdownHooks', () => {
       .spyOn(topbarActions, 'allowConvertDefinitionToOas3')
       .mockImplementation(() => true);
 
-    // renders
+    // render
     const components = {
       DropdownItem,
       DropdownMenu,
@@ -40,7 +40,7 @@ describe('renders EditMenuDropdownHooks', () => {
       />
     );
 
-    // assert
+    // act & assert
     const linkElement = screen.getByText(/hook/i);
     await waitFor(() => linkElement);
     expect(linkElement).toBeInTheDocument();
@@ -69,7 +69,7 @@ describe('renders EditMenuDropdownHooks', () => {
         return false;
       });
 
-    // renders
+    // render
     const components = {
       DropdownItem,
       DropdownMenu,
@@ -83,7 +83,7 @@ describe('renders EditMenuDropdownHooks', () => {
       />
     );
 
-    // assert
+    // act & assert
     const linkElement = screen.getByText(/hook/i);
     await waitFor(() => linkElement);
     fireEvent.click(linkElement);
@@ -120,7 +120,7 @@ describe('renders EditMenuDropdownHooks', () => {
         return true;
       });
 
-    // renders
+    // render
     const components = {
       DropdownItem,
       DropdownMenu,
@@ -134,9 +134,8 @@ describe('renders EditMenuDropdownHooks', () => {
       />
     );
 
-    // assert
+    // act & assert
     const linkElement = screen.getByText(/hook/i);
-    await waitFor(() => linkElement);
     await waitFor(() => linkElement);
     fireEvent.click(linkElement);
 
@@ -169,7 +168,7 @@ describe('renders EditMenuDropdownHooks', () => {
         return false;
       });
 
-    // renders
+    // render
     const components = {
       DropdownItem,
       DropdownMenu,
@@ -183,7 +182,7 @@ describe('renders EditMenuDropdownHooks', () => {
       />
     );
 
-    // assert
+    // act & assert
     const linkElement = screen.getByText(/hook/i);
     await waitFor(() => linkElement);
     fireEvent.click(linkElement);
@@ -216,7 +215,7 @@ describe('renders EditMenuDropdownHooks', () => {
         return false;
       });
 
-    // renders
+    // render
     const components = {
       DropdownItem,
       DropdownMenu,
@@ -230,7 +229,7 @@ describe('renders EditMenuDropdownHooks', () => {
       />
     );
 
-    // assert
+    // act & assert
     const linkElement = screen.getByText(/hook/i);
     await waitFor(() => linkElement);
     fireEvent.click(linkElement);
@@ -257,5 +256,53 @@ describe('renders EditMenuDropdownHooks', () => {
     // act useEffect to true, and assert hide
     // act useEffect to false, and assert display
     // act useEffect to true again, and assert hide
+  });
+
+  test('on dropdown, should be able to click on "Clear Editor', async () => {
+    const spy = jest.spyOn(topbarActions, 'clearEditor').mockImplementation();
+
+    const spyProp0 = jest
+      .spyOn(topbarActions, 'getDefinitionLanguageFormat')
+      .mockImplementation(() => ({
+        languageFormat: 'yaml',
+      }));
+    const spyProp1 = jest
+      .spyOn(topbarActions, 'shouldUpdateDefinitionLanguageFormat')
+      .mockImplementation(() => ({
+        languageFormat: 'yaml',
+        shouldUpdate: false,
+      }));
+    const spyProp2 = jest
+      .spyOn(topbarActions, 'allowConvertDefinitionToOas3')
+      .mockImplementation(() => true);
+
+    // render
+    const components = {
+      DropdownItem,
+      DropdownMenu,
+    };
+    render(
+      <EditMenuDropdownHooks
+        getComponent={(c) => {
+          return components[c];
+        }}
+        topbarActions={topbarActions}
+      />
+    );
+
+    // act & assert
+    const linkElement = screen.getByText(/hook/i);
+    await waitFor(() => linkElement);
+    fireEvent.click(linkElement);
+
+    const buttonElement = screen.queryByText('Clear Editor');
+    await waitFor(() => buttonElement);
+    expect(buttonElement).toBeInTheDocument();
+    fireEvent.click(buttonElement);
+
+    expect(spy).toBeCalled();
+    expect(spyProp0).toBeCalled();
+    expect(spyProp1).toBeCalled();
+    expect(spyProp2).toBeCalled();
   });
 });
