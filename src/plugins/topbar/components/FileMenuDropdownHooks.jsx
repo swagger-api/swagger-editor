@@ -1,6 +1,8 @@
+// eslint-disable-next-line no-unused-vars
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 
+import { useLanguageFormat } from './sharedHooks';
 import noop from '../../../utils/utils-noop';
 import ImportUrl from './ImportUrl';
 import ModalInputWrapper from './ModalInputWrapper';
@@ -9,36 +11,7 @@ import ModalErrorWrapper from './ModalErrorWrapper';
 
 export default function FileMenuDropdownHooks(props) {
   const { getComponent, topbarActions } = props;
-  const [languageFormat, setLanguageFormat] = useState('json');
-
-  useEffect(() => {
-    // let isMounted = true;
-    const getDefinitionLanguageFormat = async () => {
-      const result = await topbarActions.getDefinitionLanguageFormat();
-      if (result.languageFormat) {
-        setLanguageFormat(result.languageFormat);
-      }
-    };
-    // call the async/await function
-    getDefinitionLanguageFormat();
-    // cleanup on unmount
-    // return () => {
-    //   isMounted = false;
-    // };
-  }, [languageFormat, topbarActions]);
-
-  useEffect(() => {
-    const shouldUpdateDefinitionLanguageFormat = async () => {
-      const result = await topbarActions.shouldUpdateDefinitionLanguageFormat({
-        languageFormat,
-      });
-      if (result.shouldUpdate && result.languageFormat !== languageFormat) {
-        setLanguageFormat(result.languageFormat);
-      }
-    };
-    // call the async/await function
-    shouldUpdateDefinitionLanguageFormat();
-  });
+  const languageFormat = useLanguageFormat(topbarActions);
 
   const [showErrorModal, setShowErrorModal] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
