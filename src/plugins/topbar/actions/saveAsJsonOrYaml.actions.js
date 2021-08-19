@@ -73,18 +73,23 @@ export const saveAsJsonResolved = () => async (system) => {
         'Save as JSON is not currently possible because Swagger-Editor was not able to parse your API definiton.',
     };
   }
-
   const apidomContext = {
     metadata: metadata(),
   };
   const languageService = getLanguageService(apidomContext); // use apidom metadata
 
-  const doc = TextDocument.create('foo://bar/file.json', 'apidom', 0, contentToConvert);
-
-  const result = await languageService.doDeref(doc);
-
-  getFileDownload({ blob: result, filename: `${fileName}.json` });
-  return { data: 'ok' };
+  try {
+    const doc = TextDocument.create('foo://bar/file.json', 'apidom', 0, contentToConvert);
+    const result = await languageService.doDeref(doc);
+    if (!result) {
+      return { error: 'an error has occured' };
+    }
+    getFileDownload({ blob: result, filename: `${fileName}.json` });
+    return { data: 'ok' };
+  } catch (e) {
+    console.log('saveAsJsonResolved catch error:', e);
+    return { error: e.message };
+  }
 };
 
 export const saveAsYamlResolved = () => async (system) => {
@@ -119,15 +124,20 @@ export const saveAsYamlResolved = () => async (system) => {
   };
   const languageService = getLanguageService(apidomContext); // use apidom metadata
 
-  const doc = TextDocument.create('foo://bar/file.json', 'apidom', 0, contentToConvert);
-
-  const result = await languageService.doDeref(doc);
-
-  const jsContent = YAML.safeLoad(result);
-  const yamlResult = YAML.safeDump(jsContent);
-
-  getFileDownload({ blob: yamlResult, filename: `${fileName}.yaml` });
-  return { data: 'ok' };
+  try {
+    const doc = TextDocument.create('foo://bar/file.json', 'apidom', 0, contentToConvert);
+    const result = await languageService.doDeref(doc);
+    if (!result) {
+      return { error: 'an error has occured' };
+    }
+    const jsContent = YAML.safeLoad(result);
+    const yamlResult = YAML.safeDump(jsContent);
+    getFileDownload({ blob: yamlResult, filename: `${fileName}.yaml` });
+    return { data: 'ok' };
+  } catch (e) {
+    console.log('saveAsYamlResolved catch error:', e);
+    return { error: e.message };
+  }
 };
 
 export const saveAsYaml = ({ overrideWarning }) => async (system) => {
