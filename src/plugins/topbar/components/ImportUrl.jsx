@@ -8,8 +8,11 @@ export default function ImportUrl(props) {
 
   return (
     <div className="input-group">
-      <label>Enter the URL to import from</label>
+      <label htmlFor="input-import-url" aria-labelledby="input-import-url">
+        Enter the URL to import from
+      </label>
       <input
+        id="input-import-url"
         type="text"
         className="form-control"
         placeholder="type url here"

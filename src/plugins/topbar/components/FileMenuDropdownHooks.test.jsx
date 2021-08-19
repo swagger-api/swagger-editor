@@ -53,6 +53,8 @@ describe('renders FileMenuDropdownHooks', () => {
   });
 
   test('on dropdown, should be able to click on "Import URL', async () => {
+    const spy = jest.spyOn(topbarActions, 'importFromURL').mockImplementation();
+
     const spyProp0 = jest
       .spyOn(topbarActions, 'getDefinitionLanguageFormat')
       .mockImplementation(() => ({
@@ -94,8 +96,15 @@ describe('renders FileMenuDropdownHooks', () => {
     const modalElement = screen.getByText('Enter the URL to import from');
     await waitFor(() => modalElement);
     expect(modalElement).toBeInTheDocument();
-    expect(linkElement).toBeInTheDocument();
-    // we could mock user input, then click "submit"
+    // mock user input, then click "submit"
+    const inputElement = screen.getByLabelText(/Enter the URL/i);
+    fireEvent.change(inputElement, { target: { value: 'some safe url' } });
+    expect(inputElement.value).toBe('some safe url');
+    const modalButtonElement = screen.getByText('Submit');
+    await waitFor(() => modalButtonElement);
+    expect(modalButtonElement).toBeInTheDocument();
+    fireEvent.click(modalButtonElement);
+    expect(spy).toBeCalled();
     expect(spyProp0).toBeCalled();
     expect(spyProp1).toBeCalled();
   });
