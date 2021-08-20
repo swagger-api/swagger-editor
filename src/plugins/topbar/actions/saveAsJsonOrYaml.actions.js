@@ -1,6 +1,6 @@
 import YAML from 'js-yaml';
 import beautifyJson from 'json-beautify';
-import { getLanguageService } from 'apidom-ls';
+import { getLanguageService, FORMAT } from 'apidom-ls';
 import { TextDocument } from 'vscode-languageserver-textdocument'; // this is true source
 
 import {
@@ -80,7 +80,12 @@ export const saveAsJsonResolved = () => async (system) => {
 
   try {
     const doc = TextDocument.create('foo://bar/file.json', 'apidom', 0, contentToConvert);
-    const result = await languageService.doDeref(doc);
+    const context = {
+      format: FORMAT.JSON,
+      baseURI: window.location.href,
+    };
+    const result = await languageService.doDeref(doc, context);
+
     if (!result) {
       return { error: 'an error has occured' };
     }
@@ -126,7 +131,11 @@ export const saveAsYamlResolved = () => async (system) => {
 
   try {
     const doc = TextDocument.create('foo://bar/file.json', 'apidom', 0, contentToConvert);
-    const result = await languageService.doDeref(doc);
+    const context = {
+      format: FORMAT.YAML,
+      baseURI: window.location.href,
+    };
+    const result = await languageService.doDeref(doc, context);
     if (!result) {
       return { error: 'an error has occured' };
     }
