@@ -1,63 +1,74 @@
 import React from 'react';
-import { fireEvent, render, screen, waitFor } from '@testing-library/react';
+import { fireEvent, render, screen } from '@testing-library/react';
 
 import EditMenuDropdown from './EditMenuDropdown';
 import DropdownItem from './DropdownItem';
 import DropdownMenu from './DropdownMenu';
 import * as topbarActions from '../actions';
 
-// mock es6 re-exports
-jest.mock('../actions');
+jest.mock('../actions', () => ({
+  convertDefinitionToOas3: jest.fn(),
+  convertToYaml: jest.fn(),
+}));
 
-describe('renders EditMenuDropdown', () => {
-  beforeEach(() => {
-    const components = {
-      DropdownItem,
-      DropdownMenu,
-    };
+const setup = () => {
+  topbarActions.convertDefinitionToOas3.mockReturnValue(null);
+  topbarActions.convertToYaml.mockReturnValue(null);
 
-    render(
-      <EditMenuDropdown
-        getComponent={(c) => {
-          return components[c];
-        }}
-        topbarActions={topbarActions}
-      />
-    );
-  });
+  return { topbarActions };
+};
 
-  test('should include Edit as the menu description', async () => {
-    const linkElement = screen.getByText(/Edit/i);
-    expect(linkElement).toBeInTheDocument();
-  });
+const renderEditMenuDropdown = (props) => {
+  const components = {
+    DropdownMenu,
+    DropdownItem,
+  };
 
-  test('on dropdown, should be able to click on "Convert To YAML', async () => {
-    const spy = jest.spyOn(topbarActions, 'convertToYaml').mockImplementation();
+  render(
+    <EditMenuDropdown
+      getComponent={(c) => {
+        return components[c];
+      }}
+      {...props} // eslint-disable-line react/jsx-props-no-spreading
+    />
+  );
 
-    const linkElement = screen.getByText(/Edit/i);
-    fireEvent.click(linkElement);
+  const editMenu = screen.getByText(/Edit/i);
 
-    const buttonElement = screen.getByText('Convert To YAML');
-    await waitFor(() => buttonElement);
-    expect(buttonElement).toBeInTheDocument();
-    fireEvent.click(buttonElement);
-    expect(spy).toBeCalled();
-    // topbar doesn't render editor, so unlikely any other user visible changes
-    // also note, we will need to mock props when this list item is hidden
-  });
+  return {
+    editMenu,
+    clickEditMenu: () => fireEvent.click(editMenu),
+    clickEditMenuItem: (selector) => fireEvent.click(screen.getByText(selector)),
+  };
+};
 
-  test('on dropdown, should be able to click on "Convert To OpenAPI 3', async () => {
-    const spy = jest.spyOn(topbarActions, 'convertDefinitionToOas3').mockImplementation();
+afterAll(() => {
+  jest.unmock('../actions');
+});
 
-    const linkElement = screen.getByText(/Edit/i);
-    fireEvent.click(linkElement);
+test('should render', async () => {
+  const { topbarActions: actions } = setup();
+  const { editMenu } = renderEditMenuDropdown({ topbarActions: actions });
 
-    const buttonElement = screen.getByText('Convert To OpenAPI 3');
-    await waitFor(() => buttonElement);
-    expect(buttonElement).toBeInTheDocument();
-    fireEvent.click(buttonElement);
-    expect(spy).toBeCalled();
-    // topbar doesn't render editor, so unlikely any other user visible changes
-    // also note, we will need to mock props when this list item is hidden
-  });
+  expect(editMenu).toBeInTheDocument();
+});
+
+test('should convert to YAML', async () => {
+  const { topbarActions: actions } = setup();
+  const { clickEditMenu, clickEditMenuItem } = renderEditMenuDropdown({ topbarActions: actions });
+
+  clickEditMenu();
+  clickEditMenuItem('Convert To YAML');
+
+  expect(topbarActions.convertToYaml).toBeCalled();
+});
+
+test('should convert to OpenAPI 3', async () => {
+  const { topbarActions: actions } = setup();
+  const { clickEditMenu, clickEditMenuItem } = renderEditMenuDropdown({ topbarActions: actions });
+
+  clickEditMenu();
+  clickEditMenuItem('Convert To OpenAPI 3');
+
+  expect(topbarActions.convertDefinitionToOas3).toBeCalled();
 });
