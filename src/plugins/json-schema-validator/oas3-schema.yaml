@@ -1,6 +1,6 @@
 ---
-id: https://spec.openapis.org/oas/3.0/schema/2019-04-02
-"$schema": http://json-schema.org/draft-04/schema#
+id: https://spec.openapis.org/oas/3.0/schema/2020-02-25
+$schema: http://json-schema.org/draft-04/schema#
 description: Validation schema for OpenAPI Specification 3.0.X.
 type: object
 required:
@@ -27,9 +27,9 @@ properties:
     type: array
     items:
       $ref: "#/definitions/Tag"
-    ### disabled, see 
-    ### test/unit/plugins/json-schema-validator/test-documents/tag-object-uniqueness.yaml 
-    # uniqueItems: true 
+    ### disabled, see
+    ### test/unit/plugins/json-schema-validator/test-documents/tag-object-uniqueness.yaml
+    # uniqueItems: true
   paths:
     $ref: "#/definitions/Paths"
   components:
@@ -284,7 +284,7 @@ definitions:
           type: string
         minItems: 1
         uniqueItems: true
-        errorMessage: 
+        errorMessage:
           type: "should be an array of property names required within an object schema"
       enum:
         type: array
@@ -364,11 +364,11 @@ definitions:
             required: [$ref]
           then:
             $ref: "#/definitions/Reference"
-        - if: 
+        - if:
             type: object
           then:
             $ref: "#/definitions/Schema"
-        - then: 
+        - then:
             type: boolean
             errorMessage: "should be a Reference Object, Schema Object, or boolean value"
       description:
@@ -675,7 +675,7 @@ definitions:
             $ref: "#/definitions/Response"
     patternProperties:
       "^[1-5](?:\\d{2}|XX)$":
-        switch: 
+        switch:
         - if:
             required: [$ref]
           then:
@@ -739,7 +739,7 @@ definitions:
     description: Schema and content are mutually exclusive, at least one is required
     switch:
     - if:
-        # fails mutual exclusion of `schema` and `content` 
+        # fails mutual exclusion of `schema` and `content`
         required:
         - schema
         - content
@@ -1070,7 +1070,8 @@ definitions:
   PasswordOAuthFlow:
     type: object
     required:
-    - tokenUrl
+      - tokenUrl
+      - scopes
     properties:
       tokenUrl:
         type: string
@@ -1088,7 +1089,8 @@ definitions:
   ClientCredentialsFlow:
     type: object
     required:
-    - tokenUrl
+      - tokenUrl
+      - scopes
     properties:
       tokenUrl:
         type: string
@@ -1106,8 +1108,9 @@ definitions:
   AuthorizationCodeOAuthFlow:
     type: object
     required:
-    - authorizationUrl
-    - tokenUrl
+      - authorizationUrl
+      - tokenUrl
+      - scopes
     properties:
       authorizationUrl:
         type: string
