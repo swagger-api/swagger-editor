@@ -6,242 +6,166 @@ import DropdownItem from './DropdownItem';
 import DropdownMenu from './DropdownMenu';
 import * as topbarActions from '../actions';
 
-// mock es6 re-exports
-jest.mock('../actions');
+jest.mock('../actions', () => ({
+  convertDefinitionToOas3: jest.fn(),
+  convertToYaml: jest.fn(),
+  clearEditor: jest.fn(),
+  allowConvertDefinitionToOas3: jest.fn(),
+  getDefinitionLanguageFormat: jest.fn(),
+  shouldUpdateDefinitionLanguageFormat: jest.fn(),
+}));
 
-describe('renders EditMenuDropdownHooks', () => {
-  test('should include Edit as the menu description', async () => {
-    const spyProp0 = jest
-      .spyOn(topbarActions, 'getDefinitionLanguageFormat')
-      .mockImplementation(() => ({
-        languageFormat: 'yaml',
-      }));
-    const spyProp1 = jest
-      .spyOn(topbarActions, 'shouldUpdateDefinitionLanguageFormat')
-      .mockImplementation(() => ({
-        languageFormat: 'yaml',
-        shouldUpdate: false,
-      }));
-    const spyProp2 = jest
-      .spyOn(topbarActions, 'allowConvertDefinitionToOas3')
-      .mockImplementation(() => true);
+const setup = ({ languageFormat, shouldUpdate, allowConvertDefinitionToOas3 } = {}) => {
+  topbarActions.convertDefinitionToOas3.mockReturnValue(null);
+  topbarActions.convertToYaml.mockReturnValue(null);
+  topbarActions.clearEditor.mockReturnValue(null);
 
-    // render
-    const components = {
-      DropdownItem,
-      DropdownMenu,
-    };
-    render(
-      <EditMenuDropdownHooks
-        getComponent={(c) => {
-          return components[c];
-        }}
-        topbarActions={topbarActions}
-      />
-    );
-
-    // act & assert
-    const linkElement = screen.getByText(/hook/i);
-    await waitFor(() => linkElement);
-    expect(linkElement).toBeInTheDocument();
-    expect(spyProp0).toBeCalled();
-    expect(spyProp1).toBeCalled();
-    expect(spyProp2).toBeCalled();
+  topbarActions.allowConvertDefinitionToOas3.mockReturnValue(allowConvertDefinitionToOas3 || false);
+  topbarActions.getDefinitionLanguageFormat.mockReturnValue({
+    languageFormat: languageFormat || 'yaml',
+  });
+  topbarActions.shouldUpdateDefinitionLanguageFormat.mockReturnValue({
+    languageFormat: languageFormat || 'yaml',
+    shouldUpdate: shouldUpdate || false,
   });
 
-  test('on dropdown, when json, should be able to click on "Convert To YAML', async () => {
-    const spy = jest.spyOn(topbarActions, 'convertToYaml').mockImplementation();
+  return { topbarActions };
+};
 
-    const spyProp0 = jest
-      .spyOn(topbarActions, 'getDefinitionLanguageFormat')
-      .mockImplementation(() => ({ languageFormat: 'json' }));
+const renderEditMenuDropdown = async (props) => {
+  const components = {
+    DropdownMenu,
+    DropdownItem,
+  };
 
-    const spyProp1 = jest
-      .spyOn(topbarActions, 'shouldUpdateDefinitionLanguageFormat')
-      .mockImplementation(() => ({
-        languageFormat: 'json',
-        shouldUpdate: true,
-      }));
+  render(
+    <EditMenuDropdownHooks
+      getComponent={(c) => {
+        return components[c];
+      }}
+      {...props} // eslint-disable-line react/jsx-props-no-spreading
+    />
+  );
 
-    const spyProp2 = jest
-      .spyOn(topbarActions, 'allowConvertDefinitionToOas3')
-      .mockImplementation(() => {
+  await waitFor(() => expect(topbarActions.allowConvertDefinitionToOas3).toBeCalled());
+  await waitFor(() => expect(topbarActions.getDefinitionLanguageFormat).toBeCalled());
+  await waitFor(() => expect(topbarActions.shouldUpdateDefinitionLanguageFormat).toBeCalled());
+  const editMenu = screen.getByText(/hook/i);
+
+  return {
+    editMenu,
+    clickEditMenu: () => fireEvent.click(editMenu),
+    clickEditMenuItem: (selector) => fireEvent.click(screen.getByText(selector)),
+    hasMenuItem: (selector) => {
+      const item = screen.queryByText(selector, { exact: false });
+      if (!item) {
         return false;
-      });
+      }
+      return true;
+    },
+  };
+};
 
-    // render
-    const components = {
-      DropdownItem,
-      DropdownMenu,
-    };
-    render(
-      <EditMenuDropdownHooks
-        getComponent={(c) => {
-          return components[c];
-        }}
-        topbarActions={topbarActions}
-      />
-    );
+afterAll(() => {
+  jest.unmock('../actions');
+});
 
-    // act & assert
-    const linkElement = screen.getByText(/hook/i);
-    await waitFor(() => linkElement);
-    fireEvent.click(linkElement);
+test('should render', async () => {
+  const { topbarActions: actions } = setup({
+    languageFormat: 'json',
+    shouldUpdate: false,
+    allowConvertDefinitionToOas3: true,
+  });
+  const { editMenu } = await renderEditMenuDropdown({ topbarActions: actions });
 
-    const buttonElement = screen.getByText('Convert To YAML');
-    await waitFor(() => buttonElement);
-    expect(buttonElement).toBeInTheDocument();
-    fireEvent.click(buttonElement);
-    expect(spy).toBeCalled();
-    expect(spyProp0).toBeCalled();
-    expect(spyProp1).toBeCalled();
-    expect(spyProp2).toBeCalled();
+  expect(editMenu).toBeInTheDocument();
+});
+
+test('should Clear Editor', async () => {
+  const { topbarActions: actions } = setup({
+    languageFormat: 'json',
+    shouldUpdate: false,
+    allowConvertDefinitionToOas3: true,
+  });
+  const { clickEditMenu, clickEditMenuItem } = await renderEditMenuDropdown({
+    topbarActions: actions,
   });
 
-  test('on dropdown, when oas2, should be able to click on "Convert To OpenAPI 3', async () => {
-    const spy = jest.spyOn(topbarActions, 'convertDefinitionToOas3').mockImplementation();
+  clickEditMenu();
+  clickEditMenuItem('Clear Editor');
 
-    const spyProp0 = jest
-      .spyOn(topbarActions, 'getDefinitionLanguageFormat')
-      .mockImplementation(() => ({
-        languageFormat: 'yaml',
-      }));
+  expect(topbarActions.clearEditor).toBeCalled();
+});
 
-    const spyProp1 = jest
-      .spyOn(topbarActions, 'shouldUpdateDefinitionLanguageFormat')
-      .mockImplementation(() => ({
-        languageFormat: 'yaml',
-        shouldUpdate: false,
-      }));
+describe('when json', () => {
+  test('should convert to YAML', async () => {
+    const { topbarActions: actions } = setup({
+      languageFormat: 'json',
+      shouldUpdate: false,
+      allowConvertDefinitionToOas3: true,
+    });
+    const { clickEditMenu, clickEditMenuItem } = await renderEditMenuDropdown({
+      topbarActions: actions,
+    });
 
-    const spyProp2 = jest
-      .spyOn(topbarActions, 'allowConvertDefinitionToOas3')
-      .mockImplementation(() => {
-        return true;
-      });
+    clickEditMenu();
+    clickEditMenuItem('Convert To YAML');
 
-    // render
-    const components = {
-      DropdownItem,
-      DropdownMenu,
-    };
-    render(
-      <EditMenuDropdownHooks
-        getComponent={(c) => {
-          return components[c];
-        }}
-        topbarActions={topbarActions}
-      />
-    );
-
-    // act & assert
-    const linkElement = screen.getByText(/hook/i);
-    await waitFor(() => linkElement);
-    fireEvent.click(linkElement);
-
-    const buttonElement = screen.getByText('Convert To OpenAPI 3');
-    await waitFor(() => buttonElement);
-    expect(buttonElement).toBeInTheDocument();
-    fireEvent.click(buttonElement);
-    expect(spy).toBeCalled();
-    expect(spyProp0).toBeCalled();
-    expect(spyProp1).toBeCalled();
-    expect(spyProp2).toBeCalled();
+    expect(topbarActions.convertToYaml).toBeCalled();
   });
+});
 
-  // Section: The "negatives", e.g. should not display menu element
-  test('on dropdown, when yaml, should NOT be able to click on "Convert To YAML', async () => {
-    const spyProp0 = jest
-      .spyOn(topbarActions, 'getDefinitionLanguageFormat')
-      .mockImplementation(() => ({ languageFormat: 'yaml' }));
+describe('when yaml', () => {
+  test('should NOT render menu item to convert to YAML', async () => {
+    const { topbarActions: actions } = setup({
+      languageFormat: 'yaml',
+      shouldUpdate: true,
+      allowConvertDefinitionToOas3: true,
+    });
+    const { clickEditMenu, hasMenuItem } = await renderEditMenuDropdown({ topbarActions: actions });
 
-    const spyProp1 = jest
-      .spyOn(topbarActions, 'shouldUpdateDefinitionLanguageFormat')
-      .mockImplementation(() => ({
-        languageFormat: 'yaml',
-        shouldUpdate: false,
-      }));
+    clickEditMenu();
+    const elementExists = hasMenuItem('Convert To YAML');
 
-    const spyProp2 = jest
-      .spyOn(topbarActions, 'allowConvertDefinitionToOas3')
-      .mockImplementation(() => {
-        return false;
-      });
-
-    // render
-    const components = {
-      DropdownItem,
-      DropdownMenu,
-    };
-    render(
-      <EditMenuDropdownHooks
-        getComponent={(c) => {
-          return components[c];
-        }}
-        topbarActions={topbarActions}
-      />
-    );
-
-    // act & assert
-    const linkElement = screen.getByText(/hook/i);
-    await waitFor(() => linkElement);
-    fireEvent.click(linkElement);
-
-    const buttonElement = screen.queryByText('Convert To YAML');
-    await waitFor(() => buttonElement);
-    expect(buttonElement).not.toBeInTheDocument();
-    expect(spyProp0).toBeCalled();
-    expect(spyProp1).toBeCalled();
-    expect(spyProp2).toBeCalled();
+    expect(elementExists).toBe(false);
   });
+});
 
-  test('on dropdown, if not oas2, should NOT be able to click on "Convert To OpenAPI 3', async () => {
-    const spyProp0 = jest
-      .spyOn(topbarActions, 'getDefinitionLanguageFormat')
-      .mockImplementation(() => ({
-        languageFormat: 'yaml',
-      }));
+describe('when oas2', () => {
+  test('should convert to OpenAPI 3', async () => {
+    const { topbarActions: actions } = setup({
+      languageFormat: 'json',
+      shouldUpdate: false,
+      allowConvertDefinitionToOas3: true,
+    });
+    const { clickEditMenu, clickEditMenuItem } = await renderEditMenuDropdown({
+      topbarActions: actions,
+    });
 
-    const spyProp1 = jest
-      .spyOn(topbarActions, 'shouldUpdateDefinitionLanguageFormat')
-      .mockImplementation(() => ({
-        languageFormat: 'yaml',
-        shouldUpdate: false,
-      }));
+    clickEditMenu();
+    clickEditMenuItem('Convert To OpenAPI 3');
 
-    const spyProp2 = jest
-      .spyOn(topbarActions, 'allowConvertDefinitionToOas3')
-      .mockImplementation(() => {
-        return false;
-      });
-
-    // render
-    const components = {
-      DropdownItem,
-      DropdownMenu,
-    };
-    render(
-      <EditMenuDropdownHooks
-        getComponent={(c) => {
-          return components[c];
-        }}
-        topbarActions={topbarActions}
-      />
-    );
-
-    // act & assert
-    const linkElement = screen.getByText(/hook/i);
-    await waitFor(() => linkElement);
-    fireEvent.click(linkElement);
-
-    const buttonElement = screen.queryByText('Convert To OpenAPI 3');
-    await waitFor(() => buttonElement);
-    expect(buttonElement).not.toBeInTheDocument();
-    expect(spyProp0).toBeCalled();
-    expect(spyProp1).toBeCalled();
-    expect(spyProp2).toBeCalled();
+    expect(topbarActions.convertDefinitionToOas3).toBeCalled();
   });
+});
 
+describe('when not oas2', () => {
+  test('should NOT render menu item to convert to OpenAPI 3', async () => {
+    const { topbarActions: actions } = setup({
+      languageFormat: 'json',
+      shouldUpdate: false,
+      allowConvertDefinitionToOas3: false,
+    });
+    const { clickEditMenu, hasMenuItem } = await renderEditMenuDropdown({ topbarActions: actions });
+
+    clickEditMenu();
+    const elementExists = hasMenuItem('Convert To OpenAPI 3');
+
+    expect(elementExists).toBe(false);
+  });
+});
+
+describe.skip('NYI: toggling e2e', () => {
   // todo: display repeated toggle of state
   test.skip('hook should toggle/revert display of "Convert To OpenAPI 3', async () => {
     // we should just test/assert the hook for current value,
@@ -256,53 +180,5 @@ describe('renders EditMenuDropdownHooks', () => {
     // act useEffect to true, and assert hide
     // act useEffect to false, and assert display
     // act useEffect to true again, and assert hide
-  });
-
-  test('on dropdown, should be able to click on "Clear Editor', async () => {
-    const spy = jest.spyOn(topbarActions, 'clearEditor').mockImplementation();
-
-    const spyProp0 = jest
-      .spyOn(topbarActions, 'getDefinitionLanguageFormat')
-      .mockImplementation(() => ({
-        languageFormat: 'yaml',
-      }));
-    const spyProp1 = jest
-      .spyOn(topbarActions, 'shouldUpdateDefinitionLanguageFormat')
-      .mockImplementation(() => ({
-        languageFormat: 'yaml',
-        shouldUpdate: false,
-      }));
-    const spyProp2 = jest
-      .spyOn(topbarActions, 'allowConvertDefinitionToOas3')
-      .mockImplementation(() => true);
-
-    // render
-    const components = {
-      DropdownItem,
-      DropdownMenu,
-    };
-    render(
-      <EditMenuDropdownHooks
-        getComponent={(c) => {
-          return components[c];
-        }}
-        topbarActions={topbarActions}
-      />
-    );
-
-    // act & assert
-    const linkElement = screen.getByText(/hook/i);
-    await waitFor(() => linkElement);
-    fireEvent.click(linkElement);
-
-    const buttonElement = screen.queryByText('Clear Editor');
-    await waitFor(() => buttonElement);
-    expect(buttonElement).toBeInTheDocument();
-    fireEvent.click(buttonElement);
-
-    expect(spy).toBeCalled();
-    expect(spyProp0).toBeCalled();
-    expect(spyProp1).toBeCalled();
-    expect(spyProp2).toBeCalled();
   });
 });
