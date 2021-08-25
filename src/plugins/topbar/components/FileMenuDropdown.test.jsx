@@ -10,104 +10,138 @@ import SaveAsJsonOrYaml from './SaveAsJsonOrYaml';
 import * as topbarActions from '../actions';
 
 ReactModal.setAppElement('*'); // suppresses modal-related test warnings.
-// mock es6 re-exports
-jest.mock('../actions');
 
-describe('renders FileMenuDropdown', () => {
-  beforeEach(() => {
-    // These two spies are needed to render the FileMenuDropdown component
-    // Note that mocking these two spies does not cause state change in test
-    // eslint-disable-next-line no-unused-vars
-    const spyLanguageFormat = jest
-      .spyOn(topbarActions, 'getDefinitionLanguageFormat')
-      .mockImplementation(() => ({
-        languageFormat: 'yaml',
-      }));
-    // eslint-disable-next-line no-unused-vars
-    const spyShouldUpdateLanguageFormat = jest
-      .spyOn(topbarActions, 'shouldUpdateDefinitionLanguageFormat')
-      .mockImplementation(() => ({
-        languageFormat: 'yaml',
-        shouldUpdate: false,
-      }));
+jest.mock('../actions', () => ({
+  getDefinitionLanguageFormat: jest.fn(),
+  shouldUpdateDefinitionLanguageFormat: jest.fn(),
+  handleImportFile: jest.fn(),
+  // importFromURL: jest.fn(),
+}));
 
-    const components = {
-      DropdownItem,
-      DropdownMenu,
-      ImportFileDropdownItem,
-      SaveAsJsonOrYaml,
-    };
-
-    render(
-      <FileMenuDropdown
-        getComponent={(c) => {
-          return components[c];
-        }}
-        topbarActions={topbarActions}
-      />
-    );
+const setup = ({ languageFormat, shouldUpdate } = {}) => {
+  topbarActions.getDefinitionLanguageFormat.mockReturnValue({
+    languageFormat: languageFormat || 'yaml',
   });
-
-  test('should include File as the menu description', async () => {
-    const linkElement = screen.getByText(/File/i);
-    expect(linkElement).toBeInTheDocument();
+  topbarActions.shouldUpdateDefinitionLanguageFormat.mockReturnValue({
+    languageFormat: languageFormat || 'yaml',
+    shouldUpdate: shouldUpdate || false,
   });
+  topbarActions.handleImportFile.mockReturnValue(null);
+  // topbarActions.importFromURL.mockReturnValue(null);
 
-  test('on dropdown, should be able to click on "Import URL', async () => {
-    // only call spy if user input in prompt/modal is mocked
-    // const spy = jest.spyOn(topbarActions, 'importFromURL').mockImplementation();
-    const linkElement = screen.getByText(/File/i);
-    fireEvent.click(linkElement);
+  return { topbarActions };
+};
 
-    const buttonElement = screen.getByText('Import URL');
-    await waitFor(() => buttonElement);
-    expect(buttonElement).toBeInTheDocument();
-    fireEvent.click(buttonElement);
+const renderFileMenuDropdown = (props) => {
+  const components = {
+    DropdownMenu,
+    DropdownItem,
+    ImportFileDropdownItem,
+    SaveAsJsonOrYaml,
+  };
 
-    const modalElement = screen.getByText('Enter the URL to import from');
-    await waitFor(() => modalElement);
-    expect(modalElement).toBeInTheDocument();
+  render(
+    <FileMenuDropdown
+      getComponent={(c) => {
+        return components[c];
+      }}
+      {...props} // eslint-disable-line react/jsx-props-no-spreading
+    />
+  );
 
-    // we could mock user input, then click "submit"
-    // expect(spy).toBeCalled();
-  });
+  const fileMenu = screen.getByText(/File/i);
+  const buttonSaveAs = screen.queryByText(/Save \(as/i);
+  const buttonConvert = screen.queryByText(/Convert and save as/);
 
-  test('on dropdown, should be able to click on "Import File', async () => {
-    const linkElement = screen.getByText(/File/i);
-    fireEvent.click(linkElement);
+  return {
+    fileMenu,
+    buttonSaveAs,
+    buttonConvert,
+    clickFileMenu: () => fireEvent.click(fileMenu),
+    clickFileMenuItem: (selector) => fireEvent.click(screen.getByText(selector)),
+    hasButtonElement: (selector) => {
+      const item = screen.queryByText(selector, { exact: false });
+      if (!item) {
+        return false;
+      }
+      return true;
+    },
+  };
+};
 
-    const buttonElement = screen.getByText('Import File');
-    await waitFor(() => buttonElement);
-    expect(buttonElement).toBeInTheDocument();
-    fireEvent.click(buttonElement);
-    // we may be able to check that the file dialog box opens
-    // then we could define a file to upload with "userEvent.upload",
-    // then we could mock topbarActions, to check calls.length
-    // though as user, Dropdown doesn't see changes to editor or swagger-ui, or modals
-  });
-
-  test('on dropdown, should render partial text: "Save (as', async () => {
-    // ref: SaveAsJsonOrYaml component test for display toggle
-    const linkElement = screen.getByText(/File/i);
-    fireEvent.click(linkElement);
-
-    const buttonElement = screen.getByText(/Save \(as/);
-    await waitFor(() => buttonElement);
-    expect(buttonElement).toBeInTheDocument();
-  });
-
-  test('on dropdown, should rener partial text: "Convert and save as', async () => {
-    // ref: SaveAsJsonOrYaml component test for display toggle
-    const linkElement = screen.getByText(/File/i);
-    fireEvent.click(linkElement);
-
-    const buttonElement = screen.getByText(/Convert and save as/);
-    await waitFor(() => buttonElement);
-    expect(buttonElement).toBeInTheDocument();
-  });
+afterAll(() => {
+  jest.unmock('../actions');
 });
 
-describe.skip('importUrl e2e', () => {
+test('should render', async () => {
+  const { topbarActions: actions } = setup({
+    languageFormat: 'json',
+    shouldUpdateDefinitionLanguageFormat: false,
+  });
+  const { fileMenu } = renderFileMenuDropdown({ topbarActions: actions });
+
+  expect(fileMenu).toBeInTheDocument();
+});
+
+test('should be able to click on "Import URL', async () => {
+  const { topbarActions: actions } = setup({
+    languageFormat: 'json',
+    shouldUpdateDefinitionLanguageFormat: false,
+  });
+  const { clickFileMenu, clickFileMenuItem } = renderFileMenuDropdown({ topbarActions: actions });
+
+  clickFileMenu();
+  clickFileMenuItem('Import URL');
+
+  const modalElement = screen.getByText('Enter the URL to import from');
+  await waitFor(() => modalElement);
+
+  expect(modalElement).toBeInTheDocument();
+  // we then could also mock user input, then click "submit"
+  // expect(topbarActions.importFromURL).toBeCalled();
+});
+
+test('should be able to click on "Import File', async () => {
+  const { topbarActions: actions } = setup({
+    languageFormat: 'json',
+    shouldUpdateDefinitionLanguageFormat: false,
+  });
+  const { clickFileMenu, clickFileMenuItem } = renderFileMenuDropdown({ topbarActions: actions });
+
+  clickFileMenu();
+  clickFileMenuItem('Import File');
+
+  // only asserting that method to open file dialog box was called
+  expect(topbarActions.handleImportFile).toBeCalled();
+});
+
+test('should render partial text: "Save (as', async () => {
+  const { topbarActions: actions } = setup({
+    languageFormat: 'json',
+    shouldUpdateDefinitionLanguageFormat: false,
+  });
+  const { clickFileMenu, hasButtonElement } = renderFileMenuDropdown({ topbarActions: actions });
+
+  clickFileMenu();
+  const elementExists = hasButtonElement('Save (as');
+
+  expect(elementExists).toBe(true);
+});
+
+test('should render partial text: "Convert and save as', async () => {
+  const { topbarActions: actions } = setup({
+    languageFormat: 'json',
+    shouldUpdateDefinitionLanguageFormat: false,
+  });
+  const { clickFileMenu, hasButtonElement } = renderFileMenuDropdown({ topbarActions: actions });
+
+  clickFileMenu();
+  const elementExists = hasButtonElement('Convert and save as');
+
+  expect(elementExists).toBe(true);
+});
+
+describe.skip('NYI: importUrl e2e', () => {
   // todo: refactor descriptions once implemented
   // ref: importedData.data/importedData.error are references within component
   // todo: could also implement equivalent topbarActions.importFromURL unit tests
