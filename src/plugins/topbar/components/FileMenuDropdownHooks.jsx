@@ -1,9 +1,8 @@
-// eslint-disable-next-line no-unused-vars
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 
-import { useLanguageFormat } from './sharedHooks';
-import noop from '../../../utils/utils-noop';
+import { useLanguageFormat } from './shared-hooks';
+import noop from '../../../utils/common-noop';
 import ImportUrl from './ImportUrl';
 import ModalInputWrapper from './ModalInputWrapper';
 import ModalConfirmWrapper from './ModalConfirmWrapper';
@@ -18,9 +17,8 @@ export default function FileMenuDropdownHooks(props) {
   const [showConfirmModal, setShowConfirmModal] = useState(false);
   const [confirmMessage, setConfirmMessage] = useState('');
 
-  const onSaveAsJsonClick = () => {
+  const handleSaveAsJsonClick = () => {
     async function saveAsJson() {
-      // todo: see note from onSaveAsYamlClick on error of following method
       // const saveResult = await topbarActions.saveAsJsonResolved();
       const saveResult = await topbarActions.saveAsJson();
       if (saveResult && saveResult.error) {
@@ -33,12 +31,8 @@ export default function FileMenuDropdownHooks(props) {
     saveAsJson();
   };
 
-  const onSaveAsYamlClick = () => {
+  const handleSaveAsYamlClick = () => {
     async function saveAsYaml() {
-      // to reproduce, just use the oas3.0.2 default loaded definition
-      // this error crashes react-dev. refer to screenshot on dereference. note the "new throw"
-      // todo: the `saveAsYamlResolved` probably needs a try/catch, to fix the following error:
-      // Uncaught(in promise) DereferenceError: Error while dereferencing file "/api/v3"
       // const saveResult = await topbarActions.saveAsYamlResolved({ overrideWarning: false });
       const saveResult = await topbarActions.saveAsYaml({ overrideWarning: false });
       if (saveResult && saveResult.warning) {
@@ -60,13 +54,11 @@ export default function FileMenuDropdownHooks(props) {
     saveAsYaml();
   };
 
-  const onSaveAsYamlWithOverride = () => {
+  const handleSaveAsYamlWithOverride = () => {
     async function saveAsYaml() {
-      // todo: see note from onSaveAsYamlClick on error of following method
       // const saveResult = await topbarActions.saveAsYamlResolved({ overrideWarning: false });
       const saveResult = await topbarActions.saveAsYaml({ overrideWarning: true });
       if (saveResult && saveResult.error) {
-        // console.log('saveResult', saveResult);
         // set & display the error message
         if (saveResult.payload.message) {
           // we can get this error message if we forgot the 'overrideWarning" option above
@@ -83,15 +75,54 @@ export default function FileMenuDropdownHooks(props) {
     saveAsYaml();
   };
 
+  const handleSaveAsJsonResolvedClick = () => {
+    // Todo: add a test? or is this dev-only?
+    async function saveAsJson() {
+      const saveResult = await topbarActions.saveAsJsonResolved();
+      // const saveResult = await topbarActions.saveAsJson();
+      if (saveResult && saveResult.error) {
+        // set & display the error message
+        setErrorMessage(saveResult.error); // original non-resolved
+        setShowErrorModal(true);
+      }
+    }
+    // call the async/await function
+    saveAsJson();
+  };
+
+  const handleSaveAsYamlResolvedClick = () => {
+    // Todo: add a test? or is this dev-only?
+    async function saveAsYaml() {
+      const saveResult = await topbarActions.saveAsYamlResolved({ overrideWarning: false });
+      // const saveResult = await topbarActions.saveAsYaml({ overrideWarning: false });
+      if (saveResult && saveResult.warning) {
+        setShowConfirmModal(true);
+        setConfirmMessage(saveResult.warning);
+      }
+      if (saveResult && saveResult.error) {
+        // set & display the error message
+        if (saveResult.payload.message) {
+          // we can get this error message if we forgot the 'overrideWarning" option above
+          setErrorMessage(saveResult.payload.message);
+        } else if (saveResult.error) {
+          setErrorMessage(saveResult.error);
+        }
+        setShowErrorModal(true);
+      }
+    }
+    // call the async/await function
+    saveAsYaml();
+  };
+
   const [showImportUrlModal, setShowImportUrlModal] = useState(false);
   const [importUrlString, setImportUrlString] = useState('');
 
-  const onImportUrlClick = () => {
-    // ref legacy method: importFromURL
+  const handleImportUrlClick = () => {
     setImportUrlString('');
     setShowImportUrlModal(true);
   };
-  const onImportUrlChange = (e) => {
+
+  const handleImportUrlChange = (e) => {
     setImportUrlString(e.target.value);
   };
 
@@ -110,7 +141,7 @@ export default function FileMenuDropdownHooks(props) {
     importFromURL({ url: importUrlString });
   };
 
-  const onSubmitImportUrl = () => {
+  const handleSubmitImportUrl = () => {
     // todo refactor: we should send importUrlString through a safety check
     if (importUrlString) {
       handleImportFromURL(importUrlString);
@@ -118,7 +149,7 @@ export default function FileMenuDropdownHooks(props) {
     setShowImportUrlModal(false);
   };
 
-  const closeModalClick = (showModalProperty) => () => {
+  const handleCloseModalClick = (showModalProperty) => () => {
     if (showModalProperty === 'showErrorModal') {
       setShowErrorModal(false);
     }
@@ -141,38 +172,47 @@ export default function FileMenuDropdownHooks(props) {
         isOpen={showErrorModal}
         contentLabel="Error Message"
         modalTitle="Uh oh, an error has occured"
-        closeModalClick={closeModalClick('showErrorModal')}
-        cancelModalClick={closeModalClick('showErrorModal')}
-        submitModalClick={() => noop}
+        onCloseModalClick={handleCloseModalClick('showErrorModal')}
+        onCancelModalClick={handleCloseModalClick('showErrorModal')}
+        onSubmitModalClick={() => noop}
         modalBodyContent={errorMessage}
       />
       <ModalConfirmWrapper
         isOpen={showConfirmModal}
         contentLabel="Confirm"
         modalTitle="Please Confirm"
-        closeModalClick={closeModalClick('showConfirmModal')}
-        cancelModalClick={closeModalClick('showConfirmModal')}
-        submitModalClick={() => onSaveAsYamlWithOverride()}
+        onCloseModalClick={handleCloseModalClick('showConfirmModal')}
+        onCancelModalClick={handleCloseModalClick('showConfirmModal')}
+        onSubmitModalClick={() => handleSaveAsYamlWithOverride()}
         modalBodyContent={confirmMessage}
       />
       <ModalInputWrapper
         isOpen={showImportUrlModal}
         contentLabel="Import URL"
         modalTitle="Import URL"
-        closeModalClick={closeModalClick('showImportUrlModal')}
-        cancelModalClick={closeModalClick('showImportUrlModal')}
-        submitModalClick={() => onSubmitImportUrl()}
-        modalBodyContent={<ImportUrl onImportUrlChange={onImportUrlChange} />}
+        onCloseModalClick={handleCloseModalClick('showImportUrlModal')}
+        onCancelModalClick={handleCloseModalClick('showImportUrlModal')}
+        onSubmitModalClick={() => handleSubmitImportUrl()}
+        modalBodyContent={<ImportUrl onImportUrlChange={handleImportUrlChange} />}
       />
       <DropdownMenu displayName="Main">
-        <DropdownItem onClick={() => onImportUrlClick()} name="Import URL" />
+        <DropdownItem onClick={() => handleImportUrlClick()} name="Import URL" />
         <ImportFileDropdownItem getComponent={getComponent} topbarActions={topbarActions} />
         <li role="separator" />
         <SaveAsJsonOrYaml
           getComponent={getComponent}
           languageFormat={languageFormat}
-          onSaveAsJsonClick={onSaveAsJsonClick}
-          onSaveAsYamlClick={onSaveAsYamlClick}
+          onSaveAsJsonClick={handleSaveAsJsonClick}
+          onSaveAsYamlClick={handleSaveAsYamlClick}
+        />
+        <li role="separator" />
+        <DropdownItem
+          onClick={() => handleSaveAsJsonResolvedClick()}
+          name="Download Resolved JSON"
+        />
+        <DropdownItem
+          onClick={() => handleSaveAsYamlResolvedClick()}
+          name="Download Resolved YAML"
         />
       </DropdownMenu>
     </div>

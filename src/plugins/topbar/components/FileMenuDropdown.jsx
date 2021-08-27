@@ -1,13 +1,7 @@
-// This is a React.Component container of dropdownItems
-// no special list handling; all "clicks" pass props in same format
-// If we need to later, we can migrate this file as a separate file,
-// and define this index as a plugin wrapper
-// eslint-disable-next-line no-unused-vars
-import React, { Component, useState } from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
-// eslint-disable-next-line no-unused-vars
-import noop from '../../../utils/utils-noop';
+import noop from '../../../utils/common-noop';
 import ModalInputWrapper from './ModalInputWrapper';
 import ImportUrl from './ImportUrl';
 import ModalConfirmWrapper from './ModalConfirmWrapper';
@@ -60,25 +54,24 @@ export default class FileMenuDropdown extends Component {
     }
   };
 
-  closeModalClick = (showModalProperty) => () => {
+  handleCloseModalClick = (showModalProperty) => () => {
     this.setState({ [showModalProperty]: false });
   };
 
-  onImportUrlClick = async () => {
-    // ref legacy method: importFromURL
+  handleImportUrlClick = async () => {
     this.setState({
       showImportUrlModal: true,
       importUrlString: '',
     });
   };
 
-  onImportUrlChange = (e) => {
+  handleImportUrlChange = (e) => {
     this.setState({
       importUrlString: e.target.value,
     });
   };
 
-  onSubmitImportUrl = async () => {
+  handleSubmitImportUrl = async () => {
     const { importUrlString } = this.state;
     // todo refactor: we should send importUrlString through a safety check
     if (importUrlString) {
@@ -95,7 +88,7 @@ export default class FileMenuDropdown extends Component {
     // another url: https://petstore3.swagger.io/api/v3/openapi.json
     const importedData = await topbarActions.importFromURL({ url });
     if (importedData && importedData.error) {
-      // show error message
+      // display the error message
       this.setState({
         showErrorModal: true,
         errorMessage: importedData.error,
@@ -103,7 +96,7 @@ export default class FileMenuDropdown extends Component {
     }
   };
 
-  onSaveAsJsonClick = async () => {
+  handleSaveAsJsonClick = async () => {
     // ref legacy method: saveAsJson
     const { topbarActions } = this.props;
     const saveResult = await topbarActions.saveAsJson();
@@ -116,7 +109,7 @@ export default class FileMenuDropdown extends Component {
     }
   };
 
-  onSaveAsJsonResolvedClick = async () => {
+  handleSaveAsJsonResolvedClick = async () => {
     const { topbarActions } = this.props;
     const saveResult = await topbarActions.saveAsJsonResolved();
     if (saveResult && saveResult.error) {
@@ -128,7 +121,7 @@ export default class FileMenuDropdown extends Component {
     }
   };
 
-  onSaveAsYamlResolvedClick = async () => {
+  handleSaveAsYamlResolvedClick = async () => {
     const { topbarActions } = this.props;
     const saveResult = await topbarActions.saveAsYamlResolved();
     if (saveResult && saveResult.error) {
@@ -140,8 +133,7 @@ export default class FileMenuDropdown extends Component {
     }
   };
 
-  onSaveAsYamlClick = async () => {
-    // ref legacy method: saveAsYaml
+  handleSaveAsYamlClick = async () => {
     const { topbarActions } = this.props;
     const saveResult = await topbarActions.saveAsYaml({ overrideWarning: false });
     if (saveResult && saveResult.warning) {
@@ -170,7 +162,7 @@ export default class FileMenuDropdown extends Component {
     // });
   };
 
-  onSaveAsYamlWithOverride = async () => {
+  handleSaveAsYamlWithOverride = async () => {
     const { topbarActions } = this.props;
     const saveResult = await topbarActions.saveAsYaml({ overrideWarning: true });
     if (saveResult && saveResult.error) {
@@ -209,47 +201,47 @@ export default class FileMenuDropdown extends Component {
           isOpen={showImportUrlModal}
           contentLabel="Import URL"
           modalTitle="Import URL"
-          closeModalClick={this.closeModalClick('showImportUrlModal')}
-          cancelModalClick={this.closeModalClick('showImportUrlModal')}
-          submitModalClick={() => this.onSubmitImportUrl()}
-          modalBodyContent={<ImportUrl onImportUrlChange={this.onImportUrlChange} />}
+          onCloseModalClick={this.handleCloseModalClick('showImportUrlModal')}
+          onCancelModalClick={this.handleCloseModalClick('showImportUrlModal')}
+          onSubmitModalClick={() => this.handleSubmitImportUrl()}
+          modalBodyContent={<ImportUrl onImportUrlChange={this.handleImportUrlChange} />}
         />
         <ModalConfirmWrapper
           isOpen={showConfirmModal}
           contentLabel="Confirm"
           modalTitle="Please Confirm"
-          closeModalClick={this.closeModalClick('showConfirmModal')}
-          cancelModalClick={this.closeModalClick('showConfirmModal')}
-          submitModalClick={() => this.onSaveAsYamlWithOverride()}
+          onCloseModalClick={this.handleCloseModalClick('showConfirmModal')}
+          onCancelModalClick={this.handleCloseModalClick('showConfirmModal')}
+          onSubmitModalClick={() => this.handleSaveAsYamlWithOverride()}
           modalBodyContent={confirmMessage}
         />
         <ModalErrorWrapper
           isOpen={showErrorModal}
           contentLabel="Error Message"
           modalTitle="Uh oh, an error has occured"
-          closeModalClick={this.closeModalClick('showErrorModal')}
-          cancelModalClick={this.closeModalClick('showErrorModal')}
-          submitModalClick={() => noop}
+          onCloseModalClick={this.handleCloseModalClick('showErrorModal')}
+          onCancelModalClick={this.handleCloseModalClick('showErrorModal')}
+          onSubmitModalClick={() => noop}
           modalBodyContent={errorMessage}
         />
 
         <DropdownMenu displayName="File">
-          <DropdownItem onClick={() => this.onImportUrlClick()} name="Import URL" />
+          <DropdownItem onClick={() => this.handleImportUrlClick()} name="Import URL" />
           <ImportFileDropdownItem getComponent={getComponent} topbarActions={topbarActions} />
           <li role="separator" />
           <SaveAsJsonOrYaml
             getComponent={getComponent}
             languageFormat={languageFormat}
-            onSaveAsJsonClick={this.onSaveAsJsonClick}
-            onSaveAsYamlClick={this.onSaveAsYamlClick}
+            onSaveAsJsonClick={this.handleSaveAsJsonClick}
+            onSaveAsYamlClick={this.handleSaveAsYamlClick}
           />
           <li role="separator" />
           <DropdownItem
-            onClick={() => this.onSaveAsJsonResolvedClick()}
+            onClick={() => this.handleSaveAsJsonResolvedClick()}
             name="Download Resolved JSON"
           />
           <DropdownItem
-            onClick={() => this.onSaveAsYamlResolvedClick()}
+            onClick={() => this.handleSaveAsYamlResolvedClick()}
             name="Download Resolved YAML"
           />
         </DropdownMenu>
@@ -257,173 +249,6 @@ export default class FileMenuDropdown extends Component {
     );
   }
 }
-
-// export default function FileMenuDropdown(props) {
-//   const [showImportUrlModal, setShowImportUrlModal] = useState(false);
-//   const [showErrorModal, setShowErrorModal] = useState(false);
-//   const [showConfirmModal, setShowConfirmModal] = useState(false);
-//   const [importUrlString, setImportUrlString] = useState('');
-//   const [errorMessage, setErrorMessage] = useState('');
-//   const [confirmMessage, setConfirmMessage] = useState('');
-
-//   const closeModalClick = (showModalProperty) => () => {
-//     // this.setState({ [showModalProperty]: false });
-//     // todo: will this work?
-//     const el = `set${showModalProperty}`;
-//     el(false);
-//   };
-
-//   const onImportUrlClick = async () => {
-//     // ref legacy method: importFromURL
-//     setImportUrlString('');
-//     setShowImportUrlModal(true);
-//   };
-
-//   const onImportUrlChange = (e) => {
-//     setImportUrlString(e.target.value);
-//   };
-
-//   const handleImportFromURL = async (url) => {
-//     const { topbarActions } = props;
-//     // dev note for copy/paste testing https://petstore.swagger.io/v2/swagger.json
-//     // another url: https://petstore3.swagger.io/api/v3/openapi.json
-//     const importedData = await topbarActions.importFromURL({ url });
-//     if (importedData && importedData.error) {
-//       // show error message
-//       setShowErrorModal(true);
-//       setErrorMessage(importedData.error);
-//     }
-//   };
-
-//   const onSubmitImportUrl = async () => {
-//     // const { importUrlString } = this.state;
-//     // todo refactor: we should send importUrlString through a safety check
-//     if (importUrlString) {
-//       handleImportFromURL(importUrlString);
-//     }
-//     setShowImportUrlModal(false);
-//   };
-
-//   const onClearEditorClick = async () => {
-//     // console.log('got a click for onClearEditorClick ');
-//     // ref legacy method: clearEditor
-//     // note: in actions, we should detect the spec
-//     // todo: in monaco editor, we should handle a non-supported spec
-//     // which, for now, we "clear" with a minimal supported spec
-//     const { topbarActions } = props;
-//     const clearResult = await topbarActions.clearEditor();
-//     if (clearResult && clearResult.error) {
-//       // should not occur
-//     }
-//   };
-
-//   const onSaveAsJsonClick = async () => {
-//     // ref legacy method: saveAsJson
-//     const { topbarActions } = props;
-//     const saveResult = await topbarActions.saveAsJson();
-//     if (saveResult && saveResult.error) {
-//       // display the error message
-//       setShowErrorModal(true);
-//       setErrorMessage(saveResult.error);
-//     }
-//   };
-
-//   const onSaveAsYamlClick = async () => {
-//     // ref legacy method: saveAsYaml
-//     const { topbarActions } = props;
-//     const saveResult = await topbarActions.saveAsYaml({ overrideWarning: false });
-//     if (saveResult && saveResult.warning) {
-//       // display warning if user wants to continue
-//       setShowConfirmModal(true);
-//       setConfirmMessage(saveResult.warning);
-//     }
-//     if (saveResult && saveResult.error) {
-//       // display the error message
-//       setShowErrorModal(true);
-//       setErrorMessage(saveResult.error);
-//     }
-//     // comment out above, use this to test warning
-//     // this.setState({
-//     //   showConfirmModal: true,
-//     //   confirmMessage: 'saveResult.warning lorem ipsum',
-//     // });
-//     // comment out above, use this to test error
-//     // this.setState({
-//     //   showErrorModal: true,
-//     //   errorMessage: 'saveResult.error lorem ipsum',
-//     // });
-//   };
-
-//   const onSaveAsYamlWithOverride = async () => {
-//     const { topbarActions } = props;
-//     const saveResult = await topbarActions.saveAsYaml({ overrideWarning: true });
-//     if (saveResult && saveResult.error) {
-//       // display the error message
-//       setShowErrorModal(true);
-//       setErrorMessage(saveResult.error);
-//       return;
-//     }
-//     setShowConfirmModal(true);
-//     setConfirmMessage(saveResult.warning);
-//   };
-
-//   const { getComponent, topbarActions } = props;
-//   const DropdownMenu = getComponent('DropdownMenu');
-//   const DropdownItem = getComponent('DropdownItem');
-//   const ImportFileDropdownItem = getComponent('ImportFileDropdownItem');
-
-//   // const {
-//   //   showImportUrlModal,
-//   //   showErrorModal,
-//   //   errorMessage,
-//   //   showConfirmModal,
-//   //   confirmMessage,
-//   // } = this.state;
-
-//   return (
-//     <div>
-//       <ModalInputWrapper
-//         isOpen={showImportUrlModal}
-//         contentLabel="Import URL"
-//         modalTitle="Import URL"
-//         closeModalClick={closeModalClick('showImportUrlModal')}
-//         cancelModalClick={closeModalClick('showImportUrlModal')}
-//         submitModalClick={() => onSubmitImportUrl()}
-//         modalBodyContent={<ImportUrl onImportUrlChange={onImportUrlChange} />}
-//       />
-//       <ModalConfirmWrapper
-//         isOpen={showConfirmModal}
-//         contentLabel="Confirm"
-//         modalTitle="Please Confirm"
-//         closeModalClick={closeModalClick('showConfirmModal')}
-//         cancelModalClick={closeModalClick('showConfirmModal')}
-//         submitModalClick={() => onSaveAsYamlWithOverride()}
-//         modalBodyContent={confirmMessage}
-//       />
-//       <ModalErrorWrapper
-//         isOpen={showErrorModal}
-//         contentLabel="Error Message"
-//         modalTitle="Uh oh, an error has occured"
-//         closeModalClick={closeModalClick('showErrorModal')}
-//         cancelModalClick={closeModalClick('showErrorModal')}
-//         submitModalClick={() => noop}
-//         modalBodyContent={errorMessage}
-//       />
-
-//       <DropdownMenu displayName="File">
-//         <DropdownItem onClick={() => onImportUrlClick()} name="Import URL" />
-//         <ImportFileDropdownItem getComponent={getComponent} topbarActions={topbarActions} />
-//         <li role="separator" />
-//         <DropdownItem onClick={() => onSaveAsJsonClick()} name="Save as JSON" />
-//         <DropdownItem onClick={() => onSaveAsYamlClick()} name="Save as YAML" />
-//         <DropdownItem onClick={() => onSaveAsJsonClick()} name="Convert and save as JSON" />
-//         <DropdownItem onClick={() => onSaveAsYamlClick()} name="Convert and save as YAML" />
-//         <li role="separator" />
-//         <DropdownItem onClick={() => onClearEditorClick()} name="Clear Editor" />
-//       </DropdownMenu>
-//     </div>
-//   );
-// }
 
 FileMenuDropdown.propTypes = {
   getComponent: PropTypes.func.isRequired,

@@ -15,7 +15,7 @@ ReactModal.setAppElement('*'); // suppresses modal-related test warnings.
 jest.mock('../actions', () => ({
   getDefinitionLanguageFormat: jest.fn(),
   shouldUpdateDefinitionLanguageFormat: jest.fn(),
-  handleImportFile: jest.fn(),
+  importFile: jest.fn(),
   // importFromURL: jest.fn(),
 }));
 
@@ -27,7 +27,7 @@ const setup = ({ languageFormat, shouldUpdate } = {}) => {
     languageFormat: languageFormat || 'yaml',
     shouldUpdate: shouldUpdate || false,
   });
-  topbarActions.handleImportFile.mockReturnValue(null);
+  topbarActions.importFile.mockReturnValue(null);
   // topbarActions.importFromURL.mockReturnValue(null);
 
   return { topbarActions };
@@ -118,7 +118,7 @@ test('should be able to click on "Import File', async () => {
   clickFileMenuItem('Import File');
 
   // only asserting that method to open file dialog box was called
-  expect(topbarActions.handleImportFile).toBeCalled();
+  expect(topbarActions.importFile).toBeCalled();
 });
 
 test('should render partial text: "Save (as', async () => {

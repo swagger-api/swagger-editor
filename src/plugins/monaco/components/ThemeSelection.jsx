@@ -2,7 +2,7 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 
-import noop from '../../../utils/utils-noop';
+import noop from '../../../utils/common-noop';
 
 export default class ThemeSelection extends PureComponent {
   render() {

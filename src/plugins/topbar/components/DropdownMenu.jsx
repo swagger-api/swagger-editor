@@ -18,7 +18,7 @@ class Dropdown extends Component {
     document.removeEventListener('mousedown', this.handleClickOutside);
   };
 
-  onToggleClick = () => {
+  handleToggleClick = () => {
     this.setState((prevState) => ({
       isExpanded: !prevState.isExpanded,
     }));
@@ -48,7 +48,7 @@ class Dropdown extends Component {
           tabIndex={0}
           aria-haspopup="true"
           aria-expanded={isExpanded}
-          onClick={this.onToggleClick}
+          onClick={this.handleToggleClick}
         >
           {displayName}
         </span>
@@ -56,7 +56,7 @@ class Dropdown extends Component {
           <div
             className="dd-menu-items"
             aria-labelledby="Dropdown"
-            onClick={this.onToggleClick}
+            onClick={this.handleToggleClick}
             role="menu"
             tabIndex={0}
           >

@@ -32,8 +32,7 @@ export default class MonacoEditorContainer extends PureComponent {
     // add if/when necessary
   }
 
-  onChangeThemeValue = async (val) => {
-    // console.log('onChangeThemeValue, val:', val);
+  handleChangeThemeValue = async (val) => {
     const defaultThemeList = ['vs', 'vs-light', 'vs-dark', 'my-vs-light', 'my-vs-dark'];
     if (!defaultThemeList.includes(val)) {
       return;
@@ -59,8 +58,8 @@ export default class MonacoEditorContainer extends PureComponent {
 
     return (
       <div id="editor-wrapper" className="editor-wrapper">
-        <ThemeSelection onChange={this.onChangeThemeValue} />
-        <ThemeSelectionIcon theme={theme} onChange={this.onChangeThemeValue} />
+        <ThemeSelection onChange={this.handleChangeThemeValue} />
+        <ThemeSelectionIcon theme={theme} onChange={this.handleChangeThemeValue} />
         <ReactResizeDetector
           handleWidth
           handleHeight={false}

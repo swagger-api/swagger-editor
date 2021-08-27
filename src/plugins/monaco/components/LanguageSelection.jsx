@@ -3,6 +3,8 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 
+import noop from '../../../utils/common-noop';
+
 export default class LanguageSelection extends PureComponent {
   render() {
     const { onChange } = this.props;
@@ -24,6 +26,9 @@ export default class LanguageSelection extends PureComponent {
 }
 
 LanguageSelection.propTypes = {
-  // eslint-disable-next-line react/require-default-props
   onChange: PropTypes.func,
+};
+
+LanguageSelection.defaultProps = {
+  onChange: noop,
 };

@@ -7,11 +7,11 @@ export default function ModalErrorWrapper(props) {
     isOpen,
     contentLabel,
     modalTitle,
-    closeModalClick,
+    onCloseModalClick,
     // eslint-disable-next-line no-unused-vars
-    cancelModalClick,
+    onCancelModalClick,
     // eslint-disable-next-line no-unused-vars
-    submitModalClick,
+    onSubmitModalClick,
     modalBodyContent,
   } = props;
 
@@ -25,7 +25,7 @@ export default function ModalErrorWrapper(props) {
     >
       <div className="modal-content">
         <div className="modal-header">
-          <button type="button" className="close" onClick={closeModalClick}>
+          <button type="button" className="close" onClick={onCloseModalClick}>
             <span aria-hidden="true">x</span>
           </button>
           <div className="modal-title">{modalTitle}</div>
@@ -34,7 +34,7 @@ export default function ModalErrorWrapper(props) {
           <div>{modalBodyContent}</div>
         </div>
         <div className="modal-footer">
-          <button type="button" className="btn btn-primary" onClick={closeModalClick}>
+          <button type="button" className="btn btn-primary" onClick={onCloseModalClick}>
             Close
           </button>
         </div>
@@ -47,8 +47,8 @@ ModalErrorWrapper.propTypes = {
   isOpen: PropTypes.bool.isRequired,
   contentLabel: PropTypes.string.isRequired,
   modalTitle: PropTypes.string.isRequired,
-  closeModalClick: PropTypes.func.isRequired,
-  cancelModalClick: PropTypes.func.isRequired,
-  submitModalClick: PropTypes.func.isRequired,
+  onCloseModalClick: PropTypes.func.isRequired,
+  onCancelModalClick: PropTypes.func.isRequired,
+  onSubmitModalClick: PropTypes.func.isRequired,
   modalBodyContent: PropTypes.oneOfType([PropTypes.object, PropTypes.string]).isRequired,
 };

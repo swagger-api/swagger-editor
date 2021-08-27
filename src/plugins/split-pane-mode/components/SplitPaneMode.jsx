@@ -12,7 +12,7 @@ export default class SplitPaneMode extends React.Component {
     this.splitPane = c;
   };
 
-  onDragFinished = () => {
+  handleDragFinished = () => {
     const { threshold, layoutActions } = this.props;
     const { position, draggedSize } = this.splitPane.state;
     this.draggedSize = draggedSize;
@@ -57,7 +57,7 @@ export default class SplitPaneMode extends React.Component {
         primary="second"
         minSize={0}
         size={size}
-        onDragFinished={this.onDragFinished}
+        onDragFinished={this.handleDragFinished}
         allowResize={mode !== MODE_LEFT && mode !== MODE_RIGHT}
         resizerStyle={{
           flex: '0 0 auto',

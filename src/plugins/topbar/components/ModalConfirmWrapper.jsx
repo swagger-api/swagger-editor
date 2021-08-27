@@ -7,9 +7,9 @@ export default function ModalConfirmWrapper(props) {
     isOpen,
     contentLabel,
     modalTitle,
-    closeModalClick,
-    cancelModalClick,
-    submitModalClick,
+    onCloseModalClick,
+    onCancelModalClick,
+    onSubmitModalClick,
     modalBodyContent,
   } = props;
 
@@ -23,7 +23,7 @@ export default function ModalConfirmWrapper(props) {
     >
       <div className="modal-content">
         <div className="modal-header">
-          <button type="button" className="close" onClick={closeModalClick}>
+          <button type="button" className="close" onClick={onCloseModalClick}>
             <span aria-hidden="true">x</span>
           </button>
           <div className="modal-title">{modalTitle}</div>
@@ -34,10 +34,10 @@ export default function ModalConfirmWrapper(props) {
           <div>Are you sure you want to continue?</div>
         </div>
         <div className="modal-footer">
-          <button type="button" className="btn btn-secondary" onClick={cancelModalClick}>
+          <button type="button" className="btn btn-secondary" onClick={onCancelModalClick}>
             Cancel
           </button>
-          <button type="button" className="btn btn-primary" onClick={submitModalClick}>
+          <button type="button" className="btn btn-primary" onClick={onSubmitModalClick}>
             Continue
           </button>
         </div>
@@ -50,8 +50,8 @@ ModalConfirmWrapper.propTypes = {
   isOpen: PropTypes.bool.isRequired,
   contentLabel: PropTypes.string.isRequired,
   modalTitle: PropTypes.string.isRequired,
-  closeModalClick: PropTypes.func.isRequired,
-  cancelModalClick: PropTypes.func.isRequired,
-  submitModalClick: PropTypes.func.isRequired,
+  onCloseModalClick: PropTypes.func.isRequired,
+  onCancelModalClick: PropTypes.func.isRequired,
+  onSubmitModalClick: PropTypes.func.isRequired,
   modalBodyContent: PropTypes.oneOfType([PropTypes.object, PropTypes.string]).isRequired,
 };
