@@ -1,18 +1,9 @@
 import React from 'react';
-// eslint-disable-next-line no-unused-vars
-import { render, screen, fireEvent, waitFor } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import SwaggerUI from 'swagger-ui-react';
 
-import GenericEditorPreset from '../generic-editor';
-import SwaggerEditorStandalonePreset from './index';
-// import Topbar from '../topbar/components/Topbar';
-// import LinkHome from '../topbar/components/LinkHome'; // from swagger-ui
-// import DropdownItem from '../topbar/components/DropdownItem';
-// import DropdownMenu from '../topbar/components/DropdownMenu';
-// import FileMenuDropdown from '../topbar/components/FileMenuDropdown';
-// import EditMenuDropdown from '../topbar/components/EditMenuDropdown';
-// import ImportFileDropdownItem from '../topbar/components/ImportFileDropdownItem';
-// import * as topbarActions from '../actions';
+import GenericEditorPreset from '../../generic-editor';
+import SwaggerEditorStandalonePreset from '../index';
 
 // eslint-disable-next-line no-unused-vars
 const mockOptions = {

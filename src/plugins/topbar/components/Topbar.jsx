@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import ReactModal from 'react-modal';
 
+import './style.main.scss';
 import EditMenuDropdownHooks from './EditMenuDropdownHooks'; // getComponent incompatible with React hooks (due to nested functions?)
 import FileMenuDropdownHooks from './FileMenuDropdownHooks'; // getComponent incompatible with React hooks (due to nested functions?)
 

@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import './style.main.scss';
 
 export default function StandaloneLayout(props) {
   const { getComponent } = props;
