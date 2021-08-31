@@ -1,9 +1,10 @@
-import MonacoEditorContainer from './components/MonacoEditorContainer';
+// import MonacoEditorContainer from './components/MonacoEditorContainer';
+import EditorWorkspace from './components/EditorWorkspace';
 
-export default function EditorPlugin() {
+export default function MonacoEditorWorkspacePlugin() {
   return [
     {
-      components: { MonacoEditorContainer },
+      components: { EditorWorkspace }, // formerly 'MonacoEditorContainer'
       // statePlugins: {
       //   editor: {
       //     reducers,
