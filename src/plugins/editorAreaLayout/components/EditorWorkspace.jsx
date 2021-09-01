@@ -18,7 +18,7 @@ export default class EditorWorkspace extends PureComponent {
 
   handleChange = (e) => {
     e.preventDefault();
-    // bug: should catch and translate keycode for keyboard input 'return'
+    // known issue: should catch and translate keycode for keyboard input 'return'
     this.handleChangeEditorValue(JSON.parse(e.target.value));
   };
 
