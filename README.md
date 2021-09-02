@@ -1,4 +1,4 @@
-# Generic editor home
+# ApiDOM editor home
 
 App will load with Monaco, Topbar, Swagger-UI (react).
 
@@ -10,14 +10,21 @@ Webpack and development setup based on Create React App (ejected)
 
 ## Install
 
-Change directory to `./apidom/` monorepo and run following commands:
+After cloning run the following commands to init and update `apidom` submodule
+
+```
+git submodule init
+git submodule update
+```
+
+Change directory to `apidom/apidom` monorepo and run following commands:
 
 ```sh
  $ npm i
  $ npm run build
 ```
 
-Now change directory to `./experiments/generic-editor` and run the following commands  
+Now change to root directory and run the following commands  
 
 ```shell script
  $ npm i

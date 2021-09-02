@@ -1,11 +1,11 @@
 {
-  "name": "generic-editor",
-  "description": "Generic Editor plugin for SwaggerUI",
+  "name": "apidom-editor",
+  "description": "ApiDOM Editor plugin for SwaggerUI",
   "version": "0.1.0",
   "private": true,
   "main": "index.js",
   "scripts": {
-    "preinstall": "node ./scripts/file-exists.js apidom-built && exit 0 || touch apidom-built && cd ../../apidom && npm i && npm run build",
+    "preinstall": "node ./scripts/file-exists.js apidom-built && exit 0 || touch apidom-built && cd apidom/apidom && npm i && npm run build",
     "start": "env-cmd -f ./.env.development node scripts/start.js",
     "build": "node scripts/build.js",
     "test": "node scripts/test.js --config config/jest/jest.config.js",
