@@ -18,7 +18,8 @@
     "clean": "rimraf ./build",
     "security-audit": "npm run security-audit:prod  && npm run security-audit:dev",
     "security-audit:prod": "npm-audit --production --only=prod --audit-level=low",
-    "security-audit:dev": "npm-audit --only=dev --audit-level=moderate"
+    "security-audit:dev": "npm-audit --only=dev --audit-level=moderate",
+    "serve-static-build": "serve -s build -l 3050"
   },
   "dependencies": {
     "@primer/octicons-react": "^14.2.2",
@@ -119,6 +120,7 @@
     "sass": "^1.35.2",
     "sass-loader": "8.0.2",
     "semver": "7.3.2",
+    "serve": "^12.0.0",
     "style-loader": "1.3.0",
     "terser-webpack-plugin": "4.2.3",
     "ts-pnp": "1.2.0",
