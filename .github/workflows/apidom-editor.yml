@@ -1,0 +1,58 @@
+# This workflow will do a clean install of node dependencies, build the source code and run tests across different versions of node
+# For more information see: https://help.github.com/actions/language-and-framework-guides/using-nodejs-with-github-actions
+
+name: ApiDOM Editor
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [14.x]
+
+    steps:
+    - uses: tibdex/github-app-token@v1
+      id: generate-token
+      with:
+        app_id: ${{ secrets.APP_ID }}
+        private_key: ${{ secrets.APP_PRIVATE_KEY }}
+    - uses: actions/checkout@v2
+      with:
+        submodules: recursive
+        token: ${{ steps.generate-token.outputs.token }}
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v1
+      with:
+        node-version: ${{ matrix.node-version }}
+    - name: Cache npm cache files
+      id: cache-npm-cache-files
+      uses: actions/cache@v2
+      with:
+        path: ~/.npm
+        key: npm-cache-${{ runner.os }}-${{ hashFiles('package-lock.json') }}
+    - name: Install dependencies for apidom core
+      run: npm ci
+      working-directory: ./apidom/apidom
+    - name: Build apidom core
+      run: npm run build
+      working-directory: ./apidom/apidom
+    - name: Install dependencies
+      run: npm ci
+    - name: Security audit
+      # filtering production deps only supported on >=npm@6.10.0
+      if: startsWith(matrix.node-version, '12') || startsWith(matrix.node-version, '14')
+      run: echo 'Currenty disabled run of "npm run security-audit"'
+      env:
+        CI: true
+    - name: Unit tests
+      run: npm test --watchAll=false
+    - name: E2E Tests
+      run: echo 'Currenty disabled run of "npm run test:cy:ci"'
