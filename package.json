@@ -51,7 +51,6 @@
   },
   "devDependencies": {
     "@babel/core": "7.12.3",
-    "@char0n/npm-audit": "gist:2964395223d7943c10396f59df9a8ea0",
     "@commitlint/cli": "^11.0.0",
     "@commitlint/config-conventional": "^11.0.0",
     "@pmmmwh/react-refresh-webpack-plugin": "0.4.2",
