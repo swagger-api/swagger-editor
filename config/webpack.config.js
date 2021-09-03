@@ -390,6 +390,7 @@ module.exports = function (webpackEnv) {
           'apidom-parser-adapter-yaml-1-2'
         ),
         'apidom-reference': path.resolve(paths.apidomPath, 'apidom-reference'),
+        'apidom-ls': path.resolve(paths.apidomPath, 'apidom-ls'),
         ...(modules.webpackAliases || {}),
       },
       plugins: [
