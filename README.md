@@ -92,3 +92,11 @@ Both Jest and Cypress include `@testing-library` plugin support.
 ```sh
  $ npm run test:cy:ci
 ```
+
+## build
+This script will build and serve a gzipped static build at `localhost:3050`.  
+
+```sh
+$ npm run build
+$ npm run serve-static-build
+```
