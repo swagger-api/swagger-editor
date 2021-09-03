@@ -44,6 +44,8 @@ jobs:
     - name: Build apidom core
       run: npm run build
       working-directory: ./apidom/apidom
+    - name: Mark apidom core as built
+      run: touch apidom-built
     - name: Install dependencies
       run: npm ci
     - name: Security audit
