@@ -1,8 +1,12 @@
 describe('Monaco Editor with Parser', () => {
   beforeEach(() => {
+    const staticResponse = {
+      servers: ['blue', 'brown'],
+      clients: ['apple', 'avocado'],
+    };
     // wait for external https request
     // to help page finish loading and rendering
-    cy.intercept('GET', '/api/servers').as('externalRequest');
+    cy.intercept('GET', '/api/servers', staticResponse).as('externalRequest');
     cy.visit('/', {
       onBeforeLoad: (contentWindow) => {
         if (contentWindow.console.error) {
