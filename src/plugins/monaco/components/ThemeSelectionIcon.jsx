@@ -12,11 +12,19 @@ export default class ThemeSelectionIcon extends PureComponent {
     return (
       <div>
         {theme === 'vs' || theme === 'vs-light' || theme === 'my-vs-light' ? (
-          <button type="button" className="btn" onClick={() => onChange('my-vs-dark')}>
+          <button
+            type="button"
+            className="btn btn-theme-icon"
+            onClick={() => onChange('my-vs-dark')}
+          >
             <MoonIcon size="small" aria-label="dark theme icon" />
           </button>
         ) : (
-          <button type="button" className="btn" onClick={() => onChange('my-vs-light')}>
+          <button
+            type="button"
+            className="btn btn-theme-icon"
+            onClick={() => onChange('my-vs-light')}
+          >
             <SunIcon size="small" aria-label="light theme icon" />
           </button>
         )}

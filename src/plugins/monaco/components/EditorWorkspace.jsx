@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import ReactResizeDetector from 'react-resize-detector';
 
 import MonacoEditor from './MonacoEditor'; // load directly, do not use getComponent
-import ThemeSelection from './ThemeSelection';
+// import ThemeSelection from './ThemeSelection';
 import ThemeSelectionIcon from './ThemeSelectionIcon';
 
 export default class EditorWorkspace extends PureComponent {
@@ -57,7 +57,7 @@ export default class EditorWorkspace extends PureComponent {
 
     return (
       <div id="editor-wrapper" className="editor-wrapper">
-        <ThemeSelection onChange={this.handleChangeThemeValue} />
+        {/* <ThemeSelection onChange={this.handleChangeThemeValue} /> */}
         <ThemeSelectionIcon theme={theme} onChange={this.handleChangeThemeValue} />
         <ReactResizeDetector
           handleWidth
