@@ -91,7 +91,7 @@ export default function EditMenuDropdownHooks(props) {
   const DropdownItem = getComponent('DropdownItem');
 
   return (
-    <DropdownMenu displayName="More">
+    <DropdownMenu displayName="Editor">
       <DropdownItem onClick={() => handleClearEditorClick()} name="Clear Editor" />
       <li role="separator" />
       {languageFormat !== 'yaml' ? (

@@ -52,7 +52,7 @@ const renderFileMenuDropdown = async (props) => {
 
   await waitFor(() => expect(topbarActions.getDefinitionLanguageFormat).toBeCalled());
   await waitFor(() => expect(topbarActions.shouldUpdateDefinitionLanguageFormat).toBeCalled());
-  const fileMenu = screen.getByText(/Main/i);
+  const fileMenu = screen.getByText(/File/i);
   const buttonSaveAs = screen.queryByText(/Save \(as/i);
   const buttonConvert = screen.queryByText(/Convert and save as/);
 

@@ -195,7 +195,7 @@ export default function FileMenuDropdownHooks(props) {
         onSubmitModalClick={() => handleSubmitImportUrl()}
         modalBodyContent={<ImportUrl onImportUrlChange={handleImportUrlChange} />}
       />
-      <DropdownMenu displayName="Main">
+      <DropdownMenu displayName="File">
         <DropdownItem onClick={() => handleImportUrlClick()} name="Import URL" />
         <ImportFileDropdownItem getComponent={getComponent} topbarActions={topbarActions} />
         <li role="separator" />

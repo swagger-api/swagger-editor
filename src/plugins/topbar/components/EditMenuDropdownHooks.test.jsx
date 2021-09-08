@@ -50,7 +50,7 @@ const renderEditMenuDropdown = async (props) => {
   await waitFor(() => expect(topbarActions.allowConvertDefinitionToOas3).toBeCalled());
   await waitFor(() => expect(topbarActions.getDefinitionLanguageFormat).toBeCalled());
   await waitFor(() => expect(topbarActions.shouldUpdateDefinitionLanguageFormat).toBeCalled());
-  const editMenu = screen.getByText(/More/i);
+  const editMenu = screen.getByText(/Editor/i);
 
   return {
     editMenu,

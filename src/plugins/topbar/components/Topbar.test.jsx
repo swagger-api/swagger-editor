@@ -5,8 +5,6 @@ import Topbar from './Topbar';
 import LinkHome from './LinkHome'; // from swagger-ui
 import DropdownItem from './DropdownItem';
 import DropdownMenu from './DropdownMenu';
-import FileMenuDropdown from './FileMenuDropdown';
-import EditMenuDropdown from './EditMenuDropdown';
 import ImportFileDropdownItem from './ImportFileDropdownItem';
 import GeneratorMenuDropdown from './GeneratorMenuDropdown';
 import SaveAsJsonOrYaml from './SaveAsJsonOrYaml';
@@ -51,8 +49,6 @@ const renderGeneratorMenuDropdown = async (props) => {
     LinkHome,
     DropdownMenu,
     DropdownItem,
-    FileMenuDropdown,
-    EditMenuDropdown,
     ImportFileDropdownItem,
     GeneratorMenuDropdown,
     SaveAsJsonOrYaml,

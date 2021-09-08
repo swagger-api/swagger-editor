@@ -15,8 +15,6 @@ export default function Topbar(props) {
   const { getComponent, topbarActions } = props;
 
   const LinkHome = getComponent('LinkHome');
-  const FileMenuDropdown = getComponent('FileMenuDropdown');
-  const EditMenuDropdown = getComponent('EditMenuDropdown');
   const GeneratorMenuDropdown = getComponent('GeneratorMenuDropdown');
 
   return (
@@ -24,8 +22,6 @@ export default function Topbar(props) {
       <div className="topbar">
         <div className="topbar-wrapper">
           <LinkHome />
-          <FileMenuDropdown getComponent={getComponent} topbarActions={topbarActions} />
-          <EditMenuDropdown getComponent={getComponent} topbarActions={topbarActions} />
           <FileMenuDropdownHooks getComponent={getComponent} topbarActions={topbarActions} />
           <EditMenuDropdownHooks getComponent={getComponent} topbarActions={topbarActions} />
           <GeneratorMenuDropdown getComponent={getComponent} topbarActions={topbarActions} />
