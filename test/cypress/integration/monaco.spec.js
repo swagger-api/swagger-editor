@@ -4,17 +4,14 @@ describe('Monaco Editor with Parser', () => {
       servers: ['blue', 'brown'],
       clients: ['apple', 'avocado'],
     };
-    // wait for external https request
-    // to help page finish loading and rendering
+    // intercept, mock with staticResponse, and wait
     cy.intercept('GET', '/api/servers', staticResponse).as('externalRequest');
-    cy.visit('/', {
-      onBeforeLoad: (contentWindow) => {
-        if (contentWindow.console.error) {
-          contentWindow.console.error.restore();
-        }
-        cy.stub(contentWindow.console, 'error').as('consoleError');
-      },
+    cy.window().then((contentWindow) => {
+      // console.log already globally stubbed in support/commands
+      cy.spy(contentWindow.console, 'error').as('consoleError');
     });
+    cy.visit('/', {});
+    // wait for async
     cy.wait('@externalRequest');
   });
 

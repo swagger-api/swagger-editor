@@ -38,7 +38,23 @@ jobs:
       with:
         path: ~/.npm
         key: npm-cache-${{ runner.os }}-${{ hashFiles('package-lock.json') }}
+    - name: Cache Node Modules
+      id: cache-node-modules
+      uses: actions/cache@v2
+      with:
+        path: node_modules
+        key: node-modules-${{ hashFiles('package-lock.json') }}
+    - name: Cache Cypress binary
+      id: cache-cypress-binary
+      uses: actions/cache@v2
+      with:
+        path: cypress/cache
+        key: cypress-binary-${{ hashFiles('package-lock.json') }}
     - name: Install dependencies for apidom core
+      if: | 
+          steps.cache-npm-cache-files.cache-hit != 'true' ||
+          steps.cache-node-modules.cache-hit != 'true' ||
+          steps.cache-cypress-binary.outputs.cache-hit != 'true'
       run: npm ci
       working-directory: ./apidom/apidom
     - name: Build apidom core
@@ -50,11 +66,22 @@ jobs:
       run: npm ci
     - name: Security audit
       # filtering production deps only supported on >=npm@6.10.0
-      if: startsWith(matrix.node-version, '12') || startsWith(matrix.node-version, '14')
+      if: startsWith(matrix.node-version, '16')
       run: echo 'Currenty disabled run of "npm run security-audit"'
       env:
         CI: true
     - name: Unit tests
       run: npm test --watchAll=false
-    - name: E2E Tests
-      run: echo 'Currenty disabled run of "npm run test:cy:ci"'
+      env:
+        CI: true
+    - name: E2E Tests - chrome headless
+      id: cypress-run-ci
+      uses: cypress-io/github-action@v2
+      with:
+        # we have already installed all dependencies above
+        install: false
+        browser: chrome
+        wait-on: "http://localhost:3260"
+        wait-on-timeout: 60
+        headless: true
+        start: npm run start-ci
