@@ -10,6 +10,7 @@ jest.mock('../actions', () => ({
   convertDefinitionToOas3: jest.fn(),
   convertToYaml: jest.fn(),
   clearEditor: jest.fn(),
+  resetEditor: jest.fn(),
   allowConvertDefinitionToOas3: jest.fn(),
   getDefinitionLanguageFormat: jest.fn(),
   shouldUpdateDefinitionLanguageFormat: jest.fn(),
@@ -19,6 +20,7 @@ const setup = ({ languageFormat, shouldUpdate, allowConvertDefinitionToOas3 } = 
   topbarActions.convertDefinitionToOas3.mockReturnValue(null);
   topbarActions.convertToYaml.mockReturnValue(null);
   topbarActions.clearEditor.mockReturnValue(null);
+  topbarActions.resetEditor.mockReturnValue(null);
 
   topbarActions.allowConvertDefinitionToOas3.mockReturnValue(allowConvertDefinitionToOas3 || false);
   topbarActions.getDefinitionLanguageFormat.mockReturnValue({
@@ -95,6 +97,22 @@ test('should Clear Editor', async () => {
   clickEditMenuItem('Clear Editor');
 
   expect(topbarActions.clearEditor).toBeCalled();
+});
+
+test('should Reset Editor', async () => {
+  const { topbarActions: actions } = setup({
+    languageFormat: 'json',
+    shouldUpdate: false,
+    allowConvertDefinitionToOas3: true,
+  });
+  const { clickEditMenu, clickEditMenuItem } = await renderEditMenuDropdown({
+    topbarActions: actions,
+  });
+
+  clickEditMenu();
+  clickEditMenuItem('Reset Editor');
+
+  expect(topbarActions.resetEditor).toBeCalled();
 });
 
 describe('when json', () => {

@@ -1,5 +1,5 @@
 // re-export
-export { clearEditor } from './action-clear-editor';
+export { clearEditor, resetEditor } from './action-clear-editor';
 export { convertToYaml } from './action-convert-json-to-yaml';
 export {
   convertDefinitionToOas3,

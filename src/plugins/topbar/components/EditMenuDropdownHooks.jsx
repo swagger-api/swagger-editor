@@ -42,7 +42,6 @@ export default function EditMenuDropdownHooks(props) {
 
   const handleClearEditorClick = () => {
     async function clearEditor() {
-      // note: in actions, we detect the spec language in order to "clear" with a minimal supported spec
       const clearResult = await topbarActions.clearEditor();
       if (clearResult && clearResult.error) {
         // should not occur
@@ -50,6 +49,19 @@ export default function EditMenuDropdownHooks(props) {
       }
     }
     clearEditor();
+  };
+
+  const handleResetEditorClick = () => {
+    async function resetEditor() {
+      // note: in actions, we detect the current definitionLanguage in order to "reset"
+      // to a minimal definition with matching definintionLanguage
+      const clearResult = await topbarActions.resetEditor();
+      if (clearResult && clearResult.error) {
+        // should not occur
+        // may display the error message
+      }
+    }
+    resetEditor();
   };
 
   const handleLoadDefaultDefinition = (language) => {
@@ -93,6 +105,7 @@ export default function EditMenuDropdownHooks(props) {
   return (
     <DropdownMenu displayName="Editor">
       <DropdownItem onClick={() => handleClearEditorClick()} name="Clear Editor" />
+      <DropdownItem onClick={() => handleResetEditorClick()} name="Reset Editor" />
       <li role="separator" />
       {languageFormat !== 'yaml' ? (
         <DropdownItem onClick={() => handleConvertToYamlClick()} name="Convert To YAML" />

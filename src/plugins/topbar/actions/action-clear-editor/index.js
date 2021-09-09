@@ -5,10 +5,14 @@ import { getSpecVersion } from '../../../../utils/editor-get-spec-version';
 import { getInitialDefinitionObj } from './clear-editor';
 import { mockOas3Spec } from '../topbar-actions-fixtures';
 
-export const clearEditor = () => async (system) => {
+/**
+ * History: Using an empty string previously threw an apidom parser error
+ * This method detects for various definitionLanguage, e.g. openapi, asyncapi
+ * and "reset" the editor to a default definition matching the previous definitionLanguage
+ * @returns Object
+ */
+export const resetEditor = () => async (system) => {
   const { specActions, specSelectors } = system;
-  // Using an empty string will throw an apidom parser error
-  // we will want to detect for various specs, e.g. openapi, asyncapi
   const editorContent = specSelectors.specStr();
   const languageFormat = getDefinitionLanguage({ data: editorContent });
   // eslint-disable-next-line camelcase
@@ -32,4 +36,22 @@ export const clearEditor = () => async (system) => {
   return { data: 'success' };
 };
 
-export default { clearEditor };
+/**
+ * Background: This implementation is specific to swagger-ui@3/swagger-ui@4
+ * in which the visual ui will only re-render after conversion of an empty string to yaml
+ * e.g. simply providing empty string to specActions.updateSpec will not re-render ui
+ * Separately, monaco will replace empty string with its default value,
+ * but even if monaco default value is empty string, as noted above, ui will not re-render
+ * Hopefully this behavior changes with the next major release of swagger-ui
+ * @returns Object
+ */
+export const clearEditor = () => async (system) => {
+  const { specActions } = system;
+  // provide a default value to trigger swagger-ui re-render
+  const jsContent = { tip: 'replace this line' };
+  const yamlContent = YAML.safeDump(jsContent);
+  specActions.updateSpec(yamlContent, { lineWidth: -1 });
+  return { data: 'success' };
+};
+
+export default { clearEditor, resetEditor };
