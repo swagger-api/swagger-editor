@@ -1,0 +1,16 @@
+/.git
+/.github
+# submodule
+/apidom 
+
+/cypress
+/docs
+/config
+/node_modules
+/src
+/scripts
+/test
+
+*.md
+.git
+.gitignore
