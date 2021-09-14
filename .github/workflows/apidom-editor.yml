@@ -88,3 +88,5 @@ jobs:
         wait-on-timeout: 120
         headless: true
         start: npm run start-ci
+    - name: Build
+      run: npm run build
