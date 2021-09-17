@@ -51,7 +51,7 @@ jobs:
         path: cypress/cache
         key: cypress-binary-${{ hashFiles('package-lock.json') }}
     - name: Install dependencies for apidom core
-      if: | 
+      if: |
           steps.cache-npm-cache-files.cache-hit != 'true' ||
           steps.cache-node-modules.cache-hit != 'true'
       run: npm ci
@@ -90,6 +90,19 @@ jobs:
     #     start: npm run start-ci
     - name: Build app artifacts
       run: npm run build
+
+  deploy:
+    name: Deploy to Docker
+
+    if: github.ref == 'refs/heads/main'
+
+    needs: [ build ]
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Download built artifact from build job
+      uses: actions/download-artifact@v2
     - name: Log in to DockerHub
       uses: docker/login-action@v1
       with:
@@ -100,4 +113,4 @@ jobs:
       with:
         context: .
         push: true
-        tags: smartbear/swagger-ide:latest      
+        tags: smartbear/swagger-ide:latest
