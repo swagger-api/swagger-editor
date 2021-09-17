@@ -19,7 +19,7 @@ git submodule update
 
 - (To update apidom submodule to latest commit, issue `git submodule update --recursive --remote`)  
 
-Change directory to `apidom/apidom` monorepo and run following commands:
+Change directory to `apidom` monorepo and run following commands:
 
 ```sh
  $ npm i
