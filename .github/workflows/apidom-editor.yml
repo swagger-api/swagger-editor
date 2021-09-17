@@ -101,6 +101,9 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+    - uses: actions/checkout@v2
+      with:
+        token: ${{ secrets.GITHUB_TOKEN }}
     - name: Download built artifact from build job
       uses: actions/download-artifact@v2
     - name: Log in to DockerHub
