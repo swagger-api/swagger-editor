@@ -67,12 +67,6 @@ jobs:
           steps.cache-node-modules.cache-hit != 'true' ||
           steps.cache-cypress-binary.outputs.cache-hit != 'true'
       run: npm ci
-    - name: Security audit
-      # filtering production deps only supported on >=npm@6.10.0
-      if: startsWith(matrix.node-version, '16')
-      run: echo 'Currenty disabled run of "npm run security-audit"'
-      env:
-        CI: true
     - name: Unit tests
       run: npm test --watchAll=false
       env:
