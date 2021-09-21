@@ -84,6 +84,12 @@ jobs:
     #     start: npm run start-ci
     - name: Build app artifacts
       run: npm run build
+    - name: Upload build artifacts (for GH pages)
+      if: github.ref == 'refs/heads/main'
+      uses: actions/upload-artifact@v2
+      with:
+        name: build
+        path: ./build
     - name: Log in to DockerHub
       if: github.ref == 'refs/heads/main'
       uses: docker/login-action@v1
@@ -105,3 +111,24 @@ jobs:
         push: false
         load: true
         tags: smartbear/swagger-ide:pr
+
+  deploy:
+    name: Deploy to GH Pages
+    if: github.ref == 'refs/heads/main'
+
+    needs: [ build ]
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+      with:
+        token: ${{ secrets.GITHUB_TOKEN }}
+    - name: Download built artifact from build job
+      uses: actions/download-artifact@v2
+    - name: Deploy 🚀
+      uses: JamesIves/github-pages-deploy-action@4.1.5
+      with:
+        token: ${{ secrets.GITHUB_TOKEN }}
+        branch: gh-pages # The branch the action should deploy to.
+        folder: build # The folder the action should deploy.
+        clean: true # Automatically remove deleted files from the deploy branch
