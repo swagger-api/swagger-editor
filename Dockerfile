@@ -9,7 +9,7 @@
 FROM nginx:1.21.3-alpine AS production
 
 # copy built assets created from external build-step
-COPY build /usr/share/nginx/html
+COPY ./build /usr/share/nginx/html
 # COPY --from=build-step /app/build /usr/share/nginx/html
 
 # some extended nginx configuration
