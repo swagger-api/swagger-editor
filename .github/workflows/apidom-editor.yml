@@ -55,10 +55,10 @@ jobs:
           steps.cache-npm-cache-files.cache-hit != 'true' ||
           steps.cache-node-modules.cache-hit != 'true'
       run: npm ci
-      working-directory: ./apidom/apidom
+      working-directory: ./apidom
     - name: Build apidom core
       run: npm run build
-      working-directory: ./apidom/apidom
+      working-directory: ./apidom
     - name: Mark apidom core as built
       run: touch apidom-built
     - name: Install dependencies

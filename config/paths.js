@@ -65,7 +65,7 @@ module.exports = {
   proxySetup: resolveApp('src/setupProxy.js'),
   appNodeModules: resolveApp('node_modules'),
   swSrc: resolveModule(resolveApp, 'src/service-worker'),
-  apidomPath: path.resolve(__dirname, '..', 'apidom', 'apidom', 'packages'),
+  apidomPath: path.resolve(__dirname, '..', 'apidom', 'packages'),
   publicUrlOrPath,
 };
 
