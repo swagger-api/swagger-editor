@@ -133,11 +133,12 @@ jobs:
         folder: build # The folder the action should deploy.
         clean: true # Automatically remove deleted files from the deploy branch
     - name: Deploy Rancher🚢
-      uses: th0th/rancher-redeploy-workload@v0.9
+      run: |
+        curl -i -XPOST -H"Authorization: Bearer ${RANCHER_BEARER_TOKEN}" "${RANCHER_URL}/v3/project/${RANCHER_CLUSTER_ID}:${RANCHER_PROJECT_ID}/workloads/${RANCHER_NAMESPACE}:${RANCHER_WORKLOAD}?action=redeploy"
       env:
         RANCHER_BEARER_TOKEN: ${{ secrets.RANCHER_BEARER_TOKEN }}
         RANCHER_CLUSTER_ID: 'c-bvgwd'
-        RANCHER_NAMESPACE: 'daemonset:swagger-os'
+        RANCHER_NAMESPACE: 'daemonset:swagger-oss'
         RANCHER_PROJECT_ID: 'p-q7rb6'
-        RANCHER_URL: 'https://rancher2.prod.ops.smartbear.io/'
-        RANCHER_WORKLOADS: 'swagger-ide'
+        RANCHER_URL: ${{ secrets.RANCHER_URL }}
+        RANCHER_WORKLOAD: 'swagger-ide'
