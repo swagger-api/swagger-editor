@@ -113,7 +113,7 @@ jobs:
         tags: smartbear/swagger-ide:pr
 
   deploy:
-    name: Deploy to GH Pages
+    name: Deploy to GH Pages and Rancher
     if: github.ref == 'refs/heads/main'
 
     needs: [ build ]
@@ -125,10 +125,19 @@ jobs:
         token: ${{ secrets.GITHUB_TOKEN }}
     - name: Download built artifact from build job
       uses: actions/download-artifact@v2
-    - name: Deploy 🚀
+    - name: Deploy GH-Pages🚀
       uses: JamesIves/github-pages-deploy-action@4.1.5
       with:
         token: ${{ secrets.GITHUB_TOKEN }}
         branch: gh-pages # The branch the action should deploy to.
         folder: build # The folder the action should deploy.
         clean: true # Automatically remove deleted files from the deploy branch
+    - name: Deploy Rancher🚢
+      uses: th0th/rancher-redeploy-workload@v0.9
+      env:
+        RANCHER_BEARER_TOKEN: ${{ secrets.RANCHER_BEARER_TOKEN }}
+        RANCHER_CLUSTER_ID: 'c-bvgwd'
+        RANCHER_NAMESPACE: 'daemonset:swagger-os'
+        RANCHER_PROJECT_ID: 'p-q7rb6'
+        RANCHER_URL: 'https://rancher2.prod.ops.smartbear.io/'
+        RANCHER_WORKLOADS: 'swagger-ide'
