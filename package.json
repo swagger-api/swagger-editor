@@ -1,7 +1,7 @@
 {
-  "name": "apidom-editor",
-  "description": "ApiDOM Editor plugin for SwaggerUI",
-  "version": "0.1.0",
+  "name": "swagger-ide",
+  "description": "Swagger IDE plugin for SwaggerUI",
+  "version": "0.2.0",
   "private": true,
   "main": "index.js",
   "scripts": {
