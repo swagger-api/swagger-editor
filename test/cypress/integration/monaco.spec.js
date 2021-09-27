@@ -1,17 +1,23 @@
 describe('Monaco Editor with Parser', () => {
   beforeEach(() => {
+    // intercept default hardcoded petstore URI with a fixture
+    cy.intercept('GET', 'https://petstore3.swagger.io/api/v3/openapi.yaml', {
+      fixture: 'petstore-oas3.yaml',
+    }).as('externalPetstore');
+
     const staticResponse = {
       servers: ['blue', 'brown'],
       clients: ['apple', 'avocado'],
     };
-    // intercept, mock with staticResponse, and wait
     cy.intercept('GET', '/api/servers', staticResponse).as('externalRequest');
+
     cy.window().then((contentWindow) => {
-      // console.log already globally stubbed in support/commands
+      // console.log already globally stubbed in cy support/commands
       cy.spy(contentWindow.console, 'error').as('consoleError');
     });
+
     cy.visit('/', {});
-    // wait for async
+    cy.wait('@externalPetstore');
     cy.wait('@externalRequest');
   });
 

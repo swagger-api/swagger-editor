@@ -28,5 +28,9 @@ module.exports = (on, config) => {
       // console.warn('\x1b[33m', 'WARNING:', message, '\x1b[0m');
       return null;
     },
+    uncaught(message) {
+      console.error('\x1b[31m', 'ERROR: Uncaught Exception', message, '\x1b[0m');
+      return null;
+    },
   });
 };

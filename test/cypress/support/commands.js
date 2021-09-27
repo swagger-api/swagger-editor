@@ -35,3 +35,8 @@ Cypress.on('window:before:load', (win) => {
     cy.now('task', 'warn', msg);
   });
 });
+
+Cypress.on('uncaught:exception', (err) => {
+  cy.now('task', 'uncaught', err);
+  return true; // true = fail the test
+});
