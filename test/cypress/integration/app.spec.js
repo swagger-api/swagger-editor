@@ -9,7 +9,12 @@ describe('App', () => {
       servers: ['blue', 'brown'],
       clients: ['apple', 'avocado'],
     };
-    cy.intercept('GET', '/api/servers', staticResponse).as('externalRequest');
+    cy.intercept('GET', 'https://generator3.swagger.io/api/servers', staticResponse).as(
+      'externalGeneratorServers'
+    );
+    cy.intercept('GET', 'https://generator3.swagger.io/api/clients', staticResponse).as(
+      'externalGeneratorClients'
+    );
 
     cy.window().then((contentWindow) => {
       // console.log already globally stubbed in cy support/commands
@@ -18,7 +23,8 @@ describe('App', () => {
 
     cy.visit('/', {});
     cy.wait('@externalPetstore');
-    cy.wait('@externalRequest');
+    cy.wait('@externalGeneratorServers');
+    cy.wait('@externalGeneratorClients');
   });
 
   it('renders the app', () => {
