@@ -110,7 +110,7 @@ module.exports = function (webpackEnv) {
         // package.json
         loader: require.resolve('postcss-loader'),
         options: {
-          postCssOptions: {
+          postcssOptions: {
             // Necessary for external CSS imports to work
             // https://github.com/facebook/create-react-app/issues/2677
             ident: 'postcss',
