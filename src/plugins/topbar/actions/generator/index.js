@@ -8,7 +8,7 @@ import {
   validateHttpGeneratorsExists,
   fetchOasGeneratorLists,
   fetchGeneratorLinkOrBlob,
-} from './generator';
+} from './utils';
 
 export const instantiateGeneratorClient = () => async (system) => {
   const { isOAS3, isSwagger2, isOAS3_1, isAsyncApi2 } = getSpecVersion(system);

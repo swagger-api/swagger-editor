@@ -2,7 +2,7 @@ import YAML from 'js-yaml';
 
 import { getDefinitionLanguage } from '../../../../utils/editor-converter';
 import { getSpecVersion } from '../../../../utils/editor-get-spec-version';
-import { getInitialDefinitionObj } from './clear-editor';
+import { getInitialDefinitionObj } from './utils';
 import { mockOas3Spec } from '../topbar-actions-fixtures';
 
 /**

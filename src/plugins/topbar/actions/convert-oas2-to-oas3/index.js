@@ -1,6 +1,6 @@
 import { postPerformOasConversion } from '../../../../utils/topbar-http';
 import { getSpecVersion } from '../../../../utils/editor-get-spec-version';
-import { getConfigsWithDefaultFallback } from './convert-oas2-to-oas3';
+import { getConfigsWithDefaultFallback } from './utils';
 
 export const convertDefinitionToOas3 = () => async (system) => {
   const { specSelectors, specActions } = system;
