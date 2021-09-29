@@ -163,8 +163,8 @@ export default class MonacoEditor extends Component {
         };
         languageService.doDeref(textDoc, context).then((result) => {
           if (!isJsonDoc(textDoc)) {
-            const tempjsContent = YAML.safeLoad(result);
-            const tempyamlContent = YAML.safeDump(tempjsContent);
+            const tempjsContent = YAML.load(result);
+            const tempyamlContent = YAML.dump(tempjsContent);
             editor.setValue(tempyamlContent);
           } else {
             editor.setValue(result);

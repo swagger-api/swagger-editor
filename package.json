@@ -32,7 +32,7 @@
     "file-dialog": "0.0.8",
     "is-json": "^2.0.1",
     "js-file-download": "^0.4.12",
-    "js-yaml": "^3.14.0",
+    "js-yaml": "^4.1.0",
     "json-beautify": "^1.1.1",
     "monaco-editor-core": "^0.26.0",
     "monaco-languageclient": "^0.13.1-next.9",

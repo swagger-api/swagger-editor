@@ -29,8 +29,8 @@ export const loadDefaultDefinition = (language) => async (system) => {
   } else {
     return { error: 'unsupported language provided' };
   }
-  // const jsContent = YAML.safeLoad(contentToLoad);
-  // const yamlContent = YAML.safeDump(jsContent);
+  // const jsContent = YAML.load(contentToLoad);
+  // const yamlContent = YAML.dump(jsContent);
   // on success,
   specActions.updateSpec(contentToLoad);
   return { data: 'success' };

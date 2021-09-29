@@ -16,7 +16,7 @@ export const isValidYaml = (str) => {
   }
   try {
     // eslint-disable-next-line no-unused-vars
-    const yamlString = YAML.safeDump(YAML.safeLoad(str), { lineWidth: -1 }); // will throw on error
+    const yamlString = YAML.dump(YAML.load(str), { lineWidth: -1 }); // will throw on error
     return true;
   } catch (e) {
     return false;

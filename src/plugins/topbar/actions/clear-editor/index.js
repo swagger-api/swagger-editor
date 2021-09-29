@@ -21,13 +21,13 @@ export const resetEditor = () => async (system) => {
   if (!editorContent || (!isOAS3 && !isOAS3_1 && !isSwagger2 && !isAsyncApi2)) {
     // default to oas3 yaml
     // JSON String -> JS object
-    const jsContent = YAML.safeLoad(JSON.stringify(mockOas3Spec));
+    const jsContent = YAML.load(JSON.stringify(mockOas3Spec));
     // JS Object -> YAML string
-    const yamlContent = YAML.safeDump(jsContent);
+    const yamlContent = YAML.dump(jsContent);
     specActions.updateSpec(yamlContent, { lineWidth: -1 });
   } else if (languageFormat !== 'json') {
     const jsContent = getInitialDefinitionObj({ isOAS3, isSwagger2, isOAS3_1, isAsyncApi2 });
-    const yamlContent = YAML.safeDump(jsContent);
+    const yamlContent = YAML.dump(jsContent);
     specActions.updateSpec(yamlContent, { lineWidth: -1 });
   } else {
     const jsContent = getInitialDefinitionObj({ isOAS3, isSwagger2, isOAS3_1, isAsyncApi2 });
@@ -49,7 +49,7 @@ export const clearEditor = () => async (system) => {
   const { specActions } = system;
   // provide a default value to trigger swagger-ui re-render
   const jsContent = { tip: 'replace this line' };
-  const yamlContent = YAML.safeDump(jsContent);
+  const yamlContent = YAML.dump(jsContent);
   specActions.updateSpec(yamlContent, { lineWidth: -1 });
   return { data: 'success' };
 };
