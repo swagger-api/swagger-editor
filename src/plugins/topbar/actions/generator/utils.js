@@ -1,5 +1,5 @@
 /* eslint-disable camelcase */
-import { getGeneratorsList, postGenerator3WithSpec } from '../../../../utils/topbar-http';
+import { getGeneratorsList, postGenerator3WithSpec } from '../../utils';
 import { defaultFixtures } from '../topbar-actions-fixtures';
 
 // currently re-used
