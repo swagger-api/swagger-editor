@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import '../style.main.scss';
+import './_all.scss';
 
 export default function IdeLayout(props) {
   const { getComponent } = props;
