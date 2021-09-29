@@ -1,7 +1,7 @@
 /* eslint-disable camelcase */
-import { getGenerator2Definition } from '../../../../utils/topbar-http';
+import { getGenerator2Definition } from '../../utils';
 import { getFileDownload } from '../../../../utils/common-file-download';
-import { getSpecVersion } from '../../../../utils/editor-get-spec-version';
+import { getSpecVersion } from '../../../../utils/spec-get-spec-version';
 import {
   getConfigsWithDefaultFallback,
   getSpecVersionString,

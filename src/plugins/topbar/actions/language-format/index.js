@@ -1,4 +1,4 @@
-import { getDefinitionLanguage } from '../../../../utils/editor-converter';
+import { getDefinitionLanguage } from '../../../../utils/spec-converter';
 
 export const getDefinitionLanguageFormat = () => async (system) => {
   const { specSelectors } = system;

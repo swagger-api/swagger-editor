@@ -1,7 +1,7 @@
 import YAML from 'js-yaml';
 import isJsonObject from 'is-json';
 
-// this is more robust than utils-converter.getDefinitionLanguage
+// this is more robust than spec-converter.getDefinitionLanguage
 export const isValidJson = (str) => {
   try {
     return isJsonObject(str);

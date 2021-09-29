@@ -9,9 +9,9 @@ import { TextDocument } from 'vscode-languageserver-textdocument';
 import metadata from '../workers/apidom/metadata';
 import noop from '../../../utils/common-noop';
 // eslint-disable-next-line no-unused-vars
-import getStyleMetadataLight, { themes as themesLight } from '../../../utils/monaco-theme-light';
+import getStyleMetadataLight, { themes as themesLight } from '../utils/monaco-theme-light';
 // eslint-disable-next-line no-unused-vars
-import getStyleMetadataDark, { themes as themesDark } from '../../../utils/monaco-theme-dark';
+import getStyleMetadataDark, { themes as themesDark } from '../utils/monaco-theme-dark';
 import { languageID } from '../adapters/config';
 import { setupLanguage, initializeWorkers } from '../adapters/setup';
 

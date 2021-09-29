@@ -7,9 +7,9 @@ import {
   getDefinitionLanguage,
   getFileName,
   hasParserErrors,
-} from '../../../../utils/editor-converter';
+} from '../../../../utils/spec-converter';
 import { getFileDownload } from '../../../../utils/common-file-download';
-import { getSpecVersion } from '../../../../utils/editor-get-spec-version';
+import { getSpecVersion } from '../../../../utils/spec-get-spec-version';
 import { mockOas3Spec } from '../topbar-actions-fixtures';
 import metadata from '../../../monaco/workers/apidom/metadata';
 

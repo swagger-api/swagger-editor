@@ -1,7 +1,7 @@
 import YAML from 'js-yaml';
 import fileDialog from 'file-dialog';
 
-import { isValidJson } from '../../../../utils/editor-valid-json-yaml';
+import { isValidJson } from '../../../../utils/spec-valid-json-yaml';
 import { readFileAsTextAsync } from './utils';
 
 export const importFile = () => async (system) => {
