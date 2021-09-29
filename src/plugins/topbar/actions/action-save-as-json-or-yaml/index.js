@@ -11,7 +11,7 @@ import {
 import { getFileDownload } from '../../../../utils/common-file-download';
 import { getSpecVersion } from '../../../../utils/editor-get-spec-version';
 import { mockOas3Spec } from '../topbar-actions-fixtures';
-import metadata from '../../../monaco/workers/metadataJs';
+import metadata from '../../../monaco/workers/apidom/metadata';
 
 export const saveAsJson = () => async (system) => {
   const { specSelectors, errSelectors } = system;

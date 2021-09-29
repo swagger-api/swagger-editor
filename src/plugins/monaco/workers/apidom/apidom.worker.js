@@ -1,6 +1,6 @@
 import * as editorworker from 'monaco-editor-core/esm/vs/editor/editor.worker';
 
-import { ApidomWorker } from './ApidomWorker';
+import { ApiDOMWorker } from './ApiDOMWorker';
 
 /**
  * webpack entry: worker script to create a new object instance
@@ -11,6 +11,6 @@ self.onmessage = () => {
   // ignore the first message
   // ref: .initialize(foreignModule)
   editorworker.initialize((ctx, createData) => {
-    return new ApidomWorker(ctx, createData);
+    return new ApiDOMWorker(ctx, createData);
   });
 };

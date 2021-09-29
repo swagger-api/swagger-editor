@@ -6,7 +6,7 @@ import { getLanguageService, isJsonDoc, FORMAT } from 'apidom-ls';
 import YAML from 'js-yaml';
 import { TextDocument } from 'vscode-languageserver-textdocument';
 
-import metadata from '../workers/metadataJs';
+import metadata from '../workers/apidom/metadata';
 import noop from '../../../utils/common-noop';
 // eslint-disable-next-line no-unused-vars
 import getStyleMetadataLight, { themes as themesLight } from '../../../utils/monaco-theme-light';
