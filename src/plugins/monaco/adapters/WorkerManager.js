@@ -21,8 +21,8 @@ export class WorkerManager {
   getClientproxy() {
     if (!this.workerClientProxy) {
       this.worker = monaco.editor.createWebWorker({
-        // module that exports the create() method and returns a `ApidomWorker` instance
-        moduleId: 'ApidomWorker',
+        // module that exports the create() method and returns a `ApiDOMWorker` instance
+        moduleId: 'ApiDOMWorker',
         label: languageID,
         // passed in to the create() method
         createData: {

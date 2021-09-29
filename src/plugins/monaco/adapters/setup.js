@@ -3,7 +3,7 @@ import * as monaco from 'monaco-editor-core';
 import { languageExtensionPoint, languageID } from './config';
 import { monarchLanguage } from './monarch-language';
 import EditorWorker from '../workers/editor.worker';
-import ApidomWorker from '../workers/apidom.worker';
+import ApiDOMWorker from '../workers/apidom/apidom.worker';
 import { setupMode } from './setup-mode';
 
 export function setupLanguage() {
@@ -29,5 +29,5 @@ export function setupLanguage() {
 export async function initializeWorkers() {
   // before loading monaco, we need to initialize the workers so that the files exist
   await new EditorWorker();
-  await new ApidomWorker();
+  await new ApiDOMWorker();
 }
