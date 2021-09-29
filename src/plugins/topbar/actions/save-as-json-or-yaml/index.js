@@ -23,8 +23,8 @@ export const saveAsJson = () => async (system) => {
   // create a mock yaml from mock json (ref: convertToYaml)
   let contentToConvert;
   if (!editorContent) {
-    const tempjsContent = YAML.safeLoad(JSON.stringify(mockOas3Spec));
-    const tempyamlContent = YAML.safeDump(tempjsContent);
+    const tempjsContent = YAML.load(JSON.stringify(mockOas3Spec));
+    const tempyamlContent = YAML.dump(tempjsContent);
     contentToConvert = tempyamlContent;
   } else {
     contentToConvert = editorContent;
@@ -40,7 +40,7 @@ export const saveAsJson = () => async (system) => {
     };
   }
   // JSON or YAML String -> JS object
-  const jsContent = YAML.safeLoad(contentToConvert);
+  const jsContent = YAML.load(contentToConvert);
   // JS Object -> pretty JSON string
   const prettyJsonContent = beautifyJson(jsContent, null, 2);
   getFileDownload({ blob: prettyJsonContent, filename: `${fileName}.json` });
@@ -57,8 +57,8 @@ export const saveAsJsonResolved = () => async (system) => {
   // create a mock yaml from mock json (ref: convertToYaml)
   let contentToConvert;
   if (!editorContent) {
-    const tempjsContent = YAML.safeLoad(JSON.stringify(mockOas3Spec));
-    const tempyamlContent = YAML.safeDump(tempjsContent);
+    const tempjsContent = YAML.load(JSON.stringify(mockOas3Spec));
+    const tempyamlContent = YAML.dump(tempjsContent);
     contentToConvert = tempyamlContent;
   } else {
     contentToConvert = editorContent;
@@ -106,8 +106,8 @@ export const saveAsYamlResolved = () => async (system) => {
   // create a mock yaml from mock json (ref: convertToYaml)
   let contentToConvert;
   if (!editorContent) {
-    const tempjsContent = YAML.safeLoad(JSON.stringify(mockOas3Spec));
-    const tempyamlContent = YAML.safeDump(tempjsContent);
+    const tempjsContent = YAML.load(JSON.stringify(mockOas3Spec));
+    const tempyamlContent = YAML.dump(tempjsContent);
     contentToConvert = tempyamlContent;
   } else {
     contentToConvert = editorContent;
@@ -137,8 +137,8 @@ export const saveAsYamlResolved = () => async (system) => {
     if (!result) {
       return { error: 'an error has occured' };
     }
-    const jsContent = YAML.safeLoad(result);
-    const yamlResult = YAML.safeDump(jsContent);
+    const jsContent = YAML.load(result);
+    const yamlResult = YAML.dump(jsContent);
     getFileDownload({ blob: yamlResult, filename: `${fileName}.yaml` });
     return { data: 'ok' };
   } catch (e) {
@@ -156,8 +156,8 @@ export const saveAsYaml = ({ overrideWarning }) => async (system) => {
   // create a mock yaml from mock json (ref: convertToYaml)
   let contentToConvert;
   if (!editorContent) {
-    const tempjsContent = YAML.safeLoad(JSON.stringify(mockOas3Spec));
-    const tempyamlContent = YAML.safeDump(tempjsContent);
+    const tempjsContent = YAML.load(JSON.stringify(mockOas3Spec));
+    const tempyamlContent = YAML.dump(tempjsContent);
     contentToConvert = tempyamlContent;
   } else {
     contentToConvert = editorContent;
@@ -188,9 +188,9 @@ export const saveAsYaml = ({ overrideWarning }) => async (system) => {
     return { data: 'ok' };
   }
   // JSON String -> JS object
-  const jsContent = YAML.safeLoad(contentToConvert);
+  const jsContent = YAML.load(contentToConvert);
   // JS Object -> YAML string
-  const yamlContent = YAML.safeDump(jsContent);
+  const yamlContent = YAML.dump(jsContent);
   getFileDownload({ blob: yamlContent, filename: `${fileName}.yaml` });
   return { data: 'ok' };
 };

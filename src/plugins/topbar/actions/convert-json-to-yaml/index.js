@@ -11,8 +11,8 @@ export const convertToYaml = () => async (system) => {
   } else {
     contentToConvert = editorContent;
   }
-  const jsContent = YAML.safeLoad(contentToConvert);
-  const yamlContent = YAML.safeDump(jsContent);
+  const jsContent = YAML.load(contentToConvert);
+  const yamlContent = YAML.dump(jsContent);
   // on success,
   specActions.updateSpec(yamlContent);
   return { data: 'success' };

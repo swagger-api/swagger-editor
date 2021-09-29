@@ -10,7 +10,7 @@ export const importFile = () => async (system) => {
   try {
     const content = await readFileAsTextAsync(fileList.item(0));
     const preparedContent = isValidJson(content)
-      ? YAML.safeDump(YAML.safeLoad(content), { lineWidth: -1 })
+      ? YAML.dump(YAML.load(content), { lineWidth: -1 })
       : content;
     // on success,
     specActions.updateSpec(preparedContent);
