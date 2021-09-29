@@ -113,7 +113,7 @@
     "postcss-safe-parser": "^6.0.0",
     "prettier": "^2.1.2",
     "react-app-polyfill": "^2.0.0",
-    "react-dev-utils": "^11.0.0",
+    "react-dev-utils": "^11.0.4",
     "react-refresh": "^0.8.3",
     "resolve": "^1.20.0",
     "resolve-url-loader": "^4.0.0",
