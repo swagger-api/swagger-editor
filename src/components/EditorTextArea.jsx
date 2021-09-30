@@ -1,7 +1,12 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 
-export default class EditorWorkspace extends PureComponent {
+/**
+ * This is a provided default component that is generally
+ * expected to be overwritten via wrapComponentt
+ */
+
+export default class EditorTextArea extends PureComponent {
   getSelectorSpecStr = () => {
     const { specSelectors } = this.props;
     const initialValue = 'Welcome to the TextArea';
@@ -45,7 +50,7 @@ export default class EditorWorkspace extends PureComponent {
   }
 }
 
-EditorWorkspace.propTypes = {
+EditorTextArea.propTypes = {
   specActions: PropTypes.oneOfType([PropTypes.object]).isRequired,
   specSelectors: PropTypes.oneOfType([PropTypes.object]).isRequired,
 };

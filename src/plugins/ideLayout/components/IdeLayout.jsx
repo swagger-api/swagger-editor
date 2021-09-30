@@ -5,7 +5,7 @@ import './_all.scss';
 
 export default function IdeLayout(props) {
   const { getComponent } = props;
-  const EditorAreaLayout = getComponent('EditorAreaLayout', true);
+  const EditorPane = getComponent('EditorPane', true);
   const Topbar = getComponent('Topbar', true);
   const Container = getComponent('Container'); // accessed from swagger-ui
   const SplitPaneMode = getComponent('SplitPaneMode', true);
@@ -17,7 +17,7 @@ export default function IdeLayout(props) {
       <div className="swagger-editor">
         <Container className="container">
           <SplitPaneMode>
-            <EditorAreaLayout />
+            <EditorPane />
             <UiBaseLayout />
           </SplitPaneMode>
         </Container>

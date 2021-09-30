@@ -1,7 +1,7 @@
 import TopbarPlugin from '../topbar';
 import SplitPaneModePlugin from '../split-pane-mode';
-import EditorAreaLayoutPlugin from '../editorAreaLayout';
-import MonacoEditorWorkspacePlugin from '../monaco';
+import EditorPanePlugin from '../editor-pane';
+import MonacoEditorPlugin from '../monaco';
 import IdeLayout from './components/IdeLayout';
 // import SplitPaneMode from './components/SplitPaneMode'; // todo: use component directly, w/o plugin
 // import TopbarPlugin from './components/Topbar'; // todo: proposal to use component directly, w/o plugin
@@ -22,11 +22,5 @@ const IdeLayoutPlugin = () => {
 
 // load into swagger-ui as a 'preset' collection of plugins
 export default function ideLayoutPreset() {
-  return [
-    IdeLayoutPlugin,
-    TopbarPlugin,
-    SplitPaneModePlugin,
-    EditorAreaLayoutPlugin,
-    MonacoEditorWorkspacePlugin,
-  ];
+  return [IdeLayoutPlugin, TopbarPlugin, SplitPaneModePlugin, EditorPanePlugin, MonacoEditorPlugin];
 }
