@@ -6,7 +6,7 @@ import MonacoEditor from './MonacoEditor'; // load directly, do not use getCompo
 // import ThemeSelection from './ThemeSelection';
 import ThemeSelectionIcon from './ThemeSelectionIcon';
 
-export default class EditorWorkspace extends PureComponent {
+export default class EditorPane extends PureComponent {
   constructor(props) {
     super(props);
     this.state = {
@@ -56,7 +56,7 @@ export default class EditorWorkspace extends PureComponent {
     const valueForEditor = this.getSelectorSpecStr();
 
     return (
-      <div id="editor-wrapper" className="editor-wrapper">
+      <div id="editor-pane-wrapper" className="editor-pane-wrapper">
         {/* <ThemeSelection onChange={this.handleChangeThemeValue} /> */}
         <ThemeSelectionIcon theme={theme} onChange={this.handleChangeThemeValue} />
         <ReactResizeDetector
@@ -81,7 +81,7 @@ export default class EditorWorkspace extends PureComponent {
   }
 }
 
-EditorWorkspace.propTypes = {
+EditorPane.propTypes = {
   specActions: PropTypes.oneOfType([PropTypes.object]).isRequired,
   specSelectors: PropTypes.oneOfType([PropTypes.object]).isRequired,
 };

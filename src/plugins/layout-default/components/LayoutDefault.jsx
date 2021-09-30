@@ -3,9 +3,9 @@ import PropTypes from 'prop-types';
 
 import './_all.scss';
 
-export default function IdeLayout(props) {
+export default function LayoutDefault(props) {
   const { getComponent } = props;
-  const EditorAreaLayout = getComponent('EditorAreaLayout', true);
+  const EditorPane = getComponent('EditorPane', true);
   const Topbar = getComponent('Topbar', true);
   const Container = getComponent('Container'); // accessed from swagger-ui
   const SplitPaneMode = getComponent('SplitPaneMode', true);
@@ -14,10 +14,10 @@ export default function IdeLayout(props) {
   return (
     <div>
       <Topbar />
-      <div className="swagger-editor">
+      <div className="swagger-ide">
         <Container className="container">
           <SplitPaneMode>
-            <EditorAreaLayout />
+            <EditorPane />
             <UiBaseLayout />
           </SplitPaneMode>
         </Container>
@@ -26,7 +26,7 @@ export default function IdeLayout(props) {
   );
 }
 
-IdeLayout.propTypes = {
+LayoutDefault.propTypes = {
   getComponent: PropTypes.func.isRequired,
   // specActions: PropTypes.oneOfType([PropTypes.object]).isRequired,
   // specSelectors: PropTypes.oneOfType([PropTypes.object]).isRequired,

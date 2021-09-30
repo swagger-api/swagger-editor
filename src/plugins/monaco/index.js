@@ -1,16 +1,12 @@
-import EditorWorkspace from './components/EditorWorkspace';
+import EditorPane from './components/EditorPane';
 
-export default function MonacoEditorWorkspacePlugin() {
-  return [
-    {
-      components: { EditorWorkspace },
-      // statePlugins: {
-      //   editor: {
-      //     reducers,
-      //     actions,
-      //     selectors,
-      //   },
-      // },
+export default function monacoEditorPlugin() {
+  return {
+    components: {
+      EditorPane,
     },
-  ];
+    wrapComponents: {
+      EditorPane,
+    },
+  };
 }
