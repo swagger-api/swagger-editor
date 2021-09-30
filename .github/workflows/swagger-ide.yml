@@ -26,12 +26,13 @@ jobs:
         private_key: ${{ secrets.APP_PRIVATE_KEY }}
     - uses: actions/checkout@v2
       with:
-        submodules: recursive
         token: ${{ steps.generate-token.outputs.token }}
     - name: Use Node.js ${{ matrix.node-version }}
       uses: actions/setup-node@v1
       with:
         node-version: ${{ matrix.node-version }}
+        registry-url: https://npm.pkg.github.com/
+        scope: "@swagger-api"
     - name: Cache npm cache files
       id: cache-npm-cache-files
       uses: actions/cache@v2
@@ -50,23 +51,14 @@ jobs:
       with:
         path: cypress/cache
         key: cypress-binary-${{ hashFiles('package-lock.json') }}
-    - name: Install dependencies for apidom core
-      if: |
-          steps.cache-npm-cache-files.cache-hit != 'true' ||
-          steps.cache-node-modules.cache-hit != 'true'
-      run: npm ci
-      working-directory: ./apidom
-    - name: Build apidom core
-      run: npm run build
-      working-directory: ./apidom
-    - name: Mark apidom core as built
-      run: touch apidom-built
     - name: Install dependencies
       if: |
           steps.cache-npm-cache-files.cache-hit != 'true' ||
           steps.cache-node-modules.cache-hit != 'true' ||
           steps.cache-cypress-binary.outputs.cache-hit != 'true'
       run: npm ci
+      env:
+        NODE_AUTH_TOKEN: ${{ secrets.SWAGGER_BOT_GITHUB_TOKEN }}
     - name: Unit tests
       run: npm test --watchAll=false
       env:
@@ -102,7 +94,7 @@ jobs:
       with:
         context: .
         push: true
-        tags: smartbear/swagger-ide:latest 
+        tags: smartbear/swagger-ide:latest
     - name: Build local docker image without export
       if: github.ref != 'refs/heads/main'
       uses: docker/build-push-action@v2

@@ -1,4 +1,4 @@
-import { isObjectElement, isStringElement } from 'apidom';
+import { isObjectElement, isStringElement } from '@swagger-api/apidom-core';
 
 /* METADATA */
 

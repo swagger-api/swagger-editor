@@ -1,6 +1,6 @@
 /* eslint-disable class-methods-use-this */
 import * as monaco from 'monaco-editor-core';
-import { getLanguageService } from 'apidom-ls';
+import { getLanguageService } from '@swagger-api/apidom-ls';
 import { ProtocolToMonacoConverter } from 'monaco-languageclient/lib/monaco-converter';
 
 export default class SemanticTokensAdapter {

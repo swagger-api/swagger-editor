@@ -2,7 +2,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import * as monaco from 'monaco-editor-core';
-import { getLanguageService, isJsonDoc, FORMAT } from 'apidom-ls';
+import { getLanguageService, isJsonDoc, FORMAT } from '@swagger-api/apidom-ls';
 import YAML from 'js-yaml';
 import { TextDocument } from 'vscode-languageserver-textdocument';
 
