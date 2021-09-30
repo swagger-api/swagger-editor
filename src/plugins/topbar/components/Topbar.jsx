@@ -18,7 +18,7 @@ export default function Topbar(props) {
   const GeneratorMenuDropdown = getComponent('GeneratorMenuDropdown');
 
   return (
-    <div className="swagger-editor-standalone">
+    <div className="swagger-ide-standalone">
       <div className="topbar">
         <div className="topbar-wrapper">
           <LinkHome />

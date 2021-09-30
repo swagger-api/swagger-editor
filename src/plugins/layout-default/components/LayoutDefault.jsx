@@ -14,7 +14,7 @@ export default function LayoutDefault(props) {
   return (
     <div>
       <Topbar />
-      <div className="swagger-editor">
+      <div className="swagger-ide">
         <Container className="container">
           <SplitPaneMode>
             <EditorPane />
