@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 import './_all.scss';
 
-export default function IdeLayout(props) {
+export default function LayoutDefault(props) {
   const { getComponent } = props;
   const EditorPane = getComponent('EditorPane', true);
   const Topbar = getComponent('Topbar', true);
@@ -26,7 +26,7 @@ export default function IdeLayout(props) {
   );
 }
 
-IdeLayout.propTypes = {
+LayoutDefault.propTypes = {
   getComponent: PropTypes.func.isRequired,
   // specActions: PropTypes.oneOfType([PropTypes.object]).isRequired,
   // specSelectors: PropTypes.oneOfType([PropTypes.object]).isRequired,
