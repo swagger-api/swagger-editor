@@ -1,6 +1,6 @@
 import EditorPane from './components/EditorPane';
 
-export default function MonacoEditorPlugin() {
+export default function monacoEditorPlugin() {
   return {
     components: {
       EditorPane,
