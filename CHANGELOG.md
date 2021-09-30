@@ -13,7 +13,7 @@
 [ ] match and extend configurability options for editor & monaco  
 [ ] localStorage  
 [ ] if refresh empty monaco, should load a default definition  
-[ ] jump-to-path; if still needed, this should be integrated into the new `EditorAreaLayout` plugin  
+[ ] jump-to-path; if still needed, this should be integrated into the new `EditorPane` plugin  
 [ ] monaco - mixed monaco css with swagger css/less/sass, as needed  
 [ ] monaco - additional initial style and configuration of monaco editor, as appropriate  
 [ ] monaco - config/remove minimap. UX discussion.  
@@ -22,7 +22,7 @@
 [ ] update generator (plugin?) for oas3.1, asyncapi, etc. support when available  
 [ ] debounce initial load of definition. this may help with single vs. multi-line render in editor. atm, this would also apply to all user updates  
 [ ] debounce user updates (might not be needed)  
-[ ] topbar-insert (plugin); this should be integrated into the new `EditorAreaLayout` plugin  
+[ ] topbar-insert (plugin); this should be integrated into the `Topbar` plugin  
 [ ] memory performance benchmarks  
 
 
