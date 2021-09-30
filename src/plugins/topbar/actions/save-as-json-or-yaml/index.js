@@ -1,6 +1,6 @@
 import YAML from 'js-yaml';
 import beautifyJson from 'json-beautify';
-import { getLanguageService, FORMAT } from 'apidom-ls';
+import { getLanguageService, FORMAT } from '@swagger-api/apidom-ls';
 import { TextDocument } from 'vscode-languageserver-textdocument'; // this is true source
 
 import {
