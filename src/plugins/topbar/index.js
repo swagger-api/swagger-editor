@@ -59,5 +59,8 @@ export default function topbarPlugin() {
       GeneratorMenuDropdown,
       SaveAsJsonOrYaml,
     },
+    wrapComponents: {
+      Topbar,
+    },
   };
 }
