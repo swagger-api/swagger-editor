@@ -2,16 +2,11 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import * as monaco from 'monaco-editor-core';
-import { getLanguageService, isJsonDoc, FORMAT } from '@swagger-api/apidom-ls';
-import YAML from 'js-yaml';
-import { TextDocument } from 'vscode-languageserver-textdocument';
 
-import metadata from '../workers/apidom/metadata';
 import noop from '../../../utils/common-noop';
-// eslint-disable-next-line no-unused-vars
 import getStyleMetadataLight, { themes as themesLight } from '../utils/monaco-theme-light';
-// eslint-disable-next-line no-unused-vars
 import getStyleMetadataDark, { themes as themesDark } from '../utils/monaco-theme-dark';
+import { dereference } from '../utils/monaco-action-apidom-deref';
 import { languageID } from '../adapters/config';
 import { setupLanguage, initializeWorkers } from '../adapters/setup';
 
@@ -83,14 +78,8 @@ export default class MonacoEditor extends Component {
 
     if (defaultValue && !value) {
       value = defaultValue;
-      // console.log('monacoEditor reset to defaultValue?', value);
     }
     if (this.containerElement) {
-      // console.log('monaco editor create');
-      // console.log('monaco editor create with value:', value);
-      // 1: register language, ref utils
-      // 1A: register a language in component: monaco.languages.register({id: mylang})
-      // 1B: or via web worker: monaco.languages.onLanguage('mylang', () => {})
       this.editor = monaco.editor.create(this.containerElement, {
         value,
         language: languageID,
@@ -116,13 +105,7 @@ export default class MonacoEditor extends Component {
         // ...options,
         // ...(theme ? { theme } : {}), // think this is inactive, and may not be necessary; based on a sample
       });
-      // Possible to init 2, 3, 4 below during the monaco.editor.create call?
-      // if not, call a separate 'post-editor-load-init' method
-      // or incorporate into this.props.editorDidMount
-      // 2: setTheme, ref utils
-      // 3: if necessary, editorLoadedCondition & operationContextCondition
-      // 4: editor.addCommand
-      // After initializing monaco editor
+      // After creating monaco editor instance
       this.setupTheme(this.editor, theme);
       this.localEditorDidMount(this.editor);
     }
@@ -130,48 +113,23 @@ export default class MonacoEditor extends Component {
 
   localEditorDidMount = (editor) => {
     const { editorDidMount, onChange } = this.props;
-    // console.log('start localEditorDidMount');
     editorDidMount(editor, monaco);
     this.subscription = editor.onDidChangeModelContent((event) => {
       const currentEditorValue = editor.getValue();
-      // console.log('start localEditorDidMount, currentEditorValue', currentEditorValue);
       // Always refer to the latest value
       this.currentValue = currentEditorValue;
       onChange(currentEditorValue, event);
     });
 
-    const apidomContext = {
-      metadata: metadata(),
-    };
-    const languageService = getLanguageService(apidomContext);
-
-    // TODO (francesco.tumanischvili@smartbear.com) move this elsewhere (worker?)
+    // Add monaco actions, as needed
+    // monaco ui tip: F1 -> resolve document
     editor.addAction({
       id: 'de-reference',
       label: 'resolve document',
-      // eslint-disable-next-line no-unused-vars
-      run: (ed) => {
-        const textDoc = TextDocument.create(
-          editor.getModel().uri.toString(),
-          editor.getModel().getModeId(),
-          editor.getModel().getVersionId(),
-          editor.getModel().getValue()
-        );
-        const context = {
-          format: isJsonDoc(textDoc) ? FORMAT.JSON : FORMAT.YAML,
-          baseURI: window.location.href,
-        };
-        languageService.doDeref(textDoc, context).then((result) => {
-          if (!isJsonDoc(textDoc)) {
-            const tempjsContent = YAML.load(result);
-            const tempyamlContent = YAML.dump(tempjsContent);
-            editor.setValue(tempyamlContent);
-          } else {
-            editor.setValue(result);
-          }
-        });
-      },
+      run: dereference,
     });
+    // Add monaco commands, as needed
+    // editor.addCommand
   };
 
   // eslint-disable-next-line no-unused-vars
