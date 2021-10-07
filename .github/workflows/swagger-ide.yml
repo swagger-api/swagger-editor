@@ -19,14 +19,7 @@ jobs:
         node-version: [16.8.x]
 
     steps:
-    - uses: tibdex/github-app-token@v1
-      id: generate-token
-      with:
-        app_id: ${{ secrets.APP_ID }}
-        private_key: ${{ secrets.APP_PRIVATE_KEY }}
     - uses: actions/checkout@v2
-      with:
-        token: ${{ steps.generate-token.outputs.token }}
     - name: Use Node.js ${{ matrix.node-version }}
       uses: actions/setup-node@v1
       with:
