@@ -19,27 +19,7 @@ Webpack and development setup based on Create React App (ejected)
 
 ## Install
 
-After cloning run the following commands to init and update `apidom` submodule
-
-```sh
- $ git submodule init
- $ git submodule update
-```
-
-To update apidom submodule to latest commit, issue the following command:  
-
-```sh
- $ git submodule update --recursive --remote
-```
-
-Change directory to `apidom` monorepo and run following commands:
-
-```sh
- $ npm i
- $ npm run build
-```
-
-Now change to root directory and run the following commands  
+After cloning run the following commands to install dependencies and start the development server
 
 ```sh
  $ npm i
