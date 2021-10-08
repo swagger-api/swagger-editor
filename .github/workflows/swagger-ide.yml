@@ -39,12 +39,6 @@ jobs:
       with:
         path: ~/.npm
         key: npm-cache-${{ runner.os }}-${{ hashFiles('package-lock.json') }}
-    - name: Cache Node Modules
-      id: cache-node-modules
-      uses: actions/cache@v2
-      with:
-        path: node_modules
-        key: node-modules-${{ hashFiles('package-lock.json') }}
     - name: Cache Cypress binary
       id: cache-cypress-binary
       uses: actions/cache@v2
@@ -54,7 +48,6 @@ jobs:
     - name: Install dependencies
       if: |
           steps.cache-npm-cache-files.cache-hit != 'true' ||
-          steps.cache-node-modules.cache-hit != 'true' ||
           steps.cache-cypress-binary.outputs.cache-hit != 'true'
       run: npm ci
       env:
