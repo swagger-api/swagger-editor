@@ -1,4 +1,4 @@
-name: Merge me!
+name: Dependabot Merge Me!
 
 on:
   pull_request_target:

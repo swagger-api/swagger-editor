@@ -1,18 +1,20 @@
 # This workflow will do a clean install of node dependencies, build the source code and run tests across different versions of node
 # For more information see: https://help.github.com/actions/language-and-framework-guides/using-nodejs-with-github-actions
 
-name: Swagger IDE
+name: Swagger IDE build
 
 on:
   push:
     branches: [ main ]
   pull_request:
     branches: [ main ]
-  pull_request_target:
-    branches: [ main ]
 
 jobs:
   build:
+    # skip any PR created by dependabot to avoid permission issues
+    if: |
+      (github.event_name == 'push') ||
+      (github.event_name == 'pull_request' && github.actor != 'dependabot[bot]')
 
     runs-on: ubuntu-latest
 
@@ -20,20 +22,9 @@ jobs:
       matrix:
         node-version: [16.8.x]
 
-    # If the PR is coming from a fork (pull_request_target), ensure it's opened by "dependabot[bot]".
-    # Otherwise, clone it normally.
-    if: |
-      (github.event_name == 'pull_request_target' && github.actor == 'dependabot[bot[') ||
-      (github.event_name != 'pull_request_target' && github.actor != 'dependabot[bot]')
     steps:
     - name: Checkout
-      if: ${{ github.event_name !='pull_request_target' }}
       uses: actions/checkout@v2
-    - name: Checkout for Dependabot
-      if: ${{ github.event_name =='pull_request_target' }}
-      uses: actions/checkout@v2
-      with:
-        ref: ${{ github.event.pull_request.head.sha }}
     - name: Use Node.js ${{ matrix.node-version }}
       uses: actions/setup-node@v1
       with:

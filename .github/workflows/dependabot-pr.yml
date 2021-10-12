@@ -1,0 +1,76 @@
+name: Dependabot PR
+
+on:
+  pull_request_target:
+    branches: [ main ]
+
+jobs:
+  dependabot-pr:
+    # Only run for PR created by dependabot
+    if: (github.actor == 'dependabot[bot]')
+
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [16.8.x]
+
+    # If the PR is coming from a fork (pull_request_target), ensure it's opened by "dependabot[bot]".
+    # if: |
+    #   (github.event_name == 'pull_request_target' && github.event.pull_request.user.login == 'dependabot[bot[')
+    steps:
+    - name: Checkout for Dependabot
+      if: ${{ github.event_name == 'pull_request_target' }}
+      uses: actions/checkout@v2
+      with:
+        ref: ${{ github.event.pull_request.head.sha }}
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v1
+      with:
+        node-version: ${{ matrix.node-version }}
+        registry-url: https://npm.pkg.github.com/
+        scope: "@swagger-api"
+    - name: Cache npm cache files
+      id: cache-npm-cache-files
+      uses: actions/cache@v2
+      with:
+        path: ~/.npm
+        key: npm-cache-${{ runner.os }}-${{ hashFiles('package-lock.json') }}
+    - name: Cache Cypress binary
+      id: cache-cypress-binary
+      uses: actions/cache@v2
+      with:
+        path: cypress/cache
+        key: cypress-binary-${{ hashFiles('package-lock.json') }}
+    - name: Install dependencies
+      if: |
+          steps.cache-npm-cache-files.cache-hit != 'true' ||
+          steps.cache-cypress-binary.outputs.cache-hit != 'true'
+      run: npm ci
+      env:
+        NODE_AUTH_TOKEN: ${{ secrets.SWAGGER_BOT_GITHUB_TOKEN }}
+    - name: Unit tests
+      run: npm test --watchAll=false
+      env:
+        CI: true
+    - name: E2E Tests - chrome headless
+      id: cypress-run-ci
+      uses: cypress-io/github-action@v2
+      with:
+        # we have already installed all dependencies above
+        install: false
+        browser: chrome
+        wait-on: "http://localhost:3260"
+        wait-on-timeout: 120
+        headless: true
+        start: npm run start-ci
+    - name: Build app artifacts
+      run: npm run build
+    - name: Build local docker image without export
+      if: github.ref != 'refs/heads/main'
+      uses: docker/build-push-action@v2
+      with:
+        context: .
+        push: false
+        load: true
+        tags: smartbear/swagger-ide:pr
