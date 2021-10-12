@@ -7,4 +7,4 @@ updates:
     commit-message:
       prefix: "chore"
       include: "scope"
-    open-pull-requests-limit: 10
+    open-pull-requests-limit: 6
