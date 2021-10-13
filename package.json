@@ -99,7 +99,7 @@
     "jest-circus": "^27.2.3",
     "jest-resolve": "^27.2.3",
     "jest-watch-typeahead": "^0.6.5",
-    "lint-staged": "^10.5.1",
+    "lint-staged": "^11.2.3",
     "mini-css-extract-plugin": "0.11.3",
     "npm-run-all": "^4.1.5",
     "optimize-css-assets-webpack-plugin": "5.0.4",
