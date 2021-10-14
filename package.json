@@ -37,7 +37,7 @@
     "prop-types": "^15.7.2",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
-    "react-modal": "^3.12.1",
+    "react-modal": "^3.14.3",
     "react-redux": "^7.2.5",
     "react-resize-detector": "^6.7.4",
     "react-split-pane": "^0.1.92",
