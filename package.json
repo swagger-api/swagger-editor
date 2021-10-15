@@ -25,7 +25,7 @@
     "@types/node": "^16.11.0",
     "@types/react": "^17.0.30",
     "@types/react-dom": "^17.0.9",
-    "axios": "^0.21.4",
+    "axios": "^0.23.0",
     "deepmerge": "^4.2.2",
     "file-dialog": "0.0.8",
     "is-json": "^2.0.1",
