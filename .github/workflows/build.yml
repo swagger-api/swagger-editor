@@ -30,7 +30,9 @@ jobs:
       if: ${{ github.event_name == 'pull_request_target' && github.actor == 'dependabot[bot]'}}
       run: echo 'Dependabot case'
     - name: Checkout for Dependabot
-      if: ${{ github.event_name == 'pull_request_target' && github.actor == 'dependabot[bot]'}}
+      if: |
+        ${{ github.event_name == 'pull_request_target' && github.actor == 'dependabot[bot]'}} ||
+        ${{ github.event_name == 'push' && github.actor == 'dependabot[bot]'}}
       uses: actions/checkout@v2
       with:
         ref: ${{ github.event.pull_request.head.sha }}
