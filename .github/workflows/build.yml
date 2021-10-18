@@ -26,18 +26,16 @@ jobs:
         node-version: [16.8.x]
 
     steps:
-    - name: echo Dependabot case
-      if: ${{ github.event_name == 'pull_request_target' && github.actor == 'dependabot[bot]'}}
-      run: echo 'Dependabot case'
     - name: Checkout for Dependabot
       if: |
-        ${{ github.event_name == 'pull_request_target' && github.actor == 'dependabot[bot]'}} ||
-        ${{ github.event_name == 'push' && github.actor == 'dependabot[bot]'}}
+        ${{ github.event_name == 'pull_request_target' && github.actor == 'dependabot[bot]' }} ||
+        ${{ github.event_name == 'push' && github.actor == 'dependabot[bot]' }}
       uses: actions/checkout@v2
       with:
         ref: ${{ github.event.pull_request.head.sha }}
     - name: Checkout Normally
-      if: ${{ github.event_name != 'pull_request_target' }}
+      if: |
+        ${{ github.event_name != 'pull_request_target' && github.actor != 'dependabot[bot]' }}
       uses: actions/checkout@v2
     - name: Use Node.js ${{ matrix.node-version }}
       uses: actions/setup-node@v1
