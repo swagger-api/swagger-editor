@@ -50,7 +50,7 @@
     "vscode-languageserver-textdocument": "^1.0.2"
   },
   "devDependencies": {
-    "@babel/core": "7.12.3",
+    "@babel/core": "7.15.8",
     "@commitlint/cli": "^13.2.0",
     "@commitlint/config-conventional": "^13.2.0",
     "@pmmmwh/react-refresh-webpack-plugin": "0.4.2",
