@@ -3,16 +3,12 @@ describe("Editor #1862: codegen download links downgrade HTTPS", () => {
     beforeEach(() => {
       cy.visit("/?url=/documents/petstore.swagger.yaml")
 
-      cy.server()
-
-      cy.route({
-        url: "*//generator.swagger.io/api/gen/servers",
-        response: ["nodejs"]
+      cy.intercept("*//generator.swagger.io/api/gen/servers", {
+        body: ["nodejs"]
       })
 
-      cy.route({
-        url: "*//generator.swagger.io/api/gen/clients",
-        response: ["javascript"]
+      cy.intercept("*//generator.swagger.io/api/gen/clients", {
+        body: ["javascript"]
       })
     })
 
@@ -22,26 +18,16 @@ describe("Editor #1862: codegen download links downgrade HTTPS", () => {
 
       // Given
 
-      cy.route({
-        url: "https://generator.swagger.io/api/gen/servers/nodejs",
-        method: "POST",
-        response: {
+      cy.intercept("POST", "https://generator.swagger.io/api/gen/servers/nodejs", {
+        body: {
           "code": "a92bc815-f6e3-4a56-839b-fd2e6f379d52",
           "link": "http://generator.swagger.io:80/api/gen/download/a92bc815-f6e3-4a56-839b-fd2e6f379d52"
         }
       }).as("httpsServerNodejs")
 
-      cy.route({
-        url: "http://generator.swagger.io/api/gen/download/*",
-        onRequest: () => wasHttpHit = true,
-        response: {}
-      }).as("httpServerGenDownload")
+      cy.intercept("http://generator.swagger.io/api/gen/download/*", () => { wasHttpHit = true }).as("httpServerGenDownload")
 
-      cy.route({
-        url: "https://generator.swagger.io/api/gen/download/*",
-        onRequest: () => wasHttpsHit = true,
-        response: {}
-      }).as("httpsServerGenDownload")
+      cy.intercept("https://generator.swagger.io/api/gen/download/*", () => { wasHttpsHit = true }).as("httpsServerGenDownload")
 
       // Then
       cy.contains("Generate Server")
@@ -63,26 +49,16 @@ describe("Editor #1862: codegen download links downgrade HTTPS", () => {
 
       // Given
 
-      cy.route({
-        url: "https://generator.swagger.io/api/gen/clients/javascript",
-        method: "POST",
-        response: {
+      cy.intercept("POST", "https://generator.swagger.io/api/gen/clients/javascript", {
+        body: {
           "code": "a92bc815-f6e3-4a56-839b-fd2e6f379d52",
           "link": "http://generator.swagger.io:80/api/gen/download/a92bc815-f6e3-4a56-839b-fd2e6f379d52"
         }
       }).as("httpsClientJavascript")
 
-      cy.route({
-        url: "http://generator.swagger.io/api/gen/download/*",
-        onRequest: () => wasHttpHit = true,
-        response: {}
-      }).as("httpClientGenDownload")
+      cy.intercept("http://generator.swagger.io/api/gen/download/*", () => wasHttpHit = true).as("httpClientGenDownload")
 
-      cy.route({
-        url: "https://generator.swagger.io/api/gen/download/*",
-        onRequest: () => wasHttpsHit = true,
-        response: {}
-      }).as("httpsClientGenDownload")
+      cy.intercept("https://generator.swagger.io/api/gen/download/*", () => wasHttpsHit = true).as("httpsClientGenDownload")
 
       // Then
       cy.contains("Generate Client")
