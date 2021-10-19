@@ -109,7 +109,7 @@
     "postcss-normalize": "^10.0.1",
     "postcss-preset-env": "6.7.0",
     "postcss-safe-parser": "^6.0.0",
-    "prettier": "^2.1.2",
+    "prettier": "^2.4.1",
     "react-app-polyfill": "^2.0.0",
     "react-dev-utils": "^11.0.4",
     "react-refresh": "^0.8.3",
