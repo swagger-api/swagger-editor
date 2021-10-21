@@ -8,7 +8,7 @@ export default function LinkHome() {
   return (
     <div>
       <a href="/" rel="noopener noreferrer" className="link">
-        <img height="35" className="topbar-logo__img" src={Logo} alt="" />
+        <img className="topbar-logo__img" src={Logo} alt="" />
       </a>
     </div>
   );
