@@ -146,53 +146,55 @@ export const saveAsYamlResolved = () => async (system) => {
   }
 };
 
-export const saveAsYaml = ({ overrideWarning }) => async (system) => {
-  const { specSelectors, errSelectors } = system;
-  const editorContent = specSelectors.specStr();
-  // eslint-disable-next-line camelcase
-  const { isOAS3, isSwagger2, isOAS3_1, isAsyncApi2 } = getSpecVersion(system);
-  const options = { isOAS3, isSwagger2, isOAS3_1, isAsyncApi2 };
+export const saveAsYaml =
+  ({ overrideWarning }) =>
+  async (system) => {
+    const { specSelectors, errSelectors } = system;
+    const editorContent = specSelectors.specStr();
+    // eslint-disable-next-line camelcase
+    const { isOAS3, isSwagger2, isOAS3_1, isAsyncApi2 } = getSpecVersion(system);
+    const options = { isOAS3, isSwagger2, isOAS3_1, isAsyncApi2 };
 
-  // create a mock yaml from mock json (ref: convertToYaml)
-  let contentToConvert;
-  if (!editorContent) {
-    const tempjsContent = YAML.load(JSON.stringify(mockOas3Spec));
-    const tempyamlContent = YAML.dump(tempjsContent);
-    contentToConvert = tempyamlContent;
-  } else {
-    contentToConvert = editorContent;
-  }
+    // create a mock yaml from mock json (ref: convertToYaml)
+    let contentToConvert;
+    if (!editorContent) {
+      const tempjsContent = YAML.load(JSON.stringify(mockOas3Spec));
+      const tempyamlContent = YAML.dump(tempjsContent);
+      contentToConvert = tempyamlContent;
+    } else {
+      contentToConvert = editorContent;
+    }
 
-  const fileName = getFileName({ options });
-  const languageFormat = getDefinitionLanguage({ data: contentToConvert });
-  const parserErrorExists = hasParserErrors({ errors: errSelectors.allErrors() });
-  // const parserErrorExists = true; // mock test
-  if (parserErrorExists && !overrideWarning) {
-    // legacy method, if already yaml, displays confirm window if parser error
-    if (languageFormat === 'yaml') {
+    const fileName = getFileName({ options });
+    const languageFormat = getDefinitionLanguage({ data: contentToConvert });
+    const parserErrorExists = hasParserErrors({ errors: errSelectors.allErrors() });
+    // const parserErrorExists = true; // mock test
+    if (parserErrorExists && !overrideWarning) {
+      // legacy method, if already yaml, displays confirm window if parser error
+      if (languageFormat === 'yaml') {
+        return {
+          warning:
+            'Swagger Editor is not able to parse your API definition. Are you sure you want to save the editor content as YAML?',
+        };
+      }
+      // message for modal to display
       return {
-        warning:
-          'Swagger Editor is not able to parse your API definition. Are you sure you want to save the editor content as YAML?',
+        error:
+          'Save as YAML is not currently possible because Swagger-Editor was not able to parse your API definiton.',
       };
     }
-    // message for modal to display
-    return {
-      error:
-        'Save as YAML is not currently possible because Swagger-Editor was not able to parse your API definiton.',
-    };
-  }
 
-  if (languageFormat === 'yaml') {
-    // content is already yaml, so download as-is
-    getFileDownload({ blob: contentToConvert, filename: `${fileName}.yaml` });
+    if (languageFormat === 'yaml') {
+      // content is already yaml, so download as-is
+      getFileDownload({ blob: contentToConvert, filename: `${fileName}.yaml` });
+      return { data: 'ok' };
+    }
+    // JSON String -> JS object
+    const jsContent = YAML.load(contentToConvert);
+    // JS Object -> YAML string
+    const yamlContent = YAML.dump(jsContent);
+    getFileDownload({ blob: yamlContent, filename: `${fileName}.yaml` });
     return { data: 'ok' };
-  }
-  // JSON String -> JS object
-  const jsContent = YAML.load(contentToConvert);
-  // JS Object -> YAML string
-  const yamlContent = YAML.dump(jsContent);
-  getFileDownload({ blob: yamlContent, filename: `${fileName}.yaml` });
-  return { data: 'ok' };
-};
+  };
 
 export default { saveAsJson, saveAsYaml, saveAsJsonResolved, saveAsYamlResolved };
