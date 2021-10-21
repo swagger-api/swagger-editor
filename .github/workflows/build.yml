@@ -35,7 +35,7 @@ jobs:
         ref: ${{ github.event.pull_request.head.sha }}
     - name: Checkout Normally
       if: |
-        ${{ github.event_name != 'pull_request_target' && github.actor != 'dependabot[bot]' }}
+        ${{ github.actor != 'dependabot[bot]' }}
       uses: actions/checkout@v2
     - name: Use Node.js ${{ matrix.node-version }}
       uses: actions/setup-node@v1
