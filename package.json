@@ -19,7 +19,7 @@
     "serve-static-build": "serve -s build -l 3050"
   },
   "dependencies": {
-    "@primer/octicons-react": "^14.2.2",
+    "@primer/octicons-react": "^16.0.0",
     "@swagger-api/apidom-core": "^0.3.0",
     "@swagger-api/apidom-ls": "^0.3.0",
     "@types/node": "^16.11.0",
