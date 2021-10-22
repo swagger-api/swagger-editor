@@ -20,8 +20,8 @@
   },
   "dependencies": {
     "@primer/octicons-react": "^16.0.0",
-    "@swagger-api/apidom-core": "^0.3.0",
-    "@swagger-api/apidom-ls": "^0.3.0",
+    "@swagger-api/apidom-core": "^0.4.0",
+    "@swagger-api/apidom-ls": "^0.4.0",
     "@types/node": "^16.11.2",
     "@types/react": "^17.0.30",
     "@types/react-dom": "^17.0.9",
