@@ -26,6 +26,28 @@ jobs:
         node-version: [16.8.x]
 
     steps:
+    - name: DEBUG event_name
+      run: echo ${{ github.event_name }}
+    - name: DEBUG actor
+      run: echo ${{ github.actor }}
+    - name: DEBUG 1 Dependabot PR checkout
+      if: |
+        ${{ github.event_name == 'pull_request_target' && github.actor == 'dependabot[bot]' }}
+      run: echo "should checkout for Dependabot PR"
+    - name: DEBUG 2 dependabot Push
+      if: |
+        ${{ github.event_name == 'push' && github.actor == 'dependabot[bot]' }}
+      run: echo "should checkout for Dependabot Push"
+    - name: DEBUG 3 Dependabot PR and Push checkout
+      if: |
+        ${{ github.event_name == 'pull_request_target' && github.actor == 'dependabot[bot]' }} ||
+        ${{ github.event_name == 'push' && github.actor == 'dependabot[bot]' }}
+      run: echo "should checkout for Dependabot PR and Push"
+    - name: DEBUG 4 normal checkout
+      if: |
+        ${{ github.event_name == 'pull_request_target' && github.actor != 'dependabot[bot]' }} &&
+        ${{ github.event_name == 'push' && github.actor != 'dependabot[bot]' }}
+      run: echo "should checkout normally"
     - name: Checkout for Dependabot
       if: |
         ${{ github.event_name == 'pull_request_target' && github.actor == 'dependabot[bot]' }} ||
@@ -35,7 +57,8 @@ jobs:
         ref: ${{ github.event.pull_request.head.sha }}
     - name: Checkout Normally
       if: |
-        ${{ github.actor != 'dependabot[bot]' }}
+        ${{ github.event_name == 'pull_request_target' && github.actor != 'dependabot[bot]' }} &&
+        ${{ github.event_name == 'push' && github.actor != 'dependabot[bot]' }}
       uses: actions/checkout@v2
     - name: Use Node.js ${{ matrix.node-version }}
       uses: actions/setup-node@v1
