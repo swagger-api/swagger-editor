@@ -1,9 +1,16 @@
 describe('Monaco Editor with Parser', () => {
   beforeEach(() => {
-    // intercept default hardcoded petstore URI with a fixture
-    cy.intercept('GET', 'https://petstore3.swagger.io/api/v3/openapi.yaml', {
-      fixture: 'petstore-oas3.yaml',
-    }).as('externalPetstore');
+    /*
+      // intercept default hardcoded petstore URI with a fixture
+      cy.intercept('GET', 'https://petstore3.swagger.io/api/v3/openapi.yaml', {
+        fixture: 'petstore-oas3.yaml',
+      }).as('externalPetstore');
+    */
+
+    // intercept default hardcoded asyncapi URI with a fixture
+    cy.intercept('GET', 'https://raw.githubusercontent.com/asyncapi/spec/v2.2.0/examples/streetlights-kafka.yml', {
+      fixture: 'streetlights-kafka.yml',
+    }).as('streetlightsKafka');
 
     const staticResponse = {
       servers: ['blue', 'brown'],
@@ -22,9 +29,14 @@ describe('Monaco Editor with Parser', () => {
     });
 
     cy.visit('/', {});
+    // tests when initial URL is set to AsyncAPI streetlights-kafka.yml
+    cy.wait('@streetlightsKafka');
+    /*
+    // tests when initial URL is set to OAS 3.0 spec
     cy.wait('@externalPetstore');
     cy.wait('@externalGeneratorServers');
     cy.wait('@externalGeneratorClients');
+    */
   });
 
   const detectedPlatform = Cypress.platform;

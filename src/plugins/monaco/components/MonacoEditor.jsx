@@ -91,6 +91,8 @@ export default class MonacoEditor extends Component {
         lightbulb: {
           enabled: true,
         },
+        // suggestOnTriggerCharacters: false,
+        // inlineSuggest: false,
         lineNumbers: 'on',
         autoIndent: 'full',
         formatOnPaste: true,
@@ -101,7 +103,9 @@ export default class MonacoEditor extends Component {
         },
         wordBasedSuggestions: false,
         // quickSuggestions: false,
+        quickSuggestionsDelay: 500,
         fixedOverflowWidgets: true,
+        'bracketPairColorization.enabled': true,
         // ...options,
         // ...(theme ? { theme } : {}), // think this is inactive, and may not be necessary; based on a sample
       });
