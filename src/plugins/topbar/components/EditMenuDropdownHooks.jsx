@@ -130,6 +130,10 @@ export default function EditMenuDropdownHooks(props) {
         onClick={() => handleLoadDefaultDefinition('asyncapi2')}
         name="Load Default AsyncAPI 2.0"
       />
+      <DropdownItem
+        onClick={() => handleLoadDefaultDefinition('asyncapi-petstore-kafka')}
+        name="Load Default AsyncAPI 2.0 Petstore Kafka"
+      />
     </DropdownMenu>
   );
 }

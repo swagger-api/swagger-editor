@@ -8,6 +8,7 @@ import {
   mockOas3Spec,
   mockAsyncapi2Spec,
   mockOas3_1Spec,
+  mockAsyncApi2PetstoreKafka,
 } from '../topbar-actions-fixtures';
 
 export const loadDefaultDefinition = (language) => async (system) => {
@@ -26,6 +27,8 @@ export const loadDefaultDefinition = (language) => async (system) => {
     contentToLoad = JSON.stringify(mockAsyncapi2Spec, null, 2);
   } else if (language === 'oas2') {
     contentToLoad = JSON.stringify(mockOas2Spec, null, 2);
+  } else if (language === 'asyncapi-petstore-kafka') {
+    contentToLoad = JSON.stringify(mockAsyncApi2PetstoreKafka, null, 2);
   } else {
     return { error: 'unsupported language provided' };
   }

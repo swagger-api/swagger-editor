@@ -7,7 +7,7 @@
   "scripts": {
     "start": "env-cmd -f ./.env.development node scripts/start.js",
     "start-ci": "env-cmd -f ./.env.test node scripts/start.js",
-    "build": "node scripts/build.js",
+    "build": "NODE_OPTIONS=--max_old_space_size=4096 node scripts/build.js",
     "test": "node scripts/test.js --config config/jest/jest.config.js",
     "test:cy:open": "env-cmd -f ./.env.development cypress open",
     "test:cy:run": "env-cmd -f ./.env.development cypress run",
@@ -19,6 +19,7 @@
     "serve-static-build": "serve -s build -l 3050"
   },
   "dependencies": {
+    "@asyncapi/react-component": "^1.0.0-next.21",
     "@primer/octicons-react": "^16.0.0",
     "@swagger-api/apidom-core": "^0.4.0",
     "@swagger-api/apidom-ls": "^0.4.0",
