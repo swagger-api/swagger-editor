@@ -88,6 +88,7 @@ jobs:
       env:
         NODE_AUTH_TOKEN: ${{ secrets.SWAGGER_BOT_GITHUB_TOKEN }}
     - name: Lint commit message
+      if: ${{ github.ref != 'refs/heads/main' }}
       run: git log -1 --pretty=format:"%s" | npx commitlint
     - name: Lint code
       run: npm run lint
