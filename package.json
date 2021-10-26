@@ -58,7 +58,7 @@
     "@svgr/webpack": "5.4.0",
     "@testing-library/cypress": "^8.0.1",
     "@testing-library/jest-dom": "^5.14.1",
-    "@testing-library/react": "^11.1.2",
+    "@testing-library/react": "^12.1.2",
     "@testing-library/user-event": "^13.5.0",
     "@types/jest": "^27.0.2",
     "@typescript-eslint/eslint-plugin": "^4.33.0",
