@@ -5,7 +5,7 @@
     "airbnb",
     "plugin:jsx-a11y/recommended",
     "prettier",
-    "prettier/react"
+    "plugin:prettier/recommended"
   ],
   "globals": {
     "File": true,
@@ -20,7 +20,6 @@
   },
   "plugins": [
     "jsx-a11y",
-    "eslint-plugin-prettier",
     "prettier"
   ],
   "rules": {
