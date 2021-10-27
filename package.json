@@ -16,13 +16,17 @@
     "lint": "eslint ./ --ext .jsx",
     "lint:fix": "eslint ./ --ext .jsx --fix",
     "clean": "rimraf ./build",
-    "serve-static-build": "serve -s build -l 3050"
+    "serve-static-build": "serve -s build -l 3050",
+    "link-local-apidom": "npm link @swagger-api/apidom-ast @swagger-api/apidom-core @swagger-api/apidom-parser-adapter-json @swagger-api/apidom-ns-asyncapi-2 @swagger-api/apidom-parser-adapter-yaml-1-2 @swagger-api/apidom-parser-adapter-asyncapi-yaml-2 @swagger-api/apidom-parser-adapter-openapi-yaml-3-1 @swagger-api/apidom-parser @swagger-api/apidom-parser-adapter-asyncapi-json-2 @swagger-api/apidom-ls @swagger-api/apidom-ns-openapi-3-1 @swagger-api/apidom-reference @swagger-api/apidom-parser-adapter-openapi-json-3-1",
+    "unlink-local-apidom": "npm unlink --global @swagger-api/apidom-ast @swagger-api/apidom-core @swagger-api/apidom-parser-adapter-json @swagger-api/apidom-ns-asyncapi-2 @swagger-api/apidom-parser-adapter-yaml-1-2 @swagger-api/apidom-parser-adapter-asyncapi-yaml-2 @swagger-api/apidom-parser-adapter-openapi-yaml-3-1 @swagger-api/apidom-parser @swagger-api/apidom-parser-adapter-asyncapi-json-2 @swagger-api/apidom-ls @swagger-api/apidom-ns-openapi-3-1 @swagger-api/apidom-reference @swagger-api/apidom-parser-adapter-openapi-json-3-1",
+    "link-local-apidom-ls": "npm link @swagger-api/apidom-ls",
+    "unlink-local-apidom-ls": "npm unlink --global @swagger-api/apidom-ls"
   },
   "dependencies": {
     "@asyncapi/react-component": "^1.0.0-next.21",
     "@primer/octicons-react": "^16.0.0",
-    "@swagger-api/apidom-core": "^0.4.0",
-    "@swagger-api/apidom-ls": "^0.4.0",
+    "@swagger-api/apidom-core": "^0.5.0",
+    "@swagger-api/apidom-ls": "^0.5.0",
     "@types/node": "^16.11.6",
     "@types/react": "^17.0.30",
     "@types/react-dom": "^17.0.9",
