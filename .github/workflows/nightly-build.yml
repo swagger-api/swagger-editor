@@ -3,7 +3,7 @@ name: Swagger IDE nightly build
 on:
   workflow_dispatch:
   schedule:
-    - cron:  '45 21 * * *'
+    - cron:  '30 22 * * *'
 
 jobs:
   nightly-build:
@@ -23,6 +23,12 @@ jobs:
         with:
           path: ~/.npm
           key: npm-cache-${{ runner.os }}-${{ hashFiles('package-lock.json') }}
+      - name: Cache Cypress binary
+        id: cache-cypress-binary
+        uses: actions/cache@v2
+        with:
+          path: cypress/cache
+          key: cypress-binary-${{ hashFiles('package-lock.json') }}
       - name: Install dependencies
         run: npm ci
         env:
@@ -33,6 +39,17 @@ jobs:
         run: npm test --watchAll=false
         env:
           CI: true
+      - name: E2E Tests - chrome headless
+        id: cypress-run-ci
+        uses: cypress-io/github-action@v2
+        with:
+          # we have already installed all dependencies above
+          install: false
+          browser: chrome
+          wait-on: "http://localhost:3260"
+          wait-on-timeout: 120
+          headless: true
+          start: npm run start-ci
       - name: Build app
         run: npm run build
       - name: Upload build artifacts (for GH pages)
