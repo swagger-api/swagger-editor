@@ -1,0 +1,83 @@
+name: Swagger IDE nightly build
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron:  '45 21 * * *'
+
+jobs:
+  nightly-build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: Use Node.js 16.8.0
+        uses: actions/setup-node@v2
+        with:
+          node-version: 16.8
+          registry-url: https://npm.pkg.github.com/
+          scope: "@swagger-api"
+      - name: Cache npm cache files
+        id: cache-npm-cache-files
+        uses: actions/cache@v2
+        with:
+          path: ~/.npm
+          key: npm-cache-${{ runner.os }}-${{ hashFiles('package-lock.json') }}
+      - name: Install dependencies
+        run: npm ci
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.SWAGGER_BOT_GITHUB_TOKEN }}
+      - name: Lint code
+        run: npm run lint
+      - name: Execute unit tests
+        run: npm test --watchAll=false
+        env:
+          CI: true
+      - name: Build app
+        run: npm run build
+      - name: Upload build artifacts (for GH pages)
+        uses: actions/upload-artifact@v2
+        with:
+          name: build
+          path: ./build
+      - name: Log in to DockerHub
+        uses: docker/login-action@v1
+        with:
+          username: ${{ secrets.DOCKERHUB_SB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_SB_PASSWORD }}
+      - name: Build docker image and push
+        uses: docker/build-push-action@v2
+        with:
+          context: .
+          push: true
+          tags: smartbear/swagger-ide:latest
+
+  deploy:
+    name: Deploy to GH Pages and Rancher
+
+    needs: [ nightly-build ]
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+      with:
+        token: ${{ secrets.GITHUB_TOKEN }}
+    - name: Download built artifact from build job
+      uses: actions/download-artifact@v2
+    - name: Deploy GH-Pages🚀
+      uses: JamesIves/github-pages-deploy-action@4.1.5
+      with:
+        token: ${{ secrets.GITHUB_TOKEN }}
+        branch: gh-pages # The branch the action should deploy to.
+        folder: build # The folder the action should deploy.
+        clean: true # Automatically remove deleted files from the deploy branch
+    - name: Deploy Rancher🚢
+      run: |
+        curl -i -XPOST -H"Authorization: Bearer ${RANCHER_BEARER_TOKEN}" "${RANCHER_URL}/v3/project/${RANCHER_CLUSTER_ID}:${RANCHER_PROJECT_ID}/workloads/${RANCHER_NAMESPACE}:${RANCHER_WORKLOAD}?action=redeploy"
+      env:
+        RANCHER_BEARER_TOKEN: ${{ secrets.RANCHER_BEARER_TOKEN }}
+        RANCHER_CLUSTER_ID: 'c-bvgwd'
+        RANCHER_NAMESPACE: 'daemonset:swagger-oss'
+        RANCHER_PROJECT_ID: 'p-q7rb6'
+        RANCHER_URL: ${{ secrets.RANCHER_URL }}
+        RANCHER_WORKLOAD: 'swagger-ide'
