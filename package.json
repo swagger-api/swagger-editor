@@ -77,7 +77,7 @@
     "camelcase": "^6.1.0",
     "case-sensitive-paths-webpack-plugin": "2.4.0",
     "css-loader": "^5.2.7",
-    "cypress": "^8.6.0",
+    "cypress": "^8.7.0",
     "dotenv": "10.0.0",
     "dotenv-expand": "5.1.0",
     "env-cmd": "^10.1.0",
