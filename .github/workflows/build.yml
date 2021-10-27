@@ -13,9 +13,11 @@ on:
 
 jobs:
   build:
+    # since ci requires token write access
     # security allowlist Dependabot for pull_request_target (i.e. from fork)
+    # disallow Dependabot triggered push & pull_request events, which only have read-only access
     if: |
-      (github.event_name == 'push') ||
+      (github.event_name == 'push' && github.actor != 'dependabot[bot]') ||
       (github.event_name == 'pull_request' && github.actor != 'dependabot[bot]') ||
       (github.event_name == 'pull_request_target' && github.actor == 'dependabot[bot]')
 
@@ -26,36 +28,8 @@ jobs:
         node-version: [16.8.x]
 
     steps:
-    - name: DEBUG event_name
-      run: echo ${{ github.event_name }}
-    - name: DEBUG actor
-      run: echo ${{ github.actor }}
-    - name: DEBUG 1 Dependabot PR checkout
+    - name: Checkout for Dependabot PR
       if: ${{ github.event_name == 'pull_request_target' && github.actor == 'dependabot[bot]' }}
-      run: echo "should checkout for Dependabot PR"
-    - name: DEBUG 2 dependabot Push
-      if: ${{ github.event_name == 'push' && github.actor == 'dependabot[bot]' }}
-      run: echo "should checkout for Dependabot Push"
-    - name: DEBUG 3 Dependabot PR and Push checkout
-      if: |
-        (github.event_name == 'pull_request_target' && github.actor == 'dependabot[bot]') ||
-        (github.event_name == 'push' && github.actor == 'dependabot[bot]')
-      run: echo "should checkout for Dependabot PR and Push"
-    - name: DEBUG 4 normal checkout
-      if: |
-        (github.event_name == 'pull_request_target' && github.actor != 'dependabot[bot]') ||
-        github.actor != 'dependabot[bot]'
-      run: echo "should checkout normally"
-    - name: DEBUG 5 normal checkout (may be Dependabot Push)
-      if: |
-        (github.event_name == 'pull_request_target' && github.actor != 'dependabot[bot]') ||
-        (github.event_name == 'push' && github.actor == 'dependabot[bot]') ||
-        github.actor != 'dependabot[bot]'
-      run: echo "should checkout for normally, may be for Dependabot Push"
-    - name: Checkout for Dependabot PR/Push
-      if: |
-        (github.event_name == 'pull_request_target' && github.actor == 'dependabot[bot]') ||
-        (github.event_name == 'push' && github.actor == 'dependabot[bot]')
       uses: actions/checkout@v2
       with:
         ref: ${{ github.event.pull_request.head.sha }}
