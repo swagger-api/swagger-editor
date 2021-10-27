@@ -43,7 +43,7 @@
     "react": "^17.0.1",
     "react-dom": "^17.0.2",
     "react-modal": "^3.14.3",
-    "react-redux": "^7.2.5",
+    "react-redux": "^7.2.6",
     "react-resize-detector": "^6.7.6",
     "react-split-pane": "^0.1.92",
     "redux": "^4.0.5",
