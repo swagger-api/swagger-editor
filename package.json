@@ -31,6 +31,7 @@
     "@types/react": "^17.0.30",
     "@types/react-dom": "^17.0.9",
     "axios": "^0.24.0",
+    "debounce": "^1.2.1",
     "deepmerge": "^4.2.2",
     "file-dialog": "0.0.8",
     "is-json": "^2.0.1",
