@@ -15,7 +15,7 @@ export default function LayoutDefault(props) {
       <Topbar />
       <div className="swagger-ide">
         <Container className="container">
-          <SplitPaneMode>
+          <SplitPaneMode split="vertical">
             <EditorPane />
             <UiPane getComponent={getComponent} asyncapiActions={asyncapiActions} />
           </SplitPaneMode>
