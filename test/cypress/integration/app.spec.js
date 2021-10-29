@@ -1,16 +1,29 @@
+/* eslint-disable testing-library/await-async-utils */
+/* eslint-disable testing-library/await-async-query */
+
+/**
+ * disable above rules to cover cy.wait, cy.findByText
+ * where using async/await withing Cypress is discouraged
+ * this is a linting compatibility mismatch between testing-library and Cypress
+ */
+
 describe('App', () => {
   beforeEach(() => {
-/*
-    // intercept default hardcoded petstore URI with a fixture
-    cy.intercept('GET', 'https://petstore3.swagger.io/api/v3/openapi.yaml', {
-      fixture: 'petstore-oas3.yaml',
-    }).as('externalPetstore');
-*/
+    /*
+      // intercept default hardcoded petstore URI with a fixture
+      cy.intercept('GET', 'https://petstore3.swagger.io/api/v3/openapi.yaml', {
+        fixture: 'petstore-oas3.yaml',
+      }).as('externalPetstore');
+    */
 
     // intercept default hardcoded asyncapi URI with a fixture
-    cy.intercept('GET', 'https://raw.githubusercontent.com/asyncapi/spec/v2.2.0/examples/streetlights-kafka.yml', {
-      fixture: 'streetlights-kafka.yml',
-    }).as('streetlightsKafka');
+    cy.intercept(
+      'GET',
+      'https://raw.githubusercontent.com/asyncapi/spec/v2.2.0/examples/streetlights-kafka.yml',
+      {
+        fixture: 'streetlights-kafka.yml',
+      }
+    ).as('streetlightsKafka');
 
     const staticResponse = {
       servers: ['blue', 'brown'],

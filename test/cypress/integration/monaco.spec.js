@@ -1,3 +1,11 @@
+/* eslint-disable testing-library/await-async-utils */
+
+/**
+ * disable above rules to cover cy.wait, cy.findByText
+ * where using async/await withing Cypress is discouraged
+ * this is a linting compatibility mismatch between testing-library and Cypress
+ */
+
 describe('Monaco Editor with Parser', () => {
   beforeEach(() => {
     /*
@@ -8,9 +16,13 @@ describe('Monaco Editor with Parser', () => {
     */
 
     // intercept default hardcoded asyncapi URI with a fixture
-    cy.intercept('GET', 'https://raw.githubusercontent.com/asyncapi/spec/v2.2.0/examples/streetlights-kafka.yml', {
-      fixture: 'streetlights-kafka.yml',
-    }).as('streetlightsKafka');
+    cy.intercept(
+      'GET',
+      'https://raw.githubusercontent.com/asyncapi/spec/v2.2.0/examples/streetlights-kafka.yml',
+      {
+        fixture: 'streetlights-kafka.yml',
+      }
+    ).as('streetlightsKafka');
 
     const staticResponse = {
       servers: ['blue', 'brown'],
@@ -30,7 +42,9 @@ describe('Monaco Editor with Parser', () => {
 
     cy.visit('/', {});
     // tests when initial URL is set to AsyncAPI streetlights-kafka.yml
-    cy.wait('@streetlightsKafka');
+    cy.wait('@streetlightsKafka').then(() => {
+      console.log('ok');
+    });
     /*
     // tests when initial URL is set to OAS 3.0 spec
     cy.wait('@externalPetstore');

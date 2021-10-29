@@ -5,7 +5,8 @@
     "airbnb",
     "plugin:jsx-a11y/recommended",
     "prettier",
-    "plugin:prettier/recommended"
+    "plugin:prettier/recommended",
+    "plugin:cypress/recommended"
   ],
   "globals": {
     "File": true,

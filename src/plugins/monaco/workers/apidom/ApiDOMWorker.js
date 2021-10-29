@@ -1,6 +1,11 @@
 /* eslint-disable no-underscore-dangle */
 import { TextDocument } from 'vscode-languageserver-textdocument'; // this is true source
-import { getLanguageService, OpenAPi31JsonSchemaValidationProvider, Asyncapi20JsonSchemaValidationProvider } from '@swagger-api/apidom-ls';
+import {
+  getLanguageService,
+  OpenAPi31JsonSchemaValidationProvider,
+  Asyncapi20JsonSchemaValidationProvider,
+} from '@swagger-api/apidom-ls';
+
 import { languageID } from '../../adapters/config';
 import metadata from './metadata';
 
@@ -17,7 +22,6 @@ export class ApiDOMWorker {
       validatorProviders: [oasJsonSchemavalidationProvider, asyncJsonSchemavalidationProvider],
     };
     this._languageService = getLanguageService(apidomContext);
-
   }
 
   async doValidation(uri) {
