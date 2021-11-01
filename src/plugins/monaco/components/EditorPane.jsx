@@ -29,7 +29,7 @@ export default class EditorPane extends PureComponent {
 
   handleChangeEditorValue = (val) => {
     const { specActions } = this.props;
-    debounce(specActions.updateSpec(val), 20);
+    debounce(specActions.updateSpec(val), 500);
   };
 
   handleChangeThemeValue = async (val) => {
