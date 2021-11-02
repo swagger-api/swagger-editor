@@ -4,8 +4,6 @@ import AsyncApiReactComponent from '@asyncapi/react-component';
 import '@asyncapi/react-component/styles/default.min.css';
 
 export default function AsyncApiComponent(props) {
-  const showErrors = true; // config setting to show error pane
-
   const getSelectorSpecStr = () => {
     const { specSelectors } = props;
     const initialValue = 'Welcome to the AsyncAPI React Component';
@@ -16,9 +14,15 @@ export default function AsyncApiComponent(props) {
 
   const valueForDemo = getSelectorSpecStr();
 
+  const config = {
+    show: {
+      errors: true, // config setting to show error pane
+    },
+  };
+
   return (
     <div id="ui-pane" className="ui-pane">
-      <AsyncApiReactComponent schema={valueForDemo} showErrors={showErrors} />
+      <AsyncApiReactComponent schema={valueForDemo} config={config} />
     </div>
   );
 }
