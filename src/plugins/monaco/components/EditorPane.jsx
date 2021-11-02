@@ -12,7 +12,6 @@ export default class EditorPane extends PureComponent {
     super(props);
     this.state = {
       language: 'apidom',
-      theme: 'my-vs-dark',
       height: '90vh',
       width: '50',
       initialValue: 'Welcome to Swagger Editor',
@@ -37,12 +36,13 @@ export default class EditorPane extends PureComponent {
     if (!defaultThemeList.includes(val)) {
       return;
     }
-    this.setState({ theme: val });
+
+    const { editorActions } = this.props;
+    editorActions.updateEditorTheme(val);
   };
 
   // eslint-disable-next-line no-unused-vars
   handleEditorResize = (width, height) => {
-    // console.log('handleEditorResize. args:', width, ' | ', height);
     this.setState({ width });
   };
 
@@ -51,8 +51,11 @@ export default class EditorPane extends PureComponent {
   };
 
   render() {
-    const { initialValue, language, theme, height, width } = this.state;
+    const { initialValue, language, height, width } = this.state;
+    const { editorSelectors } = this.props;
 
+    const defaultEditorTheme = 'my-vs-dark';
+    const theme = editorSelectors.getEditorTheme() || defaultEditorTheme;
     const valueForEditor = this.getSelectorSpecStr();
 
     return (
@@ -84,4 +87,6 @@ export default class EditorPane extends PureComponent {
 EditorPane.propTypes = {
   specActions: PropTypes.oneOfType([PropTypes.object]).isRequired,
   specSelectors: PropTypes.oneOfType([PropTypes.object]).isRequired,
+  editorActions: PropTypes.oneOfType([PropTypes.object]).isRequired,
+  editorSelectors: PropTypes.oneOfType([PropTypes.object]).isRequired,
 };

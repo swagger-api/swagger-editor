@@ -32,4 +32,5 @@ LayoutDefault.propTypes = {
   // errSelectors: PropTypes.oneOfType([PropTypes.object]).isRequired,
   // errActions: PropTypes.oneOfType([PropTypes.object]).isRequired,
   asyncapiActions: PropTypes.oneOfType([PropTypes.object]).isRequired,
+  // editorActions: PropTypes.oneOfType([PropTypes.object]).isRequired,
 };

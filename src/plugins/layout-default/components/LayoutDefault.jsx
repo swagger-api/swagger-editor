@@ -32,4 +32,5 @@ LayoutDefault.propTypes = {
   // specSelectors: PropTypes.oneOfType([PropTypes.object]).isRequired,
   // errSelectors: PropTypes.oneOfType([PropTypes.object]).isRequired,
   // errActions: PropTypes.oneOfType([PropTypes.object]).isRequired,
+  // editorActions: PropTypes.oneOfType([PropTypes.object]).isRequired,
 };
