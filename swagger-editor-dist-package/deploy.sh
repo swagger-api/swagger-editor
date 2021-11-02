@@ -13,6 +13,10 @@ rm package.json.bak
 # Copy Editor's dist files to our directory
 cp ../dist/* .
 
+# Copy LICENSE & NOTICE to our directory
+cp ../LICENSE .
+cp ../NOTICE .
+
 # Copy index.html
 cp ../index.html .
 
