@@ -163,7 +163,7 @@
     "webpack-cli": "^4.7.0",
     "webpack-dev-server": "^3.11.0",
     "webpack-stats-plugin": "^1.0.3",
-    "worker-loader": "^2.0.0"
+    "worker-loader": "^3.0.8"
   },
   "config": {
     "deps_check_dir": ".deps_check"
