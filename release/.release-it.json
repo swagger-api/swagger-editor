@@ -23,8 +23,7 @@
   },
   "plugins": {
     "@release-it/conventional-changelog": {
-      "preset": "angular",
-      "ignoreRecommendedBump": true
+      "preset": "angular"
     }
   }
 }

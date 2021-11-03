@@ -16,7 +16,7 @@
     "Sahar Jafari <shr.jafari@gmail.com>"
   ],
   "scripts": {
-    "automated-release": "release-it --preRelease --verbose --config ./release/.release-it.json",
+    "automated-release": "release-it -VV --config ./release/.release-it.json",
     "build": "run-p --aggregate-output build:core build:bundle build:standalone build:stylesheets build:es:bundle build:es:bundle:core",
     "build:bundle": "webpack --config webpack/bundle.babel.js --color",
     "build:core": "webpack --config webpack/core.babel.js --color",
