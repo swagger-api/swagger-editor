@@ -2,12 +2,8 @@
   height: #{"calc(100% - 51px)"} !important;
 }
 
-.Pane2 {
+.Pane {
   overflow-y: scroll;
-}
-
-.Pane1 {
-  overflow: hidden;
 }
 
 .dropzone {
@@ -53,7 +49,7 @@
 
 @media print {
   //List of elements that should not be rendered for printing
-  .Pane1, .topbar {
+  .topbar {
     display: none;
   }
 
@@ -63,7 +59,7 @@
   }
 
   //The right-hand preview pane should be the full width of the page
-  .Pane2 {
+  .Pane {
     overflow-y: auto;
     width: 100% !important;
   }
