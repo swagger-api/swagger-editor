@@ -2,6 +2,8 @@ const lightThemeMap = {
   parameter: 5,
   specVersion: 6,
   version: 6,
+  'api-version': 6,
+  'spec-version': 6,
   info: 6,
   operation: {
     default: 7,
@@ -75,6 +77,8 @@ export const themes = {
     rules: [
       { token: 'info', foreground: '#1de2fa', fontStyle: 'bold' },
       { token: 'version', foreground: '#1de2fa' },
+      { token: 'spec-version', foreground: '#1de2fa' },
+      { token: 'api-version', foreground: '#1de2fa' },
       { token: 'title', foreground: '#1de2fa' },
       { token: 'openapi', foreground: '#1de2fa', fontStyle: 'bold' },
       { token: 'specVersion', foreground: '#1de2fa' },
