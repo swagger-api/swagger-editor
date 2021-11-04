@@ -148,7 +148,7 @@ const securitySchemeLints = [securitySchemeLint];
 
 /* COMPLETE */
 
-const asyncapiVersionCompletes = [
+const asyncapiVersionCompletesYaml = [
   {
     label: '2.0.0',
     kind: 10,
@@ -165,6 +165,27 @@ const asyncapiVersionCompletes = [
     label: '2.2.0',
     kind: 10,
     insertText: '2.2.0$1',
+    insertTextFormat: 2,
+  },
+];
+
+const asyncapiVersionCompletesJson = [
+  {
+    label: '2.0.0',
+    kind: 10,
+    insertText: '"2.0.0"$1',
+    insertTextFormat: 2,
+  },
+  {
+    label: '2.1.0',
+    kind: 10,
+    insertText: '"2.1.0"$1',
+    insertTextFormat: 2,
+  },
+  {
+    label: '2.2.0',
+    kind: 10,
+    insertText: '"2.2.0"$1',
     insertTextFormat: 2,
   },
 ];
@@ -298,10 +319,10 @@ const schemaCompletesJson = [
 const asyncapiVersionMeta = {
   lint: asyncapiVersionLints,
   yaml: {
-    completion: asyncapiVersionCompletes,
+    completion: asyncapiVersionCompletesYaml,
   },
   json: {
-    completion: asyncapiVersionCompletes,
+    completion: asyncapiVersionCompletesJson,
   },
 };
 

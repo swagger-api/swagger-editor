@@ -1,7 +1,6 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import ReactResizeDetector from 'react-resize-detector';
-import { debounce } from 'debounce';
 
 import MonacoEditor from './MonacoEditor'; // load directly, do not use getComponent
 // import ThemeSelection from './ThemeSelection';
@@ -28,7 +27,9 @@ export default class EditorPane extends PureComponent {
 
   handleChangeEditorValue = (val) => {
     const { specActions } = this.props;
-    debounce(specActions.updateSpec(val), 500);
+    // debounce
+    clearTimeout(this.#changeEditorValueHandle);
+    this.#changeEditorValueHandle = setTimeout(() => specActions.updateSpec(val), 500);
   };
 
   handleChangeThemeValue = async (val) => {
@@ -49,6 +50,8 @@ export default class EditorPane extends PureComponent {
   editorDidMount = (editor) => {
     editor.focus();
   };
+
+  #changeEditorValueHandle;
 
   render() {
     const { initialValue, language, height, width } = this.state;

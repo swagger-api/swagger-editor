@@ -4,6 +4,8 @@ import {
   getLanguageService,
   OpenAPi31JsonSchemaValidationProvider,
   Asyncapi20JsonSchemaValidationProvider,
+  Asyncapi21JsonSchemaValidationProvider,
+  Asyncapi22JsonSchemaValidationProvider,
 } from '@swagger-api/apidom-ls';
 
 import { languageID } from '../../adapters/config';
@@ -17,9 +19,16 @@ export class ApiDOMWorker {
     // this._languageService = getLanguageService(this._ctx);
     const oasJsonSchemavalidationProvider = new OpenAPi31JsonSchemaValidationProvider();
     const asyncJsonSchemavalidationProvider = new Asyncapi20JsonSchemaValidationProvider();
+    const asyncJsonSchemavalidationProvider21 = new Asyncapi21JsonSchemaValidationProvider();
+    const asyncJsonSchemavalidationProvider22 = new Asyncapi22JsonSchemaValidationProvider();
     const apidomContext = {
       metadata: metadata(), // metadata (docs, linting rules, completion, etc) defined in metadata.js
-      validatorProviders: [oasJsonSchemavalidationProvider, asyncJsonSchemavalidationProvider],
+      validatorProviders: [
+        oasJsonSchemavalidationProvider,
+        asyncJsonSchemavalidationProvider,
+        asyncJsonSchemavalidationProvider21,
+        asyncJsonSchemavalidationProvider22,
+      ],
     };
     this._languageService = getLanguageService(apidomContext);
   }
