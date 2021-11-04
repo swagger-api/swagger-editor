@@ -89,7 +89,7 @@
     "swagger-client": "^3.17.0",
     "swagger-ui": "^4.0.0",
     "traverse": "^0.6.6",
-    "validator": "=13.6.0",
+    "validator": "=13.7.0",
     "yaml-js": "^0.2.3"
   },
   "devDependencies": {
