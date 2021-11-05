@@ -27,9 +27,10 @@ export default class EditorPane extends PureComponent {
 
   handleChangeEditorValue = (val) => {
     const { specActions } = this.props;
+    specActions.updateSpec(val);
     // debounce
-    clearTimeout(this.#changeEditorValueHandle);
-    this.#changeEditorValueHandle = setTimeout(() => specActions.updateSpec(val), 500);
+    // clearTimeout(this.#changeEditorValueHandle);
+    // this.#changeEditorValueHandle = setTimeout(() => specActions.updateSpec(val), 500);
   };
 
   handleChangeThemeValue = async (val) => {
@@ -51,7 +52,7 @@ export default class EditorPane extends PureComponent {
     editor.focus();
   };
 
-  #changeEditorValueHandle;
+  // #changeEditorValueHandle;
 
   render() {
     const { initialValue, language, height, width } = this.state;

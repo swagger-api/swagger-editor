@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import AsyncApiReactComponent from '@asyncapi/react-component';
 import '@asyncapi/react-component/styles/default.min.css';
@@ -12,7 +12,20 @@ export default function AsyncApiComponent(props) {
     return spec || initialValue;
   };
 
-  const valueForDemo = getSelectorSpecStr();
+  // Todo: extract into a helper utiL
+  const useDebounce = (value, delay) => {
+    const [debouncedValue, setDebouncedValue] = useState(value);
+    useEffect(() => {
+      const timer = setTimeout(() => setDebouncedValue(value), delay);
+      return () => {
+        clearTimeout(timer);
+      };
+    }, [value, delay]);
+    return debouncedValue;
+  };
+
+  const valueFromSelector = getSelectorSpecStr();
+  const valueDebounced = useDebounce(valueFromSelector, 500);
 
   const config = {
     show: {
@@ -22,7 +35,7 @@ export default function AsyncApiComponent(props) {
 
   return (
     <div id="ui-pane" className="ui-pane">
-      <AsyncApiReactComponent schema={valueForDemo} config={config} />
+      <AsyncApiReactComponent schema={valueDebounced} config={config} />
     </div>
   );
 }
