@@ -37,7 +37,7 @@
     "js-file-download": "^0.4.12",
     "js-yaml": "^4.1.0",
     "json-beautify": "^1.1.1",
-    "monaco-editor-core": "^0.29.2",
+    "monaco-editor-core": "^0.30.0",
     "monaco-languageclient": "^0.13.1-next.9",
     "prop-types": "^15.7.2",
     "react": "^17.0.2",
