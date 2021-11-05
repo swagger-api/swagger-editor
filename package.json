@@ -126,7 +126,7 @@
     "sass": "^1.43.4",
     "sass-loader": "8.0.2",
     "semver": "7.3.5",
-    "serve": "^12.0.1",
+    "serve": "^13.0.2",
     "style-loader": "^2.0.0",
     "terser-webpack-plugin": "4.2.3",
     "ts-pnp": "1.2.0",
