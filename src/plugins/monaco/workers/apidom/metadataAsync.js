@@ -6,35 +6,13 @@ let code = 0;
 
 /* LINT root */
 
-/* const rootAsyncapiLint = {
-  code,
-  source: 'apilint',
-  message: "'asyncapi' value must be 2.0.0",
-  severity: 1,
-  linterFunction: 'apilintFieldValueRegex',
-  linterParams: ['asyncapi', '2\\.0\\.0'],
-  marker: 'value',
-  target: 'asyncapi',
-  data: {
-    quickFix: {
-      message: "update to '2.0.0'",
-      action: 'updateValue',
-      functionParams: ['2.0.0'],
-    },
-  },
-};
-
-code += 1;
-
-*/
-
 const rootIdLint = {
   code,
   source: 'apilint',
   message: "'id' value must be a valid URI",
   severity: 1,
-  linterFunction: 'apilintFieldValueRegex',
-  linterParams: ['id', '^[a-zA-Z]{1}[a-zA-Z0-9\\.\\+\\-]*\\:?[\\S|^\\:]*$'],
+  linterFunction: 'apilintValueRegex',
+  linterParams: ['^[a-zA-Z]{1}[a-zA-Z0-9\\.\\+\\-]*\\:?[\\S|^\\:]*$'],
   marker: 'value',
   target: 'id',
   data: {},
@@ -68,12 +46,14 @@ const rootInfoLint = {
   linterParams: ['info'],
   marker: 'key',
   data: {
-    quickFix: {
-      message: "add 'info' section",
-      action: 'addChild',
-      snippetYaml: 'info: \n  $1\n',
-      snippetJson: '"info": {\n  $1\n},\n',
-    },
+    quickFix: [
+      {
+        message: "add 'info' section",
+        action: 'addChild',
+        snippetYaml: 'info: \n  $1\n',
+        snippetJson: '"info": {\n  $1\n},\n',
+      },
+    ],
   },
 };
 
@@ -88,12 +68,14 @@ const rootChannelsLint = {
   linterParams: ['channels'],
   marker: 'key',
   data: {
-    quickFix: {
-      message: "add 'channels' section",
-      action: 'addChild',
-      snippetYaml: 'channels: \n  $1\n',
-      snippetJson: '"channels": {\n  $1\n},\n',
-    },
+    quickFix: [
+      {
+        message: "add 'channels' section",
+        action: 'addChild',
+        snippetYaml: 'channels: \n  $1\n',
+        snippetJson: '"channels": {\n  $1\n},\n',
+      },
+    ],
   },
 };
 
@@ -102,7 +84,7 @@ code += 1;
 // const rootLints = [rootAsyncapiLint];
 const rootLints = [rootIdLint, rootInfoLint, rootChannelsLint];
 
-const asyncapiVersionLint = {
+const asyncapiVersionLint20 = {
   code,
   source: 'apilint',
   message: "'asyncapi' value must be 2.0.0",
@@ -110,42 +92,380 @@ const asyncapiVersionLint = {
   linterFunction: 'apilintValueRegex',
   linterParams: ['2\\.0\\.0'],
   marker: 'value',
+  targetSpecs: [{ namespace: 'asyncapi', version: '2.0.0' }],
   data: {
-    quickFix: {
-      message: "update to '2.0.0'",
-      action: 'updateValue',
-      functionParams: ['2.0.0'],
-    },
+    quickFix: [
+      {
+        message: "update to '2.0.0'",
+        action: 'updateValue',
+        functionParams: ['2.0.0'],
+      },
+    ],
   },
 };
 code += 1;
+const asyncapiVersionLint21 = {
+  code,
+  source: 'apilint',
+  message: "'asyncapi' value must be 2.1.0",
+  severity: 1,
+  linterFunction: 'apilintValueRegex',
+  linterParams: ['2\\.1\\.0'],
+  marker: 'value',
+  targetSpecs: [{ namespace: 'asyncapi', version: '2.1.0' }],
+  data: {
+    quickFix: [
+      {
+        message: "update to '2.1.0'",
+        action: 'updateValue',
+        functionParams: ['2.1.0'],
+      },
+    ],
+  },
+};
+code += 1;
+const asyncapiVersionLint22 = {
+  code,
+  source: 'apilint',
+  message: "'asyncapi' value must be 2.2.0",
+  severity: 1,
+  linterFunction: 'apilintValueRegex',
+  linterParams: ['2\\.2\\.0'],
+  marker: 'value',
+  targetSpecs: [{ namespace: 'asyncapi', version: '2.2.0' }],
+  data: {
+    quickFix: [
+      {
+        message: "update to '2.2.0'",
+        action: 'updateValue',
+        functionParams: ['2.2.0'],
+      },
+    ],
+  },
+};
+code += 1;
+const asyncapiVersionLints = [asyncapiVersionLint20, asyncapiVersionLint21, asyncapiVersionLint22];
 
-const asyncapiVersionLints = [asyncapiVersionLint];
-
-const securitySchemeLint = {
+const securitySchemeLint2122 = {
   code,
   source: 'apilint',
   message: 'type must be one of allowed values',
   severity: 1,
-  linterFunction: 'apilintFieldValueRegex',
+  targetSpecs: [
+    { namespace: 'asyncapi', version: '2.2.0' },
+    { namespace: 'asyncapi', version: '2.1.0' },
+  ],
+  linterFunction: 'apilintValueRegex',
   linterParams: [
-    'type',
-    'userPassword|apiKey|X509|symmetricEncryption|asymmetricEncryption|httpApiKey|http|oauth2|openIdConnect',
+    '^userPassword|apiKey|X509|symmetricEncryption|asymmetricEncryption|httpApiKey|http|oauth2|openIdConnect|plain|scramSha256|scramSha512|gssapi$',
   ],
   marker: 'value',
   target: 'type',
   data: {
-    quickFix: {
-      message: 'clear',
-      action: 'updateValue',
-      functionParams: [''],
-    },
+    quickFix: [
+      {
+        message: "update to 'userPassword'",
+        action: 'updateValue',
+        functionParams: ['userPassword'],
+      },
+      {
+        message: "update to 'apiKey'",
+        action: 'updateValue',
+        functionParams: ['apiKey'],
+      },
+      {
+        message: "update to 'X509'",
+        action: 'updateValue',
+        functionParams: ['X509'],
+      },
+      {
+        message: "update to 'symmetricEncryption'",
+        action: 'updateValue',
+        functionParams: ['symmetricEncryption'],
+      },
+      {
+        message: "update to 'asymmetricEncryption'",
+        action: 'updateValue',
+        functionParams: ['asymmetricEncryption'],
+      },
+      {
+        message: "update to 'httpApiKey'",
+        action: 'updateValue',
+        functionParams: ['httpApiKey'],
+      },
+      {
+        message: "update to 'http'",
+        action: 'updateValue',
+        functionParams: ['http'],
+      },
+      {
+        message: "update to 'oauth2'",
+        action: 'updateValue',
+        functionParams: ['oauth2'],
+      },
+      {
+        message: "update to 'openIdConnect'",
+        action: 'updateValue',
+        functionParams: ['openIdConnect'],
+      },
+      {
+        message: "update to 'plain'",
+        action: 'updateValue',
+        functionParams: ['plain'],
+      },
+      {
+        message: "update to 'scramSha256'",
+        action: 'updateValue',
+        functionParams: ['scramSha256'],
+      },
+      {
+        message: "update to 'scramSha512'",
+        action: 'updateValue',
+        functionParams: ['scramSha512'],
+      },
+      {
+        message: "update to 'gssapi'",
+        action: 'updateValue',
+        functionParams: ['gssapi'],
+      },
+      {
+        message: 'clear',
+        action: 'updateValue',
+        functionParams: [''],
+      },
+    ],
   },
 };
 code += 1;
 
-const securitySchemeLints = [securitySchemeLint];
+const securitySchemeLint20 = {
+  code,
+  source: 'apilint',
+  message: 'type must be one of allowed values',
+  severity: 1,
+  targetSpecs: [{ namespace: 'asyncapi', version: '2.0.0' }],
+  linterFunction: 'apilintValueRegex',
+  linterParams: [
+    '^userPassword|apiKey|X509|symmetricEncryption|asymmetricEncryption|httpApiKey|http|oauth2|openIdConnect$',
+  ],
+  marker: 'value',
+  target: 'type',
+  data: {
+    quickFix: [
+      {
+        message: "update to 'userPassword'",
+        action: 'updateValue',
+        functionParams: ['userPassword'],
+      },
+      {
+        message: "update to 'apiKey'",
+        action: 'updateValue',
+        functionParams: ['apiKey'],
+      },
+      {
+        message: "update to 'X509'",
+        action: 'updateValue',
+        functionParams: ['X509'],
+      },
+      {
+        message: "update to 'symmetricEncryption'",
+        action: 'updateValue',
+        functionParams: ['symmetricEncryption'],
+      },
+      {
+        message: "update to 'asymmetricEncryption'",
+        action: 'updateValue',
+        functionParams: ['asymmetricEncryption'],
+      },
+      {
+        message: "update to 'httpApiKey'",
+        action: 'updateValue',
+        functionParams: ['httpApiKey'],
+      },
+      {
+        message: "update to 'http'",
+        action: 'updateValue',
+        functionParams: ['http'],
+      },
+      {
+        message: "update to 'oauth2'",
+        action: 'updateValue',
+        functionParams: ['oauth2'],
+      },
+      {
+        message: "update to 'openIdConnect'",
+        action: 'updateValue',
+        functionParams: ['openIdConnect'],
+      },
+      {
+        message: 'clear',
+        action: 'updateValue',
+        functionParams: [''],
+      },
+    ],
+  },
+};
+code += 1;
 
+const securitySchemeLints = [securitySchemeLint2122, securitySchemeLint20];
+
+const schema$IdLint = {
+  code,
+  source: 'apilint',
+  message: "'$id' value must be a valid URI-reference",
+  severity: 1,
+  linterFunction: 'apilintValueRegex',
+  linterParams: ['^[a-zA-Z]{1}[a-zA-Z0-9\\.\\+\\-]*\\:?[\\S|^\\:]*$'],
+  marker: 'value',
+  target: '$id',
+  data: {},
+};
+code += 1;
+const schema$RefLint = {
+  code,
+  source: 'apilint',
+  message: "'$ref' value must be a valid URI-reference",
+  severity: 1,
+  linterFunction: 'apilintValueRegex',
+  linterParams: ['^[a-zA-Z]{1}[a-zA-Z0-9\\.\\+\\-]*\\:?[\\S|^\\:]*$'],
+  marker: 'value',
+  target: '$ref',
+  data: {},
+};
+code += 1;
+const schemaTypeLint = {
+  code,
+  source: 'apilint',
+  message: 'type must be one of allowed values',
+  severity: 1,
+  linterFunction: 'apilintValueOrArray',
+  linterParams: [['null', 'boolean', 'object', 'array', 'number', 'string', 'integer']],
+  marker: 'value',
+  target: 'type',
+  data: {
+    quickFix: [
+      {
+        message: "update to 'null'",
+        action: 'updateValue',
+        functionParams: ['null'],
+      },
+      {
+        message: "update to 'boolean'",
+        action: 'updateValue',
+        functionParams: ['boolean'],
+      },
+      {
+        message: "update to 'object'",
+        action: 'updateValue',
+        functionParams: ['object'],
+      },
+      {
+        message: "update to 'array'",
+        action: 'updateValue',
+        functionParams: ['array'],
+      },
+      {
+        message: "update to 'number'",
+        action: 'updateValue',
+        functionParams: ['null'],
+      },
+      {
+        message: "update to 'string'",
+        action: 'updateValue',
+        functionParams: ['string'],
+      },
+      {
+        message: "update to 'integer'",
+        action: 'updateValue',
+        functionParams: ['integer'],
+      },
+    ],
+  },
+};
+code += 1;
+const schemaEnumLint = {
+  code,
+  source: 'apilint',
+  message: "enum' value must be an array with unique values",
+  severity: 1,
+  linterFunction: 'apilintUniqueArray',
+  marker: 'value',
+  target: 'enum',
+  data: {},
+};
+code += 1;
+const schemaMultipleOfLint = {
+  code,
+  source: 'apilint',
+  message: "multipleOf' value must be a number",
+  severity: 1,
+  linterFunction: 'apilintValueRegex',
+  linterParams: ['^-?\\d*\\.{0,1}\\d+$', 'number'],
+  marker: 'value',
+  target: 'multipleOf',
+  data: {},
+};
+code += 1;
+const schemaMaximumLint = {
+  code,
+  source: 'apilint',
+  message: "maximum' value must be a number",
+  severity: 1,
+  linterFunction: 'apilintValueRegex',
+  linterParams: ['^-?\\d*\\.{0,1}\\d+$', 'number'],
+  marker: 'value',
+  target: 'maximum',
+  data: {},
+};
+code += 1;
+const schemaMinimumOfLint = {
+  code,
+  source: 'apilint',
+  message: "minimum' value must be a number",
+  severity: 1,
+  linterFunction: 'apilintValueRegex',
+  linterParams: ['^-?\\d*\\.{0,1}\\d+$', 'number'],
+  marker: 'value',
+  target: 'minimum',
+  data: {},
+};
+code += 1;
+const schemaExclusiveMaximumLint = {
+  code,
+  source: 'apilint',
+  message: "exclusiveMaximum' value must be a number",
+  severity: 1,
+  linterFunction: 'apilintValueRegex',
+  linterParams: ['^-?\\d*\\.{0,1}\\d+$', 'number'],
+  marker: 'value',
+  target: 'exclusiveMaximum',
+  data: {},
+};
+code += 1;
+const schemaExclusiveMinimumLint = {
+  code,
+  source: 'apilint',
+  message: "exclusiveMinimum' value must be a number",
+  severity: 1,
+  linterFunction: 'apilintValueRegex',
+  linterParams: ['^-?\\d*\\.{0,1}\\d+$', 'number'],
+  marker: 'value',
+  target: 'exclusiveMinimum',
+  data: {},
+};
+code += 1;
+
+const schemaLints = [
+  schema$IdLint,
+  schema$RefLint,
+  schemaTypeLint,
+  schemaEnumLint,
+  schemaMultipleOfLint,
+  schemaMaximumLint,
+  schemaMinimumOfLint,
+  schemaExclusiveMaximumLint,
+  schemaExclusiveMinimumLint,
+];
 /* COMPLETE */
 
 const asyncapiVersionCompletesYaml = [
@@ -227,6 +547,12 @@ const schemaTypeCompletesYaml = [
     insertText: 'string$1',
     insertTextFormat: 2,
   },
+  {
+    label: 'integer',
+    kind: 10,
+    insertText: 'integer$1',
+    insertTextFormat: 2,
+  },
 ];
 
 const schemaTypeCompletesJson = [
@@ -264,6 +590,12 @@ const schemaTypeCompletesJson = [
     label: 'string',
     kind: 10,
     insertText: '"string"$1',
+    insertTextFormat: 2,
+  },
+  {
+    label: 'integer',
+    kind: 10,
+    insertText: '"integer"$1',
     insertTextFormat: 2,
   },
 ];
@@ -316,6 +648,226 @@ const schemaCompletesJson = [
   },
 ];
 
+const securitySchemeTypeYaml = [
+  {
+    target: 'type',
+    label: 'userPassword',
+    kind: 10,
+    insertText: 'userPassword$1',
+    insertTextFormat: 2,
+  },
+  {
+    target: 'type',
+    label: 'apiKey',
+    kind: 10,
+    insertText: 'apiKey$1',
+    insertTextFormat: 2,
+  },
+  {
+    target: 'type',
+    label: 'X509',
+    kind: 10,
+    insertText: 'X509$1',
+    insertTextFormat: 2,
+  },
+  {
+    target: 'type',
+    label: 'symmetricEncryption',
+    kind: 10,
+    insertText: 'symmetricEncryption$1',
+    insertTextFormat: 2,
+  },
+  {
+    target: 'type',
+    label: 'asymmetricEncryption',
+    kind: 10,
+    insertText: 'asymmetricEncryption$1',
+    insertTextFormat: 2,
+  },
+  {
+    target: 'type',
+    label: 'httpApiKey',
+    kind: 10,
+    insertText: 'httpApiKey$1',
+    insertTextFormat: 2,
+  },
+  {
+    target: 'type',
+    label: 'http',
+    kind: 10,
+    insertText: 'http$1',
+    insertTextFormat: 2,
+  },
+  {
+    target: 'type',
+    label: 'oauth2',
+    kind: 10,
+    insertText: 'oauth2$1',
+    insertTextFormat: 2,
+  },
+  {
+    target: 'type',
+    label: 'openIdConnect',
+    kind: 10,
+    insertText: 'openIdConnect$1',
+    insertTextFormat: 2,
+  },
+  {
+    targetSpecs: [
+      { namespace: 'asyncapi', version: '2.1.0' },
+      { namespace: 'asyncapi', version: '2.2.0' },
+    ],
+    target: 'type',
+    label: 'plain',
+    kind: 10,
+    insertText: 'plain$1',
+    insertTextFormat: 2,
+  },
+  {
+    targetSpecs: [
+      { namespace: 'asyncapi', version: '2.1.0' },
+      { namespace: 'asyncapi', version: '2.2.0' },
+    ],
+    target: 'type',
+    label: 'scramSha256',
+    kind: 10,
+    insertText: 'scramSha256$1',
+    insertTextFormat: 2,
+  },
+  {
+    targetSpecs: [
+      { namespace: 'asyncapi', version: '2.1.0' },
+      { namespace: 'asyncapi', version: '2.2.0' },
+    ],
+    target: 'type',
+    label: 'scramSha512',
+    kind: 10,
+    insertText: 'scramSha512$1',
+    insertTextFormat: 2,
+  },
+  {
+    targetSpecs: [
+      { namespace: 'asyncapi', version: '2.1.0' },
+      { namespace: 'asyncapi', version: '2.2.0' },
+    ],
+    target: 'type',
+    label: 'gssapi',
+    kind: 10,
+    insertText: 'gssapi$1',
+    insertTextFormat: 2,
+  },
+];
+
+const securitySchemeTypeJson = [
+  {
+    target: 'type',
+    label: 'userPassword',
+    kind: 10,
+    insertText: '"userPassword"$1',
+    insertTextFormat: 2,
+  },
+  {
+    target: 'type',
+    label: 'apiKey',
+    kind: 10,
+    insertText: '"apiKey"$1',
+    insertTextFormat: 2,
+  },
+  {
+    target: 'type',
+    label: 'X509',
+    kind: 10,
+    insertText: '"X509"$1',
+    insertTextFormat: 2,
+  },
+  {
+    target: 'type',
+    label: 'symmetricEncryption',
+    kind: 10,
+    insertText: '"symmetricEncryption"$1',
+    insertTextFormat: 2,
+  },
+  {
+    target: 'type',
+    label: 'asymmetricEncryption',
+    kind: 10,
+    insertText: '"asymmetricEncryption"$1',
+    insertTextFormat: 2,
+  },
+  {
+    target: 'type',
+    label: 'httpApiKey',
+    kind: 10,
+    insertText: '"httpApiKey"$1',
+    insertTextFormat: 2,
+  },
+  {
+    target: 'type',
+    label: 'http',
+    kind: 10,
+    insertText: '"http"$1',
+    insertTextFormat: 2,
+  },
+  {
+    target: 'type',
+    label: 'oauth2',
+    kind: 10,
+    insertText: '"oauth2"$1',
+    insertTextFormat: 2,
+  },
+  {
+    target: 'type',
+    label: 'openIdConnect',
+    kind: 10,
+    insertText: '"openIdConnect"$1',
+    insertTextFormat: 2,
+  },
+  {
+    targetSpecs: [
+      { namespace: 'asyncapi', version: '2.1.0' },
+      { namespace: 'asyncapi', version: '2.2.0' },
+    ],
+    target: 'type',
+    label: 'plain',
+    kind: 10,
+    insertText: '"plain"$1',
+    insertTextFormat: 2,
+  },
+  {
+    targetSpecs: [
+      { namespace: 'asyncapi', version: '2.1.0' },
+      { namespace: 'asyncapi', version: '2.2.0' },
+    ],
+    target: 'type',
+    label: 'scramSha256',
+    kind: 10,
+    insertText: '"scramSha256"$1',
+    insertTextFormat: 2,
+  },
+  {
+    targetSpecs: [
+      { namespace: 'asyncapi', version: '2.1.0' },
+      { namespace: 'asyncapi', version: '2.2.0' },
+    ],
+    target: 'type',
+    label: 'scramSha512',
+    kind: 10,
+    insertText: '"scramSha512"$1',
+    insertTextFormat: 2,
+  },
+  {
+    targetSpecs: [
+      { namespace: 'asyncapi', version: '2.1.0' },
+      { namespace: 'asyncapi', version: '2.2.0' },
+    ],
+    target: 'type',
+    label: 'gssapi',
+    kind: 10,
+    insertText: '"gssapi"$1',
+    insertTextFormat: 2,
+  },
+];
+
 const asyncapiVersionMeta = {
   lint: asyncapiVersionLints,
   yaml: {
@@ -336,6 +888,7 @@ const schemaTypeMeta = {
 };
 
 const schemaMeta = {
+  lint: schemaLints,
   yaml: {
     completion: schemaCompletesYaml,
   },
@@ -346,6 +899,12 @@ const schemaMeta = {
 
 const securitySchemeMeta = {
   lint: securitySchemeLints,
+  yaml: {
+    completion: securitySchemeTypeYaml,
+  },
+  json: {
+    completion: securitySchemeTypeJson,
+  },
 };
 
 export default {
@@ -363,12 +922,14 @@ export default {
         linterParams: ['description'],
         marker: 'key',
         data: {
-          quickFix: {
-            message: "add 'description' field",
-            action: 'addChild',
-            snippetYaml: 'description: \n  ',
-            snippetJson: '"description": "",\n    ',
-          },
+          quickFix: [
+            {
+              message: "add 'description' field",
+              action: 'addChild',
+              snippetYaml: 'description: \n  ',
+              snippetJson: '"description": "",\n    ',
+            },
+          ],
         },
       },
     ],
@@ -490,13 +1051,15 @@ export default {
         linterParams: ['name'],
         marker: 'key',
         data: {
-          quickFix: {
-            message: "add 'name' field",
-            function: 'addName',
-            action: 'addChild',
-            snippetYaml: 'name: \n    ',
-            snippetJson: '"name": "",\n      ',
-          },
+          quickFix: [
+            {
+              message: "add 'name' field",
+              function: 'addName',
+              action: 'addChild',
+              snippetYaml: 'name: \n    ',
+              snippetJson: '"name": "",\n      ',
+            },
+          ],
         },
       },
       {
@@ -508,13 +1071,15 @@ export default {
         linterParams: ['x-smartbear-team'],
         marker: 'key',
         data: {
-          quickFix: {
-            message: "add 'x-smartbear-team' field",
-            function: 'addX',
-            action: 'addChild',
-            snippetYaml: 'x-smartbear-team: swagger\n    ',
-            snippetJson: '"x-smartbear-team": "swagger",\n      ',
-          },
+          quickFix: [
+            {
+              message: "add 'x-smartbear-team' field",
+              function: 'addX',
+              action: 'addChild',
+              snippetYaml: 'x-smartbear-team: swagger\n    ',
+              snippetJson: '"x-smartbear-team": "swagger",\n      ',
+            },
+          ],
         },
       },
     ],

@@ -164,11 +164,13 @@ const metadataMapOpenapi = {
         linterFunction: 'noUpperCaseLinter',
         marker: 'value',
         data: {
-          quickFix: {
-            message: 'transform to lowercase',
-            function: 'tranformToLowercase',
-            action: 'transformValue',
-          },
+          quickFix: [
+            {
+              message: 'transform to lowercase',
+              function: 'tranformToLowercase',
+              action: 'transformValue',
+            },
+          ],
         },
       },
     ],
@@ -183,13 +185,15 @@ const metadataMapOpenapi = {
         linterFunction: 'infoLinter',
         marker: 'key',
         data: {
-          quickFix: {
-            message: "add 'description' field",
-            function: 'addDescription',
-            action: 'addChild',
-            snippetYaml: 'description: \n  ',
-            snippetJson: '"description": "",\n    ',
-          },
+          quickFix: [
+            {
+              message: "add 'description' field",
+              function: 'addDescription',
+              action: 'addChild',
+              snippetYaml: 'description: \n  ',
+              snippetJson: '"description": "",\n    ',
+            },
+          ],
         },
       },
     ],
@@ -310,13 +314,15 @@ const metadataMapOpenapi = {
         linterFunction: 'contactLinter',
         marker: 'key',
         data: {
-          quickFix: {
-            message: "add 'name' field",
-            function: 'addName',
-            action: 'addChild',
-            snippetYaml: 'name: \n    ',
-            snippetJson: '"name": "",\n      ',
-          },
+          quickFix: [
+            {
+              message: "add 'name' field",
+              function: 'addName',
+              action: 'addChild',
+              snippetYaml: 'name: \n    ',
+              snippetJson: '"name": "",\n      ',
+            },
+          ],
         },
       },
       {
@@ -327,13 +333,15 @@ const metadataMapOpenapi = {
         linterFunction: 'xLinter',
         marker: 'key',
         data: {
-          quickFix: {
-            message: "add 'x-smartbear-team' field",
-            function: 'addX',
-            action: 'addChild',
-            snippetYaml: 'x-smartbear-team: swagger\n    ',
-            snippetJson: '"x-smartbear-team": "swagger",\n      ',
-          },
+          quickFix: [
+            {
+              message: "add 'x-smartbear-team' field",
+              function: 'addX',
+              action: 'addChild',
+              snippetYaml: 'x-smartbear-team: swagger\n    ',
+              snippetJson: '"x-smartbear-team": "swagger",\n      ',
+            },
+          ],
         },
       },
     ],
