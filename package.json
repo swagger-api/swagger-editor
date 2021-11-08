@@ -135,7 +135,7 @@
     "jsdom": "=16.6.0",
     "jsdom-global": "3.0.2",
     "json-loader": "0.5.7",
-    "less": "^3.11.2",
+    "less": "^4.1.2",
     "less-loader": "^7.2.1",
     "license-checker": "^25.0.0",
     "lint-staged": "^11.2.3",
