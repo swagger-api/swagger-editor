@@ -454,7 +454,35 @@ const schemaExclusiveMinimumLint = {
   data: {},
 };
 code += 1;
-
+const schemaMaxLengthLint = {
+  code,
+  source: 'apilint',
+  message: 'maxLength has no effect on non strings',
+  severity: 2,
+  linterFunction: 'missingField',
+  linterParams: ['maxLength'],
+  marker: 'key',
+  markerTarget: 'maxLength',
+  conditions: [
+    {
+      targets: [{ path: 'type' }],
+      function: 'apilintContainsValue',
+      negate: true,
+      params: ['string'],
+    },
+  ],
+  data: {
+    quickFix: [
+      {
+        message: 'remove maxLength',
+        action: 'removeChild',
+        functionParams: ['maxLength'],
+        target: 'parent',
+      },
+    ],
+  },
+};
+code += 1;
 const schemaLints = [
   schema$IdLint,
   schema$RefLint,
@@ -465,6 +493,7 @@ const schemaLints = [
   schemaMinimumOfLint,
   schemaExclusiveMaximumLint,
   schemaExclusiveMinimumLint,
+  schemaMaxLengthLint,
 ];
 /* COMPLETE */
 
