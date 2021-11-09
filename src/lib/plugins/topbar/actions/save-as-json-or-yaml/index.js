@@ -11,7 +11,7 @@ import {
 import { getFileDownload } from '../../../../utils/common-file-download';
 import { getSpecVersion } from '../../../../utils/spec-get-spec-version';
 import { mockOas3Spec } from '../topbar-actions-fixtures';
-import metadata from '../../../monaco/workers/apidom/metadata';
+import config from '../../../monaco/workers/apidom/config/config';
 
 export const saveAsJson = () => async (system) => {
   const { specSelectors, errSelectors } = system;
@@ -74,7 +74,7 @@ export const saveAsJsonResolved = () => async (system) => {
     };
   }
   const apidomContext = {
-    metadata: metadata(),
+    metadata: config(),
   };
   const languageService = getLanguageService(apidomContext); // use apidom metadata
 
@@ -123,7 +123,7 @@ export const saveAsYamlResolved = () => async (system) => {
   }
 
   const apidomContext = {
-    metadata: metadata(),
+    metadata: config(),
   };
   const languageService = getLanguageService(apidomContext); // use apidom metadata
 

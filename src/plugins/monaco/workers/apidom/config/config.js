@@ -1,9 +1,9 @@
 import { isObjectElement, isStringElement } from '@swagger-api/apidom-core';
 
-import metadataAsyncapi from './metadataAsync';
+import configAsyncapi from './asyncapi/config';
 /* METADATA */
 
-const metadataMapOpenapi = {
+const configOpenapi = {
   openApi3_1: {
     yaml: {
       completion: [
@@ -441,7 +441,6 @@ const metadataMapOpenapi = {
       '#### Servers\n\nhttps://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.1.0.md#fixed-fields\n\nField Name | Type | Description\n---|:---:|---\n[servers](https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.1.0.md#fixed-fields) | [[Server Object](https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.1.0.md#serverObject)] | An array of Server Objects, which provide connectivity information to a target server. If the `servers` property is not provided, or is an empty array, the default value would be a [Server Object](https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.1.0.md#serverObject) with a [url](https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.1.0.md##serverUrl) value of `/`.\n\n----\n\n#### [Server Object](https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.1.0.md#serverObject)\n\nAn object representing a Server.\n\n##### Fixed Fields\n\nField Name | Type | Description\n---|:---:|---\n[url](https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.1.0.md#serverUrl) | `string` | **REQUIRED**. A URL to the target host.  This URL supports Server Variables and MAY be relative, to indicate that the host location is relative to the location where the OpenAPI document is being served. Variable substitutions will be made when a variable is named in `{`brackets`}`.\ndescription | `string` | An optional string describing the host designated by the URL. [CommonMark syntax](https://spec.commonmark.org/) MAY be used for rich text representation.\nvariables | Map[`string`, [Server Variable Object](https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.1.0.md#serverVariableObject)] | A map between a variable name and its value.  The value is used for substitution in the server\'s URL template.\n\nThis object MAY be extended with [Specification Extensions](https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.1.0.md#specificationExtensions).\n\n##### Server Object Example\n\nA single server would be described as:\n\n```json\n{\n  "url": "https://development.gigantic-server.com/v1",\n  "description": "Development server"\n}\n```\n\n```yaml\nurl: https://development.gigantic-server.com/v1\ndescription: Development server\n```\n\nThe following shows how multiple servers can be described, for example, at the OpenAPI Object\'s [`servers`](#oasServers):\n\n```json\n{\n  "servers": [\n    {\n      "url": "https://development.gigantic-server.com/v1",\n      "description": "Development server"\n    },\n    {\n      "url": "https://staging.gigantic-server.com/v1",\n      "description": "Staging server"\n    },\n    {\n      "url": "https://api.gigantic-server.com/v1",\n      "description": "Production server"\n    }\n  ]\n}\n```\n\n```yaml\nservers:\n- url: https://development.gigantic-server.com/v1\n  description: Development server\n- url: https://staging.gigantic-server.com/v1\n  description: Staging server\n- url: https://api.gigantic-server.com/v1\n  description: Production server\n```\n\nThe following shows how variables can be used for a server configuration:\n\n```json\n{\n  "servers": [\n    {\n      "url": "https://{username}.gigantic-server.com:{port}/{basePath}",\n      "description": "The production API server",\n      "variables": {\n        "username": {\n          "default": "demo",\n          "description": "this value is assigned by the service provider, in this example `gigantic-server.com`"\n        },\n        "port": {\n          "enum": [\n            "8443",\n            "443"\n          ],\n          "default": "8443"\n        },\n        "basePath": {\n          "default": "v2"\n        }\n      }\n    }\n  ]\n}\n```\n\n```yaml\nservers:\n- url: https://{username}.gigantic-server.com:{port}/{basePath}\n  description: The production API server\n  variables:\n    username:\n      # note! no enum here means it is an open value\n      default: demo\n      description: this value is assigned by the service provider, in this example `gigantic-server.com`\n    port:\n      enum:\n        - \'8443\'\n        - \'443\'\n      default: \'8443\'\n    basePath:\n      # open meaning there is the opportunity to use special base paths as assigned by the provider, default is `v2`\n      default: v2\n```\n\n\n#### [Server Variable Object](https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.1.0.md#serverVariableObject)\n\nAn object representing a Server Variable for server URL template substitution.\n\n##### Fixed Fields\n\nField Name | Type | Description\n---|:---:|---\nenum | [`string`] | An enumeration of string values to be used if the substitution options are from a limited set. The array MUST NOT be empty.\ndefault | `string` |  **REQUIRED**. The default value to use for substitution, which SHALL be sent if an alternate value is _not_ supplied. Note this behavior is different than the [Schema Object\'s](https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.1.0.md#schemaObject) treatment of default values, because in those cases parameter values are optional. If the [`enum`](https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.1.0.md#serverVariableEnum) is defined, the value MUST exist in the enum\'s values.\ndescription | `string` | An optional description for the server variable. [CommonMark syntax](https://spec.commonmark.org/) MAY be used for rich text representation.\n\nThis object MAY be extended with [Specification Extensions](https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.1.0.md#specificationExtensions).\n\n',
   },
 };
-const metadataMapAsyncapi = metadataAsyncapi;
 
 /* LINT FUNCTIONS */
 
@@ -518,11 +517,11 @@ export const linterFunctionsAsyncapi = {
   xLinter,
 };
 
-export default function metadata() {
+export default function config() {
   return {
     metadataMaps: {
-      openapi: metadataMapOpenapi,
-      asyncapi: metadataMapAsyncapi,
+      openapi: configOpenapi,
+      asyncapi: configAsyncapi,
     },
     linterFunctions: {
       openapi: linterFunctionsOpenapi,

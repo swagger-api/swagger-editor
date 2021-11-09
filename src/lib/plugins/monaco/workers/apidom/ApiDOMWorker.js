@@ -9,7 +9,7 @@ import {
 } from '@swagger-api/apidom-ls';
 
 import { languageID } from '../../adapters/config';
-import metadata from './metadata';
+import config from './config/config';
 
 export class ApiDOMWorker {
   // eslint-disable-next-line no-unused-vars
@@ -22,7 +22,7 @@ export class ApiDOMWorker {
     const asyncJsonSchemavalidationProvider21 = new Asyncapi21JsonSchemaValidationProvider();
     const asyncJsonSchemavalidationProvider22 = new Asyncapi22JsonSchemaValidationProvider();
     const apidomContext = {
-      metadata: metadata(), // metadata (docs, linting rules, completion, etc) defined in metadata.js
+      metadata: config(), // metadata (docs, linting rules, completion, etc)
       validatorProviders: [
         oasJsonSchemavalidationProvider,
         asyncJsonSchemavalidationProvider,

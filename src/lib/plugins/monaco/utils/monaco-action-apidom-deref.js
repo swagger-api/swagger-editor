@@ -2,11 +2,11 @@ import { getLanguageService, isJsonDoc, FORMAT } from '@swagger-api/apidom-ls';
 import { TextDocument } from 'vscode-languageserver-textdocument';
 import YAML from 'js-yaml';
 
-import metadata from '../workers/apidom/metadata';
+import config from '../workers/apidom/config/config';
 
 export async function dereference(editor) {
   const apidomContext = {
-    metadata: metadata(),
+    metadata: config(),
   };
   const languageService = getLanguageService(apidomContext);
 
