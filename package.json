@@ -28,7 +28,7 @@
     "@swagger-api/apidom-core": "^0.7.0",
     "@swagger-api/apidom-ls": "^0.7.0",
     "@types/node": "^16.11.7",
-    "@types/react": "^17.0.34",
+    "@types/react": "^17.0.35",
     "@types/react-dom": "^17.0.11",
     "axios": "^0.24.0",
     "deepmerge": "^4.2.2",
