@@ -61,7 +61,7 @@
     "@commitlint/config-conventional": "^14.1.0",
     "@pmmmwh/react-refresh-webpack-plugin": "0.4.2",
     "@svgr/webpack": "5.5.0",
-    "@testing-library/cypress": "^8.0.1",
+    "@testing-library/cypress": "^8.0.2",
     "@testing-library/jest-dom": "^5.15.0",
     "@testing-library/react": "^12.1.2",
     "@testing-library/user-event": "^13.5.0",
