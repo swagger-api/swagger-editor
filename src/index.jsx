@@ -1,21 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
-import 'swagger-ui-react/swagger-ui.css';
-
-import './_all.scss';
 // import reportWebVitals from './reportWebVitals';
-
-// ReactDOM.render(
-//   <React.StrictMode>
-//     <SwaggerUI
-//       plugins={[GenericEditorPlugin]}
-//       layout="GenericEditorLayout"
-//       url="https://petstore.swagger.io/v2/swagger.json"
-//     />
-//   </React.StrictMode>,
-//   document.getElementById('root')
-// );
 
 import App from './App';
 
