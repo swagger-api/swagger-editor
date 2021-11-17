@@ -9,6 +9,7 @@ import SemanticTokensAdapter from './SemanticTokensAdapter';
 import CodeActionsAdapter from './CodeActionsAdapter';
 import DocumentSymbolsAdapter from './DocumentSymbolsAdapter';
 import DefinitionAdapter from './DefinitionAdapter';
+import { richLanguageConfiguration } from './monarch-language';
 
 const disposeAll = (disposables) => {
   while (disposables.length) {
@@ -57,7 +58,10 @@ export function setupMode({ languageID }) {
   // register the providers with the worker we just creaeted
   const registeredProviders = registerProviders({ languageID, providers, worker });
   // we could do this too for additional configuration:
-  // disposables.push(monaco.languages.setLanguageConfiguration(languageID, richLanguageConfiguration));
+
+  disposables.push(
+    monaco.languages.setLanguageConfiguration(languageID, richLanguageConfiguration)
+  );
 
   disposables.push(asDisposable(registeredProviders));
   return asDisposable(disposables);

@@ -1,6 +1,35 @@
+import * as monaco from 'monaco-editor-core';
+
 export const richLanguageConfiguration = {
-  // If we want to support code folding, brackets ... ( [], (), {}....), we can override some properties here
-  // check the doc
+  comments: {
+    lineComment: '#',
+  },
+  brackets: [
+    ['{', '}'],
+    ['[', ']'],
+    ['(', ')'],
+  ],
+  autoClosingPairs: [
+    { open: '{', close: '}' },
+    { open: '[', close: ']' },
+    { open: '(', close: ')' },
+    { open: '"', close: '"' },
+    { open: "'", close: "'" },
+  ],
+  surroundingPairs: [
+    { open: '{', close: '}' },
+    { open: '[', close: ']' },
+    { open: '(', close: ')' },
+    { open: '"', close: '"' },
+    { open: "'", close: "'" },
+  ],
+
+  onEnterRules: [
+    {
+      beforeText: /:\s*$/,
+      action: { indentAction: monaco.languages.IndentAction.Indent },
+    },
+  ],
 };
 
 export const monarchLanguage = {
