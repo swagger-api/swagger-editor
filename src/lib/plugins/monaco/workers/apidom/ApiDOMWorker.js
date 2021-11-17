@@ -2,10 +2,10 @@
 import { TextDocument } from 'vscode-languageserver-textdocument'; // this is true source
 import {
   getLanguageService,
-  OpenAPi31JsonSchemaValidationProvider,
-  Asyncapi20JsonSchemaValidationProvider,
-  Asyncapi21JsonSchemaValidationProvider,
-  Asyncapi22JsonSchemaValidationProvider,
+  // OpenAPi31JsonSchemaValidationProvider,
+  // Asyncapi20JsonSchemaValidationProvider,
+  // Asyncapi21JsonSchemaValidationProvider,
+  // Asyncapi22JsonSchemaValidationProvider,
 } from '@swagger-api/apidom-ls';
 
 import { languageID } from '../../adapters/config';
@@ -17,6 +17,7 @@ export class ApiDOMWorker {
     this._ctx = ctx;
     // define this._x for languageSettings, languageId, languageService
     // this._languageService = getLanguageService(this._ctx);
+/*
     const oasJsonSchemavalidationProvider = new OpenAPi31JsonSchemaValidationProvider();
     const asyncJsonSchemavalidationProvider = new Asyncapi20JsonSchemaValidationProvider();
     const asyncJsonSchemavalidationProvider21 = new Asyncapi21JsonSchemaValidationProvider();
@@ -29,6 +30,12 @@ export class ApiDOMWorker {
         asyncJsonSchemavalidationProvider21,
         asyncJsonSchemavalidationProvider22,
       ],
+    };
+*/
+
+    const apidomContext = {
+      metadata: config(), // metadata (docs, linting rules, completion, etc)
+      validatorProviders: [],
     };
     this._languageService = getLanguageService(apidomContext);
   }
