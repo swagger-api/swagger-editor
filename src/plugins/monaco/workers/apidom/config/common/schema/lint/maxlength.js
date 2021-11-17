@@ -3,30 +3,13 @@ import ApilintCodes from '../../../codes';
 const schemaMaxLengthLint = {
   code: ApilintCodes.SCHEMA_MAXLENGTH,
   source: 'apilint',
-  message: 'maxLength has no effect on non strings',
-  severity: 2,
-  linterFunction: 'missingField',
-  linterParams: ['maxLength'],
-  marker: 'key',
-  markerTarget: 'maxLength',
-  conditions: [
-    {
-      targets: [{ path: 'type' }],
-      function: 'apilintContainsValue',
-      negate: true,
-      params: ['string'],
-    },
-  ],
-  data: {
-    quickFix: [
-      {
-        message: 'remove maxLength',
-        action: 'removeChild',
-        functionParams: ['maxLength'],
-        target: 'parent',
-      },
-    ],
-  },
+  message: 'maxLength must be a non-negative integer',
+  severity: 1,
+  linterFunction: 'apilintNumber',
+  linterParams: [true, true, true],
+  marker: 'value',
+  target: 'maxLength',
+  data: {},
 };
 
 export default schemaMaxLengthLint;

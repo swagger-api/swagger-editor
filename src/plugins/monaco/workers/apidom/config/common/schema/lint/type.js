@@ -6,7 +6,7 @@ const schemaTypeLint = {
   message: 'type must be one of allowed values',
   severity: 1,
   linterFunction: 'apilintValueOrArray',
-  linterParams: [['null', 'boolean', 'object', 'array', 'number', 'string', 'integer']],
+  linterParams: [['null', 'boolean', 'object', 'array', 'number', 'string', 'integer'], true],
   marker: 'value',
   target: 'type',
   data: {
