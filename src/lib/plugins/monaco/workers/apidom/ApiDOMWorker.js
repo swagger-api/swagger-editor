@@ -2,14 +2,14 @@
 import { TextDocument } from 'vscode-languageserver-textdocument'; // this is true source
 import {
   getLanguageService,
-  OpenAPi31JsonSchemaValidationProvider,
-  Asyncapi20JsonSchemaValidationProvider,
-  Asyncapi21JsonSchemaValidationProvider,
-  Asyncapi22JsonSchemaValidationProvider,
+  // OpenAPi31JsonSchemaValidationProvider,
+  // Asyncapi20JsonSchemaValidationProvider,
+  // Asyncapi21JsonSchemaValidationProvider,
+  // Asyncapi22JsonSchemaValidationProvider,
 } from '@swagger-api/apidom-ls';
 
 import { languageID } from '../../adapters/config';
-import metadata from './metadata';
+import config from './config/config';
 
 export class ApiDOMWorker {
   // eslint-disable-next-line no-unused-vars
@@ -17,18 +17,25 @@ export class ApiDOMWorker {
     this._ctx = ctx;
     // define this._x for languageSettings, languageId, languageService
     // this._languageService = getLanguageService(this._ctx);
+    /*
     const oasJsonSchemavalidationProvider = new OpenAPi31JsonSchemaValidationProvider();
     const asyncJsonSchemavalidationProvider = new Asyncapi20JsonSchemaValidationProvider();
     const asyncJsonSchemavalidationProvider21 = new Asyncapi21JsonSchemaValidationProvider();
     const asyncJsonSchemavalidationProvider22 = new Asyncapi22JsonSchemaValidationProvider();
     const apidomContext = {
-      metadata: metadata(), // metadata (docs, linting rules, completion, etc) defined in metadata.js
+      metadata: config(), // metadata (docs, linting rules, completion, etc)
       validatorProviders: [
         oasJsonSchemavalidationProvider,
         asyncJsonSchemavalidationProvider,
         asyncJsonSchemavalidationProvider21,
         asyncJsonSchemavalidationProvider22,
       ],
+    };
+*/
+
+    const apidomContext = {
+      metadata: config(), // metadata (docs, linting rules, completion, etc)
+      validatorProviders: [],
     };
     this._languageService = getLanguageService(apidomContext);
   }

@@ -80,35 +80,52 @@ export default class MonacoEditor extends Component {
       value = defaultValue;
     }
     if (this.containerElement) {
-      this.editor = monaco.editor.create(this.containerElement, {
-        value,
-        language: languageID,
-        // semantic tokens provider is disabled by default
-        // https://github.com/microsoft/monaco-editor/issues/1833
-        'semanticHighlighting.enabled': true,
-        theme: theme || 'vs-dark',
-        glyphMargin: true,
-        lightbulb: {
-          enabled: true,
+      this.editor = monaco.editor.create(
+        this.containerElement,
+        {
+          value,
+          language: languageID,
+          // semantic tokens provider is disabled by default
+          // https://github.com/microsoft/monaco-editor/issues/1833
+          'semanticHighlighting.enabled': true,
+          theme: theme || 'vs-dark',
+          glyphMargin: true,
+          lightbulb: {
+            enabled: true,
+          },
+          // suggestOnTriggerCharacters: false,
+          // inlineSuggest: false,
+          lineNumbers: 'on',
+          autoIndent: 'full',
+          formatOnPaste: true,
+          formatOnType: true,
+          wordWrap: 'on',
+          minimap: {
+            enabled: true, //  can track via state, and toggle via `editor.updateOptions({ minimap: { enabled: true }})`
+          },
+          wordBasedSuggestions: false,
+          // quickSuggestions: false,
+          quickSuggestionsDelay: 500,
+          fixedOverflowWidgets: true,
+          'bracketPairColorization.enabled': true,
+          // ...options,
+          // ...(theme ? { theme } : {}), // think this is inactive, and may not be necessary; based on a sample
         },
-        // suggestOnTriggerCharacters: false,
-        // inlineSuggest: false,
-        lineNumbers: 'on',
-        autoIndent: 'full',
-        formatOnPaste: true,
-        formatOnType: true,
-        wordWrap: 'on',
-        minimap: {
-          enabled: true, //  can track via state, and toggle via `editor.updateOptions({ minimap: { enabled: true }})`
-        },
-        wordBasedSuggestions: false,
-        // quickSuggestions: false,
-        quickSuggestionsDelay: 500,
-        fixedOverflowWidgets: true,
-        'bracketPairColorization.enabled': true,
-        // ...options,
-        // ...(theme ? { theme } : {}), // think this is inactive, and may not be necessary; based on a sample
-      });
+        {
+          storageService: {
+            get() {},
+            getBoolean(key) {
+              if (key === 'expandSuggestionDocs') return true;
+              return false;
+            },
+            remove() {},
+            store() {},
+            onWillSaveState() {},
+            onDidChangeStorage() {},
+          },
+        }
+      );
+      this.editor.getModel().updateOptions({ tabSize: 2 });
       // After creating monaco editor instance
       this.setupTheme(this.editor, theme);
       this.localEditorDidMount(this.editor);
