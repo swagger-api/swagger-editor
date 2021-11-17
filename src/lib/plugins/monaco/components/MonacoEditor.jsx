@@ -125,11 +125,6 @@ export default class MonacoEditor extends Component {
           },
         }
       );
-      /*
-      const opts = this.editor.getModel().getOptions();
-      opts.tabSize = 2;
-      this.editor.getModel().updateOptions(opts);
-      */
       this.editor.getModel().updateOptions({ tabSize: 2 });
       // After creating monaco editor instance
       this.setupTheme(this.editor, theme);
