@@ -17,7 +17,7 @@ export class ApiDOMWorker {
     this._ctx = ctx;
     // define this._x for languageSettings, languageId, languageService
     // this._languageService = getLanguageService(this._ctx);
-/*
+    /*
     const oasJsonSchemavalidationProvider = new OpenAPi31JsonSchemaValidationProvider();
     const asyncJsonSchemavalidationProvider = new Asyncapi20JsonSchemaValidationProvider();
     const asyncJsonSchemavalidationProvider21 = new Asyncapi21JsonSchemaValidationProvider();
