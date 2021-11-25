@@ -1,6 +1,6 @@
 import YAML from 'js-yaml';
 import beautifyJson from 'json-beautify';
-import { getLanguageService, FORMAT } from '@swagger-api/apidom-ls';
+import { getLanguageService, Format } from '@swagger-api/apidom-ls';
 import { TextDocument } from 'vscode-languageserver-textdocument'; // this is true source
 
 import {
@@ -11,7 +11,6 @@ import {
 import { getFileDownload } from '../../../../utils/common-file-download';
 import { getSpecVersion } from '../../../../utils/spec-get-spec-version';
 import { mockOas3Spec } from '../topbar-actions-fixtures';
-import config from '../../../monaco/workers/apidom/config/config';
 
 export const saveAsJson = () => async (system) => {
   const { specSelectors, errSelectors } = system;
@@ -73,15 +72,13 @@ export const saveAsJsonResolved = () => async (system) => {
         'Save as JSON is not currently possible because Swagger-Editor was not able to parse your API definiton.',
     };
   }
-  const apidomContext = {
-    metadata: config(),
-  };
+  const apidomContext = {};
   const languageService = getLanguageService(apidomContext); // use apidom metadata
 
   try {
     const doc = TextDocument.create('foo://bar/file.json', 'apidom', 0, contentToConvert);
     const context = {
-      format: FORMAT.JSON,
+      format: Format.JSON,
       baseURI: window.location.href,
     };
     const result = await languageService.doDeref(doc, context);
@@ -122,15 +119,13 @@ export const saveAsYamlResolved = () => async (system) => {
     };
   }
 
-  const apidomContext = {
-    metadata: config(),
-  };
+  const apidomContext = {};
   const languageService = getLanguageService(apidomContext); // use apidom metadata
 
   try {
     const doc = TextDocument.create('foo://bar/file.json', 'apidom', 0, contentToConvert);
     const context = {
-      format: FORMAT.YAML,
+      format: Format.YAML,
       baseURI: window.location.href,
     };
     const result = await languageService.doDeref(doc, context);

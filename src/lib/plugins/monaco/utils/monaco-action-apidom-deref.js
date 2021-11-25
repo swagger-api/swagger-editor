@@ -1,13 +1,9 @@
-import { getLanguageService, isJsonDoc, FORMAT } from '@swagger-api/apidom-ls';
+import { getLanguageService, isJsonDoc, Format } from '@swagger-api/apidom-ls';
 import { TextDocument } from 'vscode-languageserver-textdocument';
 import YAML from 'js-yaml';
 
-import config from '../workers/apidom/config/config';
-
 export async function dereference(editor) {
-  const apidomContext = {
-    metadata: config(),
-  };
+  const apidomContext = {};
   const languageService = getLanguageService(apidomContext);
 
   try {
@@ -18,7 +14,7 @@ export async function dereference(editor) {
       editor.getModel().getValue()
     );
     const context = {
-      format: isJsonDoc(textDoc) ? FORMAT.JSON : FORMAT.YAML,
+      format: isJsonDoc(textDoc) ? Format.JSON : Format.YAML,
       baseURI: window.location.href,
     };
     const result = await languageService.doDeref(textDoc, context);
