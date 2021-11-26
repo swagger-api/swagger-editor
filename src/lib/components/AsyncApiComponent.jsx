@@ -2,8 +2,33 @@ import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import AsyncApiReactComponent from '@asyncapi/react-component';
 import '@asyncapi/react-component/styles/default.min.css';
+import { parse } from '@asyncapi/parser';
 
 export default function AsyncApiComponent(props) {
+  const [isValid, setIsValid] = useState(false);
+  const [parsedSpec, setParsedSpec] = useState(null);
+
+  // Todo: extract into a helper utiL
+  const useDebounce = (value, delay) => {
+    // eslint-disable-next-line no-unused-vars
+    useEffect(() => {
+      const timer = setTimeout(() => {
+        parse(value)
+          .then((doc) => {
+            setIsValid(true);
+            setParsedSpec(doc);
+          })
+          .catch(() => {
+            setIsValid(false);
+          });
+      }, delay);
+      return () => {
+        clearTimeout(timer);
+      };
+    }, [value, delay]);
+    return parsedSpec;
+  };
+
   const getSelectorSpecStr = () => {
     const { specSelectors } = props;
     const initialValue = 'Welcome to the AsyncAPI React Component';
@@ -12,30 +37,26 @@ export default function AsyncApiComponent(props) {
     return spec || initialValue;
   };
 
-  // Todo: extract into a helper utiL
-  const useDebounce = (value, delay) => {
-    const [debouncedValue, setDebouncedValue] = useState(value);
-    useEffect(() => {
-      const timer = setTimeout(() => setDebouncedValue(value), delay);
-      return () => {
-        clearTimeout(timer);
-      };
-    }, [value, delay]);
-    return debouncedValue;
-  };
-
-  const valueFromSelector = getSelectorSpecStr();
-  const valueDebounced = useDebounce(valueFromSelector, 500);
+  const spec = getSelectorSpecStr();
+  const debouncedParsedSpec = useDebounce(spec, 500);
 
   const config = {
     show: {
       errors: true, // config setting to show error pane
     },
   };
-
+  if (!isValid) {
+    return (
+      <div id="ui-pane" className="ui-pane">
+        <div className="flex flex-1 overflow-hidden h-full justify-center items-center text-2xl mx-auto px-6 text-center">
+          <p>Empty or invalid document. Please fix errors/define AsyncAPI document.</p>
+        </div>
+      </div>
+    );
+  }
   return (
     <div id="ui-pane" className="ui-pane">
-      <AsyncApiReactComponent schema={valueDebounced} config={config} />
+      <AsyncApiReactComponent schema={debouncedParsedSpec} config={config} />
     </div>
   );
 }
