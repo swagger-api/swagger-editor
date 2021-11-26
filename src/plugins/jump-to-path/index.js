@@ -1,11 +1,13 @@
 import spec from "./spec"
-import * as components from "./components"
+import JumpToPath from "./jump-to-path"
 
 export default function JumpToPathPlugin() {
   return [
     spec,
     {
-      components,
+      components: {
+        JumpToPath
+      },
     }
   ]
 }
