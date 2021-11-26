@@ -9,7 +9,6 @@ import {
 } from '@swagger-api/apidom-ls';
 
 import { languageID } from '../../adapters/config';
-import config from './config/config';
 
 export class ApiDOMWorker {
   // eslint-disable-next-line no-unused-vars
@@ -34,7 +33,6 @@ export class ApiDOMWorker {
 */
 
     const apidomContext = {
-      metadata: config(), // metadata (docs, linting rules, completion, etc)
       validatorProviders: [],
     };
     this._languageService = getLanguageService(apidomContext);
