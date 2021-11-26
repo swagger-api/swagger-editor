@@ -1,8 +1,9 @@
 import React from "react"
 import PropTypes from "prop-types"
+
 import JumpIcon from "./jump-icon.svg"
 
-export class JumpToPath extends React.Component {
+class JumpToPath extends React.Component {
   static propTypes = {
     editorActions: PropTypes.object.isRequired,
     specSelectors: PropTypes.object.isRequired,
@@ -62,3 +63,5 @@ export class JumpToPath extends React.Component {
     }
   }
 }
+
+export default JumpToPath
