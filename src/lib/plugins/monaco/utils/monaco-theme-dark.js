@@ -75,53 +75,64 @@ export const themes = {
     base: 'vs-dark',
     inherit: true,
     rules: [
-      // set of blue colors
-      { token: 'info', foreground: '#1de2fa', fontStyle: 'bold' }, // sky blue
-      { token: 'version', foreground: '#1de2fa' }, // sky blue
-      { token: 'spec-version', foreground: '#1de2fa' }, // sky blue
-      { token: 'api-version', foreground: '#1de2fa' }, // sky blue
-      { token: 'title', foreground: '#1de2fa' }, // sky blue
-      { token: 'openapi', foreground: '#1de2fa', fontStyle: 'bold' }, // sky blue
-      { token: 'specVersion', foreground: '#1de2fa' }, // sky blue
-      { token: 'asyncApiVersion', foreground: '#1de2fa' }, // sky blue
-      { token: 'pathItem', foreground: '#66afce', fontStyle: 'italic' }, // light blue
-      { token: 'operation', foreground: '#66afce', fontStyle: 'bold' }, // light blue
-      { token: 'operation.httpMethod-POST', foreground: '#336699', fontStyle: 'bold' }, // blue jeans
-      { token: 'operation.httpMethod-GET', foreground: '#3366cc', fontStyle: 'bold' }, // violet blue
-      // set of purple colors
+      // top-level tokens: bold, with light purple-white
+      { token: 'info', foreground: '#d0d0e3', fontStyle: 'bold' },
+      { token: 'spec-version', foreground: '#d0d0e3', fontStyle: 'bold' },
+      { token: 'servers', foreground: '#d0d0e3', fontStyle: 'bold' },
+      { token: 'paths', foreground: '#d0d0e3', fontStyle: 'bold' },
       { token: 'components', foreground: '#d0d0e3', fontStyle: 'bold' },
-      { token: 'components-parameters', foreground: '#d0d0e3', fontStyle: 'bold' },
-      { token: 'components-schemas', foreground: '#d0d0e3', fontStyle: 'bold' },
-      { token: 'components-messages', foreground: '#d0d0e3', fontStyle: 'bold' },
-      { token: 'parameters', foreground: '#cc00ff', fontStyle: 'italic' },
-      { token: 'parameter', foreground: '#cc00ff', fontStyle: 'italic' },
-      { token: 'paths', foreground: '#C678DD', fontStyle: 'bold' },
-      { token: 'responses', foreground: '#cc00ff', fontStyle: 'bold' },
-      { token: 'servers', foreground: '#C678DD', fontStyle: 'bold' },
-      { token: 'channels', foreground: '#d0d0e3', fontStyle: 'italic' },
-      // set of orange colors
-      { token: 'openapi-reference', foreground: '#ff9966' }, // not verified
-      { token: 'reference', foreground: '#ff9966' }, // not verified
-      { token: 'Asyncapi-reference', foreground: '#ff9966' }, // not verified
-      { token: 'json-reference', foreground: '#ff9966' }, // not verified
+      { token: 'channels', foreground: '#d0d0e3', fontStyle: 'bold' },
+      // operation tokens: swagger-ui-post=green, swagger-ui-get=blue
+      { token: 'operation', foreground: '#66afce', fontStyle: 'bold' }, // light blue
+      { token: 'operation.httpMethod-GET', foreground: '#0099ff', fontStyle: 'bold' }, // blue
+      { token: 'operation.httpMethod-POST', foreground: '#00cc99', fontStyle: 'bold' }, // teal
+      // parameters tokens: purple
+      { token: 'parameters', foreground: '#C678DD', fontStyle: 'italic' },
+      { token: 'parameter', foreground: '#C678DD', fontStyle: 'italic' },
+      { token: 'components-parameters', foreground: '#C678DD', fontStyle: 'bold' }, // bug, not rendering as bold
+      // other tokens with purple
+      { token: 'components-messages', foreground: '#C678DD', fontStyle: 'bold' },
+      // reference & $refs tokens: orange
       { token: 'reference-element', foreground: '#ff5500', fontStyle: 'bold' },
       { token: 'reference-value', foreground: '#ffddcc', fontStyle: 'italic' },
-      // set of green colors
-      { token: 'server-url', foreground: '#ceca84' },
+      // components/{schemas}/schema: bold olive green
+      { token: 'components-schemas', foreground: '#ceca84', fontStyle: 'bold' },
+      { token: 'schema', foreground: '#ceca84', fontStyle: 'bold' },
+      // pathItem & channelItem: bold olive green
+      { token: 'pathItem', foreground: '#ceca84', fontStyle: 'bold' },
+      { token: 'channelItem', foreground: '#ceca84', fontStyle: 'bold' },
+      // request & response: olive green
+      { token: 'requestBody', foreground: '#ceca84', fontStyle: 'italic' },
+      { token: 'responses', foreground: '#ceca84', fontStyle: 'italic' },
       { token: 'content', foreground: '#ceca84' },
       { token: 'mediaType', foreground: '#ceca84' },
-      { token: 'requestBody', foreground: '#ceca84' },
       { token: 'response', foreground: '#ceca84' },
       { token: 'server', foreground: '#ceca84' },
-      // { token: 'parameter', foreground: '#ceca84' }, // dupe of above
-      { token: 'schema', foreground: '#ceca84', fontStyle: 'bold' }, // e.g. components/schema
-      { token: 'channelItem', foreground: '#ceca84' },
-      { token: 'value', foreground: '#98C379' }, // green
-      { token: 'value.string', foreground: '#98C379' }, // green
-      { token: 'value.number', foreground: '#98C379', fontStyle: 'bold' }, // green
-      // set of pink colors (avoid red)
+      // plain value: green
+      { token: 'value', foreground: '#98C379' },
+      { token: 'value.string', foreground: '#98C379' },
+      { token: 'value.number', foreground: '#98C379' },
+      // plain key: pinkish-orange, which appears light orange
       { token: 'key.string', foreground: '#e8b9bb' },
       { token: 'key.number', foreground: '#e8b9bb' },
+      // tbd misc tokens: sky blue
+      { token: 'api-version', foreground: '#1de2fa' }, // version inside of info object
+      { token: 'server-url', foreground: '#1de2fa' },
+      // tbd unverified tokens, sky blue
+      { token: 'version', foreground: '#1de2fa' },
+      { token: 'title', foreground: '#1de2fa' },
+      { token: 'openapi', foreground: '#1de2fa', fontStyle: 'bold' },
+      { token: 'specVersion', foreground: '#1de2fa' },
+      { token: 'asyncApiVersion', foreground: '#1de2fa' },
+      // tbd unverified tokens, may be orange-ish to match other reference(s)
+      { token: 'openapi-reference', foreground: '#ff9966' },
+      { token: 'reference', foreground: '#ff9966' },
+      { token: 'Asyncapi-reference', foreground: '#ff9966' },
+      { token: 'json-reference', foreground: '#ff9966' },
+      // NYI, color tbd
+      // { token: 'securitySchemes', foreground: '#ff9966' }, // also components/securitySchemes
+      // { token: 'links', foreground: '#ff9966' }, // also components/links
+      // { token: 'security', foreground: '#ff9966' },
     ],
     colors: {
       'editor.background': '#282c34',
@@ -141,33 +152,17 @@ export const themes = {
  * #3366cc : violet blue
  * #1de2fa : sky blue
  * #D19A66 : brown
- * #e8b9bb : pink
+ * #e8b9bb : pinkish-orange
  * #ff2328 : red
- * #d0d0e3 : light purple, almost white
+ * #d0d0e3 : light purple-white
  * #C678DD : purple
  * #cc00ff : purple bright
  * #98C379 : green
  * #608d3f : dark green
  * #ceca84 : olive
  * #a49f41 : dark olive
+ * #00cc99 : teal
  * #ff5500 : orange
- * #ff9966 : light orange, to replace red
+ * #ff9966 : light orange
  * #ffddcc : very light orange
  */
-
-// metadata of specification, e.g. openapi, asyncapi - bold
-// info section - bold
-// servers section - bold
-// paths section - bold
-// paths - actual path - italic
-
-// path/operation - may be bold, may be different colors
-// paths/parameters, paths/requestBody, paths/responses - should be same font color/type
-
-// components section - bold
-// components/schemas - bold
-// components/parameters - bold ; this token recognition needs to get fixed. currently evaluated as "parameters"
-// components/messages - bold
-
-// components/securitySchemes
-// security
