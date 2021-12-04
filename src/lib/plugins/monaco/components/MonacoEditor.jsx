@@ -118,6 +118,10 @@ export default class MonacoEditor extends Component {
               if (key === 'expandSuggestionDocs') return true;
               return false;
             },
+            // eslint-disable-next-line no-unused-vars
+            getNumber(key) {
+              return 0;
+            },
             remove() {},
             store() {},
             onWillSaveState() {},

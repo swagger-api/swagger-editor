@@ -29,6 +29,10 @@ export const richLanguageConfiguration = {
       beforeText: /:\s*$/,
       action: { indentAction: monaco.languages.IndentAction.Indent },
     },
+    {
+      beforeText: /-\s*\w*$/,
+      action: { indentAction: monaco.languages.IndentAction.None, appendText: '- ' },
+    },
   ],
 };
 
