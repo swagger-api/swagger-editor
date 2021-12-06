@@ -20,7 +20,7 @@ export default class DiagnosticsAdapter {
         // here we are Debouncing the user changes, so everytime a new change is done, we wait 500ms before validating
         // otherwise if the user is still typing, we cancel the change
         clearTimeout(handle);
-        handle = setTimeout(() => this.validate(model.uri), 500);
+        handle = setTimeout(() => this.validate(model.uri), 300);
       });
 
       this.validate(model.uri);

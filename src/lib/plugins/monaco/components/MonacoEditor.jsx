@@ -105,9 +105,12 @@ export default class MonacoEditor extends Component {
           },
           wordBasedSuggestions: false,
           // quickSuggestions: false,
-          quickSuggestionsDelay: 500,
+          quickSuggestionsDelay: 300,
           fixedOverflowWidgets: true,
           'bracketPairColorization.enabled': true,
+          suggest: {
+            snippetsPreventQuickSuggestions: false,
+          },
           // ...options,
           // ...(theme ? { theme } : {}), // think this is inactive, and may not be necessary; based on a sample
         },
