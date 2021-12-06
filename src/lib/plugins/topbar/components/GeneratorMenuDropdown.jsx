@@ -39,9 +39,11 @@ export default class GeneratorMenuDropdown extends Component {
 
   shouldReInstantiateGeneratorClient = () => {
     // for live e2e test: oas3 will NOT include 'ada-server' as a list item
-    const { topbarActions } = this.props;
+    const { topbarSelectors } = this.props;
     const { specVersion } = this.state;
-    const shouldReinstantiate = topbarActions.shouldReInstantiateGeneratorClient({ specVersion });
+    const shouldReinstantiate = topbarSelectors.selectShouldReInstantiateGeneratorClient({
+      specVersion,
+    });
     // expect shouldReinstantiate to be boolean
     if (shouldReinstantiate) {
       this.instantiateGeneratorClient();
@@ -100,5 +102,6 @@ export default class GeneratorMenuDropdown extends Component {
 
 GeneratorMenuDropdown.propTypes = {
   topbarActions: PropTypes.oneOfType([PropTypes.object]).isRequired,
+  topbarSelectors: PropTypes.oneOfType([PropTypes.object]).isRequired,
   getComponent: PropTypes.func.isRequired,
 };

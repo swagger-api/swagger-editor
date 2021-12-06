@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 
-export function useLanguageFormat(topbarActions) {
+export function useLanguageFormat(topbarActions, topbarSelectors) {
   const [languageFormat, setLanguageFormat] = useState('json');
 
   useEffect(() => {
@@ -16,7 +16,7 @@ export function useLanguageFormat(topbarActions) {
 
   useEffect(() => {
     const shouldUpdateDefinitionLanguageFormat = async () => {
-      const result = await topbarActions.shouldUpdateDefinitionLanguageFormat({
+      const result = topbarSelectors.selectShouldUpdateDefinitionLanguageFormat({
         languageFormat,
       });
       if (result.shouldUpdate && result.languageFormat !== languageFormat) {

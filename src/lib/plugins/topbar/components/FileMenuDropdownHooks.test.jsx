@@ -1,5 +1,4 @@
 import React from 'react';
-// eslint-disable-next-line no-unused-vars
 import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 import ReactModal from 'react-modal';
 
@@ -9,28 +8,33 @@ import DropdownMenu from './DropdownMenu';
 import ImportFileDropdownItem from './ImportFileDropdownItem';
 import SaveAsJsonOrYaml from './SaveAsJsonOrYaml';
 import * as topbarActions from '../actions';
+import * as topbarSelectors from '../selectors';
 
 ReactModal.setAppElement('*'); // suppresses modal-related test warnings.
 
 jest.mock('../actions', () => ({
   getDefinitionLanguageFormat: jest.fn(),
-  shouldUpdateDefinitionLanguageFormat: jest.fn(),
   importFile: jest.fn(),
   // importFromURL: jest.fn(),
+}));
+
+jest.mock('../selectors', () => ({
+  selectShouldUpdateDefinitionLanguageFormat: jest.fn(),
 }));
 
 const setup = ({ languageFormat, shouldUpdate } = {}) => {
   topbarActions.getDefinitionLanguageFormat.mockReturnValue({
     languageFormat: languageFormat || 'yaml',
   });
-  topbarActions.shouldUpdateDefinitionLanguageFormat.mockReturnValue({
-    languageFormat: languageFormat || 'yaml',
-    shouldUpdate: shouldUpdate || false,
-  });
   topbarActions.importFile.mockReturnValue(null);
   // topbarActions.importFromURL.mockReturnValue(null);
 
-  return { topbarActions };
+  topbarSelectors.selectShouldUpdateDefinitionLanguageFormat.mockReturnValue({
+    languageFormat: languageFormat || 'yaml',
+    shouldUpdate: shouldUpdate || false,
+  });
+
+  return { topbarActions, topbarSelectors };
 };
 
 const renderFileMenuDropdown = async (props) => {
@@ -51,7 +55,9 @@ const renderFileMenuDropdown = async (props) => {
   );
 
   await waitFor(() => expect(topbarActions.getDefinitionLanguageFormat).toBeCalled());
-  await waitFor(() => expect(topbarActions.shouldUpdateDefinitionLanguageFormat).toBeCalled());
+  await waitFor(() =>
+    expect(topbarSelectors.selectShouldUpdateDefinitionLanguageFormat).toBeCalled()
+  );
   const fileMenu = screen.getByText(/File/i);
   const buttonSaveAs = screen.queryByText(/Save \(as/i);
   const buttonConvert = screen.queryByText(/Convert and save as/);
@@ -74,25 +80,30 @@ const renderFileMenuDropdown = async (props) => {
 
 afterAll(() => {
   jest.unmock('../actions');
+  jest.unmock('../selectors');
 });
 
 test('should render', async () => {
-  const { topbarActions: actions } = setup({
+  const { topbarActions: actions, topbarSelectors: selectors } = setup({
     languageFormat: 'json',
     shouldUpdateDefinitionLanguageFormat: false,
   });
-  const { fileMenu } = await renderFileMenuDropdown({ topbarActions: actions });
+  const { fileMenu } = await renderFileMenuDropdown({
+    topbarActions: actions,
+    topbarSelectors: selectors,
+  });
 
   expect(fileMenu).toBeInTheDocument();
 });
 
 test('should be able to click on "Import URL', async () => {
-  const { topbarActions: actions } = setup({
+  const { topbarActions: actions, topbarSelectors: selectors } = setup({
     languageFormat: 'json',
     shouldUpdateDefinitionLanguageFormat: false,
   });
   const { clickFileMenu, clickFileMenuItem } = await renderFileMenuDropdown({
     topbarActions: actions,
+    topbarSelectors: selectors,
   });
 
   clickFileMenu();
@@ -106,12 +117,13 @@ test('should be able to click on "Import URL', async () => {
 });
 
 test('should be able to click on "Import File', async () => {
-  const { topbarActions: actions } = setup({
+  const { topbarActions: actions, topbarSelectors: selectors } = setup({
     languageFormat: 'json',
     shouldUpdateDefinitionLanguageFormat: false,
   });
   const { clickFileMenu, clickFileMenuItem } = await renderFileMenuDropdown({
     topbarActions: actions,
+    topbarSelectors: selectors,
   });
 
   clickFileMenu();
@@ -122,12 +134,13 @@ test('should be able to click on "Import File', async () => {
 });
 
 test('should render partial text: "Save (as', async () => {
-  const { topbarActions: actions } = setup({
+  const { topbarActions: actions, topbarSelectors: selectors } = setup({
     languageFormat: 'json',
     shouldUpdateDefinitionLanguageFormat: false,
   });
   const { clickFileMenu, hasButtonElement } = await renderFileMenuDropdown({
     topbarActions: actions,
+    topbarSelectors: selectors,
   });
 
   clickFileMenu();
@@ -137,12 +150,13 @@ test('should render partial text: "Save (as', async () => {
 });
 
 test('should render partial text: "Convert and save as', async () => {
-  const { topbarActions: actions } = setup({
+  const { topbarActions: actions, topbarSelectors: selectors } = setup({
     languageFormat: 'json',
     shouldUpdateDefinitionLanguageFormat: false,
   });
   const { clickFileMenu, hasButtonElement } = await renderFileMenuDropdown({
     topbarActions: actions,
+    topbarSelectors: selectors,
   });
 
   clickFileMenu();
@@ -153,12 +167,13 @@ test('should render partial text: "Convert and save as', async () => {
 
 describe('when json', () => {
   test('should render partial text: "Save (as JSON)', async () => {
-    const { topbarActions: actions } = setup({
+    const { topbarActions: actions, topbarSelectors: selectors } = setup({
       languageFormat: 'json',
       shouldUpdateDefinitionLanguageFormat: false,
     });
     const { clickFileMenu, hasButtonElement } = await renderFileMenuDropdown({
       topbarActions: actions,
+      topbarSelectors: selectors,
     });
 
     clickFileMenu();
@@ -168,12 +183,13 @@ describe('when json', () => {
   });
 
   test('should render partial text: "Convert and save as YAML', async () => {
-    const { topbarActions: actions } = setup({
+    const { topbarActions: actions, topbarSelectors: selectors } = setup({
       languageFormat: 'json',
       shouldUpdateDefinitionLanguageFormat: false,
     });
     const { clickFileMenu, hasButtonElement } = await renderFileMenuDropdown({
       topbarActions: actions,
+      topbarSelectors: selectors,
     });
 
     clickFileMenu();
@@ -185,12 +201,13 @@ describe('when json', () => {
 
 describe('when yaml', () => {
   test('should render partial text: "Save (as YAML)', async () => {
-    const { topbarActions: actions } = setup({
+    const { topbarActions: actions, topbarSelectors: selectors } = setup({
       languageFormat: 'yaml',
       shouldUpdateDefinitionLanguageFormat: false,
     });
     const { clickFileMenu, hasButtonElement } = await renderFileMenuDropdown({
       topbarActions: actions,
+      topbarSelectors: selectors,
     });
 
     clickFileMenu();
@@ -200,12 +217,13 @@ describe('when yaml', () => {
   });
 
   test('should render partial text: "Convert and save as JSON', async () => {
-    const { topbarActions: actions } = setup({
+    const { topbarActions: actions, topbarSelectors: selectors } = setup({
       languageFormat: 'yaml',
       shouldUpdateDefinitionLanguageFormat: false,
     });
     const { clickFileMenu, hasButtonElement } = await renderFileMenuDropdown({
       topbarActions: actions,
+      topbarSelectors: selectors,
     });
 
     clickFileMenu();

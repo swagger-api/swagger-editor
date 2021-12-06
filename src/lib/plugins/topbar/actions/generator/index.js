@@ -27,26 +27,12 @@ export const instantiateGeneratorClient = () => async (system) => {
       error: generatorServersClients.error,
     });
   }
-  // NYI: set redux state
-  // setOasGeneratorServersList({ value: generatorServersClients.servers });
-  // reducer not receiving; gonna do a temporary workaround and set in state
   return Promise.resolve({
     servers: generatorServersClients.servers,
     clients: generatorServersClients.servers,
     specVersion,
   });
 };
-
-export const shouldReInstantiateGeneratorClient =
-  ({ specVersion }) =>
-  (system) => {
-    const { isOAS3, isSwagger2, isOAS3_1, isAsyncApi2 } = getSpecVersion(system);
-    const updatedSpecVersion = getSpecVersionString({ isOAS3, isSwagger2, isOAS3_1, isAsyncApi2 });
-    if (specVersion !== updatedSpecVersion) {
-      return true;
-    }
-    return false;
-  };
 
 export const downloadGeneratedFile =
   ({ type, name }) =>
@@ -90,6 +76,5 @@ export const downloadGeneratedFile =
 
 export default {
   instantiateGeneratorClient,
-  shouldReInstantiateGeneratorClient,
   downloadGeneratedFile,
 };

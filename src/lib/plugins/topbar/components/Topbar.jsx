@@ -12,7 +12,7 @@ if (process.env.NODE_ENV !== 'test') {
 }
 
 export default function Topbar(props) {
-  const { getComponent, topbarActions } = props;
+  const { getComponent, topbarActions, topbarSelectors } = props;
 
   const LinkHome = getComponent('LinkHome');
   const GeneratorMenuDropdown = getComponent('GeneratorMenuDropdown');
@@ -22,9 +22,21 @@ export default function Topbar(props) {
       <div className="topbar">
         <div className="topbar-wrapper">
           <LinkHome />
-          <FileMenuDropdownHooks getComponent={getComponent} topbarActions={topbarActions} />
-          <EditMenuDropdownHooks getComponent={getComponent} topbarActions={topbarActions} />
-          <GeneratorMenuDropdown getComponent={getComponent} topbarActions={topbarActions} />
+          <FileMenuDropdownHooks
+            getComponent={getComponent}
+            topbarActions={topbarActions}
+            topbarSelectors={topbarSelectors}
+          />
+          <EditMenuDropdownHooks
+            getComponent={getComponent}
+            topbarActions={topbarActions}
+            topbarSelectors={topbarSelectors}
+          />
+          <GeneratorMenuDropdown
+            getComponent={getComponent}
+            topbarActions={topbarActions}
+            topbarSelectors={topbarSelectors}
+          />
         </div>
       </div>
     </div>
@@ -33,5 +45,6 @@ export default function Topbar(props) {
 
 Topbar.propTypes = {
   topbarActions: PropTypes.oneOfType([PropTypes.object]).isRequired,
+  topbarSelectors: PropTypes.oneOfType([PropTypes.object]).isRequired,
   getComponent: PropTypes.func.isRequired,
 };

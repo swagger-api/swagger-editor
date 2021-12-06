@@ -4,8 +4,8 @@ import PropTypes from 'prop-types';
 import { useLanguageFormat } from './shared-hooks';
 
 export default function EditMenuDropdownHooks(props) {
-  const { getComponent, topbarActions } = props;
-  const languageFormat = useLanguageFormat(topbarActions);
+  const { getComponent, topbarActions, topbarSelectors } = props;
+  const languageFormat = useLanguageFormat(topbarActions, topbarSelectors);
 
   const [allowConvertDefinitionToOas3, setAllowConvertDefinitionToOas3] = useState(false);
   useEffect(() => {
@@ -141,4 +141,5 @@ export default function EditMenuDropdownHooks(props) {
 EditMenuDropdownHooks.propTypes = {
   getComponent: PropTypes.func.isRequired,
   topbarActions: PropTypes.oneOfType([PropTypes.object]).isRequired,
+  topbarSelectors: PropTypes.oneOfType([PropTypes.object]).isRequired,
 };

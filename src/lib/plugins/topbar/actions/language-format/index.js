@@ -11,21 +11,4 @@ export const getDefinitionLanguageFormat = () => async (system) => {
   return Promise.resolve({ languageFormat }); // expect 'json' or 'yaml'
 };
 
-export const shouldUpdateDefinitionLanguageFormat =
-  ({ languageFormat }) =>
-  async (system) => {
-    const { specSelectors } = system;
-    let updatedLanguageFormat;
-    const editorContent = specSelectors.specStr();
-    if (!editorContent) {
-      updatedLanguageFormat = 'yaml';
-    } else {
-      updatedLanguageFormat = getDefinitionLanguage({ data: editorContent });
-    }
-    if (languageFormat !== updatedLanguageFormat) {
-      return Promise.resolve({ shouldUpdate: true, languageFormat: updatedLanguageFormat });
-    }
-    return Promise.resolve({ shouldUpdate: false, languageFormat });
-  };
-
-export default { getDefinitionLanguageFormat, shouldUpdateDefinitionLanguageFormat };
+export default { getDefinitionLanguageFormat };

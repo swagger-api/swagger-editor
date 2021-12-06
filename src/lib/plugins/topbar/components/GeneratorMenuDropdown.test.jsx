@@ -5,11 +5,15 @@ import GeneratorMenuDropdown from './GeneratorMenuDropdown';
 import DropdownItem from './DropdownItem';
 import DropdownMenu from './DropdownMenu';
 import * as topbarActions from '../actions';
+import * as topbarSelectors from '../selectors';
 
 jest.mock('../actions', () => ({
   instantiateGeneratorClient: jest.fn(),
-  shouldReInstantiateGeneratorClient: jest.fn(),
   downloadGeneratedFile: jest.fn(),
+}));
+
+jest.mock('../selectors', () => ({
+  selectShouldReInstantiateGeneratorClient: jest.fn(),
 }));
 
 const setup = ({ servers, clients, specVersion } = {}) => {
@@ -18,12 +22,13 @@ const setup = ({ servers, clients, specVersion } = {}) => {
     clients: clients || ['apple', 'avocado'],
     specVersion: specVersion || 'some string',
   });
-  topbarActions.shouldReInstantiateGeneratorClient.mockReturnValue(false);
   topbarActions.downloadGeneratedFile.mockImplementation(({ name, type }) => ({
     data: { name, type },
   }));
 
-  return { topbarActions };
+  topbarSelectors.selectShouldReInstantiateGeneratorClient.mockReturnValue(false);
+
+  return { topbarActions, topbarSelectors };
 };
 
 const renderGeneratorMenuDropdown = async (props) => {
@@ -78,17 +83,21 @@ afterAll(() => {
 });
 
 test('should render', async () => {
-  const { topbarActions: actions } = setup();
-  const { serverMenu, clientMenu } = await renderGeneratorMenuDropdown({ topbarActions: actions });
+  const { topbarActions: actions, topbarSelectors: selectors } = setup();
+  const { serverMenu, clientMenu } = await renderGeneratorMenuDropdown({
+    topbarActions: actions,
+    topbarSelectors: selectors,
+  });
 
   expect(serverMenu).toBeInTheDocument();
   expect(clientMenu).toBeInTheDocument();
 });
 
 test('should download a generated Server file', async () => {
-  const { topbarActions: actions } = setup();
+  const { topbarActions: actions, topbarSelectors: selectors } = setup();
   const { clickServerMenu, clickServerMenuItem } = await renderGeneratorMenuDropdown({
     topbarActions: actions,
+    topbarSelectors: selectors,
   });
 
   clickServerMenu();
@@ -100,13 +109,14 @@ test('should download a generated Server file', async () => {
     type: 'server',
     name: 'brown',
   });
-  expect(topbarActions.shouldReInstantiateGeneratorClient).toBeCalled();
+  expect(topbarSelectors.selectShouldReInstantiateGeneratorClient).toBeCalled();
 });
 
 test('should download a generated Client file', async () => {
-  const { topbarActions: actions } = setup();
+  const { topbarActions: actions, topbarSelectors: selectors } = setup();
   const { clickClientMenu, clickClientMenuItem } = await renderGeneratorMenuDropdown({
     topbarActions: actions,
+    topbarSelectors: selectors,
   });
 
   clickClientMenu();
@@ -118,44 +128,50 @@ test('should download a generated Client file', async () => {
     type: 'client',
     name: 'apple',
   });
-  expect(topbarActions.shouldReInstantiateGeneratorClient).toBeCalled();
+  expect(topbarSelectors.selectShouldReInstantiateGeneratorClient).toBeCalled();
 });
 
 describe('given servers list is empty', () => {
   test('should render no menu', async () => {
-    const { topbarActions: actions } = setup({ servers: [] });
+    const { topbarActions: actions, topbarSelectors: selectors } = setup({ servers: [] });
     const { serverMenu, clientMenu } = await renderGeneratorMenuDropdown({
       topbarActions: actions,
+      topbarSelectors: selectors,
     });
 
     expect(serverMenu).not.toBeInTheDocument();
     expect(clientMenu).not.toBeInTheDocument();
-    expect(topbarActions.shouldReInstantiateGeneratorClient).toBeCalled();
+    expect(topbarSelectors.selectShouldReInstantiateGeneratorClient).toBeCalled();
   });
 });
 
 describe('given clients list is empty', () => {
   test('should render no menu', async () => {
-    const { topbarActions: actions } = setup({ clients: [] });
+    const { topbarActions: actions, topbarSelectors: selectors } = setup({ clients: [] });
     const { serverMenu, clientMenu } = await renderGeneratorMenuDropdown({
       topbarActions: actions,
+      topbarSelectors: selectors,
     });
 
     expect(serverMenu).not.toBeInTheDocument();
     expect(clientMenu).not.toBeInTheDocument();
-    expect(topbarActions.shouldReInstantiateGeneratorClient).toBeCalled();
+    expect(topbarSelectors.selectShouldReInstantiateGeneratorClient).toBeCalled();
   });
 });
 
 describe('given both servers and clients list are empty', () => {
   test('should render no menu', async () => {
-    const { topbarActions: actions } = setup({ servers: [], clients: [] });
+    const { topbarActions: actions, topbarSelectors: selectors } = setup({
+      servers: [],
+      clients: [],
+    });
     const { serverMenu, clientMenu } = await renderGeneratorMenuDropdown({
       topbarActions: actions,
+      topbarSelectors: selectors,
     });
 
     expect(serverMenu).not.toBeInTheDocument();
     expect(clientMenu).not.toBeInTheDocument();
-    expect(topbarActions.shouldReInstantiateGeneratorClient).toBeCalled();
+    expect(topbarSelectors.selectShouldReInstantiateGeneratorClient).toBeCalled();
   });
 });

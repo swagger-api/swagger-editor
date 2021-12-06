@@ -7,7 +7,6 @@ import SaveAsJsonOrYaml from './components/SaveAsJsonOrYaml';
 import Topbar from './components/Topbar';
 import {
   instantiateGeneratorClient,
-  shouldReInstantiateGeneratorClient,
   downloadGeneratedFile,
   importFromURL,
   clearEditor,
@@ -20,10 +19,13 @@ import {
   convertDefinitionToOas3,
   allowConvertDefinitionToOas3,
   getDefinitionLanguageFormat,
-  shouldUpdateDefinitionLanguageFormat,
   loadDefaultDefinition,
   importFile,
 } from './actions';
+import {
+  selectShouldReInstantiateGeneratorClient,
+  selectShouldUpdateDefinitionLanguageFormat,
+} from './selectors';
 
 export default function topbarPlugin() {
   return {
@@ -31,7 +33,6 @@ export default function topbarPlugin() {
       topbar: {
         actions: {
           instantiateGeneratorClient,
-          shouldReInstantiateGeneratorClient,
           downloadGeneratedFile,
           importFromURL,
           clearEditor,
@@ -44,9 +45,12 @@ export default function topbarPlugin() {
           convertDefinitionToOas3,
           allowConvertDefinitionToOas3,
           getDefinitionLanguageFormat,
-          shouldUpdateDefinitionLanguageFormat,
           loadDefaultDefinition,
           importFile,
+        },
+        selectors: {
+          selectShouldReInstantiateGeneratorClient,
+          selectShouldUpdateDefinitionLanguageFormat,
         },
       },
     },

@@ -9,8 +9,8 @@ import ModalConfirmWrapper from './ModalConfirmWrapper';
 import ModalErrorWrapper from './ModalErrorWrapper';
 
 export default function FileMenuDropdownHooks(props) {
-  const { getComponent, topbarActions } = props;
-  const languageFormat = useLanguageFormat(topbarActions);
+  const { getComponent, topbarActions, topbarSelectors } = props;
+  const languageFormat = useLanguageFormat(topbarActions, topbarSelectors);
 
   const [showErrorModal, setShowErrorModal] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
@@ -222,4 +222,5 @@ export default function FileMenuDropdownHooks(props) {
 FileMenuDropdownHooks.propTypes = {
   getComponent: PropTypes.func.isRequired,
   topbarActions: PropTypes.oneOfType([PropTypes.object]).isRequired,
+  topbarSelectors: PropTypes.oneOfType([PropTypes.object]).isRequired,
 };

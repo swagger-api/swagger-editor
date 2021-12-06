@@ -5,6 +5,7 @@ import EditMenuDropdownHooks from './EditMenuDropdownHooks';
 import DropdownItem from './DropdownItem';
 import DropdownMenu from './DropdownMenu';
 import * as topbarActions from '../actions';
+import * as topbarSelectors from '../selectors';
 
 jest.mock('../actions', () => ({
   convertDefinitionToOas3: jest.fn(),
@@ -13,7 +14,10 @@ jest.mock('../actions', () => ({
   resetEditor: jest.fn(),
   allowConvertDefinitionToOas3: jest.fn(),
   getDefinitionLanguageFormat: jest.fn(),
-  shouldUpdateDefinitionLanguageFormat: jest.fn(),
+}));
+
+jest.mock('../selectors', () => ({
+  selectShouldUpdateDefinitionLanguageFormat: jest.fn(),
 }));
 
 const setup = ({ languageFormat, shouldUpdate, allowConvertDefinitionToOas3 } = {}) => {
@@ -26,12 +30,13 @@ const setup = ({ languageFormat, shouldUpdate, allowConvertDefinitionToOas3 } = 
   topbarActions.getDefinitionLanguageFormat.mockReturnValue({
     languageFormat: languageFormat || 'yaml',
   });
-  topbarActions.shouldUpdateDefinitionLanguageFormat.mockReturnValue({
+
+  topbarSelectors.selectShouldUpdateDefinitionLanguageFormat.mockReturnValue({
     languageFormat: languageFormat || 'yaml',
     shouldUpdate: shouldUpdate || false,
   });
 
-  return { topbarActions };
+  return { topbarActions, topbarSelectors };
 };
 
 const renderEditMenuDropdown = async (props) => {
@@ -51,7 +56,9 @@ const renderEditMenuDropdown = async (props) => {
 
   await waitFor(() => expect(topbarActions.allowConvertDefinitionToOas3).toBeCalled());
   await waitFor(() => expect(topbarActions.getDefinitionLanguageFormat).toBeCalled());
-  await waitFor(() => expect(topbarActions.shouldUpdateDefinitionLanguageFormat).toBeCalled());
+  await waitFor(() =>
+    expect(topbarSelectors.selectShouldUpdateDefinitionLanguageFormat).toBeCalled()
+  );
   const editMenu = screen.getByText(/Editor/i);
 
   return {
@@ -70,27 +77,32 @@ const renderEditMenuDropdown = async (props) => {
 
 afterAll(() => {
   jest.unmock('../actions');
+  jest.unmock('../selectors');
 });
 
 test('should render', async () => {
-  const { topbarActions: actions } = setup({
+  const { topbarActions: actions, topbarSelectors: selectors } = setup({
     languageFormat: 'json',
     shouldUpdate: false,
     allowConvertDefinitionToOas3: true,
   });
-  const { editMenu } = await renderEditMenuDropdown({ topbarActions: actions });
+  const { editMenu } = await renderEditMenuDropdown({
+    topbarActions: actions,
+    topbarSelectors: selectors,
+  });
 
   expect(editMenu).toBeInTheDocument();
 });
 
 test('should Clear Editor', async () => {
-  const { topbarActions: actions } = setup({
+  const { topbarActions: actions, topbarSelectors: selectors } = setup({
     languageFormat: 'json',
     shouldUpdate: false,
     allowConvertDefinitionToOas3: true,
   });
   const { clickEditMenu, clickEditMenuItem } = await renderEditMenuDropdown({
     topbarActions: actions,
+    topbarSelectors: selectors,
   });
 
   clickEditMenu();
@@ -100,13 +112,14 @@ test('should Clear Editor', async () => {
 });
 
 test('should Reset Editor', async () => {
-  const { topbarActions: actions } = setup({
+  const { topbarActions: actions, topbarSelectors: selectors } = setup({
     languageFormat: 'json',
     shouldUpdate: false,
     allowConvertDefinitionToOas3: true,
   });
   const { clickEditMenu, clickEditMenuItem } = await renderEditMenuDropdown({
     topbarActions: actions,
+    topbarSelectors: selectors,
   });
 
   clickEditMenu();
@@ -117,13 +130,14 @@ test('should Reset Editor', async () => {
 
 describe('when json', () => {
   test('should convert to YAML', async () => {
-    const { topbarActions: actions } = setup({
+    const { topbarActions: actions, topbarSelectors: selectors } = setup({
       languageFormat: 'json',
       shouldUpdate: false,
       allowConvertDefinitionToOas3: true,
     });
     const { clickEditMenu, clickEditMenuItem } = await renderEditMenuDropdown({
       topbarActions: actions,
+      topbarSelectors: selectors,
     });
 
     clickEditMenu();
@@ -135,12 +149,15 @@ describe('when json', () => {
 
 describe('when yaml', () => {
   test('should NOT render menu item to convert to YAML', async () => {
-    const { topbarActions: actions } = setup({
+    const { topbarActions: actions, topbarSelectors: selectors } = setup({
       languageFormat: 'yaml',
       shouldUpdate: true,
       allowConvertDefinitionToOas3: true,
     });
-    const { clickEditMenu, hasMenuItem } = await renderEditMenuDropdown({ topbarActions: actions });
+    const { clickEditMenu, hasMenuItem } = await renderEditMenuDropdown({
+      topbarActions: actions,
+      topbarSelectors: selectors,
+    });
 
     clickEditMenu();
     const elementExists = hasMenuItem('Convert To YAML');
@@ -151,13 +168,14 @@ describe('when yaml', () => {
 
 describe('when oas2', () => {
   test('should convert to OpenAPI 3', async () => {
-    const { topbarActions: actions } = setup({
+    const { topbarActions: actions, topbarSelectors: selectors } = setup({
       languageFormat: 'json',
       shouldUpdate: false,
       allowConvertDefinitionToOas3: true,
     });
     const { clickEditMenu, clickEditMenuItem } = await renderEditMenuDropdown({
       topbarActions: actions,
+      topbarSelectors: selectors,
     });
 
     clickEditMenu();
@@ -169,12 +187,15 @@ describe('when oas2', () => {
 
 describe('when not oas2', () => {
   test('should NOT render menu item to convert to OpenAPI 3', async () => {
-    const { topbarActions: actions } = setup({
+    const { topbarActions: actions, topbarSelectors: selectors } = setup({
       languageFormat: 'json',
       shouldUpdate: false,
       allowConvertDefinitionToOas3: false,
     });
-    const { clickEditMenu, hasMenuItem } = await renderEditMenuDropdown({ topbarActions: actions });
+    const { clickEditMenu, hasMenuItem } = await renderEditMenuDropdown({
+      topbarActions: actions,
+      topbarSelectors: selectors,
+    });
 
     clickEditMenu();
     const elementExists = hasMenuItem('Convert To OpenAPI 3');
