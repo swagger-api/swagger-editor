@@ -1,6 +1,8 @@
+import YAML from 'js-yaml';
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import ReactResizeDetector from 'react-resize-detector';
+import { isJsonDoc } from '@swagger-api/apidom-ls';
 
 import MonacoEditor from './MonacoEditor'; // load directly, do not use getComponent
 // import ThemeSelection from './ThemeSelection';
@@ -27,7 +29,29 @@ export default class EditorPane extends PureComponent {
 
   handleChangeEditorValue = (val) => {
     const { specActions } = this.props;
-    specActions.updateSpec(val);
+    // validate spec, if not valid increase delay
+    /*
+      TODO remove logic if underlying issue with error being raised by Swagger UI updatedSpec or related code gets solved.
+     */
+    let delay = 500;
+    if (isJsonDoc(val)) {
+      try {
+        JSON.parse(val);
+      } catch (e) {
+        delay = 2500;
+      }
+    } else {
+      try {
+        YAML.load(val);
+      } catch (e) {
+        delay = 2500;
+      }
+    }
+    // debounce
+    clearTimeout(this.#changeEditorValueHandle);
+    this.#changeEditorValueHandle = setTimeout(() => {
+      specActions.updateSpec(val);
+    }, delay);
   };
 
   handleChangeThemeValue = async (val) => {
@@ -48,6 +72,8 @@ export default class EditorPane extends PureComponent {
   editorDidMount = (editor) => {
     editor.focus();
   };
+
+  #changeEditorValueHandle;
 
   render() {
     const { initialValue, language, height, width } = this.state;
