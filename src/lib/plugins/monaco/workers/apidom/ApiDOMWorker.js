@@ -2,6 +2,7 @@
 import { TextDocument } from 'vscode-languageserver-textdocument'; // this is true source
 import {
   getLanguageService,
+  LogLevel,
   // OpenAPi31JsonSchemaValidationProvider,
   // Asyncapi20JsonSchemaValidationProvider,
   // Asyncapi21JsonSchemaValidationProvider,
@@ -34,6 +35,8 @@ export class ApiDOMWorker {
 
     const apidomContext = {
       validatorProviders: [],
+      performanceLogs: false,
+      logLevel: LogLevel.WARN,
     };
     this._languageService = getLanguageService(apidomContext);
   }

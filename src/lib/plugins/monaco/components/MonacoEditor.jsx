@@ -111,6 +111,7 @@ export default class MonacoEditor extends Component {
           suggest: {
             snippetsPreventQuickSuggestions: false,
           },
+          renderWhitespace: true,
           // ...options,
           // ...(theme ? { theme } : {}), // think this is inactive, and may not be necessary; based on a sample
         },
