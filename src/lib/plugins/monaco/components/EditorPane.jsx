@@ -33,25 +33,16 @@ export default class EditorPane extends PureComponent {
     /*
       TODO remove logic if underlying issue with error being raised by Swagger UI updatedSpec or related code gets solved.
      */
-    let delay = 500;
-    if (isJsonDoc(val)) {
-      try {
+    try {
+      if (isJsonDoc(val)) {
         JSON.parse(val);
-      } catch (e) {
-        delay = 2500;
-      }
-    } else {
-      try {
+      } else {
         YAML.load(val);
-      } catch (e) {
-        delay = 2500;
       }
-    }
-    // debounce
-    clearTimeout(this.#changeEditorValueHandle);
-    this.#changeEditorValueHandle = setTimeout(() => {
       specActions.updateSpec(val);
-    }, delay);
+    } catch (e) {
+      //
+    }
   };
 
   handleChangeThemeValue = async (val) => {
@@ -72,8 +63,6 @@ export default class EditorPane extends PureComponent {
   editorDidMount = (editor) => {
     editor.focus();
   };
-
-  #changeEditorValueHandle;
 
   render() {
     const { initialValue, language, height, width } = this.state;

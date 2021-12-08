@@ -15,8 +15,16 @@ export default function AsyncApiComponent(props) {
       const timer = setTimeout(() => {
         parse(value)
           .then((doc) => {
-            setIsValid(true);
-            setParsedSpec(doc);
+            if (!doc) {
+              setIsValid(false);
+            } else {
+              setIsValid(true);
+              try {
+                setParsedSpec(doc);
+              } catch (e) {
+                console.error('error in setParsedSpec', e);
+              }
+            }
           })
           .catch(() => {
             setIsValid(false);

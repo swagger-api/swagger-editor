@@ -1,6 +1,6 @@
 /* eslint-disable class-methods-use-this */
 import * as monaco from 'monaco-editor-core';
-import { getLanguageService } from '@swagger-api/apidom-ls';
+import { getLanguageService, LogLevel } from '@swagger-api/apidom-ls';
 import { ProtocolToMonacoConverter } from 'monaco-languageclient/lib/monaco-converter';
 
 export default class SemanticTokensAdapter {
@@ -25,7 +25,10 @@ export default class SemanticTokensAdapter {
   // so we import getLanguageService (above) directly in this adapter
   getLegend() {
     try {
-      return getLanguageService({}).getSemanticTokensLegend();
+      return getLanguageService({
+        performanceLogs: false,
+        logLevel: LogLevel.WARN,
+      }).getSemanticTokensLegend();
     } catch (e) {
       // console.error('semanticTokensAdapter.getLegend error:', e, e.stack);
       return { error: 'unable to getLegend' };
