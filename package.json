@@ -115,7 +115,7 @@
     "postcss-flexbugs-fixes": "^5.0.2",
     "postcss-loader": "^6.2.1",
     "postcss-normalize": "^10.0.1",
-    "postcss-preset-env": "6.7.0",
+    "postcss-preset-env": "7.0.1",
     "prettier": "^2.4.1",
     "process": "^0.11.10",
     "react-app-polyfill": "^3.0.0-next.102",
