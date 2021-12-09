@@ -22,6 +22,7 @@ export default function AsyncApiComponent(props) {
               try {
                 setParsedSpec(doc);
               } catch (e) {
+                // eslint-disable-next-line no-console
                 console.error('error in setParsedSpec', e);
               }
             }
