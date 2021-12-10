@@ -63,7 +63,7 @@
     "@pmmmwh/react-refresh-webpack-plugin": "0.5.3",
     "@svgr/webpack": "^6.1.1",
     "@testing-library/cypress": "^8.0.2",
-    "@testing-library/jest-dom": "^5.15.0",
+    "@testing-library/jest-dom": "^5.16.1",
     "@testing-library/react": "^12.1.2",
     "@testing-library/user-event": "^13.5.0",
     "@types/jest": "^27.0.2",
