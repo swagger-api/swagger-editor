@@ -9,7 +9,7 @@ import PropTypes from 'prop-types';
 export default class EditorTextArea extends PureComponent {
   getSelectorSpecStr = () => {
     const { specSelectors } = this.props;
-    const initialValue = 'Welcome to the TextArea';
+    const initialValue = '';
     // get spec from swagger-ui state.spec
     const spec = specSelectors.specStr();
     return spec || initialValue;

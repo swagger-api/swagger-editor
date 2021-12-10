@@ -31,7 +31,7 @@ const testForAsyncApi2SpecVersion = (src) => {
 };
 
 const testForOas3_1SpecVersion = (src) => {
-  const specMatchJson = src.startsWith('openapi', 2); // acccount for `"{`
+  const specMatchJson = src.startsWith('openapi', 2); // account for `"{`
   const specMatchJsonWithWhitespace = src.startsWith('openapi', 5); // account for `{  "`
   const specMatchYaml = src.startsWith('openapi');
   if (!specMatchJson && !specMatchYaml && !specMatchJsonWithWhitespace) {
