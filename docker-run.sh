@@ -36,10 +36,6 @@ if [[ "${QUERY_CONFIG_ENABLED}" = "true" ]]; then
   sed -i 's|queryConfigEnabled: false|queryConfigEnabled: true|' $INDEX_FILE
 fi
 
-
-
-sed -i 's/queryConfigEnabled: false/queryConfigEnabled: true'/ file.js
-
 ## Gzip after replacements
 #find /usr/share/nginx/html/ -type f -regex ".*\.\(html\|js\|css\)" -exec sh -c "gzip < {} > {}.gz" \;
 #
