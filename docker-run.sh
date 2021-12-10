@@ -31,7 +31,12 @@ if [[ -f "$SWAGGER_FILE" ]]; then
   sed -i "s|#SWAGGER_ROOT|root $SWAGGER_ROOT/;|g" $NGINX_CONF
 fi
 
-# Gzip after replacements
-find /usr/share/nginx/html/ -type f -regex ".*\.\(html\|js\|css\)" -exec sh -c "gzip < {} > {}.gz" \;
+## Adding env var support for `queryConfigEnabled` core configuration parameter of SwaggerUI
+if [[ "${QUERY_CONFIG_ENABLED}" = "true" ]]; then
+  sed -i 's|queryConfigEnabled: false|queryConfigEnabled: true|' $INDEX_FILE
+fi
 
-exec nginx -g 'daemon off;'
+## Gzip after replacements
+#find /usr/share/nginx/html/ -type f -regex ".*\.\(html\|js\|css\)" -exec sh -c "gzip < {} > {}.gz" \;
+#
+#exec nginx -g 'daemon off;'
