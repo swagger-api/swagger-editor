@@ -40,7 +40,7 @@ export default function AsyncApiComponent(props) {
 
   const getSelectorSpecStr = () => {
     const { specSelectors } = props;
-    const initialValue = 'Welcome to the AsyncAPI React Component';
+    const initialValue = '';
     // get spec from swagger-ui state.spec
     const spec = specSelectors.specStr();
     return spec || initialValue;

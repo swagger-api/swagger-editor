@@ -15,13 +15,13 @@ export default class EditorPane extends PureComponent {
       language: 'apidom',
       height: '90vh',
       width: '50',
-      initialValue: 'Welcome to Swagger Editor',
+      initialValue: '',
     };
   }
 
   getSelectorSpecStr = () => {
     const { specSelectors } = this.props;
-    const initialValue = 'Welcome to the TextArea';
+    const initialValue = '';
     // get spec from swagger-ui state.spec
     const spec = specSelectors.specStr();
     return spec || initialValue;
