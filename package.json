@@ -1,7 +1,7 @@
 {
   "name": "swagger-editor",
   "description": "Swagger Editor",
-  "version": "4.0.2",
+  "version": "4.0.3",
   "main": "dist/swagger-editor.js",
   "module": "dist/swagger-editor-es-bundle.js",
   "repository": "git@github.com:swagger-api/swagger-editor.git",
@@ -106,7 +106,7 @@
     "@commitlint/config-conventional": "=13.1.0",
     "@jest/globals": "^27.2.5",
     "@release-it/conventional-changelog": "=3.0.1",
-    "@wojtekmaj/enzyme-adapter-react-17": "=0.6.2",
+    "@wojtekmaj/enzyme-adapter-react-17": "=0.6.6",
     "autoprefixer": "^10.2.6",
     "babel-eslint": "^10.0.2",
     "babel-loader": "^8.1.0",
