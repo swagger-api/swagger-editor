@@ -124,7 +124,7 @@
     "resolve": "^1.20.0",
     "resolve-url-loader": "^4.0.0",
     "rimraf": "^3.0.2",
-    "sass": "^1.44.0",
+    "sass": "^1.45.0",
     "sass-loader": "^12.4.0",
     "semver": "7.3.5",
     "serve": "^13.0.2",
