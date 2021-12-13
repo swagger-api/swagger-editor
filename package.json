@@ -104,7 +104,7 @@
     "html-webpack-plugin": "^5.5.0",
     "husky": "^7.0.4",
     "identity-obj-proxy": "3.0.0",
-    "jest": "^27.3.1",
+    "jest": "^27.4.5",
     "jest-canvas-mock": "^2.3.1",
     "jest-circus": "^27.4.5",
     "jest-resolve": "^27.2.3",
