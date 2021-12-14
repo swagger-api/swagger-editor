@@ -61,7 +61,7 @@
     "@commitlint/cli": "^14.1.0",
     "@commitlint/config-conventional": "^14.1.0",
     "@pmmmwh/react-refresh-webpack-plugin": "0.5.3",
-    "@svgr/webpack": "^6.1.1",
+    "@svgr/webpack": "^6.1.2",
     "@testing-library/cypress": "^8.0.2",
     "@testing-library/jest-dom": "^5.16.1",
     "@testing-library/react": "^12.1.2",
