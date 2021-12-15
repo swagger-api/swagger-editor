@@ -74,7 +74,7 @@
     "babel-loader": "8.2.3",
     "babel-plugin-module-resolver": "^4.1.0",
     "babel-plugin-named-asset-import": "^0.3.8",
-    "babel-preset-react-app": "^10.0.0",
+    "babel-preset-react-app": "^10.0.1",
     "bfj": "^7.0.2",
     "buffer": "^6.0.3",
     "camelcase": "^6.2.1",
