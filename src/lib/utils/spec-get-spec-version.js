@@ -51,7 +51,6 @@ const testForOas3_1SpecVersion = (src) => {
   return false;
 };
 
-// Todo: could be refactored/optimized to not need `specSelectors`
 // currently matching swagger-editor@3 use of flags.
 // extendable to use additional spec versions/types.
 export const getSpecVersion = (system) => {

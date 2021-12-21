@@ -21,7 +21,6 @@ export default class HoverAdapter {
     let info;
     try {
       info = await worker.doHover(uri, computedPosition);
-      // console.log('hoverAdapter. info:', info);
       if (!info) {
         return Promise.resolve(null);
       }

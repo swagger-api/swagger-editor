@@ -21,8 +21,6 @@ export default function EditorPane(props) {
 
 EditorPane.propTypes = {
   getComponent: PropTypes.func.isRequired,
-  // specActions: PropTypes.oneOfType([PropTypes.object]).isRequired,
-  // specSelectors: PropTypes.oneOfType([PropTypes.object]).isRequired,
   // errSelectors: PropTypes.oneOfType([PropTypes.object]).isRequired,
   // errActions: PropTypes.oneOfType([PropTypes.object]).isRequired,
 };

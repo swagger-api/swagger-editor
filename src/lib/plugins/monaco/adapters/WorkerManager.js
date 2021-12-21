@@ -12,6 +12,7 @@ export class WorkerManager {
     this.worker = null;
     this.workerClientProxy = null;
     // this.defaults = defaults; // from constructor
+    // TODO: placeholder code exists for possible memory performance improvements
     // this.idleCheckInterval = setInterval(() => this.checkIfIdle(), 30 * 1000);
     // this.lastUsedTime = 0;
     // this.configChangeListener = this.defaults.onDidChange(() => this.stopWorker());
@@ -56,7 +57,6 @@ export class WorkerManager {
     }
     const timePassedSinceLastUsed = Date.now() - this.lastUsedTime;
     if (timePassedSinceLastUsed > STOP_WHEN_IDLE_FOR) {
-      // console.log('testing stopWorker after idle');
       this.stopWorker();
     }
   }

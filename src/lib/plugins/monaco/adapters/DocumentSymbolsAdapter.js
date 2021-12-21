@@ -30,7 +30,6 @@ export default class DocumentSymbolAdapter {
     // experimental: accept monaco instance
     const p2m = new ProtocolToMonacoConverter(monaco);
     const result = p2m.asDocumentSymbols(items);
-    // console.log('provideDocumentSymbols result:', result);
     // const result = items.map((item) => ({
     //   name: item.name,
     //   detail: '',

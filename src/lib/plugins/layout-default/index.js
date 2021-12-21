@@ -3,7 +3,6 @@ import { SplitPane } from 'react-collapse-pane';
 import LayoutDefault from './components/LayoutDefault';
 import EditorPane from '../../components/EditorPane';
 import EditorTextArea from '../../components/EditorTextArea';
-// import SplitPaneMode from '../../components/SplitPaneMode';
 import Topbar from '../../components/Topbar';
 
 const LayoutDefaultPlugin = () => {
@@ -15,10 +14,6 @@ const LayoutDefaultPlugin = () => {
       SplitPaneMode: SplitPane,
       Topbar,
     },
-    // statePlugins: {
-    //   ide: {},
-    // },
-    // wrapComponents: {},
   };
 };
 

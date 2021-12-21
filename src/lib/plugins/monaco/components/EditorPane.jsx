@@ -7,6 +7,9 @@ import { isJsonDoc } from '@swagger-api/apidom-ls';
 import MonacoEditor from './MonacoEditor'; // load directly, do not use getComponent
 // import ThemeSelection from './ThemeSelection';
 import ThemeSelectionIcon from './ThemeSelectionIcon';
+// TODO: may want to update/replace { isJsonDoc }
+// depending on if { isJsonDoc } also validates for both { isValidJson, isValidYaml }
+// import { isValidJson, isValidYaml } from '../../../utils/spec-valid-json-yaml';
 
 export default class EditorPane extends PureComponent {
   constructor(props) {
@@ -41,7 +44,7 @@ export default class EditorPane extends PureComponent {
       }
       specActions.updateSpec(val);
     } catch (e) {
-      //
+      // do nothing
     }
   };
 

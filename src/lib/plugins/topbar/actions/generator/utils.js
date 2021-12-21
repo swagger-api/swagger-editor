@@ -122,7 +122,6 @@ export const fetchGeneratorLinkOrBlob = async ({ isSwagger2, isOAS3, name, type,
     if (type === 'client') {
       urlWithType = `${defaultFixtures.oas2GenerateSpecClientsUrl}/${name}`;
     }
-    // todo: verify not needed to JSON.stringify(spec)
     const generatorData = await postGenerator3WithSpec({
       url: urlWithType,
       data: {
@@ -135,7 +134,6 @@ export const fetchGeneratorLinkOrBlob = async ({ isSwagger2, isOAS3, name, type,
     if (generatorData.error) {
       return generatorData; // res.body.error
     }
-    // console.log('generator...swagger 2 case.. generatorData:', generatorData);
     // expecting generatorData = { code: '', link: ''}
     const link = formatParsedUrl({ link: generatorData.link });
     return { link };

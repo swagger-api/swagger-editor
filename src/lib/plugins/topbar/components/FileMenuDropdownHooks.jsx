@@ -19,7 +19,6 @@ export default function FileMenuDropdownHooks(props) {
 
   const handleSaveAsJsonClick = () => {
     async function saveAsJson() {
-      // const saveResult = await topbarActions.saveAsJsonResolved();
       const saveResult = await topbarActions.saveAsJson();
       if (saveResult && saveResult.error) {
         // set & display the error message
@@ -33,7 +32,6 @@ export default function FileMenuDropdownHooks(props) {
 
   const handleSaveAsYamlClick = () => {
     async function saveAsYaml() {
-      // const saveResult = await topbarActions.saveAsYamlResolved({ overrideWarning: false });
       const saveResult = await topbarActions.saveAsYaml({ overrideWarning: false });
       if (saveResult && saveResult.warning) {
         setShowConfirmModal(true);
@@ -56,7 +54,6 @@ export default function FileMenuDropdownHooks(props) {
 
   const handleSaveAsYamlWithOverride = () => {
     async function saveAsYaml() {
-      // const saveResult = await topbarActions.saveAsYamlResolved({ overrideWarning: false });
       const saveResult = await topbarActions.saveAsYaml({ overrideWarning: true });
       if (saveResult && saveResult.error) {
         // set & display the error message
@@ -76,10 +73,8 @@ export default function FileMenuDropdownHooks(props) {
   };
 
   const handleSaveAsJsonResolvedClick = () => {
-    // Todo: add a test? or is this dev-only?
     async function saveAsJson() {
       const saveResult = await topbarActions.saveAsJsonResolved();
-      // const saveResult = await topbarActions.saveAsJson();
       if (saveResult && saveResult.error) {
         // set & display the error message
         setErrorMessage(saveResult.error); // original non-resolved
@@ -91,10 +86,8 @@ export default function FileMenuDropdownHooks(props) {
   };
 
   const handleSaveAsYamlResolvedClick = () => {
-    // Todo: add a test? or is this dev-only?
     async function saveAsYaml() {
       const saveResult = await topbarActions.saveAsYamlResolved({ overrideWarning: false });
-      // const saveResult = await topbarActions.saveAsYaml({ overrideWarning: false });
       if (saveResult && saveResult.warning) {
         setShowConfirmModal(true);
         setConfirmMessage(saveResult.warning);

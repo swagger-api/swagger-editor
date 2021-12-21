@@ -1,13 +1,6 @@
 /* eslint-disable no-underscore-dangle */
 import { TextDocument } from 'vscode-languageserver-textdocument'; // this is true source
-import {
-  getLanguageService,
-  LogLevel,
-  // OpenAPi31JsonSchemaValidationProvider,
-  // Asyncapi20JsonSchemaValidationProvider,
-  // Asyncapi21JsonSchemaValidationProvider,
-  // Asyncapi22JsonSchemaValidationProvider,
-} from '@swagger-api/apidom-ls';
+import { getLanguageService, LogLevel } from '@swagger-api/apidom-ls';
 
 import { languageID } from '../../adapters/config';
 
@@ -16,23 +9,6 @@ export class ApiDOMWorker {
   constructor(ctx, createData) {
     this._ctx = ctx;
     // define this._x for languageSettings, languageId, languageService
-    // this._languageService = getLanguageService(this._ctx);
-    /*
-    const oasJsonSchemavalidationProvider = new OpenAPi31JsonSchemaValidationProvider();
-    const asyncJsonSchemavalidationProvider = new Asyncapi20JsonSchemaValidationProvider();
-    const asyncJsonSchemavalidationProvider21 = new Asyncapi21JsonSchemaValidationProvider();
-    const asyncJsonSchemavalidationProvider22 = new Asyncapi22JsonSchemaValidationProvider();
-    const apidomContext = {
-      metadata: config(), // metadata (docs, linting rules, completion, etc)
-      validatorProviders: [
-        oasJsonSchemavalidationProvider,
-        asyncJsonSchemavalidationProvider,
-        asyncJsonSchemavalidationProvider21,
-        asyncJsonSchemavalidationProvider22,
-      ],
-    };
-*/
-
     const apidomContext = {
       validatorProviders: [],
       performanceLogs: false,
@@ -115,27 +91,20 @@ export class ApiDOMWorker {
   // intended as private method
   _getTextDocument(uri) {
     const models = this._ctx.getMirrorModels()[0]; // When there are multiple files open, this will be an array
-    // console.log('_getTextDocument.models', models);
-    // models: _lines[], _uri, _versionId
+    // expect models: _lines[], _uri, _versionId
+    // expect models.uri.toString() to be singular, e.g. inmemory://model/1
+    // thus, before returning a TextDocument, we can optionally
+    // validate that models.uri.toString() === uri
     // fyi, reference more complete example in cssWorker
     // https://github.com/microsoft/monaco-css/blob/master/src/cssWorker.ts
     // which we might want later to handle multiple URIs
-    // expect return a TextDocument/TextDocument.create()
-    // const testModelsUri = models.uri.toString(); // singular
-    // console.log('testModelsUri:', testModelsUri); // inmemory://model/1
-    // if (models.uri.toString() === uri) {
     const textDocumentToReturn = TextDocument.create(
       uri,
-      // this._languageId,
       languageID,
       models._versionId,
       models.getValue()
     );
-    // console.log('_getTextDocument.textDocumentToReturn', textDocumentToReturn);
     return textDocumentToReturn;
-    // }
-    // console.log('_getTextDocument... early return. uri not match');
-    // return null;
   }
 }
 

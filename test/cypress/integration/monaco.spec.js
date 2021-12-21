@@ -43,7 +43,7 @@ describe('Monaco Editor with Parser', () => {
     cy.visit('/', {});
     // tests when initial URL is set to AsyncAPI streetlights-kafka.yml
     cy.wait('@streetlightsKafka').then(() => {
-      console.log('ok');
+      // console.log('ok');
     });
     /*
     // tests when initial URL is set to OAS 3.0 spec
