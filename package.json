@@ -24,7 +24,7 @@
   },
   "dependencies": {
     "@asyncapi/parser": "^1.13.1",
-    "@asyncapi/react-component": "^1.0.0-next.25",
+    "@asyncapi/react-component": "^1.0.0-next.26",
     "@primer/octicons-react": "^16.2.0",
     "@swagger-api/apidom-core": "^0.15.0",
     "@swagger-api/apidom-ls": "^0.15.0",
