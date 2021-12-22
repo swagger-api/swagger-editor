@@ -3,3 +3,5 @@
 /scripts
 /node_modules
 /babel.config.js
+/dist
+/examples
