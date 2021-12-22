@@ -10,13 +10,13 @@ class Dropdown extends Component {
     };
   }
 
-  componentDidMount = () => {
+  componentDidMount() {
     document.addEventListener('mousedown', this.handleClickOutside);
-  };
+  }
 
-  componentWillUnmount = () => {
+  componentWillUnmount() {
     document.removeEventListener('mousedown', this.handleClickOutside);
-  };
+  }
 
   handleToggleClick = () => {
     this.setState((prevState) => ({
