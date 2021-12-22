@@ -60,7 +60,7 @@
     "@babel/core": "7.16.5",
     "@commitlint/cli": "^14.1.0",
     "@commitlint/config-conventional": "^14.1.0",
-    "@pmmmwh/react-refresh-webpack-plugin": "0.5.3",
+    "@pmmmwh/react-refresh-webpack-plugin": "0.5.4",
     "@svgr/webpack": "^6.1.2",
     "@testing-library/cypress": "^8.0.2",
     "@testing-library/jest-dom": "^5.16.1",
