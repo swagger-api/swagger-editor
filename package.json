@@ -46,7 +46,7 @@
     "react-dom": "^17.0.2",
     "react-modal": "^3.14.4",
     "react-redux": "^7.2.6",
-    "react-resize-detector": "^6.7.6",
+    "react-resize-detector": "^6.7.7",
     "redux": "^4.1.2",
     "reselect": "^4.1.5",
     "swagger-ui-react": "^4.1.3",
