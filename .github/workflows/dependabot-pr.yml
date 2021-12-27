@@ -47,9 +47,9 @@ jobs:
           steps.cache-npm-cache-files.cache-hit != 'true' ||
           steps.cache-cypress-binary.outputs.cache-hit != 'true'
       run: |
-        npm ci
         git submodule init
         git submodule update
+        npm ci
       env:
         NODE_AUTH_TOKEN: ${{ secrets.SWAGGER_BOT_GITHUB_TOKEN }}
     - name: Unit tests
