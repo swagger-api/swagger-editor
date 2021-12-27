@@ -58,7 +58,10 @@ jobs:
       if: |
           steps.cache-npm-cache-files.cache-hit != 'true' ||
           steps.cache-cypress-binary.outputs.cache-hit != 'true'
-      run: npm ci
+      run: |
+        git submodule init
+        git submodule update
+        npm ci
       env:
         NODE_AUTH_TOKEN: ${{ secrets.SWAGGER_BOT_GITHUB_TOKEN }}
     - name: Lint commit message
@@ -70,19 +73,10 @@ jobs:
       run: npm test --watchAll=false
       env:
         CI: true
-    - name: E2E Tests - chrome headless
-      id: cypress-run-ci
-      uses: cypress-io/github-action@v2
-      with:
-        # we have already installed all dependencies above
-        install: false
-        browser: chrome
-        wait-on: "http://localhost:3260"
-        wait-on-timeout: 120
-        headless: true
-        start: npm run start-ci
     - name: Build app artifacts
       run: npm run build
+    - name: E2E Tests
+      run: npm run cy:ci
     - name: Upload build artifacts (for GH pages)
       if: |
         github.ref == 'refs/heads/main' &&

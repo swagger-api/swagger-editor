@@ -1,7 +1,5 @@
+/.husky
 /build
-/config
-/scripts
+/create-react-app
 /node_modules
-/babel.config.js
-/dist
-/examples
+/public

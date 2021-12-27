@@ -10,9 +10,7 @@
   ],
   "globals": {
     "File": true,
-    "Blob": true,
-    "cy": false,
-    "Cypress": false
+    "Blob": true
   },
   "parserOptions": {
     "ecmaFeatures": {
@@ -32,6 +30,9 @@
       "newlines-between": "always"
     }],
     "prettier/prettier": "error",
-    "import/no-unresolved": 0
+    "react/react-in-jsx-scope": 0,
+    "react/function-component-definition": [1, {
+      "namedComponents": "arrow-function"
+    }]
   }
 }
