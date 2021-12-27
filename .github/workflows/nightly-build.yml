@@ -30,7 +30,10 @@ jobs:
           path: cypress/cache
           key: cypress-binary-${{ hashFiles('package-lock.json') }}
       - name: Install dependencies
-        run: npm ci
+        run: |
+          git submodule init
+          git submodule update
+          npm ci
         env:
           NODE_AUTH_TOKEN: ${{ secrets.SWAGGER_BOT_GITHUB_TOKEN }}
       - name: Lint code
