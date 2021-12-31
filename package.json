@@ -62,7 +62,7 @@
     "process": "^0.11.10",
     "react-scripts": "file:./create-react-app/packages/react-scripts",
     "rimraf": "^3.0.2",
-    "sass": "^1.45.1",
+    "sass": "^1.45.2",
     "serve": "^13.0.2",
     "start-server-and-test": "^1.14.0",
     "stream-browserify": "^3.0.0",
