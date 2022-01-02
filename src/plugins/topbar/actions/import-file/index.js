@@ -1,8 +1,8 @@
 import YAML from 'js-yaml';
 import fileDialog from 'file-dialog';
 
-import { isValidJson } from '../../../../utils/spec-valid-json-yaml';
-import { readFileAsTextAsync } from './utils';
+import { isValidJson } from '../../../../utils/spec-valid-json-yaml.js';
+import { readFileAsTextAsync } from './utils.js';
 
 export const importFile = () => async (system) => {
   const { specActions } = system;

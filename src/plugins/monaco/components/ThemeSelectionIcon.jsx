@@ -3,7 +3,7 @@ import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { MoonIcon, SunIcon } from '@primer/octicons-react';
 
-import noop from '../../../utils/common-noop';
+import noop from '../../../utils/common-noop.js';
 
 export default class ThemeSelectionIcon extends PureComponent {
   render() {

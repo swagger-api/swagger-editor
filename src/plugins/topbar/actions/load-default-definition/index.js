@@ -9,7 +9,7 @@ import {
   mockAsyncapi2Spec,
   mockOas3_1Spec,
   mockAsyncApi2PetstoreKafka,
-} from '../topbar-actions-fixtures';
+} from '../topbar-actions-fixtures.js';
 
 export const loadDefaultDefinition = (language) => async (system) => {
   const { specActions } = system;

@@ -1,8 +1,10 @@
-import * as monaco from 'monaco-editor-core';
+import * as monaco from 'monaco-editor-core/esm/vs/editor/editor.api.js';
 
-import { languageExtensionPoint, languageID } from './config';
-import { monarchLanguage } from './monarch-language';
-import { setupMode } from './setup-mode';
+import { languageExtensionPoint, languageID } from './config.js';
+import { monarchLanguage } from './monarch-language.js';
+import { setupMode } from './setup-mode.js';
+import ApiDOMWorker from '../workers/apidom/apidom.worker.js';
+import EditorWorker from '../workers/editor.worker.js';
 
 // eslint-disable-next-line import/prefer-default-export
 export function setupLanguage() {
@@ -10,9 +12,9 @@ export function setupLanguage() {
   self.MonacoEnvironment = {
     getWorker: (moduleId, label) => {
       if (label === languageID) {
-        return new Worker(new URL('../workers/apidom/apidom.worker', import.meta.url));
+        return new ApiDOMWorker();
       }
-      return new Worker(new URL('monaco-editor-core/esm/vs/editor/editor.worker', import.meta.url));
+      return new EditorWorker();
     },
   };
 

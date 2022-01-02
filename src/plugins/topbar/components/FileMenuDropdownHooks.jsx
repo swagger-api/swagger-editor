@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 
-import { useLanguageFormat } from './shared-hooks';
-import noop from '../../../utils/common-noop';
-import ImportUrl from './ImportUrl';
-import ModalInputWrapper from './ModalInputWrapper';
-import ModalConfirmWrapper from './ModalConfirmWrapper';
-import ModalErrorWrapper from './ModalErrorWrapper';
+import { useLanguageFormat } from './shared-hooks.jsx';
+import noop from '../../../utils/common-noop.js';
+import ImportUrl from './ImportUrl.jsx';
+import ModalInputWrapper from './ModalInputWrapper.jsx';
+import ModalConfirmWrapper from './ModalConfirmWrapper.jsx';
+import ModalErrorWrapper from './ModalErrorWrapper.jsx';
 
 const FileMenuDropdownHooks = (props) => {
   const { getComponent, topbarActions, topbarSelectors } = props;

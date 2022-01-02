@@ -1,4 +1,4 @@
-import * as monaco from 'monaco-editor-core';
+import * as monaco from 'monaco-editor-core/esm/vs/editor/editor.api.js';
 
 export const richLanguageConfiguration = {
   comments: {

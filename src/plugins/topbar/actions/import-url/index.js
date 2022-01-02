@@ -1,6 +1,6 @@
 import YAML from 'js-yaml';
 
-import { getDefinitionFromUrl } from '../../utils';
+import { getDefinitionFromUrl } from '../../utils.js';
 
 export const importFromURL =
   ({ url }) =>

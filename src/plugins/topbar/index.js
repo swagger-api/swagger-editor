@@ -1,10 +1,10 @@
-import LinkHome from './components/LinkHome';
-import DropdownMenu from './components/DropdownMenu';
-import DropdownItem from './components/DropdownItem';
-import ImportFileDropdownItem from './components/ImportFileDropdownItem';
-import GeneratorMenuDropdown from './components/GeneratorMenuDropdown';
-import SaveAsJsonOrYaml from './components/SaveAsJsonOrYaml';
-import Topbar from './components/Topbar';
+import LinkHome from './components/LinkHome.jsx';
+import DropdownMenu from './components/DropdownMenu.jsx';
+import DropdownItem from './components/DropdownItem.jsx';
+import ImportFileDropdownItem from './components/ImportFileDropdownItem.jsx';
+import GeneratorMenuDropdown from './components/GeneratorMenuDropdown.jsx';
+import SaveAsJsonOrYaml from './components/SaveAsJsonOrYaml.jsx';
+import Topbar from './components/Topbar.jsx';
 import {
   instantiateGeneratorClient,
   downloadGeneratedFile,
@@ -21,11 +21,11 @@ import {
   getDefinitionLanguageFormat,
   loadDefaultDefinition,
   importFile,
-} from './actions';
+} from './actions/index.js';
 import {
   selectShouldReInstantiateGeneratorClient,
   selectShouldUpdateDefinitionLanguageFormat,
-} from './selectors';
+} from './selectors.js';
 
 export default function topbarPlugin() {
   return {

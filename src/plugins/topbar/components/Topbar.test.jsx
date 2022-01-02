@@ -1,23 +1,23 @@
 import React from 'react';
 import { render, screen, waitFor } from '@testing-library/react';
 
-import Topbar from './Topbar';
-import LinkHome from './LinkHome';
-import DropdownItem from './DropdownItem';
-import DropdownMenu from './DropdownMenu';
-import ImportFileDropdownItem from './ImportFileDropdownItem';
-import GeneratorMenuDropdown from './GeneratorMenuDropdown';
-import SaveAsJsonOrYaml from './SaveAsJsonOrYaml';
-import * as topbarActions from '../actions';
-import * as topbarSelectors from '../selectors';
+import Topbar from './Topbar.jsx';
+import LinkHome from './LinkHome.jsx';
+import DropdownItem from './DropdownItem.jsx';
+import DropdownMenu from './DropdownMenu.jsx';
+import ImportFileDropdownItem from './ImportFileDropdownItem.jsx';
+import GeneratorMenuDropdown from './GeneratorMenuDropdown.jsx';
+import SaveAsJsonOrYaml from './SaveAsJsonOrYaml.jsx';
+import * as topbarActions from '../actions/index.js';
+import * as topbarSelectors from '../selectors.js';
 
-jest.mock('../actions', () => ({
+jest.mock('../actions/index.js', () => ({
   getDefinitionLanguageFormat: jest.fn(),
   instantiateGeneratorClient: jest.fn(),
   allowConvertDefinitionToOas3: jest.fn(),
 }));
 
-jest.mock('../selectors', () => ({
+jest.mock('../selectors.js', () => ({
   selectShouldUpdateDefinitionLanguageFormat: jest.fn(),
   selectShouldReInstantiateGeneratorClient: jest.fn(),
 }));
@@ -88,8 +88,8 @@ const renderGeneratorMenuDropdown = async (props) => {
 };
 
 afterAll(() => {
-  jest.unmock('../actions');
-  jest.unmock('../selectors');
+  jest.unmock('../actions/index.js');
+  jest.unmock('../selectors.js');
 });
 
 test('should render with required components', async () => {

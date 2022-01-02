@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import UiPane from './UiPane';
+import UiPane from './UiPane.jsx';
 
 const LayoutDefault = (props) => {
   const { getComponent, asyncapiActions } = props;

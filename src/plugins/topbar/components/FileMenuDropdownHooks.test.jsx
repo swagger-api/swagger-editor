@@ -2,13 +2,13 @@ import React from 'react';
 import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 import ReactModal from 'react-modal';
 
-import FileMenuDropdownHooks from './FileMenuDropdownHooks';
-import DropdownItem from './DropdownItem';
-import DropdownMenu from './DropdownMenu';
-import ImportFileDropdownItem from './ImportFileDropdownItem';
-import SaveAsJsonOrYaml from './SaveAsJsonOrYaml';
-import * as topbarActions from '../actions';
-import * as topbarSelectors from '../selectors';
+import FileMenuDropdownHooks from './FileMenuDropdownHooks.jsx';
+import DropdownItem from './DropdownItem.jsx';
+import DropdownMenu from './DropdownMenu.jsx';
+import ImportFileDropdownItem from './ImportFileDropdownItem.jsx';
+import SaveAsJsonOrYaml from './SaveAsJsonOrYaml.jsx';
+import * as topbarActions from '../actions/index.js';
+import * as topbarSelectors from '../selectors.js';
 
 ReactModal.setAppElement('*'); // suppresses modal-related test warnings.
 

@@ -1,8 +1,8 @@
 import { createSelector } from 'reselect';
 
-import { getSpecVersion } from '../../utils/spec-get-spec-version';
-import { getSpecVersionString } from './actions/generator/utils';
-import { getDefinitionLanguage } from '../../utils/spec-converter';
+import { getSpecVersion } from '../../utils/spec-get-spec-version.js';
+import { getSpecVersionString } from './actions/generator/utils.js';
+import { getDefinitionLanguage } from '../../utils/spec-converter.js';
 
 // eslint-disable-next-line import/prefer-default-export
 export const selectShouldReInstantiateGeneratorClient =

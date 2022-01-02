@@ -1,10 +1,10 @@
 import React from 'react';
 import SwaggerUI from 'swagger-ui-react';
 
-import layoutDefaultPreset from '../plugins/layout-default';
-import monacoEditorPlugin from '../plugins/monaco';
-import topbarPlugin from '../plugins/topbar';
-import asyncApiLayoutPreset from '../plugins/asyncapi-react';
+import layoutDefaultPreset from '../plugins/layout-default/index.js';
+import monacoEditorPlugin from '../plugins/monaco/index.js';
+import topbarPlugin from '../plugins/topbar/index.js';
+import asyncApiLayoutPreset from '../plugins/asyncapi-react/index.js';
 
 const ide = (
   <SwaggerUI

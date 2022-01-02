@@ -1,8 +1,9 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, Suspense } from 'react';
 import PropTypes from 'prop-types';
-import AsyncApiReactComponent from '@asyncapi/react-component';
 import '@asyncapi/react-component/styles/default.min.css';
 import { parse } from '@asyncapi/parser';
+
+const AsyncApiReactComponent = React.lazy(() => import('@asyncapi/react-component'));
 
 const AsyncApiComponent = (props) => {
   const [isValid, setIsValid] = useState(false);
@@ -65,7 +66,9 @@ const AsyncApiComponent = (props) => {
   }
   return (
     <div id="ui-pane" className="ui-pane">
-      <AsyncApiReactComponent schema={debouncedParsedSpec} config={config} />
+      <Suspense fallback={<div>Loading...</div>}>
+        <AsyncApiReactComponent schema={debouncedParsedSpec} config={config} />
+      </Suspense>
     </div>
   );
 };

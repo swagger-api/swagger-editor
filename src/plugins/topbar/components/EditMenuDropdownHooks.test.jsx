@@ -1,13 +1,13 @@
 import React from 'react';
 import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 
-import EditMenuDropdownHooks from './EditMenuDropdownHooks';
-import DropdownItem from './DropdownItem';
-import DropdownMenu from './DropdownMenu';
-import * as topbarActions from '../actions';
-import * as topbarSelectors from '../selectors';
+import EditMenuDropdownHooks from './EditMenuDropdownHooks.jsx';
+import DropdownItem from './DropdownItem.jsx';
+import DropdownMenu from './DropdownMenu.jsx';
+import * as topbarActions from '../actions/index.js';
+import * as topbarSelectors from '../selectors.js';
 
-jest.mock('../actions', () => ({
+jest.mock('../actions/index.js', () => ({
   convertDefinitionToOas3: jest.fn(),
   convertToYaml: jest.fn(),
   clearEditor: jest.fn(),
@@ -16,7 +16,7 @@ jest.mock('../actions', () => ({
   getDefinitionLanguageFormat: jest.fn(),
 }));
 
-jest.mock('../selectors', () => ({
+jest.mock('../selectors.js', () => ({
   selectShouldUpdateDefinitionLanguageFormat: jest.fn(),
 }));
 
@@ -76,8 +76,8 @@ const renderEditMenuDropdown = async (props) => {
 };
 
 afterAll(() => {
-  jest.unmock('../actions');
-  jest.unmock('../selectors');
+  jest.unmock('../actions/index.js');
+  jest.unmock('../selectors.js');
 });
 
 test('should render', async () => {

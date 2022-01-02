@@ -1,4 +1,4 @@
-const FileDownload = require('js-file-download'); // replaces deprecated react-file-download
+import FileDownload from 'js-file-download'; // replaces deprecated react-file-download
 
 // react component helper to trigger browser to save data to file
 export const getFileDownload = ({ blob, filename }) => {

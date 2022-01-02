@@ -1,14 +1,14 @@
 /* eslint-disable camelcase */
-import { getGenerator2Definition } from '../../utils';
-import { getFileDownload } from '../../../../utils/common-file-download';
-import { getSpecVersion } from '../../../../utils/spec-get-spec-version';
+import { getGenerator2Definition } from '../../utils.js';
+import { getFileDownload } from '../../../../utils/common-file-download.js';
+import { getSpecVersion } from '../../../../utils/spec-get-spec-version.js';
 import {
   getConfigsWithDefaultFallback,
   getSpecVersionString,
   validateHttpGeneratorsExists,
   fetchOasGeneratorLists,
   fetchGeneratorLinkOrBlob,
-} from './utils';
+} from './utils.js';
 
 export const instantiateGeneratorClient = () => async (system) => {
   const { isOAS3, isSwagger2, isOAS3_1, isAsyncApi2 } = getSpecVersion(system);

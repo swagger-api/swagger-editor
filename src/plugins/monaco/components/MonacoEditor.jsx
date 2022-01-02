@@ -1,14 +1,14 @@
 /* eslint-disable no-param-reassign */
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import * as monaco from 'monaco-editor-core';
+import * as monaco from 'monaco-editor-core/esm/vs/editor/editor.api.js';
 
-import noop from '../../../utils/common-noop';
-import getStyleMetadataLight, { themes as themesLight } from '../utils/monaco-theme-light';
-import getStyleMetadataDark, { themes as themesDark } from '../utils/monaco-theme-dark';
-import { dereference } from '../utils/monaco-action-apidom-deref';
-import { languageID } from '../adapters/config';
-import { setupLanguage } from '../adapters/setup';
+import noop from '../../../utils/common-noop.js';
+import getStyleMetadataLight, { themes as themesLight } from '../utils/monaco-theme-light.js';
+import getStyleMetadataDark, { themes as themesDark } from '../utils/monaco-theme-dark.js';
+import { dereference } from '../utils/monaco-action-apidom-deref.js';
+import { languageID } from '../adapters/config.js';
+import { setupLanguage } from '../adapters/setup.js';
 
 export default class MonacoEditor extends Component {
   constructor(props) {

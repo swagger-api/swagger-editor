@@ -1,6 +1,6 @@
 /* eslint-disable camelcase */
-import { getGeneratorsList, postGenerator3WithSpec } from '../../utils';
-import { defaultFixtures } from '../topbar-actions-fixtures';
+import { getGeneratorsList, postGenerator3WithSpec } from '../../utils.js';
+import { defaultFixtures } from '../topbar-actions-fixtures.js';
 
 // currently re-used
 export const getConfigsWithDefaultFallback = (system) => {

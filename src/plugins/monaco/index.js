@@ -1,4 +1,4 @@
-import EditorPane from './components/EditorPane';
+import EditorPane from './components/EditorPane.jsx';
 
 const EDITOR_UPDATE_THEME = 'editor_update_theme';
 

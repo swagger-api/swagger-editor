@@ -1,9 +1,9 @@
 import { SplitPane } from 'react-collapse-pane';
 
-import LayoutDefault from './components/LayoutDefault';
-import EditorPane from '../../components/EditorPane';
-import EditorTextArea from '../../components/EditorTextArea';
-import Topbar from '../../components/Topbar';
+import LayoutDefault from './components/LayoutDefault.jsx';
+import EditorPane from '../../components/EditorPane.jsx';
+import EditorTextArea from '../../components/EditorTextArea.jsx';
+import Topbar from '../../components/Topbar.jsx';
 
 const LayoutDefaultPlugin = () => {
   return {

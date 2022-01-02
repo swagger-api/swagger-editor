@@ -7,10 +7,10 @@ import {
   getDefinitionLanguage,
   getFileName,
   hasParserErrors,
-} from '../../../../utils/spec-converter';
-import { getFileDownload } from '../../../../utils/common-file-download';
-import { getSpecVersion } from '../../../../utils/spec-get-spec-version';
-import { mockOas3Spec } from '../topbar-actions-fixtures';
+} from '../../../../utils/spec-converter.js';
+import { getFileDownload } from '../../../../utils/common-file-download.js';
+import { getSpecVersion } from '../../../../utils/spec-get-spec-version.js';
+import { mockOas3Spec } from '../topbar-actions-fixtures.js';
 
 export const saveAsJson = () => async (system) => {
   const { specSelectors, errSelectors } = system;

@@ -1,8 +1,8 @@
-import * as monaco from 'monaco-editor-core';
+import * as monaco from 'monaco-editor-core/esm/vs/editor/editor.api.js';
 import {
   ProtocolToMonacoConverter,
   MonacoToProtocolConverter,
-} from 'monaco-languageclient/lib/monaco-converter';
+} from 'monaco-languageclient/lib/monaco-converter.js';
 
 export default class CodeActionsAdapter {
   constructor(worker) {

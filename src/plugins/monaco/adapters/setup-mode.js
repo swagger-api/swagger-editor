@@ -1,15 +1,15 @@
 /* eslint-disable import/prefer-default-export */
-import * as monaco from 'monaco-editor-core';
+import * as monaco from 'monaco-editor-core/esm/vs/editor/editor.api.js';
 
-import { WorkerManager } from './WorkerManager';
-import DiagnosticsAdapter from './DiagnosticsAdapter';
-import HoverAdapter from './HoverAdapter';
-import CompletionItemsAdapter from './CompletionItemsAdapter';
-import SemanticTokensAdapter from './SemanticTokensAdapter';
-import CodeActionsAdapter from './CodeActionsAdapter';
-import DocumentSymbolsAdapter from './DocumentSymbolsAdapter';
-import DefinitionAdapter from './DefinitionAdapter';
-import { richLanguageConfiguration } from './monarch-language';
+import { WorkerManager } from './WorkerManager.js';
+import DiagnosticsAdapter from './DiagnosticsAdapter.js';
+import HoverAdapter from './HoverAdapter.js';
+import CompletionItemsAdapter from './CompletionItemsAdapter.js';
+import SemanticTokensAdapter from './SemanticTokensAdapter.js';
+import CodeActionsAdapter from './CodeActionsAdapter.js';
+import DocumentSymbolsAdapter from './DocumentSymbolsAdapter.js';
+import DefinitionAdapter from './DefinitionAdapter.js';
+import { richLanguageConfiguration } from './monarch-language.js';
 
 const disposeAll = (disposables) => {
   while (disposables.length) {

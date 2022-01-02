@@ -1,8 +1,8 @@
 /* eslint-disable no-underscore-dangle */
 /* eslint-disable import/prefer-default-export */
-import * as monaco from 'monaco-editor-core';
+import * as monaco from 'monaco-editor-core/esm/vs/editor/editor.api.js';
 
-import { languageID } from './config';
+import { languageID } from './config.js';
 
 const STOP_WHEN_IDLE_FOR = 2 * 60 * 1000; // 2min
 

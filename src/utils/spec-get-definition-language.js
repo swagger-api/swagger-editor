@@ -1,5 +1,5 @@
 /* eslint-disable camelcase */
-import { getSpecVersion } from './spec-get-spec-version';
+import { getSpecVersion } from './spec-get-spec-version.js';
 
 // note: need to register as a plugin action in order to access system
 export const getIsOasOrAsyncApi2 = () => async (system) => {

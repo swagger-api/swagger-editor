@@ -1,11 +1,11 @@
 import React from 'react';
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 
-import GeneratorMenuDropdown from './GeneratorMenuDropdown';
-import DropdownItem from './DropdownItem';
-import DropdownMenu from './DropdownMenu';
-import * as topbarActions from '../actions';
-import * as topbarSelectors from '../selectors';
+import GeneratorMenuDropdown from './GeneratorMenuDropdown.jsx';
+import DropdownItem from './DropdownItem.jsx';
+import DropdownMenu from './DropdownMenu.jsx';
+import * as topbarActions from '../actions/index.js';
+import * as topbarSelectors from '../selectors.js';
 
 jest.mock('../actions', () => ({
   instantiateGeneratorClient: jest.fn(),

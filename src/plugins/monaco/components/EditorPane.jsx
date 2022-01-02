@@ -4,9 +4,9 @@ import PropTypes from 'prop-types';
 import ReactResizeDetector from 'react-resize-detector';
 import { isJsonDoc } from '@swagger-api/apidom-ls';
 
-import MonacoEditor from './MonacoEditor'; // load directly, do not use getComponent
+import MonacoEditor from './MonacoEditor.jsx'; // load directly, do not use getComponent
 // import ThemeSelection from './ThemeSelection';
-import ThemeSelectionIcon from './ThemeSelectionIcon';
+import ThemeSelectionIcon from './ThemeSelectionIcon.jsx';
 // TODO: may want to update/replace { isJsonDoc }
 // depending on if { isJsonDoc } also validates for both { isValidJson, isValidYaml }
 // import { isValidJson, isValidYaml } from '../../../utils/spec-valid-json-yaml';

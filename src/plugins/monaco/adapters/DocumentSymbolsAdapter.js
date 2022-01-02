@@ -1,5 +1,5 @@
-import * as monaco from 'monaco-editor-core';
-import { ProtocolToMonacoConverter } from 'monaco-languageclient/lib/monaco-converter';
+import * as monaco from 'monaco-editor-core/esm/vs/editor/editor.api.js';
+import { ProtocolToMonacoConverter } from 'monaco-languageclient/lib/monaco-converter.js';
 
 export default class DocumentSymbolAdapter {
   constructor(worker) {

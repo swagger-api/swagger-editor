@@ -2,7 +2,7 @@
 import { TextDocument } from 'vscode-languageserver-textdocument'; // this is true source
 import { getLanguageService, LogLevel } from '@swagger-api/apidom-ls';
 
-import { languageID } from '../../adapters/config';
+import { languageID } from '../../adapters/config.js';
 
 export class ApiDOMWorker {
   // eslint-disable-next-line no-unused-vars

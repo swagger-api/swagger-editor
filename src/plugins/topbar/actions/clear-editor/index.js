@@ -1,9 +1,9 @@
 import YAML from 'js-yaml';
 
-import { getDefinitionLanguage } from '../../../../utils/spec-converter';
-import { getSpecVersion } from '../../../../utils/spec-get-spec-version';
-import { getInitialDefinitionObj } from './utils';
-import { mockOas3Spec } from '../topbar-actions-fixtures';
+import { getDefinitionLanguage } from '../../../../utils/spec-converter.js';
+import { getSpecVersion } from '../../../../utils/spec-get-spec-version.js';
+import { getInitialDefinitionObj } from './utils.js';
+import { mockOas3Spec } from '../topbar-actions-fixtures.js';
 
 /**
  * History: Using an empty string previously threw an apidom parser error

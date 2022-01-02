@@ -1,7 +1,7 @@
-import * as monaco from 'monaco-editor-core';
-import { ProtocolToMonacoConverter } from 'monaco-languageclient/lib/monaco-converter';
+import * as monaco from 'monaco-editor-core/esm/vs/editor/editor.api.js';
+import { ProtocolToMonacoConverter } from 'monaco-languageclient/lib/monaco-converter.js';
 
-import { languageID } from './config';
+import { languageID } from './config.js';
 
 // non-p2m helper
 // eslint-disable-next-line no-unused-vars

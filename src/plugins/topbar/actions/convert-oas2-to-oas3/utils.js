@@ -1,4 +1,4 @@
-import { defaultFixtures } from '../topbar-actions-fixtures';
+import { defaultFixtures } from '../topbar-actions-fixtures.js';
 
 // currently re-used
 export const getConfigsWithDefaultFallback = (system) => {

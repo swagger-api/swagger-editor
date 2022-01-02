@@ -1,10 +1,10 @@
 // eslint-disable-next-line no-unused-vars
-import * as monaco from 'monaco-editor-core';
+import * as monaco from 'monaco-editor-core/esm/vs/editor/editor.api.js';
 // eslint-disable-next-line no-unused-vars
-import { ProtocolToMonacoConverter } from 'monaco-languageclient/lib/monaco-converter';
+import { ProtocolToMonacoConverter } from 'monaco-languageclient/lib/monaco-converter.js';
 
 // eslint-disable-next-line no-unused-vars
-import { fromPosition, toRange } from './monaco-helpers';
+import { fromPosition, toRange } from './monaco-helpers.js';
 
 export default class HoverAdapter {
   constructor(worker) {

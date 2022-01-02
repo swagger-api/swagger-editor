@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { useDefinitionLanguage } from '../shared-hooks';
+import { useDefinitionLanguage } from '../shared-hooks.js';
 
 const UiPane = (props) => {
   const { getComponent, asyncapiActions } = props;

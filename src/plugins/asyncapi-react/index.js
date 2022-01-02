@@ -1,6 +1,6 @@
-import LayoutDefault from './components/LayoutDefault';
-import AsyncApiComponent from '../../components/AsyncApiComponent';
-import { getIsOasOrAsyncApi2, shouldUpdateDefinitionLanguage } from './actions';
+import LayoutDefault from './components/LayoutDefault.jsx';
+import AsyncApiComponent from '../../components/AsyncApiComponent.jsx';
+import { getIsOasOrAsyncApi2, shouldUpdateDefinitionLanguage } from './actions.js';
 
 const AsyncApiPlugin = () => {
   return {
