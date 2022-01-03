@@ -1,15 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import ReactModal from 'react-modal';
 
 import './_all.scss';
 import EditMenuDropdownHooks from './EditMenuDropdownHooks.jsx'; // getComponent incompatible with React hooks (due to nested functions?)
 import FileMenuDropdownHooks from './FileMenuDropdownHooks.jsx'; // getComponent incompatible with React hooks (due to nested functions?)
-
-// for screenreader aria-hidden
-if (process.env.NODE_ENV !== 'test') {
-  ReactModal.setAppElement('#root');
-}
 
 const Topbar = (props) => {
   const { getComponent, topbarActions, topbarSelectors } = props;

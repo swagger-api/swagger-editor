@@ -31,6 +31,7 @@
     "@primer/octicons-react": "^16.2.0",
     "@swagger-api/apidom-ls": "^0.15.1",
     "axios": "^0.24.0",
+    "deepmerge": "^4.2.2",
     "file-dialog": "^0.0.8",
     "is-json": "^2.0.1",
     "js-file-download": "^0.4.12",
