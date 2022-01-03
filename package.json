@@ -7,10 +7,11 @@
   "sideEffects": false,
   "scripts": {
     "start": "react-scripts start",
-    "build": "npm run build:app && npm run build:bundle:esm",
+    "build": "npm run build:app && npm run build:bundle:esm && npm run build:bundle:umd",
     "build:app": "cross-env react-scripts build",
     "build:app:serve": "serve -s build -l 3050",
     "build:bundle:esm": "cross-env BUILD_ESM_BUNDLE=true DIST_PATH=dist/esm react-scripts build-bundle",
+    "build:bundle:umd": "cross-env BUILD_UMD_BUNDLE=true GENERATE_SOURCEMAP=false DIST_PATH=dist/umd react-scripts build-bundle",
     "analyze": "source-map-explorer 'dist/esm/*.mjs'",
     "test": "react-scripts test",
     "cy:open": "cypress open",

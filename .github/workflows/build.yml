@@ -73,8 +73,8 @@ jobs:
       run: npm test --watchAll=false
       env:
         CI: true
-    - name: Build app artifacts
-      run: npm run build
+    - name: Build App artifacts
+      run: npm run build:app
     - name: E2E Tests
       run: npm run cy:ci
     - name: Upload build artifacts (for GH pages)
