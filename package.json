@@ -21,10 +21,8 @@
     "lint": "eslint . --ext .jsx,.js",
     "lint:fix": "eslint . --ext .jsx,.js --fix",
     "clean": "rimraf ./build ./dist",
-    "link-local-apidom": "npm link @swagger-api/apidom-ast @swagger-api/apidom-core @swagger-api/apidom-parser-adapter-json @swagger-api/apidom-ns-asyncapi-2 @swagger-api/apidom-parser-adapter-yaml-1-2 @swagger-api/apidom-parser-adapter-asyncapi-yaml-2 @swagger-api/apidom-parser-adapter-openapi-yaml-3-1 @swagger-api/apidom-parser @swagger-api/apidom-parser-adapter-asyncapi-json-2 @swagger-api/apidom-ls @swagger-api/apidom-ns-openapi-3-1 @swagger-api/apidom-reference @swagger-api/apidom-parser-adapter-openapi-json-3-1",
-    "unlink-local-apidom": "npm unlink --global @swagger-api/apidom-ast @swagger-api/apidom-core @swagger-api/apidom-parser-adapter-json @swagger-api/apidom-ns-asyncapi-2 @swagger-api/apidom-parser-adapter-yaml-1-2 @swagger-api/apidom-parser-adapter-asyncapi-yaml-2 @swagger-api/apidom-parser-adapter-openapi-yaml-3-1 @swagger-api/apidom-parser @swagger-api/apidom-parser-adapter-asyncapi-json-2 @swagger-api/apidom-ls @swagger-api/apidom-ns-openapi-3-1 @swagger-api/apidom-reference @swagger-api/apidom-parser-adapter-openapi-json-3-1",
-    "link-local-apidom-ls": "npm link @swagger-api/apidom-ls",
-    "unlink-local-apidom-ls": "npm unlink --global @swagger-api/apidom-ls"
+    "link:apidom": "npm link @swagger-api/apidom-ast @swagger-api/apidom-core @swagger-api/apidom-parser-adapter-json @swagger-api/apidom-ns-asyncapi-2 @swagger-api/apidom-parser-adapter-yaml-1-2 @swagger-api/apidom-parser-adapter-asyncapi-yaml-2 @swagger-api/apidom-parser-adapter-openapi-yaml-3-1 @swagger-api/apidom-parser @swagger-api/apidom-parser-adapter-asyncapi-json-2 @swagger-api/apidom-ls @swagger-api/apidom-ns-openapi-3-1 @swagger-api/apidom-reference @swagger-api/apidom-parser-adapter-openapi-json-3-1",
+    "link:apidom-ls": "npm link @swagger-api/apidom-ls"
   },
   "dependencies": {
     "@asyncapi/parser": "^1.13.1",
