@@ -14,6 +14,7 @@ import * as operationsOAS3ValidateActions from "./validators/oas3/operations"
 import * as parametersOAS3ValidateActions from "./validators/oas3/parameters"
 import * as componentsOAS3ValidateActions from "./validators/oas3/components"
 import * as refsOAS3ValidateActions from "./validators/oas3/refs"
+import * as schemasOAS3ValidateActions from "./validators/oas3/schemas"
 import * as refs2and3ValidateActions from "./validators/2and3/refs"
 import * as parameters2and3ValidateActions from "./validators/2and3/parameters"
 import * as paths2and3ValidateActions from "./validators/2and3/paths"
@@ -69,6 +70,7 @@ export default function SemanticValidatorsPlugin({getSystem}) {
           ...parametersOAS3ValidateActions,
           ...componentsOAS3ValidateActions,
           ...refsOAS3ValidateActions,
+          ...schemasOAS3ValidateActions,
           ...parameters2and3ValidateActions,
           ...paths2and3ValidateActions,
           ...schemas2and3ValidateActions,
