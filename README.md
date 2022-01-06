@@ -10,12 +10,12 @@ Webpack and development setup based on Create React App (ejected)
 
 ## Prerequisites
 ```
- "node": "~16.8",
- "npm": ">=7.21.0"
+ "node": "~16.13",
+ "npm": ">=8.1.0"
 ```
 
 - if using MacOS, please refer to additional installation notes below
-- ApiDOM monorepo requires the use of `npm>=7.21.0`
+- ApiDOM monorepo requires the use of `npm>=8.1.0`
 
 ## Install
 
@@ -32,9 +32,9 @@ The default development port is `port=3000`. If a port is already in use, `npm s
 
 ### MacOS Install notes
 
-With the combination of MacOS and Node.js 16, there is a known compatibility issue of installing and building the `tree-sitter` dependency. The workaround is to globally install `npm@7` (for lerna/apidom monorepo) but use Node.js 14 to install/build tree-sitter.
+With the combination of MacOS and Node.js 16, there is a known compatibility issue of installing and building the `tree-sitter` dependency. The workaround is to globally install `>=npm@8.1.x` (for lerna/apidom monorepo) but use Node.js 14 to install/build tree-sitter.
 
-Although the prerequisite is to use Node@16.8, at this point we don't rely on any specific feature from Node.js 16 (except for `npm@7`).
+Although the prerequisite is to use Node@16.13, at this point we don't rely on any specific feature from Node.js 16.13 (except for `>=npm@8.1.x`).
 
 ```sh
  $ npm install -g npm
@@ -60,59 +60,24 @@ Both Jest and Cypress include `@testing-library` plugin support.
 
 **Cypress E2E Tests**
 
-
-*Option 1a:*
-* `.env.development`
-* two terminal windows
-* Cypress headless mode
-* Cypress port=3000
-* Useful for quickly running Cypress tests while in development mode
+Usage in **development** environment:
 
 ```sh
- $ npm start # terminal 1
- $ npm run test:cy:run # terminal 2
+ $ npm run cy:dev
 ```
 
-*Option 1b:*
-* `.env.development`
-* two terminal windows
-* Cypress interactive mode
-* Cypress port=3000
-* Useful for updating Cypress test(s) while already in development mode
+Usage in **Continuos Integration (CI)** environment:
 
 ```sh
- $ npm start # terminal 1
- $ npm run test:cy:open # terminal 2
-```
-
-*Option 2a:*
-* `.env.test`
-* single terminal window
-* Cypress interactive mode
-* Cypress port=3260
-* Useful for working on adding/updating Cypress tests independent of development in `./src`
-
-```sh
- $ npm run test:cy:dev
-```
-
-*Option 2b:*
-* `.env.test`
-* single terminal window
-* Cypress headless mode
-* Cypress port=3260
-* Useful settings and environment variables appropriate for CI
-
-```sh
- $ npm run test:cy:ci
+ $ npm run cy:ci
 ```
 
 ## build
-This script will build and serve a gzipped static build at `localhost:3050`.
+This script will build and serve the build fragments at `localhost:3050`.
 
 ```sh
-$ npm run build
-$ npm run serve-static-build
+$ npm run build:app
+$ npm run build:app:serve
 ```
 
 ## Docker
