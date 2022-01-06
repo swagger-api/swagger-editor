@@ -36,7 +36,7 @@ jobs:
             @semantic-release/git
         env:
           GITHUB_TOKEN: ${{ secrets.SWAGGER_BOT_GITHUB_TOKEN }}
-          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+          NPM_TOKEN: ${{ secrets.SWAGGER_BOT_GITHUB_TOKEN }}
       - name: Release published
         if: steps.semantic.outputs.new_release_published == 'true'
         run: |
