@@ -25,6 +25,11 @@
       Learn how to configure a non-root public URL by running `npm run build`.
     -->
     <title>Swagger IDE</title>
+    <script>
+      window.MonacoEnvironment = {
+        baseUrl: new URL('/static/js/', document.baseURI || location.href).toString(),
+      };
+    </script>
   </head>
   <body>
     <noscript>You need to enable JavaScript to run this app.</noscript>

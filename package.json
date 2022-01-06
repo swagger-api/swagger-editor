@@ -1,17 +1,27 @@
 {
   "name": "swagger-ide",
   "version": "0.1.0",
-  "private": true,
+  "private": false,
   "license": "Apache-2.0",
   "type": "module",
   "sideEffects": false,
+  "unpkg": "./dist/umd/swagger-ide.js",
+  "module": "./dist/esm/swagger-ide.mjs",
+  "browser": "./dist/esm/swagger-ide.mjs",
+  "jsnext:main": "./dist/esm/swagger-ide.mjs",
+  "exports": {
+    "./package.json": "./package.json",
+    ".": {
+      "browser": "./dist/esm/swagger-ide.mjs"
+    }
+  },
   "scripts": {
-    "start": "react-scripts start",
+    "start": "cross-env ENABLE_PROGRESS_PLUGIN=true react-scripts start",
     "build": "npm run build:app && npm run build:bundle:esm && npm run build:bundle:umd",
-    "build:app": "cross-env react-scripts build",
+    "build:app": "cross-env ENABLE_PROGRESS_PLUGIN=false DISABLE_ESLINT_PLUGIN=true react-scripts build",
     "build:app:serve": "serve -s build -l 3050",
-    "build:bundle:esm": "cross-env BUILD_ESM_BUNDLE=true DIST_PATH=dist/esm react-scripts build-bundle",
-    "build:bundle:umd": "cross-env BUILD_UMD_BUNDLE=true GENERATE_SOURCEMAP=false DIST_PATH=dist/umd react-scripts build-bundle",
+    "build:bundle:esm": "rimraf ./dist/esm && cross-env ENABLE_PROGRESS_PLUGIN=true GENERATE_SOURCEMAP=true BUILD_ESM_BUNDLE=true DIST_PATH=dist/esm react-scripts build-bundle",
+    "build:bundle:umd": "rimraf ./dist/umd && cross-env ENABLE_PROGRESS_PLUGIN=true GENERATE_SOURCEMAP=false BUILD_UMD_BUNDLE=true DIST_PATH=dist/umd react-scripts build-bundle",
     "analyze": "source-map-explorer 'dist/esm/*.mjs'",
     "test": "react-scripts test",
     "cy:open": "cypress open",

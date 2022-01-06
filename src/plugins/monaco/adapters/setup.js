@@ -3,19 +3,19 @@ import * as monaco from 'monaco-editor-core/esm/vs/editor/editor.api.js';
 import { languageExtensionPoint, languageID } from './config.js';
 import { monarchLanguage } from './monarch-language.js';
 import { setupMode } from './setup-mode.js';
-import ApiDOMWorker from '../workers/apidom/apidom.worker.js';
-import EditorWorker from '../workers/editor.worker.js';
 
-// eslint-disable-next-line import/prefer-default-export
+/* eslint-disable no-restricted-globals, import/prefer-default-export */
+
 export function setupLanguage() {
-  // eslint-disable-next-line no-restricted-globals
   self.MonacoEnvironment = {
-    getWorker: (moduleId, label) => {
+    baseUrl: document.baseURI || location.href,
+    getWorkerUrl(moduleId, label) {
       if (label === languageID) {
-        return new ApiDOMWorker();
+        return new URL('./apidom.worker.js', this.baseUrl).toString();
       }
-      return new EditorWorker();
+      return new URL('./editor.worker.js', this.baseUrl).toString();
     },
+    ...(self.MonacoEnvironment || {}), // this will allow to override the base uri for loading Web Workers
   };
 
   monaco.languages.register(languageExtensionPoint);
