@@ -1,7 +1,7 @@
 /* eslint-disable no-param-reassign */
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import * as monaco from 'monaco-editor-core/esm/vs/editor/editor.api.js';
+import * as monaco from 'monaco-editor-core';
 
 import noop from '../../../utils/common-noop.js';
 import getStyleMetadataLight, { themes as themesLight } from '../utils/monaco-theme-light.js';

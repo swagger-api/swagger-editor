@@ -1,5 +1,5 @@
 /* eslint-disable import/prefer-default-export */
-import * as monaco from 'monaco-editor-core/esm/vs/editor/editor.api.js';
+import * as monaco from 'monaco-editor-core';
 
 import { WorkerManager } from './WorkerManager.js';
 import DiagnosticsAdapter from './DiagnosticsAdapter.js';

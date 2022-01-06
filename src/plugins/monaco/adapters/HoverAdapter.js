@@ -1,5 +1,5 @@
 // eslint-disable-next-line no-unused-vars
-import * as monaco from 'monaco-editor-core/esm/vs/editor/editor.api.js';
+import * as monaco from 'monaco-editor-core';
 // eslint-disable-next-line no-unused-vars
 import { ProtocolToMonacoConverter } from 'monaco-languageclient/lib/monaco-converter.js';
 

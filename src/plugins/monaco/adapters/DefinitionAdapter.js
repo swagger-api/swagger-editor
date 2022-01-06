@@ -1,4 +1,4 @@
-import * as monaco from 'monaco-editor-core/esm/vs/editor/editor.api.js';
+import * as monaco from 'monaco-editor-core';
 import { ProtocolToMonacoConverter } from 'monaco-languageclient/lib/monaco-converter.js';
 
 import { fromPosition } from './monaco-helpers.js';

@@ -1,4 +1,4 @@
-import * as monaco from 'monaco-editor-core/esm/vs/editor/editor.api.js';
+import * as monaco from 'monaco-editor-core';
 
 import { languageExtensionPoint, languageID } from './config.js';
 import { monarchLanguage } from './monarch-language.js';
