@@ -34,6 +34,10 @@ jobs:
           dry_run: false
           extra_plugins: |
             @semantic-release/git
+          branches: |
+            [
+              'main'
+            ]
         env:
           GITHUB_TOKEN: ${{ secrets.SWAGGER_BOT_GITHUB_TOKEN }}
           NPM_TOKEN: ${{ secrets.SWAGGER_BOT_GITHUB_TOKEN }}
