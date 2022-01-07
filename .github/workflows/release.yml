@@ -27,6 +27,12 @@ jobs:
           npm ci
         env:
           NODE_AUTH_TOKEN: ${{ secrets.SWAGGER_BOT_GITHUB_TOKEN }}
+      - name: Prepare for the Release
+        run: |
+          npm run lint
+          npm run test
+          npm run build:app
+          npm run cy:ci
       - name: Semantic Release
         id: semantic
         uses: cycjimmy/semantic-release-action@v2

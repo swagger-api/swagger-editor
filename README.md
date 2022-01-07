@@ -263,15 +263,15 @@ SwaggerIDE maps its [build artifacts](#build-artifacts) in `package.json` file i
 
 ```json
 "unpkg": "./dist/umd/swagger-ide.js",
-"module": "./dist/esm/swagger-ide.mjs",
-"browser": "./dist/esm/swagger-ide.mjs",
-"jsnext:main": "./dist/esm/swagger-ide.mjs",
+"module": "./dist/esm/swagger-ide.js",
+"browser": "./dist/esm/swagger-ide.js",
+"jsnext:main": "./dist/esm/swagger-ide.js",
 "exports": {
   "./package.json": "./package.json",
   ".": {
-    "browser": "./dist/esm/swagger-ide.mjs"
+    "browser": "./dist/esm/swagger-ide.js"
   }
-},
+}
 ```
 
 To learn more about these fields please refer to [webpack mainFields documentation](https://webpack.js.org/configuration/resolve/#resolvemainfields)

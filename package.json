@@ -9,17 +9,17 @@
   "type": "module",
   "sideEffects": false,
   "unpkg": "./dist/umd/swagger-ide.js",
-  "module": "./dist/esm/swagger-ide.mjs",
-  "browser": "./dist/esm/swagger-ide.mjs",
-  "jsnext:main": "./dist/esm/swagger-ide.mjs",
+  "module": "./dist/esm/swagger-ide.js",
+  "browser": "./dist/esm/swagger-ide.js",
+  "jsnext:main": "./dist/esm/swagger-ide.js",
   "exports": {
     "./package.json": "./package.json",
     ".": {
-      "browser": "./dist/esm/swagger-ide.mjs"
+      "browser": "./dist/esm/swagger-ide.js"
     }
   },
   "scripts": {
-    "prepublishOnly": "npm run clean && npm run build:bundle:esm && npm run build:bundle:umd",
+    "prepublishOnly": "npm run build:bundle:esm && npm run build:bundle:umd",
     "start": "cross-env ENABLE_PROGRESS_PLUGIN=true react-scripts start",
     "build": "npm run build:app && npm run build:bundle:esm && npm run build:bundle:umd",
     "build:app": "cross-env ENABLE_PROGRESS_PLUGIN=false DISABLE_ESLINT_PLUGIN=true react-scripts build",
