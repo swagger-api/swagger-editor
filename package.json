@@ -22,7 +22,7 @@
     "prepublishOnly": "npm run build:bundle:esm && npm run build:bundle:umd",
     "start": "cross-env ENABLE_PROGRESS_PLUGIN=true react-scripts start",
     "build": "npm run build:app && npm run build:bundle:esm && npm run build:bundle:umd",
-    "build:app": "cross-env ENABLE_PROGRESS_PLUGIN=false DISABLE_ESLINT_PLUGIN=true react-scripts build",
+    "build:app": "cross-env ENABLE_PROGRESS_PLUGIN=false DISABLE_ESLINT_PLUGIN=false react-scripts build",
     "build:app:serve": "serve -s build -l 3050",
     "build:bundle:esm": "rimraf ./dist/esm && cross-env ENABLE_PROGRESS_PLUGIN=false GENERATE_SOURCEMAP=true BUILD_ESM_BUNDLE=true DIST_PATH=dist/esm react-scripts build-bundle",
     "build:bundle:umd": "rimraf ./dist/umd && cross-env ENABLE_PROGRESS_PLUGIN=false GENERATE_SOURCEMAP=false BUILD_UMD_BUNDLE=true DIST_PATH=dist/umd react-scripts build-bundle",
