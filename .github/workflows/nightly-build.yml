@@ -42,19 +42,10 @@ jobs:
         run: npm test --watchAll=false
         env:
           CI: true
-      - name: E2E Tests - chrome headless
-        id: cypress-run-ci
-        uses: cypress-io/github-action@v2
-        with:
-          # we have already installed all dependencies above
-          install: false
-          browser: chrome
-          wait-on: "http://localhost:3260"
-          wait-on-timeout: 120
-          headless: true
-          start: npm run start-ci
-      - name: Build app
-        run: npm run build
+      - name: Build App artifacts
+        run: npm run build:app
+      - name: E2E Tests
+        run: npm run cy:ci
       - name: Upload build artifacts (for GH pages)
         uses: actions/upload-artifact@v2
         with:
