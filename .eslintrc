@@ -32,7 +32,7 @@
     "prettier/prettier": "error",
     "react/react-in-jsx-scope": 0,
     "react/function-component-definition": [1, {
-      "namedComponents": "arrow-function"
+      "namedComponents": ["arrow-function"]
     }],
     "import/extensions": ["error", "always"]
   }
