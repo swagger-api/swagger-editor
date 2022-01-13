@@ -1,21 +1,7 @@
 /* eslint-disable camelcase */
 import { getGeneratorsList, postGenerator3WithSpec } from '../../utils.js';
+import { getConfigsWithDefaultFallback } from '../utils.js';
 import { defaultFixtures } from '../topbar-actions-fixtures.js';
-
-// currently re-used
-export const getConfigsWithDefaultFallback = (system) => {
-  let { swagger2GeneratorUrl, oas3GeneratorUrl, swagger2ConverterUrl } = system.getConfigs();
-  if (!swagger2GeneratorUrl) {
-    swagger2GeneratorUrl = defaultFixtures.swagger2GeneratorUrl;
-  }
-  if (!oas3GeneratorUrl) {
-    oas3GeneratorUrl = defaultFixtures.oas3GeneratorUrl;
-  }
-  if (!swagger2ConverterUrl) {
-    swagger2ConverterUrl = defaultFixtures.swagger2ConverterUrl;
-  }
-  return { swagger2GeneratorUrl, oas3GeneratorUrl, swagger2ConverterUrl };
-};
 
 export const getSpecVersionString = ({ isOAS3, isSwagger2, isOAS3_1, isAsyncApi2 }) => {
   // extendable to use additional string constants

@@ -2,8 +2,8 @@
 import { getGenerator2Definition } from '../../utils.js';
 import { getFileDownload } from '../../../../utils/common-file-download.js';
 import { getSpecVersion } from '../../../../utils/spec-get-spec-version.js';
+import { getConfigsWithDefaultFallback } from '../utils.js';
 import {
-  getConfigsWithDefaultFallback,
   getSpecVersionString,
   validateHttpGeneratorsExists,
   fetchOasGeneratorLists,

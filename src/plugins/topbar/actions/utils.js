@@ -1,6 +1,5 @@
-import { defaultFixtures } from '../topbar-actions-fixtures.js';
+import { defaultFixtures } from './topbar-actions-fixtures.js';
 
-// currently re-used
 export const getConfigsWithDefaultFallback = (system) => {
   let { swagger2GeneratorUrl, oas3GeneratorUrl, swagger2ConverterUrl } = system.getConfigs();
   if (!swagger2GeneratorUrl) {
