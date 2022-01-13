@@ -15,7 +15,6 @@ ReactModal.setAppElement('*'); // suppresses modal-related test warnings.
 jest.mock('../actions', () => ({
   getDefinitionLanguageFormat: jest.fn(),
   importFile: jest.fn(),
-  // importFromURL: jest.fn(),
 }));
 
 jest.mock('../selectors', () => ({
@@ -27,7 +26,6 @@ const setup = ({ languageFormat, shouldUpdate } = {}) => {
     languageFormat: languageFormat || 'yaml',
   });
   topbarActions.importFile.mockReturnValue(null);
-  // topbarActions.importFromURL.mockReturnValue(null);
 
   topbarSelectors.selectShouldUpdateDefinitionLanguageFormat.mockReturnValue({
     languageFormat: languageFormat || 'yaml',
@@ -112,8 +110,6 @@ test('should be able to click on "Import URL', async () => {
   const modalElement = screen.getByText('Enter the URL to import from');
   await waitFor(() => modalElement);
   expect(modalElement).toBeInTheDocument();
-  // we then could also mock user input, then click "submit"
-  // expect(topbarActions.importFromURL).toBeCalled();
 });
 
 test('should be able to click on "Import File', async () => {

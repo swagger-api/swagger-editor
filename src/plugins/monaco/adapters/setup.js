@@ -20,7 +20,7 @@ export function setupLanguage() {
 
   monaco.languages.register(languageExtensionPoint);
   monaco.languages.onLanguage(languageID, () => {
-    // setMonarchTokensProvider enables syntax highlighting
+    // enable syntax highlighting
     monaco.languages.setMonarchTokensProvider(languageID, monarchLanguage);
 
     setupMode({ languageID });

@@ -4,9 +4,6 @@ import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 import DropdownItem from './DropdownItem.jsx';
 import SaveAsJsonOrYaml from './SaveAsJsonOrYaml.jsx';
 
-// mock es6 re-exports
-// jest.mock('../actions');
-
 const propMethods = {
   onSaveAsJsonClick: jest.fn(),
   onSaveAsYamlClick: jest.fn(),

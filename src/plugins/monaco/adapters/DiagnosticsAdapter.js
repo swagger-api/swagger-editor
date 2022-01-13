@@ -3,15 +3,6 @@ import { ProtocolToMonacoConverter } from 'monaco-languageclient/lib/monaco-conv
 
 import { languageID } from './config.js';
 
-// non-p2m helper
-// eslint-disable-next-line no-unused-vars
-// function toDiagnostics(error) {
-//   return {
-//     ...error,
-//     severity: monaco.MarkerSeverity.Error,
-//   };
-// }
-
 export default class DiagnosticsAdapter {
   constructor(worker) {
     this.worker = worker;
@@ -47,9 +38,6 @@ export default class DiagnosticsAdapter {
       const p2m = new ProtocolToMonacoConverter(monaco);
       const markers = p2m.asDiagnostics(errorMarkers);
       monaco.editor.setModelMarkers(model, languageID, markers);
-      // below is non-p2m, but it's not rendering the hover quickfix suggestion
-      // add the error markers and underline them with severity of Error
-      // monaco.editor.setModelMarkers(model, languageID, errorMarkers.map(toDiagnostics));
       return Promise.resolve({ message: 'doValidation success' });
     } catch (e) {
       return Promise.resolve({ error: 'unable to doValidation' });

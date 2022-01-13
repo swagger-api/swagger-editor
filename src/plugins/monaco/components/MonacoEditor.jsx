@@ -111,8 +111,6 @@ export default class MonacoEditor extends Component {
             snippetsPreventQuickSuggestions: false,
           },
           renderWhitespace: true,
-          // ...options,
-          // ...(theme ? { theme } : {}), // think this is inactive, and may not be necessary; based on a sample
         },
         {
           storageService: {
@@ -157,7 +155,7 @@ export default class MonacoEditor extends Component {
       run: dereference,
     });
     // Add monaco commands, as needed
-    // editor.addCommand
+    // editor.addCommand({});
   };
 
   // eslint-disable-next-line no-unused-vars, class-methods-use-this
@@ -197,8 +195,6 @@ export default class MonacoEditor extends Component {
 
   render() {
     const { width, height } = this.props;
-    // const fixedWidth = processSize(width);
-    // const fixedHeight = processSize(height);
     const style = {
       width,
       height,

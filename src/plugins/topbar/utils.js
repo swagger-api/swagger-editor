@@ -1,7 +1,5 @@
 import axios from 'axios';
 
-// legacy note: SwaggerClient would transform this response before sending to UI
-// so previously not able to use this request directly
 export async function getGeneratorsList({ url }) {
   const config = {
     headers: {
@@ -48,7 +46,6 @@ export async function postGenerator3WithSpec({ url, data, options }) {
   return res; // response could be Blob or json object
 }
 
-// importFromURL
 export async function getDefinitionFromUrl({ url }) {
   const config = {};
   const res = await axios.get(url, config).catch((err) => err);
@@ -64,8 +61,6 @@ export async function getDefinitionFromUrl({ url }) {
   return res.data;
 }
 
-// downloadGeneratedFile -> handleResponse -> downloadFile
-// given a swagger2 spec, Generator 3 response with a "builder url" -> where we make a fetch call in handleResponse -> afterwards, we download the blob
 export async function getGenerator2Definition({ url }) {
   const config = { responseType: 'blob' };
   const res = await axios.get(url, config);
@@ -81,7 +76,6 @@ export async function getGenerator2Definition({ url }) {
   return { data: res.data }; // expect res.data: Blob
 }
 
-// convert modal (from swagger2 to oas3, using converter.swagger.io)
 export async function postPerformOasConversion({ url, data }) {
   const config = {
     headers: {

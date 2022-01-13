@@ -1,7 +1,6 @@
 /* eslint-disable camelcase */
 // TODO: decide if we want to load json or yaml by default
 // We also could accept an optional parameter allowing user to choose
-// import YAML from 'js-yaml';
 
 import {
   mockOas2Spec,
@@ -32,8 +31,6 @@ export const loadDefaultDefinition = (language) => async (system) => {
   } else {
     return { error: 'unsupported language provided' };
   }
-  // const jsContent = YAML.load(contentToLoad);
-  // const yamlContent = YAML.dump(jsContent);
   // on success,
   specActions.updateSpec(contentToLoad);
   return { data: 'success' };

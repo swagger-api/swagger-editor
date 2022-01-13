@@ -9,7 +9,7 @@ export const defaultFixtures = {
   oas3GeneratorClientsUrl: 'https://generator3.swagger.io/api/clients',
   oas2GeneratorServersUrl: 'https://generator.swagger.io/api/gen/servers',
   oas2GeneratorClientsUrl: 'https://generator.swagger.io/api/gen/clients',
-  // NYI: replace need for swagger-client
+
   oas3GenerateSpecUrl: 'https://generator3.swagger.io/api/generate', // POST { lang: 'aspnetcore', spec: {}, type: 'SERVER' }
   oas2GenerateSpecServersUrl: 'https://generator.swagger.io/api/gen/servers',
   oas2GenerateSpecClientsUrl: 'https://generator.swagger.io/api/gen/clients',

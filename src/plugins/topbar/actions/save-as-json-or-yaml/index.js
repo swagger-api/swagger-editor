@@ -163,7 +163,7 @@ export const saveAsYaml =
     const fileName = getFileName({ options });
     const languageFormat = getDefinitionLanguage({ data: contentToConvert });
     const parserErrorExists = hasParserErrors({ errors: errSelectors.allErrors() });
-    // const parserErrorExists = true; // mock test
+
     if (parserErrorExists && !overrideWarning) {
       // legacy method, if already yaml, displays confirm window if parser error
       if (languageFormat === 'yaml') {
