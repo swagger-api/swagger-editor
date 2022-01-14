@@ -3,10 +3,10 @@
     "react-app",
     "react-app/jest",
     "airbnb",
+    "plugin:cypress/recommended",
     "plugin:jsx-a11y/recommended",
     "prettier",
-    "plugin:prettier/recommended",
-    "plugin:cypress/recommended"
+    "plugin:prettier/recommended"
   ],
   "globals": {
     "File": true,
