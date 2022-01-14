@@ -11,10 +11,6 @@ jobs:
 
     runs-on: ubuntu-latest
 
-    strategy:
-      matrix:
-        node-version: [16.8.x]
-
     # If the PR is coming from a fork (pull_request_target), ensure it's opened by "dependabot[bot]".
     # if: |
     #   (github.event_name == 'pull_request_target' && github.event.pull_request.user.login == 'dependabot[bot[')
@@ -24,10 +20,11 @@ jobs:
       uses: actions/checkout@v2
       with:
         ref: ${{ github.event.pull_request.head.sha }}
+        submodules: true
     - name: Use Node.js ${{ matrix.node-version }}
-      uses: actions/setup-node@v1
+      uses: actions/setup-node@v2
       with:
-        node-version: ${{ matrix.node-version }}
+        node-version: 16
         registry-url: https://npm.pkg.github.com/
         scope: "@swagger-api"
     - name: Cache npm cache files
@@ -46,10 +43,7 @@ jobs:
       if: |
           steps.cache-npm-cache-files.cache-hit != 'true' ||
           steps.cache-cypress-binary.outputs.cache-hit != 'true'
-      run: |
-        git submodule init
-        git submodule update
-        npm ci
+      run: npm ci
       env:
         NODE_AUTH_TOKEN: ${{ secrets.SWAGGER_BOT_GITHUB_TOKEN }}
     - name: Unit tests

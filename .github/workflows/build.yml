@@ -23,23 +23,22 @@ jobs:
 
     runs-on: ubuntu-latest
 
-    strategy:
-      matrix:
-        node-version: [16.8.x]
-
     steps:
     - name: Checkout for Dependabot PR
       if: ${{ github.event_name == 'pull_request_target' && github.actor == 'dependabot[bot]' }}
       uses: actions/checkout@v2
       with:
         ref: ${{ github.event.pull_request.head.sha }}
+        submodules: true
     - name: Checkout Normally
       if: ${{ github.actor != 'dependabot[bot]' }}
       uses: actions/checkout@v2
-    - name: Use Node.js ${{ matrix.node-version }}
-      uses: actions/setup-node@v1
       with:
-        node-version: ${{ matrix.node-version }}
+        submodules: true
+    - name: Use Node.js 16
+      uses: actions/setup-node@v2
+      with:
+        node-version: 16
         registry-url: https://npm.pkg.github.com/
         scope: "@swagger-api"
     - name: Cache npm cache files
@@ -58,10 +57,7 @@ jobs:
       if: |
           steps.cache-npm-cache-files.cache-hit != 'true' ||
           steps.cache-cypress-binary.outputs.cache-hit != 'true'
-      run: |
-        git submodule init
-        git submodule update
-        npm ci
+      run: npm ci
       env:
         NODE_AUTH_TOKEN: ${{ secrets.SWAGGER_BOT_GITHUB_TOKEN }}
     - name: Lint commit message

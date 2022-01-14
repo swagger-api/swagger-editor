@@ -14,6 +14,7 @@ jobs:
         with:
           fetch-depth: 0
           persist-credentials: false
+          submodules: true
       - name: Setup Node.js
         uses: actions/setup-node@v2
         with:
@@ -21,10 +22,7 @@ jobs:
           registry-url: https://npm.pkg.github.com/
           scope: "@swagger-api"
       - name: Install dependencies
-        run: |
-          git submodule init
-          git submodule update
-          npm ci
+        run: npm ci
         env:
           NODE_AUTH_TOKEN: ${{ secrets.SWAGGER_BOT_GITHUB_TOKEN }}
       - name: Prepare for the Release
