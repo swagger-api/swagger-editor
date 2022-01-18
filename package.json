@@ -85,7 +85,7 @@
     "process": "^0.11.10",
     "react-scripts": "file:./create-react-app/packages/react-scripts",
     "rimraf": "^3.0.2",
-    "sass": "^1.48.0",
+    "sass": "^1.49.0",
     "serve": "^13.0.2",
     "source-map-explorer": "^2.5.2",
     "start-server-and-test": "^1.14.0",
