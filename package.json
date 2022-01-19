@@ -73,7 +73,7 @@
     "@testing-library/user-event": "^13.5.0",
     "buffer": "^6.0.3",
     "cross-env": "^7.0.3",
-    "cypress": "^9.3.0",
+    "cypress": "^9.3.1",
     "eslint-config-airbnb": "^19.0.4",
     "eslint-config-prettier": "^8.3.0",
     "eslint-plugin-cypress": "^2.12.1",
