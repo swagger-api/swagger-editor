@@ -65,7 +65,7 @@
     "vscode-languageserver-textdocument": "^1.0.3"
   },
   "devDependencies": {
-    "@commitlint/cli": "^16.0.3",
+    "@commitlint/cli": "^16.1.0",
     "@commitlint/config-conventional": "^16.0.0",
     "@testing-library/cypress": "^8.0.2",
     "@testing-library/jest-dom": "^5.16.1",
