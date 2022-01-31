@@ -40,7 +40,7 @@
     "link:apidom-ls": "npm link @swagger-api/apidom-ls"
   },
   "dependencies": {
-    "@asyncapi/parser": "^1.13.2",
+    "@asyncapi/parser": "^1.14.0",
     "@asyncapi/react-component": "^1.0.0-next.32",
     "@babel/runtime": "^7.16.7",
     "@primer/octicons-react": "^16.3.0",
