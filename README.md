@@ -113,18 +113,19 @@ docker run -d -p 80:8080 swaggerapi/swagger-editor
 
 This will run Swagger Editor (in detached mode) on port 80 on your machine, so you can open it by navigating to `http://localhost` in your browser.  
 
+* You can provide a URL pointing to an API definition (may not be available if some security policies such as CSP or CORS are enforced):
 
-* You can provide your own `json` or `yaml` definition file on your host
+```
+docker run -d -p 80:8080 -e URL="https://petstore3.swagger.io/api/v3/openapi.json" swaggerapi/swagger-editor
+```
+
+* You can provide your own `json` or `yaml` definition file from your local host:
 
 ```
 docker run -d -p 80:8080 -v $(pwd):/tmp -e SWAGGER_FILE=/tmp/swagger.json swaggerapi/swagger-editor
 ```
 
-* You can provide a API document from your local machine — for example, if you have a file at `./bar/swagger.json`:
-
-```
-docker run -d -p 80:8080 -e URL=/foo/swagger.json -v /bar:/usr/share/nginx/html/foo swaggerapi/swagger-editor
-```
+**Note:** When both `URL` and `SWAGGER_FILE` environment variables are set, `URL` has priority and `SWAGGER_FILE` is ignored.
 
 * You can specify a different base url for accessing the application - for example if you want the application to be available at `http://localhost/swagger-editor/`:
 
@@ -148,7 +149,6 @@ docker build -t swagger-editor .
 
 # Run the container
 docker run -d -p 80:8080 swagger-editor
-
 ```
 
 You can then view the app by navigating to `http://localhost` in your browser.
