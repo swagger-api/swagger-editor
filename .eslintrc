@@ -1,5 +1,5 @@
 {
-  "parser": "babel-eslint",
+  "parser": "@babel/eslint-parser",
 
   "env": {
     "browser": true,
@@ -17,6 +17,12 @@
   "extends": ["eslint:recommended", "plugin:react/recommended"],
 
   "plugins": ["react", "import", "mocha", "jest"],
+
+  "settings": {
+    "react": {
+      "version": "17.0.2"
+    }
+  },
 
   "rules": {
     "semi": [2, "never"],

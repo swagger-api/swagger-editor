@@ -1,4 +1,4 @@
-import SwaggerUI  from 'swagger-ui';
+import SwaggerUI from 'swagger-ui';
 import EditorMetadataPlugin from 'plugins/editor-metadata';
 
 function getSystem(spec) {

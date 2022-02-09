@@ -47,15 +47,15 @@ export class Session extends EventEmitter {
 
   addMarker = jest.fn().mockImplementation(function(marker) {
     this._markers.push({...marker, id: this.$markerId++ });
-  })
+  });
 
   getMarkers = jest.fn().mockImplementation(function() {
     return this._markers;
-  })
+  });
 
   removeMarker = jest.fn().mockImplementation(function(markerId) {
     this._markers = this._markers.filter(a => a.id !== markerId);
-  })
+  });
 
 }
 
@@ -79,29 +79,29 @@ export default class Ace extends EventEmitter {
     };
   }
 
-  edit = jest.fn().mockImplementation(function() { return this;})
+  edit = jest.fn().mockImplementation(function() { return this;});
 
   acequire = jest.fn().mockImplementation(function(module) {
     if(module == 'ace/range') {
       return { Range };
     }
-  })
+  });
 
   getSession = jest.fn().mockImplementation(function() {
     return this.session;
-  })
+  });
 
   setOption = jest.fn().mockImplementation(function(option, val) {
    this.$options[option] = val;
-  })
+  });
 
   setOptions = jest.fn().mockImplementation(function(options) {
     this.$options = {...this.$options, ...options};
-  })
+  });
 
   getOption = jest.fn().mockImplementation(function(optionName) {
     return this.$options[optionName];
-  })
+  });
 
   setValue = jest.fn().mockImplementation(function(val, addToUndo=true) {
     if(addToUndo) {
@@ -114,31 +114,31 @@ export default class Ace extends EventEmitter {
     this._value = val;
     this.emit('change'); // Remove
     this.emit('change'); // Insert
-  })
+  });
 
   getValue = jest.fn().mockImplementation(function() {
     return this._value || '';
-  })
+  });
 
   // User API, which closer matches what we want to test ( ie: implementation can improve )
   userTypes = jest.fn().mockImplementation(function(val) {
     this.setValue(this.getValue() + val);
-  })
+  });
 
   userSees = jest.fn().mockImplementation(function() {
     return this.getValue();
-  })
+  });
 
   userUndo = jest.fn().mockImplementation(function() {
     this._undoPointer = this._undoPointer > 0 ? this._undoPointer - 1 : 0;
     this.setValue(this._undoStack[this._undoPointer], false);
-  })
+  });
 
   userRedo = jest.fn().mockImplementation(function() {
     const max = this._undoStack.length - 1;
     // const oriPointer = this._undoPointer
     this._undoPointer = this._undoPointer < max ? this._undoPointer + 1 : max;
     this.setValue(this._undoStack[this._undoPointer], false);
-  })
+  });
 
 }

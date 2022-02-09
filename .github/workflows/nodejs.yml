@@ -38,8 +38,8 @@ jobs:
         steps.cache-node-modules.outputs.cache-hit != 'true' ||
         steps.cache-cypress-binary.outputs.cache-hit != 'true'
       run: npm ci
-    - name: Lint code for errors only
-      run: npm run lint-errors
+    - name: Lint code
+      run: npm run lint
     - name: Run all tests
       run: npm test
       env:

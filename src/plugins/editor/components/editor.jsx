@@ -256,7 +256,7 @@ export default function makeEditor({ editorPluginsToRun }) {
       win.document.removeEventListener("click", this.onClick)
     }
 
-    // eslint-disable-next-line react/no-deprecated
+    // eslint-disable-next-line react/no-deprecated, camelcase
     UNSAFE_componentWillReceiveProps(nextProps) {
       let hasChanged = (k) => !isEqual(nextProps[k], this.props[k])
       const editor = this.editor
