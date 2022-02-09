@@ -147,7 +147,8 @@ export default function buildConfig(
       resolve: {
         extensions: [".js", ".jsx", "json"],
         alias: {
-          react: path.resolve(projectBasePath, "node_modules", "react")
+          react: path.resolve(projectBasePath, "node_modules", "react"),
+          brace: path.resolve(projectBasePath, "node_modules", "brace"),
         },
       },
 
