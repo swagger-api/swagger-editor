@@ -247,7 +247,7 @@ export const SecurityScheme = {
   openIdConnectUrl: String,
 }
 
-const ComponentFixedFieldRegex = "^[a-zA-Z0-9\.\-_]+$"
+const ComponentFixedFieldRegex = "^[a-zA-Z0-9.-_]+$"
 
 export const Components = {
   schemas: {

@@ -211,7 +211,7 @@ var info = {
 }
 
 var map = {
-  swagger: ["\'2.0\'"],
+  swagger: ["'2.0'"],
   info: info,
 
   host: String,

@@ -1,4 +1,5 @@
 // Exports Petstore.yaml
+/* eslint-disable no-useless-escape */
 
 export default `swagger: "2.0"
 info:

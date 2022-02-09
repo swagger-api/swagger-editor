@@ -365,11 +365,11 @@ export default class Topbar extends React.Component {
             <TopbarInsert {...this.props} />
             { showServersMenu ? <DropdownMenu className="long" {...makeMenuOptions("Generate Server")}>
               { this.state.servers
-                  .map((serv, i) => <li key={i}><button type="button" onClick={this.downloadGeneratedFile.bind(null, "server", serv)}>{serv}</button></li>) }
+                  .map((serv, i) => <li key={i}><button type="button" onClick={() => this.downloadGeneratedFile("server", serv)}>{serv}</button></li>) }
             </DropdownMenu> : null }
             { showClientsMenu ? <DropdownMenu className="long" {...makeMenuOptions("Generate Client")}>
               { this.state.clients
-                  .map((cli, i) => <li key={i}><button type="button" onClick={this.downloadGeneratedFile.bind(null, "client", cli)}>{cli}</button></li>) }
+                  .map((cli, i) => <li key={i}><button type="button" onClick={() => this.downloadGeneratedFile("client", cli)}>{cli}</button></li>) }
             </DropdownMenu> : null }
           </div>
         </div>

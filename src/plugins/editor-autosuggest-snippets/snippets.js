@@ -40,7 +40,7 @@ export default [
     trigger: "sw",
     path: [],
     content: [
-      "swagger: \'2.0\'",
+      "swagger: '2.0'",
       "${1}"
     ].join("\n")
   },

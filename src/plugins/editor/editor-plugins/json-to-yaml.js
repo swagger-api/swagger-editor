@@ -36,7 +36,7 @@ export default function(editor) {
 
 function isJSON (str){
   // basic test: "does this look like JSON?"
-  let regex = /^[ \r\n\t]*[{\[]/
+  let regex = /^[ \r\n\t]*[{[]/
 
   return regex.test(str)
 

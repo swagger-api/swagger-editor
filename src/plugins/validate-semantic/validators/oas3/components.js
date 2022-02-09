@@ -1,4 +1,4 @@
-export const COMPONENT_NAME_REGEX = /^[A-Za-z0-9\-\._]+$/
+export const COMPONENT_NAME_REGEX = /^[A-Za-z0-9\-._]+$/
 
 export const validateOAS3ComponentNames = () => (system) => {
   return system.validateSelectors

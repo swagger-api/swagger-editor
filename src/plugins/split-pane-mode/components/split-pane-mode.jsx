@@ -16,12 +16,12 @@ export default class SplitPaneMode extends React.Component {
 
     layoutSelectors: PropTypes.object.isRequired,
     layoutActions: PropTypes.object.isRequired,
-  };
+  }
 
   static defaultProps = {
     threshold: 100, // in pixels
     children: [],
-  };
+  }
 
   initializeComponent = (c) => {
     this.splitPane = c

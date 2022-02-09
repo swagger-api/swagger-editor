@@ -30,7 +30,7 @@ export default class DropdownMenu extends PureComponent {
     leaveTimeout: PropTypes.number,
     closeOnInsideClick: PropTypes.bool,
     closeOnOutsideClick: PropTypes.bool,
-  };
+  }
 
   static defaultProps = {
     inverse: false,
@@ -46,10 +46,10 @@ export default class DropdownMenu extends PureComponent {
     leaveTimeout: 150,
     closeOnInsideClick: true,
     closeOnOutsideClick: true,
-  };
+  }
 
-  static MENU_SIZES = MENU_SIZES;
-  static ALIGNMENTS = ALIGNMENTS;
+  static MENU_SIZES = MENU_SIZES
+  static ALIGNMENTS = ALIGNMENTS
 
   componentDidUpdate(prevProps) {
     if(this.props.isOpen === prevProps.isOpen) {
@@ -87,7 +87,7 @@ export default class DropdownMenu extends PureComponent {
       this.props.close()
       e.preventDefault()
     }
-  };
+  }
 
   handleClickOutside = (e) => {
     if(!this.props.closeOnOutsideClick) {
@@ -106,7 +106,7 @@ export default class DropdownMenu extends PureComponent {
     }
 
     this.props.close(e)
-  };
+  }
 
   handleKeyDown = (e) => {
     const key = e.which || e.keyCode
@@ -120,7 +120,7 @@ export default class DropdownMenu extends PureComponent {
     if(e.target === items[id]) {
       this.props.close(e)
     }
-  };
+  }
 
 
   render() {
