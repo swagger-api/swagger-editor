@@ -14,8 +14,15 @@
   "jsnext:main": "./dist/esm/swagger-ide.js",
   "exports": {
     "./package.json": "./package.json",
+    "./swagger-ide.css": "./dist/esm/swagger-ide.css",
     ".": {
       "browser": "./dist/esm/swagger-ide.js"
+    },
+    "./apidom.worker": {
+      "browser": "./dist/esm/apidom.worker.js"
+    },
+    "./editor.worker": {
+      "browser": "./dist/esm/editor.worker.js"
     }
   },
   "scripts": {
