@@ -68,7 +68,7 @@
     "json-refs": "^3.0.4",
     "lodash": "^4.17.21",
     "promise-worker": "^2.0.1",
-    "prop-types": "15.7.2",
+    "prop-types": "15.8.1",
     "querystring-browser": "^1.0.4",
     "react": "=17.0.2",
     "react-ace": "^4.1.6",
