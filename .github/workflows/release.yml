@@ -31,6 +31,8 @@ jobs:
           npm run test
           npm run build:app
           npm run cy:ci
+          npm run build:bundle:esm
+          npm run build:bundle:umd
       - name: Semantic Release
         id: semantic
         uses: cycjimmy/semantic-release-action@v2

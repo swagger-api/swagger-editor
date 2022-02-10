@@ -26,7 +26,6 @@
     }
   },
   "scripts": {
-    "prepublishOnly": "npm run build:bundle:esm && npm run build:bundle:umd",
     "start": "cross-env ENABLE_PROGRESS_PLUGIN=true react-scripts start",
     "build": "npm run build:app && npm run build:bundle:esm && npm run build:bundle:umd",
     "build:app": "cross-env ENABLE_PROGRESS_PLUGIN=false DISABLE_ESLINT_PLUGIN=false react-scripts build",
