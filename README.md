@@ -87,7 +87,7 @@ const path = require('path');
 module.exports = {
   mode: 'production',
   entry: {
-	  app: './index.js',
+    app: './index.js',
     'apidom.worker': '@swagger-api/swagger-ide/apidom.worker',
     'editor.worker': '@swagger-api/swagger-ide/editor.worker',
   },
