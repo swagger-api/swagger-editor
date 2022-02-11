@@ -23,7 +23,8 @@ export default class MonacoEditor extends Component {
   }
 
   componentDidUpdate(prevProps) {
-    const { value, language, theme, height, width, options } = this.props;
+    const { value, language, theme, jumpToMarker, height, width, options, clearJumpToMarker } =
+      this.props;
     const { editor } = this;
 
     if (this.currentValue !== value) {
@@ -46,6 +47,19 @@ export default class MonacoEditor extends Component {
       // a second time. See https://github.com/microsoft/monaco-editor/issues/2027
       const { model: _model, ...optionsWithoutModel } = options;
       editor.updateOptions(optionsWithoutModel);
+    }
+    if (prevProps.jumpToMarker !== jumpToMarker && jumpToMarker?.startLineNumber) {
+      const startColumn = jumpToMarker?.startColumn || 1;
+      editor.revealPositionNearTop({
+        lineNumber: jumpToMarker.startLineNumber,
+        column: startColumn,
+      });
+      editor.setPosition({
+        lineNumber: jumpToMarker.startLineNumber,
+        column: startColumn,
+      });
+      editor.focus();
+      clearJumpToMarker();
     }
   }
 
@@ -156,6 +170,33 @@ export default class MonacoEditor extends Component {
     });
     // Add monaco commands, as needed
     // editor.addCommand({});
+
+    // register listener for validation markers
+    this.updateMarkersListener();
+  };
+
+  // eslint-disable-next-line class-methods-use-this
+  updateMarkersListener = () => {
+    const { editorMarkersDidChange } = this.props;
+    monaco.editor.onDidChangeMarkers(() => {
+      const markers = monaco.editor.getModelMarkers();
+      // console.log('222: got marker changes, markers:', markers);
+      editorMarkersDidChange(markers);
+      // {
+      //   code: "10097"
+      //   endColumn: 5
+      //   endLineNumber: 2
+      //   message: "should always have a 'title'"
+      //   owner: "apidom"
+      //   relatedInformation: undefined
+      //   resource: Uri { scheme: 'inmemory', authority: 'model', path: '/1', query: '', fragment: '', … }
+      //   severity: 8
+      //   source: "apilint"
+      //   startColumn: 1
+      //   startLineNumber: 2
+      //   tags: undefined
+      // }
+    });
   };
 
   // eslint-disable-next-line no-unused-vars, class-methods-use-this
@@ -212,8 +253,12 @@ MonacoEditor.propTypes = {
   language: PropTypes.string,
   theme: PropTypes.string,
   options: PropTypes.oneOfType([PropTypes.object]), // ideally, should use PropTypes.shape once options gets implemented
+  markers: PropTypes.oneOfType([PropTypes.array]),
+  jumpToMarker: PropTypes.oneOfType([PropTypes.object]),
   editorDidMount: PropTypes.func,
   onChange: PropTypes.func,
+  editorMarkersDidChange: PropTypes.func,
+  clearJumpToMarker: PropTypes.func,
 };
 
 MonacoEditor.defaultProps = {
@@ -224,6 +269,10 @@ MonacoEditor.defaultProps = {
   language: 'javascript',
   theme: null,
   options: {},
+  markers: [],
+  jumpToMarker: {},
   editorDidMount: noop,
   onChange: noop,
+  editorMarkersDidChange: noop,
+  clearJumpToMarker: noop,
 };

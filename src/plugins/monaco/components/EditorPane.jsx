@@ -7,6 +7,7 @@ import { isJsonDoc } from '@swagger-api/apidom-ls';
 import MonacoEditor from './MonacoEditor.jsx'; // load directly, do not use getComponent
 // import ThemeSelection from './ThemeSelection';
 import ThemeSelectionIcon from './ThemeSelectionIcon.jsx';
+import ValidationPane from './ValidationPane.jsx';
 // TODO: may want to update/replace { isJsonDoc }
 // depending on if { isJsonDoc } also validates for both { isValidJson, isValidYaml }
 // import { isValidJson, isValidYaml } from '../../../utils/spec-valid-json-yaml';
@@ -64,8 +65,23 @@ export default class EditorPane extends PureComponent {
   };
 
   // eslint-disable-next-line class-methods-use-this
-  editorDidMount = (editor) => {
+  handleEditorDidMount = (editor) => {
     editor.focus();
+  };
+
+  handleEditorMarkersDidChange = (markers) => {
+    const { editorActions } = this.props;
+    editorActions.updateEditorMarkers(markers);
+  };
+
+  handleSetJumpToEditorMarker = async (marker) => {
+    const { editorActions } = this.props;
+    editorActions.setJumpToEditorMarker(marker);
+  };
+
+  handleClearJumpToEditorMarker = async () => {
+    const { editorActions } = this.props;
+    editorActions.clearJumpToEditorMarker();
   };
 
   render() {
@@ -74,11 +90,16 @@ export default class EditorPane extends PureComponent {
 
     const defaultEditorTheme = 'my-vs-dark';
     const theme = editorSelectors.getEditorTheme() || defaultEditorTheme;
+    const jumpToMarker = editorSelectors.getEditorJumpToMarker();
     const valueForEditor = this.getSelectorSpecStr();
 
     return (
       <div id="editor-pane-wrapper" className="editor-pane-wrapper">
         {/* <ThemeSelection onChange={this.handleChangeThemeValue} /> */}
+        <ValidationPane
+          editorSelectors={editorSelectors}
+          onValidationKeyClick={this.handleSetJumpToEditorMarker}
+        />
         <ThemeSelectionIcon theme={theme} onChange={this.handleChangeThemeValue} />
         <ReactResizeDetector
           handleWidth
@@ -92,10 +113,13 @@ export default class EditorPane extends PureComponent {
           theme={theme}
           value={valueForEditor}
           defaultValue={initialValue}
+          jumpToMarker={jumpToMarker}
           height={height}
           width={width}
           onChange={this.handleChangeEditorValue}
-          editorDidMount={this.editorDidMount}
+          editorDidMount={this.handleEditorDidMount}
+          editorMarkersDidChange={this.handleEditorMarkersDidChange}
+          clearJumpToMarker={this.handleClearJumpToEditorMarker}
         />
       </div>
     );
