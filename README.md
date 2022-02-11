@@ -79,7 +79,7 @@ self.MonacoEnvironment = {
 ReactDOM.render(<App />, document.getElementById('swagger-ide'));
 ```
 
-***webpack.config.js***
+**webpack.config.js** (webpack@5)
 
 ```js
 const path = require('path');
@@ -95,6 +95,16 @@ module.exports = {
     globalObject: 'self',
     filename: '[name].js',
     path: path.resolve(__dirname, 'dist')
+  },
+  resolve: {
+    fallback: {
+      fs: false,
+      http: false,
+      https: false,
+      path: false,
+      stream: require.resolve('stream-browserify'),
+      util: false,
+    }
   },
   module: {
     rules: [
