@@ -31,4 +31,4 @@ test/cypress/videos
 *.iml
 .idea
 
-/swagger-ide-*.tgz
+/swagger-api-swagger-ide*.tgz

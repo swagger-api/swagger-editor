@@ -31,6 +31,13 @@ the following line to it:
 @swagger-api:registry=https://npm.pkg.github.com
 ```
 
+#### Prerequisites
+
+Using [Node.js](https://nodejs.org/) [active LTS version](https://nodejs.org/en/about/releases/) is recommended.
+[node-gyp](https://www.npmjs.com/package/node-gyp) is used to build some fragments that require [Python 3.x](https://www.python.org/downloads/).
+[emscripten](https://emscripten.org/docs/getting_started/downloads.html) or [docker](https://www.docker.com/) needs to be installed
+on your operating system as well. We strongly recommend going with a docker option.
+
 You can now install SwaggerIDE package using `npm`:
 
 ```sh
@@ -59,14 +66,14 @@ import SwaggerIDE from '@swagger-api/swagger-ide';
 import '@swagger-api/swagger-ide/swagger-ide.css';
 
 const MyApp = () => (
-    <div>
-      <h1>SwaggerIDE Integration</h1>
-      <SwaggerIDE />
-    </div>
+  <div>
+    <h1>SwaggerIDE Integration</h1>
+    <SwaggerIDE />
+  </div>
 );
 
 self.MonacoEnvironment = {
-    baseUrl: '/dist/', // we're building into the dist/ folder
+  baseUrl: '/dist/', // we're building into the dist/ folder
 }
 
 ReactDOM.render(<App />, document.getElementById('swagger-ide'));
@@ -78,25 +85,46 @@ ReactDOM.render(<App />, document.getElementById('swagger-ide'));
 const path = require('path');
 
 module.exports = {
-	mode: 'production',
-	entry: {
-		app: './index.js',
-    'apidom.worker': '@swagger-api/swagger-ide/dist/esm/apidom.worker.js',
-		'editor.worker': '@swagger-api/swagger-ide/dist/esm/editor.worker.js',
-	},
-	output: {
-		globalObject: 'self',
-		filename: '[name].js',
-		path: path.resolve(__dirname, 'dist')
-	},
-	module: {
-		rules: [
-			{
-				test: /\.css$/,
-				use: ['style-loader', 'css-loader']
-			}
-		]
-	}
+  mode: 'production',
+  entry: {
+	  app: './index.js',
+    'apidom.worker': '@swagger-api/swagger-ide/apidom.worker',
+    'editor.worker': '@swagger-api/swagger-ide/editor.worker',
+  },
+  output: {
+    globalObject: 'self',
+    filename: '[name].js',
+    path: path.resolve(__dirname, 'dist')
+  },
+  module: {
+    rules: [
+      {
+        test: /\.css$/,
+        use: ['style-loader', 'css-loader']
+      },
+      /**
+       * The default way in which webpack loads wasm files won’t work in a worker,
+       * so we will have to disable webpack’s default handling of wasm files and
+       * then fetch the wasm file by using the file path that we get using file-loader.
+       *
+       * Resource: https://pspdfkit.com/blog/2020/webassembly-in-a-web-worker/
+       *
+       * Alternatively, WASM file can be bundled directly into JavaScript bundle as data URLs.
+       * This configuration reduces the complexity of WASM file loading
+       * but increases the overal bundle size:
+       *
+       * {
+       *   test: /\.wasm$/,
+       *   type: 'asset/inline',
+       * }
+       */
+      {
+        test: /\.wasm$/,
+        loader: 'file-loader',
+        type: 'javascript/auto', // this disables webpacks default handling of wasm
+      },
+    ]
+  }
 };
 ```
 
