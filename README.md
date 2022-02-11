@@ -73,7 +73,13 @@ const MyApp = () => (
 );
 
 self.MonacoEnvironment = {
-  baseUrl: '/dist/', // we're building into the dist/ folder
+  /**
+   * We're building into the dist/ folder. When application starts on
+   * URL=https://example.com then SwaggerIDe will look for
+   * `apidom.worker.js` on https://example.com/dist/apidom.worker.js and
+   * `editor.worker` on https://example.com/dist/editor.worker.js.
+   */
+  baseUrl: '/dist/',
 }
 
 ReactDOM.render(<App />, document.getElementById('swagger-ide'));
@@ -81,8 +87,16 @@ ReactDOM.render(<App />, document.getElementById('swagger-ide'));
 
 **webpack.config.js** (webpack@5)
 
+Install dependencies needed for webpack@5 to properly build SwaggerIDE.
+
+```sh
+ $ npm i stream-browserify --save-dev
+ $ npm i process --save-dev
+```
+
 ```js
 const path = require('path');
+const webpack = require('webpack');
 
 module.exports = {
   mode: 'production',
@@ -106,6 +120,12 @@ module.exports = {
       util: false,
     }
   },
+  plugins: [
+    new webpack.ProvidePlugin({
+      process: 'process/browser',
+      Buffer: ['buffer', 'Buffer'],
+    }),
+  ],
   module: {
     rules: [
       {
@@ -306,8 +326,15 @@ SwaggerIDE maps its [build artifacts](#build-artifacts) in `package.json` file i
 "jsnext:main": "./dist/esm/swagger-ide.js",
 "exports": {
   "./package.json": "./package.json",
+  "./swagger-ide.css": "./dist/esm/swagger-ide.css",
   ".": {
     "browser": "./dist/esm/swagger-ide.js"
+  },
+  "./apidom.worker": {
+    "browser": "./dist/esm/apidom.worker.js"
+  },
+  "./editor.worker": {
+    "browser": "./dist/esm/editor.worker.js"
   }
 }
 ```
