@@ -79,7 +79,7 @@ self.MonacoEnvironment = {
    * `apidom.worker.js` on https://example.com/dist/apidom.worker.js and
    * `editor.worker` on https://example.com/dist/editor.worker.js.
    */
-  baseUrl: '/dist/',
+  baseUrl: `${document.baseURI || location.href}/dist/`,
 }
 
 ReactDOM.render(<App />, document.getElementById('swagger-ide'));
