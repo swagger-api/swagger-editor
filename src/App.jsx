@@ -22,7 +22,7 @@ const SwaggerIDE = React.memo((props = {}) => {
 
   return (
     <div className="swagger-ide" ref={element}>
-      <SwaggerUI {...mergedProps} />; {/* eslint-disable-line react/jsx-props-no-spreading */}
+      <SwaggerUI {...mergedProps} /> {/* eslint-disable-line react/jsx-props-no-spreading */}
     </div>
   );
 });
