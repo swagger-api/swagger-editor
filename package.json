@@ -26,7 +26,7 @@
     }
   },
   "scripts": {
-    "start": "cross-env ENABLE_PROGRESS_PLUGIN=true react-scripts start",
+    "start": "cross-env DISABLE_ESLINT_PLUGIN=true ENABLE_PROGRESS_PLUGIN=true react-scripts start",
     "build": "npm run build:app && npm run build:bundle:esm && npm run build:bundle:umd",
     "build:app": "cross-env ENABLE_PROGRESS_PLUGIN=false DISABLE_ESLINT_PLUGIN=false react-scripts build",
     "build:app:serve": "serve -s build -l 3050",
@@ -66,6 +66,7 @@
     "react-dom": "^17.0.2",
     "react-modal": "^3.14.4",
     "react-resize-detector": "^7.0.0",
+    "react-table": "^7.7.0",
     "reselect": "^4.1.5",
     "swagger-ui-react": "^4.5.0",
     "vscode-languageserver-textdocument": "^1.0.4"

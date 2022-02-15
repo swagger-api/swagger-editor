@@ -1,6 +1,8 @@
+/* eslint-disable react/jsx-props-no-spreading */
 import React from 'react';
 import PropTypes from 'prop-types';
 
+import ValidationTable from './ValidationTable.jsx';
 import noop from '../../../utils/common-noop.js';
 
 const ValidationPane = (props) => {
@@ -8,22 +10,29 @@ const ValidationPane = (props) => {
 
   const markers = editorSelectors.getEditorMarkers();
 
+  const columns = React.useMemo(
+    () => [
+      {
+        Header: 'Line', // Type, Line, Description
+        accessor: 'startLineNumber',
+      },
+      {
+        Header: 'Description',
+        accessor: 'message',
+      },
+      // {
+      //   Header: 'Type',
+      //   assessor: 'todo: tbd',
+      // },
+    ],
+    []
+  );
+
+  const data = React.useMemo(() => markers, [markers]);
+
   return (
     <div className="validation-pane">
-      {markers.map((marker) => {
-        return (
-          <div
-            key={marker.code}
-            role="button"
-            tabIndex={0}
-            onClick={() => onValidationKeyClick(marker)}
-            onKeyPress={() => onValidationKeyClick(marker)}
-          >
-            <span>Line: {marker.startColumn}</span>
-            <span>Description: {marker.message}</span>
-          </div>
-        );
-      })}
+      <ValidationTable columns={columns} data={data} onValidationKeyClick={onValidationKeyClick} />
     </div>
   );
 };
