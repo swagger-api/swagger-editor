@@ -284,7 +284,7 @@ It's bundled with React defined as external. This allows consumer to use his own
     content="Swagger IDE"
   />
   <title>Swagger IDE</title>
-  <link rel="stylesheet" href="./umd/swagger-ide.css" />
+  <link rel="stylesheet" href="./swagger-ide.css" />
 </head>
 <body>
   <div id="swagger-ide"></div>
