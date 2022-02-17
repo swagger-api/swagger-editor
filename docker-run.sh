@@ -40,6 +40,28 @@ if [[ "${QUERY_CONFIG_ENABLED}" = "true" ]]; then
   sed -i "s|queryConfigEnabled: false|queryConfigEnabled: true|" $INDEX_FILE
 fi
 
+if [[ "${URL_SWAGGER2_GENERATOR}" ]]; then
+  if [[ "$URL_SWAGGER2_GENERATOR" != "null" ]]; then
+    sed -i "s|swagger2GeneratorUrl: 'https://generator.swagger.io/api/swagger.json'|swagger2GeneratorUrl: '${URL_SWAGGER2_GENERATOR}'|g" $INDEX_FILE
+  else
+    sed -i "s|swagger2GeneratorUrl: 'https://generator.swagger.io/api/swagger.json'|swagger2GeneratorUrl: null|g" $INDEX_FILE
+  fi
+fi
+if [[ "${URL_OAS3_GENERATOR}" ]]; then
+  if [[ "$URL_OAS3_GENERATOR" != "null" ]]; then
+    sed -i "s|oas3GeneratorUrl: 'https://generator3.swagger.io/openapi.json'|oas3GeneratorUrl: '${URL_OAS3_GENERATOR}'|g" $INDEX_FILE
+  else
+    sed -i "s|oas3GeneratorUrl: 'https://generator3.swagger.io/openapi.json'|oas3GeneratorUrl: null|g" $INDEX_FILE
+  fi
+fi
+if [[ "${URL_SWAGGER2_CONVERTER}" ]]; then
+  if [[ "$URL_SWAGGER2_CONVERTER" != "null" ]]; then
+    sed -i "s|swagger2ConverterUrl: 'https://converter.swagger.io/api/convert'|swagger2ConverterUrl: '${URL_SWAGGER2_CONVERTER}'|g" $INDEX_FILE
+  else
+    sed -i "s|swagger2ConverterUrl: 'https://converter.swagger.io/api/convert'|swagger2ConverterUrl: null|g" $INDEX_FILE
+  fi
+fi
+
 exec nginx -g 'daemon off;'
 
 ## Gzip after replacements
