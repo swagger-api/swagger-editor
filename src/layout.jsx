@@ -28,7 +28,7 @@ const Dropzone = ({ children, onDrop }) => {
 
   return (
     <div className="dropzone" {...getRootProps()}>
-      <input {...getInputProps()} />
+      <input data-cy="dropzone" {...getInputProps()} />
       {isDragActive
         ? (
           <div className="dropzone__overlay">
