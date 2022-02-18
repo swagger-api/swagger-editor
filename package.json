@@ -101,7 +101,7 @@
     "@babel/register": "^7.13.16",
     "@babel/runtime-corejs3": "^7.11.2",
     "@commitlint/cli": "^14.1.0",
-    "@commitlint/config-conventional": "=13.1.0",
+    "@commitlint/config-conventional": "=16.2.1",
     "@jest/globals": "^27.2.5",
     "@release-it/conventional-changelog": "^4.1.0",
     "@wojtekmaj/enzyme-adapter-react-17": "=0.6.6",
