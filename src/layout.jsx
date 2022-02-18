@@ -14,7 +14,7 @@ const Dropzone = ({ children, onDrop }) => {
       const reader = new FileReader()
       reader.onloadend = () => {
         const spec = reader.result
-        onDrop(spec, "fileDrop");
+        onDrop(spec, "fileDrop")
       }
       reader.readAsText(file, "utf-8")
     }
@@ -39,7 +39,7 @@ const Dropzone = ({ children, onDrop }) => {
       }
     </div>
   )
-};
+}
 Dropzone.propTypes = {
   children: PropTypes.node.isRequired,
   onDrop: PropTypes.func.isRequired,
