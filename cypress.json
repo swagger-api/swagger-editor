@@ -5,6 +5,5 @@
   "pluginsFile": "test/e2e/plugins/index.js",
   "screenshotsFolder": "test/e2e/screenshots",
   "supportFile": "test/e2e/support/index.js",
-  "videosFolder": "test/e2e/videos",
-  "baseUrl": "http://localhost:3260/"
+  "videosFolder": "test/e2e/videos"
 }

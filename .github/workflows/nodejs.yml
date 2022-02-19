@@ -40,11 +40,11 @@ jobs:
       run: npm ci
     - name: Lint code
       run: npm run lint
+    - name: Build SwaggerEditor
+      run: npm run build
     - name: Run all tests
       run: npm test
       env:
         CI: true
-    - name: Build SwaggerEditor
-      run: npm run build
     - name:  Test build artifacts
       run: npm run test:artifact
