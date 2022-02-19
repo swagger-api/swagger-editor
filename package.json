@@ -32,7 +32,7 @@
     "build:app:serve": "serve -s build -l 3050",
     "build:bundle:esm": "rimraf ./dist/esm && cross-env ENABLE_PROGRESS_PLUGIN=false GENERATE_SOURCEMAP=true BUILD_ESM_BUNDLE=true DIST_PATH=dist/esm react-scripts build-bundle && rimraf ./dist/esm/swagger-ide.css*",
     "build:bundle:umd": "rimraf ./dist/umd ./dist/swagger-ide.css && cross-env ENABLE_PROGRESS_PLUGIN=false GENERATE_SOURCEMAP=false BUILD_UMD_BUNDLE=true DIST_PATH=dist/umd react-scripts build-bundle && copyfiles -u 2 ./dist/umd/swagger-ide.css ./dist && rimraf ./dist/umd/swagger-ide.css",
-    "analyze": "source-map-explorer 'dist/esm/*.mjs'",
+    "analyze": "source-map-explorer 'dist/umd/swagger-ide.js'",
     "test": "react-scripts test",
     "cy:open": "cypress open",
     "cy:run:chrome": "cypress run --browser chrome",
@@ -68,7 +68,7 @@
     "react-resize-detector": "^7.0.0",
     "react-table": "^7.7.0",
     "reselect": "^4.1.5",
-    "swagger-ui-react": "^4.5.0",
+    "swagger-ui-react": "^4.5.1",
     "vscode-languageserver-textdocument": "^1.0.4"
   },
   "devDependencies": {
