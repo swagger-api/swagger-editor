@@ -17,6 +17,7 @@
   ],
   "scripts": {
     "automated-release": "release-it -VV --config ./release/.release-it.json",
+    "analyze": "source-map-explorer 'dist/swagger-editor-bundle.js'",
     "build": "run-p --aggregate-output build:core build:bundle build:standalone build:stylesheets build:es:bundle build:es:bundle:core",
     "build:bundle": "webpack --config webpack/bundle.babel.js --color",
     "build:core": "webpack --config webpack/core.babel.js --color",
@@ -86,7 +87,7 @@
     "redux": "=4.1.2",
     "reselect": "^4.0.0",
     "swagger-client": "^3.18.4",
-    "swagger-ui": "^4.5.0",
+    "swagger-ui": "^4.5.1",
     "traverse": "^0.6.6",
     "validator": "=13.7.0",
     "yaml-js": "^0.3.1"
@@ -155,6 +156,7 @@
     "rewiremock": "^3.7.4",
     "rimraf": "^3.0.2",
     "sinon": "=12.0.1",
+    "source-map-explorer": "^2.5.2",
     "start-server-and-test": "=1.14.0",
     "terser-webpack-plugin": "^4.2.3",
     "url-loader": "^4.1.1",
