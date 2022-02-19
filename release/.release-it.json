@@ -4,9 +4,14 @@
       "./release/check-for-breaking-changes.sh ${latestVersion} ${version}",
       "npm update swagger-client",
       "npm update swagger-ui",
-      "npm test"
+      "npm run lint-errors",
+      "npm run test:unit-mocha",
+      "npm run test:unit-jest"
     ],
-    "after:bump": ["npm run build"],
+    "after:bump": [
+      "npm run build",
+      "npm run cy:ci"
+    ],
     "after:release": "export GIT_TAG=v${version} && echo GIT_TAG=v${version} > release/.version"
   },
   "git": {
