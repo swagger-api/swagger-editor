@@ -10,8 +10,8 @@ describe("EditorLayout", () => {
         cy.on("window:alert", stub)
 
         cy.get("[data-cy=\"dropzone\"]")
-          .attachFile("rejected.file.1", { subjectType: "drag-n-drop" })
-          .attachFile(["rejected.file.1", "rejected.file.2"], { subjectType: "drag-n-drop" })
+          .attachFile("rejected.file.1", { subjectType: "input" })
+          .attachFile(["rejected.file.1", "rejected.file.2"], { subjectType: "input" })
           .then(() => {
             expect(stub.calledTwice).to.be.true
             expect(stub.getCall(0)).to.be.calledWith("Sorry, there was an error processing your file.\nPlease drag and drop exactly one .yaml or .json OpenAPI definition file.")
@@ -25,7 +25,7 @@ describe("EditorLayout", () => {
         cy.on("window:alert", stub)
 
         cy.get("[data-cy=\"dropzone\"]")
-          .attachFile(["rejected.file.1", "rejected.file.2"], { subjectType: "drag-n-drop" })
+          .attachFile(["rejected.file.1", "rejected.file.2"], { subjectType: "input" })
           .then(() => {
             expect(stub.calledOnce).to.be.true
             expect(stub.getCall(0)).to.be.calledWith("Sorry, there was an error processing your file.\nPlease drag and drop exactly one .yaml or .json OpenAPI definition file.")
