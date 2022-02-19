@@ -82,7 +82,7 @@
     "react-file-download": "^0.3.2",
     "react-immutable-proptypes": "^2.1.0",
     "react-redux": "=7.2.6",
-    "react-split-pane": "^0.1.82",
+    "react-split-pane": "^2.0.3",
     "react-transition-group": "^1.1.1",
     "redux": "=4.1.2",
     "reselect": "^4.0.0",
