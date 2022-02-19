@@ -17,6 +17,7 @@
   ],
   "scripts": {
     "automated-release": "release-it -VV --config ./release/.release-it.json",
+    "analyze": "source-map-explorer 'dist/swagger-editor-bundle.js'",
     "build": "run-p --aggregate-output build:core build:bundle build:standalone build:stylesheets build:es:bundle build:es:bundle:core",
     "build:bundle": "webpack --config webpack/bundle.babel.js --color",
     "build:bundle:serve": "ws --hostname 0.0.0.0 -p 3001",
@@ -155,6 +156,7 @@
     "rewiremock": "^3.7.4",
     "rimraf": "^3.0.2",
     "sinon": "=12.0.1",
+    "source-map-explorer": "=2.5.2",
     "start-server-and-test": "=1.14.0",
     "terser-webpack-plugin": "^4.2.3",
     "url-loader": "^4.1.1",

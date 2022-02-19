@@ -149,7 +149,11 @@ export default function buildConfig(
         alias: {
           react: path.resolve(projectBasePath, "node_modules", "react"),
           "react-dom": path.resolve(projectBasePath, "node_modules", "react-dom"),
-          // this alias avoid bundling the React twice
+          "react-is": path.resolve(projectBasePath, "node_modules", "react-is"),
+          "regenerator-runtime": path.resolve(projectBasePath, "node_modules", "@babel", "runtime-corejs3", "node_modules", "regenerator-runtime"),
+          "reselect": path.resolve(projectBasePath, "node_modules", "reselect"),
+          "tslib": path.resolve(projectBasePath, "node_modules", "tslib"),
+          // this alias avoids bundling the React twice
           "swagger-ui": path.resolve(projectBasePath, "node_modules", "swagger-ui", "dist", "swagger-ui-es-bundle-core.js"),
           brace: path.resolve(projectBasePath, "node_modules", "brace"),
         },
