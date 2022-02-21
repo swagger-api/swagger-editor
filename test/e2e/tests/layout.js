@@ -9,10 +9,12 @@ describe("EditorLayout", () => {
         const alert = cy.stub()
         cy.on("window:alert", alert)
         cy.get(".info", { timeout: 10000 }).should("be.visible")
-        cy.get("[data-cy=\"dropzone\"]")
+        const dropzone = cy.get("[data-cy=\"dropzone\"]")
+        dropzone
           .attachFile("rejected.file.1", { subjectType: "input" })
-          .attachFile(["rejected.file.1", "rejected.file.2"], { subjectType: "input" })
+          .then(() => dropzone.attachFile(["rejected.file.1", "rejected.file.2"], { subjectType: "input" }))
           .then(() => {
+            cy.wait(2000)
             expect(alert.callCount).to.equal(2)
             expect(alert.getCall(0)).to.be.calledWith("Sorry, there was an error processing your file.\nPlease drag and drop exactly one .yaml or .json OpenAPI definition file.")
           })
@@ -27,6 +29,7 @@ describe("EditorLayout", () => {
         cy.get("[data-cy=\"dropzone\"]")
           .attachFile(["rejected.file.1", "rejected.file.2"], { subjectType: "input" })
           .then(() => {
+            cy.wait(2000)
             expect(alert.calledOnce).to.be.true
             expect(alert.getCall(0)).to.be.calledWith("Sorry, there was an error processing your file.\nPlease drag and drop exactly one .yaml or .json OpenAPI definition file.")
           })
