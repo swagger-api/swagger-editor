@@ -1,37 +1,36 @@
 describe("EditorLayout", () => {
   describe("file uploads", () => {
     beforeEach(() => {
-      cy.visit("/?url=/documents/petstore.swagger.yaml")
+      cy.visit("/?url=/documents/petstore.swagger.yaml", {
+        onBeforeLoad (win) {
+          cy.stub(win, "alert").as("alert")
+        }
+      })
     })
 
     describe("given one or more files are of an unexpected type", () => {
       it("should alert the user that their file(s) were rejected", () => {
-        const alert = cy.stub()
-        cy.on("window:alert", alert)
         cy.get(".info", { timeout: 10000 }).should("be.visible")
-        const dropzone = cy.get("[data-cy=\"dropzone\"]")
-        dropzone
+        cy.get("[data-cy=\"dropzone\"]")
           .attachFile("rejected.file.1", { subjectType: "input" })
-          .then(() => dropzone.attachFile(["rejected.file.1", "rejected.file.2"], { subjectType: "input" }))
+          .attachFile(["rejected.file.1", "rejected.file.2"], { subjectType: "input" })
           .then(() => {
-            cy.wait(2000)
-            expect(alert.callCount).to.equal(2)
-            expect(alert.getCall(0)).to.be.calledWith("Sorry, there was an error processing your file.\nPlease drag and drop exactly one .yaml or .json OpenAPI definition file.")
+            cy.get("@alert")
+              .should("have.been.calledTwice")
+              .and("have.been.calledWith", "Sorry, there was an error processing your file.\nPlease drag and drop exactly one .yaml or .json OpenAPI definition file.")
           })
       })
     })
 
     describe("when more than one file of an expected type is dropped", () => {
       it("should alert the user that their file(s) were rejected", () => {
-        const alert = cy.stub()
-        cy.on("window:alert", alert)
         cy.get(".info", { timeout: 10000 }).should("be.visible")
         cy.get("[data-cy=\"dropzone\"]")
           .attachFile(["rejected.file.1", "rejected.file.2"], { subjectType: "input" })
           .then(() => {
-            cy.wait(2000)
-            expect(alert.calledOnce).to.be.true
-            expect(alert.getCall(0)).to.be.calledWith("Sorry, there was an error processing your file.\nPlease drag and drop exactly one .yaml or .json OpenAPI definition file.")
+            cy.get("@alert")
+              .should("have.been.calledOnce")
+              .and("have.been.calledWith", "Sorry, there was an error processing your file.\nPlease drag and drop exactly one .yaml or .json OpenAPI definition file.")
           })
       })
     })
