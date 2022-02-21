@@ -11,4 +11,7 @@ if (process.env.NODE_ENV !== 'test') {
   ReactModal.setAppElement(domContainer);
 }
 
-ReactDOM.render(<App />, domContainer);
+ReactDOM.render(
+  <App url="https://raw.githubusercontent.com/asyncapi/spec/v2.2.0/examples/streetlights-kafka.yml" />,
+  domContainer
+);

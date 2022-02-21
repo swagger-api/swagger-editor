@@ -65,10 +65,12 @@ import ReactDOM from 'react-dom';
 import SwaggerIDE from '@swagger-api/swagger-ide';
 import '@swagger-api/swagger-ide/swagger-ide.css';
 
+const url = "https://raw.githubusercontent.com/asyncapi/spec/v2.2.0/examples/streetlights-kafka.yml";
+
 const MyApp = () => (
   <div>
     <h1>SwaggerIDE Integration</h1>
-    <SwaggerIDE />
+    <SwaggerIDE url={url} />
   </div>
 );
 
@@ -82,7 +84,7 @@ self.MonacoEnvironment = {
   baseUrl: `${document.baseURI || location.href}/dist/`,
 }
 
-ReactDOM.render(<App />, document.getElementById('swagger-ide'));
+ReactDOM.render(<MyApp />, document.getElementById('swagger-ide'));
 ```
 
 **webpack.config.js** (webpack@5)
