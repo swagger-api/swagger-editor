@@ -121,7 +121,7 @@
     "dedent": "^0.7.0",
     "deep-extend": "^0.6.0",
     "enzyme": "^3.3.0",
-    "eslint": "=8.8.0",
+    "eslint": "=8.10.0",
     "eslint-plugin-import": "^2.21.1",
     "eslint-plugin-jest": "=26.1.0",
     "eslint-plugin-mocha": "^10.0.3",
