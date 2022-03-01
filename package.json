@@ -68,7 +68,7 @@
     "react-resize-detector": "^7.0.0",
     "react-table": "^7.7.0",
     "reselect": "^4.1.5",
-    "swagger-ui-react": "^4.5.2",
+    "swagger-ui-react": "^4.6.0",
     "vscode-languageserver-textdocument": "^1.0.4"
   },
   "devDependencies": {
