@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import './_all.scss';
 import EditMenuDropdownHooks from './EditMenuDropdownHooks.jsx'; // getComponent incompatible with React hooks (due to nested functions?)
 import FileMenuDropdownHooks from './FileMenuDropdownHooks.jsx'; // getComponent incompatible with React hooks (due to nested functions?)
 
@@ -12,26 +11,24 @@ const Topbar = (props) => {
   const GeneratorMenuDropdown = getComponent('GeneratorMenuDropdown');
 
   return (
-    <div className="swagger-ide-standalone">
-      <div className="topbar">
-        <div className="topbar-wrapper">
-          <LinkHome />
-          <FileMenuDropdownHooks
-            getComponent={getComponent}
-            topbarActions={topbarActions}
-            topbarSelectors={topbarSelectors}
-          />
-          <EditMenuDropdownHooks
-            getComponent={getComponent}
-            topbarActions={topbarActions}
-            topbarSelectors={topbarSelectors}
-          />
-          <GeneratorMenuDropdown
-            getComponent={getComponent}
-            topbarActions={topbarActions}
-            topbarSelectors={topbarSelectors}
-          />
-        </div>
+    <div className="topbar">
+      <div className="topbar-wrapper">
+        <LinkHome />
+        <FileMenuDropdownHooks
+          getComponent={getComponent}
+          topbarActions={topbarActions}
+          topbarSelectors={topbarSelectors}
+        />
+        <EditMenuDropdownHooks
+          getComponent={getComponent}
+          topbarActions={topbarActions}
+          topbarSelectors={topbarSelectors}
+        />
+        <GeneratorMenuDropdown
+          getComponent={getComponent}
+          topbarActions={topbarActions}
+          topbarSelectors={topbarSelectors}
+        />
       </div>
     </div>
   );

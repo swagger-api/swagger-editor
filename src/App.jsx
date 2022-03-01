@@ -4,11 +4,13 @@ import ReactModal from 'react-modal';
 import SwaggerUI from 'swagger-ui-react';
 import 'swagger-ui-react/swagger-ui.css';
 
-import './components/_all.scss';
-import layoutDefaultPlugin from './plugins/layout-default/index.js';
-import monacoPlugin from './plugins/monaco/index.js';
-import topbarPlugin from './plugins/topbar/index.js';
-import asyncApiPlugin from './plugins/asyncapi-react/index.js';
+import './styles/main.scss';
+import LayoutPlugin from './plugins/layout/index.js';
+import TopbarPlugin from './plugins/topbar/index.js';
+import EditorTextareaPlugin from './plugins/editor-textarea/index.js';
+import EditorMonacoPlugin from './plugins/editor-monaco/index.js';
+import EditorPreviewSwaggerUIPlugin from './plugins/editor-preview-swagger-ui/index.js';
+import EditorPreviewAsyncAPIPlugin from './plugins/editor-preview-asyncapi/index.js';
 
 const SwaggerIDE = React.memo((props) => {
   const mergedProps = deepmerge(SwaggerIDE.defaultProps, props);
@@ -26,15 +28,37 @@ const SwaggerIDE = React.memo((props) => {
   );
 });
 
+SwaggerIDE.plugins = {
+  EditorTextarea: EditorTextareaPlugin,
+  EditorMonaco: EditorMonacoPlugin,
+  EditorPreviewSwaggerUI: EditorPreviewSwaggerUIPlugin,
+  EditorPreviewAsyncAPI: EditorPreviewAsyncAPIPlugin,
+  Topbar: TopbarPlugin,
+  Layout: LayoutPlugin,
+};
 SwaggerIDE.presets = {
-  default: () => [layoutDefaultPlugin, monacoPlugin, topbarPlugin, asyncApiPlugin],
+  textarea: () => [
+    EditorTextareaPlugin,
+    EditorPreviewSwaggerUIPlugin,
+    EditorPreviewAsyncAPIPlugin,
+    TopbarPlugin,
+    LayoutPlugin,
+  ],
+  monaco: () => [
+    EditorMonacoPlugin,
+    EditorPreviewSwaggerUIPlugin,
+    EditorPreviewAsyncAPIPlugin,
+    TopbarPlugin,
+    LayoutPlugin,
+  ],
+  default: (...args) => SwaggerIDE.presets.monaco(...args),
 };
 
 SwaggerIDE.propTypes = SwaggerUI.propTypes;
 
 SwaggerIDE.defaultProps = {
   ...SwaggerUI.defaultProps,
-  layout: 'LayoutDefault',
+  layout: 'SwaggerIDELayout',
   presets: [SwaggerIDE.presets.default],
 };
 

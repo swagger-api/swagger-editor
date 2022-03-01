@@ -1,0 +1,118 @@
+.swagger-ide-layout {
+  .SplitPane {
+    height: #{"calc(100% - 51px)"} !important;
+  }
+
+  .Pane {
+    overflow-y: scroll;
+  }
+
+  .dropzone {
+    height: 100%;
+    width: 100%;
+
+    .dropzone__overlay {
+      padding-top: 20px;
+      height: 100%;
+      width: 100%;
+      position: absolute;
+      left: 0;
+      background: #2D2D2D;
+      text-align: center;
+      color: #fff;
+      font-size: 1rem;
+    }
+  }
+
+  .btn-theme-icon {
+    background-color: transparent;
+    display: inline;
+    line-height: 1;
+    border: 1px solid;
+    border-radius: 4px;
+    border-color: white;
+    color: #3b4151;
+    padding: 0.36rem 0.36rem;
+    transition: all .3s;
+  }
+
+  .swagger-ui {
+    // ensure Swagger-UI uses its entire container
+    height: 100%;
+
+    .version-pragma {
+      // make the version pragma message look nicer in the context
+      // of the Editor
+      font-size: 1.2em;
+    }
+  }
+
+  @media print {
+    //List of elements that should not be rendered for printing
+    .topbar {
+      display: none;
+    }
+
+    .SplitPane {
+      position: relative !important;
+      display: block !important;
+    }
+
+    //The right-hand preview pane should be the full width of the page
+    .Pane {
+      overflow-y: auto;
+      width: 100% !important;
+    }
+  }
+
+  .validation-pane {
+    // position: relative;
+    // flex: 0 0 auto;
+    // height: 100%;
+    // width: 100%;
+    // z-index: 4;
+    overflow-y: auto;
+    max-height: 120px;
+  }
+
+  .validation-table {
+    display: flex;
+    flex-direction: column;
+    font-size: 0.8rem;
+    font-weight: 300;
+    border: none;
+  }
+
+  .validation-table thead {
+    flex: 0 0 auto;
+    flex-direction: row;
+    color: #444;
+    background: rgb(238, 238, 238);
+    border-bottom: 1px solid lightgray;
+    border-top: none;
+    border-right: none;
+    border-left: none;
+    box-shadow: none;
+    outline: none;
+  }
+
+  .validation-table thead th {
+    min-width: 2.0rem;
+    padding-left: 0.25rem;
+  }
+
+
+  .validation-table tbody {
+    flex: 1 1 auto;
+    flex-direction: row;
+    max-height: 100px;
+    overflow: auto;
+  }
+
+  .validation-table tbody td {
+    min-width: 2.0rem;
+    padding-left: 0.25rem;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+}

@@ -27,44 +27,41 @@ import {
   selectShouldUpdateDefinitionLanguageFormat,
 } from './selectors.js';
 
-export default function topbarPlugin() {
-  return {
-    statePlugins: {
-      topbar: {
-        actions: {
-          instantiateGeneratorClient,
-          downloadGeneratedFile,
-          importFromURL,
-          clearEditor,
-          resetEditor,
-          convertToYaml,
-          saveAsJson,
-          saveAsYaml,
-          saveAsJsonResolved,
-          saveAsYamlResolved,
-          convertDefinitionToOas3,
-          allowConvertDefinitionToOas3,
-          getDefinitionLanguageFormat,
-          loadDefaultDefinition,
-          importFile,
-        },
-        selectors: {
-          selectShouldReInstantiateGeneratorClient,
-          selectShouldUpdateDefinitionLanguageFormat,
-        },
+const TopbarPlugin = () => ({
+  components: {
+    Topbar,
+    LinkHome,
+    DropdownMenu,
+    DropdownItem,
+    ImportFileDropdownItem,
+    GeneratorMenuDropdown,
+    SaveAsJsonOrYaml,
+  },
+  statePlugins: {
+    topbar: {
+      actions: {
+        instantiateGeneratorClient,
+        downloadGeneratedFile,
+        importFromURL,
+        clearEditor,
+        resetEditor,
+        convertToYaml,
+        saveAsJson,
+        saveAsYaml,
+        saveAsJsonResolved,
+        saveAsYamlResolved,
+        convertDefinitionToOas3,
+        allowConvertDefinitionToOas3,
+        getDefinitionLanguageFormat,
+        loadDefaultDefinition,
+        importFile,
+      },
+      selectors: {
+        selectShouldReInstantiateGeneratorClient,
+        selectShouldUpdateDefinitionLanguageFormat,
       },
     },
-    components: {
-      Topbar,
-      LinkHome,
-      DropdownMenu,
-      DropdownItem,
-      ImportFileDropdownItem,
-      GeneratorMenuDropdown,
-      SaveAsJsonOrYaml,
-    },
-    wrapComponents: {
-      Topbar,
-    },
-  };
-}
+  },
+});
+
+export default TopbarPlugin;
