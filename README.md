@@ -160,6 +160,74 @@ module.exports = {
 };
 ```
 
+Alternative **webpack.config.js** (webpack@5)
+
+We've already built Web Workers fragments for you, and they're located inside our npm distribution
+package in `dist/umd/` directory. In order to avoid complexity of building the Web Worker fragments you can
+use those fragments directly. This setup will work both for **production** and **development** (webpack-dev-server)
+and will significantly shorten your build process.
+
+Install `copy-webpack-plugin` and other needed dependencies.
+
+```sh
+ $ npm i copy-webpack-plugin --save-dev
+ $ npm i stream-browserify --save-dev
+ $ npm i process --save-dev
+```
+
+```js
+const path = require('path');
+const webpack = require('webpack');
+const CopyWebpackPlugin = require('copy-webpack-plugin');
+
+module.exports = {
+  mode: 'production',
+  entry: {
+    app: './index.js',
+  },
+  output: {
+    globalObject: 'self',
+    filename: 'static/js/[name].js',
+    path: path.resolve(__dirname, 'dist')
+  },
+  resolve: {
+    fallback: {
+      fs: false,
+      http: false,
+      https: false,
+      path: false,
+      stream: require.resolve('stream-browserify'),
+      util: false,
+    }
+  },
+  plugins: [
+    new webpack.ProvidePlugin({
+      process: 'process/browser.js',
+      Buffer: ['buffer', 'Buffer'],
+    }),
+    new CopyWebpackPlugin({
+      patterns: [
+        {
+          from: 'node_modules/@swagger-api/swagger-ide/dist/umd/apidom.worker.js',
+          to: 'static/js',
+        },
+        {
+          from: 'node_modules/@swagger-api/swagger-ide/dist/umd/editor.worker.js',
+          to: 'static/js',
+        }
+      ]
+    }),
+  ],
+  module: {
+    rules: [
+      {
+        test: /\.css$/,
+        use: ['style-loader', 'css-loader']
+      }
+    ]
+  }
+};
+```
 
 ## Development
 
