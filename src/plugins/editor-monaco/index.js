@@ -1,5 +1,5 @@
 import EditorPane from './components/EditorPane.jsx';
-import MonacoEditor from './components/MonacoEditor.jsx';
+import MonacoEditorContainer from './components/MonacoEditorContainer.jsx';
 import ValidationPane from './components/ValidationPane/ValidationPane.jsx';
 import ThemeSelectionIcon from './components/ThemeSelectionIcon.jsx';
 import {
@@ -13,7 +13,7 @@ import { getEditorTheme, getEditorMarkers, getEditorJumpToMarker } from './selec
 
 const EditorMonacoPlugin = () => ({
   components: {
-    MonacoEditor,
+    MonacoEditor: MonacoEditorContainer,
     ValidationPane,
     ThemeSelection: ThemeSelectionIcon,
     EditorPane,
