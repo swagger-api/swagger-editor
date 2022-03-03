@@ -1,5 +1,4 @@
 // JSON-Schema ( draf04 ) validator
-import JsonSchemaWebWorker from "./validator.worker.js"
 import YAML from "js-yaml"
 import PromiseWorker from "promise-worker"
 import debounce from "lodash/debounce"
@@ -9,11 +8,15 @@ import oas3SchemaYaml from "./oas3-schema.yaml"
 const swagger2Schema = YAML.load(swagger2SchemaYaml)
 const oas3Schema = YAML.load(oas3SchemaYaml)
 
+// create new worker
+const baseUrl = document.baseURI || location.href
+const worker = new Worker(new URL("./validator.worker.js", baseUrl))
+
 // Lazily created promise worker
 let _promiseWorker
 const promiseWorker = () => {
   if (!_promiseWorker)
-    _promiseWorker = new PromiseWorker(new JsonSchemaWebWorker())
+  _promiseWorker = new PromiseWorker(worker)
   return _promiseWorker
 }
 

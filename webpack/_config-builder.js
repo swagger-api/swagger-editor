@@ -95,7 +95,9 @@ export default function buildConfig(
     {
       mode: "production",
 
-      entry: {},
+      entry: {
+        "validator.worker": path.join(projectBasePath, "src", "plugins", "json-schema-validator", "validator.worker.js"),
+      },
 
       output: {
         path: path.join(projectBasePath, "dist"),

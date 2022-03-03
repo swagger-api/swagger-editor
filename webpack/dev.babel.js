@@ -100,9 +100,10 @@ const devConfig = configBuilder(
       isDevelopment && new ReactRefreshWebpackPlugin({ library: "[name]" }),
       new HtmlWebpackPlugin({
         template: path.join(projectBasePath, "dev-helpers", "index.html"),
+        excludeChunks: ["validator.worker"],
       }),
       new HtmlWebpackSkipAssetsPlugin({
-        skipAssets: [/swagger-ui\.js/],
+        skipAssets: [/swagger-editor\.js/],
       }),
     ].filter(Boolean),
 
