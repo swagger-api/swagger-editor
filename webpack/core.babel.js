@@ -18,7 +18,12 @@ const result = configBuilder(
     },
 
     output: {
-      library: "SwaggerEditorBundle",
+      // library: "SwaggerEditorBundle",
+      globalObject: "this",
+      library: {
+        name: "SwaggerEditorBundle",
+        export: "default",
+      },
     },
 
     performance: {

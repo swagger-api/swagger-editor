@@ -32,25 +32,14 @@ const baseRules = [
       cacheDirectory: true,
     },
   },
-  { test: /\.(txt|yaml)$/, loader: "raw-loader" },
   {
-    test: /\.(png|jpg|jpeg|gif|svg)$/, use: [
-      {
-        loader: "url-loader",
-        options: {
-          esModule: false,
-        },
-      },
-    ],
+    test: /\.(txt|yaml)$/,
+    type: "asset/source",
   },
   {
-    test: /\.(woff|woff2)$/,
-    loader: "url-loader?",
-    options: {
-      limit: 10000,
-    },
+    test: /\.(png|jpg|jpeg|gif|svg)$/,
+    type: "asset/inline",
   },
-  { test: /\.(ttf|eot)$/, loader: "file-loader" },
 ]
 
 export default function buildConfig(
@@ -75,6 +64,10 @@ export default function buildConfig(
         HOSTNAME: os.hostname(),
         BUILD_TIME: new Date().toUTCString(),
       }),
+    }),
+    new webpack.ProvidePlugin({
+      process: "process/browser",
+      Buffer: ["buffer", "Buffer"],
     }),
     new RemoveSourcemapsLackingMatchingAssetsPlugin(),
   ]
@@ -109,16 +102,21 @@ export default function buildConfig(
         publicPath: "/dist",
         filename: "[name].js",
         chunkFilename: "[id].[chunkhash].js",
-        libraryTarget: "umd",
-        libraryExport: "default", // TODO: enable
+        // libraryTarget: "umd",
+        // libraryExport: "default", // TODO: enable
+        library: {
+          // when esm, library.name should be unset, so do not define here
+          // when esm, library.export should be unset, so do not define here
+          type: "umd",
+        }
       },
 
       target: "web",
 
-      node: {
-        // yaml-js has a reference to `fs`, this is a workaround
-        fs: "empty",
-      },
+      // node: {
+      //   // yaml-js has a reference to `fs`, this is a workaround
+      //   fs: "empty",
+      // },
 
       module: {
         rules: baseRules,
@@ -145,6 +143,7 @@ export default function buildConfig(
           },
 
       resolve: {
+        modules: [path.join(projectBasePath, "./src"), "node_modules"],
         extensions: [".js", ".jsx", "json"],
         alias: {
           react: path.resolve(projectBasePath, "node_modules", "react"),
@@ -156,14 +155,19 @@ export default function buildConfig(
           "swagger-ui": path.resolve(projectBasePath, "node_modules", "swagger-ui", "dist", "swagger-ui-es-bundle-core.js"),
           brace: path.resolve(projectBasePath, "node_modules", "brace"),
         },
+        fallback: {
+          fs: false,
+          stream: require.resolve("stream-browserify"),
+          path: require.resolve("path-browserify"),
+        },
       },
 
       // If we're mangling, size is a concern -- so use trace-only sourcemaps
       // Otherwise, provide heavy sourcemaps suitable for development
       devtool: sourcemaps
         ? minimize
-          ? "nosource-source-map"
-          : "module-source-map"
+          ? "nosources-source-map"
+          : "cheap-module-source-map"
         : false,
 
       performance: {
@@ -177,8 +181,6 @@ export default function buildConfig(
         minimizer: [
           compiler =>
             new TerserPlugin({
-              cache: true,
-              sourceMap: sourcemaps,
               terserOptions: {
                 mangle: !!mangle,
               },

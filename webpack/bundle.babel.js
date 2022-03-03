@@ -33,7 +33,12 @@ const result = configBuilder(
     },
 
     output: {
-      library: "SwaggerEditorBundle",
+      // library: "SwaggerEditorBundle",
+      globalObject: "this",
+      library: {
+        name: "SwaggerEditorBundle",
+        export: "default",
+      },
     },
 
     performance: {
@@ -47,7 +52,7 @@ const result = configBuilder(
         // emit compilation warning or error? (Default: `false`)
         emitErrors: false,
         // display full duplicates information? (Default: `false`)
-        verbose: true,
+        verbose: false,
       }),
       new WebpackBundleSizeAnalyzerPlugin("log.bundle-sizes.swagger-editor.txt"),
       // new StatsWriterPlugin({

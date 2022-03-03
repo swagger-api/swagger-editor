@@ -9,7 +9,7 @@ const result = configBuilder(
     minimize: true,
     mangle: true,
     sourcemaps: true,
-    includeDependencies: true,
+    // includeDependencies: true,
     emitWorkerAssets: false,
   },
   {
@@ -20,7 +20,12 @@ const result = configBuilder(
     },
 
     output: {
-      library: "SwaggerEditorStandalonePreset",
+      // library: "SwaggerEditorStandalonePreset",
+      globalObject: "this",
+      library: {
+        name: "SwaggerEditorStandalonePreset",
+        export: "default",
+      },
     },
   }
 )
