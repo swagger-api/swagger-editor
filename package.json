@@ -34,7 +34,6 @@
     "build:es:bundle": "webpack --config webpack/es-bundle.babel.js --color",
     "build:es:bundle:core": "webpack --config webpack/es-bundle-core.babel.js --color",
     "build:stylesheets": "webpack --config webpack/stylesheets.babel.js --color",
-    "build:serve": "ws --hostname 0.0.0.0 -p 3001",
     "deps-check": "run-s deps-check:license deps-check:size",
     "deps-check:license": "license-checker --production --csv --out $npm_package_config_deps_check_dir/licenses.csv && license-checker --development --csv --out $npm_package_config_deps_check_dir/licenses-dev.csv",
     "deps-check:size": "webpack -p --config webpack/test_deps_size.babel.js --json | webpack-bundle-size-analyzer >| $npm_package_config_deps_check_dir/sizes.txt",
