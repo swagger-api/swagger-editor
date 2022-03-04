@@ -454,18 +454,23 @@ describe('validation plugin - semantic - 2and3 refs', () => {
         .then(system => {
           const allSemanticErrors = system.errSelectors.allErrors().toJS()
             .filter(err => err.source !== 'resolver');
-            expect(allSemanticErrors[0]).toEqual(expect.objectContaining({
-              level: 'warning',
-              message: 'Definition was declared but never used in document',
-              path: ['definitions', 'foo bar']
-            }));
-            expect(allSemanticErrors.length).toEqual(2);
-            expect(allSemanticErrors[1]).toEqual(expect.objectContaining({
-              level: 'error',
-              message: '$ref values must be RFC3986-compliant percent-encoded URIs',
-              path: ['paths', '/foo', 'get', 'responses', '200', 'schema', '$ref']
-            }));
-         });
+          expect(allSemanticErrors).toEqual(
+            expect.arrayContaining(
+              [
+                expect.objectContaining({
+                  level: 'warning',
+                  message: 'Definition was declared but never used in document',
+                  path: ['definitions', 'foo bar']
+                }),
+                expect.objectContaining({
+                  level: 'error',
+                  message: '$ref values must be RFC3986-compliant percent-encoded URIs',
+                  path: ['paths', '/foo', 'get', 'responses', '200', 'schema', '$ref']
+                })
+              ]
+            )
+          );
+        });
       }
     );
 
@@ -505,22 +510,27 @@ describe('validation plugin - semantic - 2and3 refs', () => {
         .then(system => {
           const allSemanticErrors = system.errSelectors.allErrors().toJS()
             .filter(err => err.source !== 'resolver');
-            expect(allSemanticErrors.length).toEqual(3);
-            expect(allSemanticErrors[0]).toEqual(expect.objectContaining({
-              level: 'warning',
-              message: 'Definition was declared but never used in document',
-              path: ['components', 'schemas', 'foo bar']
-            }));
-            expect(allSemanticErrors[1]).toEqual(expect.objectContaining({
-              level: 'error',
-              message: '$ref values must be RFC3986-compliant percent-encoded URIs',
-              path: ['paths', '/foo', 'get', 'responses', '200', 'content', 'application/json', 'schema', '$ref']
-            }));
-            expect(allSemanticErrors[2]).toEqual(expect.objectContaining({
-              level: 'error',
-              message: 'Component names can only contain the characters A-Z a-z 0-9 - . _',
-              path: ['components', 'schemas', 'foo bar']
-            }));
+          expect(allSemanticErrors.length).toEqual(3);
+          expect(allSemanticErrors).toEqual(
+            expect.arrayContaining(
+              [
+                expect.objectContaining({
+                  level: 'warning',
+                  message: 'Definition was declared but never used in document',
+                  path: ['components', 'schemas', 'foo bar']
+                }),
+                expect.objectContaining({
+                  level: 'error',
+                  message: '$ref values must be RFC3986-compliant percent-encoded URIs',
+                  path: ['paths', '/foo', 'get', 'responses', '200', 'content', 'application/json', 'schema', '$ref']
+                }),
+                expect.objectContaining({
+                  level: 'error',
+                  message: 'Component names can only contain the characters A-Z a-z 0-9 - . _',
+                  path: ['components', 'schemas', 'foo bar']
+                }),
+              ]
+            ));
         });
       }
     );
