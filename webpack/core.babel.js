@@ -2,7 +2,11 @@
  * @prettier
  */
 
+import path from "path"
+
 import configBuilder from "./_config-builder"
+
+const projectBasePath = path.join(__dirname, "../")
 
 const result = configBuilder(
   {
@@ -15,6 +19,7 @@ const result = configBuilder(
   {
     entry: {
       "swagger-editor": ["./src/index.js"],
+      "validator.worker": path.join(projectBasePath, "src", "plugins", "json-schema-validator", "validator.worker.js"),
     },
 
     output: {

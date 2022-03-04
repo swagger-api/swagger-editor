@@ -9,11 +9,14 @@
  * post build, cli command: npx webpack-bundle-analyzer <path>
  */ 
 
-import configBuilder from "./_config-builder"
 import { DuplicatesPlugin } from "inspectpack/plugin"
 import { WebpackBundleSizeAnalyzerPlugin } from "webpack-bundle-size-analyzer"
-// import path from "path"
+import path from "path"
 // import { StatsWriterPlugin } from "webpack-stats-plugin"
+
+import configBuilder from "./_config-builder"
+
+const projectBasePath = path.join(__dirname, "../")
 
 const result = configBuilder(
   {
@@ -30,6 +33,7 @@ const result = configBuilder(
       "swagger-editor-bundle": [
         "./src/index.js",
       ],
+      "validator.worker": path.join(projectBasePath, "src", "plugins", "json-schema-validator", "validator.worker.js"),
     },
 
     output: {
