@@ -74,20 +74,20 @@ export default function buildConfig(
 
   //// Workers
 
-  baseRules.push({
-    test: /\.worker\.js$/,
-    use: [
-      {
-        loader: "worker-loader",
-        options: {
-          inline: true,
-          name: "[name].js",
-          fallback: !!emitWorkerAssets,
-        },
-      },
-      "babel-loader",
-    ],
-  })
+  // baseRules.push({
+  //   test: /\.worker\.js$/,
+  //   use: [
+  //     {
+  //       loader: "worker-loader",
+  //       options: {
+  //         inline: true,
+  //         name: "[name].js",
+  //         fallback: !!emitWorkerAssets,
+  //       },
+  //     },
+  //     "babel-loader",
+  //   ],
+  // })
 
 
   const completeConfig = deepExtend(
