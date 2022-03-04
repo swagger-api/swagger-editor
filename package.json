@@ -44,7 +44,7 @@
     "lint": "eslint --cache --ext '.js,.jsx' src test",
     "lint-errors": "eslint --cache --quiet --ext '.js,.jsx' src test",
     "lint-fix": "eslint --cache --ext '.js,.jsx' src test --fix",
-    "cy:start": "webpack serve --port 3260 --host 0.0.0.0 --config webpack/dev.babel.js --inline --hot --progress --content-base test/e2e/static",
+    "cy:start": "webpack serve --port 3260 --host 0.0.0.0 --config webpack/dev.babel.js",
     "cy:open": "cypress open",
     "cy:run:chrome": "cypress run --browser chrome",
     "cy:run:firefox": "cypress run --browser firefox",
