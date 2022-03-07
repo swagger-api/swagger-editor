@@ -55,11 +55,12 @@
     "test:unit-jest": "cross-env BABEL_ENV=test jest --config ./config/jest/jest.unit.config.js",
     "test:unit-mocha": "cross-env BABEL_ENV=test mocha --require test/mocha/setup.js --recursive --require @babel/register test/mocha",
     "test:unit-mocha-watch": "npm run test:unit-mocha -- -w",
+    "test:artifact": "jest --config ./config/jest/jest.artifact.config.js",
     "prestart": "npm install",
     "security-audit": "run-s -sc security-audit:all security-audit:prod",
     "security-audit:prod": "npm-audit-ci-wrapper -p -t low",
     "security-audit:all": "npm-audit-ci-wrapper -t moderate",
-    "test:artifact": "jest --config ./config/jest/jest.artifact.config.js",
+    "serve-static": "ws -d dist/ --hostname 0.0.0.0 -p 3001",
     "start": "npm-run-all --parallel serve-static open-static",
     "watch": "webpack --config  webpack/core.babel.js --watch --progress"
   },
