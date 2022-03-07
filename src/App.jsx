@@ -10,7 +10,7 @@ import EditorTextareaPlugin from './plugins/editor-textarea/index.js';
 import EditorMonacoPlugin from './plugins/editor-monaco/index.js';
 import EditorPreviewSwaggerUIPlugin from './plugins/editor-preview-swagger-ui/index.js';
 import EditorPreviewAsyncAPIPlugin from './plugins/editor-preview-asyncapi/index.js';
-import EditorSpecPlugin from './plugins/editor-spec-origin/index.js';
+import EditorSpecOriginPlugin from './plugins/editor-spec-origin/index.js';
 
 const SwaggerIDE = React.memo((props) => {
   const mergedProps = deepmerge(SwaggerIDE.defaultProps, props);
@@ -27,6 +27,7 @@ SwaggerIDE.plugins = {
   EditorMonaco: EditorMonacoPlugin,
   EditorPreviewSwaggerUI: EditorPreviewSwaggerUIPlugin,
   EditorPreviewAsyncAPI: EditorPreviewAsyncAPIPlugin,
+  EditorSpecOrigin: EditorSpecOriginPlugin,
   Topbar: TopbarPlugin,
   Layout: LayoutPlugin,
 };
@@ -42,7 +43,7 @@ SwaggerIDE.presets = {
     EditorMonacoPlugin,
     EditorPreviewSwaggerUIPlugin,
     EditorPreviewAsyncAPIPlugin,
-    EditorSpecPlugin,
+    EditorSpecOriginPlugin,
     TopbarPlugin,
     LayoutPlugin,
   ],

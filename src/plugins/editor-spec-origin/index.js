@@ -2,7 +2,8 @@ const SPEC_UPDATE_ORIGIN = 'spec_update_spec_origin';
 
 // wraps updateSpec to include the "origin" parameter, defaulting to "not-editor"
 // Includes a selector to get the origin, specSelectors.specOrigin
-export default function EditorSpecPlugin() {
+
+const EditorSpecOriginPlugin = () => {
   return {
     statePlugins: {
       spec: {
@@ -31,4 +32,6 @@ export default function EditorSpecPlugin() {
       },
     },
   };
-}
+};
+
+export default EditorSpecOriginPlugin;
