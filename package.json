@@ -59,7 +59,7 @@
     "js-yaml": "^4.1.0",
     "json-beautify": "^1.1.1",
     "monaco-editor-core": "^0.32.1",
-    "monaco-languageclient": "^0.13.1-next.9",
+    "monaco-languageclient": "^0.17.3",
     "prop-types": "^15.8.1",
     "react": "^17.0.2",
     "react-collapse-pane": "^2.0.1",
