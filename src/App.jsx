@@ -1,6 +1,5 @@
-import React, { useEffect, createRef } from 'react';
+import React from 'react';
 import deepmerge from 'deepmerge';
-import ReactModal from 'react-modal';
 import SwaggerUI from 'swagger-ui-react';
 import 'swagger-ui-react/swagger-ui.css';
 
@@ -14,15 +13,9 @@ import EditorPreviewAsyncAPIPlugin from './plugins/editor-preview-asyncapi/index
 
 const SwaggerIDE = React.memo((props) => {
   const mergedProps = deepmerge(SwaggerIDE.defaultProps, props);
-  const element = createRef();
-
-  useEffect(() => {
-    ReactModal.setAppElement(element.current);
-    return () => ReactModal.setAppElement(null);
-  });
 
   return (
-    <div className="swagger-ide" ref={element}>
+    <div className="swagger-ide">
       <SwaggerUI {...mergedProps} /> {/* eslint-disable-line react/jsx-props-no-spreading */}
     </div>
   );
