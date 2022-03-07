@@ -49,7 +49,7 @@
     "@asyncapi/parser": "^1.14.1",
     "@asyncapi/react-component": "^1.0.0-next.34",
     "@babel/runtime": "^7.17.2",
-    "@primer/octicons-react": "^16.3.1",
+    "@primer/octicons-react": "^17.0.0",
     "@swagger-api/apidom-ls": "^0.18.1",
     "axios": "^0.26.0",
     "deepmerge": "^4.2.2",
