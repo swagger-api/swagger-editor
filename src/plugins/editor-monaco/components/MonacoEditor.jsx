@@ -23,8 +23,17 @@ class MonacoEditor extends Component {
   }
 
   componentDidUpdate(prevProps) {
-    const { value, language, theme, jumpToMarker, height, width, options, clearJumpToMarker } =
-      this.props;
+    const {
+      value,
+      language,
+      theme,
+      isReadOnly,
+      jumpToMarker,
+      height,
+      width,
+      options,
+      clearJumpToMarker,
+    } = this.props;
     const { editor } = this;
 
     if (this.currentValue !== value) {
@@ -60,6 +69,9 @@ class MonacoEditor extends Component {
       });
       editor.focus();
       clearJumpToMarker();
+    }
+    if (prevProps.isReadOnly !== isReadOnly) {
+      editor.updateOptions({ domReadOnly: isReadOnly, readOnly: isReadOnly });
     }
   }
 
@@ -252,6 +264,7 @@ MonacoEditor.propTypes = {
   defaultValue: PropTypes.string,
   language: PropTypes.string,
   theme: PropTypes.string,
+  isReadOnly: PropTypes.string,
   options: PropTypes.oneOfType([PropTypes.object]), // ideally, should use PropTypes.shape once options gets implemented
   markers: PropTypes.oneOfType([PropTypes.array]),
   jumpToMarker: PropTypes.oneOfType([PropTypes.object]),
@@ -268,6 +281,7 @@ MonacoEditor.defaultProps = {
   defaultValue: '',
   language: 'javascript',
   theme: null,
+  isReadOnly: 'false',
   options: {},
   markers: [],
   jumpToMarker: {},

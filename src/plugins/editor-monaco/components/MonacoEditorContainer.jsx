@@ -58,6 +58,11 @@ class MonacoEditorContainer extends PureComponent {
     const theme = editorSelectors.getEditorTheme() || defaultEditorTheme;
     const jumpToMarker = editorSelectors.getEditorJumpToMarker();
     const valueForEditor = specSelectors.specStr() || '';
+    // expect methods via plugin(s) below
+    let isReadOnly = 'false';
+    if (editorSelectors?.getEditorIsReadyOnly) {
+      isReadOnly = editorSelectors.getEditorIsReadyOnly() || 'false';
+    }
 
     return (
       <MonacoEditor
@@ -65,6 +70,7 @@ class MonacoEditorContainer extends PureComponent {
         theme={theme}
         value={valueForEditor}
         defaultValue={initialValue}
+        isReadOnly={isReadOnly}
         jumpToMarker={jumpToMarker}
         onChange={this.handleChangeEditorValue}
         height={height}
