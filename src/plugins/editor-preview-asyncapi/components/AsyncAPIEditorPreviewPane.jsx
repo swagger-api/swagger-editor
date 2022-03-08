@@ -3,17 +3,25 @@ import PropTypes from 'prop-types';
 import '@asyncapi/react-component/styles/default.min.css';
 import { parse } from '@asyncapi/parser';
 
+import { isValidJsonOrYaml } from '../../../utils/spec-valid-json-yaml.js';
+
 const AsyncApiReactComponent = React.lazy(() => import('@asyncapi/react-component'));
 
 const AsyncAPIEditorPreviewPane = (props) => {
   const [isValid, setIsValid] = useState(false);
   const [parsedSpec, setParsedSpec] = useState(null);
 
-  // Todo: extract into a helper util
   const useDebounce = (value, delay) => {
     // eslint-disable-next-line no-unused-vars
     useEffect(() => {
       const timer = setTimeout(() => {
+        // first check if can load as json/yaml
+        const canLoadSpec = isValidJsonOrYaml(value);
+        if (!canLoadSpec) {
+          setIsValid(false);
+          return;
+        }
+        // then try parse
         parse(value)
           .then((doc) => {
             if (!doc) {
@@ -58,7 +66,9 @@ const AsyncAPIEditorPreviewPane = (props) => {
   if (!isValid) {
     return (
       <div className="flex flex-1 overflow-hidden h-full justify-center items-center text-2xl mx-auto px-6 text-center">
-        <p>Empty or invalid document. Please fix errors/define AsyncAPI document.</p>
+        <p style={{ paddingLeft: '2.0rem' }}>
+          Empty or invalid document. Please fix errors/define AsyncAPI document.
+        </p>
       </div>
     );
   }

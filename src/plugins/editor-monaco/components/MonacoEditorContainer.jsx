@@ -1,13 +1,7 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
-import YAML from 'js-yaml';
-import { isJsonDoc } from '@swagger-api/apidom-ls';
 
 import MonacoEditor from './MonacoEditor.jsx';
-
-// TODO: may want to update/replace { isJsonDoc }
-// depending on if { isJsonDoc } also validates for both { isValidJson, isValidYaml }
-// import { isValidJson, isValidYaml } from '../../../utils/spec-valid-json-yaml';
 
 class MonacoEditorContainer extends PureComponent {
   constructor(props) {
@@ -25,25 +19,14 @@ class MonacoEditorContainer extends PureComponent {
 
   handleChangeEditorValue = (val) => {
     const { specActions } = this.props;
-    // validate spec, if not valid increase delay
-    /*
-      TODO remove logic if underlying issue with error being raised by Swagger UI updatedSpec or related code gets solved.
-     */
-    try {
-      if (isJsonDoc(val)) {
-        JSON.parse(val);
-      } else {
-        YAML.load(val);
-      }
-      specActions.updateSpec(val);
-    } catch (e) {
-      // do nothing
-    }
+    // no additional spec validation here
+    // let ui components handle their own spec validation for rendering purposes
+    specActions.updateSpec(val);
   };
 
   handleEditorMarkersDidChange = (markers) => {
     const { editorActions } = this.props;
-    editorActions.updateEditorMarkers(markers);
+    editorActions.updateEditorMarkers(markers); // if this fires, we see the issue
   };
 
   handleClearJumpToEditorMarker = async () => {

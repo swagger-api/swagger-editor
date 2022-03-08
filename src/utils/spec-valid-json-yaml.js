@@ -23,4 +23,17 @@ export const isValidYaml = (str) => {
   }
 };
 
-export default { isValidJson, isValidYaml };
+export const isValidJsonOrYaml = (str) => {
+  if (isValidJson(str)) {
+    return true;
+  }
+  try {
+    // eslint-disable-next-line no-unused-vars
+    const yamlString = YAML.dump(YAML.load(str), { lineWidth: -1 }); // will throw on error
+    return true;
+  } catch (e) {
+    return false;
+  }
+};
+
+export default { isValidJson, isValidYaml, isValidJsonOrYaml };
