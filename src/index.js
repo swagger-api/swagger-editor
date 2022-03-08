@@ -65,14 +65,8 @@ const defaults = {
   swagger2ConverterUrl: "https://converter.swagger.io/api/convert",
 }
 
-export default function SwaggerEditor(options, swaggerEditorConfigUrls = null) {
+export default function SwaggerEditor(options) {
   let mergedOptions = deepMerge(defaults, options)
-
-  // If present, swaggerEditorConfigUrls allows to override the urls
-  // for swagger2GeneratorUrl, oas3GeneratorUrl and/or swagger2ConverterUrl
-  if (swaggerEditorConfigUrls !== null) {
-    mergedOptions = deepMerge(mergedOptions, swaggerEditorConfigUrls)
-  }
 
   mergedOptions.presets = defaults.presets.concat(options.presets || [])
   mergedOptions.plugins = defaults.plugins.concat(options.plugins || [])
