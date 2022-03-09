@@ -4,11 +4,13 @@ import PropTypes from 'prop-types';
 const EditorPaneTopBar = ({ getComponent }) => {
   const ValidationPane = getComponent('ValidationPane', true);
   const ThemeSelection = getComponent('ThemeSelection', true);
+  const ReadOnlySelection = getComponent('ReadOnlySelection', true);
 
   return (
     <div className="editor-pane-top-bar">
       <div className="toolbar-horizontal">
         <ThemeSelection />
+        <ReadOnlySelection />
       </div>
       <ValidationPane />
     </div>

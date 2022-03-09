@@ -20,7 +20,6 @@ const EditorMonacoPlugin = () => ({
     MonacoEditor: MonacoEditorContainer,
     ValidationPane,
     ThemeSelection: ThemeSelectionIcon,
-    ReadOnlySelection: () => null,
     EditorPane,
     EditorPaneTopBar,
     EditorPaneBottomBar,

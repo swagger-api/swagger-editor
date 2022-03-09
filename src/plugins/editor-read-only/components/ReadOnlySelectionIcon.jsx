@@ -2,24 +2,20 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { LockIcon, UnlockIcon } from '@primer/octicons-react';
 
-const defaultReadOnlyStatus = 'false';
-
 const ReadOnlySelectionIcon = ({ editorSelectors, editorActions }) => {
-  const isReadOnly = editorSelectors.getEditorIsReadyOnly() || defaultReadOnlyStatus;
-  const handleChange = (newStatus) => () => {
-    if (newStatus === 'true' || newStatus === 'false') {
-      editorActions.updateEditorIsReadOnly(newStatus);
-    }
+  const isReadOnly = editorSelectors.selectEditorIsReadyOnly();
+  const handleReadonly = (isReadOnlyNew) => () => {
+    editorActions.updateEditorIsReadOnly(isReadOnlyNew);
   };
 
   return (
     <div>
-      {isReadOnly !== 'true' ? (
-        <button type="button" className="btn btn-theme-icon" onClick={handleChange('true')}>
+      {!isReadOnly ? (
+        <button type="button" className="btn btn-theme-icon" onClick={handleReadonly(true)}>
           <UnlockIcon size="small" aria-label="unlock icon" />
         </button>
       ) : (
-        <button type="button" className="btn btn-theme-icon" onClick={handleChange('false')}>
+        <button type="button" className="btn btn-theme-icon" onClick={handleReadonly(false)}>
           <LockIcon size="small" aria-label="lock icon" />
         </button>
       )}

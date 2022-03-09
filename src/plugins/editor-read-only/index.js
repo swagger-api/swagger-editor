@@ -1,29 +1,23 @@
+import reducers from './reducers.js';
+import { updateEditorIsReadOnly } from './actions.js';
+import { selectEditorIsReadyOnly } from './selectors.js';
 import ReadOnlySelectionIcon from './components/ReadOnlySelectionIcon.jsx';
-
-const EDITOR_UPDATE_READ_ONLY = 'editor_update_read_only';
+import EditorPaneTopBar from './components/EditorPaneTopBar.jsx';
 
 const EditorReadOnlyPlugin = () => {
   return {
     components: {
       ReadOnlySelection: ReadOnlySelectionIcon,
+      EditorPaneTopBar,
     },
     statePlugins: {
       editor: {
-        reducers: {
-          [EDITOR_UPDATE_READ_ONLY]: (state, action) => {
-            return state.set('editorIsReadOnly', action.payload);
-          },
-        },
+        reducers,
         selectors: {
-          getEditorIsReadyOnly: (state) => state.get('editorIsReadOnly') || 'false',
+          selectEditorIsReadyOnly,
         },
         actions: {
-          updateEditorIsReadOnly(isReadOnly = 'false') {
-            return {
-              payload: isReadOnly,
-              type: EDITOR_UPDATE_READ_ONLY,
-            };
-          },
+          updateEditorIsReadOnly,
         },
       },
     },

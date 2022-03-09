@@ -264,7 +264,7 @@ MonacoEditor.propTypes = {
   defaultValue: PropTypes.string,
   language: PropTypes.string,
   theme: PropTypes.string,
-  isReadOnly: PropTypes.string,
+  isReadOnly: PropTypes.bool,
   options: PropTypes.oneOfType([PropTypes.object]), // ideally, should use PropTypes.shape once options gets implemented
   markers: PropTypes.oneOfType([PropTypes.array]),
   jumpToMarker: PropTypes.oneOfType([PropTypes.object]),
@@ -281,7 +281,7 @@ MonacoEditor.defaultProps = {
   defaultValue: '',
   language: 'javascript',
   theme: null,
-  isReadOnly: 'false',
+  isReadOnly: false,
   options: {},
   markers: [],
   jumpToMarker: {},
