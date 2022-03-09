@@ -17,7 +17,7 @@ class EditorPane extends PureComponent {
 
   render() {
     const { height, width } = this.state;
-    const { getComponent } = this.props;
+    const { getComponent, isReadOnly } = this.props;
 
     const EditorPaneTopBar = getComponent('EditorPaneTopBar', true);
     const MonacoEditor = getComponent('MonacoEditor', true);
@@ -31,15 +31,20 @@ class EditorPane extends PureComponent {
           refreshMode="debounce"
           refreshRate={100}
         />
-        <EditorPaneTopBar getComponent={getComponent} />
-        <MonacoEditor width={width} height={height} />
+        <EditorPaneTopBar />
+        <MonacoEditor isReadOnly={isReadOnly} width={width} height={height} />
       </div>
     );
   }
 }
 
 EditorPane.propTypes = {
+  isReadOnly: PropTypes.bool,
   getComponent: PropTypes.func.isRequired,
+};
+
+EditorPane.defaultProps = {
+  isReadOnly: false,
 };
 
 export default EditorPane;

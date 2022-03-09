@@ -98,7 +98,7 @@ class MonacoEditor extends Component {
 
   initMonacoEditor = () => {
     // eslint-disable-next-line no-unused-vars
-    const { language, theme, options, defaultValue } = this.props;
+    const { language, theme, options, defaultValue, isReadOnly } = this.props;
     let { value } = this.props;
 
     if (defaultValue && !value) {
@@ -128,6 +128,8 @@ class MonacoEditor extends Component {
           minimap: {
             enabled: true, //  can track via state, and toggle via `editor.updateOptions({ minimap: { enabled: true }})`
           },
+          domReadOnly: isReadOnly,
+          readOnly: isReadOnly,
           wordBasedSuggestions: false,
           // quickSuggestions: false,
           quickSuggestionsDelay: 300,

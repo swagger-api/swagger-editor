@@ -1,10 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-const TextareaEditorPane = ({ specActions, specSelectors, editorSelectors }) => {
+const TextareaEditorPane = ({ isReadOnly, specActions, specSelectors }) => {
   const spec = specSelectors.specStr() || '';
-  const isReadOnly = editorSelectors.selectEditorIsReadyOnly();
-
   const handleChange = (e) => {
     e.preventDefault();
     specActions.updateSpec(e.target.value, 'editor');
@@ -22,17 +20,13 @@ const TextareaEditorPane = ({ specActions, specSelectors, editorSelectors }) => 
 };
 
 TextareaEditorPane.propTypes = {
+  isReadOnly: PropTypes.bool,
   specActions: PropTypes.oneOfType([PropTypes.object]).isRequired,
   specSelectors: PropTypes.oneOfType([PropTypes.object]).isRequired,
-  editorSelectors: PropTypes.shape({
-    selectEditorIsReadyOnly: PropTypes.func,
-  }),
 };
 
 TextareaEditorPane.defaultProps = {
-  editorSelectors: {
-    selectEditorIsReadyOnly: () => false,
-  },
+  isReadOnly: false,
 };
 
 export default TextareaEditorPane;

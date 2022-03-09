@@ -36,12 +36,11 @@ class MonacoEditorContainer extends PureComponent {
 
   render() {
     const { initialValue, language } = this.state;
-    const { editorSelectors, specSelectors, width, height } = this.props;
+    const { isReadOnly, editorSelectors, specSelectors, width, height } = this.props;
     const defaultEditorTheme = 'my-vs-dark';
     const theme = editorSelectors.getEditorTheme() || defaultEditorTheme;
     const jumpToMarker = editorSelectors.getEditorJumpToMarker();
     const valueForEditor = specSelectors.specStr() || '';
-    const isReadOnly = editorSelectors?.selectEditorIsReadyOnly?.() || false;
 
     return (
       <MonacoEditor
@@ -63,12 +62,17 @@ class MonacoEditorContainer extends PureComponent {
 }
 
 MonacoEditorContainer.propTypes = {
+  isReadOnly: PropTypes.bool,
   width: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
   height: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
   specSelectors: PropTypes.oneOfType([PropTypes.object]).isRequired,
   specActions: PropTypes.oneOfType([PropTypes.object]).isRequired,
   editorActions: PropTypes.oneOfType([PropTypes.object]).isRequired,
   editorSelectors: PropTypes.oneOfType([PropTypes.object]).isRequired,
+};
+
+MonacoEditorContainer.defaultProps = {
+  isReadOnly: false,
 };
 
 export default MonacoEditorContainer;
