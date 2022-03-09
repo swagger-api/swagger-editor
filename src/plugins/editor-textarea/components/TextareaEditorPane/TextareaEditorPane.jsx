@@ -6,7 +6,7 @@ const TextareaEditorPane = ({ specActions, specSelectors }) => {
 
   const handleChange = (e) => {
     e.preventDefault();
-    specActions.updateSpec(e.target.value);
+    specActions.updateSpec(e.target.value, 'editor');
   };
 
   return <textarea className="editor-pane" name="spec" value={spec} onChange={handleChange} />;

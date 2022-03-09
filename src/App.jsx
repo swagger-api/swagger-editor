@@ -26,16 +26,17 @@ const SwaggerIDE = React.memo((props) => {
 SwaggerIDE.plugins = {
   EditorTextarea: EditorTextareaPlugin,
   EditorMonaco: EditorMonacoPlugin,
+  EditorSpecOrigin: EditorSpecOriginPlugin,
   EditorPreviewSwaggerUI: EditorPreviewSwaggerUIPlugin,
   EditorPreviewAsyncAPI: EditorPreviewAsyncAPIPlugin,
   EditorReadOnly: EditorReadOnlyPlugin,
-  EditorSpecOrigin: EditorSpecOriginPlugin,
   Topbar: TopbarPlugin,
   Layout: LayoutPlugin,
 };
 SwaggerIDE.presets = {
   textarea: () => [
     EditorTextareaPlugin,
+    EditorSpecOriginPlugin,
     EditorPreviewSwaggerUIPlugin,
     EditorPreviewAsyncAPIPlugin,
     TopbarPlugin,
@@ -43,10 +44,10 @@ SwaggerIDE.presets = {
   ],
   monaco: () => [
     EditorMonacoPlugin,
+    EditorSpecOriginPlugin,
     EditorPreviewSwaggerUIPlugin,
     EditorPreviewAsyncAPIPlugin,
     EditorReadOnlyPlugin,
-    EditorSpecOriginPlugin,
     TopbarPlugin,
     LayoutPlugin,
   ],

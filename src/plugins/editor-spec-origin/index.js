@@ -1,33 +1,26 @@
-const SPEC_UPDATE_ORIGIN = 'spec_update_spec_origin';
+import reducers from './reducers.js';
+import { selectSpecOrigin } from './selectors.js';
+import { updateSpecOrigin } from './actions.js';
+import { updateSpec } from './wrap-actions.js';
 
-// wraps updateSpec to include the "origin" parameter, defaulting to "not-editor"
-// Includes a selector to get the origin, specSelectors.specOrigin
+/**
+ * Wraps updateSpec to include the "origin" parameter, defaulting to "not-editor".
+ * Includes a selector to get the origin, specSelectors.specOrigin.
+ */
 
 const EditorSpecOriginPlugin = () => {
   return {
     statePlugins: {
       spec: {
         wrapActions: {
-          updateSpec: (ori, system) => (specStr, origin) => {
-            system.specActions.updateSpecOrigin(origin);
-            ori(specStr);
-          },
+          updateSpec,
         },
-        reducers: {
-          [SPEC_UPDATE_ORIGIN]: (state, action) => {
-            return state.set('specOrigin', action.payload);
-          },
-        },
+        reducers,
         selectors: {
-          specOrigin: (state) => state.get('specOrigin') || 'not-editor',
+          selectSpecOrigin,
         },
         actions: {
-          updateSpecOrigin(origin = 'not-editor') {
-            return {
-              payload: `${origin}`,
-              type: SPEC_UPDATE_ORIGIN,
-            };
-          },
+          updateSpecOrigin,
         },
       },
     },

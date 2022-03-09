@@ -21,7 +21,7 @@ class MonacoEditorContainer extends PureComponent {
     const { specActions } = this.props;
     // no additional spec validation here
     // let ui components handle their own spec validation for rendering purposes
-    specActions.updateSpec(val);
+    specActions.updateSpec(val, 'editor');
   };
 
   handleEditorMarkersDidChange = (markers) => {
