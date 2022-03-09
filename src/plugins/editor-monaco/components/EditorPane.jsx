@@ -19,16 +19,11 @@ class EditorPane extends PureComponent {
     const { height, width } = this.state;
     const { getComponent } = this.props;
 
-    const ValidationPane = getComponent('ValidationPane', true);
-    const ThemeSelection = getComponent('ThemeSelection', true);
-    const ReadOnlySelection = getComponent('ReadOnlySelection', true);
+    const EditorPaneTopBar = getComponent('EditorPaneTopBar', true);
     const MonacoEditor = getComponent('MonacoEditor', true);
 
     return (
       <div className="editor-pane">
-        <ValidationPane />
-        <ThemeSelection />
-        <ReadOnlySelection />
         <ReactResizeDetector
           handleWidth
           handleHeight={false}
@@ -36,6 +31,7 @@ class EditorPane extends PureComponent {
           refreshMode="debounce"
           refreshRate={100}
         />
+        <EditorPaneTopBar getComponent={getComponent} />
         <MonacoEditor width={width} height={height} />
       </div>
     );

@@ -3,7 +3,12 @@ import PropTypes from 'prop-types';
 
 import ValidationTable from '../ValidationTable/ValidationTable.jsx';
 
-const ValidationPane = ({ editorSelectors, editorActions, onValidationClick }) => {
+const ValidationPane = ({
+  editorSelectors,
+  editorActions,
+  onValidationClick,
+  alwaysDisplayHeading,
+}) => {
   const markers = editorSelectors.getEditorMarkers();
   const columns = React.useMemo(
     () => [
@@ -23,6 +28,7 @@ const ValidationPane = ({ editorSelectors, editorActions, onValidationClick }) =
     []
   );
   const data = React.useMemo(() => markers, [markers]);
+  const showTable = alwaysDisplayHeading || data.length > 0;
   const handleValidationClick = (marker) => {
     onValidationClick(marker);
     editorActions.setJumpToEditorMarker(marker);
@@ -30,18 +36,26 @@ const ValidationPane = ({ editorSelectors, editorActions, onValidationClick }) =
 
   return (
     <div className="validation-pane">
-      <ValidationTable columns={columns} data={data} onValidationKeyClick={handleValidationClick} />
+      {!showTable ? null : (
+        <ValidationTable
+          columns={columns}
+          data={data}
+          onValidationKeyClick={handleValidationClick}
+        />
+      )}
     </div>
   );
 };
 
 ValidationPane.propTypes = {
+  alwaysDisplayHeading: PropTypes.bool,
   editorActions: PropTypes.oneOfType([PropTypes.object]).isRequired,
   editorSelectors: PropTypes.oneOfType([PropTypes.object]).isRequired,
   onValidationClick: PropTypes.func,
 };
 
 ValidationPane.defaultProps = {
+  alwaysDisplayHeading: false,
   onValidationClick: () => {},
 };
 

@@ -2,6 +2,10 @@ import EditorPane from './components/EditorPane.jsx';
 import MonacoEditorContainer from './components/MonacoEditorContainer.jsx';
 import ValidationPane from './components/ValidationPane/ValidationPane.jsx';
 import ThemeSelectionIcon from './components/ThemeSelectionIcon.jsx';
+import EditorPaneTopBar from './components/EditorPaneBars/EditorPaneTopBar.jsx';
+import EditorPaneBottomBar from './components/EditorPaneBars/EditorPaneBottomBar.jsx';
+import EditorPaneLeftBar from './components/EditorPaneBars/EditorPaneLeftBar.jsx';
+import EditorPaneRightBar from './components/EditorPaneBars/EditorPaneRightBar.jsx';
 import {
   updateEditorTheme,
   updateEditorMarkers,
@@ -18,6 +22,10 @@ const EditorMonacoPlugin = () => ({
     ThemeSelection: ThemeSelectionIcon,
     ReadOnlySelection: () => null,
     EditorPane,
+    EditorPaneTopBar,
+    EditorPaneBottomBar,
+    EditorPaneLeftBar,
+    EditorPaneRightBar,
   },
   statePlugins: {
     editor: {

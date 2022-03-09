@@ -16,7 +16,8 @@ afterAll(() => {
 const setup = ({ markerErrorList } = {}) => {
   editorSelectors.getEditorMarkers.mockReturnValue(markerErrorList);
   const onValidationClick = jest.fn();
-  return { editorSelectors, editorActions, onValidationClick };
+  const alwaysDisplayHeading = true;
+  return { editorSelectors, editorActions, onValidationClick, alwaysDisplayHeading };
 };
 
 const renderValidationPane = async (props) => {
@@ -44,6 +45,7 @@ describe('with empty errorMarkerErrorList', () => {
     const columnMessage1 = 'should always have a title';
 
     const {
+      alwaysDisplayHeading,
       onValidationClick,
       editorSelectors: selectors,
       editorActions: actions,
@@ -51,6 +53,7 @@ describe('with empty errorMarkerErrorList', () => {
       markerErrorList: [],
     });
     const { hasTableItem } = await renderValidationPane({
+      alwaysDisplayHeading,
       onValidationClick,
       editorSelectors: selectors,
       editorActions: actions,
@@ -73,6 +76,7 @@ describe('with populated markerErrorList', () => {
     const columnStartLineNumber2 = 3;
 
     const {
+      alwaysDisplayHeading,
       onValidationClick,
       editorSelectors: selectors,
       editorActions: actions,
@@ -89,6 +93,7 @@ describe('with populated markerErrorList', () => {
       ],
     });
     const { hasTableItem, clickTableItem } = await renderValidationPane({
+      alwaysDisplayHeading,
       onValidationClick,
       editorSelectors: selectors,
       editorActions: actions,
