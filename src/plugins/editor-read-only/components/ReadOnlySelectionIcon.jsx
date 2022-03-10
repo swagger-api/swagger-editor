@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { LockIcon, UnlockIcon } from '@primer/octicons-react';
 
 const ReadOnlySelectionIcon = ({ editorSelectors, editorActions }) => {
-  const isReadOnly = editorSelectors.selectEditorIsReadyOnly();
+  const isReadOnly = editorSelectors.selectEditorIsReadOnly();
   const handleReadonly = (isReadOnlyNew) => () => {
     editorActions.updateEditorIsReadOnly(isReadOnlyNew);
   };

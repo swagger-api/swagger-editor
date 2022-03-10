@@ -1,2 +1,2 @@
 // eslint-disable-next-line import/prefer-default-export
-export const selectEditorIsReadyOnly = (state) => state.get('editorIsReadOnly') || false;
+export const selectEditorIsReadOnly = (state) => state.get('editorIsReadOnly') || false;
