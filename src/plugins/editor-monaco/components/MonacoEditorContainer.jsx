@@ -38,8 +38,8 @@ class MonacoEditorContainer extends PureComponent {
     const { initialValue, language } = this.state;
     const { isReadOnly, editorSelectors, specSelectors, width, height } = this.props;
     const defaultEditorTheme = 'my-vs-dark';
-    const theme = editorSelectors.getEditorTheme() || defaultEditorTheme;
-    const jumpToMarker = editorSelectors.getEditorJumpToMarker();
+    const theme = editorSelectors.selectEditorTheme() || defaultEditorTheme;
+    const jumpToMarker = editorSelectors.selectEditorJumpToMarker();
     const valueForEditor = specSelectors.specStr() || '';
 
     return (

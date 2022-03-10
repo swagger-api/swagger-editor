@@ -13,7 +13,7 @@ import {
   clearJumpToEditorMarker,
 } from './actions.js';
 import reducers from './reducers.js';
-import { getEditorTheme, getEditorMarkers, getEditorJumpToMarker } from './selectors.js';
+import { selectEditorTheme, selectEditorMarkers, selectEditorJumpToMarker } from './selectors.js';
 
 const EditorMonacoPlugin = () => ({
   components: {
@@ -36,9 +36,9 @@ const EditorMonacoPlugin = () => ({
       },
       reducers,
       selectors: {
-        getEditorTheme,
-        getEditorMarkers,
-        getEditorJumpToMarker,
+        selectEditorTheme,
+        selectEditorMarkers,
+        selectEditorJumpToMarker,
       },
     },
   },
