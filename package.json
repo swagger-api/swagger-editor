@@ -52,7 +52,7 @@
     "security-audit:prod": "npm-audit-ci-wrapper -p -t low",
     "security-audit:all": "npm-audit-ci-wrapper -t moderate",
     "test:artifact": "jest --config ./config/jest/jest.artifact.config.js",
-    "start": "npm-run-all --parallel serve-static open-static",
+    "start": "npm-run-all --parallel build:serve open-static",
     "watch": "webpack --config  webpack/core.babel.js --watch --progress"
   },
   "dependencies": {
