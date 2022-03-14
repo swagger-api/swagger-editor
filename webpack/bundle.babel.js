@@ -79,10 +79,7 @@ const result = configBuilder(
             {
               loader: "worker-loader",
               options: {
-                // inline: true,
-                name: "[name].js",
-                // fallback: false,
-                inline: "fallback",
+                inline: "fallback", // allow to inline as a Blob
                 esModule: false,
               },
             },
