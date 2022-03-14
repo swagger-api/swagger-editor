@@ -3,7 +3,7 @@
   "description": "Swagger Editor",
   "version": "4.1.2",
   "main": "dist/swagger-editor.js",
-  "module": "dist/swagger-editor-es-bundle.js",
+  "module": "dist/swagger-editor-es-bundle-core.js",
   "exports": {
     "./dist/swagger-editor.css": "./dist/swagger-editor.css",
     ".": {
