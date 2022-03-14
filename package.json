@@ -6,7 +6,6 @@
   "module": "dist/swagger-editor-es-bundle.js",
   "exports": {
     "./dist/swagger-editor.css": "./dist/swagger-editor.css",
-    "./validator.worker": "./dist/validator.worker.js",
     ".": {
       "import": "./dist/swagger-editor-es-bundle-core.js",
       "require": "./dist/swagger-editor.js"
@@ -179,7 +178,7 @@
     "webpack-cli": "^4.9.2",
     "webpack-dev-server": "^4.7.4",
     "webpack-stats-plugin": "^1.0.3",
-    "worker-loader": "^2.0.0"
+    "worker-loader": "^3.0.8"
   },
   "config": {
     "deps_check_dir": ".deps_check"

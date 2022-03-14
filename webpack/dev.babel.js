@@ -94,6 +94,23 @@ const devConfig = configBuilder(
           test: /\.(png|jpg|jpeg|gif|svg)$/,
           type: "asset/inline",
         },
+        {
+          test: /\.worker\.js$/,
+          use: [
+            {
+              loader: "worker-loader",
+              options: {
+                // inline: true,
+                // filename: "[name].js",
+                // fallback: false,
+                inline: "fallback", // allow to inline as a Blob
+                // inline: "no-fallback", // usual prod, the other option
+                esModule: false,
+              },
+            },
+            "babel-loader",
+          ],
+        }
       ],
     },
 
