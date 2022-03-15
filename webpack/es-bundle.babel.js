@@ -33,7 +33,7 @@ const result = configBuilder(
       "swagger-editor-es-bundle": [
         "./src/index.js",
       ],
-      "validator.worker": path.join(projectBasePath, "src", "plugins", "json-schema-validator", "validator.worker.js"),
+      // "validator.worker": path.join(projectBasePath, "src", "plugins", "json-schema-validator", "validator.worker.js"),
     },
 
     output: {
@@ -44,6 +44,45 @@ const result = configBuilder(
         type: "commonjs2",
         export: "default",
       },
+    },
+
+    module: {
+      rules: [
+        {
+          test: /\.jsx?$/,
+          include: [
+            path.join(projectBasePath, "src"),
+            path.join(projectBasePath, "node_modules", "object-assign-deep"),
+          ],
+          loader: "babel-loader",
+          options: {
+            retainLines: true,
+            cacheDirectory: true,
+          },
+        },
+        {
+          test: /\.(txt|yaml)$/,
+          type: "asset/source",
+        },
+        {
+          test: /\.(png|jpg|jpeg|gif|svg)$/,
+          type: "asset/inline",
+        },
+        {
+          test: /\.worker\.js$/,
+          use: [
+            {
+              loader: "worker-loader",
+              options: {
+                // inline: "fallback", // allow to inline as a Blob
+                inline: "no-fallback", // usual prod, the other option
+                esModule: false,
+              },
+            },
+            "babel-loader",
+          ],
+        }
+      ],
     },
 
     performance: {
