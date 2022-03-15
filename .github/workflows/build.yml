@@ -132,11 +132,16 @@ jobs:
         clean: true # Automatically remove deleted files from the deploy branch
     - name: Deploy Rancher🚢
       run: |
-        curl -i -XPOST -H"Authorization: Bearer ${RANCHER_BEARER_TOKEN}" "${RANCHER_URL}/v3/project/${RANCHER_CLUSTER_ID}:${RANCHER_PROJECT_ID}/workloads/${RANCHER_NAMESPACE}:${RANCHER_WORKLOAD}?action=redeploy"
+        ts="$(date +'%Y-%m-%dT%H:%M:%SZ' --utc)"
+        curl -s -D /dev/stderr -X PATCH \
+          -H "Authorization: Bearer ${RANCHER_BEARER_TOKEN}" \
+          -H 'Content-Type: application/strategic-merge-patch+json' \
+          "${RANCHER_URL}/k8s/clusters/${RANCHER_CLUSTER_ID}/apis/apps/v1/namespaces/${RANCHER_NAMESPACE}/${RANCHER_K8S_OBJECT_TYPE}/${RANCHER_K8S_OBJECT_NAME}" \
+          -d "{\"spec\": {\"template\": {\"metadata\": {\"annotations\": {\"cattle.io/timestamp\": \"${ts}\"}}}}}"
       env:
         RANCHER_BEARER_TOKEN: ${{ secrets.RANCHER_BEARER_TOKEN }}
-        RANCHER_CLUSTER_ID: 'c-bvgwd'
-        RANCHER_NAMESPACE: 'daemonset:swagger-oss'
-        RANCHER_PROJECT_ID: 'p-q7rb6'
+        RANCHER_CLUSTER_ID: 'c-n8zp2'
+        RANCHER_NAMESPACE: 'swagger-oss'
+        RANCHER_K8S_OBJECT_TYPE: 'daemonsets'
         RANCHER_URL: ${{ secrets.RANCHER_URL }}
-        RANCHER_WORKLOAD: 'swagger-ide'
+        RANCHER_K8S_OBJECT_NAME: 'swagger-ide'
