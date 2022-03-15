@@ -30,7 +30,7 @@ const devConfig = configBuilder(
       "swagger-editor-standalone-preset": [
         "./src/standalone/index.js",
       ],
-      "validator.worker": path.join(projectBasePath, "src", "plugins", "json-schema-validator", "validator.worker.js"),
+      // "validator.worker": path.join(projectBasePath, "src", "plugins", "json-schema-validator", "validator.worker.js"),
       "swagger-editor": "./src/styles/main.less",
       vendors: ["react-refresh/runtime"],
     },
@@ -103,8 +103,8 @@ const devConfig = configBuilder(
                 // inline: true,
                 // filename: "[name].js",
                 // fallback: false,
-                inline: "fallback", // allow to inline as a Blob
-                // inline: "no-fallback", // usual prod, the other option
+                // inline: "fallback", // allow to inline as a Blob
+                inline: "no-fallback", // usual prod, the other option
                 esModule: false,
               },
             },

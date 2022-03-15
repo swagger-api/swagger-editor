@@ -79,7 +79,8 @@ const result = configBuilder(
             {
               loader: "worker-loader",
               options: {
-                inline: "fallback", // allow to inline as a Blob
+                // inline: "fallback", // allow to inline as a Blob
+                inline: "no-fallback", // usual prod, the other option
                 esModule: false,
               },
             },
