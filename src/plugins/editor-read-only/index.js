@@ -2,8 +2,8 @@ import reducers from './reducers.js';
 import { updateEditorIsReadOnly } from './actions.js';
 import { selectEditorIsReadOnly } from './selectors.js';
 import ReadOnlySelectionIcon from './components/ReadOnlySelectionIcon.jsx';
-import EditorPaneTopBarWrapper from './wrap-components/EditorPaneTopBarWrapper.jsx';
-import EditorPaneWrapper from './wrap-components/EditorPaneWrapper.jsx';
+import EditorPaneBarTopWrapper from './wrap-components/EditorPaneBarTopWrapper.jsx';
+import EditorWrapper from './wrap-components/EditorWrapper.jsx';
 
 const EditorReadOnlyPlugin = () => {
   return {
@@ -11,8 +11,8 @@ const EditorReadOnlyPlugin = () => {
       ReadOnlySelection: ReadOnlySelectionIcon,
     },
     wrapComponents: {
-      EditorPane: EditorPaneWrapper,
-      EditorPaneTopBar: EditorPaneTopBarWrapper,
+      Editor: EditorWrapper,
+      EditorPaneBarTop: EditorPaneBarTopWrapper,
     },
     statePlugins: {
       editor: {

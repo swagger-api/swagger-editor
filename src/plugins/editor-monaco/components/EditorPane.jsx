@@ -17,13 +17,13 @@ class EditorPane extends PureComponent {
 
   render() {
     const { height, width } = this.state;
-    const { getComponent, isReadOnly } = this.props;
+    const { getComponent } = this.props;
 
-    const EditorPaneTopBar = getComponent('EditorPaneTopBar', true);
-    const MonacoEditor = getComponent('MonacoEditor', true);
+    const EditorPaneBarTop = getComponent('EditorPaneBarTop', true);
+    const Editor = getComponent('Editor', true);
 
     return (
-      <div className="editor-pane">
+      <div className="swagger-ide__editor-pane">
         <ReactResizeDetector
           handleWidth
           handleHeight={false}
@@ -31,20 +31,15 @@ class EditorPane extends PureComponent {
           refreshMode="debounce"
           refreshRate={100}
         />
-        <EditorPaneTopBar />
-        <MonacoEditor isReadOnly={isReadOnly} width={width} height={height} />
+        <EditorPaneBarTop />
+        <Editor width={width} height={height} />
       </div>
     );
   }
 }
 
 EditorPane.propTypes = {
-  isReadOnly: PropTypes.bool,
   getComponent: PropTypes.func.isRequired,
-};
-
-EditorPane.defaultProps = {
-  isReadOnly: false,
 };
 
 export default EditorPane;

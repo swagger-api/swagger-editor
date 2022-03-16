@@ -1,0 +1,32 @@
+.swagger-ide {
+  &__editor-pane-bar {
+    background-color: #F5F5F5;
+    border: 1px solid #E0E0E0;
+  }
+
+  &__editor-pane-bar-control {
+    border: 0;
+    width: 28px;
+    height: 28px;
+    background-color: transparent;
+    border-radius: 2px;
+    align-self: center;
+    text-align: center;
+    &:hover {
+      background-color: #E0E0E0;
+    }
+  }
+
+  &__toolbar-horizontal {
+    height: 30px;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+  }
+
+  &__toolbar-vertical {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+  }
+}

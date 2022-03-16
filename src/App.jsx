@@ -44,6 +44,7 @@ SwaggerIDE.presets = {
     LayoutPlugin,
   ],
   monaco: () => [
+    EditorTextareaPlugin,
     EditorMonacoPlugin,
     EditorReadOnlyPlugin,
     EditorSpecOriginPlugin,

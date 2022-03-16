@@ -11,7 +11,7 @@ const Layout = (props) => {
   const ref = useSwaggerIDEReactModal();
 
   return (
-    <div className="swagger-ide-layout" ref={ref}>
+    <div className="swagger-ide__layout" ref={ref}>
       <Topbar />
       <Container className="container">
         <SplitPane split="vertical">

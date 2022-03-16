@@ -12,7 +12,7 @@ const ValidationTable = (props) => {
     data,
   });
   return (
-    <table {...getTableProps()} className="validation-table">
+    <table {...getTableProps()} className="swagger-ide__validation-table">
       <thead>
         {headerGroups.map((headerGroup) => (
           <tr {...headerGroup.getHeaderGroupProps()}>

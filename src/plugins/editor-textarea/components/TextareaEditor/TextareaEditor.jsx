@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-const TextareaEditorPane = ({ isReadOnly, specActions, specSelectors }) => {
+const TextareaEditor = ({ isReadOnly, specActions, specSelectors }) => {
   const spec = specSelectors.specStr() || '';
   const handleChange = (e) => {
     e.preventDefault();
@@ -11,7 +11,7 @@ const TextareaEditorPane = ({ isReadOnly, specActions, specSelectors }) => {
   return (
     <textarea
       readOnly={isReadOnly}
-      className="editor-pane"
+      className="swagger-ide__editor-textarea"
       name="spec"
       value={spec}
       onChange={handleChange}
@@ -19,14 +19,14 @@ const TextareaEditorPane = ({ isReadOnly, specActions, specSelectors }) => {
   );
 };
 
-TextareaEditorPane.propTypes = {
+TextareaEditor.propTypes = {
   isReadOnly: PropTypes.bool,
   specActions: PropTypes.oneOfType([PropTypes.object]).isRequired,
   specSelectors: PropTypes.oneOfType([PropTypes.object]).isRequired,
 };
 
-TextareaEditorPane.defaultProps = {
+TextareaEditor.defaultProps = {
   isReadOnly: false,
 };
 
-export default TextareaEditorPane;
+export default TextareaEditor;

@@ -255,7 +255,7 @@ class MonacoEditor extends Component {
       height,
     };
 
-    return <div ref={this.assignRef} style={style} className="react-monaco-editor-container" />;
+    return <div ref={this.assignRef} style={style} className="swagger-ide__editor-monaco" />;
   }
 }
 
