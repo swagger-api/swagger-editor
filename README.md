@@ -127,6 +127,16 @@ docker run -d -p 80:8080 -v $(pwd):/tmp -e SWAGGER_FILE=/tmp/swagger.json swagge
 docker run -d -p 80:8080 -e BASE_URL=/swagger-editor swaggerapi/swagger-editor
 ```
 
+You can also customize the different endpoints used by the Swagger Editor with the following environment variables. For instance, this can be useful if you have your own Swagger generator server:
+
+Environment variable | Default value
+--- | ---
+`URL_SWAGGER2_GENERATOR` | `https://generator.swagger.io/api/swagger.json`
+`URL_OAS3_GENERATOR` | `https://generator3.swagger.io/openapi.json`
+`URL_SWAGGER2_CONVERTER` | `https://converter.swagger.io/api/convert`
+
+If you want to run the Swagger Editor locally without the Codegen features (Generate Server and Generate Client) you can set the above environment variables to `null` (`URL_SWAGGER2_CONVERTER=null`).
+
 ### Building and running an image locally
 
 To build and run a docker image with the code checked out on your machine, run the following from the root directory of the project:

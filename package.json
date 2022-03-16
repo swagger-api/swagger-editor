@@ -1,7 +1,7 @@
 {
   "name": "swagger-editor",
   "description": "Swagger Editor",
-  "version": "4.1.2",
+  "version": "4.2.0",
   "main": "dist/swagger-editor.js",
   "module": "dist/swagger-editor-es-bundle-core.js",
   "exports": {
@@ -95,7 +95,7 @@
     "redux": "=4.1.2",
     "reselect": "^4.0.0",
     "swagger-client": "^3.18.4",
-    "swagger-ui": "^4.5.1",
+    "swagger-ui": "^4.6.2",
     "traverse": "^0.6.6",
     "validator": "=13.7.0",
     "yaml-js": "^0.3.1"
@@ -131,7 +131,7 @@
     "dedent": "^0.7.0",
     "deep-extend": "^0.6.0",
     "enzyme": "^3.3.0",
-    "eslint": "=8.10.0",
+    "eslint": "=8.11.0",
     "eslint-plugin-import": "^2.21.1",
     "eslint-plugin-jest": "=26.1.0",
     "eslint-plugin-mocha": "^10.0.3",
@@ -168,7 +168,7 @@
     "release-it": "^14.12.3",
     "rewiremock": "^3.7.4",
     "rimraf": "^3.0.2",
-    "sinon": "=12.0.1",
+    "sinon": "=13.0.1",
     "source-map-explorer": "^2.5.2",
     "start-server-and-test": "^1.14.0",
     "stream-browserify": "^3.0.0",
