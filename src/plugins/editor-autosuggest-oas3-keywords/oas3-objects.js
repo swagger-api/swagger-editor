@@ -4,7 +4,7 @@
 /*eslint comma-dangle: ["error", "always-multiline"]*/
 
 // anyOf and combine are the same for now.
-// they are seperated for semantics, and for possible future improvement
+// they are separated for semantics, and for possible future improvement
 const anyOf = (...objs) => objs ? Object.assign({}, ...objs) : {}
 const stringEnum = (arr) => arr
 
