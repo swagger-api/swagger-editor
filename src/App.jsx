@@ -13,6 +13,21 @@ import EditorPreviewAsyncAPIPlugin from './plugins/editor-preview-asyncapi/index
 import EditorReadOnlyPlugin from './plugins/editor-read-only/index.js';
 import EditorSpecOriginPlugin from './plugins/editor-spec-origin/index.js';
 
+const SafeRenderPlugin = (system) =>
+  SwaggerUI.plugins.SafeRender({
+    componentList: [
+      'Topbar',
+      'SwaggerIDELayout',
+      'Editor',
+      'EditorTextarea',
+      'EditorMonaco',
+      'EditorPane',
+      'EditorPaneBarTop',
+      'EditorPreviewPane',
+      'ValidationPane',
+    ],
+  })(system);
+
 const SwaggerIDE = React.memo((props) => {
   const mergedProps = deepmerge(SwaggerIDE.defaultProps, props);
 
@@ -42,6 +57,7 @@ SwaggerIDE.presets = {
     EditorPreviewAsyncAPIPlugin,
     TopbarPlugin,
     LayoutPlugin,
+    SafeRenderPlugin,
   ],
   monaco: () => [
     EditorTextareaPlugin,
@@ -52,6 +68,7 @@ SwaggerIDE.presets = {
     EditorPreviewAsyncAPIPlugin,
     TopbarPlugin,
     LayoutPlugin,
+    SafeRenderPlugin,
   ],
   default: (...args) => SwaggerIDE.presets.monaco(...args),
 };
