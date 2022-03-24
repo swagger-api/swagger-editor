@@ -87,7 +87,7 @@
     "redux": "=4.1.2",
     "reselect": "^4.0.0",
     "swagger-client": "^3.18.4",
-    "swagger-ui": "^4.6.2",
+    "swagger-ui": "^4.9.0",
     "traverse": "^0.6.6",
     "validator": "=13.7.0",
     "yaml-js": "^0.3.1"
