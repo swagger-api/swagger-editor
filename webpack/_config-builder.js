@@ -126,9 +126,7 @@ export default function buildConfig(
 
       externals: includeDependencies
         ? {
-            // json-react-schema/deeper depends on buffertools, which fails.
-            buffertools: true,
-            esprima: true,
+            esprima: "esprima",
           }
         : (context, request, cb) => {
             // webpack injects some stuff into the resulting file,
@@ -152,9 +150,10 @@ export default function buildConfig(
           "react-is": path.resolve(projectBasePath, "node_modules", "react-is"),
           "regenerator-runtime": path.resolve(projectBasePath, "node_modules", "@babel", "runtime-corejs3", "node_modules", "regenerator-runtime"),
           "reselect": path.resolve(projectBasePath, "node_modules", "reselect"),
-          // this alias avoids bundling the React twice
-          "swagger-ui": path.resolve(projectBasePath, "node_modules", "swagger-ui", "dist", "swagger-ui-es-bundle-core.js"),
           brace: path.resolve(projectBasePath, "node_modules", "brace"),
+          "get-intrinsic": path.resolve(projectBasePath, "node_modules", "get-intrinsic"),
+          "has-symbols": path.resolve(projectBasePath, "node_modules", "has-symbols"),
+          tslib: path.resolve(projectBasePath, "node_modules", "autolinker", "node_modules", "tslib")
         },
       },
 

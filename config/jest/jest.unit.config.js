@@ -5,6 +5,7 @@ module.exports = {
   testEnvironment: 'jsdom',
   testMatch: ['**/test/unit/*.js', '**/test/unit/**/*.js'],
   setupFilesAfterEnv: ['<rootDir>/test/unit/setup.js'],
+  transformIgnorePatterns: ['/node_modules/(?!(swagger-client|react-syntax-highlighter)/)'],
   testPathIgnorePatterns: [
     '<rootDir>/node_modules/',
     '<rootDir>/test/build-artifacts/',
