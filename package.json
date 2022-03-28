@@ -107,7 +107,7 @@
     "@commitlint/config-conventional": "=16.2.1",
     "@jest/globals": "^27.2.5",
     "@release-it/conventional-changelog": "^4.1.0",
-    "@wojtekmaj/enzyme-adapter-react-17": "=0.6.6",
+    "@wojtekmaj/enzyme-adapter-react-17": "=0.6.7",
     "autoprefixer": "^10.2.6",
     "babel-loader": "^8.1.0",
     "babel-plugin-module-resolver": "^4.0.0",
