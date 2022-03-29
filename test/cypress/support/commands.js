@@ -25,6 +25,7 @@
 // Cypress.Commands.overwrite("visit", (originalFn, url, options) => { ... })
 
 import '@testing-library/cypress/add-commands.js';
+import 'cypress-file-upload';
 
 Cypress.on('window:before:load', (win) => {
   cy.stub(win.console, 'error', (msg) => {

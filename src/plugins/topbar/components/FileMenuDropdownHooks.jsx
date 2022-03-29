@@ -4,9 +4,9 @@ import PropTypes from 'prop-types';
 import { useLanguageFormat } from './shared-hooks.jsx';
 import noop from '../../../utils/common-noop.js';
 import ImportUrl from './ImportUrl.jsx';
-import ModalInputWrapper from './ModalInputWrapper.jsx';
-import ModalConfirmWrapper from './ModalConfirmWrapper.jsx';
-import ModalErrorWrapper from './ModalErrorWrapper.jsx';
+import ModalInputWrapper from '../../../components/ModalInputWrapper.jsx';
+import ModalConfirmWrapper from '../../../components/ModalConfirmWrapper.jsx';
+import ModalErrorWrapper from '../../../components/ModalErrorWrapper.jsx';
 
 const FileMenuDropdownHooks = (props) => {
   const { getComponent, topbarActions, topbarSelectors } = props;
