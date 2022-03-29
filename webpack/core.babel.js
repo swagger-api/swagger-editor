@@ -18,7 +18,10 @@ const result = configBuilder(
     },
 
     output: {
-      library: "SwaggerEditorBundle",
+      library: {
+        name: "SwaggerEditorBundle",
+        export: "default",
+      },
     },
 
     performance: {

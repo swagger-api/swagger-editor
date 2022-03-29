@@ -2,12 +2,12 @@
  * @prettier
  */
 
-/** Dev Note: 
+/** Dev Note:
  * StatsWriterPlugin is disabled by default; uncomment to enable
  * when enabled, rebuilding the bundle will cause error for assetSizeLimit,
  * which we want to keep out of CI/CD
  * post build, cli command: npx webpack-bundle-analyzer <path>
- */ 
+ */
 
 import configBuilder from "./_config-builder"
 import { DuplicatesPlugin } from "inspectpack/plugin"
@@ -21,7 +21,7 @@ const result = configBuilder(
     mangle: true,
     sourcemaps: true,
     includeDependencies: true,
-    emitWorkerAssets: true,
+    emitWorkerAssets: false,
   },
   {
     mode: "production",
@@ -33,7 +33,10 @@ const result = configBuilder(
     },
 
     output: {
-      library: "SwaggerEditorBundle",
+      library: {
+        name: "SwaggerEditorBundle",
+        export: "default",
+      },
     },
 
     performance: {

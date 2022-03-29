@@ -20,7 +20,10 @@ const result = configBuilder(
     },
 
     output: {
-      library: "SwaggerEditorStandalonePreset",
+      library: {
+        name: "SwaggerEditorStandalonePreset",
+        export: "default",
+      },
     },
   }
 )
