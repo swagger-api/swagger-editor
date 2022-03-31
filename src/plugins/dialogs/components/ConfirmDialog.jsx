@@ -14,11 +14,14 @@ const ConfirmDialog = ({ isOpen, title, getComponent, children, onClose }) => {
   const handleCancelClick = () => {
     onClose(false);
   };
+  const handleCloseClick = () => {
+    onClose(false);
+  };
 
   return (
     <Modal isOpen={isOpen} contentLabel={title}>
       <ModalHeader>
-        <button type="button" className="close" onClick={onClose}>
+        <button type="button" className="close" onClick={handleCloseClick}>
           <span aria-hidden="true">x</span>
         </button>
         <ModalTitle>{title}</ModalTitle>

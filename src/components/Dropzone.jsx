@@ -3,13 +3,13 @@ import React, { useCallback, useState } from 'react';
 import PropTypes from 'prop-types';
 import { useDropzone } from 'react-dropzone';
 
-import ModalErrorWrapper from './ModalErrorWrapper.jsx';
 import { importSingleFile } from '../utils/common-file-import-single.js';
-import noop from '../utils/common-noop.js';
 
-const Dropzone = ({ children, onDrop }) => {
-  const [showErrorModal, setShowErrorModal] = useState(false);
+const Dropzone = ({ getComponent, children, onDrop }) => {
+  const [isAlertDialogOpen, setIsAlertDialogOpen] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
+
+  const AlertDialog = getComponent('AlertDialog', true);
 
   const handleDrop = useCallback(
     async (acceptedFiles, rejectedFiles) => {
@@ -19,7 +19,7 @@ const Dropzone = ({ children, onDrop }) => {
       if (someFilesWereRejected || !thereIsExactlyOneAcceptedFile) {
         const dropFileErrMessage = `Sorry, there was an error processing your file.\nPlease drag and drop exactly one OpenAPI/AsyncAPI definition in .yaml or .json format`;
         setErrorMessage(dropFileErrMessage);
-        setShowErrorModal(true);
+        setIsAlertDialogOpen(true);
       } else {
         const file = acceptedFiles[0];
         const importedFile = await importSingleFile(file);
@@ -28,7 +28,7 @@ const Dropzone = ({ children, onDrop }) => {
         } else {
           const importedFileErrMessage = `Sorry, there was an error processing your file. Unable to process as valid YAML or JSON `;
           setErrorMessage(importedFileErrMessage);
-          setShowErrorModal(true);
+          setIsAlertDialogOpen(true);
         }
       }
     },
@@ -41,23 +41,19 @@ const Dropzone = ({ children, onDrop }) => {
     noClick: true,
   });
 
-  const handleCloseModalClick = (showModalProperty) => () => {
-    if (showModalProperty === 'showErrorModal') {
-      setShowErrorModal(false);
-    }
+  const handleAlertDialogClose = () => {
+    setIsAlertDialogOpen(false);
   };
 
   return (
     <div className="dropzone" {...getRootProps()}>
-      <ModalErrorWrapper
-        isOpen={showErrorModal}
-        contentLabel="Error Message"
-        modalTitle="Uh oh, an error has occured"
-        onCloseModalClick={handleCloseModalClick('showErrorModal')}
-        onCancelModalClick={handleCloseModalClick('showErrorModal')}
-        onSubmitModalClick={() => noop}
-        modalBodyContent={errorMessage}
-      />
+      <AlertDialog
+        isOpen={isAlertDialogOpen}
+        title="Uh oh, an error has occurred"
+        onClose={handleAlertDialogClose}
+      >
+        {errorMessage}
+      </AlertDialog>
       <input data-cy="dropzone" {...getInputProps()} />
       {isDragActive ? (
         <div className="dropzone__overlay">
@@ -71,6 +67,7 @@ const Dropzone = ({ children, onDrop }) => {
 };
 
 Dropzone.propTypes = {
+  getComponent: PropTypes.func.isRequired,
   children: PropTypes.node.isRequired,
   onDrop: PropTypes.func.isRequired,
 };

@@ -2,20 +2,18 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 
 import { useLanguageFormat } from './shared-hooks.jsx';
-import noop from '../../../utils/common-noop.js';
 import ImportUrl from './ImportUrl.jsx';
-import ModalInputWrapper from '../../../components/ModalInputWrapper.jsx';
-import ModalConfirmWrapper from '../../../components/ModalConfirmWrapper.jsx';
-import ModalErrorWrapper from '../../../components/ModalErrorWrapper.jsx';
 
 const FileMenuDropdownHooks = (props) => {
   const { getComponent, topbarActions, topbarSelectors } = props;
   const languageFormat = useLanguageFormat(topbarActions, topbarSelectors);
 
-  const [showErrorModal, setShowErrorModal] = useState(false);
+  const [isAlertDialogOpen, setIsAlertDialogOpen] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
-  const [showConfirmModal, setShowConfirmModal] = useState(false);
+  const [isConfirmDialogOpen, setIsConfirmDialogOpen] = useState(false);
   const [confirmMessage, setConfirmMessage] = useState('');
+  const [isImportUrlDialogOpen, setIsImportUrlDialogOpen] = useState(false);
+  const [importUrlString, setImportUrlString] = useState('');
 
   const handleSaveAsJsonClick = () => {
     async function saveAsJson() {
@@ -23,7 +21,7 @@ const FileMenuDropdownHooks = (props) => {
       if (saveResult && saveResult.error) {
         // set & display the error message
         setErrorMessage(saveResult.error); // original non-resolved
-        setShowErrorModal(true);
+        setIsAlertDialogOpen(true);
       }
     }
     // call the async/await function
@@ -34,7 +32,7 @@ const FileMenuDropdownHooks = (props) => {
     async function saveAsYaml() {
       const saveResult = await topbarActions.saveAsYaml({ overrideWarning: false });
       if (saveResult && saveResult.warning) {
-        setShowConfirmModal(true);
+        setIsConfirmDialogOpen(true);
         setConfirmMessage(saveResult.warning);
       }
       if (saveResult && saveResult.error) {
@@ -45,7 +43,7 @@ const FileMenuDropdownHooks = (props) => {
         } else if (saveResult.error) {
           setErrorMessage(saveResult.error);
         }
-        setShowErrorModal(true);
+        setIsAlertDialogOpen(true);
       }
     }
     // call the async/await function
@@ -63,9 +61,9 @@ const FileMenuDropdownHooks = (props) => {
         } else if (saveResult.error) {
           setErrorMessage(saveResult.error);
         }
-        setShowErrorModal(true);
+        setIsAlertDialogOpen(true);
       }
-      setShowConfirmModal(false);
+      setIsConfirmDialogOpen(false);
       setConfirmMessage('');
     }
     // call the async/await function
@@ -78,7 +76,7 @@ const FileMenuDropdownHooks = (props) => {
       if (saveResult && saveResult.error) {
         // set & display the error message
         setErrorMessage(saveResult.error); // original non-resolved
-        setShowErrorModal(true);
+        setIsAlertDialogOpen(true);
       }
     }
     // call the async/await function
@@ -89,7 +87,7 @@ const FileMenuDropdownHooks = (props) => {
     async function saveAsYaml() {
       const saveResult = await topbarActions.saveAsYamlResolved({ overrideWarning: false });
       if (saveResult && saveResult.warning) {
-        setShowConfirmModal(true);
+        setIsConfirmDialogOpen(true);
         setConfirmMessage(saveResult.warning);
       }
       if (saveResult && saveResult.error) {
@@ -100,19 +98,16 @@ const FileMenuDropdownHooks = (props) => {
         } else if (saveResult.error) {
           setErrorMessage(saveResult.error);
         }
-        setShowErrorModal(true);
+        setIsAlertDialogOpen(true);
       }
     }
     // call the async/await function
     saveAsYaml();
   };
 
-  const [showImportUrlModal, setShowImportUrlModal] = useState(false);
-  const [importUrlString, setImportUrlString] = useState('');
-
   const handleImportUrlClick = () => {
     setImportUrlString('');
-    setShowImportUrlModal(true);
+    setIsImportUrlDialogOpen(true);
   };
 
   const handleImportUrlChange = (e) => {
@@ -127,7 +122,7 @@ const FileMenuDropdownHooks = (props) => {
       if (importedData && importedData.error) {
         // set & display error message
         setErrorMessage(importedData.error);
-        setShowErrorModal(true);
+        setIsAlertDialogOpen(true);
       }
     }
     // call the async/await function
@@ -139,18 +134,26 @@ const FileMenuDropdownHooks = (props) => {
     if (importUrlString) {
       handleImportFromURL(importUrlString);
     }
-    setShowImportUrlModal(false);
+    setIsImportUrlDialogOpen(false);
   };
 
-  const handleCloseModalClick = (showModalProperty) => () => {
-    if (showModalProperty === 'showErrorModal') {
-      setShowErrorModal(false);
+  const handleConfirmDialogClose = (result) => {
+    if (result) {
+      handleSaveAsYamlWithOverride();
+    } else {
+      setIsConfirmDialogOpen(false);
     }
-    if (showModalProperty === 'showConfirmModal') {
-      setShowConfirmModal(false);
-    }
-    if (showModalProperty === 'showImportUrlModal') {
-      setShowImportUrlModal(false);
+  };
+
+  const handleAlertDialogClose = () => {
+    setIsAlertDialogOpen(false);
+  };
+
+  const handleImportUrlDialogClose = (result) => {
+    if (result) {
+      handleSubmitImportUrl();
+    } else {
+      setIsImportUrlDialogOpen(false);
     }
   };
 
@@ -158,36 +161,36 @@ const FileMenuDropdownHooks = (props) => {
   const DropdownItem = getComponent('DropdownItem');
   const ImportFileDropdownItem = getComponent('ImportFileDropdownItem');
   const SaveAsJsonOrYaml = getComponent('SaveAsJsonOrYaml');
+  const AlertDialog = getComponent('AlertDialog', true);
+  const ConfirmDialog = getComponent('ConfirmDialog', true);
 
   return (
     <div>
-      <ModalErrorWrapper
-        isOpen={showErrorModal}
-        contentLabel="Error Message"
-        modalTitle="Uh oh, an error has occured"
-        onCloseModalClick={handleCloseModalClick('showErrorModal')}
-        onCancelModalClick={handleCloseModalClick('showErrorModal')}
-        onSubmitModalClick={() => noop}
-        modalBodyContent={errorMessage}
-      />
-      <ModalConfirmWrapper
-        isOpen={showConfirmModal}
-        contentLabel="Confirm"
-        modalTitle="Please Confirm"
-        onCloseModalClick={handleCloseModalClick('showConfirmModal')}
-        onCancelModalClick={handleCloseModalClick('showConfirmModal')}
-        onSubmitModalClick={() => handleSaveAsYamlWithOverride()}
-        modalBodyContent={confirmMessage}
-      />
-      <ModalInputWrapper
-        isOpen={showImportUrlModal}
-        contentLabel="Import URL"
-        modalTitle="Import URL"
-        onCloseModalClick={handleCloseModalClick('showImportUrlModal')}
-        onCancelModalClick={handleCloseModalClick('showImportUrlModal')}
-        onSubmitModalClick={() => handleSubmitImportUrl()}
-        modalBodyContent={<ImportUrl onImportUrlChange={handleImportUrlChange} />}
-      />
+      <AlertDialog
+        isOpen={isAlertDialogOpen}
+        title="Uh oh, an error has occurred"
+        onClose={handleAlertDialogClose}
+      >
+        {errorMessage}
+      </AlertDialog>
+      <ConfirmDialog
+        isOpen={isConfirmDialogOpen}
+        title="Please confirm"
+        onClose={handleConfirmDialogClose}
+      >
+        <>
+          Warning: {confirmMessage}
+          <br />
+          <div>Are you sure you want to continue?</div>
+        </>
+      </ConfirmDialog>
+      <ConfirmDialog
+        isOpen={isImportUrlDialogOpen}
+        title="Import URL"
+        onClose={handleImportUrlDialogClose}
+      >
+        <ImportUrl onImportUrlChange={handleImportUrlChange} />
+      </ConfirmDialog>
       <DropdownMenu displayName="File">
         <DropdownItem onClick={() => handleImportUrlClick()} name="Import URL" />
         <ImportFileDropdownItem getComponent={getComponent} topbarActions={topbarActions} />

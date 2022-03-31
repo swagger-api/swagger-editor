@@ -8,6 +8,13 @@ import DropdownMenu from './DropdownMenu.jsx';
 import ImportFileDropdownItem from './ImportFileDropdownItem.jsx';
 import GeneratorMenuDropdown from './GeneratorMenuDropdown.jsx';
 import SaveAsJsonOrYaml from './SaveAsJsonOrYaml.jsx';
+import Modal from '../../modals/components/Modal.jsx';
+import ModalBody from '../../modals/components/ModalBody.jsx';
+import ModalFooter from '../../modals/components/ModalFooter.jsx';
+import ModalHeader from '../../modals/components/ModalHeader.jsx';
+import ModalTitle from '../../modals/components/ModalTitle.jsx';
+import AlertDialog from '../../dialogs/components/AlertDialog.jsx';
+import ConfirmDialog from '../../dialogs/components/ConfirmDialog.jsx';
 import * as topbarActions from '../actions/index.js';
 import * as topbarSelectors from '../selectors.js';
 
@@ -57,13 +64,27 @@ const renderGeneratorMenuDropdown = async (props) => {
     ImportFileDropdownItem,
     GeneratorMenuDropdown,
     SaveAsJsonOrYaml,
+    Modal,
+    ModalBody,
+    ModalFooter,
+    ModalHeader,
+    ModalTitle,
+    AlertDialog,
+    ConfirmDialog,
+  };
+
+  const getComponent = (name, container = false) => {
+    const Component = components[name];
+
+    if (!container) return Component;
+
+    // eslint-disable-next-line react/jsx-props-no-spreading
+    return (...componentProps) => <Component {...componentProps} getComponent={getComponent} />;
   };
 
   render(
     <Topbar
-      getComponent={(c) => {
-        return components[c];
-      }}
+      getComponent={getComponent}
       {...props} // eslint-disable-line react/jsx-props-no-spreading
     />
   );

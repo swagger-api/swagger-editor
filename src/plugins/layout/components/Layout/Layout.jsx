@@ -20,7 +20,7 @@ const Layout = (props) => {
     <div className="swagger-ide__layout" ref={ref}>
       <Topbar />
       <Container className="container">
-        <Dropzone onDrop={handleChange}>
+        <Dropzone onDrop={handleChange} getComponent={getComponent}>
           <SplitPane split="vertical">
             <EditorPane />
             <EditorPreviewPane />

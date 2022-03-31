@@ -21,7 +21,7 @@ describe('Dropzone in Layout', () => {
           .attachFile('rejected.file.1', { subjectType: 'input' })
           .then(() => {
             cy.get('.modal-title')
-              .should('contains.text', 'Uh oh, an error has occured')
+              .should('contains.text', 'Uh oh, an error has occurred')
               .get('.modal-body > div')
               .should('contains.text', 'Sorry, there was an error processing your file');
           });
@@ -34,7 +34,7 @@ describe('Dropzone in Layout', () => {
           .attachFile(['rejected.file.1', 'rejected.file.2'], { subjectType: 'input' })
           .then(() => {
             cy.get('.modal-title')
-              .should('contains.text', 'Uh oh, an error has occured')
+              .should('contains.text', 'Uh oh, an error has occurred')
               .get('.modal-body > div')
               .should('contains.text', 'Sorry, there was an error processing your file');
           });
@@ -47,7 +47,7 @@ describe('Dropzone in Layout', () => {
           .attachFile(['petstore-oas3.yaml', 'petstore-oas3.yaml'], { subjectType: 'input' })
           .then(() => {
             cy.get('.modal-title')
-              .should('contains.text', 'Uh oh, an error has occured')
+              .should('contains.text', 'Uh oh, an error has occurred')
               .get('.modal-body > div')
               .should('contains.text', 'Sorry, there was an error processing your file');
           });
