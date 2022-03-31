@@ -8,6 +8,7 @@ import LayoutPlugin from './plugins/layout/index.js';
 import TopbarPlugin from './plugins/topbar/index.js';
 import ModalsPlugin from './plugins/modals/index.js';
 import DialogsPlugin from './plugins/dialogs/index.js';
+import DropzonePlugin from './plugins/dropzone/index.js';
 import EditorTextareaPlugin from './plugins/editor-textarea/index.js';
 import EditorMonacoPlugin from './plugins/editor-monaco/index.js';
 import EditorPreviewSwaggerUIPlugin from './plugins/editor-preview-swagger-ui/index.js';
@@ -29,6 +30,7 @@ const SafeRenderPlugin = (system) =>
       'ValidationPane',
       'AlertDialog',
       'ConfirmDialog',
+      'Dropzone',
     ],
   })(system);
 
@@ -45,6 +47,7 @@ const SwaggerIDE = React.memo((props) => {
 SwaggerIDE.plugins = {
   Modals: ModalsPlugin,
   Dialogs: DialogsPlugin,
+  Dropzone: DropzonePlugin,
   EditorTextarea: EditorTextareaPlugin,
   EditorMonaco: EditorMonacoPlugin,
   EditorReadOnly: EditorReadOnlyPlugin,
@@ -58,6 +61,7 @@ SwaggerIDE.presets = {
   textarea: () => [
     ModalsPlugin,
     DialogsPlugin,
+    DropzonePlugin,
     EditorTextareaPlugin,
     EditorReadOnlyPlugin,
     EditorSpecOriginPlugin,
@@ -70,6 +74,7 @@ SwaggerIDE.presets = {
   monaco: () => [
     ModalsPlugin,
     DialogsPlugin,
+    DropzonePlugin,
     EditorTextareaPlugin,
     EditorMonacoPlugin,
     EditorReadOnlyPlugin,

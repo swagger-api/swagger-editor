@@ -78,7 +78,7 @@ const renderGeneratorMenuDropdown = async (props) => {
 
     if (!container) return Component;
 
-    // eslint-disable-next-line react/jsx-props-no-spreading
+    // eslint-disable-next-line react/jsx-props-no-spreading, react/function-component-definition
     return (...componentProps) => <Component {...componentProps} getComponent={getComponent} />;
   };
 
