@@ -6,6 +6,7 @@ import 'swagger-ui-react/swagger-ui.css';
 import './styles/main.scss';
 import LayoutPlugin from './plugins/layout/index.js';
 import TopbarPlugin from './plugins/topbar/index.js';
+import ModalsPlugin from './plugins/modals/index.js';
 import EditorTextareaPlugin from './plugins/editor-textarea/index.js';
 import EditorMonacoPlugin from './plugins/editor-monaco/index.js';
 import EditorPreviewSwaggerUIPlugin from './plugins/editor-preview-swagger-ui/index.js';
@@ -39,6 +40,7 @@ const SwaggerIDE = React.memo((props) => {
 });
 
 SwaggerIDE.plugins = {
+  Modals: ModalsPlugin,
   EditorTextarea: EditorTextareaPlugin,
   EditorMonaco: EditorMonacoPlugin,
   EditorReadOnly: EditorReadOnlyPlugin,
@@ -50,6 +52,7 @@ SwaggerIDE.plugins = {
 };
 SwaggerIDE.presets = {
   textarea: () => [
+    ModalsPlugin,
     EditorTextareaPlugin,
     EditorReadOnlyPlugin,
     EditorSpecOriginPlugin,
@@ -60,6 +63,7 @@ SwaggerIDE.presets = {
     SafeRenderPlugin,
   ],
   monaco: () => [
+    ModalsPlugin,
     EditorTextareaPlugin,
     EditorMonacoPlugin,
     EditorReadOnlyPlugin,
