@@ -7,6 +7,7 @@ import './styles/main.scss';
 import LayoutPlugin from './plugins/layout/index.js';
 import TopbarPlugin from './plugins/topbar/index.js';
 import ModalsPlugin from './plugins/modals/index.js';
+import DialogsPlugin from './plugins/dialogs/index.js';
 import EditorTextareaPlugin from './plugins/editor-textarea/index.js';
 import EditorMonacoPlugin from './plugins/editor-monaco/index.js';
 import EditorPreviewSwaggerUIPlugin from './plugins/editor-preview-swagger-ui/index.js';
@@ -26,6 +27,8 @@ const SafeRenderPlugin = (system) =>
       'EditorPaneBarTop',
       'EditorPreviewPane',
       'ValidationPane',
+      'AlertDialog',
+      'ConfirmDialog',
     ],
   })(system);
 
@@ -41,6 +44,7 @@ const SwaggerIDE = React.memo((props) => {
 
 SwaggerIDE.plugins = {
   Modals: ModalsPlugin,
+  Dialogs: DialogsPlugin,
   EditorTextarea: EditorTextareaPlugin,
   EditorMonaco: EditorMonacoPlugin,
   EditorReadOnly: EditorReadOnlyPlugin,
@@ -53,6 +57,7 @@ SwaggerIDE.plugins = {
 SwaggerIDE.presets = {
   textarea: () => [
     ModalsPlugin,
+    DialogsPlugin,
     EditorTextareaPlugin,
     EditorReadOnlyPlugin,
     EditorSpecOriginPlugin,
@@ -64,6 +69,7 @@ SwaggerIDE.presets = {
   ],
   monaco: () => [
     ModalsPlugin,
+    DialogsPlugin,
     EditorTextareaPlugin,
     EditorMonacoPlugin,
     EditorReadOnlyPlugin,
