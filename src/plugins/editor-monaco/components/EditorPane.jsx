@@ -6,7 +6,7 @@ class EditorPane extends PureComponent {
   constructor(props) {
     super(props);
     this.state = {
-      height: '90vh',
+      height: '91.5vh',
       width: '50',
     };
   }
@@ -24,15 +24,19 @@ class EditorPane extends PureComponent {
 
     return (
       <div className="swagger-ide__editor-pane">
-        <ReactResizeDetector
-          handleWidth
-          handleHeight={false}
-          onResize={this.handleEditorResize}
-          refreshMode="debounce"
-          refreshRate={100}
-        />
-        <EditorPaneBarTop />
-        <Editor width={width} height={height} />
+        <div className="swagger-ide__editor-pane-container-col">
+          <EditorPaneBarTop />
+          <div className="swagger-ide__editor-pane-container-row">
+            <ReactResizeDetector
+              handleWidth
+              handleHeight={false}
+              onResize={this.handleEditorResize}
+              refreshMode="debounce"
+              refreshRate={100}
+            />
+            <Editor width={width} height={height} />
+          </div>
+        </div>
       </div>
     );
   }

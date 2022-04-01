@@ -1,13 +1,29 @@
 .swagger-ide {
   &__editor-pane-bar {
     background-color: #F5F5F5;
-    border: 1px solid #E0E0E0;
+
+    &--top {
+      border-bottom: 1px solid #E0E0E0;
+      height: 22px;
+    }
+    &--right {
+      border-left: 1px solid #E0E0E0;
+      width: 22px;
+    }
+    &--bottom  {
+      border-top: 1px solid #E0E0E0;
+      height: 22px;
+    }
+    &--left {
+      border-right: 1px solid #E0E0E0;
+      width: 22px;
+    }
   }
 
   &__editor-pane-bar-control {
     border: 0;
-    width: 28px;
-    height: 28px;
+    width: 26px;
+    height: 22px;
     background-color: transparent;
     border-radius: 2px;
     align-self: center;
@@ -18,7 +34,7 @@
   }
 
   &__toolbar-horizontal {
-    height: 30px;
+    height: 22px;
     display: flex;
     flex-direction: row;
     justify-content: flex-end;
@@ -26,6 +42,7 @@
 
   &__toolbar-vertical {
     display: flex;
+    width: 22px;
     flex-direction: column;
     justify-content: flex-start;
   }
