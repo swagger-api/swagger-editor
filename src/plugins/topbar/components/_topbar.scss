@@ -88,32 +88,4 @@
   }
 }
 
-.modal {
-  font-family: sans-serif;
-  color: #3b4151;
-  padding: 1rem;
-  position: relative;
-  min-height: 12rem;
 
-  div.container {
-    height: 100%;
-  }
-
-  .right {
-    margin: 1rem;
-    text-align: right;
-  }
-
-  button {
-    margin-left: 1rem;
-  }
-}
-
-.modal-message {
-  margin: 1.75rem 2rem;
-  font-size: 1.1rem;
-  
-  p {
-    line-height: 1.3;
-  }
-}
