@@ -1,31 +1,20 @@
-const CONTENT_KEY = 'swagger-ide-content';
-const { localStorage } = window;
+export const updateSpec = (oriAction, system) => (specStr) => {
+  const { editorLocalStorage } = system;
 
-const saveContentToStorage = (str) => {
-  return localStorage.setItem(CONTENT_KEY, str);
-};
-
-export const updateSpec = (oriAction) => (specStr) => {
   oriAction(specStr);
-  saveContentToStorage(specStr);
-};
-
-export const loadFromLocalStorage = (system) => {
-  // setTimeout runs on the next tick
-  setTimeout(() => {
-    if (localStorage.getItem(CONTENT_KEY)) {
-      system?.specActions?.updateSpec(localStorage.getItem(CONTENT_KEY), 'local-storage');
-    }
-  }, 0);
+  editorLocalStorage.setThrottled(specStr);
 };
 
 /**
- * when given a SwaggerUI config prop `url`,
+ * When given a SwaggerUI config prop `url`,
  * before `download` of new specStr as specified by `url`,
- * check if active specStr already exists in localStorage
+ * check if active specStr already exists in localStorage.
  */
-export const download = (oriAction) => (specStr) => {
-  if (!localStorage.getItem(CONTENT_KEY)) {
+
+export const download = (oriAction, system) => (specStr) => {
+  const { editorLocalStorage } = system;
+
+  if (!editorLocalStorage.has()) {
     oriAction(specStr);
   }
 };
