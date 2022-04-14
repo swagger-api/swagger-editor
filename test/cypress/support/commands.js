@@ -41,3 +41,40 @@ Cypress.on('uncaught:exception', (err) => {
   cy.now('task', 'uncaught', err);
   return true; // true = fail the test
 });
+
+Cypress.Commands.add('prepareAsyncAPI', () => {
+  cy.intercept(
+    'GET',
+    'https://raw.githubusercontent.com/asyncapi/spec/v2.2.0/examples/streetlights-kafka.yml',
+    {
+      fixture: 'streetlights-kafka.yml',
+    }
+  ).as('streetlightsKafka');
+
+  localStorage.clear();
+  cy.visit('/');
+  cy.wait('@streetlightsKafka');
+});
+
+Cypress.Commands.add('prepareOpenAPI', () => {
+  cy.intercept('GET', 'https://petstore3.swagger.io/api/v3/openapi.json', {
+    fixture: 'petstore-oas3.yaml',
+  }).as('externalPetstore');
+
+  const staticResponse = {
+    servers: ['blue', 'brown'],
+    clients: ['apple', 'avocado'],
+  };
+
+  cy.intercept('GET', 'https://generator3.swagger.io/api/servers', staticResponse).as(
+    'externalGeneratorServers'
+  );
+  cy.intercept('GET', 'https://generator3.swagger.io/api/clients', staticResponse).as(
+    'externalGeneratorClients'
+  );
+
+  localStorage.clear();
+
+  cy.visit('/');
+  cy.wait(['@externalPetstore', '@externalGeneratorServers', '@externalGeneratorClients']);
+});

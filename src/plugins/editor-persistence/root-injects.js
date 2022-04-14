@@ -3,7 +3,7 @@ import {
   saveToLocalStorage,
   saveToLocalStorageThrottled,
   loadFromLocalStorage,
-} from './utils.js';
+} from './layers/local-storage.js';
 
 // eslint-disable-next-line import/prefer-default-export
 export const editorLocalStorage = {

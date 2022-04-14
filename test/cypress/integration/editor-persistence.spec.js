@@ -1,18 +1,6 @@
-describe('EditorLocalStoragePlugin', () => {
+describe('EditorPersistencePlugin', () => {
   beforeEach(() => {
-    cy.intercept(
-      'GET',
-      'https://raw.githubusercontent.com/asyncapi/spec/v2.2.0/examples/streetlights-kafka.yml',
-      {
-        fixture: 'streetlights-kafka.yml',
-      }
-    ).as('streetlightsKafka');
-
-    cy.visit('/', {});
-    // tests when initial URL is set to AsyncAPI streetlights-kafka.yml
-    cy.wait('@streetlightsKafka').then(() => {
-      // console.log('ok');
-    });
+    cy.prepareAsyncAPI();
   });
 
   it('should load definition with provided url prop', () => {

@@ -1,18 +1,7 @@
 describe('Dropzone in Layout', () => {
   describe('file uploads with dropzone', () => {
     beforeEach(() => {
-      cy.intercept(
-        'GET',
-        'https://raw.githubusercontent.com/asyncapi/spec/v2.2.0/examples/streetlights-kafka.yml',
-        {
-          fixture: 'streetlights-kafka.yml',
-        }
-      ).as('streetlightsKafka');
-      cy.visit('/', {});
-      // tests when initial URL is set to AsyncAPI streetlights-kafka.yml
-      cy.wait('@streetlightsKafka').then(() => {
-        // console.log('ok');
-      });
+      cy.prepareAsyncAPI();
     });
 
     describe('given one file is of an unexpected type', () => {

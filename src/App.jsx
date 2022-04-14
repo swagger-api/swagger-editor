@@ -15,7 +15,7 @@ import EditorPreviewSwaggerUIPlugin from './plugins/editor-preview-swagger-ui/in
 import EditorPreviewAsyncAPIPlugin from './plugins/editor-preview-asyncapi/index.js';
 import EditorReadOnlyPlugin from './plugins/editor-read-only/index.js';
 import EditorSpecOriginPlugin from './plugins/editor-spec-origin/index.js';
-import EditorLocalStoragePlugin from './plugins/editor-local-storage/index.js';
+import EditorPersistencePlugin from './plugins/editor-persistence/index.js';
 
 const SafeRenderPlugin = (system) =>
   SwaggerUI.plugins.SafeRender({
@@ -53,7 +53,7 @@ SwaggerIDE.plugins = {
   EditorMonaco: EditorMonacoPlugin,
   EditorReadOnly: EditorReadOnlyPlugin,
   EditorSpecOrigin: EditorSpecOriginPlugin,
-  EditorLocalStorage: EditorLocalStoragePlugin,
+  EditorPersistence: EditorPersistencePlugin,
   EditorPreviewSwaggerUI: EditorPreviewSwaggerUIPlugin,
   EditorPreviewAsyncAPI: EditorPreviewAsyncAPIPlugin,
   Topbar: TopbarPlugin,
@@ -67,7 +67,7 @@ SwaggerIDE.presets = {
     EditorTextareaPlugin,
     EditorReadOnlyPlugin,
     EditorSpecOriginPlugin,
-    EditorLocalStoragePlugin,
+    EditorPersistencePlugin,
     EditorPreviewSwaggerUIPlugin,
     EditorPreviewAsyncAPIPlugin,
     TopbarPlugin,
@@ -82,7 +82,7 @@ SwaggerIDE.presets = {
     EditorMonacoPlugin,
     EditorReadOnlyPlugin,
     EditorSpecOriginPlugin,
-    EditorLocalStoragePlugin,
+    EditorPersistencePlugin,
     EditorPreviewSwaggerUIPlugin,
     EditorPreviewAsyncAPIPlugin,
     TopbarPlugin,
