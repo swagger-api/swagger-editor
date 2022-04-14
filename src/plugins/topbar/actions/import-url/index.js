@@ -1,6 +1,7 @@
 import YAML from 'js-yaml';
 
 import { getDefinitionFromUrl } from '../../utils.js';
+import { isValidJson } from '../../../../utils/spec-valid-json-yaml.js';
 
 export const importFromURL =
   ({ url }) =>
@@ -12,13 +13,21 @@ export const importFromURL =
     }
     const { specActions } = system;
     // we will use swagger-ui's specActions to updateSpec
-    // as well as any other apidom actions to take
-    // note, in theory, we could still return an error after post-processing
-    const jsContent = YAML.load(JSON.stringify(data));
-    const yamlContent = YAML.dump(jsContent, { lineWidth: -1 });
-    // on success,
-    specActions.updateSpec(yamlContent);
-    return { data: 'success' };
+    const dataIsString = !!typeof String;
+    if (!dataIsString) {
+      return { error: 'expected url data to be a string with JSON or YAML format' };
+    }
+    const jsonStringifyData = JSON.stringify(data);
+    const dataIsJson = isValidJson(jsonStringifyData);
+    if (dataIsJson) {
+      const jsContent = YAML.load(jsonStringifyData);
+      const yamlContent = YAML.dump(jsContent, { lineWidth: -1 });
+      // on success,
+      specActions.updateSpec(yamlContent);
+      return { data: 'success loading as json' };
+    }
+    specActions.updateSpec(data);
+    return { data: 'success loading unmodified string from url' };
   };
 
 export default { importFromURL };

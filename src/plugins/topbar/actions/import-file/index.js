@@ -8,7 +8,7 @@ export const importFile = () => async (system) => {
   const importedFile = await importSingleFile(fileList.item(0));
   if (importedFile.data && importedFile.message === 'success') {
     specActions.updateSpec(importedFile.data);
-    return { data: importFile.message };
+    return { data: importedFile.message };
   }
   return { error: importedFile?.error || 'unknown file import error' };
 };
