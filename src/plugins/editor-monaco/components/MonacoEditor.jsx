@@ -76,6 +76,9 @@ class MonacoEditor extends Component {
   }
 
   componentWillUnmount() {
+    const { onEditorWillUnmount } = this.props;
+
+    onEditorWillUnmount(this.editor);
     this.destroyMonaco();
   }
 
@@ -166,8 +169,8 @@ class MonacoEditor extends Component {
   };
 
   localEditorDidMount = (editor) => {
-    const { editorDidMount, onChange } = this.props;
-    editorDidMount(editor, monaco);
+    const { onEditorMount, onChange } = this.props;
+    onEditorMount(editor);
     this.subscription = editor.onDidChangeModelContent((event) => {
       const currentEditorValue = editor.getValue();
       // Always refer to the latest value
@@ -270,7 +273,8 @@ MonacoEditor.propTypes = {
   options: PropTypes.oneOfType([PropTypes.object]), // ideally, should use PropTypes.shape once options gets implemented
   markers: PropTypes.oneOfType([PropTypes.array]),
   jumpToMarker: PropTypes.oneOfType([PropTypes.object]),
-  editorDidMount: PropTypes.func,
+  onEditorMount: PropTypes.func,
+  onEditorWillUnmount: PropTypes.func,
   onChange: PropTypes.func,
   editorMarkersDidChange: PropTypes.func,
   clearJumpToMarker: PropTypes.func,
@@ -287,7 +291,8 @@ MonacoEditor.defaultProps = {
   options: {},
   markers: [],
   jumpToMarker: {},
-  editorDidMount: noop,
+  onEditorMount: noop,
+  onEditorWillUnmount: noop,
   onChange: noop,
   editorMarkersDidChange: noop,
   clearJumpToMarker: noop,

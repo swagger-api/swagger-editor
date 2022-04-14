@@ -10,7 +10,8 @@
   ],
   "globals": {
     "File": true,
-    "Blob": true
+    "Blob": true,
+    "globalThis": true,
   },
   "parserOptions": {
     "ecmaFeatures": {

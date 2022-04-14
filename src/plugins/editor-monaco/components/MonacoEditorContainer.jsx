@@ -12,9 +12,17 @@ class MonacoEditorContainer extends PureComponent {
     };
   }
 
-  // eslint-disable-next-line class-methods-use-this
   handleEditorDidMount = (editor) => {
+    const { editorActions } = this.props;
+
     editor.focus();
+    editorActions.editorSetup(editor, 'monaco');
+  };
+
+  handleEditorWillUnmount = (editor) => {
+    const { editorActions } = this.props;
+
+    editorActions.editorTearDown(editor, 'monaco');
   };
 
   handleChangeEditorValue = (val) => {
@@ -53,7 +61,8 @@ class MonacoEditorContainer extends PureComponent {
         onChange={this.handleChangeEditorValue}
         height={height}
         width={width}
-        editorDidMount={this.handleEditorDidMount}
+        onEditorMount={this.handleEditorDidMount}
+        onEditorWillUnmount={this.handleEditorWillUnmount}
         editorMarkersDidChange={this.handleEditorMarkersDidChange}
         clearJumpToMarker={this.handleClearJumpToEditorMarker}
       />
