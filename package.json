@@ -116,7 +116,7 @@
     "babel-plugin-transform-es2015-constants": "^6.1.4",
     "babel-plugin-transform-react-remove-prop-types": "^0.4.24",
     "cross-env": "^7.0.3",
-    "css-loader": "^5.0.2",
+    "css-loader": "^6.7.1",
     "cssnano": "^5.0.6",
     "cypress": "^9.5.1",
     "cypress-file-upload": "^5.0.8",
