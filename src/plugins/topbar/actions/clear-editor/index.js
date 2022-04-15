@@ -12,7 +12,13 @@ import { mockOas3Spec } from '../topbar-actions-fixtures.js';
  * @returns Object
  */
 export const resetEditor = () => async (system) => {
-  const { specActions, specSelectors } = system;
+  const { specActions, specSelectors, topbarActions } = system;
+  const currentUrlString = specSelectors.url();
+  if (currentUrlString) {
+    const { importFromURL } = topbarActions;
+    const result = await importFromURL({ url: currentUrlString });
+    return result; // { data: 'success' }
+  }
   const editorContent = specSelectors.specStr();
   const languageFormat = getDefinitionLanguage({ data: editorContent });
   // eslint-disable-next-line camelcase

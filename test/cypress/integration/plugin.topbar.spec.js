@@ -16,7 +16,20 @@ describe('Topbar', () => {
         .get('.btn-primary')
         .click();
       cy.get('.view-lines > :nth-child(1)')
-        .should('not.have.text', '|') // applies to both OpenAPI and AsyncAPI cases
+        .should('not.have.text', '|') // applies to both OpenAPI and AsyncAPI cases if yaml improperly loaded
+        .should('contains.text', 'asyncapi');
+    });
+  });
+
+  describe('Editor Dropdown Menu', () => {
+    it('properly "Reset Editor" and loads YAML from initial URL', () => {
+      cy.contains('Editor').click();
+      cy.contains('Clear Editor').trigger('mousemove').click();
+      cy.get('.view-lines > :nth-child(1)').should('not.have.text', 'asyncapi');
+      cy.contains('Editor').click();
+      cy.contains('Reset Editor').trigger('mousemove').click();
+      cy.get('.view-lines > :nth-child(1)')
+        .should('not.have.text', '|') // applies to both OpenAPI and AsyncAPI cases if yaml improperly loaded
         .should('contains.text', 'asyncapi');
     });
   });
