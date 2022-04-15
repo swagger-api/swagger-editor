@@ -9,11 +9,11 @@ const throttledSpecUpdate = throttle(
 );
 
 const afterLoad = (system) => {
-  const { editorLocalStorage } = system;
+  const { editorPersistence } = system;
 
-  if (!editorLocalStorage.has()) return;
+  if (!editorPersistence.has()) return;
 
-  const spec = editorLocalStorage.get();
+  const spec = editorPersistence.get();
 
   throttledSpecUpdate(spec, system);
 };

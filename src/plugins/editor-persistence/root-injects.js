@@ -6,7 +6,7 @@ import {
 } from './layers/local-storage.js';
 
 // eslint-disable-next-line import/prefer-default-export
-export const editorLocalStorage = {
+export const editorPersistence = {
   has() {
     return hasLocalStorage();
   },

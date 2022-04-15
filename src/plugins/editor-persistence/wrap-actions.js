@@ -1,8 +1,8 @@
 export const updateSpec = (oriAction, system) => (specStr) => {
-  const { editorLocalStorage } = system;
+  const { editorPersistence } = system;
 
   oriAction(specStr);
-  editorLocalStorage.setThrottled(specStr);
+  editorPersistence.setThrottled(specStr);
 };
 
 /**
@@ -12,9 +12,9 @@ export const updateSpec = (oriAction, system) => (specStr) => {
  */
 
 export const download = (oriAction, system) => (specStr) => {
-  const { editorLocalStorage } = system;
+  const { editorPersistence } = system;
 
-  if (!editorLocalStorage.has()) {
+  if (!editorPersistence.has()) {
     oriAction(specStr);
   }
 };
