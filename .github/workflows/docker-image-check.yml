@@ -5,8 +5,13 @@ on:
   schedule:
     - cron:  '30 4 * * *'
 
+permissions:
+  contents: read
+
 jobs:
   build:
+    permissions:
+      contents: none
     runs-on: ubuntu-latest
     steps:
       - name: Run Trivy vulnerability scanner
