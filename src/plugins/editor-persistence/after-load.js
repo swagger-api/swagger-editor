@@ -1,21 +1,13 @@
-import throttle from 'lodash/throttle.js';
-
-const throttledSpecUpdate = throttle(
-  (spec, system) => {
-    system.specActions.updateSpec(spec);
-  },
-  150,
-  { leading: false }
-);
-
 const afterLoad = (system) => {
-  const { editorPersistence } = system;
+  const { editorPersistence, specSelectors } = system;
 
-  if (!editorPersistence.has()) return;
+  const specPersisted = editorPersistence.get();
+  const isPersisted = specPersisted !== null;
 
-  const spec = editorPersistence.get();
+  if (!isPersisted) return; // nothing persisted
+  if (specSelectors.specStr() === specPersisted) return; // spec already persisted
 
-  throttledSpecUpdate(spec, system);
+  system.specActions.updateSpec(specPersisted);
 };
 
 export default afterLoad;

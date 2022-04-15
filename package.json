@@ -59,7 +59,6 @@
     "js-file-download": "^0.4.12",
     "js-yaml": "^4.1.0",
     "json-beautify": "^1.1.1",
-    "lodash": "^4.17.21",
     "monaco-editor-core": "^0.33.0",
     "monaco-languageclient": "^0.18.1",
     "prop-types": "^15.8.1",

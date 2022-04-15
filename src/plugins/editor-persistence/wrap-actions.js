@@ -2,7 +2,7 @@ export const updateSpec = (oriAction, system) => (specStr) => {
   const { editorPersistence } = system;
 
   oriAction(specStr);
-  editorPersistence.setThrottled(specStr);
+  editorPersistence.set(specStr);
 };
 
 /**

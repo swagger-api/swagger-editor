@@ -51,7 +51,6 @@ Cypress.Commands.add('prepareAsyncAPI', () => {
     }
   ).as('streetlightsKafka');
 
-  localStorage.clear();
   cy.visit('/');
   cy.wait('@streetlightsKafka');
 });
@@ -72,8 +71,6 @@ Cypress.Commands.add('prepareOpenAPI', () => {
   cy.intercept('GET', 'https://generator3.swagger.io/api/clients', staticResponse).as(
     'externalGeneratorClients'
   );
-
-  localStorage.clear();
 
   cy.visit('/');
   cy.wait(['@externalPetstore', '@externalGeneratorServers', '@externalGeneratorClients']);

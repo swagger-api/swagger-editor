@@ -1,7 +1,6 @@
 import {
   hasLocalStorage,
   saveToLocalStorage,
-  saveToLocalStorageThrottled,
   loadFromLocalStorage,
 } from './layers/local-storage.js';
 
@@ -12,9 +11,6 @@ export const editorPersistence = {
   },
   set(value) {
     return saveToLocalStorage(value);
-  },
-  setThrottled(value) {
-    return saveToLocalStorageThrottled(value);
   },
   get() {
     return loadFromLocalStorage();
