@@ -15,11 +15,14 @@ import { WebpackBundleSizeAnalyzerPlugin } from "webpack-bundle-size-analyzer"
 // import path from "path"
 // import { StatsWriterPlugin } from "webpack-stats-plugin"
 
+const minimize = true
+const sourcemaps = true
+
 const result = configBuilder(
   {
-    minimize: true,
+    minimize,
     mangle: true,
-    sourcemaps: true,
+    sourcemaps,
     includeDependencies: true,
     emitWorkerAssets: false,
   },
@@ -45,6 +48,8 @@ const result = configBuilder(
       maxEntrypointSize: 1024000 * 3.25, // MB
       maxAssetSize: 1024000 * 3.25, // MB
     },
+
+    devtool: sourcemaps && minimize ? "nosources-cheap-module-source-map" : false,
 
     plugins: [
       new DuplicatesPlugin({
