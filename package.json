@@ -139,7 +139,7 @@
     "jsdom-global": "3.0.2",
     "json-loader": "0.5.7",
     "less": "^3.11.2",
-    "less-loader": "^7.2.1",
+    "less-loader": "^10.2.0",
     "license-checker": "^25.0.0",
     "lint-staged": "^12.1.2",
     "local-web-server": "=4.2.1",
