@@ -8,7 +8,7 @@ export const useReactModal = () => {
   useEffect(() => {
     ReactModal.setAppElement(ref.current);
     return () => ReactModal.setAppElement(null);
-  });
+  }, []);
 
   return ref;
 };
