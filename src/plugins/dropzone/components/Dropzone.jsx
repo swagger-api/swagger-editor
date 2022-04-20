@@ -2,11 +2,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { useDropzone } from '../hooks.js';
-
-const Dropzone = ({ specActions, getComponent, children }) => {
+const Dropzone = ({ getComponent, useDropzone, children }) => {
   const AlertDialog = getComponent('AlertDialog', true);
-
   const [
     isDragActive,
     isAlertDialogOpen,
@@ -14,7 +11,7 @@ const Dropzone = ({ specActions, getComponent, children }) => {
     errorMessage,
     getRootProps,
     getInputProps,
-  ] = useDropzone({ specActions });
+  ] = useDropzone();
 
   const handleAlertDialogClose = () => {
     setIsAlertDialogOpen(false);
@@ -43,9 +40,7 @@ const Dropzone = ({ specActions, getComponent, children }) => {
 
 Dropzone.propTypes = {
   getComponent: PropTypes.func.isRequired,
-  specActions: PropTypes.shape({
-    updateSpec: PropTypes.func.isRequired,
-  }).isRequired,
+  useDropzone: PropTypes.func.isRequired,
   children: PropTypes.node.isRequired,
 };
 

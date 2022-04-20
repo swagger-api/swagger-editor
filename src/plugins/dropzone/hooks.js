@@ -4,7 +4,8 @@ import { useDropzone as useVendorDropzone } from 'react-dropzone';
 import { importSingleFile } from '../../utils/common-file-import-single.js';
 
 // eslint-disable-next-line import/prefer-default-export
-export const useDropzone = ({ specActions }) => {
+export const makeUseDropzone = (getSystem) => () => {
+  const { specActions } = getSystem();
   const [isAlertDialogOpen, setIsAlertDialogOpen] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
 
@@ -29,7 +30,7 @@ export const useDropzone = ({ specActions }) => {
         }
       }
     },
-    [specActions]
+    [specActions, setErrorMessage, setIsAlertDialogOpen]
   );
   const { getRootProps, getInputProps, isDragActive } = useVendorDropzone({
     onDrop: handleFileDrop,
