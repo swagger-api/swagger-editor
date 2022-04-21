@@ -11,7 +11,7 @@ describe('Topbar', () => {
         .click()
         .get('#input-import-url')
         .type(
-          'https://raw.githubusercontent.com/asyncapi/spec/v2.2.0/examples/streetlights-kafka.yml'
+          'https://raw.githubusercontent.com/asyncapi/spec/v2.3.0/examples/streetlights-kafka.yml'
         )
         .get('.btn-primary')
         .click();

@@ -128,11 +128,11 @@ const EditMenuDropdownHooks = (props) => {
       />
       <DropdownItem
         onClick={() => handleLoadDefaultDefinition('asyncapi2')}
-        name="Load Default AsyncAPI 2.0"
+        name="Load Default AsyncAPI 2.3"
       />
       <DropdownItem
         onClick={() => handleLoadDefaultDefinition('asyncapi-petstore-kafka')}
-        name="Load Default AsyncAPI 2.0 Petstore Kafka"
+        name="Load Default AsyncAPI 2.3 Petstore Kafka"
       />
     </DropdownMenu>
   );
