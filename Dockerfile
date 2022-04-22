@@ -1,4 +1,4 @@
-FROM nginx:1.23.2-alpine
+FROM nginxinc/nginx-unprivileged:1.23.2-alpine
 
 LABEL maintainer="fehguy"
 
@@ -10,11 +10,6 @@ COPY ./index.html /usr/share/nginx/html/
 COPY ./dist/oauth2-redirect.html /usr/share/nginx/html/
 COPY ./dist/* /usr/share/nginx/html/dist/
 COPY ./docker-run.sh /usr/share/nginx/
-
-
-RUN chmod +x /usr/share/nginx/docker-run.sh && \
-    chmod -R a+rw /usr/share/nginx && \
-    chmod -R a+rw /etc/nginx
 
 EXPOSE 8080
 
