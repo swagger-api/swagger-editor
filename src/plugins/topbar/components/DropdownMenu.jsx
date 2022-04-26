@@ -1,72 +1,55 @@
 /* eslint-disable jsx-a11y/click-events-have-key-events */
-import React, { Component } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import PropTypes from 'prop-types';
 
-class Dropdown extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      isExpanded: false,
-    };
-  }
+const Dropdown = (props) => {
+  const dropdownRef = useRef(null);
+  const [isExpanded, setIsExpanded] = useState(false);
+  const { children, displayName } = props;
 
-  componentDidMount() {
-    document.addEventListener('mousedown', this.handleClickOutside);
-  }
-
-  componentWillUnmount() {
-    document.removeEventListener('mousedown', this.handleClickOutside);
-  }
-
-  handleToggleClick = () => {
-    this.setState((prevState) => ({
-      isExpanded: !prevState.isExpanded,
-    }));
-  };
-
-  setWrapperRef = (node) => {
-    this.wrapperRef = node;
-  };
-
-  handleClickOutside = (event) => {
-    if (this.wrapperRef && !this.wrapperRef.contains(event.target)) {
-      this.setState({
-        isExpanded: false,
-      });
+  const handleClickOutside = (event) => {
+    if (dropdownRef && !dropdownRef.current.contains(event.target)) {
+      setIsExpanded(false);
     }
   };
 
-  render() {
-    const { isExpanded } = this.state;
-    const { children, displayName } = this.props;
+  const handleToggleClick = () => {
+    setIsExpanded(!isExpanded);
+  };
 
-    return (
-      <div className="dd-menu dd-menu-left" ref={this.setWrapperRef}>
-        <span
-          className="menu-item"
-          role="button"
+  useEffect(() => {
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, []);
+
+  return (
+    <div className="dd-menu dd-menu-left" ref={dropdownRef}>
+      <span
+        className="menu-item"
+        role="button"
+        tabIndex={0}
+        aria-haspopup="true"
+        aria-expanded={isExpanded}
+        onClick={handleToggleClick}
+      >
+        {displayName}
+      </span>
+      {isExpanded && (
+        <div
+          className="dd-menu-items"
+          aria-labelledby="Dropdown"
+          onClick={handleToggleClick}
+          role="menu"
           tabIndex={0}
-          aria-haspopup="true"
-          aria-expanded={isExpanded}
-          onClick={this.handleToggleClick}
         >
-          {displayName}
-        </span>
-        {isExpanded && (
-          <div
-            className="dd-menu-items"
-            aria-labelledby="Dropdown"
-            onClick={this.handleToggleClick}
-            role="menu"
-            tabIndex={0}
-          >
-            <ul className="dd-items-left">{children}</ul>
-          </div>
-        )}
-      </div>
-    );
-  }
-}
+          <ul className="dd-items-left">{children}</ul>
+        </div>
+      )}
+    </div>
+  );
+};
 
 Dropdown.propTypes = {
   displayName: PropTypes.string.isRequired,
