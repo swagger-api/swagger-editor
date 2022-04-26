@@ -1,4 +1,5 @@
 import YAML from 'js-yaml';
+import beautifyJson from 'json-beautify';
 
 import { getDefinitionLanguage } from '../../../../utils/spec-converter.js';
 import { getSpecVersion } from '../../../../utils/spec-get-spec-version.js';
@@ -29,17 +30,20 @@ export const resetEditor = () => async (system) => {
     // JSON String -> JS object
     const jsContent = YAML.load(JSON.stringify(mockOas3Spec));
     // JS Object -> YAML string
-    const yamlContent = YAML.dump(jsContent);
-    specActions.updateSpec(yamlContent, { lineWidth: -1 });
+    const yamlContent = YAML.dump(jsContent, { lineWidth: -1 });
+    specActions.updateSpec(yamlContent);
   } else if (languageFormat !== 'json') {
     // eslint-disable-next-line camelcase
     const jsContent = getInitialDefinitionObj({ isOAS3, isSwagger2, isOAS3_1, isAsyncApi2 });
-    const yamlContent = YAML.dump(jsContent);
-    specActions.updateSpec(yamlContent, { lineWidth: -1 });
+    // JS Object -> YAML string
+    const yamlContent = YAML.dump(jsContent, { lineWidth: -1 });
+    specActions.updateSpec(yamlContent);
   } else {
     // eslint-disable-next-line camelcase
     const jsContent = getInitialDefinitionObj({ isOAS3, isSwagger2, isOAS3_1, isAsyncApi2 });
-    specActions.updateSpec(JSON.stringify(jsContent));
+    // JS Object -> pretty JSON string
+    const prettyJsonContent = beautifyJson(jsContent, null, 2);
+    specActions.updateSpec(prettyJsonContent);
   }
   return { data: 'success' };
 };
@@ -57,8 +61,8 @@ export const clearEditor = () => async (system) => {
   const { specActions } = system;
   // provide a default value to trigger swagger-ui re-render
   const jsContent = { tip: 'replace this line' };
-  const yamlContent = YAML.dump(jsContent);
-  specActions.updateSpec(yamlContent, { lineWidth: -1 });
+  const yamlContent = YAML.dump(jsContent, { lineWidth: -1 });
+  specActions.updateSpec(yamlContent);
   return { data: 'success' };
 };
 
