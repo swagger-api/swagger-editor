@@ -1,13 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import EditMenuDropdownHooks from './EditMenuDropdownHooks.jsx'; // getComponent incompatible with React hooks (due to nested functions?)
-import FileMenuDropdownHooks from './FileMenuDropdownHooks.jsx'; // getComponent incompatible with React hooks (due to nested functions?)
-
 const Topbar = (props) => {
   const { getComponent, topbarActions, topbarSelectors } = props;
 
   const LinkHome = getComponent('LinkHome');
+  const FileMenuDropdownHooks = getComponent('FileMenuDropdownHooks');
+  const EditMenuDropdownHooks = getComponent('EditMenuDropdownHooks');
   const GeneratorMenuDropdownHooks = getComponent('GeneratorMenuDropdownHooks');
 
   return (
