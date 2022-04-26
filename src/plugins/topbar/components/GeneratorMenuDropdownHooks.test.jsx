@@ -1,7 +1,7 @@
 import React from 'react';
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 
-import GeneratorMenuDropdown from './GeneratorMenuDropdown.jsx';
+import GeneratorMenuDropdownHooks from './GeneratorMenuDropdownHooks.jsx';
 import DropdownItem from './DropdownItem.jsx';
 import DropdownMenu from './DropdownMenu.jsx';
 import * as topbarActions from '../actions/index.js';
@@ -38,7 +38,7 @@ const renderGeneratorMenuDropdown = async (props) => {
   };
 
   render(
-    <GeneratorMenuDropdown
+    <GeneratorMenuDropdownHooks
       getComponent={(c) => {
         return components[c];
       }}

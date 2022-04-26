@@ -6,7 +6,7 @@ import LinkHome from './LinkHome.jsx';
 import DropdownItem from './DropdownItem.jsx';
 import DropdownMenu from './DropdownMenu.jsx';
 import ImportFileDropdownItem from './ImportFileDropdownItem.jsx';
-import GeneratorMenuDropdown from './GeneratorMenuDropdown.jsx';
+import GeneratorMenuDropdownHooks from './GeneratorMenuDropdownHooks.jsx';
 import SaveAsJsonOrYaml from './SaveAsJsonOrYaml.jsx';
 import Modal from '../../modals/components/Modal.jsx';
 import ModalBody from '../../modals/components/ModalBody.jsx';
@@ -62,7 +62,7 @@ const renderGeneratorMenuDropdown = async (props) => {
     DropdownMenu,
     DropdownItem,
     ImportFileDropdownItem,
-    GeneratorMenuDropdown,
+    GeneratorMenuDropdownHooks,
     SaveAsJsonOrYaml,
     Modal,
     ModalBody,

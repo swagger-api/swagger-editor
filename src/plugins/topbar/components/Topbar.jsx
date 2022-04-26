@@ -8,7 +8,7 @@ const Topbar = (props) => {
   const { getComponent, topbarActions, topbarSelectors } = props;
 
   const LinkHome = getComponent('LinkHome');
-  const GeneratorMenuDropdown = getComponent('GeneratorMenuDropdown');
+  const GeneratorMenuDropdownHooks = getComponent('GeneratorMenuDropdownHooks');
 
   return (
     <div className="topbar">
@@ -24,7 +24,7 @@ const Topbar = (props) => {
           topbarActions={topbarActions}
           topbarSelectors={topbarSelectors}
         />
-        <GeneratorMenuDropdown
+        <GeneratorMenuDropdownHooks
           getComponent={getComponent}
           topbarActions={topbarActions}
           topbarSelectors={topbarSelectors}
