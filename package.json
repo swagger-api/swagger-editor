@@ -48,7 +48,7 @@
   },
   "dependencies": {
     "@asyncapi/parser": "^1.14.1",
-    "@asyncapi/react-component": "^1.0.0-next.36",
+    "@asyncapi/react-component": "^1.0.0-next.37",
     "@babel/runtime": "^7.17.9",
     "@primer/octicons-react": "^17.0.0",
     "@swagger-api/apidom-ls": "^0.23.0",
