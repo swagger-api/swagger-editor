@@ -1,46 +1,36 @@
-import React, { PureComponent } from 'react';
+import React, { useCallback, useState } from 'react';
 import PropTypes from 'prop-types';
-import ReactResizeDetector from 'react-resize-detector';
+import { useResizeDetector } from 'react-resize-detector';
 
-class EditorPane extends PureComponent {
-  constructor(props) {
-    super(props);
-    this.state = {
-      height: '91.5vh',
-      width: '50',
-    };
-  }
+const EditorPane = ({ getComponent }) => {
+  const [editorWidth, setEditorWidth] = useState('50');
+  const [editorHeight, setEditorHeight] = useState('80vh');
 
-  handleEditorResize = (width) => {
-    this.setState({ width });
-  };
+  const onResize = useCallback((width, height) => {
+    setEditorHeight(height);
+    setEditorWidth(width);
+  }, []);
 
-  render() {
-    const { height, width } = this.state;
-    const { getComponent } = this.props;
+  const { ref } = useResizeDetector({
+    refreshMode: 'debounce',
+    refreshRate: 100,
+    onResize,
+  });
 
-    const EditorPaneBarTop = getComponent('EditorPaneBarTop', true);
-    const Editor = getComponent('Editor', true);
+  const Editor = getComponent('Editor', true);
+  const EditorPaneBarTop = getComponent('EditorPaneBarTop');
 
-    return (
-      <div className="swagger-ide__editor-pane">
-        <div className="swagger-ide__editor-pane-container-col">
-          <EditorPaneBarTop />
-          <div className="swagger-ide__editor-pane-container-row">
-            <ReactResizeDetector
-              handleWidth
-              handleHeight={false}
-              onResize={this.handleEditorResize}
-              refreshMode="debounce"
-              refreshRate={100}
-            />
-            <Editor width={width} height={height} />
-          </div>
+  return (
+    <div className="swagger-ide__editor-pane">
+      <div className="swagger-ide__editor-pane-container-col">
+        <EditorPaneBarTop />
+        <div ref={ref} className="swagger-ide__editor-pane-container-row">
+          <Editor width={editorWidth} height={editorHeight} />
         </div>
       </div>
-    );
-  }
-}
+    </div>
+  );
+};
 
 EditorPane.propTypes = {
   getComponent: PropTypes.func.isRequired,

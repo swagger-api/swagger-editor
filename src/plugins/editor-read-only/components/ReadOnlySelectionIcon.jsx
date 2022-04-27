@@ -9,21 +9,25 @@ const ReadOnlySelectionIcon = ({ editorSelectors, editorActions }) => {
   };
 
   return !isReadOnly ? (
-    <button
-      type="button"
-      className="swagger-ide__editor-pane-bar-control"
-      onClick={handleReadonly(true)}
-    >
-      <UnlockIcon size="small" aria-label="Unlock" />
-    </button>
+    <div className="swagger-ide__generic-padding-thin-top-bottom">
+      <button
+        type="button"
+        className="swagger-ide__editor-pane-bar-control"
+        onClick={handleReadonly(true)}
+      >
+        <UnlockIcon size="small" aria-label="Unlock" />
+      </button>
+    </div>
   ) : (
-    <button
-      type="button"
-      className="swagger-ide__editor-pane-bar-control"
-      onClick={handleReadonly(false)}
-    >
-      <LockIcon size="small" aria-label="Lock" />
-    </button>
+    <div className="swagger-ide__generic-padding-thin-top-bottom">
+      <button
+        type="button"
+        className="swagger-ide__editor-pane-bar-control"
+        onClick={handleReadonly(false)}
+      >
+        <LockIcon size="small" aria-label="Lock" />
+      </button>
+    </div>
   );
 };
 
