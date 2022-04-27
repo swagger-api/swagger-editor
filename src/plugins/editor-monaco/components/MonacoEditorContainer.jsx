@@ -1,74 +1,60 @@
-import React, { PureComponent } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 
 import MonacoEditor from './MonacoEditor.jsx';
 
-class MonacoEditorContainer extends PureComponent {
-  constructor(props) {
-    super(props);
-    this.state = {
-      language: 'apidom',
-      initialValue: '',
-    };
-  }
+const MonacoEditorContainer = (props) => {
+  const { editorActions, specActions, editorSelectors, specSelectors, isReadOnly, width, height } =
+    props;
+  const language = 'apidom';
+  const initialValue = '';
+  const defaultEditorTheme = 'my-vs-dark';
 
-  handleEditorDidMount = (editor) => {
-    const { editorActions } = this.props;
+  const theme = editorSelectors.selectEditorTheme() || defaultEditorTheme;
+  const jumpToMarker = editorSelectors.selectEditorJumpToMarker();
+  const valueForEditor = specSelectors.specStr() || '';
 
+  const handleEditorDidMount = (editor) => {
     editor.focus();
     editorActions.editorSetup(editor, 'monaco');
   };
 
-  handleEditorWillUnmount = (editor) => {
-    const { editorActions } = this.props;
-
+  const handleEditorWillUnmount = (editor) => {
     editorActions.editorTearDown(editor, 'monaco');
   };
 
-  handleChangeEditorValue = (val) => {
-    const { specActions } = this.props;
+  const handleChangeEditorValue = (val) => {
     // no additional spec validation here
     // let ui components handle their own spec validation for rendering purposes
     specActions.updateSpec(val, 'editor');
   };
 
-  handleEditorMarkersDidChange = (markers) => {
-    const { editorActions } = this.props;
-    editorActions.updateEditorMarkers(markers); // if this fires, we see the issue
+  const handleEditorMarkersDidChange = (markers) => {
+    editorActions.updateEditorMarkers(markers);
   };
 
-  handleClearJumpToEditorMarker = async () => {
-    const { editorActions } = this.props;
+  const handleClearJumpToEditorMarker = async () => {
     editorActions.clearJumpToEditorMarker();
   };
 
-  render() {
-    const { initialValue, language } = this.state;
-    const { isReadOnly, editorSelectors, specSelectors, width, height } = this.props;
-    const defaultEditorTheme = 'my-vs-dark';
-    const theme = editorSelectors.selectEditorTheme() || defaultEditorTheme;
-    const jumpToMarker = editorSelectors.selectEditorJumpToMarker();
-    const valueForEditor = specSelectors.specStr() || '';
-
-    return (
-      <MonacoEditor
-        language={language}
-        theme={theme}
-        value={valueForEditor}
-        defaultValue={initialValue}
-        isReadOnly={isReadOnly}
-        jumpToMarker={jumpToMarker}
-        onChange={this.handleChangeEditorValue}
-        height={height}
-        width={width}
-        onEditorMount={this.handleEditorDidMount}
-        onEditorWillUnmount={this.handleEditorWillUnmount}
-        editorMarkersDidChange={this.handleEditorMarkersDidChange}
-        clearJumpToMarker={this.handleClearJumpToEditorMarker}
-      />
-    );
-  }
-}
+  return (
+    <MonacoEditor
+      language={language}
+      theme={theme}
+      value={valueForEditor}
+      defaultValue={initialValue}
+      isReadOnly={isReadOnly}
+      jumpToMarker={jumpToMarker}
+      onChange={handleChangeEditorValue}
+      height={height}
+      width={width}
+      onEditorMount={handleEditorDidMount}
+      onEditorWillUnmount={handleEditorWillUnmount}
+      editorMarkersDidChange={handleEditorMarkersDidChange}
+      clearJumpToMarker={handleClearJumpToEditorMarker}
+    />
+  );
+};
 
 MonacoEditorContainer.propTypes = {
   isReadOnly: PropTypes.bool,
