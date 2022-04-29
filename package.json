@@ -134,7 +134,7 @@
     "html-webpack-skip-assets-plugin": "^1.0.3",
     "husky": "=7.0.4",
     "inspectpack": "=4.7.1",
-    "jest": "^27.2.5",
+    "jest": "^28.0.3",
     "jsdom": "=19.0.0",
     "jsdom-global": "3.0.2",
     "json-loader": "0.5.7",
