@@ -32,25 +32,14 @@ const baseRules = [
       cacheDirectory: true,
     },
   },
-  { test: /\.(txt|yaml)$/, loader: "raw-loader" },
   {
-    test: /\.(png|jpg|jpeg|gif|svg)$/, use: [
-      {
-        loader: "url-loader",
-        options: {
-          esModule: false,
-        },
-      },
-    ],
+    test: /\.(txt|yaml)$/,
+    type: "asset/source",
   },
   {
-    test: /\.(woff|woff2)$/,
-    loader: "url-loader?",
-    options: {
-      limit: 10000,
-    },
+    test: /\.(png|jpg|jpeg|gif|svg)$/,
+    type: "asset/inline",
   },
-  { test: /\.(ttf|eot)$/, loader: "file-loader" },
 ]
 
 export default function buildConfig(
@@ -87,9 +76,8 @@ export default function buildConfig(
       {
         loader: "worker-loader",
         options: {
-          inline: true,
-          name: "[name].js",
-          fallback: !!emitWorkerAssets,
+          inline: emitWorkerAssets ? "fallback" : "no-fallback",
+          filename: "[name].js",
         },
       },
       "babel-loader",
@@ -109,16 +97,12 @@ export default function buildConfig(
         publicPath: "/dist",
         filename: "[name].js",
         chunkFilename: "[id].[chunkhash].js",
-        libraryTarget: "umd",
-        libraryExport: "default", // TODO: enable
+        library: {
+          type: "umd",
+        },
       },
 
       target: "web",
-
-      node: {
-        // yaml-js has a reference to `fs`, this is a workaround
-        fs: "empty",
-      },
 
       module: {
         rules: baseRules,
@@ -128,7 +112,7 @@ export default function buildConfig(
         ? {
             esprima: "esprima",
           }
-        : (context, request, cb) => {
+        : ({ request }, cb) => {
             // webpack injects some stuff into the resulting file,
             // these libs need to be pulled in to keep that working.
             var exceptionsForWebpack = ["ieee754", "base64-js"]
@@ -148,21 +132,19 @@ export default function buildConfig(
           react: path.resolve(projectBasePath, "node_modules", "react"),
           "react-dom": path.resolve(projectBasePath, "node_modules", "react-dom"),
           "react-is": path.resolve(projectBasePath, "node_modules", "react-is"),
-          "regenerator-runtime": path.resolve(projectBasePath, "node_modules", "@babel", "runtime-corejs3", "node_modules", "regenerator-runtime"),
-          "reselect": path.resolve(projectBasePath, "node_modules", "reselect"),
           brace: path.resolve(projectBasePath, "node_modules", "brace"),
-          "get-intrinsic": path.resolve(projectBasePath, "node_modules", "get-intrinsic"),
-          "has-symbols": path.resolve(projectBasePath, "node_modules", "has-symbols"),
-          tslib: path.resolve(projectBasePath, "node_modules", "autolinker", "node_modules", "tslib")
         },
+        fallback: {
+          path: require.resolve("path-browserify"),
+        }
       },
 
       // If we're mangling, size is a concern -- so use trace-only sourcemaps
       // Otherwise, provide heavy sourcemaps suitable for development
       devtool: sourcemaps
         ? minimize
-          ? "nosource-source-map"
-          : "module-source-map"
+          ? "nosources-source-map"
+          : "cheap-module-source-map"
         : false,
 
       performance: {
@@ -176,8 +158,6 @@ export default function buildConfig(
         minimizer: [
           compiler =>
             new TerserPlugin({
-              cache: true,
-              sourceMap: sourcemaps,
               terserOptions: {
                 mangle: !!mangle,
               },
