@@ -21,6 +21,12 @@ export default class Topbar extends React.Component {
     }
   }
 
+  hasNullSwagger2ConverterUrl = () => {
+    const { swagger2ConverterUrl } = this.props.getConfigs()
+
+    return swagger2ConverterUrl == null
+  }
+
   getGeneratorUrl = () => {
     const { isOAS3, isSwagger2 } = this.props.specSelectors
     const { swagger2GeneratorUrl, oas3GeneratorUrl } = this.props.getConfigs()
@@ -358,6 +364,7 @@ export default class Topbar extends React.Component {
             <DropdownMenu {...makeMenuOptions("Edit")}>
               <li><button type="button" onClick={this.convertToYaml}>Convert to YAML</button></li>
               <ConvertDefinitionMenuItem
+                hasNullSwagger2ConverterUrl={this.hasNullSwagger2ConverterUrl()}
                 isSwagger2={specSelectors.isSwagger2()}
                 onClick={() => topbarActions.showModal("convert")}
                 />
