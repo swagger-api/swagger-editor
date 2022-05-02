@@ -1,9 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-const DropdownItem = (props) => {
-  const { onClick, name } = props;
-
+const DropdownItem = ({ onClick, name }) => {
   return (
     <div>
       <li className="dropdown-item">

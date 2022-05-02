@@ -2,10 +2,9 @@
 import React, { useState, useRef, useEffect } from 'react';
 import PropTypes from 'prop-types';
 
-const Dropdown = (props) => {
+const Dropdown = ({ children, displayName }) => {
   const dropdownRef = useRef(null);
   const [isExpanded, setIsExpanded] = useState(false);
-  const { children, displayName } = props;
 
   const handleClickOutside = (event) => {
     if (dropdownRef && !dropdownRef.current.contains(event.target)) {

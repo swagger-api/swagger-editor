@@ -3,8 +3,7 @@ import PropTypes from 'prop-types';
 
 import { useLanguageFormat } from './shared-hooks.jsx';
 
-const EditMenuDropdownHooks = (props) => {
-  const { getComponent, topbarActions, topbarSelectors } = props;
+const EditMenuDropdown = ({ getComponent, topbarActions, topbarSelectors }) => {
   const languageFormat = useLanguageFormat(topbarActions, topbarSelectors);
 
   const [allowConvertDefinitionToOas3, setAllowConvertDefinitionToOas3] = useState(false);
@@ -138,10 +137,10 @@ const EditMenuDropdownHooks = (props) => {
   );
 };
 
-EditMenuDropdownHooks.propTypes = {
+EditMenuDropdown.propTypes = {
   getComponent: PropTypes.func.isRequired,
   topbarActions: PropTypes.oneOfType([PropTypes.object]).isRequired,
   topbarSelectors: PropTypes.oneOfType([PropTypes.object]).isRequired,
 };
 
-export default EditMenuDropdownHooks;
+export default EditMenuDropdown;

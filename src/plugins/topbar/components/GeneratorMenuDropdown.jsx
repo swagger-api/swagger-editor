@@ -1,8 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import PropTypes from 'prop-types';
 
-const GeneratorMenuDropdownHooks = (props) => {
-  const { getComponent, topbarActions, topbarSelectors } = props;
+const GeneratorMenuDropdown = ({ getComponent, topbarActions, topbarSelectors }) => {
   const hasMounted = useRef(false);
   const [shouldDisplayGeneratorLists, setShouldDisplayGeneratorLists] = useState(false);
   const [servers, setServers] = useState([]);
@@ -92,10 +91,10 @@ const GeneratorMenuDropdownHooks = (props) => {
   );
 };
 
-GeneratorMenuDropdownHooks.propTypes = {
+GeneratorMenuDropdown.propTypes = {
   topbarActions: PropTypes.oneOfType([PropTypes.object]).isRequired,
   topbarSelectors: PropTypes.oneOfType([PropTypes.object]).isRequired,
   getComponent: PropTypes.func.isRequired,
 };
 
-export default GeneratorMenuDropdownHooks;
+export default GeneratorMenuDropdown;

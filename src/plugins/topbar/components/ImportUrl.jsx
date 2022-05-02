@@ -3,9 +3,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-const ImportUrl = (props) => {
-  const { onImportUrlChange } = props;
-
+const ImportUrl = ({ onImportUrlChange }) => {
   return (
     <div className="input-group">
       <label htmlFor="input-import-url" aria-labelledby="input-import-url">

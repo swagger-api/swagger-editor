@@ -1,7 +1,7 @@
 import React from 'react';
 import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 
-import EditMenuDropdownHooks from './EditMenuDropdownHooks.jsx';
+import EditMenuDropdown from './EditMenuDropdown.jsx';
 import DropdownItem from './DropdownItem.jsx';
 import DropdownMenu from './DropdownMenu.jsx';
 import * as topbarActions from '../actions/index.js';
@@ -46,7 +46,7 @@ const renderEditMenuDropdown = async (props) => {
   };
 
   render(
-    <EditMenuDropdownHooks
+    <EditMenuDropdown
       getComponent={(c) => {
         return components[c];
       }}

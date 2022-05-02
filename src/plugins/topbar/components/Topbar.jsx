@@ -1,29 +1,27 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-const Topbar = (props) => {
-  const { getComponent, topbarActions, topbarSelectors } = props;
-
+const Topbar = ({ getComponent, topbarActions, topbarSelectors }) => {
   const LinkHome = getComponent('LinkHome');
-  const FileMenuDropdownHooks = getComponent('FileMenuDropdownHooks');
-  const EditMenuDropdownHooks = getComponent('EditMenuDropdownHooks');
-  const GeneratorMenuDropdownHooks = getComponent('GeneratorMenuDropdownHooks');
+  const FileMenuDropdown = getComponent('FileMenuDropdown');
+  const EditMenuDropdown = getComponent('EditMenuDropdown');
+  const GeneratorMenuDropdown = getComponent('GeneratorMenuDropdown');
 
   return (
     <div className="topbar">
       <div className="topbar-wrapper">
         <LinkHome />
-        <FileMenuDropdownHooks
+        <FileMenuDropdown
           getComponent={getComponent}
           topbarActions={topbarActions}
           topbarSelectors={topbarSelectors}
         />
-        <EditMenuDropdownHooks
+        <EditMenuDropdown
           getComponent={getComponent}
           topbarActions={topbarActions}
           topbarSelectors={topbarSelectors}
         />
-        <GeneratorMenuDropdownHooks
+        <GeneratorMenuDropdown
           getComponent={getComponent}
           topbarActions={topbarActions}
           topbarSelectors={topbarSelectors}

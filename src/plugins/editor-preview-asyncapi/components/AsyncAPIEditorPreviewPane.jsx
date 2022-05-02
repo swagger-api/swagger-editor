@@ -7,7 +7,7 @@ import { isValidJsonOrYaml } from '../../../utils/spec-valid-json-yaml.js';
 
 const AsyncApiReactComponent = React.lazy(() => import('@asyncapi/react-component'));
 
-const AsyncAPIEditorPreviewPane = (props) => {
+const AsyncAPIEditorPreviewPane = ({ specSelectors }) => {
   const [isValid, setIsValid] = useState(false);
   const [parsedSpec, setParsedSpec] = useState(null);
 
@@ -48,7 +48,6 @@ const AsyncAPIEditorPreviewPane = (props) => {
   };
 
   const getSelectorSpecStr = () => {
-    const { specSelectors } = props;
     const initialValue = '';
     // get spec from swagger-ui state.spec
     const spec = specSelectors.specStr();

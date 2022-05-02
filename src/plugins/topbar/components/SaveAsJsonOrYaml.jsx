@@ -1,8 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-const SaveAsJsonOrYaml = (props) => {
-  const { getComponent, languageFormat, onSaveAsJsonClick, onSaveAsYamlClick } = props;
+const SaveAsJsonOrYaml = ({
+  getComponent,
+  languageFormat,
+  onSaveAsJsonClick,
+  onSaveAsYamlClick,
+}) => {
   const DropdownItem = getComponent('DropdownItem');
 
   return (

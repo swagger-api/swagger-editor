@@ -4,8 +4,7 @@ import PropTypes from 'prop-types';
 import { useLanguageFormat } from './shared-hooks.jsx';
 import ImportUrl from './ImportUrl.jsx';
 
-const FileMenuDropdownHooks = (props) => {
-  const { getComponent, topbarActions, topbarSelectors } = props;
+const FileMenuDropdown = ({ getComponent, topbarActions, topbarSelectors }) => {
   const languageFormat = useLanguageFormat(topbarActions, topbarSelectors);
 
   const [isAlertDialogOpen, setIsAlertDialogOpen] = useState(false);
@@ -215,10 +214,10 @@ const FileMenuDropdownHooks = (props) => {
   );
 };
 
-FileMenuDropdownHooks.propTypes = {
+FileMenuDropdown.propTypes = {
   getComponent: PropTypes.func.isRequired,
   topbarActions: PropTypes.oneOfType([PropTypes.object]).isRequired,
   topbarSelectors: PropTypes.oneOfType([PropTypes.object]).isRequired,
 };
 
-export default FileMenuDropdownHooks;
+export default FileMenuDropdown;

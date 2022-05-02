@@ -5,8 +5,7 @@ import { useTable } from 'react-table';
 
 import noop from '../../../../utils/common-noop.js';
 
-const ValidationTable = (props) => {
-  const { columns, data, onValidationKeyClick } = props;
+const ValidationTable = ({ columns, data, onValidationKeyClick }) => {
   const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } = useTable({
     columns,
     data,

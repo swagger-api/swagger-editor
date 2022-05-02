@@ -2,8 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { SplitPane } from 'react-collapse-pane';
 
-const Layout = (props) => {
-  const { getComponent, useSwaggerIDEReactModal } = props;
+const Layout = ({ getComponent, useSwaggerIDEReactModal }) => {
   const EditorPane = getComponent('EditorPane', true);
   const EditorPreviewPane = getComponent('EditorPreviewPane', true);
   const Topbar = getComponent('Topbar', true);

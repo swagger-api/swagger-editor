@@ -2,9 +2,9 @@ import LinkHome from './components/LinkHome.jsx';
 import DropdownMenu from './components/DropdownMenu.jsx';
 import DropdownItem from './components/DropdownItem.jsx';
 import ImportFileDropdownItem from './components/ImportFileDropdownItem.jsx';
-import FileMenuDropdownHooks from './components/FileMenuDropdownHooks.jsx';
-import EditMenuDropdownHooks from './components/EditMenuDropdownHooks.jsx';
-import GeneratorMenuDropdownHooks from './components/GeneratorMenuDropdownHooks.jsx';
+import FileMenuDropdown from './components/FileMenuDropdown.jsx';
+import EditMenuDropdown from './components/EditMenuDropdown.jsx';
+import GeneratorMenuDropdown from './components/GeneratorMenuDropdown.jsx';
 import SaveAsJsonOrYaml from './components/SaveAsJsonOrYaml.jsx';
 import Topbar from './components/Topbar.jsx';
 import {
@@ -36,9 +36,9 @@ const TopbarPlugin = () => ({
     DropdownMenu,
     DropdownItem,
     ImportFileDropdownItem,
-    FileMenuDropdownHooks,
-    EditMenuDropdownHooks,
-    GeneratorMenuDropdownHooks,
+    FileMenuDropdown,
+    EditMenuDropdown,
+    GeneratorMenuDropdown,
     SaveAsJsonOrYaml,
   },
   statePlugins: {

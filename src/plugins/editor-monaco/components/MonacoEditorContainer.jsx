@@ -3,9 +3,15 @@ import PropTypes from 'prop-types';
 
 import MonacoEditor from './MonacoEditor.jsx';
 
-const MonacoEditorContainer = (props) => {
-  const { editorActions, specActions, editorSelectors, specSelectors, isReadOnly, width, height } =
-    props;
+const MonacoEditorContainer = ({
+  editorActions,
+  specActions,
+  editorSelectors,
+  specSelectors,
+  isReadOnly,
+  width,
+  height,
+}) => {
   const language = 'apidom';
   const initialValue = '';
   const defaultEditorTheme = 'my-vs-dark';

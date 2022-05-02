@@ -2,7 +2,7 @@ import React from 'react';
 import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 import ReactModal from 'react-modal';
 
-import FileMenuDropdownHooks from './FileMenuDropdownHooks.jsx';
+import FileMenuDropdown from './FileMenuDropdown.jsx';
 import DropdownItem from './DropdownItem.jsx';
 import DropdownMenu from './DropdownMenu.jsx';
 import ImportFileDropdownItem from './ImportFileDropdownItem.jsx';
@@ -67,7 +67,7 @@ const renderFileMenuDropdown = async (props) => {
   };
 
   render(
-    <FileMenuDropdownHooks
+    <FileMenuDropdown
       getComponent={getComponent}
       {...props} // eslint-disable-line react/jsx-props-no-spreading
     />
