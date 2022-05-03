@@ -34,7 +34,10 @@ export const makeUseDropzone = (getSystem) => () => {
   );
   const { getRootProps, getInputProps, isDragActive } = useVendorDropzone({
     onDrop: handleFileDrop,
-    accept: '.yaml,application/json',
+    accept: {
+      'text/yaml': ['.yaml', '.yml'],
+      'application/json': ['.json'],
+    },
     multiple: false,
     noClick: true,
   });
