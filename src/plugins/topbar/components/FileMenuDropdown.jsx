@@ -17,7 +17,7 @@ const FileMenuDropdown = ({ getComponent, topbarActions, topbarSelectors }) => {
   const handleSaveAsJsonClick = () => {
     async function saveAsJson() {
       const saveResult = await topbarActions.saveAsJson();
-      if (saveResult && saveResult.error) {
+      if (saveResult?.error) {
         // set & display the error message
         setErrorMessage(saveResult.error); // original non-resolved
         setIsAlertDialogOpen(true);
@@ -30,13 +30,13 @@ const FileMenuDropdown = ({ getComponent, topbarActions, topbarSelectors }) => {
   const handleSaveAsYamlClick = () => {
     async function saveAsYaml() {
       const saveResult = await topbarActions.saveAsYaml({ overrideWarning: false });
-      if (saveResult && saveResult.warning) {
+      if (saveResult?.warning) {
         setIsConfirmDialogOpen(true);
         setConfirmMessage(saveResult.warning);
       }
-      if (saveResult && saveResult.error) {
+      if (saveResult?.error) {
         // set & display the error message
-        if (saveResult.payload.message) {
+        if (saveResult?.payload?.message) {
           // we can get this error message if we forgot the 'overrideWarning" option above
           setErrorMessage(saveResult.payload.message);
         } else if (saveResult.error) {
@@ -52,9 +52,9 @@ const FileMenuDropdown = ({ getComponent, topbarActions, topbarSelectors }) => {
   const handleSaveAsYamlWithOverride = () => {
     async function saveAsYaml() {
       const saveResult = await topbarActions.saveAsYaml({ overrideWarning: true });
-      if (saveResult && saveResult.error) {
+      if (saveResult?.error) {
         // set & display the error message
-        if (saveResult.payload.message) {
+        if (saveResult?.payload?.message) {
           // we can get this error message if we forgot the 'overrideWarning" option above
           setErrorMessage(saveResult.payload.message);
         } else if (saveResult.error) {
@@ -72,7 +72,7 @@ const FileMenuDropdown = ({ getComponent, topbarActions, topbarSelectors }) => {
   const handleSaveAsJsonResolvedClick = () => {
     async function saveAsJson() {
       const saveResult = await topbarActions.saveAsJsonResolved();
-      if (saveResult && saveResult.error) {
+      if (saveResult?.error) {
         // set & display the error message
         setErrorMessage(saveResult.error); // original non-resolved
         setIsAlertDialogOpen(true);
@@ -85,13 +85,13 @@ const FileMenuDropdown = ({ getComponent, topbarActions, topbarSelectors }) => {
   const handleSaveAsYamlResolvedClick = () => {
     async function saveAsYaml() {
       const saveResult = await topbarActions.saveAsYamlResolved({ overrideWarning: false });
-      if (saveResult && saveResult.warning) {
+      if (saveResult?.warning) {
         setIsConfirmDialogOpen(true);
         setConfirmMessage(saveResult.warning);
       }
-      if (saveResult && saveResult.error) {
+      if (saveResult?.error) {
         // set & display the error message
-        if (saveResult.payload.message) {
+        if (saveResult?.payload?.message) {
           // we can get this error message if we forgot the 'overrideWarning" option above
           setErrorMessage(saveResult.payload.message);
         } else if (saveResult.error) {
