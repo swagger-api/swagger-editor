@@ -5,6 +5,6 @@ import 'swagger-ui-react/swagger-ui.css';
 import SwaggerIDE from './App.jsx';
 
 ReactDOM.render(
-  <SwaggerIDE url="https://raw.githubusercontent.com/asyncapi/spec/v2.3.0/examples/streetlights-kafka.yml" />,
+  <SwaggerIDE url="https://raw.githubusercontent.com/asyncapi/spec/v2.4.0/examples/streetlights-kafka.yml" />,
   document.getElementById('swagger-ide')
 );

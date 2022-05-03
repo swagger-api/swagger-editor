@@ -188,7 +188,7 @@ export const mockOas3_1Spec = {
 };
 
 export const mockAsyncapi2Spec = {
-  asyncapi: '2.3.0',
+  asyncapi: '2.4.0',
   info: {
     title: 'Streetlights Kafka API',
     version: '1.0.0',
@@ -422,7 +422,7 @@ export const mockAsyncapi2Spec = {
 };
 
 export const mockAsyncapiYaml =
-  'asyncapi: 2.3.0\n' +
+  'asyncapi: 2.4.0\n' +
   'info:\n' +
   '  version: 0.1.9\n' +
   'servers:\n' +
@@ -437,7 +437,7 @@ export const mockAsyncapiYaml =
   '          type: string\n';
 
 export const mockAsyncApi2PetstoreKafka = {
-  asyncapi: '2.3.0',
+  asyncapi: '2.4.0',
   info: {
     title: 'Petstore',
     version: '1.0.0',
