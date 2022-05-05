@@ -1,3 +1,5 @@
+import * as monaco from 'monaco-editor-core';
+
 import EditorPane from './components/EditorPane.jsx';
 import MonacoEditorContainer from './components/MonacoEditorContainer.jsx';
 import ValidationPane from './components/ValidationPane/ValidationPane.jsx';
@@ -13,6 +15,9 @@ import reducers from './reducers.js';
 import { selectEditorTheme, selectEditorMarkers, selectEditorJumpToMarker } from './selectors.js';
 
 const EditorMonacoPlugin = () => ({
+  rootInjects: {
+    monaco,
+  },
   components: {
     Editor: MonacoEditorContainer,
     MonacoEditor: MonacoEditorContainer,
