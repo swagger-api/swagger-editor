@@ -21,12 +21,6 @@ export default class Topbar extends React.Component {
     }
   }
 
-  hasNullSwagger2ConverterUrl = () => {
-    const { swagger2ConverterUrl } = this.props.getConfigs()
-
-    return swagger2ConverterUrl == null
-  }
-
   getGeneratorUrl = () => {
     const { isOAS3, isSwagger2 } = this.props.specSelectors
     const { swagger2GeneratorUrl, oas3GeneratorUrl } = this.props.getConfigs()
@@ -321,6 +315,8 @@ export default class Topbar extends React.Component {
     const TopbarInsert = getComponent("TopbarInsert")
     const ImportFileMenuItem = getComponent("ImportFileMenuItem")
     const ConvertDefinitionMenuItem = getComponent("ConvertDefinitionMenuItem")
+    const { swagger2ConverterUrl } = this.props.getConfigs()
+
 
     let showServersMenu = this.state.servers && this.state.servers.length
     let showClientsMenu = this.state.clients && this.state.clients.length
@@ -364,10 +360,10 @@ export default class Topbar extends React.Component {
             <DropdownMenu {...makeMenuOptions("Edit")}>
               <li><button type="button" onClick={this.convertToYaml}>Convert to YAML</button></li>
               <ConvertDefinitionMenuItem
-                hasNullSwagger2ConverterUrl={this.hasNullSwagger2ConverterUrl()}
                 isSwagger2={specSelectors.isSwagger2()}
+                swagger2ConverterUrl={swagger2ConverterUrl}
                 onClick={() => topbarActions.showModal("convert")}
-                />
+              />
             </DropdownMenu>
             <TopbarInsert {...this.props} />
             { showServersMenu ? <DropdownMenu className="long" {...makeMenuOptions("Generate Server")}>
