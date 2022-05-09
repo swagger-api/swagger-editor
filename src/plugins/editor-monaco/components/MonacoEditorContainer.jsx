@@ -1,7 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import MonacoEditor from './MonacoEditor.jsx';
+// import MonacoEditor from './MonacoEditor.jsx';
+import MonacoEditor from './MonacoEditorHooks.jsx';
 
 const MonacoEditorContainer = ({
   editorActions,
