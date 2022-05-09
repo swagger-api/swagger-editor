@@ -47,7 +47,10 @@
     "link:apidom-ls": "npm link @swagger-api/apidom-ls"
   },
   "dependencies": {
-    "@asyncapi/parser": "^1.14.1",
+    "@asyncapi/avro-schema-parser": "^1.0.1",
+    "@asyncapi/openapi-schema-parser": "^2.0.1",
+    "@asyncapi/parser": "^1.15.0",
+    "@asyncapi/raml-dt-schema-parser": "^2.0.1",
     "@asyncapi/react-component": "^1.0.0-next.38",
     "@babel/runtime": "^7.17.9",
     "@primer/octicons-react": "^17.0.0",
@@ -89,6 +92,7 @@
     "eslint-config-prettier": "^8.5.0",
     "eslint-plugin-cypress": "^2.12.1",
     "eslint-plugin-prettier": "^4.0.0",
+    "https-browserify": "^1.0.0",
     "husky": "^7.0.4",
     "jest-canvas-mock": "^2.4.0",
     "lint-staged": "^12.4.1",
@@ -101,6 +105,8 @@
     "source-map-explorer": "^2.5.2",
     "start-server-and-test": "^1.14.0",
     "stream-browserify": "^3.0.0",
+    "stream-http": "^3.2.0",
+    "util": "^0.12.4",
     "web-vitals": "^2.1.4"
   }
 }

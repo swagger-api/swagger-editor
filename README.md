@@ -94,6 +94,9 @@ Install dependencies needed for webpack@5 to properly build SwaggerIDE.
 ```sh
  $ npm i stream-browserify --save-dev
  $ npm i process --save-dev
+ $ npm i https-browserify --save-dev
+ $ npm i stream-http --save-dev
+ $ npm i util --save-dev
 ```
 
 ```js
@@ -114,12 +117,15 @@ module.exports = {
   },
   resolve: {
     fallback: {
+      os: false,
       fs: false,
-      http: false,
-      https: false,
+      http: require.resolve('stream-http'),
+      https: require.resolve('https-browserify'),
       path: false,
       stream: require.resolve('stream-browserify'),
-      util: false,
+      util: require.resolve('util'),
+      zlib: false,
+      assert: false,
     }
   },
   plugins: [
@@ -173,6 +179,9 @@ Install `copy-webpack-plugin` and other needed dependencies.
  $ npm i copy-webpack-plugin --save-dev
  $ npm i stream-browserify --save-dev
  $ npm i process --save-dev
+ $ npm i https-browserify --save-dev
+ $ npm i stream-http --save-dev
+ $ npm i util --save-dev
 ```
 
 ```js
@@ -192,12 +201,15 @@ module.exports = {
   },
   resolve: {
     fallback: {
+      os: false,
       fs: false,
-      http: false,
-      https: false,
+      http: require.resolve('stream-http'),
+      https: require.resolve('https-browserify'),
       path: false,
       stream: require.resolve('stream-browserify'),
-      util: false,
+      util: require.resolve('util'),
+      zlib: false,
+      assert: false,
     }
   },
   plugins: [

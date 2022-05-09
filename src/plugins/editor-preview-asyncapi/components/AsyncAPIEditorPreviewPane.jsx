@@ -1,9 +1,16 @@
 import React, { useEffect, useState, Suspense } from 'react';
 import PropTypes from 'prop-types';
 import '@asyncapi/react-component/styles/default.min.css';
-import { parse } from '@asyncapi/parser';
+import { parse, registerSchemaParser } from '@asyncapi/parser';
+import openapiSchemaParser from '@asyncapi/openapi-schema-parser';
+import ramlSchemaParser from '@asyncapi/raml-dt-schema-parser';
+import avroSchemaParser from '@asyncapi/avro-schema-parser';
 
 import { isValidJsonOrYaml } from '../../../utils/spec-valid-json-yaml.js';
+
+registerSchemaParser(openapiSchemaParser);
+registerSchemaParser(ramlSchemaParser);
+registerSchemaParser(avroSchemaParser);
 
 const AsyncApiReactComponent = React.lazy(() => import('@asyncapi/react-component'));
 

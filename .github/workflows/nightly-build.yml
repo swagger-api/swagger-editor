@@ -43,6 +43,8 @@ jobs:
           CI: true
       - name: Build App artifacts
         run: npm run build:app
+        env:
+          NODE_OPTIONS: "--max_old_space_size=4096"
       - name: E2E Tests
         run: npm run cy:ci
       - name: Upload build artifacts (for GH pages)

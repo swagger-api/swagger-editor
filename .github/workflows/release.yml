@@ -33,6 +33,8 @@ jobs:
           npm run cy:ci
           npm run build:bundle:esm
           npm run build:bundle:umd
+        env:
+          NODE_OPTIONS: "--max_old_space_size=4096"
       - name: Semantic Release
         id: semantic
         uses: cycjimmy/semantic-release-action@v2
