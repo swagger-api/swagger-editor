@@ -117,15 +117,13 @@ module.exports = {
   },
   resolve: {
     fallback: {
-      os: false,
-      fs: false,
-      http: require.resolve('stream-http'),
-      https: require.resolve('https-browserify'),
       path: false,
+      fs: false,
+      http: require.resolve('stream-http'), // required for asyncapi parser
+      https: require.resolve('https-browserify'), // required for asyncapi parser
       stream: require.resolve('stream-browserify'),
       util: require.resolve('util'),
       zlib: false,
-      assert: false,
     }
   },
   plugins: [
@@ -201,15 +199,13 @@ module.exports = {
   },
   resolve: {
     fallback: {
-      os: false,
-      fs: false,
-      http: require.resolve('stream-http'),
-      https: require.resolve('https-browserify'),
       path: false,
+      fs: false,
+      http: require.resolve('stream-http'), // required for asyncapi parser
+      https: require.resolve('https-browserify'), // required for asyncapi parser
       stream: require.resolve('stream-browserify'),
       util: require.resolve('util'),
       zlib: false,
-      assert: false,
     }
   },
   plugins: [
