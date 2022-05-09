@@ -2,17 +2,19 @@ import React, { useEffect, useState, Suspense } from 'react';
 import PropTypes from 'prop-types';
 import '@asyncapi/react-component/styles/default.min.css';
 import { parse, registerSchemaParser } from '@asyncapi/parser';
-import openapiSchemaParser from '@asyncapi/openapi-schema-parser';
-import ramlSchemaParser from '@asyncapi/raml-dt-schema-parser';
-import avroSchemaParser from '@asyncapi/avro-schema-parser';
+import * as openapiSchemaParser from '@asyncapi/openapi-schema-parser';
+import * as avroSchemaParser from '@asyncapi/avro-schema-parser';
 
+import * as ramlSchemaParser from '../util/raml-1-0-parser.js';
 import { isValidJsonOrYaml } from '../../../utils/spec-valid-json-yaml.js';
 
 registerSchemaParser(openapiSchemaParser);
 registerSchemaParser(ramlSchemaParser);
 registerSchemaParser(avroSchemaParser);
 
-const AsyncApiReactComponent = React.lazy(() => import('@asyncapi/react-component'));
+const AsyncApiReactComponent = React.lazy(() =>
+  import('@asyncapi/react-component/lib/esm/without-parser.js')
+);
 
 const AsyncAPIEditorPreviewPane = ({ specSelectors }) => {
   const [isValid, setIsValid] = useState(false);
