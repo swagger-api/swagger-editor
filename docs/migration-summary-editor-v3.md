@@ -25,8 +25,8 @@
 [x] NEW: validation from apidom-ls library
 [x] Removed: Ace Editor  
 [x] Removed: internal validation from swagger-editor v3/v4
-[ ] Drag-n-drop local file to editor (react-dropzone)  
-[ ] Persist definition on browser refresh/reload (localStorage)  
+[x] Drag-n-drop local file to editor (react-dropzone)  
+[x] Persist definition on browser refresh/reload (localStorage)  
 [ ] if refresh empty editor value, should load a default definition; hidden dev feature  
 [ ] NEW: monaco configuration options  
 
@@ -51,10 +51,10 @@
 
 
 ### Possible additional/expanded docs/contributing topics  
-- Separation of actions from components. tldr: easier to test, possibly more re-usable
-- React Hooks. tldr: modern practices  
-- testing-library. tldr: focus on user behaviors, more durable/maintainable tests  
-- reorganizing the presets. e.g. what happened to `standalone` and other plugins? The new recommended structure. tldr: multi-spec, multi-layouts  
+[x] Separation of actions from components. tldr: easier to test, possibly more re-usable
+[x] React Hooks. tldr: modern practices  
+[x] testing-library. tldr: focus on user behaviors, more durable/maintainable tests  
+[x] reorganizing the presets. e.g. what happened to `standalone` and other plugins? The new recommended structure. tldr: multi-spec, multi-layouts  
 
 
 ### List of migrated legacy methods  
