@@ -4,14 +4,14 @@
 
 ### Known Issues  
 
-[ ] React Hoook-based component cannot be imported via swagger-ui's `getComponent` method  
+[x] React Hoook-based component cannot be imported via swagger-ui's `getComponent` method  
 [ ] handle case(s) when specSelectors.method returns undefined  
 
 ### Integration Tasks  
-[ ] add generic error catch component, e.g. SHub uses react-error-boundary  
-[ ] react-dropzone  
+[x] add generic error catch component, e.g. SHub uses react-error-boundary  
+[x] react-dropzone  
 [ ] match and extend configurability options for editor & monaco  
-[ ] localStorage  
+[x] localStorage  
 [ ] if refresh empty monaco, should load a default definition  
 [ ] jump-to-path; if still needed, this should be integrated into the new `EditorPane` plugin  
 [ ] monaco - mixed monaco css with swagger css/less/sass, as needed  
