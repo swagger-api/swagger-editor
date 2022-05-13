@@ -13,8 +13,12 @@ describe('Monaco Editor with Validation Pane', () => {
    * make appropriate changes if/when needed
    */
   it('should display visible Validation Pane table header and table body when error exists', () => {
-    cy.get('.swagger-ide__validation-table > thead').should('exist').should('be.visible');
-    cy.get('.swagger-ide__validation-table > tbody').should('exist').should('be.visible');
+    cy.get('.swagger-ide__validation-table')
+      .should('exist')
+      .get('.swagger-ide__validation-table > thead')
+      .should('be.visible')
+      .get('.swagger-ide__validation-table > tbody')
+      .should('be.visible');
     // some additional assertions just to make sure
     cy.get('.swagger-ide__validation-table > thead > tr > :nth-child(1)')
       .contains('line', { matchCase: false })
