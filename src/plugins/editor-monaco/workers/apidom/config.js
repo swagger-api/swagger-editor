@@ -1,6 +1,14 @@
 import * as monaco from 'monaco-editor-core';
 
-export const richLanguageConfiguration = {
+export const languageId = 'apidom';
+
+export const languageExtensionPoint = {
+  id: languageId,
+  // aliases: ['JSON', 'json', 'YAML', 'yaml'],
+  // mimetypes: ['application/json', 'application/yaml'],
+};
+
+export const richLanguage = {
   comments: {
     lineComment: '#',
   },

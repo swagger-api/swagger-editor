@@ -1,10 +1,13 @@
 import { initialize } from 'monaco-editor-core/esm/vs/editor/editor.worker.js';
 
-import { ApiDOMWorker } from './ApiDOMWorker.js';
+import { makeCreate, ApiDOMWorker } from './ApiDOMWorker.js';
 
-// eslint-disable-next-line no-restricted-globals
-self.onmessage = () => {
+const create = makeCreate(ApiDOMWorker);
+
+globalThis.onmessage = () => {
   initialize((ctx, createData) => {
-    return new ApiDOMWorker(ctx, createData);
+    return create(ctx, createData);
   });
 };
+
+export { initialize, create, makeCreate, ApiDOMWorker };

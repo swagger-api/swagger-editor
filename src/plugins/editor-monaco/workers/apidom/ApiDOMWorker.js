@@ -1,20 +1,20 @@
 /* eslint-disable no-underscore-dangle */
-import { TextDocument } from 'vscode-languageserver-textdocument'; // this is true source
-import { getLanguageService, LogLevel } from '@swagger-api/apidom-ls';
-
-import { languageID } from '../../adapters/config.js';
+import * as vscodeLanguageServerTextDocument from 'vscode-languageserver-textdocument'; // this is true source
+import * as apidomLS from '@swagger-api/apidom-ls';
 
 export class ApiDOMWorker {
+  static apiDOMContext = {
+    validatorProviders: [],
+    completionProviders: [],
+    performanceLogs: false,
+    logLevel: apidomLS.LogLevel.WARN,
+  };
+
   // eslint-disable-next-line no-unused-vars
   constructor(ctx, createData) {
     this._ctx = ctx;
-    // define this._x for languageSettings, languageId, languageService
-    const apidomContext = {
-      validatorProviders: [],
-      performanceLogs: false,
-      logLevel: LogLevel.WARN,
-    };
-    this._languageService = getLanguageService(apidomContext);
+    this._createData = createData;
+    this._languageService = apidomLS.getLanguageService(this.constructor.apiDOMContext);
   }
 
   async doValidation(uri) {
@@ -98,9 +98,9 @@ export class ApiDOMWorker {
     // fyi, reference more complete example in cssWorker
     // https://github.com/microsoft/monaco-css/blob/master/src/cssWorker.ts
     // which we might want later to handle multiple URIs
-    const textDocumentToReturn = TextDocument.create(
+    const textDocumentToReturn = vscodeLanguageServerTextDocument.TextDocument.create(
       uri,
-      languageID,
+      this._createData._languageId,
       models._versionId,
       models.getValue()
     );
@@ -108,6 +108,35 @@ export class ApiDOMWorker {
   }
 }
 
-export function create(ctx, createData) {
-  return new ApiDOMWorker(ctx, createData);
-}
+export const makeCreate = (BaseClass) => (ctx, createData) => {
+  let ApiDOMWorkerClass = BaseClass;
+
+  if (createData.customWorkerPath) {
+    if (typeof globalThis.importScripts === 'undefined') {
+      // eslint-disable-next-line no-console
+      console.warn(
+        'Monaco is not using webworkers for background tasks, and that is needed to support the customWorkerPath flag'
+      );
+    } else {
+      if (Array.isArray(createData.customWorkerPath)) {
+        globalThis.importScripts(...createData.customWorkerPath);
+      } else {
+        globalThis.importScripts(createData.customWorkerPath);
+      }
+
+      const { customApiDOMWorkerFactory: workerFactoryFunc } = globalThis;
+      if (typeof workerFactoryFunc !== 'function') {
+        throw new Error(
+          `The script at ${createData.customWorkerPath} does not add customApiDOMWorkerFactory to globalThis`
+        );
+      }
+
+      ApiDOMWorkerClass = workerFactoryFunc(ApiDOMWorkerClass, {
+        apidomLS,
+        vscodeLanguageServerTextDocument,
+      });
+    }
+  }
+
+  return new ApiDOMWorkerClass(ctx, createData);
+};

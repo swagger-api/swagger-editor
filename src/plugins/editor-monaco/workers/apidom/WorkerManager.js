@@ -2,8 +2,6 @@
 /* eslint-disable import/prefer-default-export */
 import * as monaco from 'monaco-editor-core';
 
-import { languageID } from './config.js';
-
 const STOP_WHEN_IDLE_FOR = 2 * 60 * 1000; // 2min
 
 export class WorkerManager {
@@ -11,7 +9,7 @@ export class WorkerManager {
   constructor(defaults) {
     this.worker = null;
     this.workerClientProxy = null;
-    // this.defaults = defaults; // from constructor
+    this._defaults = defaults;
     // TODO: placeholder code exists for possible memory performance improvements
     // this.idleCheckInterval = setInterval(() => this.checkIfIdle(), 30 * 1000);
     // this.lastUsedTime = 0;
@@ -21,14 +19,15 @@ export class WorkerManager {
   // intent, private
   getClientproxy() {
     if (!this.workerClientProxy) {
+      const { customApiDOMWorkerPath, ...createData } = this._defaults;
+      createData.customWorkerPath = customApiDOMWorkerPath;
+
       this.worker = monaco.editor.createWebWorker({
         // module that exports the create() method and returns a `ApiDOMWorker` instance
         moduleId: 'ApiDOMWorker',
-        label: languageID,
+        label: this._defaults.languageId,
         // passed in to the create() method
-        createData: {
-          languageId: languageID,
-        },
+        createData,
       });
       this.workerClientProxy = this.worker.getProxy(); // Promise pending
     }

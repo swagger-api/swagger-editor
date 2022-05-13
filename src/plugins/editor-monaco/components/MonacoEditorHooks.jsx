@@ -7,8 +7,7 @@ import noop from '../../../utils/common-noop.js';
 import getStyleMetadataLight, { themes as themesLight } from '../utils/monaco-theme-light.js';
 import getStyleMetadataDark, { themes as themesDark } from '../utils/monaco-theme-dark.js';
 import { dereference } from '../utils/monaco-action-apidom-deref.js';
-import { languageID } from '../adapters/config.js';
-import { setupLanguage } from '../adapters/setup.js';
+import { languageId } from '../workers/apidom/config.js';
 
 const MonacoEditorHooks = ({
   /* functions */
@@ -56,12 +55,11 @@ const MonacoEditorHooks = ({
   }, []);
 
   const createEditor = useCallback(() => {
-    setupLanguage();
     editorRef.current = monacoRef.current.editor.create(
       containerRef.current,
       {
         value,
-        language: languageID,
+        language: languageId,
         // semantic tokens provider is disabled by default
         // https://github.com/microsoft/monaco-editor/issues/1833
         'semanticHighlighting.enabled': true,

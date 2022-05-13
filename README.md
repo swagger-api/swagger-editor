@@ -16,6 +16,7 @@ SwaggerIDE is using **forked** Create React App as it's building infrastructure.
   - [npm scripts](#npm-scripts)
   - [Build artifacts](#build-artifacts)
   - [Package mapping](#package-mapping)
+- [Documentation](#documentation)
 - [Docker](#docker)
 - [License](#license)
 
@@ -419,6 +420,12 @@ SwaggerIDE maps its [build artifacts](#build-artifacts) in `package.json` file i
 
 To learn more about these fields please refer to [webpack mainFields documentation](https://webpack.js.org/configuration/resolve/#resolvemainfields)
 or to [Node.js Modules: Packages documentation](https://nodejs.org/docs/latest-v16.x/api/packages.html).
+
+## Documentation
+
+### Customization
+
+- [Plug points](./docs/customization/plug-points/README.md)
 
 ## Docker
 Once we build the app, we can also build and run a Docker container.

@@ -1,7 +1,7 @@
 import * as monaco from 'monaco-editor-core';
 import { ProtocolToMonacoConverter } from 'monaco-languageclient/lib/monaco-converter.js';
 
-import { languageID } from './config.js';
+import { languageId } from '../config.js';
 
 export default class DiagnosticsAdapter {
   constructor(worker) {
@@ -37,7 +37,7 @@ export default class DiagnosticsAdapter {
       // generate model markers to set in editor
       const p2m = new ProtocolToMonacoConverter(monaco);
       const markers = p2m.asDiagnostics(errorMarkers);
-      monaco.editor.setModelMarkers(model, languageID, markers);
+      monaco.editor.setModelMarkers(model, languageId, markers);
       return Promise.resolve({ message: 'doValidation success' });
     } catch (e) {
       return Promise.resolve({ error: 'unable to doValidation' });
