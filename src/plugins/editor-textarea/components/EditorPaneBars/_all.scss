@@ -34,10 +34,22 @@
     flex-direction: row;
     justify-content: flex-end;
   }
+  &__toolbar-horizontal--justify-end {
+    justify-content: flex-end;
+  }
+  &__toolbar-horizontal--justify-start {
+    justify-content: flex-start;
+  }
 
   &__toolbar-vertical {
     display: flex;
     flex-direction: column;
+    justify-content: flex-start;
+  }
+  &__toolbar-vertical--justify-end {
+    justify-content: flex-end;
+  }
+  &__toolbar-vertical--justify-start {
     justify-content: flex-start;
   }
 
