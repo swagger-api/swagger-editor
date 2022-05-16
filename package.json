@@ -70,7 +70,7 @@
     "react-dropzone": "^14.2.1",
     "react-modal": "^3.15.1",
     "react-resize-detector": "^7.0.0",
-    "react-table": "^7.7.0",
+    "react-table": "^7.8.0",
     "reselect": "^4.1.5",
     "swagger-ui-react": "^4.11.1",
     "vscode-languageserver-textdocument": "^1.0.4"
