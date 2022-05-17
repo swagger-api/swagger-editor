@@ -11,10 +11,10 @@ jobs:
     steps:
       - name: 'Wait for status checks'
         id: waitforstatuschecks
-        uses: WyriHaximus/github-action-wait-for-status@v1
+        uses: WyriHaximus/github-action-wait-for-status@v1.6
         with:
           ignoreActions: Merge me!
-          checkInterval: 180
+          checkInterval: 10
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: Merge me!
