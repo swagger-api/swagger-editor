@@ -1,8 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-// import MonacoEditor from './MonacoEditor.jsx';
-import MonacoEditor from './MonacoEditorHooks.jsx';
+import MonacoEditor from './MonacoEditor.jsx';
 
 const MonacoEditorContainer = ({
   editorActions,
@@ -10,8 +9,6 @@ const MonacoEditorContainer = ({
   editorSelectors,
   specSelectors,
   isReadOnly,
-  width,
-  height,
 }) => {
   const language = 'apidom';
   const initialValue = '';
@@ -53,8 +50,6 @@ const MonacoEditorContainer = ({
       isReadOnly={isReadOnly}
       jumpToMarker={jumpToMarker}
       onChange={handleChangeEditorValue}
-      height={height}
-      width={width}
       onEditorMount={handleEditorDidMount}
       onEditorWillUnmount={handleEditorWillUnmount}
       editorMarkersDidChange={handleEditorMarkersDidChange}
@@ -65,8 +60,6 @@ const MonacoEditorContainer = ({
 
 MonacoEditorContainer.propTypes = {
   isReadOnly: PropTypes.bool,
-  width: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
-  height: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
   specSelectors: PropTypes.oneOfType([PropTypes.object]).isRequired,
   specActions: PropTypes.oneOfType([PropTypes.object]).isRequired,
   editorActions: PropTypes.oneOfType([PropTypes.object]).isRequired,

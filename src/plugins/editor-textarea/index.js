@@ -9,11 +9,12 @@ import {
   editorSetup as wrapEditorSetup,
   editorTearDown as wrapEditorTearDown,
 } from './wrap-actions.js';
-import { makeUseEditorLifecycle } from './hooks.js';
+import { makeUseEditorLifecycle, useElementResize } from './hooks.js';
 
 const EditorTextareaPlugin = ({ getSystem }) => ({
   rootInjects: {
     useEditorLifecycle: makeUseEditorLifecycle(getSystem),
+    useElementResize,
   },
   components: {
     EditorPane,

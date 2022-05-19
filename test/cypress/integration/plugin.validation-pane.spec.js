@@ -1,4 +1,4 @@
-describe('Monaco Editor with Validation Pane', () => {
+describe.skip('Monaco Editor with Validation Pane', () => {
   beforeEach(() => {
     cy.prepareAsyncAPI();
     const moveToPosition = `{rightArrow}{rightArrow}`;

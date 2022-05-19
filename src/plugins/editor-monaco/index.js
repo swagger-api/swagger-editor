@@ -1,7 +1,6 @@
 import * as monaco from 'monaco-editor-core';
 
-import EditorPane from './components/EditorPane.jsx';
-import MonacoEditorContainer from './components/MonacoEditorContainer.jsx';
+import MonacoEditorContainer from './components/MonacoEditor/MonacoEditorContainer.jsx';
 import ValidationPane from './components/ValidationPane/ValidationPane.jsx';
 import ThemeSelectionIcon from './components/ThemeSelectionIcon.jsx';
 import EditorPaneBarTopWrapper from './wrap-components/EditorPaneBarTopWrapper.jsx';
@@ -28,7 +27,6 @@ const EditorMonacoPlugin = (opts = {}) => {
       MonacoEditor: MonacoEditorContainer,
       ValidationPane,
       ThemeSelection: ThemeSelectionIcon,
-      EditorPane,
     },
     wrapComponents: {
       EditorPaneBarTop: EditorPaneBarTopWrapper,

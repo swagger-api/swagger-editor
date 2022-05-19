@@ -3,13 +3,14 @@ import React, { useCallback, useEffect, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
 import * as monaco from 'monaco-editor-core';
 
-import noop from '../../../utils/common-noop.js';
-import getStyleMetadataLight, { themes as themesLight } from '../utils/monaco-theme-light.js';
-import getStyleMetadataDark, { themes as themesDark } from '../utils/monaco-theme-dark.js';
-import { dereference } from '../utils/monaco-action-apidom-deref.js';
-import { languageId } from '../workers/apidom/config.js';
+import noop from '../../../../utils/common-noop.js';
+import getStyleMetadataLight, { themes as themesLight } from '../../utils/monaco-theme-light.js';
+import getStyleMetadataDark, { themes as themesDark } from '../../utils/monaco-theme-dark.js';
+import { dereference } from '../../utils/monaco-action-apidom-deref.js';
+import { languageId } from '../../workers/apidom/config.js';
+import { useSmoothResize } from './hooks.js';
 
-const MonacoEditorHooks = ({
+const MonacoEditor = ({
   /* functions */
   onEditorMount,
   onEditorWillUnmount,
@@ -17,8 +18,6 @@ const MonacoEditorHooks = ({
   editorMarkersDidChange,
   clearJumpToMarker,
   /* values */
-  width,
-  height,
   defaultValue,
   value,
   theme,
@@ -44,11 +43,6 @@ const MonacoEditorHooks = ({
   if (defaultValue && !value) {
     valueRef.current = defaultValue;
   }
-
-  const style = {
-    width,
-    height,
-  };
 
   const assignRef = useCallback((node) => {
     containerRef.current = node;
@@ -195,11 +189,10 @@ const MonacoEditorHooks = ({
   }, [isEditorReady, language]);
 
   useEffect(() => {
-    // apply height, width to screen
     if (isEditorReady) {
       editorRef.current.layout();
     }
-  }, [isEditorReady, width, height]);
+  }, [isEditorReady]);
 
   useEffect(() => {
     if (isEditorReady && theme) {
@@ -304,12 +297,12 @@ const MonacoEditorHooks = ({
     }
   }, [isEditorReady]);
 
-  return <div ref={assignRef} style={style} className="swagger-ide__editor-monaco" />;
+  useSmoothResize({ eventName: 'editorcontainerresize', editorRef });
+
+  return <div ref={assignRef} className="swagger-ide__editor-monaco" />;
 };
 
-MonacoEditorHooks.propTypes = {
-  width: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-  height: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+MonacoEditor.propTypes = {
   value: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
   defaultValue: PropTypes.string,
   language: PropTypes.string,
@@ -323,9 +316,7 @@ MonacoEditorHooks.propTypes = {
   clearJumpToMarker: PropTypes.func,
 };
 
-MonacoEditorHooks.defaultProps = {
-  width: '100%',
-  height: '100%',
+MonacoEditor.defaultProps = {
   value: null,
   defaultValue: '',
   language: 'apidom',
@@ -339,4 +330,4 @@ MonacoEditorHooks.defaultProps = {
   clearJumpToMarker: noop,
 };
 
-export default MonacoEditorHooks;
+export default MonacoEditor;
