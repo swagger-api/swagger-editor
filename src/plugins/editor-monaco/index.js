@@ -4,6 +4,7 @@ import MonacoEditorContainer from './components/MonacoEditor/MonacoEditorContain
 import ValidationPane from './components/ValidationPane/ValidationPane.jsx';
 import ThemeSelectionIcon from './components/ThemeSelectionIcon.jsx';
 import EditorPaneBarTopWrapper from './wrap-components/EditorPaneBarTopWrapper.jsx';
+import EditorPaneBarBottomWrapper from './wrap-components/EditorPaneBarBottomWrapper.jsx';
 import {
   updateEditorTheme,
   updateEditorMarkers,
@@ -30,6 +31,7 @@ const EditorMonacoPlugin = (opts = {}) => {
     },
     wrapComponents: {
       EditorPaneBarTop: EditorPaneBarTopWrapper,
+      EditorPaneBarBottom: EditorPaneBarBottomWrapper,
     },
     statePlugins: {
       editor: {

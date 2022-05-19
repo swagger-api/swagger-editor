@@ -3,9 +3,8 @@ import PropTypes from 'prop-types';
 
 const EditorPaneBarTopWrapper = (Original, system) => {
   const ThemeSelection = system.getComponent('ThemeSelection', true);
-  const ValidationPane = system.getComponent('ValidationPane', true);
 
-  const EditorPaneBarTop = ({ renderControls, renderChildren, ...rest }) => {
+  const EditorPaneBarTop = ({ renderControls, ...rest }) => {
     return (
       <Original
         {...rest}
@@ -17,17 +16,14 @@ const EditorPaneBarTopWrapper = (Original, system) => {
             </>
           )
         }
-        renderChildren={() => renderChildren(<ValidationPane />)}
       />
     );
   };
   EditorPaneBarTop.propTypes = {
     renderControls: PropTypes.func,
-    renderChildren: PropTypes.func,
   };
   EditorPaneBarTop.defaultProps = {
     renderControls: (controls) => controls,
-    renderChildren: (children) => children,
   };
 
   return EditorPaneBarTop;
