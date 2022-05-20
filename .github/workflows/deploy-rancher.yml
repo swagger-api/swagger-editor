@@ -20,6 +20,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      - uses: actions/checkout@v2
       - name: 'Download build artifact'
         uses: actions/github-script@v5
         with:
@@ -41,8 +42,8 @@ jobs:
             const fs = require('fs');
             fs.writeFileSync('${{github.workspace}}/build.zip', Buffer.from(download.data));
       - run: |
-          mkdir deploy-dir
-          unzip build.zip -d deploy-dir
+          mkdir build
+          unzip build.zip -d build
 
       - name: Log in to DockerHub
         uses: docker/login-action@v1
@@ -53,7 +54,7 @@ jobs:
       - name: Build docker image and push
         uses: docker/build-push-action@v2
         with:
-          context: ./deploy-dir
+          context: .
           push: true
           tags: smartbear/swagger-ide:latest
 
