@@ -1,6 +1,23 @@
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 
-// eslint-disable-next-line import/prefer-default-export
+export const useMount = (effect) => {
+  useEffect(effect, []); // eslint-disable-line react-hooks/exhaustive-deps
+};
+
+export const useUpdate = (effect, deps, applyChanges = true) => {
+  const isInitialMount = useRef(true);
+
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  useEffect(
+    isInitialMount.current || !applyChanges
+      ? () => {
+          isInitialMount.current = false;
+        }
+      : effect,
+    deps
+  );
+};
+
 export const useSmoothResize = ({ eventName, editorRef }) => {
   useEffect(() => {
     let lastDimensions = {};

@@ -13,22 +13,19 @@ const ValidationPane = ({
   const columns = React.useMemo(
     () => [
       {
-        Header: 'Line', // Type, Line, Description
+        Header: 'Line',
         accessor: 'startLineNumber',
       },
       {
         Header: 'Description',
         accessor: 'message',
       },
-      // {
-      //   Header: 'Type',
-      //   assessor: 'todo: tbd',
-      // },
     ],
     []
   );
   const data = React.useMemo(() => markers, [markers]);
   const showTable = alwaysDisplayHeading || data.length > 0;
+
   const handleValidationClick = (marker) => {
     onValidationClick(marker);
     editorActions.setJumpToEditorMarker(marker);
@@ -36,7 +33,7 @@ const ValidationPane = ({
 
   return (
     <div className="swagger-ide__validation-pane">
-      {!showTable ? null : (
+      {showTable && (
         <ValidationTable
           columns={columns}
           data={data}

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import PropTypes from 'prop-types';
 
 import MonacoEditor from './MonacoEditor.jsx';
@@ -11,49 +11,55 @@ const MonacoEditorContainer = ({
   isReadOnly,
 }) => {
   const language = 'apidom';
-  const initialValue = '';
-  const defaultEditorTheme = 'my-vs-dark';
-
-  const theme = editorSelectors.selectEditorTheme() || defaultEditorTheme;
+  const theme = editorSelectors.selectEditorTheme() || 'my-vs-dark';
   const jumpToMarker = editorSelectors.selectEditorJumpToMarker();
-  const valueForEditor = specSelectors.specStr() || '';
+  const value = specSelectors.specStr() || '';
 
-  const handleEditorDidMount = (editor) => {
-    editor.focus();
-    editorActions.editorSetup(editor, 'monaco');
-  };
+  const handleEditorDidMount = useCallback(
+    (editor) => {
+      editor.focus();
+      editorActions.editorSetup(editor, 'monaco');
+    },
+    [editorActions]
+  );
 
-  const handleEditorWillUnmount = (editor) => {
-    editorActions.editorTearDown(editor, 'monaco');
-  };
+  const handleEditorWillUnmount = useCallback(
+    (editor) => {
+      editorActions.editorTearDown(editor, 'monaco');
+    },
+    [editorActions]
+  );
 
-  const handleChangeEditorValue = (val) => {
-    // no additional spec validation here
-    // let ui components handle their own spec validation for rendering purposes
-    specActions.updateSpec(val, 'editor');
-  };
+  const handleChangeEditorValue = useCallback(
+    (val) => {
+      specActions.updateSpec(val, 'editor');
+    },
+    [specActions]
+  );
 
-  const handleEditorMarkersDidChange = (markers) => {
-    editorActions.updateEditorMarkers(markers);
-  };
+  const handleEditorMarkersDidChange = useCallback(
+    (markers) => {
+      editorActions.updateEditorMarkers(markers);
+    },
+    [editorActions]
+  );
 
-  const handleClearJumpToEditorMarker = async () => {
+  const handleClearJumpToEditorMarker = useCallback(() => {
     editorActions.clearJumpToEditorMarker();
-  };
+  }, [editorActions]);
 
   return (
     <MonacoEditor
       language={language}
       theme={theme}
-      value={valueForEditor}
-      defaultValue={initialValue}
+      value={value}
       isReadOnly={isReadOnly}
       jumpToMarker={jumpToMarker}
       onChange={handleChangeEditorValue}
       onEditorMount={handleEditorDidMount}
       onEditorWillUnmount={handleEditorWillUnmount}
-      editorMarkersDidChange={handleEditorMarkersDidChange}
-      clearJumpToMarker={handleClearJumpToEditorMarker}
+      onEditorMarkersDidChange={handleEditorMarkersDidChange}
+      onClearJumpToMarker={handleClearJumpToEditorMarker}
     />
   );
 };

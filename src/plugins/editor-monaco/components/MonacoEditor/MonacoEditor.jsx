@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-vars */
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
 import * as monaco from 'monaco-editor-core';
@@ -7,75 +6,60 @@ import noop from '../../../../utils/common-noop.js';
 import getStyleMetadataLight, { themes as themesLight } from '../../utils/monaco-theme-light.js';
 import getStyleMetadataDark, { themes as themesDark } from '../../utils/monaco-theme-dark.js';
 import { dereference } from '../../utils/monaco-action-apidom-deref.js';
-import { languageId } from '../../workers/apidom/config.js';
-import { useSmoothResize } from './hooks.js';
+import { useMount, useUpdate, useSmoothResize } from './hooks.js';
+
+/**
+ * Hooks in MonacoEditor component are divided into 4 categories:
+ *  - hooks that are executed only on mount (useMount)
+ *  - hooks that are executed on mount and when values change (useEffect)
+ *  - hooks that are executed only when values change after the mount (useUpdate)
+ *  - rest of the hooks
+ */
 
 const MonacoEditor = ({
-  /* functions */
-  onEditorMount,
-  onEditorWillUnmount,
-  onChange,
-  editorMarkersDidChange,
-  clearJumpToMarker,
-  /* values */
-  defaultValue,
   value,
   theme,
   language,
   jumpToMarker,
   isReadOnly,
+  onEditorMount,
+  onEditorWillUnmount,
+  onChange,
+  onEditorMarkersDidChange,
+  onClearJumpToMarker,
 }) => {
-  const containerRef = useRef(null); // contains editorRef
-  const editorRef = useRef(null); // contains monacoRef
-  const monacoRef = useRef(monaco); // contains monaco Module
-  const subscriptionRef = useRef(null); // track actual changes within Editor
-  const valueRef = useRef(null); // track changes including outside of Editor
-  const onMountRef = useRef(onEditorMount); // contains prop func
+  const containerRef = useRef(null);
+  const editorRef = useRef(null);
+  const subscriptionRef = useRef(null);
+  const valueRef = useRef(null);
+  const onMountRef = useRef(onEditorMount);
   const [isEditorReady, setIsEditorReady] = useState(false);
-  const [isMonacoReady, setIsMonacoReady] = useState(false);
-  const [markerStatus, setMarkerStatus] = useState({
-    shouldUpdateMarkers: false,
-    originRef: '',
-    isPendingUpdate: false,
-  });
-
-  // one-time initialization setup; use subscription to track onChange of value
-  if (defaultValue && !value) {
-    valueRef.current = defaultValue;
-  }
-
-  const assignRef = useCallback((node) => {
-    containerRef.current = node;
-  }, []);
 
   const createEditor = useCallback(() => {
-    editorRef.current = monacoRef.current.editor.create(
+    editorRef.current = monaco.editor.create(
       containerRef.current,
       {
         value,
-        language: languageId,
-        // semantic tokens provider is disabled by default
-        // https://github.com/microsoft/monaco-editor/issues/1833
+        language,
+        // semantic tokens provider is disabled by default; https://github.com/microsoft/monaco-editor/issues/1833
         'semanticHighlighting.enabled': true,
-        theme: theme || 'vs-dark',
+        theme,
         glyphMargin: true,
         lightbulb: {
           enabled: true,
         },
-        // suggestOnTriggerCharacters: false,
-        // inlineSuggest: false,
         lineNumbers: 'on',
         autoIndent: 'full',
         formatOnPaste: true,
         formatOnType: true,
         wordWrap: 'on',
         minimap: {
-          enabled: true, //  can track via state, and toggle via `editor.updateOptions({ minimap: { enabled: true }})`
+          enabled: true,
         },
         domReadOnly: isReadOnly,
         readOnly: isReadOnly,
         wordBasedSuggestions: false,
-        // quickSuggestions: false,
+        quickSuggestions: true,
         quickSuggestionsDelay: 300,
         fixedOverflowWidgets: true,
         'bracketPairColorization.enabled': true,
@@ -88,11 +72,9 @@ const MonacoEditor = ({
         storageService: {
           get() {},
           getBoolean(key) {
-            if (key === 'expandSuggestionDocs') return true;
-            return false;
+            return key === 'expandSuggestionDocs';
           },
-          // eslint-disable-next-line no-unused-vars
-          getNumber(key) {
+          getNumber() {
             return 0;
           },
           remove() {},
@@ -103,58 +85,117 @@ const MonacoEditor = ({
       }
     );
     editorRef.current.getModel().updateOptions({ tabSize: 2 });
-    // Monaco is now ready, now to setup Editor
-    setIsMonacoReady(true);
-  }, [isReadOnly, theme, value]);
 
-  const destroyEditor = useCallback(() => {
-    if (isMonacoReady && isEditorReady && !editorRef.current) {
-      onEditorWillUnmount(editorRef.current);
-      editorRef.current?.dispose();
-      const model = editorRef.current.getModel();
-      if (model && model?.dispose) {
-        model.dispose();
+    setIsEditorReady(true);
+  }, [value, language, theme, isReadOnly]);
+
+  const disposeEditor = useCallback(() => {
+    onEditorWillUnmount(editorRef.current);
+    subscriptionRef.current?.dispose();
+    editorRef.current.getModel()?.dispose();
+    editorRef.current.dispose();
+  }, [onEditorWillUnmount]);
+
+  // disposing of Monaco Editor
+  useMount(() => () => {
+    if (editorRef.current) {
+      disposeEditor();
+    }
+  });
+
+  // defining the custom themes and setting the active one
+  useMount(() => {
+    monaco.editor.defineTheme('my-vs-dark', themesDark.seVsDark);
+    monaco.editor.defineTheme('my-vs-light', themesLight.seVsLight);
+  });
+
+  // update language
+  useUpdate(
+    () => {
+      monaco.editor.setModelLanguage(editorRef.current.getModel(), language);
+    },
+    [language],
+    isEditorReady
+  );
+
+  // track model changes from outside of editor
+  useUpdate(
+    () => {
+      const editorValue = editorRef.current.getValue();
+
+      if (value !== editorValue) {
+        valueRef.current = value;
+        editorRef.current.setValue(value);
       }
-    }
-    if (subscriptionRef?.dispose) {
-      subscriptionRef.dispose();
-    }
-  }, [isEditorReady, isMonacoReady, onEditorWillUnmount]);
+    },
+    [value],
+    isEditorReady
+  );
 
-  useEffect(() => {
-    if (isMonacoReady) {
-      // define custom themes
-      monacoRef.current.editor.defineTheme('my-vs-dark', themesDark.seVsDark);
-      monacoRef.current.editor.defineTheme('my-vs-light', themesLight.seVsLight);
-      // apply (default) theme
-      if (!theme) {
-        monacoRef.current.editor.setTheme('my-vs-dark');
-      } else {
-        monacoRef.current.editor.setTheme(theme);
+  // jumping to markers
+  useUpdate(
+    () => {
+      if (Object.keys(jumpToMarker).length > 0) {
+        const startColumn = jumpToMarker?.startColumn || 1;
+        if (startColumn && jumpToMarker?.startLineNumber) {
+          editorRef.current.revealPositionNearTop({
+            lineNumber: jumpToMarker.startLineNumber,
+            column: startColumn,
+          });
+          editorRef.current.setPosition({
+            lineNumber: jumpToMarker.startLineNumber,
+            column: startColumn,
+          });
+          editorRef.current.focus();
+          onClearJumpToMarker();
+        }
       }
-      // once theme is set, Editor is now ready
-      setIsEditorReady(true);
-    }
-  }, [isMonacoReady, theme]);
+    },
+    [jumpToMarker, onClearJumpToMarker],
+    isEditorReady
+  );
 
+  // setting Monaco Editor to write/read mode
+  useUpdate(
+    () => {
+      editorRef.current.updateOptions({ domReadOnly: isReadOnly, readOnly: isReadOnly });
+    },
+    [isReadOnly],
+    isEditorReady
+  );
+
+  // settings the theme if changed
   useEffect(() => {
-    // once Editor is established, attach additional monaco actions and commands as needed
+    if (theme === 'vs-dark') {
+      monaco.editor.setTheme('vs-dark');
+      // eslint-disable-next-line no-underscore-dangle
+      editorRef.current._themeService._theme.getTokenStyleMetadata = getStyleMetadataDark;
+    } else if (['vs-light', 'vs'].includes(theme)) {
+      monaco.editor.setTheme('vs');
+      // eslint-disable-next-line no-underscore-dangle
+      editorRef.current._themeService._theme.getTokenStyleMetadata = getStyleMetadataLight;
+    } else {
+      monaco.editor.setTheme(theme);
+    }
+  }, [theme]);
+
+  // register listener for validation markers
+  useEffect(() => {
+    if (!isEditorReady) return undefined;
+
+    const disposable = monaco.editor.onDidChangeMarkers(() => {
+      const markers = monaco.editor.getModelMarkers();
+      onEditorMarkersDidChange(markers);
+    });
+
+    return () => {
+      disposable.dispose();
+    };
+  }, [isEditorReady, onEditorMarkersDidChange]);
+
+  // propagate changes from editor to handler
+  useEffect(() => {
     if (isEditorReady) {
-      // Add monaco actions, as needed
-      // monaco actions ui tip: F1 -> resolve document
-      editorRef.current.addAction({
-        id: 'de-reference',
-        label: 'resolve document',
-        run: dereference,
-      });
-      // Add monaco commands, as needed
-      // editorRef.current.addCommand({});
-    }
-  }, [isEditorReady]);
-
-  useEffect(() => {
-    // register subscription to model chanages from editor
-    if (isEditorReady && onChange) {
       subscriptionRef.current?.dispose();
       subscriptionRef.current = editorRef.current?.onDidChangeModelContent((event) => {
         const editorValue = editorRef.current.getValue();
@@ -165,169 +206,65 @@ const MonacoEditor = ({
     }
   }, [isEditorReady, onChange]);
 
+  // set additional Monaco Editor actions
   useEffect(() => {
-    // track model changes from outside of editor
-    if (isEditorReady && valueRef.current !== value) {
-      valueRef.current = value;
-      editorRef.current?.setValue(value);
-      if (!markerStatus.shouldUpdateMarkers && !markerStatus.isPendingUpdate) {
-        // only re-run validation markers on valueRef change
-        // expect subscriptionRef change to always change with valueRef change
-        setMarkerStatus({
-          shouldUpdateMarkers: true,
-          originRef: 'valueRef',
-          isPendingUpdate: true,
-        });
-      }
+    if (isEditorReady) {
+      editorRef.current.addAction({
+        id: 'de-reference',
+        label: 'resolve document',
+        run: dereference,
+      });
     }
-  }, [isEditorReady, value, markerStatus.isPendingUpdate, markerStatus.shouldUpdateMarkers]);
+  }, [isEditorReady]);
 
-  useEffect(() => {
-    if (isEditorReady && language) {
-      monacoRef.current.editor?.setModelLanguage(editorRef.current?.getModel(), language);
-    }
-  }, [isEditorReady, language]);
-
+  // allow editor to resize to available space
   useEffect(() => {
     if (isEditorReady) {
       editorRef.current.layout();
     }
   }, [isEditorReady]);
 
-  useEffect(() => {
-    if (isEditorReady && theme) {
-      if (theme === 'vs-dark') {
-        monacoRef.current.editor.setTheme('vs-dark');
-        // Apply token styles to built-in vs-dark theme default;
-        // eslint-disable-next-line no-underscore-dangle
-        editorRef.current._themeService._theme.getTokenStyleMetadata = getStyleMetadataDark;
-      }
-      if (theme === 'vs-light' || theme === 'vs') {
-        monacoRef.current.editor.setTheme('vs');
-        // Apply token styles to built-in vs-light theme default;
-        // eslint-disable-next-line no-underscore-dangle
-        editorRef.current._themeService._theme.getTokenStyleMetadata = getStyleMetadataLight;
-      }
-      if (theme === 'my-vs-dark') {
-        monacoRef.current.editor.setTheme('my-vs-dark');
-      }
-      if (theme === 'my-vs-light') {
-        monacoRef.current.editor.setTheme('my-vs-light');
-      }
-    }
-  }, [isEditorReady, theme]);
-
-  useEffect(() => {
-    // register listener for validation markers
-    // we debounce to minimize calls due to multiple useEffect trying to update/clear markerStatus
-    const delay = 500;
-    const timer = setTimeout(() => {
-      if (isEditorReady && markerStatus.shouldUpdateMarkers && markerStatus.isPendingUpdate) {
-        monacoRef.current.editor.onDidChangeMarkers(() => {
-          const markers = monacoRef.current.editor.getModelMarkers();
-          // prevent re-run of hook from after-effects caused within this callback
-          setMarkerStatus({ shouldUpdateMarkers: false, originRef: '', isPendingUpdate: false });
-          // process prop function
-          editorMarkersDidChange?.(markers);
-          // {
-          //   code: "10097"
-          //   endColumn: 5
-          //   endLineNumber: 2
-          //   message: "should always have a 'title'"
-          //   owner: "apidom"
-          //   relatedInformation: undefined
-          //   resource: Uri { scheme: 'inmemory', authority: 'model', path: '/1', query: '', fragment: '', … }
-          //   severity: 8
-          //   source: "apilint"
-          //   startColumn: 1
-          //   startLineNumber: 2
-          //   tags: undefined
-          // }
-        });
-        // prevent re-run of hook once async func already started
-        setMarkerStatus({ shouldUpdateMarkers: false, originRef: '', isPendingUpdate: false });
-      }
-    }, delay);
-    return () => {
-      clearTimeout(timer);
-    };
-  }, [
-    isEditorReady,
-    markerStatus.shouldUpdateMarkers,
-    markerStatus.isPendingUpdate,
-    editorMarkersDidChange,
-  ]);
-
-  useEffect(() => {
-    if (isEditorReady && Object.keys(jumpToMarker).length > 0 && clearJumpToMarker) {
-      const startColumn = jumpToMarker?.startColumn || 1;
-      if (startColumn && jumpToMarker?.startLineNumber) {
-        editorRef.current.revealPositionNearTop({
-          lineNumber: jumpToMarker.startLineNumber,
-          column: startColumn,
-        });
-        editorRef.current.setPosition({
-          lineNumber: jumpToMarker.startLineNumber,
-          column: startColumn,
-        });
-        editorRef.current.focus();
-        clearJumpToMarker();
-      }
-    }
-  }, [isEditorReady, jumpToMarker, clearJumpToMarker]);
-
+  // notify listeners that Monaco Editor instance has been created
   useEffect(() => {
     if (isEditorReady) {
-      editorRef.current.updateOptions({ domReadOnly: isReadOnly, readOnly: isReadOnly });
-    }
-  }, [isEditorReady, isReadOnly]);
-
-  useEffect(() => {
-    // first load
-    if (!isMonacoReady && !isEditorReady && containerRef.current) {
-      createEditor();
-    }
-    return () => destroyEditor();
-  }, [isEditorReady, isMonacoReady, createEditor, destroyEditor]);
-
-  useEffect(() => {
-    // callback after first load
-    if (isEditorReady) {
-      onMountRef.current(editorRef.current, monacoRef.current);
+      onMountRef.current(editorRef.current);
     }
   }, [isEditorReady]);
 
+  // creating Editor instance as last effect
+  useEffect(() => {
+    if (!isEditorReady && containerRef.current) {
+      createEditor();
+    }
+  }, [isEditorReady, createEditor]);
+
+  // handle smooth resizing of Monaco Editor
   useSmoothResize({ eventName: 'editorcontainerresize', editorRef });
 
-  return <div ref={assignRef} className="swagger-ide__editor-monaco" />;
+  return <div ref={containerRef} className="swagger-ide__editor-monaco" />;
 };
 
 MonacoEditor.propTypes = {
-  value: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
-  defaultValue: PropTypes.string,
-  language: PropTypes.string,
-  theme: PropTypes.string,
+  value: PropTypes.oneOfType([PropTypes.string, PropTypes.object]).isRequired,
+  language: PropTypes.string.isRequired,
+  theme: PropTypes.string.isRequired,
   isReadOnly: PropTypes.bool,
   jumpToMarker: PropTypes.oneOfType([PropTypes.object]),
   onEditorMount: PropTypes.func,
   onEditorWillUnmount: PropTypes.func,
   onChange: PropTypes.func,
-  editorMarkersDidChange: PropTypes.func,
-  clearJumpToMarker: PropTypes.func,
+  onEditorMarkersDidChange: PropTypes.func,
+  onClearJumpToMarker: PropTypes.func,
 };
 
 MonacoEditor.defaultProps = {
-  value: null,
-  defaultValue: '',
-  language: 'apidom',
-  theme: null,
   isReadOnly: false,
   jumpToMarker: {},
   onEditorMount: noop,
   onEditorWillUnmount: noop,
   onChange: noop,
-  editorMarkersDidChange: noop,
-  clearJumpToMarker: noop,
+  onEditorMarkersDidChange: noop,
+  onClearJumpToMarker: noop,
 };
 
 export default MonacoEditor;
