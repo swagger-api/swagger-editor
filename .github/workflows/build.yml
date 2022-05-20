@@ -9,10 +9,6 @@ on:
   pull_request:
     branches: [ main ]
 
-# ApiDOM build system can utilize this setting
-env:
-  CPU_CORES: 2
-
 jobs:
   build:
     runs-on: ubuntu-latest
