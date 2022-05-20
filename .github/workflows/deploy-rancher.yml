@@ -1,5 +1,5 @@
 # inspired by https://securitylab.github.com/research/github-actions-preventing-pwn-requests/
-name: Deploy SwaggerIDE to GitHub Pages
+name: Deploy SwaggerIDE to Rancher🚢
 
 on:
   workflow_run:
@@ -16,11 +16,10 @@ jobs:
       ${{ github.event.workflow_run.event == 'push' &&
       github.ref == 'refs/heads/main' &&
       github.event.workflow_run.conclusion == 'success' }}
-    name: Deploy SwaggerIDE to GitHub Pages
+    name: Deploy SwaggerIDE to Rancher
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v2
       - name: 'Download build artifact'
         uses: actions/github-script@v5
         with:
@@ -44,10 +43,32 @@ jobs:
       - run: |
           mkdir deploy-dir
           unzip build.zip -d deploy-dir
-      - name: Deploy 🚀
-        uses: JamesIves/github-pages-deploy-action@v4.2.2
+
+      - name: Log in to DockerHub
+        uses: docker/login-action@v1
         with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-          branch: gh-pages # The branch the action should deploy to.
-          folder: deploy-dir # The folder the action should deploy.
-          clean: true # Automatically remove deleted files from the deploy branch
+          username: ${{ secrets.DOCKERHUB_SB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_SB_PASSWORD }}
+
+      - name: Build docker image and push
+        uses: docker/build-push-action@v2
+        with:
+          context: ./deploy-dir
+          push: true
+          tags: smartbear/swagger-ide:latest
+
+      - name: Deploy Rancher🚢
+        run: |
+          ts="$(date +'%Y-%m-%dT%H:%M:%SZ' --utc)"
+          curl -s -D /dev/stderr -X PATCH \
+            -H "Authorization: Bearer ${RANCHER_BEARER_TOKEN}" \
+            -H 'Content-Type: application/strategic-merge-patch+json' \
+            "${RANCHER_URL}/k8s/clusters/${RANCHER_CLUSTER_ID}/apis/apps/v1/namespaces/${RANCHER_NAMESPACE}/${RANCHER_K8S_OBJECT_TYPE}/${RANCHER_K8S_OBJECT_NAME}" \
+            -d "{\"spec\": {\"template\": {\"metadata\": {\"annotations\": {\"cattle.io/timestamp\": \"${ts}\"}}}}}"
+        env:
+          RANCHER_BEARER_TOKEN: ${{ secrets.RANCHER_BEARER_TOKEN }}
+          RANCHER_CLUSTER_ID: 'c-n8zp2'
+          RANCHER_NAMESPACE: 'swagger-oss'
+          RANCHER_K8S_OBJECT_TYPE: 'daemonsets'
+          RANCHER_URL: ${{ secrets.RANCHER_URL }}
+          RANCHER_K8S_OBJECT_NAME: 'swagger-ide'

@@ -50,14 +50,20 @@ jobs:
       - name: Produce build artifacts
         run: npm run build
 
+      - name: Produce npm artifact
+        run: npm pack
+
       - name: E2E Tests
         run: npm run cy:ci
 
-      - name: Pack the npm distribution
-        run: npm pack
+      - name: Upload build artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: build
+          path: ./build
 
       - name: Upload npm artifact
         uses: actions/upload-artifact@v2
         with:
-          name: npm-artifact
+          name: "@swagger-api/swagger-ide.tgz"
           path: ./swagger-api-swagger-ide-*.tgz
