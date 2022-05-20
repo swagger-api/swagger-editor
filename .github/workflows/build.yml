@@ -8,140 +8,66 @@ on:
     branches: [ main ]
   pull_request:
     branches: [ main ]
-  pull_request_target:
-    branches: [ main ]
+
+# ApiDOM build system can utilize this setting
+env:
+  CPU_CORES: 2
 
 jobs:
   build:
-    # since ci requires token write access
-    # security allowlist Dependabot for pull_request_target (i.e. from fork)
-    # disallow Dependabot triggered push & pull_request events, which only have read-only access
-    if: |
-      (github.event_name == 'push' && github.actor != 'dependabot[bot]') ||
-      (github.event_name == 'pull_request' && github.actor != 'dependabot[bot]') ||
-      (github.event_name == 'pull_request_target' && github.actor == 'dependabot[bot]')
-
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout for Dependabot PR
-      if: ${{ github.event_name == 'pull_request_target' && github.actor == 'dependabot[bot]' }}
-      uses: actions/checkout@v2
-      with:
-        ref: ${{ github.event.pull_request.head.sha }}
-        submodules: true
-    - name: Checkout Normally
-      if: ${{ github.actor != 'dependabot[bot]' }}
-      uses: actions/checkout@v2
-      with:
-        submodules: true
-    - name: Use Node.js 16
-      uses: actions/setup-node@v2
-      with:
-        node-version: 16
-        registry-url: https://npm.pkg.github.com/
-        scope: "@swagger-api"
-    - name: Cache npm cache files
-      id: cache-npm-cache-files
-      uses: actions/cache@v2
-      with:
-        path: ~/.npm
-        key: npm-cache-${{ runner.os }}-${{ hashFiles('package-lock.json') }}
-    - name: Cache Cypress binary
-      id: cache-cypress-binary
-      uses: actions/cache@v2
-      with:
-        path: cypress/cache
-        key: cypress-binary-${{ hashFiles('package-lock.json') }}
-    - name: Install dependencies
-      if: |
-          steps.cache-npm-cache-files.cache-hit != 'true' ||
-          steps.cache-cypress-binary.outputs.cache-hit != 'true'
-      run: npm ci
-      env:
-        NODE_AUTH_TOKEN: ${{ secrets.SWAGGER_BOT_GITHUB_TOKEN }}
-    - name: Lint commit message
-      if: ${{ github.ref != 'refs/heads/main' }}
-      run: git log -1 --pretty=format:"%s" | npx commitlint
-    - name: Lint code
-      run: npm run lint
-    - name: Unit tests
-      run: npm test --watchAll=false
-      env:
-        CI: true
-    - name: Build App artifacts
-      run: npm run build:app
-    - name: E2E Tests
-      run: npm run cy:ci
-    - name: Upload build artifacts (for GH pages)
-      if: |
-        github.ref == 'refs/heads/main' &&
-        github.event_name == 'push'
-      uses: actions/upload-artifact@v2
-      with:
-        name: build
-        path: ./build
-    - name: Log in to DockerHub
-      if: |
-        github.ref == 'refs/heads/main' &&
-        github.event_name == 'push'
-      uses: docker/login-action@v1
-      with:
-        username: ${{ secrets.DOCKERHUB_SB_USERNAME }}
-        password: ${{ secrets.DOCKERHUB_SB_PASSWORD }}
-    - name: Build docker image and push
-      if: |
-        github.ref == 'refs/heads/main' &&
-        github.event_name == 'push'
-      uses: docker/build-push-action@v2
-      with:
-        context: .
-        push: true
-        tags: smartbear/swagger-ide:latest
-    - name: Build local docker image without export
-      if: |
-        (github.ref == 'refs/heads/main' && github.event_name != 'push') ||
-        (github.ref != 'refs/heads/main')
-      uses: docker/build-push-action@v2
-      with:
-        context: .
-        push: false
-        load: true
-        tags: smartbear/swagger-ide:pr
+      - uses: actions/checkout@v2
+        with:
+          submodules: true
 
-  deploy:
-    name: Deploy to GH Pages and Rancher
-    if: |
-        github.ref == 'refs/heads/main' &&
-        github.event_name == 'push'
-    needs: [ build ]
-    runs-on: ubuntu-latest
+      - name: Use Node.js 16
+        uses: actions/setup-node@v2
+        with:
+          node-version: 16
+          registry-url: https://npm.pkg.github.com/
+          scope: "@swagger-api"
 
-    steps:
-    - uses: actions/checkout@v2
-      with:
-        token: ${{ secrets.GITHUB_TOKEN }}
-    - name: Download built artifact from build job
-      uses: actions/download-artifact@v2
-    - name: Deploy GH-Pages🚀
-      uses: JamesIves/github-pages-deploy-action@4.1.5
-      with:
-        token: ${{ secrets.GITHUB_TOKEN }}
-        branch: gh-pages # The branch the action should deploy to.
-        folder: build # The folder the action should deploy.
-        clean: true # Automatically remove deleted files from the deploy branch
-    - name: Deploy Rancher🚢
-      run: |
-        ts="$(date +'%Y-%m-%dT%H:%M:%SZ' --utc)"
-        curl -s -D /dev/stderr -X PATCH \
-          -H "Authorization: Bearer ${RANCHER_BEARER_TOKEN}" \
-          -H 'Content-Type: application/strategic-merge-patch+json' \
-          "${RANCHER_URL}/k8s/clusters/${RANCHER_CLUSTER_ID}/apis/apps/v1/namespaces/${RANCHER_NAMESPACE}/${RANCHER_K8S_OBJECT_TYPE}/${RANCHER_K8S_OBJECT_NAME}" \
-          -d "{\"spec\": {\"template\": {\"metadata\": {\"annotations\": {\"cattle.io/timestamp\": \"${ts}\"}}}}}"
-      env:
-        RANCHER_BEARER_TOKEN: ${{ secrets.RANCHER_BEARER_TOKEN }}
-        RANCHER_CLUSTER_ID: 'c-n8zp2'
-        RANCHER_NAMESPACE: 'swagger-oss'
-        RANCHER_K8S_OBJECT_TYPE: 'daemonsets'
-        RANCHER_URL: ${{ secrets.RANCHER_URL }}
-        RANCHER_K8S_OBJECT_NAME: 'swagger-ide'
+      - name: Cache npm cache files
+        id: cache-npm-cache-files
+        uses: actions/cache@v2
+        with:
+          path: ~/.npm
+          key: npm-cache-${{ runner.os }}-${{ hashFiles('package-lock.json') }}
+      - name: Cache Cypress binary
+        id: cache-cypress-binary
+        uses: actions/cache@v2
+        with:
+          path: cypress/cache
+          key: cypress-binary-${{ hashFiles('package-lock.json') }}
+
+      - name: Install dependencies
+        run: npm ci
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Lint commit message
+        if: github.ref != 'refs/heads/main' && github.actor != 'dependabot[bot]'
+        run: git log -1 --pretty=format:"%s" | npx commitlint
+
+      - name: Lint code
+        run: npm run lint
+
+      - name: Unit tests
+        run: npm test
+        env:
+          CI: true
+
+      - name: Build App artifacts
+        run: npm run build:app
+
+      - name: E2E Tests
+        run: npm run cy:ci
+
+      - name: Upload build artifacts
+        if: github.ref == 'refs/heads/main'
+        uses: actions/upload-artifact@v2
+        with:
+          name: build
+          path: ./build
