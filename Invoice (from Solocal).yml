@@ -1,0 +1,737 @@
+openapi: 3.0.1
+info:
+  title: Billing SOMS (v1.1)
+  description: To get all invoices by customer
+  version: v1.1
+servers:
+  - url: https://pajapimdev001.azure-api.net/billingsoms/v1.1
+paths:
+  /invoices:
+    get:
+      tags:
+        - billing
+      summary: To get all invoices by customer
+      description: To get all invoices by customer
+      operationId: getBilling
+      parameters:
+        - name: customerId
+          in: query
+          description: This is the EPJ
+          required: true
+          schema:
+            enum:
+              - '00029082'
+            type: string
+            default: '00029082'
+        - name: invoiceOrigin
+          in: query
+          description: SOMS. allows to know the source (subsidiary of the group)
+          required: true
+          schema:
+            enum:
+              - SOMS
+              - PJ
+              - ALL
+            type: string
+            default: ALL
+        - name: companyName
+          in: query
+          description: Company Name contains
+          schema:
+            type: string
+        - name: order
+          in: query
+          description: allows to sort data. Default value is on paymentScheduleId.
+          schema:
+            enum:
+              - '"\"invoiceOrigin\""'
+              - '"\"invoiceId\""'
+              - '"\"orderId\""'
+              - '"\"issueDate\""'
+              - '"\"invoicePdfLink\""'
+              - '"\"readStatus\""'
+              - '"\"totalAmountTTC\""'
+              - '"\"totalAmountHT\""'
+              - '"\"paymentScheduleId\""'
+              - '"\"status\""'
+              - '"\"dueDate\""'
+              - '"\"paymentDate\""'
+              - '"\"paymentMethode\""'
+              - '"\"AmountTTC\""'
+              - '"\"AmountHT\""'
+            type: string
+            default: '"\"paymentScheduleId\""'
+        - name: before
+          in: query
+          description: issues before this date (excluded)
+          schema:
+            format: date
+            type: string
+        - name: after
+          in: query
+          description: issues after this date (excluded)
+          schema:
+            format: date
+            type: string
+        - name: above
+          in: query
+          description: Amount vat excluded above or equal
+          schema:
+            format: date
+            type: string
+        - name: under
+          in: query
+          description: Amount vat excluded strictly under
+          schema:
+            format: date
+            type: string
+        - name: limit
+          in: query
+          description: allows to limit the number of results
+          schema:
+            type: integer
+        - name: offset
+          in: query
+          description: allows to indicate the starting position of the data recovery. Use with the limit and the order which must not change between 2 calls.
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: List of invoices and paymentschedules
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InvoicesResultSet'
+        '400':
+          description: 'wrong token,missing parameters : customerId,missing parameters : invoiceOrigin'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/errorReturn'
+        '404':
+          description: no invoices found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/errorReturn'
+        '500':
+          description: invalid fields
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/errorReturn'
+  /invoices/headers:
+    get:
+      tags:
+        - billing
+      summary: To get all invoices by customer
+      description: To get only the headers of the invoice
+      operationId: getHeaders
+      parameters:
+        - name: customerId
+          in: query
+          description: This is the EPJ
+          required: true
+          schema:
+            enum:
+              - '00029082'
+            type: string
+            default: '00029082'
+        - name: invoiceOrigin
+          in: query
+          description: SOMS. allows to know the source (subsidiary of the group)
+          required: true
+          schema:
+            enum:
+              - SOMS
+              - PJ
+              - ALL
+            type: string
+            default: ALL
+        - name: companyName
+          in: query
+          description: Company Name contains
+          schema:
+            type: string
+        - name: order
+          in: query
+          description: allows to sort data. Default value is on paymentScheduleId.
+          schema:
+            enum:
+              - '"\"invoiceOrigin\""'
+              - '"\"invoiceId\""'
+              - '"\"orderId\""'
+              - '"\"issueDate\""'
+              - '"\"invoicePdfLink\""'
+              - '"\"readStatus\""'
+              - '"\"totalAmountTTC\""'
+              - '"\"totalAmountHT\""'
+              - '"\"paymentScheduleId\""'
+              - '"\"status\""'
+              - '"\"dueDate\""'
+              - '"\"paymentDate\""'
+              - '"\"paymentMethode\""'
+              - '"\"AmountTTC\""'
+              - '"\"AmountHT\""'
+            type: string
+            default: '"\"paymentScheduleId\""'
+        - name: before
+          in: query
+          description: issues before this date (excluded)
+          schema:
+            format: date
+            type: string
+        - name: after
+          in: query
+          description: issues after this date (excluded)
+          schema:
+            format: date
+            type: string
+        - name: above
+          in: query
+          description: Amount vat excluded above or equal
+          schema:
+            format: date
+            type: string
+        - name: under
+          in: query
+          description: Amount vat excluded strictly under
+          schema:
+            format: date
+            type: string
+        - name: limit
+          in: query
+          description: allows to limit the number of results
+          schema:
+            type: integer
+        - name: offset
+          in: query
+          description: allows to indicate the starting position of the data recovery. Use with the limit and the order which must not change between 2 calls.
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: List of invoices and paymentschedules
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HeadersResultSet'
+        '400':
+          description: 'wrong token,missing parameters : customerId,missing parameters : invoiceOrigin'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/errorReturn'
+        '404':
+          description: no invoices found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/errorReturn'
+        '500':
+          description: invalid fields
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/errorReturn'
+  /invoices/paymentSchedules:
+    get:
+      tags:
+        - billing
+      summary: To get all invoices by customer
+      description: To get only the headers of the invoice
+      operationId: getSchedules
+      parameters:
+        - name: customerId
+          in: query
+          description: This is the EPJ
+          required: true
+          schema:
+            enum:
+              - '00029082'
+            type: string
+            default: '00029082'
+        - name: invoiceOrigin
+          in: query
+          description: SOMS. allows to know the source (subsidiary of the group)
+          required: true
+          schema:
+            enum:
+              - SOMS
+              - PJ
+              - ALL
+            type: string
+            default: ALL
+        - name: companyName
+          in: query
+          description: Company Name contains
+          schema:
+            type: string
+        - name: status
+          in: query
+          description: status of the payment
+          schema:
+            type: string
+        - name: order
+          in: query
+          description: allows to sort data. Default value is on paymentScheduleId.
+          schema:
+            enum:
+              - '"\"invoiceOrigin\""'
+              - '"\"invoiceId\""'
+              - '"\"orderId\""'
+              - '"\"issueDate\""'
+              - '"\"invoicePdfLink\""'
+              - '"\"readStatus\""'
+              - '"\"totalAmountTTC\""'
+              - '"\"totalAmountHT\""'
+              - '"\"paymentScheduleId\""'
+              - '"\"status\""'
+              - '"\"dueDate\""'
+              - '"\"paymentDate\""'
+              - '"\"paymentMethode\""'
+              - '"\"AmountTTC\""'
+              - '"\"AmountHT\""'
+            type: string
+            default: '"\"paymentScheduleId\""'
+        - name: before
+          in: query
+          description: due before this date (excluded)
+          schema:
+            format: date
+            type: string
+        - name: after
+          in: query
+          description: due after this date (excluded)
+          schema:
+            format: date
+            type: string
+        - name: above
+          in: query
+          description: Amount vat excluded above or equal
+          schema:
+            format: date
+            type: string
+        - name: under
+          in: query
+          description: Amount vat excluded strictly under
+          schema:
+            format: date
+            type: string
+        - name: limit
+          in: query
+          description: allows to limit the number of results
+          schema:
+            type: integer
+        - name: offset
+          in: query
+          description: allows to indicate the starting position of the data recovery. Use with the limit and the order which must not change between 2 calls.
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: List of invoices and paymentschedules
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HeadersResultSet'
+        '400':
+          description: 'wrong token,missing parameters : customerId,missing parameters : invoiceOrigin'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/errorReturn'
+        '404':
+          description: no invoices found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/errorReturn'
+        '500':
+          description: invalid fields
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/errorReturn'
+  /invoices/{invoiceOrigin}/{invoiceId}:
+    get:
+      tags:
+        - billing
+      summary: To an invoice by its id
+      description: Get an invoice by its id
+      operationId: getInvoice
+      parameters:
+        - in: path
+          name: invoiceId
+          description: Id of the invoice
+          required: true
+          schema:
+            type: string
+        - in: path
+          name: invoiceOrigin
+          description: SOMS. allows to know the source (subsidiary of the group)
+          required: true
+          schema:
+            enum:
+              - SOMS
+              - PJ
+            type: string
+            default: SOMS
+      responses:
+        '200':
+          description: the invoice
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Invoice'
+        '400':
+          description: 'wrong token,missing parameters : customerId,missing parameters : invoiceOrigin'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/errorReturn'
+        '404':
+          description: no invoices found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/errorReturn'
+        '500':
+          description: invalid fields
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/errorReturn'
+  /invoices/{invoiceOrigin}/{invoiceId}/header:
+    get:
+      tags:
+        - billing
+      summary: To an invoice by its id
+      description: Get an invoice by its id
+      operationId: getInvoiceHeader
+      parameters:
+        - in: path
+          name: invoiceId
+          description: Id of the invoice
+          required: true
+          schema:
+            type: string
+        - in: path
+          name: invoiceOrigin
+          description: SOMS. allows to know the source (subsidiary of the group)
+          required: true
+          schema:
+            enum:
+              - SOMS
+              - PJ
+            type: string
+            default: SOMS
+      responses:
+        '200':
+          description: the invoice header only
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Header'
+        '400':
+          description: 'wrong token,missing parameters : customerId,missing parameters : invoiceOrigin'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/errorReturn'
+        '404':
+          description: no invoices found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/errorReturn'
+        '500':
+          description: invalid fields
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/errorReturn'
+  /invoices/{invoiceOrigin}/{invoiceId}/paymentSchedules:
+    get:
+      tags:
+        - billing
+      summary: To an invoice by its id
+      description: Get an invoice by its id
+      operationId: getInvoicePaymentSchedules
+      parameters:
+        - in: path
+          name: invoiceId
+          description: Id of the invoice
+          required: true
+          schema:
+            type: string
+        - in: path
+          name: invoiceOrigin
+          description: SOMS. allows to know the source (subsidiary of the group)
+          required: true
+          schema:
+            enum:
+              - SOMS
+              - PJ
+            type: string
+            default: SOMS
+      responses:
+        '200':
+          description: the invoice header only
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaymentSchedules'
+        '400':
+          description: 'wrong token,missing parameters : customerId,missing parameters : invoiceOrigin'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/errorReturn'
+        '404':
+          description: no invoices found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/errorReturn'
+        '500':
+          description: invalid fields
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/errorReturn'
+
+components:
+  schemas:
+    Header:
+      type: object
+      properties:
+        invoiceOrigin:
+          type: string
+        invoiceId:
+          type: string
+        issueDate:
+          type: string
+        invoicePdfLink:
+          type: string
+        isInvoiceRead:
+          type: boolean
+        AmountVaT:
+          type: number
+        AmountInclTax:
+          type: number
+        customerId:
+          type: string
+        internalSalestoolsCustomer:
+          type: string
+    HeadersResultSet:
+      type: object
+      properties:
+        nbResults:
+          type: integer
+          description: total number of result found
+        headers:
+          type: array
+          items:
+            $ref: "#/components/schemas/Header"
+    Contact:
+      type: object
+      properties:
+        contactName:
+          type: string
+        compagnyName:
+          type: string
+        adress:
+          type: string
+        postalCode:
+          type: string
+        country:
+          type: string
+    HeadOffice:
+      $ref:  "#/components/schemas/Contact"
+    Recipient:
+      $ref:  "#/components/schemas/Contact"
+    BankReference:
+      type: object
+      properties:
+        domiciliation:
+          type: string
+        holder:
+          type: string
+        bic:
+          type: string
+        ban:
+          type: string
+        RUM:
+          type: string
+    InvoiceLine:
+      type: object
+      properties:
+        label:
+          type: string
+        type:
+          type: string
+        articleCode:
+          type: string
+        articleSubCode:
+          type: string
+        amount:
+          type: integer
+        vatRate:
+          type: string
+        frequency:
+          type: string
+        term:
+          type: integer
+        startDate:
+          type: string
+        endDate:
+          type: string
+        salesProduct:
+          type: string
+      required:
+        - label
+        - type
+        - articleCode
+        - articleSubCode
+        - amount
+        - vatRate
+        - frequency
+        - term
+        - startDate
+        - endDate
+        - salesProduct
+    Offers:
+      type: array
+      items:
+        type: object
+        properties:
+          offerId:
+            type: string
+          offerReference:
+            type: string
+          offerCode:
+            type: string
+          offerLabel:
+            type: string
+          offerGenericCode:
+            type: string
+          offerGenericLabel:
+            type: string
+          orderId:
+            type: string
+          beneficiary:
+            type: string
+          invoiceLines:
+            type: array
+            items:
+              $ref: "#/components/schemas/InvoiceLine"
+        required:
+        - offerId
+        - offerReference
+        - offerCode
+        - offerLabel
+        - offerGenericCode
+        - offerGenericLabel
+        - orderId
+        - beneficiary
+        - invoiceLines
+    PaymentSchedule:
+        type: object
+        properties:
+          invoiceOrigin:
+            type: string
+          invoiceId:
+            type: string          
+          paymentScheduleId:
+            type: integer
+          status:
+            type: object
+            properties:
+              type:
+                type: string
+              Date:
+                type: string
+              Motive:
+                type: string
+          dueDate:
+            type: string
+          paymentDate:
+            type: string
+          vatRate:
+            type: string
+          AmountExclTax:
+            type: integer
+          AmountVat:
+            type: number
+          AmountInclTax:
+            type: number
+          paymentMethod:
+            type: string
+        required:
+        - paymentScheduleId
+        - status
+        - dueDate
+        - paymentDate
+        - vatRate
+        - AmountExclTax
+        - AmountVat
+        - AmountInclTax
+        - paymentMethod
+    PaymentSchedules:
+      type: array
+      items:
+        $ref: "#/components/schemas/PaymentSchedule"
+    Invoice:
+      type: object
+      properties:
+        header:
+          $ref: "#/components/schemas/Header"
+        headOffice: 
+          $ref: "#/components/schemas/HeadOffice"
+        recipient: 
+          $ref: "#/components/schemas/Recipient"
+        bankReference:
+          $ref: "#/components/schemas/BankReference"
+        offers:
+          $ref: "#/components/schemas/Offers"
+        paymentSchedules:
+          $ref: "#/components/schemas/PaymentSchedules"
+      required:
+      - header
+      - headOffice
+      - recipient
+      - bankReference
+      - offers
+      - paymentSchedules
+    InvoicesResultSet:
+      type: object
+      properties:
+        nbResults:
+          type: integer
+          description: total number of result found
+        invoices:
+          type: array
+          items:
+            $ref: "#/components/schemas/Invoice"
+    errorReturn:
+      type: object
+      properties:
+        title:
+          type: string
+        detail:
+          type: string
+        status:
+          type: string
+  securitySchemes:
+    apiKeyHeader:
+      type: apiKey
+      name: Ocp-Apim-Subscription-Key
+      in: header
+    apiKeyQuery:
+      type: apiKey
+      name: subscription-key
+      in: query
+security:
+  - apiKeyHeader: [ ]
+  - apiKeyQuery: [ ]
