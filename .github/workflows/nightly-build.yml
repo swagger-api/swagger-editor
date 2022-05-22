@@ -65,5 +65,5 @@ jobs:
       - name: Upload npm artifact
         uses: actions/upload-artifact@v2
         with:
-          name: "@swagger-api/swagger-ide.tgz"
+          name: "swagger-api-swagger-ide.tgz"
           path: ./swagger-api-swagger-ide-*.tgz
