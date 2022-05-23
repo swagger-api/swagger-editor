@@ -16,7 +16,51 @@ const AsyncApiReactComponent = React.lazy(() =>
   import('@asyncapi/react-component/lib/esm/without-parser.js')
 );
 
-const AsyncAPIEditorPreviewPane = ({ specSelectors }) => {
+const mapValidationErrorsToMonacoMarkers = (markers) => {
+  return markers.map((marker) => {
+    return {
+      message: marker.title,
+      startLineNumber: marker.location.startLine,
+      endLineNumber: marker.location.endLine,
+      startColumn: marker.location.startColumn,
+      endColumn: marker.location.endColumn,
+      jsonPointer: marker.location.jsonPointer,
+    };
+  });
+};
+
+const mapRefErrorsToMonacoMarkers = (markers, title) => {
+  return markers.map((marker) => {
+    return {
+      message: title,
+      startLineNumber: marker.startLine,
+      endLineNumber: marker.endLine,
+      startColumn: marker.startColumn,
+      endColumn: marker.endColumn,
+      jsonPointer: marker.jsonPointer,
+    };
+  });
+};
+
+const removeDuplicateMarkers = (list) => {
+  return list.reduce((uniques, current) => {
+    if (
+      !uniques.some((obj) => {
+        // comparing for some, but not necessarily all, object keys
+        return (
+          obj.message === current.message &&
+          obj.startLineNumber === current.startLineNumber &&
+          obj.startColumn === current.startColumn
+        );
+      })
+    ) {
+      uniques.push(current);
+    }
+    return uniques;
+  }, []);
+};
+
+const AsyncAPIEditorPreviewPane = ({ specSelectors, editorActions }) => {
   const [isValid, setIsValid] = useState(false);
   const [parsedSpec, setParsedSpec] = useState(null);
 
@@ -45,7 +89,24 @@ const AsyncAPIEditorPreviewPane = ({ specSelectors }) => {
               }
             }
           })
-          .catch(() => {
+          .catch((e) => {
+            const { validationErrors, refs, title } = e.toJS();
+            let validationErrorMarkers;
+            let refErrorMarkers;
+            if (!validationErrors?.length > 0) {
+              validationErrorMarkers = [];
+            } else {
+              validationErrorMarkers = mapValidationErrorsToMonacoMarkers(validationErrors);
+            }
+            if (!refs?.length > 0) {
+              refErrorMarkers = [];
+            } else {
+              refErrorMarkers = mapRefErrorsToMonacoMarkers(refs, title);
+            }
+            const allErrorMarkers = validationErrorMarkers.concat(refErrorMarkers);
+            const dedupedErrorMarkers = removeDuplicateMarkers(allErrorMarkers);
+            // update reducer state
+            editorActions.updateEditorMarkers(dedupedErrorMarkers);
             setIsValid(false);
           });
       }, delay);
@@ -89,6 +150,7 @@ const AsyncAPIEditorPreviewPane = ({ specSelectors }) => {
 
 AsyncAPIEditorPreviewPane.propTypes = {
   specSelectors: PropTypes.oneOfType([PropTypes.object]).isRequired,
+  editorActions: PropTypes.oneOfType([PropTypes.object]).isRequired,
 };
 
 export default AsyncAPIEditorPreviewPane;
