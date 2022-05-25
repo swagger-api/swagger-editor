@@ -19,7 +19,7 @@ export const saveAsJson = () => async (system) => {
   const { isOAS3, isSwagger2, isOAS3_1, isAsyncApi2 } = getSpecVersion(system);
   const options = { isOAS3, isSwagger2, isOAS3_1, isAsyncApi2 }; // eslint-disable-line camelcase
 
-  // create a mock yaml from mock json (ref: convertToYaml)
+  // create a mock yaml from mock json
   let contentToConvert;
   if (!editorContent) {
     const tempjsContent = YAML.load(JSON.stringify(mockOas3Spec));
@@ -53,7 +53,7 @@ export const saveAsJsonResolved = () => async (system) => {
   const { isOAS3, isSwagger2, isOAS3_1, isAsyncApi2 } = getSpecVersion(system);
   const options = { isOAS3, isSwagger2, isOAS3_1, isAsyncApi2 }; // eslint-disable-line camelcase
 
-  // create a mock yaml from mock json (ref: convertToYaml)
+  // create a mock yaml from mock json
   let contentToConvert;
   if (!editorContent) {
     const tempjsContent = YAML.load(JSON.stringify(mockOas3Spec));
@@ -100,7 +100,7 @@ export const saveAsYamlResolved = () => async (system) => {
   const { isOAS3, isSwagger2, isOAS3_1, isAsyncApi2 } = getSpecVersion(system);
   const options = { isOAS3, isSwagger2, isOAS3_1, isAsyncApi2 }; // eslint-disable-line camelcase
 
-  // create a mock yaml from mock json (ref: convertToYaml)
+  // create a mock yaml from mock json
   let contentToConvert;
   if (!editorContent) {
     const tempjsContent = YAML.load(JSON.stringify(mockOas3Spec));
@@ -150,7 +150,7 @@ export const saveAsYaml =
     const { isOAS3, isSwagger2, isOAS3_1, isAsyncApi2 } = getSpecVersion(system);
     const options = { isOAS3, isSwagger2, isOAS3_1, isAsyncApi2 }; // eslint-disable-line camelcase
 
-    // create a mock yaml from mock json (ref: convertToYaml)
+    // create a mock yaml from mock json
     let contentToConvert;
     if (!editorContent) {
       const tempjsContent = YAML.load(JSON.stringify(mockOas3Spec));

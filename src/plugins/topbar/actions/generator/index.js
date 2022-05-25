@@ -62,7 +62,7 @@ export const downloadGeneratedFile =
 
     const filename = `${name}-${type}-generated.zip`;
     if (generatorLink.link) {
-      // swagger2: check axios fetch responseType: 'blob', then download
+      // oas2: check axios fetch responseType: 'blob', then download
       const fetchedDataWithBlob = await getGenerator2Definition({ url: generatorLink.link });
       if (fetchedDataWithBlob.data && fetchedDataWithBlob.data instanceof Blob) {
         getFileDownload({ blob: fetchedDataWithBlob.data, filename });
