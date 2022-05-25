@@ -5,6 +5,14 @@
   "publishConfig": {
     "registry": "https://npm.pkg.github.com"
   },
+  "contributors": [
+    "(in alphabetical order)",
+    "Vladimir Gorej",
+    "Timothy Lai",
+    "Francesco Tumanischvili"
+  ],
+  "homepage": "",
+  "repository": "",
   "license": "Apache-2.0",
   "type": "module",
   "sideEffects": false,
