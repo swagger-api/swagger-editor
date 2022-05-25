@@ -145,24 +145,3 @@ export const themes = {
     },
   },
 };
-
-/**
- * #66afce : light blue
- * #336699 : blue jeans
- * #3366cc : violet blue
- * #1de2fa : sky blue
- * #D19A66 : brown
- * #e8b9bb : pinkish-orange
- * #ff2328 : red
- * #d0d0e3 : light purple-white
- * #C678DD : purple
- * #cc00ff : purple bright
- * #98C379 : green
- * #608d3f : dark green
- * #ceca84 : olive
- * #a49f41 : dark olive
- * #00cc99 : teal
- * #ff5500 : orange
- * #ff9966 : light orange
- * #ffddcc : very light orange
- */
