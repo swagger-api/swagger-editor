@@ -57,7 +57,7 @@
   "dependencies": {
     "@asyncapi/avro-schema-parser": "^1.0.1",
     "@asyncapi/openapi-schema-parser": "^2.0.1",
-    "@asyncapi/parser": "^1.15.0",
+    "@asyncapi/parser": "^1.15.1",
     "@asyncapi/react-component": "^1.0.0-next.38",
     "@babel/runtime": "^7.18.3",
     "@primer/octicons-react": "^17.2.0",
