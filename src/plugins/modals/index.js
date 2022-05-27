@@ -7,7 +7,7 @@ import { useReactModal } from './hooks.js';
 
 const ModalsPlugin = () => ({
   rootInjects: {
-    useSwaggerIDEReactModal: useReactModal,
+    useSwaggerEditorReactModal: useReactModal,
   },
   components: {
     Modal,

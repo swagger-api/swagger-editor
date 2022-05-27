@@ -21,7 +21,7 @@ const SafeRenderPlugin = (system) =>
   SwaggerUI.plugins.SafeRender({
     componentList: [
       'Topbar',
-      'SwaggerIDELayout',
+      'SwaggerEditorLayout',
       'Editor',
       'EditorTextarea',
       'EditorMonaco',
@@ -35,8 +35,8 @@ const SafeRenderPlugin = (system) =>
     ],
   })(system);
 
-const SwaggerIDE = React.memo((props) => {
-  const mergedProps = deepmerge(SwaggerIDE.defaultProps, props);
+const SwaggerEditor = React.memo((props) => {
+  const mergedProps = deepmerge(SwaggerEditor.defaultProps, props);
 
   return (
     <div className="swagger-editor">
@@ -45,7 +45,7 @@ const SwaggerIDE = React.memo((props) => {
   );
 });
 
-SwaggerIDE.plugins = {
+SwaggerEditor.plugins = {
   Modals: ModalsPlugin,
   Dialogs: DialogsPlugin,
   Dropzone: DropzonePlugin,
@@ -59,7 +59,7 @@ SwaggerIDE.plugins = {
   Topbar: TopbarPlugin,
   Layout: LayoutPlugin,
 };
-SwaggerIDE.presets = {
+SwaggerEditor.presets = {
   textarea: () => [
     ModalsPlugin,
     DialogsPlugin,
@@ -89,15 +89,15 @@ SwaggerIDE.presets = {
     LayoutPlugin,
     SafeRenderPlugin,
   ],
-  default: (...args) => SwaggerIDE.presets.monaco(...args),
+  default: (...args) => SwaggerEditor.presets.monaco(...args),
 };
 
-SwaggerIDE.propTypes = SwaggerUI.propTypes;
+SwaggerEditor.propTypes = SwaggerUI.propTypes;
 
-SwaggerIDE.defaultProps = {
+SwaggerEditor.defaultProps = {
   ...SwaggerUI.defaultProps,
-  layout: 'SwaggerIDELayout',
-  presets: [SwaggerIDE.presets.default],
+  layout: 'SwaggerEditorLayout',
+  presets: [SwaggerEditor.presets.default],
 };
 
-export default SwaggerIDE;
+export default SwaggerEditor;

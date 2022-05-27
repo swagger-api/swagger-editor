@@ -2,13 +2,13 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { SplitPane } from 'react-collapse-pane';
 
-const Layout = ({ getComponent, useSwaggerIDEReactModal }) => {
+const Layout = ({ getComponent, useSwaggerEditorReactModal }) => {
   const EditorPane = getComponent('EditorPane', true);
   const EditorPreviewPane = getComponent('EditorPreviewPane', true);
   const Topbar = getComponent('Topbar', true);
   const Container = getComponent('Container'); // accessed from swagger-ui`
   const Dropzone = getComponent('Dropzone', true);
-  const ref = useSwaggerIDEReactModal();
+  const ref = useSwaggerEditorReactModal();
 
   return (
     <div className="swagger-editor__layout" ref={ref}>
@@ -27,7 +27,7 @@ const Layout = ({ getComponent, useSwaggerIDEReactModal }) => {
 
 Layout.propTypes = {
   getComponent: PropTypes.func.isRequired,
-  useSwaggerIDEReactModal: PropTypes.func.isRequired,
+  useSwaggerEditorReactModal: PropTypes.func.isRequired,
 };
 
 export default Layout;
