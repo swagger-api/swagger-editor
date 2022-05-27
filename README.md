@@ -1,8 +1,8 @@
-# Swagger IDE
+# SwaggerEditor
 
 > Note: refer to `CHANGELOG.md` for migration & project status. Refer `docs/swagger-client.md` for some notes.
 
-SwaggerIDE is using **forked** Create React App as it's building infrastructure.
+SwaggerEditor is using **forked** Create React App as it's building infrastructure.
 
 ## Table of Contents
 
@@ -24,8 +24,8 @@ SwaggerIDE is using **forked** Create React App as it's building infrastructure.
 
 ### Installation
 
-SwaggerIDE is currently hosted on [GitHub packages registry](https://docs.github.com/en/packages/learn-github-packages/introduction-to-github-packages).
-For installing SwaggerIDE npm package from GitHub packages registry, create `.npmrc` file in your current directory and add
+SwaggerEditor is currently hosted on [GitHub packages registry](https://docs.github.com/en/packages/learn-github-packages/introduction-to-github-packages).
+For installing SwaggerEditor npm package from GitHub packages registry, create `.npmrc` file in your current directory and add
 the following line to it:
 
 ```
@@ -39,7 +39,7 @@ Using [Node.js](https://nodejs.org/) [active LTS version](https://nodejs.org/en/
 [emscripten](https://emscripten.org/docs/getting_started/downloads.html) or [docker](https://www.docker.com/) needs to be installed
 on your operating system as well. We strongly recommend going with a docker option.
 
-You can now install SwaggerIDE package using `npm`:
+You can now install SwaggerEditor package using `npm`:
 
 ```sh
  $ npm install @swagger-api/swagger-ide
@@ -63,34 +63,34 @@ Use the package in you application:
 ```js
 import React from 'react';
 import ReactDOM from 'react-dom';
-import SwaggerIDE from '@swagger-api/swagger-ide';
+import SwaggerEditor from '@swagger-api/swagger-ide';
 import '@swagger-api/swagger-ide/swagger-ide.css';
 
 const url = "https://raw.githubusercontent.com/asyncapi/spec/v2.2.0/examples/streetlights-kafka.yml";
 
 const MyApp = () => (
   <div>
-    <h1>SwaggerIDE Integration</h1>
-    <SwaggerIDE url={url} />
+    <h1>SwaggerEditor Integration</h1>
+    <SwaggerEditor url={url} />
   </div>
 );
 
 self.MonacoEnvironment = {
   /**
    * We're building into the dist/ folder. When application starts on
-   * URL=https://example.com then SwaggerIDe will look for
+   * URL=https://example.com then SwaggerEditor will look for
    * `apidom.worker.js` on https://example.com/dist/apidom.worker.js and
    * `editor.worker` on https://example.com/dist/editor.worker.js.
    */
   baseUrl: `${document.baseURI || location.href}/dist/`,
 }
 
-ReactDOM.render(<MyApp />, document.getElementById('swagger-ide'));
+ReactDOM.render(<MyApp />, document.getElementById('swagger-editor'));
 ```
 
 **webpack.config.js** (webpack@5)
 
-Install dependencies needed for webpack@5 to properly build SwaggerIDE.
+Install dependencies needed for webpack@5 to properly build SwaggerEditor.
 
 ```sh
  $ npm i stream-browserify --save-dev
@@ -319,7 +319,7 @@ Usage in **Continuos Integration (CI)** environment:
  $ npm run build
 ````
 
-This script will build all the SwaggerIDE build artifacts - `app`, `esm` and `umd`.
+This script will build all the SwaggerEditor build artifacts - `app`, `esm` and `umd`.
 
 ### Build artifacts
 
@@ -332,7 +332,7 @@ $ npm run build:app
 $ npm run build:app:serve
 ```
 
-Builds and serves standalone SwaggerIDE application and all it's assets on `http://localhost:3050/`.
+Builds and serves standalone SwaggerEditor application and all it's assets on `http://localhost:3050/`.
 
 **dist/esm/**
 
@@ -341,7 +341,7 @@ $ npm run build:bundle:esm
 ```
 
 This bundle is suited for consumption by 3rd parties,
-which want to use SwaggerIDE as a library in their own applications and have their own build process.
+which want to use SwaggerEditor as a library in their own applications and have their own build process.
 
 **dist/umd/**
 
@@ -349,8 +349,8 @@ which want to use SwaggerIDE as a library in their own applications and have the
 $ npm run build:bundle:umd
 ```
 
-SwaggerIDE UMD bundle exports SwaggerIDE symbol on global object.
-It's bundled with React defined as external. This allows consumer to use his own version of React + ReactDOM and mount SwaggerIDe lazily.
+SwaggerEditor UMD bundle exports SwaggerEditor symbol on global object.
+It's bundled with React defined as external. This allows consumer to use his own version of React + ReactDOM and mount SwaggerEditor lazily.
 
 ```html
 <!DOCTYPE html>
@@ -360,13 +360,13 @@ It's bundled with React defined as external. This allows consumer to use his own
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta
     name="description"
-    content="Swagger IDE"
+    content="SwaggerEditor"
   />
-  <title>Swagger IDE</title>
+  <title>SwaggerEditor</title>
   <link rel="stylesheet" href="./swagger-ide.css" />
 </head>
 <body>
-  <div id="swagger-ide"></div>
+  <div id="swagger-editor"></div>
   <script src="https://unpkg.com/react@17/umd/react.production.min.js" crossorigin></script>
   <script src="https://unpkg.com/react-dom@17/umd/react-dom.production.min.js" crossorigin></script>
   <script src="./dist/umd/swagger-ide.js"></script>
@@ -374,8 +374,8 @@ It's bundled with React defined as external. This allows consumer to use his own
     const props = {
       url: 'https://raw.githubusercontent.com/asyncapi/spec/v2.2.0/examples/streetlights-kafka.yml',
     };
-    const element = React.createElement(SwaggerIDE, props);
-    const domContainer = document.querySelector('#swagger-ide');
+    const element = React.createElement(SwaggerEditor, props);
+    const domContainer = document.querySelector('#swagger-editor');
 
     ReactDOM.render(element, domContainer);
   </script>
@@ -385,7 +385,7 @@ It's bundled with React defined as external. This allows consumer to use his own
 
 **npm**
 
-SwaggerIDE is released as `@swagger-api/swagger-ide` npm package on [GitHub packages registry](https://docs.github.com/en/packages/learn-github-packages/introduction-to-github-packages).
+SwaggerEditor is released as `@swagger-api/swagger-ide` npm package on [GitHub packages registry](https://docs.github.com/en/packages/learn-github-packages/introduction-to-github-packages).
 Package can also be produced manually by running following commands (assuming you're already followed [setting up](#setting-up) steps):
 
 ```sh
@@ -396,7 +396,7 @@ Package can also be produced manually by running following commands (assuming yo
 
 ### Package mapping
 
-SwaggerIDE maps its [build artifacts](#build-artifacts) in `package.json` file in following way:
+SwaggerEditor maps its [build artifacts](#build-artifacts) in `package.json` file in following way:
 
 ```json
 "unpkg": "./dist/umd/swagger-ide.js",
@@ -440,6 +440,6 @@ Once we build the app, we can also build and run a Docker container.
 
 ## License
 
-SwaggerIDE is licensed under [Apache 2.0 license](https://github.com/swagger-api/swagger-ide/blob/main/LICENSE).
+SwaggerEditor is licensed under [Apache 2.0 license](https://github.com/swagger-api/swagger-ide/blob/main/LICENSE).
 ApiDOM comes with an explicit [NOTICE](https://github.com/swagger-api/apidom/blob/main/NOTICE) file
 containing additional legal notifications and information.

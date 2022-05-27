@@ -55,7 +55,7 @@ Only files inside `public` can be used from `public/index.html`. JS files must b
 
 new:
 ```
-<SwaggerIDE url={url} />
+<SwaggerEditor url={url} />
 ```
 
 old:
