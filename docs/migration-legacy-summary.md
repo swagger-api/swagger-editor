@@ -27,8 +27,7 @@
 [x] Removed: internal validation from swagger-editor v3/v4
 [x] Drag-n-drop local file to editor (react-dropzone)  
 [x] Persist definition on browser refresh/reload (localStorage)  
-[ ] if refresh empty editor value, should load a default definition; hidden dev feature  
-[ ] NEW: monaco configuration options  
+[x] Display validation pane results
 
 
 ### Visual UI Features

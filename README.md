@@ -1,7 +1,5 @@
 # SwaggerEditor
 
-> Note: refer to `CHANGELOG.md` for migration & project status. Refer `docs/swagger-client.md` for some notes.
-
 SwaggerEditor is using **forked** Create React App as it's building infrastructure.
 
 ## Table of Contents
