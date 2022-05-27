@@ -1,4 +1,4 @@
-.swagger-ide {
+.swagger-editor {
   &__layout {
 
     .SplitPane {
@@ -67,12 +67,12 @@
       }
     }
 
-    .swagger-ide__validation-pane {
+    .swagger-editor__validation-pane {
       overflow-y: auto;
       max-height: 120px;
     }
 
-    .swagger-ide__validation-table {
+    .swagger-editor__validation-table {
       display: flex;
       flex-direction: column;
       font-size: 0.8rem;
@@ -80,7 +80,7 @@
       border: none;
     }
 
-    .swagger-ide__validation-table thead {
+    .swagger-editor__validation-table thead {
       flex: 0 0 auto;
       flex-direction: row;
       color: #444;
@@ -93,19 +93,19 @@
       outline: none;
     }
 
-    .swagger-ide__validation-table thead th {
+    .swagger-editor__validation-table thead th {
       min-width: 2.0rem;
       padding-left: 0.25rem;
     }
 
-    .swagger-ide__validation-table tbody {
+    .swagger-editor__validation-table tbody {
       flex: 1 1 auto;
       flex-direction: row;
       max-height: 100px;
       overflow: auto;
     }
 
-    .swagger-ide__validation-table tbody td {
+    .swagger-editor__validation-table tbody td {
       min-width: 2.0rem;
       padding-left: 0.25rem;
       overflow: hidden;

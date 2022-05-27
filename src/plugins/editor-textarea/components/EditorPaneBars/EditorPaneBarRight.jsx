@@ -3,8 +3,8 @@ import PropTypes from 'prop-types';
 
 const EditorPaneBarRight = ({ renderChildren, renderControls }) => {
   return (
-    <div className="swagger-ide__editor-pane-bar swagger-ide__editor-pane-bar--right">
-      <div className="swagger-ide__toolbar-vertical">{renderControls(null)}</div>
+    <div className="swagger-editor__editor-pane-bar swagger-editor__editor-pane-bar--right">
+      <div className="swagger-editor__toolbar-vertical">{renderControls(null)}</div>
       {renderChildren(null)}
     </div>
   );

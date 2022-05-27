@@ -11,7 +11,7 @@ const ValidationTable = ({ columns, data, onValidationKeyClick }) => {
     data,
   });
   return (
-    <table {...getTableProps()} className="swagger-ide__validation-table">
+    <table {...getTableProps()} className="swagger-editor__validation-table">
       <thead>
         {headerGroups.map((headerGroup) => (
           <tr {...headerGroup.getHeaderGroupProps()}>

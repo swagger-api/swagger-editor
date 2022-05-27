@@ -9,12 +9,12 @@ const EditorPane = ({ getComponent, useElementResize }) => {
   const editorContainerRef = useElementResize({ eventName: 'editorcontainerresize' });
 
   return (
-    <div className="swagger-ide__editor-pane">
-      <div className="swagger-ide__editor-pane-container-col">
+    <div className="swagger-editor__editor-pane">
+      <div className="swagger-editor__editor-pane-container-col">
         <EditorPaneBarTop />
-        <div className="swagger-ide__editor-pane-container-row">
+        <div className="swagger-editor__editor-pane-container-row">
           <EditorPaneBarLeft />
-          <div className="swagger-ide__editor-container" ref={editorContainerRef}>
+          <div className="swagger-editor__editor-container" ref={editorContainerRef}>
             <Editor />
           </div>
         </div>

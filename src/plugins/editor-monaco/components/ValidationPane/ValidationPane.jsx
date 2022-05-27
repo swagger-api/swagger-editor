@@ -32,7 +32,7 @@ const ValidationPane = ({
   };
 
   return (
-    <div className="swagger-ide__validation-pane">
+    <div className="swagger-editor__validation-pane">
       {showTable && (
         <ValidationTable
           columns={columns}

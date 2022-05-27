@@ -39,7 +39,7 @@ const SwaggerIDE = React.memo((props) => {
   const mergedProps = deepmerge(SwaggerIDE.defaultProps, props);
 
   return (
-    <div className="swagger-ide">
+    <div className="swagger-editor">
       <SwaggerUI {...mergedProps} /> {/* eslint-disable-line react/jsx-props-no-spreading */}
     </div>
   );

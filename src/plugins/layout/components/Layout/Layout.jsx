@@ -11,7 +11,7 @@ const Layout = ({ getComponent, useSwaggerIDEReactModal }) => {
   const ref = useSwaggerIDEReactModal();
 
   return (
-    <div className="swagger-ide__layout" ref={ref}>
+    <div className="swagger-editor__layout" ref={ref}>
       <Topbar />
       <Container className="container">
         <Dropzone>

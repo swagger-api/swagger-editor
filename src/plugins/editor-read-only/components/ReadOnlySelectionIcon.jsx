@@ -9,20 +9,20 @@ const ReadOnlySelectionIcon = ({ editorSelectors, editorActions }) => {
   };
 
   return !isReadOnly ? (
-    <div className="swagger-ide__generic-padding-thin-top-bottom">
+    <div className="swagger-editor__generic-padding-thin-top-bottom">
       <button
         type="button"
-        className="swagger-ide__editor-pane-bar-control"
+        className="swagger-editor__editor-pane-bar-control"
         onClick={handleReadonly(true)}
       >
         <UnlockIcon size="small" aria-label="Unlock" />
       </button>
     </div>
   ) : (
-    <div className="swagger-ide__generic-padding-thin-top-bottom">
+    <div className="swagger-editor__generic-padding-thin-top-bottom">
       <button
         type="button"
-        className="swagger-ide__editor-pane-bar-control"
+        className="swagger-editor__editor-pane-bar-control"
         onClick={handleReadonly(false)}
       >
         <LockIcon size="small" aria-label="Lock" />

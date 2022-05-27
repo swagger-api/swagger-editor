@@ -241,7 +241,7 @@ const MonacoEditor = ({
   // handle smooth resizing of Monaco Editor
   useSmoothResize({ eventName: 'editorcontainerresize', editorRef });
 
-  return <div ref={containerRef} className="swagger-ide__editor-monaco" />;
+  return <div ref={containerRef} className="swagger-editor__editor-monaco" />;
 };
 
 MonacoEditor.propTypes = {

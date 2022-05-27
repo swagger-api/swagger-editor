@@ -12,7 +12,7 @@ const TextareaEditor = ({ isReadOnly, specActions, specSelectors, useEditorLifec
     <textarea
       ref={editorRef}
       readOnly={isReadOnly}
-      className="swagger-ide__editor-textarea"
+      className="swagger-editor__editor-textarea"
       name="spec"
       value={spec}
       onChange={handleChange}

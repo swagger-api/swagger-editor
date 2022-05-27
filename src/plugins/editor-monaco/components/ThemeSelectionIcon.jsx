@@ -14,20 +14,20 @@ const ThemeSelectionIcon = ({ editorSelectors, editorActions }) => {
   };
 
   return theme === 'vs' || theme === 'vs-light' || theme === 'my-vs-light' ? (
-    <div className="swagger-ide__generic-padding-thin-top-bottom">
+    <div className="swagger-editor__generic-padding-thin-top-bottom">
       <button
         type="button"
-        className="swagger-ide__editor-pane-bar-control"
+        className="swagger-editor__editor-pane-bar-control"
         onClick={handleChange('my-vs-dark')}
       >
         <MoonIcon size="small" aria-label="Dark theme" />
       </button>
     </div>
   ) : (
-    <div className="swagger-ide__generic-padding-thin-top-bottom">
+    <div className="swagger-editor__generic-padding-thin-top-bottom">
       <button
         type="button"
-        className="swagger-ide__editor-pane-bar-control"
+        className="swagger-editor__editor-pane-bar-control"
         onClick={handleChange('my-vs-light')}
       >
         <SunIcon size="small" aria-label="Light theme" />
