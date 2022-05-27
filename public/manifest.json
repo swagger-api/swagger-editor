@@ -1,6 +1,6 @@
 {
-  "short_name": "Swagger IDE",
-  "name": "Swagger IDE",
+  "short_name": "SwaggerEditor",
+  "name": "SwaggerEditor",
   "icons": [
     {
       "src": "favicon-32x32.ico",
