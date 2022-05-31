@@ -79,7 +79,7 @@
     "react-table": "^7.8.0",
     "reselect": "^4.1.5",
     "swagger-ui-react": "^4.11.1",
-    "vscode-languageserver-textdocument": "^1.0.4"
+    "vscode-languageserver-textdocument": "^1.0.5"
   },
   "devDependencies": {
     "@commitlint/cli": "^17.0.1",
