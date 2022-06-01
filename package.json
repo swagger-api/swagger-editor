@@ -1,6 +1,6 @@
 {
   "name": "@swagger-api/swagger-ide",
-  "version": "0.24.0",
+  "version": "0.24.1",
   "private": false,
   "publishConfig": {
     "registry": "https://npm.pkg.github.com"
