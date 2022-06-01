@@ -4,27 +4,36 @@ import { ProtocolToMonacoConverter } from 'monaco-languageclient/lib/monaco-conv
 import { fromPosition } from './monaco-helpers.js';
 
 export default class DefinitionAdapter {
+  #worker;
+
+  #p2m = new ProtocolToMonacoConverter(monaco);
+
   constructor(worker) {
-    this.worker = worker;
+    this.#worker = worker;
   }
 
-  // eslint-disable-next-line no-unused-vars
-  async provideDefinition(model, position, token) {
-    const resource = model.uri;
-    // get the worker proxy (ts interface)
-    const worker = await this.worker(resource);
-    const uri = resource.toString();
-    let def;
+  async #getLocation(model, position) {
+    const worker = await this.#worker(model.uri);
+
     try {
-      def = await worker.provideDefinition(uri, fromPosition(position));
-      if (!def) {
-        return Promise.resolve(null);
-      }
-    } catch (e) {
-      return Promise.resolve(null);
+      const location = await worker.provideDefinition(model.uri.toString(), fromPosition(position));
+      return location ?? null;
+    } catch {
+      return null;
     }
-    const p2m = new ProtocolToMonacoConverter(monaco);
-    const result = p2m.asDefinitionResult(def);
-    return Promise.resolve(result);
+  }
+
+  #maybeConvert(location) {
+    if (location === null) {
+      return null;
+    }
+
+    return this.#p2m.asDefinitionResult(location);
+  }
+
+  async provideDefinition(model, position) {
+    const location = this.#getLocation(model, position);
+
+    return this.#maybeConvert(location);
   }
 }

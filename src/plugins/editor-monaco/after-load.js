@@ -1,3 +1,4 @@
+import { ModesRegistry } from 'monaco-editor-core/esm/vs/editor/common/languages/modesRegistry.js';
 import * as monaco from 'monaco-editor-core';
 
 import { languageExtensionPoint, monarchLanguage, languageId } from './workers/apidom/config.js';
@@ -6,8 +7,20 @@ import { setupApiDOM } from './workers/apidom/apidom-mode.js';
 const makeAfterLoad =
   ({ createData = {} } = {}) =>
   () => {
-    if (globalThis.MonacoEnvironment.loaded) return;
+    /**
+     * Parts of this code use ModesRegistry API instead of monaco.languages API.
+     * The reason is that monaco.languages API is using ModesRegistory under the hood
+     * but doesn't return disposables produced by ModesRegistry. By using ModesRegistry
+     * directly we're able to obtain disposables.
+     */
 
+    // guard for multiple language registration
+    const languages = ModesRegistry.getLanguages().map(({ id }) => id);
+    if (languages.includes(languageId)) {
+      return;
+    }
+
+    // setup monaco environment
     globalThis.MonacoEnvironment = {
       baseUrl: document.baseURI || location.href, // eslint-disable-line no-restricted-globals
       getWorkerUrl(moduleId, label) {
@@ -19,15 +32,21 @@ const makeAfterLoad =
       ...(globalThis.MonacoEnvironment || {}), // this will allow to override the base uri for loading Web Workers
     };
 
-    monaco.languages.register(languageExtensionPoint);
-    monaco.languages.onLanguage(languageId, () => {
-      // enable syntax highlighting
-      monaco.languages.setMonarchTokensProvider(languageId, monarchLanguage);
-      // setup ApiDOM Language
-      setupApiDOM(createData);
-    });
+    // setting up ApiDOM language
+    const disposables = [];
+    disposables.push(ModesRegistry.registerLanguage(languageExtensionPoint));
+    disposables.push(monaco.languages.setMonarchTokensProvider(languageId, monarchLanguage)); // enable syntax highlighting
+    disposables.push(setupApiDOM({ languageId, options: createData }));
 
-    globalThis.MonacoEnvironment.loaded = true;
+    // disposing of all allocated disposables
+    disposables.push(
+      monaco.editor.onWillDisposeModel((model) => {
+        if (model.getLanguageId() !== languageId) {
+          return;
+        }
+        disposables.forEach((disposable) => disposable.dispose());
+      })
+    );
   };
 
 export default makeAfterLoad;

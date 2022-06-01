@@ -1,4 +1,4 @@
-/* eslint-disable import/prefer-default-export */
+/* eslint-disable */
 import * as monaco from 'monaco-editor-core';
 
 import { WorkerManager } from './WorkerManager.js';
@@ -24,47 +24,50 @@ const asDisposable = (disposables) => {
 const registerProviders = ({ languageId, providers, worker }) => {
   disposeAll(providers);
 
-  const diagnostics = new DiagnosticsAdapter(worker);
-  providers.push(diagnostics);
-  const hover = new HoverAdapter(worker);
-  providers.push(monaco.languages.registerHoverProvider(languageId, hover));
-  const completionItems = new CompletionItemsAdapter(worker);
-  providers.push(monaco.languages.registerCompletionItemProvider(languageId, completionItems));
-  const codeActions = new CodeActionsAdapter(worker);
-  providers.push(monaco.languages.registerCodeActionProvider(languageId, codeActions));
-  const documentSymbols = new DocumentSymbolsAdapter(worker);
-  providers.push(monaco.languages.registerDocumentSymbolProvider(languageId, documentSymbols));
-  const semanticTokens = new SemanticTokensAdapter(worker);
+  providers.push(new DiagnosticsAdapter(worker));
+  providers.push(monaco.languages.registerHoverProvider(languageId, new HoverAdapter(worker)));
   providers.push(
-    monaco.languages.registerDocumentSemanticTokensProvider(languageId, semanticTokens)
+    monaco.languages.registerCompletionItemProvider(languageId, new CompletionItemsAdapter(worker))
   );
-  const definitions = new DefinitionAdapter(worker);
-  providers.push(monaco.languages.registerDefinitionProvider(languageId, definitions));
+  providers.push(
+    monaco.languages.registerCodeActionProvider(languageId, new CodeActionsAdapter(worker))
+  );
+  providers.push(
+    monaco.languages.registerDocumentSymbolProvider(languageId, new DocumentSymbolsAdapter(worker))
+  );
+  providers.push(
+    monaco.languages.registerDocumentSemanticTokensProvider(
+      languageId,
+      new SemanticTokensAdapter(worker)
+    )
+  );
+  providers.push(
+    monaco.languages.registerDefinitionProvider(languageId, new DefinitionAdapter(worker))
+  );
+
   return providers;
 };
 
-export function setupMode(createData) {
+export function setupMode(defaults) {
   const disposables = [];
   const providers = [];
-  const { languageId } = createData;
+  const { languageId } = defaults;
 
-  // instantiate a new WorkerManager() to proxy monaco.editor.createWebWorker()
-  const client = new WorkerManager(createData); // with defaults?
+  const client = new WorkerManager(defaults);
   disposables.push(client);
-  // define a worker promise to actually getLanguageServiceWorker
-  const worker = (...uris) => {
+
+  const worker = async (...uris) => {
     return client.getLanguageServiceWorker(...uris);
   };
-  // register the providers with the worker we just created
+
   const registeredProviders = registerProviders({ languageId, providers, worker });
-  // we could do this too for additional configuration:
 
   disposables.push(monaco.languages.setLanguageConfiguration(languageId, richLanguage));
-
   disposables.push(asDisposable(registeredProviders));
+
   return asDisposable(disposables);
 }
 
-export function setupApiDOM(createData) {
-  return setupMode({ ...createData, languageId: defaultLanguageId });
+export function setupApiDOM(defaults) {
+  return setupMode({ ...defaults, languageId: defaultLanguageId });
 }

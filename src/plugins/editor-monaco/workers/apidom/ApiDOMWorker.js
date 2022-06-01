@@ -10,7 +10,6 @@ export class ApiDOMWorker {
     logLevel: apidomLS.LogLevel.WARN,
   };
 
-  // eslint-disable-next-line no-unused-vars
   constructor(ctx, createData) {
     this._ctx = ctx;
     this._createData = createData;
@@ -18,93 +17,87 @@ export class ApiDOMWorker {
   }
 
   async doValidation(uri) {
-    const document = this._getTextDocument(uri); // call a private method
+    const document = this._getTextDocument(uri);
     if (!document) {
-      return Promise.resolve([]);
+      return [];
     }
-    const diagnostics = await this._languageService.doValidation(document);
-    return Promise.resolve(diagnostics);
+    return this._languageService.doValidation(document);
   }
 
   async doComplete(uri, position) {
-    const document = this._getTextDocument(uri); // call a private method
+    const document = this._getTextDocument(uri);
     if (!document) {
-      return Promise.resolve([]);
+      return [];
     }
-    const completions = await this._languageService.doCompletion(document, position);
-    return Promise.resolve(completions);
+    return this._languageService.doCompletion(document, position);
   }
 
   async doHover(uri, position) {
-    const document = this._getTextDocument(uri); // call a private method
+    const document = this._getTextDocument(uri);
     if (!document) {
-      return Promise.resolve([]);
+      return [];
     }
-    const hover = await this._languageService.doHover(document, position);
-    return Promise.resolve(hover);
+    return this._languageService.doHover(document, position);
   }
 
   async findDocumentSymbols(uri) {
-    const document = this._getTextDocument(uri); // call a private method
+    const document = this._getTextDocument(uri);
     if (!document) {
-      return Promise.resolve([]);
+      return [];
     }
-    const symbols = await this._languageService.doFindDocumentSymbols(document);
-    return Promise.resolve(symbols);
+    return this._languageService.doFindDocumentSymbols(document);
   }
 
   async provideDefinition(uri, position) {
-    const document = this._getTextDocument(uri); // call a private method
+    const document = this._getTextDocument(uri);
     if (!document) {
-      return Promise.resolve([]);
+      return [];
     }
-    const definitions = await this._languageService.doProvideDefinition(document, {
+    return this._languageService.doProvideDefinition(document, {
       uri,
       position,
     });
-    return Promise.resolve(definitions);
   }
 
   async doCodeActions(uri, diagnostics) {
-    const document = this._getTextDocument(uri); // call a private method
+    const document = this._getTextDocument(uri);
     if (!document) {
-      return Promise.resolve([]);
+      return [];
     }
-    const codeActions = await this._languageService.doCodeActions(document, diagnostics);
-    return Promise.resolve(codeActions);
+    return this._languageService.doCodeActions(document, diagnostics);
   }
 
   async findSemanticTokens(uri) {
-    const document = this._getTextDocument(uri); // call a private method
+    const document = this._getTextDocument(uri);
     if (!document) {
-      return Promise.resolve([]);
+      return [];
     }
-    const semanticTokens = await this._languageService.computeSemanticTokens(document);
-    return Promise.resolve(semanticTokens);
+    return this._languageService.computeSemanticTokens(document);
   }
 
   async getSemanticTokensLegend() {
-    const semanticTokensLegend = await this._languageService.getSemanticTokensLegend();
-    return Promise.resolve(semanticTokensLegend);
+    return this._languageService.getSemanticTokensLegend();
   }
 
-  // intended as private method
   _getTextDocument(uri) {
-    const models = this._ctx.getMirrorModels()[0]; // When there are multiple files open, this will be an array
-    // expect models: _lines[], _uri, _versionId
-    // expect models.uri.toString() to be singular, e.g. inmemory://model/1
-    // thus, before returning a TextDocument, we can optionally
-    // validate that models.uri.toString() === uri
-    // fyi, reference more complete example in cssWorker
-    // https://github.com/microsoft/monaco-css/blob/master/src/cssWorker.ts
-    // which we might want later to handle multiple URIs
-    const textDocumentToReturn = vscodeLanguageServerTextDocument.TextDocument.create(
+    const models = this._ctx.getMirrorModels()[0];
+    /**
+     * When there are multiple files open, this will be an array
+     * expect models: _lines[], _uri, _versionId
+     * expect models.uri.toString() to be singular, e.g. inmemory://model/1
+     * thus, before returning a TextDocument, we can optionally
+     * validate that models.uri.toString() === uri
+     * fyi, reference more complete example in cssWorker
+     * https://github.com/microsoft/monaco-css/blob/master/src/cssWorker.ts
+     * which we might want later to handle multiple URIs.
+     */
+
+    return vscodeLanguageServerTextDocument.TextDocument.create(
       uri,
-      this._createData._languageId,
+      this._createData.languageId,
       models._versionId,
       models.getValue()
     );
-    return textDocumentToReturn;
   }
 }
 

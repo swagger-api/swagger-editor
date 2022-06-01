@@ -4,54 +4,71 @@ import { getLanguageService, LogLevel } from '@swagger-api/apidom-ls';
 import { ProtocolToMonacoConverter } from 'monaco-languageclient/lib/monaco-converter.js';
 
 export default class SemanticTokensAdapter {
+  #worker;
+
+  #p2m = new ProtocolToMonacoConverter(monaco);
+
+  #legendError = { error: 'unable to getLegend' };
+
   constructor(worker) {
-    this.worker = worker;
+    this.#worker = worker;
   }
 
-  // Ideally, we can use async, promises, and workers
-  // If/when monaco editor support it, rename this method to "getLegend"
-  // Note, worker.getSemanticTokensLegend() does return the expected result
+  /**
+   * Ideally, we want to use async, promises, and workers.
+   * If/when monaco editor support it, rename this method to "getLegend".
+   * Note: worker.getSemanticTokensLegend() does return the expected result
+   */
   async getLegendAsync() {
-    const worker = await this.worker();
+    const worker = await this.#worker();
+
     try {
-      const semanticTokensLegend = await worker.getSemanticTokensLegend();
-      return Promise.resolve(semanticTokensLegend);
-    } catch (e) {
-      return Promise.resolve({ error: 'unable to getLegend' });
+      return await worker.getSemanticTokensLegend();
+    } catch {
+      return this.#legendError;
     }
   }
 
-  // monaco editor current expects a synchronous method
-  // so we import getLanguageService (above) directly in this adapter
+  /**
+   * monaco editor current expects a synchronous method,
+   * so we import getLanguageService (above) directly in this adapter.
+   */
   getLegend() {
     try {
       return getLanguageService({
         performanceLogs: false,
         logLevel: LogLevel.WARN,
       }).getSemanticTokensLegend();
-    } catch (e) {
-      // console.error('semanticTokensAdapter.getLegend error:', e, e.stack);
-      return { error: 'unable to getLegend' };
+    } catch {
+      return this.#legendError;
     }
+  }
+
+  async #getSemanticTokens(model) {
+    const worker = await this.#worker(model.uri);
+
+    try {
+      return await worker.findSemanticTokens(model.uri.toString());
+    } catch {
+      return { data: [], error: 'unable to provideDocumentSemanticTokens' };
+    }
+  }
+
+  #maybeConvert(semanticTokens) {
+    if (semanticTokens?.data?.length === 0 && typeof semanticTokens?.error === 'string') {
+      return semanticTokens;
+    }
+
+    return this.#p2m.asSemanticTokens(semanticTokens);
   }
 
   async provideDocumentSemanticTokens(model) {
-    const resource = model.uri;
-    // get the worker proxy (ts interface)
-    const worker = await this.worker(resource);
-    const uri = resource.toString();
-    try {
-      const semanticTokens = await worker.findSemanticTokens(uri);
-      const p2m = new ProtocolToMonacoConverter(monaco);
-      const monacoTokens = p2m.asSemanticTokens(semanticTokens);
-      return Promise.resolve(monacoTokens);
-    } catch (e) {
-      return Promise.resolve({ data: [], error: 'unable to provideDocumentSemanticTokens' });
-    }
+    const semanticTokens = await this.#getSemanticTokens(model);
+
+    return this.#maybeConvert(semanticTokens);
   }
 
-  async releaseDocumentSemanticTokens() {
+  releaseDocumentSemanticTokens() {
     // nothing to do
-    return Promise.resolve({});
   }
 }

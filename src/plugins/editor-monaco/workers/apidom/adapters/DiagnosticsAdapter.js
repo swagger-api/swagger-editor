@@ -4,43 +4,93 @@ import { ProtocolToMonacoConverter } from 'monaco-languageclient/lib/monaco-conv
 import { languageId } from '../config.js';
 
 export default class DiagnosticsAdapter {
+  #worker;
+
+  #p2m = new ProtocolToMonacoConverter(monaco);
+
+  #listener = [];
+
+  #disposables = [];
+
   constructor(worker) {
-    this.worker = worker;
+    this.#worker = worker;
+
     const onModelAdd = (model) => {
+      if (model.getLanguageId() !== languageId) {
+        return;
+      }
+
       let handle;
-      model.onDidChangeContent(() => {
-        // here we are Debouncing the user changes, so everytime a new change is done, we wait 500ms before validating
-        // otherwise if the user is still typing, we cancel the change
+      const changeSubscription = model.onDidChangeContent(() => {
+        /**
+         * Here we are Debouncing the user changes, so everytime a new change is done,
+         * we wait some time before validating, otherwise if the user is still typing, we cancel the change.
+         */
         clearTimeout(handle);
-        handle = setTimeout(() => this.validate(model.uri), 300);
+        handle = setTimeout(() => this.#validate(model), 300);
       });
 
-      this.validate(model.uri);
+      this.#listener[model.uri.toString()] = {
+        dispose() {
+          changeSubscription.dispose();
+          clearTimeout(handle);
+        },
+      };
+
+      this.#validate(model);
     };
-    monaco.editor.onDidCreateModel(onModelAdd);
+
+    const onModelRemoved = (model) => {
+      monaco.editor.setModelMarkers(model, languageId, []);
+      const key = model.uri.toString();
+      if (this.#listener[key]) {
+        this.#listener[key].dispose();
+        delete this.#listener[key];
+      }
+    };
+
+    this.#disposables.push(monaco.editor.onDidCreateModel(onModelAdd));
+    this.#disposables.push(monaco.editor.onWillDisposeModel(onModelRemoved));
     // Monaco supports multiple models, though we only use a single model
     monaco.editor.getModels().forEach(onModelAdd);
   }
 
-  // intended private
-  async validate(resource) {
-    // get the worker proxy (ts interface)
-    const worker = await this.worker(resource);
-    // call the validate methode proxy from the language service and get errors
-    try {
-      const errorMarkers = await worker.doValidation(resource);
-      if (!errorMarkers) {
-        return Promise.resolve({ error: 'unable to doValidation' });
-      }
-      // get the current model (editor or file)
-      const model = monaco.editor.getModel(resource);
-      // generate model markers to set in editor
-      const p2m = new ProtocolToMonacoConverter(monaco);
-      const markers = p2m.asDiagnostics(errorMarkers);
-      monaco.editor.setModelMarkers(model, languageId, markers);
-      return Promise.resolve({ message: 'doValidation success' });
-    } catch (e) {
-      return Promise.resolve({ error: 'unable to doValidation' });
+  async #getErrorMarkers(model) {
+    const worker = await this.#worker(model.uri);
+    const error = { error: 'unable to doValidation' };
+
+    if (model.isDisposed()) {
+      // model was disposed in the meantime
+      return error;
     }
+
+    try {
+      const errorMarkers = await worker.doValidation(model.uri);
+
+      return errorMarkers ?? error;
+    } catch {
+      return error;
+    }
+  }
+
+  #maybeConvert(model, errorMarkers) {
+    if (typeof errorMarkers?.error === 'string') {
+      return errorMarkers;
+    }
+
+    const markerData = this.#p2m.asDiagnostics(errorMarkers);
+    monaco.editor.setModelMarkers(model, languageId, markerData);
+    return { message: 'doValidation success' };
+  }
+
+  async #validate(model) {
+    const errorMarkers = await this.#getErrorMarkers(model);
+
+    return this.#maybeConvert(model, errorMarkers);
+  }
+
+  dispose() {
+    this.#disposables.forEach((disposable) => disposable?.dispose());
+    this.#disposables = [];
   }
 }

@@ -40,7 +40,8 @@ const SwaggerEditor = React.memo((props) => {
 
   return (
     <div className="swagger-editor">
-      <SwaggerUI {...mergedProps} /> {/* eslint-disable-line react/jsx-props-no-spreading */}
+      {/* eslint-disable-next-line react/jsx-props-no-spreading */}
+      <SwaggerUI {...mergedProps} />
     </div>
   );
 });
