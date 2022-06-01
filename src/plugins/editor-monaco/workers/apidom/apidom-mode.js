@@ -1,7 +1,6 @@
-/* eslint-disable */
 import * as monaco from 'monaco-editor-core';
 
-import { WorkerManager } from './WorkerManager.js';
+import WorkerManager from './WorkerManager.js';
 import DiagnosticsAdapter from './adapters/DiagnosticsAdapter.js';
 import HoverAdapter from './adapters/HoverAdapter.js';
 import CompletionItemsAdapter from './adapters/CompletionItemsAdapter.js';

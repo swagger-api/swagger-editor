@@ -2,7 +2,7 @@ import * as monaco from 'monaco-editor-core';
 
 const STOP_WHEN_IDLE_FOR = 2 * 60 * 1000; // 2min
 
-class WorkerManager {
+export default class WorkerManager {
   #defaults = null;
 
   #worker = null;
@@ -23,7 +23,7 @@ class WorkerManager {
       this.#worker.dispose();
       this.#worker = null;
     }
-    this.client = null;
+    this.#client = null;
   }
 
   #checkIfIdle() {
@@ -71,6 +71,3 @@ class WorkerManager {
     this.#stopWorker();
   }
 }
-
-export { WorkerManager };
-export default WorkerManager;
