@@ -7,9 +7,9 @@
   },
   "contributors": [
     "(in alphabetical order)",
-    "Vladimir Gorej",
+    "Francesco Tumanischvili",
     "Timothy Lai",
-    "Francesco Tumanischvili"
+    "Vladimir Gorej <vladimir.gorej@gmail.com>"
   ],
   "license": "Apache-2.0",
   "type": "module",

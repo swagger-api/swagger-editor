@@ -438,6 +438,9 @@ Once we build the app, we can also build and run a Docker container.
 
 ## License
 
-SwaggerEditor is licensed under [Apache 2.0 license](https://github.com/swagger-api/swagger-ide/blob/main/LICENSE).
-ApiDOM comes with an explicit [NOTICE](https://github.com/swagger-api/apidom/blob/main/NOTICE) file
+SwaggerEditor is licensed under [Apache 2.0 license](https://github.com/swagger-api/swagger-ide/blob/main/LICENSES/Apache-2.0.txt).
+SwaggerEditor comes with an explicit [NOTICE](https://github.com/swagger-api/apidom/blob/main/NOTICE) file
 containing additional legal notifications and information.
+
+This project uses [REUSE specification](https://reuse.software/spec/) that defines a standardized method
+for declaring copyright and licensing for software projects.
