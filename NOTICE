@@ -3,6 +3,12 @@ Copyright 2020 SmartBear Software Inc.
 SwaggerEditor is licensed under Apache 2.0 license.
 Copy of the Apache 2.0 license can be found in `LICENSES/Apache-2.0.txt` file.
 
+react-dd-menu
+Copyright (c) 2015 Mikkel Laursen
+Specific Sass Cascading Style Sheet in `_react-dd-menu.scss` (the file) were originally created under MIT license in https://github.com/mlaursen/react-dd-menu repository.
+Specific Sass Cascading Style Sheet have been copied into this project and modified. All modifications are licensed under Apache 2.0 License.
+Copy of the MIT license can be found in `LICENSES/MIT.txt` file.
+
 ---
 
 If the SPDX-FileCopyrightText and SPDX-License-Identifier tags are not present in the file,
