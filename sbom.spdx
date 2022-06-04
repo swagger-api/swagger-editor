@@ -1101,7 +1101,7 @@ PackageHomePage: https://github.com/TooTallNate/once#readme
 PackageLicenseConcluded: MIT
 PackageLicenseDeclared: MIT
 PackageCopyrightText: Copyright (c) 2020 Nathan Rajlich
-PackageLicenseComments: License text not present in npm package
+PackageLicenseComments: License text not present in npm package; possible PROBLEM
 
 ##### Package representing the character-reference-invalid
 
@@ -1228,7 +1228,7 @@ PackageHomePage: https://github.com/connec/yaml-js#readme
 PackageLicenseConcluded: WTFPL
 PackageLicenseDeclared: WTFPL
 PackageCopyrightText: Copyright 2013 Chris Connelly
-PackageLicenseComments: License text not present in npm package; http://www.wtfpl.net/
+PackageLicenseComments: License text not present in npm package; http://www.wtfpl.net/; possible PROBLEM
 
 ##### Package representing the fast-json-patch
 
@@ -1436,27 +1436,9 @@ PackageDownloadLocation: https://registry.npmjs.org/ini/-/ini-1.3.8.tgz
 FilesAnalyzed: false
 PackageChecksum: SHA256: 57b64c521238c116d5723f8024f6a41cd4b2015f52d06ec49e5b7f20f890b356
 PackageHomePage: https://github.com/isaacs/ini#readme
-PackageLicenseConcluded: NOASSERTION
-PackageLicenseDeclared: NOASSERTION
-PackageCopyrightText: NOASSERTION
-PackageLicenseComments: NOASSERTION
-PackageComment: NOASSERTION
-
-##### Package representing the ini
-
-PackageName: ini
-SPDXID: SPDXRef-Package-ini-1.3.0
-PackageVersion: 1.3.0
-PackageSupplier: Organization: ini
-PackageDownloadLocation: https://www.npmjs.com/package/ini/v/1.3.0
-FilesAnalyzed: false
-PackageChecksum: SHA256: 57b64c521238c116d5723f8024f6a41cd4b2015f52d06ec49e5b7f20f890b356
-PackageHomePage: https://github.com/isaacs/ini#readme
-PackageLicenseConcluded: NOASSERTION
-PackageLicenseDeclared: NOASSERTION
-PackageCopyrightText: NOASSERTION
-PackageLicenseComments: NOASSERTION
-PackageComment: NOASSERTION
+PackageLicenseConcluded: ISC
+PackageLicenseDeclared: ISC
+PackageCopyrightText: Copyright (c) Isaac Z. Schlueter and Contributors
 
 ##### Package representing the tree-sitter
 
@@ -1468,27 +1450,9 @@ PackageDownloadLocation: https://www.npmjs.com/package/tree-sitter/v/0.20.0
 FilesAnalyzed: false
 PackageChecksum: SHA256: 7d0dc28f8fd95654cf0704adc0bd3f33ee171a8fc48861f345c27cdf0aa8f65c
 PackageHomePage: https://github.com/tree-sitter/node-tree-sitter#readme
-PackageLicenseConcluded: NOASSERTION
-PackageLicenseDeclared: NOASSERTION
-PackageCopyrightText: NOASSERTION
-PackageLicenseComments: NOASSERTION
-PackageComment: NOASSERTION
-
-##### Package representing the tree-sitter
-
-PackageName: tree-sitter
-SPDXID: SPDXRef-Package-tree-sitter-0.20.0
-PackageVersion: 0.20.0
-PackageSupplier: Organization: tree-sitter
-PackageDownloadLocation: https://registry.npmjs.org/tree-sitter/-/tree-sitter-0.20.0.tgz
-FilesAnalyzed: false
-PackageChecksum: SHA256: 7d0dc28f8fd95654cf0704adc0bd3f33ee171a8fc48861f345c27cdf0aa8f65c
-PackageHomePage: https://github.com/tree-sitter/node-tree-sitter#readme
-PackageLicenseConcluded: NOASSERTION
-PackageLicenseDeclared: NOASSERTION
-PackageCopyrightText: NOASSERTION
-PackageLicenseComments: NOASSERTION
-PackageComment: NOASSERTION
+PackageLicenseConcluded: MIT
+PackageLicenseDeclared: MIT
+PackageCopyrightText: Copyright (c) 2014 maxbrunsfeld
 
 ##### Package representing the swagger-api/apidom-core
 
@@ -1500,27 +1464,9 @@ PackageDownloadLocation: https://www.npmjs.com/package/swagger-api/apidom-core/v
 FilesAnalyzed: false
 PackageChecksum: SHA256: dd36df58da2d166c9f4a3e2973e011aa7a119c682b1810e9cf2547d57fb668c2
 PackageHomePage: https://github.com/swagger-api/apidom#readme
-PackageLicenseConcluded: NOASSERTION
-PackageLicenseDeclared: NOASSERTION
-PackageCopyrightText: NOASSERTION
-PackageLicenseComments: NOASSERTION
-PackageComment: NOASSERTION
-
-##### Package representing the swagger-api/apidom-core
-
-PackageName: swagger-api/apidom-core
-SPDXID: SPDXRef-Package-swagger-api.apidom-core-0.29.0
-PackageVersion: 0.29.0
-PackageSupplier: Organization: swagger-api/apidom-core
-PackageDownloadLocation: https://npm.pkg.github.com/download/@swagger-api/apidom-core/0.29.0/be470028fdd258044b2aaf49411aabdc02631e37894a99b6200f2fdab8d88573
-FilesAnalyzed: false
-PackageChecksum: SHA256: dd36df58da2d166c9f4a3e2973e011aa7a119c682b1810e9cf2547d57fb668c2
-PackageHomePage: https://github.com/swagger-api/apidom#readme
-PackageLicenseConcluded: NOASSERTION
-PackageLicenseDeclared: NOASSERTION
-PackageCopyrightText: NOASSERTION
-PackageLicenseComments: NOASSERTION
-PackageComment: NOASSERTION
+PackageLicenseConcluded: Apache-2.0
+PackageLicenseDeclared: Apache-2.0
+PackageCopyrightText: Copyright 2020 SmartBear Software Inc.
 
 ##### Package representing the babel/runtime-corejs3
 
@@ -1541,22 +1487,6 @@ PackageComment: NOASSERTION
 ##### Package representing the babel/runtime-corejs3
 
 PackageName: babel/runtime-corejs3
-SPDXID: SPDXRef-Package-babel.runtime-corejs3-7.11.2
-PackageVersion: 7.11.2
-PackageSupplier: Organization: babel/runtime-corejs3
-PackageDownloadLocation: https://www.npmjs.com/package/babel/runtime-corejs3/v/7.11.2
-FilesAnalyzed: false
-PackageChecksum: SHA256: 92456c9720ba1e2e0382b7c45d47f4f1083be8ed968a54b17311a25814d81f28
-PackageHomePage: https://github.com/babel/babel#readme
-PackageLicenseConcluded: NOASSERTION
-PackageLicenseDeclared: NOASSERTION
-PackageCopyrightText: NOASSERTION
-PackageLicenseComments: NOASSERTION
-PackageComment: NOASSERTION
-
-##### Package representing the babel/runtime-corejs3
-
-PackageName: babel/runtime-corejs3
 SPDXID: SPDXRef-Package-babel.runtime-corejs3-7.18.0
 PackageVersion: 7.18.0
 PackageSupplier: Organization: babel/runtime-corejs3
@@ -1564,27 +1494,9 @@ PackageDownloadLocation: https://registry.npmjs.org/@babel/runtime-corejs3/-/run
 FilesAnalyzed: false
 PackageChecksum: SHA256: 92456c9720ba1e2e0382b7c45d47f4f1083be8ed968a54b17311a25814d81f28
 PackageHomePage: https://github.com/babel/babel#readme
-PackageLicenseConcluded: NOASSERTION
-PackageLicenseDeclared: NOASSERTION
-PackageCopyrightText: NOASSERTION
-PackageLicenseComments: NOASSERTION
-PackageComment: NOASSERTION
-
-##### Package representing the babel/runtime-corejs3
-
-PackageName: babel/runtime-corejs3
-SPDXID: SPDXRef-Package-babel.runtime-corejs3-7.16.8
-PackageVersion: 7.16.8
-PackageSupplier: Organization: babel/runtime-corejs3
-PackageDownloadLocation: https://www.npmjs.com/package/babel/runtime-corejs3/v/7.16.8
-FilesAnalyzed: false
-PackageChecksum: SHA256: 92456c9720ba1e2e0382b7c45d47f4f1083be8ed968a54b17311a25814d81f28
-PackageHomePage: https://github.com/babel/babel#readme
-PackageLicenseConcluded: NOASSERTION
-PackageLicenseDeclared: NOASSERTION
-PackageCopyrightText: NOASSERTION
-PackageLicenseComments: NOASSERTION
-PackageComment: NOASSERTION
+PackageLicenseConcluded: MIT
+PackageLicenseDeclared: MIT
+PackageCopyrightText: Copyright (c) 2014-present Sebastian McKenzie and other contributors
 
 ##### Package representing the react-immutable-pure-component
 
@@ -1596,59 +1508,9 @@ PackageDownloadLocation: https://registry.npmjs.org/react-immutable-pure-compone
 FilesAnalyzed: false
 PackageChecksum: SHA256: 94a7d7423c1f8762b57aa9820013529df2b2fe7bdde8cbc144e86057718bc981
 PackageHomePage: https://github.com/Monar/react-immutable-pure-component#readme
-PackageLicenseConcluded: NOASSERTION
-PackageLicenseDeclared: NOASSERTION
-PackageCopyrightText: NOASSERTION
-PackageLicenseComments: NOASSERTION
-PackageComment: NOASSERTION
-
-##### Package representing the react-immutable-pure-component
-
-PackageName: react-immutable-pure-component
-SPDXID: SPDXRef-Package-react-immutable-pure-component-2.2.0
-PackageVersion: 2.2.0
-PackageSupplier: Organization: react-immutable-pure-component
-PackageDownloadLocation: https://www.npmjs.com/package/react-immutable-pure-component/v/2.2.0
-FilesAnalyzed: false
-PackageChecksum: SHA256: 94a7d7423c1f8762b57aa9820013529df2b2fe7bdde8cbc144e86057718bc981
-PackageHomePage: https://github.com/Monar/react-immutable-pure-component#readme
-PackageLicenseConcluded: NOASSERTION
-PackageLicenseDeclared: NOASSERTION
-PackageCopyrightText: NOASSERTION
-PackageLicenseComments: NOASSERTION
-PackageComment: NOASSERTION
-
-##### Package representing the types/json-schema
-
-PackageName: types/json-schema
-SPDXID: SPDXRef-Package-types.json-schema-7.0.7
-PackageVersion: 7.0.7
-PackageSupplier: Organization: types/json-schema
-PackageDownloadLocation: https://www.npmjs.com/package/types/json-schema/v/7.0.7
-FilesAnalyzed: false
-PackageChecksum: SHA256: 9665e5cb599cc971a1e6def1eef464442b2321054ef44e15c4dbe8167c02bd29
-PackageHomePage: https://github.com/DefinitelyTyped/DefinitelyTyped/tree/master/types/json-schema
-PackageLicenseConcluded: NOASSERTION
-PackageLicenseDeclared: NOASSERTION
-PackageCopyrightText: NOASSERTION
-PackageLicenseComments: NOASSERTION
-PackageComment: NOASSERTION
-
-##### Package representing the types/json-schema
-
-PackageName: types/json-schema
-SPDXID: SPDXRef-Package-types.json-schema-7.0.6
-PackageVersion: 7.0.6
-PackageSupplier: Organization: types/json-schema
-PackageDownloadLocation: https://www.npmjs.com/package/types/json-schema/v/7.0.6
-FilesAnalyzed: false
-PackageChecksum: SHA256: 9665e5cb599cc971a1e6def1eef464442b2321054ef44e15c4dbe8167c02bd29
-PackageHomePage: https://github.com/DefinitelyTyped/DefinitelyTyped/tree/master/types/json-schema
-PackageLicenseConcluded: NOASSERTION
-PackageLicenseDeclared: NOASSERTION
-PackageCopyrightText: NOASSERTION
-PackageLicenseComments: NOASSERTION
-PackageComment: NOASSERTION
+PackageLicenseConcluded: MIT
+PackageLicenseDeclared: MIT
+PackageCopyrightText: Copyright (c) 2017 Piotr Tomasz Monarski
 
 ##### Package representing the types/json-schema
 
@@ -1660,11 +1522,9 @@ PackageDownloadLocation: https://registry.npmjs.org/@types/json-schema/-/json-sc
 FilesAnalyzed: false
 PackageChecksum: SHA256: 9665e5cb599cc971a1e6def1eef464442b2321054ef44e15c4dbe8167c02bd29
 PackageHomePage: https://github.com/DefinitelyTyped/DefinitelyTyped/tree/master/types/json-schema
-PackageLicenseConcluded: NOASSERTION
-PackageLicenseDeclared: NOASSERTION
-PackageCopyrightText: NOASSERTION
-PackageLicenseComments: NOASSERTION
-PackageComment: NOASSERTION
+PackageLicenseConcluded: MIT
+PackageLicenseDeclared: MIT
+PackageCopyrightText: Copyright (c) Microsoft Corporation.
 
 ##### Package representing the types/scheduler
 
@@ -1676,27 +1536,9 @@ PackageDownloadLocation: https://registry.npmjs.org/@types/scheduler/-/scheduler
 FilesAnalyzed: false
 PackageChecksum: SHA256: e5bfa6c197282879e4868602927dce4570e4c5c6a37b10ecbe836fa70cda5b03
 PackageHomePage: https://github.com/DefinitelyTyped/DefinitelyTyped/tree/master/types/scheduler
-PackageLicenseConcluded: NOASSERTION
-PackageLicenseDeclared: NOASSERTION
-PackageCopyrightText: NOASSERTION
-PackageLicenseComments: NOASSERTION
-PackageComment: NOASSERTION
-
-##### Package representing the character-entities
-
-PackageName: character-entities
-SPDXID: SPDXRef-Package-character-entities-1.0.0
-PackageVersion: 1.0.0
-PackageSupplier: Organization: character-entities
-PackageDownloadLocation: https://www.npmjs.com/package/character-entities/v/1.0.0
-FilesAnalyzed: false
-PackageChecksum: SHA256: a5f6a8cfa46fe367d891669938d9a71b27d41fd4e689440053ac968655c1921a
-PackageHomePage: https://github.com/wooorm/character-entities#readme
-PackageLicenseConcluded: NOASSERTION
-PackageLicenseDeclared: NOASSERTION
-PackageCopyrightText: NOASSERTION
-PackageLicenseComments: NOASSERTION
-PackageComment: NOASSERTION
+PackageLicenseConcluded: MIT
+PackageLicenseDeclared: MIT
+PackageCopyrightText: Copyright (c) Microsoft Corporation.
 
 ##### Package representing the character-entities
 
@@ -1708,27 +1550,9 @@ PackageDownloadLocation: https://registry.npmjs.org/character-entities/-/charact
 FilesAnalyzed: false
 PackageChecksum: SHA256: a5f6a8cfa46fe367d891669938d9a71b27d41fd4e689440053ac968655c1921a
 PackageHomePage: https://github.com/wooorm/character-entities#readme
-PackageLicenseConcluded: NOASSERTION
-PackageLicenseDeclared: NOASSERTION
-PackageCopyrightText: NOASSERTION
-PackageLicenseComments: NOASSERTION
-PackageComment: NOASSERTION
-
-##### Package representing the npmlog
-
-PackageName: npmlog
-SPDXID: SPDXRef-Package-npmlog-4.0.1
-PackageVersion: 4.0.1
-PackageSupplier: Organization: npmlog
-PackageDownloadLocation: https://www.npmjs.com/package/npmlog/v/4.0.1
-FilesAnalyzed: false
-PackageChecksum: SHA256: 00fbeb9eb644be616f35a12b80079230d80584d8bbf869c365010adfc15bc6f8
-PackageHomePage: https://github.com/npm/npmlog#readme
-PackageLicenseConcluded: NOASSERTION
-PackageLicenseDeclared: NOASSERTION
-PackageCopyrightText: NOASSERTION
-PackageLicenseComments: NOASSERTION
-PackageComment: NOASSERTION
+PackageLicenseConcluded: MIT
+PackageLicenseDeclared: MIT
+PackageCopyrightText: Copyright (c) 2015 Titus Wormer <tituswormer@gmail.com>
 
 ##### Package representing the npmlog
 
@@ -1740,11 +1564,9 @@ PackageDownloadLocation: https://registry.npmjs.org/npmlog/-/npmlog-4.1.2.tgz
 FilesAnalyzed: false
 PackageChecksum: SHA256: 00fbeb9eb644be616f35a12b80079230d80584d8bbf869c365010adfc15bc6f8
 PackageHomePage: https://github.com/npm/npmlog#readme
-PackageLicenseConcluded: NOASSERTION
-PackageLicenseDeclared: NOASSERTION
-PackageCopyrightText: NOASSERTION
-PackageLicenseComments: NOASSERTION
-PackageComment: NOASSERTION
+PackageLicenseConcluded: ISC
+PackageLicenseDeclared: ISC
+PackageCopyrightText: Copyright (c) Isaac Z. Schlueter and Contributors
 
 ##### Package representing the refractor
 
@@ -1756,27 +1578,9 @@ PackageDownloadLocation: https://registry.npmjs.org/refractor/-/refractor-3.6.0.
 FilesAnalyzed: false
 PackageChecksum: SHA256: 32e631d73aa5237e85e2e333de2e505e22e540dbdda9fe69bf0cd62d8a8d0b99
 PackageHomePage: https://github.com/wooorm/refractor#readme
-PackageLicenseConcluded: NOASSERTION
-PackageLicenseDeclared: NOASSERTION
-PackageCopyrightText: NOASSERTION
-PackageLicenseComments: NOASSERTION
-PackageComment: NOASSERTION
-
-##### Package representing the refractor
-
-PackageName: refractor
-SPDXID: SPDXRef-Package-refractor-3.6.0
-PackageVersion: 3.6.0
-PackageSupplier: Organization: refractor
-PackageDownloadLocation: https://www.npmjs.com/package/refractor/v/3.6.0
-FilesAnalyzed: false
-PackageChecksum: SHA256: 32e631d73aa5237e85e2e333de2e505e22e540dbdda9fe69bf0cd62d8a8d0b99
-PackageHomePage: https://github.com/wooorm/refractor#readme
-PackageLicenseConcluded: NOASSERTION
-PackageLicenseDeclared: NOASSERTION
-PackageCopyrightText: NOASSERTION
-PackageLicenseComments: NOASSERTION
-PackageComment: NOASSERTION
+PackageLicenseConcluded: MIT
+PackageLicenseDeclared: MIT
+PackageCopyrightText: Copyright (c) 2017 Titus Wormer <tituswormer@gmail.com>
 
 ##### Package representing the jss
 
@@ -1788,27 +1592,9 @@ PackageDownloadLocation: https://www.npmjs.com/package/jss/v/10.9.0
 FilesAnalyzed: false
 PackageChecksum: SHA256: 7cb9fc59c2d43289019b8324b342505401dcaebbc780f57c7030a8fa4a1afa5d
 PackageHomePage: https://cssinjs.org/
-PackageLicenseConcluded: NOASSERTION
-PackageLicenseDeclared: NOASSERTION
-PackageCopyrightText: NOASSERTION
-PackageLicenseComments: NOASSERTION
-PackageComment: NOASSERTION
-
-##### Package representing the jss
-
-PackageName: jss
-SPDXID: SPDXRef-Package-jss-10.5.1
-PackageVersion: 10.5.1
-PackageSupplier: Organization: jss
-PackageDownloadLocation: https://www.npmjs.com/package/jss/v/10.5.1
-FilesAnalyzed: false
-PackageChecksum: SHA256: 7cb9fc59c2d43289019b8324b342505401dcaebbc780f57c7030a8fa4a1afa5d
-PackageHomePage: https://cssinjs.org/
-PackageLicenseConcluded: NOASSERTION
-PackageLicenseDeclared: NOASSERTION
-PackageCopyrightText: NOASSERTION
-PackageLicenseComments: NOASSERTION
-PackageComment: NOASSERTION
+PackageLicenseConcluded: MIT
+PackageLicenseDeclared: MIT
+PackageCopyrightText: Copyright (c) 2014-present Oleg Isonen (Slobodskoi) & contributors
 
 ##### Package representing the esprima
 
@@ -1820,27 +1606,9 @@ PackageDownloadLocation: https://registry.npmjs.org/esprima/-/esprima-4.0.1.tgz
 FilesAnalyzed: false
 PackageChecksum: SHA256: e575ff038f742d418c21505c23c3c0f7320556690a80f1f075f090bb08191530
 PackageHomePage: https://esprima.org
-PackageLicenseConcluded: NOASSERTION
-PackageLicenseDeclared: NOASSERTION
-PackageCopyrightText: NOASSERTION
-PackageLicenseComments: NOASSERTION
-PackageComment: NOASSERTION
-
-##### Package representing the esprima
-
-PackageName: esprima
-SPDXID: SPDXRef-Package-esprima-4.0.1
-PackageVersion: 4.0.1
-PackageSupplier: Organization: esprima
-PackageDownloadLocation: https://www.npmjs.com/package/esprima/v/4.0.1
-FilesAnalyzed: false
-PackageChecksum: SHA256: e575ff038f742d418c21505c23c3c0f7320556690a80f1f075f090bb08191530
-PackageHomePage: https://esprima.org
-PackageLicenseConcluded: NOASSERTION
-PackageLicenseDeclared: NOASSERTION
-PackageCopyrightText: NOASSERTION
-PackageLicenseComments: NOASSERTION
-PackageComment: NOASSERTION
+PackageLicenseConcluded: BSD-2-Clause
+PackageLicenseDeclared: BSD-2-Clause
+PackageCopyrightText: Copyright JS Foundation and other contributors, https://js.foundation/
 
 ##### Package representing the jss-plugin-camel-case
 
@@ -1852,27 +1620,9 @@ PackageDownloadLocation: https://registry.npmjs.org/jss-plugin-camel-case/-/jss-
 FilesAnalyzed: false
 PackageChecksum: SHA256: 97fa2c31419cc8252300eb5e490f201e7c583d94a553f4d60a71494622b13f71
 PackageHomePage: https://cssinjs.org/jss-camel-case
-PackageLicenseConcluded: NOASSERTION
-PackageLicenseDeclared: NOASSERTION
-PackageCopyrightText: NOASSERTION
-PackageLicenseComments: NOASSERTION
-PackageComment: NOASSERTION
-
-##### Package representing the jss-plugin-camel-case
-
-PackageName: jss-plugin-camel-case
-SPDXID: SPDXRef-Package-jss-plugin-camel-case-10.5.1
-PackageVersion: 10.5.1
-PackageSupplier: Organization: jss-plugin-camel-case
-PackageDownloadLocation: https://www.npmjs.com/package/jss-plugin-camel-case/v/10.5.1
-FilesAnalyzed: false
-PackageChecksum: SHA256: 97fa2c31419cc8252300eb5e490f201e7c583d94a553f4d60a71494622b13f71
-PackageHomePage: https://cssinjs.org/jss-camel-case
-PackageLicenseConcluded: NOASSERTION
-PackageLicenseDeclared: NOASSERTION
-PackageCopyrightText: NOASSERTION
-PackageLicenseComments: NOASSERTION
-PackageComment: NOASSERTION
+PackageLicenseConcluded: MIT
+PackageLicenseDeclared: MIT
+PackageCopyrightText: Copyright (c) 2014-present Oleg Isonen (Slobodskoi) & contributors
 
 ##### Package representing the property-information
 
@@ -1884,27 +1634,9 @@ PackageDownloadLocation: https://registry.npmjs.org/property-information/-/prope
 FilesAnalyzed: false
 PackageChecksum: SHA256: a3a9a6a3951bed083743d13ccc38e8479bed5072d25692656c330a0d8c9f4fdc
 PackageHomePage: https://github.com/wooorm/property-information#readme
-PackageLicenseConcluded: NOASSERTION
-PackageLicenseDeclared: NOASSERTION
-PackageCopyrightText: NOASSERTION
-PackageLicenseComments: NOASSERTION
-PackageComment: NOASSERTION
-
-##### Package representing the property-information
-
-PackageName: property-information
-SPDXID: SPDXRef-Package-property-information-5.0.0
-PackageVersion: 5.0.0
-PackageSupplier: Organization: property-information
-PackageDownloadLocation: https://www.npmjs.com/package/property-information/v/5.0.0
-FilesAnalyzed: false
-PackageChecksum: SHA256: a3a9a6a3951bed083743d13ccc38e8479bed5072d25692656c330a0d8c9f4fdc
-PackageHomePage: https://github.com/wooorm/property-information#readme
-PackageLicenseConcluded: NOASSERTION
-PackageLicenseDeclared: NOASSERTION
-PackageCopyrightText: NOASSERTION
-PackageLicenseComments: NOASSERTION
-PackageComment: NOASSERTION
+PackageLicenseConcluded: MIT
+PackageLicenseDeclared: MIT
+PackageCopyrightText: Copyright (c) 2015 Titus Wormer <mailto:tituswormer@gmail.com>
 
 ##### Package representing the redux-immutable
 
@@ -1916,27 +1648,9 @@ PackageDownloadLocation: https://www.npmjs.com/package/redux-immutable/v/4.0.0
 FilesAnalyzed: false
 PackageChecksum: SHA256: d8de4ff2ac24b53d313170697e17114812f4579bf6131edcb421fe25ece8ef40
 PackageHomePage: https://github.com/gajus/redux-immutable#readme
-PackageLicenseConcluded: NOASSERTION
-PackageLicenseDeclared: NOASSERTION
-PackageCopyrightText: NOASSERTION
-PackageLicenseComments: NOASSERTION
-PackageComment: NOASSERTION
-
-##### Package representing the redux-immutable
-
-PackageName: redux-immutable
-SPDXID: SPDXRef-Package-redux-immutable-4.0.0
-PackageVersion: 4.0.0
-PackageSupplier: Organization: redux-immutable
-PackageDownloadLocation: https://registry.npmjs.org/redux-immutable/-/redux-immutable-4.0.0.tgz
-FilesAnalyzed: false
-PackageChecksum: SHA256: d8de4ff2ac24b53d313170697e17114812f4579bf6131edcb421fe25ece8ef40
-PackageHomePage: https://github.com/gajus/redux-immutable#readme
-PackageLicenseConcluded: NOASSERTION
-PackageLicenseDeclared: NOASSERTION
-PackageCopyrightText: NOASSERTION
-PackageLicenseComments: NOASSERTION
-PackageComment: NOASSERTION
+PackageLicenseConcluded: BSD-3-Clause
+PackageLicenseDeclared: BSD-3-Clause
+PackageCopyrightText: Copyright (c) 2016, Gajus Kuizinas (http://gajus.com/)
 
 ##### Package representing the nwsapi
 
@@ -1948,27 +1662,9 @@ PackageDownloadLocation: https://registry.npmjs.org/nwsapi/-/nwsapi-2.2.0.tgz
 FilesAnalyzed: false
 PackageChecksum: SHA256: 09c5ac09ab52a7796d262a2f49da69b6477b57671b9a32a3e21d386526f208b8
 PackageHomePage: https://javascript.nwbox.com/nwsapi/
-PackageLicenseConcluded: NOASSERTION
-PackageLicenseDeclared: NOASSERTION
-PackageCopyrightText: NOASSERTION
-PackageLicenseComments: NOASSERTION
-PackageComment: NOASSERTION
-
-##### Package representing the nwsapi
-
-PackageName: nwsapi
-SPDXID: SPDXRef-Package-nwsapi-2.2.0
-PackageVersion: 2.2.0
-PackageSupplier: Organization: nwsapi
-PackageDownloadLocation: https://www.npmjs.com/package/nwsapi/v/2.2.0
-FilesAnalyzed: false
-PackageChecksum: SHA256: 09c5ac09ab52a7796d262a2f49da69b6477b57671b9a32a3e21d386526f208b8
-PackageHomePage: https://javascript.nwbox.com/nwsapi/
-PackageLicenseConcluded: NOASSERTION
-PackageLicenseDeclared: NOASSERTION
-PackageCopyrightText: NOASSERTION
-PackageLicenseComments: NOASSERTION
-PackageComment: NOASSERTION
+PackageLicenseConcluded: MIT
+PackageLicenseDeclared: MIT
+PackageCopyrightText: Copyright (c) 2007-2019 Diego Perini (http://www.iport.it/)
 
 ##### Package representing the zenscroll
 
@@ -1980,27 +1676,10 @@ PackageDownloadLocation: https://registry.npmjs.org/zenscroll/-/zenscroll-4.0.2.
 FilesAnalyzed: false
 PackageChecksum: SHA256: f1f5e48457ba80e3736a1707786d45ff5611149ab36552661c4144113341cfe6
 PackageHomePage: https://zengabor.github.io/zenscroll/
-PackageLicenseConcluded: NOASSERTION
-PackageLicenseDeclared: NOASSERTION
-PackageCopyrightText: NOASSERTION
-PackageLicenseComments: NOASSERTION
-PackageComment: NOASSERTION
-
-##### Package representing the zenscroll
-
-PackageName: zenscroll
-SPDXID: SPDXRef-Package-zenscroll-4.0.2
-PackageVersion: 4.0.2
-PackageSupplier: Organization: zenscroll
-PackageDownloadLocation: https://www.npmjs.com/package/zenscroll/v/4.0.2
-FilesAnalyzed: false
-PackageChecksum: SHA256: f1f5e48457ba80e3736a1707786d45ff5611149ab36552661c4144113341cfe6
-PackageHomePage: https://zengabor.github.io/zenscroll/
-PackageLicenseConcluded: NOASSERTION
-PackageLicenseDeclared: NOASSERTION
-PackageCopyrightText: NOASSERTION
-PackageLicenseComments: NOASSERTION
-PackageComment: NOASSERTION
+PackageLicenseConcluded: Unlicense
+PackageLicenseDeclared: Unlicense
+PackageCopyrightText: Copyright 2014 Gabor Lenard
+PackageLicenseComments: possible PROBLEM
 
 ##### Package representing the simple-get
 
@@ -2012,27 +1691,9 @@ PackageDownloadLocation: https://registry.npmjs.org/simple-get/-/simple-get-3.1.
 FilesAnalyzed: false
 PackageChecksum: SHA256: 7417af63f473bb0107b4fbc4e0aa9e7d954d999db1782f32edbe93a2ad61afe8
 PackageHomePage: https://github.com/feross/simple-get
-PackageLicenseConcluded: NOASSERTION
-PackageLicenseDeclared: NOASSERTION
-PackageCopyrightText: NOASSERTION
-PackageLicenseComments: NOASSERTION
-PackageComment: NOASSERTION
-
-##### Package representing the simple-get
-
-PackageName: simple-get
-SPDXID: SPDXRef-Package-simple-get-3.0.3
-PackageVersion: 3.0.3
-PackageSupplier: Organization: simple-get
-PackageDownloadLocation: https://www.npmjs.com/package/simple-get/v/3.0.3
-FilesAnalyzed: false
-PackageChecksum: SHA256: 7417af63f473bb0107b4fbc4e0aa9e7d954d999db1782f32edbe93a2ad61afe8
-PackageHomePage: https://github.com/feross/simple-get
-PackageLicenseConcluded: NOASSERTION
-PackageLicenseDeclared: NOASSERTION
-PackageCopyrightText: NOASSERTION
-PackageLicenseComments: NOASSERTION
-PackageComment: NOASSERTION
+PackageLicenseConcluded: MIT
+PackageLicenseDeclared: MIT
+PackageCopyrightText: Copyright (c) Feross Aboukhadijeh
 
 ##### Package representing the http-proxy-agent
 
@@ -2044,27 +1705,9 @@ PackageDownloadLocation: https://registry.npmjs.org/http-proxy-agent/-/http-prox
 FilesAnalyzed: false
 PackageChecksum: SHA256: ece5247adb46df36a4b9fd88dce23047a49ffa2e65da00ad2246b45ddec11e7d
 PackageHomePage: https://github.com/TooTallNate/node-http-proxy-agent#readme
-PackageLicenseConcluded: NOASSERTION
-PackageLicenseDeclared: NOASSERTION
-PackageCopyrightText: NOASSERTION
-PackageLicenseComments: NOASSERTION
-PackageComment: NOASSERTION
-
-##### Package representing the http-proxy-agent
-
-PackageName: http-proxy-agent
-SPDXID: SPDXRef-Package-http-proxy-agent-4.0.1
-PackageVersion: 4.0.1
-PackageSupplier: Organization: http-proxy-agent
-PackageDownloadLocation: https://www.npmjs.com/package/http-proxy-agent/v/4.0.1
-FilesAnalyzed: false
-PackageChecksum: SHA256: ece5247adb46df36a4b9fd88dce23047a49ffa2e65da00ad2246b45ddec11e7d
-PackageHomePage: https://github.com/TooTallNate/node-http-proxy-agent#readme
-PackageLicenseConcluded: NOASSERTION
-PackageLicenseDeclared: NOASSERTION
-PackageCopyrightText: NOASSERTION
-PackageLicenseComments: NOASSERTION
-PackageComment: NOASSERTION
+PackageLicenseConcluded: MIT
+PackageLicenseDeclared: MIT
+PackageCopyrightText: Copyright (c) 2013 Nathan Rajlich <nathan@tootallnate.net>
 
 ##### Package representing the node-domexception
 
@@ -2076,11 +1719,9 @@ PackageDownloadLocation: https://www.npmjs.com/package/node-domexception/v/1.0.0
 FilesAnalyzed: false
 PackageChecksum: SHA256: 763796bc150ba6e40c4efc7fa68c1fa7da5ccd8f09ee5b9e21c353d3328ad91c
 PackageHomePage: https://github.com/jimmywarting/node-domexception#readme
-PackageLicenseConcluded: NOASSERTION
-PackageLicenseDeclared: NOASSERTION
-PackageCopyrightText: NOASSERTION
-PackageLicenseComments: NOASSERTION
-PackageComment: NOASSERTION
+PackageLicenseConcluded: MIT
+PackageLicenseDeclared: MIT
+PackageCopyrightText: Copyright (c) 2021 Jimmy Wärting
 
 ##### Package representing the string-width
 
@@ -2092,59 +1733,9 @@ PackageDownloadLocation: https://registry.npmjs.org/string-width/-/string-width-
 FilesAnalyzed: false
 PackageChecksum: SHA256: 633793695727247fc33ddbe670caaa7f75ca56a120521f09eaada88beefaef0b
 PackageHomePage: https://github.com/sindresorhus/string-width#readme
-PackageLicenseConcluded: NOASSERTION
-PackageLicenseDeclared: NOASSERTION
-PackageCopyrightText: NOASSERTION
-PackageLicenseComments: NOASSERTION
-PackageComment: NOASSERTION
-
-##### Package representing the string-width
-
-PackageName: string-width
-SPDXID: SPDXRef-Package-string-width-1.0.1
-PackageVersion: 1.0.1
-PackageSupplier: Organization: string-width
-PackageDownloadLocation: https://www.npmjs.com/package/string-width/v/1.0.1
-FilesAnalyzed: false
-PackageChecksum: SHA256: 633793695727247fc33ddbe670caaa7f75ca56a120521f09eaada88beefaef0b
-PackageHomePage: https://github.com/sindresorhus/string-width#readme
-PackageLicenseConcluded: NOASSERTION
-PackageLicenseDeclared: NOASSERTION
-PackageCopyrightText: NOASSERTION
-PackageLicenseComments: NOASSERTION
-PackageComment: NOASSERTION
-
-##### Package representing the string-width
-
-PackageName: string-width
-SPDXID: SPDXRef-Package-string-width-1.0.2
-PackageVersion: 1.0.2
-PackageSupplier: Organization: string-width
-PackageDownloadLocation: https://www.npmjs.com/package/string-width/v/1.0.2
-FilesAnalyzed: false
-PackageChecksum: SHA256: 633793695727247fc33ddbe670caaa7f75ca56a120521f09eaada88beefaef0b
-PackageHomePage: https://github.com/sindresorhus/string-width#readme
-PackageLicenseConcluded: NOASSERTION
-PackageLicenseDeclared: NOASSERTION
-PackageCopyrightText: NOASSERTION
-PackageLicenseComments: NOASSERTION
-PackageComment: NOASSERTION
-
-##### Package representing the tree-sitter-json
-
-PackageName: tree-sitter-json
-SPDXID: SPDXRef-Package-tree-sitter-json-0.20.0
-PackageVersion: 0.20.0
-PackageSupplier: Organization: tree-sitter-json
-PackageDownloadLocation: https://registry.npmjs.org/tree-sitter-json/-/tree-sitter-json-0.20.0.tgz
-FilesAnalyzed: false
-PackageChecksum: SHA256: e55dfdd8d3aaf4ce2e1251f686fe06e9c56ae2cdc4a4b3d651c88dd780afd6c0
-PackageHomePage: NOASSERTION
-PackageLicenseConcluded: NOASSERTION
-PackageLicenseDeclared: NOASSERTION
-PackageCopyrightText: NOASSERTION
-PackageLicenseComments: NOASSERTION
-PackageComment: NOASSERTION
+PackageLicenseConcluded: MIT
+PackageLicenseDeclared: MIT
+PackageCopyrightText: Copyright (c) Sindre Sorhus <sindresorhus@gmail.com> (sindresorhus.com)
 
 ##### Package representing the tree-sitter-json
 
@@ -2156,11 +1747,9 @@ PackageDownloadLocation: https://www.npmjs.com/package/tree-sitter-json/v/0.20.0
 FilesAnalyzed: false
 PackageChecksum: SHA256: e55dfdd8d3aaf4ce2e1251f686fe06e9c56ae2cdc4a4b3d651c88dd780afd6c0
 PackageHomePage: NOASSERTION
-PackageLicenseConcluded: NOASSERTION
-PackageLicenseDeclared: NOASSERTION
-PackageCopyrightText: NOASSERTION
-PackageLicenseComments: NOASSERTION
-PackageComment: NOASSERTION
+PackageLicenseConcluded: MIT
+PackageLicenseDeclared: MIT
+PackageCopyrightText: Copyright (c) 2014 Max Brunsfeld
 
 ##### Package representing the copy-to-clipboard
 
@@ -2172,43 +1761,9 @@ PackageDownloadLocation: https://registry.npmjs.org/copy-to-clipboard/-/copy-to-
 FilesAnalyzed: false
 PackageChecksum: SHA256: bf7a5a40f262e939d5386c9fd320c0ea37ba01bb22772661b71d76e54b381c5f
 PackageHomePage: https://github.com/sudodoki/copy-to-clipboard#readme
-PackageLicenseConcluded: NOASSERTION
-PackageLicenseDeclared: NOASSERTION
-PackageCopyrightText: NOASSERTION
-PackageLicenseComments: NOASSERTION
-PackageComment: NOASSERTION
-
-##### Package representing the copy-to-clipboard
-
-PackageName: copy-to-clipboard
-SPDXID: SPDXRef-Package-copy-to-clipboard-3
-PackageVersion: 3
-PackageSupplier: Organization: copy-to-clipboard
-PackageDownloadLocation: https://www.npmjs.com/package/copy-to-clipboard/v/3
-FilesAnalyzed: false
-PackageChecksum: SHA256: bf7a5a40f262e939d5386c9fd320c0ea37ba01bb22772661b71d76e54b381c5f
-PackageHomePage: https://github.com/sudodoki/copy-to-clipboard#readme
-PackageLicenseConcluded: NOASSERTION
-PackageLicenseDeclared: NOASSERTION
-PackageCopyrightText: NOASSERTION
-PackageLicenseComments: NOASSERTION
-PackageComment: NOASSERTION
-
-##### Package representing the hast-util-parse-selector
-
-PackageName: hast-util-parse-selector
-SPDXID: SPDXRef-Package-hast-util-parse-selector-2.0.0
-PackageVersion: 2.0.0
-PackageSupplier: Organization: hast-util-parse-selector
-PackageDownloadLocation: https://www.npmjs.com/package/hast-util-parse-selector/v/2.0.0
-FilesAnalyzed: false
-PackageChecksum: SHA256: 5fe72b0fa124875cad17c385b9d97101990be0a22abf2891c79bdda2d73cd8fc
-PackageHomePage: https://github.com/syntax-tree/hast-util-parse-selector#readme
-PackageLicenseConcluded: NOASSERTION
-PackageLicenseDeclared: NOASSERTION
-PackageCopyrightText: NOASSERTION
-PackageLicenseComments: NOASSERTION
-PackageComment: NOASSERTION
+PackageLicenseConcluded: MIT
+PackageLicenseDeclared: MIT
+PackageCopyrightText: Copyright (c) 2017 sudodoki <smd.deluzion@gmail.com>
 
 ##### Package representing the hast-util-parse-selector
 
@@ -2220,27 +1775,9 @@ PackageDownloadLocation: https://registry.npmjs.org/hast-util-parse-selector/-/h
 FilesAnalyzed: false
 PackageChecksum: SHA256: 5fe72b0fa124875cad17c385b9d97101990be0a22abf2891c79bdda2d73cd8fc
 PackageHomePage: https://github.com/syntax-tree/hast-util-parse-selector#readme
-PackageLicenseConcluded: NOASSERTION
-PackageLicenseDeclared: NOASSERTION
-PackageCopyrightText: NOASSERTION
-PackageLicenseComments: NOASSERTION
-PackageComment: NOASSERTION
-
-##### Package representing the psl
-
-PackageName: psl
-SPDXID: SPDXRef-Package-psl-1.1.33
-PackageVersion: 1.1.33
-PackageSupplier: Organization: psl
-PackageDownloadLocation: https://www.npmjs.com/package/psl/v/1.1.33
-FilesAnalyzed: false
-PackageChecksum: SHA256: 343cb40628bfd83d695c84a89fca169d41f531d1ea410dad28e76847dc738d68
-PackageHomePage: https://github.com/lupomontero/psl#readme
-PackageLicenseConcluded: NOASSERTION
-PackageLicenseDeclared: NOASSERTION
-PackageCopyrightText: NOASSERTION
-PackageLicenseComments: NOASSERTION
-PackageComment: NOASSERTION
+PackageLicenseConcluded: MIT
+PackageLicenseDeclared: MIT
+PackageCopyrightText: Copyright (c) 2016 Titus Wormer <tituswormer@gmail.com>
 
 ##### Package representing the psl
 
@@ -2252,27 +1789,9 @@ PackageDownloadLocation: https://registry.npmjs.org/psl/-/psl-1.8.0.tgz
 FilesAnalyzed: false
 PackageChecksum: SHA256: 343cb40628bfd83d695c84a89fca169d41f531d1ea410dad28e76847dc738d68
 PackageHomePage: https://github.com/lupomontero/psl#readme
-PackageLicenseConcluded: NOASSERTION
-PackageLicenseDeclared: NOASSERTION
-PackageCopyrightText: NOASSERTION
-PackageLicenseComments: NOASSERTION
-PackageComment: NOASSERTION
-
-##### Package representing the url
-
-PackageName: url
-SPDXID: SPDXRef-Package-url-0.11.0
-PackageVersion: 0.11.0
-PackageSupplier: Organization: url
-PackageDownloadLocation: https://www.npmjs.com/package/url/v/0.11.0
-FilesAnalyzed: false
-PackageChecksum: SHA256: 28e5ebabd9d8f6e237df63da2b503785093f0229241bc7021198f63c43b93269
-PackageHomePage: https://github.com/defunctzombie/node-url#readme
-PackageLicenseConcluded: NOASSERTION
-PackageLicenseDeclared: NOASSERTION
-PackageCopyrightText: NOASSERTION
-PackageLicenseComments: NOASSERTION
-PackageComment: NOASSERTION
+PackageLicenseConcluded: MIT
+PackageLicenseDeclared: MIT
+PackageCopyrightText: Copyright (c) 2017 Lupo Montero lupomontero@gmail.com
 
 ##### Package representing the url
 
@@ -2284,11 +1803,9 @@ PackageDownloadLocation: https://registry.npmjs.org/url/-/url-0.11.0.tgz
 FilesAnalyzed: false
 PackageChecksum: SHA256: 28e5ebabd9d8f6e237df63da2b503785093f0229241bc7021198f63c43b93269
 PackageHomePage: https://github.com/defunctzombie/node-url#readme
-PackageLicenseConcluded: NOASSERTION
-PackageLicenseDeclared: NOASSERTION
-PackageCopyrightText: NOASSERTION
-PackageLicenseComments: NOASSERTION
-PackageComment: NOASSERTION
+PackageLicenseConcluded: MIT
+PackageLicenseDeclared: MIT
+PackageCopyrightText: Copyright Joyent, Inc. and other Node contributors.
 
 ##### Package representing the babel/helper-module-imports
 
@@ -2300,43 +1817,9 @@ PackageDownloadLocation: https://registry.npmjs.org/@babel/helper-module-imports
 FilesAnalyzed: false
 PackageChecksum: SHA256: 43b59a85b64f50d98d32c7aedf1e8551453e0022814afbd72b31449a230bf135
 PackageHomePage: https://babel.dev/docs/en/next/babel-helper-module-imports
-PackageLicenseConcluded: NOASSERTION
-PackageLicenseDeclared: NOASSERTION
-PackageCopyrightText: NOASSERTION
-PackageLicenseComments: NOASSERTION
-PackageComment: NOASSERTION
-
-##### Package representing the babel/helper-module-imports
-
-PackageName: babel/helper-module-imports
-SPDXID: SPDXRef-Package-babel.helper-module-imports-7.16.0
-PackageVersion: 7.16.0
-PackageSupplier: Organization: babel/helper-module-imports
-PackageDownloadLocation: https://www.npmjs.com/package/babel/helper-module-imports/v/7.16.0
-FilesAnalyzed: false
-PackageChecksum: SHA256: 43b59a85b64f50d98d32c7aedf1e8551453e0022814afbd72b31449a230bf135
-PackageHomePage: https://babel.dev/docs/en/next/babel-helper-module-imports
-PackageLicenseConcluded: NOASSERTION
-PackageLicenseDeclared: NOASSERTION
-PackageCopyrightText: NOASSERTION
-PackageLicenseComments: NOASSERTION
-PackageComment: NOASSERTION
-
-##### Package representing the babel/helper-module-imports
-
-PackageName: babel/helper-module-imports
-SPDXID: SPDXRef-Package-babel.helper-module-imports-7.0.0
-PackageVersion: 7.0.0
-PackageSupplier: Organization: babel/helper-module-imports
-PackageDownloadLocation: https://www.npmjs.com/package/babel/helper-module-imports/v/7.0.0
-FilesAnalyzed: false
-PackageChecksum: SHA256: 43b59a85b64f50d98d32c7aedf1e8551453e0022814afbd72b31449a230bf135
-PackageHomePage: https://babel.dev/docs/en/next/babel-helper-module-imports
-PackageLicenseConcluded: NOASSERTION
-PackageLicenseDeclared: NOASSERTION
-PackageCopyrightText: NOASSERTION
-PackageLicenseComments: NOASSERTION
-PackageComment: NOASSERTION
+PackageLicenseConcluded: MIT
+PackageLicenseDeclared: MIT
+PackageCopyrightText: Copyright (c) 2014-present Sebastian McKenzie and other contributors
 
 ##### Package representing the core-js-pure
 
@@ -2348,43 +1831,9 @@ PackageDownloadLocation: https://registry.npmjs.org/core-js-pure/-/core-js-pure-
 FilesAnalyzed: false
 PackageChecksum: SHA256: caaf1653a60f13a732c484abf62ee2d0ec5ac051af11109a00576d849a8366e6
 PackageHomePage: https://github.com/zloirock/core-js#readme
-PackageLicenseConcluded: NOASSERTION
-PackageLicenseDeclared: NOASSERTION
-PackageCopyrightText: NOASSERTION
-PackageLicenseComments: NOASSERTION
-PackageComment: NOASSERTION
-
-##### Package representing the core-js-pure
-
-PackageName: core-js-pure
-SPDXID: SPDXRef-Package-core-js-pure-3.20.2
-PackageVersion: 3.20.2
-PackageSupplier: Organization: core-js-pure
-PackageDownloadLocation: https://www.npmjs.com/package/core-js-pure/v/3.20.2
-FilesAnalyzed: false
-PackageChecksum: SHA256: caaf1653a60f13a732c484abf62ee2d0ec5ac051af11109a00576d849a8366e6
-PackageHomePage: https://github.com/zloirock/core-js#readme
-PackageLicenseConcluded: NOASSERTION
-PackageLicenseDeclared: NOASSERTION
-PackageCopyrightText: NOASSERTION
-PackageLicenseComments: NOASSERTION
-PackageComment: NOASSERTION
-
-##### Package representing the optionator
-
-PackageName: optionator
-SPDXID: SPDXRef-Package-optionator-0.8.1
-PackageVersion: 0.8.1
-PackageSupplier: Organization: optionator
-PackageDownloadLocation: https://www.npmjs.com/package/optionator/v/0.8.1
-FilesAnalyzed: false
-PackageChecksum: SHA256: 257d6c9a56e10f5391f6f95b81975b91b36bc9403d3bf59e067a46bafc42d7e9
-PackageHomePage: https://github.com/gkz/optionator
-PackageLicenseConcluded: NOASSERTION
-PackageLicenseDeclared: NOASSERTION
-PackageCopyrightText: NOASSERTION
-PackageLicenseComments: NOASSERTION
-PackageComment: NOASSERTION
+PackageLicenseConcluded: MIT
+PackageLicenseDeclared: MIT
+PackageCopyrightText: Copyright (c) 2014-2022 Denis Pushkarev
 
 ##### Package representing the optionator
 
@@ -2396,11 +1845,9 @@ PackageDownloadLocation: https://registry.npmjs.org/optionator/-/optionator-0.8.
 FilesAnalyzed: false
 PackageChecksum: SHA256: 257d6c9a56e10f5391f6f95b81975b91b36bc9403d3bf59e067a46bafc42d7e9
 PackageHomePage: https://github.com/gkz/optionator
-PackageLicenseConcluded: NOASSERTION
-PackageLicenseDeclared: NOASSERTION
-PackageCopyrightText: NOASSERTION
-PackageLicenseComments: NOASSERTION
-PackageComment: NOASSERTION
+PackageLicenseConcluded: MIT
+PackageLicenseDeclared: MIT
+PackageCopyrightText: Copyright (c) George Zahariev
 
 ##### Package representing the json-beautify
 
@@ -2412,27 +1859,10 @@ PackageDownloadLocation: https://registry.npmjs.org/json-beautify/-/json-beautif
 FilesAnalyzed: false
 PackageChecksum: SHA256: ffd3fda671ec5d8539a79f0ef1e9de9983039bbaa6b3d852ea30d1698e1a249b
 PackageHomePage: https://github.com/gre/json-beautify
-PackageLicenseConcluded: NOASSERTION
-PackageLicenseDeclared: NOASSERTION
-PackageCopyrightText: NOASSERTION
-PackageLicenseComments: NOASSERTION
-PackageComment: NOASSERTION
-
-##### Package representing the vscode-uri
-
-PackageName: vscode-uri
-SPDXID: SPDXRef-Package-vscode-uri-3.0.3
-PackageVersion: 3.0.3
-PackageSupplier: Organization: vscode-uri
-PackageDownloadLocation: https://www.npmjs.com/package/vscode-uri/v/3.0.3
-FilesAnalyzed: false
-PackageChecksum: SHA256: af87ac240561d3201c6911a7b36814db093b0bd9bae355f3a59ed4953bd5b751
-PackageHomePage: https://github.com/microsoft/vscode-uri#readme
-PackageLicenseConcluded: NOASSERTION
-PackageLicenseDeclared: NOASSERTION
-PackageCopyrightText: NOASSERTION
-PackageLicenseComments: NOASSERTION
-PackageComment: NOASSERTION
+PackageLicenseConcluded: ISC
+PackageLicenseDeclared: ISC
+PackageCopyrightText: Copyright 2015 Gaëtan Renaudeau
+PackageLicenseComments: License text not present in npm package; possible PROBLEM
 
 ##### Package representing the vscode-uri
 
@@ -2444,11 +1874,9 @@ PackageDownloadLocation: https://registry.npmjs.org/vscode-uri/-/vscode-uri-3.0.
 FilesAnalyzed: false
 PackageChecksum: SHA256: af87ac240561d3201c6911a7b36814db093b0bd9bae355f3a59ed4953bd5b751
 PackageHomePage: https://github.com/microsoft/vscode-uri#readme
-PackageLicenseConcluded: NOASSERTION
-PackageLicenseDeclared: NOASSERTION
-PackageCopyrightText: NOASSERTION
-PackageLicenseComments: NOASSERTION
-PackageComment: NOASSERTION
+PackageLicenseConcluded: MIT
+PackageLicenseDeclared: MIT
+PackageCopyrightText: Copyright (c) Microsoft
 
 ##### Package representing the whatwg-url
 
@@ -2457,22 +1885,6 @@ SPDXID: SPDXRef-Package-whatwg-url-5.0.0
 PackageVersion: 5.0.0
 PackageSupplier: Organization: whatwg-url
 PackageDownloadLocation: https://www.npmjs.com/package/whatwg-url/v/5.0.0
-FilesAnalyzed: false
-PackageChecksum: SHA256: a581fbb9c91c54cf21863b6fbfcf5d61dd8315503ee07fefd42bb54e5ff22236
-PackageHomePage: https://github.com/jsdom/whatwg-url#readme
-PackageLicenseConcluded: NOASSERTION
-PackageLicenseDeclared: NOASSERTION
-PackageCopyrightText: NOASSERTION
-PackageLicenseComments: NOASSERTION
-PackageComment: NOASSERTION
-
-##### Package representing the whatwg-url
-
-PackageName: whatwg-url
-SPDXID: SPDXRef-Package-whatwg-url-8.0.0
-PackageVersion: 8.0.0
-PackageSupplier: Organization: whatwg-url
-PackageDownloadLocation: https://www.npmjs.com/package/whatwg-url/v/8.0.0
 FilesAnalyzed: false
 PackageChecksum: SHA256: a581fbb9c91c54cf21863b6fbfcf5d61dd8315503ee07fefd42bb54e5ff22236
 PackageHomePage: https://github.com/jsdom/whatwg-url#readme
@@ -2508,11 +1920,9 @@ PackageDownloadLocation: https://www.npmjs.com/package/whatwg-url/v/8.5.0
 FilesAnalyzed: false
 PackageChecksum: SHA256: a581fbb9c91c54cf21863b6fbfcf5d61dd8315503ee07fefd42bb54e5ff22236
 PackageHomePage: https://github.com/jsdom/whatwg-url#readme
-PackageLicenseConcluded: NOASSERTION
-PackageLicenseDeclared: NOASSERTION
-PackageCopyrightText: NOASSERTION
-PackageLicenseComments: NOASSERTION
-PackageComment: NOASSERTION
+PackageLicenseConcluded: MIT
+PackageLicenseDeclared: MIT
+PackageCopyrightText: Copyright (c) 2015–2016 Sebastian Mayr
 
 ##### Package representing the whatwg-url
 
@@ -2524,27 +1934,9 @@ PackageDownloadLocation: https://registry.npmjs.org/whatwg-url/-/whatwg-url-5.0.
 FilesAnalyzed: false
 PackageChecksum: SHA256: a581fbb9c91c54cf21863b6fbfcf5d61dd8315503ee07fefd42bb54e5ff22236
 PackageHomePage: https://github.com/jsdom/whatwg-url#readme
-PackageLicenseConcluded: NOASSERTION
-PackageLicenseDeclared: NOASSERTION
-PackageCopyrightText: NOASSERTION
-PackageLicenseComments: NOASSERTION
-PackageComment: NOASSERTION
-
-##### Package representing the isomorphic-dompurify
-
-PackageName: isomorphic-dompurify
-SPDXID: SPDXRef-Package-isomorphic-dompurify-0.13.0
-PackageVersion: 0.13.0
-PackageSupplier: Organization: isomorphic-dompurify
-PackageDownloadLocation: https://www.npmjs.com/package/isomorphic-dompurify/v/0.13.0
-FilesAnalyzed: false
-PackageChecksum: SHA256: e4e3e03bbef0539b6cd4efec9bc88fa1d0e9d874c7b2ebad68fc5a3e60184996
-PackageHomePage: https://github.com/kkomelin/isomorphic-dompurify#readme
-PackageLicenseConcluded: NOASSERTION
-PackageLicenseDeclared: NOASSERTION
-PackageCopyrightText: NOASSERTION
-PackageLicenseComments: NOASSERTION
-PackageComment: NOASSERTION
+PackageLicenseConcluded: MIT
+PackageLicenseDeclared: MIT
+PackageCopyrightText: Copyright (c) 2015–2016 Sebastian Mayr
 
 ##### Package representing the isomorphic-dompurify
 
@@ -2556,27 +1948,9 @@ PackageDownloadLocation: https://registry.npmjs.org/isomorphic-dompurify/-/isomo
 FilesAnalyzed: false
 PackageChecksum: SHA256: e4e3e03bbef0539b6cd4efec9bc88fa1d0e9d874c7b2ebad68fc5a3e60184996
 PackageHomePage: https://github.com/kkomelin/isomorphic-dompurify#readme
-PackageLicenseConcluded: NOASSERTION
-PackageLicenseDeclared: NOASSERTION
-PackageCopyrightText: NOASSERTION
-PackageLicenseComments: NOASSERTION
-PackageComment: NOASSERTION
-
-##### Package representing the babel/template
-
-PackageName: babel/template
-SPDXID: SPDXRef-Package-babel.template-7.16.7
-PackageVersion: 7.16.7
-PackageSupplier: Organization: babel/template
-PackageDownloadLocation: https://registry.npmjs.org/@babel/template/-/template-7.16.7.tgz
-FilesAnalyzed: false
-PackageChecksum: SHA256: 9e9ddbb9b281ca9046e368b90a19c93c0faa1124a4658ae8750d6e29d572d718
-PackageHomePage: https://babel.dev/docs/en/next/babel-template
-PackageLicenseConcluded: NOASSERTION
-PackageLicenseDeclared: NOASSERTION
-PackageCopyrightText: NOASSERTION
-PackageLicenseComments: NOASSERTION
-PackageComment: NOASSERTION
+PackageLicenseConcluded: MIT
+PackageLicenseDeclared: MIT
+PackageCopyrightText: Copyright (c) 2020 Konstantin Komelin
 
 ##### Package representing the babel/template
 
@@ -2588,27 +1962,9 @@ PackageDownloadLocation: https://www.npmjs.com/package/babel/template/v/7.16.7
 FilesAnalyzed: false
 PackageChecksum: SHA256: 9e9ddbb9b281ca9046e368b90a19c93c0faa1124a4658ae8750d6e29d572d718
 PackageHomePage: https://babel.dev/docs/en/next/babel-template
-PackageLicenseConcluded: NOASSERTION
-PackageLicenseDeclared: NOASSERTION
-PackageCopyrightText: NOASSERTION
-PackageLicenseComments: NOASSERTION
-PackageComment: NOASSERTION
-
-##### Package representing the pump
-
-PackageName: pump
-SPDXID: SPDXRef-Package-pump-3.0.0
-PackageVersion: 3.0.0
-PackageSupplier: Organization: pump
-PackageDownloadLocation: https://registry.npmjs.org/pump/-/pump-3.0.0.tgz
-FilesAnalyzed: false
-PackageChecksum: SHA256: 0b203c464bb32a27e8621a5cfcfae0f86753a7d8881006de7d64090ad5785214
-PackageHomePage: https://github.com/mafintosh/pump#readme
-PackageLicenseConcluded: NOASSERTION
-PackageLicenseDeclared: NOASSERTION
-PackageCopyrightText: NOASSERTION
-PackageLicenseComments: NOASSERTION
-PackageComment: NOASSERTION
+PackageLicenseConcluded: MIT
+PackageLicenseDeclared: MIT
+PackageCopyrightText: Copyright (c) 2014-present Sebastian McKenzie and other contributors
 
 ##### Package representing the pump
 
@@ -2620,11 +1976,9 @@ PackageDownloadLocation: https://www.npmjs.com/package/pump/v/3.0.0
 FilesAnalyzed: false
 PackageChecksum: SHA256: 0b203c464bb32a27e8621a5cfcfae0f86753a7d8881006de7d64090ad5785214
 PackageHomePage: https://github.com/mafintosh/pump#readme
-PackageLicenseConcluded: NOASSERTION
-PackageLicenseDeclared: NOASSERTION
-PackageCopyrightText: NOASSERTION
-PackageLicenseComments: NOASSERTION
-PackageComment: NOASSERTION
+PackageLicenseConcluded: MIT
+PackageLicenseDeclared: MIT
+PackageCopyrightText: Copyright (c) 2014 Mathias Buus
 
 ##### Package representing the file-dialog
 
@@ -2636,11 +1990,10 @@ PackageDownloadLocation: https://registry.npmjs.org/file-dialog/-/file-dialog-0.
 FilesAnalyzed: false
 PackageChecksum: SHA256: ba8e1c037f9b26ab2854e09fc12f361434930bd9b17839e69367c02536d14c79
 PackageHomePage: https://github.com/alnorris/file-dialog#readme
-PackageLicenseConcluded: NOASSERTION
-PackageLicenseDeclared: NOASSERTION
-PackageCopyrightText: NOASSERTION
-PackageLicenseComments: NOASSERTION
-PackageComment: NOASSERTION
+PackageLicenseConcluded: MIT
+PackageLicenseDeclared: MIT
+PackageCopyrightText: Copyright 2017 Alister Norris
+PackageLicenseComments: License text not present in npm package and GitHub repo; possible PROBLEM
 
 ##### Package representing the webidl-conversions
 
@@ -2652,27 +2005,9 @@ PackageDownloadLocation: https://www.npmjs.com/package/webidl-conversions/v/6.1.
 FilesAnalyzed: false
 PackageChecksum: SHA256: ad7a461d2694f3617960fffa6f3a732a2f0f621febbc29e15a622a14bdff0451
 PackageHomePage: https://github.com/jsdom/webidl-conversions#readme
-PackageLicenseConcluded: NOASSERTION
-PackageLicenseDeclared: NOASSERTION
-PackageCopyrightText: NOASSERTION
-PackageLicenseComments: NOASSERTION
-PackageComment: NOASSERTION
-
-##### Package representing the webidl-conversions
-
-PackageName: webidl-conversions
-SPDXID: SPDXRef-Package-webidl-conversions-3.0.0
-PackageVersion: 3.0.0
-PackageSupplier: Organization: webidl-conversions
-PackageDownloadLocation: https://www.npmjs.com/package/webidl-conversions/v/3.0.0
-FilesAnalyzed: false
-PackageChecksum: SHA256: ad7a461d2694f3617960fffa6f3a732a2f0f621febbc29e15a622a14bdff0451
-PackageHomePage: https://github.com/jsdom/webidl-conversions#readme
-PackageLicenseConcluded: NOASSERTION
-PackageLicenseDeclared: NOASSERTION
-PackageCopyrightText: NOASSERTION
-PackageLicenseComments: NOASSERTION
-PackageComment: NOASSERTION
+PackageLicenseConcluded: BSD-2-Clause
+PackageLicenseDeclared: BSD-2-Clause
+PackageCopyrightText: Copyright (c) 2014, Domenic Denicola
 
 ##### Package representing the webidl-conversions
 
@@ -2684,43 +2019,9 @@ PackageDownloadLocation: https://www.npmjs.com/package/webidl-conversions/v/5.0.
 FilesAnalyzed: false
 PackageChecksum: SHA256: ad7a461d2694f3617960fffa6f3a732a2f0f621febbc29e15a622a14bdff0451
 PackageHomePage: https://github.com/jsdom/webidl-conversions#readme
-PackageLicenseConcluded: NOASSERTION
-PackageLicenseDeclared: NOASSERTION
-PackageCopyrightText: NOASSERTION
-PackageLicenseComments: NOASSERTION
-PackageComment: NOASSERTION
-
-##### Package representing the webidl-conversions
-
-PackageName: webidl-conversions
-SPDXID: SPDXRef-Package-webidl-conversions-5.0.0
-PackageVersion: 5.0.0
-PackageSupplier: Organization: webidl-conversions
-PackageDownloadLocation: https://registry.npmjs.org/webidl-conversions/-/webidl-conversions-5.0.0.tgz
-FilesAnalyzed: false
-PackageChecksum: SHA256: ad7a461d2694f3617960fffa6f3a732a2f0f621febbc29e15a622a14bdff0451
-PackageHomePage: https://github.com/jsdom/webidl-conversions#readme
-PackageLicenseConcluded: NOASSERTION
-PackageLicenseDeclared: NOASSERTION
-PackageCopyrightText: NOASSERTION
-PackageLicenseComments: NOASSERTION
-PackageComment: NOASSERTION
-
-##### Package representing the webidl-conversions
-
-PackageName: webidl-conversions
-SPDXID: SPDXRef-Package-webidl-conversions-6.1.0
-PackageVersion: 6.1.0
-PackageSupplier: Organization: webidl-conversions
-PackageDownloadLocation: https://registry.npmjs.org/webidl-conversions/-/webidl-conversions-6.1.0.tgz
-FilesAnalyzed: false
-PackageChecksum: SHA256: ad7a461d2694f3617960fffa6f3a732a2f0f621febbc29e15a622a14bdff0451
-PackageHomePage: https://github.com/jsdom/webidl-conversions#readme
-PackageLicenseConcluded: NOASSERTION
-PackageLicenseDeclared: NOASSERTION
-PackageCopyrightText: NOASSERTION
-PackageLicenseComments: NOASSERTION
-PackageComment: NOASSERTION
+PackageLicenseConcluded: BSD-2-Clause
+PackageLicenseDeclared: BSD-2-Clause
+PackageCopyrightText: Copyright (c) 2014, Domenic Denicola
 
 ##### Package representing the webidl-conversions
 
@@ -2732,11 +2033,9 @@ PackageDownloadLocation: https://registry.npmjs.org/webidl-conversions/-/webidl-
 FilesAnalyzed: false
 PackageChecksum: SHA256: ad7a461d2694f3617960fffa6f3a732a2f0f621febbc29e15a622a14bdff0451
 PackageHomePage: https://github.com/jsdom/webidl-conversions#readme
-PackageLicenseConcluded: NOASSERTION
-PackageLicenseDeclared: NOASSERTION
-PackageCopyrightText: NOASSERTION
-PackageLicenseComments: NOASSERTION
-PackageComment: NOASSERTION
+PackageLicenseConcluded: BSD-2-Clause
+PackageLicenseDeclared: BSD-2-Clause
+PackageCopyrightText: Copyright (c) 2014, Domenic Denicola
 
 ##### Package representing the mkdirp-classic
 
@@ -2748,43 +2047,9 @@ PackageDownloadLocation: https://registry.npmjs.org/mkdirp-classic/-/mkdirp-clas
 FilesAnalyzed: false
 PackageChecksum: SHA256: def04ce79ea25ca2b1b0886eb6d5c2b0b27b9d669f1c0765c647f749f37feda3
 PackageHomePage: https://github.com/mafintosh/mkdirp-classic
-PackageLicenseConcluded: NOASSERTION
-PackageLicenseDeclared: NOASSERTION
-PackageCopyrightText: NOASSERTION
-PackageLicenseComments: NOASSERTION
-PackageComment: NOASSERTION
-
-##### Package representing the mkdirp-classic
-
-PackageName: mkdirp-classic
-SPDXID: SPDXRef-Package-mkdirp-classic-0.5.2
-PackageVersion: 0.5.2
-PackageSupplier: Organization: mkdirp-classic
-PackageDownloadLocation: https://www.npmjs.com/package/mkdirp-classic/v/0.5.2
-FilesAnalyzed: false
-PackageChecksum: SHA256: def04ce79ea25ca2b1b0886eb6d5c2b0b27b9d669f1c0765c647f749f37feda3
-PackageHomePage: https://github.com/mafintosh/mkdirp-classic
-PackageLicenseConcluded: NOASSERTION
-PackageLicenseDeclared: NOASSERTION
-PackageCopyrightText: NOASSERTION
-PackageLicenseComments: NOASSERTION
-PackageComment: NOASSERTION
-
-##### Package representing the mkdirp-classic
-
-PackageName: mkdirp-classic
-SPDXID: SPDXRef-Package-mkdirp-classic-0.5.3
-PackageVersion: 0.5.3
-PackageSupplier: Organization: mkdirp-classic
-PackageDownloadLocation: https://www.npmjs.com/package/mkdirp-classic/v/0.5.3
-FilesAnalyzed: false
-PackageChecksum: SHA256: def04ce79ea25ca2b1b0886eb6d5c2b0b27b9d669f1c0765c647f749f37feda3
-PackageHomePage: https://github.com/mafintosh/mkdirp-classic
-PackageLicenseConcluded: NOASSERTION
-PackageLicenseDeclared: NOASSERTION
-PackageCopyrightText: NOASSERTION
-PackageLicenseComments: NOASSERTION
-PackageComment: NOASSERTION
+PackageLicenseConcluded: MIT
+PackageLicenseDeclared: MIT
+PackageCopyrightText: Copyright (c) 2020 James Halliday (mail@substack.net) and Mathias Buus
 
 ##### Package representing the tree-sitter-yaml
 
@@ -2796,43 +2061,9 @@ PackageDownloadLocation: https://www.npmjs.com/package/tree-sitter-yaml/v/0.5.0
 FilesAnalyzed: false
 PackageChecksum: SHA256: ae73ec7d23a5dfc773656991dc7e891f0b29b84c07ff660656dff1c70a01dbd3
 PackageHomePage: https://github.com/ikatyang/tree-sitter-yaml#readme
-PackageLicenseConcluded: NOASSERTION
-PackageLicenseDeclared: NOASSERTION
-PackageCopyrightText: NOASSERTION
-PackageLicenseComments: NOASSERTION
-PackageComment: NOASSERTION
-
-##### Package representing the tree-sitter-yaml
-
-PackageName: tree-sitter-yaml
-SPDXID: SPDXRef-Package-tree-sitter-yaml-0.5.0
-PackageVersion: 0.5.0
-PackageSupplier: Organization: tree-sitter-yaml
-PackageDownloadLocation: https://registry.npmjs.org/tree-sitter-yaml/-/tree-sitter-yaml-0.5.0.tgz
-FilesAnalyzed: false
-PackageChecksum: SHA256: ae73ec7d23a5dfc773656991dc7e891f0b29b84c07ff660656dff1c70a01dbd3
-PackageHomePage: https://github.com/ikatyang/tree-sitter-yaml#readme
-PackageLicenseConcluded: NOASSERTION
-PackageLicenseDeclared: NOASSERTION
-PackageCopyrightText: NOASSERTION
-PackageLicenseComments: NOASSERTION
-PackageComment: NOASSERTION
-
-##### Package representing the are-we-there-yet
-
-PackageName: are-we-there-yet
-SPDXID: SPDXRef-Package-are-we-there-yet-1.1.2
-PackageVersion: 1.1.2
-PackageSupplier: Organization: are-we-there-yet
-PackageDownloadLocation: https://www.npmjs.com/package/are-we-there-yet/v/1.1.2
-FilesAnalyzed: false
-PackageChecksum: SHA256: 5d9f2506cf32960a2873e7735a8f7a2d01efbaa8197038611ecdab133437df06
-PackageHomePage: https://github.com/iarna/are-we-there-yet
-PackageLicenseConcluded: NOASSERTION
-PackageLicenseDeclared: NOASSERTION
-PackageCopyrightText: NOASSERTION
-PackageLicenseComments: NOASSERTION
-PackageComment: NOASSERTION
+PackageLicenseConcluded: MIT
+PackageLicenseDeclared: MIT
+PackageCopyrightText: Copyright (c) Ika <ikatyang@gmail.com> (https://github.com/ikatyang)
 
 ##### Package representing the are-we-there-yet
 
@@ -2844,11 +2075,9 @@ PackageDownloadLocation: https://registry.npmjs.org/are-we-there-yet/-/are-we-th
 FilesAnalyzed: false
 PackageChecksum: SHA256: 5d9f2506cf32960a2873e7735a8f7a2d01efbaa8197038611ecdab133437df06
 PackageHomePage: https://github.com/iarna/are-we-there-yet
-PackageLicenseConcluded: NOASSERTION
-PackageLicenseDeclared: NOASSERTION
-PackageCopyrightText: NOASSERTION
-PackageLicenseComments: NOASSERTION
-PackageComment: NOASSERTION
+PackageLicenseConcluded: ISC
+PackageLicenseDeclared: ISC
+PackageCopyrightText: Copyright (c) 2015, Rebecca Turner
 
 ##### Package representing the types/react-redux
 
@@ -2860,27 +2089,9 @@ PackageDownloadLocation: https://registry.npmjs.org/@types/react-redux/-/react-r
 FilesAnalyzed: false
 PackageChecksum: SHA256: 4283d901c33e1274c4f3eff8fd8c0206fe74e761f792c4507666f834ba50be55
 PackageHomePage: https://github.com/DefinitelyTyped/DefinitelyTyped/tree/master/types/react-redux
-PackageLicenseConcluded: NOASSERTION
-PackageLicenseDeclared: NOASSERTION
-PackageCopyrightText: NOASSERTION
-PackageLicenseComments: NOASSERTION
-PackageComment: NOASSERTION
-
-##### Package representing the types/react-redux
-
-PackageName: types/react-redux
-SPDXID: SPDXRef-Package-types.react-redux-7.1.20
-PackageVersion: 7.1.20
-PackageSupplier: Organization: types/react-redux
-PackageDownloadLocation: https://www.npmjs.com/package/types/react-redux/v/7.1.20
-FilesAnalyzed: false
-PackageChecksum: SHA256: 4283d901c33e1274c4f3eff8fd8c0206fe74e761f792c4507666f834ba50be55
-PackageHomePage: https://github.com/DefinitelyTyped/DefinitelyTyped/tree/master/types/react-redux
-PackageLicenseConcluded: NOASSERTION
-PackageLicenseDeclared: NOASSERTION
-PackageCopyrightText: NOASSERTION
-PackageLicenseComments: NOASSERTION
-PackageComment: NOASSERTION
+PackageLicenseConcluded: MIT
+PackageLicenseDeclared: MIT
+PackageCopyrightText: Copyright (c) Microsoft Corporation.
 
 ##### Package representing the fast-json-stable-stringify
 
@@ -2892,43 +2103,9 @@ PackageDownloadLocation: https://registry.npmjs.org/fast-json-stable-stringify/-
 FilesAnalyzed: false
 PackageChecksum: SHA256: fa6f2cbca26d0b9900a3542f5f2eacbac07484af2474efbb1d534abcc8058de8
 PackageHomePage: https://github.com/epoberezkin/fast-json-stable-stringify
-PackageLicenseConcluded: NOASSERTION
-PackageLicenseDeclared: NOASSERTION
-PackageCopyrightText: NOASSERTION
-PackageLicenseComments: NOASSERTION
-PackageComment: NOASSERTION
-
-##### Package representing the fast-json-stable-stringify
-
-PackageName: fast-json-stable-stringify
-SPDXID: SPDXRef-Package-fast-json-stable-stringify-2.0.0
-PackageVersion: 2.0.0
-PackageSupplier: Organization: fast-json-stable-stringify
-PackageDownloadLocation: https://www.npmjs.com/package/fast-json-stable-stringify/v/2.0.0
-FilesAnalyzed: false
-PackageChecksum: SHA256: fa6f2cbca26d0b9900a3542f5f2eacbac07484af2474efbb1d534abcc8058de8
-PackageHomePage: https://github.com/epoberezkin/fast-json-stable-stringify
-PackageLicenseConcluded: NOASSERTION
-PackageLicenseDeclared: NOASSERTION
-PackageCopyrightText: NOASSERTION
-PackageLicenseComments: NOASSERTION
-PackageComment: NOASSERTION
-
-##### Package representing the process-nextick-args
-
-PackageName: process-nextick-args
-SPDXID: SPDXRef-Package-process-nextick-args-2.0.0
-PackageVersion: 2.0.0
-PackageSupplier: Organization: process-nextick-args
-PackageDownloadLocation: https://www.npmjs.com/package/process-nextick-args/v/2.0.0
-FilesAnalyzed: false
-PackageChecksum: SHA256: 1e3628a6c1e15e0ae3667e65cb1371f295082b71b40393be2aeb996b95aa0f27
-PackageHomePage: https://github.com/calvinmetcalf/process-nextick-args
-PackageLicenseConcluded: NOASSERTION
-PackageLicenseDeclared: NOASSERTION
-PackageCopyrightText: NOASSERTION
-PackageLicenseComments: NOASSERTION
-PackageComment: NOASSERTION
+PackageLicenseConcluded: MIT
+PackageLicenseDeclared: MIT
+PackageCopyrightText: Copyright (c) 2017 Evgeny Poberezkin, Copyright (c) 2013 James Halliday
 
 ##### Package representing the process-nextick-args
 
@@ -2940,11 +2117,9 @@ PackageDownloadLocation: https://registry.npmjs.org/process-nextick-args/-/proce
 FilesAnalyzed: false
 PackageChecksum: SHA256: 1e3628a6c1e15e0ae3667e65cb1371f295082b71b40393be2aeb996b95aa0f27
 PackageHomePage: https://github.com/calvinmetcalf/process-nextick-args
-PackageLicenseConcluded: NOASSERTION
-PackageLicenseDeclared: NOASSERTION
-PackageCopyrightText: NOASSERTION
-PackageLicenseComments: NOASSERTION
-PackageComment: NOASSERTION
+PackageLicenseConcluded: MIT
+PackageLicenseDeclared: MIT
+PackageCopyrightText: Copyright (c) 2015 Calvin Metcalf
 
 ##### Package representing the browser-process-hrtime
 
@@ -2956,27 +2131,9 @@ PackageDownloadLocation: https://www.npmjs.com/package/browser-process-hrtime/v/
 FilesAnalyzed: false
 PackageChecksum: SHA256: f1c8e07318e4b5f70756009b8f61d9eca7fcb252633865539f9a43a6d620874a
 PackageHomePage: https://github.com/kumavis/browser-process-hrtime#readme
-PackageLicenseConcluded: NOASSERTION
-PackageLicenseDeclared: NOASSERTION
-PackageCopyrightText: NOASSERTION
-PackageLicenseComments: NOASSERTION
-PackageComment: NOASSERTION
-
-##### Package representing the browser-process-hrtime
-
-PackageName: browser-process-hrtime
-SPDXID: SPDXRef-Package-browser-process-hrtime-1.0.0
-PackageVersion: 1.0.0
-PackageSupplier: Organization: browser-process-hrtime
-PackageDownloadLocation: https://registry.npmjs.org/browser-process-hrtime/-/browser-process-hrtime-1.0.0.tgz
-FilesAnalyzed: false
-PackageChecksum: SHA256: f1c8e07318e4b5f70756009b8f61d9eca7fcb252633865539f9a43a6d620874a
-PackageHomePage: https://github.com/kumavis/browser-process-hrtime#readme
-PackageLicenseConcluded: NOASSERTION
-PackageLicenseDeclared: NOASSERTION
-PackageCopyrightText: NOASSERTION
-PackageLicenseComments: NOASSERTION
-PackageComment: NOASSERTION
+PackageLicenseConcluded: BSD-2-Clause
+PackageLicenseDeclared: BSD-2-Clause
+PackageCopyrightText: Copyright 2014 kumavis
 
 ##### Package representing the mime-types
 
@@ -2988,43 +2145,9 @@ PackageDownloadLocation: https://registry.npmjs.org/mime-types/-/mime-types-2.1.
 FilesAnalyzed: false
 PackageChecksum: SHA256: 739afe2faa28cfa754b0f55f1b4c969d86c11185e20f688e59375d60f7014b05
 PackageHomePage: https://github.com/jshttp/mime-types#readme
-PackageLicenseConcluded: NOASSERTION
-PackageLicenseDeclared: NOASSERTION
-PackageCopyrightText: NOASSERTION
-PackageLicenseComments: NOASSERTION
-PackageComment: NOASSERTION
-
-##### Package representing the mime-types
-
-PackageName: mime-types
-SPDXID: SPDXRef-Package-mime-types-2.1.12
-PackageVersion: 2.1.12
-PackageSupplier: Organization: mime-types
-PackageDownloadLocation: https://www.npmjs.com/package/mime-types/v/2.1.12
-FilesAnalyzed: false
-PackageChecksum: SHA256: 739afe2faa28cfa754b0f55f1b4c969d86c11185e20f688e59375d60f7014b05
-PackageHomePage: https://github.com/jshttp/mime-types#readme
-PackageLicenseConcluded: NOASSERTION
-PackageLicenseDeclared: NOASSERTION
-PackageCopyrightText: NOASSERTION
-PackageLicenseComments: NOASSERTION
-PackageComment: NOASSERTION
-
-##### Package representing the cssstyle
-
-PackageName: cssstyle
-SPDXID: SPDXRef-Package-cssstyle-2.3.0
-PackageVersion: 2.3.0
-PackageSupplier: Organization: cssstyle
-PackageDownloadLocation: https://registry.npmjs.org/cssstyle/-/cssstyle-2.3.0.tgz
-FilesAnalyzed: false
-PackageChecksum: SHA256: f946e1686603e80104a4d96c23211797da4b50fd5f106981c8977129ca71b87c
-PackageHomePage: https://github.com/jsdom/cssstyle
-PackageLicenseConcluded: NOASSERTION
-PackageLicenseDeclared: NOASSERTION
-PackageCopyrightText: NOASSERTION
-PackageLicenseComments: NOASSERTION
-PackageComment: NOASSERTION
+PackageLicenseConcluded: MIT
+PackageLicenseDeclared: MIT
+PackageCopyrightText: Copyright (c) 2014 Jonathan Ong <me@jongleberry.com>, Copyright (c) 2015 Douglas Christopher Wilson <doug@somethingdoug.com>
 
 ##### Package representing the cssstyle
 
@@ -3036,11 +2159,9 @@ PackageDownloadLocation: https://www.npmjs.com/package/cssstyle/v/2.3.0
 FilesAnalyzed: false
 PackageChecksum: SHA256: f946e1686603e80104a4d96c23211797da4b50fd5f106981c8977129ca71b87c
 PackageHomePage: https://github.com/jsdom/cssstyle
-PackageLicenseConcluded: NOASSERTION
-PackageLicenseDeclared: NOASSERTION
-PackageCopyrightText: NOASSERTION
-PackageLicenseComments: NOASSERTION
-PackageComment: NOASSERTION
+PackageLicenseConcluded: MIT
+PackageLicenseDeclared: MIT
+PackageCopyrightText: Copyright (c) 2017-2018 Fredrik Nicol
 
 ##### Package representing the acorn-walk
 
@@ -3052,27 +2173,9 @@ PackageDownloadLocation: https://registry.npmjs.org/acorn-walk/-/acorn-walk-7.2.
 FilesAnalyzed: false
 PackageChecksum: SHA256: 858aeb0a69b7bcc23d440d06bdf29dd6f88d5aecb88ff89270fb89287c63de3a
 PackageHomePage: https://github.com/acornjs/acorn
-PackageLicenseConcluded: NOASSERTION
-PackageLicenseDeclared: NOASSERTION
-PackageCopyrightText: NOASSERTION
-PackageLicenseComments: NOASSERTION
-PackageComment: NOASSERTION
-
-##### Package representing the acorn-walk
-
-PackageName: acorn-walk
-SPDXID: SPDXRef-Package-acorn-walk-7.1.1
-PackageVersion: 7.1.1
-PackageSupplier: Organization: acorn-walk
-PackageDownloadLocation: https://www.npmjs.com/package/acorn-walk/v/7.1.1
-FilesAnalyzed: false
-PackageChecksum: SHA256: 858aeb0a69b7bcc23d440d06bdf29dd6f88d5aecb88ff89270fb89287c63de3a
-PackageHomePage: https://github.com/acornjs/acorn
-PackageLicenseConcluded: NOASSERTION
-PackageLicenseDeclared: NOASSERTION
-PackageCopyrightText: NOASSERTION
-PackageLicenseComments: NOASSERTION
-PackageComment: NOASSERTION
+PackageLicenseConcluded: MIT
+PackageLicenseDeclared: MIT
+PackageCopyrightText: Copyright (C) 2012-2018 by various contributors (see AUTHORS)
 
 ##### Package representing the web-streams-polyfill
 
@@ -3084,27 +2187,9 @@ PackageDownloadLocation: https://www.npmjs.com/package/web-streams-polyfill/v/4.
 FilesAnalyzed: false
 PackageChecksum: SHA256: da2ab61ccf9bec7e47c8cf6e8c2d09da0f1981753798570383175876a6046cc7
 PackageHomePage: https://github.com/MattiasBuelens/web-streams-polyfill#readme
-PackageLicenseConcluded: NOASSERTION
-PackageLicenseDeclared: NOASSERTION
-PackageCopyrightText: NOASSERTION
-PackageLicenseComments: NOASSERTION
-PackageComment: NOASSERTION
-
-##### Package representing the babel/helper-hoist-variables
-
-PackageName: babel/helper-hoist-variables
-SPDXID: SPDXRef-Package-babel.helper-hoist-variables-7.16.7
-PackageVersion: 7.16.7
-PackageSupplier: Organization: babel/helper-hoist-variables
-PackageDownloadLocation: https://registry.npmjs.org/@babel/helper-hoist-variables/-/helper-hoist-variables-7.16.7.tgz
-FilesAnalyzed: false
-PackageChecksum: SHA256: bb6a945b1a0f87a7dedf3476235463587c77b2e43b38d2e83862136c42b101cf
-PackageHomePage: https://babel.dev/docs/en/next/babel-helper-hoist-variables
-PackageLicenseConcluded: NOASSERTION
-PackageLicenseDeclared: NOASSERTION
-PackageCopyrightText: NOASSERTION
-PackageLicenseComments: NOASSERTION
-PackageComment: NOASSERTION
+PackageLicenseConcluded: MIT
+PackageLicenseDeclared: MIT
+PackageCopyrightText: Copyright (c) 2021 Mattias Buelens, Copyright (c) 2016 Diwank Singh Tomer
 
 ##### Package representing the babel/helper-hoist-variables
 
@@ -3116,27 +2201,9 @@ PackageDownloadLocation: https://www.npmjs.com/package/babel/helper-hoist-variab
 FilesAnalyzed: false
 PackageChecksum: SHA256: bb6a945b1a0f87a7dedf3476235463587c77b2e43b38d2e83862136c42b101cf
 PackageHomePage: https://babel.dev/docs/en/next/babel-helper-hoist-variables
-PackageLicenseConcluded: NOASSERTION
-PackageLicenseDeclared: NOASSERTION
-PackageCopyrightText: NOASSERTION
-PackageLicenseComments: NOASSERTION
-PackageComment: NOASSERTION
-
-##### Package representing the minim
-
-PackageName: minim
-SPDXID: SPDXRef-Package-minim-0.23.8
-PackageVersion: 0.23.8
-PackageSupplier: Organization: minim
-PackageDownloadLocation: https://www.npmjs.com/package/minim/v/0.23.8
-FilesAnalyzed: false
-PackageChecksum: SHA256: fe8af7293f4546eee260a88792b44e0aa85e676c3012ae78697c96e3b7f6c4db
-PackageHomePage: https://github.com/refractproject/minim
-PackageLicenseConcluded: NOASSERTION
-PackageLicenseDeclared: NOASSERTION
-PackageCopyrightText: NOASSERTION
-PackageLicenseComments: NOASSERTION
-PackageComment: NOASSERTION
+PackageLicenseConcluded: MIT
+PackageLicenseDeclared: MIT
+PackageCopyrightText: Copyright (c) 2014-present Sebastian McKenzie and other contributors
 
 ##### Package representing the minim
 
@@ -3148,11 +2215,9 @@ PackageDownloadLocation: https://registry.npmjs.org/minim/-/minim-0.23.8.tgz
 FilesAnalyzed: false
 PackageChecksum: SHA256: fe8af7293f4546eee260a88792b44e0aa85e676c3012ae78697c96e3b7f6c4db
 PackageHomePage: https://github.com/refractproject/minim
-PackageLicenseConcluded: NOASSERTION
-PackageLicenseDeclared: NOASSERTION
-PackageCopyrightText: NOASSERTION
-PackageLicenseComments: NOASSERTION
-PackageComment: NOASSERTION
+PackageLicenseConcluded: MIT
+PackageLicenseDeclared: MIT
+PackageCopyrightText: Copyright (c) 2014 Stephen Mizell
 
 ##### Package representing the popper.js
 
@@ -3164,43 +2229,10 @@ PackageDownloadLocation: https://registry.npmjs.org/popper.js/-/popper.js-1.16.1
 FilesAnalyzed: false
 PackageChecksum: SHA256: dd513b1209ae0e2c44ae44ac9deba20e91f66f136bccc414f34e2df0b14d7aff
 PackageHomePage: https://popper.js.org
-PackageLicenseConcluded: NOASSERTION
-PackageLicenseDeclared: NOASSERTION
-PackageCopyrightText: NOASSERTION
-PackageLicenseComments: NOASSERTION
-PackageComment: NOASSERTION
-
-##### Package representing the vscode-languageserver-textdocument
-
-PackageName: vscode-languageserver-textdocument
-SPDXID: SPDXRef-Package-vscode-languageserver-textdocument-1.0.4
-PackageVersion: 1.0.4
-PackageSupplier: Organization: vscode-languageserver-textdocument
-PackageDownloadLocation: https://www.npmjs.com/package/vscode-languageserver-textdocument/v/1.0.4
-FilesAnalyzed: false
-PackageChecksum: SHA256: 16077163cccc0e2d3cbc6bce3bbd01bd2e940a1c6885be91fbabd7baaaa78c5b
-PackageHomePage: https://github.com/Microsoft/vscode-languageserver-node#readme
-PackageLicenseConcluded: NOASSERTION
-PackageLicenseDeclared: NOASSERTION
-PackageCopyrightText: NOASSERTION
-PackageLicenseComments: NOASSERTION
-PackageComment: NOASSERTION
-
-##### Package representing the vscode-languageserver-textdocument
-
-PackageName: vscode-languageserver-textdocument
-SPDXID: SPDXRef-Package-vscode-languageserver-textdocument-1.0.1
-PackageVersion: 1.0.1
-PackageSupplier: Organization: vscode-languageserver-textdocument
-PackageDownloadLocation: https://www.npmjs.com/package/vscode-languageserver-textdocument/v/1.0.1
-FilesAnalyzed: false
-PackageChecksum: SHA256: 16077163cccc0e2d3cbc6bce3bbd01bd2e940a1c6885be91fbabd7baaaa78c5b
-PackageHomePage: https://github.com/Microsoft/vscode-languageserver-node#readme
-PackageLicenseConcluded: NOASSERTION
-PackageLicenseDeclared: NOASSERTION
-PackageCopyrightText: NOASSERTION
-PackageLicenseComments: NOASSERTION
-PackageComment: NOASSERTION
+PackageLicenseConcluded: MIT
+PackageLicenseDeclared: MIT
+PackageCopyrightText: copyright 2016 Federico Zivolo
+PackageLicenseComments: License text not present in npm package; possible PROBLEM
 
 ##### Package representing the vscode-languageserver-textdocument
 
@@ -3212,27 +2244,9 @@ PackageDownloadLocation: https://registry.npmjs.org/vscode-languageserver-textdo
 FilesAnalyzed: false
 PackageChecksum: SHA256: 16077163cccc0e2d3cbc6bce3bbd01bd2e940a1c6885be91fbabd7baaaa78c5b
 PackageHomePage: https://github.com/Microsoft/vscode-languageserver-node#readme
-PackageLicenseConcluded: NOASSERTION
-PackageLicenseDeclared: NOASSERTION
-PackageCopyrightText: NOASSERTION
-PackageLicenseComments: NOASSERTION
-PackageComment: NOASSERTION
-
-##### Package representing the file-selector
-
-PackageName: file-selector
-SPDXID: SPDXRef-Package-file-selector-0.6.0
-PackageVersion: 0.6.0
-PackageSupplier: Organization: file-selector
-PackageDownloadLocation: https://www.npmjs.com/package/file-selector/v/0.6.0
-FilesAnalyzed: false
-PackageChecksum: SHA256: a970f28e80265f25cf77d17676db222368c37ec31ebb4bb87b6247b9647910a0
-PackageHomePage: https://github.com/react-dropzone/file-selector
-PackageLicenseConcluded: NOASSERTION
-PackageLicenseDeclared: NOASSERTION
-PackageCopyrightText: NOASSERTION
-PackageLicenseComments: NOASSERTION
-PackageComment: NOASSERTION
+PackageLicenseConcluded: MIT
+PackageLicenseDeclared: MIT
+PackageCopyrightText: Copyright (c) Microsoft Corporation
 
 ##### Package representing the file-selector
 
@@ -3244,11 +2258,9 @@ PackageDownloadLocation: https://registry.npmjs.org/file-selector/-/file-selecto
 FilesAnalyzed: false
 PackageChecksum: SHA256: a970f28e80265f25cf77d17676db222368c37ec31ebb4bb87b6247b9647910a0
 PackageHomePage: https://github.com/react-dropzone/file-selector
-PackageLicenseConcluded: NOASSERTION
-PackageLicenseDeclared: NOASSERTION
-PackageCopyrightText: NOASSERTION
-PackageLicenseComments: NOASSERTION
-PackageComment: NOASSERTION
+PackageLicenseConcluded: MIT
+PackageLicenseDeclared: MIT
+PackageCopyrightText: Copyright (c) 2020 Roland Groza
 
 ##### Package representing the types/hast
 
@@ -3260,43 +2272,9 @@ PackageDownloadLocation: https://registry.npmjs.org/@types/hast/-/hast-2.3.4.tgz
 FilesAnalyzed: false
 PackageChecksum: SHA256: af2cae88805e9d166cf79f8f8233dd6aa7d5fb1bcf3837d904b173dd7f0d0ea2
 PackageHomePage: https://github.com/DefinitelyTyped/DefinitelyTyped/tree/master/types/hast
-PackageLicenseConcluded: NOASSERTION
-PackageLicenseDeclared: NOASSERTION
-PackageCopyrightText: NOASSERTION
-PackageLicenseComments: NOASSERTION
-PackageComment: NOASSERTION
-
-##### Package representing the types/hast
-
-PackageName: types/hast
-SPDXID: SPDXRef-Package-types.hast-2.0.0
-PackageVersion: 2.0.0
-PackageSupplier: Organization: types/hast
-PackageDownloadLocation: https://www.npmjs.com/package/types/hast/v/2.0.0
-FilesAnalyzed: false
-PackageChecksum: SHA256: af2cae88805e9d166cf79f8f8233dd6aa7d5fb1bcf3837d904b173dd7f0d0ea2
-PackageHomePage: https://github.com/DefinitelyTyped/DefinitelyTyped/tree/master/types/hast
-PackageLicenseConcluded: NOASSERTION
-PackageLicenseDeclared: NOASSERTION
-PackageCopyrightText: NOASSERTION
-PackageLicenseComments: NOASSERTION
-PackageComment: NOASSERTION
-
-##### Package representing the warning
-
-PackageName: warning
-SPDXID: SPDXRef-Package-warning-4.0.3
-PackageVersion: 4.0.3
-PackageSupplier: Organization: warning
-PackageDownloadLocation: https://registry.npmjs.org/warning/-/warning-4.0.3.tgz
-FilesAnalyzed: false
-PackageChecksum: SHA256: 4bd9354bb652233497a0f42647464b81b83a83654fcf1511263a5d0120d74c91
-PackageHomePage: https://github.com/BerkeleyTrue/warning
-PackageLicenseConcluded: NOASSERTION
-PackageLicenseDeclared: NOASSERTION
-PackageCopyrightText: NOASSERTION
-PackageLicenseComments: NOASSERTION
-PackageComment: NOASSERTION
+PackageLicenseConcluded: MIT
+PackageLicenseDeclared: MIT
+PackageCopyrightText: Copyright (c) Microsoft Corporation.
 
 ##### Package representing the warning
 
@@ -3308,11 +2286,9 @@ PackageDownloadLocation: https://www.npmjs.com/package/warning/v/4.0.3
 FilesAnalyzed: false
 PackageChecksum: SHA256: 4bd9354bb652233497a0f42647464b81b83a83654fcf1511263a5d0120d74c91
 PackageHomePage: https://github.com/BerkeleyTrue/warning
-PackageLicenseConcluded: NOASSERTION
-PackageLicenseDeclared: NOASSERTION
-PackageCopyrightText: NOASSERTION
-PackageLicenseComments: NOASSERTION
-PackageComment: NOASSERTION
+PackageLicenseConcluded: MIT
+PackageLicenseDeclared: MIT
+PackageCopyrightText: Copyright (c) 2013-present, Facebook, Inc.
 
 ##### Package representing the napi-build-utils
 
@@ -3324,43 +2300,9 @@ PackageDownloadLocation: https://registry.npmjs.org/napi-build-utils/-/napi-buil
 FilesAnalyzed: false
 PackageChecksum: SHA256: 75f9d2a7b64cbd5dbc0351458ee7e078db650304c4702a24c06312a260ccda66
 PackageHomePage: https://github.com/inspiredware/napi-build-utils#readme
-PackageLicenseConcluded: NOASSERTION
-PackageLicenseDeclared: NOASSERTION
-PackageCopyrightText: NOASSERTION
-PackageLicenseComments: NOASSERTION
-PackageComment: NOASSERTION
-
-##### Package representing the napi-build-utils
-
-PackageName: napi-build-utils
-SPDXID: SPDXRef-Package-napi-build-utils-1.0.1
-PackageVersion: 1.0.1
-PackageSupplier: Organization: napi-build-utils
-PackageDownloadLocation: https://www.npmjs.com/package/napi-build-utils/v/1.0.1
-FilesAnalyzed: false
-PackageChecksum: SHA256: 75f9d2a7b64cbd5dbc0351458ee7e078db650304c4702a24c06312a260ccda66
-PackageHomePage: https://github.com/inspiredware/napi-build-utils#readme
-PackageLicenseConcluded: NOASSERTION
-PackageLicenseDeclared: NOASSERTION
-PackageCopyrightText: NOASSERTION
-PackageLicenseComments: NOASSERTION
-PackageComment: NOASSERTION
-
-##### Package representing the character-entities-legacy
-
-PackageName: character-entities-legacy
-SPDXID: SPDXRef-Package-character-entities-legacy-1.0.0
-PackageVersion: 1.0.0
-PackageSupplier: Organization: character-entities-legacy
-PackageDownloadLocation: https://www.npmjs.com/package/character-entities-legacy/v/1.0.0
-FilesAnalyzed: false
-PackageChecksum: SHA256: af760db4b3732657ae339ef802c99e987cc14e8e425d6b0bfb3a54703c65864f
-PackageHomePage: https://github.com/wooorm/character-entities-legacy#readme
-PackageLicenseConcluded: NOASSERTION
-PackageLicenseDeclared: NOASSERTION
-PackageCopyrightText: NOASSERTION
-PackageLicenseComments: NOASSERTION
-PackageComment: NOASSERTION
+PackageLicenseConcluded: MIT
+PackageLicenseDeclared: MIT
+PackageCopyrightText: Copyright (c) 2018 inspiredware
 
 ##### Package representing the character-entities-legacy
 
@@ -3372,11 +2314,9 @@ PackageDownloadLocation: https://registry.npmjs.org/character-entities-legacy/-/
 FilesAnalyzed: false
 PackageChecksum: SHA256: af760db4b3732657ae339ef802c99e987cc14e8e425d6b0bfb3a54703c65864f
 PackageHomePage: https://github.com/wooorm/character-entities-legacy#readme
-PackageLicenseConcluded: NOASSERTION
-PackageLicenseDeclared: NOASSERTION
-PackageCopyrightText: NOASSERTION
-PackageLicenseComments: NOASSERTION
-PackageComment: NOASSERTION
+PackageLicenseConcluded: MIT
+PackageLicenseDeclared: MIT
+PackageCopyrightText: Copyright (c) 2015 Titus Wormer <tituswormer@gmail.com>
 
 ##### Package representing the ts-toolbelt
 
@@ -3388,43 +2328,9 @@ PackageDownloadLocation: https://registry.npmjs.org/ts-toolbelt/-/ts-toolbelt-6.
 FilesAnalyzed: false
 PackageChecksum: SHA256: 70b8e167bfa33cd1c14531b23c8ad0d184f802ca7cec7bc6fa7e55135d11b108
 PackageHomePage: https://github.com/millsp/ts-toolbelt
-PackageLicenseConcluded: NOASSERTION
-PackageLicenseDeclared: NOASSERTION
-PackageCopyrightText: NOASSERTION
-PackageLicenseComments: NOASSERTION
-PackageComment: NOASSERTION
-
-##### Package representing the ts-toolbelt
-
-PackageName: ts-toolbelt
-SPDXID: SPDXRef-Package-ts-toolbelt-6.15.1
-PackageVersion: 6.15.1
-PackageSupplier: Organization: ts-toolbelt
-PackageDownloadLocation: https://www.npmjs.com/package/ts-toolbelt/v/6.15.1
-FilesAnalyzed: false
-PackageChecksum: SHA256: 70b8e167bfa33cd1c14531b23c8ad0d184f802ca7cec7bc6fa7e55135d11b108
-PackageHomePage: https://github.com/millsp/ts-toolbelt
-PackageLicenseConcluded: NOASSERTION
-PackageLicenseDeclared: NOASSERTION
-PackageCopyrightText: NOASSERTION
-PackageLicenseComments: NOASSERTION
-PackageComment: NOASSERTION
-
-##### Package representing the object-assign
-
-PackageName: object-assign
-SPDXID: SPDXRef-Package-object-assign-4.1.0
-PackageVersion: 4.1.0
-PackageSupplier: Organization: object-assign
-PackageDownloadLocation: https://www.npmjs.com/package/object-assign/v/4.1.0
-FilesAnalyzed: false
-PackageChecksum: SHA256: b9a1b64eafbaa7aa70915dfef6ddeadaf17159ca67c70f27449ae79817e2814d
-PackageHomePage: https://github.com/sindresorhus/object-assign#readme
-PackageLicenseConcluded: NOASSERTION
-PackageLicenseDeclared: NOASSERTION
-PackageCopyrightText: NOASSERTION
-PackageLicenseComments: NOASSERTION
-PackageComment: NOASSERTION
+PackageLicenseConcluded: Apache-2.0
+PackageLicenseDeclared: Apache-2.0
+PackageCopyrightText: Copyright 2019 Pierre-Antoine Mills
 
 ##### Package representing the object-assign
 
@@ -3436,27 +2342,9 @@ PackageDownloadLocation: https://registry.npmjs.org/object-assign/-/object-assig
 FilesAnalyzed: false
 PackageChecksum: SHA256: b9a1b64eafbaa7aa70915dfef6ddeadaf17159ca67c70f27449ae79817e2814d
 PackageHomePage: https://github.com/sindresorhus/object-assign#readme
-PackageLicenseConcluded: NOASSERTION
-PackageLicenseDeclared: NOASSERTION
-PackageCopyrightText: NOASSERTION
-PackageLicenseComments: NOASSERTION
-PackageComment: NOASSERTION
-
-##### Package representing the object-assign
-
-PackageName: object-assign
-SPDXID: SPDXRef-Package-object-assign-4.1.1
-PackageVersion: 4.1.1
-PackageSupplier: Organization: object-assign
-PackageDownloadLocation: https://www.npmjs.com/package/object-assign/v/4.1.1
-FilesAnalyzed: false
-PackageChecksum: SHA256: b9a1b64eafbaa7aa70915dfef6ddeadaf17159ca67c70f27449ae79817e2814d
-PackageHomePage: https://github.com/sindresorhus/object-assign#readme
-PackageLicenseConcluded: NOASSERTION
-PackageLicenseDeclared: NOASSERTION
-PackageCopyrightText: NOASSERTION
-PackageLicenseComments: NOASSERTION
-PackageComment: NOASSERTION
+PackageLicenseConcluded: MIT
+PackageLicenseDeclared: MIT
+PackageCopyrightText: Copyright (c) Sindre Sorhus <sindresorhus@gmail.com> (sindresorhus.com)
 
 ##### Package representing the lodash
 
@@ -3468,59 +2356,9 @@ PackageDownloadLocation: https://registry.npmjs.org/lodash/-/lodash-4.17.21.tgz
 FilesAnalyzed: false
 PackageChecksum: SHA256: 94a755535d135f12850ccd5848d10cc7266bbcdb74ad22c7817228ce7abaa506
 PackageHomePage: https://lodash.com/
-PackageLicenseConcluded: NOASSERTION
-PackageLicenseDeclared: NOASSERTION
-PackageCopyrightText: NOASSERTION
-PackageLicenseComments: NOASSERTION
-PackageComment: NOASSERTION
-
-##### Package representing the lodash
-
-PackageName: lodash
-SPDXID: SPDXRef-Package-lodash-4.17.11
-PackageVersion: 4.17.11
-PackageSupplier: Organization: lodash
-PackageDownloadLocation: https://www.npmjs.com/package/lodash/v/4.17.11
-FilesAnalyzed: false
-PackageChecksum: SHA256: 94a755535d135f12850ccd5848d10cc7266bbcdb74ad22c7817228ce7abaa506
-PackageHomePage: https://lodash.com/
-PackageLicenseConcluded: NOASSERTION
-PackageLicenseDeclared: NOASSERTION
-PackageCopyrightText: NOASSERTION
-PackageLicenseComments: NOASSERTION
-PackageComment: NOASSERTION
-
-##### Package representing the lodash
-
-PackageName: lodash
-SPDXID: SPDXRef-Package-lodash-4.15.0
-PackageVersion: 4.15.0
-PackageSupplier: Organization: lodash
-PackageDownloadLocation: https://www.npmjs.com/package/lodash/v/4.15.0
-FilesAnalyzed: false
-PackageChecksum: SHA256: 94a755535d135f12850ccd5848d10cc7266bbcdb74ad22c7817228ce7abaa506
-PackageHomePage: https://lodash.com/
-PackageLicenseConcluded: NOASSERTION
-PackageLicenseDeclared: NOASSERTION
-PackageCopyrightText: NOASSERTION
-PackageLicenseComments: NOASSERTION
-PackageComment: NOASSERTION
-
-##### Package representing the lodash
-
-PackageName: lodash
-SPDXID: SPDXRef-Package-lodash-4.17.21
-PackageVersion: 4.17.21
-PackageSupplier: Organization: lodash
-PackageDownloadLocation: https://www.npmjs.com/package/lodash/v/4.17.21
-FilesAnalyzed: false
-PackageChecksum: SHA256: 94a755535d135f12850ccd5848d10cc7266bbcdb74ad22c7817228ce7abaa506
-PackageHomePage: https://lodash.com/
-PackageLicenseConcluded: NOASSERTION
-PackageLicenseDeclared: NOASSERTION
-PackageCopyrightText: NOASSERTION
-PackageLicenseComments: NOASSERTION
-PackageComment: NOASSERTION
+PackageLicenseConcluded: MIT
+PackageLicenseDeclared: MIT
+PackageCopyrightText: Copyright OpenJS Foundation and other contributors <https://openjsf.org/>
 
 ##### Package representing the react-lifecycles-compat
 
@@ -3532,27 +2370,9 @@ PackageDownloadLocation: https://registry.npmjs.org/react-lifecycles-compat/-/re
 FilesAnalyzed: false
 PackageChecksum: SHA256: 4f4d44d7a7817ade0ab534696dbe6c2774dd5849623fddd2b248c63e7688e5e5
 PackageHomePage: https://github.com/reactjs/react-lifecycles-compat#readme
-PackageLicenseConcluded: NOASSERTION
-PackageLicenseDeclared: NOASSERTION
-PackageCopyrightText: NOASSERTION
-PackageLicenseComments: NOASSERTION
-PackageComment: NOASSERTION
-
-##### Package representing the react-lifecycles-compat
-
-PackageName: react-lifecycles-compat
-SPDXID: SPDXRef-Package-react-lifecycles-compat-3.0.0
-PackageVersion: 3.0.0
-PackageSupplier: Organization: react-lifecycles-compat
-PackageDownloadLocation: https://www.npmjs.com/package/react-lifecycles-compat/v/3.0.0
-FilesAnalyzed: false
-PackageChecksum: SHA256: 4f4d44d7a7817ade0ab534696dbe6c2774dd5849623fddd2b248c63e7688e5e5
-PackageHomePage: https://github.com/reactjs/react-lifecycles-compat#readme
-PackageLicenseConcluded: NOASSERTION
-PackageLicenseDeclared: NOASSERTION
-PackageCopyrightText: NOASSERTION
-PackageLicenseComments: NOASSERTION
-PackageComment: NOASSERTION
+PackageLicenseConcluded: MIT
+PackageLicenseDeclared: MIT
+PackageCopyrightText: Copyright (c) 2013-present, Facebook, Inc.
 
 ##### Package representing the react-modal
 
@@ -3564,27 +2384,9 @@ PackageDownloadLocation: https://registry.npmjs.org/react-modal/-/react-modal-3.
 FilesAnalyzed: false
 PackageChecksum: SHA256: c441b90a18d9671822e91f6c0c94d261a1eb49f7ced28fc37b0e99eda2d9ba21
 PackageHomePage: https://github.com/reactjs/react-modal
-PackageLicenseConcluded: NOASSERTION
-PackageLicenseDeclared: NOASSERTION
-PackageCopyrightText: NOASSERTION
-PackageLicenseComments: NOASSERTION
-PackageComment: NOASSERTION
-
-##### Package representing the uri-js
-
-PackageName: uri-js
-SPDXID: SPDXRef-Package-uri-js-4.2.2
-PackageVersion: 4.2.2
-PackageSupplier: Organization: uri-js
-PackageDownloadLocation: https://www.npmjs.com/package/uri-js/v/4.2.2
-FilesAnalyzed: false
-PackageChecksum: SHA256: 096754d9618eb9fc17844f8ea0d7a09c6fe3699479f343d72f0c29a373b5762a
-PackageHomePage: https://github.com/garycourt/uri-js
-PackageLicenseConcluded: NOASSERTION
-PackageLicenseDeclared: NOASSERTION
-PackageCopyrightText: NOASSERTION
-PackageLicenseComments: NOASSERTION
-PackageComment: NOASSERTION
+PackageLicenseConcluded: MIT
+PackageLicenseDeclared: MIT
+PackageCopyrightText: Copyright (c) 2017 Ryan Florence
 
 ##### Package representing the uri-js
 
@@ -3596,11 +2398,9 @@ PackageDownloadLocation: https://registry.npmjs.org/uri-js/-/uri-js-4.4.1.tgz
 FilesAnalyzed: false
 PackageChecksum: SHA256: 096754d9618eb9fc17844f8ea0d7a09c6fe3699479f343d72f0c29a373b5762a
 PackageHomePage: https://github.com/garycourt/uri-js
-PackageLicenseConcluded: NOASSERTION
-PackageLicenseDeclared: NOASSERTION
-PackageCopyrightText: NOASSERTION
-PackageLicenseComments: NOASSERTION
-PackageComment: NOASSERTION
+PackageLicenseConcluded: BSD-2-Clause
+PackageLicenseDeclared: BSD-2-Clause
+PackageCopyrightText: Copyright 2011 Gary Court. All rights reserved.
 
 ##### Package representing the swagger-api/apidom-ls
 
@@ -3612,11 +2412,9 @@ PackageDownloadLocation: https://npm.pkg.github.com/download/@swagger-api/apidom
 FilesAnalyzed: false
 PackageChecksum: SHA256: 4889e5cf9509f51bf004b9c689ffe297b650ab33aad1fe65c621230b5104ca2b
 PackageHomePage: https://github.com/swagger-api/apidom#readme
-PackageLicenseConcluded: NOASSERTION
-PackageLicenseDeclared: NOASSERTION
-PackageCopyrightText: NOASSERTION
-PackageLicenseComments: NOASSERTION
-PackageComment: NOASSERTION
+PackageLicenseConcluded: Apache-2.0
+PackageLicenseDeclared: Apache-2.0
+PackageCopyrightText: Copyright 2020 SmartBear Software Inc.
 
 ##### Package representing the swagger-api/apidom-reference
 
@@ -3628,43 +2426,9 @@ PackageDownloadLocation: https://www.npmjs.com/package/swagger-api/apidom-refere
 FilesAnalyzed: false
 PackageChecksum: SHA256: 0d5d09f31e474fb0570cd170cc56f414dd1b8f81fa7e8e36a5038726e140bfac
 PackageHomePage: https://github.com/swagger-api/apidom#readme
-PackageLicenseConcluded: NOASSERTION
-PackageLicenseDeclared: NOASSERTION
-PackageCopyrightText: NOASSERTION
-PackageLicenseComments: NOASSERTION
-PackageComment: NOASSERTION
-
-##### Package representing the swagger-api/apidom-reference
-
-PackageName: swagger-api/apidom-reference
-SPDXID: SPDXRef-Package-swagger-api.apidom-reference-0.29.0
-PackageVersion: 0.29.0
-PackageSupplier: Organization: swagger-api/apidom-reference
-PackageDownloadLocation: https://npm.pkg.github.com/download/@swagger-api/apidom-reference/0.29.0/5b41e1cdeb9f121c94f6465c9ff8cb758099c8d26b8473682b435d8a55fd9f90
-FilesAnalyzed: false
-PackageChecksum: SHA256: 0d5d09f31e474fb0570cd170cc56f414dd1b8f81fa7e8e36a5038726e140bfac
-PackageHomePage: https://github.com/swagger-api/apidom#readme
-PackageLicenseConcluded: NOASSERTION
-PackageLicenseDeclared: NOASSERTION
-PackageCopyrightText: NOASSERTION
-PackageLicenseComments: NOASSERTION
-PackageComment: NOASSERTION
-
-##### Package representing the stampit
-
-PackageName: stampit
-SPDXID: SPDXRef-Package-stampit-4.3.2
-PackageVersion: 4.3.2
-PackageSupplier: Organization: stampit
-PackageDownloadLocation: https://www.npmjs.com/package/stampit/v/4.3.2
-FilesAnalyzed: false
-PackageChecksum: SHA256: e38985a9ef176043566db81d4c74c0c08fa444dcaab33e3ff84d88157bee42d1
-PackageHomePage: https://stampit.js.org
-PackageLicenseConcluded: NOASSERTION
-PackageLicenseDeclared: NOASSERTION
-PackageCopyrightText: NOASSERTION
-PackageLicenseComments: NOASSERTION
-PackageComment: NOASSERTION
+PackageLicenseConcluded: Apache-2.0
+PackageLicenseDeclared: Apache-2.0
+PackageCopyrightText: Copyright 2020 SmartBear Software Inc.
 
 ##### Package representing the stampit
 
@@ -3676,27 +2440,9 @@ PackageDownloadLocation: https://registry.npmjs.org/stampit/-/stampit-4.3.2.tgz
 FilesAnalyzed: false
 PackageChecksum: SHA256: e38985a9ef176043566db81d4c74c0c08fa444dcaab33e3ff84d88157bee42d1
 PackageHomePage: https://stampit.js.org
-PackageLicenseConcluded: NOASSERTION
-PackageLicenseDeclared: NOASSERTION
-PackageCopyrightText: NOASSERTION
-PackageLicenseComments: NOASSERTION
-PackageComment: NOASSERTION
-
-##### Package representing the loose-envify
-
-PackageName: loose-envify
-SPDXID: SPDXRef-Package-loose-envify-1.0.0
-PackageVersion: 1.0.0
-PackageSupplier: Organization: loose-envify
-PackageDownloadLocation: https://www.npmjs.com/package/loose-envify/v/1.0.0
-FilesAnalyzed: false
-PackageChecksum: SHA256: 3654c5f0ab7e9c9ccf05cdffc6dc92e7b5c11f5c0df84ae6dff71c01eb0b03d2
-PackageHomePage: https://github.com/zertosh/loose-envify
-PackageLicenseConcluded: NOASSERTION
-PackageLicenseDeclared: NOASSERTION
-PackageCopyrightText: NOASSERTION
-PackageLicenseComments: NOASSERTION
-PackageComment: NOASSERTION
+PackageLicenseConcluded: MIT
+PackageLicenseDeclared: MIT
+PackageCopyrightText: Copyright (c) 2013 Eric Elliott.
 
 ##### Package representing the loose-envify
 
@@ -3708,59 +2454,9 @@ PackageDownloadLocation: https://registry.npmjs.org/loose-envify/-/loose-envify-
 FilesAnalyzed: false
 PackageChecksum: SHA256: 3654c5f0ab7e9c9ccf05cdffc6dc92e7b5c11f5c0df84ae6dff71c01eb0b03d2
 PackageHomePage: https://github.com/zertosh/loose-envify
-PackageLicenseConcluded: NOASSERTION
-PackageLicenseDeclared: NOASSERTION
-PackageCopyrightText: NOASSERTION
-PackageLicenseComments: NOASSERTION
-PackageComment: NOASSERTION
-
-##### Package representing the loose-envify
-
-PackageName: loose-envify
-SPDXID: SPDXRef-Package-loose-envify-1.1.0
-PackageVersion: 1.1.0
-PackageSupplier: Organization: loose-envify
-PackageDownloadLocation: https://www.npmjs.com/package/loose-envify/v/1.1.0
-FilesAnalyzed: false
-PackageChecksum: SHA256: 3654c5f0ab7e9c9ccf05cdffc6dc92e7b5c11f5c0df84ae6dff71c01eb0b03d2
-PackageHomePage: https://github.com/zertosh/loose-envify
-PackageLicenseConcluded: NOASSERTION
-PackageLicenseDeclared: NOASSERTION
-PackageCopyrightText: NOASSERTION
-PackageLicenseComments: NOASSERTION
-PackageComment: NOASSERTION
-
-##### Package representing the loose-envify
-
-PackageName: loose-envify
-SPDXID: SPDXRef-Package-loose-envify-1.4.0
-PackageVersion: 1.4.0
-PackageSupplier: Organization: loose-envify
-PackageDownloadLocation: https://www.npmjs.com/package/loose-envify/v/1.4.0
-FilesAnalyzed: false
-PackageChecksum: SHA256: 3654c5f0ab7e9c9ccf05cdffc6dc92e7b5c11f5c0df84ae6dff71c01eb0b03d2
-PackageHomePage: https://github.com/zertosh/loose-envify
-PackageLicenseConcluded: NOASSERTION
-PackageLicenseDeclared: NOASSERTION
-PackageCopyrightText: NOASSERTION
-PackageLicenseComments: NOASSERTION
-PackageComment: NOASSERTION
-
-##### Package representing the string_decoder
-
-PackageName: string_decoder
-SPDXID: SPDXRef-Package-string-decoder-1.1.1
-PackageVersion: 1.1.1
-PackageSupplier: Organization: string_decoder
-PackageDownloadLocation: https://www.npmjs.com/package/string_decoder/v/1.1.1
-FilesAnalyzed: false
-PackageChecksum: SHA256: 5d05f50f272769a7bf199271caca9d1ad194f68858f2ceddfa22661fd585ebf6
-PackageHomePage: https://github.com/nodejs/string_decoder
-PackageLicenseConcluded: NOASSERTION
-PackageLicenseDeclared: NOASSERTION
-PackageCopyrightText: NOASSERTION
-PackageLicenseComments: NOASSERTION
-PackageComment: NOASSERTION
+PackageLicenseConcluded: MIT
+PackageLicenseDeclared: MIT
+PackageCopyrightText: Copyright (c) 2015 Andres Suarez <zertosh@gmail.com>
 
 ##### Package representing the string_decoder
 
@@ -3772,11 +2468,9 @@ PackageDownloadLocation: https://registry.npmjs.org/string_decoder/-/string_deco
 FilesAnalyzed: false
 PackageChecksum: SHA256: 5d05f50f272769a7bf199271caca9d1ad194f68858f2ceddfa22661fd585ebf6
 PackageHomePage: https://github.com/nodejs/string_decoder
-PackageLicenseConcluded: NOASSERTION
-PackageLicenseDeclared: NOASSERTION
-PackageCopyrightText: NOASSERTION
-PackageLicenseComments: NOASSERTION
-PackageComment: NOASSERTION
+PackageLicenseConcluded: MIT
+PackageLicenseDeclared: MIT
+PackageCopyrightText: Copyright Node.js contributors. All rights reserved.
 
 ##### Package representing the brace-expansion
 
@@ -3788,43 +2482,9 @@ PackageDownloadLocation: https://registry.npmjs.org/brace-expansion/-/brace-expa
 FilesAnalyzed: false
 PackageChecksum: SHA256: a1638f39545ab4c4cb847a9bf8125973bdcf934efda6ae4f77884f1c589c4555
 PackageHomePage: https://github.com/juliangruber/brace-expansion
-PackageLicenseConcluded: NOASSERTION
-PackageLicenseDeclared: NOASSERTION
-PackageCopyrightText: NOASSERTION
-PackageLicenseComments: NOASSERTION
-PackageComment: NOASSERTION
-
-##### Package representing the brace-expansion
-
-PackageName: brace-expansion
-SPDXID: SPDXRef-Package-brace-expansion-1.1.7
-PackageVersion: 1.1.7
-PackageSupplier: Organization: brace-expansion
-PackageDownloadLocation: https://www.npmjs.com/package/brace-expansion/v/1.1.7
-FilesAnalyzed: false
-PackageChecksum: SHA256: a1638f39545ab4c4cb847a9bf8125973bdcf934efda6ae4f77884f1c589c4555
-PackageHomePage: https://github.com/juliangruber/brace-expansion
-PackageLicenseConcluded: NOASSERTION
-PackageLicenseDeclared: NOASSERTION
-PackageCopyrightText: NOASSERTION
-PackageLicenseComments: NOASSERTION
-PackageComment: NOASSERTION
-
-##### Package representing the domexception
-
-PackageName: domexception
-SPDXID: SPDXRef-Package-domexception-2.0.1
-PackageVersion: 2.0.1
-PackageSupplier: Organization: domexception
-PackageDownloadLocation: https://www.npmjs.com/package/domexception/v/2.0.1
-FilesAnalyzed: false
-PackageChecksum: SHA256: c7175b4ba139f120fde4834d196de7b1810320d0ed9d4abb87d62a9bf758f42e
-PackageHomePage: https://github.com/jsdom/domexception#readme
-PackageLicenseConcluded: NOASSERTION
-PackageLicenseDeclared: NOASSERTION
-PackageCopyrightText: NOASSERTION
-PackageLicenseComments: NOASSERTION
-PackageComment: NOASSERTION
+PackageLicenseConcluded: MIT
+PackageLicenseDeclared: MIT
+PackageCopyrightText: Copyright (c) 2013 Julian Gruber <julian@juliangruber.com>
 
 ##### Package representing the domexception
 
@@ -3836,27 +2496,9 @@ PackageDownloadLocation: https://registry.npmjs.org/domexception/-/domexception-
 FilesAnalyzed: false
 PackageChecksum: SHA256: c7175b4ba139f120fde4834d196de7b1810320d0ed9d4abb87d62a9bf758f42e
 PackageHomePage: https://github.com/jsdom/domexception#readme
-PackageLicenseConcluded: NOASSERTION
-PackageLicenseDeclared: NOASSERTION
-PackageCopyrightText: NOASSERTION
-PackageLicenseComments: NOASSERTION
-PackageComment: NOASSERTION
-
-##### Package representing the remarkable
-
-PackageName: remarkable
-SPDXID: SPDXRef-Package-remarkable-2.0.1
-PackageVersion: 2.0.1
-PackageSupplier: Organization: remarkable
-PackageDownloadLocation: https://www.npmjs.com/package/remarkable/v/2.0.1
-FilesAnalyzed: false
-PackageChecksum: SHA256: 113b67b03b8bd3ebb17535763e14fa7e95ec0c3e4725566e1c3c48c69122a657
-PackageHomePage: https://github.com/jonschlinkert/remarkable
-PackageLicenseConcluded: NOASSERTION
-PackageLicenseDeclared: NOASSERTION
-PackageCopyrightText: NOASSERTION
-PackageLicenseComments: NOASSERTION
-PackageComment: NOASSERTION
+PackageLicenseConcluded: MIT
+PackageLicenseDeclared: MIT
+PackageCopyrightText: Copyright © 2017 Domenic Denicola
 
 ##### Package representing the remarkable
 
@@ -3868,11 +2510,9 @@ PackageDownloadLocation: https://registry.npmjs.org/remarkable/-/remarkable-2.0.
 FilesAnalyzed: false
 PackageChecksum: SHA256: 113b67b03b8bd3ebb17535763e14fa7e95ec0c3e4725566e1c3c48c69122a657
 PackageHomePage: https://github.com/jonschlinkert/remarkable
-PackageLicenseConcluded: NOASSERTION
-PackageLicenseDeclared: NOASSERTION
-PackageCopyrightText: NOASSERTION
-PackageLicenseComments: NOASSERTION
-PackageComment: NOASSERTION
+PackageLicenseConcluded: MIT
+PackageLicenseDeclared: MIT
+PackageCopyrightText: Copyright (c) 2014-2016, Jon Schlinkert, Copyright (c) 2014 Jon Schlinkert, Vitaly Puzrin.
 
 ##### Package representing the signal-exit
 
@@ -3884,27 +2524,9 @@ PackageDownloadLocation: https://registry.npmjs.org/signal-exit/-/signal-exit-3.
 FilesAnalyzed: false
 PackageChecksum: SHA256: b3518748b6d3b6a800c4cd92fb1b55a15662c43798877325aa60a10478860851
 PackageHomePage: https://github.com/tapjs/signal-exit
-PackageLicenseConcluded: NOASSERTION
-PackageLicenseDeclared: NOASSERTION
-PackageCopyrightText: NOASSERTION
-PackageLicenseComments: NOASSERTION
-PackageComment: NOASSERTION
-
-##### Package representing the signal-exit
-
-PackageName: signal-exit
-SPDXID: SPDXRef-Package-signal-exit-3.0.0
-PackageVersion: 3.0.0
-PackageSupplier: Organization: signal-exit
-PackageDownloadLocation: https://www.npmjs.com/package/signal-exit/v/3.0.0
-FilesAnalyzed: false
-PackageChecksum: SHA256: b3518748b6d3b6a800c4cd92fb1b55a15662c43798877325aa60a10478860851
-PackageHomePage: https://github.com/tapjs/signal-exit
-PackageLicenseConcluded: NOASSERTION
-PackageLicenseDeclared: NOASSERTION
-PackageCopyrightText: NOASSERTION
-PackageLicenseComments: NOASSERTION
-PackageComment: NOASSERTION
+PackageLicenseConcluded: ISC
+PackageLicenseDeclared: ISC
+PackageCopyrightText: Copyright (c) 2015, Contributors
 
 ##### Package representing the punycode
 
@@ -3916,11 +2538,9 @@ PackageDownloadLocation: https://registry.npmjs.org/punycode/-/punycode-1.3.2.tg
 FilesAnalyzed: false
 PackageChecksum: SHA256: b8b082c81c4d3841a236651b6129f42dd7566820db3d6db32d7c4521f1acb718
 PackageHomePage: https://mths.be/punycode
-PackageLicenseConcluded: NOASSERTION
-PackageLicenseDeclared: NOASSERTION
-PackageCopyrightText: NOASSERTION
-PackageLicenseComments: NOASSERTION
-PackageComment: NOASSERTION
+PackageLicenseConcluded: MIT
+PackageLicenseDeclared: MIT
+PackageCopyrightText: Copyright Mathias Bynens <https://mathiasbynens.be/>
 
 ##### Package representing the punycode
 
@@ -3932,43 +2552,9 @@ PackageDownloadLocation: https://www.npmjs.com/package/punycode/v/2.1.1
 FilesAnalyzed: false
 PackageChecksum: SHA256: b8b082c81c4d3841a236651b6129f42dd7566820db3d6db32d7c4521f1acb718
 PackageHomePage: https://mths.be/punycode
-PackageLicenseConcluded: NOASSERTION
-PackageLicenseDeclared: NOASSERTION
-PackageCopyrightText: NOASSERTION
-PackageLicenseComments: NOASSERTION
-PackageComment: NOASSERTION
-
-##### Package representing the punycode
-
-PackageName: punycode
-SPDXID: SPDXRef-Package-punycode-2.1.0
-PackageVersion: 2.1.0
-PackageSupplier: Organization: punycode
-PackageDownloadLocation: https://www.npmjs.com/package/punycode/v/2.1.0
-FilesAnalyzed: false
-PackageChecksum: SHA256: b8b082c81c4d3841a236651b6129f42dd7566820db3d6db32d7c4521f1acb718
-PackageHomePage: https://mths.be/punycode
-PackageLicenseConcluded: NOASSERTION
-PackageLicenseDeclared: NOASSERTION
-PackageCopyrightText: NOASSERTION
-PackageLicenseComments: NOASSERTION
-PackageComment: NOASSERTION
-
-##### Package representing the punycode
-
-PackageName: punycode
-SPDXID: SPDXRef-Package-punycode-2.1.1
-PackageVersion: 2.1.1
-PackageSupplier: Organization: punycode
-PackageDownloadLocation: https://registry.npmjs.org/punycode/-/punycode-2.1.1.tgz
-FilesAnalyzed: false
-PackageChecksum: SHA256: b8b082c81c4d3841a236651b6129f42dd7566820db3d6db32d7c4521f1acb718
-PackageHomePage: https://mths.be/punycode
-PackageLicenseConcluded: NOASSERTION
-PackageLicenseDeclared: NOASSERTION
-PackageCopyrightText: NOASSERTION
-PackageLicenseComments: NOASSERTION
-PackageComment: NOASSERTION
+PackageLicenseConcluded: MIT
+PackageLicenseDeclared: MIT
+PackageCopyrightText: Copyright Mathias Bynens <https://mathiasbynens.be/>
 
 ##### Package representing the querystring
 
@@ -3980,27 +2566,9 @@ PackageDownloadLocation: https://registry.npmjs.org/querystring/-/querystring-0.
 FilesAnalyzed: false
 PackageChecksum: SHA256: a9d517a6c9b0736750bab2b00b42e848391bd20154c1493eafdb4357caea8660
 PackageHomePage: https://github.com/Gozala/querystring#readme
-PackageLicenseConcluded: NOASSERTION
-PackageLicenseDeclared: NOASSERTION
-PackageCopyrightText: NOASSERTION
-PackageLicenseComments: NOASSERTION
-PackageComment: NOASSERTION
-
-##### Package representing the levn
-
-PackageName: levn
-SPDXID: SPDXRef-Package-levn-0.3.0
-PackageVersion: 0.3.0
-PackageSupplier: Organization: levn
-PackageDownloadLocation: https://registry.npmjs.org/levn/-/levn-0.3.0.tgz
-FilesAnalyzed: false
-PackageChecksum: SHA256: 65ab85c0460a265b7946c151ad729d6fbb8662c52a3e72bdd12b46030549c24a
-PackageHomePage: https://github.com/gkz/levn
-PackageLicenseConcluded: NOASSERTION
-PackageLicenseDeclared: NOASSERTION
-PackageCopyrightText: NOASSERTION
-PackageLicenseComments: NOASSERTION
-PackageComment: NOASSERTION
+PackageLicenseConcluded: MIT
+PackageLicenseDeclared: MIT
+PackageCopyrightText: Copyright 2012 Irakli Gozalishvili. All rights reserved.
 
 ##### Package representing the levn
 
@@ -4012,11 +2580,9 @@ PackageDownloadLocation: https://www.npmjs.com/package/levn/v/0.3.0
 FilesAnalyzed: false
 PackageChecksum: SHA256: 65ab85c0460a265b7946c151ad729d6fbb8662c52a3e72bdd12b46030549c24a
 PackageHomePage: https://github.com/gkz/levn
-PackageLicenseConcluded: NOASSERTION
-PackageLicenseDeclared: NOASSERTION
-PackageCopyrightText: NOASSERTION
-PackageLicenseComments: NOASSERTION
-PackageComment: NOASSERTION
+PackageLicenseConcluded: MIT
+PackageLicenseDeclared: MIT
+PackageCopyrightText: Copyright (c) George Zahariev
 
 ##### Package representing the format
 
@@ -4028,43 +2594,10 @@ PackageDownloadLocation: https://registry.npmjs.org/format/-/format-0.2.2.tgz
 FilesAnalyzed: false
 PackageChecksum: SHA256: e904c9ccfa425ff0b055d2c533462314d35a529b055e8abe41d49bb46d827427
 PackageHomePage: https://samhuri.net/proj/format
-PackageLicenseConcluded: NOASSERTION
-PackageLicenseDeclared: NOASSERTION
-PackageCopyrightText: NOASSERTION
-PackageLicenseComments: NOASSERTION
-PackageComment: NOASSERTION
-
-##### Package representing the format
-
-PackageName: format
-SPDXID: SPDXRef-Package-format-0.2.0
-PackageVersion: 0.2.0
-PackageSupplier: Organization: format
-PackageDownloadLocation: https://www.npmjs.com/package/format/v/0.2.0
-FilesAnalyzed: false
-PackageChecksum: SHA256: e904c9ccfa425ff0b055d2c533462314d35a529b055e8abe41d49bb46d827427
-PackageHomePage: https://samhuri.net/proj/format
-PackageLicenseConcluded: NOASSERTION
-PackageLicenseDeclared: NOASSERTION
-PackageCopyrightText: NOASSERTION
-PackageLicenseComments: NOASSERTION
-PackageComment: NOASSERTION
-
-##### Package representing the word-wrap
-
-PackageName: word-wrap
-SPDXID: SPDXRef-Package-word-wrap-1.2.3
-PackageVersion: 1.2.3
-PackageSupplier: Organization: word-wrap
-PackageDownloadLocation: https://www.npmjs.com/package/word-wrap/v/1.2.3
-FilesAnalyzed: false
-PackageChecksum: SHA256: 6a2f29e491e1bb9d7d12cb5130e686d32556a7f233a553641ae75c4f488de141
-PackageHomePage: https://github.com/jonschlinkert/word-wrap
-PackageLicenseConcluded: NOASSERTION
-PackageLicenseDeclared: NOASSERTION
-PackageCopyrightText: NOASSERTION
-PackageLicenseComments: NOASSERTION
-PackageComment: NOASSERTION
+PackageLicenseConcluded: MIT
+PackageLicenseDeclared: MIT
+PackageCopyrightText: Copyright 2010 - 2014 Sami Samhuri sami@samhuri.net
+PackageLicenseComments: License text not present in npm package; possible PROBLEM
 
 ##### Package representing the word-wrap
 
@@ -4076,27 +2609,9 @@ PackageDownloadLocation: https://registry.npmjs.org/word-wrap/-/word-wrap-1.2.3.
 FilesAnalyzed: false
 PackageChecksum: SHA256: 6a2f29e491e1bb9d7d12cb5130e686d32556a7f233a553641ae75c4f488de141
 PackageHomePage: https://github.com/jonschlinkert/word-wrap
-PackageLicenseConcluded: NOASSERTION
-PackageLicenseDeclared: NOASSERTION
-PackageCopyrightText: NOASSERTION
-PackageLicenseComments: NOASSERTION
-PackageComment: NOASSERTION
-
-##### Package representing the axios
-
-PackageName: axios
-SPDXID: SPDXRef-Package-axios-0.27.2
-PackageVersion: 0.27.2
-PackageSupplier: Organization: axios
-PackageDownloadLocation: https://registry.npmjs.org/axios/-/axios-0.27.2.tgz
-FilesAnalyzed: false
-PackageChecksum: SHA256: b45312c3f297dfaa5e2c0bd5760e12c29e9cb7812a74f6afa5d4d44448556236
-PackageHomePage: https://axios-http.com
-PackageLicenseConcluded: NOASSERTION
-PackageLicenseDeclared: NOASSERTION
-PackageCopyrightText: NOASSERTION
-PackageLicenseComments: NOASSERTION
-PackageComment: NOASSERTION
+PackageLicenseConcluded: MIT
+PackageLicenseDeclared: MIT
+PackageCopyrightText: Copyright (c) 2014-2017, Jon Schlinkert
 
 ##### Package representing the axios
 
@@ -4108,11 +2623,9 @@ PackageDownloadLocation: https://www.npmjs.com/package/axios/v/0.27.2
 FilesAnalyzed: false
 PackageChecksum: SHA256: b45312c3f297dfaa5e2c0bd5760e12c29e9cb7812a74f6afa5d4d44448556236
 PackageHomePage: https://axios-http.com
-PackageLicenseConcluded: NOASSERTION
-PackageLicenseDeclared: NOASSERTION
-PackageCopyrightText: NOASSERTION
-PackageLicenseComments: NOASSERTION
-PackageComment: NOASSERTION
+PackageLicenseConcluded: MIT
+PackageLicenseDeclared: MIT
+PackageCopyrightText: Copyright (c) 2014-present Matt Zabriskie
 
 ##### Package representing the primer/octicons-react
 
@@ -4124,27 +2637,9 @@ PackageDownloadLocation: https://registry.npmjs.org/@primer/octicons-react/-/oct
 FilesAnalyzed: false
 PackageChecksum: SHA256: 6b2158e4d38862a4793fb29b16f5bd4e9bf87b44d2755a0e9772eea5058bdab1
 PackageHomePage: https://primer.style/octicons
-PackageLicenseConcluded: NOASSERTION
-PackageLicenseDeclared: NOASSERTION
-PackageCopyrightText: NOASSERTION
-PackageLicenseComments: NOASSERTION
-PackageComment: NOASSERTION
-
-##### Package representing the babel-plugin-syntax-jsx
-
-PackageName: babel-plugin-syntax-jsx
-SPDXID: SPDXRef-Package-babel-plugin-syntax-jsx-6.18.0
-PackageVersion: 6.18.0
-PackageSupplier: Organization: babel-plugin-syntax-jsx
-PackageDownloadLocation: https://registry.npmjs.org/babel-plugin-syntax-jsx/-/babel-plugin-syntax-jsx-6.18.0.tgz
-FilesAnalyzed: false
-PackageChecksum: SHA256: 949b6040c4fac43c905ba0cb1b7b01c13cef22b16fec48c88f4469853c52e821
-PackageHomePage: NOASSERTION
-PackageLicenseConcluded: NOASSERTION
-PackageLicenseDeclared: NOASSERTION
-PackageCopyrightText: NOASSERTION
-PackageLicenseComments: NOASSERTION
-PackageComment: NOASSERTION
+PackageLicenseConcluded: MIT
+PackageLicenseDeclared: MIT
+PackageCopyrightText: Copyright (c) 2022 GitHub Inc.
 
 ##### Package representing the babel-plugin-syntax-jsx
 
@@ -4156,27 +2651,10 @@ PackageDownloadLocation: https://www.npmjs.com/package/babel-plugin-syntax-jsx/v
 FilesAnalyzed: false
 PackageChecksum: SHA256: 949b6040c4fac43c905ba0cb1b7b01c13cef22b16fec48c88f4469853c52e821
 PackageHomePage: NOASSERTION
-PackageLicenseConcluded: NOASSERTION
-PackageLicenseDeclared: NOASSERTION
-PackageCopyrightText: NOASSERTION
-PackageLicenseComments: NOASSERTION
-PackageComment: NOASSERTION
-
-##### Package representing the toggle-selection
-
-PackageName: toggle-selection
-SPDXID: SPDXRef-Package-toggle-selection-1.0.6
-PackageVersion: 1.0.6
-PackageSupplier: Organization: toggle-selection
-PackageDownloadLocation: https://www.npmjs.com/package/toggle-selection/v/1.0.6
-FilesAnalyzed: false
-PackageChecksum: SHA256: 9ad0bcdebb4490f73e77c62eadbcf21e06569debaed9e1428393f15494178e09
-PackageHomePage: https://github.com/sudodoki/toggle-selection#readme
-PackageLicenseConcluded: NOASSERTION
-PackageLicenseDeclared: NOASSERTION
-PackageCopyrightText: NOASSERTION
-PackageLicenseComments: NOASSERTION
-PackageComment: NOASSERTION
+PackageLicenseConcluded: MIT
+PackageLicenseDeclared: MIT
+PackageCopyrightText: Copyright 2015 Logan Smyth
+PackageLicenseComments: License text not present in npm package; possible PROBLEM
 
 ##### Package representing the toggle-selection
 
@@ -4188,27 +2666,10 @@ PackageDownloadLocation: https://registry.npmjs.org/toggle-selection/-/toggle-se
 FilesAnalyzed: false
 PackageChecksum: SHA256: 9ad0bcdebb4490f73e77c62eadbcf21e06569debaed9e1428393f15494178e09
 PackageHomePage: https://github.com/sudodoki/toggle-selection#readme
-PackageLicenseConcluded: NOASSERTION
-PackageLicenseDeclared: NOASSERTION
-PackageCopyrightText: NOASSERTION
-PackageLicenseComments: NOASSERTION
-PackageComment: NOASSERTION
-
-##### Package representing the dom-helpers
-
-PackageName: dom-helpers
-SPDXID: SPDXRef-Package-dom-helpers-5.0.1
-PackageVersion: 5.0.1
-PackageSupplier: Organization: dom-helpers
-PackageDownloadLocation: https://www.npmjs.com/package/dom-helpers/v/5.0.1
-FilesAnalyzed: false
-PackageChecksum: SHA256: 5ea9931498df3152c00c070599f6752b415951d32e86a38ea1eb12d1aca3ce2c
-PackageHomePage: https://github.com/react-bootstrap/dom-helpers#readme
-PackageLicenseConcluded: NOASSERTION
-PackageLicenseDeclared: NOASSERTION
-PackageCopyrightText: NOASSERTION
-PackageLicenseComments: NOASSERTION
-PackageComment: NOASSERTION
+PackageLicenseConcluded: MIT
+PackageLicenseDeclared: MIT
+PackageCopyrightText: Copyright 2018 Logan Smyth
+PackageLicenseComments: License text not present in npm package; possible PROBLEM
 
 ##### Package representing the dom-helpers
 
@@ -4220,11 +2681,9 @@ PackageDownloadLocation: https://registry.npmjs.org/dom-helpers/-/dom-helpers-5.
 FilesAnalyzed: false
 PackageChecksum: SHA256: 5ea9931498df3152c00c070599f6752b415951d32e86a38ea1eb12d1aca3ce2c
 PackageHomePage: https://github.com/react-bootstrap/dom-helpers#readme
-PackageLicenseConcluded: NOASSERTION
-PackageLicenseDeclared: NOASSERTION
-PackageCopyrightText: NOASSERTION
-PackageLicenseComments: NOASSERTION
-PackageComment: NOASSERTION
+PackageLicenseConcluded: MIT
+PackageLicenseDeclared: MIT
+PackageCopyrightText: Copyright (c) 2015 Jason Quense
 
 ##### Package representing the jss-plugin-default-unit
 
@@ -4236,43 +2695,9 @@ PackageDownloadLocation: https://registry.npmjs.org/jss-plugin-default-unit/-/js
 FilesAnalyzed: false
 PackageChecksum: SHA256: 9603db3f5ca52ca0ebfe67efba6769dbce23c6d50c06140322ec8c6d4e796cf7
 PackageHomePage: https://cssinjs.org/jss-default-unit
-PackageLicenseConcluded: NOASSERTION
-PackageLicenseDeclared: NOASSERTION
-PackageCopyrightText: NOASSERTION
-PackageLicenseComments: NOASSERTION
-PackageComment: NOASSERTION
-
-##### Package representing the jss-plugin-default-unit
-
-PackageName: jss-plugin-default-unit
-SPDXID: SPDXRef-Package-jss-plugin-default-unit-10.5.1
-PackageVersion: 10.5.1
-PackageSupplier: Organization: jss-plugin-default-unit
-PackageDownloadLocation: https://www.npmjs.com/package/jss-plugin-default-unit/v/10.5.1
-FilesAnalyzed: false
-PackageChecksum: SHA256: 9603db3f5ca52ca0ebfe67efba6769dbce23c6d50c06140322ec8c6d4e796cf7
-PackageHomePage: https://cssinjs.org/jss-default-unit
-PackageLicenseConcluded: NOASSERTION
-PackageLicenseDeclared: NOASSERTION
-PackageCopyrightText: NOASSERTION
-PackageLicenseComments: NOASSERTION
-PackageComment: NOASSERTION
-
-##### Package representing the fs-constants
-
-PackageName: fs-constants
-SPDXID: SPDXRef-Package-fs-constants-1.0.0
-PackageVersion: 1.0.0
-PackageSupplier: Organization: fs-constants
-PackageDownloadLocation: https://registry.npmjs.org/fs-constants/-/fs-constants-1.0.0.tgz
-FilesAnalyzed: false
-PackageChecksum: SHA256: cbcbac9200b923f7dbdecfe2a0ac180508e569b3d8bb43ecfa4948ac6337a300
-PackageHomePage: https://github.com/mafintosh/fs-constants
-PackageLicenseConcluded: NOASSERTION
-PackageLicenseDeclared: NOASSERTION
-PackageCopyrightText: NOASSERTION
-PackageLicenseComments: NOASSERTION
-PackageComment: NOASSERTION
+PackageLicenseConcluded: MIT
+PackageLicenseDeclared: MIT
+PackageCopyrightText: Copyright (c) 2014-present Oleg Isonen (Slobodskoi) & contributors
 
 ##### Package representing the fs-constants
 
@@ -4284,11 +2709,9 @@ PackageDownloadLocation: https://www.npmjs.com/package/fs-constants/v/1.0.0
 FilesAnalyzed: false
 PackageChecksum: SHA256: cbcbac9200b923f7dbdecfe2a0ac180508e569b3d8bb43ecfa4948ac6337a300
 PackageHomePage: https://github.com/mafintosh/fs-constants
-PackageLicenseConcluded: NOASSERTION
-PackageLicenseDeclared: NOASSERTION
-PackageCopyrightText: NOASSERTION
-PackageLicenseComments: NOASSERTION
-PackageComment: NOASSERTION
+PackageLicenseConcluded: MIT
+PackageLicenseDeclared: MIT
+PackageCopyrightText: Copyright (c) 2018 Mathias Buus
 
 ##### Package representing the argparse
 
@@ -4300,11 +2723,9 @@ PackageDownloadLocation: https://registry.npmjs.org/argparse/-/argparse-2.0.1.tg
 FilesAnalyzed: false
 PackageChecksum: SHA256: ab25a67072b917611b3765a8f1cf2d9c31c6fec27ee308f6d6b605fa02d6b29a
 PackageHomePage: https://github.com/nodeca/argparse#readme
-PackageLicenseConcluded: NOASSERTION
-PackageLicenseDeclared: NOASSERTION
-PackageCopyrightText: NOASSERTION
-PackageLicenseComments: NOASSERTION
-PackageComment: NOASSERTION
+PackageLicenseConcluded: Python-2.0
+PackageLicenseDeclared: Python-2.0
+PackageCopyrightText: Copyright Vitaly Puzrin
 
 ##### Package representing the argparse
 
@@ -4316,43 +2737,9 @@ PackageDownloadLocation: https://registry.npmjs.org/argparse/-/argparse-1.0.10.t
 FilesAnalyzed: false
 PackageChecksum: SHA256: ab25a67072b917611b3765a8f1cf2d9c31c6fec27ee308f6d6b605fa02d6b29a
 PackageHomePage: https://github.com/nodeca/argparse#readme
-PackageLicenseConcluded: NOASSERTION
-PackageLicenseDeclared: NOASSERTION
-PackageCopyrightText: NOASSERTION
-PackageLicenseComments: NOASSERTION
-PackageComment: NOASSERTION
-
-##### Package representing the argparse
-
-PackageName: argparse
-SPDXID: SPDXRef-Package-argparse-2.0.1
-PackageVersion: 2.0.1
-PackageSupplier: Organization: argparse
-PackageDownloadLocation: https://www.npmjs.com/package/argparse/v/2.0.1
-FilesAnalyzed: false
-PackageChecksum: SHA256: ab25a67072b917611b3765a8f1cf2d9c31c6fec27ee308f6d6b605fa02d6b29a
-PackageHomePage: https://github.com/nodeca/argparse#readme
-PackageLicenseConcluded: NOASSERTION
-PackageLicenseDeclared: NOASSERTION
-PackageCopyrightText: NOASSERTION
-PackageLicenseComments: NOASSERTION
-PackageComment: NOASSERTION
-
-##### Package representing the argparse
-
-PackageName: argparse
-SPDXID: SPDXRef-Package-argparse-1.0.10
-PackageVersion: 1.0.10
-PackageSupplier: Organization: argparse
-PackageDownloadLocation: https://www.npmjs.com/package/argparse/v/1.0.10
-FilesAnalyzed: false
-PackageChecksum: SHA256: ab25a67072b917611b3765a8f1cf2d9c31c6fec27ee308f6d6b605fa02d6b29a
-PackageHomePage: https://github.com/nodeca/argparse#readme
-PackageLicenseConcluded: NOASSERTION
-PackageLicenseDeclared: NOASSERTION
-PackageCopyrightText: NOASSERTION
-PackageLicenseComments: NOASSERTION
-PackageComment: NOASSERTION
+PackageLicenseConcluded: Python-2.0
+PackageLicenseDeclared: Python-2.0
+PackageCopyrightText: Copyright Vitaly Puzrin
 
 ##### Package representing the jsdevtools/ono
 
@@ -4364,27 +2751,9 @@ PackageDownloadLocation: https://registry.npmjs.org/@jsdevtools/ono/-/ono-7.1.3.
 FilesAnalyzed: false
 PackageChecksum: SHA256: 18f00b2a877eebae4a2c13ee191db3d6855121085bdcf59e69bd9eef96d6e281
 PackageHomePage: https://jstools.dev/ono
-PackageLicenseConcluded: NOASSERTION
-PackageLicenseDeclared: NOASSERTION
-PackageCopyrightText: NOASSERTION
-PackageLicenseComments: NOASSERTION
-PackageComment: NOASSERTION
-
-##### Package representing the jsdevtools/ono
-
-PackageName: jsdevtools/ono
-SPDXID: SPDXRef-Package-jsdevtools.ono-7.1.3
-PackageVersion: 7.1.3
-PackageSupplier: Organization: jsdevtools/ono
-PackageDownloadLocation: https://www.npmjs.com/package/jsdevtools/ono/v/7.1.3
-FilesAnalyzed: false
-PackageChecksum: SHA256: 18f00b2a877eebae4a2c13ee191db3d6855121085bdcf59e69bd9eef96d6e281
-PackageHomePage: https://jstools.dev/ono
-PackageLicenseConcluded: NOASSERTION
-PackageLicenseDeclared: NOASSERTION
-PackageCopyrightText: NOASSERTION
-PackageLicenseComments: NOASSERTION
-PackageComment: NOASSERTION
+PackageLicenseConcluded: MIT
+PackageLicenseDeclared: MIT
+PackageCopyrightText: Copyright (c) 2015 James Messinger
 
 ##### Package representing the end-of-stream
 
@@ -4396,59 +2765,9 @@ PackageDownloadLocation: https://registry.npmjs.org/end-of-stream/-/end-of-strea
 FilesAnalyzed: false
 PackageChecksum: SHA256: 0d1fe38df61a19118439b6d3d8f997f87f03c43704aab8538455092dd36e5a41
 PackageHomePage: https://github.com/mafintosh/end-of-stream
-PackageLicenseConcluded: NOASSERTION
-PackageLicenseDeclared: NOASSERTION
-PackageCopyrightText: NOASSERTION
-PackageLicenseComments: NOASSERTION
-PackageComment: NOASSERTION
-
-##### Package representing the end-of-stream
-
-PackageName: end-of-stream
-SPDXID: SPDXRef-Package-end-of-stream-1.1.0
-PackageVersion: 1.1.0
-PackageSupplier: Organization: end-of-stream
-PackageDownloadLocation: https://www.npmjs.com/package/end-of-stream/v/1.1.0
-FilesAnalyzed: false
-PackageChecksum: SHA256: 0d1fe38df61a19118439b6d3d8f997f87f03c43704aab8538455092dd36e5a41
-PackageHomePage: https://github.com/mafintosh/end-of-stream
-PackageLicenseConcluded: NOASSERTION
-PackageLicenseDeclared: NOASSERTION
-PackageCopyrightText: NOASSERTION
-PackageLicenseComments: NOASSERTION
-PackageComment: NOASSERTION
-
-##### Package representing the end-of-stream
-
-PackageName: end-of-stream
-SPDXID: SPDXRef-Package-end-of-stream-1.4.1
-PackageVersion: 1.4.1
-PackageSupplier: Organization: end-of-stream
-PackageDownloadLocation: https://www.npmjs.com/package/end-of-stream/v/1.4.1
-FilesAnalyzed: false
-PackageChecksum: SHA256: 0d1fe38df61a19118439b6d3d8f997f87f03c43704aab8538455092dd36e5a41
-PackageHomePage: https://github.com/mafintosh/end-of-stream
-PackageLicenseConcluded: NOASSERTION
-PackageLicenseDeclared: NOASSERTION
-PackageCopyrightText: NOASSERTION
-PackageLicenseComments: NOASSERTION
-PackageComment: NOASSERTION
-
-##### Package representing the parse-entities
-
-PackageName: parse-entities
-SPDXID: SPDXRef-Package-parse-entities-2.0.0
-PackageVersion: 2.0.0
-PackageSupplier: Organization: parse-entities
-PackageDownloadLocation: https://registry.npmjs.org/parse-entities/-/parse-entities-2.0.0.tgz
-FilesAnalyzed: false
-PackageChecksum: SHA256: c8e0d351de29cabaf44e0c979525f954ac9d1f69fe2314cd7bbbc3f0e3c128b9
-PackageHomePage: https://github.com/wooorm/parse-entities#readme
-PackageLicenseConcluded: NOASSERTION
-PackageLicenseDeclared: NOASSERTION
-PackageCopyrightText: NOASSERTION
-PackageLicenseComments: NOASSERTION
-PackageComment: NOASSERTION
+PackageLicenseConcluded: MIT
+PackageLicenseDeclared: MIT
+PackageCopyrightText: Copyright (c) 2014 Mathias Buus
 
 ##### Package representing the parse-entities
 
@@ -4460,11 +2779,9 @@ PackageDownloadLocation: https://www.npmjs.com/package/parse-entities/v/2.0.0
 FilesAnalyzed: false
 PackageChecksum: SHA256: c8e0d351de29cabaf44e0c979525f954ac9d1f69fe2314cd7bbbc3f0e3c128b9
 PackageHomePage: https://github.com/wooorm/parse-entities#readme
-PackageLicenseConcluded: NOASSERTION
-PackageLicenseDeclared: NOASSERTION
-PackageCopyrightText: NOASSERTION
-PackageLicenseComments: NOASSERTION
-PackageComment: NOASSERTION
+PackageLicenseConcluded: MIT
+PackageLicenseDeclared: MIT
+PackageCopyrightText: Copyright (c) 2015 Titus Wormer <mailto:tituswormer@gmail.com>
 
 ##### Package representing the base64-js
 
@@ -4492,43 +2809,9 @@ PackageDownloadLocation: https://www.npmjs.com/package/base64-js/v/1.5.1
 FilesAnalyzed: false
 PackageChecksum: SHA256: 4571d27d07cbb513c284c114057d3c5b6ad930b5e11520a96bd01327b5593772
 PackageHomePage: https://github.com/beatgammit/base64-js
-PackageLicenseConcluded: NOASSERTION
-PackageLicenseDeclared: NOASSERTION
-PackageCopyrightText: NOASSERTION
-PackageLicenseComments: NOASSERTION
-PackageComment: NOASSERTION
-
-##### Package representing the base64-js
-
-PackageName: base64-js
-SPDXID: SPDXRef-Package-base64-js-1.5.1
-PackageVersion: 1.5.1
-PackageSupplier: Organization: base64-js
-PackageDownloadLocation: https://registry.npmjs.org/base64-js/-/base64-js-1.5.1.tgz
-FilesAnalyzed: false
-PackageChecksum: SHA256: 4571d27d07cbb513c284c114057d3c5b6ad930b5e11520a96bd01327b5593772
-PackageHomePage: https://github.com/beatgammit/base64-js
-PackageLicenseConcluded: NOASSERTION
-PackageLicenseDeclared: NOASSERTION
-PackageCopyrightText: NOASSERTION
-PackageLicenseComments: NOASSERTION
-PackageComment: NOASSERTION
-
-##### Package representing the tiny-warning
-
-PackageName: tiny-warning
-SPDXID: SPDXRef-Package-tiny-warning-1.0.2
-PackageVersion: 1.0.2
-PackageSupplier: Organization: tiny-warning
-PackageDownloadLocation: https://www.npmjs.com/package/tiny-warning/v/1.0.2
-FilesAnalyzed: false
-PackageChecksum: SHA256: fd2624831e10c98abe8dbea94359fd1d4556d65fe60a6872486c01fe70de9faa
-PackageHomePage: https://github.com/alexreardon/tiny-warning#readme
-PackageLicenseConcluded: NOASSERTION
-PackageLicenseDeclared: NOASSERTION
-PackageCopyrightText: NOASSERTION
-PackageLicenseComments: NOASSERTION
-PackageComment: NOASSERTION
+PackageLicenseConcluded: MIT
+PackageLicenseDeclared: MIT
+PackageCopyrightText: Copyright (c) 2014 Jameson Little
 
 ##### Package representing the tiny-warning
 
@@ -4540,27 +2823,9 @@ PackageDownloadLocation: https://registry.npmjs.org/tiny-warning/-/tiny-warning-
 FilesAnalyzed: false
 PackageChecksum: SHA256: fd2624831e10c98abe8dbea94359fd1d4556d65fe60a6872486c01fe70de9faa
 PackageHomePage: https://github.com/alexreardon/tiny-warning#readme
-PackageLicenseConcluded: NOASSERTION
-PackageLicenseDeclared: NOASSERTION
-PackageCopyrightText: NOASSERTION
-PackageLicenseComments: NOASSERTION
-PackageComment: NOASSERTION
-
-##### Package representing the react-debounce-input
-
-PackageName: react-debounce-input
-SPDXID: SPDXRef-Package-react-debounce-input-3.2.4
-PackageVersion: 3.2.4
-PackageSupplier: Organization: react-debounce-input
-PackageDownloadLocation: https://registry.npmjs.org/react-debounce-input/-/react-debounce-input-3.2.4.tgz
-FilesAnalyzed: false
-PackageChecksum: SHA256: 36b022e06f84a6969d364439a14a8777faaa9f40c9f5bae243434ddd0e84a432
-PackageHomePage: https://github.com/nkbt/react-debounce-input
-PackageLicenseConcluded: NOASSERTION
-PackageLicenseDeclared: NOASSERTION
-PackageCopyrightText: NOASSERTION
-PackageLicenseComments: NOASSERTION
-PackageComment: NOASSERTION
+PackageLicenseConcluded: MIT
+PackageLicenseDeclared: MIT
+PackageCopyrightText: Copyright (c) 2019 Alexander Reardon
 
 ##### Package representing the react-debounce-input
 
@@ -4572,27 +2837,9 @@ PackageDownloadLocation: https://www.npmjs.com/package/react-debounce-input/v/3.
 FilesAnalyzed: false
 PackageChecksum: SHA256: 36b022e06f84a6969d364439a14a8777faaa9f40c9f5bae243434ddd0e84a432
 PackageHomePage: https://github.com/nkbt/react-debounce-input
-PackageLicenseConcluded: NOASSERTION
-PackageLicenseDeclared: NOASSERTION
-PackageCopyrightText: NOASSERTION
-PackageLicenseComments: NOASSERTION
-PackageComment: NOASSERTION
-
-##### Package representing the estraverse
-
-PackageName: estraverse
-SPDXID: SPDXRef-Package-estraverse-5.2.0
-PackageVersion: 5.2.0
-PackageSupplier: Organization: estraverse
-PackageDownloadLocation: https://www.npmjs.com/package/estraverse/v/5.2.0
-FilesAnalyzed: false
-PackageChecksum: SHA256: ccdb4ff1eba5919e514baccf8f1cbcf7d896af322d1b6518f6c4689e5334cd0e
-PackageHomePage: https://github.com/estools/estraverse
-PackageLicenseConcluded: NOASSERTION
-PackageLicenseDeclared: NOASSERTION
-PackageCopyrightText: NOASSERTION
-PackageLicenseComments: NOASSERTION
-PackageComment: NOASSERTION
+PackageLicenseConcluded: MIT
+PackageLicenseDeclared: MIT
+PackageCopyrightText: Copyright (c) 2016 Nik Butenko
 
 ##### Package representing the estraverse
 
@@ -4604,11 +2851,9 @@ PackageDownloadLocation: https://registry.npmjs.org/estraverse/-/estraverse-5.3.
 FilesAnalyzed: false
 PackageChecksum: SHA256: ccdb4ff1eba5919e514baccf8f1cbcf7d896af322d1b6518f6c4689e5334cd0e
 PackageHomePage: https://github.com/estools/estraverse
-PackageLicenseConcluded: NOASSERTION
-PackageLicenseDeclared: NOASSERTION
-PackageCopyrightText: NOASSERTION
-PackageLicenseComments: NOASSERTION
-PackageComment: NOASSERTION
+PackageLicenseConcluded: BSD-2-Clause
+PackageLicenseDeclared: BSD-2-Clause
+PackageCopyrightText: Copyright (C) 2012-2016 [Yusuke Suzuki](http://github.com/Constellation)
 
 ##### Package representing the wrappy
 
@@ -4620,27 +2865,9 @@ PackageDownloadLocation: https://registry.npmjs.org/wrappy/-/wrappy-1.0.2.tgz
 FilesAnalyzed: false
 PackageChecksum: SHA256: fa281ea476549ef01be135bc53484285a1de531606b483c23205b6e30699e50c
 PackageHomePage: https://github.com/npm/wrappy
-PackageLicenseConcluded: NOASSERTION
-PackageLicenseDeclared: NOASSERTION
-PackageCopyrightText: NOASSERTION
-PackageLicenseComments: NOASSERTION
-PackageComment: NOASSERTION
-
-##### Package representing the wrappy
-
-PackageName: wrappy
-SPDXID: SPDXRef-Package-wrappy-1
-PackageVersion: 1
-PackageSupplier: Organization: wrappy
-PackageDownloadLocation: https://www.npmjs.com/package/wrappy/v/1
-FilesAnalyzed: false
-PackageChecksum: SHA256: fa281ea476549ef01be135bc53484285a1de531606b483c23205b6e30699e50c
-PackageHomePage: https://github.com/npm/wrappy
-PackageLicenseConcluded: NOASSERTION
-PackageLicenseDeclared: NOASSERTION
-PackageCopyrightText: NOASSERTION
-PackageLicenseComments: NOASSERTION
-PackageComment: NOASSERTION
+PackageLicenseConcluded: ISC
+PackageLicenseDeclared: ISC
+PackageCopyrightText: Copyright (c) Isaac Z. Schlueter and Contributors
 
 ##### Package representing the object-inspect
 
@@ -4652,27 +2879,9 @@ PackageDownloadLocation: https://registry.npmjs.org/object-inspect/-/object-insp
 FilesAnalyzed: false
 PackageChecksum: SHA256: 5bb0ff5787345933e5f394d64ea850b2cbe0a78abe669a9fb478a1a3319e9a62
 PackageHomePage: https://github.com/inspect-js/object-inspect
-PackageLicenseConcluded: NOASSERTION
-PackageLicenseDeclared: NOASSERTION
-PackageCopyrightText: NOASSERTION
-PackageLicenseComments: NOASSERTION
-PackageComment: NOASSERTION
-
-##### Package representing the object-inspect
-
-PackageName: object-inspect
-SPDXID: SPDXRef-Package-object-inspect-1.9.0
-PackageVersion: 1.9.0
-PackageSupplier: Organization: object-inspect
-PackageDownloadLocation: https://www.npmjs.com/package/object-inspect/v/1.9.0
-FilesAnalyzed: false
-PackageChecksum: SHA256: 5bb0ff5787345933e5f394d64ea850b2cbe0a78abe669a9fb478a1a3319e9a62
-PackageHomePage: https://github.com/inspect-js/object-inspect
-PackageLicenseConcluded: NOASSERTION
-PackageLicenseDeclared: NOASSERTION
-PackageCopyrightText: NOASSERTION
-PackageLicenseComments: NOASSERTION
-PackageComment: NOASSERTION
+PackageLicenseConcluded: MIT
+PackageLicenseDeclared: MIT
+PackageCopyrightText: Copyright (c) 2013 James Halliday
 
 ##### Package representing the types/trusted-types
 
@@ -4684,27 +2893,9 @@ PackageDownloadLocation: https://registry.npmjs.org/@types/trusted-types/-/trust
 FilesAnalyzed: false
 PackageChecksum: SHA256: 1c6e348e459d8dc90ab39d6558bdf66d66d560071f5c17f8511755c59bc2ef76
 PackageHomePage: https://github.com/DefinitelyTyped/DefinitelyTyped/tree/master/types/trusted-types
-PackageLicenseConcluded: NOASSERTION
-PackageLicenseDeclared: NOASSERTION
-PackageCopyrightText: NOASSERTION
-PackageLicenseComments: NOASSERTION
-PackageComment: NOASSERTION
-
-##### Package representing the type-check
-
-PackageName: type-check
-SPDXID: SPDXRef-Package-type-check-0.3.2
-PackageVersion: 0.3.2
-PackageSupplier: Organization: type-check
-PackageDownloadLocation: https://www.npmjs.com/package/type-check/v/0.3.2
-FilesAnalyzed: false
-PackageChecksum: SHA256: b0851dca097e28169dac9bc45246394edfdbb40fbbdcf6454350db4141bb5948
-PackageHomePage: https://github.com/gkz/type-check
-PackageLicenseConcluded: NOASSERTION
-PackageLicenseDeclared: NOASSERTION
-PackageCopyrightText: NOASSERTION
-PackageLicenseComments: NOASSERTION
-PackageComment: NOASSERTION
+PackageLicenseConcluded: MIT
+PackageLicenseDeclared: MIT
+PackageCopyrightText: Copyright (c) Microsoft Corporation.
 
 ##### Package representing the type-check
 
@@ -4716,11 +2907,9 @@ PackageDownloadLocation: https://registry.npmjs.org/type-check/-/type-check-0.3.
 FilesAnalyzed: false
 PackageChecksum: SHA256: b0851dca097e28169dac9bc45246394edfdbb40fbbdcf6454350db4141bb5948
 PackageHomePage: https://github.com/gkz/type-check
-PackageLicenseConcluded: NOASSERTION
-PackageLicenseDeclared: NOASSERTION
-PackageCopyrightText: NOASSERTION
-PackageLicenseComments: NOASSERTION
-PackageComment: NOASSERTION
+PackageLicenseConcluded: MIT
+PackageLicenseDeclared: MIT
+PackageCopyrightText: Copyright (c) George Zahariev
 
 ##### Package representing the js-tokens
 
@@ -4732,59 +2921,9 @@ PackageDownloadLocation: https://www.npmjs.com/package/js-tokens/v/4.0.0
 FilesAnalyzed: false
 PackageChecksum: SHA256: 55f325fa940c281136f5c6481824643ed3bc8dadb2f86e931a5cd486ad265964
 PackageHomePage: https://github.com/lydell/js-tokens#readme
-PackageLicenseConcluded: NOASSERTION
-PackageLicenseDeclared: NOASSERTION
-PackageCopyrightText: NOASSERTION
-PackageLicenseComments: NOASSERTION
-PackageComment: NOASSERTION
-
-##### Package representing the js-tokens
-
-PackageName: js-tokens
-SPDXID: SPDXRef-Package-js-tokens-4.0.0
-PackageVersion: 4.0.0
-PackageSupplier: Organization: js-tokens
-PackageDownloadLocation: https://registry.npmjs.org/js-tokens/-/js-tokens-4.0.0.tgz
-FilesAnalyzed: false
-PackageChecksum: SHA256: 55f325fa940c281136f5c6481824643ed3bc8dadb2f86e931a5cd486ad265964
-PackageHomePage: https://github.com/lydell/js-tokens#readme
-PackageLicenseConcluded: NOASSERTION
-PackageLicenseDeclared: NOASSERTION
-PackageCopyrightText: NOASSERTION
-PackageLicenseComments: NOASSERTION
-PackageComment: NOASSERTION
-
-##### Package representing the js-tokens
-
-PackageName: js-tokens
-SPDXID: SPDXRef-Package-js-tokens-3.0.0
-PackageVersion: 3.0.0
-PackageSupplier: Organization: js-tokens
-PackageDownloadLocation: https://www.npmjs.com/package/js-tokens/v/3.0.0
-FilesAnalyzed: false
-PackageChecksum: SHA256: 55f325fa940c281136f5c6481824643ed3bc8dadb2f86e931a5cd486ad265964
-PackageHomePage: https://github.com/lydell/js-tokens#readme
-PackageLicenseConcluded: NOASSERTION
-PackageLicenseDeclared: NOASSERTION
-PackageCopyrightText: NOASSERTION
-PackageLicenseComments: NOASSERTION
-PackageComment: NOASSERTION
-
-##### Package representing the swagger-api/apidom-ast
-
-PackageName: swagger-api/apidom-ast
-SPDXID: SPDXRef-Package-swagger-api.apidom-ast-0.29.0
-PackageVersion: 0.29.0
-PackageSupplier: Organization: swagger-api/apidom-ast
-PackageDownloadLocation: https://www.npmjs.com/package/swagger-api/apidom-ast/v/0.29.0
-FilesAnalyzed: false
-PackageChecksum: SHA256: 2e4d86e171335a7973c26791b0c628d245617e7df8a32e433f0c42f7903ab39b
-PackageHomePage: https://github.com/swagger-api/apidom#readme
-PackageLicenseConcluded: NOASSERTION
-PackageLicenseDeclared: NOASSERTION
-PackageCopyrightText: NOASSERTION
-PackageLicenseComments: NOASSERTION
-PackageComment: NOASSERTION
+PackageLicenseConcluded: MIT
+PackageLicenseDeclared: MIT
+PackageCopyrightText: Copyright (c) 2014, 2015, 2016, 2017, 2018 Simon Lydell
 
 ##### Package representing the swagger-api/apidom-ast
 
@@ -4796,11 +2935,9 @@ PackageDownloadLocation: https://npm.pkg.github.com/download/@swagger-api/apidom
 FilesAnalyzed: false
 PackageChecksum: SHA256: 2e4d86e171335a7973c26791b0c628d245617e7df8a32e433f0c42f7903ab39b
 PackageHomePage: https://github.com/swagger-api/apidom#readme
-PackageLicenseConcluded: NOASSERTION
-PackageLicenseDeclared: NOASSERTION
-PackageCopyrightText: NOASSERTION
-PackageLicenseComments: NOASSERTION
-PackageComment: NOASSERTION
+PackageLicenseConcluded: Apache-2.0
+PackageLicenseDeclared: Apache-2.0
+PackageCopyrightText: Copyright 2020 SmartBear Software Inc.
 
 ##### Package representing the postcss-value-parser
 
@@ -4812,43 +2949,9 @@ PackageDownloadLocation: https://registry.npmjs.org/postcss-value-parser/-/postc
 FilesAnalyzed: false
 PackageChecksum: SHA256: ea4f9b29c64342b5bad82e5398bf8e39bc05961b532773fa813cc191fdbc399d
 PackageHomePage: https://github.com/TrySound/postcss-value-parser
-PackageLicenseConcluded: NOASSERTION
-PackageLicenseDeclared: NOASSERTION
-PackageCopyrightText: NOASSERTION
-PackageLicenseComments: NOASSERTION
-PackageComment: NOASSERTION
-
-##### Package representing the postcss-value-parser
-
-PackageName: postcss-value-parser
-SPDXID: SPDXRef-Package-postcss-value-parser-4.0.2
-PackageVersion: 4.0.2
-PackageSupplier: Organization: postcss-value-parser
-PackageDownloadLocation: https://www.npmjs.com/package/postcss-value-parser/v/4.0.2
-FilesAnalyzed: false
-PackageChecksum: SHA256: ea4f9b29c64342b5bad82e5398bf8e39bc05961b532773fa813cc191fdbc399d
-PackageHomePage: https://github.com/TrySound/postcss-value-parser
-PackageLicenseConcluded: NOASSERTION
-PackageLicenseDeclared: NOASSERTION
-PackageCopyrightText: NOASSERTION
-PackageLicenseComments: NOASSERTION
-PackageComment: NOASSERTION
-
-##### Package representing the isarray
-
-PackageName: isarray
-SPDXID: SPDXRef-Package-isarray-1.0.0
-PackageVersion: 1.0.0
-PackageSupplier: Organization: isarray
-PackageDownloadLocation: https://www.npmjs.com/package/isarray/v/1.0.0
-FilesAnalyzed: false
-PackageChecksum: SHA256: d772dcb76a58d6177cb282c6365603f7f34774b5971f5ba33d146bdd1ed7f5c5
-PackageHomePage: https://github.com/juliangruber/isarray
-PackageLicenseConcluded: NOASSERTION
-PackageLicenseDeclared: NOASSERTION
-PackageCopyrightText: NOASSERTION
-PackageLicenseComments: NOASSERTION
-PackageComment: NOASSERTION
+PackageLicenseConcluded: MIT
+PackageLicenseDeclared: MIT
+PackageCopyrightText: Copyright (c) Bogdan Chadkin <trysound@yandex.ru>
 
 ##### Package representing the isarray
 
@@ -4860,11 +2963,9 @@ PackageDownloadLocation: https://registry.npmjs.org/isarray/-/isarray-1.0.0.tgz
 FilesAnalyzed: false
 PackageChecksum: SHA256: d772dcb76a58d6177cb282c6365603f7f34774b5971f5ba33d146bdd1ed7f5c5
 PackageHomePage: https://github.com/juliangruber/isarray
-PackageLicenseConcluded: NOASSERTION
-PackageLicenseDeclared: NOASSERTION
-PackageCopyrightText: NOASSERTION
-PackageLicenseComments: NOASSERTION
-PackageComment: NOASSERTION
+PackageLicenseConcluded: MIT
+PackageLicenseDeclared: MIT
+PackageCopyrightText: Copyright (c) 2013 Julian Gruber <julian@juliangruber.com>
 
 ##### Package representing the jridgewell/trace-mapping
 
