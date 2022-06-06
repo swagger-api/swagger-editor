@@ -6,6 +6,71 @@ DocumentNamespace: http://spdx.org/spdxpackages/swagger-editor-0.24.1-0f171b06-d
 Creator: Tool: spdx-sbom-generator-source-code
 Created: 2022-06-02T09:19:55Z
 
+# Human-readable summary os SBOM
+#
+# @tootallnate/once@1.1.2
+#  - declared license is MIT
+#  - copy of MIT license is missing
+#
+# yaml-js@1.1.2
+#  - declared license is WTFPL
+#  - is this license compliant with our License Compliance Policy ?
+#  - copy of WTFPL license is missing
+#
+# zenscroll@4.0.2
+#  - declared license is Unlicense
+#  - is this license compliant with our License Compliance Policy ?
+#
+# json-beautify@1.1.1
+#  - declared license is ISC
+#  - copy of ISC license is missing
+#
+# file-dialog@0.0.8
+#  - declared license is MIT
+#  - copy of MIT license is missing
+#
+# format@0.2.2
+#  - declared license is MIT
+#  - copy of MIT license is missing
+#
+# babel-plugin-syntax-jsx@6.18.0
+#  - declared license is MIT
+#  - copy of MIT license is missing
+#
+# toggle-selection@1.0.6
+#  - declared license is MIT
+#  - copy of MIT license is missing
+#
+# rc@1.2.8
+#  - declared license is (BSD-2-Clause OR MIT OR Apache-2.0)
+#  - is this license declaration compliant with our License Compliance Policy ?
+#
+# sha.js@2.4.11
+#  - declared license is (MIT AND BSD-3-Clause)
+#  - is this license declaration compliant with our License Compliance Policy ?
+#  - implementation contains custom crypto; is it compliant with out Compliance Policy?
+#
+# tr46@0.0.3
+#  - declared license is MIT
+#  - copy of MIT license is missing
+#
+# @material-ui/types@5.1.0
+#  - declared license is MIT
+#  - copy of MIT license is missing
+#
+# monaco-languageclient@0.18.1
+#  - declared license is MIT
+#  - copy of MIT license is missing
+#
+# is-in-browser@1.1.3
+#  - declared license is MIT
+#  - copy of MIT license is missing
+#
+# saxes@5.0.1
+#  - declared license is ISC
+#  - copy of MIT license is missing
+
+
 ##### Package representing the swagger-editor
 
 PackageName: swagger-editor
@@ -1661,7 +1726,7 @@ PackageHomePage: https://zengabor.github.io/zenscroll/
 PackageLicenseConcluded: Unlicense
 PackageLicenseDeclared: Unlicense
 PackageCopyrightText: Copyright 2014 Gabor Lenard
-PackageLicenseComments: possible PROBLEM
+PackageLicenseComments: license is part of source code; possible PROBLEM
 
 ##### Package representing the simple-get
 
@@ -2209,8 +2274,7 @@ PackageChecksum: SHA256: dd513b1209ae0e2c44ae44ac9deba20e91f66f136bccc414f34e2df
 PackageHomePage: https://popper.js.org
 PackageLicenseConcluded: MIT
 PackageLicenseDeclared: MIT
-PackageCopyrightText: copyright 2016 Federico Zivolo
-PackageLicenseComments: License text not present in npm package; possible PROBLEM
+PackageCopyrightText: Copyright (c) 2016 Federico Zivolo and contributors
 
 ##### Package representing the vscode-languageserver-textdocument
 
@@ -2984,7 +3048,7 @@ PackageHomePage: NOASSERTION
 PackageLicenseConcluded: Apache-2.0
 PackageLicenseDeclared: Apache-2.0
 PackageCopyrightText: Copyright Fran Méndez
-PackageLicenseComments: License text not present in npm package; possible PROBLEM
+PackageLicenseComments: License text not present in npm package but "reusable without rewording" attribute of the license applies
 
 ##### Package representing the swagger-api/apidom-parser-adapter-json
 
@@ -3454,10 +3518,10 @@ PackageCopyrightText: Copyright (c) 2014-present Sebastian McKenzie and other co
 ##### Package representing the asyncapi/openapi-schema-parser
 
 PackageName: asyncapi/openapi-schema-parser
-SPDXID: SPDXRef-Package-asyncapi.openapi-schema-parser-2.0.0
-PackageVersion: 2.0.0
+SPDXID: SPDXRef-Package-asyncapi.openapi-schema-parser-2.0.1
+PackageVersion: 2.0.1
 PackageSupplier: Organization: asyncapi/openapi-schema-parser
-PackageDownloadLocation: https://www.npmjs.com/package/asyncapi/openapi-schema-parser/v/2.0.0
+PackageDownloadLocation: https://www.npmjs.com/package/asyncapi/openapi-schema-parser/v/2.0.1
 FilesAnalyzed: false
 PackageChecksum: SHA256: 1e064439934d69f052bf1d7b37d9af7bf37e2bf6cbb121f7a74fa7db74730e6c
 PackageHomePage: https://github.com/asyncapi/openapi-schema-parser#readme
@@ -5526,7 +5590,7 @@ PackageHomePage: https://shortunique.id
 PackageLicenseConcluded: Apache-2.0
 PackageLicenseDeclared: Apache-2.0
 PackageCopyrightText: Copyright (c) 2018-2021 [Short Unique ID Contributors](https://github.com/jeanlescure/short-unique-id/#contributors-);
-PackageLicenseComments: License text not present in npm package; possible PROBLEM
+PackageLicenseComments: License text not present in npm package but "reusable without rewording" attribute of the license applies
 
 ##### Package representing the styled-components
 
@@ -5541,7 +5605,7 @@ PackageHomePage: https://styled-components.com
 PackageLicenseConcluded: MIT
 PackageLicenseDeclared: MIT
 PackageCopyrightText: Copyright © 2016-present Glen Maddern and Maximilian Stoiber.
-PackageLicenseComments: License text not present in npm package; possible PROBLEM
+PackageLicenseComments: License text in dist JavaScript fragments
 
 ##### Package representing the json-schema-traverse
 
