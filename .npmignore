@@ -19,7 +19,7 @@
 /.dockerignore
 /.browserslistrc
 /.commitlintrc.json
-/cypress.json
+/cypress.config.js
 /Dockerfile
 /.eslintrc
 /.editorconfig
