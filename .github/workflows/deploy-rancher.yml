@@ -1,22 +1,22 @@
 # inspired by https://securitylab.github.com/research/github-actions-preventing-pwn-requests/
-name: Deploy SwaggerIDE to Rancher🚢
+name: Deploy SwaggerEditor@next to Rancher🚢
 
 on:
   workflow_run:
-    workflows: ["Swagger IDE build", "Swagger IDE nightly build"]
+    workflows: ["SwaggerEditor@next build", "Swagger Editor@next nightly build"]
     types:
       - completed
     branches:
-      - main
+      - next
 
 jobs:
 
   deploy:
     if: >
       ${{ github.event.workflow_run.event == 'push' &&
-      github.ref == 'refs/heads/main' &&
+      github.ref == 'refs/heads/next' &&
       github.event.workflow_run.conclusion == 'success' }}
-    name: Deploy SwaggerIDE to Rancher
+    name: Deploy SwaggerEditor@next to Rancher
     runs-on: ubuntu-latest
 
     steps:
