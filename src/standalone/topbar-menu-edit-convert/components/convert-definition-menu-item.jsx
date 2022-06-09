@@ -3,9 +3,9 @@ import PropTypes from "prop-types"
 
 export default class ConvertDefinitionMenuItem extends Component {
   render() {
-    const { swagger2GeneratorUrl, isSwagger2 } = this.props
+    const { swagger2ConverterUrl, isSwagger2 } = this.props
 
-    if(swagger2GeneratorUrl == null || !isSwagger2) {
+    if(swagger2ConverterUrl == null || !isSwagger2) {
       return null
     }
 
@@ -16,11 +16,11 @@ export default class ConvertDefinitionMenuItem extends Component {
 }
 
 ConvertDefinitionMenuItem.propTypes = {
-  swagger2GeneratorUrl: PropTypes.string,
+  swagger2ConverterUrl: PropTypes.string,
   isSwagger2: PropTypes.bool.isRequired,
   onClick: PropTypes.func.isRequired,
 }
 
 ConvertDefinitionMenuItem.propTypes = {
-  swagger2GeneratorUrl: null,
+  swagger2ConverterUrl: null,
 }
