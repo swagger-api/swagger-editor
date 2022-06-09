@@ -1,13 +1,13 @@
 # This workflow will do a clean install of node dependencies, build the source code and run tests across different versions of node
 # For more information see: https://help.github.com/actions/language-and-framework-guides/using-nodejs-with-github-actions
 
-name: Swagger IDE build
+name: SwaggerEditor@next build
 
 on:
   push:
-    branches: [ main ]
+    branches: [ next ]
   pull_request:
-    branches: [ main ]
+    branches: [ next ]
 
 jobs:
   build:
@@ -44,7 +44,7 @@ jobs:
           NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Lint commit message
-        if: github.ref != 'refs/heads/main' && github.actor != 'dependabot[bot]'
+        if: github.ref != 'refs/heads/next' && github.actor != 'dependabot[bot]'
         run: git log -1 --pretty=format:"%s" | npx commitlint
 
       - name: Lint code
@@ -62,7 +62,7 @@ jobs:
         run: npm run cy:ci
 
       - name: Upload build artifacts
-        if: github.ref == 'refs/heads/main'
+        if: github.ref == 'refs/heads/next'
         uses: actions/upload-artifact@v2
         with:
           name: build
