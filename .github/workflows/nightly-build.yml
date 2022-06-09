@@ -5,7 +5,7 @@ on:
     branches:
       - next
   schedule:
-    - cron:  '45 9 * * *'
+    - cron:  '45 21 * * *'
 
 jobs:
   nightly-build:
