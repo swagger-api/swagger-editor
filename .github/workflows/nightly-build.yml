@@ -1,7 +1,9 @@
-name: Swagger IDE nightly build
+name: Swagger Editor@next nightly build
 
 on:
   workflow_dispatch:
+    branches:
+      - next
   schedule:
     - cron:  '30 4 * * *'
 
@@ -65,5 +67,5 @@ jobs:
       - name: Upload npm artifact
         uses: actions/upload-artifact@v2
         with:
-          name: "swagger-api-swagger-ide.tgz"
-          path: ./swagger-api-swagger-ide-*.tgz
+          name: "swagger-api-swagger-editor-next.tgz"
+          path: ./swagger-api-swagger-editor-next-*.tgz
