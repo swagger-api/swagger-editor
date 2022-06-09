@@ -2,10 +2,8 @@ name: Swagger Editor@next nightly build
 
 on:
   workflow_dispatch:
-    branches:
-      - next
   schedule:
-    - cron:  '45 21 * * *'
+    - cron:  '25 22 * * *'
 
 jobs:
   nightly-build:
@@ -15,6 +13,7 @@ jobs:
       - uses: actions/checkout@v2
         with:
           submodules: true
+          ref: next
 
       - name: Use Node.js 16
         uses: actions/setup-node@v2
