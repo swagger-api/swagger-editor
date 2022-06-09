@@ -2,7 +2,7 @@ import * as monaco from 'monaco-editor-core';
 import {
   ProtocolToMonacoConverter,
   MonacoToProtocolConverter,
-} from 'monaco-languageclient/lib/monaco-converter.js';
+} from 'monaco-languageclient/monaco-converter';
 
 export default class CodeActionsAdapter {
   #worker;

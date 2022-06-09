@@ -11,7 +11,7 @@
   "globals": {
     "File": true,
     "Blob": true,
-    "globalThis": true,
+    "globalThis": true
   },
   "parserOptions": {
     "ecmaFeatures": {
@@ -35,6 +35,11 @@
     "react/function-component-definition": [1, {
       "namedComponents": ["arrow-function"]
     }],
-    "import/extensions": ["error", "always"]
+    "import/extensions": ["error", "always", {
+      "ignorePackages": true
+    }],
+    "import/no-unresolved": [2, {
+      "ignore": ["^monaco-languageclient\/monaco-converter$"]
+    }]
   }
 }

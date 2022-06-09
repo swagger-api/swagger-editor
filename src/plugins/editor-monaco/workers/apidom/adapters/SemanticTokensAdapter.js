@@ -1,7 +1,6 @@
-/* eslint-disable class-methods-use-this */
 import * as monaco from 'monaco-editor-core';
 import { getLanguageService, LogLevel } from '@swagger-api/apidom-ls';
-import { ProtocolToMonacoConverter } from 'monaco-languageclient/lib/monaco-converter.js';
+import { ProtocolToMonacoConverter } from 'monaco-languageclient/monaco-converter';
 
 export default class SemanticTokensAdapter {
   #worker;
@@ -68,6 +67,7 @@ export default class SemanticTokensAdapter {
     return this.#maybeConvert(semanticTokens);
   }
 
+  // eslint-disable-next-line class-methods-use-this
   releaseDocumentSemanticTokens() {
     // nothing to do
   }

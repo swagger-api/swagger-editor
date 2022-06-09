@@ -1,5 +1,5 @@
 import * as monaco from 'monaco-editor-core';
-import { ProtocolToMonacoConverter } from 'monaco-languageclient/lib/monaco-converter.js';
+import { ProtocolToMonacoConverter } from 'monaco-languageclient/monaco-converter';
 
 import { languageId } from '../config.js';
 
