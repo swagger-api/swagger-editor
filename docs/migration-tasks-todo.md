@@ -1,6 +1,6 @@
 # Migration Status  
 
-* [Swagger Editor Legacy (v3/v4) Migration Summary](/migration-legacy-summary.md)  
+* [Swagger Editor Legacy (v3/v4) Migration Summary](./migration-legacy-summary.md)  
 
 ### Known Issues  
 

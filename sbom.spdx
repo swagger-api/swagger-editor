@@ -80,7 +80,7 @@ PackageSupplier: Organization: swagger-editor
 PackageDownloadLocation: NONE
 FilesAnalyzed: false
 PackageChecksum: SHA256: e7501e31ed577f3f4b266f12629f50f22a6e0f42d17ddc60dc6522ab9caa07f5
-PackageHomePage: https://github.com/swagger-api/swagger-ide
+PackageHomePage: https://github.com/swagger-api/swagger-editor
 PackageLicenseConcluded: Apache-2.0
 PackageLicenseDeclared: Apache-2.0
 PackageCopyrightText: Copyright 2020 SmartBear Software Inc.
