@@ -350,11 +350,11 @@ describe('validation plugin - semantic - oas3 refs', () => {
           .then(system => {
             const allErrors = system.errSelectors.allErrors().toJS();
             const allSemanticErrors = allErrors.filter(err => err.source === 'semantic');
-            
+
             expect(allSemanticErrors.length).toEqual(1);
-            
+
             const firstError = allSemanticErrors[0];
-            
+
             expect(firstError.message).toEqual('requestBody schema $refs must point to a position where a Schema Object can be legally placed');
             expect(firstError.path).toEqual(['paths', '/foo', 'post', 'requestBody', 'content', 'application/json', 'schema', '$ref']);
 
@@ -549,14 +549,16 @@ describe('validation plugin - semantic - oas3 refs', () => {
         return validateHelper(spec)
           .then(system => {
             const allErrors = system.errSelectors.allErrors().toJS();
-            const firstError = allErrors[0];
-            expect(allErrors.length).toEqual(1);
-            expect(firstError.message).toEqual('OAS3 header $refs should point to #/components/headers/... and not #/components/parameters/...');
+            const [firstError, secondError] = allErrors;
+            expect(allErrors.length).toEqual(2);
+            expect(firstError.message).toEqual('OAS3 header $refs should point to Header Object and not #/components/parameters/MyHeader');
             expect(firstError.path).toEqual(['paths', '/foo', 'get','responses','200', 'headers', 'X-MyHeader', '$ref']);
+            expect(secondError.message).toEqual('OAS3 header $refs should point to Header Object and not #/components/parameters/MyHeader');
+            expect(secondError.path).toEqual(['components', 'headers', 'MyHeader', '$ref']);
           });
       }
     );
-    
+
     it(
       'should return no errors when a response header correctly references a local header component',
       () => {
@@ -591,7 +593,7 @@ describe('validation plugin - semantic - oas3 refs', () => {
         return expectNoErrorsOrWarnings(spec);
       }
     );
-    
+
     it('should return no errors for external $refs in response headers', () => {
       const spec = {
         openapi: '3.0.0',
@@ -669,18 +671,18 @@ describe('validation plugin - semantic - oas3 refs', () => {
             const allErrors = system.errSelectors.allErrors().toJS();
             expect(allErrors.length).toEqual(3);
             const firstError = allErrors[0];
-            expect(firstError.message).toEqual('OAS3 parameter $refs should point to #/components/parameters/... and not #/components/headers/...');
+            expect(firstError.message).toEqual('OAS3 parameter $refs should point to Parameter Object and not #/components/headers/foo');
             expect(firstError.path).toEqual(['paths','/foo','parameters', '0', '$ref']);
             const secondError = allErrors[1];
-            expect(secondError.message).toEqual('OAS3 parameter $refs should point to #/components/parameters/... and not #/components/headers/...');
+            expect(secondError.message).toEqual('OAS3 parameter $refs should point to Parameter Object and not #/components/headers/foo');
             expect(secondError.path).toEqual(['paths','/foo','get','parameters', '0', '$ref']);
             const thirdError = allErrors[2];
-            expect(thirdError.message).toEqual('OAS3 parameter $refs should point to #/components/parameters/... and not #/components/headers/...');
+            expect(thirdError.message).toEqual('OAS3 parameter $refs should point to Parameter Object and not #/components/headers/foo');
             expect(thirdError.path).toEqual(['components','parameters', 'myParam', '$ref']);
           });
       }
     );
-    
+
     it(
       'should return no errors when a parameter correctly references a parameter component',
       () => {
@@ -719,7 +721,7 @@ describe('validation plugin - semantic - oas3 refs', () => {
         return expectNoErrorsOrWarnings(spec);
       }
     );
-    
+
     it('should return no errors for external parameter $refs', () => {
       const spec = {
         openapi: '3.0.0',

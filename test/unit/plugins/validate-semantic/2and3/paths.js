@@ -90,7 +90,7 @@ describe('validation plugin - semantic - 2and3 paths', () => {
     describe('Path parameter definitions need matching paramater declarations', () => {
       describe('OpenAPI 3', () => {
         it(
-          'should not return problems for a valid path-level definiton/declaration pair',
+          'should not return problems for a valid path-level definition/declaration pair',
           () => {
             const spec = {
               openapi: '3.0.0',
@@ -111,23 +111,25 @@ describe('validation plugin - semantic - 2and3 paths', () => {
         );
 
         it(
-          'should not return problems for a valid path-level definiton/declaration pair using a $ref',
+          'should not return problems for a valid path-level definition/declaration pair using a $ref',
           () => {
             const spec = {
               openapi: '3.0.0',
               paths: {
                 '/CoolPath/{id}': {
                   parameters: [
-                    { $ref: '#/parameters/id' }
+                    { $ref: '#/components/parameters/id' }
                   ]
                 }
               },
-              parameters: {
-                id: {
-                  name: 'id',
-                  in: 'path',
-                  description: 'An id',
-                  required: true
+              components: {
+                parameters: {
+                  id: {
+                    name: 'id',
+                    in: 'path',
+                    description: 'An id',
+                    required: true
+                  }
                 }
               }
             };

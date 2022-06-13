@@ -1,3 +1,5 @@
+import { escapeJsonPointerToken } from "../../../refs-util"
+
 export const validateOAS3RefsForRequestBodiesReferenceRequestBodyPositions = () => sys => {
   return sys.validateSelectors
     .allOAS3RequestBodies()
@@ -17,7 +19,7 @@ export const validateOAS3RefsForRequestBodiesReferenceRequestBodyPositions = () 
         if (ref.startsWith("#/")) {
           // Local cases
           if (refPath.endsWith("requestBody") && (refPath.startsWith("/paths") || refPath.startsWith("/components"))){
-            return acc  
+            return acc
           }
 
           // Starting with #/compontents/schemas is not allowed
@@ -38,11 +40,11 @@ export const validateOAS3RefsForRequestBodiesReferenceRequestBodyPositions = () 
 
           // Extensions are valid
           if (ref.startsWith("#/") && pathArr.some(element => element.startsWith("x-"))){
-            return acc  
+            return acc
           }
-        } 
+        }
         return acc
-        
+
       }, [])
     })
 }
@@ -91,13 +93,25 @@ export const validateOAS3ParameterRefsReferenceParameterPositions = () => sys =>
           return acc
         }
 
-        if (ref.startsWith("#/components/headers")) {
-          acc.push({
-            level: "error",
-            message: `OAS3 parameter $refs should point to #/components/parameters/... and not #/components/headers/...`,
-            path: [...node.path, "$ref"]
+        /**
+         * We only do the check for local JSON Pointers. In order to check remote JSON Pointer
+         * we would have to resolve it and assert for the shape of the referenced structure.
+         */
+        if (ref.startsWith("#/")) {
+          const foundParameter = nodes.find((node) => {
+            const parameterPointer = `#/${node.path.map(escapeJsonPointerToken).join("/")}`
+            return parameterPointer === ref
           })
-        }   
+
+          if (typeof foundParameter === "undefined") {
+            acc.push({
+              level: "error",
+              message: `OAS3 parameter $refs should point to Parameter Object and not ${ref}`,
+              path: [...node.path, "$ref"]
+            })
+          }
+        }
+
         return acc
       }, [])
     })
@@ -115,13 +129,25 @@ export const validateOAS3RefsForHeadersReferenceHeadersPositions = () => sys => 
           return acc
         }
 
-        if (ref.startsWith("#/components/parameters")) {
-          acc.push({
-            level: "error",
-            message: `OAS3 header $refs should point to #/components/headers/... and not #/components/parameters/...`,
-            path: [...node.path, "$ref"]
+        /**
+         * We only do the check for local JSON Pointers. In order to check remote JSON Pointer
+         * we would have to resolve it and assert for the shape of the referenced structure.
+         */
+        if (ref.startsWith("#/")) {
+          const foundHeader = nodes.find((node) => {
+            const headerPointer = `#/${node.path.map(escapeJsonPointerToken).join("/")}`
+            return headerPointer === ref
           })
+
+          if (typeof foundHeader === "undefined") {
+            acc.push({
+              level: "error",
+              message: `OAS3 header $refs should point to Header Object and not ${ref}`,
+              path: [...node.path, "$ref"]
+            })
+          }
         }
+
         return acc
       }, [])
     })
