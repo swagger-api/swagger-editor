@@ -40,7 +40,7 @@ jobs:
       if: |
         steps.cache-node-modules.outputs.cache-hit != 'true' ||
         steps.cache-cypress-binary.outputs.cache-hit != 'true'
-      run: npm ci
+      run: npm ci --legacy-peer-deps
     - name: Lint code
       run: npm run lint
     - name: Build SwaggerEditor
