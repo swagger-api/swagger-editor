@@ -13,7 +13,24 @@ updates:
       - dependency-name: "node-fetch"
       - dependency-name: "release-it"
       - dependency-name: "@release-it/conventional-changelog"
-
+  - package-ecosystem: npm
+    directory: "/"
+    schedule:
+      interval: daily
+    target-branch: "next"
+    labels:
+      - "swagger-editor@next" 
+      - "cat: dependencies"
+      - "javascript"
+    commit-message:
+      prefix: "chore"
+      include: "scope"
+    open-pull-requests-limit: 3
+    ignore:
+      # node-fetch must be synced manually
+      - dependency-name: "node-fetch"
+      - dependency-name: "release-it"
+      - dependency-name: "@release-it/conventional-changelog"
   - package-ecosystem: "docker"
     # Look for a `Dockerfile` in the `root` directory
     directory: "/"
