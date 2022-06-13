@@ -3,7 +3,7 @@ name: Swagger Editor@next nightly build
 on:
   workflow_dispatch:
   schedule:
-    - cron:  '30 21 * * *'
+    - cron:  '30 22 * * *'
 
 jobs:
   nightly-build:
