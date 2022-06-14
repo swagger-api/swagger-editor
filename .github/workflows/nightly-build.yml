@@ -1,4 +1,4 @@
-name: Swagger Editor@next nightly build
+name: SwaggerEditor@next nightly build
 
 on:
   workflow_dispatch:
