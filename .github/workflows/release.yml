@@ -42,6 +42,7 @@ jobs:
             @semantic-release/git
           branches: |
             [
+              'master',
               {
                 name: 'next',
                 prerelease: 'alpha'

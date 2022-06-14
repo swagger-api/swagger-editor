@@ -1,6 +1,6 @@
 {
   "release": {
-    "branches": [{"name": "next", "prerelease": "alpha"}],
+    "branches": ['master', {"name": "next", "prerelease": "alpha"}],
     "tagFormat": "v${version}"
   },
     "plugins": [
