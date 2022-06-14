@@ -1,6 +1,6 @@
 {
   "release": {
-    "branches": ["main"],
+    "branches": ["next"],
     "tagFormat": "v${version}"
   },
     "plugins": [

@@ -2,7 +2,7 @@ name: Release
 on:
   workflow_dispatch:
     branches:
-      - main
+      - next
 
 jobs:
   release:
@@ -37,12 +37,12 @@ jobs:
         id: semantic
         uses: cycjimmy/semantic-release-action@v2
         with:
-          dry_run: false
+          dry_run: true
           extra_plugins: |
             @semantic-release/git
           branches: |
             [
-              'main'
+              'next'
             ]
         env:
           GITHUB_TOKEN: ${{ secrets.SWAGGER_BOT_GITHUB_TOKEN }}

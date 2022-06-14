@@ -1,6 +1,6 @@
 {
   "name": "@swagger-api/swagger-editor",
-  "version": "0.26.0",
+  "version": "5.0.0-alpha.0",
   "private": false,
   "publishConfig": {
     "registry": "https://npm.pkg.github.com"
