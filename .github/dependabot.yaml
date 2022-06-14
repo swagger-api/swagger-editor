@@ -51,10 +51,20 @@ updates:
     # Check for updates once a week
     schedule:
       interval: "weekly"
+    labels:
+      - "swagger-editor@next"
+      - "cat: dependencies"
+      - "cat: docker"
+      - "docker"
 
   - package-ecosystem: "github-actions"
     target-branch: "next"
     directory: "/"
     schedule:
       interval: "weekly"
+    labels:
+      - "swagger-editor@next"
+      - "cat: dependencies"
+      - "github_actions"
+
 
