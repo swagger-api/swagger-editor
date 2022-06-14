@@ -3,7 +3,7 @@ name: Deploy SwaggerEditor@next to GitHub Pages
 
 on:
   workflow_run:
-    workflows: ["SwaggerEditor@next build", "Swagger Editor@next nightly build"]
+    workflows: ["SwaggerEditor@next build", "SwaggerEditor@next nightly build"]
     types:
       - completed
 
