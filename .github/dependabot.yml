@@ -21,9 +21,17 @@ updates:
     # Check for updates once a week
     schedule:
       interval: "weekly"
+    labels:
+      - "swagger-editor@next"
+      - "cat: dependencies"
+      - "javascript"
 
   - package-ecosystem: "github-actions"
     target-branch: "next"
     directory: "/"
     schedule:
       interval: "weekly"
+    labels:
+      - "swagger-editor@next"
+      - "cat: dependencies"
+      - "javascript"
