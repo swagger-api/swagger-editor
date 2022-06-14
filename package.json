@@ -79,7 +79,7 @@
     "react-addons-css-transition-group": "^15.4.2",
     "react-dd-menu": "^2.0.0",
     "react-dom": "=17.0.2",
-    "react-dropzone": "^12.0.4",
+    "react-dropzone": "^14.2.1",
     "react-file-download": "^0.3.2",
     "react-immutable-proptypes": "^2.1.0",
     "react-redux": "=7.2.8",
