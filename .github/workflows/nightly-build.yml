@@ -1,0 +1,70 @@
+name: Swagger Editor@next nightly build
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron:  '30 22 * * *'
+
+jobs:
+  nightly-build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          submodules: true
+          ref: next
+
+      - name: Use Node.js 16
+        uses: actions/setup-node@v2
+        with:
+          node-version: 16
+          registry-url: https://npm.pkg.github.com/
+          scope: "@swagger-api"
+
+      - name: Cache npm cache files
+        id: cache-npm-cache-files
+        uses: actions/cache@v2
+        with:
+          path: ~/.npm
+          key: npm-cache-${{ runner.os }}-${{ hashFiles('package-lock.json') }}
+      - name: Cache Cypress binary
+        id: cache-cypress-binary
+        uses: actions/cache@v2
+        with:
+          path: cypress/cache
+          key: cypress-binary-${{ hashFiles('package-lock.json') }}
+
+      - name: Install dependencies
+        run: npm ci
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.SWAGGER_BOT_GITHUB_TOKEN }}
+
+      - name: Lint code
+        run: npm run lint
+
+      - name: unit tests
+        run: npm test
+        env:
+          CI: true
+
+      - name: Produce build artifacts
+        run: npm run build
+
+      - name: Produce npm artifact
+        run: npm pack
+
+      - name: E2E Tests
+        run: npm run cy:ci
+
+      - name: Upload build artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: build
+          path: ./build
+
+      - name: Upload npm artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: "swagger-api-swagger-editor-next.tgz"
+          path: ./swagger-api-swagger-editor-next-*.tgz

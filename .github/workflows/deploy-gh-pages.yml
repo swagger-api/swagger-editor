@@ -1,0 +1,53 @@
+# inspired by https://securitylab.github.com/research/github-actions-preventing-pwn-requests/
+name: Deploy SwaggerEditor@next to GitHub Pages
+
+on:
+  workflow_run:
+    workflows: ["SwaggerEditor@next build", "Swagger Editor@next nightly build"]
+    types:
+      - completed
+
+jobs:
+
+  deploy:
+    if: >
+      ${{ github.event.workflow_run.event == 'push' &&
+      github.ref == 'refs/heads/next' &&
+      github.event.workflow_run.conclusion == 'success' }}
+    name: Deploy SwaggerEditor@next to GitHub Pages
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          ref: next
+      - name: 'Download build artifact'
+        uses: actions/github-script@v6
+        with:
+          script: |
+            const allArtifacts = await github.rest.actions.listWorkflowRunArtifacts({
+               owner: context.repo.owner,
+               repo: context.repo.repo,
+               run_id: context.payload.workflow_run.id,
+            });
+            const matchArtifact = allArtifacts.data.artifacts.filter((artifact) => {
+              return artifact.name == "build"
+            })[0];
+            const download = await github.rest.actions.downloadArtifact({
+               owner: context.repo.owner,
+               repo: context.repo.repo,
+               artifact_id: matchArtifact.id,
+               archive_format: 'zip',
+            });
+            const fs = require('fs');
+            fs.writeFileSync('${{github.workspace}}/build.zip', Buffer.from(download.data));
+      - run: |
+          mkdir deploy-dir
+          unzip build.zip -d deploy-dir
+      - name: Deploy 🚀
+        uses: JamesIves/github-pages-deploy-action@v4.3.3
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          branch: gh-pages # The branch the action should deploy to.
+          folder: deploy-dir # The folder the action should deploy.
+          clean: true # Automatically remove deleted files from the deploy branch
