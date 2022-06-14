@@ -1,7 +1,8 @@
-name: Merge me!
+name: Dependabot Merge Me!
 
 on:
   pull_request_target:
+    branches: [ master, next ]
 
 jobs:
   merge-me:
@@ -9,16 +10,7 @@ jobs:
     if: github.actor == 'dependabot[bot]'
     runs-on: ubuntu-latest
     steps:
-      - name: 'Wait for status checks'
-        id: waitforstatuschecks
-        uses: WyriHaximus/github-action-wait-for-status@v1.6
-        with:
-          ignoreActions: Merge me!
-          checkInterval: 10
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: Merge me!
-        if: steps.waitforstatuschecks.outputs.status == 'success'
         uses: ahmadnassri/action-dependabot-auto-merge@v2
         with:
           target: minor
