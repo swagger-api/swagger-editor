@@ -60,7 +60,7 @@
     "@babel/runtime": "^7.18.3",
     "@emotion/react": "^11.9.0",
     "@emotion/styled": "^11.8.1",
-    "@mui/material": "^5.8.3",
+    "@mui/material": "^5.8.4",
     "@primer/octicons-react": "^17.3.0",
     "@swagger-api/apidom-ls": "^0.30.1",
     "axios": "^0.27.2",
