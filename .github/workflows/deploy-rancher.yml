@@ -20,9 +20,9 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - name: 'Download build artifact'
-        uses: actions/github-script@v5
+        uses: actions/github-script@v6
         with:
           script: |
             const allArtifacts = await github.rest.actions.listWorkflowRunArtifacts({
@@ -46,13 +46,13 @@ jobs:
           unzip build.zip -d build
 
       - name: Log in to DockerHub
-        uses: docker/login-action@v1
+        uses: docker/login-action@v2
         with:
           username: ${{ secrets.DOCKERHUB_SB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_SB_PASSWORD }}
 
       - name: Build docker image and push
-        uses: docker/build-push-action@v2
+        uses: docker/build-push-action@v3
         with:
           context: .
           push: true
