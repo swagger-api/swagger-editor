@@ -24,7 +24,8 @@ updates:
     labels:
       - "swagger-editor@next"
       - "cat: dependencies"
-      - "javascript"
+      - "cat: docker"
+      - "docker"
 
   - package-ecosystem: "github-actions"
     target-branch: "next"
@@ -34,4 +35,4 @@ updates:
     labels:
       - "swagger-editor@next"
       - "cat: dependencies"
-      - "javascript"
+      - "github_actions"
