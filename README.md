@@ -40,7 +40,7 @@ on your operating system as well. We strongly recommend going with a docker opti
 You can now install SwaggerEditor package using `npm`:
 
 ```sh
- $ npm install @swagger-api/swagger-ide
+ $ npm install @swagger-api/swagger-editor
 ````
 
 For more information about installing npm packages from GitHub packages registry please visit [Installing a package](https://docs.github.com/en/packages/working-with-a-github-packages-registry/working-with-the-npm-registry#installing-a-package)
@@ -51,7 +51,7 @@ section in their documentation.
 Install the package:
 
 ```sh
- $ npm install @swagger-api/swagger-ide
+ $ npm install @swagger-api/swagger-editor
 ````
 
 Use the package in you application:
@@ -61,8 +61,8 @@ Use the package in you application:
 ```js
 import React from 'react';
 import ReactDOM from 'react-dom';
-import SwaggerEditor from '@swagger-api/swagger-ide';
-import '@swagger-api/swagger-ide/swagger-ide.css';
+import SwaggerEditor from '@swagger-api/swagger-editor';
+import '@swagger-api/swagger-editor/swagger-editor.css';
 
 const url = "https://raw.githubusercontent.com/asyncapi/spec/v2.2.0/examples/streetlights-kafka.yml";
 
@@ -106,8 +106,8 @@ module.exports = {
   mode: 'production',
   entry: {
     app: './index.js',
-    'apidom.worker': '@swagger-api/swagger-ide/apidom.worker',
-    'editor.worker': '@swagger-api/swagger-ide/editor.worker',
+    'apidom.worker': '@swagger-api/swagger-editor/apidom.worker',
+    'editor.worker': '@swagger-api/swagger-editor/editor.worker',
   },
   output: {
     globalObject: 'self',
@@ -215,11 +215,11 @@ module.exports = {
     new CopyWebpackPlugin({
       patterns: [
         {
-          from: 'node_modules/@swagger-api/swagger-ide/dist/umd/apidom.worker.js',
+          from: 'node_modules/@swagger-api/swagger-editor/dist/umd/apidom.worker.js',
           to: 'static/js',
         },
         {
-          from: 'node_modules/@swagger-api/swagger-ide/dist/umd/editor.worker.js',
+          from: 'node_modules/@swagger-api/swagger-editor/dist/umd/editor.worker.js',
           to: 'static/js',
         }
       ]
@@ -361,13 +361,13 @@ It's bundled with React defined as external. This allows consumer to use his own
     content="SwaggerEditor"
   />
   <title>SwaggerEditor</title>
-  <link rel="stylesheet" href="./swagger-ide.css" />
+  <link rel="stylesheet" href="./swagger-editor.css" />
 </head>
 <body>
   <div id="swagger-editor"></div>
   <script src="https://unpkg.com/react@17/umd/react.production.min.js" crossorigin></script>
   <script src="https://unpkg.com/react-dom@17/umd/react-dom.production.min.js" crossorigin></script>
-  <script src="./dist/umd/swagger-ide.js"></script>
+  <script src="./dist/umd/swagger-editor.js"></script>
   <script>
     const props = {
       url: 'https://raw.githubusercontent.com/asyncapi/spec/v2.2.0/examples/streetlights-kafka.yml',
@@ -397,15 +397,15 @@ Package can also be produced manually by running following commands (assuming yo
 SwaggerEditor maps its [build artifacts](#build-artifacts) in `package.json` file in following way:
 
 ```json
-"unpkg": "./dist/umd/swagger-ide.js",
-"module": "./dist/esm/swagger-ide.js",
-"browser": "./dist/esm/swagger-ide.js",
-"jsnext:main": "./dist/esm/swagger-ide.js",
+"unpkg": "./dist/umd/swagger-editor.js",
+"module": "./dist/esm/swagger-editor.js",
+"browser": "./dist/esm/swagger-editor.js",
+"jsnext:main": "./dist/esm/swagger-editor.js",
 "exports": {
   "./package.json": "./package.json",
-  "./swagger-ide.css": "./dist/esm/swagger-ide.css",
+  "./swagger-editor.css": "./dist/esm/swagger-editor.css",
   ".": {
-    "browser": "./dist/esm/swagger-ide.js"
+    "browser": "./dist/esm/swagger-editor.js"
   },
   "./apidom.worker": {
     "browser": "./dist/esm/apidom.worker.js"
