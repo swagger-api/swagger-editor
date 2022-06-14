@@ -21,10 +21,10 @@ jobs:
           node-version: 16
           registry-url: https://npm.pkg.github.com/
           scope: "@swagger-api"
-      - name: Install dependencies
-        run: npm ci
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.SWAGGER_BOT_GITHUB_TOKEN }}
+#      - name: Install dependencies
+#        run: npm ci
+#        env:
+#          NODE_AUTH_TOKEN: ${{ secrets.SWAGGER_BOT_GITHUB_TOKEN }}
 #      - name: Prepare for the Release
 #        run: |
 #          npm run lint
@@ -42,10 +42,9 @@ jobs:
             @semantic-release/git
           branches: |
             [
-              'master',
               {
                 name: 'next',
-                prerelease: true
+                prerelease: 'alpha'
               }
             ]
         env:
