@@ -15,6 +15,7 @@ jobs:
           fetch-depth: 0
           persist-credentials: false
           submodules: true
+          ref: next
       - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
@@ -38,16 +39,6 @@ jobs:
         uses: cycjimmy/semantic-release-action@v2
         with:
           dry_run: true
-          extra_plugins: |
-            @semantic-release/git
-          branches: |
-            [
-              'master',
-              {
-                name: 'next',
-                prerelease: 'alpha'
-              }
-            ]
         env:
           GITHUB_TOKEN: ${{ secrets.SWAGGER_BOT_GITHUB_TOKEN }}
           NPM_TOKEN: ${{ secrets.SWAGGER_BOT_GITHUB_TOKEN }}
