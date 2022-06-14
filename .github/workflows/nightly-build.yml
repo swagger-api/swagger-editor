@@ -58,13 +58,13 @@ jobs:
         run: npm run cy:ci
 
       - name: Upload build artifact
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: build
           path: ./build
 
       - name: Upload npm artifact
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: "swagger-api-swagger-editor-next.tgz"
           path: ./swagger-api-swagger-editor-next-*.tgz
