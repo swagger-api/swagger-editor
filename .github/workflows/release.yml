@@ -42,7 +42,7 @@ jobs:
             @semantic-release/git
           branches: |
             [
-              'next'
+              {"name": "next", "prerelease": true}
             ]
         env:
           GITHUB_TOKEN: ${{ secrets.SWAGGER_BOT_GITHUB_TOKEN }}
