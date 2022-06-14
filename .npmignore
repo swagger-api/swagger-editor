@@ -23,5 +23,5 @@
 /Dockerfile
 /.eslintrc
 /.editorconfig
-/swagger-ide-*.tgz
+/swagger-api-swagger-editor-*.tgz
 /whitesource.config

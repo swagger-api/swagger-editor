@@ -1,5 +1,5 @@
 {
-  "name": "@swagger-api/swagger-ide",
+  "name": "@swagger-api/swagger-editor",
   "version": "0.26.0",
   "private": false,
   "publishConfig": {
@@ -14,15 +14,15 @@
   "license": "Apache-2.0",
   "type": "module",
   "sideEffects": false,
-  "unpkg": "./dist/umd/swagger-ide.js",
-  "module": "./dist/esm/swagger-ide.js",
-  "browser": "./dist/esm/swagger-ide.js",
-  "jsnext:main": "./dist/esm/swagger-ide.js",
+  "unpkg": "./dist/umd/swagger-editor.js",
+  "module": "./dist/esm/swagger-editor.js",
+  "browser": "./dist/esm/swagger-editor.js",
+  "jsnext:main": "./dist/esm/swagger-editor.js",
   "exports": {
     "./package.json": "./package.json",
-    "./swagger-ide.css": "./dist/swagger-ide.css",
+    "./swagger-editor.css": "./dist/swagger-editor.css",
     ".": {
-      "browser": "./dist/esm/swagger-ide.js"
+      "browser": "./dist/esm/swagger-editor.js"
     },
     "./apidom.worker": {
       "browser": "./dist/esm/apidom.worker.js"
@@ -36,9 +36,9 @@
     "build": "npm run build:app && npm run build:bundle:esm && npm run build:bundle:umd",
     "build:app": "cross-env ENABLE_PROGRESS_PLUGIN=false DISABLE_ESLINT_PLUGIN=false react-scripts build",
     "build:app:serve": "serve -s build -l 3050",
-    "build:bundle:esm": "rimraf ./dist/esm && cross-env DISABLE_ESLINT_PLUGIN=false ENABLE_PROGRESS_PLUGIN=false GENERATE_SOURCEMAP=true BUILD_ESM_BUNDLE=true DIST_PATH=dist/esm react-scripts build-bundle && rimraf ./dist/esm/swagger-ide.css*",
-    "build:bundle:umd": "rimraf ./dist/umd ./dist/swagger-ide.css && cross-env DISABLE_ESLINT_PLUGIN=false ENABLE_PROGRESS_PLUGIN=false GENERATE_SOURCEMAP=false BUILD_UMD_BUNDLE=true DIST_PATH=dist/umd react-scripts build-bundle && copyfiles -u 2 ./dist/umd/swagger-ide.css ./dist && rimraf ./dist/umd/swagger-ide.css",
-    "analyze": "source-map-explorer 'dist/umd/swagger-ide.js'",
+    "build:bundle:esm": "rimraf ./dist/esm && cross-env DISABLE_ESLINT_PLUGIN=false ENABLE_PROGRESS_PLUGIN=false GENERATE_SOURCEMAP=true BUILD_ESM_BUNDLE=true DIST_PATH=dist/esm react-scripts build-bundle && rimraf ./dist/esm/swagger-editor.css",
+    "build:bundle:umd": "rimraf ./dist/umd ./dist/swagger-editor.css && cross-env DISABLE_ESLINT_PLUGIN=false ENABLE_PROGRESS_PLUGIN=false GENERATE_SOURCEMAP=false BUILD_UMD_BUNDLE=true DIST_PATH=dist/umd react-scripts build-bundle && copyfiles -u 2 ./dist/umd/swagger-editor.css ./dist && rimraf ./dist/umd/swagger-editor.css",
+    "analyze": "source-map-explorer 'dist/umd/swagger-editor.js'",
     "test": "react-scripts test",
     "cy:dev": "start-server-and-test cy:dev:server http://localhost:3003 cy:dev:open",
     "cy:dev:open": "CYPRESS_BASE_URL=http://localhost:3003 cypress open",
