@@ -25,14 +25,14 @@ jobs:
         run: npm ci
         env:
           NODE_AUTH_TOKEN: ${{ secrets.SWAGGER_BOT_GITHUB_TOKEN }}
-      - name: Prepare for the Release
-        run: |
-          npm run lint
-          npm run test
-          npm run build:app
-          npm run cy:ci
-          npm run build:bundle:esm
-          npm run build:bundle:umd
+#      - name: Prepare for the Release
+#        run: |
+#          npm run lint
+#          npm run test
+#          npm run build:app
+#          npm run cy:ci
+#          npm run build:bundle:esm
+#          npm run build:bundle:umd
       - name: Semantic Release
         id: semantic
         uses: cycjimmy/semantic-release-action@v2
@@ -42,7 +42,11 @@ jobs:
             @semantic-release/git
           branches: |
             [
-              {"name": "next", "prerelease": true}
+              'master',
+              {
+                name: 'next',
+                prerelease: true
+              }
             ]
         env:
           GITHUB_TOKEN: ${{ secrets.SWAGGER_BOT_GITHUB_TOKEN }}
