@@ -46,7 +46,7 @@ jobs:
           unzip build.zip -d build
 
       - name: Log in to DockerHub
-        uses: docker/login-action@v1
+        uses: docker/login-action@v2
         with:
           username: ${{ secrets.DOCKERHUB_SB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_SB_PASSWORD }}
