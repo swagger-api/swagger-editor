@@ -9,3 +9,5 @@ import '@testing-library/jest-dom';
 import 'jest-canvas-mock';
 
 document.queryCommandSupported = () => false;
+
+console.dir('test');
