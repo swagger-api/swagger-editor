@@ -1,0 +1,75 @@
+# inspired by https://securitylab.github.com/research/github-actions-preventing-pwn-requests/
+name: Deploy SwaggerEditor@next to Rancher🚢
+
+on:
+  workflow_run:
+    workflows: ["SwaggerEditor@next build", "SwaggerEditor@next nightly build"]
+    types:
+      - completed
+
+jobs:
+
+  deploy:
+    if: >
+      ${{ github.event.workflow_run.event == 'push' &&
+      github.ref == 'refs/heads/next' &&
+      github.event.workflow_run.conclusion == 'success' }}
+    name: Deploy SwaggerEditor@next to Rancher
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          ref: next
+      - name: 'Download build artifact'
+        uses: actions/github-script@v6
+        with:
+          script: |
+            const allArtifacts = await github.rest.actions.listWorkflowRunArtifacts({
+               owner: context.repo.owner,
+               repo: context.repo.repo,
+               run_id: context.payload.workflow_run.id,
+            });
+            const matchArtifact = allArtifacts.data.artifacts.filter((artifact) => {
+              return artifact.name == "build"
+            })[0];
+            const download = await github.rest.actions.downloadArtifact({
+               owner: context.repo.owner,
+               repo: context.repo.repo,
+               artifact_id: matchArtifact.id,
+               archive_format: 'zip',
+            });
+            const fs = require('fs');
+            fs.writeFileSync('${{github.workspace}}/build.zip', Buffer.from(download.data));
+      - run: |
+          mkdir build
+          unzip build.zip -d build
+
+      - name: Log in to DockerHub
+        uses: docker/login-action@v2
+        with:
+          username: ${{ secrets.DOCKERHUB_SB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_SB_PASSWORD }}
+
+      - name: Build docker image and push
+        uses: docker/build-push-action@v3
+        with:
+          context: .
+          push: true
+          tags: smartbear/swagger-ide:latest
+
+      - name: Deploy Rancher🚢
+        run: |
+          ts="$(date +'%Y-%m-%dT%H:%M:%SZ' --utc)"
+          curl -s -D /dev/stderr -X PATCH \
+            -H "Authorization: Bearer ${RANCHER_BEARER_TOKEN}" \
+            -H 'Content-Type: application/strategic-merge-patch+json' \
+            "${RANCHER_URL}/k8s/clusters/${RANCHER_CLUSTER_ID}/apis/apps/v1/namespaces/${RANCHER_NAMESPACE}/${RANCHER_K8S_OBJECT_TYPE}/${RANCHER_K8S_OBJECT_NAME}" \
+            -d "{\"spec\": {\"template\": {\"metadata\": {\"annotations\": {\"cattle.io/timestamp\": \"${ts}\"}}}}}"
+        env:
+          RANCHER_BEARER_TOKEN: ${{ secrets.RANCHER_BEARER_TOKEN }}
+          RANCHER_CLUSTER_ID: 'c-n8zp2'
+          RANCHER_NAMESPACE: 'swagger-oss'
+          RANCHER_K8S_OBJECT_TYPE: 'daemonsets'
+          RANCHER_URL: ${{ secrets.RANCHER_URL }}
+          RANCHER_K8S_OBJECT_NAME: 'swagger-ide'
