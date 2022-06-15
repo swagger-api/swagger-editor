@@ -7,7 +7,7 @@ const Main = ({ getComponent }) => {
   const Scenarios = getComponent('ADSScenarios', true);
 
   return (
-    <section className="swagger-ui swagger-container">
+    <section className="editor-preview_ads swagger-ui swagger-container">
       <div className="swagger-ui">
         <div className="information-container wrapper">
           <section className="block col-12">
