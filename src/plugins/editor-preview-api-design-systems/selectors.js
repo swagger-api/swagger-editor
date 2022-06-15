@@ -138,7 +138,9 @@ export const selectRequirementValues = (state, { requirementElement }) => {
 export const selectIsAPIDesignSystemsSpec = createSelector(
   selectParsingStatus,
   selectMainElement,
-  (parsingStatus, mainElement) => {
-    return parsingStatus === 'success' && isMainElement(mainElement);
-  }
+  (parsingStatus, mainElement) =>
+    parsingStatus === 'success' &&
+    isMainElement(mainElement) &&
+    isStringElement(mainElement.version) &&
+    toValue(mainElement.version) === '2021-05-07'
 );
