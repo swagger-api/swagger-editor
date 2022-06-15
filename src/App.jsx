@@ -13,6 +13,7 @@ import EditorTextareaPlugin from './plugins/editor-textarea/index.js';
 import EditorMonacoPlugin from './plugins/editor-monaco/index.js';
 import EditorPreviewSwaggerUIPlugin from './plugins/editor-preview-swagger-ui/index.js';
 import EditorPreviewAsyncAPIPlugin from './plugins/editor-preview-asyncapi/index.js';
+import EditorPreviewApiDesignSystemsPlugin from './plugins/editor-preview-api-design-systems/index.js';
 import EditorReadOnlyPlugin from './plugins/editor-read-only/index.js';
 import EditorSpecOriginPlugin from './plugins/editor-spec-origin/index.js';
 import EditorPersistencePlugin from './plugins/editor-persistence/index.js';
@@ -57,6 +58,7 @@ SwaggerEditor.plugins = {
   EditorPersistence: EditorPersistencePlugin,
   EditorPreviewSwaggerUI: EditorPreviewSwaggerUIPlugin,
   EditorPreviewAsyncAPI: EditorPreviewAsyncAPIPlugin,
+  EditorPreviewApiDesignSystems: EditorPreviewApiDesignSystemsPlugin,
   Topbar: TopbarPlugin,
   Layout: LayoutPlugin,
 };
@@ -71,6 +73,7 @@ SwaggerEditor.presets = {
     EditorPersistencePlugin,
     EditorPreviewSwaggerUIPlugin,
     EditorPreviewAsyncAPIPlugin,
+    EditorPreviewApiDesignSystemsPlugin,
     TopbarPlugin,
     LayoutPlugin,
     SafeRenderPlugin,
@@ -86,6 +89,7 @@ SwaggerEditor.presets = {
     EditorPersistencePlugin,
     EditorPreviewSwaggerUIPlugin,
     EditorPreviewAsyncAPIPlugin,
+    EditorPreviewApiDesignSystemsPlugin,
     TopbarPlugin,
     LayoutPlugin,
     SafeRenderPlugin,
