@@ -72,4 +72,4 @@ jobs:
           RANCHER_NAMESPACE: 'swagger-oss'
           RANCHER_K8S_OBJECT_TYPE: 'daemonsets'
           RANCHER_URL: ${{ secrets.RANCHER_URL }}
-          RANCHER_K8S_OBJECT_NAME: 'swagger-ide'
+          RANCHER_K8S_OBJECT_NAME: 'swagger-editor-next'
