@@ -1,4 +1,4 @@
-name: Swagger Editor@next nightly build
+name: SwaggerEditor@next nightly build
 
 on:
   workflow_dispatch:
@@ -10,13 +10,13 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
         with:
           submodules: true
           ref: next
 
       - name: Use Node.js 16
-        uses: actions/setup-node@v2
+        uses: actions/setup-node@v3
         with:
           node-version: 16
           registry-url: https://npm.pkg.github.com/
@@ -24,13 +24,13 @@ jobs:
 
       - name: Cache npm cache files
         id: cache-npm-cache-files
-        uses: actions/cache@v2
+        uses: actions/cache@v3
         with:
           path: ~/.npm
           key: npm-cache-${{ runner.os }}-${{ hashFiles('package-lock.json') }}
       - name: Cache Cypress binary
         id: cache-cypress-binary
-        uses: actions/cache@v2
+        uses: actions/cache@v3
         with:
           path: cypress/cache
           key: cypress-binary-${{ hashFiles('package-lock.json') }}
@@ -58,13 +58,13 @@ jobs:
         run: npm run cy:ci
 
       - name: Upload build artifact
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: build
           path: ./build
 
       - name: Upload npm artifact
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: "swagger-api-swagger-editor-next.tgz"
           path: ./swagger-api-swagger-editor-next-*.tgz
