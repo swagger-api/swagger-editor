@@ -56,7 +56,7 @@ jobs:
         with:
           context: .
           push: true
-          tags: smartbear/swagger-ide:latest
+          tags: swaggerapi/swagger-editor:next-v5
 
       - name: Deploy Rancher🚢
         run: |
