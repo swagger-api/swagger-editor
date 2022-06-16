@@ -4,13 +4,12 @@ import PropTypes from 'prop-types';
 import ValidationTable from '../../editor-monaco/components/ValidationTable/ValidationTable.jsx';
 
 const AsyncAPIValidationPane = ({
-  // editorSelectors,
+  asyncapiSelectors,
   editorActions,
   onValidationClick,
   alwaysDisplayHeading,
-  markers,
 }) => {
-  // const markers = editorSelectors.selectEditorMarkers();
+  const markers = asyncapiSelectors.selectAsyncApiParserMarkers();
   const columns = React.useMemo(
     () => [
       {
@@ -24,8 +23,7 @@ const AsyncAPIValidationPane = ({
     ],
     []
   );
-  // const data = React.useMemo(() => markers, [markers]);
-  const data = markers;
+  const data = React.useMemo(() => markers, [markers]);
   const showTable = alwaysDisplayHeading || data.length > 0;
 
   const handleValidationClick = (marker) => {
@@ -50,10 +48,9 @@ const AsyncAPIValidationPane = ({
 };
 
 AsyncAPIValidationPane.propTypes = {
-  markers: PropTypes.oneOfType([PropTypes.array]).isRequired,
   alwaysDisplayHeading: PropTypes.bool,
   editorActions: PropTypes.oneOfType([PropTypes.object]).isRequired,
-  // editorSelectors: PropTypes.oneOfType([PropTypes.object]).isRequired,
+  asyncapiSelectors: PropTypes.oneOfType([PropTypes.object]).isRequired,
   onValidationClick: PropTypes.func,
 };
 

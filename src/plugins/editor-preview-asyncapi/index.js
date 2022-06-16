@@ -1,6 +1,12 @@
 import AsyncAPIEditorPreviewPane from './components/AsyncAPIEditorPreviewPane.jsx';
 import EditorPreviewPaneWrapper from './wrap-components/EditorPreviewPaneWrapper.jsx';
-import { getIsOasOrAsyncApi2, shouldUpdateDefinitionLanguage } from './actions.js';
+import {
+  getIsOasOrAsyncApi2,
+  shouldUpdateDefinitionLanguage,
+  updateAsyncApiParserMarkers,
+} from './actions.js';
+import reducers from './reducers.js';
+import { selectAsyncApiParserMarkers } from './selectors.js';
 
 const EditorPreviewAsyncAPIPlugin = () => ({
   components: {
@@ -14,7 +20,10 @@ const EditorPreviewAsyncAPIPlugin = () => ({
       actions: {
         getIsOasOrAsyncApi2,
         shouldUpdateDefinitionLanguage,
+        updateAsyncApiParserMarkers,
       },
+      reducers,
+      selectors: { selectAsyncApiParserMarkers },
     },
   },
 });

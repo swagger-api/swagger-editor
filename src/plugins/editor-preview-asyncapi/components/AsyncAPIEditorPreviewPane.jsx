@@ -61,10 +61,14 @@ const removeDuplicateMarkers = (list) => {
   }, []);
 };
 
-const AsyncAPIEditorPreviewPane = ({ specSelectors, editorActions }) => {
+const AsyncAPIEditorPreviewPane = ({
+  specSelectors,
+  editorActions,
+  asyncapiActions,
+  asyncapiSelectors,
+}) => {
   const [isValid, setIsValid] = useState(false);
   const [parsedSpec, setParsedSpec] = useState(null);
-  const [markers, setMarkers] = useState([]);
 
   const useDebounce = (value, delay) => {
     // eslint-disable-next-line no-unused-vars
@@ -108,9 +112,7 @@ const AsyncAPIEditorPreviewPane = ({ specSelectors, editorActions }) => {
             const allErrorMarkers = validationErrorMarkers.concat(refErrorMarkers);
             const dedupedErrorMarkers = removeDuplicateMarkers(allErrorMarkers);
             // update reducer state
-            // editorActions.updateEditorMarkers(dedupedErrorMarkers);
-            // update local state for now
-            setMarkers(dedupedErrorMarkers);
+            asyncapiActions.updateAsyncApiParserMarkers(dedupedErrorMarkers);
             setIsValid(false);
           });
       }, delay);
@@ -139,7 +141,10 @@ const AsyncAPIEditorPreviewPane = ({ specSelectors, editorActions }) => {
   if (!isValid) {
     return (
       <div className="swagger-editor__asyncapi-container">
-        <AsyncAPIValidationPane markers={markers} editorActions={editorActions} />
+        <AsyncAPIValidationPane
+          asyncapiSelectors={asyncapiSelectors}
+          editorActions={editorActions}
+        />
       </div>
     );
   }
@@ -153,6 +158,8 @@ const AsyncAPIEditorPreviewPane = ({ specSelectors, editorActions }) => {
 AsyncAPIEditorPreviewPane.propTypes = {
   specSelectors: PropTypes.oneOfType([PropTypes.object]).isRequired,
   editorActions: PropTypes.oneOfType([PropTypes.object]).isRequired,
+  asyncapiSelectors: PropTypes.oneOfType([PropTypes.object]).isRequired,
+  asyncapiActions: PropTypes.oneOfType([PropTypes.object]).isRequired,
 };
 
 export default AsyncAPIEditorPreviewPane;
