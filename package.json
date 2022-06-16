@@ -105,7 +105,7 @@
     "husky": "^8.0.1",
     "jest-canvas-mock": "^2.4.0",
     "lint-staged": "^13.0.1",
-    "prettier": "^2.7.0",
+    "prettier": "^2.7.1",
     "process": "^0.11.10",
     "react-scripts": "file:./create-react-app/packages/react-scripts",
     "rimraf": "^3.0.2",
