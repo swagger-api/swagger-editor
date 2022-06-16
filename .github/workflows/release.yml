@@ -1,3 +1,7 @@
+# Do not modify this file. 
+# Github Actions only recognizes `workflow_run` and `workflow_dispatch`
+# events that are located in the default branch
+
 name: Release SwaggerEditor@next
 on:
   workflow_dispatch:

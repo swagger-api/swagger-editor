@@ -383,7 +383,7 @@ It's bundled with React defined as external. This allows consumer to use his own
 
 **npm**
 
-SwaggerEditor is released as `@swagger-api/swagger-ide` npm package on [GitHub packages registry](https://docs.github.com/en/packages/learn-github-packages/introduction-to-github-packages).
+SwaggerEditor is released as `@swagger-api/swagger-editor` npm package on [GitHub packages registry](https://docs.github.com/en/packages/learn-github-packages/introduction-to-github-packages).
 Package can also be produced manually by running following commands (assuming you're already followed [setting up](#setting-up) steps):
 
 ```sh

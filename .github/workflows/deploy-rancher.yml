@@ -1,3 +1,7 @@
+# Do not modify this file. 
+# Github Actions only recognizes `workflow_run` and `workflow_dispatch`
+# events that are located in the default branch
+
 # inspired by https://securitylab.github.com/research/github-actions-preventing-pwn-requests/
 name: Deploy SwaggerEditor@next to Rancher🚢
 
@@ -6,8 +10,6 @@ on:
     workflows: ["SwaggerEditor@next build", "SwaggerEditor@next nightly build"]
     types:
       - completed
-    branches:
-      - next
 
 jobs:
 
@@ -21,6 +23,8 @@ jobs:
 
     steps:
       - uses: actions/checkout@v3
+        with:
+          ref: next
       - name: 'Download build artifact'
         uses: actions/github-script@v6
         with:
@@ -56,7 +60,7 @@ jobs:
         with:
           context: .
           push: true
-          tags: smartbear/swagger-ide:latest
+          tags: swaggerapi/swagger-editor:next-v5
 
       - name: Deploy Rancher🚢
         run: |
@@ -72,4 +76,4 @@ jobs:
           RANCHER_NAMESPACE: 'swagger-oss'
           RANCHER_K8S_OBJECT_TYPE: 'daemonsets'
           RANCHER_URL: ${{ secrets.RANCHER_URL }}
-          RANCHER_K8S_OBJECT_NAME: 'swagger-ide'
+          RANCHER_K8S_OBJECT_NAME: 'swagger-editor-next'

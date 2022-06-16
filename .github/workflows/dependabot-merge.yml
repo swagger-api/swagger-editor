@@ -1,8 +1,12 @@
+# Do not modify this file. 
+# Github Actions only recognizes `workflow_run` and `workflow_dispatch`
+# events that are located in the default branch
+
 name: Dependabot Merge Me!
 
 on:
   pull_request_target:
-    branches: [ next ]
+    branches: [ master, next ]
 
 jobs:
   merge-me:
