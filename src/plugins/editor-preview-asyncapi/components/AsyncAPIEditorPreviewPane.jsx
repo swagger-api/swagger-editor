@@ -7,6 +7,7 @@ import * as avroSchemaParser from '@asyncapi/avro-schema-parser';
 
 import * as ramlSchemaParser from '../util/raml-1-0-parser.js';
 import { isValidJsonOrYaml } from '../../../utils/spec-valid-json-yaml.js';
+import AsyncAPIValidationPane from './AsyncAPIValidationPane.jsx';
 
 registerSchemaParser(openapiSchemaParser);
 registerSchemaParser(ramlSchemaParser);
@@ -63,6 +64,7 @@ const removeDuplicateMarkers = (list) => {
 const AsyncAPIEditorPreviewPane = ({ specSelectors, editorActions }) => {
   const [isValid, setIsValid] = useState(false);
   const [parsedSpec, setParsedSpec] = useState(null);
+  const [markers, setMarkers] = useState([]);
 
   const useDebounce = (value, delay) => {
     // eslint-disable-next-line no-unused-vars
@@ -106,7 +108,9 @@ const AsyncAPIEditorPreviewPane = ({ specSelectors, editorActions }) => {
             const allErrorMarkers = validationErrorMarkers.concat(refErrorMarkers);
             const dedupedErrorMarkers = removeDuplicateMarkers(allErrorMarkers);
             // update reducer state
-            editorActions.updateEditorMarkers(dedupedErrorMarkers);
+            // editorActions.updateEditorMarkers(dedupedErrorMarkers);
+            // update local state for now
+            setMarkers(dedupedErrorMarkers);
             setIsValid(false);
           });
       }, delay);
@@ -138,6 +142,7 @@ const AsyncAPIEditorPreviewPane = ({ specSelectors, editorActions }) => {
         <p style={{ paddingLeft: '2.0rem' }}>
           Empty or invalid document. Please fix errors/define AsyncAPI document.
         </p>
+        <AsyncAPIValidationPane markers={markers} editorActions={editorActions} />
       </div>
     );
   }
