@@ -34,13 +34,16 @@ const AsyncAPIValidationPane = ({
   };
 
   return (
-    <div className="swagger-editor__validation-pane">
+    <div className="swagger-editor__asyncapi-validation-pane">
       {showTable && (
-        <ValidationTable
-          columns={columns}
-          data={data}
-          onValidationKeyClick={handleValidationClick}
-        />
+        <>
+          <h4>Invalid AsyncAPI document. Please fix errors:</h4>
+          <ValidationTable
+            columns={columns}
+            data={data}
+            onValidationKeyClick={handleValidationClick}
+          />
+        </>
       )}
     </div>
   );

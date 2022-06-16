@@ -138,10 +138,7 @@ const AsyncAPIEditorPreviewPane = ({ specSelectors, editorActions }) => {
   };
   if (!isValid) {
     return (
-      <div className="flex flex-1 overflow-hidden h-full justify-center items-center text-2xl mx-auto px-6 text-center">
-        <p style={{ paddingLeft: '2.0rem' }}>
-          Empty or invalid document. Please fix errors/define AsyncAPI document.
-        </p>
+      <div className="swagger-editor__asyncapi-container">
         <AsyncAPIValidationPane markers={markers} editorActions={editorActions} />
       </div>
     );
