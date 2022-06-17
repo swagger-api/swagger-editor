@@ -91,7 +91,7 @@
     "@testing-library/cypress": "^8.0.3",
     "@testing-library/jest-dom": "^5.16.4",
     "@testing-library/react": "^12.1.5",
-    "@testing-library/user-event": "^14.2.0",
+    "@testing-library/user-event": "^14.2.1",
     "buffer": "^6.0.3",
     "copyfiles": "^2.4.1",
     "cross-env": "^7.0.3",
