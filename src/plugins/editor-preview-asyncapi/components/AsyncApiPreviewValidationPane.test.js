@@ -3,7 +3,6 @@ import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 
 import AsyncApiPreviewValidationPane from './AsyncApiPreviewValidationPane.jsx';
 import * as asyncapiSelectors from '../selectors.js';
-import * as editorActions from '../../editor-monaco/actions.js';
 
 jest.mock('../selectors.js', () => ({
   selectAsyncApiParserMarkers: jest.fn(),
@@ -17,7 +16,7 @@ const setup = ({ markerErrorList } = {}) => {
   asyncapiSelectors.selectAsyncApiParserMarkers.mockReturnValue(markerErrorList);
   const onValidationClick = jest.fn();
   const alwaysDisplayHeading = true;
-  return { asyncapiSelectors, editorActions, onValidationClick, alwaysDisplayHeading };
+  return { asyncapiSelectors, onValidationClick, alwaysDisplayHeading };
 };
 
 const renderValidationPane = async (props) => {
@@ -49,7 +48,6 @@ describe('with empty errorMarkerErrorList', () => {
       alwaysDisplayHeading,
       onValidationClick,
       asyncapiSelectors: selectors,
-      editorActions: actions,
     } = setup({
       markerErrorList: [],
     });
@@ -57,7 +55,6 @@ describe('with empty errorMarkerErrorList', () => {
       alwaysDisplayHeading,
       onValidationClick,
       asyncapiSelectors: selectors,
-      editorActions: actions,
     });
 
     const elementHeaderExists1 = hasTableItem('Line');
@@ -80,7 +77,6 @@ describe('with populated markerErrorList', () => {
       alwaysDisplayHeading,
       onValidationClick,
       asyncapiSelectors: selectors,
-      editorActions: actions,
     } = setup({
       markerErrorList: [
         {
@@ -97,7 +93,6 @@ describe('with populated markerErrorList', () => {
       alwaysDisplayHeading,
       onValidationClick,
       asyncapiSelectors: selectors,
-      editorActions: actions,
     });
 
     const elementRowExists1 = hasTableItem(columnMessage1);

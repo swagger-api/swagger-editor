@@ -145,7 +145,7 @@ const AsyncAPIEditorPreviewPane = ({
       <div className="swagger-editor__asyncapi-container">
         <EditorPreviewValidationPane
           asyncapiSelectors={asyncapiSelectors}
-          editorActions={editorActions}
+          onValidationClick={editorActions.setJumpToEditorMarker}
         />
       </div>
     );

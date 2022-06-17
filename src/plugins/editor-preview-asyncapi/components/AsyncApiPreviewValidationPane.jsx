@@ -5,7 +5,6 @@ import ValidationTable from '../../editor-monaco/components/ValidationTable/Vali
 
 const AsyncApiPreviewValidationPane = ({
   asyncapiSelectors,
-  editorActions,
   onValidationClick,
   alwaysDisplayHeading,
 }) => {
@@ -28,7 +27,6 @@ const AsyncApiPreviewValidationPane = ({
 
   const handleValidationClick = (marker) => {
     onValidationClick(marker);
-    editorActions.setJumpToEditorMarker(marker);
   };
 
   return (
@@ -49,7 +47,6 @@ const AsyncApiPreviewValidationPane = ({
 
 AsyncApiPreviewValidationPane.propTypes = {
   alwaysDisplayHeading: PropTypes.bool,
-  editorActions: PropTypes.oneOfType([PropTypes.object]).isRequired,
   asyncapiSelectors: PropTypes.oneOfType([PropTypes.object]).isRequired,
   onValidationClick: PropTypes.func,
 };
