@@ -60,7 +60,13 @@ const removeDuplicateMarkers = (list) => {
   }, []);
 };
 
-const AsyncAPIEditorPreviewPane = ({ specSelectors, editorActions }) => {
+const AsyncAPIEditorPreviewPane = ({
+  specSelectors,
+  editorActions,
+  asyncapiActions,
+  asyncapiSelectors,
+  getComponent,
+}) => {
   const [isValid, setIsValid] = useState(false);
   const [parsedSpec, setParsedSpec] = useState(null);
 
@@ -106,7 +112,7 @@ const AsyncAPIEditorPreviewPane = ({ specSelectors, editorActions }) => {
             const allErrorMarkers = validationErrorMarkers.concat(refErrorMarkers);
             const dedupedErrorMarkers = removeDuplicateMarkers(allErrorMarkers);
             // update reducer state
-            editorActions.updateEditorMarkers(dedupedErrorMarkers);
+            asyncapiActions.updateAsyncApiParserMarkers(dedupedErrorMarkers);
             setIsValid(false);
           });
       }, delay);
@@ -132,12 +138,15 @@ const AsyncAPIEditorPreviewPane = ({ specSelectors, editorActions }) => {
       errors: true, // config setting to show error pane
     },
   };
+  const EditorPreviewValidationPane = getComponent('AsyncApiPreviewValidationPane', true);
+
   if (!isValid) {
     return (
-      <div className="flex flex-1 overflow-hidden h-full justify-center items-center text-2xl mx-auto px-6 text-center">
-        <p style={{ paddingLeft: '2.0rem' }}>
-          Empty or invalid document. Please fix errors/define AsyncAPI document.
-        </p>
+      <div className="swagger-editor__asyncapi-container">
+        <EditorPreviewValidationPane
+          asyncapiSelectors={asyncapiSelectors}
+          onValidationClick={editorActions.setJumpToEditorMarker}
+        />
       </div>
     );
   }
@@ -151,6 +160,9 @@ const AsyncAPIEditorPreviewPane = ({ specSelectors, editorActions }) => {
 AsyncAPIEditorPreviewPane.propTypes = {
   specSelectors: PropTypes.oneOfType([PropTypes.object]).isRequired,
   editorActions: PropTypes.oneOfType([PropTypes.object]).isRequired,
+  asyncapiSelectors: PropTypes.oneOfType([PropTypes.object]).isRequired,
+  asyncapiActions: PropTypes.oneOfType([PropTypes.object]).isRequired,
+  getComponent: PropTypes.func.isRequired,
 };
 
 export default AsyncAPIEditorPreviewPane;
