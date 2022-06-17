@@ -1,4 +1,5 @@
 import AsyncAPIEditorPreviewPane from './components/AsyncAPIEditorPreviewPane.jsx';
+import AsyncApiPreviewValidationPane from './components/AsyncApiPreviewValidationPane.jsx';
 import EditorPreviewPaneWrapper from './wrap-components/EditorPreviewPaneWrapper.jsx';
 import {
   getIsOasOrAsyncApi2,
@@ -11,6 +12,7 @@ import { selectAsyncApiParserMarkers } from './selectors.js';
 const EditorPreviewAsyncAPIPlugin = () => ({
   components: {
     AsyncAPIEditorPreviewPane,
+    AsyncApiPreviewValidationPane,
   },
   wrapComponents: {
     EditorPreviewPane: EditorPreviewPaneWrapper,

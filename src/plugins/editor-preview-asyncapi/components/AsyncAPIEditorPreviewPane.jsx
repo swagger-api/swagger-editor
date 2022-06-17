@@ -7,7 +7,6 @@ import * as avroSchemaParser from '@asyncapi/avro-schema-parser';
 
 import * as ramlSchemaParser from '../util/raml-1-0-parser.js';
 import { isValidJsonOrYaml } from '../../../utils/spec-valid-json-yaml.js';
-import AsyncAPIValidationPane from './AsyncAPIValidationPane.jsx';
 
 registerSchemaParser(openapiSchemaParser);
 registerSchemaParser(ramlSchemaParser);
@@ -66,6 +65,7 @@ const AsyncAPIEditorPreviewPane = ({
   editorActions,
   asyncapiActions,
   asyncapiSelectors,
+  getComponent,
 }) => {
   const [isValid, setIsValid] = useState(false);
   const [parsedSpec, setParsedSpec] = useState(null);
@@ -138,10 +138,12 @@ const AsyncAPIEditorPreviewPane = ({
       errors: true, // config setting to show error pane
     },
   };
+  const EditorPreviewValidationPane = getComponent('AsyncApiPreviewValidationPane', true);
+
   if (!isValid) {
     return (
       <div className="swagger-editor__asyncapi-container">
-        <AsyncAPIValidationPane
+        <EditorPreviewValidationPane
           asyncapiSelectors={asyncapiSelectors}
           editorActions={editorActions}
         />
@@ -160,6 +162,7 @@ AsyncAPIEditorPreviewPane.propTypes = {
   editorActions: PropTypes.oneOfType([PropTypes.object]).isRequired,
   asyncapiSelectors: PropTypes.oneOfType([PropTypes.object]).isRequired,
   asyncapiActions: PropTypes.oneOfType([PropTypes.object]).isRequired,
+  getComponent: PropTypes.func.isRequired,
 };
 
 export default AsyncAPIEditorPreviewPane;

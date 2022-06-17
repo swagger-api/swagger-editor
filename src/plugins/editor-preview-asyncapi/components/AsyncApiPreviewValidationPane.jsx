@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 import ValidationTable from '../../editor-monaco/components/ValidationTable/ValidationTable.jsx';
 
-const AsyncAPIValidationPane = ({
+const AsyncApiPreviewValidationPane = ({
   asyncapiSelectors,
   editorActions,
   onValidationClick,
@@ -47,16 +47,16 @@ const AsyncAPIValidationPane = ({
   );
 };
 
-AsyncAPIValidationPane.propTypes = {
+AsyncApiPreviewValidationPane.propTypes = {
   alwaysDisplayHeading: PropTypes.bool,
   editorActions: PropTypes.oneOfType([PropTypes.object]).isRequired,
   asyncapiSelectors: PropTypes.oneOfType([PropTypes.object]).isRequired,
   onValidationClick: PropTypes.func,
 };
 
-AsyncAPIValidationPane.defaultProps = {
+AsyncApiPreviewValidationPane.defaultProps = {
   alwaysDisplayHeading: false,
   onValidationClick: () => {},
 };
 
-export default AsyncAPIValidationPane;
+export default AsyncApiPreviewValidationPane;
