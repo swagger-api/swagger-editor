@@ -17,6 +17,13 @@ import EditorReadOnlyPlugin from './plugins/editor-read-only/index.js';
 import EditorSpecOriginPlugin from './plugins/editor-spec-origin/index.js';
 import EditorPersistencePlugin from './plugins/editor-persistence/index.js';
 
+// from webpack at compile time
+const { GIT_DIRTY, GIT_COMMIT, PACKAGE_VERSION } = buildInfo; // eslint-disable-line no-undef
+window.versions = window.versions || {};
+window.versions.swaggerEditor = `${PACKAGE_VERSION}/${GIT_COMMIT || 'unknown'}${
+  GIT_DIRTY ? '-dirty' : ''
+}`;
+
 const SafeRenderPlugin = (system) =>
   SwaggerUI.plugins.SafeRender({
     componentList: [
