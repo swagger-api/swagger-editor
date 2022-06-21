@@ -72,7 +72,11 @@ export const saveAsJsonResolved = () => async (system) => {
         'Save as JSON is not currently possible because Swagger-Editor was not able to parse your API definiton.',
     };
   }
-  const apidomContext = {};
+  const apidomContext = {
+    defaultLanguageContent: {
+      namespace: 'asyncapi',
+    },
+  };
   const languageService = getLanguageService(apidomContext); // use apidom metadata
 
   try {
@@ -119,7 +123,11 @@ export const saveAsYamlResolved = () => async (system) => {
     };
   }
 
-  const apidomContext = {};
+  const apidomContext = {
+    defaultLanguageContent: {
+      namespace: 'asyncapi',
+    },
+  };
   const languageService = getLanguageService(apidomContext); // use apidom metadata
 
   try {

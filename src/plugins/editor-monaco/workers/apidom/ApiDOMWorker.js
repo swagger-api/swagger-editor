@@ -8,6 +8,9 @@ export class ApiDOMWorker {
     completionProviders: [],
     performanceLogs: false,
     logLevel: apidomLS.LogLevel.WARN,
+    defaultLanguageContent: {
+      namespace: 'asyncapi',
+    },
   };
 
   constructor(ctx, createData) {

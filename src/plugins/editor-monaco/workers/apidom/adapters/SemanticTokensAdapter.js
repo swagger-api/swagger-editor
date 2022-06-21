@@ -37,6 +37,9 @@ export default class SemanticTokensAdapter {
       return getLanguageService({
         performanceLogs: false,
         logLevel: LogLevel.WARN,
+        defaultLanguageContent: {
+          namespace: 'asyncapi',
+        },
       }).getSemanticTokensLegend();
     } catch {
       return this.#legendError;
