@@ -9,6 +9,7 @@ import TopbarPlugin from './plugins/topbar/index.js';
 import ModalsPlugin from './plugins/modals/index.js';
 import DialogsPlugin from './plugins/dialogs/index.js';
 import DropzonePlugin from './plugins/dropzone/index.js';
+import VersionsPlugin from './plugins/versions/index.js';
 import EditorTextareaPlugin from './plugins/editor-textarea/index.js';
 import EditorMonacoPlugin from './plugins/editor-monaco/index.js';
 import EditorPreviewSwaggerUIPlugin from './plugins/editor-preview-swagger-ui/index.js';
@@ -16,13 +17,6 @@ import EditorPreviewAsyncAPIPlugin from './plugins/editor-preview-asyncapi/index
 import EditorReadOnlyPlugin from './plugins/editor-read-only/index.js';
 import EditorSpecOriginPlugin from './plugins/editor-spec-origin/index.js';
 import EditorPersistencePlugin from './plugins/editor-persistence/index.js';
-
-// from webpack at compile time
-const { GIT_DIRTY, GIT_COMMIT, PACKAGE_VERSION } = buildInfo; // eslint-disable-line no-undef
-window.versions = window.versions || {};
-window.versions.swaggerEditor = `${PACKAGE_VERSION}/${GIT_COMMIT || 'unknown'}${
-  GIT_DIRTY ? '-dirty' : ''
-}`;
 
 const SafeRenderPlugin = (system) =>
   SwaggerUI.plugins.SafeRender({
@@ -57,6 +51,7 @@ SwaggerEditor.plugins = {
   Modals: ModalsPlugin,
   Dialogs: DialogsPlugin,
   Dropzone: DropzonePlugin,
+  Versions: VersionsPlugin,
   EditorTextarea: EditorTextareaPlugin,
   EditorMonaco: EditorMonacoPlugin,
   EditorReadOnly: EditorReadOnlyPlugin,
@@ -72,6 +67,7 @@ SwaggerEditor.presets = {
     ModalsPlugin,
     DialogsPlugin,
     DropzonePlugin,
+    VersionsPlugin,
     EditorTextareaPlugin,
     EditorReadOnlyPlugin,
     EditorSpecOriginPlugin,
@@ -86,6 +82,7 @@ SwaggerEditor.presets = {
     ModalsPlugin,
     DialogsPlugin,
     DropzonePlugin,
+    VersionsPlugin,
     EditorTextareaPlugin,
     EditorMonacoPlugin,
     EditorReadOnlyPlugin,
