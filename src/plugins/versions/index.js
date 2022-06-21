@@ -7,7 +7,7 @@ const VersionsPlugin = () => ({
     globalThis.versions.swaggerEditor = Object.create(
       {
         toString() {
-          return `${PACKAGE_VERSION}/${GIT_COMMIT || 'unknown'}${GIT_DIRTY ? '-dirty' : ''}`;
+          return `${this.version}/${this.gitRevision || 'unknown'}${this.gitDirty ? '-dirty' : ''}`;
         },
         valueOf() {
           return this.toString();
