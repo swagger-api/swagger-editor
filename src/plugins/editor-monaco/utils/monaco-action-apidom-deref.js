@@ -3,7 +3,11 @@ import { TextDocument } from 'vscode-languageserver-textdocument';
 import YAML from 'js-yaml';
 
 export async function dereference(editor) {
-  const apidomContext = {};
+  const apidomContext = {
+    defaultLanguageContent: {
+      namespace: 'asyncapi',
+    },
+  };
   const languageService = getLanguageService(apidomContext);
 
   try {
