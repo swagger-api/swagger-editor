@@ -425,6 +425,17 @@ or to [Node.js Modules: Packages documentation](https://nodejs.org/docs/latest-v
 
 - [Plug points](./docs/customization/plug-points/README.md)
 
+### Environment Variables
+
+It is possible to use an environment variable to specify a local JSON/YAML file or a remote URL for SwaggerEditor to load on startup. However, there is a limitation that any changes to the environment variable(s) will also require a rebuild and restart of the application. This is a constraint of Create React App infrastructure.
+
+Two environment variables are currently available: `REACT_APP_SWAGGER_FILE` and `REACT_APP_SWAGGER_URL`. Disabled sample environment variables can be found in `.env`. Other `.env` files may also be used, for more information plese refer to [custom CRA environemnt variables](https://create-react-app.dev/docs/adding-custom-environment-variables/).
+
+`REACT_APP_SWAGGER_FILE` specifies a local file path, and the specified file must also be present in the `/public/static` directory.
+
+`REACT_APP_SWAGGER_URL` specifies a remote URL. This enviroment variable currently takes precendence over `REACT_APP_SWAGGER_FILE`.
+
+
 ## Docker
 Once we build the app, we can also build and run a Docker container.
 
@@ -435,6 +446,9 @@ Once we build the app, we can also build and run a Docker container.
 
 - {{label}} can be any descriptive string, e.g. `user/myapp-1`
 - open browser at `localhost:8080`
+
+Building a Docker container with custom environment variables is not currently supported by SwaggerEditor. This is due to the inability of `npm` to handle scoped packages that are outside of the public `npm` registry. In the case of SwaggerEditor, `@swagger-api/apidom-ls` is a dependency currently only residing in Github packages. It is in the roadmap to make `@swagger-api/apidom-ls`, as well as this version of SwaggerEditor, available in the public `npm` registry.
+
 
 ## License
 
