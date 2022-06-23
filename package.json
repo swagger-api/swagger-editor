@@ -62,7 +62,7 @@
     "@emotion/styled": "^11.9.3",
     "@mui/material": "^5.8.5",
     "@primer/octicons-react": "^17.3.0",
-    "@swagger-api/apidom-ls": "^0.31.0",
+    "@swagger-api/apidom-ls": "^0.31.1",
     "axios": "^0.27.2",
     "deepmerge": "^4.2.2",
     "file-dialog": "^0.0.8",
@@ -92,7 +92,6 @@
     "@testing-library/jest-dom": "^5.16.4",
     "@testing-library/react": "^12.1.5",
     "@testing-library/user-event": "^14.2.1",
-    "buffer": "^6.0.3",
     "copyfiles": "^2.4.1",
     "cross-env": "^7.0.3",
     "cypress": "^10.2.0",
@@ -106,16 +105,12 @@
     "jest-canvas-mock": "^2.4.0",
     "lint-staged": "^13.0.2",
     "prettier": "^2.7.1",
-    "process": "^0.11.10",
     "react-scripts": "file:./create-react-app/packages/react-scripts",
     "rimraf": "^3.0.2",
     "sass": "^1.52.3",
     "serve": "^13.0.2",
     "source-map-explorer": "^2.5.2",
     "start-server-and-test": "^1.14.0",
-    "stream-browserify": "^3.0.0",
-    "stream-http": "^3.2.0",
-    "util": "^0.12.4",
     "web-vitals": "^2.1.4"
   }
 }
