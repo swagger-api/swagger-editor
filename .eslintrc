@@ -6,7 +6,7 @@
     "plugin:cypress/recommended",
     "plugin:jsx-a11y/recommended",
     "prettier",
-    "plugin:prettier/recommended",
+    "plugin:prettier/recommended"
   ],
   "globals": {
     "File": true,
