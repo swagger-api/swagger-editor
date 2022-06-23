@@ -6,7 +6,7 @@
     "plugin:cypress/recommended",
     "plugin:jsx-a11y/recommended",
     "prettier",
-    "plugin:prettier/recommended"
+    "plugin:prettier/recommended",
   ],
   "globals": {
     "File": true,
@@ -20,7 +20,8 @@
   },
   "plugins": [
     "jsx-a11y",
-    "prettier"
+    "prettier",
+    "@typescript-eslint"
   ],
   "rules": {
     "import/order": ["error", {
@@ -39,7 +40,11 @@
       "ignorePackages": true
     }],
     "import/no-unresolved": [2, {
-      "ignore": ["^monaco-languageclient\/monaco-converter$"]
+      "ignore": [
+        // https://github.com/import-js/eslint-plugin-import/issues/1810
+        "^monaco-languageclient\/monaco-converter$",
+        "^@swagger-api\/apidom-ls$"
+      ]
     }]
   }
 }
