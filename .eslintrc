@@ -42,8 +42,7 @@
     "import/no-unresolved": [2, {
       "ignore": [
         // https://github.com/import-js/eslint-plugin-import/issues/1810
-        "^monaco-languageclient\/monaco-converter$",
-        "^@swagger-api\/apidom-ls$"
+        "^monaco-languageclient\/monaco-converter$"
       ]
     }]
   }
