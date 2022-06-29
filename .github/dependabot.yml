@@ -16,6 +16,8 @@ updates:
       - dependency-name: "node-fetch"
       - dependency-name: "release-it"
       - dependency-name: "@release-it/conventional-changelog"
+      - dependency-name: "cypress"
+        update-types: ["version-update:semver-major"]
 
   - package-ecosystem: "docker"
     # Look for a `Dockerfile` in the `root` directory
