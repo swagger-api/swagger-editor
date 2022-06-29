@@ -433,7 +433,7 @@ Two environment variables are currently available: `REACT_APP_SWAGGER_FILE` and 
 
 `REACT_APP_SWAGGER_FILE` specifies a local file path, and the specified file must also be present in the `/public/static` directory.
 
-`REACT_APP_SWAGGER_URL` specifies a remote URL. This enviroment variable currently takes precendence over `REACT_APP_SWAGGER_FILE`.
+`REACT_APP_SWAGGER_URL` specifies a remote URL. This environment variable currently takes precedence over `REACT_APP_SWAGGER_FILE`.
 
 
 ## Docker
