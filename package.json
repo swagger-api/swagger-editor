@@ -41,7 +41,7 @@
     "analyze": "source-map-explorer 'dist/umd/swagger-editor.js'",
     "test": "react-scripts test",
     "cy:dev": "start-server-and-test cy:dev:server http://localhost:3003 cy:dev:open",
-    "cy:dev:open": "CYPRESS_BASE_URL=http://localhost:3003 cypress open",
+    "cy:dev:open": "CYPRESS_BASE_URL=http://localhost:3003 cypress open --e2e",
     "cy:dev:server": "cross-env PORT=3003 BROWSER=none ENABLE_PROGRESS_PLUGIN=false react-scripts start",
     "cy:ci": "start-server-and-test build:app:serve http://localhost:3050 cy:run:chrome",
     "cy:run:chrome": "cypress run --browser chrome",
