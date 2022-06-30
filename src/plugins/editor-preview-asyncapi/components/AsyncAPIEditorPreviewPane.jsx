@@ -86,7 +86,7 @@ const AsyncAPIEditorPreviewPane = ({
             if (!doc) {
               setIsValid(false);
             } else {
-              // clear reducer state
+              // if valid, should always clear reducer state
               asyncapiActions.updateAsyncApiParserMarkers([]);
               setIsValid(true);
               try {
