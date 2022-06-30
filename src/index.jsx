@@ -5,7 +5,7 @@ import 'swagger-ui-react/swagger-ui.css';
 import SwaggerEditor from './App.jsx';
 
 const defaultUrlAsyncApi =
-  'https://raw.githubusercontent.com/asyncapi/spec/v2.3.0/examples/streetlights-kafka.yml';
+  'https://raw.githubusercontent.com/asyncapi/spec/v2.4.0/examples/streetlights-kafka.yml';
 // const defaultUrlOas3 = 'https://petstore3.swagger.io/api/v3/openapi.json';
 
 let initialUrl;
