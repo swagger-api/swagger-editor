@@ -8,7 +8,7 @@
 
 const selectAllKeys = ['darwin', 'linux'].includes(Cypress.platform) ? '{cmd}a' : '{ctrl}a';
 
-describe('Monaco Editor with Parser', () => {
+describe.skip('Monaco Editor with Parser', () => {
   beforeEach(() => {
     cy.window().then((contentWindow) => {
       // console.log already globally stubbed in cy support/commands
