@@ -1,7 +1,8 @@
-describe.skip('Monaco Editor with Validation Pane', () => {
+describe('Monaco Editor with Validation Pane', () => {
   beforeEach(() => {
     cy.prepareAsyncAPI();
-    const moveToPosition = `{rightArrow}{rightArrow}`;
+    // move down to line 2, column 3
+    const moveToPosition = `{downArrow}{rightArrow}{rightArrow}`;
     // introduce a typo error
     cy.get('.monaco-editor textarea:first').click().focused().type(`${moveToPosition}Q`);
   });
@@ -26,11 +27,13 @@ describe.skip('Monaco Editor with Validation Pane', () => {
     cy.get('.swagger-editor__validation-table > thead > tr > :nth-child(2)')
       .contains('description', { matchCase: false })
       .should('be.visible');
+    // reflects line number from moveToPosition for validation error
     cy.get('.swagger-editor__validation-table > tbody > :nth-child(1) > :nth-child(1) > div')
-      .contains('1')
+      .contains('2')
       .should('be.visible');
+    // validation error message is parser specific
     cy.get('.swagger-editor__validation-table > tbody > :nth-child(1) > :nth-child(2) > div')
-      .contains('should always have')
+      .contains('should NOT have')
       .should('be.visible');
   });
 
