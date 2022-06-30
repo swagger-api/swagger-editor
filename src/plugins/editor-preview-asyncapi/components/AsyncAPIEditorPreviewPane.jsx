@@ -86,6 +86,8 @@ const AsyncAPIEditorPreviewPane = ({
             if (!doc) {
               setIsValid(false);
             } else {
+              // clear reducer state
+              asyncapiActions.updateAsyncApiParserMarkers([]);
               setIsValid(true);
               try {
                 setParsedSpec(doc);
