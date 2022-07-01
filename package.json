@@ -62,7 +62,7 @@
     "@emotion/styled": "^11.9.3",
     "@mui/material": "^5.8.6",
     "@primer/octicons-react": "^17.3.0",
-    "@swagger-api/apidom-ls": "^0.33.0",
+    "@swagger-api/apidom-ls": "^0.34.0",
     "axios": "^0.27.2",
     "deepmerge": "^4.2.2",
     "file-dialog": "^0.0.8",
