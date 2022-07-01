@@ -1,7 +1,3 @@
-/* eslint-disable jsx-a11y/no-static-element-interactions */
-/* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
-/* eslint-disable jsx-a11y/click-events-have-key-events */
-/* eslint-disable jsx-a11y/alt-text */
 import React from 'react';
 import PropTypes from 'prop-types';
 import ImmutablePropTypes from 'react-immutable-proptypes';
@@ -9,7 +5,7 @@ import ImmutablePropTypes from 'react-immutable-proptypes';
 import JumpIcon from './jump-icon.svg';
 
 /**
- * Todo: still required to replace legacy shouldComponentUpdate with React.memo
+ * Todo: verify if still required to replace legacy shouldComponentUpdate with React.memo ['content','showButton','path','specPath']
  * Todo: verify if actually need immutableJS dependency. atm, only need the proptypes
  */
 
@@ -28,18 +24,25 @@ const JumpToPath = ({ specSelectors, editorActions, path, specPath, content, sho
   };
 
   const defaultJumpButton = (
-    <img
-      src={JumpIcon}
+    <div
+      role="button"
+      tabIndex={0}
       onClick={handleJumpToEditorLine}
-      className="view-line-link"
-      title="Jump to definition"
-    />
+      onKeyPress={handleJumpToEditorLine}
+    >
+      <img src={JumpIcon} className="view-line-link" title="Jump to definition" alt="" />
+    </div>
   );
 
   if (content) {
     // if we were given content to render, wrap it
     return (
-      <span onClick={handleJumpToEditorLine}>
+      <span
+        role="button"
+        tabIndex={0}
+        onClick={handleJumpToEditorLine}
+        onKeyPress={handleJumpToEditorLine}
+      >
         {showButton ? { defaultJumpButton } : null}
         {content}
       </span>
