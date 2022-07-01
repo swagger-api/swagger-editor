@@ -19,8 +19,13 @@ const JumpToPath = ({ specSelectors, editorActions, path, specPath, content, sho
     console.log('inside handleJumpToEditorLine');
     console.log('checking props... path:', path, ' | specPath:', specPath, ' | content:', content);
     // List, array[], null
+    console.log('...path.toJS:', path.toJS());
+    // ['paths', '/test', 'get']
+    // TODO: NYI
     // const jumpPath = specSelectors.bestJumpPath({ path, specPath });
-    // editorActions.setJumpToEditorMarker(jumpPath);
+    // const markerPosition = specSelectors.getSpecLineFromPath(jumpPath);
+    // from `editor-monaco` plugin
+    // editorActions.setJumpToEditorMarker(markerPosition);
   };
 
   const defaultJumpButton = (
