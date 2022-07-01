@@ -17,6 +17,7 @@ import EditorPreviewAsyncAPIPlugin from './plugins/editor-preview-asyncapi/index
 import EditorReadOnlyPlugin from './plugins/editor-read-only/index.js';
 import EditorSpecOriginPlugin from './plugins/editor-spec-origin/index.js';
 import EditorPersistencePlugin from './plugins/editor-persistence/index.js';
+import EditorJumpFromPathToLinePlugin from './plugins/editor-jump-from-path-to-line/index.js';
 
 const SafeRenderPlugin = (system) =>
   SwaggerUI.plugins.SafeRender({
@@ -29,6 +30,7 @@ const SafeRenderPlugin = (system) =>
       'EditorPane',
       'EditorPaneBarTop',
       'EditorPreviewPane',
+      'EditorJumpFromPathToLine',
       'ValidationPane',
       'AlertDialog',
       'ConfirmDialog',
@@ -59,6 +61,7 @@ SwaggerEditor.plugins = {
   EditorPersistence: EditorPersistencePlugin,
   EditorPreviewSwaggerUI: EditorPreviewSwaggerUIPlugin,
   EditorPreviewAsyncAPI: EditorPreviewAsyncAPIPlugin,
+  EditorJumpFromPathToLine: EditorJumpFromPathToLinePlugin,
   Topbar: TopbarPlugin,
   Layout: LayoutPlugin,
 };
@@ -74,6 +77,7 @@ SwaggerEditor.presets = {
     EditorPersistencePlugin,
     EditorPreviewSwaggerUIPlugin,
     EditorPreviewAsyncAPIPlugin,
+    EditorJumpFromPathToLinePlugin,
     TopbarPlugin,
     LayoutPlugin,
     SafeRenderPlugin,
@@ -90,6 +94,7 @@ SwaggerEditor.presets = {
     EditorPersistencePlugin,
     EditorPreviewSwaggerUIPlugin,
     EditorPreviewAsyncAPIPlugin,
+    EditorJumpFromPathToLinePlugin,
     TopbarPlugin,
     LayoutPlugin,
     SafeRenderPlugin,

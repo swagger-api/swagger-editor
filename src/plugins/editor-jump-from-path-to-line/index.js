@@ -1,7 +1,7 @@
 import JumpToPath from './components/JumpToPath.jsx';
 import { getSpecLineFromPath, bestJumpPath } from './selectors.js';
 
-const JumpFromPathToLine = () => ({
+const EditorJumpFromPathToLine = () => ({
   components: {
     JumpToPath,
   },
@@ -15,4 +15,4 @@ const JumpFromPathToLine = () => ({
   },
 });
 
-export default JumpFromPathToLine;
+export default EditorJumpFromPathToLine;
