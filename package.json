@@ -56,7 +56,7 @@
     "@asyncapi/avro-schema-parser": "^1.0.1",
     "@asyncapi/openapi-schema-parser": "^2.0.1",
     "@asyncapi/parser": "^1.15.1",
-    "@asyncapi/react-component": "^1.0.0-next.38",
+    "@asyncapi/react-component": "^1.0.0-next.39",
     "@babel/runtime": "^7.18.6",
     "@emotion/react": "^11.9.3",
     "@emotion/styled": "^11.9.3",
