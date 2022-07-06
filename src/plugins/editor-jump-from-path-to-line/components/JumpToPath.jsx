@@ -62,7 +62,7 @@ JumpToPath.propTypes = {
   editorActions: PropTypes.oneOfType([PropTypes.object]).isRequired,
   specSelectors: PropTypes.oneOfType([PropTypes.object]).isRequired,
   path: PropTypes.oneOfType([PropTypes.array, PropTypes.string, ImmutablePropTypes.list]),
-  specPath: PropTypes.oneOfType([PropTypes.array]), // the location within the spec. used as a fallback if `path` doesn't exist
+  specPath: PropTypes.oneOfType([PropTypes.array, ImmutablePropTypes.list]), // the location within the spec. used as a fallback if `path` doesn't exist
   content: PropTypes.element,
   showButton: PropTypes.bool,
 };
