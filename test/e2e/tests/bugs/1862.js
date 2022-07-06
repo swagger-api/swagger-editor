@@ -33,7 +33,7 @@ describe("Editor #1862: codegen download links downgrade HTTPS", () => {
       cy.contains("Generate Server")
         .click()
 
-      cy.contains("nodejs")
+      cy.wait(500).contains("nodejs-server")
         .click()
 
       cy.wait(["@httpsServerNodejs", "@httpsServerGenDownload"])
@@ -64,7 +64,7 @@ describe("Editor #1862: codegen download links downgrade HTTPS", () => {
       cy.contains("Generate Client")
         .click()
 
-      cy.contains("javascript")
+      cy.wait(500).contains("javascript")
         .click()
 
       cy.wait(["@httpsClientJavascript", "@httpsClientGenDownload"])

@@ -34,7 +34,7 @@
     "hot-server": "webpack serve --host 0.0.0.0 --config webpack/dev.babel.js",
     "open-static": "node -e 'require(\"open\")(\"http://localhost:3001\")'",
     "lint": "eslint --cache --ext '.js,.jsx' src test",
-    "lint-errors": "eslint --cache --quiet --ext '.js,.jsx' src test",
+    "lint-errors": "eslint --cache --no-error-on-unmatched-pattern --quiet --ext '.js,.jsx' src test",
     "lint-fix": "eslint --cache --ext '.js,.jsx' src test --fix",
     "cy:start": "webpack serve --port 3260 --host 0.0.0.0 --config webpack/dev.babel.js --hot --progress --static test/e2e/static",
     "cy:open": "cypress open",
