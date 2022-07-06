@@ -6,7 +6,6 @@ import JumpIcon from './jump-icon.svg';
 
 /**
  * Todo: verify if still required to replace legacy shouldComponentUpdate with React.memo ['content','showButton','path','specPath']
- * Todo: verify if actually need immutableJS dependency. atm, only need the proptypes
  */
 
 // legacy name that is already built into SwaggerUI
@@ -17,12 +16,15 @@ const JumpToPath = ({ specSelectors, editorActions, path, specPath, content, sho
   const handleJumpToEditorLine = (e) => {
     e.stopPropagation();
     console.log('inside handleJumpToEditorLine');
-    console.log('checking props... path:', path, ' | specPath:', specPath, ' | content:', content);
+    // console.log('checking props... path:', path, ' | specPath:', specPath, ' | content:', content);
     // List, array[], null
-    console.log('...path.toJS:', path.toJS());
+    // console.log('...path.toJS:', path.toJS());
     // ['paths', '/test', 'get']
+    const jumpPath = specSelectors.bestJumpPath(path);
+    console.log('jumpPath:', jumpPath);
+    // '/paths/test/get'
     // TODO: NYI
-    // const jumpPath = specSelectors.bestJumpPath({ path, specPath });
+    // note: apidom-ls will expect a String instead of legacy Array, e.g. '/components/schemas/Category/properties/id',
     // const markerPosition = specSelectors.getSpecLineFromPath(jumpPath);
     // from `editor-monaco` plugin
     // editorActions.setJumpToEditorMarker(markerPosition);
