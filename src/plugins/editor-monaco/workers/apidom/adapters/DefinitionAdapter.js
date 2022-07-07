@@ -32,7 +32,7 @@ export default class DefinitionAdapter {
   }
 
   async provideDefinition(model, position) {
-    const location = this.#getLocation(model, position);
+    const location = await this.#getLocation(model, position);
 
     return this.#maybeConvert(location);
   }
