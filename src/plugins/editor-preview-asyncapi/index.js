@@ -1,31 +1,51 @@
-import AsyncAPIEditorPreviewPane from './components/AsyncAPIEditorPreviewPane.jsx';
-import AsyncApiPreviewValidationPane from './components/AsyncApiPreviewValidationPane.jsx';
-import EditorPreviewPaneWrapper from './wrap-components/EditorPreviewPaneWrapper.jsx';
-import {
-  getIsOasOrAsyncApi2,
-  shouldUpdateDefinitionLanguage,
-  updateAsyncApiParserMarkers,
-} from './actions.js';
+import EditorPreviewAsyncAPI from './components/EditorPreviewAsyncAPI/EditorPreviewAsyncAPI.jsx';
+import ParseErrors from './components/ParseErrrors/ParseErrors.jsx';
+import EditorPreviewWrapper from './wrap-components/EditorPreviewWrapper.jsx';
+import { previewUnmounted, parse, parseStarted, parseSuccess, parseFailure } from './actions.js';
+import { detectContentTypeSuccess as detectContentTypeSuccessWrap } from './wrap-actions.js';
 import reducers from './reducers.js';
-import { selectAsyncApiParserMarkers } from './selectors.js';
+import {
+  selectParserMarkers,
+  selectParseStatus,
+  selectIsParseInProgress,
+  selectIsParseSuccess,
+  selectIsParseFailure,
+  selectParseResult,
+  selectParseErrors,
+} from './selectors.js';
 
 const EditorPreviewAsyncAPIPlugin = () => ({
   components: {
-    AsyncAPIEditorPreviewPane,
-    AsyncApiPreviewValidationPane,
+    EditorPreviewAsyncAPI,
+    EditorPreviewAsyncAPIParseErrors: ParseErrors,
   },
   wrapComponents: {
-    EditorPreviewPane: EditorPreviewPaneWrapper,
+    EditorPreview: EditorPreviewWrapper,
   },
   statePlugins: {
-    asyncapi: {
+    editor: {
+      wrapActions: {
+        detectContentTypeSuccess: detectContentTypeSuccessWrap,
+      },
+    },
+    editorPreviewAsyncAPI: {
       actions: {
-        getIsOasOrAsyncApi2,
-        shouldUpdateDefinitionLanguage,
-        updateAsyncApiParserMarkers,
+        previewUnmounted,
+        parse,
+        parseStarted,
+        parseSuccess,
+        parseFailure,
+      },
+      selectors: {
+        selectParserMarkers,
+        selectParseStatus,
+        selectIsParseInProgress,
+        selectIsParseSuccess,
+        selectIsParseFailure,
+        selectParseResult,
+        selectParseErrors,
       },
       reducers,
-      selectors: { selectAsyncApiParserMarkers },
     },
   },
 });

@@ -1,0 +1,31 @@
+.swagger-editor {
+  &__splash-screen {
+    position: absolute;
+    z-index: 10000;
+    background-color: #173647;
+    width: 100vw;
+    height: 100vh;
+    text-align: center;
+    opacity: 1;
+    transition: opacity 0.3s;
+
+    &--fade-out {
+      background-color: transparent;
+      opacity: 0;
+    }
+
+    &--hidden {
+      display: none;
+    }
+  }
+
+  &__splash-screen-figure {
+    position: relative;
+    top: calc(50% - 126px);
+    width: 15vw;
+    display: inline-block;
+    color: lightslategrey;
+    font-size: 0.8rem;
+    font-weight: bold;
+  }
+}

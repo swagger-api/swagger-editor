@@ -427,14 +427,20 @@ or to [Node.js Modules: Packages documentation](https://nodejs.org/docs/latest-v
 
 ### Environment Variables
 
-It is possible to use an environment variable to specify a local JSON/YAML file or a remote URL for SwaggerEditor to load on startup. However, there is a limitation that any changes to the environment variable(s) will also require a rebuild and restart of the application. This is a constraint of Create React App infrastructure.
+It is possible to use an environment variable to specify a local JSON/YAML file or a remote URL for SwaggerEditor to load on startup.
+These environment variables will get baked in during build time into build artifacts.
 
-Two environment variables are currently available: `REACT_APP_SWAGGER_FILE` and `REACT_APP_SWAGGER_URL`. Disabled sample environment variables can be found in `.env`. Other `.env` files may also be used, for more information plese refer to [custom CRA environemnt variables](https://create-react-app.dev/docs/adding-custom-environment-variables/).
+Environment variables currently available:
 
-`REACT_APP_SWAGGER_FILE` specifies a local file path, and the specified file must also be present in the `/public/static` directory.
+| Variable name               |                                                Description                                                 |
+|-----------------------------|:----------------------------------------------------------------------------------------------------------:|
+ | `REACT_APP_DEFINITION_FILE` | Specifies a local file path, and the specified file must also be present in the `/public/static` directory |
+ | `REACT_APP_DEFINITION_URL`  | Specifies a remote URL. This environment variable currently takes precedence over `REACT_APP_SWAGGER_FILE` |
+| `REACT_APP_VERSION`         |              Specifies the version of this app. The version is read from `package.json` file.              |
 
-`REACT_APP_SWAGGER_URL` specifies a remote URL. This environment variable currently takes precedence over `REACT_APP_SWAGGER_FILE`.
-
+Sample environment variable values can be found in `.env` file. For more information about using
+environment variables, please refer to [adding Custom Environment Variables](https://create-react-app.dev/docs/adding-custom-environment-variables/)
+section of Create React App documentation.
 
 ## Docker
 Once we build the app, we can also build and run a Docker container.

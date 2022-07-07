@@ -1,0 +1,20 @@
+.swagger-editor {
+  &__top-bar {
+    background-color: #173647;
+    width: 100%;
+    height: 54px;
+  }
+
+  &__top-bar-wrapper {
+    display: flex;
+
+    & > * {
+      margin-left: 1.0rem;
+      margin-right: 1.0rem;
+      align-self: center;
+      color: white;
+      font-size: 1.0rem;
+      font-weight: 500;
+    }
+  }
+}

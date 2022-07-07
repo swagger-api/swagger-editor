@@ -2,8 +2,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { useTable } from 'react-table';
-
-import noop from '../../../../utils/common-noop.js';
+import noop from 'lodash/noop.js';
 
 const ValidationTable = ({ columns, data, onValidationKeyClick }) => {
   const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } = useTable({

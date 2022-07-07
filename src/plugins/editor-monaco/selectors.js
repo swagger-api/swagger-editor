@@ -1,6 +1,6 @@
 import { createSelector } from 'reselect';
 
-export const selectEditorTheme = (state) => state.get('editorTheme') || '';
+export const selectEditorTheme = (state) => state.get('editorTheme') || 'my-vs-dark';
 
 export const selectEditorMarkers = createSelector(
   (state) => state.get('editorMarkers'),
@@ -15,5 +15,3 @@ export const selectEditorJumpToMarker = createSelector(
     return editorJumpToMarker || {};
   }
 );
-
-export const selectEditorRequestJumpToMarker = (state) => state.get('editorRequestJumpToMarker');

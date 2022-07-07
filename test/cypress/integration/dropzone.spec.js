@@ -2,32 +2,7 @@ describe('Dropzone in Layout', () => {
   describe('file uploads with dropzone', () => {
     beforeEach(() => {
       cy.prepareAsyncAPI();
-    });
-
-    describe('given one file is of an unexpected type', () => {
-      it('should inform the user that their file were rejected', () => {
-        cy.get('[data-cy="dropzone"]')
-          .attachFile('rejected.file.1', { subjectType: 'input' })
-          .then(() => {
-            cy.get('.modal-title')
-              .should('contains.text', 'Uh oh, an error has occurred')
-              .get('.modal-body > div')
-              .should('contains.text', 'Sorry, there was an error processing your file');
-          });
-      });
-    });
-
-    describe('given one or more files are of an unexpected type', () => {
-      it('should inform the user that their file(s) were rejected', () => {
-        cy.get('[data-cy="dropzone"]')
-          .attachFile(['rejected.file.1', 'rejected.file.2'], { subjectType: 'input' })
-          .then(() => {
-            cy.get('.modal-title')
-              .should('contains.text', 'Uh oh, an error has occurred')
-              .get('.modal-body > div')
-              .should('contains.text', 'Sorry, there was an error processing your file');
-          });
-      });
+      cy.waitForSplashScreen();
     });
 
     describe('when more than one file of an expected type is dropped', () => {

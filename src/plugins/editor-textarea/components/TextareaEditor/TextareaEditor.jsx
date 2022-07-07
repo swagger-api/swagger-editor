@@ -1,20 +1,31 @@
+import React, { useCallback, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 
-const TextareaEditor = ({ isReadOnly, specActions, specSelectors, useEditorLifecycle }) => {
-  const spec = specSelectors.specStr() || '';
-  const handleChange = (e) => {
-    e.preventDefault();
-    specActions.updateSpec(e.target.value, 'editor');
-  };
+const TextareaEditor = ({ isReadOnly, editorActions, editorSelectors, useEditorLifecycle }) => {
+  const content = editorSelectors.selectContent();
   const editorRef = useEditorLifecycle('textarea');
+  const [value, setValue] = useState(content);
+
+  const handleChange = useCallback(
+    (e) => {
+      e.preventDefault();
+      setValue(e.target.value);
+      editorActions.setContentDebounced(e.target.value, 'editor');
+    },
+    [editorActions]
+  );
+
+  useEffect(() => {
+    setValue(content);
+  }, [content]);
 
   return (
     <textarea
       ref={editorRef}
       readOnly={isReadOnly}
       className="swagger-editor__editor-textarea"
-      name="spec"
-      value={spec}
+      name="content"
+      value={value}
       onChange={handleChange}
     />
   );
@@ -22,8 +33,12 @@ const TextareaEditor = ({ isReadOnly, specActions, specSelectors, useEditorLifec
 
 TextareaEditor.propTypes = {
   isReadOnly: PropTypes.bool,
-  specActions: PropTypes.oneOfType([PropTypes.object]).isRequired,
-  specSelectors: PropTypes.oneOfType([PropTypes.object]).isRequired,
+  editorActions: PropTypes.shape({
+    setContentDebounced: PropTypes.func.isRequired,
+  }).isRequired,
+  editorSelectors: PropTypes.shape({
+    selectContent: PropTypes.func.isRequired,
+  }).isRequired,
   useEditorLifecycle: PropTypes.func.isRequired,
 };
 
