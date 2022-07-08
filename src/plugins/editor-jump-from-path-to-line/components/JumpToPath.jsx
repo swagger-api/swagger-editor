@@ -3,14 +3,22 @@ import PropTypes from 'prop-types';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 
 import JumpIcon from './jump-icon.svg';
+import { getJsonPointerPosition } from '../utils.js';
 
 /**
- * Todo: verify if still required to replace legacy shouldComponentUpdate with React.memo ['content','showButton','path','specPath']
+ * Todo: verify if still required to replace legacy shouldComponentUpdate with something like React.memo ['content','showButton','path','specPath']
  */
 
-// legacy name that is already built into SwaggerUI
-// render svg icon in SwaggerUI
-// onClick of svg icon => jump to line in editor
+/**
+ * Todo: what about `specPath`, which is a fallback to `path`?
+/
+
+/**
+ * JumpToPath is a legacy name that is already built into SwaggerUI
+ * 1. onHover of SwaggerUI operation, render svg icon
+ * 2. onClick of svg icon => jump to line in editor
+ */
+
 // eslint-disable-next-line no-unused-vars
 const JumpToPath = ({ specSelectors, editorActions, path, specPath, content, showButton }) => {
   const handleJumpToEditorLine = (e) => {
@@ -23,11 +31,19 @@ const JumpToPath = ({ specSelectors, editorActions, path, specPath, content, sho
     const jumpPath = specSelectors.bestJumpPath(path);
     console.log('jumpPath:', jumpPath);
     // '/paths/test/get'
-    // TODO: NYI
-    // note: apidom-ls will expect a String instead of legacy Array, e.g. '/components/schemas/Category/properties/id',
-    // const markerPosition = specSelectors.getSpecLineFromPath(jumpPath);
-    // from `editor-monaco` plugin
-    // editorActions.setJumpToEditorMarker(markerPosition);
+    // note: apidom-ls will expect `jumpPath` to be a String instead of legacy Array, e.g. '/components/schemas/Category/properties/id',
+    // const markerPosition = specSelectors.getSpecLineFromPath(jumpPath); // legacy reference
+    const currentSpec = specSelectors.specStr();
+
+    async function getPointerPosition() {
+      const markerPosition = await getJsonPointerPosition(currentSpec, jumpPath);
+      console.log('markerPosition result:', markerPosition);
+      // from `editor-monaco` plugin
+      // TODO: enable once we have correct `markerPosition`
+      // editorActions.setJumpToEditorMarker(markerPosition);
+    }
+    // run the async function
+    getPointerPosition();
   };
 
   const defaultJumpButton = (
