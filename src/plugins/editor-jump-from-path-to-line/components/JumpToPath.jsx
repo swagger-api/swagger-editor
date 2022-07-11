@@ -28,9 +28,11 @@ const JumpToPath = ({ specSelectors, editorActions, path, specPath, content, sho
     // List, array[], null
     // console.log('...path.toJS:', path.toJS());
     // ['paths', '/test', 'get']
-    const jumpPath = specSelectors.bestJumpPath(path);
+    // console.log('...specPath.toJS:', specPath.toJS());
+    // (oas2 petstore): specPath, onClick Models->Order: ['definitions', 'Order']
+    const jumpPath = specSelectors.bestJumpPath({ path, specPath });
     console.log('jumpPath:', jumpPath);
-    // '/paths/test/get'
+    // '/paths/test/get' (path) or '/definitions/Order` (specPath)
     // note: apidom-ls will expect `jumpPath` to be a String instead of legacy Array, e.g. '/components/schemas/Category/properties/id',
     // const markerPosition = specSelectors.getSpecLineFromPath(jumpPath); // legacy reference
     const currentSpec = specSelectors.specStr();

@@ -16,6 +16,23 @@ const transformImListToStringPath = (list) => {
   return arr.join('');
 };
 
+// compared to `path`, each element inside `specPath` does not contain leading `/`
+const transformArrayToStringSpecPath = (arr) => {
+  if (arr.at(0) !== '/') {
+    return `/${arr.join('/')}`;
+  }
+  return arr.join('/');
+};
+
+// compared to `path`, each element inside `specPath` does not contain leading `/`
+const transformImListToStringSpecPath = (list) => {
+  const arr = list.toJS();
+  if (arr.at(0) !== '/') {
+    return `/${arr.join('/')}`;
+  }
+  return arr.join('/');
+};
+
 export const getSpecLineFromPath = createSelector(
   (state) => state.get('foo'), // input from state
   (state, bar) => bar, // input from arg to forward to output
@@ -27,16 +44,26 @@ export const getSpecLineFromPath = createSelector(
 
 // apidom-ls expects a String as arg
 export const bestJumpPath = createSelector(
-  (state, path) => path, // input from arg to forward to output
-  (path) => {
+  (state, pathObj) => pathObj, // input from arg to forward to output
+  ({ path, specPath }) => {
     if (path && typeof path === 'string') {
       return path;
     }
-    if (path && Array.isArray(path)) {
+    if (path && Array.isArray(path) && path.length > 0) {
       return transformArrayToStringPath(path);
     }
-    if (path && List.isList(path)) {
+    if (path && List.isList(path) && path.size > 0) {
       return transformImListToStringPath(path);
+    }
+    if (specPath && typeof specPath === 'string') {
+      return specPath;
+    }
+    if (specPath && Array.isArray(specPath) && specPath.length > 0) {
+      return transformArrayToStringSpecPath(specPath);
+    }
+    if (specPath && List.isList(specPath) && specPath.size > 0) {
+      console.log('ImList specPath case');
+      return transformImListToStringSpecPath(specPath);
     }
     return '';
     // LEGACY:
