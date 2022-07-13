@@ -3,15 +3,10 @@ import PropTypes from 'prop-types';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 
 import JumpIcon from './jump-icon.svg';
-import { getJsonPointerPosition } from '../utils.js';
 
 /**
  * Todo: verify if still required to replace legacy shouldComponentUpdate with something like React.memo ['content','showButton','path','specPath']
  */
-
-/**
- * Todo: what about `specPath`, which is a fallback to `path`?
-/
 
 /**
  * JumpToPath is a legacy name that is already built into SwaggerUI
@@ -33,19 +28,9 @@ const JumpToPath = ({ specSelectors, editorActions, path, specPath, content, sho
     const jumpPath = specSelectors.bestJumpPath({ path, specPath });
     console.log('jumpPath:', jumpPath);
     // '/paths/test/get' (path) or '/definitions/Order` (specPath)
-    // note: apidom-ls will expect `jumpPath` to be a String instead of legacy Array, e.g. '/components/schemas/Category/properties/id',
-    // const markerPosition = specSelectors.getSpecLineFromPath(jumpPath); // legacy reference
-    const currentSpec = specSelectors.specStr();
-
-    async function getPointerPosition() {
-      const markerPosition = await getJsonPointerPosition(currentSpec, jumpPath);
-      console.log('markerPosition result:', markerPosition);
-      // from `editor-monaco` plugin
-      // TODO: enable once we have correct `markerPosition`
-      // editorActions.setJumpToEditorMarker(markerPosition);
-    }
-    // run the async function
-    getPointerPosition();
+    // `apidom-ls` will expect `jumpPath` to be a String instead of legacy Array, e.g. '/components/schemas/Category/properties/id'
+    // `Editor` will handle the rest of workflow
+    editorActions.setRequestJumpToEditorMarker({ jsonPointer: jumpPath });
   };
 
   const defaultJumpButton = (

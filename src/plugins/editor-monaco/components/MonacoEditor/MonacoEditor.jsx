@@ -6,6 +6,7 @@ import noop from '../../../../utils/common-noop.js';
 import getStyleMetadataLight, { themes as themesLight } from '../../utils/monaco-theme-light.js';
 import getStyleMetadataDark, { themes as themesDark } from '../../utils/monaco-theme-dark.js';
 import { dereference } from '../../utils/monaco-action-apidom-deref.js';
+import { jumpToPath } from '../../utils/monaco-jump-to-path.js';
 import { useMount, useUpdate, useSmoothResize } from './hooks.js';
 
 /**
@@ -21,12 +22,15 @@ const MonacoEditor = ({
   theme,
   language,
   jumpToMarker,
+  requestJumpToMarker,
   isReadOnly,
   onEditorMount,
   onEditorWillUnmount,
   onChange,
   onEditorMarkersDidChange,
   onClearJumpToMarker,
+  onSetRequestJumpToMarker,
+  onClearRequestJumpToMarker,
 }) => {
   const containerRef = useRef(null);
   const editorRef = useRef(null);
@@ -155,6 +159,29 @@ const MonacoEditor = ({
     isEditorReady
   );
 
+  // given a jsonPointer, request jumping to its marker position
+  useUpdate(
+    () => {
+      if (
+        requestJumpToMarker &&
+        Object.keys(requestJumpToMarker?.jsonPointer).length > 0 &&
+        editorRef?.current?.getModel
+      ) {
+        // console.log('received requestJumpToMarker');
+        console.log('...requestJumpToMarker.jsonPointer:', requestJumpToMarker.jsonPointer);
+        // make an apidom-ls call,
+        const foundMarkerPosition = jumpToPath(editorRef.current, requestJumpToMarker.jsonPointer);
+        console.log('...foundMarkerPosition', foundMarkerPosition);
+        // set jumpToMarker in state, which will then call the useUpdate above
+        // onSetRequestJumpToMarker(foundMarkerPosition);
+        // then clear the request
+        // onClearRequestJumpToMarker();
+      }
+    },
+    [requestJumpToMarker, onSetRequestJumpToMarker, onClearRequestJumpToMarker],
+    isEditorReady
+  );
+
   // setting Monaco Editor to write/read mode
   useUpdate(
     () => {
@@ -166,6 +193,12 @@ const MonacoEditor = ({
 
   // settings the theme if changed
   useEffect(() => {
+    // dev demo test unrelated to the setTheme
+    // if (editorRef?.current?.getModel) {
+    //   console.log('1. editorRef:', editorRef);
+    //   const testJump = jumpToPath(editorRef.current);
+    //   console.log('testJump:', testJump);
+    // }
     if (theme === 'vs-dark') {
       monaco.editor.setTheme('vs-dark');
       // eslint-disable-next-line no-underscore-dangle
@@ -250,21 +283,27 @@ MonacoEditor.propTypes = {
   theme: PropTypes.string.isRequired,
   isReadOnly: PropTypes.bool,
   jumpToMarker: PropTypes.oneOfType([PropTypes.object]),
+  requestJumpToMarker: PropTypes.oneOfType([PropTypes.object]),
   onEditorMount: PropTypes.func,
   onEditorWillUnmount: PropTypes.func,
   onChange: PropTypes.func,
   onEditorMarkersDidChange: PropTypes.func,
   onClearJumpToMarker: PropTypes.func,
+  onSetRequestJumpToMarker: PropTypes.func,
+  onClearRequestJumpToMarker: PropTypes.func,
 };
 
 MonacoEditor.defaultProps = {
   isReadOnly: false,
   jumpToMarker: {},
+  requestJumpToMarker: {},
   onEditorMount: noop,
   onEditorWillUnmount: noop,
   onChange: noop,
   onEditorMarkersDidChange: noop,
   onClearJumpToMarker: noop,
+  onSetRequestJumpToMarker: noop,
+  onClearRequestJumpToMarker: noop,
 };
 
 export default MonacoEditor;
