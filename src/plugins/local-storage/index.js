@@ -1,4 +1,3 @@
-//import PetstoreYaml from "./petstore"
 import { petStoreOas3Def } from "../default-definitions"
 const CONTENT_KEY = "swagger-editor-content"
 
