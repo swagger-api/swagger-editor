@@ -200,15 +200,28 @@ const MonacoEditor = ({
 
   // settings the theme if changed
   useEffect(() => {
-    // dev demo test unrelated to the setTheme
-    // if (editorRef?.current?.getModel) {
+    // START dev demo test unrelated to the setTheme
+    // async function findMarkerPosition() {
     //   // const mockPath = '/paths/b/get'; // OAS3.1: apidomls catch error
     //   const mockPath =
     //     '/channels/smartylighting.streetlights.1.0.event.{streetlightId}.lighting.measured'; // asyncapi
-    //   const foundMarkerPosition = jumpToPath(editorRef.current, mockPath);
+    //   // via apidom-ls
+    //   const foundMarkerPosition = await jumpToPath(editorRef.current, mockPath);
     //   console.log('mock...foundMarkerPosition', foundMarkerPosition);
-    //   // Promise pending (asyncapi yaml); but apidom-ls returning expected result: {line: 30, character: 4}
+    //   if (foundMarkerPosition?.data) {
+    //     // set jumpToMarker in state, which will then call the useUpdate above
+    //     onSetRequestJumpToMarker(foundMarkerPosition.data);
+    //     // then clear the request itself
+    //     onClearRequestJumpToMarker();
+    //   } else {
+    //     // just clear the request anyways
+    //     onClearRequestJumpToMarker();
+    //   }
     // }
+    // if (editorRef?.current?.getModel) {
+    //   findMarkerPosition();
+    // }
+    // END dev demo test
     if (theme === 'vs-dark') {
       monaco.editor.setTheme('vs-dark');
       // eslint-disable-next-line no-underscore-dangle
