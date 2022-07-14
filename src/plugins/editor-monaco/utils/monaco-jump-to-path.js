@@ -25,14 +25,15 @@ export async function jumpToPath(editor, jsonPointer) {
     );
     const result = await languageService.getJsonPointerPosition(textDoc, jsonPointer);
     if (!result) {
-      console.log('returning !result');
       return { error: 'an error has occured for: getJsonPointerPosition' };
     }
     // expect result: { line, character }
-    console.log('returning result:', result);
-    return { data: { line: result.line, character: result.character } };
+    // console.log('received result:', result);
+    const { line, character } = result;
+    // map to Monaco interface
+    const monacoPosition = { startLineNumber: line, startColumn: character };
+    return { data: monacoPosition };
   } catch (e) {
-    console.log('returning catch e:', e.message);
     return { error: e.message };
   }
 }
