@@ -7,15 +7,9 @@ export async function requestGetJsonPointerPosition(editor, jsonPointer) {
       namespace: 'asyncapi',
     },
   };
-  // eslint-disable-next-line no-unused-vars
   const languageService = getLanguageService(apidomContext);
 
   try {
-    // const versionId = editor.getModel().getVersionId(); // OK
-    // console.log('versionId:', versionId);
-    // const textValue = editor.getModel().getValue(); // OK
-    // console.log('textValue:', textValue);
-    // console.log('exists modeId?', editor.getModel()?.getModeId); // NOPE
     const textDoc = TextDocument.create(
       editor.getModel().uri.toString(),
       // editor.getModel().getModeId(), // undefined; so hardcoding `yaml`
