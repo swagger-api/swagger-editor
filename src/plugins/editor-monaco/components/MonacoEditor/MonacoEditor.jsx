@@ -162,20 +162,27 @@ const MonacoEditor = ({
   // given a jsonPointer, request jumping to its marker position
   useUpdate(
     () => {
-      if (
-        requestJumpToMarker &&
-        Object.keys(requestJumpToMarker?.jsonPointer).length > 0 &&
-        editorRef?.current?.getModel
-      ) {
-        // console.log('received requestJumpToMarker');
-        console.log('...requestJumpToMarker.jsonPointer:', requestJumpToMarker.jsonPointer);
-        // make an apidom-ls call,
-        const foundMarkerPosition = jumpToPath(editorRef.current, requestJumpToMarker.jsonPointer);
-        console.log('...foundMarkerPosition', foundMarkerPosition);
-        // set jumpToMarker in state, which will then call the useUpdate above
-        // onSetRequestJumpToMarker(foundMarkerPosition);
-        // then clear the request
-        // onClearRequestJumpToMarker();
+      async function findMarkerPosition() {
+        // via apidom-ls
+        const foundMarkerPosition = await jumpToPath(
+          editorRef.current,
+          requestJumpToMarker.jsonPointer
+        );
+        if (foundMarkerPosition?.data) {
+          // set jumpToMarker in state, which will then call the useUpdate above
+          onSetRequestJumpToMarker(foundMarkerPosition.data);
+          // then clear the request itself
+          onClearRequestJumpToMarker();
+        } else {
+          // just clear the request anyways
+          onClearRequestJumpToMarker();
+        }
+      }
+
+      if (requestJumpToMarker?.jsonPointer && editorRef?.current?.getModel) {
+        // console.log('...requestJumpToMarker.jsonPointer:', requestJumpToMarker.jsonPointer);
+        // call the async/await function
+        findMarkerPosition();
       }
     },
     [requestJumpToMarker, onSetRequestJumpToMarker, onClearRequestJumpToMarker],
