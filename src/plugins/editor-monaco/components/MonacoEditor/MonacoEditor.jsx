@@ -6,7 +6,7 @@ import noop from '../../../../utils/common-noop.js';
 import getStyleMetadataLight, { themes as themesLight } from '../../utils/monaco-theme-light.js';
 import getStyleMetadataDark, { themes as themesDark } from '../../utils/monaco-theme-dark.js';
 import { dereference } from '../../utils/monaco-action-apidom-deref.js';
-import { jumpToPath } from '../../utils/monaco-jump-to-path.js';
+import { requestGetJsonPointerPosition } from '../../utils/monaco-jump-from-path-to-line.js';
 import { useMount, useUpdate, useSmoothResize } from './hooks.js';
 
 /**
@@ -164,7 +164,7 @@ const MonacoEditor = ({
     () => {
       async function findMarkerPosition() {
         // via apidom-ls
-        const foundMarkerPosition = await jumpToPath(
+        const foundMarkerPosition = await requestGetJsonPointerPosition(
           editorRef.current,
           requestJumpToMarker.jsonPointer
         );
@@ -205,7 +205,7 @@ const MonacoEditor = ({
     //   const mockPath =
     //     '/channels/smartylighting.streetlights.1.0.event.{streetlightId}.lighting.measured'; // asyncapi
     //   // via apidom-ls
-    //   const foundMarkerPosition = await jumpToPath(editorRef.current, mockPath);
+    //   const foundMarkerPosition = await requestGetJsonPointerPosition(editorRef.current, mockPath);
     //   console.log('mock...foundMarkerPosition', foundMarkerPosition);
     //   if (foundMarkerPosition?.data) {
     //     // set jumpToMarker in state, which will then call the useUpdate above

@@ -1,7 +1,7 @@
 import { getLanguageService } from '@swagger-api/apidom-ls';
 import { TextDocument } from 'vscode-languageserver-textdocument';
 
-export async function jumpToPath(editor, jsonPointer) {
+export async function requestGetJsonPointerPosition(editor, jsonPointer) {
   const apidomContext = {
     defaultLanguageContent: {
       namespace: 'asyncapi',
@@ -37,4 +37,4 @@ export async function jumpToPath(editor, jsonPointer) {
   }
 }
 
-export default { jumpToPath };
+export default { requestGetJsonPointerPosition };
