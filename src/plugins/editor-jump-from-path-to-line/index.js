@@ -1,5 +1,5 @@
 import JumpToPath from './components/JumpToPath.jsx';
-import { getSpecLineFromPath, bestJumpPath } from './selectors.js';
+import { bestJumpPath } from './selectors.js';
 
 const EditorJumpFromPathToLine = () => ({
   components: {
@@ -8,7 +8,6 @@ const EditorJumpFromPathToLine = () => ({
   statePlugins: {
     spec: {
       selectors: {
-        getSpecLineFromPath,
         bestJumpPath,
       },
     },
