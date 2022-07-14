@@ -195,9 +195,12 @@ const MonacoEditor = ({
   useEffect(() => {
     // dev demo test unrelated to the setTheme
     // if (editorRef?.current?.getModel) {
-    //   console.log('1. editorRef:', editorRef);
-    //   const testJump = jumpToPath(editorRef.current);
-    //   console.log('testJump:', testJump);
+    //   // const mockPath = '/paths/b/get'; // OAS3.1: apidomls catch error
+    //   const mockPath =
+    //     '/channels/smartylighting.streetlights.1.0.event.{streetlightId}.lighting.measured'; // asyncapi
+    //   const foundMarkerPosition = jumpToPath(editorRef.current, mockPath);
+    //   console.log('mock...foundMarkerPosition', foundMarkerPosition);
+    //   // Promise pending (asyncapi yaml); but apidom-ls returning expected result: {line: 30, character: 4}
     // }
     if (theme === 'vs-dark') {
       monaco.editor.setTheme('vs-dark');
