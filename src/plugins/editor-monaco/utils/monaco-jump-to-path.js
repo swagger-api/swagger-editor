@@ -31,7 +31,8 @@ export async function jumpToPath(editor, jsonPointer) {
     // console.log('received result:', result);
     const { line, character } = result;
     // map to Monaco interface
-    const monacoPosition = { startLineNumber: line, startColumn: character };
+    const offset = 1;
+    const monacoPosition = { startLineNumber: line, startColumn: character - offset };
     return { data: monacoPosition };
   } catch (e) {
     return { error: e.message };
