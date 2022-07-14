@@ -27,8 +27,6 @@ export async function jumpToPath(editor, jsonPointer) {
     if (!result) {
       return { error: 'an error has occured for: getJsonPointerPosition' };
     }
-    // expect result: { line, character }
-    // console.log('received result:', result);
     const { line, character } = result;
     // map to Monaco interface
     const offset = 1;

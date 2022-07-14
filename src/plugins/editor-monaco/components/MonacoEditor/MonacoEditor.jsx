@@ -180,7 +180,6 @@ const MonacoEditor = ({
       }
 
       if (requestJumpToMarker?.jsonPointer && editorRef?.current?.getModel) {
-        // console.log('...requestJumpToMarker.jsonPointer:', requestJumpToMarker.jsonPointer);
         // call the async/await function
         findMarkerPosition();
       }
