@@ -3,6 +3,8 @@ import {
   EDITOR_ERROR_MARKERS,
   EDITOR_JUMP_TO_EDITOR_MARKER,
   EDITOR_CLEAR_JUMP_TO_EDITOR_MARKER,
+  EDITOR_SET_REQUEST_JUMP_TO_EDITOR_MARKER,
+  EDITOR_CLEAR_REQUEST_JUMP_TO_EDITOR_MARKER,
 } from './actions.js';
 
 const reducers = {
@@ -17,6 +19,12 @@ const reducers = {
   },
   [EDITOR_CLEAR_JUMP_TO_EDITOR_MARKER]: (state, action) => {
     return state.set('editorJumpToMarker', action.payload);
+  },
+  [EDITOR_SET_REQUEST_JUMP_TO_EDITOR_MARKER]: (state, action) => {
+    return state.set('editorRequestJumpToMarker', action.payload);
+  },
+  [EDITOR_CLEAR_REQUEST_JUMP_TO_EDITOR_MARKER]: (state, action) => {
+    return state.set('editorRequestJumpToMarker', action.payload);
   },
 };
 

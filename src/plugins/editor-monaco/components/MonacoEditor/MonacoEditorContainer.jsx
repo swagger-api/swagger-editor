@@ -13,6 +13,7 @@ const MonacoEditorContainer = ({
   const language = 'apidom';
   const theme = editorSelectors.selectEditorTheme() || 'my-vs-dark';
   const jumpToMarker = editorSelectors.selectEditorJumpToMarker();
+  const requestJumpToMarker = editorSelectors.selectEditorRequestJumpToMarker();
   const value = specSelectors.specStr() || '';
 
   const handleEditorDidMount = useCallback(
@@ -48,6 +49,17 @@ const MonacoEditorContainer = ({
     editorActions.clearJumpToEditorMarker();
   }, [editorActions]);
 
+  const handleSetJumpToEditorMarker = useCallback(
+    (marker) => {
+      editorActions.setJumpToEditorMarker(marker);
+    },
+    [editorActions]
+  );
+
+  const handleClearRequestJumpToEditorMarker = useCallback(() => {
+    editorActions.clearRequestJumpToEditorMarker();
+  }, [editorActions]);
+
   return (
     <MonacoEditor
       language={language}
@@ -55,11 +67,14 @@ const MonacoEditorContainer = ({
       value={value}
       isReadOnly={isReadOnly}
       jumpToMarker={jumpToMarker}
+      requestJumpToMarker={requestJumpToMarker}
       onChange={handleChangeEditorValue}
       onEditorMount={handleEditorDidMount}
       onEditorWillUnmount={handleEditorWillUnmount}
       onEditorMarkersDidChange={handleEditorMarkersDidChange}
       onClearJumpToMarker={handleClearJumpToEditorMarker}
+      onSetRequestJumpToMarker={handleSetJumpToEditorMarker}
+      onClearRequestJumpToMarker={handleClearRequestJumpToEditorMarker}
     />
   );
 };

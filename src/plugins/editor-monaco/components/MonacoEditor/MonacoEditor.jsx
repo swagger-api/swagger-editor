@@ -6,6 +6,7 @@ import noop from '../../../../utils/common-noop.js';
 import getStyleMetadataLight, { themes as themesLight } from '../../utils/monaco-theme-light.js';
 import getStyleMetadataDark, { themes as themesDark } from '../../utils/monaco-theme-dark.js';
 import { dereference } from '../../utils/monaco-action-apidom-deref.js';
+import { requestGetJsonPointerPosition } from '../../utils/monaco-jump-from-path-to-line.js';
 import { useMount, useUpdate, useSmoothResize } from './hooks.js';
 
 /**
@@ -21,12 +22,15 @@ const MonacoEditor = ({
   theme,
   language,
   jumpToMarker,
+  requestJumpToMarker,
   isReadOnly,
   onEditorMount,
   onEditorWillUnmount,
   onChange,
   onEditorMarkersDidChange,
   onClearJumpToMarker,
+  onSetRequestJumpToMarker,
+  onClearRequestJumpToMarker,
 }) => {
   const containerRef = useRef(null);
   const editorRef = useRef(null);
@@ -155,6 +159,35 @@ const MonacoEditor = ({
     isEditorReady
   );
 
+  // given a jsonPointer, request jumping to its marker position
+  useUpdate(
+    () => {
+      async function findMarkerPosition() {
+        // via apidom-ls
+        const foundMarkerPosition = await requestGetJsonPointerPosition(
+          editorRef.current,
+          requestJumpToMarker.jsonPointer
+        );
+        if (foundMarkerPosition?.data) {
+          // set jumpToMarker in state, which will then call the useUpdate above
+          onSetRequestJumpToMarker(foundMarkerPosition.data);
+          // then clear the request itself
+          onClearRequestJumpToMarker();
+        } else {
+          // just clear the request anyways
+          onClearRequestJumpToMarker();
+        }
+      }
+
+      if (requestJumpToMarker?.jsonPointer && editorRef?.current?.getModel) {
+        // call the async/await function
+        findMarkerPosition();
+      }
+    },
+    [requestJumpToMarker, onSetRequestJumpToMarker, onClearRequestJumpToMarker],
+    isEditorReady
+  );
+
   // setting Monaco Editor to write/read mode
   useUpdate(
     () => {
@@ -166,6 +199,28 @@ const MonacoEditor = ({
 
   // settings the theme if changed
   useEffect(() => {
+    // START dev demo test unrelated to the setTheme
+    // async function findMarkerPosition() {
+    //   // const mockPath = '/paths/b/get'; // OAS3.1: apidomls catch error
+    //   const mockPath =
+    //     '/channels/smartylighting.streetlights.1.0.event.{streetlightId}.lighting.measured'; // asyncapi
+    //   // via apidom-ls
+    //   const foundMarkerPosition = await requestGetJsonPointerPosition(editorRef.current, mockPath);
+    //   console.log('mock...foundMarkerPosition', foundMarkerPosition);
+    //   if (foundMarkerPosition?.data) {
+    //     // set jumpToMarker in state, which will then call the useUpdate above
+    //     onSetRequestJumpToMarker(foundMarkerPosition.data);
+    //     // then clear the request itself
+    //     onClearRequestJumpToMarker();
+    //   } else {
+    //     // just clear the request anyways
+    //     onClearRequestJumpToMarker();
+    //   }
+    // }
+    // if (editorRef?.current?.getModel) {
+    //   findMarkerPosition();
+    // }
+    // END dev demo test
     if (theme === 'vs-dark') {
       monaco.editor.setTheme('vs-dark');
       // eslint-disable-next-line no-underscore-dangle
@@ -250,21 +305,27 @@ MonacoEditor.propTypes = {
   theme: PropTypes.string.isRequired,
   isReadOnly: PropTypes.bool,
   jumpToMarker: PropTypes.oneOfType([PropTypes.object]),
+  requestJumpToMarker: PropTypes.oneOfType([PropTypes.object]),
   onEditorMount: PropTypes.func,
   onEditorWillUnmount: PropTypes.func,
   onChange: PropTypes.func,
   onEditorMarkersDidChange: PropTypes.func,
   onClearJumpToMarker: PropTypes.func,
+  onSetRequestJumpToMarker: PropTypes.func,
+  onClearRequestJumpToMarker: PropTypes.func,
 };
 
 MonacoEditor.defaultProps = {
   isReadOnly: false,
   jumpToMarker: {},
+  requestJumpToMarker: {},
   onEditorMount: noop,
   onEditorWillUnmount: noop,
   onChange: noop,
   onEditorMarkersDidChange: noop,
   onClearJumpToMarker: noop,
+  onSetRequestJumpToMarker: noop,
+  onClearRequestJumpToMarker: noop,
 };
 
 export default MonacoEditor;

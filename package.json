@@ -32,7 +32,7 @@
     }
   },
   "scripts": {
-    "start": "cross-env DISABLE_ESLINT_PLUGIN=false ENABLE_PROGRESS_PLUGIN=true react-scripts start",
+    "start": "cross-env DISABLE_ESLINT_PLUGIN=true ENABLE_PROGRESS_PLUGIN=true react-scripts start",
     "build": "npm run build:app && npm run build:bundle:esm && npm run build:bundle:umd",
     "build:app": "cross-env ENABLE_PROGRESS_PLUGIN=false DISABLE_ESLINT_PLUGIN=false react-scripts build",
     "build:app:serve": "serve -s build -l 3050",
@@ -66,6 +66,7 @@
     "axios": "^0.27.2",
     "deepmerge": "^4.2.2",
     "file-dialog": "^0.0.8",
+    "immutable": "^3.8.2",
     "is-json": "^2.0.1",
     "js-file-download": "^0.4.12",
     "js-yaml": "^4.1.0",
@@ -77,6 +78,7 @@
     "react-collapse-pane": "^3.0.1",
     "react-dom": "^17.0.2",
     "react-dropzone": "^14.2.2",
+    "react-immutable-proptypes": "^2.2.0",
     "react-modal": "^3.15.1",
     "react-resize-detector": "^7.1.2",
     "react-table": "^7.8.0",
