@@ -57,7 +57,7 @@
     "@asyncapi/openapi-schema-parser": "^2.0.1",
     "@asyncapi/parser": "^1.15.1",
     "@asyncapi/react-component": "^1.0.0-next.39",
-    "@babel/runtime": "^7.18.6",
+    "@babel/runtime": "^7.18.9",
     "@emotion/react": "^11.9.3",
     "@emotion/styled": "^11.9.3",
     "@mui/material": "^5.9.0",
