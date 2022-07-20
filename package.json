@@ -84,7 +84,7 @@
     "react-table": "^7.8.0",
     "reselect": "^4.1.6",
     "styled-components": "^5.3.5",
-    "swagger-ui-react": "^4.12.0",
+    "swagger-ui-react": "^4.13.0",
     "vscode-languageserver-textdocument": "^1.0.5"
   },
   "devDependencies": {
