@@ -38,7 +38,7 @@
     "build:app:serve": "serve -s build -l 3050",
     "build:bundle:esm": "rimraf ./dist/esm && cross-env DISABLE_ESLINT_PLUGIN=false ENABLE_PROGRESS_PLUGIN=false GENERATE_SOURCEMAP=true BUILD_ESM_BUNDLE=true DIST_PATH=dist/esm react-scripts build-bundle && rimraf ./dist/esm/swagger-editor.css*",
     "build:bundle:umd": "rimraf ./dist/umd ./dist/swagger-editor.css && cross-env DISABLE_ESLINT_PLUGIN=false ENABLE_PROGRESS_PLUGIN=false GENERATE_SOURCEMAP=false BUILD_UMD_BUNDLE=true DIST_PATH=dist/umd react-scripts build-bundle && copyfiles -u 2 ./dist/umd/swagger-editor.css ./dist && rimraf ./dist/umd/swagger-editor.css",
-    "analyze": "source-map-explorer 'dist/umd/swagger-editor.js'",
+    "analyze": "source-map-explorer 'build/static/js/main.js'",
     "test": "react-scripts test",
     "cy:dev": "start-server-and-test cy:dev:server http://localhost:3003 cy:dev:open",
     "cy:dev:open": "CYPRESS_BASE_URL=http://localhost:3003 cypress open --e2e",
