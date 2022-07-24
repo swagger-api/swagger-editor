@@ -9,9 +9,6 @@ on:
   pull_request:
     branches: [ next ]
 
-env:
-  NODE_OPTIONS: '--max_old_space_size=4096'
-
 jobs:
   build:
     runs-on: ubuntu-latest
