@@ -19,7 +19,7 @@ describe('EditorPersistencePlugin', () => {
 
     cy.waitForContentPropagation();
 
-    cy.get('.monaco-editor .view-lines').should('contains.text', '2.3.0');
+    cy.get('.monaco-editor .view-lines').should('be.visible').should('contains.text', '2.3.0');
     cy.reload();
     cy.get('.monaco-editor .view-lines')
       .should('contains.text', '2.3.0')
