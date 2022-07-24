@@ -1,6 +1,7 @@
 describe('EditorPersistencePlugin', () => {
   beforeEach(() => {
     cy.prepareAsyncAPI();
+    cy.waitForSplashScreen();
   });
 
   it('should load definition with provided url prop', () => {
@@ -15,6 +16,9 @@ describe('EditorPersistencePlugin', () => {
       .click()
       .focused()
       .type(`${moveToPosition}{shift+rightArrow}3`);
+
+    cy.waitForContentPropagation();
+
     cy.get('.monaco-editor .view-lines').should('contains.text', '2.3.0');
     cy.reload();
     cy.get('.monaco-editor .view-lines')

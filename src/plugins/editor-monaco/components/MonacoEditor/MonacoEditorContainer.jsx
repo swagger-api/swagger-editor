@@ -3,18 +3,10 @@ import PropTypes from 'prop-types';
 
 import MonacoEditor from './MonacoEditor.jsx';
 
-const MonacoEditorContainer = ({
-  editorActions,
-  specActions,
-  editorSelectors,
-  specSelectors,
-  isReadOnly,
-}) => {
-  const language = 'apidom';
-  const theme = editorSelectors.selectEditorTheme() || 'my-vs-dark';
+const MonacoEditorContainer = ({ editorActions, editorSelectors, isReadOnly }) => {
+  const theme = editorSelectors.selectEditorTheme();
   const jumpToMarker = editorSelectors.selectEditorJumpToMarker();
-  const requestJumpToMarker = editorSelectors.selectEditorRequestJumpToMarker();
-  const value = specSelectors.specStr() || '';
+  const value = editorSelectors.selectContent();
 
   const handleEditorDidMount = useCallback(
     (editor) => {
@@ -32,10 +24,10 @@ const MonacoEditorContainer = ({
   );
 
   const handleChangeEditorValue = useCallback(
-    (val) => {
-      specActions.updateSpec(val, 'editor');
+    (newValue) => {
+      editorActions.setContentDebounced(newValue, 'editor');
     },
-    [specActions]
+    [editorActions]
   );
 
   const handleEditorMarkersDidChange = useCallback(
@@ -49,42 +41,36 @@ const MonacoEditorContainer = ({
     editorActions.clearJumpToEditorMarker();
   }, [editorActions]);
 
-  const handleSetJumpToEditorMarker = useCallback(
-    (marker) => {
-      editorActions.setJumpToEditorMarker(marker);
-    },
-    [editorActions]
-  );
-
-  const handleClearRequestJumpToEditorMarker = useCallback(() => {
-    editorActions.clearRequestJumpToEditorMarker();
-  }, [editorActions]);
-
   return (
     <MonacoEditor
-      language={language}
+      language="apidom"
       theme={theme}
       value={value}
       isReadOnly={isReadOnly}
       jumpToMarker={jumpToMarker}
-      requestJumpToMarker={requestJumpToMarker}
       onChange={handleChangeEditorValue}
-      onEditorMount={handleEditorDidMount}
-      onEditorWillUnmount={handleEditorWillUnmount}
+      onMount={handleEditorDidMount}
+      onWillUnmount={handleEditorWillUnmount}
       onEditorMarkersDidChange={handleEditorMarkersDidChange}
       onClearJumpToMarker={handleClearJumpToEditorMarker}
-      onSetRequestJumpToMarker={handleSetJumpToEditorMarker}
-      onClearRequestJumpToMarker={handleClearRequestJumpToEditorMarker}
     />
   );
 };
 
 MonacoEditorContainer.propTypes = {
   isReadOnly: PropTypes.bool,
-  specSelectors: PropTypes.oneOfType([PropTypes.object]).isRequired,
-  specActions: PropTypes.oneOfType([PropTypes.object]).isRequired,
-  editorActions: PropTypes.oneOfType([PropTypes.object]).isRequired,
-  editorSelectors: PropTypes.oneOfType([PropTypes.object]).isRequired,
+  editorActions: PropTypes.shape({
+    editorSetup: PropTypes.func.isRequired,
+    editorTearDown: PropTypes.func.isRequired,
+    setContentDebounced: PropTypes.func.isRequired,
+    updateEditorMarkers: PropTypes.func.isRequired,
+    clearJumpToEditorMarker: PropTypes.func.isRequired,
+  }).isRequired,
+  editorSelectors: PropTypes.shape({
+    selectContent: PropTypes.func.isRequired,
+    selectEditorTheme: PropTypes.func.isRequired,
+    selectEditorJumpToMarker: PropTypes.func.isRequired,
+  }).isRequired,
 };
 
 MonacoEditorContainer.defaultProps = {

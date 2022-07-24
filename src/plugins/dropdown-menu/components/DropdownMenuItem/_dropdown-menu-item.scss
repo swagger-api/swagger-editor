@@ -1,0 +1,13 @@
+.swagger-editor {
+  & .menu-item {
+    cursor: pointer;
+    font-size: 0.95rem;
+
+    &::after {
+      content: '▼';
+      margin-left: 6px;
+      font-size: 0.5rem;
+    }
+  }
+}
+

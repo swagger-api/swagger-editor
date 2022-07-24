@@ -4,10 +4,15 @@ import EditorPaneBarTop from './components/EditorPaneBars/EditorPaneBarTop.jsx';
 import EditorPaneBarRight from './components/EditorPaneBars/EditorPaneBarRight.jsx';
 import EditorPaneBarBottom from './components/EditorPaneBars/EditorPaneBarBottom.jsx';
 import EditorPaneBarLeft from './components/EditorPaneBars/EditorPaneBarLeft.jsx';
-import { editorSetup, editorTearDown } from './actions.js';
+import { editorSetup, editorTearDown, setContent, clearContent } from './actions.js';
+import { selectContent } from './selectors.js';
+import reducers from './reducers.js';
 import {
-  editorSetup as wrapEditorSetup,
-  editorTearDown as wrapEditorTearDown,
+  editorSetup as editorSetupWrap,
+  editorTearDown as editorTearDownWrap,
+  setContentDebounced as setContentDebouncedWrap,
+  updateSpec as updateSpecWrap,
+  clearContent as clearContentWrap,
 } from './wrap-actions.js';
 import { makeUseEditorLifecycle, useElementResize } from './hooks.js';
 
@@ -30,10 +35,24 @@ const EditorTextareaPlugin = ({ getSystem }) => ({
       actions: {
         editorSetup,
         editorTearDown,
+        setContent,
+        setContentDebounced: setContent,
+        clearContent,
       },
       wrapActions: {
-        editorSetup: wrapEditorSetup,
-        editorTearDown: wrapEditorTearDown,
+        editorSetup: editorSetupWrap,
+        editorTearDown: editorTearDownWrap,
+        setContentDebounced: setContentDebouncedWrap,
+        clearContent: clearContentWrap,
+      },
+      selectors: {
+        selectContent,
+      },
+      reducers,
+    },
+    spec: {
+      wrapActions: {
+        updateSpec: updateSpecWrap,
       },
     },
   },

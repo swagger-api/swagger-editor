@@ -1,11 +1,9 @@
 import { useCallback, useState } from 'react';
 import { useDropzone as useVendorDropzone } from 'react-dropzone';
 
-import { importSingleFile } from '../../utils/common-file-import-single.js';
-
 // eslint-disable-next-line import/prefer-default-export
 export const makeUseDropzone = (getSystem) => () => {
-  const { specActions } = getSystem();
+  const { editorActions } = getSystem();
   const [isAlertDialogOpen, setIsAlertDialogOpen] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
 
@@ -14,30 +12,27 @@ export const makeUseDropzone = (getSystem) => () => {
       const someFilesWereRejected = rejectedFiles && rejectedFiles.length > 0;
       const thereIsExactlyOneAcceptedFile = acceptedFiles && acceptedFiles.length === 1;
 
-      if (someFilesWereRejected || !thereIsExactlyOneAcceptedFile) {
-        const dropFileErrMessage = `Sorry, there was an error processing your file.\nPlease drag and drop exactly one OpenAPI/AsyncAPI definition in .yaml or .json format`;
-        setErrorMessage(dropFileErrMessage);
-        setIsAlertDialogOpen(true);
-      } else {
-        const file = acceptedFiles[0];
-        const importedFile = await importSingleFile(file);
-        if (importedFile.data && importedFile.message === 'success') {
-          specActions.updateSpec(importedFile.data, 'fileDrop');
-        } else {
-          const importedFileErrMessage = `Sorry, there was an error processing your file. Unable to process as valid YAML or JSON `;
-          setErrorMessage(importedFileErrMessage);
+      try {
+        if (someFilesWereRejected || !thereIsExactlyOneAcceptedFile) {
+          const dropFileErrMessage = `Sorry, there was an error processing your file.\nPlease drag and drop exactly one file.`;
+          setErrorMessage(dropFileErrMessage);
           setIsAlertDialogOpen(true);
+        } else {
+          const file = acceptedFiles[0];
+          const content = await file.text();
+
+          editorActions.setContent(content, 'file-drop');
         }
+      } catch (error) {
+        const importedFileErrMessage = `Sorry, there was an error processing your file. Unable to process as valid YAML or JSON `;
+        setErrorMessage(importedFileErrMessage);
+        setIsAlertDialogOpen(true);
       }
     },
-    [specActions, setErrorMessage, setIsAlertDialogOpen]
+    [editorActions, setErrorMessage, setIsAlertDialogOpen]
   );
   const { getRootProps, getInputProps, isDragActive } = useVendorDropzone({
     onDrop: handleFileDrop,
-    accept: {
-      'text/yaml': ['.yaml', '.yml'],
-      'application/json': ['.json'],
-    },
     multiple: false,
     noClick: true,
   });

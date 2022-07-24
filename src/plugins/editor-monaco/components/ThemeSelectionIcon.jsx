@@ -3,10 +3,10 @@ import PropTypes from 'prop-types';
 import { MoonIcon, SunIcon } from '@primer/octicons-react';
 
 const themeList = ['vs', 'vs-light', 'vs-dark', 'my-vs-light', 'my-vs-dark'];
-const defaultTheme = 'my-vs-dark';
 
 const ThemeSelectionIcon = ({ editorSelectors, editorActions }) => {
-  const theme = editorSelectors.selectEditorTheme() || defaultTheme;
+  const theme = editorSelectors.selectEditorTheme();
+
   const handleChange = (newTheme) => () => {
     if (themeList.includes(newTheme)) {
       editorActions.updateEditorTheme(newTheme);

@@ -2,9 +2,6 @@ export const EDITOR_UPDATE_THEME = 'editor_update_theme';
 export const EDITOR_ERROR_MARKERS = 'editor_error_markers';
 export const EDITOR_JUMP_TO_EDITOR_MARKER = 'editor_jump_to_editor_marker';
 export const EDITOR_CLEAR_JUMP_TO_EDITOR_MARKER = 'editor_clear_jump_to_editor_marker';
-export const EDITOR_SET_REQUEST_JUMP_TO_EDITOR_MARKER = 'editor_set_request_jump_to_editor_marker';
-export const EDITOR_CLEAR_REQUEST_JUMP_TO_EDITOR_MARKER =
-  'editor_clear_request_jump_to_editor_marker';
 
 export const updateEditorTheme = (theme = 'my-vs-dark') => {
   return {
@@ -28,17 +25,5 @@ export const clearJumpToEditorMarker = () => {
   return {
     payload: {},
     type: EDITOR_CLEAR_JUMP_TO_EDITOR_MARKER,
-  };
-};
-export const setRequestJumpToEditorMarker = (marker = {}) => {
-  return {
-    payload: marker,
-    type: EDITOR_SET_REQUEST_JUMP_TO_EDITOR_MARKER,
-  };
-};
-export const clearRequestJumpToEditorMarker = () => {
-  return {
-    payload: {},
-    type: EDITOR_CLEAR_REQUEST_JUMP_TO_EDITOR_MARKER,
   };
 };

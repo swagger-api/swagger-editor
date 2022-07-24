@@ -14,6 +14,7 @@ describe('App', () => {
       cy.spy(contentWindow.console, 'error').as('consoleError');
     });
     cy.prepareAsyncAPI();
+    cy.waitForSplashScreen();
   });
 
   it('renders the app', () => {

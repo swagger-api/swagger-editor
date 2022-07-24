@@ -1,0 +1,9 @@
+.swagger-editor {
+  &__editor-preview-asyncapi-parse-errors {
+    .swagger-editor__validation-table {
+      tbody {
+        max-height: none;
+      }
+    }
+  }
+}
