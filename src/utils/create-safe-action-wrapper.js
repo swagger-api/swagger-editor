@@ -5,7 +5,7 @@
  * @returns {function(*, *): function(...[*]): (*)}
  */
 const createSafeActionWrapper = (wrapper) => {
-  let lastFSA = null;
+  let lastFSA = null; // Flux Standard Action(FSA): action objects emitted through redux
 
   return (origAction, system) =>
     (...args) => {

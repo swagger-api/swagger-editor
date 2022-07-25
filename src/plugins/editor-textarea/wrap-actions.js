@@ -35,7 +35,7 @@ export const clearContent = createSafeActionWrapper((oriAction, system) => () =>
 export const updateSpec = (oriAction, system) => (spec, origin) => {
   const { editorActions, editorSelectors } = system;
 
-  const fsa = oriAction(spec, origin);
+  const fsa = oriAction(spec, origin); // Flux Standard Action(FSA): action objects emitted through redux
 
   if (origin !== 'swagger-editor' && editorSelectors.selectContent() !== spec) {
     editorActions.setContent(spec);
