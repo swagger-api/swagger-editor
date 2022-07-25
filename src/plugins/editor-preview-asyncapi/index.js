@@ -1,5 +1,5 @@
 import EditorPreviewAsyncAPI from './components/EditorPreviewAsyncAPI/EditorPreviewAsyncAPI.jsx';
-import ParseErrors from './components/ParseErrrors/ParseErrors.jsx';
+import ParseErrors from './components/ParseErrors/ParseErrors.jsx';
 import EditorPreviewWrapper from './wrap-components/EditorPreviewWrapper.jsx';
 import { previewUnmounted, parse, parseStarted, parseSuccess, parseFailure } from './actions.js';
 import { detectContentTypeSuccess as detectContentTypeSuccessWrap } from './wrap-actions.js';
