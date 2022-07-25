@@ -1,0 +1,6 @@
+{
+  "rules": {
+    "testing-library/await-async-utils": 0,
+    "testing-library/await-async-query": 0,
+  }
+}

@@ -1,24 +1,21 @@
-/* eslint-disable testing-library/await-async-utils */
+describe('Monaco Editor with Parser', () => {
+  const selectAllKeys = ['darwin'].includes(Cypress.platform) ? '{cmd}a' : '{ctrl}a';
 
-/**
- * disable above rules to cover cy.wait, cy.findByText
- * where using async/await withing Cypress is discouraged
- * this is a linting compatibility mismatch between testing-library and Cypress
- */
-
-const selectAllKeys = ['darwin', 'linux'].includes(Cypress.platform) ? '{cmd}a' : '{ctrl}a';
-
-describe.skip('Monaco Editor with Parser', () => {
   beforeEach(() => {
+    cy.visitBlankPage();
     cy.window().then((contentWindow) => {
       // console.log already globally stubbed in cy support/commands
       cy.spy(contentWindow.console, 'error').as('consoleError');
     });
     cy.prepareAsyncAPI();
+    cy.waitForSplashScreen();
   });
 
   it('should not throw console.error when parsing empty string', () => {
     cy.get('.monaco-editor textarea:first').click().focused().type(selectAllKeys).clear();
+
+    cy.waitForContentPropagation();
+
     cy.get('@consoleError').should('not.be.called');
     cy.get('.monaco-editor .view-lines').should('contains.text', '');
   });
@@ -29,6 +26,9 @@ describe.skip('Monaco Editor with Parser', () => {
       .focused()
       .type(selectAllKeys)
       .type('randomapi: 1.0.0\n');
+
+    cy.waitForContentPropagation();
+
     cy.get('@consoleError').should('not.be.called');
     cy.get('.monaco-editor .view-lines').should('contains.text', 'randomapi');
   });

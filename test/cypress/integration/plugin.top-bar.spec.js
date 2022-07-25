@@ -1,6 +1,8 @@
 describe('Topbar', () => {
   beforeEach(() => {
+    cy.visitBlankPage();
     cy.prepareAsyncAPI();
+    cy.waitForSplashScreen();
   });
 
   describe('File Dropdown Menu', () => {

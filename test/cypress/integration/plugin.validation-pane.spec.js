@@ -1,10 +1,14 @@
 describe('Monaco Editor with Validation Pane', () => {
   beforeEach(() => {
+    cy.visitBlankPage();
     cy.prepareAsyncAPI();
+    cy.waitForSplashScreen();
+
     // move down to line 2, column 3
     const moveToPosition = `{downArrow}{rightArrow}{rightArrow}`;
     // introduce a typo error
     cy.get('.monaco-editor textarea:first').click().focused().type(`${moveToPosition}Q`);
+    cy.waitForContentPropagation();
   });
 
   /**

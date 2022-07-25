@@ -1,5 +1,6 @@
 describe('EditorPersistencePlugin', () => {
   beforeEach(() => {
+    cy.visitBlankPage();
     cy.prepareAsyncAPI();
     cy.waitForSplashScreen();
   });
@@ -10,7 +11,7 @@ describe('EditorPersistencePlugin', () => {
       .should('contains.text', '2.4.0');
   });
 
-  it.skip('should reload while keeping text change from 2.4.0 to 2.3.0', () => {
+  it('should reload while keeping text change from 2.4.0 to 2.3.0', () => {
     const moveToPosition = `{rightArrow}{rightArrow}{rightArrow}{rightArrow}{rightArrow}{rightArrow}{rightArrow}{rightArrow}{rightArrow}{rightArrow}{rightArrow}{rightArrow}{rightArrow}`;
 
     cy.get('.monaco-editor textarea:first')
@@ -21,7 +22,10 @@ describe('EditorPersistencePlugin', () => {
     cy.waitForContentPropagation();
 
     cy.get('.monaco-editor .view-lines').should('contains.text', '2.3.0');
-    cy.reload();
+
+    cy.reload(true);
+
+    cy.waitForSplashScreen();
     cy.get('.monaco-editor .view-lines')
       .should('contains.text', '2.3.0')
       .should('not.contains.text', '2.4.0');
