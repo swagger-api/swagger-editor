@@ -13,7 +13,8 @@ describe('Monaco Editor with Parser', () => {
 
   it('should not throw console.error when parsing empty string', () => {
     cy.get('.monaco-editor textarea:first', { timeout: 10000 })
-      .click()
+      .should('be.visible')
+      .click({ force: true })
       .focused()
       .type(selectAllKeys)
       .clear();
@@ -26,7 +27,8 @@ describe('Monaco Editor with Parser', () => {
 
   it('should not throw console.error when parsing unsupported definition', () => {
     cy.get('.monaco-editor textarea:first', { timeout: 10000 })
-      .click()
+      .should('be.visible')
+      .click({ force: true })
       .focused()
       .type(selectAllKeys)
       .type('randomapi: 1.0.0\n');

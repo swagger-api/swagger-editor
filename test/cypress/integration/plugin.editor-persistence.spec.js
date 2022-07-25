@@ -15,7 +15,8 @@ describe('EditorPersistencePlugin', () => {
     const moveToPosition = `{rightArrow}{rightArrow}{rightArrow}{rightArrow}{rightArrow}{rightArrow}{rightArrow}{rightArrow}{rightArrow}{rightArrow}{rightArrow}{rightArrow}{rightArrow}`;
 
     cy.get('.monaco-editor textarea:first', { timeout: 10000 })
-      .click()
+      .should('be.visible')
+      .click({ force: true })
       .focused()
       .type(`${moveToPosition}{shift+rightArrow}3`);
 
