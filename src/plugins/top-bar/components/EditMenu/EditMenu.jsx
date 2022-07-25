@@ -34,6 +34,10 @@ const EditMenu = (props) => {
     'TopBarEditMenuLoadOpenAPI31FixtureMenuItem',
     true
   );
+  const LoadAPIDesignSystemsFixtureMenuItem = getComponent(
+    'TopBarEditMenuLoadAPIDesignSystemsFixtureMenuItem',
+    true
+  );
   const editMenuHandler = useRef(null);
 
   const handleClearClick = useCallback(() => {
@@ -63,6 +67,9 @@ const EditMenu = (props) => {
   const handleLoadAsyncAPI24PetstoreFixtureClick = useCallback(() => {
     editMenuHandler.current.loadAsyncAPI24PetstoreFixture();
   }, []);
+  const loadAPIDesignSystemsFixtureClick = useCallback(() => {
+    editMenuHandler.current.loadAPIDesignSystemsFixture();
+  }, []);
 
   return (
     <>
@@ -79,6 +86,7 @@ const EditMenu = (props) => {
         <LoadOpenAPI31FixtureMenuItem onClick={handleLoadOpenAPI31FixtureClick} />
         <LoadAsyncAPI24FixtureMenuItem onClick={handleLoadAsyncAPI24FixtureClick} />
         <LoadAsyncAPI24PetstoreFixtureMenuItem onClick={handleLoadAsyncAPI24PetstoreFixtureClick} />
+        <LoadAPIDesignSystemsFixtureMenuItem onClick={loadAPIDesignSystemsFixtureClick} />
       </DropdownMenu>
     </>
   );

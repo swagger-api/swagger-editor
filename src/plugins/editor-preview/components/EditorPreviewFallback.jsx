@@ -1,5 +1,5 @@
 const EditorPreviewFallback = () => (
-  <div className="swagger-ui">
+  <div className="swagger-editor__editor-preview-fallback swagger-ui">
     <div className="version-pragma">
       <div className="version-pragma__message version-pragma__message--missing">
         <div>
