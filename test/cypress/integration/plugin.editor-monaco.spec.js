@@ -12,7 +12,7 @@ describe('Monaco Editor with Parser', () => {
   });
 
   it('should not throw console.error when parsing empty string', () => {
-    cy.get('.monaco-editor textarea:first')
+    cy.get('.monaco-editor textarea:first', { timeout: 10000 })
       .should('be.visible')
       .click({ force: true })
       .focused()
@@ -26,7 +26,7 @@ describe('Monaco Editor with Parser', () => {
   });
 
   it('should not throw console.error when parsing unsupported definition', () => {
-    cy.get('.monaco-editor textarea:first')
+    cy.get('.monaco-editor textarea:first', { timeout: 10000 })
       .should('be.visible')
       .click({ force: true })
       .focused()

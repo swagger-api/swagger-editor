@@ -7,7 +7,7 @@ describe('Monaco Editor with Validation Pane', () => {
     // move down to line 2, column 3
     const moveToPosition = `{downArrow}{rightArrow}{rightArrow}`;
     // introduce a typo error
-    cy.get('.monaco-editor textarea:first')
+    cy.get('.monaco-editor textarea:first', { timeout: 10000 })
       .should('be.visible')
       .click({ force: true })
       .focused()
@@ -47,7 +47,7 @@ describe('Monaco Editor with Validation Pane', () => {
 
   it('should not display Validation Pane after error is cleared', () => {
     // fix the typo error
-    cy.get('.monaco-editor textarea:first')
+    cy.get('.monaco-editor textarea:first', { timeout: 10000 })
       .should('be.visible')
       .click({ force: true })
       .focused()
