@@ -87,7 +87,7 @@ Cypress.Commands.add('prepareOpenAPI', () => {
 });
 
 Cypress.Commands.add('waitForSplashScreen', () => {
-  cy.get('.swagger-editor__splash-screen').should('not.be.visible');
+  cy.get('.swagger-editor__splash-screen', { timeout: 10000 }).should('not.be.visible');
 });
 
 Cypress.Commands.add('waitForContentPropagation', () => {
@@ -96,4 +96,11 @@ Cypress.Commands.add('waitForContentPropagation', () => {
    */
   // eslint-disable-next-line testing-library/await-async-utils,cypress/no-unnecessary-waiting
   cy.wait(600);
+});
+
+Cypress.Commands.add('visitBlankPage', () => {
+  cy.window().then((win) => {
+    // eslint-disable-next-line no-param-reassign
+    win.location.href = 'about:blank';
+  });
 });

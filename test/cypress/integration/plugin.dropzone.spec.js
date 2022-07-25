@@ -1,6 +1,7 @@
 describe('Dropzone in Layout', () => {
   describe('file uploads with dropzone', () => {
     beforeEach(() => {
+      cy.visitBlankPage();
       cy.prepareAsyncAPI();
       cy.waitForSplashScreen();
     });
