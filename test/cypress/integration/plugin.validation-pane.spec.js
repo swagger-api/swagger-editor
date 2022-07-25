@@ -7,7 +7,10 @@ describe('Monaco Editor with Validation Pane', () => {
     // move down to line 2, column 3
     const moveToPosition = `{downArrow}{rightArrow}{rightArrow}`;
     // introduce a typo error
-    cy.get('.monaco-editor textarea:first').click().focused().type(`${moveToPosition}Q`);
+    cy.get('.monaco-editor textarea:first', { timeout: 10000 })
+      .click()
+      .focused()
+      .type(`${moveToPosition}Q`);
     cy.waitForContentPropagation();
   });
 
@@ -43,7 +46,10 @@ describe('Monaco Editor with Validation Pane', () => {
 
   it('should not display Validation Pane after error is cleared', () => {
     // fix the typo error
-    cy.get('.monaco-editor textarea:first').click().focused().type(`{backspace}`);
+    cy.get('.monaco-editor textarea:first', { timeout: 10000 })
+      .click()
+      .focused()
+      .type(`{backspace}`);
     // re-assert
     cy.get('.swagger-editor__validation-table > thead').should('not.exist');
     cy.get('.swagger-editor__validation-table > tbody').should('not.exist');
