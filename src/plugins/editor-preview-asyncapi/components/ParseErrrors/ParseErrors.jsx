@@ -44,7 +44,7 @@ const ParseErrors = ({ errors, editorActions }) => {
 };
 
 ParseErrors.propTypes = {
-  errors: PropTypes.arrayOf(PropTypes.object).isRequired,
+  errors: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
   editorActions: PropTypes.shape({
     setJumpToEditorMarker: PropTypes.func.isRequired,
   }).isRequired,
