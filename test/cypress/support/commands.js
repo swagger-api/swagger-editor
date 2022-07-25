@@ -95,5 +95,5 @@ Cypress.Commands.add('waitForContentPropagation', () => {
    * Content is propagated to application after 500ms debouncing.
    */
   // eslint-disable-next-line testing-library/await-async-utils,cypress/no-unnecessary-waiting
-  cy.wait(500);
+  cy.wait(600);
 });
