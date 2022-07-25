@@ -24,10 +24,12 @@ describe('EditorPersistencePlugin', () => {
       .focused()
       .type(`${moveToPosition}{shift+rightArrow}3`);
 
-    cy.get('.monaco-editor .view-lines').should('contains.text', '2.3.0');
+    cy.get('.monaco-editor .view-lines')
+      .should('contains.text', '2.3.0')
+      .should('not.contains.text', '2.4.0');
 
     cy.waitForContentPropagation();
-    cy.reload(true);
+    cy.reload();
 
     cy.waitForSplashScreen();
     cy.get('.monaco-editor .view-lines')
