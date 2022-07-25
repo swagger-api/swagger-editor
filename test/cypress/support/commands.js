@@ -87,7 +87,7 @@ Cypress.Commands.add('prepareOpenAPI', () => {
 });
 
 Cypress.Commands.add('waitForSplashScreen', () => {
-  cy.get('.swagger-editor__splash-screen').should('not.be.visible');
+  cy.get('.swagger-editor__splash-screen', { timeout: 10000 }).should('not.be.visible');
 });
 
 Cypress.Commands.add('waitForContentPropagation', () => {
