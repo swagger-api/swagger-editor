@@ -6,6 +6,7 @@ import MonacoEditor from './MonacoEditor.jsx';
 const MonacoEditorContainer = ({ editorActions, editorSelectors, isReadOnly }) => {
   const theme = editorSelectors.selectEditorTheme();
   const jumpToMarker = editorSelectors.selectEditorJumpToMarker();
+  const requestJumpToMarker = editorSelectors.selectEditorRequestJumpToMarker();
   const value = editorSelectors.selectContent();
 
   const handleEditorDidMount = useCallback(
@@ -41,6 +42,17 @@ const MonacoEditorContainer = ({ editorActions, editorSelectors, isReadOnly }) =
     editorActions.clearJumpToEditorMarker();
   }, [editorActions]);
 
+  const handleSetJumpToEditorMarker = useCallback(
+    (marker) => {
+      editorActions.setJumpToEditorMarker(marker);
+    },
+    [editorActions]
+  );
+
+  const handleClearRequestJumpToEditorMarker = useCallback(() => {
+    editorActions.clearRequestJumpToEditorMarker();
+  }, [editorActions]);
+
   return (
     <MonacoEditor
       language="apidom"
@@ -48,11 +60,14 @@ const MonacoEditorContainer = ({ editorActions, editorSelectors, isReadOnly }) =
       value={value}
       isReadOnly={isReadOnly}
       jumpToMarker={jumpToMarker}
+      requestJumpToMarker={requestJumpToMarker}
       onChange={handleChangeEditorValue}
       onMount={handleEditorDidMount}
       onWillUnmount={handleEditorWillUnmount}
       onEditorMarkersDidChange={handleEditorMarkersDidChange}
       onClearJumpToMarker={handleClearJumpToEditorMarker}
+      onSetRequestJumpToMarker={handleSetJumpToEditorMarker}
+      onClearRequestJumpToMarker={handleClearRequestJumpToEditorMarker}
     />
   );
 };
@@ -65,11 +80,14 @@ MonacoEditorContainer.propTypes = {
     setContentDebounced: PropTypes.func.isRequired,
     updateEditorMarkers: PropTypes.func.isRequired,
     clearJumpToEditorMarker: PropTypes.func.isRequired,
+    setJumpToEditorMarker: PropTypes.func.isRequired,
+    clearRequestJumpToEditorMarker: PropTypes.func.isRequired,
   }).isRequired,
   editorSelectors: PropTypes.shape({
     selectContent: PropTypes.func.isRequired,
     selectEditorTheme: PropTypes.func.isRequired,
     selectEditorJumpToMarker: PropTypes.func.isRequired,
+    selectEditorRequestJumpToMarker: PropTypes.func.isRequired,
   }).isRequired,
 };
 

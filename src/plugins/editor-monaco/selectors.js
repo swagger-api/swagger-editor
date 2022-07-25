@@ -15,3 +15,5 @@ export const selectEditorJumpToMarker = createSelector(
     return editorJumpToMarker || {};
   }
 );
+
+export const selectEditorRequestJumpToMarker = (state) => state.get('editorRequestJumpToMarker');
