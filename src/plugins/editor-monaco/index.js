@@ -10,9 +10,16 @@ import {
   updateEditorMarkers,
   setJumpToEditorMarker,
   clearJumpToEditorMarker,
+  setRequestJumpToEditorMarker,
+  clearRequestJumpToEditorMarker,
 } from './actions.js';
 import reducers from './reducers.js';
-import { selectEditorTheme, selectEditorMarkers, selectEditorJumpToMarker } from './selectors.js';
+import {
+  selectEditorTheme,
+  selectEditorMarkers,
+  selectEditorJumpToMarker,
+  selectEditorRequestJumpToMarker,
+} from './selectors.js';
 import makeAfterLoad from './after-load.js';
 
 const EditorMonacoPlugin = (opts = {}) => {
@@ -40,12 +47,15 @@ const EditorMonacoPlugin = (opts = {}) => {
           updateEditorMarkers,
           setJumpToEditorMarker,
           clearJumpToEditorMarker,
+          setRequestJumpToEditorMarker,
+          clearRequestJumpToEditorMarker,
         },
         reducers,
         selectors: {
           selectEditorTheme,
           selectEditorMarkers,
           selectEditorJumpToMarker,
+          selectEditorRequestJumpToMarker,
         },
       },
     },

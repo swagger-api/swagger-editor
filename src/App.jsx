@@ -22,6 +22,7 @@ import EditorContentOriginPlugin from './plugins/editor-content-origin/index.js'
 import EditorContentTypePlugin from './plugins/editor-content-type/index.js';
 import EditorContentPersistencePlugin from './plugins/editor-content-persistence/index.js';
 import EditorContentFixturesPlugin from './plugins/editor-content-fixtures/index.js';
+import EditorContentJumpFromPathToLinePlugin from './plugins/editor-content-jump-from-path-to-line/index.js';
 
 const SafeRenderPlugin = (system) =>
   SwaggerUI.plugins.SafeRender({
@@ -65,6 +66,7 @@ SwaggerEditor.plugins = {
   EditorContentType: EditorContentTypePlugin,
   EditorContentPersistence: EditorContentPersistencePlugin,
   EditorContentFixtures: EditorContentFixturesPlugin,
+  EditorContentJumpFromPathToLine: EditorContentJumpFromPathToLinePlugin,
   EditorPreview: EditorPreviewPlugin,
   EditorPreviewSwaggerUI: EditorPreviewSwaggerUIPlugin,
   EditorPreviewAsyncAPI: EditorPreviewAsyncAPIPlugin,
@@ -85,6 +87,7 @@ SwaggerEditor.presets = {
     EditorContentTypePlugin,
     EditorContentPersistencePlugin,
     EditorContentFixturesPlugin,
+    EditorContentJumpFromPathToLinePlugin,
     EditorPreviewPlugin,
     EditorPreviewSwaggerUIPlugin,
     EditorPreviewAsyncAPIPlugin,
@@ -106,6 +109,7 @@ SwaggerEditor.presets = {
     EditorContentTypePlugin,
     EditorContentPersistencePlugin,
     EditorContentFixturesPlugin,
+    EditorContentJumpFromPathToLinePlugin,
     EditorPreviewPlugin,
     EditorPreviewSwaggerUIPlugin,
     EditorPreviewAsyncAPIPlugin,
