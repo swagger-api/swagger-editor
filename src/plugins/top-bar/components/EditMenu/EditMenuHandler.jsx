@@ -46,6 +46,10 @@ const EditMenuHandler = forwardRef((props, ref) => {
       const content = editorContentFixturesSelectors.selectAsyncAPI240PetstoreJSON();
       editorActions.setContent(content, 'fixture-load');
     },
+    loadAPIDesignSystemsFixture() {
+      const content = editorContentFixturesSelectors.selectAPIDesignSystemsJSON();
+      editorActions.setContent(content, 'fixture-load');
+    },
   }));
 
   return (
@@ -68,6 +72,7 @@ EditMenuHandler.propTypes = {
     selectOpenAPI310JSON: PropTypes.func.isRequired,
     selectAsyncAPI240JSON: PropTypes.func.isRequired,
     selectAsyncAPI240PetstoreJSON: PropTypes.func.isRequired,
+    selectAPIDesignSystemsJSON: PropTypes.func.isRequired,
   }).isRequired,
 };
 

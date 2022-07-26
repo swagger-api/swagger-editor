@@ -18,6 +18,7 @@ import LoadAsyncAPI24PetstoreFixtureMenuItem from './components/EditMenu/items/L
 import LoadOpenAPI20FixtureMenuItem from './components/EditMenu/items/LoadOpenAPI20FixtureMenuItem.jsx';
 import LoadOpenAPI30FixtureMenuItem from './components/EditMenu/items/LoadOpenAPI30FixtureMenuItem.jsx';
 import LoadOpenAPI31FixtureMenuItem from './components/EditMenu/items/LoadOpenAPI31FixtureMenuItem.jsx';
+import LoadAPIDesignSystemsFixtureMenuItem from './components/EditMenu/items/LoadAPIDesignSystemsMenuItem.jsx';
 import OpenAPI3GenerateServerMenu from './components/GenerateServerMenu/OpenAPI3GenerateServerMenu.jsx';
 import OpenAPI3GenerateClientMenu from './components/GenerateServerMenu/OpenAPI3GenerateClientMenu.jsx';
 import OpenAPI2GenerateServerMenu from './components/GenerateServerMenu/OpenAPI2GenerateServerMenu.jsx';
@@ -152,6 +153,7 @@ const TopBarPlugin = () => ({
     TopBarEditMenuLoadOpenAPI20FixtureMenuItem: LoadOpenAPI20FixtureMenuItem,
     TopBarEditMenuLoadOpenAPI30FixtureMenuItem: LoadOpenAPI30FixtureMenuItem,
     TopBarEditMenuLoadOpenAPI31FixtureMenuItem: LoadOpenAPI31FixtureMenuItem,
+    TopBarEditMenuLoadAPIDesignSystemsFixtureMenuItem: LoadAPIDesignSystemsFixtureMenuItem,
 
     TopBarOpenAPI3GenerateServerMenu: OpenAPI3GenerateServerMenu,
     TopBarOpenAPI3GenerateClientMenu: OpenAPI3GenerateClientMenu,

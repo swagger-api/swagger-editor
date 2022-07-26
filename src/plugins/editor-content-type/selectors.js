@@ -46,6 +46,13 @@ export const selectIsContentTypeAsyncAPI2 = createSelector(
   }
 );
 
+export const selectIsContentTypeAPIDesignSystems = createSelector(
+  selectContentType,
+  (contentType) => {
+    return contentType !== null && contentType.startsWith('application/vnd.aai.apidesignsystems');
+  }
+);
+
 export const selectIsContentFormatJSON = createSelector(selectContentType, (contentType) => {
   return (
     contentType !== null && (contentType === 'application/json' || contentType.includes('+json'))

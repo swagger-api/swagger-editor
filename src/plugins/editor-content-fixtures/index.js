@@ -3,6 +3,7 @@ import selectAsyncAPI240PetstoreJSON from './selectors/selectAsyncAPI240Petstore
 import selectOpenAPI20JSON from './selectors/selectOpenAPI20JSON.js';
 import selectOpenAPI303JSON from './selectors/selectOpenAPI303JSON.js';
 import selectOpenAPI310JSON from './selectors/selectOpenAPI310JSON.js';
+import selectAPIDesignSystemsJSON from './selectors/selectAPIDesignSystemsJSON.js';
 
 const EditorContentFixturesPlugin = () => ({
   statePlugins: {
@@ -13,6 +14,7 @@ const EditorContentFixturesPlugin = () => ({
         selectOpenAPI20JSON,
         selectOpenAPI303JSON,
         selectOpenAPI310JSON,
+        selectAPIDesignSystemsJSON,
       },
     },
   },

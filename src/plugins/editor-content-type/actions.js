@@ -3,6 +3,14 @@ import { detectionRegExp as detectionRegExpAsyncAPIJSON2 } from '@swagger-api/ap
 import { detectionRegExp as detectionRegExpAsyncAPIYAML2 } from '@swagger-api/apidom-parser-adapter-asyncapi-yaml-2';
 import { detectionRegExp as detectionRegExpOpenAPIJSON31x } from '@swagger-api/apidom-parser-adapter-openapi-json-3-1';
 import { detectionRegExp as detectionRegExpOpenAPIYAML31x } from '@swagger-api/apidom-parser-adapter-openapi-yaml-3-1';
+import {
+  detectionRegExp as detectionRegExpApiDesignSystemsJSON,
+  detect as detectAPIDesignSystemsJSON,
+} from '@swagger-api/apidom-parser-adapter-api-design-systems-json';
+import {
+  detectionRegExp as detectionRegExpApiDesignSystemsYAML,
+  detect as detectAPIDesignSystemsYAML,
+} from '@swagger-api/apidom-parser-adapter-api-design-systems-yaml';
 
 /**
  * Action types.
@@ -127,6 +135,26 @@ export const detectContentType = (content) => {
         const { groups } = openApi31xYAMLMatch;
         const version = groups?.version_json || groups?.version_yaml;
         const contentType = `application/vnd.oai.openapi+json;version=${version}`;
+
+        editorActions.detectContentTypeSuccess({ contentType, content, requestId });
+        return;
+      }
+
+      const apiDesignSystemsJSONMatch = content.match(detectionRegExpApiDesignSystemsJSON);
+      if (apiDesignSystemsJSONMatch !== null && (await detectAPIDesignSystemsJSON(content))) {
+        const { groups } = apiDesignSystemsJSONMatch;
+        const version = groups?.version_json;
+        const contentType = `application/vnd.aai.apidesignsystems+json;version=${version}`;
+
+        editorActions.detectContentTypeSuccess({ contentType, content, requestId });
+        return;
+      }
+
+      const apiDesignSystemsYAMLMatch = content.match(detectionRegExpApiDesignSystemsYAML);
+      if (apiDesignSystemsYAMLMatch !== null && (await detectAPIDesignSystemsYAML(content))) {
+        const { groups } = apiDesignSystemsYAMLMatch;
+        const version = groups?.version_json || groups?.version_yaml;
+        const contentType = `application/vnd.aai.apidesignsystems+yaml;version=${version}`;
 
         editorActions.detectContentTypeSuccess({ contentType, content, requestId });
         return;

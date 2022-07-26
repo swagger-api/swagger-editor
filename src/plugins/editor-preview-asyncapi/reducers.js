@@ -65,10 +65,11 @@ const parseRefErrorsReducer = (action) => {
  */
 
 const previewUnmountedReducer = (state) => {
-  const { parseStatus, parseResult, parseErrors } = initialState;
+  const { parseStatus, parseRequestId, parseResult, parseErrors } = initialState;
 
   return state.merge({
     parseStatus,
+    parseRequestId,
     parseResult,
     parseErrors,
   });
