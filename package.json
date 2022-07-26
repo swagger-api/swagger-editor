@@ -58,6 +58,7 @@
     "@asyncapi/parser": "^1.15.1",
     "@asyncapi/react-component": "^1.0.0-next.39",
     "@babel/runtime": "^7.18.9",
+    "@braintree/sanitize-url": "^6.0.0",
     "@emotion/react": "^11.9.3",
     "@emotion/styled": "^11.9.3",
     "@mui/material": "^5.9.2",

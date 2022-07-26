@@ -1,5 +1,6 @@
 import ShortUniqueId from 'short-unique-id';
 import axios from 'axios';
+import { sanitizeUrl } from '@braintree/sanitize-url';
 
 /**
  * Action types.
@@ -49,7 +50,6 @@ export const importUrlFailure = ({ error, url, requestId }) => {
 /**
  * Async thunks.
  */
-
 export const importUrl = (url) => {
   const uid = new ShortUniqueId({ length: 10 });
 
@@ -57,16 +57,21 @@ export const importUrl = (url) => {
     const { editorActions } = system;
     const requestId = uid();
 
-    editorActions.importUrlStarted({ url, requestId });
+    if (typeof url !== 'string' || url === '') {
+      return editorActions.importUrlFailure({ error: 'invalid url provided', url, requestId });
+    }
+
+    const sanitizedUrl = sanitizeUrl(url);
+    editorActions.importUrlStarted({ sanitizedUrl, requestId });
 
     try {
-      const response = await axios.get(url);
+      const response = await axios.get(sanitizedUrl);
       return editorActions.importUrlSuccess({
         definition: response.request.responseText,
         requestId,
       });
     } catch (error) {
-      return editorActions.importUrlFailure({ error, url, requestId });
+      return editorActions.importUrlFailure({ error, url: sanitizedUrl, requestId });
     }
   };
 };
