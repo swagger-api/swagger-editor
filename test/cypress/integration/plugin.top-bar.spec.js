@@ -29,5 +29,28 @@ describe('Topbar', () => {
       cy.contains('Clear').trigger('mousemove').click();
       cy.get('.view-lines > :nth-child(1)').should('to.have.text', '');
     });
+    it('should be able to Load a fixture as YAML', () => {
+      /**
+       * Fixtures are JSON
+       * YAML option is progammatically set per menu item
+       */
+      cy.contains('Edit').click();
+      cy.contains('Load OpenAPI 3.0 Fixture').trigger('mousemove').click();
+      cy.get('.view-lines > :nth-child(1)')
+        .should('contains.text', 'openapi')
+        .should('not.have.text', '{')
+        .should('not.have.text', '"');
+    });
+    it('should be able to Load a fixture as JSON', () => {
+      /**
+       * Final production version might not contain
+       * a fixture that we intend to load as JSON.
+       * If so, please disable this test
+       */
+      cy.contains('Edit').click();
+      cy.contains('Load AsyncAPI 2.4 Petstore Fixture').trigger('mousemove').click();
+      cy.get('.view-lines > :nth-child(1)').should('contains.text', '{');
+      cy.get('.view-lines > :nth-child(2)').should('contains.text', '"asyncapi"'); // note the double quotes
+    });
   });
 });
