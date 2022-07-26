@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import { RequirementElement } from '@swagger-api/apidom-ns-api-design-systems'; // eslint-disable-line
+import { RequirementElement } from '@swagger-api/apidom-ns-api-design-systems';
 
 const Requirement = ({ editorPreviewADSSelectors, element }) => {
   const subject = editorPreviewADSSelectors.selectStandardIdentifier({

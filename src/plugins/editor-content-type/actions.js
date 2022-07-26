@@ -140,9 +140,9 @@ export const detectContentType = (content) => {
         return;
       }
 
-      const apiDesignSystemJSONMatch = content.match(detectionRegExpApiDesignSystemsJSON);
-      if (apiDesignSystemJSONMatch !== null && (await detectAPIDesignSystemsJSON(content))) {
-        const { groups } = apiDesignSystemJSONMatch;
+      const apiDesignSystemsJSONMatch = content.match(detectionRegExpApiDesignSystemsJSON);
+      if (apiDesignSystemsJSONMatch !== null && (await detectAPIDesignSystemsJSON(content))) {
+        const { groups } = apiDesignSystemsJSONMatch;
         const version = groups?.version_json;
         const contentType = `application/vnd.aai.apidesignsystems+json;version=${version}`;
 
@@ -150,9 +150,9 @@ export const detectContentType = (content) => {
         return;
       }
 
-      const apiDesignSystemYAMLMatch = content.match(detectionRegExpApiDesignSystemsYAML);
-      if (apiDesignSystemYAMLMatch !== null && (await detectAPIDesignSystemsYAML(content))) {
-        const { groups } = apiDesignSystemYAMLMatch;
+      const apiDesignSystemsYAMLMatch = content.match(detectionRegExpApiDesignSystemsYAML);
+      if (apiDesignSystemsYAMLMatch !== null && (await detectAPIDesignSystemsYAML(content))) {
+        const { groups } = apiDesignSystemsYAMLMatch;
         const version = groups?.version_json || groups?.version_yaml;
         const contentType = `application/vnd.aai.apidesignsystems+yaml;version=${version}`;
 

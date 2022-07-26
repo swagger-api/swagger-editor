@@ -8,7 +8,7 @@ import {
   isScenarioElement,
   isStandardIdentifierElement,
   isRequirementLevelElement,
-} from '@swagger-api/apidom-ns-api-design-systems'; // eslint-disable-line import/no-unresolved
+} from '@swagger-api/apidom-ns-api-design-systems';
 
 import apiDesignSystemsNamespace from './namespace.js';
 import { initialState, FAILURE_STATUS, PARSING_STATUS, SUCCESS_STATUS } from './reducers.js';

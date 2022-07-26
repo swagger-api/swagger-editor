@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import { ScenarioElement } from '@swagger-api/apidom-ns-api-design-systems'; // eslint-disable-line
+import { ScenarioElement } from '@swagger-api/apidom-ns-api-design-systems';
 
 const Scenario = ({ getComponent, editorPreviewADSSelectors, element }) => {
   const scenarioName = editorPreviewADSSelectors.selectStandardIdentifier({
