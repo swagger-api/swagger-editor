@@ -52,17 +52,21 @@ const EditMenu = (props) => {
   const handleConvertOpenAPI20ToOpenAPI30xClick = useCallback(async () => {
     await editMenuHandler.current.convertOpenAPI20ToOpenAPI30xClick();
   }, []);
-  const handleLoadOpenAPI20FixtureClick = useCallback(() => {
-    editMenuHandler.current.loadOpenAPI20Fixture();
+  const handleLoadOpenAPI20FixtureClick = useCallback(async () => {
+    await editMenuHandler.current.loadOpenAPI20Fixture();
+    await editMenuHandler.current.convertToYAML();
   }, []);
-  const handleLoadOpenAPI30FixtureClick = useCallback(() => {
-    editMenuHandler.current.loadOpenAPI30Fixture();
+  const handleLoadOpenAPI30FixtureClick = useCallback(async () => {
+    await editMenuHandler.current.loadOpenAPI30Fixture();
+    await editMenuHandler.current.convertToYAML();
   }, []);
-  const handleLoadOpenAPI31FixtureClick = useCallback(() => {
-    editMenuHandler.current.loadOpenAPI31Fixture();
+  const handleLoadOpenAPI31FixtureClick = useCallback(async () => {
+    await editMenuHandler.current.loadOpenAPI31Fixture();
+    await editMenuHandler.current.convertToYAML();
   }, []);
-  const handleLoadAsyncAPI24FixtureClick = useCallback(() => {
-    editMenuHandler.current.loadAsyncAPI24Fixture();
+  const handleLoadAsyncAPI24FixtureClick = useCallback(async () => {
+    await editMenuHandler.current.loadAsyncAPI24Fixture();
+    await editMenuHandler.current.convertToYAML();
   }, []);
   const handleLoadAsyncAPI24PetstoreFixtureClick = useCallback(() => {
     editMenuHandler.current.loadAsyncAPI24PetstoreFixture();
