@@ -24,6 +24,7 @@ import EditorContentTypePlugin from './plugins/editor-content-type/index.js';
 import EditorContentPersistencePlugin from './plugins/editor-content-persistence/index.js';
 import EditorContentFixturesPlugin from './plugins/editor-content-fixtures/index.js';
 import EditorContentJumpFromPathToLinePlugin from './plugins/editor-content-jump-from-path-to-line/index.js';
+import SwaggerUIAdapterPlugin from './plugins/swagger-ui-adapter/index.js';
 
 const SafeRenderPlugin = (system) =>
   SwaggerUI.plugins.SafeRender({
@@ -75,6 +76,7 @@ SwaggerEditor.plugins = {
   TopBar: TopBarPlugin,
   SplashScreenPlugin,
   Layout: LayoutPlugin,
+  SwaggerUIAdapter: SwaggerUIAdapterPlugin,
 };
 SwaggerEditor.presets = {
   textarea: () => [

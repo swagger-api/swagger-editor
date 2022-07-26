@@ -442,6 +442,43 @@ Sample environment variable values can be found in `.env` file. For more informa
 environment variables, please refer to [adding Custom Environment Variables](https://create-react-app.dev/docs/adding-custom-environment-variables/)
 section of Create React App documentation.
 
+### Using preview plugins in SwaggerUI
+
+SwaggerEditor comes with number of `preview` plugins that are responsible for rendering
+the definition that's being created in the editor. These plugins include:
+
+- **EditorPreviewAsyncAPIPlugin** - AsyncAPI specification rendering support
+- **EditorPreviewAPIDesignSystemsPlugin** - API Design Systems rendering support
+
+With a bit of adapting, we can use these plugins with SwaggerUI to provide ability
+to render AsyncAPI or API Design Systems definitions with SwaggerUI.
+
+```js
+import React from 'react';
+import ReactDOM from 'react-dom';
+import SwaggerUI from 'swagger-ui-react';
+import 'swagger-ui-react/swagger-ui.css';
+import SwaggerEditor from '@swagger-api/swagger-editor';
+
+const plugins = [
+  SwaggerEditor.plugins.EditorContentType,
+  SwaggerEditor.plugins.EditorPreviewAsyncAPI,
+  SwaggerEditor.plugins.EditorPreviewAPIDesignSystems,
+  SwaggerEditor.plugins.SwaggerUIAdapter,
+];
+
+ReactDOM.render(
+  <SwaggerUI
+    plugins={plugins}
+    url="https://raw.githubusercontent.com/asyncapi/spec/v2.4.0/examples/streetlights-kafka.yml"
+  />,
+  document.getElementById('swagger-ui')
+);
+```
+
+The key here is `SwaggerUIAdapter` plugin which adapts SwaggerEditor plugins to use
+directly with SwaggerUI.
+
 ## Docker
 Once we build the app, we can also build and run a Docker container.
 

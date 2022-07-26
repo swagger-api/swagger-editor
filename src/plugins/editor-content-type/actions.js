@@ -66,8 +66,7 @@ export const detectContentType = (content) => {
         const version = groups?.version_json;
         const contentType = `application/vnd.aai.asyncapi+json;version=${version}`;
 
-        editorActions.detectContentTypeSuccess({ contentType, content, requestId });
-        return;
+        return editorActions.detectContentTypeSuccess({ contentType, content, requestId });
       }
 
       const asyncApi2YAMLMatch = content.match(detectionRegExpAsyncAPIYAML2);
@@ -76,16 +75,14 @@ export const detectContentType = (content) => {
         const version = groups?.version_json || groups?.version_yaml;
         const contentType = `application/vnd.aai.asyncapi+yaml;version=${version}`;
 
-        editorActions.detectContentTypeSuccess({ contentType, content, requestId });
-        return;
+        return editorActions.detectContentTypeSuccess({ contentType, content, requestId });
       }
 
       const openApi20JSONMatch = content.match(/"swagger"\s*:\s*"(?<version_json>2\.0)"/);
       if (openApi20JSONMatch !== null && fn.isValidJSONObject(content)) {
         const contentType = 'application/vnd.oai.openapi+json;version=2.0';
 
-        editorActions.detectContentTypeSuccess({ contentType, content, requestId });
-        return;
+        return editorActions.detectContentTypeSuccess({ contentType, content, requestId });
       }
 
       const openApi2YAMLMatch = content.match(
@@ -94,8 +91,7 @@ export const detectContentType = (content) => {
       if (openApi2YAMLMatch !== null && fn.isValidYAMLObject(content)) {
         const contentType = 'application/vnd.oai.openapi+yaml;version=2.0';
 
-        editorActions.detectContentTypeSuccess({ contentType, content, requestId });
-        return;
+        return editorActions.detectContentTypeSuccess({ contentType, content, requestId });
       }
 
       const openApi30xJSONMatch = content.match(/"openapi"\s*:\s*"(?<version_json>3\.0\.\d+)"/);
@@ -104,8 +100,7 @@ export const detectContentType = (content) => {
         const version = groups?.version_json;
         const contentType = `application/vnd.oai.openapi+json;version=${version}`;
 
-        editorActions.detectContentTypeSuccess({ contentType, content, requestId });
-        return;
+        return editorActions.detectContentTypeSuccess({ contentType, content, requestId });
       }
 
       const openApi30xYAMLMatch = content.match(
@@ -116,8 +111,7 @@ export const detectContentType = (content) => {
         const version = groups?.version_json || groups?.version_yaml;
         const contentType = `application/vnd.oai.openapi+json;version=${version}`;
 
-        editorActions.detectContentTypeSuccess({ contentType, content, requestId });
-        return;
+        return editorActions.detectContentTypeSuccess({ contentType, content, requestId });
       }
 
       const openApi31xJSONMatch = content.match(detectionRegExpOpenAPIJSON31x);
@@ -126,8 +120,7 @@ export const detectContentType = (content) => {
         const version = groups?.version_json;
         const contentType = `application/vnd.oai.openapi+json;version=${version}`;
 
-        editorActions.detectContentTypeSuccess({ contentType, content, requestId });
-        return;
+        return editorActions.detectContentTypeSuccess({ contentType, content, requestId });
       }
 
       const openApi31xYAMLMatch = content.match(detectionRegExpOpenAPIYAML31x);
@@ -136,8 +129,7 @@ export const detectContentType = (content) => {
         const version = groups?.version_json || groups?.version_yaml;
         const contentType = `application/vnd.oai.openapi+json;version=${version}`;
 
-        editorActions.detectContentTypeSuccess({ contentType, content, requestId });
-        return;
+        return editorActions.detectContentTypeSuccess({ contentType, content, requestId });
       }
 
       const apiDesignSystemsJSONMatch = content.match(detectionRegExpApiDesignSystemsJSON);
@@ -146,8 +138,7 @@ export const detectContentType = (content) => {
         const version = groups?.version_json;
         const contentType = `application/vnd.aai.apidesignsystems+json;version=${version}`;
 
-        editorActions.detectContentTypeSuccess({ contentType, content, requestId });
-        return;
+        return editorActions.detectContentTypeSuccess({ contentType, content, requestId });
       }
 
       const apiDesignSystemsYAMLMatch = content.match(detectionRegExpApiDesignSystemsYAML);
@@ -156,31 +147,28 @@ export const detectContentType = (content) => {
         const version = groups?.version_json || groups?.version_yaml;
         const contentType = `application/vnd.aai.apidesignsystems+yaml;version=${version}`;
 
-        editorActions.detectContentTypeSuccess({ contentType, content, requestId });
-        return;
+        return editorActions.detectContentTypeSuccess({ contentType, content, requestId });
       }
 
       if (fn.isValidJSON(content)) {
         const contentType = 'application/json';
 
-        editorActions.detectContentTypeSuccess({ contentType, content, requestId });
-        return;
+        return editorActions.detectContentTypeSuccess({ contentType, content, requestId });
       }
 
       if (fn.isValidYAML(content)) {
         const contentType = 'text/yaml';
 
-        editorActions.detectContentTypeSuccess({ contentType, content, requestId });
-        return;
+        return editorActions.detectContentTypeSuccess({ contentType, content, requestId });
       }
 
-      editorActions.detectContentTypeFailure({
+      return editorActions.detectContentTypeFailure({
         error: new Error('No content type detected'),
         content,
         requestId,
       });
     } catch (error) {
-      editorActions.detectContentTypeFailure({ error, content, requestId });
+      return editorActions.detectContentTypeFailure({ error, content, requestId });
     }
   };
 };
