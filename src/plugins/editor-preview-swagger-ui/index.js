@@ -1,4 +1,5 @@
 import EditorPreviewSwaggerUI from './components/EditorPreviewSwaggerUI.jsx';
+import EditorPreviewSwaggerUIFallback from './components/EditorPreviewSwaggerUIFallback.jsx';
 import EditorPreviewWrapper from './wrap-components/EditorPreviewWrapper.jsx';
 import { previewUnmounted } from './actions.js';
 import {
@@ -9,6 +10,7 @@ import {
 const EditorPreviewSwaggerUIPlugin = () => ({
   components: {
     EditorPreviewSwaggerUI,
+    EditorPreviewSwaggerUIFallback,
   },
   wrapComponents: {
     EditorPreview: EditorPreviewWrapper,
