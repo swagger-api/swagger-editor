@@ -4,13 +4,11 @@ const EditorPreviewSwaggerUIFallback = () => (
       <div className="version-pragma__message">
         <div>
           <h3>Unable to render editor content</h3>
+          <p>SwaggerUI does not currently support rendering of OpenAPI 3.1 definitions.</p>
           <p>
-            SwaggerUI does not currently support rendering of OpenAPI 3.1 definitions.
-            <p>
-              It is in the SwaggerUI roadmap to fully support rendering of OpenAPI 3.1 definitions.
-              For additional information, please refer to this Github{' '}
-              <a href="https://github.com/swagger-api/swagger-ui/issues/5891">issue</a>.
-            </p>
+            It is in the SwaggerUI roadmap to fully support rendering of OpenAPI 3.1 definitions.
+            For additional information, please refer to this Github{' '}
+            <a href="https://github.com/swagger-api/swagger-ui/issues/5891">issue</a>.
           </p>
           <p>
             However, SwaggerEditor itself does support OpenAPI 3.1 within its editing experience.
