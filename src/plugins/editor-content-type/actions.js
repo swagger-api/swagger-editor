@@ -109,7 +109,7 @@ export const detectContentType = (content) => {
       if (openApi30xYAMLMatch !== null && fn.isValidYAMLObject(content)) {
         const { groups } = openApi30xYAMLMatch;
         const version = groups?.version_json || groups?.version_yaml;
-        const contentType = `application/vnd.oai.openapi+json;version=${version}`;
+        const contentType = `application/vnd.oai.openapi+yaml;version=${version}`;
 
         return editorActions.detectContentTypeSuccess({ contentType, content, requestId });
       }
@@ -127,7 +127,7 @@ export const detectContentType = (content) => {
       if (openApi31xYAMLMatch !== null && fn.isValidYAMLObject(content)) {
         const { groups } = openApi31xYAMLMatch;
         const version = groups?.version_json || groups?.version_yaml;
-        const contentType = `application/vnd.oai.openapi+json;version=${version}`;
+        const contentType = `application/vnd.oai.openapi+yaml;version=${version}`;
 
         return editorActions.detectContentTypeSuccess({ contentType, content, requestId });
       }
