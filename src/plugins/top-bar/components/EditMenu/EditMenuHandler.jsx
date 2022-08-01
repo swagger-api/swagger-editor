@@ -26,21 +26,37 @@ const EditMenuHandler = forwardRef((props, ref) => {
     async convertOpenAPI20ToOpenAPI30xClick() {
       await convertToOpenAPI30xMenuItemHandler.current.convert();
     },
-    loadOpenAPI20Fixture() {
+    async loadOpenAPI20Fixture() {
       const content = editorContentFixturesSelectors.selectOpenAPI20JSON();
-      editorActions.setContent(content, 'fixture-load');
+      const fsa = await editorActions.convertContentToYAML(content);
+
+      if (!fsa.error) {
+        editorActions.setContent(fsa.payload, 'fixture-load');
+      }
     },
-    loadOpenAPI30Fixture() {
+    async loadOpenAPI30Fixture() {
       const content = editorContentFixturesSelectors.selectOpenAPI303JSON();
-      editorActions.setContent(content, 'fixture-load');
+      const fsa = await editorActions.convertContentToYAML(content);
+
+      if (!fsa.error) {
+        editorActions.setContent(fsa.payload, 'fixture-load');
+      }
     },
-    loadOpenAPI31Fixture() {
+    async loadOpenAPI31Fixture() {
       const content = editorContentFixturesSelectors.selectOpenAPI310JSON();
-      editorActions.setContent(content, 'fixture-load');
+      const fsa = await editorActions.convertContentToYAML(content);
+
+      if (!fsa.error) {
+        editorActions.setContent(fsa.payload, 'fixture-load');
+      }
     },
-    loadAsyncAPI24Fixture() {
+    async loadAsyncAPI24Fixture() {
       const content = editorContentFixturesSelectors.selectAsyncAPI240JSON();
-      editorActions.setContent(content, 'fixture-load');
+      const fsa = await editorActions.convertContentToYAML(content);
+
+      if (!fsa.error) {
+        editorActions.setContent(fsa.payload, 'fixture-load');
+      }
     },
     loadAsyncAPI24PetstoreFixture() {
       const content = editorContentFixturesSelectors.selectAsyncAPI240PetstoreJSON();
@@ -64,6 +80,7 @@ const EditMenuHandler = forwardRef((props, ref) => {
 EditMenuHandler.propTypes = {
   editorActions: PropTypes.shape({
     clearContent: PropTypes.func.isRequired,
+    convertContentToYAML: PropTypes.func.isRequired,
     setContent: PropTypes.func.isRequired,
   }).isRequired,
   editorContentFixturesSelectors: PropTypes.shape({
