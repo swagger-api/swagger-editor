@@ -4,6 +4,7 @@ import EditorPreviewFallback from './components/EditorPreviewFallback.jsx';
 const EditorPreviewPlugin = () => ({
   components: {
     EditorPreviewPane,
+    EditorPreviewFallback,
     EditorPreview: EditorPreviewFallback,
   },
 });

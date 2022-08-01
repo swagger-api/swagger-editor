@@ -6,6 +6,20 @@ const BaseLayoutWrapper = (Original, system) => {
     const EditorPreviewAsyncAPI = getComponent('EditorPreviewAsyncAPI', true);
     const EditorPreviewAPIDesignSystems = getComponent('EditorPreviewAPIDesignSystems', true);
 
+    if (editorSelectors.selectIsContentTypeDetectionInProgress()) {
+      return (
+        <div className="swagger-ui swagger-container">
+          <div className="swagger-ui">
+            <div className="info">
+              <div className="loading-container">
+                <div className="loading" />
+              </div>
+            </div>
+          </div>
+        </div>
+      );
+    }
+
     if (editorSelectors.selectIsContentTypeAsyncAPI2()) {
       return <EditorPreviewAsyncAPI />;
     }
@@ -14,26 +28,14 @@ const BaseLayoutWrapper = (Original, system) => {
       return <EditorPreviewAPIDesignSystems />;
     }
 
-    if (editorSelectors.selectContentType()) {
-      return <Original {...system} />; // eslint-disable-line react/jsx-props-no-spreading
-    }
-
-    return (
-      <div className="swagger-ui swagger-container">
-        <div className="swagger-ui">
-          <div className="info">
-            <div className="loading-container">
-              <div className="loading" />
-            </div>
-          </div>
-        </div>
-      </div>
-    );
+    // eslint-disable-next-line react/jsx-props-no-spreading
+    return <Original {...system} />;
   };
 
   BaseLayout.propTypes = {
     getComponent: PropTypes.func.isRequired,
     editorSelectors: PropTypes.shape({
+      selectIsContentTypeDetectionInProgress: PropTypes.func.isRequired,
       selectIsContentTypeAsyncAPI2: PropTypes.func.isRequired,
       selectIsContentTypeAPIDesignSystems: PropTypes.func.isRequired,
       selectIsContentTypeOpenAPI: PropTypes.func.isRequired,
