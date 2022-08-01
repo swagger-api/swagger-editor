@@ -56,13 +56,17 @@ export const importUrl = (url) => {
   return async (system) => {
     const { editorActions } = system;
     const requestId = uid();
-
-    if (typeof url !== 'string' || url === '') {
-      return editorActions.importUrlFailure({ error: 'invalid url provided', url, requestId });
-    }
-
     const sanitizedUrl = sanitizeUrl(url);
-    editorActions.importUrlStarted({ sanitizedUrl, requestId });
+
+    editorActions.importUrlStarted({ url: sanitizedUrl, requestId });
+
+    if (sanitizedUrl === 'about:blank') {
+      return editorActions.importUrlFailure({
+        error: new Error('Invalid url provided'),
+        url: sanitizedUrl,
+        requestId,
+      });
+    }
 
     try {
       const response = await axios.get(sanitizedUrl);
