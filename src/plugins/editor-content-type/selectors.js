@@ -1,8 +1,15 @@
 import { createSelector } from 'reselect';
 
-import { initialState } from './reducers.js';
+import { initialState, DETECTING_STATUS } from './reducers.js';
 
 export const selectContentTypeDetectionStatus = (state) => state.get('contentTypeDetectionStatus');
+
+export const selectIsContentTypeDetectionInProgress = createSelector(
+  selectContentTypeDetectionStatus,
+  (status) => {
+    return status === DETECTING_STATUS;
+  }
+);
 
 export const selectContentType = (state) => state.get('contentType') || initialState.contentType;
 
