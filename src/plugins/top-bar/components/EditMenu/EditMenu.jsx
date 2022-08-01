@@ -54,19 +54,15 @@ const EditMenu = (props) => {
   }, []);
   const handleLoadOpenAPI20FixtureClick = useCallback(async () => {
     await editMenuHandler.current.loadOpenAPI20Fixture();
-    await editMenuHandler.current.convertToYAML();
   }, []);
   const handleLoadOpenAPI30FixtureClick = useCallback(async () => {
     await editMenuHandler.current.loadOpenAPI30Fixture();
-    await editMenuHandler.current.convertToYAML();
   }, []);
   const handleLoadOpenAPI31FixtureClick = useCallback(async () => {
     await editMenuHandler.current.loadOpenAPI31Fixture();
-    await editMenuHandler.current.convertToYAML();
   }, []);
   const handleLoadAsyncAPI24FixtureClick = useCallback(async () => {
     await editMenuHandler.current.loadAsyncAPI24Fixture();
-    await editMenuHandler.current.convertToYAML();
   }, []);
   const handleLoadAsyncAPI24PetstoreFixtureClick = useCallback(() => {
     editMenuHandler.current.loadAsyncAPI24PetstoreFixture();
