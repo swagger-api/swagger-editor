@@ -60,7 +60,7 @@
     "@babel/runtime": "^7.18.9",
     "@braintree/sanitize-url": "^6.0.0",
     "@emotion/react": "^11.9.3",
-    "@emotion/styled": "^11.9.3",
+    "@emotion/styled": "^11.10.0",
     "@mui/material": "^5.9.2",
     "@primer/octicons-react": "^17.4.0",
     "@swagger-api/apidom-core": "^0.36.0",
