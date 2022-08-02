@@ -6,6 +6,8 @@ import DropdownMenu from "./DropdownMenu"
 import reactFileDownload from "react-file-download"
 import YAML from "js-yaml"
 import beautifyJson from "json-beautify"
+import { petStoreOas2Def, petStoreOas3Def } from "../../plugins/default-definitions"
+
 
 import Logo from "./logo_small.svg"
 
@@ -240,6 +242,14 @@ export default class Topbar extends React.Component {
     }
   }
 
+  loadPetStoreOas2 = () => {
+    this.props.specActions.updateSpec(petStoreOas2Def)
+  }
+
+  loadPetStoreOas3 = () => {
+    this.props.specActions.updateSpec(petStoreOas3Def)
+  }
+
   // Helpers
   showModal = (name) => {
     this.setState({
@@ -364,6 +374,9 @@ export default class Topbar extends React.Component {
                 swagger2ConverterUrl={swagger2ConverterUrl}
                 onClick={() => topbarActions.showModal("convert")}
               />
+              <li role="separator"></li>
+              <li><button type="button" onClick={this.loadPetStoreOas3}>Load Petstore OAS 3.0</button></li>
+              <li><button type="button" onClick={this.loadPetStoreOas2}>Load Petstore OAS 2.0</button></li>
             </DropdownMenu>
             <TopbarInsert {...this.props} />
             { showServersMenu ? <DropdownMenu className="long" {...makeMenuOptions("Generate Server")}>

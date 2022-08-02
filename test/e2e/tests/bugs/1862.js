@@ -4,7 +4,7 @@ describe("Editor #1862: codegen download links downgrade HTTPS", () => {
       cy.visit("/?url=/documents/petstore.swagger.yaml")
 
       cy.intercept("*//generator.swagger.io/api/gen/servers", {
-        body: ["nodejs"]
+        body: ["nodejs-server"]
       })
 
       cy.intercept("*//generator.swagger.io/api/gen/clients", {
@@ -18,7 +18,7 @@ describe("Editor #1862: codegen download links downgrade HTTPS", () => {
 
       // Given
 
-      cy.intercept("POST", "https://generator.swagger.io/api/gen/servers/nodejs", {
+      cy.intercept("POST", "https://generator.swagger.io/api/gen/servers/nodejs-server", {
         body: {
           "code": "a92bc815-f6e3-4a56-839b-fd2e6f379d52",
           "link": "http://generator.swagger.io:80/api/gen/download/a92bc815-f6e3-4a56-839b-fd2e6f379d52"
@@ -33,7 +33,7 @@ describe("Editor #1862: codegen download links downgrade HTTPS", () => {
       cy.contains("Generate Server")
         .click()
 
-      cy.contains("nodejs")
+      cy.wait(500).contains("nodejs-server")
         .click()
 
       cy.wait(["@httpsServerNodejs", "@httpsServerGenDownload"])
@@ -64,7 +64,7 @@ describe("Editor #1862: codegen download links downgrade HTTPS", () => {
       cy.contains("Generate Client")
         .click()
 
-      cy.contains("javascript")
+      cy.wait(500).contains("javascript")
         .click()
 
       cy.wait(["@httpsClientJavascript", "@httpsClientGenDownload"])
