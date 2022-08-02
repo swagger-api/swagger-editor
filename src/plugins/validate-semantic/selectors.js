@@ -41,9 +41,6 @@ export const isSubSchema = (state, node) => (sys) => {
 }
 
 export const isParameter = (state, node) => (sys) => {
-  if(sys.validateSelectors.isVendorExt(node)) {
-    return false
-  }
   return (
     sys.validateSelectors.isRootParameter(node)
     || sys.validateSelectors.isOAS3RootParameter(node)
