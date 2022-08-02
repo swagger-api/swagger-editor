@@ -722,6 +722,45 @@ describe('validation plugin - semantic - oas3 refs', () => {
       }
     );
 
+    it(
+      'should return no errors when a parameter is mapped with `x-*` key',
+      () => {
+        const spec = {
+          openapi: '3.0.0',
+          paths: {
+            '/foo': {
+              parameters: [
+                {
+                  $ref: '#/components/parameters/x-foo'
+                }
+              ],
+              get: {
+                parameters: [
+                  {
+                    $ref: '#/components/parameters/x-foo'
+                  }
+                ],
+                responses: {
+                  '200': {
+                    description: 'OK'
+                  }
+                }
+              }
+            }
+          },
+          components: {
+            parameters: {
+              'x-foo': {
+                $ref: '#/components/parameters/x-foo'
+              }
+            }
+          }
+        };
+
+        return expectNoErrorsOrWarnings(spec);
+      }
+    );
+
     it('should return no errors for external parameter $refs', () => {
       const spec = {
         openapi: '3.0.0',
