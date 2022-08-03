@@ -95,8 +95,8 @@ const EditMenu = (props) => {
         <ConvertToYAMLMenuItem onClick={handleConvertToYAMLClick} />
         <ConvertToOpenAPI30xMenuItem onClick={handleConvertOpenAPI20ToOpenAPI30xClick} />
         <DropdownMenuItemDivider />
-        <LoadOpenAPI20PetstoreFixtureMenuItem onClick={handleLoadOpenAPI20PetstoreFixtureClick} />
         <LoadOpenAPI30PetstoreFixtureMenuItem onClick={handleLoadOpenAPI30PetstoreFixtureClick} />
+        <LoadOpenAPI20PetstoreFixtureMenuItem onClick={handleLoadOpenAPI20PetstoreFixtureClick} />
         <LoadAsyncAPI24FixtureMenuItem onClick={handleLoadAsyncAPI24FixtureClick} />
         <LoadOpenAPI20FixtureMenuItem onClick={handleLoadOpenAPI20FixtureClick} />
         <LoadOpenAPI30FixtureMenuItem onClick={handleLoadOpenAPI30FixtureClick} />
