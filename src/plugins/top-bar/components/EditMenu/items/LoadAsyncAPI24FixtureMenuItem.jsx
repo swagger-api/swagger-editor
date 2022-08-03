@@ -2,9 +2,15 @@ import PropTypes from 'prop-types';
 
 const LoadAsyncAPI24FixtureMenuItem = ({ getComponent, onClick, children }) => {
   const DropdownMenuItem = getComponent('DropdownMenuItem');
+  const DropdownMenuItemDivider = getComponent('DropdownMenuItemDivider');
 
   return (
-    <DropdownMenuItem onClick={onClick}>{children || 'Load AsyncAPI 2.4 Fixture'}</DropdownMenuItem>
+    <>
+      <DropdownMenuItem onClick={onClick}>
+        {children || 'Load AsyncAPI 2.4 Streetlights Fixture'}
+      </DropdownMenuItem>
+      <DropdownMenuItemDivider />
+    </>
   );
 };
 

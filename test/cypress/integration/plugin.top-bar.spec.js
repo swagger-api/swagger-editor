@@ -59,9 +59,9 @@ describe('Topbar', () => {
           .should('not.have.text', '{')
           .should('not.have.text', '"');
       });
-      it('loads AsyncAPI 2.4 Fixture as YAML', () => {
+      it('loads AsyncAPI 2.4 Streetlights Fixture as YAML', () => {
         cy.contains('Edit').click();
-        cy.contains('Load AsyncAPI 2.4 Fixture').trigger('mousemove').click();
+        cy.contains('Load AsyncAPI 2.4 Streetlights Fixture').trigger('mousemove').click();
         cy.get('.view-lines > :nth-child(1)')
           .should('contains.text', 'asyncapi')
           .should('not.have.text', '{')
@@ -107,9 +107,9 @@ describe('Topbar', () => {
         cy.contains('Edit').click();
         cy.contains('Convert to JSON').should('be.visible');
       });
-      it('displays "Convert To JSON" option for AsyncAPI 2.4 Fixture', () => {
+      it('displays "Convert To JSON" option for AsyncAPI Streetlights 2.4 Fixture', () => {
         cy.contains('Edit').click();
-        cy.contains('Load AsyncAPI 2.4 Fixture').trigger('mousemove').click();
+        cy.contains('Load AsyncAPI 2.4 Streetlights Fixture').trigger('mousemove').click();
         cy.contains('Edit').click();
         cy.contains('Convert to JSON').should('be.visible');
       });
