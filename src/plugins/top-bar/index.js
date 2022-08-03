@@ -17,6 +17,8 @@ import LoadAsyncAPI24FixtureMenuItem from './components/EditMenu/items/LoadAsync
 import LoadAsyncAPI24PetstoreFixtureMenuItem from './components/EditMenu/items/LoadAsyncAPI24PetstoreFixtureMenuItem.jsx';
 import LoadOpenAPI20FixtureMenuItem from './components/EditMenu/items/LoadOpenAPI20FixtureMenuItem.jsx';
 import LoadOpenAPI30FixtureMenuItem from './components/EditMenu/items/LoadOpenAPI30FixtureMenuItem.jsx';
+import LoadOpenAPI20PetstoreFixtureMenuItem from './components/EditMenu/items/LoadOpenAPI20PetstoreFixtureMenuItem.jsx';
+import LoadOpenAPI30PetstoreFixtureMenuItem from './components/EditMenu/items/LoadOpenAPI30PetstoreFixtureMenuItem.jsx';
 import LoadOpenAPI31FixtureMenuItem from './components/EditMenu/items/LoadOpenAPI31FixtureMenuItem.jsx';
 import LoadAPIDesignSystemsFixtureMenuItem from './components/EditMenu/items/LoadAPIDesignSystemsMenuItem.jsx';
 import OpenAPI3GenerateServerMenu from './components/GenerateServerMenu/OpenAPI3GenerateServerMenu.jsx';
@@ -152,6 +154,8 @@ const TopBarPlugin = () => ({
     TopBarEditMenuLoadAsyncAPI24PetstoreFixtureMenuItem: LoadAsyncAPI24PetstoreFixtureMenuItem,
     TopBarEditMenuLoadOpenAPI20FixtureMenuItem: LoadOpenAPI20FixtureMenuItem,
     TopBarEditMenuLoadOpenAPI30FixtureMenuItem: LoadOpenAPI30FixtureMenuItem,
+    TopBarEditMenuLoadOpenAPI20PetstoreFixtureMenuItem: LoadOpenAPI20PetstoreFixtureMenuItem,
+    TopBarEditMenuLoadOpenAPI30PetstoreFixtureMenuItem: LoadOpenAPI30PetstoreFixtureMenuItem,
     TopBarEditMenuLoadOpenAPI31FixtureMenuItem: LoadOpenAPI31FixtureMenuItem,
     TopBarEditMenuLoadAPIDesignSystemsFixtureMenuItem: LoadAPIDesignSystemsFixtureMenuItem,
 

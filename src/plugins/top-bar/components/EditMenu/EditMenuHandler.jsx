@@ -42,6 +42,14 @@ const EditMenuHandler = forwardRef((props, ref) => {
         editorActions.setContent(fsa.payload, 'fixture-load');
       }
     },
+    async loadOpenAPI20PetstoreFixture() {
+      const content = editorContentFixturesSelectors.selectOpenAPI20PetstoreYAML();
+      editorActions.setContent(content, 'fixture-load');
+    },
+    async loadOpenAPI30PetstoreFixture() {
+      const content = editorContentFixturesSelectors.selectOpenAPI30PetstoreYAML();
+      editorActions.setContent(content, 'fixture-load');
+    },
     async loadOpenAPI31Fixture() {
       const content = editorContentFixturesSelectors.selectOpenAPI310JSON();
       const fsa = await editorActions.convertContentToYAML(content);
@@ -90,6 +98,8 @@ EditMenuHandler.propTypes = {
     selectAsyncAPI240JSON: PropTypes.func.isRequired,
     selectAsyncAPI240PetstoreJSON: PropTypes.func.isRequired,
     selectAPIDesignSystemsJSON: PropTypes.func.isRequired,
+    selectOpenAPI20PetstoreYAML: PropTypes.func.isRequired,
+    selectOpenAPI30PetstoreYAML: PropTypes.func.isRequired,
   }).isRequired,
 };
 

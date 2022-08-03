@@ -30,6 +30,14 @@ const EditMenu = (props) => {
     'TopBarEditMenuLoadOpenAPI30FixtureMenuItem',
     true
   );
+  const LoadOpenAPI20PetstoreFixtureMenuItem = getComponent(
+    'TopBarEditMenuLoadOpenAPI20PetstoreFixtureMenuItem',
+    true
+  );
+  const LoadOpenAPI30PetstoreFixtureMenuItem = getComponent(
+    'TopBarEditMenuLoadOpenAPI30PetstoreFixtureMenuItem',
+    true
+  );
   const LoadOpenAPI31FixtureMenuItem = getComponent(
     'TopBarEditMenuLoadOpenAPI31FixtureMenuItem',
     true
@@ -51,6 +59,12 @@ const EditMenu = (props) => {
   }, []);
   const handleConvertOpenAPI20ToOpenAPI30xClick = useCallback(async () => {
     await editMenuHandler.current.convertOpenAPI20ToOpenAPI30xClick();
+  }, []);
+  const handleLoadOpenAPI20PetstoreFixtureClick = useCallback(async () => {
+    await editMenuHandler.current.loadOpenAPI20PetstoreFixture();
+  }, []);
+  const handleLoadOpenAPI30PetstoreFixtureClick = useCallback(async () => {
+    await editMenuHandler.current.loadOpenAPI30PetstoreFixture();
   }, []);
   const handleLoadOpenAPI20FixtureClick = useCallback(async () => {
     await editMenuHandler.current.loadOpenAPI20Fixture();
@@ -81,10 +95,12 @@ const EditMenu = (props) => {
         <ConvertToYAMLMenuItem onClick={handleConvertToYAMLClick} />
         <ConvertToOpenAPI30xMenuItem onClick={handleConvertOpenAPI20ToOpenAPI30xClick} />
         <DropdownMenuItemDivider />
+        <LoadOpenAPI20PetstoreFixtureMenuItem onClick={handleLoadOpenAPI20PetstoreFixtureClick} />
+        <LoadOpenAPI30PetstoreFixtureMenuItem onClick={handleLoadOpenAPI30PetstoreFixtureClick} />
+        <LoadAsyncAPI24FixtureMenuItem onClick={handleLoadAsyncAPI24FixtureClick} />
         <LoadOpenAPI20FixtureMenuItem onClick={handleLoadOpenAPI20FixtureClick} />
         <LoadOpenAPI30FixtureMenuItem onClick={handleLoadOpenAPI30FixtureClick} />
         <LoadOpenAPI31FixtureMenuItem onClick={handleLoadOpenAPI31FixtureClick} />
-        <LoadAsyncAPI24FixtureMenuItem onClick={handleLoadAsyncAPI24FixtureClick} />
         <LoadAsyncAPI24PetstoreFixtureMenuItem onClick={handleLoadAsyncAPI24PetstoreFixtureClick} />
         <LoadAPIDesignSystemsFixtureMenuItem onClick={loadAPIDesignSystemsFixtureClick} />
       </DropdownMenu>
