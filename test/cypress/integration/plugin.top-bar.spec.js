@@ -21,6 +21,23 @@ describe('Topbar', () => {
         .should('not.have.text', '|') // applies to both OpenAPI and AsyncAPI cases if yaml improperly loaded
         .should('contains.text', 'asyncapi');
     });
+    it.skip('should be able to click on Import file', () => {
+      // jest: only asserting that method to open file dialog box was called
+    });
+    describe.skip('when json', () => {
+      // different from Edit Menu, as operation will initiate a file download without additional user input
+      // but can we intercept and/or mock the download so that it does not actually happen?
+      // the generator request could also be intercepted to avoid real http traffic
+      it.skip('should render clickable text: "Save (as JSON)', () => {});
+      it.skip('should render clickable text: "Convert and save as YAML', () => {});
+    });
+    describe.skip('when yaml', () => {
+      // different from Edit Menu, as operation will initiate a file download without additional user input
+      // but can we intercept and/or mock the download so that it does not actually happen?
+      // the generator request could also be intercepted to avoid real http traffic
+      it.skip('should render clickable text: "Save (as YAML)', () => {});
+      it.skip('should render clickable text: "Convert and save as JSON', () => {});
+    });
   });
 
   describe('Edit Dropdown Menu', () => {
@@ -134,5 +151,35 @@ describe('Topbar', () => {
         cy.contains('Convert to YAML').should('be.visible');
       });
     });
+
+    describe('"Convert to OpenAPI 3.0.x" menu item', () => {
+      it('displays "Convert to OpenAPI 3.0.x" after loading OAS2.0 fixture', () => {
+        cy.contains('Edit').click();
+        cy.contains('Load OpenAPI 2.0 Fixture').trigger('mousemove').click();
+        cy.contains('Edit').click();
+        cy.contains('Convert to OpenAPI 3.0.x').should('be.visible');
+      });
+      it('should not display "Convert to OpenAPI 3.0.x" after loading OAS3.x fixture', () => {
+        cy.contains('Edit').click();
+        cy.contains('Load OpenAPI 3.0 Fixture').trigger('mousemove').click();
+        cy.contains('Edit').click();
+        cy.get('Convert to OpenAPI 3.0.x').should('not.exist');
+      });
+      it('should not display "Convert to OpenAPI 3.0.x" after loading AsyncAPI 2.x fixture', () => {
+        cy.contains('Edit').click();
+        cy.contains('Load AsyncAPI 2.4 Petstore Fixture').trigger('mousemove').click();
+        cy.contains('Edit').click();
+        cy.get('Convert to OpenAPI 3.0.x').should('not.exist');
+      });
+    });
+  });
+
+  describe.skip('Generator Dropdown Menu(s)', () => {
+    it('should render', () => {});
+    it('should download a generated Server file', () => {});
+    it('should download a generated Client file', () => {});
+    it('given servers list is empty: should render no menu', () => {});
+    it('given clients list is empty: should render no menu', () => {});
+    it('given both servers and clients list are empty: should render no menu', () => {});
   });
 });
