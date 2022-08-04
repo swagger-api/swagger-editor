@@ -21,22 +21,62 @@ describe('Topbar', () => {
         .should('not.have.text', '|') // applies to both OpenAPI and AsyncAPI cases if yaml improperly loaded
         .should('contains.text', 'asyncapi');
     });
+    it('should render "Import File" menu item', () => {
+      cy.contains('File').click(); // File Menu
+      cy.contains('Import File').should('exist');
+    });
     it.skip('should be able to click on Import file', () => {
-      // jest: only asserting that method to open file dialog box was called
+      // Cypress does not handle native events like opening a File Dialog
+      // Jest: previously existing test only asserted that method to open file dialog box was called
     });
-    describe.skip('when json', () => {
-      // different from Edit Menu, as operation will initiate a file download without additional user input
-      // but can we intercept and/or mock the download so that it does not actually happen?
-      // the generator request could also be intercepted to avoid real http traffic
-      it.skip('should render clickable text: "Save (as JSON)', () => {});
-      it.skip('should render clickable text: "Convert and save as YAML', () => {});
+    describe('when content is JSON', () => {
+      /**
+       * vs. Edit Menu, operation also will initiate a file download without additional user input
+       * Final production version might not contain
+       * a fixture that we intend to load and display as JSON.
+       * So here we assume that we can load a fixture as YAML,
+       * then convert to JSON.
+       * Then assert expected File Menu item is displayed,
+       * However, no additional assertion for click event
+       * or download event because the converter is an http service
+       */
+      it('should render clickable text: "Save (as JSON)', () => {
+        cy.contains('Edit').click(); // Edit Menu
+        cy.contains('Load OpenAPI 3.0 Fixture').trigger('mousemove').click();
+        cy.contains('Edit').click();
+        cy.contains('Convert to JSON').trigger('mousemove').click();
+        cy.contains('File').click(); // File Menu
+        cy.contains('Save (as JSON)').should('exist');
+      });
+      it('should render clickable text: "Convert and Save as YAML', () => {
+        cy.contains('Edit').click(); // Edit Menu
+        cy.contains('Load OpenAPI 3.0 Fixture').trigger('mousemove').click();
+        cy.contains('Edit').click();
+        cy.contains('Convert to JSON').trigger('mousemove').click();
+        cy.contains('File').click(); // File Menu
+        cy.contains('Convert and Save as YAML').should('exist');
+      });
     });
-    describe.skip('when yaml', () => {
-      // different from Edit Menu, as operation will initiate a file download without additional user input
-      // but can we intercept and/or mock the download so that it does not actually happen?
-      // the generator request could also be intercepted to avoid real http traffic
-      it.skip('should render clickable text: "Save (as YAML)', () => {});
-      it.skip('should render clickable text: "Convert and save as JSON', () => {});
+    describe('when content is YAML', () => {
+      /**
+       * vs. Edit Menu, operation also will initiate a file download without additional user input
+       * Here we assume that we can load a fixture as YAML.
+       * Then assert expected File Menu item is displayed,
+       * However, no additional assertion for click event
+       * or download event because the converter is an http service
+       */
+      it('should render clickable text: "Save (as YAML)', () => {
+        cy.contains('Edit').click(); // Edit Menu
+        cy.contains('Load OpenAPI 3.0 Fixture').trigger('mousemove').click();
+        cy.contains('File').click(); // File Menu
+        cy.contains('Save (as YAML)').should('exist');
+      });
+      it('should render clickable text: "Convert and Save as JSON', () => {
+        cy.contains('Edit').click(); // Edit Menu
+        cy.contains('Load OpenAPI 3.0 Fixture').trigger('mousemove').click();
+        cy.contains('File').click(); // File Menu
+        cy.contains('Convert and Save as JSON').should('exist');
+      });
     });
   });
 
