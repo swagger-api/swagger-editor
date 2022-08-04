@@ -214,12 +214,58 @@ describe('Topbar', () => {
     });
   });
 
-  describe.skip('Generator Dropdown Menu(s)', () => {
-    it('should render', () => {});
-    it('should download a generated Server file', () => {});
-    it('should download a generated Client file', () => {});
-    it('given servers list is empty: should render no menu', () => {});
-    it('given clients list is empty: should render no menu', () => {});
-    it('given both servers and clients list are empty: should render no menu', () => {});
+  describe('Generator Dropdown Menu(s)', () => {
+    /**
+     * By default, any "Generate Server" or "Generate Client" list
+     * is retrieved via an http service
+     * Clicking on a specific menu item from one of these lists
+     * will auto-download a generated file via an http service
+     * without further user action required
+     * We could try mocking the return request data to assert against
+     * list items, but would still need to intercept and mock download
+     */
+    it('should render "Generate Server" and "Generate Client" dropdown menus when OAS2.0', () => {
+      cy.contains('Edit').click();
+      cy.contains('Load OpenAPI 2.0 Fixture').trigger('mousemove').click();
+      cy.contains('Generate Server').should('be.visible');
+      cy.contains('Generate Client').should('be.visible');
+      /**
+       * below uses an http service, hence disabling from standard test
+       * also, we would be more interested in download action trigger
+       * rather than the specific menu item itself or its download contents
+       */
+      // cy.contains('Generate Server').click();
+      // cy.contains('ada-server').should('be.visible');
+      // cy.contains('Generate Client').click();
+      // cy.contains('ada').should('be.visible');
+    });
+    it('should render "Generate Server" and "Generate Client" dropdown menus when OAS3.0.x', () => {
+      cy.contains('Edit').click();
+      cy.contains('Load OpenAPI 3.0 Fixture').trigger('mousemove').click();
+      cy.contains('Generate Server').should('be.visible');
+      cy.contains('Generate Client').should('be.visible');
+      /**
+       * below uses an http service, hence disabling from standard test
+       * also, we would be more interested in download action trigger
+       * rather than the specific menu item itself or its download contents
+       */
+      // cy.contains('Generate Server').click();
+      // cy.contains('aspnetcore').should('be.visible');
+      // cy.contains('Generate Client').click();
+      // cy.contains('csharp').should('be.visible');
+    });
+    it('should NOT render "Generate Server" and "Generate Client" dropdown menus when OAS3.1', () => {
+      cy.contains('Edit').click();
+      cy.contains('Load OpenAPI 3.1 Fixture').trigger('mousemove').click();
+      cy.get('Generate Server').should('not.exist');
+      cy.get('Generate Client').should('not.exist');
+    });
+    it('should NOT render "Generate Server" and "Generate Client" dropdown menus when AsyncAPI2.x', () => {
+      cy.contains('Edit').click();
+      cy.contains('Load AsyncAPI 2.4 Streetlights Fixture').trigger('mousemove').click();
+      cy.get('Generate Server').should('not.exist');
+      cy.get('Generate Client').should('not.exist');
+    });
+    it.skip('should download a generated Client file', () => {});
   });
 });
