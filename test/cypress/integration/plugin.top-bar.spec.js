@@ -42,7 +42,7 @@ describe('Topbar', () => {
        */
       it('should render clickable text: "Save (as JSON)', () => {
         cy.contains('Edit').click(); // Edit Menu
-        cy.contains('Load OpenAPI 3.0 Fixture').trigger('mousemove').click();
+        cy.contains('Load OpenAPI 3.0 Petstore Fixture').trigger('mousemove').click();
         cy.contains('Edit').click();
         cy.contains('Convert to JSON').trigger('mousemove').click();
         cy.contains('File').click(); // File Menu
@@ -50,7 +50,7 @@ describe('Topbar', () => {
       });
       it('should render clickable text: "Convert and Save as YAML', () => {
         cy.contains('Edit').click(); // Edit Menu
-        cy.contains('Load OpenAPI 3.0 Fixture').trigger('mousemove').click();
+        cy.contains('Load OpenAPI 3.0 Petstore Fixture').trigger('mousemove').click();
         cy.contains('Edit').click();
         cy.contains('Convert to JSON').trigger('mousemove').click();
         cy.contains('File').click(); // File Menu
@@ -67,13 +67,13 @@ describe('Topbar', () => {
        */
       it('should render clickable text: "Save (as YAML)', () => {
         cy.contains('Edit').click(); // Edit Menu
-        cy.contains('Load OpenAPI 3.0 Fixture').trigger('mousemove').click();
+        cy.contains('Load OpenAPI 3.0 Petstore Fixture').trigger('mousemove').click();
         cy.contains('File').click(); // File Menu
         cy.contains('Save (as YAML)').should('exist');
       });
       it('should render clickable text: "Convert and Save as JSON', () => {
         cy.contains('Edit').click(); // Edit Menu
-        cy.contains('Load OpenAPI 3.0 Fixture').trigger('mousemove').click();
+        cy.contains('Load OpenAPI 3.0 Petstore Fixture').trigger('mousemove').click();
         cy.contains('File').click(); // File Menu
         cy.contains('Convert and Save as JSON').should('exist');
       });
@@ -92,9 +92,9 @@ describe('Topbar', () => {
        * Fixtures are JSON
        * YAML option is progammatically set per menu item
        */
-      it('loads OpenAPI 3.0 Fixture as YAML', () => {
+      it('loads OpenAPI 3.0 Petstore Fixture as YAML', () => {
         cy.contains('Edit').click();
-        cy.contains('Load OpenAPI 3.0 Fixture').trigger('mousemove').click();
+        cy.contains('Load OpenAPI 3.0 Petstore Fixture').trigger('mousemove').click();
         cy.get('.view-lines > :nth-child(1)')
           .should('contains.text', 'openapi')
           .should('not.have.text', '{')
@@ -108,9 +108,9 @@ describe('Topbar', () => {
           .should('not.have.text', '{')
           .should('not.have.text', '"');
       });
-      it('loads OpenAPI 2.0 Fixture as YAML', () => {
+      it('loads OpenAPI 2.0 Petstore Fixture as YAML', () => {
         cy.contains('Edit').click();
-        cy.contains('Load OpenAPI 2.0 Fixture').trigger('mousemove').click();
+        cy.contains('Load OpenAPI 2.0 Petstore Fixture').trigger('mousemove').click();
         cy.get('.view-lines > :nth-child(1)')
           .should('contains.text', 'swagger')
           .should('not.have.text', '{')
@@ -146,9 +146,9 @@ describe('Topbar', () => {
     });
 
     describe('should display "Convert To JSON" menu item after loading fixture as YAML', () => {
-      it('displays "Convert To JSON" option for OpenAPI 3.0 Fixture', () => {
+      it('displays "Convert To JSON" option for OpenAPI 3.0 Petstore Fixture', () => {
         cy.contains('Edit').click();
-        cy.contains('Load OpenAPI 3.0 Fixture').trigger('mousemove').click();
+        cy.contains('Load OpenAPI 3.0 Petstore Fixture').trigger('mousemove').click();
         cy.contains('Edit').click();
         cy.contains('Convert to JSON').should('be.visible');
       });
@@ -158,9 +158,9 @@ describe('Topbar', () => {
         cy.contains('Edit').click();
         cy.contains('Convert to JSON').should('be.visible');
       });
-      it('displays "Convert To JSON" option for OpenAPI 2.0 Fixture', () => {
+      it('displays "Convert To JSON" option for OpenAPI 2.0 Petstore Fixture', () => {
         cy.contains('Edit').click();
-        cy.contains('Load OpenAPI 2.0 Fixture').trigger('mousemove').click();
+        cy.contains('Load OpenAPI 2.0 Petstore Fixture').trigger('mousemove').click();
         cy.contains('Edit').click();
         cy.contains('Convert to JSON').should('be.visible');
       });
@@ -195,13 +195,13 @@ describe('Topbar', () => {
     describe('"Convert to OpenAPI 3.0.x" menu item', () => {
       it('displays "Convert to OpenAPI 3.0.x" after loading OAS2.0 fixture', () => {
         cy.contains('Edit').click();
-        cy.contains('Load OpenAPI 2.0 Fixture').trigger('mousemove').click();
+        cy.contains('Load OpenAPI 2.0 Petstore Fixture').trigger('mousemove').click();
         cy.contains('Edit').click();
         cy.contains('Convert to OpenAPI 3.0.x').should('be.visible');
       });
       it('should not display "Convert to OpenAPI 3.0.x" after loading OAS3.x fixture', () => {
         cy.contains('Edit').click();
-        cy.contains('Load OpenAPI 3.0 Fixture').trigger('mousemove').click();
+        cy.contains('Load OpenAPI 3.0 Petstore Fixture').trigger('mousemove').click();
         cy.contains('Edit').click();
         cy.get('Convert to OpenAPI 3.0.x').should('not.exist');
       });
@@ -226,7 +226,7 @@ describe('Topbar', () => {
      */
     it('should render "Generate Server" and "Generate Client" dropdown menus when OAS2.0', () => {
       cy.contains('Edit').click();
-      cy.contains('Load OpenAPI 2.0 Fixture').trigger('mousemove').click();
+      cy.contains('Load OpenAPI 2.0 Petstore Fixture').trigger('mousemove').click();
       cy.contains('Generate Server').should('be.visible');
       cy.contains('Generate Client').should('be.visible');
       /**
@@ -241,7 +241,7 @@ describe('Topbar', () => {
     });
     it('should render "Generate Server" and "Generate Client" dropdown menus when OAS3.0.x', () => {
       cy.contains('Edit').click();
-      cy.contains('Load OpenAPI 3.0 Fixture').trigger('mousemove').click();
+      cy.contains('Load OpenAPI 3.0 Petstore Fixture').trigger('mousemove').click();
       cy.contains('Generate Server').should('be.visible');
       cy.contains('Generate Client').should('be.visible');
       /**
