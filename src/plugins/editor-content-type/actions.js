@@ -86,7 +86,7 @@ export const detectContentType = (content) => {
       }
 
       const openApi2YAMLMatch = content.match(
-        /(?<YAML>^(["']?)swagger\2\s*:\s*(["']?)(?<version_yaml>2\.0)\3)|(?<JSON>"asyncapi"\s*:\s*"(?<version_json>2\.0)")/m
+        /(?<YAML>^(["']?)swagger\2\s*:\s*(["']?)(?<version_yaml>2\.0)\3(?:\s+|$))|(?<JSON>"asyncapi"\s*:\s*"(?<version_json>2\.0)")/m
       );
       if (openApi2YAMLMatch !== null && fn.isValidYAMLObject(content)) {
         const contentType = 'application/vnd.oai.openapi+yaml;version=2.0';
@@ -94,7 +94,9 @@ export const detectContentType = (content) => {
         return editorActions.detectContentTypeSuccess({ contentType, content, requestId });
       }
 
-      const openApi30xJSONMatch = content.match(/"openapi"\s*:\s*"(?<version_json>3\.0\.\d+)"/);
+      const openApi30xJSONMatch = content.match(
+        /"openapi"\s*:\s*"(?<version_json>3\.0\.(?:[1-9]\d*|0))"/
+      );
       if (openApi30xJSONMatch !== null && fn.isValidJSONObject(content)) {
         const { groups } = openApi30xJSONMatch;
         const version = groups?.version_json;
@@ -104,7 +106,7 @@ export const detectContentType = (content) => {
       }
 
       const openApi30xYAMLMatch = content.match(
-        /(?<YAML>^(["']?)openapi\2\s*:\s*(["']?)(?<version_yaml>3\.0\.\d+)\3)|(?<JSON>"openapi"\s*:\s*"(?<version_json>3\.0\.\d+)")/m
+        /(?<YAML>^(["']?)openapi\2\s*:\s*(["']?)(?<version_yaml>3\.0\.(?:[1-9]\d*|0))\3(?:\s+|$))|(?<JSON>"openapi"\s*:\s*"(?<version_json>3\.0\.(?:[1-9]\d*|0))")/m
       );
       if (openApi30xYAMLMatch !== null && fn.isValidYAMLObject(content)) {
         const { groups } = openApi30xYAMLMatch;
