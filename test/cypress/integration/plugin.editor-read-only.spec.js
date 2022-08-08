@@ -2,6 +2,7 @@ describe('read only', () => {
   beforeEach(() => {
     cy.visitBlankPage();
     cy.prepareAsyncAPI();
+    cy.prepareOasGenerator();
     cy.waitForSplashScreen();
   });
   it('should toggle between allow-write and read-only', () => {

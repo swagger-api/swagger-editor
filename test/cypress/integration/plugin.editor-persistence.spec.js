@@ -1,6 +1,7 @@
 describe('EditorPersistencePlugin', () => {
   beforeEach(() => {
     cy.visitBlankPage();
+    cy.prepareOasGenerator();
   });
 
   it('should load definition with provided url prop', () => {

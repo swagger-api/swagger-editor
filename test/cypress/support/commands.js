@@ -65,25 +65,34 @@ Cypress.Commands.add('prepareAsyncAPI', () => {
   cy.wait('@streetlightsKafka');
 });
 
-Cypress.Commands.add('prepareOpenAPI', () => {
+Cypress.Commands.add('prepareOpenAPI30x', () => {
   cy.intercept('GET', 'https://petstore3.swagger.io/api/v3/openapi.json', {
     fixture: 'petstore-oas3.yaml',
   }).as('externalPetstore');
 
+  cy.visit('/');
+  cy.wait(['@externalPetstore']);
+});
+
+Cypress.Commands.add('prepareOasGenerator', () => {
   const staticResponse = {
     servers: ['blue', 'brown'],
     clients: ['apple', 'avocado'],
   };
 
-  cy.intercept('GET', 'https://generator3.swagger.io/api/servers', staticResponse).as(
+  cy.intercept('GET', 'https://generator3.swagger.io/api/servers', staticResponse.servers).as(
     'externalGeneratorServers'
   );
-  cy.intercept('GET', 'https://generator3.swagger.io/api/clients', staticResponse).as(
+  cy.intercept('GET', 'https://generator3.swagger.io/api/clients', staticResponse.clients).as(
     'externalGeneratorClients'
   );
 
-  cy.visit('/');
-  cy.wait(['@externalPetstore', '@externalGeneratorServers', '@externalGeneratorClients']);
+  cy.intercept('GET', 'https://generator.swagger.io/api/gen/servers', staticResponse.servers).as(
+    'externalGeneratorServersOAS2cmd'
+  );
+  cy.intercept('GET', 'https://generator.swagger.io/api/gen/clients', staticResponse.clients).as(
+    'externalGeneratorClientsOAS2cmd'
+  );
 });
 
 Cypress.Commands.add('waitForSplashScreen', () => {

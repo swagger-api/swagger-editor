@@ -2,6 +2,7 @@ describe('Monaco Editor with Validation Pane', () => {
   beforeEach(() => {
     cy.visitBlankPage();
     cy.prepareAsyncAPI();
+    cy.prepareOasGenerator();
     cy.waitForSplashScreen();
 
     // move down to line 2, column 3
