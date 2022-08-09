@@ -293,5 +293,31 @@ describe('Topbar', () => {
         .readFile(`${downloadsFolder}/apple-client-generated.zip`)
         .should('exist');
     });
+    it('should download a generated OAS2.0 Server file', () => {
+      cy.contains('Edit').click();
+      cy.contains('Load OpenAPI 2.0 Petstore Fixture').trigger('mousemove').click();
+      cy.contains('Generate Server').should('be.visible').click();
+      cy.contains('blue') // mocked response value
+        .should('be.visible')
+        .trigger('mousemove')
+        .click()
+        .wait('@externalGeneratorServersOAS2reqDownloadUrl')
+        .wait('@externalGeneratorOas2Download')
+        .readFile(`${downloadsFolder}/blue-server-generated.zip`)
+        .should('exist');
+    });
+    it('should download a generated OAS2.0 Client file', () => {
+      cy.contains('Edit').click();
+      cy.contains('Load OpenAPI 2.0 Petstore Fixture').trigger('mousemove').click();
+      cy.contains('Generate Client').should('be.visible').click();
+      cy.contains('apple') // mocked response value
+        .should('be.visible')
+        .trigger('mousemove')
+        .click()
+        .wait('@externalGeneratorClientsOAS2reqDownloadUrl')
+        .wait('@externalGeneratorOas2Download')
+        .readFile(`${downloadsFolder}/apple-client-generated.zip`)
+        .should('exist');
+    });
   });
 });
