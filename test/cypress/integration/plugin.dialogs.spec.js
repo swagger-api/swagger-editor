@@ -10,6 +10,7 @@ describe('Dialogs: Confirm', () => {
   beforeEach(() => {
     cy.visitBlankPage();
     cy.prepareAsyncAPI();
+    cy.prepareOasGenerator();
     cy.waitForSplashScreen();
   });
   it('should close the Confirm Dialog via `x` button', () => {

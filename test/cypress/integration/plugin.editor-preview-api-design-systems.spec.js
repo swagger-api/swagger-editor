@@ -2,6 +2,7 @@ describe('Editor Preview Pane: AsyncAPI 2.x', () => {
   beforeEach(() => {
     cy.visitBlankPage();
     cy.prepareAsyncAPI();
+    cy.prepareOasGenerator();
     cy.waitForSplashScreen();
   });
   it('displays API Design Systems', () => {

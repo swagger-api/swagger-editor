@@ -3,6 +3,7 @@ describe('Dropzone in Layout', () => {
     beforeEach(() => {
       cy.visitBlankPage();
       cy.prepareAsyncAPI();
+      cy.prepareOasGenerator();
       cy.waitForSplashScreen();
     });
 

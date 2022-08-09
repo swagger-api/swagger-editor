@@ -2,6 +2,7 @@ describe('Editor Preview Pane: OpenAPI 2.0, 3.0.x, 3.1.x', () => {
   beforeEach(() => {
     cy.visitBlankPage();
     cy.prepareAsyncAPI();
+    cy.prepareOasGenerator();
     cy.waitForSplashScreen();
   });
   it('displays OAS2.0.x', () => {

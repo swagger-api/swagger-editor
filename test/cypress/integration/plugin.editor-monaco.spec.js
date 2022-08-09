@@ -8,6 +8,7 @@ describe('Monaco Editor with Parser', () => {
       cy.spy(contentWindow.console, 'error').as('consoleError');
     });
     cy.prepareAsyncAPI();
+    cy.prepareOasGenerator();
     cy.waitForSplashScreen();
   });
 

@@ -2,6 +2,7 @@ describe('Topbar', () => {
   beforeEach(() => {
     cy.visitBlankPage();
     cy.prepareAsyncAPI();
+    cy.prepareOasGenerator();
     cy.waitForSplashScreen();
   });
 
