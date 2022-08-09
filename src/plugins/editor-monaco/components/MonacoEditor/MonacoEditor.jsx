@@ -84,6 +84,7 @@ const MonacoEditor = ({
           store() {},
           onWillSaveState() {},
           onDidChangeStorage() {},
+          onDidChangeValue() {},
         },
       }
     );
