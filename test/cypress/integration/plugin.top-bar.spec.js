@@ -222,8 +222,6 @@ describe('Topbar', () => {
      * Clicking on a specific menu item from one of these lists
      * will auto-download a generated file via an http service
      * without further user action required
-     * We could try mocking the return request data to assert against
-     * list items, but would still need to intercept and mock download
      */
     const downloadsFolder = Cypress.config('downloadsFolder'); // use default setting
 
@@ -232,30 +230,12 @@ describe('Topbar', () => {
       cy.contains('Load OpenAPI 2.0 Petstore Fixture').trigger('mousemove').click();
       cy.contains('Generate Server').should('be.visible');
       cy.contains('Generate Client').should('be.visible');
-      /**
-       * below uses an http service, hence disabling from standard test
-       * also, we would be more interested in download action trigger
-       * rather than the specific menu item itself or its download contents
-       */
-      // cy.contains('Generate Server').click();
-      // cy.contains('ada-server').should('be.visible');
-      // cy.contains('Generate Client').click();
-      // cy.contains('ada').should('be.visible');
     });
     it('should render "Generate Server" and "Generate Client" dropdown menus when OAS3.0.x', () => {
       cy.contains('Edit').click();
       cy.contains('Load OpenAPI 3.0 Petstore Fixture').trigger('mousemove').click();
       cy.contains('Generate Server').should('be.visible');
       cy.contains('Generate Client').should('be.visible');
-      /**
-       * below uses an http service, hence disabling from standard test
-       * also, we would be more interested in download action trigger
-       * rather than the specific menu item itself or its download contents
-       */
-      // cy.contains('Generate Server').click();
-      // cy.contains('aspnetcore').should('be.visible');
-      // cy.contains('Generate Client').click();
-      // cy.contains('csharp').should('be.visible');
     });
     it('should NOT render "Generate Server" and "Generate Client" dropdown menus when OAS3.1', () => {
       cy.contains('Edit').click();
