@@ -225,6 +225,8 @@ describe('Topbar', () => {
      * We could try mocking the return request data to assert against
      * list items, but would still need to intercept and mock download
      */
+    const downloadsFolder = Cypress.config('downloadsFolder'); // use default setting
+
     it('should render "Generate Server" and "Generate Client" dropdown menus when OAS2.0', () => {
       cy.contains('Edit').click();
       cy.contains('Load OpenAPI 2.0 Petstore Fixture').trigger('mousemove').click();
@@ -267,6 +269,29 @@ describe('Topbar', () => {
       cy.get('Generate Server').should('not.exist');
       cy.get('Generate Client').should('not.exist');
     });
-    it.skip('should download a generated Client file', () => {});
+    it('should download a generated OAS3.0.x Server file', () => {
+      cy.contains('Edit').click();
+      cy.contains('Load OpenAPI 3.0 Petstore Fixture').trigger('mousemove').click();
+      cy.contains('Generate Server').should('be.visible').click();
+      cy.contains('blue') // mocked response value
+        .should('be.visible')
+        .trigger('mousemove')
+        .click()
+        .wait('@externalGeneratorOas3Download')
+        .readFile(`${downloadsFolder}/blue-server-generated.zip`)
+        .should('exist');
+    });
+    it('should download a generated OAS3.0.x Client file', () => {
+      cy.contains('Edit').click();
+      cy.contains('Load OpenAPI 3.0 Petstore Fixture').trigger('mousemove').click();
+      cy.contains('Generate Client').should('be.visible').click();
+      cy.contains('apple') // mocked response value
+        .should('be.visible')
+        .trigger('mousemove')
+        .click()
+        .wait('@externalGeneratorOas3Download')
+        .readFile(`${downloadsFolder}/apple-client-generated.zip`)
+        .should('exist');
+    });
   });
 });

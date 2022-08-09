@@ -79,12 +79,19 @@ Cypress.Commands.add('prepareOasGenerator', () => {
     servers: ['blue', 'brown'],
     clients: ['apple', 'avocado'],
   };
+  const staticFixture = {
+    fixture: 'rejected.file.1', // picking a minimal file, doesn't matter what it is
+  };
 
   cy.intercept('GET', 'https://generator3.swagger.io/api/servers', staticResponse.servers).as(
     'externalGeneratorServers'
   );
   cy.intercept('GET', 'https://generator3.swagger.io/api/clients', staticResponse.clients).as(
     'externalGeneratorClients'
+  );
+  // OAS3 server and client generators uses same URI
+  cy.intercept('POST', 'https://generator3.swagger.io/api/generate', staticFixture).as(
+    'externalGeneratorOas3Download'
   );
 
   cy.intercept('GET', 'https://generator.swagger.io/api/gen/servers', staticResponse.servers).as(
