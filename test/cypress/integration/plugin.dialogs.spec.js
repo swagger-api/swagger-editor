@@ -6,6 +6,7 @@ describe('Dialogs: Confirm', () => {
    * The AlertDialog component is generally reserved for unxpected
    * end user error messages, and hopefully not seen in normal use,
    * so we do not currently test it here.
+   * Ref: plugin.dropzone.spec.js contains an E2E assertion for AlertDialog
    * */
   beforeEach(() => {
     cy.visitBlankPage();

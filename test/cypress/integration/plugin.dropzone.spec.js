@@ -15,7 +15,12 @@ describe('Dropzone in Layout', () => {
             cy.get('.modal-title')
               .should('contains.text', 'Uh oh, an error has occurred')
               .get('.modal-body > div')
-              .should('contains.text', 'Sorry, there was an error processing your file');
+              .should('contains.text', 'Sorry, there was an error processing your file')
+              // assert on AlertDialog interaction via `x` button'
+              .get('.close')
+              .click()
+              .get('.modal-title')
+              .should('not.exist');
           });
       });
     });
