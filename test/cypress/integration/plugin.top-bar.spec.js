@@ -222,38 +222,27 @@ describe('Topbar', () => {
      * Clicking on a specific menu item from one of these lists
      * will auto-download a generated file via an http service
      * without further user action required
-     * We could try mocking the return request data to assert against
-     * list items, but would still need to intercept and mock download
      */
+    beforeEach(() => {
+      cy.clearDownloadsFolder();
+    });
+    after(() => {
+      cy.clearDownloadsFolder();
+    });
+
+    const downloadsFolder = Cypress.config('downloadsFolder'); // use default setting
+
     it('should render "Generate Server" and "Generate Client" dropdown menus when OAS2.0', () => {
       cy.contains('Edit').click();
       cy.contains('Load OpenAPI 2.0 Petstore Fixture').trigger('mousemove').click();
       cy.contains('Generate Server').should('be.visible');
       cy.contains('Generate Client').should('be.visible');
-      /**
-       * below uses an http service, hence disabling from standard test
-       * also, we would be more interested in download action trigger
-       * rather than the specific menu item itself or its download contents
-       */
-      // cy.contains('Generate Server').click();
-      // cy.contains('ada-server').should('be.visible');
-      // cy.contains('Generate Client').click();
-      // cy.contains('ada').should('be.visible');
     });
     it('should render "Generate Server" and "Generate Client" dropdown menus when OAS3.0.x', () => {
       cy.contains('Edit').click();
       cy.contains('Load OpenAPI 3.0 Petstore Fixture').trigger('mousemove').click();
       cy.contains('Generate Server').should('be.visible');
       cy.contains('Generate Client').should('be.visible');
-      /**
-       * below uses an http service, hence disabling from standard test
-       * also, we would be more interested in download action trigger
-       * rather than the specific menu item itself or its download contents
-       */
-      // cy.contains('Generate Server').click();
-      // cy.contains('aspnetcore').should('be.visible');
-      // cy.contains('Generate Client').click();
-      // cy.contains('csharp').should('be.visible');
     });
     it('should NOT render "Generate Server" and "Generate Client" dropdown menus when OAS3.1', () => {
       cy.contains('Edit').click();
@@ -267,6 +256,55 @@ describe('Topbar', () => {
       cy.get('Generate Server').should('not.exist');
       cy.get('Generate Client').should('not.exist');
     });
-    it.skip('should download a generated Client file', () => {});
+    it('should download a generated OAS3.0.x Server file', () => {
+      cy.contains('Edit').click();
+      cy.contains('Load OpenAPI 3.0 Petstore Fixture').trigger('mousemove').click();
+      cy.contains('Generate Server').should('be.visible').click();
+      cy.contains('blue') // mocked response value
+        .should('be.visible')
+        .trigger('mousemove')
+        .click()
+        .wait('@externalGeneratorOas3Download')
+        .readFile(`${downloadsFolder}/blue-server-generated.zip`)
+        .should('exist');
+    });
+    it('should download a generated OAS3.0.x Client file', () => {
+      cy.contains('Edit').click();
+      cy.contains('Load OpenAPI 3.0 Petstore Fixture').trigger('mousemove').click();
+      cy.contains('Generate Client').should('be.visible').click();
+      cy.contains('apple') // mocked response value
+        .should('be.visible')
+        .trigger('mousemove')
+        .click()
+        .wait('@externalGeneratorOas3Download')
+        .readFile(`${downloadsFolder}/apple-client-generated.zip`)
+        .should('exist');
+    });
+    it('should download a generated OAS2.0 Server file', () => {
+      cy.contains('Edit').click();
+      cy.contains('Load OpenAPI 2.0 Petstore Fixture').trigger('mousemove').click();
+      cy.contains('Generate Server').should('be.visible').click();
+      cy.contains('blue') // mocked response value
+        .should('be.visible')
+        .trigger('mousemove')
+        .click()
+        .wait('@externalGeneratorServersOAS2reqDownloadUrl')
+        .wait('@externalGeneratorOas2Download')
+        .readFile(`${downloadsFolder}/blue-server-generated.zip`)
+        .should('exist');
+    });
+    it('should download a generated OAS2.0 Client file', () => {
+      cy.contains('Edit').click();
+      cy.contains('Load OpenAPI 2.0 Petstore Fixture').trigger('mousemove').click();
+      cy.contains('Generate Client').should('be.visible').click();
+      cy.contains('apple') // mocked response value
+        .should('be.visible')
+        .trigger('mousemove')
+        .click()
+        .wait('@externalGeneratorClientsOAS2reqDownloadUrl')
+        .wait('@externalGeneratorOas2Download')
+        .readFile(`${downloadsFolder}/apple-client-generated.zip`)
+        .should('exist');
+    });
   });
 });

@@ -79,20 +79,50 @@ Cypress.Commands.add('prepareOasGenerator', () => {
     servers: ['blue', 'brown'],
     clients: ['apple', 'avocado'],
   };
+  const staticFixture = {
+    fixture: 'rejected.file.1', // picking a minimal file, doesn't matter what it is
+  };
+  const staticOas2resDownloadUrl = {
+    link: 'https://generator.swagger.io/api/gen/download/mocked-hash',
+  };
 
   cy.intercept('GET', 'https://generator3.swagger.io/api/servers', staticResponse.servers).as(
-    'externalGeneratorServers'
+    'externalGeneratorServersOas3reqList'
   );
   cy.intercept('GET', 'https://generator3.swagger.io/api/clients', staticResponse.clients).as(
-    'externalGeneratorClients'
+    'externalGeneratorClientsOas3reqList'
+  );
+  // OAS3 server and client generators uses same URI
+  cy.intercept('POST', 'https://generator3.swagger.io/api/generate', staticFixture).as(
+    'externalGeneratorOas3Download'
   );
 
   cy.intercept('GET', 'https://generator.swagger.io/api/gen/servers', staticResponse.servers).as(
-    'externalGeneratorServersOAS2cmd'
+    'externalGeneratorServersOAS2reqList'
   );
   cy.intercept('GET', 'https://generator.swagger.io/api/gen/clients', staticResponse.clients).as(
-    'externalGeneratorClientsOAS2cmd'
+    'externalGeneratorClientsOAS2reqList'
   );
+  cy.intercept(
+    'POST',
+    'https://generator.swagger.io/api/gen/servers/*',
+    staticOas2resDownloadUrl
+  ).as('externalGeneratorServersOAS2reqDownloadUrl');
+  cy.intercept(
+    'POST',
+    'https://generator.swagger.io/api/gen/clients/*',
+    staticOas2resDownloadUrl
+  ).as('externalGeneratorClientsOAS2reqDownloadUrl');
+  // OAS2 server and client generators uses same base URI, but all requests have an appended hash
+  cy.intercept(
+    'GET',
+    'https://generator.swagger.io/api/gen/download/mocked-hash',
+    staticFixture
+  ).as('externalGeneratorOas2Download');
+});
+
+Cypress.Commands.add('clearDownloadsFolder', () => {
+  cy.exec('rm cypress/downloads/*', { log: true, failOnNonZeroExit: false });
 });
 
 Cypress.Commands.add('waitForSplashScreen', () => {
