@@ -121,6 +121,10 @@ Cypress.Commands.add('prepareOasGenerator', () => {
   ).as('externalGeneratorOas2Download');
 });
 
+Cypress.Commands.add('clearDownloadsFolder', () => {
+  cy.exec('rm cypress/downloads/*', { log: true, failOnNonZeroExit: false });
+});
+
 Cypress.Commands.add('waitForSplashScreen', () => {
   cy.get('.swagger-editor__splash-screen', { timeout: 10000 }).should('not.be.visible');
 });

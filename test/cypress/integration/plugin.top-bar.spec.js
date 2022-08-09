@@ -223,6 +223,13 @@ describe('Topbar', () => {
      * will auto-download a generated file via an http service
      * without further user action required
      */
+    beforeEach(() => {
+      cy.clearDownloadsFolder();
+    });
+    after(() => {
+      cy.clearDownloadsFolder();
+    });
+
     const downloadsFolder = Cypress.config('downloadsFolder'); // use default setting
 
     it('should render "Generate Server" and "Generate Client" dropdown menus when OAS2.0', () => {
