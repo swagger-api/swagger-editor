@@ -211,13 +211,7 @@ describe('Topbar', () => {
         cy.contains('Edit').click();
         cy.contains('Load OpenAPI 2.0 Petstore Fixture').trigger('mousemove').click();
         cy.contains('Edit').click();
-        cy.contains('Convert to OpenAPI 3.0.x')
-          .should('be.visible')
-          .trigger('mousemove')
-          .click()
-          .wait('@externalConverterToOas3');
-        // This assertion assumes change from non-OAS3 to OAS3, where a "badge" will exist for OAS3
-        cy.get('.version-stamp > .version').should('have.text', 'OAS3');
+        cy.contains('Convert to OpenAPI 3.0.x').should('be.visible');
       });
       it('should not display "Convert to OpenAPI 3.0.x" after loading OAS3.x fixture', () => {
         cy.contains('Edit').click();
@@ -230,6 +224,18 @@ describe('Topbar', () => {
         cy.contains('Load AsyncAPI 2.4 Petstore Fixture').trigger('mousemove').click();
         cy.contains('Edit').click();
         cy.get('Convert to OpenAPI 3.0.x').should('not.exist');
+      });
+      it('will call external http service to "Convert to OpenAPI 3.0.x" after loading OAS2.0 fixture', () => {
+        cy.contains('Edit').click();
+        cy.contains('Load OpenAPI 2.0 Petstore Fixture').trigger('mousemove').click();
+        cy.contains('Edit').click();
+        cy.contains('Convert to OpenAPI 3.0.x')
+          .should('be.visible')
+          .trigger('mousemove')
+          .click()
+          .wait('@externalConverterToOas3');
+        // This assertion assumes change from non-OAS3 to OAS3, where a "badge" will exist for OAS3
+        cy.get('.version-stamp > .version').should('have.text', 'OAS3');
       });
     });
   });
