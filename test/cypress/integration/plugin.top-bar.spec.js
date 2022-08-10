@@ -26,9 +26,22 @@ describe('Topbar', () => {
       cy.contains('File').click(); // File Menu
       cy.contains('Import File').should('exist');
     });
-    it.skip('should be able to click on Import file', () => {
-      // Cypress does not handle native events like opening a File Dialog
-      // Jest: previously existing test only asserted that method to open file dialog box was called
+    it('should be able to "Import File" and display rendered changes', () => {
+      /**
+       * Cypress does not handle native events like opening a File Dialog.
+       * The goal of this test is to see when the file is uploaded that the
+       * editor content and rendered UI changes.
+       * In this test, it is not required for Cypress to "interact" with the
+       * "File" Menu or the "Import File" menu item. If "interact" occurs
+       * with "Import File", test runner will output console warning:
+       * "File chooser dialog can only be shown with a user activation."
+       */
+      cy.get('input[type=file]').attachFile('petstore-oas3.yaml', {
+        subjectType: 'input',
+      });
+      cy.wait(['@externalGeneratorServersOas3reqList', '@externalGeneratorClientsOas3reqList']);
+      // This assertion assumes change from non-OAS3 to OAS3, where a "badge" will exist for OAS3
+      cy.get('.version-stamp > .version').should('have.text', 'OAS3');
     });
     describe('when content is JSON', () => {
       /**
@@ -38,8 +51,8 @@ describe('Topbar', () => {
        * So here we assume that we can load a fixture as YAML,
        * then convert to JSON.
        * Then assert expected File Menu item is displayed,
-       * However, no additional assertion for click event
-       * or download event because the converter is an http service
+       * However, no additional assertion for click event or download event
+       * unless we want to check for file existence and/or file contents
        */
       it('should render clickable text: "Save (as JSON)', () => {
         cy.contains('Edit').click(); // Edit Menu
@@ -63,8 +76,8 @@ describe('Topbar', () => {
        * vs. Edit Menu, operation also will initiate a file download without additional user input
        * Here we assume that we can load a fixture as YAML.
        * Then assert expected File Menu item is displayed,
-       * However, no additional assertion for click event
-       * or download event because the converter is an http service
+       * However, no additional assertion for click event or download event
+       * unless we want to check for file existence and/or file contents
        */
       it('should render clickable text: "Save (as YAML)', () => {
         cy.contains('Edit').click(); // Edit Menu
@@ -195,6 +208,10 @@ describe('Topbar', () => {
 
     describe('"Convert to OpenAPI 3.0.x" menu item', () => {
       it('displays "Convert to OpenAPI 3.0.x" after loading OAS2.0 fixture', () => {
+        /**
+         * We don't currently assert for click event due to the converter
+         * existing as an external http service
+         */
         cy.contains('Edit').click();
         cy.contains('Load OpenAPI 2.0 Petstore Fixture').trigger('mousemove').click();
         cy.contains('Edit').click();
