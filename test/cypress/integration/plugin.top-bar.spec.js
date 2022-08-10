@@ -208,14 +208,16 @@ describe('Topbar', () => {
 
     describe('"Convert to OpenAPI 3.0.x" menu item', () => {
       it('displays "Convert to OpenAPI 3.0.x" after loading OAS2.0 fixture', () => {
-        /**
-         * We don't currently assert for click event due to the converter
-         * existing as an external http service
-         */
         cy.contains('Edit').click();
         cy.contains('Load OpenAPI 2.0 Petstore Fixture').trigger('mousemove').click();
         cy.contains('Edit').click();
-        cy.contains('Convert to OpenAPI 3.0.x').should('be.visible');
+        cy.contains('Convert to OpenAPI 3.0.x')
+          .should('be.visible')
+          .trigger('mousemove')
+          .click()
+          .wait('@externalConverterToOas3');
+        // This assertion assumes change from non-OAS3 to OAS3, where a "badge" will exist for OAS3
+        cy.get('.version-stamp > .version').should('have.text', 'OAS3');
       });
       it('should not display "Convert to OpenAPI 3.0.x" after loading OAS3.x fixture', () => {
         cy.contains('Edit').click();
