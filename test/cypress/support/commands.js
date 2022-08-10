@@ -119,6 +119,11 @@ Cypress.Commands.add('prepareOasGenerator', () => {
     'https://generator.swagger.io/api/gen/download/mocked-hash',
     staticFixture
   ).as('externalGeneratorOas2Download');
+
+  // always return same OAS3 fixture. not testing the actual http service to convert
+  cy.intercept('POST', 'https://converter.swagger.io/api/convert', {
+    fixture: 'petstore-oas3.yaml',
+  }).as('externalConverterToOas3');
 });
 
 Cypress.Commands.add('clearDownloadsFolder', () => {
