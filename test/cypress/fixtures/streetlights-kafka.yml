@@ -1,9 +1,10 @@
-asyncapi: '2.4.0'
+asyncapi: 2.4.0
 info:
   title: Streetlights Kafka API
-  version: '1.0.0'
-  description: |
-    The Smartylighting Streetlights API allows you to remotely manage the city lights.
+  version: 1.0.0
+  description: >
+    The Smartylighting Streetlights API allows you to remotely manage the city
+    lights.
 
     ### Check out its awesome features:
 
@@ -76,12 +77,14 @@ components:
     lightMeasured:
       name: lightMeasured
       title: Light measured
-      summary: Inform about environmental lighting conditions of a particular streetlight.
+      summary: >-
+        Inform about environmental lighting conditions of a particular
+        streetlight.
       contentType: application/json
       traits:
         - $ref: '#/components/messageTraits/commonHeaders'
       payload:
-        $ref: "#/components/schemas/lightMeasuredPayload"
+        $ref: '#/components/schemas/lightMeasuredPayload'
     turnOnOff:
       name: turnOnOff
       title: Turn on/off
@@ -89,7 +92,7 @@ components:
       traits:
         - $ref: '#/components/messageTraits/commonHeaders'
       payload:
-        $ref: "#/components/schemas/turnOnOffPayload"
+        $ref: '#/components/schemas/turnOnOffPayload'
     dimLight:
       name: dimLight
       title: Dim light
@@ -97,8 +100,7 @@ components:
       traits:
         - $ref: '#/components/messageTraits/commonHeaders'
       payload:
-        $ref: "#/components/schemas/dimLightPayload"
-
+        $ref: '#/components/schemas/dimLightPayload'
   schemas:
     lightMeasuredPayload:
       type: object
@@ -108,18 +110,18 @@ components:
           minimum: 0
           description: Light intensity measured in lumens.
         sentAt:
-          $ref: "#/components/schemas/sentAt"
+          $ref: '#/components/schemas/sentAt'
     turnOnOffPayload:
       type: object
       properties:
         command:
           type: string
           enum:
-            - on
-            - off
+            - 'on'
+            - 'off'
           description: Whether to turn on or off the light.
         sentAt:
-          $ref: "#/components/schemas/sentAt"
+          $ref: '#/components/schemas/sentAt'
     dimLightPayload:
       type: object
       properties:
@@ -129,7 +131,7 @@ components:
           minimum: 0
           maximum: 100
         sentAt:
-          $ref: "#/components/schemas/sentAt"
+          $ref: '#/components/schemas/sentAt'
     sentAt:
       type: string
       format: date-time
@@ -160,4 +162,7 @@ components:
     kafka:
       bindings:
         kafka:
-          clientId: my-app-id
+          clientId:
+            type: string
+            enum:
+              - my-app-id
