@@ -44,7 +44,7 @@
     "cy:dev:open": "CYPRESS_BASE_URL=http://localhost:3003 cypress open --e2e",
     "cy:dev:server": "cross-env PORT=3003 BROWSER=none ENABLE_PROGRESS_PLUGIN=false react-scripts start",
     "cy:ci": "start-server-and-test build:app:serve http://localhost:3050 cy:run:chrome",
-    "cy:run:chrome": "cypress run --browser chrome",
+    "cy:run:chrome": "cypress run --browser electron --spec 'test/cypress/integration/plugin.editor-persistence.spec.js'",
     "cy:run:firefox": "cypress run --browser firefox",
     "lint": "eslint . --ext .jsx,.js",
     "lint:fix": "eslint . --ext .jsx,.js --fix",
