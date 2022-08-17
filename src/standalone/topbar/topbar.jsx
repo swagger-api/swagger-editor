@@ -390,7 +390,7 @@ export default class Topbar extends React.Component {
             <DropdownMenu {...makeMenuOptions("About")}>
               <li><Link href="https://swagger.io/tools/swagger-editor/" target="_blank">About Swagger Editor</Link></li>
               <li><Link href="https://swagger.io/docs/open-source-tools/swagger-editor/" target="_blank">View Docs</Link></li>
-              <li><a href="https://github.com/swagger-api/swagger-editor" target="_blank" rel="noreferrer noopener">View on GitHub</a></li>
+              <li><Link href="https://github.com/swagger-api/swagger-editor" target="_blank">View on GitHub</Link></li>
             </DropdownMenu>
             <Link href="https://editor-next.swagger.io/" className="new-editor-cta" target="_blank" rel="noreferrer noopener">
               <span>Try our new Editor</span>
