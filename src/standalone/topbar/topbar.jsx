@@ -350,7 +350,7 @@ export default class Topbar extends React.Component {
       <div className="swagger-editor-standalone">
         <div className="topbar">
           <div className="topbar-wrapper">
-            <Link href="#">
+            <Link href="https://swagger.io/tools/swagger-editor/">
               <img height="35" className="topbar-logo__img" src={ Logo } alt=""/>
             </Link>
             <DropdownMenu {...makeMenuOptions("File")}>
@@ -387,6 +387,14 @@ export default class Topbar extends React.Component {
               { this.state.clients
                   .map((cli, i) => <li key={i}><button type="button" onClick={() => this.downloadGeneratedFile("client", cli)}>{cli}</button></li>) }
             </DropdownMenu> : null }
+            <DropdownMenu {...makeMenuOptions("About")}>
+              <li><Link href="https://swagger.io/tools/swagger-editor/" target="_blank">About Swagger Editor</Link></li>
+              <li><Link href="https://swagger.io/docs/open-source-tools/swagger-editor/" target="_blank">View Docs</Link></li>
+              <li><Link href="https://github.com/swagger-api/swagger-editor" target="_blank">View on GitHub</Link></li>
+            </DropdownMenu>
+            <Link href="https://editor-next.swagger.io/" className="new-editor-cta" target="_blank">
+              <span>Try our new Editor</span>
+            </Link>
           </div>
         </div>
       </div>
