@@ -61,7 +61,7 @@
     "@braintree/sanitize-url": "^6.0.0",
     "@emotion/react": "^11.10.0",
     "@emotion/styled": "^11.10.0",
-    "@mui/material": "^5.10.0",
+    "@mui/material": "^5.10.1",
     "@primer/octicons-react": "^17.4.1",
     "@swagger-api/apidom-core": "^0.40.0",
     "@swagger-api/apidom-ls": "^0.40.3",
@@ -95,7 +95,7 @@
     "reselect": "^4.1.6",
     "short-unique-id": "^4.4.4",
     "styled-components": "^5.3.5",
-    "swagger-ui-react": "^4.13.2",
+    "swagger-ui-react": "^4.14.0",
     "vscode-languageserver-textdocument": "^1.0.5"
   },
   "devDependencies": {
