@@ -25,18 +25,18 @@ jobs:
           registry-url: https://npm.pkg.github.com/
           scope: "@swagger-api"
 
-#      - name: Cache npm cache files
-#        id: cache-npm-cache-files
-#        uses: actions/cache@v3
-#        with:
-#          path: ~/.npm
-#          key: npm-cache-${{ runner.os }}-${{ hashFiles('package-lock.json') }}
-#      - name: Cache Cypress binary
-#        id: cache-cypress-binary
-#        uses: actions/cache@v3
-#        with:
-#          path: cypress/cache
-#          key: cypress-binary-${{ hashFiles('package-lock.json') }}
+      - name: Cache npm cache files
+        id: cache-npm-cache-files
+        uses: actions/cache@v3
+        with:
+          path: ~/.npm
+          key: npm-cache-${{ runner.os }}-${{ hashFiles('package-lock.json') }}
+      - name: Cache Cypress binary
+        id: cache-cypress-binary
+        uses: actions/cache@v3
+        with:
+          path: cypress/cache
+          key: cypress-binary-${{ hashFiles('package-lock.json') }}
 
       - name: Install dependencies
         run: npm ci
