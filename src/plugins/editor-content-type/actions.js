@@ -1,6 +1,8 @@
 import ShortUniqueId from 'short-unique-id';
 import { detectionRegExp as detectionRegExpAsyncAPIJSON2 } from '@swagger-api/apidom-parser-adapter-asyncapi-json-2';
 import { detectionRegExp as detectionRegExpAsyncAPIYAML2 } from '@swagger-api/apidom-parser-adapter-asyncapi-yaml-2';
+import { detectionRegExp as detectionRegExpOpenAPIJSON30x } from '@swagger-api/apidom-parser-adapter-openapi-json-3-0';
+import { detectionRegExp as detectionRegExpOpenAPIYAML30x } from '@swagger-api/apidom-parser-adapter-openapi-yaml-3-0';
 import { detectionRegExp as detectionRegExpOpenAPIJSON31x } from '@swagger-api/apidom-parser-adapter-openapi-json-3-1';
 import { detectionRegExp as detectionRegExpOpenAPIYAML31x } from '@swagger-api/apidom-parser-adapter-openapi-yaml-3-1';
 import {
@@ -94,9 +96,7 @@ export const detectContentType = (content) => {
         return editorActions.detectContentTypeSuccess({ contentType, content, requestId });
       }
 
-      const openApi30xJSONMatch = content.match(
-        /"openapi"\s*:\s*"(?<version_json>3\.0\.(?:[1-9]\d*|0))"/
-      );
+      const openApi30xJSONMatch = content.match(detectionRegExpOpenAPIJSON30x);
       if (openApi30xJSONMatch !== null && fn.isValidJSONObject(content)) {
         const { groups } = openApi30xJSONMatch;
         const version = groups?.version_json;
@@ -105,9 +105,7 @@ export const detectContentType = (content) => {
         return editorActions.detectContentTypeSuccess({ contentType, content, requestId });
       }
 
-      const openApi30xYAMLMatch = content.match(
-        /(?<YAML>^(["']?)openapi\2\s*:\s*(["']?)(?<version_yaml>3\.0\.(?:[1-9]\d*|0))\3(?:\s+|$))|(?<JSON>"openapi"\s*:\s*"(?<version_json>3\.0\.(?:[1-9]\d*|0))")/m
-      );
+      const openApi30xYAMLMatch = content.match(detectionRegExpOpenAPIYAML30x);
       if (openApi30xYAMLMatch !== null && fn.isValidYAMLObject(content)) {
         const { groups } = openApi30xYAMLMatch;
         const version = groups?.version_json || groups?.version_yaml;
