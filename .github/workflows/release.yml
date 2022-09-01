@@ -1,4 +1,4 @@
-# Do not modify this file. 
+# Do not modify this file.
 # Github Actions only recognizes `workflow_run` and `workflow_dispatch`
 # events that are located in the default branch
 
@@ -23,7 +23,7 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: 16
+          node-version: 16.16
           registry-url: https://npm.pkg.github.com/
           scope: "@swagger-api"
       - name: Install dependencies
