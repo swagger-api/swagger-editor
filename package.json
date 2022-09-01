@@ -98,7 +98,7 @@
     "short-unique-id": "^4.4.4",
     "styled-components": "^5.3.5",
     "swagger-ui-react": "^4.14.0",
-    "vscode-languageserver-textdocument": "^1.0.5"
+    "vscode-languageserver-textdocument": "^1.0.7"
   },
   "devDependencies": {
     "@commitlint/cli": "^17.1.2",
