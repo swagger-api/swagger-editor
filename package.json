@@ -136,7 +136,7 @@
     "husky": "=8.0.1",
     "inspectpack": "=4.7.1",
     "jest": "^29.0.1",
-    "jest-environment-jsdom": "^28.0.2",
+    "jest-environment-jsdom": "^29.0.1",
     "jsdom": "=20.0.0",
     "jsdom-global": "3.0.2",
     "json-loader": "0.5.7",
