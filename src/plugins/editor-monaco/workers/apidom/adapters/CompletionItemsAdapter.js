@@ -1,5 +1,5 @@
 import * as monaco from 'monaco-editor-core';
-import { ProtocolToMonacoConverter } from 'monaco-languageclient/monaco-converter';
+import { createConverter as createProtocolConverter } from 'vscode-languageclient/lib/common/protocolConverter.js';
 
 import { fromPosition } from './monaco-helpers.js';
 
@@ -10,7 +10,7 @@ export default class CompletionItemsAdapter {
     maxNumberOfItems: 100,
   };
 
-  #p2m = new ProtocolToMonacoConverter(monaco);
+  #p2m = createProtocolConverter(undefined, true, true);
 
   constructor(worker) {
     this.#worker = worker;
@@ -33,25 +33,36 @@ export default class CompletionItemsAdapter {
     }
   }
 
-  #maybeConvert(model, position, completionList) {
+  async #maybeConvert(completionList) {
     if (completionList === null) {
-      return null;
+      return {
+        incomplete: false,
+        suggestions: [],
+      };
     }
 
-    const wordPosition = model.getWordUntilPosition(position);
-    const wordRange = new monaco.Range(
-      position.lineNumber,
-      wordPosition.startColumn,
-      position.lineNumber,
-      wordPosition.endColumn
+    const suggestions = await Promise.all(
+      completionList.items.map((item) => {
+        return this.#p2m.asCompletionItem(item);
+      })
     );
 
-    return this.#p2m.asCompletionResult(completionList, wordRange);
+    /* eslint-disable no-param-reassign */
+    return {
+      incomplete: completionList.isIncomplete,
+      suggestions: suggestions.map((item) => {
+        // monaco compatibility adaption - this is the shape that monaco expects
+        item.insertTextRules = monaco.languages.CompletionItemInsertTextRule.InsertAsSnippet;
+        item.insertText = item.insertText.value;
+        return item;
+      }),
+    };
+    /* eslint-enable */
   }
 
   async provideCompletionItems(model, position) {
     const completionList = await this.#getCompletionList(model, position);
 
-    return this.#maybeConvert(model, position, completionList);
+    return this.#maybeConvert(completionList);
   }
 }

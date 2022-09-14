@@ -1,12 +1,11 @@
-import * as monaco from 'monaco-editor-core';
-import { ProtocolToMonacoConverter } from 'monaco-languageclient/monaco-converter';
+import { createConverter as createProtocolConverter } from 'vscode-languageclient/lib/common/protocolConverter.js';
 
 import { fromPosition } from './monaco-helpers.js';
 
 export default class DefinitionAdapter {
   #worker;
 
-  #p2m = new ProtocolToMonacoConverter(monaco);
+  #p2m = createProtocolConverter(undefined, true, true);
 
   constructor(worker) {
     this.#worker = worker;
@@ -23,7 +22,7 @@ export default class DefinitionAdapter {
     }
   }
 
-  #maybeConvert(location) {
+  async #maybeConvert(location) {
     if (location === null) {
       return null;
     }

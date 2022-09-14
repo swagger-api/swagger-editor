@@ -1,21 +1,18 @@
-import * as monaco from 'monaco-editor-core';
-import {
-  ProtocolToMonacoConverter,
-  MonacoToProtocolConverter,
-} from 'monaco-languageclient/monaco-converter';
+import { createConverter as createCodeConverter } from 'vscode-languageclient/lib/common/codeConverter.js';
+import { createConverter as createProtocolConverter } from 'vscode-languageclient/lib/common/protocolConverter.js';
 
 export default class CodeActionsAdapter {
   #worker;
 
-  #p2m = new ProtocolToMonacoConverter(monaco);
+  #p2m = createProtocolConverter(undefined, true, true);
 
-  #m2p = new MonacoToProtocolConverter(monaco);
+  #m2p = createCodeConverter();
 
   constructor(worker) {
     this.#worker = worker;
   }
 
-  #getDiagnosticList(ctx) {
+  async #getDiagnosticList(ctx) {
     return this.#m2p.asDiagnostics(ctx.markers);
   }
 
@@ -48,7 +45,7 @@ export default class CodeActionsAdapter {
   }
 
   async provideCodeActions(model, range, ctx) {
-    const diagnosticList = this.#getDiagnosticList(ctx);
+    const diagnosticList = await this.#getDiagnosticList(ctx);
     const codeActionList = await this.#getCodeActionList(model, diagnosticList);
 
     return this.#maybeConvert(codeActionList);

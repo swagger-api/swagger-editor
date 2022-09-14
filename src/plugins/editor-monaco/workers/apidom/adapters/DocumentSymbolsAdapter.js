@@ -1,10 +1,9 @@
-import * as monaco from 'monaco-editor-core';
-import { ProtocolToMonacoConverter } from 'monaco-languageclient/monaco-converter';
+import { createConverter as createProtocolConverter } from 'vscode-languageclient/lib/common/protocolConverter.js';
 
 export default class DocumentSymbolAdapter {
   #worker;
 
-  #p2m = new ProtocolToMonacoConverter(monaco);
+  #p2m = createProtocolConverter(undefined, true, true);
 
   constructor(worker) {
     this.#worker = worker;
@@ -22,7 +21,7 @@ export default class DocumentSymbolAdapter {
     }
   }
 
-  #maybeConvert(symbolInformationList) {
+  async #maybeConvert(symbolInformationList) {
     if (symbolInformationList === null) {
       return null;
     }

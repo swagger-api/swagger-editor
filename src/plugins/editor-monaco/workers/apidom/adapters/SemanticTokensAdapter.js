@@ -1,11 +1,10 @@
-import * as monaco from 'monaco-editor-core';
 import { getLanguageService, LogLevel } from '@swagger-api/apidom-ls';
-import { ProtocolToMonacoConverter } from 'monaco-languageclient/monaco-converter';
+import { createConverter as createProtocolConverter } from 'vscode-languageclient/lib/common/protocolConverter.js';
 
 export default class SemanticTokensAdapter {
   #worker;
 
-  #p2m = new ProtocolToMonacoConverter(monaco);
+  #p2m = createProtocolConverter(undefined, true, true);
 
   #legendError = { error: 'unable to getLegend' };
 
@@ -56,7 +55,7 @@ export default class SemanticTokensAdapter {
     }
   }
 
-  #maybeConvert(semanticTokens) {
+  async #maybeConvert(semanticTokens) {
     if (semanticTokens?.data?.length === 0 && typeof semanticTokens?.error === 'string') {
       return semanticTokens;
     }

@@ -1,12 +1,12 @@
 import * as monaco from 'monaco-editor-core';
-import { ProtocolToMonacoConverter } from 'monaco-languageclient/monaco-converter';
+import { createConverter as createProtocolConverter } from 'vscode-languageclient/lib/common/protocolConverter.js';
 
 import { languageId } from '../config.js';
 
 export default class DiagnosticsAdapter {
   #worker;
 
-  #p2m = new ProtocolToMonacoConverter(monaco);
+  #p2m = createProtocolConverter(undefined, true, true);
 
   #listener = [];
 
@@ -73,12 +73,12 @@ export default class DiagnosticsAdapter {
     }
   }
 
-  #maybeConvert(model, errorMarkers) {
+  async #maybeConvert(model, errorMarkers) {
     if (typeof errorMarkers?.error === 'string') {
       return errorMarkers;
     }
 
-    const markerData = this.#p2m.asDiagnostics(errorMarkers);
+    const markerData = await this.#p2m.asDiagnostics(errorMarkers);
     monaco.editor.setModelMarkers(model, languageId, markerData);
     return { message: 'doValidation success' };
   }
