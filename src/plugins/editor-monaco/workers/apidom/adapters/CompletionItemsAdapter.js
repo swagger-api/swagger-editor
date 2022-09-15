@@ -20,7 +20,7 @@ export default class CompletionItemsAdapter {
     const worker = await this.#worker(model.uri);
 
     try {
-      return worker.doComplete(
+      return await worker.doComplete(
         model.uri.toString(),
         this.#codeConverter.asPosition(position),
         this.#completionContext

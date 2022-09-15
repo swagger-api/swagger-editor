@@ -3,7 +3,7 @@ import { createConverter as createProtocolConverter } from 'vscode-languageclien
 export default class DocumentSymbolAdapter {
   #worker;
 
-  #p2m = createProtocolConverter(undefined, true, true);
+  #protocolConverter = createProtocolConverter(undefined, true, true);
 
   constructor(worker) {
     this.#worker = worker;
@@ -13,25 +13,15 @@ export default class DocumentSymbolAdapter {
     const worker = await this.#worker(model.uri);
 
     try {
-      const symbolInformationList = await worker.findDocumentSymbols(model.uri.toString());
-
-      return symbolInformationList ?? null;
+      return await worker.findDocumentSymbols(model.uri.toString());
     } catch {
-      return null;
+      return undefined;
     }
-  }
-
-  async #maybeConvert(symbolInformationList) {
-    if (symbolInformationList === null) {
-      return null;
-    }
-
-    return this.#p2m.asDocumentSymbols(symbolInformationList);
   }
 
   async provideDocumentSymbols(model) {
     const symbolInformationList = await this.#getSymbolInformationList(model);
 
-    return this.#maybeConvert(symbolInformationList);
+    return this.#protocolConverter.asDocumentSymbols(symbolInformationList);
   }
 }

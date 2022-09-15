@@ -16,7 +16,7 @@ export default class CodeActionsAdapter {
     const worker = await this.#worker(model.uri);
 
     try {
-      return worker.doCodeActions(model.uri.toString(), diagnosticList);
+      return await worker.doCodeActions(model.uri.toString(), diagnosticList);
     } catch {
       return undefined;
     }

@@ -6,7 +6,7 @@ import { languageId } from '../config.js';
 export default class DiagnosticsAdapter {
   #worker;
 
-  #p2m = createProtocolConverter(undefined, true, true);
+  #protocolConverter = createProtocolConverter(undefined, true, true);
 
   #listener = [];
 
@@ -78,7 +78,7 @@ export default class DiagnosticsAdapter {
       return errorMarkers;
     }
 
-    const markerData = await this.#p2m.asDiagnostics(errorMarkers);
+    const markerData = await this.#protocolConverter.asDiagnostics(errorMarkers);
     monaco.editor.setModelMarkers(model, languageId, markerData);
     return { message: 'doValidation success' };
   }
