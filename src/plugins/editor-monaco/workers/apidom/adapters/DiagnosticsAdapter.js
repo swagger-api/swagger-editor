@@ -1,19 +1,15 @@
 import * as monaco from 'monaco-editor';
-import { createConverter as createProtocolConverter } from 'vscode-languageclient/lib/common/protocolConverter.js';
 
+import Adapter from './Adapter.js';
 import { languageId } from '../config.js';
 
-export default class DiagnosticsAdapter {
-  #worker;
-
-  #protocolConverter = createProtocolConverter(undefined, true, true);
-
+export default class DiagnosticsAdapter extends Adapter {
   #listener = [];
 
   #disposables = [];
 
-  constructor(worker) {
-    this.#worker = worker;
+  constructor(...args) {
+    super(...args);
 
     const onModelAdd = (model) => {
       if (model.getLanguageId() !== languageId) {
@@ -56,7 +52,7 @@ export default class DiagnosticsAdapter {
   }
 
   async #getErrorMarkers(model) {
-    const worker = await this.#worker(model.uri);
+    const worker = await this.worker(model.uri);
     const error = { error: 'unable to doValidation' };
 
     if (model.isDisposed()) {
@@ -78,7 +74,7 @@ export default class DiagnosticsAdapter {
       return errorMarkers;
     }
 
-    const markerData = await this.#protocolConverter.asDiagnostics(errorMarkers);
+    const markerData = await this.protocolConverter.asDiagnostics(errorMarkers);
     monaco.editor.setModelMarkers(model, languageId, markerData);
     return { message: 'doValidation success' };
   }
@@ -90,6 +86,7 @@ export default class DiagnosticsAdapter {
   }
 
   dispose() {
+    super.dispose();
     this.#disposables.forEach((disposable) => disposable?.dispose());
     this.#disposables = [];
   }

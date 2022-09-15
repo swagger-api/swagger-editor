@@ -1,28 +1,17 @@
-import { createConverter as createCodeConverter } from 'vscode-languageclient/lib/common/codeConverter.js';
-import { createConverter as createProtocolConverter } from 'vscode-languageclient/lib/common/protocolConverter.js';
+import Adapter from './Adapter.js';
 
-export default class CompletionItemsAdapter {
-  #worker;
-
+export default class CompletionItemsAdapter extends Adapter {
   #completionContext = {
     maxNumberOfItems: 100,
   };
 
-  #codeConverter = createCodeConverter();
-
-  #protocolConverter = createProtocolConverter(undefined, true, true);
-
-  constructor(worker) {
-    this.#worker = worker;
-  }
-
-  async #getCompletionList(model, position) {
-    const worker = await this.#worker(model.uri);
+  async #getCompletionList(vscodeDocument, position) {
+    const worker = await this.worker(vscodeDocument.uri);
 
     try {
       return await worker.doComplete(
-        model.uri.toString(),
-        this.#codeConverter.asPosition(position),
+        vscodeDocument.uri.toString(),
+        this.codeConverter.asPosition(position),
         this.#completionContext
       );
     } catch {
@@ -30,9 +19,9 @@ export default class CompletionItemsAdapter {
     }
   }
 
-  async provideCompletionItems(model, position) {
-    const completionList = await this.#getCompletionList(model, position);
+  async provideCompletionItems(vscodeDocument, position) {
+    const completionList = await this.#getCompletionList(vscodeDocument, position);
 
-    return this.#protocolConverter.asCompletionResult(completionList);
+    return this.protocolConverter.asCompletionResult(completionList);
   }
 }

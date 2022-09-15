@@ -1,30 +1,22 @@
-import { createConverter as createCodeConverter } from 'vscode-languageclient/lib/common/codeConverter.js';
-import { createConverter as createProtocolConverter } from 'vscode-languageclient/lib/common/protocolConverter.js';
+import Adater from './Adapter.js';
 
-export default class HoverAdapter {
-  #worker;
-
-  #codeConverter = createCodeConverter();
-
-  #protocolConverter = createProtocolConverter(undefined, true, true);
-
-  constructor(worker) {
-    this.#worker = worker;
-  }
-
-  async #getHover(model, position) {
-    const worker = await this.#worker(model.uri);
+export default class HoverAdapter extends Adater {
+  async #getHover(vscodeDocument, position) {
+    const worker = await this.worker(vscodeDocument.uri);
 
     try {
-      return await worker.doHover(model.uri.toString(), this.#codeConverter.asPosition(position));
+      return await worker.doHover(
+        vscodeDocument.uri.toString(),
+        this.codeConverter.asPosition(position)
+      );
     } catch {
       return undefined;
     }
   }
 
-  async provideHover(model, position) {
-    const hover = await this.#getHover(model, position);
+  async provideHover(vscodeDocument, position) {
+    const hover = await this.#getHover(vscodeDocument, position);
 
-    return this.#protocolConverter.asHover(hover);
+    return this.protocolConverter.asHover(hover);
   }
 }

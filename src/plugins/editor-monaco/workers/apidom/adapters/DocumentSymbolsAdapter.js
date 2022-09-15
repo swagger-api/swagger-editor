@@ -1,27 +1,19 @@
-import { createConverter as createProtocolConverter } from 'vscode-languageclient/lib/common/protocolConverter.js';
+import Adapter from './Adapter.js';
 
-export default class DocumentSymbolAdapter {
-  #worker;
-
-  #protocolConverter = createProtocolConverter(undefined, true, true);
-
-  constructor(worker) {
-    this.#worker = worker;
-  }
-
-  async #getSymbolInformationList(model) {
-    const worker = await this.#worker(model.uri);
+export default class DocumentSymbolAdapter extends Adapter {
+  async #getSymbolInformationList(vscodeDocument) {
+    const worker = await this.worker(vscodeDocument.uri);
 
     try {
-      return await worker.findDocumentSymbols(model.uri.toString());
+      return await worker.findDocumentSymbols(vscodeDocument.uri.toString());
     } catch {
       return undefined;
     }
   }
 
-  async provideDocumentSymbols(model) {
-    const symbolInformationList = await this.#getSymbolInformationList(model);
+  async provideDocumentSymbols(vscodeDocument) {
+    const symbolInformationList = await this.#getSymbolInformationList(vscodeDocument);
 
-    return this.#protocolConverter.asDocumentSymbols(symbolInformationList);
+    return this.protocolConverter.asDocumentSymbols(symbolInformationList);
   }
 }

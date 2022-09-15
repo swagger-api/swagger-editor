@@ -1,6 +1,7 @@
-import * as monaco from 'monaco-editor';
 import * as vscode from 'vscode';
 import { StandaloneServices } from 'vscode/services'; // eslint-disable-line import/no-unresolved
+import { createConverter as createCodeConverter } from 'vscode-languageclient/lib/common/codeConverter.js';
+import { createConverter as createProtocolConverter } from 'vscode-languageclient/lib/common/protocolConverter.js';
 
 import WorkerManager from './WorkerManager.js';
 import DiagnosticsAdapter from './adapters/DiagnosticsAdapter.js';
@@ -22,28 +23,32 @@ const asDisposable = (disposables) => {
   return { dispose: () => disposeAll(disposables) };
 };
 
-const registerProviders = ({ languageId, providers, worker }) => {
+const registerProviders = ({ languageId, providers, dependencies }) => {
   disposeAll(providers);
 
-  providers.push(new DiagnosticsAdapter(worker));
-  providers.push(vscode.languages.registerHoverProvider(languageId, new HoverAdapter(worker)));
+  const { worker, codeConverter, protocolConverter } = dependencies;
+  const args = [worker, codeConverter, protocolConverter];
+
+  providers.push(new DiagnosticsAdapter(...args));
+  providers.push(vscode.languages.registerHoverProvider(languageId, new HoverAdapter(...args)));
   providers.push(
-    vscode.languages.registerCompletionItemProvider(languageId, new CompletionItemsAdapter(worker))
+    vscode.languages.registerCompletionItemProvider(languageId, new CompletionItemsAdapter(...args))
   );
   providers.push(
-    vscode.languages.registerCodeActionsProvider(languageId, new CodeActionsAdapter(worker))
+    vscode.languages.registerCodeActionsProvider(languageId, new CodeActionsAdapter(...args))
   );
   providers.push(
-    vscode.languages.registerDocumentSymbolProvider(languageId, new DocumentSymbolsAdapter(worker))
+    vscode.languages.registerDocumentSymbolProvider(languageId, new DocumentSymbolsAdapter(...args))
   );
   providers.push(
-    monaco.languages.registerDocumentSemanticTokensProvider(
+    vscode.languages.registerDocumentSemanticTokensProvider(
       languageId,
-      new SemanticTokensAdapter(worker)
+      new SemanticTokensAdapter(...args),
+      SemanticTokensAdapter.getLegend()
     )
   );
   providers.push(
-    vscode.languages.registerDefinitionProvider(languageId, new DefinitionAdapter(worker))
+    vscode.languages.registerDefinitionProvider(languageId, new DefinitionAdapter(...args))
   );
 
   return providers;
@@ -53,17 +58,22 @@ export function setupMode(defaults) {
   const disposables = [];
   const providers = [];
   const { languageId } = defaults;
+  const codeConverter = createCodeConverter();
+  const protocolConverter = createProtocolConverter(undefined, true, true);
+  const client = new WorkerManager(defaults);
 
   StandaloneServices.initialize({});
-
-  const client = new WorkerManager(defaults);
   disposables.push(client);
 
   const worker = async (...uris) => {
     return client.getLanguageServiceWorker(...uris);
   };
 
-  const registeredProviders = registerProviders({ languageId, providers, worker });
+  const registeredProviders = registerProviders({
+    languageId,
+    providers,
+    dependencies: { worker, codeConverter, protocolConverter },
+  });
 
   disposables.push(vscode.languages.setLanguageConfiguration(languageId, richLanguage));
   disposables.push(asDisposable(registeredProviders));

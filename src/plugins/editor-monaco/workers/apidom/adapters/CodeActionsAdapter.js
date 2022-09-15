@@ -1,22 +1,11 @@
-import { createConverter as createCodeConverter } from 'vscode-languageclient/lib/common/codeConverter.js';
-import { createConverter as createProtocolConverter } from 'vscode-languageclient/lib/common/protocolConverter.js';
+import Adapter from './Adapter.js';
 
-export default class CodeActionsAdapter {
-  #worker;
-
-  #codeConverter = createCodeConverter();
-
-  #protocolConverter = createProtocolConverter(undefined, true, true);
-
-  constructor(worker) {
-    this.#worker = worker;
-  }
-
-  async #getCodeActionList(model, diagnosticList) {
-    const worker = await this.#worker(model.uri);
+export default class CodeActionsAdapter extends Adapter {
+  async #getCodeActionList(vscodeDocument, diagnosticList) {
+    const worker = await this.worker(vscodeDocument.uri);
 
     try {
-      return await worker.doCodeActions(model.uri.toString(), diagnosticList);
+      return await worker.doCodeActions(vscodeDocument.uri.toString(), diagnosticList);
     } catch {
       return undefined;
     }
@@ -27,12 +16,12 @@ export default class CodeActionsAdapter {
       return codeActionList;
     }
 
-    return this.#protocolConverter.asCodeActionResult(codeActionList);
+    return this.protocolConverter.asCodeActionResult(codeActionList);
   }
 
-  async provideCodeActions(model, range, ctx) {
-    const diagnosticList = await this.#codeConverter.asDiagnostics(ctx.diagnostics);
-    const codeActionList = await this.#getCodeActionList(model, diagnosticList);
+  async provideCodeActions(vscodeDocument, range, ctx) {
+    const diagnosticList = await this.codeConverter.asDiagnostics(ctx.diagnostics);
+    const codeActionList = await this.#getCodeActionList(vscodeDocument, diagnosticList);
 
     return this.#maybeConvert(codeActionList);
   }
