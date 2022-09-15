@@ -1,4 +1,3 @@
-import * as monaco from 'monaco-editor-core';
 import { createConverter as createProtocolConverter } from 'vscode-languageclient/lib/common/protocolConverter.js';
 
 import { fromPosition } from './monaco-helpers.js';
@@ -35,29 +34,10 @@ export default class CompletionItemsAdapter {
 
   async #maybeConvert(completionList) {
     if (completionList === null) {
-      return {
-        incomplete: false,
-        suggestions: [],
-      };
+      return null;
     }
 
-    const suggestions = await Promise.all(
-      completionList.items.map((item) => {
-        return this.#p2m.asCompletionItem(item);
-      })
-    );
-
-    /* eslint-disable no-param-reassign */
-    return {
-      incomplete: completionList.isIncomplete,
-      suggestions: suggestions.map((item) => {
-        // monaco compatibility adaption - this is the shape that monaco expects
-        item.insertTextRules = monaco.languages.CompletionItemInsertTextRule.InsertAsSnippet;
-        item.insertText = item.insertText.value;
-        return item;
-      }),
-    };
-    /* eslint-enable */
+    return this.#p2m.asCompletionResult(completionList);
   }
 
   async provideCompletionItems(model, position) {

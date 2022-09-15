@@ -1,5 +1,5 @@
-import { ModesRegistry } from 'monaco-editor-core/esm/vs/editor/common/languages/modesRegistry.js';
-import * as monaco from 'monaco-editor-core';
+import { ModesRegistry } from 'monaco-editor/esm/vs/editor/common/languages/modesRegistry.js';
+import * as monaco from 'monaco-editor';
 
 import { languageExtensionPoint, monarchLanguage, languageId } from './workers/apidom/config.js';
 import { setupApiDOM } from './workers/apidom/apidom-mode.js';

@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
-import * as monaco from 'monaco-editor-core';
+import * as monaco from 'monaco-editor';
 import noop from 'lodash/noop.js';
 
 import getStyleMetadataLight, { themes as themesLight } from '../../utils/monaco-theme-light.js';

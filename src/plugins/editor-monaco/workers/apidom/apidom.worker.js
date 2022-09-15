@@ -1,4 +1,4 @@
-import { initialize } from 'monaco-editor-core/esm/vs/editor/editor.worker.js';
+import { initialize } from 'monaco-editor/esm/vs/editor/editor.worker.js';
 
 import { makeCreate, ApiDOMWorker } from './ApiDOMWorker.js';
 

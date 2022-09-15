@@ -2,7 +2,7 @@ export function fromPosition(position) {
   if (!position) {
     return null;
   }
-  return { character: position.column - 1, line: position.lineNumber - 1 };
+  return { character: position.character - 1, line: position.line - 1 };
 }
 
 export function toRange(range) {

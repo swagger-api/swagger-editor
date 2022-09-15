@@ -1,4 +1,6 @@
-import * as monaco from 'monaco-editor-core';
+import * as monaco from 'monaco-editor';
+import * as vscode from 'vscode';
+import { StandaloneServices } from 'vscode/services'; // eslint-disable-line import/no-unresolved
 
 import WorkerManager from './WorkerManager.js';
 import DiagnosticsAdapter from './adapters/DiagnosticsAdapter.js';
@@ -24,15 +26,15 @@ const registerProviders = ({ languageId, providers, worker }) => {
   disposeAll(providers);
 
   providers.push(new DiagnosticsAdapter(worker));
-  providers.push(monaco.languages.registerHoverProvider(languageId, new HoverAdapter(worker)));
+  providers.push(vscode.languages.registerHoverProvider(languageId, new HoverAdapter(worker)));
   providers.push(
-    monaco.languages.registerCompletionItemProvider(languageId, new CompletionItemsAdapter(worker))
+    vscode.languages.registerCompletionItemProvider(languageId, new CompletionItemsAdapter(worker))
   );
   providers.push(
-    monaco.languages.registerCodeActionProvider(languageId, new CodeActionsAdapter(worker))
+    vscode.languages.registerCodeActionsProvider(languageId, new CodeActionsAdapter(worker))
   );
   providers.push(
-    monaco.languages.registerDocumentSymbolProvider(languageId, new DocumentSymbolsAdapter(worker))
+    vscode.languages.registerDocumentSymbolProvider(languageId, new DocumentSymbolsAdapter(worker))
   );
   providers.push(
     monaco.languages.registerDocumentSemanticTokensProvider(
@@ -41,7 +43,7 @@ const registerProviders = ({ languageId, providers, worker }) => {
     )
   );
   providers.push(
-    monaco.languages.registerDefinitionProvider(languageId, new DefinitionAdapter(worker))
+    vscode.languages.registerDefinitionProvider(languageId, new DefinitionAdapter(worker))
   );
 
   return providers;
@@ -52,6 +54,8 @@ export function setupMode(defaults) {
   const providers = [];
   const { languageId } = defaults;
 
+  StandaloneServices.initialize({});
+
   const client = new WorkerManager(defaults);
   disposables.push(client);
 
@@ -61,8 +65,9 @@ export function setupMode(defaults) {
 
   const registeredProviders = registerProviders({ languageId, providers, worker });
 
-  disposables.push(monaco.languages.setLanguageConfiguration(languageId, richLanguage));
+  disposables.push(vscode.languages.setLanguageConfiguration(languageId, richLanguage));
   disposables.push(asDisposable(registeredProviders));
+  disposables.push(asDisposable([StandaloneServices]));
 
   return asDisposable(disposables);
 }
