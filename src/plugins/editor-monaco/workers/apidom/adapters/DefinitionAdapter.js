@@ -1,7 +1,5 @@
 import { createConverter as createProtocolConverter } from 'vscode-languageclient/lib/common/protocolConverter.js';
 
-import { fromPosition } from './monaco-helpers.js';
-
 export default class DefinitionAdapter {
   #worker;
 
@@ -15,7 +13,7 @@ export default class DefinitionAdapter {
     const worker = await this.#worker(model.uri);
 
     try {
-      const location = await worker.provideDefinition(model.uri.toString(), fromPosition(position));
+      const location = await worker.provideDefinition(model.uri.toString(), position);
       return location ?? null;
     } catch {
       return null;

@@ -1,4 +1,3 @@
-import * as monaco from 'monaco-editor';
 import * as vscode from 'vscode';
 import { StandaloneServices } from 'vscode/services'; // eslint-disable-line import/no-unresolved
 
@@ -37,7 +36,7 @@ const registerProviders = ({ languageId, providers, worker }) => {
     vscode.languages.registerDocumentSymbolProvider(languageId, new DocumentSymbolsAdapter(worker))
   );
   providers.push(
-    monaco.languages.registerDocumentSemanticTokensProvider(
+    vscode.languages.registerDocumentSemanticTokensProvider(
       languageId,
       new SemanticTokensAdapter(worker)
     )

@@ -1,6 +1,5 @@
+import { createConverter as createCodeConverter } from 'vscode-languageclient/lib/common/codeConverter.js';
 import { createConverter as createProtocolConverter } from 'vscode-languageclient/lib/common/protocolConverter.js';
-
-import { fromPosition } from './monaco-helpers.js';
 
 export default class CompletionItemsAdapter {
   #worker;
@@ -9,7 +8,9 @@ export default class CompletionItemsAdapter {
     maxNumberOfItems: 100,
   };
 
-  #p2m = createProtocolConverter(undefined, true, true);
+  #codeConverter = createCodeConverter();
+
+  #protocolConverter = createProtocolConverter(undefined, true, true);
 
   constructor(worker) {
     this.#worker = worker;
@@ -19,30 +20,19 @@ export default class CompletionItemsAdapter {
     const worker = await this.#worker(model.uri);
 
     try {
-      const computedPosition = fromPosition(position);
-      const completionList = await worker.doComplete(
+      return worker.doComplete(
         model.uri.toString(),
-        computedPosition,
+        this.#codeConverter.asPosition(position),
         this.#completionContext
       );
-
-      return !completionList || completionList.items.length === 0 ? null : completionList;
     } catch {
-      return null;
+      return undefined;
     }
-  }
-
-  async #maybeConvert(completionList) {
-    if (completionList === null) {
-      return null;
-    }
-
-    return this.#p2m.asCompletionResult(completionList);
   }
 
   async provideCompletionItems(model, position) {
     const completionList = await this.#getCompletionList(model, position);
 
-    return this.#maybeConvert(completionList);
+    return this.#protocolConverter.asCompletionResult(completionList);
   }
 }
