@@ -1,38 +1,19 @@
-import * as monaco from 'monaco-editor-core';
-import { ProtocolToMonacoConverter } from 'monaco-languageclient/monaco-converter';
+import Adapter from './Adapter.js';
 
-export default class DocumentSymbolAdapter {
-  #worker;
-
-  #p2m = new ProtocolToMonacoConverter(monaco);
-
-  constructor(worker) {
-    this.#worker = worker;
-  }
-
-  async #getSymbolInformationList(model) {
-    const worker = await this.#worker(model.uri);
+export default class DocumentSymbolAdapter extends Adapter {
+  async #getSymbolInformationList(vscodeDocument) {
+    const worker = await this.worker(vscodeDocument.uri);
 
     try {
-      const symbolInformationList = await worker.findDocumentSymbols(model.uri.toString());
-
-      return symbolInformationList ?? null;
+      return await worker.findDocumentSymbols(vscodeDocument.uri.toString());
     } catch {
-      return null;
+      return undefined;
     }
   }
 
-  #maybeConvert(symbolInformationList) {
-    if (symbolInformationList === null) {
-      return null;
-    }
+  async provideDocumentSymbols(vscodeDocument) {
+    const symbolInformationList = await this.#getSymbolInformationList(vscodeDocument);
 
-    return this.#p2m.asDocumentSymbols(symbolInformationList);
-  }
-
-  async provideDocumentSymbols(model) {
-    const symbolInformationList = await this.#getSymbolInformationList(model);
-
-    return this.#maybeConvert(symbolInformationList);
+    return this.protocolConverter.asDocumentSymbols(symbolInformationList);
   }
 }

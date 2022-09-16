@@ -1,55 +1,27 @@
-import * as monaco from 'monaco-editor-core';
-import {
-  ProtocolToMonacoConverter,
-  MonacoToProtocolConverter,
-} from 'monaco-languageclient/monaco-converter';
+import Adapter from './Adapter.js';
 
-export default class CodeActionsAdapter {
-  #worker;
-
-  #p2m = new ProtocolToMonacoConverter(monaco);
-
-  #m2p = new MonacoToProtocolConverter(monaco);
-
-  constructor(worker) {
-    this.#worker = worker;
-  }
-
-  #getDiagnosticList(ctx) {
-    return this.#m2p.asDiagnostics(ctx.markers);
-  }
-
-  async #getCodeActionList(model, diagnosticList) {
-    const worker = await this.#worker(model.uri);
-    const error = {
-      actions: null,
-      dispose: () => {},
-      error: 'unable to doCodeActions',
-    };
+export default class CodeActionsAdapter extends Adapter {
+  async #getCodeActionList(vscodeDocument, diagnosticList) {
+    const worker = await this.worker(vscodeDocument.uri);
 
     try {
-      const codeActionList = await worker.doCodeActions(model.uri.toString(), diagnosticList);
-
-      return codeActionList ?? error;
+      return await worker.doCodeActions(vscodeDocument.uri.toString(), diagnosticList);
     } catch {
-      return error;
+      return undefined;
     }
   }
 
   #maybeConvert(codeActionList) {
-    if (typeof codeActionList?.error === 'string') {
+    if (typeof codeActionList === 'undefined') {
       return codeActionList;
     }
 
-    return {
-      actions: codeActionList.map((codeAction) => this.#p2m.asCodeAction(codeAction)),
-      dispose: () => {},
-    };
+    return this.protocolConverter.asCodeActionResult(codeActionList);
   }
 
-  async provideCodeActions(model, range, ctx) {
-    const diagnosticList = this.#getDiagnosticList(ctx);
-    const codeActionList = await this.#getCodeActionList(model, diagnosticList);
+  async provideCodeActions(vscodeDocument, range, ctx) {
+    const diagnosticList = await this.codeConverter.asDiagnostics(ctx.diagnostics);
+    const codeActionList = await this.#getCodeActionList(vscodeDocument, diagnosticList);
 
     return this.#maybeConvert(codeActionList);
   }

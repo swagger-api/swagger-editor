@@ -1,4 +1,4 @@
-import * as monaco from 'monaco-editor-core';
+import * as monaco from 'monaco-editor';
 
 import MonacoEditorContainer from './components/MonacoEditor/MonacoEditorContainer.jsx';
 import ValidationPane from './components/ValidationPane/ValidationPane.jsx';

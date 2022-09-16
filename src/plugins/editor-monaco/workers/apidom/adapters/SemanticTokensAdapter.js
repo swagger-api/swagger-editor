@@ -1,38 +1,9 @@
-import * as monaco from 'monaco-editor-core';
 import { getLanguageService, LogLevel } from '@swagger-api/apidom-ls';
-import { ProtocolToMonacoConverter } from 'monaco-languageclient/monaco-converter';
 
-export default class SemanticTokensAdapter {
-  #worker;
+import Adapter from './Adapter.js';
 
-  #p2m = new ProtocolToMonacoConverter(monaco);
-
-  #legendError = { error: 'unable to getLegend' };
-
-  constructor(worker) {
-    this.#worker = worker;
-  }
-
-  /**
-   * Ideally, we want to use async, promises, and workers.
-   * If/when monaco editor support it, rename this method to "getLegend".
-   * Note: worker.getSemanticTokensLegend() does return the expected result
-   */
-  async getLegendAsync() {
-    const worker = await this.#worker();
-
-    try {
-      return await worker.getSemanticTokensLegend();
-    } catch {
-      return this.#legendError;
-    }
-  }
-
-  /**
-   * monaco editor current expects a synchronous method,
-   * so we import getLanguageService (above) directly in this adapter.
-   */
-  getLegend() {
+export default class SemanticTokensAdapter extends Adapter {
+  static getLegend() {
     try {
       return getLanguageService({
         performanceLogs: false,
@@ -42,36 +13,23 @@ export default class SemanticTokensAdapter {
         },
       }).getSemanticTokensLegend();
     } catch {
-      return this.#legendError;
+      return undefined;
     }
   }
 
-  async #getSemanticTokens(model) {
-    const worker = await this.#worker(model.uri);
+  async #getSemanticTokens(vscodeDocument) {
+    const worker = await this.worker(vscodeDocument.uri);
 
     try {
-      return await worker.findSemanticTokens(model.uri.toString());
+      return await worker.findSemanticTokens(vscodeDocument.uri.toString());
     } catch {
-      return { data: [], error: 'unable to provideDocumentSemanticTokens' };
+      return undefined;
     }
   }
 
-  #maybeConvert(semanticTokens) {
-    if (semanticTokens?.data?.length === 0 && typeof semanticTokens?.error === 'string') {
-      return semanticTokens;
-    }
+  async provideDocumentSemanticTokens(vscodeDocument) {
+    const semanticTokens = await this.#getSemanticTokens(vscodeDocument);
 
-    return this.#p2m.asSemanticTokens(semanticTokens);
-  }
-
-  async provideDocumentSemanticTokens(model) {
-    const semanticTokens = await this.#getSemanticTokens(model);
-
-    return this.#maybeConvert(semanticTokens);
-  }
-
-  // eslint-disable-next-line class-methods-use-this
-  releaseDocumentSemanticTokens() {
-    // nothing to do
+    return this.protocolConverter.asSemanticTokens(semanticTokens);
   }
 }

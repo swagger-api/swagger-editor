@@ -1,57 +1,27 @@
-import * as monaco from 'monaco-editor-core';
-import { ProtocolToMonacoConverter } from 'monaco-languageclient/monaco-converter';
+import Adapter from './Adapter.js';
 
-import { fromPosition } from './monaco-helpers.js';
-
-export default class CompletionItemsAdapter {
-  #worker;
-
+export default class CompletionItemsAdapter extends Adapter {
   #completionContext = {
     maxNumberOfItems: 100,
   };
 
-  #p2m = new ProtocolToMonacoConverter(monaco);
-
-  constructor(worker) {
-    this.#worker = worker;
-  }
-
-  async #getCompletionList(model, position) {
-    const worker = await this.#worker(model.uri);
+  async #getCompletionList(vscodeDocument, position) {
+    const worker = await this.worker(vscodeDocument.uri);
 
     try {
-      const computedPosition = fromPosition(position);
-      const completionList = await worker.doComplete(
-        model.uri.toString(),
-        computedPosition,
+      return await worker.doComplete(
+        vscodeDocument.uri.toString(),
+        this.codeConverter.asPosition(position),
         this.#completionContext
       );
-
-      return !completionList || completionList.items.length === 0 ? null : completionList;
     } catch {
-      return null;
+      return undefined;
     }
   }
 
-  #maybeConvert(model, position, completionList) {
-    if (completionList === null) {
-      return null;
-    }
+  async provideCompletionItems(vscodeDocument, position) {
+    const completionList = await this.#getCompletionList(vscodeDocument, position);
 
-    const wordPosition = model.getWordUntilPosition(position);
-    const wordRange = new monaco.Range(
-      position.lineNumber,
-      wordPosition.startColumn,
-      position.lineNumber,
-      wordPosition.endColumn
-    );
-
-    return this.#p2m.asCompletionResult(completionList, wordRange);
-  }
-
-  async provideCompletionItems(model, position) {
-    const completionList = await this.#getCompletionList(model, position);
-
-    return this.#maybeConvert(model, position, completionList);
+    return this.protocolConverter.asCompletionResult(completionList);
   }
 }

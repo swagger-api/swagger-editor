@@ -71,8 +71,8 @@
     "@swagger-api/apidom-parser-adapter-asyncapi-json-2": "^0.45.0",
     "@swagger-api/apidom-parser-adapter-asyncapi-yaml-2": "^0.45.0",
     "@swagger-api/apidom-parser-adapter-openapi-json-3-0": "^0.45.0",
-    "@swagger-api/apidom-parser-adapter-openapi-yaml-3-0": "^0.45.0",
     "@swagger-api/apidom-parser-adapter-openapi-json-3-1": "^0.45.0",
+    "@swagger-api/apidom-parser-adapter-openapi-yaml-3-0": "^0.45.0",
     "@swagger-api/apidom-parser-adapter-openapi-yaml-3-1": "^0.45.0",
     "axios": "^0.27.2",
     "classnames": "^2.3.2",
@@ -83,8 +83,7 @@
     "js-file-download": "^0.4.12",
     "js-yaml": "^4.1.0",
     "lodash": "^4.17.21",
-    "monaco-editor-core": "^0.34.0",
-    "monaco-languageclient": "^4.0.1-next.0",
+    "monaco-editor": "^0.34.0",
     "prop-types": "^15.8.1",
     "react": "^17.0.2",
     "react-collapse-pane": "^3.0.1",
@@ -98,6 +97,8 @@
     "short-unique-id": "^4.4.4",
     "styled-components": "^5.3.5",
     "swagger-ui-react": "^4.14.0",
+    "vscode": "npm:@codingame/monaco-vscode-api@~1.69.10",
+    "vscode-languageclient": "^8.0.2",
     "vscode-languageserver-textdocument": "^1.0.7"
   },
   "devDependencies": {

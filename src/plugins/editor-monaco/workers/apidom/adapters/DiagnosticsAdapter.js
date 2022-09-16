@@ -1,19 +1,15 @@
-import * as monaco from 'monaco-editor-core';
-import { ProtocolToMonacoConverter } from 'monaco-languageclient/monaco-converter';
+import * as monaco from 'monaco-editor';
 
+import Adapter from './Adapter.js';
 import { languageId } from '../config.js';
 
-export default class DiagnosticsAdapter {
-  #worker;
-
-  #p2m = new ProtocolToMonacoConverter(monaco);
-
+export default class DiagnosticsAdapter extends Adapter {
   #listener = [];
 
   #disposables = [];
 
-  constructor(worker) {
-    this.#worker = worker;
+  constructor(...args) {
+    super(...args);
 
     const onModelAdd = (model) => {
       if (model.getLanguageId() !== languageId) {
@@ -56,7 +52,7 @@ export default class DiagnosticsAdapter {
   }
 
   async #getErrorMarkers(model) {
-    const worker = await this.#worker(model.uri);
+    const worker = await this.worker(model.uri);
     const error = { error: 'unable to doValidation' };
 
     if (model.isDisposed()) {
@@ -73,12 +69,12 @@ export default class DiagnosticsAdapter {
     }
   }
 
-  #maybeConvert(model, errorMarkers) {
+  async #maybeConvert(model, errorMarkers) {
     if (typeof errorMarkers?.error === 'string') {
       return errorMarkers;
     }
 
-    const markerData = this.#p2m.asDiagnostics(errorMarkers);
+    const markerData = await this.protocolConverter.asDiagnostics(errorMarkers);
     monaco.editor.setModelMarkers(model, languageId, markerData);
     return { message: 'doValidation success' };
   }
@@ -90,6 +86,7 @@ export default class DiagnosticsAdapter {
   }
 
   dispose() {
+    super.dispose();
     this.#disposables.forEach((disposable) => disposable?.dispose());
     this.#disposables = [];
   }

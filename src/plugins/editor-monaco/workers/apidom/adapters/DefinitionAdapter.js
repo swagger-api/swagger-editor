@@ -1,39 +1,19 @@
-import * as monaco from 'monaco-editor-core';
-import { ProtocolToMonacoConverter } from 'monaco-languageclient/monaco-converter';
+import Adapter from './Adapter.js';
 
-import { fromPosition } from './monaco-helpers.js';
-
-export default class DefinitionAdapter {
-  #worker;
-
-  #p2m = new ProtocolToMonacoConverter(monaco);
-
-  constructor(worker) {
-    this.#worker = worker;
-  }
-
-  async #getLocation(model, position) {
-    const worker = await this.#worker(model.uri);
+export default class DefinitionAdapter extends Adapter {
+  async #getLocation(vscodeDocument, position) {
+    const worker = await this.worker(vscodeDocument.uri);
 
     try {
-      const location = await worker.provideDefinition(model.uri.toString(), fromPosition(position));
-      return location ?? null;
+      return await worker.provideDefinition(vscodeDocument.uri.toString(), position);
     } catch {
-      return null;
+      return undefined;
     }
   }
 
-  #maybeConvert(location) {
-    if (location === null) {
-      return null;
-    }
+  async provideDefinition(vscodeDocument, position) {
+    const location = await this.#getLocation(vscodeDocument, position);
 
-    return this.#p2m.asDefinitionResult(location);
-  }
-
-  async provideDefinition(model, position) {
-    const location = await this.#getLocation(model, position);
-
-    return this.#maybeConvert(location);
+    return this.protocolConverter.asDefinitionResult(location);
   }
 }

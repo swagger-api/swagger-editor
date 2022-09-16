@@ -1,4 +1,4 @@
-import * as monaco from 'monaco-editor-core';
+import * as monaco from 'monaco-editor';
 
 const STOP_WHEN_IDLE_FOR = 2 * 60 * 1000; // 2min
 

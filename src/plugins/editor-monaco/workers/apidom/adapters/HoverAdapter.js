@@ -1,37 +1,22 @@
-import * as monaco from 'monaco-editor-core';
-import { ProtocolToMonacoConverter } from 'monaco-languageclient/monaco-converter';
+import Adater from './Adapter.js';
 
-import { fromPosition } from './monaco-helpers.js';
-
-export default class HoverAdapter {
-  #worker;
-
-  #p2m = new ProtocolToMonacoConverter(monaco);
-
-  constructor(worker) {
-    this.#worker = worker;
-  }
-
-  async #getHover(model, position) {
-    const worker = await this.#worker(model.uri);
+export default class HoverAdapter extends Adater {
+  async #getHover(vscodeDocument, position) {
+    const worker = await this.worker(vscodeDocument.uri);
 
     try {
-      const computedPosition = fromPosition(position);
-      const hover = await worker.doHover(model.uri.toString(), computedPosition);
-
-      return hover ?? null;
+      return await worker.doHover(
+        vscodeDocument.uri.toString(),
+        this.codeConverter.asPosition(position)
+      );
     } catch {
-      return null;
+      return undefined;
     }
   }
 
-  #maybeConvert(hover) {
-    return hover === null ? null : this.#p2m.asHover(hover);
-  }
+  async provideHover(vscodeDocument, position) {
+    const hover = await this.#getHover(vscodeDocument, position);
 
-  async provideHover(model, position) {
-    const hover = await this.#getHover(model, position);
-
-    return this.#maybeConvert(hover);
+    return this.protocolConverter.asHover(hover);
   }
 }
