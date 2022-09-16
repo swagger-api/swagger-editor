@@ -1,4 +1,5 @@
 import * as vscode from 'vscode';
+import { IStorageService } from 'monaco-editor/esm/vs/platform/storage/common/storage.js';
 import { StandaloneServices } from 'vscode/services'; // eslint-disable-line import/no-unresolved
 import { createConverter as createCodeConverter } from 'vscode-languageclient/lib/common/codeConverter.js';
 import { createConverter as createProtocolConverter } from 'vscode-languageclient/lib/common/protocolConverter.js';
@@ -63,6 +64,8 @@ export function setupMode(defaults) {
   const client = new WorkerManager(defaults);
 
   StandaloneServices.initialize({});
+  StandaloneServices.get(IStorageService).store('expandSuggestionDocs', true, 0, 0);
+
   disposables.push(client);
 
   const worker = async (...uris) => {

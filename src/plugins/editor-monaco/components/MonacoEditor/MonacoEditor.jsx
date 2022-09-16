@@ -39,55 +39,36 @@ const MonacoEditor = ({
   const [isEditorReady, setIsEditorReady] = useState(false);
 
   const createEditor = useCallback(() => {
-    editorRef.current = monaco.editor.create(
-      containerRef.current,
-      {
-        value,
-        language,
-        // semantic tokens provider is disabled by default; https://github.com/microsoft/monaco-editor/issues/1833
-        'semanticHighlighting.enabled': true,
-        theme,
-        glyphMargin: true,
-        lightbulb: {
-          enabled: true,
-        },
-        lineNumbers: 'on',
-        autoIndent: 'full',
-        formatOnPaste: true,
-        formatOnType: true,
-        wordWrap: 'on',
-        minimap: {
-          enabled: true,
-        },
-        domReadOnly: isReadOnly,
-        readOnly: isReadOnly,
-        wordBasedSuggestions: false,
-        quickSuggestions: true,
-        quickSuggestionsDelay: 300,
-        fixedOverflowWidgets: true,
-        'bracketPairColorization.enabled': true,
-        suggest: {
-          snippetsPreventQuickSuggestions: false,
-        },
-        renderWhitespace: true,
+    editorRef.current = monaco.editor.create(containerRef.current, {
+      value,
+      language,
+      // semantic tokens provider is disabled by default; https://github.com/microsoft/monaco-editor/issues/1833
+      'semanticHighlighting.enabled': true,
+      theme,
+      glyphMargin: true,
+      lightbulb: {
+        enabled: true,
       },
-      {
-        storageService: {
-          get() {},
-          getBoolean(key) {
-            return key === 'expandSuggestionDocs';
-          },
-          getNumber() {
-            return 0;
-          },
-          remove() {},
-          store() {},
-          onWillSaveState() {},
-          onDidChangeStorage() {},
-          onDidChangeValue() {},
-        },
-      }
-    );
+      lineNumbers: 'on',
+      autoIndent: 'full',
+      formatOnPaste: true,
+      formatOnType: true,
+      wordWrap: 'on',
+      minimap: {
+        enabled: true,
+      },
+      domReadOnly: isReadOnly,
+      readOnly: isReadOnly,
+      wordBasedSuggestions: false,
+      quickSuggestions: true,
+      quickSuggestionsDelay: 300,
+      fixedOverflowWidgets: true,
+      'bracketPairColorization.enabled': true,
+      suggest: {
+        snippetsPreventQuickSuggestions: false,
+      },
+      renderWhitespace: true,
+    });
     editorRef.current.getModel().updateOptions({ tabSize: 2 });
 
     setIsEditorReady(true);
