@@ -5,7 +5,10 @@ export default class DefinitionAdapter extends Adapter {
     const worker = await this.worker(vscodeDocument.uri);
 
     try {
-      return await worker.provideDefinition(vscodeDocument.uri.toString(), position);
+      return await worker.provideDefinition(
+        vscodeDocument.uri.toString(),
+        this.codeConverter.asPosition(position)
+      );
     } catch {
       return undefined;
     }
