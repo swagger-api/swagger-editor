@@ -1,4 +1,5 @@
 import * as monaco from 'monaco-editor';
+import * as vscode from 'vscode';
 
 import Adapter from './Adapter.js';
 import { languageId } from '../config.js';
@@ -8,8 +9,12 @@ export default class DiagnosticsAdapter extends Adapter {
 
   #disposables = [];
 
+  #diagnosticCollection;
+
   constructor(...args) {
     super(...args);
+
+    this.#diagnosticCollection = vscode.languages.createDiagnosticCollection(languageId);
 
     const onModelAdd = (model) => {
       if (model.getLanguageId() !== languageId) {
@@ -37,7 +42,7 @@ export default class DiagnosticsAdapter extends Adapter {
     };
 
     const onModelRemoved = (model) => {
-      monaco.editor.setModelMarkers(model, languageId, []);
+      this.#diagnosticCollection.set(model.uri, []);
       const key = model.uri.toString();
       if (this.#listener[key]) {
         this.#listener[key].dispose();
@@ -47,42 +52,33 @@ export default class DiagnosticsAdapter extends Adapter {
 
     this.#disposables.push(monaco.editor.onDidCreateModel(onModelAdd));
     this.#disposables.push(monaco.editor.onWillDisposeModel(onModelRemoved));
+    this.#disposables.push(this.#diagnosticCollection);
     // Monaco supports multiple models, though we only use a single model
     monaco.editor.getModels().forEach(onModelAdd);
   }
 
-  async #getErrorMarkers(model) {
+  async #getDiagnostics(model) {
     const worker = await this.worker(model.uri);
-    const error = { error: 'unable to doValidation' };
 
     if (model.isDisposed()) {
       // model was disposed in the meantime
-      return error;
+      return undefined;
     }
 
     try {
-      const errorMarkers = await worker.doValidation(model.uri);
-
-      return errorMarkers ?? error;
+      return await worker.doValidation(model.uri);
     } catch {
-      return error;
+      return undefined;
     }
-  }
-
-  async #maybeConvert(model, errorMarkers) {
-    if (typeof errorMarkers?.error === 'string') {
-      return errorMarkers;
-    }
-
-    const markerData = await this.protocolConverter.asDiagnostics(errorMarkers);
-    monaco.editor.setModelMarkers(model, languageId, markerData);
-    return { message: 'doValidation success' };
   }
 
   async #validate(model) {
-    const errorMarkers = await this.#getErrorMarkers(model);
+    const diagnostics = await this.#getDiagnostics(model);
 
-    return this.#maybeConvert(model, errorMarkers);
+    this.#diagnosticCollection.set(
+      model.uri,
+      await this.protocolConverter.asDiagnostics(diagnostics)
+    );
   }
 
   dispose() {

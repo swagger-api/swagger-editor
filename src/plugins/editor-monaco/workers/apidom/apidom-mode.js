@@ -64,6 +64,7 @@ export function setupMode(defaults) {
   const client = new WorkerManager(defaults);
 
   StandaloneServices.initialize({});
+  // enable showing documentation while autocomplete suggestions are listed
   StandaloneServices.get(IStorageService).store('expandSuggestionDocs', true, 0, 0);
 
   disposables.push(client);
