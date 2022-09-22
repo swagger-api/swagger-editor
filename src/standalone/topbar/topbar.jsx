@@ -3,7 +3,7 @@ import PropTypes from "prop-types"
 import Swagger from "swagger-client"
 import URL from "url"
 import DropdownMenu from "./DropdownMenu"
-import reactFileDownload from "react-file-download"
+import fileDownload from "js-file-download"
 import YAML from "js-yaml"
 import beautifyJson from "json-beautify"
 import { petStoreOas2Def, petStoreOas3Def } from "../../plugins/default-definitions"
@@ -86,7 +86,7 @@ export default class Topbar extends React.Component {
       // allows e2e tests to proceed without choking on file download native event
       return
     }
-    return reactFileDownload(content, fileName)
+    return fileDownload(content, fileName)
   }
 
   // Menu actions
