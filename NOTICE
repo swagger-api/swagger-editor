@@ -1,2 +1,7 @@
 swagger-editor
 Copyright 2020-2021 SmartBear Software Inc.
+
+react-dd-menu
+Copyright (c) 2015 Mikkel Laursen
+Specific Sass Cascading Style Sheet in `_dropdown-menu.less` (the file) were originally created under MIT license in https://github.com/mlaursen/react-dd-menu repository.
+Specific Sass Cascading Style Sheet have been copied into this project and modified. All modifications are licensed under Apache 2.0 License.
