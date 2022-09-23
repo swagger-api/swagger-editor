@@ -4,16 +4,20 @@ import Adapter from './Adapter.js';
 
 export default class SemanticTokensAdapter extends Adapter {
   static getLegend() {
+    const languageService = getLanguageService({
+      performanceLogs: false,
+      logLevel: LogLevel.WARN,
+      defaultLanguageContent: {
+        namespace: 'asyncapi',
+      },
+    });
+
     try {
-      return getLanguageService({
-        performanceLogs: false,
-        logLevel: LogLevel.WARN,
-        defaultLanguageContent: {
-          namespace: 'asyncapi',
-        },
-      }).getSemanticTokensLegend();
+      return languageService.getSemanticTokensLegend();
     } catch {
       return undefined;
+    } finally {
+      languageService.terminate();
     }
   }
 

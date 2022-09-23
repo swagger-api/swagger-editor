@@ -28,6 +28,8 @@ export async function requestGetJsonPointerPosition(editor, jsonPointer) {
     return { data: monacoPosition };
   } catch (e) {
     return { error: e.message };
+  } finally {
+    languageService.terminate();
   }
 }
 
