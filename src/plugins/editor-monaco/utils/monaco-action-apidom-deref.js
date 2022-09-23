@@ -33,9 +33,12 @@ export async function dereference(editor) {
     } else {
       editor.setValue(result);
     }
+
     return { data: 'ok' };
   } catch (e) {
     return { error: e.message };
+  } finally {
+    languageService.terminate();
   }
 }
 

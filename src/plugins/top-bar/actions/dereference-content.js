@@ -58,8 +58,8 @@ export const dereferenceContent = ({ content, baseURI, fileExtension }) => {
 
     editorActions.dereferenceContentStarted({ content, baseURI, requestId });
 
+    const languageService = getLanguageService({});
     try {
-      const languageService = getLanguageService({});
       const document = TextDocument.create(`file://filename${fileExtension}`, 'apidom', 0, content);
       const contentDereferenced = await languageService.doDeref(document, {
         baseURI: baseURI ?? globalThis.location.href,
@@ -73,6 +73,8 @@ export const dereferenceContent = ({ content, baseURI, fileExtension }) => {
       });
     } catch (error) {
       return editorActions.dereferenceContentFailure({ error, content, baseURI, requestId });
+    } finally {
+      languageService.terminate();
     }
   };
 };
