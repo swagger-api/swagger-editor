@@ -96,7 +96,7 @@
     "reselect": "^4.1.6",
     "short-unique-id": "^4.4.4",
     "styled-components": "^5.3.6",
-    "swagger-ui-react": "^4.14.1",
+    "swagger-ui-react": "^4.14.2",
     "vscode": "npm:@codingame/monaco-vscode-api@~1.69.10",
     "vscode-languageclient": "^8.0.2",
     "vscode-languageserver-textdocument": "^1.0.7"
