@@ -63,7 +63,15 @@ export function setupMode(defaults) {
   const protocolConverter = createProtocolConverter(undefined, true, true);
   const client = new WorkerManager(defaults);
 
+  /**
+   * StandaloneServices is a singleton and can be initialized only once.
+   * Subsequent initializations are noops. This has a side effect which
+   * is inability to dispose of the services via StandaloneServices interface.
+   * Individual services can be disposed of separately, but if one decides
+   * to do that StandaloneServices will not able to initialize them again.
+   */
   StandaloneServices.initialize({});
+
   // enable showing documentation while autocomplete suggestions are listed
   StandaloneServices.get(IStorageService).store('expandSuggestionDocs', true, 0, 0);
 
@@ -81,7 +89,6 @@ export function setupMode(defaults) {
 
   disposables.push(vscode.languages.setLanguageConfiguration(languageId, richLanguage));
   disposables.push(asDisposable(registeredProviders));
-  disposables.push(asDisposable([StandaloneServices]));
 
   return asDisposable(disposables);
 }
