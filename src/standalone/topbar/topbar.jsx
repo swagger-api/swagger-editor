@@ -117,7 +117,7 @@ export default class Topbar extends React.Component {
         const shouldContinue = confirm("Swagger-Editor isn't able to parse your API definition. Are you sure you want to save the editor content as YAML?")
         if(!shouldContinue) return
       } else {
-        return alert("Save as YAML is not currently possible because Swagger-Editor wasn't able to parse your API definiton.")
+        return alert("Save as YAML is not currently possible because Swagger-Editor wasn't able to parse your API definition.")
       }
     }
 
@@ -144,7 +144,7 @@ export default class Topbar extends React.Component {
     if(this.hasParserErrors()) {
       // we can't recover from a parser error in save as JSON
       // because we are always parsing so we can beautify
-      return alert("Save as JSON is not currently possible because Swagger-Editor wasn't able to parse your API definiton.")
+      return alert("Save as JSON is not currently possible because Swagger-Editor wasn't able to parse your API definition.")
     }
 
     // JSON or YAML String -> JS object
@@ -408,5 +408,5 @@ Topbar.propTypes = {
   specActions: PropTypes.object.isRequired,
   topbarActions: PropTypes.object.isRequired,
   getComponent: PropTypes.func.isRequired,
-  getConfigs: PropTypes.func.isRequired
+  getConfigs: PropTypes.func.isRequired,
 }
