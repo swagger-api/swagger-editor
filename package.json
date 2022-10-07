@@ -74,7 +74,7 @@
     "@swagger-api/apidom-parser-adapter-openapi-json-3-1": "^0.48.0",
     "@swagger-api/apidom-parser-adapter-openapi-yaml-3-0": "^0.48.0",
     "@swagger-api/apidom-parser-adapter-openapi-yaml-3-1": "^0.48.0",
-    "axios": "^1.0.0",
+    "axios": "^1.1.2",
     "classnames": "^2.3.2",
     "deepmerge": "^4.2.2",
     "file-dialog": "^0.0.8",
