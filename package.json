@@ -88,7 +88,7 @@
     "react": "^17.0.2",
     "react-collapse-pane": "^3.0.1",
     "react-dom": "^17.0.2",
-    "react-dropzone": "^14.2.2",
+    "react-dropzone": "^14.2.3",
     "react-immutable-proptypes": "^2.2.0",
     "react-modal": "^3.15.1",
     "react-resize-detector": "^7.1.2",
