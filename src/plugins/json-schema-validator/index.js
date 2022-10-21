@@ -10,15 +10,24 @@ const swagger2Schema = YAML.load(swagger2SchemaYaml)
 const oas3Schema = YAML.load(oas3SchemaYaml)
 
 // Lazily created promise worker
-let _promiseWorker
-const promiseWorker = () => {
-  if (!_promiseWorker)
+let _promiseWorker = null
+
+const getWorker = () => () => {
+  if (_promiseWorker === null) {
     _promiseWorker = new PromiseWorker(new JsonSchemaWebWorker())
+  }
   return _promiseWorker
 }
 
-export const addSchema = (schema, schemaPath = []) => () => {
-  promiseWorker().postMessage({
+const terminateWorker = () => () => {
+  if (_promiseWorker) {
+    _promiseWorker._worker.terminate()
+    _promiseWorker = null
+  }
+}
+
+export const addSchema = (schema, schemaPath = []) => ({ jsonSchemaValidatorActions }) => {
+  jsonSchemaValidatorActions.getWorker().postMessage({
     type: "add-schema",
     payload: {
       schemaPath,
@@ -95,7 +104,8 @@ export const validateImmediate = ({ spec, path = [] }) => system => {
 export const validateWithBaseSchema = ({ spec, path = [] }) => system => {
   const errSource = system.jsonSchemaValidatorSelectors.errSource()
 
-  return promiseWorker()
+
+  return system.jsonSchemaValidatorActions.getWorker()
     .postMessage({
       type: "validate",
       payload: {
@@ -146,6 +156,8 @@ export default function() {
     statePlugins: {
       jsonSchemaValidator: {
         actions: {
+          getWorker,
+          terminateWorker,
           addSchema,
           validate,
           handleResults,
