@@ -6,7 +6,7 @@
 # do stuff to build to /app/build, to copy to step 2
 
 # Step 2: Deploy
-FROM nginx:1.23.1-alpine AS production
+FROM nginx:1.23.2-alpine AS production
 
 # copy built assets created from external build-step
 COPY ./build /usr/share/nginx/html
