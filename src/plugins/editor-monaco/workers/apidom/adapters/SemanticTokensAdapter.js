@@ -5,8 +5,8 @@ import Adapter from './Adapter.js';
 export default class SemanticTokensAdapter extends Adapter {
   static getLegend() {
     const languageService = getLanguageService({
-      performanceLogs: false,
-      logLevel: LogLevel.WARN,
+      performanceLogs: true,
+      logLevel: LogLevel.DEBUG,
       defaultLanguageContent: {
         namespace: 'asyncapi',
       },
