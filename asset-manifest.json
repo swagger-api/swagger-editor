@@ -1,10 +1,10 @@
 {
   "files": {
     "main.js": "/static/js/main.js",
-    "main.css": "/static/css/main.2e629dd8.css",
+    "main.css": "/static/css/main.c411d7d9.css",
     "apidom.worker.js": "/static/js/apidom.worker.js",
     "editor.worker.js": "/static/js/editor.worker.js",
-    "static/js/174.223db579.chunk.js": "/static/js/174.223db579.chunk.js",
+    "static/js/174.b3b08eed.chunk.js": "/static/js/174.b3b08eed.chunk.js",
     "static/media/tree-sitter-yaml.wasm": "/static/media/tree-sitter-yaml.d396281e11774e0afa7a.wasm",
     "static/media/tree-sitter.wasm": "/static/media/tree-sitter.fba0b3cc0d7ee926ea48.wasm",
     "static/media/codicon.ttf": "/static/media/codicon.b797181c93b3755f4fa1.ttf",
@@ -13,13 +13,13 @@
     "index.html": "/index.html",
     "static/media/jump-icon.svg": "/static/media/jump-icon.9348db75ba00ced133f000aa8d1e2d83.svg",
     "main.js.map": "/static/js/main.js.map",
-    "main.2e629dd8.css.map": "/static/css/main.2e629dd8.css.map",
+    "main.c411d7d9.css.map": "/static/css/main.c411d7d9.css.map",
     "apidom.worker.js.map": "/static/js/apidom.worker.js.map",
     "editor.worker.js.map": "/static/js/editor.worker.js.map",
-    "174.223db579.chunk.js.map": "/static/js/174.223db579.chunk.js.map"
+    "174.b3b08eed.chunk.js.map": "/static/js/174.b3b08eed.chunk.js.map"
   },
   "entrypoints": [
     "static/js/main.js",
-    "static/css/main.2e629dd8.css"
+    "static/css/main.c411d7d9.css"
   ]
 }
