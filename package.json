@@ -55,7 +55,7 @@
   "dependencies": {
     "@asyncapi/avro-schema-parser": "^1.1.0",
     "@asyncapi/openapi-schema-parser": "^2.0.1",
-    "@asyncapi/parser": "^1.17.0",
+    "@asyncapi/parser": "^1.17.1",
     "@asyncapi/react-component": "^1.0.0-next.43",
     "@babel/runtime": "^7.19.4",
     "@braintree/sanitize-url": "^6.0.0",
