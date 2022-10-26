@@ -1,7 +1,9 @@
 [production]
->0.2%
-not dead
-not op_mini all
+last 3 chrome versions
+last 3 edge version
+last 3 firefox versions
+last 3 safari versions
+opera >= 90
 
 [development]
 last 1 chrome version
