@@ -44,7 +44,7 @@ updates:
       include: "scope"
     open-pull-requests-limit: 3
     ignore:
-      # do not update react-scripts as we used forked version of Create React App via git submodule
+      # do not update react-scripts as we use forked version of Create React App via git submodule
       - dependency-name: "create-react-app/packages/react-scripts"
       - dependency-name: "react-scripts"
 
