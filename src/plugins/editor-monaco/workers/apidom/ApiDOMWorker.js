@@ -43,6 +43,14 @@ export class ApiDOMWorker {
     return this._languageService.doHover(document, position);
   }
 
+  async doLinks(uri) {
+    const document = this._getTextDocument(uri);
+    if (!document) {
+      return [];
+    }
+    return this._languageService.doLinks(document);
+  }
+
   async findDocumentSymbols(uri) {
     const document = this._getTextDocument(uri);
     if (!document) {

@@ -7,6 +7,7 @@ import { createConverter as createProtocolConverter } from 'vscode-languageclien
 import WorkerManager from './WorkerManager.js';
 import DiagnosticsAdapter from './adapters/DiagnosticsAdapter.js';
 import HoverAdapter from './adapters/HoverAdapter.js';
+import LinksAdapter from './adapters/LinksAdapter.js';
 import CompletionItemsAdapter from './adapters/CompletionItemsAdapter.js';
 import SemanticTokensAdapter from './adapters/SemanticTokensAdapter.js';
 import CodeActionsAdapter from './adapters/CodeActionsAdapter.js';
@@ -32,6 +33,9 @@ const registerProviders = ({ languageId, providers, dependencies }) => {
 
   providers.push(new DiagnosticsAdapter(...args));
   providers.push(vscode.languages.registerHoverProvider(languageId, new HoverAdapter(...args)));
+  providers.push(
+    vscode.languages.registerDocumentLinkProvider(languageId, new LinksAdapter(...args))
+  );
   providers.push(
     vscode.languages.registerCompletionItemProvider(languageId, new CompletionItemsAdapter(...args))
   );
