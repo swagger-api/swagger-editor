@@ -59,7 +59,7 @@
     "@asyncapi/react-component": "^1.0.0-next.43",
     "@babel/runtime": "^7.19.4",
     "@braintree/sanitize-url": "^6.0.0",
-    "@emotion/react": "^11.10.4",
+    "@emotion/react": "^11.10.5",
     "@emotion/styled": "^11.10.4",
     "@mui/material": "^5.10.11",
     "@primer/octicons-react": "^17.7.0",
