@@ -111,7 +111,7 @@
     "@release-it/conventional-changelog": "=5.1.0",
     "@wojtekmaj/enzyme-adapter-react-17": "=0.6.7",
     "autoprefixer": "^10.2.6",
-    "babel-loader": "^8.1.0",
+    "babel-loader": "^9.0.0",
     "babel-plugin-module-resolver": "^4.0.0",
     "babel-plugin-transform-es2015-constants": "^6.1.4",
     "babel-plugin-transform-react-remove-prop-types": "^0.4.24",
