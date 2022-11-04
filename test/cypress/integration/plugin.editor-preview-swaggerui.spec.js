@@ -32,7 +32,7 @@ describe('Editor Preview Pane: OpenAPI 2.0, 3.0.x, 3.1.x', () => {
   });
   it('hidden if not OAS2.0, OAS3.0.x, or OAS3.1', () => {
     cy.contains('Edit').click();
-    cy.contains('Load AsyncAPI 2.4 Streetlights Fixture').trigger('mousemove').click();
+    cy.contains('Load AsyncAPI 2.5 Streetlights Fixture').trigger('mousemove').click();
     // `.title` is a SwaggerUI specific css class
     cy.get('.title').should('not.exist');
     cy.get('Swagger Petstore').should('not.exist');
