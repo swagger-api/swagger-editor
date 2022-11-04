@@ -7,7 +7,7 @@ describe('Editor Preview Pane: AsyncAPI 2.x', () => {
   });
   it('displays AsyncAPI 2.x.x', () => {
     cy.contains('Edit').click();
-    cy.contains('Load AsyncAPI 2.4 Streetlights Fixture').trigger('mousemove').click();
+    cy.contains('Load AsyncAPI 2.5 Streetlights Fixture').trigger('mousemove').click();
     cy.get('#check-out-its-awesome-features').should('be.visible');
     cy.get('#servers').should('be.visible');
   });
