@@ -7,7 +7,7 @@ const LoadAsyncAPI24FixtureMenuItem = ({ getComponent, onClick, children }) => {
   return (
     <>
       <DropdownMenuItem onClick={onClick}>
-        {children || 'Load AsyncAPI 2.4 Streetlights Fixture'}
+        {children || 'Load AsyncAPI 2.5 Streetlights Fixture'}
       </DropdownMenuItem>
       <DropdownMenuItemDivider />
     </>

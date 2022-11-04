@@ -55,7 +55,7 @@ Cypress.on('uncaught:exception', (err) => {
 Cypress.Commands.add('prepareAsyncAPI', () => {
   cy.intercept(
     'GET',
-    'https://raw.githubusercontent.com/asyncapi/spec/v2.4.0/examples/streetlights-kafka.yml',
+    'https://raw.githubusercontent.com/asyncapi/spec/v2.5.0/examples/streetlights-kafka.yml',
     {
       fixture: 'streetlights-kafka.yml',
     }
