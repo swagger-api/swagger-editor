@@ -1,4 +1,4 @@
-const selectAsyncAPI240JSON = () => `{
+const selectAsyncAPI250JSON = () => `{
   "asyncapi": "2.5.0",
   "info": {
     "title": "Streetlights Kafka API",
@@ -10,13 +10,51 @@ const selectAsyncAPI240JSON = () => `{
     }
   },
   "servers": {
-    "test": {
-      "url": "test.mykafkacluster.org:8092",
+    "scram-connections": {
+      "url": "test.mykafkacluster.org:18092",
       "protocol": "kafka-secure",
-      "description": "Test broker",
+      "description": "Test broker secured with scramSha256",
       "security": [
         {
           "saslScram": []
+        }
+      ],
+      "tags": [
+        {
+          "name": "env:test-scram",
+          "description": "This environment is meant for running internal tests through scramSha256"
+        },
+        {
+          "name": "kind:remote",
+          "description": "This server is a remote server. Not exposed by the application"
+        },
+        {
+          "name": "visibility:private",
+          "description": "This resource is private and only available to certain users"
+        }
+      ]
+    },
+    "mtls-connections": {
+      "url": "test.mykafkacluster.org:28092",
+      "protocol": "kafka-secure",
+      "description": "Test broker secured with X509",
+      "security": [
+        {
+          "certs": []
+        }
+      ],
+      "tags": [
+        {
+          "name": "env:test-mtls",
+          "description": "This environment is meant for running internal tests through mtls"
+        },
+        {
+          "name": "kind:remote",
+          "description": "This server is a remote server. Not exposed by the application"
+        },
+        {
+          "name": "visibility:private",
+          "description": "This resource is private and only available to certain users"
         }
       ]
     }
@@ -195,6 +233,10 @@ const selectAsyncAPI240JSON = () => `{
       "saslScram": {
         "type": "scramSha256",
         "description": "Provide your username and password for SASL/SCRAM authentication"
+      },
+      "certs": {
+        "type": "X509",
+        "description": "Download the certificate files from service provider"
       }
     },
     "parameters": {
@@ -236,4 +278,4 @@ const selectAsyncAPI240JSON = () => `{
   }
 }`;
 
-export default selectAsyncAPI240JSON;
+export default selectAsyncAPI250JSON;

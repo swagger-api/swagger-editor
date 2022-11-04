@@ -1,4 +1,4 @@
-const selectAsyncAPI240PetstoreJSON = () => `{
+const selectAsyncAPI250PetstoreJSON = () => `{
   "asyncapi": "2.5.0",
   "info": {
     "title": "Petstore",
@@ -317,4 +317,4 @@ const selectAsyncAPI240PetstoreJSON = () => `{
   }
 }`;
 
-export default selectAsyncAPI240PetstoreJSON;
+export default selectAsyncAPI250PetstoreJSON;

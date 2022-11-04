@@ -5,7 +5,7 @@ const LoadAsyncAPI24PetstoreFixtureMenuItem = ({ getComponent, onClick, children
 
   return (
     <DropdownMenuItem onClick={onClick}>
-      {children || 'Load AsyncAPI 2.4 Petstore Fixture'}
+      {children || 'Load AsyncAPI 2.5 Petstore Fixture'}
     </DropdownMenuItem>
   );
 };
