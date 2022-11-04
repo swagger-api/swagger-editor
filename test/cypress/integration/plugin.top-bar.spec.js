@@ -146,9 +146,9 @@ describe('Topbar', () => {
        * a fixture that we intend to load and display as JSON.
        * If so, please disable these test(s)
        */
-      it('loads AsyncAPI 2.4 Petstore Fixture as JSON', () => {
+      it('loads AsyncAPI 2.5 Petstore Fixture as JSON', () => {
         cy.contains('Edit').click();
-        cy.contains('Load AsyncAPI 2.4 Petstore Fixture').trigger('mousemove').click();
+        cy.contains('Load AsyncAPI 2.5 Petstore Fixture').trigger('mousemove').click();
         cy.get('.view-lines > :nth-child(1)').should('contains.text', '{');
         cy.get('.view-lines > :nth-child(2)').should('contains.text', '"asyncapi"'); // note the double quotes
       });
@@ -178,9 +178,9 @@ describe('Topbar', () => {
         cy.contains('Edit').click();
         cy.contains('Convert to JSON').should('be.visible');
       });
-      it('displays "Convert To JSON" option for AsyncAPI Streetlights 2.4 Fixture', () => {
+      it('displays "Convert To JSON" option for AsyncAPI Streetlights 2.5 Fixture', () => {
         cy.contains('Edit').click();
-        cy.contains('Load AsyncAPI 2.4 Streetlights Fixture').trigger('mousemove').click();
+        cy.contains('Load AsyncAPI 2.5 Streetlights Fixture').trigger('mousemove').click();
         cy.contains('Edit').click();
         cy.contains('Convert to JSON').should('be.visible');
       });
@@ -192,9 +192,9 @@ describe('Topbar', () => {
        * a fixture that we intend to load and display as JSON.
        * If so, please disable these tests
        */
-      it('displays "Convert To YAML" option for AsyncAPI 2.4 Petstore Fixture', () => {
+      it('displays "Convert To YAML" option for AsyncAPI 2.5 Petstore Fixture', () => {
         cy.contains('Edit').click();
-        cy.contains('Load AsyncAPI 2.4 Petstore Fixture').trigger('mousemove').click();
+        cy.contains('Load AsyncAPI 2.5 Petstore Fixture').trigger('mousemove').click();
         cy.contains('Edit').click();
         cy.contains('Convert to YAML').should('be.visible');
       });
@@ -219,9 +219,9 @@ describe('Topbar', () => {
         cy.contains('Edit').click();
         cy.get('Convert to OpenAPI 3.0.x').should('not.exist');
       });
-      it('should not display "Convert to OpenAPI 3.0.x" after loading AsyncAPI 2.x fixture', () => {
+      it('should not display "Convert to OpenAPI 3.0.x" after loading AsyncAPI 2.5 fixture', () => {
         cy.contains('Edit').click();
-        cy.contains('Load AsyncAPI 2.4 Petstore Fixture').trigger('mousemove').click();
+        cy.contains('Load AsyncAPI 2.5 Petstore Fixture').trigger('mousemove').click();
         cy.contains('Edit').click();
         cy.get('Convert to OpenAPI 3.0.x').should('not.exist');
       });
@@ -275,9 +275,9 @@ describe('Topbar', () => {
       cy.get('Generate Server').should('not.exist');
       cy.get('Generate Client').should('not.exist');
     });
-    it('should NOT render "Generate Server" and "Generate Client" dropdown menus when AsyncAPI2.x', () => {
+    it('should NOT render "Generate Server" and "Generate Client" dropdown menus when AsyncAPI 2.5', () => {
       cy.contains('Edit').click();
-      cy.contains('Load AsyncAPI 2.4 Streetlights Fixture').trigger('mousemove').click();
+      cy.contains('Load AsyncAPI 2.5 Streetlights Fixture').trigger('mousemove').click();
       cy.get('Generate Server').should('not.exist');
       cy.get('Generate Client').should('not.exist');
     });
