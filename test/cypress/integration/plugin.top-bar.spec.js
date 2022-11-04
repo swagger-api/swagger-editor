@@ -14,7 +14,7 @@ describe('Topbar', () => {
         .click()
         .get('#input-import-url')
         .type(
-          'https://raw.githubusercontent.com/asyncapi/spec/v2.4.0/examples/streetlights-kafka.yml'
+          'https://raw.githubusercontent.com/asyncapi/spec/v2.5.0/examples/streetlights-kafka.yml'
         )
         .get('.btn-primary')
         .click();
@@ -130,9 +130,9 @@ describe('Topbar', () => {
           .should('not.have.text', '{')
           .should('not.have.text', '"');
       });
-      it('loads AsyncAPI 2.4 Streetlights Fixture as YAML', () => {
+      it('loads AsyncAPI 2.5 Streetlights Fixture as YAML', () => {
         cy.contains('Edit').click();
-        cy.contains('Load AsyncAPI 2.4 Streetlights Fixture').trigger('mousemove').click();
+        cy.contains('Load AsyncAPI 2.5 Streetlights Fixture').trigger('mousemove').click();
         cy.get('.view-lines > :nth-child(1)')
           .should('contains.text', 'asyncapi')
           .should('not.have.text', '{')

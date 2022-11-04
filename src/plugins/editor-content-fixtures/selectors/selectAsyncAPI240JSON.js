@@ -1,5 +1,5 @@
 const selectAsyncAPI240JSON = () => `{
-  "asyncapi": "2.4.0",
+  "asyncapi": "2.5.0",
   "info": {
     "title": "Streetlights Kafka API",
     "version": "1.0.0",

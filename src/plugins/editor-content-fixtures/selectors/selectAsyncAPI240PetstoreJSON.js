@@ -1,5 +1,5 @@
 const selectAsyncAPI240PetstoreJSON = () => `{
-  "asyncapi": "2.4.0",
+  "asyncapi": "2.5.0",
   "info": {
     "title": "Petstore",
     "version": "1.0.0",
