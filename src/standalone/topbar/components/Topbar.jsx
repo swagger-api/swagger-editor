@@ -388,7 +388,7 @@ export default class Topbar extends React.Component {
               { this.state.clients
                   .map((cli, i) => <li key={i}><button type="button" onClick={() => this.downloadGeneratedFile("client", cli)}>{cli}</button></li>) }
             </DropdownMenu> : null }
-            <AboutMenu {  ...makeMenuOptions("About")} />
+            <AboutMenu {...makeMenuOptions("About")} />
             <NewEditorButton />
           </div>
         </div>
