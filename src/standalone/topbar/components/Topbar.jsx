@@ -6,10 +6,10 @@ import DropdownMenu from "./DropdownMenu"
 import fileDownload from "js-file-download"
 import YAML from "js-yaml"
 import beautifyJson from "json-beautify"
-import { petStoreOas2Def, petStoreOas3Def } from "../../plugins/default-definitions"
+import { petStoreOas2Def, petStoreOas3Def } from "../../../plugins/default-definitions"
 
 
-import Logo from "./logo_small.svg"
+import Logo from "../assets/logo_small.svg"
 
 export default class Topbar extends React.Component {
   constructor(props, context) {
@@ -325,8 +325,11 @@ export default class Topbar extends React.Component {
     const TopbarInsert = getComponent("TopbarInsert")
     const ImportFileMenuItem = getComponent("ImportFileMenuItem")
     const ConvertDefinitionMenuItem = getComponent("ConvertDefinitionMenuItem")
+    const AboutMenu = getComponent("TopbarAboutMenu", true)
+    const NewEditorButton = getComponent("TopbarNewEditorButton", true)
     const { swagger2ConverterUrl } = this.props.getConfigs()
 
+    console.dir(AboutMenu)
 
     let showServersMenu = this.state.servers && this.state.servers.length
     let showClientsMenu = this.state.clients && this.state.clients.length
@@ -387,14 +390,8 @@ export default class Topbar extends React.Component {
               { this.state.clients
                   .map((cli, i) => <li key={i}><button type="button" onClick={() => this.downloadGeneratedFile("client", cli)}>{cli}</button></li>) }
             </DropdownMenu> : null }
-            <DropdownMenu {...makeMenuOptions("About")}>
-              <li><Link href="https://swagger.io/tools/swagger-editor/" target="_blank">About Swagger Editor</Link></li>
-              <li><Link href="https://swagger.io/docs/open-source-tools/swagger-editor/" target="_blank">View Docs</Link></li>
-              <li><Link href="https://github.com/swagger-api/swagger-editor" target="_blank">View on GitHub</Link></li>
-            </DropdownMenu>
-            <Link href="https://editor-next.swagger.io/" className="new-editor-cta" target="_blank">
-              <span>Try our new Editor</span>
-            </Link>
+            <AboutMenu {  ...makeMenuOptions("About")} />
+            <NewEditorButton />
           </div>
         </div>
       </div>
