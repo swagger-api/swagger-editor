@@ -8,7 +8,7 @@ const NewEditorButton = ({ getComponent }) => {
     <Link href="https://editor-next.swagger.io/" className="new-editor-cta" target="_blank">
       <span>Try our new Editor</span>
     </Link>
-  );
+  )
 }
 
 NewEditorButton.propTypes = {
@@ -16,4 +16,4 @@ NewEditorButton.propTypes = {
 }
 
 
-export default NewEditorButton;
+export default NewEditorButton
