@@ -329,8 +329,6 @@ export default class Topbar extends React.Component {
     const NewEditorButton = getComponent("TopbarNewEditorButton", true)
     const { swagger2ConverterUrl } = this.props.getConfigs()
 
-    console.dir(AboutMenu)
-
     let showServersMenu = this.state.servers && this.state.servers.length
     let showClientsMenu = this.state.clients && this.state.clients.length
 
