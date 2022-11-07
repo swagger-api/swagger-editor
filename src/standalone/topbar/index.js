@@ -1,6 +1,4 @@
 import Topbar from "./components/Topbar"
-import AboutMenu from "./components/AboutMenu"
-import NewEditorButton from "./components/NewEditorButton"
 
 export default function () {
   return {
@@ -31,8 +29,6 @@ export default function () {
     },
     components: {
       Topbar,
-      TopbarAboutMenu: AboutMenu,
-      TopbarNewEditorButton: NewEditorButton,
     }
   }
 }

@@ -1,5 +1,5 @@
 import React from "react"
-import DropdownMenu from "./DropdownMenu"
+import DropdownMenu from "../../topbar/components/DropdownMenu"
 import PropTypes from "prop-types"
 
 const AboutMenu = ({ getComponent, ...rest }) => {
