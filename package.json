@@ -93,7 +93,7 @@
     "react-modal": "^3.16.1",
     "react-resize-detector": "^7.1.2",
     "react-table": "^7.8.0",
-    "reselect": "^4.1.6",
+    "reselect": "^4.1.7",
     "short-unique-id": "^4.4.4",
     "styled-components": "^5.3.6",
     "swagger-ui-react": "^4.14.3",
