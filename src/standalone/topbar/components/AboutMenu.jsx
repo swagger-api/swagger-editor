@@ -1,6 +1,7 @@
 import React from "react"
-import DropdownMenu from "../../topbar/components/DropdownMenu"
 import PropTypes from "prop-types"
+
+import DropdownMenu from "./DropdownMenu"
 
 const AboutMenu = ({ getComponent, ...rest }) => {
   const Link = getComponent("Link")
