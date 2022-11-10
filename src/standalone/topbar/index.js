@@ -1,4 +1,5 @@
-import Topbar from "./topbar.jsx"
+import Topbar from "./components/Topbar"
+import AboutMenu from "./components/AboutMenu"
 
 export default function () {
   return {
@@ -28,7 +29,8 @@ export default function () {
       }
     },
     components: {
-      Topbar
+      Topbar,
+      TopbarAboutMenu: AboutMenu,
     }
   }
 }
