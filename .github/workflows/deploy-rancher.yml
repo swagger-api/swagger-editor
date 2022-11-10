@@ -1,7 +1,3 @@
-# Do not modify this file. 
-# Github Actions only recognizes `workflow_run` and `workflow_dispatch`
-# events that are located in the default branch
-
 # inspired by https://securitylab.github.com/research/github-actions-preventing-pwn-requests/
 name: Deploy SwaggerEditor@next to Rancher🚢
 
@@ -10,14 +6,14 @@ on:
     workflows: ["SwaggerEditor@next build", "SwaggerEditor@next nightly build"]
     types:
       - completed
+    branches: [next]
 
 jobs:
 
   deploy:
     if: >
-      ${{ github.event.workflow_run.event == 'push' &&
-      github.ref == 'refs/heads/next' &&
-      github.event.workflow_run.conclusion == 'success' }}
+      github.event.workflow_run.event == 'push' &&
+      github.event.workflow_run.conclusion == 'success'
     name: Deploy SwaggerEditor@next to Rancher
     runs-on: ubuntu-latest
 
@@ -48,7 +44,6 @@ jobs:
       - run: |
           mkdir build
           unzip build.zip -d build
-
       - name: Log in to DockerHub
         uses: docker/login-action@v2
         with:
