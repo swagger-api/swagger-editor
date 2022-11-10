@@ -488,18 +488,27 @@ The key here is `SwaggerUIAdapter` plugin which adapts SwaggerEditor plugins to 
 directly with SwaggerUI.
 
 ## Docker
-Once we build the app, we can also build and run a Docker container.
+
+### Pre-built DockerHub image
+
+SwaggerEditor is available as a pre-built docker image hosted on [DockerHub](https://hub.docker.com/r/swaggerapi/swagger-editor/tags?page=1&name=next-v5).
 
 ```sh
- $ docker build . -t {{label}}
- $ docker run -p 8080:80 {{label}}
+$ docker pull swaggerapi/swagger-editor:next-v5
+$ docker run -d -p 8080:80 swaggerapi/swagger-editor:next-v5
 ```
 
-- {{label}} can be any descriptive string, e.g. `user/myapp-1`
-- open browser at `localhost:8080`
+### Building locally
 
-Building a Docker container with custom environment variables is not currently supported by SwaggerEditor. This is due to the inability of `npm` to handle scoped packages that are outside of the public `npm` registry. In the case of SwaggerEditor, `@swagger-api/apidom-ls` is a dependency currently only residing in Github packages. It is in the roadmap to make `@swagger-api/apidom-ls`, as well as this version of SwaggerEditor, available in the public `npm` registry.
+```sh
+ $ npm run build:app
+ $ docker build . -t swaggerapi/swagger-editor:next-v5
+ $ docker run -d -p 8080:80 swaggerapi/swagger-editor:next-v5
+```
 
+Now open your browser at `http://localhost:8888/`.
+
+> **No** custom environment variables are currently supported by SwaggerEditor.
 
 ## License
 
