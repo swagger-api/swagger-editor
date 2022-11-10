@@ -332,4 +332,13 @@ describe('Topbar', () => {
         .should('exist');
     });
   });
+
+  describe('About Drop Menu', () => {
+    it('should have expect menu items', () => {
+      cy.contains('About').click(); // About Menu
+      cy.contains('About Swagger Editor').should('exist');
+      cy.contains('View Docs').should('exist');
+      cy.contains('View on GitHub').should('exist');
+    });
+  });
 });

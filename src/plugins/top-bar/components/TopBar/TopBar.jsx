@@ -10,6 +10,7 @@ const TopBar = ({ getComponent }) => {
   const OpenAPI3GenerateClientMenu = getComponent('TopBarOpenAPI3GenerateClientMenu', true);
   const OpenAPI2GenerateServerMenu = getComponent('TopBarOpenAPI2GenerateServerMenu', true);
   const OpenAPI2GenerateClientMenu = getComponent('TopBarOpenAPI2GenerateClientMenu', true);
+  const AboutMenu = getComponent('TopBarAboutMenu', true);
 
   return (
     <div className="swagger-editor__top-bar">
@@ -21,6 +22,7 @@ const TopBar = ({ getComponent }) => {
         <OpenAPI3GenerateClientMenu />
         <OpenAPI2GenerateServerMenu />
         <OpenAPI2GenerateClientMenu />
+        <AboutMenu />
       </div>
     </div>
   );
