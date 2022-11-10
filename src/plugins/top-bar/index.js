@@ -25,6 +25,7 @@ import OpenAPI3GenerateServerMenu from './components/GenerateServerMenu/OpenAPI3
 import OpenAPI3GenerateClientMenu from './components/GenerateServerMenu/OpenAPI3GenerateClientMenu.jsx';
 import OpenAPI2GenerateServerMenu from './components/GenerateServerMenu/OpenAPI2GenerateServerMenu.jsx';
 import OpenAPI2GenerateClientMenu from './components/GenerateServerMenu/OpenAPI2GenerateClientMenu.jsx';
+import AboutMenu from './components/AboutMenu/AboutMenu.jsx';
 import {
   importUrlStarted,
   importUrlSuccess,
@@ -164,6 +165,8 @@ const TopBarPlugin = () => ({
 
     TopBarOpenAPI2GenerateServerMenu: OpenAPI2GenerateServerMenu,
     TopBarOpenAPI2GenerateClientMenu: OpenAPI2GenerateClientMenu,
+
+    TopBarAboutMenu: AboutMenu,
   },
   statePlugins: {
     editor: {

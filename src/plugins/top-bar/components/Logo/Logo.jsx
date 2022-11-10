@@ -24,7 +24,7 @@ Logo.propTypes = {
 };
 
 Logo.defaultProps = {
-  link: '/',
+  link: 'https://swagger.io/tools/swagger-editor/',
 };
 
 export default Logo;
