@@ -71,7 +71,7 @@ export const monarchLanguage = {
       // whitespace
       { include: '@whitespace' },
       // strings for todos
-      [/"([^"\\]|\\.)*$/, 'string.invalid'], // non-teminated string
+      [/"([^"\\]|\\.)*$/, 'string.invalid'], // non-terminated string
       [/"/, 'string', '@string'],
     ],
     whitespace: [[/[ \t\r\n]+/, '']],
