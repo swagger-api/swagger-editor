@@ -125,10 +125,10 @@ module.exports = {
       zlib: false,
     },
     alias: {
-        // This alias doesn't pull any languages into bundles and works as monaco-editor-core was installed
-        'monaco-editor$': 'monaco-editor/esm/vs/editor/edcore.main.js',
-        // This alias make sure we don't pull two different versions of monaco-editor
-        'monaco-editor': '/node_modules/monaco-editor',
+      // This alias doesn't pull any languages into bundles and works as monaco-editor-core was installed
+      'monaco-editor$': 'monaco-editor/esm/vs/editor/edcore.main.js',
+      // This alias make sure we don't pull two different versions of monaco-editor
+      'monaco-editor': '/node_modules/monaco-editor',
     },
   },
   plugins: [
