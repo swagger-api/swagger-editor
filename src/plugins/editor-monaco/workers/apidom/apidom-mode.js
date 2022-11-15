@@ -1,6 +1,5 @@
 import * as vscode from 'vscode';
-import { IStorageService } from 'monaco-editor/esm/vs/platform/storage/common/storage.js';
-import { StandaloneServices } from 'vscode/services'; // eslint-disable-line import/no-unresolved
+import { StandaloneServices, IStorageService } from 'vscode/services'; // eslint-disable-line import/no-unresolved
 import { createConverter as createCodeConverter } from 'vscode-languageclient/lib/common/codeConverter.js';
 import { createConverter as createProtocolConverter } from 'vscode-languageclient/lib/common/protocolConverter.js';
 
