@@ -14,7 +14,7 @@ jobs:
     if: >
       github.event.workflow_run.event == 'push' &&
       github.event.workflow_run.conclusion == 'success'
-    name: Deploy SwaggerEditor@next to Rancher
+    name: Build & Push SwaggerEditor@next Docker image
     runs-on: ubuntu-latest
 
     steps:
