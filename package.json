@@ -64,7 +64,7 @@
     "@mui/material": "^5.10.14",
     "@primer/octicons-react": "^17.9.0",
     "@swagger-api/apidom-core": "^0.56.2",
-    "@swagger-api/apidom-ls": "^0.56.2",
+    "@swagger-api/apidom-ls": "^0.56.3",
     "@swagger-api/apidom-ns-api-design-systems": "^0.56.2",
     "@swagger-api/apidom-parser-adapter-api-design-systems-json": "^0.56.2",
     "@swagger-api/apidom-parser-adapter-api-design-systems-yaml": "^0.56.2",
