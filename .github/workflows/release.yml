@@ -31,6 +31,7 @@ jobs:
           dry_run: true
           extra_plugins: |
             @semantic-release/git
+            @semantic-release/exec
         env:
           GITHUB_TOKEN: ${{ secrets.SWAGGER_BOT_GITHUB_TOKEN }}
           NPM_TOKEN: ${{ secrets.SWAGGER_BOT_GITHUB_TOKEN }}
