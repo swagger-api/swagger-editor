@@ -3,7 +3,7 @@ name: Deploy SwaggerEditor@next to Rancher🚢
 
 on:
   workflow_run:
-    workflows: ["SwaggerEditor@next build", "SwaggerEditor@next nightly build"]
+    workflows: ["Build & Push SwaggerEditor@next Docker image"]
     types:
       - completed
     branches: [next]
@@ -18,53 +18,6 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v3
-        with:
-          ref: next
-      - name: 'Download build artifact'
-        uses: actions/github-script@v6
-        with:
-          script: |
-            const allArtifacts = await github.rest.actions.listWorkflowRunArtifacts({
-               owner: context.repo.owner,
-               repo: context.repo.repo,
-               run_id: context.payload.workflow_run.id,
-            });
-            const matchArtifact = allArtifacts.data.artifacts.filter((artifact) => {
-              return artifact.name == "build"
-            })[0];
-            const download = await github.rest.actions.downloadArtifact({
-               owner: context.repo.owner,
-               repo: context.repo.repo,
-               artifact_id: matchArtifact.id,
-               archive_format: 'zip',
-            });
-            const fs = require('fs');
-            fs.writeFileSync('${{github.workspace}}/build.zip', Buffer.from(download.data));
-      - run: |
-          mkdir build
-          unzip build.zip -d build
-
-      - name: Set up QEMU
-        uses: docker/setup-qemu-action@v2
-
-      - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v2
-
-      - name: Log in to DockerHub
-        uses: docker/login-action@v2
-        with:
-          username: ${{ secrets.DOCKERHUB_SB_USERNAME }}
-          password: ${{ secrets.DOCKERHUB_SB_PASSWORD }}
-
-      - name: Build docker image and push
-        uses: docker/build-push-action@v3
-        with:
-          context: .
-          push: true
-          platforms: linux/amd64,linux/arm/v6,linux/arm/v7,linux/arm64/v8,linux/386,linux/ppc64le,linux/s390x
-          tags: swaggerapi/swagger-editor:next-v5
-
       - name: Deploy Rancher🚢
         run: |
           ts="$(date +'%Y-%m-%dT%H:%M:%SZ' --utc)"
