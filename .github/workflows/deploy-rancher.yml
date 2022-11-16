@@ -3,7 +3,7 @@ name: Deploy SwaggerEditor@next to Rancher🚢
 
 on:
   workflow_run:
-    workflows: ["Release SwaggerEditor@next"]
+    workflows: ["Build & Push SwaggerEditor@next Docker image"]
     types:
       - completed
 
