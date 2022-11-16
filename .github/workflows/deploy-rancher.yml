@@ -6,14 +6,11 @@ on:
     workflows: ["Build & Push SwaggerEditor@next Docker image"]
     types:
       - completed
-    branches: [next]
 
 jobs:
 
   deploy:
-    if: >
-      github.event.workflow_run.event == 'push' &&
-      github.event.workflow_run.conclusion == 'success'
+    if: github.event.workflow_run.conclusion == 'success'
     name: Deploy SwaggerEditor@next to Rancher
     runs-on: ubuntu-latest
 
