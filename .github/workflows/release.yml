@@ -20,7 +20,7 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: 16.16
+          node-version: 16
           registry-url: https://npm.pkg.github.com/
           scope: "@swagger-api"
 
@@ -28,6 +28,7 @@ jobs:
         run: npm ci
         env:
           NODE_AUTH_TOKEN: ${{ secrets.SWAGGER_BOT_GITHUB_TOKEN }}
+
       - name: Prepare for the Release
         run: |
           npm run lint
