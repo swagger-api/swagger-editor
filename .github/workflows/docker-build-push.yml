@@ -3,7 +3,7 @@ name: Build & Push SwaggerEditor@next Docker image
 
 on:
   workflow_run:
-    workflows: ["SwaggerEditor@next build", "SwaggerEditor@next nightly build"]
+    workflows: ["Release SwaggerEditor@next"]
     types:
       - completed
     branches: [next]
@@ -11,39 +11,34 @@ on:
 jobs:
 
   build-push:
-    if: >
-      github.event.workflow_run.event == 'push' &&
-      github.event.workflow_run.conclusion == 'success'
+    if: github.event.workflow_run.conclusion == 'success'
     name: Build & Push SwaggerEditor@next Docker image
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v3
+      - name: Checkout
+        uses: actions/checkout@v3
         with:
+          fetch-depth: 0
+          persist-credentials: false
+          submodules: true
           ref: next
-      - name: 'Download build artifact'
-        uses: actions/github-script@v6
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
         with:
-          script: |
-            const allArtifacts = await github.rest.actions.listWorkflowRunArtifacts({
-               owner: context.repo.owner,
-               repo: context.repo.repo,
-               run_id: context.payload.workflow_run.id,
-            });
-            const matchArtifact = allArtifacts.data.artifacts.filter((artifact) => {
-              return artifact.name == "build"
-            })[0];
-            const download = await github.rest.actions.downloadArtifact({
-               owner: context.repo.owner,
-               repo: context.repo.repo,
-               artifact_id: matchArtifact.id,
-               archive_format: 'zip',
-            });
-            const fs = require('fs');
-            fs.writeFileSync('${{github.workspace}}/build.zip', Buffer.from(download.data));
-      - run: |
-          mkdir build
-          unzip build.zip -d build
+          node-version: 16.16
+          registry-url: https://npm.pkg.github.com/
+          scope: "@swagger-api"
+
+      - name: Install dependencies
+        run: npm ci
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.SWAGGER_BOT_GITHUB_TOKEN }}
+
+      - name: Build App artifacts
+        run: npm run build:app
+
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v2
 
