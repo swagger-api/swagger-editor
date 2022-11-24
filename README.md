@@ -504,13 +504,26 @@ $ docker run -d -p 8080:80 swaggerapi/swagger-editor:next-v5
 
 ### Building locally
 
+**Privileged image**:
+
 ```sh
  $ npm run build:app
  $ docker build . -t swaggerapi/swagger-editor:next-v5
  $ docker run -d -p 8080:80 swaggerapi/swagger-editor:next-v5
 ```
 
-Now open your browser at `http://localhost:8888/`.
+Now open your browser at `http://localhost:8080/`.
+
+**Unprivileged image**:
+
+```sh
+ $ npm run build:app
+ $ docker build . -f Dockerfile.unprivileged -t swaggerapi/swagger-editor:next-v5-unprivileged
+ $ docker run -d -p 8080:8080 swaggerapi/swagger-editor:next-v5-unprivileged
+```
+
+Now open your browser at `http://localhost:8080/`.
+
 
 > **No** custom environment variables are currently supported by SwaggerEditor.
 
