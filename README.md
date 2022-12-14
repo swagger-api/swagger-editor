@@ -257,8 +257,6 @@ We recommend using the latest version of Node.js@16 though. We're using [node-gy
 [emscripten](https://emscripten.org/docs/getting_started/downloads.html) or [docker](https://www.docker.com/) needs to be installed
 on your operating system. We strongly recommend going with a docker option.
 
-> Note: ApiDOM monorepo requires the use of `npm>=7.21.x`
-
 ### Setting up
 
 If you use [nvm](https://github.com/nvm-sh/nvm), running following command inside this repository
@@ -266,6 +264,30 @@ will automatically pick the right Node.js version for you:
 
 ```sh
  $ nvm use
+```
+
+This repository is using npm packages from [https://www.npmjs.com/](npmjs.com) and [GitHub packages registry](https://docs.github.com/en/packages/learn-github-packages/introduction-to-github-packages).
+To successfully install npm packages that SwaggerEditor requires, you need to [Authenticate to GitHub Packages](https://docs.github.com/en/packages/working-with-a-github-packages-registry/working-with-the-npm-registry#authenticating-to-github-packages).
+
+
+We recommend that you [authenticate using GitHub PAT (Personal Access Token)](https://docs.github.com/en/packages/working-with-a-github-packages-registry/working-with-the-npm-registry#authenticating-with-a-personal-access-token).
+
+**Create a new ~/.npmrc file if one doesn't exist.**
+
+```sh
+//npm.pkg.github.com/:_authToken=TOKEN
+```
+
+Alternatively, to authenticate by logging in to npm, use the `npm login` command,
+replacing USERNAME with your GitHub username, TOKEN with your personal access token (classic),
+and PUBLIC-EMAIL-ADDRESS with your email address.
+
+```sh
+$ npm login --scope=@swagger-api --registry=https://npm.pkg.github.com
+
+> Username: USERNAME
+> Password: TOKEN
+> Email: PUBLIC-EMAIL-ADDRESS
 ```
 
 Run the following commands to set up the repository for local development:
