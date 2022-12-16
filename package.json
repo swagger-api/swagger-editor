@@ -110,7 +110,7 @@
     "@testing-library/user-event": "^14.4.3",
     "copyfiles": "^2.4.1",
     "cross-env": "^7.0.3",
-    "cypress": "^11.2.0",
+    "cypress": "^12.1.0",
     "cypress-file-upload": "^5.0.8",
     "eslint-config-airbnb": "^19.0.4",
     "eslint-config-prettier": "^8.5.0",
@@ -120,13 +120,13 @@
     "husky": "^8.0.2",
     "jest-canvas-mock": "^2.4.0",
     "lint-staged": "^13.0.3",
-    "prettier": "^2.7.1",
+    "prettier": "^2.8.1",
     "react-scripts": "file:./create-react-app/packages/react-scripts",
     "rimraf": "^3.0.2",
     "sass": "^1.56.1",
     "serve": "^14.1.1",
     "source-map-explorer": "^2.5.3",
-    "start-server-and-test": "^1.14.0",
+    "start-server-and-test": "^1.15.2",
     "web-vitals": "^3.1.0"
   }
 }
