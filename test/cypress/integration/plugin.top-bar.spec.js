@@ -204,7 +204,7 @@ describe('Topbar', () => {
     });
 
     describe('"Convert to OpenAPI 3.0.x" menu item', () => {
-      it('displays "Convert to OpenAPI 3.0.x" after loading OAS2.0 fixture', () => {
+      it('displays "Convert to OpenAPI 3.0.x" after loading OpenAPI 2.0 fixture', () => {
         cy.contains('File').click();
         cy.contains('Load Example').trigger('mouseover');
         cy.contains('OpenAPI 2.0 Petstore').trigger('mousemove').click();
@@ -213,7 +213,7 @@ describe('Topbar', () => {
         cy.contains('Convert to OpenAPI 3.0.x').should('be.visible');
       });
 
-      it('should not display "Convert to OpenAPI 3.0.x" after loading OAS3.x fixture', () => {
+      it('should not display "Convert to OpenAPI 3.0.x" after loading OpenAPI 3.0 fixture', () => {
         cy.contains('File').click();
         cy.contains('Load Example').trigger('mouseover');
         cy.contains('OpenAPI 3.0 Petstore').trigger('mousemove').click();
@@ -231,7 +231,7 @@ describe('Topbar', () => {
         cy.get('Convert to OpenAPI 3.0.x').should('not.exist');
       });
 
-      it('should call external http service to "Convert to OpenAPI 3.0.x" after loading OAS2.0 fixture', () => {
+      it('should call external http service to "Convert to OpenAPI 3.0.x" after loading OpenAPI 2.0 fixture', () => {
         cy.contains('File').click();
         cy.contains('Load Example').trigger('mouseover');
         cy.contains('OpenAPI 2.0 Petstore').trigger('mousemove').click();
@@ -343,9 +343,10 @@ describe('Topbar', () => {
         .should('exist');
     });
 
-    it('should download a generated OAS2.0 Client file', () => {
-      cy.contains('Edit').click();
-      cy.contains('Load OpenAPI 2.0 Petstore Fixture').trigger('mousemove').click();
+    it('should download a generated OpenAPI 2.0 Client file', () => {
+      cy.contains('File').click();
+      cy.contains('Load Example').trigger('mouseover');
+      cy.contains('OpenAPI 2.0 Petstore').trigger('mousemove').click();
       cy.contains('Generate Client').should('be.visible').click();
       cy.contains('apple') // mocked response value
         .should('be.visible')
