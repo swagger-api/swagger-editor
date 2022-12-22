@@ -1,4 +1,4 @@
-const selectOpenAPI30PetstoreYAML = () => `openapi: 3.0.3
+const selectOpenAPI310PetstoreYAML = () => `openapi: 3.0.3
 info:
   title: Swagger Petstore - OpenAPI 3.0
   description: |-
@@ -6,11 +6,11 @@ info:
     Swagger at [https://swagger.io](https://swagger.io). In the third iteration of the pet store, we've switched to the design first approach!
     You can now help us improve the API whether it's by making changes to the definition itself or to the code.
     That way, with time, we can improve the API in general, and expose some of the new features in OAS3.
-    
+
     Some useful links:
     - [The Pet Store repository](https://github.com/swagger-api/swagger-petstore)
     - [The source API definition for the Pet Store](https://github.com/swagger-api/swagger-petstore/blob/master/src/main/resources/openapi.yaml)
-    
+
   termsOfService: http://swagger.io/terms/
   contact:
     email: apiteam@swagger.io
@@ -63,7 +63,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Pet'          
+                $ref: '#/components/schemas/Pet'
             application/xml:
               schema:
                 $ref: '#/components/schemas/Pet'
@@ -102,7 +102,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Pet'          
+                $ref: '#/components/schemas/Pet'
             application/xml:
               schema:
                 $ref: '#/components/schemas/Pet'
@@ -140,7 +140,7 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/Pet'          
+                  $ref: '#/components/schemas/Pet'
             application/xml:
               schema:
                 type: array
@@ -177,7 +177,7 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/Pet'          
+                  $ref: '#/components/schemas/Pet'
             application/xml:
               schema:
                 type: array
@@ -210,7 +210,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Pet'          
+                $ref: '#/components/schemas/Pet'
             application/xml:
               schema:
                 $ref: '#/components/schemas/Pet'
@@ -386,7 +386,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Order'          
+                $ref: '#/components/schemas/Order'
             application/xml:
               schema:
                 $ref: '#/components/schemas/Order'
@@ -462,7 +462,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/User'          
+                $ref: '#/components/schemas/User'
             application/xml:
               schema:
                 $ref: '#/components/schemas/User'
@@ -542,7 +542,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/User'          
+                $ref: '#/components/schemas/User'
             application/xml:
               schema:
                 $ref: '#/components/schemas/User'
@@ -801,4 +801,4 @@ components:
       in: header
 `;
 
-export default selectOpenAPI30PetstoreYAML;
+export default selectOpenAPI310PetstoreYAML;

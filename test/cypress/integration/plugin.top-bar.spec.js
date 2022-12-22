@@ -22,11 +22,13 @@ describe('Topbar', () => {
         .should('not.have.text', '|') // applies to both OpenAPI and AsyncAPI cases if yaml improperly loaded
         .should('contains.text', 'asyncapi');
     });
+
     it('should render "Import File" menu item', () => {
       cy.contains('File').click(); // File Menu
       cy.contains('Import File').should('exist');
     });
-    it('should be able to "Import File" and display rendered changes', () => {
+
+    it('should "Import File" and display rendered changes', () => {
       /**
        * Cypress does not handle native events like opening a File Dialog.
        * The goal of this test is to see when the file is uploaded that the
@@ -43,6 +45,75 @@ describe('Topbar', () => {
       // This assertion assumes change from non-OAS3 to OAS3, where a "badge" will exist for OAS3
       cy.get('.version-stamp > .version').should('have.text', 'OAS3');
     });
+
+    describe('Load Example nested menu', () => {
+      it('should load OpenAPI 3.1 Petstore example as YAML', () => {
+        cy.contains('File').click();
+        cy.contains('Load Example').trigger('mouseover');
+        cy.contains('OpenAPI 3.1 Petstore').trigger('mousemove').click();
+
+        cy.get('.view-lines > :nth-child(1)')
+          .should('contains.text', '3.1.0')
+          .should('not.have.text', '{')
+          .should('not.have.text', '"');
+      });
+
+      it('should load OpenAPI 3.0 Petstore example as YAML', () => {
+        cy.contains('File').click();
+        cy.contains('Load Example').trigger('mouseover');
+        cy.contains('OpenAPI 3.0 Petstore').trigger('mousemove').click();
+
+        cy.get('.view-lines > :nth-child(1)')
+          .should('contains.text', '3.0.3')
+          .should('not.have.text', '{')
+          .should('not.have.text', '"');
+      });
+
+      it('should load OpenAPI 2.0 Petstore example as YAML', () => {
+        cy.contains('File').click();
+        cy.contains('Load Example').trigger('mouseover');
+        cy.contains('OpenAPI 2.0 Petstore').trigger('mousemove').click();
+
+        cy.get('.view-lines > :nth-child(1)')
+          .should('contains.text', 'swagger')
+          .should('not.have.text', '{')
+          .should('not.have.text', '"');
+      });
+
+      it('should load AsyncAPI 2.5 Petstore example as YAML', () => {
+        cy.contains('File').click();
+        cy.contains('Load Example').trigger('mouseover');
+        cy.contains('AsyncAPI 2.5 Petstore').trigger('mousemove').click();
+
+        cy.get('.view-lines > :nth-child(3)')
+          .should('contains.text', 'Petstore')
+          .should('not.have.text', '{')
+          .should('not.have.text', '"');
+      });
+
+      it('should load AsyncAPI 2.5 Streetlights example as YAML', () => {
+        cy.contains('File').click();
+        cy.contains('Load Example').trigger('mouseover');
+        cy.contains('AsyncAPI 2.5 Streetlights').trigger('mousemove').click();
+
+        cy.get('.view-lines > :nth-child(3)')
+          .should('contains.text', 'Streetlights')
+          .should('not.have.text', '{')
+          .should('not.have.text', '"');
+      });
+
+      it('should load API Design Systems example as YAML', () => {
+        cy.contains('File').click();
+        cy.contains('Load Example').trigger('mouseover');
+        cy.contains('API Design Systems').trigger('mousemove').click();
+
+        cy.get('.view-lines > :nth-child(1)')
+          .should('contains.text', '2021-05-07')
+          .should('not.have.text', '{')
+          .should('not.have.text', '"');
+      });
+    });
+
     describe('when content is JSON', () => {
       /**
        * vs. Edit Menu, operation also will initiate a file download without additional user input
@@ -55,22 +126,26 @@ describe('Topbar', () => {
        * unless we want to check for file existence and/or file contents
        */
       it('should render clickable text: "Save (as JSON)', () => {
-        cy.contains('Edit').click(); // Edit Menu
-        cy.contains('Load OpenAPI 3.0 Petstore Fixture').trigger('mousemove').click();
+        cy.contains('File').click();
+        cy.contains('Load Example').trigger('mouseover');
+        cy.contains('OpenAPI 3.0 Petstore').trigger('mousemove').click();
         cy.contains('Edit').click();
         cy.contains('Convert to JSON').trigger('mousemove').click();
-        cy.contains('File').click(); // File Menu
+        cy.contains('File').click();
         cy.contains('Save (as JSON)').should('exist');
       });
+
       it('should render clickable text: "Convert and Save as YAML', () => {
-        cy.contains('Edit').click(); // Edit Menu
-        cy.contains('Load OpenAPI 3.0 Petstore Fixture').trigger('mousemove').click();
+        cy.contains('File').click();
+        cy.contains('Load Example').trigger('mouseover');
+        cy.contains('OpenAPI 3.0 Petstore').trigger('mousemove').click();
         cy.contains('Edit').click();
         cy.contains('Convert to JSON').trigger('mousemove').click();
-        cy.contains('File').click(); // File Menu
+        cy.contains('File').click();
         cy.contains('Convert and Save as YAML').should('exist');
       });
     });
+
     describe('when content is YAML', () => {
       /**
        * vs. Edit Menu, operation also will initiate a file download without additional user input
@@ -80,15 +155,18 @@ describe('Topbar', () => {
        * unless we want to check for file existence and/or file contents
        */
       it('should render clickable text: "Save (as YAML)', () => {
-        cy.contains('Edit').click(); // Edit Menu
-        cy.contains('Load OpenAPI 3.0 Petstore Fixture').trigger('mousemove').click();
-        cy.contains('File').click(); // File Menu
+        cy.contains('File').click();
+        cy.contains('Load Example').trigger('mouseover');
+        cy.contains('OpenAPI 3.1 Petstore').trigger('mousemove').click();
+        cy.contains('File').click();
         cy.contains('Save (as YAML)').should('exist');
       });
+
       it('should render clickable text: "Convert and Save as JSON', () => {
-        cy.contains('Edit').click(); // Edit Menu
-        cy.contains('Load OpenAPI 3.0 Petstore Fixture').trigger('mousemove').click();
-        cy.contains('File').click(); // File Menu
+        cy.contains('File').click();
+        cy.contains('Load Example').trigger('mouseover');
+        cy.contains('OpenAPI 3.0 Petstore').trigger('mousemove').click();
+        cy.contains('File').click();
         cy.contains('Convert and Save as JSON').should('exist');
       });
     });
@@ -101,133 +179,62 @@ describe('Topbar', () => {
       cy.get('.view-lines > :nth-child(1)').should('to.have.text', '');
     });
 
-    describe('should be able to Load a fixture as YAML', () => {
-      /**
-       * Fixtures are JSON
-       * YAML option is progammatically set per menu item
-       */
-      it('loads OpenAPI 3.0 Petstore Fixture as YAML', () => {
+    describe('given editor content is in YAML format', () => {
+      it('displays "Convert To JSON" menu item', () => {
+        cy.contains('File').click();
+        cy.contains('Load Example').trigger('mouseover');
+        cy.contains('OpenAPI 3.1 Petstore').trigger('mousemove').click();
         cy.contains('Edit').click();
-        cy.contains('Load OpenAPI 3.0 Petstore Fixture').trigger('mousemove').click();
-        cy.get('.view-lines > :nth-child(1)')
-          .should('contains.text', 'openapi')
-          .should('not.have.text', '{')
-          .should('not.have.text', '"');
-      });
-      it('loads OpenAPI 3.1 Fixture as YAML', () => {
-        cy.contains('Edit').click();
-        cy.contains('Load OpenAPI 3.1 Fixture').trigger('mousemove').click();
-        cy.get('.view-lines > :nth-child(1)')
-          .should('contains.text', 'openapi')
-          .should('not.have.text', '{')
-          .should('not.have.text', '"');
-      });
-      it('loads OpenAPI 2.0 Petstore Fixture as YAML', () => {
-        cy.contains('Edit').click();
-        cy.contains('Load OpenAPI 2.0 Petstore Fixture').trigger('mousemove').click();
-        cy.get('.view-lines > :nth-child(1)')
-          .should('contains.text', 'swagger')
-          .should('not.have.text', '{')
-          .should('not.have.text', '"');
-      });
-      it('loads AsyncAPI 2.5 Streetlights Fixture as YAML', () => {
-        cy.contains('Edit').click();
-        cy.contains('Load AsyncAPI 2.5 Streetlights Fixture').trigger('mousemove').click();
-        cy.get('.view-lines > :nth-child(1)')
-          .should('contains.text', 'asyncapi')
-          .should('not.have.text', '{')
-          .should('not.have.text', '"');
-      });
-    });
 
-    describe('should be able to Load a fixture as JSON', () => {
-      /**
-       * Final production version might not contain
-       * a fixture that we intend to load and display as JSON.
-       * If so, please disable these test(s)
-       */
-      it('loads AsyncAPI 2.5 Petstore Fixture as JSON', () => {
-        cy.contains('Edit').click();
-        cy.contains('Load AsyncAPI 2.5 Petstore Fixture').trigger('mousemove').click();
-        cy.get('.view-lines > :nth-child(1)').should('contains.text', '{');
-        cy.get('.view-lines > :nth-child(2)').should('contains.text', '"asyncapi"'); // note the double quotes
-      });
-      it('loads API Design Systems Fixture as JSON', () => {
-        cy.contains('Edit').click();
-        cy.contains('Load API Design Systems Fixture').trigger('mousemove').click();
-        cy.get('.view-lines > :nth-child(1)').should('contains.text', '{');
-      });
-    });
-
-    describe('should display "Convert To JSON" menu item after loading fixture as YAML', () => {
-      it('displays "Convert To JSON" option for OpenAPI 3.0 Petstore Fixture', () => {
-        cy.contains('Edit').click();
-        cy.contains('Load OpenAPI 3.0 Petstore Fixture').trigger('mousemove').click();
-        cy.contains('Edit').click();
-        cy.contains('Convert to JSON').should('be.visible');
-      });
-      it('displays "Convert To JSON" option for OpenAPI 3.1 Fixture', () => {
-        cy.contains('Edit').click();
-        cy.contains('Load OpenAPI 3.1 Fixture').trigger('mousemove').click();
-        cy.contains('Edit').click();
-        cy.contains('Convert to JSON').should('be.visible');
-      });
-      it('displays "Convert To JSON" option for OpenAPI 2.0 Petstore Fixture', () => {
-        cy.contains('Edit').click();
-        cy.contains('Load OpenAPI 2.0 Petstore Fixture').trigger('mousemove').click();
-        cy.contains('Edit').click();
-        cy.contains('Convert to JSON').should('be.visible');
-      });
-      it('displays "Convert To JSON" option for AsyncAPI Streetlights 2.5 Fixture', () => {
-        cy.contains('Edit').click();
-        cy.contains('Load AsyncAPI 2.5 Streetlights Fixture').trigger('mousemove').click();
-        cy.contains('Edit').click();
         cy.contains('Convert to JSON').should('be.visible');
       });
     });
 
-    describe('should display "Convert to YAML" menu item after loading fixture as JSON', () => {
-      /**
-       * Final production version might not contain
-       * a fixture that we intend to load and display as JSON.
-       * If so, please disable these tests
-       */
-      it('displays "Convert To YAML" option for AsyncAPI 2.5 Petstore Fixture', () => {
+    describe('given editor content is in JSON format', () => {
+      it('displays "Convert To YAML" menu item', () => {
+        cy.contains('File').click();
+        cy.contains('Load Example').trigger('mouseover');
+        cy.contains('OpenAPI 3.1 Petstore').trigger('mousemove').click();
         cy.contains('Edit').click();
-        cy.contains('Load AsyncAPI 2.5 Petstore Fixture').trigger('mousemove').click();
+        cy.contains('Convert to JSON').trigger('mousemove').click();
         cy.contains('Edit').click();
-        cy.contains('Convert to YAML').should('be.visible');
-      });
-      it('displays "Convert To YAML" option for API Design Systems Fixture', () => {
-        cy.contains('Edit').click();
-        cy.contains('Load API Design Systems Fixture').trigger('mousemove').click();
-        cy.contains('Edit').click();
+
         cy.contains('Convert to YAML').should('be.visible');
       });
     });
 
     describe('"Convert to OpenAPI 3.0.x" menu item', () => {
       it('displays "Convert to OpenAPI 3.0.x" after loading OAS2.0 fixture', () => {
+        cy.contains('File').click();
+        cy.contains('Load Example').trigger('mouseover');
+        cy.contains('OpenAPI 2.0 Petstore').trigger('mousemove').click();
         cy.contains('Edit').click();
-        cy.contains('Load OpenAPI 2.0 Petstore Fixture').trigger('mousemove').click();
-        cy.contains('Edit').click();
+
         cy.contains('Convert to OpenAPI 3.0.x').should('be.visible');
       });
+
       it('should not display "Convert to OpenAPI 3.0.x" after loading OAS3.x fixture', () => {
+        cy.contains('File').click();
+        cy.contains('Load Example').trigger('mouseover');
+        cy.contains('OpenAPI 3.0 Petstore').trigger('mousemove').click();
         cy.contains('Edit').click();
-        cy.contains('Load OpenAPI 3.0 Petstore Fixture').trigger('mousemove').click();
-        cy.contains('Edit').click();
+
         cy.get('Convert to OpenAPI 3.0.x').should('not.exist');
       });
+
       it('should not display "Convert to OpenAPI 3.0.x" after loading AsyncAPI 2.5 fixture', () => {
+        cy.contains('File').click();
+        cy.contains('Load Example').trigger('mouseover');
+        cy.contains('AsyncAPI 2.5 Petstore').trigger('mousemove').click();
         cy.contains('Edit').click();
-        cy.contains('Load AsyncAPI 2.5 Petstore Fixture').trigger('mousemove').click();
-        cy.contains('Edit').click();
+
         cy.get('Convert to OpenAPI 3.0.x').should('not.exist');
       });
-      it('will call external http service to "Convert to OpenAPI 3.0.x" after loading OAS2.0 fixture', () => {
-        cy.contains('Edit').click();
-        cy.contains('Load OpenAPI 2.0 Petstore Fixture').trigger('mousemove').click();
+
+      it('should call external http service to "Convert to OpenAPI 3.0.x" after loading OAS2.0 fixture', () => {
+        cy.contains('File').click();
+        cy.contains('Load Example').trigger('mouseover');
+        cy.contains('OpenAPI 2.0 Petstore').trigger('mousemove').click();
         cy.contains('Edit').click();
         cy.contains('Convert to OpenAPI 3.0.x')
           .should('be.visible')
