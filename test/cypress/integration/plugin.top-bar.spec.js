@@ -264,33 +264,46 @@ describe('Topbar', () => {
 
     const downloadsFolder = Cypress.config('downloadsFolder'); // use default setting
 
-    it('should render "Generate Server" and "Generate Client" dropdown menus when OAS2.0', () => {
-      cy.contains('Edit').click();
-      cy.contains('Load OpenAPI 2.0 Petstore Fixture').trigger('mousemove').click();
+    it('should render "Generate Server" and "Generate Client" dropdown menus when OpenAPI 2.0', () => {
+      cy.contains('File').click();
+      cy.contains('Load Example').trigger('mouseover');
+      cy.contains('OpenAPI 2.0 Petstore').trigger('mousemove').click();
+
       cy.contains('Generate Server').should('be.visible');
       cy.contains('Generate Client').should('be.visible');
     });
-    it('should render "Generate Server" and "Generate Client" dropdown menus when OAS3.0.x', () => {
-      cy.contains('Edit').click();
-      cy.contains('Load OpenAPI 3.0 Petstore Fixture').trigger('mousemove').click();
+
+    it('should render "Generate Server" and "Generate Client" dropdown menus when OpenAPI 3.0', () => {
+      cy.contains('File').click();
+      cy.contains('Load Example').trigger('mouseover');
+      cy.contains('OpenAPI 3.0 Petstore').trigger('mousemove').click();
+
       cy.contains('Generate Server').should('be.visible');
       cy.contains('Generate Client').should('be.visible');
     });
-    it('should NOT render "Generate Server" and "Generate Client" dropdown menus when OAS3.1', () => {
-      cy.contains('Edit').click();
-      cy.contains('Load OpenAPI 3.1 Fixture').trigger('mousemove').click();
+
+    it('should NOT render "Generate Server" and "Generate Client" dropdown menus when OpenAPI 3.1', () => {
+      cy.contains('File').click();
+      cy.contains('Load Example').trigger('mouseover');
+      cy.contains('OpenAPI 3.1 Petstore').trigger('mousemove').click();
+
       cy.get('Generate Server').should('not.exist');
       cy.get('Generate Client').should('not.exist');
     });
+
     it('should NOT render "Generate Server" and "Generate Client" dropdown menus when AsyncAPI 2.5', () => {
-      cy.contains('Edit').click();
-      cy.contains('Load AsyncAPI 2.5 Streetlights Fixture').trigger('mousemove').click();
+      cy.contains('File').click();
+      cy.contains('Load Example').trigger('mouseover');
+      cy.contains('AsyncAPI 2.5 Petstore').trigger('mousemove').click();
+
       cy.get('Generate Server').should('not.exist');
       cy.get('Generate Client').should('not.exist');
     });
-    it('should download a generated OAS3.0.x Server file', () => {
-      cy.contains('Edit').click();
-      cy.contains('Load OpenAPI 3.0 Petstore Fixture').trigger('mousemove').click();
+
+    it('should download a generated OpenAPI 3.0 Server file', () => {
+      cy.contains('File').click();
+      cy.contains('Load Example').trigger('mouseover');
+      cy.contains('OpenAPI 3.0 Petstore').trigger('mousemove').click();
       cy.contains('Generate Server').should('be.visible').click();
       cy.contains('blue') // mocked response value
         .should('be.visible')
@@ -300,9 +313,11 @@ describe('Topbar', () => {
         .readFile(`${downloadsFolder}/blue-server-generated.zip`)
         .should('exist');
     });
-    it('should download a generated OAS3.0.x Client file', () => {
-      cy.contains('Edit').click();
-      cy.contains('Load OpenAPI 3.0 Petstore Fixture').trigger('mousemove').click();
+
+    it('should download a generated OpenAPI 3.0 Client file', () => {
+      cy.contains('File').click();
+      cy.contains('Load Example').trigger('mouseover');
+      cy.contains('OpenAPI 3.0 Petstore').trigger('mousemove').click();
       cy.contains('Generate Client').should('be.visible').click();
       cy.contains('apple') // mocked response value
         .should('be.visible')
@@ -312,9 +327,11 @@ describe('Topbar', () => {
         .readFile(`${downloadsFolder}/apple-client-generated.zip`)
         .should('exist');
     });
-    it('should download a generated OAS2.0 Server file', () => {
-      cy.contains('Edit').click();
-      cy.contains('Load OpenAPI 2.0 Petstore Fixture').trigger('mousemove').click();
+
+    it('should download a generated OpenAPI 2.0 Server file', () => {
+      cy.contains('File').click();
+      cy.contains('Load Example').trigger('mouseover');
+      cy.contains('OpenAPI 2.0 Petstore').trigger('mousemove').click();
       cy.contains('Generate Server').should('be.visible').click();
       cy.contains('blue') // mocked response value
         .should('be.visible')
@@ -325,6 +342,7 @@ describe('Topbar', () => {
         .readFile(`${downloadsFolder}/blue-server-generated.zip`)
         .should('exist');
     });
+
     it('should download a generated OAS2.0 Client file', () => {
       cy.contains('Edit').click();
       cy.contains('Load OpenAPI 2.0 Petstore Fixture').trigger('mousemove').click();
