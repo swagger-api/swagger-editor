@@ -3,6 +3,13 @@ import Logo from './components/Logo/Logo.jsx';
 import FileMenu from './components/FileMenu/FileMenu.jsx';
 import ImportUrlMenuItem from './components/FileMenu/items/ImportUrlMenuItem.jsx';
 import ImportFileMenuItem from './components/FileMenu/items/ImportFileMenuItem.jsx';
+import LoadExampleNestedMenu from './components/FileMenu/items/LoadExampleNestedMenu/LoadExampleNestedMenu.jsx';
+import OpenAPI31PetstoreMenuItem from './components/FileMenu/items/LoadExampleNestedMenu/items/OpenAPI31PetstoreMenuItem.jsx';
+import OpenAPI30PetstoreMenuItem from './components/FileMenu/items/LoadExampleNestedMenu/items/OpenAPI30PetstoreMenuItem.jsx';
+import OpenAPI20PetstoreMenuItem from './components/FileMenu/items/LoadExampleNestedMenu/items/OpenAPI20PetstoreMenuItem.jsx';
+import AsyncAPI25PetstoreMenuItem from './components/FileMenu/items/LoadExampleNestedMenu/items/AsyncAPI25PetstoreMenuItem.jsx';
+import AsyncAPI25StreetlightsMenuItem from './components/FileMenu/items/LoadExampleNestedMenu/items/AsyncAPI25StreetlightsMenuItem.jsx';
+import APIDesignSystemsMenuItem from './components/FileMenu/items/LoadExampleNestedMenu/items/APIDesignSystemsMenuItem.jsx';
 import SaveAsMenuItem from './components/FileMenu/items/SaveAsMenuItem.jsx';
 import ConvertAndSaveAsJSONMenuItem from './components/FileMenu/items/ConvertAndSaveAsJSONMenuItem.jsx';
 import ConvertAndSaveAsYAMLMenuItem from './components/FileMenu/items/ConvertAndSaveAsYAMLMenuItem.jsx';
@@ -13,14 +20,6 @@ import ClearMenuItem from './components/EditMenu/items/ClearMenuItem.jsx';
 import ConvertToJSONMenuItem from './components/EditMenu/items/ConvertToJSONMenuItem.jsx';
 import ConvertToYAMLMenuItem from './components/EditMenu/items/ConvertToYAMLMenuItem.jsx';
 import ConvertToOpenAPI30xMenuItem from './components/EditMenu/items/ConvertToOpenAPI30xMenuItem.jsx';
-import LoadAsyncAPI24FixtureMenuItem from './components/EditMenu/items/LoadAsyncAPI24FixtureMenuItem.jsx';
-import LoadAsyncAPI24PetstoreFixtureMenuItem from './components/EditMenu/items/LoadAsyncAPI24PetstoreFixtureMenuItem.jsx';
-import LoadOpenAPI20FixtureMenuItem from './components/EditMenu/items/LoadOpenAPI20FixtureMenuItem.jsx';
-import LoadOpenAPI30FixtureMenuItem from './components/EditMenu/items/LoadOpenAPI30FixtureMenuItem.jsx';
-import LoadOpenAPI20PetstoreFixtureMenuItem from './components/EditMenu/items/LoadOpenAPI20PetstoreFixtureMenuItem.jsx';
-import LoadOpenAPI30PetstoreFixtureMenuItem from './components/EditMenu/items/LoadOpenAPI30PetstoreFixtureMenuItem.jsx';
-import LoadOpenAPI31FixtureMenuItem from './components/EditMenu/items/LoadOpenAPI31FixtureMenuItem.jsx';
-import LoadAPIDesignSystemsFixtureMenuItem from './components/EditMenu/items/LoadAPIDesignSystemsMenuItem.jsx';
 import OpenAPI3GenerateServerMenu from './components/GenerateServerMenu/OpenAPI3GenerateServerMenu.jsx';
 import OpenAPI3GenerateClientMenu from './components/GenerateServerMenu/OpenAPI3GenerateClientMenu.jsx';
 import OpenAPI2GenerateServerMenu from './components/GenerateServerMenu/OpenAPI2GenerateServerMenu.jsx';
@@ -140,6 +139,14 @@ const TopBarPlugin = () => ({
     TopBarFileMenu: FileMenu,
     TopBarFileMenuImportUrlMenuItem: ImportUrlMenuItem,
     TopBarFileMenuImportFileMenuItem: ImportFileMenuItem,
+    TopBarFileMenuLoadExampleNestedMenu: LoadExampleNestedMenu,
+    TopBarFileMenuLoadExampleNestedMenuOpenAPI31PetstoreMenuItem: OpenAPI31PetstoreMenuItem,
+    TopBarFileMenuLoadExampleNestedMenuOpenAPI30PetstoreMenuItem: OpenAPI30PetstoreMenuItem,
+    TopBarFileMenuLoadExampleNestedMenuOpenAPI20PetstoreMenuItem: OpenAPI20PetstoreMenuItem,
+    TopBarFileMenuLoadExampleNestedMenuAsyncAPI25PetstoreMenuItem: AsyncAPI25PetstoreMenuItem,
+    TopBarFileMenuLoadExampleNestedMenuAsyncAPI25StreetlightsMenuItem:
+      AsyncAPI25StreetlightsMenuItem,
+    TopBarFileMenuLoadExampleNestedMenuAPIDesignSystemsMenuItem: APIDesignSystemsMenuItem,
     TopBarFileMenuSaveAsMenuItem: SaveAsMenuItem,
     TopBarFileMenuConvertAndSaveAsJSONMenuItem: ConvertAndSaveAsJSONMenuItem,
     TopBarFileMenuConvertAndSaveAsYAMLMenuItem: ConvertAndSaveAsYAMLMenuItem,
@@ -151,14 +158,6 @@ const TopBarPlugin = () => ({
     TopBarEditMenuConvertToJSONMenuItem: ConvertToJSONMenuItem,
     TopBarEditMenuConvertToYAMLMenuItem: ConvertToYAMLMenuItem,
     TopBarEditMenuConvertToOpenAPI30xMenuItem: ConvertToOpenAPI30xMenuItem,
-    TopBarEditMenuLoadAsyncAPI24FixtureMenuItem: LoadAsyncAPI24FixtureMenuItem,
-    TopBarEditMenuLoadAsyncAPI24PetstoreFixtureMenuItem: LoadAsyncAPI24PetstoreFixtureMenuItem,
-    TopBarEditMenuLoadOpenAPI20FixtureMenuItem: LoadOpenAPI20FixtureMenuItem,
-    TopBarEditMenuLoadOpenAPI30FixtureMenuItem: LoadOpenAPI30FixtureMenuItem,
-    TopBarEditMenuLoadOpenAPI20PetstoreFixtureMenuItem: LoadOpenAPI20PetstoreFixtureMenuItem,
-    TopBarEditMenuLoadOpenAPI30PetstoreFixtureMenuItem: LoadOpenAPI30PetstoreFixtureMenuItem,
-    TopBarEditMenuLoadOpenAPI31FixtureMenuItem: LoadOpenAPI31FixtureMenuItem,
-    TopBarEditMenuLoadAPIDesignSystemsFixtureMenuItem: LoadAPIDesignSystemsFixtureMenuItem,
 
     TopBarOpenAPI3GenerateServerMenu: OpenAPI3GenerateServerMenu,
     TopBarOpenAPI3GenerateClientMenu: OpenAPI3GenerateClientMenu,
