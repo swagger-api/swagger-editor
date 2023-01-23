@@ -6,7 +6,7 @@ export const validate2And3OperationHasUniqueId = () => sys => {
       return nodes.reduce((acc, node) => {
         const value = node.node
 
-        const id = value.operationId
+        const id = value?.operationId
 
         if (id) {
           if (seen.indexOf(id) > -1) {
