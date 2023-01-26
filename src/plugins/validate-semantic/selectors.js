@@ -313,9 +313,13 @@ export const allOperations = () => (system) => {
   return system.fn.traverseOnce({
     name: "allOperations",
     fn: (node) => {
+      const allowedMethods = ["get", "put", "post", "delete", "options", "head", "path", "trace"]
+
       const isOperation = (
-        node.path[0] == "paths"
+        node.path[0] === "paths"
           && node.path.length === 3
+          && typeof node.key === "string"
+          && allowedMethods.includes(node.key.toLowerCase())
           && !system.validateSelectors.isVendorExt(node)
       )
 
