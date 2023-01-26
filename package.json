@@ -78,7 +78,7 @@
     "classnames": "^2.3.2",
     "deepmerge": "^4.2.2",
     "file-dialog": "^0.0.8",
-    "immutable": "^3.8.2",
+    "immutable": "^4.2.2",
     "js-file-download": "^0.4.12",
     "js-yaml": "^4.1.0",
     "lodash": "^4.17.21",
