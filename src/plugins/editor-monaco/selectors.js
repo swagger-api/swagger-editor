@@ -1,12 +1,11 @@
 import { createSelector } from 'reselect';
+import { List } from 'immutable';
 
 export const selectEditorTheme = (state) => state.get('editorTheme') || 'my-vs-dark';
 
-export const selectEditorMarkers = createSelector(
-  (state) => state.get('editorMarkers'),
-  (editorMarkers) => {
-    return editorMarkers || [];
-  }
+export const selectMarkers = createSelector(
+  (state) => state.get('markers', List()),
+  (markers) => markers.toJS()
 );
 
 export const selectEditorJumpToMarker = createSelector(
