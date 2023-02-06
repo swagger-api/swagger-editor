@@ -55,7 +55,7 @@
   "dependencies": {
     "@asyncapi/avro-schema-parser": "^1.1.0",
     "@asyncapi/openapi-schema-parser": "^2.0.1",
-    "@asyncapi/parser": "^1.17.2",
+    "@asyncapi/parser": "^1.18.0",
     "@asyncapi/react-component": "^1.0.0-next.44",
     "@babel/runtime": "^7.20.13",
     "@braintree/sanitize-url": "^6.0.2",
@@ -122,10 +122,10 @@
     "prettier": "^2.8.1",
     "react-scripts": "file:./create-react-app/packages/react-scripts",
     "rimraf": "^4.1.2",
-    "sass": "^1.57.1",
+    "sass": "^1.58.0",
     "serve": "^14.2.0",
     "source-map-explorer": "^2.5.3",
-    "start-server-and-test": "^1.15.2",
+    "start-server-and-test": "^1.15.3",
     "web-vitals": "^3.1.1"
   }
 }
