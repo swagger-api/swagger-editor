@@ -14,7 +14,6 @@
 /.env
 /.prettierrc
 /.releaserc
-/.whitesource
 /.gitmodules
 /.dockerignore
 /.browserslistrc
@@ -24,4 +23,3 @@
 /.eslintrc
 /.editorconfig
 /swagger-api-swagger-editor-*.tgz
-/whitesource.config
