@@ -57,7 +57,7 @@ jobs:
           password: ${{ secrets.DOCKERHUB_SB_PASSWORD }}
 
       - name: Build docker image and push
-        uses: docker/build-push-action@v3
+        uses: docker/build-push-action@v4
         with:
           context: .
           push: true
@@ -65,7 +65,7 @@ jobs:
           tags: swaggerapi/swagger-editor:next-v5
 
       - name: Build unprivileged docker image and push
-        uses: docker/build-push-action@v3
+        uses: docker/build-push-action@v4
         with:
           context: .
           file: Dockerfile.unprivileged
