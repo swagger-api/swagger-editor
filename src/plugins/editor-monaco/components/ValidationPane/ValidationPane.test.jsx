@@ -6,7 +6,7 @@ import * as editorSelectors from '../../selectors.js';
 import * as editorActions from '../../actions.js';
 
 jest.mock('../../selectors.js', () => ({
-  selectEditorMarkers: jest.fn(),
+  selectMarkers: jest.fn(),
 }));
 
 afterAll(() => {
@@ -14,7 +14,7 @@ afterAll(() => {
 });
 
 const setup = ({ markerErrorList } = {}) => {
-  editorSelectors.selectEditorMarkers.mockReturnValue(markerErrorList);
+  editorSelectors.selectMarkers.mockReturnValue(markerErrorList);
   const onValidationClick = jest.fn();
   const alwaysDisplayHeading = true;
   return { editorSelectors, editorActions, onValidationClick, alwaysDisplayHeading };
@@ -27,7 +27,7 @@ const renderValidationPane = async (props) => {
     />
   );
 
-  await waitFor(() => expect(editorSelectors.selectEditorMarkers).toBeCalled());
+  await waitFor(() => expect(editorSelectors.selectMarkers).toBeCalled());
   return {
     hasTableItem: (selector) => {
       const item = screen.queryByText(selector, { exact: false });

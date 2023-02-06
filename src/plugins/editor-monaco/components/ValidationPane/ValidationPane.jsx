@@ -9,7 +9,7 @@ const ValidationPane = ({
   onValidationClick,
   alwaysDisplayHeading,
 }) => {
-  const markers = editorSelectors.selectEditorMarkers();
+  const markers = editorSelectors.selectMarkers();
   const columns = React.useMemo(
     () => [
       {

@@ -33,7 +33,7 @@ const MonacoEditorContainer = ({ editorActions, editorSelectors, isReadOnly }) =
 
   const handleEditorMarkersDidChange = useCallback(
     (markers) => {
-      editorActions.updateEditorMarkers(markers);
+      editorActions.setMarkers(markers);
     },
     [editorActions]
   );
@@ -78,7 +78,7 @@ MonacoEditorContainer.propTypes = {
     editorSetup: PropTypes.func.isRequired,
     editorTearDown: PropTypes.func.isRequired,
     setContentDebounced: PropTypes.func.isRequired,
-    updateEditorMarkers: PropTypes.func.isRequired,
+    setMarkers: PropTypes.func.isRequired,
     clearJumpToEditorMarker: PropTypes.func.isRequired,
     setJumpToEditorMarker: PropTypes.func.isRequired,
     clearRequestJumpToEditorMarker: PropTypes.func.isRequired,
