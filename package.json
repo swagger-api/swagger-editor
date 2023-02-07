@@ -109,7 +109,7 @@
     "@testing-library/user-event": "^14.4.3",
     "copyfiles": "^2.4.1",
     "cross-env": "^7.0.3",
-    "cypress": "^12.2.0",
+    "cypress": "^12.5.1",
     "cypress-file-upload": "^5.0.8",
     "eslint-config-airbnb": "^19.0.4",
     "eslint-config-prettier": "^8.6.0",
