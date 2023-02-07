@@ -128,7 +128,7 @@
     "eslint-plugin-jest": "^27.0.1",
     "eslint-plugin-mocha": "^10.0.3",
     "eslint-plugin-react": "^7.20.0",
-    "expect": "=29.4.0",
+    "expect": "=29.4.2",
     "git-describe": "^4.0.1",
     "html-webpack-plugin": "^5.5.0",
     "html-webpack-skip-assets-plugin": "^1.0.3",
