@@ -43,7 +43,7 @@ describe('Editor Preview Pane: OpenAPI 2.0, 3.0.x, 3.1.x', () => {
   it('should be hidden if not OpenAPI', () => {
     cy.contains('File').click();
     cy.contains('Load Example').trigger('mouseover');
-    cy.contains('AsyncAPI 2.5 Petstore').trigger('mousemove').click();
+    cy.contains('AsyncAPI 2.6 Petstore').trigger('mousemove').click();
 
     // `.title` is a SwaggerUI specific css class
     cy.get('.title').should('not.exist');

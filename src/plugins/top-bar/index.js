@@ -7,8 +7,8 @@ import LoadExampleNestedMenu from './components/FileMenu/items/LoadExampleNested
 import OpenAPI31PetstoreMenuItem from './components/FileMenu/items/LoadExampleNestedMenu/items/OpenAPI31PetstoreMenuItem.jsx';
 import OpenAPI30PetstoreMenuItem from './components/FileMenu/items/LoadExampleNestedMenu/items/OpenAPI30PetstoreMenuItem.jsx';
 import OpenAPI20PetstoreMenuItem from './components/FileMenu/items/LoadExampleNestedMenu/items/OpenAPI20PetstoreMenuItem.jsx';
-import AsyncAPI25PetstoreMenuItem from './components/FileMenu/items/LoadExampleNestedMenu/items/AsyncAPI25PetstoreMenuItem.jsx';
-import AsyncAPI25StreetlightsMenuItem from './components/FileMenu/items/LoadExampleNestedMenu/items/AsyncAPI25StreetlightsMenuItem.jsx';
+import AsyncAPI26PetstoreMenuItem from './components/FileMenu/items/LoadExampleNestedMenu/items/AsyncAPI26PetstoreMenuItem.jsx';
+import AsyncAPI26StreetlightsMenuItem from './components/FileMenu/items/LoadExampleNestedMenu/items/AsyncAPI26StreetlightsMenuItem.jsx';
 import APIDesignSystemsMenuItem from './components/FileMenu/items/LoadExampleNestedMenu/items/APIDesignSystemsMenuItem.jsx';
 import SaveAsMenuItem from './components/FileMenu/items/SaveAsMenuItem.jsx';
 import ConvertAndSaveAsJSONMenuItem from './components/FileMenu/items/ConvertAndSaveAsJSONMenuItem.jsx';
@@ -143,9 +143,9 @@ const TopBarPlugin = () => ({
     TopBarFileMenuLoadExampleNestedMenuOpenAPI31PetstoreMenuItem: OpenAPI31PetstoreMenuItem,
     TopBarFileMenuLoadExampleNestedMenuOpenAPI30PetstoreMenuItem: OpenAPI30PetstoreMenuItem,
     TopBarFileMenuLoadExampleNestedMenuOpenAPI20PetstoreMenuItem: OpenAPI20PetstoreMenuItem,
-    TopBarFileMenuLoadExampleNestedMenuAsyncAPI25PetstoreMenuItem: AsyncAPI25PetstoreMenuItem,
-    TopBarFileMenuLoadExampleNestedMenuAsyncAPI25StreetlightsMenuItem:
-      AsyncAPI25StreetlightsMenuItem,
+    TopBarFileMenuLoadExampleNestedMenuAsyncAPI26PetstoreMenuItem: AsyncAPI26PetstoreMenuItem,
+    TopBarFileMenuLoadExampleNestedMenuAsyncAPI26StreetlightsMenuItem:
+      AsyncAPI26StreetlightsMenuItem,
     TopBarFileMenuLoadExampleNestedMenuAPIDesignSystemsMenuItem: APIDesignSystemsMenuItem,
     TopBarFileMenuSaveAsMenuItem: SaveAsMenuItem,
     TopBarFileMenuConvertAndSaveAsJSONMenuItem: ConvertAndSaveAsJSONMenuItem,

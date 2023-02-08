@@ -1,8 +1,8 @@
 import selectOpenAPI310PetstoreYAML from './selectors/selectOpenAPI310PetstoreYAML.js';
 import selectOpenAPI303PetstoreYAML from './selectors/selectOpenAPI303PetstoreYAML.js';
 import selectOpenAPI20PetstoreYAML from './selectors/selectOpenAPI20PetstoreYAML.js';
-import selectAsyncAPI250PetstoreYAML from './selectors/selectAsyncAPI250PetstoreYAML.js';
-import selectAsyncAPI250StreetlightsYAML from './selectors/selectAsyncAPI250StreetlightsYAML.js';
+import selectAsyncAPI260PetstoreYAML from './selectors/selectAsyncAPI260PetstoreYAML.js';
+import selectAsyncAPI260StreetlightsYAML from './selectors/selectAsyncAPI260StreetlightsYAML.js';
 import selectAPIDesignSystemsYAML from './selectors/selectAPIDesignSystemsYAML.js';
 // test
 
@@ -13,8 +13,8 @@ const EditorContentFixturesPlugin = () => ({
         selectOpenAPI310PetstoreYAML,
         selectOpenAPI303PetstoreYAML,
         selectOpenAPI20PetstoreYAML,
-        selectAsyncAPI250PetstoreYAML,
-        selectAsyncAPI250StreetlightsYAML,
+        selectAsyncAPI260PetstoreYAML,
+        selectAsyncAPI260StreetlightsYAML,
         selectAPIDesignSystemsYAML,
       },
     },
