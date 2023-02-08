@@ -17,12 +17,12 @@ const LoadExampleNestedMenuHandler = forwardRef((props, ref) => {
       const content = editorContentFixturesSelectors.selectOpenAPI20PetstoreYAML();
       editorActions.setContent(content, 'fixture-load');
     },
-    loadAsyncAPI25PetstoreFixture() {
-      const content = editorContentFixturesSelectors.selectAsyncAPI250PetstoreYAML();
+    loadAsyncAPI26PetstoreFixture() {
+      const content = editorContentFixturesSelectors.selectAsyncAPI260PetstoreYAML();
       editorActions.setContent(content, 'fixture-load');
     },
-    loadAsyncAPI25StreetlightsFixture() {
-      const content = editorContentFixturesSelectors.selectAsyncAPI250StreetlightsYAML();
+    loadAsyncAPI26StreetlightsFixture() {
+      const content = editorContentFixturesSelectors.selectAsyncAPI260StreetlightsYAML();
       editorActions.setContent(content, 'fixture-load');
     },
     loadAPIDesignSystemsFixture() {
@@ -42,8 +42,8 @@ LoadExampleNestedMenuHandler.propTypes = {
     selectOpenAPI310PetstoreYAML: PropTypes.func.isRequired,
     selectOpenAPI303PetstoreYAML: PropTypes.func.isRequired,
     selectOpenAPI20PetstoreYAML: PropTypes.func.isRequired,
-    selectAsyncAPI250PetstoreYAML: PropTypes.func.isRequired,
-    selectAsyncAPI250StreetlightsYAML: PropTypes.func.isRequired,
+    selectAsyncAPI260PetstoreYAML: PropTypes.func.isRequired,
+    selectAsyncAPI260StreetlightsYAML: PropTypes.func.isRequired,
     selectAPIDesignSystemsYAML: PropTypes.func.isRequired,
   }).isRequired,
 };

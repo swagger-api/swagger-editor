@@ -14,7 +14,7 @@ describe('Topbar', () => {
         .click()
         .get('#input-import-url')
         .type(
-          'https://raw.githubusercontent.com/asyncapi/spec/v2.5.0/examples/streetlights-kafka.yml'
+          'https://raw.githubusercontent.com/asyncapi/spec/v2.6.0/examples/streetlights-kafka.yml'
         )
         .get('.btn-primary')
         .click();
@@ -80,10 +80,10 @@ describe('Topbar', () => {
           .should('not.have.text', '"');
       });
 
-      it('should load AsyncAPI 2.5 Petstore example as YAML', () => {
+      it('should load AsyncAPI 2.6 Petstore example as YAML', () => {
         cy.contains('File').click();
         cy.contains('Load Example').trigger('mouseover');
-        cy.contains('AsyncAPI 2.5 Petstore').trigger('mousemove').click();
+        cy.contains('AsyncAPI 2.6 Petstore').trigger('mousemove').click();
 
         cy.get('.view-lines > :nth-child(3)')
           .should('contains.text', 'Petstore')
@@ -91,10 +91,10 @@ describe('Topbar', () => {
           .should('not.have.text', '"');
       });
 
-      it('should load AsyncAPI 2.5 Streetlights example as YAML', () => {
+      it('should load AsyncAPI 2.6 Streetlights example as YAML', () => {
         cy.contains('File').click();
         cy.contains('Load Example').trigger('mouseover');
-        cy.contains('AsyncAPI 2.5 Streetlights').trigger('mousemove').click();
+        cy.contains('AsyncAPI 2.6 Streetlights').trigger('mousemove').click();
 
         cy.get('.view-lines > :nth-child(3)')
           .should('contains.text', 'Streetlights')
@@ -222,10 +222,10 @@ describe('Topbar', () => {
         cy.get('Convert to OpenAPI 3.0.x').should('not.exist');
       });
 
-      it('should not display "Convert to OpenAPI 3.0.x" after loading AsyncAPI 2.5 fixture', () => {
+      it('should not display "Convert to OpenAPI 3.0.x" after loading AsyncAPI 2.6 fixture', () => {
         cy.contains('File').click();
         cy.contains('Load Example').trigger('mouseover');
-        cy.contains('AsyncAPI 2.5 Petstore').trigger('mousemove').click();
+        cy.contains('AsyncAPI 2.6 Petstore').trigger('mousemove').click();
         cy.contains('Edit').click();
 
         cy.get('Convert to OpenAPI 3.0.x').should('not.exist');
@@ -291,10 +291,10 @@ describe('Topbar', () => {
       cy.get('Generate Client').should('not.exist');
     });
 
-    it('should NOT render "Generate Server" and "Generate Client" dropdown menus when AsyncAPI 2.5', () => {
+    it('should NOT render "Generate Server" and "Generate Client" dropdown menus when AsyncAPI 2.6', () => {
       cy.contains('File').click();
       cy.contains('Load Example').trigger('mouseover');
-      cy.contains('AsyncAPI 2.5 Petstore').trigger('mousemove').click();
+      cy.contains('AsyncAPI 2.6 Petstore').trigger('mousemove').click();
 
       cy.get('Generate Server').should('not.exist');
       cy.get('Generate Client').should('not.exist');

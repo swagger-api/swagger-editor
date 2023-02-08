@@ -1,4 +1,4 @@
-const selectAsyncAPI250PetstoreYAML = () => `asyncapi: 2.5.0
+const selectAsyncAPI260PetstoreYAML = () => `asyncapi: 2.6.0
 info:
   title: Petstore
   version: 1.0.0
@@ -222,4 +222,4 @@ components:
         name: "##default"
 `;
 
-export default selectAsyncAPI250PetstoreYAML;
+export default selectAsyncAPI260PetstoreYAML;

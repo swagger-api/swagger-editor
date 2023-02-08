@@ -1,4 +1,4 @@
-const selectAsyncAPI250StreetlightsYAML = () => `asyncapi: '2.5.0'
+const selectAsyncAPI260StreetlightsYAML = () => `asyncapi: '2.6.0'
 info:
   title: Streetlights Kafka API
   version: '1.0.0'
@@ -188,4 +188,4 @@ components:
             enum: ['my-app-id']
 `;
 
-export default selectAsyncAPI250StreetlightsYAML;
+export default selectAsyncAPI260StreetlightsYAML;
