@@ -5,12 +5,12 @@ SwaggerEditor is using **forked** Create React App as it's building infrastructu
 ## Table of Contents
 
 - [Getting started](#getting-started)
+  - [Prerequisites](#prerequisites)
   - [Installation](#installation)
   - [Usage](#usage)
 - [Development](#development)
   - [Prerequisites](#prerequisites)
   - [Setting up](#setting-up)
-    - [Setting up on MacOS](#setting-up-on-macos)
   - [npm scripts](#npm-scripts)
   - [Build artifacts](#build-artifacts)
   - [Package mapping](#package-mapping)
@@ -20,22 +20,34 @@ SwaggerEditor is using **forked** Create React App as it's building infrastructu
 
 ## Getting started
 
+### Prerequisites
+
+These prerequisites are required both for installing SwaggerEditor as a npm package and local development setup.
+
+- [node-gyp](https://www.npmjs.com/package/node-gyp) with [Python 3.x](https://www.python.org/downloads/)
+- [GLIBC](https://www.gnu.org/software/libc/) `>=2.29`
+- [emscripten](https://emscripten.org/docs/getting_started/downloads.html) or [docker](https://www.docker.com/) needs to be installed, we recommend going with a docker option
+
+
 ### Installation
 
-SwaggerEditor is currently hosted on [GitHub packages registry](https://docs.github.com/en/packages/learn-github-packages/introduction-to-github-packages).
-For installing SwaggerEditor npm package from GitHub packages registry, create `.npmrc` file in your current directory and add
-the following line to it:
+Assuming [prerequisites](#prerequisites) are already installed, SwaggerEditor npm package is installable and works with `Node.js >= 12.22.0`.
+SwaggerEditor npm package is currently hosted on [GitHub packages registry](https://docs.github.com/en/packages/learn-github-packages/introduction-to-github-packages).
+
+You can authenticate to GitHub Packages with npm by either editing your per-user *~/.npmrc*
+file to include your personal access token (classic) or by logging in to npm on the command line using your username and personal access token.
+
+To authenticate by adding your personal access token (classic) to your *~/.npmrc* file,
+edit the *~/.npmrc* file for your project to include the following line,
+replacing TOKEN with your personal access token. Create a new *~/.npmrc* file if one doesn't exist.
+You can find more information about authenticating to GitHub Packages in [GitHub documentation](https://docs.github.com/en/packages/working-with-a-github-packages-registry/working-with-the-npm-registry#authenticating-to-github-packages).
+
+Last step is to include a line to the *.npmrc* file, specifying GitHub Packages URL and the namespace *(@swagger-api)* where the package is hosted.
 
 ```
 @swagger-api:registry=https://npm.pkg.github.com
+//npm.pkg.github.com/:_authToken=TOKEN
 ```
-
-#### Prerequisites
-
-Using [Node.js](https://nodejs.org/) [active LTS version](https://nodejs.org/en/about/releases/) is recommended.
-[node-gyp](https://www.npmjs.com/package/node-gyp) is used to build some fragments that require [Python 3.x](https://www.python.org/downloads/).
-[emscripten](https://emscripten.org/docs/getting_started/downloads.html) or [docker](https://www.docker.com/) needs to be installed
-on your operating system as well. We strongly recommend going with a docker option.
 
 You can now install SwaggerEditor package using `npm`:
 
@@ -80,7 +92,7 @@ self.MonacoEnvironment = {
    * `apidom.worker.js` on https://example.com/dist/apidom.worker.js and
    * `editor.worker` on https://example.com/dist/editor.worker.js.
    */
-  baseUrl: `${document.baseURI || location.href}/dist/`,
+  baseUrl: `${document.baseURI || location.href}dist/`,
 }
 
 ReactDOM.render(<MyApp />, document.getElementById('swagger-editor'));
@@ -252,10 +264,8 @@ module.exports = {
 
 ### Prerequisites
 
-[Node.js](https://nodejs.org/) >= 16.13.0 and `npm >= 8.1.0` are the minimum required versions that this repo runs on.
-We recommend using the latest version of Node.js@16 though. We're using [node-gyp](https://www.npmjs.com/package/node-gyp) to build some fragments that require [Python 3.x](https://www.python.org/downloads/).
-[emscripten](https://emscripten.org/docs/getting_started/downloads.html) or [docker](https://www.docker.com/) needs to be installed
-on your operating system. We strongly recommend going with a docker option.
+Assuming [prerequisites](#prerequisites) are already installed, [Node.js](https://nodejs.org/) `>=16.13.0` and `npm >=8.1.0`
+are the minimum required versions that this repo runs on, but we recommend using the latest version of Node.js@16
 
 ### Setting up
 
@@ -269,14 +279,19 @@ will automatically pick the right Node.js version for you:
 This repository is using npm packages from [https://www.npmjs.com/](npmjs.com) and [GitHub packages registry](https://docs.github.com/en/packages/learn-github-packages/introduction-to-github-packages).
 To successfully install npm packages that SwaggerEditor requires, you need to [Authenticate to GitHub Packages](https://docs.github.com/en/packages/working-with-a-github-packages-registry/working-with-the-npm-registry#authenticating-to-github-packages).
 
+You can authenticate to GitHub Packages with npm by either editing your per-user *~/.npmrc*
+file to include your personal access token (classic) or by logging in to npm on the command line using your username and personal access token.
 
-We recommend that you [authenticate using GitHub PAT (Personal Access Token)](https://docs.github.com/en/packages/working-with-a-github-packages-registry/working-with-the-npm-registry#authenticating-with-a-personal-access-token).
+To authenticate by adding your personal access token (classic) to your *~/.npmrc* file,
+edit the *~/.npmrc* file for your project to include the following line,
+replacing TOKEN with your personal access token. Create a new *~/.npmrc* file if one doesn't exist.
 
-**Create a new ~/.npmrc file if one doesn't exist.**
+You can find more information about authenticating to GitHub Packages in [GitHub documentation](https://docs.github.com/en/packages/working-with-a-github-packages-registry/working-with-the-npm-registry#authenticating-to-github-packages).
 
-```sh
+```
 //npm.pkg.github.com/:_authToken=TOKEN
 ```
+
 
 Alternatively, to authenticate by logging in to npm, use the `npm login` command,
 replacing USERNAME with your GitHub username, TOKEN with your personal access token (classic),
@@ -293,29 +308,14 @@ $ npm login --scope=@swagger-api --registry=https://npm.pkg.github.com
 Run the following commands to set up the repository for local development:
 
 ```sh
+ $ git clone https://github.com/swagger-api/swagger-editor.git
+ $ cd swagger-editor
+ $ git checkout next
  $ git submodule init
  $ git submodule update
  $ npm i
  $ npm start
 ```
-
-#### Setting up on MacOS
-
-With the combination of MacOS and Node.js 16, there is a known compatibility issue of installing and building the `tree-sitter` dependency. The workaround is to globally install `>=npm@8.1.x` (for lerna/apidom monorepo) but use Node.js 14 to install/build tree-sitter.
-Although the prerequisite is to use Node@16.13, at this point we don't rely on any specific feature from Node.js 16.13 (except for `>=npm@8.1.x`).
-
-```sh
- $ npm install -g npm
- $ npm --version
-```
-
-Assuming we are using [nvm](https://github.com/nvm-sh/nvm) to manage Node versions:
-
-```sh
- $ nvm use v14
-```
-
-Then follow the installation steps above.
 
 ### npm scripts
 
