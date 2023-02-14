@@ -56,7 +56,7 @@ You can now install SwaggerEditor package using `npm`:
 ````
 
 For more information about installing npm packages from GitHub packages registry please visit [Installing a package](https://docs.github.com/en/packages/working-with-a-github-packages-registry/working-with-the-npm-registry#installing-a-package)
-section in their documentation.
+section in GitHub documentation.
 
 ### Usage
 
