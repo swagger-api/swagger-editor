@@ -285,7 +285,6 @@ file to include your personal access token (classic) or by logging in to npm on 
 To authenticate by adding your personal access token (classic) to your *~/.npmrc* file,
 edit the *~/.npmrc* file for your project to include the following line,
 replacing TOKEN with your personal access token. Create a new *~/.npmrc* file if one doesn't exist.
-
 You can find more information about authenticating to GitHub Packages in [GitHub documentation](https://docs.github.com/en/packages/working-with-a-github-packages-registry/working-with-the-npm-registry#authenticating-to-github-packages).
 
 ```
