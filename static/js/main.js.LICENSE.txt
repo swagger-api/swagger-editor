@@ -49,6 +49,12 @@ object-assign
  */
 
 /*!
+ * https://github.com/Starcounter-Jack/JSON-Patch
+ * (c) 2017-2022 Joachim Wester
+ * MIT licensed
+ */
+
+/*!
  * is-plain-object <https://github.com/jonschlinkert/is-plain-object>
  *
  * Copyright (c) 2014-2017, Jon Schlinkert.
