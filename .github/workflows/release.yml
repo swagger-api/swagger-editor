@@ -17,13 +17,6 @@ jobs:
           submodules: true
           ref: next
 
-      - name: Setup Node.js
-        uses: actions/setup-node@v3
-        with:
-          node-version: 16
-          registry-url: https://npm.pkg.github.com/
-          scope: "@swagger-api"
-
       - name: Determine the next release version
         uses: cycjimmy/semantic-release-action@v3
         with:
@@ -43,10 +36,13 @@ jobs:
           script: |
             core.setFailed('Nothing to release')
 
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 16
+
       - name: Install dependencies
         run: npm ci
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.SWAGGER_BOT_GITHUB_TOKEN }}
 
       - name: Prepare for the Release
         env:

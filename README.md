@@ -141,6 +141,38 @@ module.exports = {
       'monaco-editor$': 'monaco-editor/esm/vs/editor/edcore.main.js',
       // This alias make sure we don't pull two different versions of monaco-editor
       'monaco-editor': '/node_modules/monaco-editor',
+      // This alias makes sure we don't pull two different versions of ApiDOM.
+      // swagger-client uses ApiDOM as well, and might come with different ApiDOM version.
+      // SwaggerEditor ApiDOM dependency takes precendence in the resolution.
+      '@swagger-api/apidom-ast$': '/node_modules/@swagger-api/apidom-ast/es/index.js',
+      '@swagger-api/apidom-core$': '/node_modules/@swagger-api/apidom-core/es/index.js',
+      '@swagger-api/apidom-json-pointer$': '/node_modules/@swagger-api/apidom-json-pointer/es/index.js',
+      '@swagger-api/apidom-ls$': '/node_modules/@swagger-api/apidom-ls/es/index.js',
+      '@swagger-api/apidom-ns-api-design-systems$': '/node_modules/@swagger-api/apidom-ns-api-design-systems/es/index.js',
+      '@swagger-api/apidom-ns-asyncapi-2$': '/node_modules/@swagger-api/apidom-ns-asyncapi-2/es/index.js',
+      '@swagger-api/apidom-ns-json-schema-draft-4$': '/node_modules/@swagger-api/apidom-ns-json-schema-draft-4/es/index.js',
+      '@swagger-api/apidom-ns-json-schema-draft-6$': '/node_modules/@swagger-api/apidom-ns-json-schema-draft-6/es/index.js',
+      '@swagger-api/apidom-ns-json-schema-draft-7$': '/node_modules/@swagger-api/apidom-ns-json-schema-draft-7/es/index.js',
+      '@swagger-api/apidom-ns-openapi-3-0$': '/node_modules/@swagger-api/apidom-ns-openapi-3-0/es/index.js',
+      '@swagger-api/apidom-ns-openapi-3-1$': '/node_modules/@swagger-api/apidom-ns-openapi-3-1/es/index.js',
+      '@swagger-api/apidom-parser$': '/node_modules/@swagger-api/apidom-parser/es/parser.js',
+      '@swagger-api/apidom-parser-adapter-api-design-systems-json$': '/node_modules/@swagger-api/apidom-parser-adapter-api-design-systems-json/es/adapter.js',
+      '@swagger-api/apidom-parser-adapter-api-design-systems-yaml$': '/node_modules/@swagger-api/apidom-parser-adapter-api-design-systems-yaml/es/adapter.js',
+      '@swagger-api/apidom-parser-adapter-asyncapi-json-2$': '/node_modules/@swagger-api/apidom-parser-adapter-asyncapi-json-2/es/adapter.js',
+      '@swagger-api/apidom-parser-adapter-asyncapi-yaml-2$': '/node_modules/@swagger-api/apidom-parser-adapter-asyncapi-yaml-2/es/adapter.js',
+      '@swagger-api/apidom-parser-adapter-json$': '/node_modules/@swagger-api/apidom-parser-adapter-json/es/adapter-browser.js',
+      '@swagger-api/apidom-parser-adapter-openapi-json-3-0$': '/node_modules/@swagger-api/apidom-parser-adapter-openapi-json-3-0/es/adapter.js',
+      '@swagger-api/apidom-parser-adapter-openapi-json-3-1$': '/node_modules/@swagger-api/apidom-parser-adapter-openapi-json-3-1/es/adapter.js',
+      '@swagger-api/apidom-parser-adapter-openapi-yaml-3-0$': '/node_modules/@swagger-api/apidom-parser-adapter-openapi-yaml-3-0/es/adapter.js',
+      '@swagger-api/apidom-parser-adapter-openapi-yaml-3-1$': '/node_modules/@swagger-api/apidom-parser-adapter-openapi-yaml-3-1/es/adapter.js',
+      '@swagger-api/apidom-parser-adapter-yaml-1-2$': '/node_modules/@swagger-api/apidom-parser-adapter-yaml-1-2/es/adapter-browser.js',
+      '@swagger-api/apidom-reference$': '/node_modules/@swagger-api/apidom-reference/es/index.js',
+      '@swagger-api/apidom-reference/configuration/empty$': '/node_modules/@swagger-api/apidom-reference/es/configuration/empty.js',
+      '@swagger-api/apidom-reference/resolve/strategies/openapi-3-1$': '/node_modules/@swagger-api/apidom-reference/es/resolve/strategies/openapi-3-1/index.js',
+      '@swagger-api/apidom-reference/parse/parsers/binary$': '/node_modules/@swagger-api/apidom-reference/es/parse/parsers/binary/index-browser.js',
+      '@swagger-api/apidom-reference/dereference/strategies/openapi-3-1/selectors/$anchor$': '/node_modules/@swagger-api/apidom-reference/es/dereference/strategies/openapi-3-1/selectors/$anchor/index.js',
+      '@swagger-api/apidom-reference/dereference/strategies/openapi-3-1/selectors/uri$': '/node_modules/@swagger-api/apidom-reference/es/dereference/strategies/openapi-3-1/selectors/uri/index.js',
+      '@swagger-api/apidom-reference/dereference/strategies/openapi-3-1$': '/node_modules/@swagger-api/apidom-reference/es/dereference/strategies/openapi-3-1/index.js',
     },
   },
   plugins: [
@@ -229,6 +261,38 @@ module.exports = {
       'monaco-editor$': 'monaco-editor/esm/vs/editor/edcore.main.js',
       // This alias make sure we don't pull two different versions of monaco-editor
       'monaco-editor': '/node_modules/monaco-editor',
+      // This alias makes sure we don't pull two different versions of ApiDOM.
+      // swagger-client uses ApiDOM as well, and might come with different ApiDOM version.
+      // SwaggerEditor ApiDOM dependency takes precendence in the resolution.
+      '@swagger-api/apidom-ast$': '/node_modules/@swagger-api/apidom-ast/es/index.js',
+      '@swagger-api/apidom-core$': '/node_modules/@swagger-api/apidom-core/es/index.js',
+      '@swagger-api/apidom-json-pointer$': '/node_modules/@swagger-api/apidom-json-pointer/es/index.js',
+      '@swagger-api/apidom-ls$': '/node_modules/@swagger-api/apidom-ls/es/index.js',
+      '@swagger-api/apidom-ns-api-design-systems$': '/node_modules/@swagger-api/apidom-ns-api-design-systems/es/index.js',
+      '@swagger-api/apidom-ns-asyncapi-2$': '/node_modules/@swagger-api/apidom-ns-asyncapi-2/es/index.js',
+      '@swagger-api/apidom-ns-json-schema-draft-4$': '/node_modules/@swagger-api/apidom-ns-json-schema-draft-4/es/index.js',
+      '@swagger-api/apidom-ns-json-schema-draft-6$': '/node_modules/@swagger-api/apidom-ns-json-schema-draft-6/es/index.js',
+      '@swagger-api/apidom-ns-json-schema-draft-7$': '/node_modules/@swagger-api/apidom-ns-json-schema-draft-7/es/index.js',
+      '@swagger-api/apidom-ns-openapi-3-0$': '/node_modules/@swagger-api/apidom-ns-openapi-3-0/es/index.js',
+      '@swagger-api/apidom-ns-openapi-3-1$': '/node_modules/@swagger-api/apidom-ns-openapi-3-1/es/index.js',
+      '@swagger-api/apidom-parser$': '/node_modules/@swagger-api/apidom-parser/es/parser.js',
+      '@swagger-api/apidom-parser-adapter-api-design-systems-json$': '/node_modules/@swagger-api/apidom-parser-adapter-api-design-systems-json/es/adapter.js',
+      '@swagger-api/apidom-parser-adapter-api-design-systems-yaml$': '/node_modules/@swagger-api/apidom-parser-adapter-api-design-systems-yaml/es/adapter.js',
+      '@swagger-api/apidom-parser-adapter-asyncapi-json-2$': '/node_modules/@swagger-api/apidom-parser-adapter-asyncapi-json-2/es/adapter.js',
+      '@swagger-api/apidom-parser-adapter-asyncapi-yaml-2$': '/node_modules/@swagger-api/apidom-parser-adapter-asyncapi-yaml-2/es/adapter.js',
+      '@swagger-api/apidom-parser-adapter-json$': '/node_modules/@swagger-api/apidom-parser-adapter-json/es/adapter-browser.js',
+      '@swagger-api/apidom-parser-adapter-openapi-json-3-0$': '/node_modules/@swagger-api/apidom-parser-adapter-openapi-json-3-0/es/adapter.js',
+      '@swagger-api/apidom-parser-adapter-openapi-json-3-1$': '/node_modules/@swagger-api/apidom-parser-adapter-openapi-json-3-1/es/adapter.js',
+      '@swagger-api/apidom-parser-adapter-openapi-yaml-3-0$': '/node_modules/@swagger-api/apidom-parser-adapter-openapi-yaml-3-0/es/adapter.js',
+      '@swagger-api/apidom-parser-adapter-openapi-yaml-3-1$': '/node_modules/@swagger-api/apidom-parser-adapter-openapi-yaml-3-1/es/adapter.js',
+      '@swagger-api/apidom-parser-adapter-yaml-1-2$': '/node_modules/@swagger-api/apidom-parser-adapter-yaml-1-2/es/adapter-browser.js',
+      '@swagger-api/apidom-reference$': '/node_modules/@swagger-api/apidom-reference/es/index.js',
+      '@swagger-api/apidom-reference/configuration/empty$': '/node_modules/@swagger-api/apidom-reference/es/configuration/empty.js',
+      '@swagger-api/apidom-reference/resolve/strategies/openapi-3-1$': '/node_modules/@swagger-api/apidom-reference/es/resolve/strategies/openapi-3-1/index.js',
+      '@swagger-api/apidom-reference/parse/parsers/binary$': '/node_modules/@swagger-api/apidom-reference/es/parse/parsers/binary/index-browser.js',
+      '@swagger-api/apidom-reference/dereference/strategies/openapi-3-1/selectors/$anchor$': '/node_modules/@swagger-api/apidom-reference/es/dereference/strategies/openapi-3-1/selectors/$anchor/index.js',
+      '@swagger-api/apidom-reference/dereference/strategies/openapi-3-1/selectors/uri$': '/node_modules/@swagger-api/apidom-reference/es/dereference/strategies/openapi-3-1/selectors/uri/index.js',
+      '@swagger-api/apidom-reference/dereference/strategies/openapi-3-1$': '/node_modules/@swagger-api/apidom-reference/es/dereference/strategies/openapi-3-1/index.js',
     }
   },
   plugins: [
@@ -274,34 +338,6 @@ will automatically pick the right Node.js version for you:
 
 ```sh
  $ nvm use
-```
-
-This repository is using npm packages from [https://www.npmjs.com/](npmjs.com) and [GitHub packages registry](https://docs.github.com/en/packages/learn-github-packages/introduction-to-github-packages).
-To successfully install npm packages that SwaggerEditor requires, you need to [Authenticate to GitHub Packages](https://docs.github.com/en/packages/working-with-a-github-packages-registry/working-with-the-npm-registry#authenticating-to-github-packages).
-
-You can authenticate to GitHub Packages with npm by either editing your per-user *~/.npmrc*
-file to include your personal access token (classic) or by logging in to npm on the command line using your username and personal access token.
-
-To authenticate by adding your personal access token (classic) to your *~/.npmrc* file,
-edit the *~/.npmrc* file for your project to include the following line,
-replacing TOKEN with your personal access token. Create a new *~/.npmrc* file if one doesn't exist.
-You can find more information about authenticating to GitHub Packages in [GitHub documentation](https://docs.github.com/en/packages/working-with-a-github-packages-registry/working-with-the-npm-registry#authenticating-to-github-packages).
-
-```
-//npm.pkg.github.com/:_authToken=TOKEN
-```
-
-
-Alternatively, to authenticate by logging in to npm, use the `npm login` command,
-replacing USERNAME with your GitHub username, TOKEN with your personal access token (classic),
-and PUBLIC-EMAIL-ADDRESS with your email address.
-
-```sh
-$ npm login --scope=@swagger-api --registry=https://npm.pkg.github.com
-
-> Username: USERNAME
-> Password: TOKEN
-> Email: PUBLIC-EMAIL-ADDRESS
 ```
 
 Run the following commands to set up the repository for local development:
