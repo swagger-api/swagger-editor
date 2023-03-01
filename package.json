@@ -125,7 +125,7 @@
     "sass": "^1.58.1",
     "serve": "^14.2.0",
     "source-map-explorer": "^2.5.3",
-    "start-server-and-test": "^1.15.4",
+    "start-server-and-test": "^2.0.0",
     "web-vitals": "^3.1.1"
   }
 }
