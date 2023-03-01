@@ -22,8 +22,6 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: 16.16
-          registry-url: https://npm.pkg.github.com/
-          scope: "@swagger-api"
 
       - name: Cache npm cache files
         id: cache-npm-cache-files
@@ -40,8 +38,6 @@ jobs:
 
       - name: Install dependencies
         run: npm ci
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Lint commit message
         if: github.ref != 'refs/heads/next' && github.actor != 'dependabot[bot]'
