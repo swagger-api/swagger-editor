@@ -2,8 +2,8 @@
   "hooks": {
     "before:bump": [
       "./release/check-for-breaking-changes.sh ${latestVersion} ${version}",
-      "npm update swagger-client",
-      "npm update swagger-ui",
+      "npm update swagger-client --legacy-peer-deps",
+      "npm update swagger-ui --legacy-peer-deps",
       "npm run lint-errors",
       "npm run test:unit-mocha",
       "npm run test:unit-jest"
