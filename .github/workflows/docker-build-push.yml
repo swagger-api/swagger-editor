@@ -87,7 +87,7 @@ jobs:
           context: .
           push: false
           platforms: linux/amd64,linux/arm/v6,linux/arm/v7,linux/arm64/v8,linux/386,linux/ppc64le,linux/s390x
-          tags: swaggerapi/swagger-editor:next-v5,swaggerapi/swagger-editor:${{ env.RELEASED_VERSION }}
+          tags: swaggerapi/swagger-editor:next-v5,swaggerapi/swagger-editor:v${{ env.RELEASED_VERSION }}
 
       - name: Build unprivileged docker image and push
         uses: docker/build-push-action@v4
@@ -96,4 +96,4 @@ jobs:
           file: Dockerfile.unprivileged
           push: false
           platforms: linux/amd64,linux/arm/v6,linux/arm/v7,linux/arm64/v8,linux/386,linux/ppc64le,linux/s390x
-          tags: swaggerapi/swagger-editor:next-v5-unprivileged,swaggerapi/swagger-editor:${{ env.RELEASED_VERSION }}-unprivileged
+          tags: swaggerapi/swagger-editor:next-v5-unprivileged,swaggerapi/swagger-editor:v${{ env.RELEASED_VERSION }}-unprivileged
