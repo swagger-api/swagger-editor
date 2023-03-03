@@ -42,7 +42,7 @@ jobs:
 #            fs.writeFileSync('${{github.workspace}}/build.zip', Buffer.from(download.data));
       - run: |
           mkdir build
-          unzip build.zip -d build
+#          unzip build.zip -d build
 
       - name: Determine released version
         uses: actions/github-script@v6
