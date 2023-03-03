@@ -47,8 +47,8 @@ Use the package in you application:
 ```js
 import React from 'react';
 import ReactDOM from 'react-dom';
-import SwaggerEditor from '@swagger-api/swagger-editor';
-import '@swagger-api/swagger-editor/swagger-editor.css';
+import SwaggerEditor from 'swagger-editor';
+import 'swagger-editor/swagger-editor.css';
 
 const url = "https://raw.githubusercontent.com/asyncapi/spec/v2.2.0/examples/streetlights-kafka.yml";
 
@@ -92,8 +92,8 @@ module.exports = {
   mode: 'production',
   entry: {
     app: './index.js',
-    'apidom.worker': '@swagger-api/swagger-editor/apidom.worker',
-    'editor.worker': '@swagger-api/swagger-editor/editor.worker',
+    'apidom.worker': 'swagger-editor/apidom.worker',
+    'editor.worker': 'swagger-editor/editor.worker',
   },
   output: {
     globalObject: 'self',
@@ -277,11 +277,11 @@ module.exports = {
     new CopyWebpackPlugin({
       patterns: [
         {
-          from: 'node_modules/@swagger-api/swagger-editor/dist/umd/apidom.worker.js',
+          from: 'node_modules/swagger-editor/dist/umd/apidom.worker.js',
           to: 'static/js',
         },
         {
-          from: 'node_modules/@swagger-api/swagger-editor/dist/umd/editor.worker.js',
+          from: 'node_modules/swagger-editor/dist/umd/editor.worker.js',
           to: 'static/js',
         }
       ]
@@ -501,7 +501,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import SwaggerUI from 'swagger-ui-react';
 import 'swagger-ui-react/swagger-ui.css';
-import SwaggerEditor from '@swagger-api/swagger-editor';
+import SwaggerEditor from 'swagger-editor';
 
 const plugins = [
   SwaggerEditor.plugins.EditorContentType,

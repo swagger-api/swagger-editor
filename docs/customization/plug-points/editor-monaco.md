@@ -62,7 +62,7 @@ Static extension involves need to use a build system like webpack.
 **my-custom-apidom.worker.js**
 
 ```js
-import { initialize, makeCreate, ApiDOMWorker } from '@swagger-api/swagger-editor/apidom.worker';
+import { initialize, makeCreate, ApiDOMWorker } from 'swagger-editor/apidom.worker';
 
 class ApiDOMWorkerExtended extends ApiDOMWorker {
   // implementation of extensions
@@ -89,7 +89,7 @@ This is the part of the configuration that will change.
   entry: {
     app: './index.js',
     'apidom.worker': './my-custom-apidom.worker.js',
-    'editor.worker': '@swagger-api/swagger-editor/editor.worker',
+    'editor.worker': 'swagger-editor/editor.worker',
   }
 ```
 
@@ -146,7 +146,7 @@ Whenever you extend the `ApiDOMWorker` class you will have `_createData` public 
 **my-custom-apidom.worker.js**
 
 ```js
-import { initialize, makeCreate, ApiDOMWorker } from '@swagger-api/swagger-editor/apidom.worker';
+import { initialize, makeCreate, ApiDOMWorker } from 'swagger-editor/apidom.worker';
 
 class ApiDOMWorkerExtended extends ApiDOMWorker {
   async loadData() {
