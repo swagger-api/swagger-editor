@@ -67,7 +67,7 @@ jobs:
       - run: |
           unzip released-version.zip
           RELEASED_VERSION=$(cat released-version.txt)
-          echo "RELEASED_VERSION=RELEASED_VERSION" >> $GITHUB_ENV
+          echo "RELEASED_VERSION=$RELEASED_VERSION" >> $GITHUB_ENV
 
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v2
