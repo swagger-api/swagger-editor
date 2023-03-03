@@ -20,29 +20,29 @@ jobs:
         with:
           ref: next
 
-#      - name: Download build artifact
-#        uses: actions/github-script@v6
-#        with:
-#          script: |
-#            const allArtifacts = await github.rest.actions.listWorkflowRunArtifacts({
-#               owner: context.repo.owner,
-#               repo: context.repo.repo,
-#               run_id: context.payload.workflow_run.id,
-#            });
-#            const matchArtifact = allArtifacts.data.artifacts.filter((artifact) => {
-#              return artifact.name == "build"
-#            })[0];
-#            const download = await github.rest.actions.downloadArtifact({
-#               owner: context.repo.owner,
-#               repo: context.repo.repo,
-#               artifact_id: matchArtifact.id,
-#               archive_format: 'zip',
-#            });
-#            const fs = require('fs');
-#            fs.writeFileSync('${{github.workspace}}/build.zip', Buffer.from(download.data));
+      - name: Download build artifact
+        uses: actions/github-script@v6
+        with:
+          script: |
+            const allArtifacts = await github.rest.actions.listWorkflowRunArtifacts({
+               owner: context.repo.owner,
+               repo: context.repo.repo,
+               run_id: context.payload.workflow_run.id,
+            });
+            const matchArtifact = allArtifacts.data.artifacts.filter((artifact) => {
+              return artifact.name == "build"
+            })[0];
+            const download = await github.rest.actions.downloadArtifact({
+               owner: context.repo.owner,
+               repo: context.repo.repo,
+               artifact_id: matchArtifact.id,
+               archive_format: 'zip',
+            });
+            const fs = require('fs');
+            fs.writeFileSync('${{github.workspace}}/build.zip', Buffer.from(download.data));
       - run: |
           mkdir build
-#          unzip build.zip -d build
+          unzip build.zip -d build
 
       - name: Determine released version
         uses: actions/github-script@v6
@@ -85,7 +85,7 @@ jobs:
         uses: docker/build-push-action@v4
         with:
           context: .
-          push: false
+          push: true
           platforms: linux/amd64,linux/arm/v6,linux/arm/v7,linux/arm64/v8,linux/386,linux/ppc64le,linux/s390x
           tags: swaggerapi/swagger-editor:next-v5,swaggerapi/swagger-editor:v${{ env.RELEASED_VERSION }}
 
@@ -94,6 +94,6 @@ jobs:
         with:
           context: .
           file: Dockerfile.unprivileged
-          push: false
+          push: true
           platforms: linux/amd64,linux/arm/v6,linux/arm/v7,linux/arm64/v8,linux/386,linux/ppc64le,linux/s390x
           tags: swaggerapi/swagger-editor:next-v5-unprivileged,swaggerapi/swagger-editor:v${{ env.RELEASED_VERSION }}-unprivileged
