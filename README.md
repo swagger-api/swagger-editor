@@ -32,39 +32,13 @@ These prerequisites are required both for installing SwaggerEditor as a npm pack
 ### Installation
 
 Assuming [prerequisites](#prerequisites) are already installed, SwaggerEditor npm package is installable and works with `Node.js >= 12.22.0`.
-SwaggerEditor npm package is currently hosted on [GitHub packages registry](https://docs.github.com/en/packages/learn-github-packages/introduction-to-github-packages).
-
-You can authenticate to GitHub Packages with npm by either editing your per-user *~/.npmrc*
-file to include your personal access token (classic) or by logging in to npm on the command line using your username and personal access token.
-
-To authenticate by adding your personal access token (classic) to your *~/.npmrc* file,
-edit the *~/.npmrc* file for your project to include the following line,
-replacing TOKEN with your personal access token. Create a new *~/.npmrc* file if one doesn't exist.
-You can find more information about authenticating to GitHub Packages in [GitHub documentation](https://docs.github.com/en/packages/working-with-a-github-packages-registry/working-with-the-npm-registry#authenticating-to-github-packages).
-
-Last step is to include a line to the *.npmrc* file, specifying GitHub Packages URL and the namespace *(@swagger-api)* where the package is hosted.
-
-```
-@swagger-api:registry=https://npm.pkg.github.com
-//npm.pkg.github.com/:_authToken=TOKEN
-```
-
-You can now install SwaggerEditor package using `npm`:
+You can install SwaggerEditor via [npm CLI](https://docs.npmjs.com/cli) by running the following command:
 
 ```sh
- $ npm install @swagger-api/swagger-editor
+ $ npm install swagger-editor@>=5
 ````
-
-For more information about installing npm packages from GitHub packages registry please visit [Installing a package](https://docs.github.com/en/packages/working-with-a-github-packages-registry/working-with-the-npm-registry#installing-a-package)
-section in GitHub documentation.
 
 ### Usage
-
-Install the package:
-
-```sh
- $ npm install @swagger-api/swagger-editor
-````
 
 Use the package in you application:
 
@@ -73,8 +47,8 @@ Use the package in you application:
 ```js
 import React from 'react';
 import ReactDOM from 'react-dom';
-import SwaggerEditor from '@swagger-api/swagger-editor';
-import '@swagger-api/swagger-editor/swagger-editor.css';
+import SwaggerEditor from 'swagger-editor';
+import 'swagger-editor/swagger-editor.css';
 
 const url = "https://raw.githubusercontent.com/asyncapi/spec/v2.2.0/examples/streetlights-kafka.yml";
 
@@ -118,8 +92,8 @@ module.exports = {
   mode: 'production',
   entry: {
     app: './index.js',
-    'apidom.worker': '@swagger-api/swagger-editor/apidom.worker',
-    'editor.worker': '@swagger-api/swagger-editor/editor.worker',
+    'apidom.worker': 'swagger-editor/apidom.worker',
+    'editor.worker': 'swagger-editor/editor.worker',
   },
   output: {
     globalObject: 'self',
@@ -303,11 +277,11 @@ module.exports = {
     new CopyWebpackPlugin({
       patterns: [
         {
-          from: 'node_modules/@swagger-api/swagger-editor/dist/umd/apidom.worker.js',
+          from: 'node_modules/swagger-editor/dist/umd/apidom.worker.js',
           to: 'static/js',
         },
         {
-          from: 'node_modules/@swagger-api/swagger-editor/dist/umd/editor.worker.js',
+          from: 'node_modules/swagger-editor/dist/umd/editor.worker.js',
           to: 'static/js',
         }
       ]
@@ -452,7 +426,7 @@ It's bundled with React defined as external. This allows consumer to use his own
 
 **npm**
 
-SwaggerEditor is released as `@swagger-api/swagger-editor` npm package on [GitHub packages registry](https://docs.github.com/en/packages/learn-github-packages/introduction-to-github-packages).
+SwaggerEditor is released as `swagger-editor@5` npm package on [npmjs.com](https://npmjs.com).
 Package can also be produced manually by running following commands (assuming you're already followed [setting up](#setting-up) steps):
 
 ```sh
@@ -527,7 +501,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import SwaggerUI from 'swagger-ui-react';
 import 'swagger-ui-react/swagger-ui.css';
-import SwaggerEditor from '@swagger-api/swagger-editor';
+import SwaggerEditor from 'swagger-editor';
 
 const plugins = [
   SwaggerEditor.plugins.EditorContentType,
