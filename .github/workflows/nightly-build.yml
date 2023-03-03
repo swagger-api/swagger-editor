@@ -66,5 +66,5 @@ jobs:
       - name: Upload npm artifact
         uses: actions/upload-artifact@v3
         with:
-          name: "swagger-api-swagger-editor-next.tgz"
-          path: ./swagger-api-swagger-editor-next-*.tgz
+          name: "swagger-editor-next.tgz"
+          path: ./swagger-editor-*.tgz

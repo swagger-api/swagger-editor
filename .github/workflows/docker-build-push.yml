@@ -67,7 +67,7 @@ jobs:
       - run: |
           unzip released-version.zip
           RELEASED_VERSION=$(cat released-version.txt)
-          echo "RELEASED_VERSION=RELEASED_VERSION" >> $GITHUB_ENV
+          echo "RELEASED_VERSION=$RELEASED_VERSION" >> $GITHUB_ENV
 
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v2
@@ -85,7 +85,7 @@ jobs:
         uses: docker/build-push-action@v4
         with:
           context: .
-          push: false
+          push: true
           platforms: linux/amd64,linux/arm/v6,linux/arm/v7,linux/arm64/v8,linux/386,linux/ppc64le,linux/s390x
           tags: swaggerapi/swagger-editor:next-v5,swaggerapi/swagger-editor:v${{ env.RELEASED_VERSION }}
 
@@ -94,6 +94,6 @@ jobs:
         with:
           context: .
           file: Dockerfile.unprivileged
-          push: false
+          push: true
           platforms: linux/amd64,linux/arm/v6,linux/arm/v7,linux/arm64/v8,linux/386,linux/ppc64le,linux/s390x
           tags: swaggerapi/swagger-editor:next-v5-unprivileged,swaggerapi/swagger-editor:v${{ env.RELEASED_VERSION }}-unprivileged

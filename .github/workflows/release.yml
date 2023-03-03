@@ -20,7 +20,7 @@ jobs:
       - name: Determine the next release version
         uses: cycjimmy/semantic-release-action@v3
         with:
-          dry_run: true
+          dry_run: false
           extra_plugins: |
             @semantic-release/git
             @semantic-release/exec
@@ -43,22 +43,22 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-#      - name: Prepare for the Release
-#        env:
-#          REACT_APP_VERSION: ${{ env.NEXT_RELEASE_VERSION }}
-#        run: |
-#          npm run lint
-#          npm run test
-#          npm run build:app
-#          npm run cy:ci
-#          npm run build:bundle:esm
-#          npm run build:bundle:umd
+      - name: Prepare for the Release
+        env:
+          REACT_APP_VERSION: ${{ env.NEXT_RELEASE_VERSION }}
+        run: |
+          npm run lint
+          npm run test
+          npm run build:app
+          npm run cy:ci
+          npm run build:bundle:esm
+          npm run build:bundle:umd
 
       - name: Semantic Release
         id: semantic
         uses: cycjimmy/semantic-release-action@v3
         with:
-          dry_run: true
+          dry_run: false
           extra_plugins: |
             @semantic-release/git
         env:
