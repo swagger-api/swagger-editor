@@ -4,7 +4,7 @@
     "main.css": "/static/css/main.e1cd4260.css",
     "apidom.worker.js": "/static/js/apidom.worker.js",
     "editor.worker.js": "/static/js/editor.worker.js",
-    "static/js/558.6bd12a3d.chunk.js": "/static/js/558.6bd12a3d.chunk.js",
+    "static/js/558.33d805c0.chunk.js": "/static/js/558.33d805c0.chunk.js",
     "static/media/tree-sitter-yaml.wasm": "/static/media/tree-sitter-yaml.d396281e11774e0afa7a.wasm",
     "static/media/tree-sitter.wasm": "/static/media/tree-sitter.fba0b3cc0d7ee926ea48.wasm",
     "static/media/codicon.ttf": "/static/media/codicon.b797181c93b3755f4fa1.ttf",
@@ -16,7 +16,7 @@
     "main.e1cd4260.css.map": "/static/css/main.e1cd4260.css.map",
     "apidom.worker.js.map": "/static/js/apidom.worker.js.map",
     "editor.worker.js.map": "/static/js/editor.worker.js.map",
-    "558.6bd12a3d.chunk.js.map": "/static/js/558.6bd12a3d.chunk.js.map"
+    "558.33d805c0.chunk.js.map": "/static/js/558.33d805c0.chunk.js.map"
   },
   "entrypoints": [
     "static/js/main.js",
