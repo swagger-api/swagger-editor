@@ -108,7 +108,7 @@
     "cypress": "^12.7.0",
     "cypress-file-upload": "^5.0.8",
     "eslint-config-airbnb": "^19.0.4",
-    "eslint-config-prettier": "^8.6.0",
+    "eslint-config-prettier": "^8.7.0",
     "eslint-plugin-cypress": "^2.12.1",
     "eslint-plugin-prettier": "^4.2.1",
     "https-browserify": "^1.0.0",
