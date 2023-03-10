@@ -114,7 +114,7 @@
     "https-browserify": "^1.0.0",
     "husky": "^8.0.3",
     "jest-canvas-mock": "^2.4.0",
-    "lint-staged": "^13.1.2",
+    "lint-staged": "^13.2.0",
     "prettier": "^2.8.4",
     "react-scripts": "file:./create-react-app/packages/react-scripts",
     "rimraf": "^4.3.0",
