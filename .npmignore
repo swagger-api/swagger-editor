@@ -20,6 +20,8 @@
 /.commitlintrc.json
 /cypress.config.js
 /Dockerfile
+/Dockerfile.unprivileged
 /.eslintrc
+/.gitattributes
 /.editorconfig
 /swagger-api-swagger-editor-*.tgz

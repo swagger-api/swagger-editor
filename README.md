@@ -32,39 +32,13 @@ These prerequisites are required both for installing SwaggerEditor as a npm pack
 ### Installation
 
 Assuming [prerequisites](#prerequisites) are already installed, SwaggerEditor npm package is installable and works with `Node.js >= 12.22.0`.
-SwaggerEditor npm package is currently hosted on [GitHub packages registry](https://docs.github.com/en/packages/learn-github-packages/introduction-to-github-packages).
-
-You can authenticate to GitHub Packages with npm by either editing your per-user *~/.npmrc*
-file to include your personal access token (classic) or by logging in to npm on the command line using your username and personal access token.
-
-To authenticate by adding your personal access token (classic) to your *~/.npmrc* file,
-edit the *~/.npmrc* file for your project to include the following line,
-replacing TOKEN with your personal access token. Create a new *~/.npmrc* file if one doesn't exist.
-You can find more information about authenticating to GitHub Packages in [GitHub documentation](https://docs.github.com/en/packages/working-with-a-github-packages-registry/working-with-the-npm-registry#authenticating-to-github-packages).
-
-Last step is to include a line to the *.npmrc* file, specifying GitHub Packages URL and the namespace *(@swagger-api)* where the package is hosted.
-
-```
-@swagger-api:registry=https://npm.pkg.github.com
-//npm.pkg.github.com/:_authToken=TOKEN
-```
-
-You can now install SwaggerEditor package using `npm`:
+You can install SwaggerEditor via [npm CLI](https://docs.npmjs.com/cli) by running the following command:
 
 ```sh
- $ npm install @swagger-api/swagger-editor
+ $ npm install swagger-editor@>=5
 ````
-
-For more information about installing npm packages from GitHub packages registry please visit [Installing a package](https://docs.github.com/en/packages/working-with-a-github-packages-registry/working-with-the-npm-registry#installing-a-package)
-section in GitHub documentation.
 
 ### Usage
-
-Install the package:
-
-```sh
- $ npm install @swagger-api/swagger-editor
-````
 
 Use the package in you application:
 
@@ -73,8 +47,8 @@ Use the package in you application:
 ```js
 import React from 'react';
 import ReactDOM from 'react-dom';
-import SwaggerEditor from '@swagger-api/swagger-editor';
-import '@swagger-api/swagger-editor/swagger-editor.css';
+import SwaggerEditor from 'swagger-editor';
+import 'swagger-editor/swagger-editor.css';
 
 const url = "https://raw.githubusercontent.com/asyncapi/spec/v2.2.0/examples/streetlights-kafka.yml";
 
@@ -118,8 +92,8 @@ module.exports = {
   mode: 'production',
   entry: {
     app: './index.js',
-    'apidom.worker': '@swagger-api/swagger-editor/apidom.worker',
-    'editor.worker': '@swagger-api/swagger-editor/editor.worker',
+    'apidom.worker': 'swagger-editor/apidom.worker',
+    'editor.worker': 'swagger-editor/editor.worker',
   },
   output: {
     globalObject: 'self',
@@ -141,6 +115,38 @@ module.exports = {
       'monaco-editor$': 'monaco-editor/esm/vs/editor/edcore.main.js',
       // This alias make sure we don't pull two different versions of monaco-editor
       'monaco-editor': '/node_modules/monaco-editor',
+      // This alias makes sure we don't pull two different versions of ApiDOM.
+      // swagger-client uses ApiDOM as well, and might come with different ApiDOM version.
+      // SwaggerEditor ApiDOM dependency takes precendence in the resolution.
+      '@swagger-api/apidom-ast$': '/node_modules/@swagger-api/apidom-ast/es/index.js',
+      '@swagger-api/apidom-core$': '/node_modules/@swagger-api/apidom-core/es/index.js',
+      '@swagger-api/apidom-json-pointer$': '/node_modules/@swagger-api/apidom-json-pointer/es/index.js',
+      '@swagger-api/apidom-ls$': '/node_modules/@swagger-api/apidom-ls/es/index.js',
+      '@swagger-api/apidom-ns-api-design-systems$': '/node_modules/@swagger-api/apidom-ns-api-design-systems/es/index.js',
+      '@swagger-api/apidom-ns-asyncapi-2$': '/node_modules/@swagger-api/apidom-ns-asyncapi-2/es/index.js',
+      '@swagger-api/apidom-ns-json-schema-draft-4$': '/node_modules/@swagger-api/apidom-ns-json-schema-draft-4/es/index.js',
+      '@swagger-api/apidom-ns-json-schema-draft-6$': '/node_modules/@swagger-api/apidom-ns-json-schema-draft-6/es/index.js',
+      '@swagger-api/apidom-ns-json-schema-draft-7$': '/node_modules/@swagger-api/apidom-ns-json-schema-draft-7/es/index.js',
+      '@swagger-api/apidom-ns-openapi-3-0$': '/node_modules/@swagger-api/apidom-ns-openapi-3-0/es/index.js',
+      '@swagger-api/apidom-ns-openapi-3-1$': '/node_modules/@swagger-api/apidom-ns-openapi-3-1/es/index.js',
+      '@swagger-api/apidom-parser$': '/node_modules/@swagger-api/apidom-parser/es/parser.js',
+      '@swagger-api/apidom-parser-adapter-api-design-systems-json$': '/node_modules/@swagger-api/apidom-parser-adapter-api-design-systems-json/es/adapter.js',
+      '@swagger-api/apidom-parser-adapter-api-design-systems-yaml$': '/node_modules/@swagger-api/apidom-parser-adapter-api-design-systems-yaml/es/adapter.js',
+      '@swagger-api/apidom-parser-adapter-asyncapi-json-2$': '/node_modules/@swagger-api/apidom-parser-adapter-asyncapi-json-2/es/adapter.js',
+      '@swagger-api/apidom-parser-adapter-asyncapi-yaml-2$': '/node_modules/@swagger-api/apidom-parser-adapter-asyncapi-yaml-2/es/adapter.js',
+      '@swagger-api/apidom-parser-adapter-json$': '/node_modules/@swagger-api/apidom-parser-adapter-json/es/adapter-browser.js',
+      '@swagger-api/apidom-parser-adapter-openapi-json-3-0$': '/node_modules/@swagger-api/apidom-parser-adapter-openapi-json-3-0/es/adapter.js',
+      '@swagger-api/apidom-parser-adapter-openapi-json-3-1$': '/node_modules/@swagger-api/apidom-parser-adapter-openapi-json-3-1/es/adapter.js',
+      '@swagger-api/apidom-parser-adapter-openapi-yaml-3-0$': '/node_modules/@swagger-api/apidom-parser-adapter-openapi-yaml-3-0/es/adapter.js',
+      '@swagger-api/apidom-parser-adapter-openapi-yaml-3-1$': '/node_modules/@swagger-api/apidom-parser-adapter-openapi-yaml-3-1/es/adapter.js',
+      '@swagger-api/apidom-parser-adapter-yaml-1-2$': '/node_modules/@swagger-api/apidom-parser-adapter-yaml-1-2/es/adapter-browser.js',
+      '@swagger-api/apidom-reference$': '/node_modules/@swagger-api/apidom-reference/es/index.js',
+      '@swagger-api/apidom-reference/configuration/empty$': '/node_modules/@swagger-api/apidom-reference/es/configuration/empty.js',
+      '@swagger-api/apidom-reference/resolve/strategies/openapi-3-1$': '/node_modules/@swagger-api/apidom-reference/es/resolve/strategies/openapi-3-1/index.js',
+      '@swagger-api/apidom-reference/parse/parsers/binary$': '/node_modules/@swagger-api/apidom-reference/es/parse/parsers/binary/index-browser.js',
+      '@swagger-api/apidom-reference/dereference/strategies/openapi-3-1/selectors/$anchor$': '/node_modules/@swagger-api/apidom-reference/es/dereference/strategies/openapi-3-1/selectors/$anchor/index.js',
+      '@swagger-api/apidom-reference/dereference/strategies/openapi-3-1/selectors/uri$': '/node_modules/@swagger-api/apidom-reference/es/dereference/strategies/openapi-3-1/selectors/uri/index.js',
+      '@swagger-api/apidom-reference/dereference/strategies/openapi-3-1$': '/node_modules/@swagger-api/apidom-reference/es/dereference/strategies/openapi-3-1/index.js',
     },
   },
   plugins: [
@@ -229,6 +235,38 @@ module.exports = {
       'monaco-editor$': 'monaco-editor/esm/vs/editor/edcore.main.js',
       // This alias make sure we don't pull two different versions of monaco-editor
       'monaco-editor': '/node_modules/monaco-editor',
+      // This alias makes sure we don't pull two different versions of ApiDOM.
+      // swagger-client uses ApiDOM as well, and might come with different ApiDOM version.
+      // SwaggerEditor ApiDOM dependency takes precendence in the resolution.
+      '@swagger-api/apidom-ast$': '/node_modules/@swagger-api/apidom-ast/es/index.js',
+      '@swagger-api/apidom-core$': '/node_modules/@swagger-api/apidom-core/es/index.js',
+      '@swagger-api/apidom-json-pointer$': '/node_modules/@swagger-api/apidom-json-pointer/es/index.js',
+      '@swagger-api/apidom-ls$': '/node_modules/@swagger-api/apidom-ls/es/index.js',
+      '@swagger-api/apidom-ns-api-design-systems$': '/node_modules/@swagger-api/apidom-ns-api-design-systems/es/index.js',
+      '@swagger-api/apidom-ns-asyncapi-2$': '/node_modules/@swagger-api/apidom-ns-asyncapi-2/es/index.js',
+      '@swagger-api/apidom-ns-json-schema-draft-4$': '/node_modules/@swagger-api/apidom-ns-json-schema-draft-4/es/index.js',
+      '@swagger-api/apidom-ns-json-schema-draft-6$': '/node_modules/@swagger-api/apidom-ns-json-schema-draft-6/es/index.js',
+      '@swagger-api/apidom-ns-json-schema-draft-7$': '/node_modules/@swagger-api/apidom-ns-json-schema-draft-7/es/index.js',
+      '@swagger-api/apidom-ns-openapi-3-0$': '/node_modules/@swagger-api/apidom-ns-openapi-3-0/es/index.js',
+      '@swagger-api/apidom-ns-openapi-3-1$': '/node_modules/@swagger-api/apidom-ns-openapi-3-1/es/index.js',
+      '@swagger-api/apidom-parser$': '/node_modules/@swagger-api/apidom-parser/es/parser.js',
+      '@swagger-api/apidom-parser-adapter-api-design-systems-json$': '/node_modules/@swagger-api/apidom-parser-adapter-api-design-systems-json/es/adapter.js',
+      '@swagger-api/apidom-parser-adapter-api-design-systems-yaml$': '/node_modules/@swagger-api/apidom-parser-adapter-api-design-systems-yaml/es/adapter.js',
+      '@swagger-api/apidom-parser-adapter-asyncapi-json-2$': '/node_modules/@swagger-api/apidom-parser-adapter-asyncapi-json-2/es/adapter.js',
+      '@swagger-api/apidom-parser-adapter-asyncapi-yaml-2$': '/node_modules/@swagger-api/apidom-parser-adapter-asyncapi-yaml-2/es/adapter.js',
+      '@swagger-api/apidom-parser-adapter-json$': '/node_modules/@swagger-api/apidom-parser-adapter-json/es/adapter-browser.js',
+      '@swagger-api/apidom-parser-adapter-openapi-json-3-0$': '/node_modules/@swagger-api/apidom-parser-adapter-openapi-json-3-0/es/adapter.js',
+      '@swagger-api/apidom-parser-adapter-openapi-json-3-1$': '/node_modules/@swagger-api/apidom-parser-adapter-openapi-json-3-1/es/adapter.js',
+      '@swagger-api/apidom-parser-adapter-openapi-yaml-3-0$': '/node_modules/@swagger-api/apidom-parser-adapter-openapi-yaml-3-0/es/adapter.js',
+      '@swagger-api/apidom-parser-adapter-openapi-yaml-3-1$': '/node_modules/@swagger-api/apidom-parser-adapter-openapi-yaml-3-1/es/adapter.js',
+      '@swagger-api/apidom-parser-adapter-yaml-1-2$': '/node_modules/@swagger-api/apidom-parser-adapter-yaml-1-2/es/adapter-browser.js',
+      '@swagger-api/apidom-reference$': '/node_modules/@swagger-api/apidom-reference/es/index.js',
+      '@swagger-api/apidom-reference/configuration/empty$': '/node_modules/@swagger-api/apidom-reference/es/configuration/empty.js',
+      '@swagger-api/apidom-reference/resolve/strategies/openapi-3-1$': '/node_modules/@swagger-api/apidom-reference/es/resolve/strategies/openapi-3-1/index.js',
+      '@swagger-api/apidom-reference/parse/parsers/binary$': '/node_modules/@swagger-api/apidom-reference/es/parse/parsers/binary/index-browser.js',
+      '@swagger-api/apidom-reference/dereference/strategies/openapi-3-1/selectors/$anchor$': '/node_modules/@swagger-api/apidom-reference/es/dereference/strategies/openapi-3-1/selectors/$anchor/index.js',
+      '@swagger-api/apidom-reference/dereference/strategies/openapi-3-1/selectors/uri$': '/node_modules/@swagger-api/apidom-reference/es/dereference/strategies/openapi-3-1/selectors/uri/index.js',
+      '@swagger-api/apidom-reference/dereference/strategies/openapi-3-1$': '/node_modules/@swagger-api/apidom-reference/es/dereference/strategies/openapi-3-1/index.js',
     }
   },
   plugins: [
@@ -239,11 +277,11 @@ module.exports = {
     new CopyWebpackPlugin({
       patterns: [
         {
-          from: 'node_modules/@swagger-api/swagger-editor/dist/umd/apidom.worker.js',
+          from: 'node_modules/swagger-editor/dist/umd/apidom.worker.js',
           to: 'static/js',
         },
         {
-          from: 'node_modules/@swagger-api/swagger-editor/dist/umd/editor.worker.js',
+          from: 'node_modules/swagger-editor/dist/umd/editor.worker.js',
           to: 'static/js',
         }
       ]
@@ -274,34 +312,6 @@ will automatically pick the right Node.js version for you:
 
 ```sh
  $ nvm use
-```
-
-This repository is using npm packages from [https://www.npmjs.com/](npmjs.com) and [GitHub packages registry](https://docs.github.com/en/packages/learn-github-packages/introduction-to-github-packages).
-To successfully install npm packages that SwaggerEditor requires, you need to [Authenticate to GitHub Packages](https://docs.github.com/en/packages/working-with-a-github-packages-registry/working-with-the-npm-registry#authenticating-to-github-packages).
-
-You can authenticate to GitHub Packages with npm by either editing your per-user *~/.npmrc*
-file to include your personal access token (classic) or by logging in to npm on the command line using your username and personal access token.
-
-To authenticate by adding your personal access token (classic) to your *~/.npmrc* file,
-edit the *~/.npmrc* file for your project to include the following line,
-replacing TOKEN with your personal access token. Create a new *~/.npmrc* file if one doesn't exist.
-You can find more information about authenticating to GitHub Packages in [GitHub documentation](https://docs.github.com/en/packages/working-with-a-github-packages-registry/working-with-the-npm-registry#authenticating-to-github-packages).
-
-```
-//npm.pkg.github.com/:_authToken=TOKEN
-```
-
-
-Alternatively, to authenticate by logging in to npm, use the `npm login` command,
-replacing USERNAME with your GitHub username, TOKEN with your personal access token (classic),
-and PUBLIC-EMAIL-ADDRESS with your email address.
-
-```sh
-$ npm login --scope=@swagger-api --registry=https://npm.pkg.github.com
-
-> Username: USERNAME
-> Password: TOKEN
-> Email: PUBLIC-EMAIL-ADDRESS
 ```
 
 Run the following commands to set up the repository for local development:
@@ -416,7 +426,7 @@ It's bundled with React defined as external. This allows consumer to use his own
 
 **npm**
 
-SwaggerEditor is released as `@swagger-api/swagger-editor` npm package on [GitHub packages registry](https://docs.github.com/en/packages/learn-github-packages/introduction-to-github-packages).
+SwaggerEditor is released as `swagger-editor@5` npm package on [npmjs.com](https://npmjs.com).
 Package can also be produced manually by running following commands (assuming you're already followed [setting up](#setting-up) steps):
 
 ```sh
@@ -491,7 +501,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import SwaggerUI from 'swagger-ui-react';
 import 'swagger-ui-react/swagger-ui.css';
-import SwaggerEditor from '@swagger-api/swagger-editor';
+import SwaggerEditor from 'swagger-editor';
 
 const plugins = [
   SwaggerEditor.plugins.EditorContentType,
