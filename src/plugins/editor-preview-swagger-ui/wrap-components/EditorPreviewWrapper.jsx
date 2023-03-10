@@ -4,15 +4,12 @@ import PropTypes from 'prop-types';
 const EditorPreviewWrapper = (Original, system) => {
   const EditorPreview = ({ getComponent, editorSelectors }) => {
     const EditorPreviewSwaggerUI = getComponent('EditorPreviewSwaggerUI', true);
-    const EditorPreviewSwaggerUIFallback = getComponent('EditorPreviewSwaggerUIFallback', true);
     const isOpenAPI = editorSelectors.selectIsContentTypeOpenAPI();
-    const isOpenAPI31 = editorSelectors.selectIsContentTypeOpenAPI31x();
-    if (isOpenAPI && !isOpenAPI31) {
+
+    if (isOpenAPI) {
       return <EditorPreviewSwaggerUI />;
     }
-    if (isOpenAPI && isOpenAPI31) {
-      return <EditorPreviewSwaggerUIFallback />;
-    }
+
     return (
       <Original {...system} /> // eslint-disable-line react/jsx-props-no-spreading
     );
