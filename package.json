@@ -90,7 +90,7 @@
     "react-table": "^7.8.0",
     "reselect": "^4.1.7",
     "short-unique-id": "^4.4.4",
-    "styled-components": "^5.3.8",
+    "styled-components": "^5.3.9",
     "swagger-ui-react": "^5.0.0-alpha.2",
     "vscode": "npm:@codingame/monaco-vscode-api@~1.69.13",
     "vscode-languageclient": "^8.1.0",
