@@ -127,6 +127,8 @@ docker run -d -p 80:8080 -v $(pwd):/tmp -e SWAGGER_FILE=/tmp/swagger.json swagge
 docker run -d -p 80:8080 -e BASE_URL=/swagger-editor swaggerapi/swagger-editor
 ```
 
+* You can specify a different port via `NGINX_PORT` variable for accessing the application, default is `8080`.
+
 You can also customize the different endpoints used by the Swagger Editor with the following environment variables. For instance, this can be useful if you have your own Swagger generator server:
 
 Environment variable | Default value

@@ -2,9 +2,10 @@ FROM nginx:1.23.3-alpine
 
 LABEL maintainer="fehguy"
 
-ENV BASE_URL "/"
+ENV BASE_URL "/" \
+    NGINX_PORT "8080"
 
-COPY default.conf /etc/nginx/templates/default.conf.template
+COPY nginx.conf /etc/nginx/templates/default.conf.template
 
 COPY ./index.html /usr/share/nginx/html/
 COPY ./dist/oauth2-redirect.html /usr/share/nginx/html/
