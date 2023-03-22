@@ -121,10 +121,16 @@ docker run -d -p 80:8080 -v $(pwd):/tmp -e SWAGGER_FILE=/tmp/swagger.json swagge
 
 **Note:** When both `URL` and `SWAGGER_FILE` environment variables are set, `URL` has priority and `SWAGGER_FILE` is ignored.
 
-* You can specify a different base url for accessing the application - for example if you want the application to be available at `http://localhost/swagger-editor/`:
+* You can specify a different base url via `BASE_URL` variable for accessing the application - for example if you want the application to be available at `http://localhost/swagger-editor/`:
 
 ```
 docker run -d -p 80:8080 -e BASE_URL=/swagger-editor swaggerapi/swagger-editor
+```
+
+* You can specify a different port via `PORT` variable for accessing the application, default is `8080`.
+
+```
+docker run -d -p 80:80 -e PORT=80 swaggerapi/swagger-editor
 ```
 
 You can also customize the different endpoints used by the Swagger Editor with the following environment variables. For instance, this can be useful if you have your own Swagger generator server:

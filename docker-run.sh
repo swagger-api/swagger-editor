@@ -2,14 +2,9 @@
 
 set -e
 
-BASE_URL=${BASE_URL:-/}
 NGINX_ROOT=/usr/share/nginx/html
 INDEX_FILE=$NGINX_ROOT/index.html
-NGINX_CONF=/etc/nginx/nginx.conf
-
-if [[ "${BASE_URL}" != "/" ]]; then
-  sed -i "s|location / {|location $BASE_URL {|g" $NGINX_CONF
-fi
+NGINX_CONF=/etc/nginx/conf.d/default.conf
 
 ## Adding env var support for file passed with URL env variable
 ## When set, URL has priority over SWAGGER_FILE
@@ -63,8 +58,6 @@ if [[ "${URL_OAS3_GENERATOR}" ]]; then
     sed -i "s|SwaggerEditorBundle({|SwaggerEditorBundle({\n      oas3GeneratorUrl: null,|g" $INDEX_FILE
   fi
 fi
-
-exec nginx -g 'daemon off;'
 
 ## Gzip after replacements
 #find /usr/share/nginx/html/ -type f -regex ".*\.\(html\|js\|css\)" -exec sh -c "gzip < {} > {}.gz" \;
