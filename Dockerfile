@@ -3,7 +3,7 @@ FROM nginx:1.23.3-alpine
 LABEL maintainer="fehguy"
 
 ENV BASE_URL "/" \
-    NGINX_PORT "8080"
+    PORT "8080"
 
 COPY nginx.conf /etc/nginx/templates/default.conf.template
 
