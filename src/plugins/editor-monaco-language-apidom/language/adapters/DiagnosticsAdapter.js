@@ -1,5 +1,5 @@
 import * as monaco from 'monaco-editor';
-import * as vscode from 'vscode';
+import { languages } from 'vscode';
 
 import Adapter from './Adapter.js';
 import { languageId } from '../config.js';
@@ -14,7 +14,7 @@ export default class DiagnosticsAdapter extends Adapter {
   constructor(...args) {
     super(...args);
 
-    this.#diagnosticCollection = vscode.languages.createDiagnosticCollection(languageId);
+    this.#diagnosticCollection = languages.createDiagnosticCollection(languageId);
 
     const onModelAdd = (model) => {
       if (model.getLanguageId() !== languageId) {

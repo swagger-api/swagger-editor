@@ -22,50 +22,44 @@ import {
   selectEditorJumpToMarker,
   selectEditorRequestJumpToMarker,
 } from './selectors.js';
-import makeAfterLoad from './after-load.js';
+import afterLoad from './after-load.js';
 
-const EditorMonacoPlugin = (opts = {}) => {
-  const isCalledWithGetSystem = typeof opts.getSystem === 'function';
-  const options = isCalledWithGetSystem ? {} : opts;
-  const plugin = () => ({
-    afterLoad: makeAfterLoad(options),
-    rootInjects: {
-      monaco,
-    },
-    components: {
-      Editor: MonacoEditorContainer,
-      MonacoEditor: MonacoEditorContainer,
-      ValidationPane,
-      ThemeSelection: ThemeSelectionIcon,
-    },
-    wrapComponents: {
-      EditorPaneBarTop: EditorPaneBarTopWrapper,
-      EditorPaneBarBottom: EditorPaneBarBottomWrapper,
-    },
-    statePlugins: {
-      editor: {
-        actions: {
-          updateEditorTheme,
-          setMarkers,
-          appendMarkers,
-          clearMarkers,
-          setJumpToEditorMarker,
-          clearJumpToEditorMarker,
-          setRequestJumpToEditorMarker,
-          clearRequestJumpToEditorMarker,
-        },
-        reducers,
-        selectors: {
-          selectEditorTheme,
-          selectMarkers,
-          selectEditorJumpToMarker,
-          selectEditorRequestJumpToMarker,
-        },
+const EditorMonacoPlugin = () => ({
+  afterLoad,
+  rootInjects: {
+    monaco,
+  },
+  components: {
+    Editor: MonacoEditorContainer,
+    MonacoEditor: MonacoEditorContainer,
+    ValidationPane,
+    ThemeSelection: ThemeSelectionIcon,
+  },
+  wrapComponents: {
+    EditorPaneBarTop: EditorPaneBarTopWrapper,
+    EditorPaneBarBottom: EditorPaneBarBottomWrapper,
+  },
+  statePlugins: {
+    editor: {
+      actions: {
+        updateEditorTheme,
+        setMarkers,
+        appendMarkers,
+        clearMarkers,
+        setJumpToEditorMarker,
+        clearJumpToEditorMarker,
+        setRequestJumpToEditorMarker,
+        clearRequestJumpToEditorMarker,
+      },
+      reducers,
+      selectors: {
+        selectEditorTheme,
+        selectMarkers,
+        selectEditorJumpToMarker,
+        selectEditorRequestJumpToMarker,
       },
     },
-  });
-
-  return isCalledWithGetSystem ? plugin(opts) : plugin;
-};
+  },
+});
 
 export default EditorMonacoPlugin;

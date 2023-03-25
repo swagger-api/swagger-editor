@@ -1,52 +1,26 @@
-import { ModesRegistry } from 'monaco-editor/esm/vs/editor/common/languages/modesRegistry.js';
-import * as monaco from 'monaco-editor';
+import { StandaloneServices, IStorageService } from 'vscode/services'; // eslint-disable-line import/no-unresolved
 
-import { languageExtensionPoint, monarchLanguage, languageId } from './workers/apidom/config.js';
-import { setupApiDOM } from './workers/apidom/apidom-mode.js';
+const afterLoad = () => {
+  /**
+   * StandaloneServices is a singleton and can be initialized only once.
+   * Subsequent initializations are noops. This has a side effect which
+   * is inability to dispose of the services via StandaloneServices interface.
+   * Individual services can be disposed of separately, but if one decides
+   * to do that StandaloneServices will not able to initialize them again.
+   */
+  StandaloneServices.initialize({});
 
-const makeAfterLoad =
-  ({ createData = {} } = {}) =>
-  () => {
-    /**
-     * Parts of this code use ModesRegistry API instead of monaco.languages API.
-     * The reason is that monaco.languages API is using ModesRegistory under the hood
-     * but doesn't return disposables produced by ModesRegistry. By using ModesRegistry
-     * directly we're able to obtain disposables.
-     */
+  // enable showing documentation while autocomplete suggestions are listed
+  StandaloneServices.get(IStorageService).store('expandSuggestionDocs', true, 0, 0);
 
-    // guard for multiple language registration
-    const languages = ModesRegistry.getLanguages().map(({ id }) => id);
-    if (languages.includes(languageId)) {
-      return;
-    }
-
-    // setup monaco environment
-    globalThis.MonacoEnvironment = {
-      baseUrl: document.baseURI || location.href, // eslint-disable-line no-restricted-globals
-      getWorkerUrl(moduleId, label) {
-        if (label === languageId) {
-          return new URL('./apidom.worker.js', this.baseUrl).toString();
-        }
-        return new URL('./editor.worker.js', this.baseUrl).toString();
-      },
-      ...(globalThis.MonacoEnvironment || {}), // this will allow to override the base uri for loading Web Workers
-    };
-
-    // setting up ApiDOM language
-    const disposables = [];
-    disposables.push(ModesRegistry.registerLanguage(languageExtensionPoint));
-    disposables.push(monaco.languages.setMonarchTokensProvider(languageId, monarchLanguage)); // enable syntax highlighting
-    disposables.push(setupApiDOM({ languageId, options: createData }));
-
-    // disposing of all allocated disposables
-    disposables.push(
-      monaco.editor.onWillDisposeModel((model) => {
-        if (model.getLanguageId() !== languageId) {
-          return;
-        }
-        disposables.forEach((disposable) => disposable.dispose());
-      })
-    );
+  // setup monaco environment
+  globalThis.MonacoEnvironment = {
+    baseUrl: document.baseURI || location.href, // eslint-disable-line no-restricted-globals
+    getWorkerUrl() {
+      return new URL('./editor.worker.js', this.baseUrl).toString();
+    },
+    ...(globalThis.MonacoEnvironment || {}), // this will allow to override the base uri for loading Web Workers
   };
+};
 
-export default makeAfterLoad;
+export default afterLoad;

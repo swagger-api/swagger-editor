@@ -1,3 +1,3 @@
 # Plug points
 
-- [editor-monaco](./editor-monaco.md)
+- [editor-monaco-language-apidom](./editor-monaco-language-apidom.md)

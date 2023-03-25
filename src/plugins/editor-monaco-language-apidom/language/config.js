@@ -4,8 +4,6 @@ export const languageId = 'apidom';
 
 export const languageExtensionPoint = {
   id: languageId,
-  // aliases: ['JSON', 'json', 'YAML', 'yaml'],
-  // mimetypes: ['application/json', 'application/yaml'],
 };
 
 export const richLanguage = {
@@ -49,12 +47,12 @@ export const richLanguage = {
 };
 
 export const monarchLanguage = {
-  // Set defaultToken to invalid to see what you do not tokenize yet
+  // set defaultToken to invalid to see what you do not tokenize yet
   defaultToken: 'invalid',
   keywords: ['swagger', 'info', 'host', 'basePath', 'tags', 'schemes', 'paths', 'externalDocs'],
   typeKeywords: ['description', 'title', 'termsOfService'],
   escapes: /\\(?:[abfnrtv\\"']|x[0-9A-Fa-f]{1,4}|u[0-9A-Fa-f]{4}|U[0-9A-Fa-f]{8})/,
-  // The main tokenizer for our languages
+  // the main tokenizer for our languages
   tokenizer: {
     root: [
       // identifiers and keywords

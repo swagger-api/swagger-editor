@@ -2,9 +2,8 @@
 
 ## Extending web worker capabilities
 
-`editor-monaco` plugin is using monaco editor, which is using web workers to provide
-editor capabilities. `editor-monaco` comes with a web worker called `apidom.worker`.
-This worker contains all the language service utilizing ApiDOM capabilities.
+`editor-monaco-language-apidom` comes with implementation of `apidom` language.
+The plugin comes with `apidom.worker` utilizing ApiDOM capabilities.
 `apidom.worker` can be extended in two ways: dynamic and static.
 
 ### Dynamic extension
@@ -14,7 +13,7 @@ Dynamic extension happens during runtime, and we recommend to use it only for si
 First thing we need to do is to pass a `customApiDOMWorkerPath` option to the `EditorMonaco` plugin.
 
 ```js
-EditorMonaco({
+EditorMonacoLanguageApiDOM({
   createData: {
     customApiDOMWorkerPath: 'https://example.com/index.js',
   },
@@ -107,7 +106,7 @@ it will be fetching data on demand from authorized REST endpoint.
 `EditorMonaco` plugin configuration.
 
 ```js
-EditorMonaco({
+EditorMonacoLanguageApiDOM({
   createData: {
     authToken: 'c32d8b45-92fe-44f6-8b61-42c2107dfe87',
     customApiDOMWorkerPath: 'https://example.com/index.js',
