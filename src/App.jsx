@@ -14,6 +14,7 @@ import DropzonePlugin from './plugins/dropzone/index.js';
 import VersionsPlugin from './plugins/versions/index.js';
 import EditorTextareaPlugin from './plugins/editor-textarea/index.js';
 import EditorMonacoPlugin from './plugins/editor-monaco/index.js';
+import EditorMonacoLanguageApiDOMPlugin from './plugins/editor-monaco-language-apidom/index.js';
 import EditorPreviewPlugin from './plugins/editor-preview/index.js';
 import EditorPreviewSwaggerUIPlugin from './plugins/editor-preview-swagger-ui/index.js';
 import EditorPreviewAsyncAPIPlugin from './plugins/editor-preview-asyncapi/index.js';
@@ -63,6 +64,7 @@ SwaggerEditor.plugins = {
   Versions: VersionsPlugin,
   EditorTextarea: EditorTextareaPlugin,
   EditorMonaco: EditorMonacoPlugin,
+  EditorMonacoLanguageApiDOM: EditorMonacoLanguageApiDOMPlugin,
   EditorContentReadOnly: EditorContentReadOnlyPlugin,
   EditorContentOrigin: EditorContentOriginPlugin,
   EditorContentType: EditorContentTypePlugin,
@@ -109,6 +111,7 @@ SwaggerEditor.presets = {
     VersionsPlugin,
     EditorTextareaPlugin,
     EditorMonacoPlugin,
+    EditorMonacoLanguageApiDOMPlugin,
     EditorContentReadOnlyPlugin,
     EditorContentOriginPlugin,
     EditorContentTypePlugin,

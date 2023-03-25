@@ -1,5 +1,5 @@
 /* eslint-disable no-underscore-dangle */
-import * as vscodeLanguageServerTextDocument from 'vscode-languageserver-textdocument'; // this is true source
+import * as vscodeLanguageServerTextDocument from 'vscode-languageserver-textdocument';
 import * as apidomLS from '@swagger-api/apidom-ls';
 
 export class ApiDOMWorker {
@@ -91,7 +91,7 @@ export class ApiDOMWorker {
   }
 
   _getTextDocument(uri) {
-    const models = this._ctx.getMirrorModels()[0];
+    const [model] = this._ctx.getMirrorModels();
     /**
      * When there are multiple files open, this will be an array
      * expect models: _lines[], _uri, _versionId
@@ -106,8 +106,8 @@ export class ApiDOMWorker {
     return vscodeLanguageServerTextDocument.TextDocument.create(
       uri,
       this._createData.languageId,
-      models._versionId,
-      models.getValue()
+      model.version,
+      model.getValue()
     );
   }
 }
