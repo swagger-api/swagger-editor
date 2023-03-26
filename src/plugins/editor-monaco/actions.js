@@ -1,4 +1,4 @@
-export const EDITOR_UPDATE_THEME = 'editor_update_theme';
+export const EDITOR_SET_THEME = 'editor_set_theme';
 
 export const EDITOR_SET_MARKERS = 'editor_set_markers';
 export const EDITOR_APPEND_MARKERS = 'editor_append_markers';
@@ -12,10 +12,10 @@ export const EDITOR_CLEAR_REQUEST_JUMP_TO_EDITOR_MARKER =
 
 export const EDITOR_SET_LANGUAGE = 'editor_set_language';
 
-export const updateEditorTheme = (theme = 'my-vs-dark') => {
+export const setTheme = (theme = 'my-vs-dark') => {
   return {
     payload: theme,
-    type: EDITOR_UPDATE_THEME,
+    type: EDITOR_SET_THEME,
   };
 };
 

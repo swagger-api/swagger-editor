@@ -1,7 +1,7 @@
 import { createSelector } from 'reselect';
 import { List } from 'immutable';
 
-export const selectEditorTheme = (state) => state.get('editorTheme') || 'my-vs-dark';
+export const selectTheme = (state) => state.get('theme', 'se-vs-dark');
 
 export const selectMarkers = createSelector(
   (state) => state.get('markers', List()),
@@ -15,6 +15,6 @@ export const selectEditorJumpToMarker = createSelector(
   }
 );
 
-export const selectLanguage = (state) => state.get('editorLanguage', 'plaintext');
+export const selectLanguage = (state) => state.get('language', 'plaintext');
 
 export const selectEditorRequestJumpToMarker = (state) => state.get('editorRequestJumpToMarker');

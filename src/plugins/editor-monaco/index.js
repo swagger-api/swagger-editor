@@ -6,7 +6,7 @@ import ThemeSelectionIcon from './components/ThemeSelectionIcon.jsx';
 import EditorPaneBarTopWrapper from './wrap-components/EditorPaneBarTopWrapper.jsx';
 import EditorPaneBarBottomWrapper from './wrap-components/EditorPaneBarBottomWrapper.jsx';
 import {
-  updateEditorTheme,
+  setTheme,
   setMarkers,
   setLanguage,
   appendMarkers,
@@ -18,7 +18,7 @@ import {
 } from './actions.js';
 import reducers from './reducers.js';
 import {
-  selectEditorTheme,
+  selectTheme,
   selectMarkers,
   selectEditorJumpToMarker,
   selectEditorRequestJumpToMarker,
@@ -44,7 +44,7 @@ const EditorMonacoPlugin = () => ({
   statePlugins: {
     editor: {
       actions: {
-        updateEditorTheme,
+        setTheme,
         setMarkers,
         appendMarkers,
         clearMarkers,
@@ -56,7 +56,7 @@ const EditorMonacoPlugin = () => ({
       },
       reducers,
       selectors: {
-        selectEditorTheme,
+        selectTheme,
         selectMarkers,
         selectEditorJumpToMarker,
         selectEditorRequestJumpToMarker,

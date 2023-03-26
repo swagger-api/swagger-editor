@@ -42,7 +42,8 @@
     "import/no-unresolved": [2, {
       "ignore": [
         // https://github.com/import-js/eslint-plugin-import/issues/1810
-        "^monaco-languageclient\/monaco-converter$"
+        "^monaco-languageclient\/monaco-converter$",
+        "^vscode\/services$"
       ]
     }]
   }

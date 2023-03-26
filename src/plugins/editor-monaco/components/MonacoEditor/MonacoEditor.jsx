@@ -3,8 +3,8 @@ import PropTypes from 'prop-types';
 import * as monaco from 'monaco-editor';
 import noop from 'lodash/noop.js';
 
-import getStyleMetadataLight, { themes as themesLight } from '../../utils/monaco-theme-light.js';
-import getStyleMetadataDark, { themes as themesDark } from '../../utils/monaco-theme-dark.js';
+import seVsDarkTheme from '../../themes/se-vs-dark.js';
+import seVsLightTheme from '../../themes/se-vs-light.js';
 import { dereference } from '../../utils/monaco-action-apidom-deref.js';
 import { requestGetJsonPointerPosition } from '../../utils/monaco-jump-from-path-to-line.js';
 import { useMount, useUpdate, useSmoothResize } from './hooks.js';
@@ -90,8 +90,8 @@ const MonacoEditor = ({
 
   // defining the custom themes and setting the active one
   useMount(() => {
-    monaco.editor.defineTheme('my-vs-dark', themesDark.seVsDark);
-    monaco.editor.defineTheme('my-vs-light', themesLight.seVsLight);
+    monaco.editor.defineTheme('se-vs-dark', seVsDarkTheme);
+    monaco.editor.defineTheme('se-vs-light', seVsLightTheme);
   });
 
   // update language
@@ -163,7 +163,7 @@ const MonacoEditor = ({
           // then clear the request itself
           onClearRequestJumpToMarker();
         } else {
-          // just clear the request anyways
+          // just clear the request anyway
           onClearRequestJumpToMarker();
         }
       }
@@ -188,35 +188,7 @@ const MonacoEditor = ({
 
   // settings the theme if changed
   useEffect(() => {
-    // START dev demo test unrelated to the setTheme
-    // async function findMarkerPosition() {
-    //   const mockPath =
-    //     '/channels/smartylighting.streetlights.1.0.event.{streetlightId}.lighting.measured'; // asyncapi
-    //   // via apidom-ls
-    //   const foundMarkerPosition = await requestGetJsonPointerPosition(editorRef.current, mockPath);
-    //   console.log('mock...foundMarkerPosition', foundMarkerPosition);
-    //   if (foundMarkerPosition?.data) {
-    //     onSetRequestJumpToMarker(foundMarkerPosition.data);
-    //     onClearRequestJumpToMarker();
-    //   } else {
-    //     onClearRequestJumpToMarker();
-    //   }
-    // }
-    // if (editorRef?.current?.getModel) {
-    //   findMarkerPosition();
-    // }
-    // END dev demo test
-    if (theme === 'vs-dark') {
-      monaco.editor.setTheme('vs-dark');
-      // eslint-disable-next-line no-underscore-dangle
-      editorRef.current._themeService._theme.getTokenStyleMetadata = getStyleMetadataDark;
-    } else if (['vs-light', 'vs'].includes(theme)) {
-      monaco.editor.setTheme('vs');
-      // eslint-disable-next-line no-underscore-dangle
-      editorRef.current._themeService._theme.getTokenStyleMetadata = getStyleMetadataLight;
-    } else {
-      monaco.editor.setTheme(theme);
-    }
+    monaco.editor.setTheme(theme);
   }, [theme]);
 
   // register listener for validation markers

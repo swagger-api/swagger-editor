@@ -1,7 +1,7 @@
 import { fromJS, List } from 'immutable';
 
 import {
-  EDITOR_UPDATE_THEME,
+  EDITOR_SET_THEME,
   EDITOR_SET_MARKERS,
   EDITOR_CLEAR_MARKERS,
   EDITOR_APPEND_MARKERS,
@@ -13,8 +13,8 @@ import {
 } from './actions.js';
 
 const reducers = {
-  [EDITOR_UPDATE_THEME]: (state, action) => {
-    return state.set('editorTheme', action.payload);
+  [EDITOR_SET_THEME]: (state, action) => {
+    return state.set('theme', action.payload);
   },
   [EDITOR_SET_MARKERS]: (state, action) => {
     return state.set('markers', fromJS(action.payload));
@@ -43,7 +43,7 @@ const reducers = {
     return state.set('editorRequestJumpToMarker', action.payload);
   },
   [EDITOR_SET_LANGUAGE]: (state, action) => {
-    return state.set('editorLanguage', action.payload);
+    return state.set('language', action.payload);
   },
 };
 
