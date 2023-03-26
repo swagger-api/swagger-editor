@@ -1,6 +1,6 @@
 import Adapter from './Adapter.js';
 
-export default class CodeActionsAdapter extends Adapter {
+class CodeActionsAdapter extends Adapter {
   async #getCodeActionList(vscodeDocument, diagnosticList) {
     const worker = await this.worker(vscodeDocument.uri);
 
@@ -26,3 +26,5 @@ export default class CodeActionsAdapter extends Adapter {
     return this.#maybeConvert(codeActionList);
   }
 }
+
+export default CodeActionsAdapter;

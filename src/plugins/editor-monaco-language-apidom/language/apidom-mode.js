@@ -5,13 +5,14 @@ import { createConverter as createProtocolConverter } from 'vscode-languageclien
 import WorkerManager from './WorkerManager.js';
 import DiagnosticsAdapter from './adapters/DiagnosticsAdapter.js';
 import HoverAdapter from './adapters/HoverAdapter.js';
-import LinksAdapter from './adapters/LinksAdapter.js';
+import DocumentLinkAdapter from './adapters/DocumentLinkAdapter.js';
 import CompletionItemsAdapter from './adapters/CompletionItemsAdapter.js';
-import SemanticTokensAdapter from './adapters/SemanticTokensAdapter.js';
+import DocumentSemanticTokensAdapter from './adapters/DocumentSemanticTokensAdapter.js';
 import CodeActionsAdapter from './adapters/CodeActionsAdapter.js';
 import DocumentSymbolsAdapter from './adapters/DocumentSymbolsAdapter.js';
 import DefinitionAdapter from './adapters/DefinitionAdapter.js';
-import { richLanguage, languageId as defaultLanguageId } from './config.js';
+
+let apidomWorker;
 
 const disposeAll = (disposables) => {
   while (disposables.length) {
@@ -23,15 +24,24 @@ const asDisposable = (disposables) => {
   return { dispose: () => disposeAll(disposables) };
 };
 
+export const getWorker = () => {
+  if (!apidomWorker) {
+    throw new Error('ApiDOM not registered');
+  }
+  return apidomWorker;
+};
+
 const registerProviders = ({ languageId, providers, dependencies }) => {
   disposeAll(providers);
 
-  const { worker, codeConverter, protocolConverter } = dependencies;
+  const { worker, codeConverter, protocolConverter, semanticTokensLegend } = dependencies;
   const args = [worker, codeConverter, protocolConverter];
 
   providers.push(new DiagnosticsAdapter(...args));
   providers.push(languages.registerHoverProvider(languageId, new HoverAdapter(...args)));
-  providers.push(languages.registerDocumentLinkProvider(languageId, new LinksAdapter(...args)));
+  providers.push(
+    languages.registerDocumentLinkProvider(languageId, new DocumentLinkAdapter(...args))
+  );
   providers.push(
     languages.registerCompletionItemProvider(languageId, new CompletionItemsAdapter(...args))
   );
@@ -44,8 +54,8 @@ const registerProviders = ({ languageId, providers, dependencies }) => {
   providers.push(
     languages.registerDocumentSemanticTokensProvider(
       languageId,
-      new SemanticTokensAdapter(...args),
-      SemanticTokensAdapter.getLegend()
+      new DocumentSemanticTokensAdapter(...args),
+      semanticTokensLegend
     )
   );
   providers.push(languages.registerDefinitionProvider(languageId, new DefinitionAdapter(...args)));
@@ -56,26 +66,32 @@ const registerProviders = ({ languageId, providers, dependencies }) => {
 export function setupMode(defaults) {
   const disposables = [];
   const providers = [];
-  const { languageId } = defaults;
   const codeConverter = createCodeConverter();
   const protocolConverter = createProtocolConverter(undefined, true, true);
-  const client = new WorkerManager(defaults);
+  const client = defaults.getModeConfiguration().client || new WorkerManager(defaults);
   const worker = async (...uris) => {
     return client.getLanguageServiceWorker(...uris);
   };
   const registeredProviders = registerProviders({
-    languageId,
+    languageId: defaults.getLanguageId(),
     providers,
-    dependencies: { worker, codeConverter, protocolConverter },
+    dependencies: {
+      worker,
+      codeConverter,
+      protocolConverter,
+      semanticTokensLegend: defaults.getModeConfiguration().semanticTokensLegend,
+    },
   });
 
   disposables.push(client);
-  disposables.push(languages.setLanguageConfiguration(languageId, richLanguage));
   disposables.push(asDisposable(registeredProviders));
 
-  return asDisposable(disposables);
-}
+  apidomWorker = worker;
+  disposables.push({
+    dispose() {
+      apidomWorker = null;
+    },
+  });
 
-export function setupApiDOM(defaults) {
-  return setupMode({ ...defaults, languageId: defaultLanguageId });
+  return asDisposable(disposables);
 }

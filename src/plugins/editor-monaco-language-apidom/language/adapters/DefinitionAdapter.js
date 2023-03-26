@@ -1,6 +1,6 @@
 import Adapter from './Adapter.js';
 
-export default class DefinitionAdapter extends Adapter {
+class DefinitionAdapter extends Adapter {
   async #getLocation(vscodeDocument, position) {
     const worker = await this.worker(vscodeDocument.uri);
 
@@ -20,3 +20,5 @@ export default class DefinitionAdapter extends Adapter {
     return this.protocolConverter.asDefinitionResult(location);
   }
 }
+
+export default DefinitionAdapter;
