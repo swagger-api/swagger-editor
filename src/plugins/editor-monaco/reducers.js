@@ -9,6 +9,7 @@ import {
   EDITOR_CLEAR_JUMP_TO_EDITOR_MARKER,
   EDITOR_SET_REQUEST_JUMP_TO_EDITOR_MARKER,
   EDITOR_CLEAR_REQUEST_JUMP_TO_EDITOR_MARKER,
+  EDITOR_SET_LANGUAGE,
 } from './actions.js';
 
 const reducers = {
@@ -40,6 +41,9 @@ const reducers = {
   },
   [EDITOR_CLEAR_REQUEST_JUMP_TO_EDITOR_MARKER]: (state, action) => {
     return state.set('editorRequestJumpToMarker', action.payload);
+  },
+  [EDITOR_SET_LANGUAGE]: (state, action) => {
+    return state.set('editorLanguage', action.payload);
   },
 };
 

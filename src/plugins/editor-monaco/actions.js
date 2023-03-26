@@ -10,6 +10,8 @@ export const EDITOR_SET_REQUEST_JUMP_TO_EDITOR_MARKER = 'editor_set_request_jump
 export const EDITOR_CLEAR_REQUEST_JUMP_TO_EDITOR_MARKER =
   'editor_clear_request_jump_to_editor_marker';
 
+export const EDITOR_SET_LANGUAGE = 'editor_set_language';
+
 export const updateEditorTheme = (theme = 'my-vs-dark') => {
   return {
     payload: theme,
@@ -59,5 +61,12 @@ export const clearRequestJumpToEditorMarker = () => {
   return {
     payload: {},
     type: EDITOR_CLEAR_REQUEST_JUMP_TO_EDITOR_MARKER,
+  };
+};
+
+export const setLanguage = (languageId) => {
+  return {
+    payload: languageId,
+    type: EDITOR_SET_LANGUAGE,
   };
 };

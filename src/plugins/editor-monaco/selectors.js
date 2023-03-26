@@ -15,4 +15,6 @@ export const selectEditorJumpToMarker = createSelector(
   }
 );
 
+export const selectLanguage = (state) => state.get('editorLanguage', 'plaintext');
+
 export const selectEditorRequestJumpToMarker = (state) => state.get('editorRequestJumpToMarker');

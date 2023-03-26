@@ -8,6 +8,7 @@ const MonacoEditorContainer = ({ editorActions, editorSelectors, isReadOnly }) =
   const jumpToMarker = editorSelectors.selectEditorJumpToMarker();
   const requestJumpToMarker = editorSelectors.selectEditorRequestJumpToMarker();
   const value = editorSelectors.selectContent();
+  const language = editorSelectors.selectLanguage();
 
   const handleEditorDidMount = useCallback(
     (editor) => {
@@ -55,7 +56,7 @@ const MonacoEditorContainer = ({ editorActions, editorSelectors, isReadOnly }) =
 
   return (
     <MonacoEditor
-      language="apidom"
+      language={language}
       theme={theme}
       value={value}
       isReadOnly={isReadOnly}
@@ -84,6 +85,7 @@ MonacoEditorContainer.propTypes = {
     clearRequestJumpToEditorMarker: PropTypes.func.isRequired,
   }).isRequired,
   editorSelectors: PropTypes.shape({
+    selectLanguage: PropTypes.func.isRequired,
     selectContent: PropTypes.func.isRequired,
     selectEditorTheme: PropTypes.func.isRequired,
     selectEditorJumpToMarker: PropTypes.func.isRequired,
