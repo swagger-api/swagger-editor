@@ -8,6 +8,7 @@ import EditorPaneBarBottomWrapper from './wrap-components/EditorPaneBarBottomWra
 import {
   updateEditorTheme,
   setMarkers,
+  setLanguage,
   appendMarkers,
   clearMarkers,
   setJumpToEditorMarker,
@@ -21,6 +22,7 @@ import {
   selectMarkers,
   selectEditorJumpToMarker,
   selectEditorRequestJumpToMarker,
+  selectLanguage,
 } from './selectors.js';
 import afterLoad from './after-load.js';
 
@@ -50,6 +52,7 @@ const EditorMonacoPlugin = () => ({
         clearJumpToEditorMarker,
         setRequestJumpToEditorMarker,
         clearRequestJumpToEditorMarker,
+        setLanguage,
       },
       reducers,
       selectors: {
@@ -57,6 +60,7 @@ const EditorMonacoPlugin = () => ({
         selectMarkers,
         selectEditorJumpToMarker,
         selectEditorRequestJumpToMarker,
+        selectLanguage,
       },
     },
   },
