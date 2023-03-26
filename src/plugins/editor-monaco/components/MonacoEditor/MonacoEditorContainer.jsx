@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import MonacoEditor from './MonacoEditor.jsx';
 
 const MonacoEditorContainer = ({ editorActions, editorSelectors, isReadOnly }) => {
-  const theme = editorSelectors.selectEditorTheme();
+  const theme = editorSelectors.selectTheme();
   const jumpToMarker = editorSelectors.selectEditorJumpToMarker();
   const requestJumpToMarker = editorSelectors.selectEditorRequestJumpToMarker();
   const value = editorSelectors.selectContent();
@@ -87,7 +87,7 @@ MonacoEditorContainer.propTypes = {
   editorSelectors: PropTypes.shape({
     selectLanguage: PropTypes.func.isRequired,
     selectContent: PropTypes.func.isRequired,
-    selectEditorTheme: PropTypes.func.isRequired,
+    selectTheme: PropTypes.func.isRequired,
     selectEditorJumpToMarker: PropTypes.func.isRequired,
     selectEditorRequestJumpToMarker: PropTypes.func.isRequired,
   }).isRequired,

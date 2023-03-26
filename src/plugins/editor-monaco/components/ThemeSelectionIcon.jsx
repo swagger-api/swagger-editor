@@ -2,25 +2,21 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { MoonIcon, SunIcon } from '@primer/octicons-react';
 
-const themeList = ['vs', 'vs-light', 'vs-dark', 'my-vs-light', 'my-vs-dark'];
-
 const ThemeSelectionIcon = ({ editorSelectors, editorActions }) => {
-  const theme = editorSelectors.selectEditorTheme();
+  const theme = editorSelectors.selectTheme();
 
   const handleChange = (newTheme) => () => {
-    if (themeList.includes(newTheme)) {
-      editorActions.updateEditorTheme(newTheme);
-    }
+    editorActions.setTheme(newTheme);
   };
 
-  return theme === 'vs' || theme === 'vs-light' || theme === 'my-vs-light' ? (
+  return theme === 'se-vs-dark' ? (
     <div className="swagger-editor__generic-padding-thin-top-bottom">
       <button
         type="button"
         className="swagger-editor__editor-pane-bar-control"
-        onClick={handleChange('my-vs-dark')}
+        onClick={handleChange('se-vs-light')}
       >
-        <MoonIcon size="small" aria-label="Dark theme" />
+        <SunIcon size="small" aria-label="Light theme" />
       </button>
     </div>
   ) : (
@@ -28,17 +24,21 @@ const ThemeSelectionIcon = ({ editorSelectors, editorActions }) => {
       <button
         type="button"
         className="swagger-editor__editor-pane-bar-control"
-        onClick={handleChange('my-vs-light')}
+        onClick={handleChange('se-vs-dark')}
       >
-        <SunIcon size="small" aria-label="Light theme" />
+        <MoonIcon size="small" aria-label="Dark theme" />
       </button>
     </div>
   );
 };
 
 ThemeSelectionIcon.propTypes = {
-  editorActions: PropTypes.oneOfType([PropTypes.object]).isRequired,
-  editorSelectors: PropTypes.oneOfType([PropTypes.object]).isRequired,
+  editorActions: PropTypes.shape({
+    setTheme: PropTypes.func.isRequired,
+  }).isRequired,
+  editorSelectors: PropTypes.shape({
+    selectTheme: PropTypes.func.isRequired,
+  }).isRequired,
 };
 
 export default ThemeSelectionIcon;

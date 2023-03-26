@@ -1,4 +1,4 @@
-import { StandaloneServices, IStorageService } from 'vscode/services'; // eslint-disable-line import/no-unresolved
+import { StandaloneServices, IStorageService } from 'vscode/services';
 
 const afterLoad = () => {
   /**
