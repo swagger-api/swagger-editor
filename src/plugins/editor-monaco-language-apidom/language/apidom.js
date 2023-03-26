@@ -2,11 +2,7 @@ import * as monaco from 'monaco-editor';
 
 export const languageId = 'apidom';
 
-export const languageExtensionPoint = {
-  id: languageId,
-};
-
-export const richLanguage = {
+export const conf = {
   comments: {
     lineComment: '#',
   },
@@ -46,7 +42,7 @@ export const richLanguage = {
   ],
 };
 
-export const monarchLanguage = {
+export const language = {
   // set defaultToken to invalid to see what you do not tokenize yet
   defaultToken: 'invalid',
   keywords: ['swagger', 'info', 'host', 'basePath', 'tags', 'schemes', 'paths', 'externalDocs'],

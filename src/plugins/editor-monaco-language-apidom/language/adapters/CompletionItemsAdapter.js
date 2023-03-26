@@ -1,6 +1,6 @@
 import Adapter from './Adapter.js';
 
-export default class CompletionItemsAdapter extends Adapter {
+class CompletionItemsAdapter extends Adapter {
   #completionContext = {
     maxNumberOfItems: 100,
   };
@@ -25,3 +25,5 @@ export default class CompletionItemsAdapter extends Adapter {
     return this.protocolConverter.asCompletionResult(completionList);
   }
 }
+
+export default CompletionItemsAdapter;

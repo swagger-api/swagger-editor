@@ -2,9 +2,9 @@ import * as monaco from 'monaco-editor';
 import { languages } from 'vscode';
 
 import Adapter from './Adapter.js';
-import { languageId } from '../config.js';
+import * as apidom from '../apidom.js';
 
-export default class DiagnosticsAdapter extends Adapter {
+class DiagnosticsAdapter extends Adapter {
   #listener = [];
 
   #disposables = [];
@@ -14,10 +14,10 @@ export default class DiagnosticsAdapter extends Adapter {
   constructor(...args) {
     super(...args);
 
-    this.#diagnosticCollection = languages.createDiagnosticCollection(languageId);
+    this.#diagnosticCollection = languages.createDiagnosticCollection(apidom.languageId);
 
     const onModelAdd = (model) => {
-      if (model.getLanguageId() !== languageId) {
+      if (model.getLanguageId() !== apidom.languageId) {
         return;
       }
 
@@ -53,8 +53,6 @@ export default class DiagnosticsAdapter extends Adapter {
     this.#disposables.push(monaco.editor.onDidCreateModel(onModelAdd));
     this.#disposables.push(monaco.editor.onWillDisposeModel(onModelRemoved));
     this.#disposables.push(this.#diagnosticCollection);
-    // Monaco supports multiple models, though we only use a single model
-    monaco.editor.getModels().forEach(onModelAdd);
   }
 
   async #getDiagnostics(model) {
@@ -87,3 +85,5 @@ export default class DiagnosticsAdapter extends Adapter {
     this.#disposables = [];
   }
 }
+
+export default DiagnosticsAdapter;

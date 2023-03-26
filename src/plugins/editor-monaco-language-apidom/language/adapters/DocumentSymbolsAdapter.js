@@ -1,6 +1,6 @@
 import Adapter from './Adapter.js';
 
-export default class DocumentSymbolAdapter extends Adapter {
+class DocumentSymbolAdapter extends Adapter {
   async #getSymbolInformationList(vscodeDocument) {
     const worker = await this.worker(vscodeDocument.uri);
 
@@ -17,3 +17,5 @@ export default class DocumentSymbolAdapter extends Adapter {
     return this.protocolConverter.asDocumentSymbols(symbolInformationList);
   }
 }
+
+export default DocumentSymbolAdapter;

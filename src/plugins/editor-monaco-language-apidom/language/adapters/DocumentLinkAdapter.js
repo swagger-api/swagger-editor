@@ -1,6 +1,6 @@
 import Adapter from './Adapter.js';
 
-export default class LinksAdapter extends Adapter {
+class DocumentLinkAdapter extends Adapter {
   async #getLinks(vscodeDocument) {
     const worker = await this.worker(vscodeDocument.uri);
 
@@ -22,3 +22,5 @@ export default class LinksAdapter extends Adapter {
     return link;
   }
 }
+
+export default DocumentLinkAdapter;

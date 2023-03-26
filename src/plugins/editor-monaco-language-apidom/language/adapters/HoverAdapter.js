@@ -1,6 +1,6 @@
 import Adater from './Adapter.js';
 
-export default class HoverAdapter extends Adater {
+class HoverAdapter extends Adater {
   async #getHover(vscodeDocument, position) {
     const worker = await this.worker(vscodeDocument.uri);
 
@@ -20,3 +20,5 @@ export default class HoverAdapter extends Adater {
     return this.protocolConverter.asHover(hover);
   }
 }
+
+export default HoverAdapter;
