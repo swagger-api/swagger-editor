@@ -19,7 +19,7 @@ const DownloadResolvedJSONMenuItemHandler = forwardRef(
         const fileExtension = '.json';
         const fileNameWithExtension = `${fileName}${fileExtension}`;
 
-        const dereferenceFSA = await editorActions.dereferenceContent({ content, fileExtension });
+        const dereferenceFSA = await editorActions.dereferenceContent({ content });
         if (dereferenceFSA.error) {
           alertDialogMessage.current = dereferenceFSA.meta.errorMessage;
           setIsAlertDialogOpen(true);
