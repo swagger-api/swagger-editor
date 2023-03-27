@@ -78,7 +78,7 @@
     "js-file-download": "^0.4.12",
     "js-yaml": "^4.1.0",
     "lodash": "^4.17.21",
-    "monaco-editor": "^0.34.1",
+    "monaco-editor": "^0.36.1",
     "prop-types": "^15.8.1",
     "react": "^17.0.2",
     "react-collapse-pane": "^3.0.1",
@@ -92,7 +92,7 @@
     "short-unique-id": "^4.4.4",
     "styled-components": "^5.3.9",
     "swagger-ui-react": "^5.0.0-alpha.4",
-    "vscode": "npm:@codingame/monaco-vscode-api@~1.69.13",
+    "vscode": "npm:@codingame/monaco-vscode-api@~1.76.2",
     "vscode-languageclient": "^8.1.0",
     "vscode-languageserver-textdocument": "^1.0.8"
   },

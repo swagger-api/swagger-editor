@@ -5,7 +5,6 @@ import noop from 'lodash/noop.js';
 
 import seVsDarkTheme from '../../themes/se-vs-dark.js';
 import seVsLightTheme from '../../themes/se-vs-light.js';
-import { requestGetJsonPointerPosition } from '../../utils/monaco-jump-from-path-to-line.js';
 import { useMount, useUpdate, useSmoothResize } from './hooks.js';
 
 /**
@@ -150,26 +149,26 @@ const MonacoEditor = ({
   // given a jsonPointer, request jumping to its marker position
   useUpdate(
     () => {
-      async function findMarkerPosition() {
-        // via apidom-ls
-        const foundMarkerPosition = await requestGetJsonPointerPosition(
-          editorRef.current,
-          requestJumpToMarker.jsonPointer
-        );
-        if (foundMarkerPosition?.data) {
-          // set jumpToMarker in state, which will then call the useUpdate above
-          onSetRequestJumpToMarker(foundMarkerPosition.data);
-          // then clear the request itself
-          onClearRequestJumpToMarker();
-        } else {
-          // just clear the request anyway
-          onClearRequestJumpToMarker();
-        }
-      }
+      if (!requestJumpToMarker?.jsonPointer) return;
 
-      if (requestJumpToMarker?.jsonPointer && editorRef?.current?.getModel) {
-        // call the async/await function
-        findMarkerPosition();
+      /**
+       * In monaco-editor >= 0.37, triggering the action using `editor.trigger()`
+       * will pass the payload to the action. Currently, there is a pending bug in
+       * monaco-editor, and we have to call the action in this hacky way.
+       *
+       * More info in: https://stackoverflow.com/questions/75685974/open-find-widget-with-content-programatically-in-monaco
+       */
+      const action = editorRef.current.getAction('swagger.editor.jsonPointerPosition');
+      if (action) {
+        // eslint-disable-next-line no-underscore-dangle
+        action._run(editorRef.current, {
+          jsonPointer: requestJumpToMarker.jsonPointer,
+          onSuccess: (position) => {
+            onSetRequestJumpToMarker(position);
+            onClearRequestJumpToMarker();
+          },
+          onFailure: () => onClearRequestJumpToMarker(),
+        });
       }
     },
     [requestJumpToMarker, onSetRequestJumpToMarker, onClearRequestJumpToMarker],

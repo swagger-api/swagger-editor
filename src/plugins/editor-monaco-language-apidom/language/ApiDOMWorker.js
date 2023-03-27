@@ -99,6 +99,15 @@ export class ApiDOMWorker {
     return this._languageService.doDeref(document, dereferenceContext);
   }
 
+  async getJsonPointerPosition(uri, jsonPointer) {
+    const document = this._getTextDocument(uri);
+    if (!document) {
+      return [];
+    }
+
+    return this._languageService.getJsonPointerPosition(document, jsonPointer);
+  }
+
   _getTextDocument(uri) {
     const model = this._ctx.getMirrorModels().find((mm) => mm.uri.toString() === uri);
 
