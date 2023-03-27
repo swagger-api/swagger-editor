@@ -77,7 +77,7 @@ class DiagnosticsAdapter extends Adapter {
     }
 
     try {
-      return await worker.doValidation(model.uri);
+      return await worker.doValidation(model.uri.toString());
     } catch {
       return undefined;
     }
