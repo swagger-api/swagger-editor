@@ -1,6 +1,5 @@
 import ShortUniqueId from 'short-unique-id';
-import { TextDocument } from 'vscode-languageserver-textdocument';
-import { getLanguageService } from '@swagger-api/apidom-ls';
+import * as monaco from 'monaco-editor';
 
 /**
  * Action types.
@@ -49,19 +48,19 @@ export const dereferenceContentFailure = ({ error, content, baseURI, requestId }
  * Async thunks.
  */
 
-export const dereferenceContent = ({ content, baseURI, fileExtension }) => {
+export const dereferenceContent = ({ content, baseURI }) => {
   const uid = new ShortUniqueId({ length: 10 });
 
   return async (system) => {
-    const { editorActions } = system;
+    const { editorActions, fn } = system;
     const requestId = uid();
 
     editorActions.dereferenceContentStarted({ content, baseURI, requestId });
 
-    const languageService = getLanguageService({});
     try {
-      const document = TextDocument.create(`file://filename${fileExtension}`, 'apidom', 0, content);
-      const contentDereferenced = await languageService.doDeref(document, {
+      const model = monaco.editor.getModels().find((m) => m.getValue() === content);
+      const worker = await fn.getApiDOMWorker()(model.uri);
+      const contentDereferenced = await worker.doDeref(model.uri.toString(), {
         baseURI: baseURI ?? globalThis.location.href,
       });
 
@@ -73,8 +72,6 @@ export const dereferenceContent = ({ content, baseURI, fileExtension }) => {
       });
     } catch (error) {
       return editorActions.dereferenceContentFailure({ error, content, baseURI, requestId });
-    } finally {
-      languageService.terminate();
     }
   };
 };
