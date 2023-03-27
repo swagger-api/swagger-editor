@@ -1,25 +1,37 @@
 {
   "files": {
     "main.js": "/static/js/main.js",
-    "main.css": "/static/css/main.fcff8057.css",
+    "main.css": "/static/css/main.4345ef58.css",
     "apidom.worker.js": "/static/js/apidom.worker.js",
     "editor.worker.js": "/static/js/editor.worker.js",
     "static/js/558.7e0df3c0.chunk.js": "/static/js/558.7e0df3c0.chunk.js",
+    "static/media/onig.wasm": "/static/media/onig.874a968008f3c6125b20.wasm",
     "static/media/tree-sitter-yaml.wasm": "/static/media/tree-sitter-yaml.d396281e11774e0afa7a.wasm",
     "static/media/tree-sitter.wasm": "/static/media/tree-sitter.fba0b3cc0d7ee926ea48.wasm",
-    "static/media/codicon.ttf": "/static/media/codicon.b797181c93b3755f4fa1.ttf",
+    "static/media/codicon.ttf": "/static/media/codicon.7064e66c3890a12c47b4.ttf",
+    "static/media/taskFailed-5494702a-5494702a.mp3": "/static/media/taskFailed-5494702a-5494702a.44131ba2353c399d40d4.mp3",
+    "static/media/taskCompleted-f0dd8e18-f0dd8e18.mp3": "/static/media/taskCompleted-f0dd8e18-f0dd8e18.60d7dcc43f7fcefe1aee.mp3",
+    "static/media/terminalBell-ff9df1e1-ff9df1e1.mp3": "/static/media/terminalBell-ff9df1e1-ff9df1e1.c2e341bffc4cd0a3361a.mp3",
+    "static/media/break-6b46c048-6b46c048.mp3": "/static/media/break-6b46c048-6b46c048.5edfa65341c4c69e6634.mp3",
+    "static/media/error-b93c2a76-b93c2a76.mp3": "/static/media/error-b93c2a76-b93c2a76.686ef40f2f3d0b8cb789.mp3",
+    "static/media/foldedAreas-a6b54171-a6b54171.mp3": "/static/media/foldedAreas-a6b54171-a6b54171.6e2a262b870150f893db.mp3",
+    "static/media/quickFixes-dc7d1e73-dc7d1e73.mp3": "/static/media/quickFixes-dc7d1e73-dc7d1e73.178d51c8f3cba9d0350c.mp3",
+    "static/media/warning-2687e2e7-2687e2e7.mp3": "/static/media/warning-2687e2e7-2687e2e7.59b762553635bb1ee140.mp3",
+    "static/media/diffLineDeleted-26945eb8-26945eb8.mp3": "/static/media/diffLineDeleted-26945eb8-26945eb8.212fe7ac6bdaedb7a7e7.mp3",
+    "static/media/diffLineInserted-8f202889-8f202889.mp3": "/static/media/diffLineInserted-8f202889-8f202889.2f67e4151b7c56078da8.mp3",
+    "static/media/diffLineModified-fb126694-fb126694.mp3": "/static/media/diffLineModified-fb126694-fb126694.be93ef3fc6fc3359c01e.mp3",
     "static/media/logo-small.svg": "/static/media/logo-small.58f1585435fafd829b8982413648119a.svg",
     "static/media/tree-sitter-json.wasm": "/static/media/tree-sitter-json.7c7ca323880d9fa6e48d.wasm",
     "index.html": "/index.html",
     "static/media/jump-icon.svg": "/static/media/jump-icon.9348db75ba00ced133f000aa8d1e2d83.svg",
     "main.js.map": "/static/js/main.js.map",
-    "main.fcff8057.css.map": "/static/css/main.fcff8057.css.map",
+    "main.4345ef58.css.map": "/static/css/main.4345ef58.css.map",
     "apidom.worker.js.map": "/static/js/apidom.worker.js.map",
     "editor.worker.js.map": "/static/js/editor.worker.js.map",
     "558.7e0df3c0.chunk.js.map": "/static/js/558.7e0df3c0.chunk.js.map"
   },
   "entrypoints": [
     "static/js/main.js",
-    "static/css/main.fcff8057.css"
+    "static/css/main.4345ef58.css"
   ]
 }
