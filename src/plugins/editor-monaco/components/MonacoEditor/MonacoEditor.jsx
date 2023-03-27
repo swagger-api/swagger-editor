@@ -5,7 +5,6 @@ import noop from 'lodash/noop.js';
 
 import seVsDarkTheme from '../../themes/se-vs-dark.js';
 import seVsLightTheme from '../../themes/se-vs-light.js';
-import { dereference } from '../../utils/monaco-action-apidom-deref.js';
 import { requestGetJsonPointerPosition } from '../../utils/monaco-jump-from-path-to-line.js';
 import { useMount, useUpdate, useSmoothResize } from './hooks.js';
 
@@ -69,8 +68,8 @@ const MonacoEditor = ({
       },
       renderWhitespace: true,
     });
-    editorRef.current.getModel().updateOptions({ tabSize: 2 });
 
+    editorRef.current.getModel().updateOptions({ tabSize: 2 });
     setIsEditorReady(true);
   }, [value, language, theme, isReadOnly]);
 
@@ -219,17 +218,6 @@ const MonacoEditor = ({
       });
     }
   }, [isEditorReady, onChange]);
-
-  // set additional Monaco Editor actions
-  useEffect(() => {
-    if (isEditorReady) {
-      editorRef.current.addAction({
-        id: 'de-reference',
-        label: 'resolve document',
-        run: dereference,
-      });
-    }
-  }, [isEditorReady]);
 
   // allow editor to resize to available space
   useEffect(() => {

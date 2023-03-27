@@ -1,4 +1,4 @@
-import { languages } from 'vscode';
+import { languages as vscodeLanguages } from 'vscode';
 import { createConverter as createCodeConverter } from 'vscode-languageclient/lib/common/codeConverter.js';
 import { createConverter as createProtocolConverter } from 'vscode-languageclient/lib/common/protocolConverter.js';
 
@@ -34,31 +34,39 @@ export const getWorker = () => {
 const registerProviders = ({ languageId, providers, dependencies }) => {
   disposeAll(providers);
 
-  const { worker, codeConverter, protocolConverter, semanticTokensLegend } = dependencies;
+  const { worker, codeConverter, protocolConverter } = dependencies;
   const args = [worker, codeConverter, protocolConverter];
 
   providers.push(new DiagnosticsAdapter(...args));
-  providers.push(languages.registerHoverProvider(languageId, new HoverAdapter(...args)));
+  providers.push(vscodeLanguages.registerHoverProvider(languageId, new HoverAdapter(...args)));
   providers.push(
-    languages.registerDocumentLinkProvider(languageId, new DocumentLinkAdapter(...args))
+    vscodeLanguages.registerDocumentLinkProvider(languageId, new DocumentLinkAdapter(...args))
   );
   providers.push(
-    languages.registerCompletionItemProvider(languageId, new CompletionItemsAdapter(...args))
+    vscodeLanguages.registerCompletionItemProvider(languageId, new CompletionItemsAdapter(...args))
   );
   providers.push(
-    languages.registerCodeActionsProvider(languageId, new CodeActionsAdapter(...args))
+    vscodeLanguages.registerCodeActionsProvider(languageId, new CodeActionsAdapter(...args))
   );
   providers.push(
-    languages.registerDocumentSymbolProvider(languageId, new DocumentSymbolsAdapter(...args))
+    vscodeLanguages.registerDocumentSymbolProvider(languageId, new DocumentSymbolsAdapter(...args))
   );
   providers.push(
-    languages.registerDocumentSemanticTokensProvider(
-      languageId,
-      new DocumentSemanticTokensAdapter(...args),
-      semanticTokensLegend
-    )
+    vscodeLanguages.registerDefinitionProvider(languageId, new DefinitionAdapter(...args))
   );
-  providers.push(languages.registerDefinitionProvider(languageId, new DefinitionAdapter(...args)));
+
+  (async () => {
+    const workerService = await worker();
+    const semanticTokensLegend = await workerService.getSemanticTokensLegend();
+
+    providers.push(
+      vscodeLanguages.registerDocumentSemanticTokensProvider(
+        languageId,
+        new DocumentSemanticTokensAdapter(...args),
+        semanticTokensLegend
+      )
+    );
+  })();
 
   return providers;
 };
@@ -68,30 +76,28 @@ export function setupMode(defaults) {
   const providers = [];
   const codeConverter = createCodeConverter();
   const protocolConverter = createProtocolConverter(undefined, true, true);
-  const client = defaults.getModeConfiguration().client || new WorkerManager(defaults);
-  const worker = async (...uris) => {
-    return client.getLanguageServiceWorker(...uris);
-  };
-  const registeredProviders = registerProviders({
-    languageId: defaults.getLanguageId(),
-    providers,
-    dependencies: {
-      worker,
-      codeConverter,
-      protocolConverter,
-      semanticTokensLegend: defaults.getModeConfiguration().semanticTokensLegend,
-    },
-  });
 
-  disposables.push(client);
-  disposables.push(asDisposable(registeredProviders));
-
+  // setup apidom worker
+  const client = new WorkerManager(defaults);
+  const worker = async (...uris) => client.getLanguageServiceWorker(...uris);
   apidomWorker = worker;
   disposables.push({
     dispose() {
       apidomWorker = null;
     },
   });
+  disposables.push(client);
+
+  // register apidom providers
+  disposables.push(
+    asDisposable(
+      registerProviders({
+        languageId: defaults.getLanguageId(),
+        providers,
+        dependencies: { worker, codeConverter, protocolConverter },
+      })
+    )
+  );
 
   return asDisposable(disposables);
 }

@@ -16,7 +16,7 @@ class DiagnosticsAdapter extends Adapter {
 
     this.#diagnosticCollection = languages.createDiagnosticCollection(apidom.languageId);
 
-    const onModelAdd = (model) => {
+    const onModelAdded = (model) => {
       if (model.getLanguageId() !== apidom.languageId) {
         return;
       }
@@ -50,7 +50,20 @@ class DiagnosticsAdapter extends Adapter {
       }
     };
 
-    this.#disposables.push(monaco.editor.onDidCreateModel(onModelAdd));
+    const onModelLanguageChanged = (model) => {
+      const key = model.uri.toString();
+      const hasChangedToApiDOM = model.getLanguageId() === apidom.languageId;
+      const isModelSubscribed = !!this.#listener[key];
+
+      if (!isModelSubscribed && hasChangedToApiDOM) {
+        onModelAdded(model);
+      } else if (isModelSubscribed && !hasChangedToApiDOM) {
+        onModelRemoved(model);
+      }
+    };
+
+    this.#disposables.push(monaco.editor.onDidCreateModel(onModelAdded));
+    this.#disposables.push(monaco.editor.onDidChangeModelLanguage(onModelLanguageChanged));
     this.#disposables.push(monaco.editor.onWillDisposeModel(onModelRemoved));
     this.#disposables.push(this.#diagnosticCollection);
   }
