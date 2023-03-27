@@ -1,20 +1,14 @@
-import { languages as vscodeLanguages } from 'vscode';
 import * as monaco from 'monaco-editor';
+import { languages as vscodeLanguages } from 'vscode';
 import { ModesRegistry } from 'monaco-editor/esm/vs/editor/common/languages/modesRegistry.js';
 
 import * as apidom from './apidom.js';
 import { setupMode } from './apidom-mode.js';
-import WorkerManager from './WorkerManager.js';
+import dereferenceActionDescriptor from './actions/dereference.js';
 
 export { getWorker } from './apidom-mode.js';
 
-const modeConfigurationDefault = {
-  semanticTokensLegend: {
-    tokenModifiers: [],
-    tokenTypes: [],
-  },
-  client: null,
-};
+const modeConfigurationDefault = {};
 
 const workerOptionsDefault = {
   customWorkerPath: undefined,
@@ -73,6 +67,7 @@ export const isLanguageRegistered = () => {
 const lazyMonacoContribution = ({ createData }) => {
   const disposables = [];
 
+  // register apidom language
   disposables.push(
     /**
      * This code uses ModesRegistry API instead of monaco.languages API.
@@ -87,25 +82,36 @@ const lazyMonacoContribution = ({ createData }) => {
   disposables.push(vscodeLanguages.setLanguageConfiguration(apidom.languageId, apidom.conf));
   disposables.push(monaco.languages.setMonarchTokensProvider(apidom.languageId, apidom.language));
 
+  // setup apidom mode
   disposables.push(
-    monaco.languages.onLanguage(apidom.languageId, async () => {
+    monaco.editor.onDidCreateEditor(() => {
       const { customApiDOMWorkerPath: customWorkerPath, ...data } = createData;
       const defaults = new LanguageServiceDefaultsImpl({ customWorkerPath, data });
-      const client = new WorkerManager(defaults);
-      const worker = await client.getLanguageServiceWorker();
-      const semanticTokensLegend = await worker.getSemanticTokensLegend();
-
-      defaults.getModeConfiguration().client = client;
-      defaults.getModeConfiguration().semanticTokensLegend = semanticTokensLegend;
 
       disposables.push(setupMode(defaults));
+    })
+  );
 
-      // disposing of all allocated disposables
+  // setup custom actions
+  disposables.push(
+    monaco.editor.onDidCreateEditor((editor) => {
       disposables.push(
-        monaco.editor.onWillDisposeModel((model) => {
-          if (model.getLanguageId() === apidom.languageId) {
-            disposables.forEach((disposable) => disposable.dispose());
-          }
+        monaco.editor.onDidCreateModel(() => {
+          if (editor.getAction(dereferenceActionDescriptor.id)) return;
+
+          disposables.push(editor.addAction(dereferenceActionDescriptor));
+        })
+      );
+    })
+  );
+
+  // disposing of all allocated disposables
+  disposables.push(
+    monaco.editor.onDidCreateEditor((editor) => {
+      disposables.push(
+        editor.onDidDispose(() => {
+          disposables.forEach((disposable) => disposable.dispose());
+          disposables.length = 0;
         })
       );
     })

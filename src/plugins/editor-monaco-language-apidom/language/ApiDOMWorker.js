@@ -90,18 +90,19 @@ export class ApiDOMWorker {
     return this._languageService.getSemanticTokensLegend();
   }
 
+  async doDeref(uri, dereferenceContext = {}) {
+    const document = this._getTextDocument(uri);
+    if (!document) {
+      return [];
+    }
+
+    return this._languageService.doDeref(document, dereferenceContext);
+  }
+
   _getTextDocument(uri) {
-    const [model] = this._ctx.getMirrorModels();
-    /**
-     * When there are multiple files open, this will be an array
-     * expect models: _lines[], _uri, _versionId
-     * expect models.uri.toString() to be singular, e.g. inmemory://model/1
-     * thus, before returning a TextDocument, we can optionally
-     * validate that models.uri.toString() === uri
-     * fyi, reference more complete example in cssWorker
-     * https://github.com/microsoft/monaco-css/blob/master/src/cssWorker.ts
-     * which we might want later to handle multiple URIs.
-     */
+    const model = this._ctx.getMirrorModels().find((mm) => mm.uri.toString() === uri);
+
+    if (!model) return null;
 
     return vscodeLanguageServerTextDocument.TextDocument.create(
       uri,
