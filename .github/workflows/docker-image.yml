@@ -1,0 +1,19 @@
+name: Docker Image
+run-name: ${{ github.actor }} builds a new image for apifant swagger editor
+
+on:
+  push:
+    branches: [ "apifant" ]
+  pull_request:
+    branches: [ "apifant" ]
+
+jobs:
+
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+      - name: Build the Docker image
+        run: docker build . --file Dockerfile --tag ghcr.io/huk-coburg/apifant-editor:$(date +%s)
