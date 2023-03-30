@@ -3,9 +3,9 @@ run-name: ${{ github.actor }} builds a new image for apifant swagger editor
 
 on:
   push:
-    branches: [ "apifant" ]
+    branches: [ "main" ]
   pull_request:
-    branches: [ "apifant" ]
+    branches: [ "main" ]
 
 env:
   EDITOR_IMAGE: ghcr.io/huk-coburg/apifant-editor
