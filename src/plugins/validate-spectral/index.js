@@ -1,8 +1,6 @@
 // Base validate plugin that provides a placeholder `validateSpec` that fires
 // after `updateJsonSpec` is dispatched.
 
-import { useSelector } from "react-redux";
-
 export const updateJsonSpec = (ori, { specActions }) => (...args) => {
     ori(...args)
 
@@ -30,12 +28,12 @@ export const validateSpec = (jsSpec) => (arg) => {
             }
         })
         if (errors.length > 0) {
-            arg.errActions.newSpecErrBatch(errors);
+            arg.errActions.newSpecErrBatch(errors)
         }
     }
     ).catch((error) => {
-        console.error("Error:", error);
-    });
+        console.error("Error:", error)
+    })
 }
 
 export default function() {
