@@ -9,7 +9,7 @@ COPY package-lock.json .
 
 RUN npm ci --force
 
-COPY . /apifant-editor
+COPY . .
 
 RUN npm run build
 

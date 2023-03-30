@@ -21,7 +21,7 @@ jobs:
         run: echo "EDITOR_TAG=$(date +%Y%m%d-%H%M%S)" >> $GITHUB_ENV
 
       - name: Build the Docker Image
-        run: docker build . --file Dockerfile --tag ${EDITOR_IMAGE}:${EDITOR_TAG}
+        run: docker build --file Dockerfile --tag ${EDITOR_IMAGE}:${EDITOR_TAG} .
 
       - name: Tag the Docker Image
         run: docker tag ${EDITOR_IMAGE}:${EDITOR_TAG} ${EDITOR_IMAGE}:latest
