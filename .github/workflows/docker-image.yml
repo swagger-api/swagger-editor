@@ -17,20 +17,55 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v3
-      - name: Build the Docker image
-        run: docker build . --file Dockerfile --tag ghcr.io/huk-coburg/apifant-editor:$(date +%s)
 
       - uses: actions/checkout@v3
+
+      - name: Use Node.js 16.x
+        uses: actions/setup-node@v3
+        with:
+          node-version: 16
+
+      - name: Cache Node Modules and Cypress binary
+        uses: actions/cache@v3
+        id: cache-primes
+        with:
+          path: |
+            node_modules
+            ${{ env.CYPRESS_CACHE_FOLDER }}
+          key: ${{ runner.os }}-node-and-cypress-${{ hashFiles('package-lock.json') }}
+
+      - name: Install dependencies
+        if: steps.cache-primes.outputs.cache-hit != 'true'
+        run: npm ci --legacy-peer-deps
+
+      - name: Lint code
+        run: npm run lint
+
+      - name: Build SwaggerEditor
+        run: npm run build
+
+      - name: Run all tests
+        run: npm test
+        env:
+          CI: true
+
+      - name: Test build artifacts
+        run: npm run test:artifact
+
       - name: Generate Docker Image Tag
         run: echo "EDITOR_TAG=$(date +%Y%m%d-%H%M%S)" >> $GITHUB_ENV
+
       - name: Build the Docker Image
         run: docker build . --file Dockerfile --tag ${EDITOR_IMAGE}:${EDITOR_TAG}
+
       - name: Tag the Docker Image
         run: docker tag ${EDITOR_IMAGE}:${EDITOR_TAG} ${EDITOR_IMAGE}:latest
+
       - name: Docker Login
         run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io --username "${{ github.actor }}" --password-stdin
+
       - name: Push CI Tag
         run: docker push ${EDITOR_IMAGE}:${EDITOR_TAG}
+
       - name: Push Latest Tag
         run: docker push ${EDITOR_IMAGE}:latest
