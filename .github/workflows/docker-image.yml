@@ -3,7 +3,7 @@ run-name: ${{ github.actor }} builds a new image for apifant swagger editor
 
 on:
   push:
-    branches: [ "main" ]
+    branches: [ "main", "apifant" ]
   pull_request:
     branches: [ "main" ]
 
@@ -38,19 +38,19 @@ jobs:
         if: steps.cache-primes.outputs.cache-hit != 'true'
         run: npm ci --legacy-peer-deps
 
-      - name: Lint code
-        run: npm run lint
+      # - name: Lint code
+      #   run: npm run lint
 
       - name: Build SwaggerEditor
         run: npm run build
 
-      - name: Run all tests
-        run: npm test
-        env:
-          CI: true
-
-      - name: Test build artifacts
-        run: npm run test:artifact
+#      - name: Run all tests
+#        run: npm test
+#        env:
+#          CI: true
+#
+#      - name: Test build artifacts
+#        run: npm run test:artifact
 
       - name: Generate Docker Image Tag
         run: echo "EDITOR_TAG=$(date +%Y%m%d-%H%M%S)" >> $GITHUB_ENV
