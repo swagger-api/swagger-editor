@@ -3,7 +3,7 @@ run-name: ${{ github.actor }} builds a new image for apifant swagger editor
 
 on:
   push:
-    branches: [ "main", "apifant" ]
+    branches: [ "main" ]
   pull_request:
     branches: [ "main" ]
 
