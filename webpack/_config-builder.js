@@ -57,6 +57,7 @@ export default function buildConfig(
   const plugins = [
     new webpack.DefinePlugin({
       "process.env.CI": process.env.CI || false,
+      SPECTRAL_HOST: JSON.stringify(process.env.SPECTRAL_HOST) || '""',
       buildInfo: JSON.stringify({
         PACKAGE_VERSION: pkg.version,
         GIT_COMMIT: gitInfo.hash,
@@ -110,21 +111,21 @@ export default function buildConfig(
 
       externals: includeDependencies
         ? {
-            esprima: "esprima",
-          }
+          esprima: "esprima",
+        }
         : ({ request }, cb) => {
-            // webpack injects some stuff into the resulting file,
-            // these libs need to be pulled in to keep that working.
-            var exceptionsForWebpack = ["ieee754", "base64-js"]
-            if (
-              nodeModules.indexOf(request) !== -1 ||
-              exceptionsForWebpack.indexOf(request) !== -1
-            ) {
-              cb(null, "commonjs " + request)
-              return
-            }
-            cb()
-          },
+          // webpack injects some stuff into the resulting file,
+          // these libs need to be pulled in to keep that working.
+          var exceptionsForWebpack = ["ieee754", "base64-js"]
+          if (
+            nodeModules.indexOf(request) !== -1 ||
+            exceptionsForWebpack.indexOf(request) !== -1
+          ) {
+            cb(null, "commonjs " + request)
+            return
+          }
+          cb()
+        },
 
       resolve: {
         extensions: [".js", ".jsx", "json"],

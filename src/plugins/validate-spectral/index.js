@@ -12,7 +12,7 @@ export const updateJsonSpec = (ori, { specActions }) => (...args) => {
 export const validateSpec = (jsSpec) => (arg) => {
     // NOTE: This assumes that the REST API is available under the same host
     // TODO: This might need to use a different ruleset depending on input
-    fetch("/oas-validation/api/validate?ruleset=v5", {
+    fetch(SPECTRAL_HOST + "/oas-validation/api/validate?ruleset=v5", {
         method: "POST",
         headers: {
             "Accept": "application/json"
