@@ -13,20 +13,22 @@ COPY . .
 
 RUN npm run build
 
-FROM nginx:1.23.3-alpine
+FROM nginxinc/nginx-unprivileged:alpine
 
 LABEL maintainer="florian.ellinger@huk-coburg.de"
 
 ENV BASE_URL="/" \
     PORT="8080"
 
-COPY --from=build /apifant-editor/nginx.conf /etc/nginx/templates/default.conf.template
+COPY --from=build --chown=101:101 /apifant-editor/nginx.conf /etc/nginx/templates/default.conf.template
 
-COPY --from=build /apifant-editor/index.html /usr/share/nginx/html/
-COPY --from=build /apifant-editor/dist/oauth2-redirect.html /usr/share/nginx/html/
-COPY --from=build /apifant-editor/dist/* /usr/share/nginx/html/dist/
-COPY --from=build /apifant-editor/docker-run.sh /docker-entrypoint.d/91-docker-run.sh
+COPY --from=build --chown=101:101 /apifant-editor/index.html /usr/share/nginx/html/
+COPY --from=build --chown=101:101 /apifant-editor/dist/oauth2-redirect.html /usr/share/nginx/html/
+COPY --from=build --chown=101:101 /apifant-editor/dist/* /usr/share/nginx/html/dist/
+COPY --from=build --chown=101:101 /apifant-editor/docker-run.sh /docker-entrypoint.d/91-docker-run.sh
 
+USER root
 RUN chmod +x /docker-entrypoint.d/91-docker-run.sh
+USER nginx
 
 EXPOSE $PORT
