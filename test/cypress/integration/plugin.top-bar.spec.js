@@ -42,8 +42,7 @@ describe('Topbar', () => {
         subjectType: 'input',
       });
       cy.wait(['@externalGeneratorServersOas3reqList', '@externalGeneratorClientsOas3reqList']);
-      // This assertion assumes change from non-OAS3 to OAS3, where a "badge" will exist for OAS3
-      cy.get('.version-stamp > .version').should('have.text', 'OAS3');
+      cy.get('.version-stamp > .version').should('have.text', 'OAS 3.0');
     });
 
     describe('Load Example nested menu', () => {
@@ -241,8 +240,7 @@ describe('Topbar', () => {
           .trigger('mousemove')
           .click()
           .wait('@externalConverterToOas3');
-        // This assertion assumes change from non-OAS3 to OAS3, where a "badge" will exist for OAS3
-        cy.get('.version-stamp > .version').should('have.text', 'OAS3');
+        cy.get('.version-stamp > .version').should('have.text', 'OAS 3.0');
       });
     });
   });

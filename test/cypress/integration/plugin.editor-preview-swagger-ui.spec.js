@@ -23,7 +23,10 @@ describe('Editor Preview Pane: OpenAPI 2.0, 3.0.x, 3.1.x', () => {
 
     // `.title` and `.version-stamp` are SwaggerUI specific css classes, that should only appear in the preview pane
     cy.get('.title').contains('Swagger Petstore - OpenAPI 3.0').should('be.visible');
-    cy.get('.version-stamp > .version').should('be.visible').contains('OAS3').should('be.visible');
+    cy.get('.version-stamp > .version')
+      .should('be.visible')
+      .contains('OAS 3.0')
+      .should('be.visible');
   });
 
   it('should display OpenAPI 3.1.0', () => {
@@ -33,7 +36,10 @@ describe('Editor Preview Pane: OpenAPI 2.0, 3.0.x, 3.1.x', () => {
 
     // `.title` and `.version-stamp` are SwaggerUI specific css classes, that should only appear in the preview pane
     cy.get('.title').contains('Swagger Petstore - OpenAPI 3.1').should('be.visible');
-    cy.get('.version-stamp > .version').should('be.visible').contains('OAS3').should('be.visible');
+    cy.get('.version-stamp > .version')
+      .should('be.visible')
+      .contains('OAS 3.1')
+      .should('be.visible');
   });
 
   it('should be hidden if not OpenAPI', () => {
