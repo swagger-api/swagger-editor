@@ -38,8 +38,7 @@ describe('Dropzone in Layout', () => {
         cy.get('[data-cy="dropzone"]').attachFile('petstore-oas3.yaml', {
           subjectType: 'input',
         });
-        // This assertion assumes change from non-OAS3 to OAS3, where a "badge" will exist for OAS3
-        cy.get('.version-stamp > .version').should('have.text', 'OAS3');
+        cy.get('.version-stamp > .version').should('have.text', 'OAS 3.0');
       });
     });
   });
