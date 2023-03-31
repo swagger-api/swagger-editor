@@ -4,7 +4,7 @@ import { ModesRegistry } from 'monaco-editor/esm/vs/editor/common/languages/mode
 
 import * as apidom from './apidom.js';
 import { setupMode } from './apidom-mode.js';
-import dereferenceActionDescriptor from './actions/dereference.js';
+import createDereferenceActionDescriptor from './actions/dereference.js';
 import jsonPointerPositionActionDescriptor from './actions/json-pointer-position.js';
 
 export { getWorker } from './apidom-mode.js';
@@ -65,7 +65,7 @@ export const isLanguageRegistered = () => {
   return languages.includes(apidom.languageId);
 };
 
-const lazyMonacoContribution = ({ createData }) => {
+const lazyMonacoContribution = ({ createData, system }) => {
   const disposables = [];
 
   // register apidom language
@@ -98,9 +98,11 @@ const lazyMonacoContribution = ({ createData }) => {
     monaco.editor.onDidCreateEditor((editor) => {
       disposables.push(
         monaco.editor.onDidCreateModel(() => {
+          const dereferenceActionDescriptor = createDereferenceActionDescriptor(system);
           if (!editor.getAction(dereferenceActionDescriptor.id)) {
             disposables.push(editor.addAction(dereferenceActionDescriptor));
           }
+
           disposables.push(editor.addAction(jsonPointerPositionActionDescriptor));
         })
       );

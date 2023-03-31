@@ -8,7 +8,7 @@ const makeAfterLoad =
   (system) => {
     if (isLanguageRegistered()) return;
 
-    lazyMonacoContribution({ createData });
+    lazyMonacoContribution({ createData, system });
     system.editorActions.setLanguage(apidomDefaults.getLanguageId());
   };
 

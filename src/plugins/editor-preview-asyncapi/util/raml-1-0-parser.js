@@ -1,4 +1,4 @@
-import yaml from 'js-yaml';
+import YAML from 'js-yaml';
 
 /* eslint-disable no-param-reassign */
 
@@ -6,7 +6,7 @@ export async function parse({ message, defaultSchemaFormat }) {
   try {
     let { payload } = message;
     if (typeof payload === 'object') {
-      payload = yaml.dump(payload);
+      payload = YAML.dump(payload);
     }
 
     message['x-parser-original-schema-format'] = message.schemaFormat || defaultSchemaFormat;
