@@ -17,10 +17,11 @@ export const validateSpec = (jsSpec) => (arg) => {
         3: "info",
         4: "info",
     }
+    const ruleSet = arg.topbarSelectors.spectralVersion()
 
     // NOTE: This assumes that the REST API is available under the same host
     // TODO: This might need to use a different ruleset depending on input
-    fetch(SPECTRAL_HOST + "/valigator/api/validate?ruleset=v5", {
+    fetch(SPECTRAL_HOST + "/valigator/api/validate?ruleset=" + ruleSet, {
         method: "POST",
         headers: {
             "Accept": "application/json"
