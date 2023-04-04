@@ -2,9 +2,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { useTable } from 'react-table';
-import noop from 'lodash/noop.js';
 
-const ValidationTable = ({ columns, data, onValidationKeyClick }) => {
+const ValidationTable = ({ columns, data, onRowClick }) => {
   const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } = useTable({
     columns,
     data,
@@ -31,11 +30,11 @@ const ValidationTable = ({ columns, data, onValidationKeyClick }) => {
                     <div
                       role="button"
                       tabIndex={0}
-                      onClick={() => {
-                        onValidationKeyClick(row.original);
+                      onClick={(event) => {
+                        onRowClick(event, row.original);
                       }}
-                      onKeyPress={() => {
-                        onValidationKeyClick(row.original);
+                      onKeyDown={(event) => {
+                        onRowClick(event, row.original);
                       }}
                     >
                       {cell.render('Cell')}
@@ -52,13 +51,9 @@ const ValidationTable = ({ columns, data, onValidationKeyClick }) => {
 };
 
 ValidationTable.propTypes = {
-  onValidationKeyClick: PropTypes.func,
   columns: PropTypes.oneOfType([PropTypes.array]).isRequired,
   data: PropTypes.oneOfType([PropTypes.array]).isRequired,
-};
-
-ValidationTable.defaultProps = {
-  onValidationKeyClick: noop,
+  onRowClick: PropTypes.func.isRequired,
 };
 
 export default ValidationTable;
