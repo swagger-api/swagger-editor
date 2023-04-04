@@ -32,7 +32,7 @@ export default function() {
         },
         selectors: {
           showModal: (state, name) => state.getIn(["shownModals", name], false),
-          spectralVersion: (state) => state.getIn(["spectralVersion"], "v5")
+          spectralVersion: (state) => state.getIn(["spectralVersion"], "v10")
         }
       }
     },
