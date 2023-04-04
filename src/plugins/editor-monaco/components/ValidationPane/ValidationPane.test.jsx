@@ -2,28 +2,32 @@ import React from 'react';
 import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 
 import ValidationPane from './ValidationPane.jsx';
-import * as editorSelectors from '../../selectors.js';
-import * as editorActions from '../../actions.js';
-
-jest.mock('../../selectors.js', () => ({
-  selectMarkers: jest.fn(),
-}));
-
-afterAll(() => {
-  jest.unmock('../../selectors.js');
-});
 
 const setup = ({ markerErrorList } = {}) => {
-  editorSelectors.selectMarkers.mockReturnValue(markerErrorList);
+  const editorSelectors = {
+    selectMarkers: jest.fn().mockReturnValue(markerErrorList),
+  };
+  const editorActions = {
+    setPosition: jest.fn(),
+  };
   const onValidationClick = jest.fn();
   const alwaysDisplayHeading = true;
+
   return { editorSelectors, editorActions, onValidationClick, alwaysDisplayHeading };
 };
 
-const renderValidationPane = async (props) => {
+const renderValidationPane = async ({
+  alwaysDisplayHeading,
+  onValidationClick,
+  editorSelectors,
+  editorActions,
+}) => {
   render(
     <ValidationPane
-      {...props} // eslint-disable-line react/jsx-props-no-spreading
+      alwaysDisplayHeading={alwaysDisplayHeading}
+      editorSelectors={editorSelectors}
+      editorActions={editorActions}
+      onValidationClick={onValidationClick}
     />
   );
 
@@ -44,19 +48,14 @@ describe('with empty errorMarkerErrorList', () => {
   test('should render with table headers and no table rows', async () => {
     const columnMessage1 = 'should always have a title';
 
-    const {
-      alwaysDisplayHeading,
-      onValidationClick,
-      editorSelectors: selectors,
-      editorActions: actions,
-    } = setup({
+    const { alwaysDisplayHeading, onValidationClick, editorSelectors, editorActions } = setup({
       markerErrorList: [],
     });
     const { hasTableItem } = await renderValidationPane({
       alwaysDisplayHeading,
       onValidationClick,
-      editorSelectors: selectors,
-      editorActions: actions,
+      editorSelectors,
+      editorActions,
     });
 
     const elementHeaderExists1 = hasTableItem('Line');

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo, useCallback } from 'react';
 import PropTypes from 'prop-types';
 
 import ValidationTable from '../ValidationTable/ValidationTable.jsx';
@@ -6,11 +6,11 @@ import ValidationTable from '../ValidationTable/ValidationTable.jsx';
 const ValidationPane = ({
   editorSelectors,
   editorActions,
-  onValidationClick,
   alwaysDisplayHeading,
+  onValidationClick,
 }) => {
   const markers = editorSelectors.selectMarkers();
-  const columns = React.useMemo(
+  const columns = useMemo(
     () => [
       {
         Header: 'Line',
@@ -23,22 +23,22 @@ const ValidationPane = ({
     ],
     []
   );
-  const data = React.useMemo(() => markers, [markers]);
-  const showTable = alwaysDisplayHeading || data.length > 0;
+  const showTable = alwaysDisplayHeading || markers.length > 0;
 
-  const handleValidationClick = (marker) => {
-    onValidationClick(marker);
-    editorActions.setJumpToEditorMarker(marker);
-  };
+  const handleValidationClick = useCallback(
+    (event, marker) => {
+      const position = { lineNumber: marker.startLineNumber, column: marker.startColumn };
+
+      onValidationClick(marker);
+      editorActions.setPosition(position);
+    },
+    [onValidationClick, editorActions]
+  );
 
   return (
     <div className="swagger-editor__validation-pane">
       {showTable && (
-        <ValidationTable
-          columns={columns}
-          data={data}
-          onValidationKeyClick={handleValidationClick}
-        />
+        <ValidationTable columns={columns} data={markers} onRowClick={handleValidationClick} />
       )}
     </div>
   );
@@ -46,8 +46,12 @@ const ValidationPane = ({
 
 ValidationPane.propTypes = {
   alwaysDisplayHeading: PropTypes.bool,
-  editorActions: PropTypes.oneOfType([PropTypes.object]).isRequired,
-  editorSelectors: PropTypes.oneOfType([PropTypes.object]).isRequired,
+  editorActions: PropTypes.shape({
+    setPosition: PropTypes.func.isRequired,
+  }).isRequired,
+  editorSelectors: PropTypes.shape({
+    selectMarkers: PropTypes.func.isRequired,
+  }).isRequired,
   onValidationClick: PropTypes.func,
 };
 
