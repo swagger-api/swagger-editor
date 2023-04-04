@@ -2,6 +2,7 @@ import React from 'react';
 import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 
 import ValidationPane from './ValidationPane.jsx';
+import ValidationTable from '../ValidationTable/ValidationTable.jsx';
 
 const setup = ({ markerErrorList } = {}) => {
   const editorSelectors = {
@@ -10,23 +11,26 @@ const setup = ({ markerErrorList } = {}) => {
   const editorActions = {
     setPosition: jest.fn(),
   };
+  const getComponent = jest.fn().mockReturnValue(ValidationTable);
   const onValidationClick = jest.fn();
   const alwaysDisplayHeading = true;
 
-  return { editorSelectors, editorActions, onValidationClick, alwaysDisplayHeading };
+  return { editorSelectors, editorActions, getComponent, onValidationClick, alwaysDisplayHeading };
 };
 
 const renderValidationPane = async ({
   alwaysDisplayHeading,
-  onValidationClick,
   editorSelectors,
   editorActions,
+  getComponent,
+  onValidationClick,
 }) => {
   render(
     <ValidationPane
       alwaysDisplayHeading={alwaysDisplayHeading}
       editorSelectors={editorSelectors}
       editorActions={editorActions}
+      getComponent={getComponent}
       onValidationClick={onValidationClick}
     />
   );
@@ -48,15 +52,10 @@ describe('with empty errorMarkerErrorList', () => {
   test('should render with table headers and no table rows', async () => {
     const columnMessage1 = 'should always have a title';
 
-    const { alwaysDisplayHeading, onValidationClick, editorSelectors, editorActions } = setup({
+    const props = setup({
       markerErrorList: [],
     });
-    const { hasTableItem } = await renderValidationPane({
-      alwaysDisplayHeading,
-      onValidationClick,
-      editorSelectors,
-      editorActions,
-    });
+    const { hasTableItem } = await renderValidationPane(props);
 
     const elementHeaderExists1 = hasTableItem('Line');
     expect(elementHeaderExists1).toBe(true);
@@ -77,8 +76,9 @@ describe('with populated markerErrorList', () => {
     const {
       alwaysDisplayHeading,
       onValidationClick,
-      editorSelectors: selectors,
-      editorActions: actions,
+      editorSelectors,
+      editorActions,
+      getComponent,
     } = setup({
       markerErrorList: [
         {
@@ -94,8 +94,9 @@ describe('with populated markerErrorList', () => {
     const { hasTableItem, clickTableItem } = await renderValidationPane({
       alwaysDisplayHeading,
       onValidationClick,
-      editorSelectors: selectors,
-      editorActions: actions,
+      editorSelectors,
+      editorActions,
+      getComponent,
     });
 
     const elementRowExists1 = hasTableItem(columnMessage1);
