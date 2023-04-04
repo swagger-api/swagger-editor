@@ -50,7 +50,7 @@
   },
   "dependencies": {
     "@asyncapi/avro-schema-parser": "^1.1.0",
-    "@asyncapi/openapi-schema-parser": "^2.0.1",
+    "@asyncapi/openapi-schema-parser": "^2.0.3",
     "@asyncapi/parser": "^1.18.1",
     "@asyncapi/react-component": "^1.0.0-next.44",
     "@babel/runtime": "^7.20.13",
@@ -58,7 +58,7 @@
     "@emotion/react": "^11.10.5",
     "@emotion/styled": "^11.10.5",
     "@mui/material": "^5.11.15",
-    "@primer/octicons-react": "^18.1.0",
+    "@primer/octicons-react": "^18.3.0",
     "@swagger-api/apidom-core": "^0.69.2",
     "@swagger-api/apidom-json-pointer": "^0.69.2",
     "@swagger-api/apidom-ls": "^0.69.2",
@@ -92,13 +92,13 @@
     "reselect": "^4.1.7",
     "short-unique-id": "^4.4.4",
     "styled-components": "^5.3.9",
-    "swagger-ui-react": "^5.0.0-alpha.5",
+    "swagger-ui-react": "^5.0.0-alpha.6",
     "vscode": "npm:@codingame/monaco-vscode-api@~1.76.2",
     "vscode-languageclient": "^8.1.0",
     "vscode-languageserver-textdocument": "^1.0.8"
   },
   "devDependencies": {
-    "@commitlint/cli": "^17.4.3",
+    "@commitlint/cli": "^17.5.1",
     "@commitlint/config-conventional": "^17.4.4",
     "@testing-library/cypress": "^9.0.0",
     "@testing-library/jest-dom": "^5.16.5",
