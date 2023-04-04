@@ -19,16 +19,11 @@ const MonacoEditor = ({
   value,
   theme,
   language,
-  jumpToMarker,
-  requestJumpToMarker,
   isReadOnly,
   onMount,
   onWillUnmount,
   onChange,
   onEditorMarkersDidChange,
-  onClearJumpToMarker,
-  onSetRequestJumpToMarker,
-  onClearRequestJumpToMarker,
 }) => {
   const containerRef = useRef(null);
   const editorRef = useRef(null);
@@ -123,58 +118,6 @@ const MonacoEditor = ({
     isEditorReady
   );
 
-  // jumping to markers
-  useUpdate(
-    () => {
-      if (Object.keys(jumpToMarker).length > 0) {
-        const startColumn = jumpToMarker?.startColumn || 1;
-        if (startColumn && jumpToMarker?.startLineNumber) {
-          editorRef.current.revealPositionNearTop({
-            lineNumber: jumpToMarker.startLineNumber,
-            column: startColumn,
-          });
-          editorRef.current.setPosition({
-            lineNumber: jumpToMarker.startLineNumber,
-            column: startColumn,
-          });
-          editorRef.current.focus();
-          onClearJumpToMarker();
-        }
-      }
-    },
-    [jumpToMarker, onClearJumpToMarker],
-    isEditorReady
-  );
-
-  // given a jsonPointer, request jumping to its marker position
-  useUpdate(
-    () => {
-      if (!requestJumpToMarker?.jsonPointer) return;
-
-      /**
-       * In monaco-editor >= 0.37, triggering the action using `editor.trigger()`
-       * will pass the payload to the action. Currently, there is a pending bug in
-       * monaco-editor, and we have to call the action in this hacky way.
-       *
-       * More info in: https://stackoverflow.com/questions/75685974/open-find-widget-with-content-programatically-in-monaco
-       */
-      const action = editorRef.current.getAction('swagger.editor.jsonPointerPosition');
-      if (action) {
-        // eslint-disable-next-line no-underscore-dangle
-        action._run(editorRef.current, {
-          jsonPointer: requestJumpToMarker.jsonPointer,
-          onSuccess: (position) => {
-            onSetRequestJumpToMarker(position);
-            onClearRequestJumpToMarker();
-          },
-          onFailure: () => onClearRequestJumpToMarker(),
-        });
-      }
-    },
-    [requestJumpToMarker, onSetRequestJumpToMarker, onClearRequestJumpToMarker],
-    isEditorReady
-  );
-
   // setting Monaco Editor to write/read mode
   useUpdate(
     () => {
@@ -250,28 +193,18 @@ MonacoEditor.propTypes = {
   language: PropTypes.string.isRequired,
   theme: PropTypes.string.isRequired,
   isReadOnly: PropTypes.bool,
-  jumpToMarker: PropTypes.oneOfType([PropTypes.object]),
-  requestJumpToMarker: PropTypes.oneOfType([PropTypes.object]),
   onMount: PropTypes.func,
   onWillUnmount: PropTypes.func,
   onChange: PropTypes.func,
   onEditorMarkersDidChange: PropTypes.func,
-  onClearJumpToMarker: PropTypes.func,
-  onSetRequestJumpToMarker: PropTypes.func,
-  onClearRequestJumpToMarker: PropTypes.func,
 };
 
 MonacoEditor.defaultProps = {
   isReadOnly: false,
-  jumpToMarker: {},
-  requestJumpToMarker: {},
   onMount: noop,
   onWillUnmount: noop,
   onChange: noop,
   onEditorMarkersDidChange: noop,
-  onClearJumpToMarker: noop,
-  onSetRequestJumpToMarker: noop,
-  onClearRequestJumpToMarker: noop,
 };
 
 export default MonacoEditor;

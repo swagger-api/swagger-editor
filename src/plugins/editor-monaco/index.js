@@ -5,17 +5,17 @@ import ValidationPane from './components/ValidationPane/ValidationPane.jsx';
 import ThemeSelectionIcon from './components/ThemeSelectionIcon.jsx';
 import EditorPaneBarTopWrapper from './wrap-components/EditorPaneBarTopWrapper.jsx';
 import EditorPaneBarBottomWrapper from './wrap-components/EditorPaneBarBottomWrapper.jsx';
+import { appendMarkers } from './actions/append-markers.js';
+import { clearMarkers } from './actions/clear-markers.js';
+import { setLanguage } from './actions/set-language.js';
+import { setMarkers } from './actions/set-markers.js';
 import {
-  setTheme,
-  setMarkers,
-  setLanguage,
-  appendMarkers,
-  clearMarkers,
-  setJumpToEditorMarker,
-  clearJumpToEditorMarker,
-  setRequestJumpToEditorMarker,
-  clearRequestJumpToEditorMarker,
-} from './actions.js';
+  setPosition,
+  setPositionStarted,
+  setPositionSuccess,
+  setPositionFailure,
+} from './actions/set-position.js';
+import { setTheme } from './actions/set-theme.js';
 import reducers from './reducers.js';
 import {
   selectTheme,
@@ -48,11 +48,12 @@ const EditorMonacoPlugin = () => ({
         setMarkers,
         appendMarkers,
         clearMarkers,
-        setJumpToEditorMarker,
-        clearJumpToEditorMarker,
-        setRequestJumpToEditorMarker,
-        clearRequestJumpToEditorMarker,
         setLanguage,
+
+        setPosition,
+        setPositionStarted,
+        setPositionSuccess,
+        setPositionFailure,
       },
       reducers,
       selectors: {

@@ -5,7 +5,6 @@ import { ModesRegistry } from 'monaco-editor/esm/vs/editor/common/languages/mode
 import * as apidom from './apidom.js';
 import { setupMode } from './apidom-mode.js';
 import createDereferenceActionDescriptor from './actions/dereference.js';
-import jsonPointerPositionActionDescriptor from './actions/json-pointer-position.js';
 
 export { getWorker } from './apidom-mode.js';
 
@@ -102,8 +101,6 @@ const lazyMonacoContribution = ({ createData, system }) => {
           if (!editor.getAction(dereferenceActionDescriptor.id)) {
             disposables.push(editor.addAction(dereferenceActionDescriptor));
           }
-
-          disposables.push(editor.addAction(jsonPointerPositionActionDescriptor));
         })
       );
     })

@@ -1,16 +1,10 @@
 import { fromJS, List } from 'immutable';
 
-import {
-  EDITOR_SET_THEME,
-  EDITOR_SET_MARKERS,
-  EDITOR_CLEAR_MARKERS,
-  EDITOR_APPEND_MARKERS,
-  EDITOR_JUMP_TO_EDITOR_MARKER,
-  EDITOR_CLEAR_JUMP_TO_EDITOR_MARKER,
-  EDITOR_SET_REQUEST_JUMP_TO_EDITOR_MARKER,
-  EDITOR_CLEAR_REQUEST_JUMP_TO_EDITOR_MARKER,
-  EDITOR_SET_LANGUAGE,
-} from './actions.js';
+import { EDITOR_SET_THEME } from './actions/set-theme.js';
+import { EDITOR_SET_MARKERS } from './actions/set-markers.js';
+import { EDITOR_CLEAR_MARKERS } from './actions/clear-markers.js';
+import { EDITOR_APPEND_MARKERS } from './actions/append-markers.js';
+import { EDITOR_SET_LANGUAGE } from './actions/set-language.js';
 
 const reducers = {
   [EDITOR_SET_THEME]: (state, action) => {
@@ -29,18 +23,6 @@ const reducers = {
       .get('markers', List())
       .filterNot((marker) => marker.get('source') === source);
     return state.set('markers', markers);
-  },
-  [EDITOR_JUMP_TO_EDITOR_MARKER]: (state, action) => {
-    return state.set('editorJumpToMarker', action.payload);
-  },
-  [EDITOR_CLEAR_JUMP_TO_EDITOR_MARKER]: (state, action) => {
-    return state.set('editorJumpToMarker', action.payload);
-  },
-  [EDITOR_SET_REQUEST_JUMP_TO_EDITOR_MARKER]: (state, action) => {
-    return state.set('editorRequestJumpToMarker', action.payload);
-  },
-  [EDITOR_CLEAR_REQUEST_JUMP_TO_EDITOR_MARKER]: (state, action) => {
-    return state.set('editorRequestJumpToMarker', action.payload);
   },
   [EDITOR_SET_LANGUAGE]: (state, action) => {
     return state.set('language', action.payload);

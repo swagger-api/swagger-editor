@@ -5,8 +5,6 @@ import MonacoEditor from './MonacoEditor.jsx';
 
 const MonacoEditorContainer = ({ editorActions, editorSelectors, isReadOnly }) => {
   const theme = editorSelectors.selectTheme();
-  const jumpToMarker = editorSelectors.selectEditorJumpToMarker();
-  const requestJumpToMarker = editorSelectors.selectEditorRequestJumpToMarker();
   const value = editorSelectors.selectContent();
   const language = editorSelectors.selectLanguage();
 
@@ -39,36 +37,16 @@ const MonacoEditorContainer = ({ editorActions, editorSelectors, isReadOnly }) =
     [editorActions]
   );
 
-  const handleClearJumpToEditorMarker = useCallback(() => {
-    editorActions.clearJumpToEditorMarker();
-  }, [editorActions]);
-
-  const handleSetJumpToEditorMarker = useCallback(
-    (marker) => {
-      editorActions.setJumpToEditorMarker(marker);
-    },
-    [editorActions]
-  );
-
-  const handleClearRequestJumpToEditorMarker = useCallback(() => {
-    editorActions.clearRequestJumpToEditorMarker();
-  }, [editorActions]);
-
   return (
     <MonacoEditor
       language={language}
       theme={theme}
       value={value}
       isReadOnly={isReadOnly}
-      jumpToMarker={jumpToMarker}
-      requestJumpToMarker={requestJumpToMarker}
       onChange={handleChangeEditorValue}
       onMount={handleEditorDidMount}
       onWillUnmount={handleEditorWillUnmount}
       onEditorMarkersDidChange={handleEditorMarkersDidChange}
-      onClearJumpToMarker={handleClearJumpToEditorMarker}
-      onSetRequestJumpToMarker={handleSetJumpToEditorMarker}
-      onClearRequestJumpToMarker={handleClearRequestJumpToEditorMarker}
     />
   );
 };
@@ -80,16 +58,11 @@ MonacoEditorContainer.propTypes = {
     editorTearDown: PropTypes.func.isRequired,
     setContentDebounced: PropTypes.func.isRequired,
     setMarkers: PropTypes.func.isRequired,
-    clearJumpToEditorMarker: PropTypes.func.isRequired,
-    setJumpToEditorMarker: PropTypes.func.isRequired,
-    clearRequestJumpToEditorMarker: PropTypes.func.isRequired,
   }).isRequired,
   editorSelectors: PropTypes.shape({
     selectLanguage: PropTypes.func.isRequired,
     selectContent: PropTypes.func.isRequired,
     selectTheme: PropTypes.func.isRequired,
-    selectEditorJumpToMarker: PropTypes.func.isRequired,
-    selectEditorRequestJumpToMarker: PropTypes.func.isRequired,
   }).isRequired,
 };
 
