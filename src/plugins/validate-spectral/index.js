@@ -20,7 +20,7 @@ export const validateSpec = (jsSpec) => (arg) => {
 
     // NOTE: This assumes that the REST API is available under the same host
     // TODO: This might need to use a different ruleset depending on input
-    fetch(SPECTRAL_HOST + "/valigator/api/validate?ruleset=v5", {
+    fetch(SPECTRAL_HOST + "/valigator/api/validate?ruleset=v10", {
         method: "POST",
         headers: {
             "Accept": "application/json"
