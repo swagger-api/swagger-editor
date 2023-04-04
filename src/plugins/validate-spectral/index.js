@@ -50,9 +50,6 @@ export default function() {
             spec: {
                 actions: {
                     validateSpec,
-                },
-                wrapActions: {
-                    updateJsonSpec
                 }
             }
         }
