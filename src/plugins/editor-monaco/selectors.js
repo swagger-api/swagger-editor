@@ -8,13 +8,4 @@ export const selectMarkers = createSelector(
   (markers) => markers.toJS()
 );
 
-export const selectEditorJumpToMarker = createSelector(
-  (state) => state.get('editorJumpToMarker'),
-  (editorJumpToMarker) => {
-    return editorJumpToMarker || {};
-  }
-);
-
 export const selectLanguage = (state) => state.get('language', 'plaintext');
-
-export const selectEditorRequestJumpToMarker = (state) => state.get('editorRequestJumpToMarker');

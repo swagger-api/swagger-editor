@@ -1,9 +1,7 @@
-import { useMemo } from 'react';
+import { useMemo, useCallback } from 'react';
 import PropTypes from 'prop-types';
 
-import ValidationTable from '../../../editor-monaco/components/ValidationTable/ValidationTable.jsx';
-
-const ParseErrors = ({ errors, editorActions }) => {
+const ParseErrors = ({ errors, editorActions, getComponent }) => {
   const columns = useMemo(
     () => [
       {
@@ -18,9 +16,15 @@ const ParseErrors = ({ errors, editorActions }) => {
     []
   );
 
-  const handleValidationClick = (marker) => {
-    editorActions.setJumpToEditorMarker(marker);
-  };
+  const ValidationTable = getComponent('ValidationTable');
+
+  const handleValidationClick = useCallback(
+    (event, marker) => {
+      const position = { lineNumber: marker.startLineNumber, column: marker.startColumn };
+      editorActions.setPosition(position);
+    },
+    [editorActions]
+  );
 
   return (
     <div className="swagger-editor__editor-preview-asyncapi-parse-errors">
@@ -34,11 +38,7 @@ const ParseErrors = ({ errors, editorActions }) => {
           </div>
         </div>
       </div>
-      <ValidationTable
-        columns={columns}
-        data={errors}
-        onValidationKeyClick={handleValidationClick}
-      />
+      <ValidationTable columns={columns} data={errors} onRowClick={handleValidationClick} />
     </div>
   );
 };
@@ -46,11 +46,12 @@ const ParseErrors = ({ errors, editorActions }) => {
 ParseErrors.propTypes = {
   errors: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
   editorActions: PropTypes.shape({
-    setJumpToEditorMarker: PropTypes.func.isRequired,
+    setPosition: PropTypes.func.isRequired,
   }).isRequired,
   editorPreviewAsyncAPISelectors: PropTypes.shape({
     selectParseErrors: PropTypes.func.isRequired,
   }).isRequired,
+  getComponent: PropTypes.func.isRequired,
 };
 
 export default ParseErrors;

@@ -1,11 +1,10 @@
 import React, { useMemo, useCallback } from 'react';
 import PropTypes from 'prop-types';
 
-import ValidationTable from '../ValidationTable/ValidationTable.jsx';
-
 const ValidationPane = ({
   editorSelectors,
   editorActions,
+  getComponent,
   alwaysDisplayHeading,
   onValidationClick,
 }) => {
@@ -23,6 +22,7 @@ const ValidationPane = ({
     ],
     []
   );
+  const ValidationTable = getComponent('ValidationTable');
   const showTable = alwaysDisplayHeading || markers.length > 0;
 
   const handleValidationClick = useCallback(
@@ -52,6 +52,7 @@ ValidationPane.propTypes = {
   editorSelectors: PropTypes.shape({
     selectMarkers: PropTypes.func.isRequired,
   }).isRequired,
+  getComponent: PropTypes.func.isRequired,
   onValidationClick: PropTypes.func,
 };
 

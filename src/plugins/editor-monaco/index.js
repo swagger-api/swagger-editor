@@ -2,6 +2,7 @@ import * as monaco from 'monaco-editor';
 
 import MonacoEditorContainer from './components/MonacoEditor/MonacoEditorContainer.jsx';
 import ValidationPane from './components/ValidationPane/ValidationPane.jsx';
+import ValidationTable from './components/ValidationTable/ValidationTable.jsx';
 import ThemeSelectionIcon from './components/ThemeSelectionIcon.jsx';
 import EditorPaneBarTopWrapper from './wrap-components/EditorPaneBarTopWrapper.jsx';
 import EditorPaneBarBottomWrapper from './wrap-components/EditorPaneBarBottomWrapper.jsx';
@@ -17,13 +18,7 @@ import {
 } from './actions/set-position.js';
 import { setTheme } from './actions/set-theme.js';
 import reducers from './reducers.js';
-import {
-  selectTheme,
-  selectMarkers,
-  selectEditorJumpToMarker,
-  selectEditorRequestJumpToMarker,
-  selectLanguage,
-} from './selectors.js';
+import { selectTheme, selectMarkers, selectLanguage } from './selectors.js';
 import afterLoad from './after-load.js';
 
 const EditorMonacoPlugin = () => ({
@@ -35,6 +30,7 @@ const EditorMonacoPlugin = () => ({
     Editor: MonacoEditorContainer,
     MonacoEditor: MonacoEditorContainer,
     ValidationPane,
+    ValidationTable,
     ThemeSelection: ThemeSelectionIcon,
   },
   wrapComponents: {
@@ -59,8 +55,6 @@ const EditorMonacoPlugin = () => ({
       selectors: {
         selectTheme,
         selectMarkers,
-        selectEditorJumpToMarker,
-        selectEditorRequestJumpToMarker,
         selectLanguage,
       },
     },
