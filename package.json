@@ -30,10 +30,10 @@
   "scripts": {
     "start": "cross-env DISABLE_ESLINT_PLUGIN=false ENABLE_PROGRESS_PLUGIN=true react-scripts start",
     "build": "npm run build:app && npm run build:bundle:esm && npm run build:bundle:umd",
-    "build:app": "cross-env ENABLE_PROGRESS_PLUGIN=false DISABLE_ESLINT_PLUGIN=false react-scripts build",
+    "build:app": "cross-env ENABLE_PROGRESS_PLUGIN=false DISABLE_ESLINT_PLUGIN=false react-scripts build && rimraf ./build/static/media/*.mp3",
     "build:app:serve": "serve -s build -l 3050",
     "build:bundle:esm": "rimraf ./dist/esm && cross-env DISABLE_ESLINT_PLUGIN=false ENABLE_PROGRESS_PLUGIN=false GENERATE_SOURCEMAP=true BUILD_ESM_BUNDLE=true DIST_PATH=dist/esm react-scripts build-bundle && rimraf ./dist/esm/swagger-editor.css*",
-    "build:bundle:umd": "rimraf ./dist/umd ./dist/swagger-editor.css && cross-env DISABLE_ESLINT_PLUGIN=false ENABLE_PROGRESS_PLUGIN=false GENERATE_SOURCEMAP=false BUILD_UMD_BUNDLE=true DIST_PATH=dist/umd react-scripts build-bundle && copyfiles -u 2 ./dist/umd/swagger-editor.css ./dist && rimraf ./dist/umd/swagger-editor.css",
+    "build:bundle:umd": "rimraf ./dist/umd ./dist/swagger-editor.css && cross-env DISABLE_ESLINT_PLUGIN=false ENABLE_PROGRESS_PLUGIN=false GENERATE_SOURCEMAP=false BUILD_UMD_BUNDLE=true DIST_PATH=dist/umd react-scripts build-bundle && copyfiles -u 2 ./dist/umd/swagger-editor.css ./dist && rimraf ./dist/umd/swagger-editor.css && rimraf ./dist/umd/*.mp3",
     "analyze": "source-map-explorer 'build/static/js/main.js'",
     "test": "react-scripts test",
     "cy:dev": "start-server-and-test cy:dev:server http://localhost:3003 cy:dev:open",
@@ -93,7 +93,7 @@
     "short-unique-id": "^4.4.4",
     "styled-components": "^5.3.9",
     "swagger-ui-react": "^5.0.0-alpha.6",
-    "vscode": "npm:@codingame/monaco-vscode-api@~1.76.2",
+    "vscode": "npm:@codingame/monaco-vscode-api@~1.76.6",
     "vscode-languageclient": "^8.1.0",
     "vscode-languageserver-textdocument": "^1.0.8"
   },
