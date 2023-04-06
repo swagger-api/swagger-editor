@@ -118,7 +118,7 @@
     "lint-staged": "^13.2.0",
     "prettier": "^2.8.7",
     "react-scripts": "file:./create-react-app/packages/react-scripts",
-    "rimraf": "^4.3.0",
+    "rimraf": "^4.4.1",
     "sass": "^1.59.3",
     "serve": "^14.2.0",
     "source-map-explorer": "^2.5.3",
