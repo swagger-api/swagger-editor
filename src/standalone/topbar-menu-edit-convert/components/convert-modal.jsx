@@ -38,7 +38,7 @@ export default class ConvertModal extends Component {
 
     const body = await res.text()
 
-    if(!res.ok) {
+    if (!res.ok) {
       throw new Error(body)
     }
 
@@ -48,13 +48,13 @@ export default class ConvertModal extends Component {
   render() {
     const { onClose, getComponent, converterUrl } = this.props
 
-    if(this.state.status === "new") {
+    if (this.state.status === "new") {
       return <ConvertModalStepNew
         onClose={onClose}
         onContinue={() => this.convertDefinition(converterUrl)}
         getComponent={getComponent}
         converterUrl={converterUrl}
-        />
+      />
     }
 
     if (this.state.status === "converting") {
@@ -100,7 +100,7 @@ const ConvertModalStepNew = ({ getComponent, onClose, onContinue, converterUrl }
       <p>
         This feature uses the Swagger Converter API to convert your Swagger 2.0
         definition to OpenAPI 3.
-        </p>
+      </p>
       <p>
         Swagger Editor&apos;s contents will be sent to <b><code>{converterUrl}</code></b> and overwritten
         by the conversion result.

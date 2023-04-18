@@ -7,7 +7,7 @@ import fileDownload from "js-file-download"
 import YAML from "js-yaml"
 import beautifyJson from "json-beautify"
 import { petStoreOas2Def, petStoreOas3Def } from "../../../plugins/default-definitions"
-
+import SpectralVersion from "./SpectralVersion"
 
 import Logo from "../assets/logo_small.svg"
 
@@ -38,7 +38,7 @@ export default class Topbar extends React.Component {
 
     const isOAS3 = this.props.specSelectors.isOAS3()
 
-    if(!generatorUrl) {
+    if (!generatorUrl) {
       return this.setState({
         clients: [],
         servers: []
@@ -51,37 +51,37 @@ export default class Topbar extends React.Component {
         req.headers["Content-Type"] = "application/json"
       }
     })
-    .then(client => {
-      this.setState({
-        swaggerClient: client
-      })
+      .then(client => {
+        this.setState({
+          swaggerClient: client
+        })
 
-      const clientGetter = isOAS3 ? client.apis.clients.clientLanguages : client.apis.clients.clientOptions
-      const serverGetter = isOAS3 ? client.apis.servers.serverLanguages : client.apis.servers.serverOptions
+        const clientGetter = isOAS3 ? client.apis.clients.clientLanguages : client.apis.clients.clientOptions
+        const serverGetter = isOAS3 ? client.apis.servers.serverLanguages : client.apis.servers.serverOptions
 
 
-      clientGetter({}, {
-        // contextUrl is needed because swagger-client is curently
-        // not building relative server URLs correctly
-        contextUrl: generatorUrl
-      })
-      .then(res => {
-        this.setState({ clients: res.body || [] })
-      })
+        clientGetter({}, {
+          // contextUrl is needed because swagger-client is curently
+          // not building relative server URLs correctly
+          contextUrl: generatorUrl
+        })
+          .then(res => {
+            this.setState({ clients: res.body || [] })
+          })
 
-      serverGetter({}, {
-        // contextUrl is needed because swagger-client is curently
-        // not building relative server URLs correctly
-        contextUrl: generatorUrl
+        serverGetter({}, {
+          // contextUrl is needed because swagger-client is curently
+          // not building relative server URLs correctly
+          contextUrl: generatorUrl
+        })
+          .then(res => {
+            this.setState({ servers: res.body || [] })
+          })
       })
-      .then(res => {
-        this.setState({ servers: res.body || [] })
-      })
-    })
   }
 
   downloadFile = (content, fileName) => {
-    if(window.Cypress) {
+    if (window.Cypress) {
       // HACK: temporary workaround for https://github.com/cypress-io/cypress/issues/949
       // allows e2e tests to proceed without choking on file download native event
       return
@@ -94,7 +94,7 @@ export default class Topbar extends React.Component {
   importFromURL = () => {
     let url = prompt("Enter the URL to import from:")
 
-    if(url) {
+    if (url) {
       fetch(url)
         .then(res => res.text())
         .then(text => {
@@ -112,16 +112,16 @@ export default class Topbar extends React.Component {
     let language = this.getDefinitionLanguage()
     let fileName = this.getFileName()
 
-    if(this.hasParserErrors()) {
-      if(language === "yaml") {
+    if (this.hasParserErrors()) {
+      if (language === "yaml") {
         const shouldContinue = confirm("Swagger-Editor isn't able to parse your API definition. Are you sure you want to save the editor content as YAML?")
-        if(!shouldContinue) return
+        if (!shouldContinue) return
       } else {
         return alert("Save as YAML is not currently possible because Swagger-Editor wasn't able to parse your API definition.")
       }
     }
 
-    if(language === "yaml") {
+    if (language === "yaml") {
       //// the content is YAML,
       //// so download as-is
       return this.downloadFile(editorContent, `${fileName}.yaml`)
@@ -141,7 +141,7 @@ export default class Topbar extends React.Component {
     let editorContent = this.props.specSelectors.specStr()
     let fileName = this.getFileName()
 
-    if(this.hasParserErrors()) {
+    if (this.hasParserErrors()) {
       // we can't recover from a parser error in save as JSON
       // because we are always parsing so we can beautify
       return alert("Save as JSON is not currently possible because Swagger-Editor wasn't able to parse your API definition.")
@@ -174,12 +174,12 @@ export default class Topbar extends React.Component {
   downloadGeneratedFile = (type, name) => {
     let { specSelectors } = this.props
     let swaggerClient = this.state.swaggerClient
-    if(!swaggerClient) {
+    if (!swaggerClient) {
       // Swagger client isn't ready yet.
       return
     }
 
-    if(specSelectors.isOAS3()) {
+    if (specSelectors.isOAS3()) {
       // Generator 3 only has one generate endpoint for all types of things...
       // since we're using the tags interface we may as well use the client reference to it
       swaggerClient.apis.clients.generate({}, {
@@ -192,9 +192,9 @@ export default class Topbar extends React.Component {
       }).then(res => {
         this.downloadFile(res.data, `${name}-${type}-generated.zip`)
       })
-    } else if(type === "server") {
+    } else if (type === "server") {
       swaggerClient.apis.servers.generateServerForLanguage({
-        framework : name,
+        framework: name,
         body: JSON.stringify({
           spec: specSelectors.specJson()
         }),
@@ -203,9 +203,9 @@ export default class Topbar extends React.Component {
         })
       })
         .then(res => this.handleResponse(res, { type, name }))
-    } else if(type === "client") {
+    } else if (type === "client") {
       swaggerClient.apis.clients.generateClient({
-        language : name,
+        language: name,
         body: JSON.stringify({
           spec: specSelectors.specJson()
         })
@@ -215,14 +215,14 @@ export default class Topbar extends React.Component {
   }
 
   handleResponse = (res, { type, name }) => {
-    if(!res.ok) {
+    if (!res.ok) {
       return console.error(res)
     }
 
     let downloadUrl = URL.parse(res.body.link)
 
     // HACK: workaround for Swagger.io Generator 2.0's lack of HTTPS downloads
-    if(downloadUrl.hostname === "generator.swagger.io") {
+    if (downloadUrl.hostname === "generator.swagger.io") {
       downloadUrl.protocol = "https:"
       delete downloadUrl.port
       delete downloadUrl.host
@@ -236,7 +236,7 @@ export default class Topbar extends React.Component {
   }
 
   clearEditor = () => {
-    if(window.localStorage) {
+    if (window.localStorage) {
       window.localStorage.removeItem("swagger-editor-content")
       this.props.specActions.updateSpec("")
     }
@@ -271,7 +271,7 @@ export default class Topbar extends React.Component {
 
   getFileName = () => {
     // Use `isSwagger2` here, because we want to default to `openapi` if we don't know.
-    if(this.props.specSelectors.isSwagger2 && this.props.specSelectors.isSwagger2()) {
+    if (this.props.specSelectors.isSwagger2 && this.props.specSelectors.isSwagger2()) {
       return "swagger"
     }
 
@@ -281,7 +281,7 @@ export default class Topbar extends React.Component {
   getDefinitionLanguage = () => {
     let editorContent = this.props.specSelectors.specStr() || ""
 
-    if(editorContent.trim()[0] === "{") {
+    if (editorContent.trim()[0] === "{") {
       return "json"
     }
 
@@ -306,7 +306,7 @@ export default class Topbar extends React.Component {
   componentDidUpdate() {
     const version = this.getDefinitionVersion()
 
-    if(this.state.definitionVersion !== version) {
+    if (this.state.definitionVersion !== version) {
       // definition version has changed; need to reinstantiate
       // our Generator client
       // --
@@ -320,7 +320,7 @@ export default class Topbar extends React.Component {
   }
 
   render() {
-    let { getComponent, specSelectors, topbarActions } = this.props
+    let { getComponent, specSelectors, topbarActions, topbarSelectors } = this.props
     const Link = getComponent("Link")
     const TopbarInsert = getComponent("TopbarInsert")
     const ImportFileMenuItem = getComponent("ImportFileMenuItem")
@@ -343,27 +343,26 @@ export default class Topbar extends React.Component {
         isOpen: !!this.state[stateKey],
         close: () => this.setState({ [stateKey]: false }),
         align: "left",
-        toggle: <span className="menu-item" onClick={toggleFn}>{ name }</span>
+        toggle: <span className="menu-item" onClick={toggleFn}>{name}</span>
       }
     }
-
     return (
       <div className="swagger-editor-standalone">
         <div className="topbar">
           <div className="topbar-wrapper">
             <Link href="https://swagger.io/tools/swagger-editor/">
-              <img height="35" className="topbar-logo__img" src={ Logo } alt=""/>
+              <img height="35" className="topbar-logo__img" src={Logo} alt="" />
             </Link>
             <DropdownMenu {...makeMenuOptions("File")}>
               <li><button type="button" onClick={this.importFromURL}>Import URL</button></li>
               <ImportFileMenuItem onDocumentLoad={content => this.props.specActions.updateSpec(content)} />
               <li role="separator"></li>
               {isJson ? [
-                  <li key="1"><button type="button" onClick={this.saveAsJson}>Save as JSON</button></li>,
-                  <li key="2"><button type="button" onClick={this.saveAsYaml}>Convert and save as YAML</button></li>
+                <li key="1"><button type="button" onClick={this.saveAsJson}>Save as JSON</button></li>,
+                <li key="2"><button type="button" onClick={this.saveAsYaml}>Convert and save as YAML</button></li>
               ] : [
-                  <li key="1"><button type="button" onClick={this.saveAsYaml}>Save as YAML</button></li>,
-                  <li key="2"><button type="button" onClick={this.saveAsJson}>Convert and save as JSON</button></li>
+                <li key="1"><button type="button" onClick={this.saveAsYaml}>Save as YAML</button></li>,
+                <li key="2"><button type="button" onClick={this.saveAsJson}>Convert and save as JSON</button></li>
               ]}
               <li role="separator"></li>
               <li><button type="button" onClick={this.clearEditor}>Clear editor</button></li>
@@ -380,15 +379,16 @@ export default class Topbar extends React.Component {
               <li><button type="button" onClick={this.loadPetStoreOas2}>Load Petstore OAS 2.0</button></li>
             </DropdownMenu>
             <TopbarInsert {...this.props} />
-            { showServersMenu ? <DropdownMenu className="long" {...makeMenuOptions("Generate Server")}>
-              { this.state.servers
-                  .map((serv, i) => <li key={i}><button type="button" onClick={() => this.downloadGeneratedFile("server", serv)}>{serv}</button></li>) }
-            </DropdownMenu> : null }
-            { showClientsMenu ? <DropdownMenu className="long" {...makeMenuOptions("Generate Client")}>
-              { this.state.clients
-                  .map((cli, i) => <li key={i}><button type="button" onClick={() => this.downloadGeneratedFile("client", cli)}>{cli}</button></li>) }
-            </DropdownMenu> : null }
+            {showServersMenu ? <DropdownMenu className="long" {...makeMenuOptions("Generate Server")}>
+              {this.state.servers
+                .map((serv, i) => <li key={i}><button type="button" onClick={() => this.downloadGeneratedFile("server", serv)}>{serv}</button></li>)}
+            </DropdownMenu> : null}
+            {showClientsMenu ? <DropdownMenu className="long" {...makeMenuOptions("Generate Client")}>
+              {this.state.clients
+                .map((cli, i) => <li key={i}><button type="button" onClick={() => this.downloadGeneratedFile("client", cli)}>{cli}</button></li>)}
+            </DropdownMenu> : null}
             {AboutMenu && <AboutMenu {...makeMenuOptions("About")} />}
+            <SpectralVersion onChange={topbarActions.switchSpectralVersion} currentStateF={topbarSelectors.spectralVersion} />
             {NewEditorButton && <NewEditorButton />}
           </div>
         </div>
@@ -404,4 +404,5 @@ Topbar.propTypes = {
   topbarActions: PropTypes.object.isRequired,
   getComponent: PropTypes.func.isRequired,
   getConfigs: PropTypes.func.isRequired,
+  topbarSelectors: PropTypes.func.isRequired
 }
