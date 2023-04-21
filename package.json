@@ -160,7 +160,7 @@
     "release-it": "=15.4.2",
     "rewiremock": "^3.7.4",
     "rimraf": "^5.0.0",
-    "sinon": "=15.0.3",
+    "sinon": "=15.0.4",
     "source-map-explorer": "^2.5.2",
     "start-server-and-test": "=2.0.0",
     "terser-webpack-plugin": "^5.3.1",
