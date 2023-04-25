@@ -1,15 +1,21 @@
 // Base validate plugin that provides a placeholder `validateSpec` that fires
 // after `updateJsonSpec` is dispatched.
-
+import debounce from "lodash/debounce"
 export const updateJsonSpec = (ori, { specActions }) => (...args) => {
     ori(...args)
 
     const [spec] = args
     specActions.validateSpec(spec)
 }
-
+const bounceErrors = debounce((errors, f) => {
+    f(errors)
+}, 500)
+const SOURCE = "spectral"
 //eslint-disable-next-line no-unused-vars
 export const validateSpec = (jsSpec) => (arg) => {
+    arg.errActions.clear({
+        source: SOURCE
+    })
     const severityToLevel = {
         0: "error",
         1: "warning",
@@ -32,12 +38,13 @@ export const validateSpec = (jsSpec) => (arg) => {
             return {
                 level: severityToLevel[entry.severity],
                 message: entry.message,
-                path: entry.path,
-                line: entry.range.start.line + 1
+                path: entry.path.join("."),
+                line: entry.range.start.line + 1,
+                source: SOURCE
             }
         })
         if (errors.length > 0) {
-            arg.errActions.newSpecErrBatch(errors)
+            bounceErrors(errors, arg.errActions.newThrownErrBatch)
         }
     }
     ).catch((error) => {
