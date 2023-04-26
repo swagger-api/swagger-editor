@@ -13,12 +13,11 @@ describe('Monaco Editor with Parser', () => {
   });
 
   it('should not throw console.error when parsing empty string', () => {
-    cy.get('.monaco-editor textarea:first', { timeout: 10000 })
-      .should('be.visible')
-      .click({ force: true })
-      .focused()
-      .type(selectAllKeys)
-      .clear();
+    cy.get('.monaco-editor textarea:first', { timeout: 10000 }).should('be.visible');
+    cy.get('.monaco-editor textarea:first').click({ force: true });
+    cy.get('.monaco-editor textarea:first').focused();
+    cy.get('.monaco-editor textarea:first').type(selectAllKeys);
+    cy.get('.monaco-editor textarea:first').clear();
 
     cy.waitForContentPropagation();
 
@@ -27,12 +26,11 @@ describe('Monaco Editor with Parser', () => {
   });
 
   it('should not throw console.error when parsing unsupported definition', () => {
-    cy.get('.monaco-editor textarea:first', { timeout: 10000 })
-      .should('be.visible')
-      .click({ force: true })
-      .focused()
-      .type(selectAllKeys)
-      .type('randomapi: 1.0.0\n');
+    cy.get('.monaco-editor textarea:first', { timeout: 10000 }).should('be.visible');
+    cy.get('.monaco-editor textarea:first').click({ force: true });
+    cy.get('.monaco-editor textarea:first').focused();
+    cy.get('.monaco-editor textarea:first').type(selectAllKeys);
+    cy.get('.monaco-editor textarea:first').type('randomapi: 1.0.0\n');
 
     cy.waitForContentPropagation();
 

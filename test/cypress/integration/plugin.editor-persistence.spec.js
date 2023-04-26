@@ -19,11 +19,10 @@ describe('EditorPersistencePlugin', () => {
 
     const moveToPosition = `{rightArrow}{rightArrow}{rightArrow}{rightArrow}{rightArrow}{rightArrow}{rightArrow}{rightArrow}{rightArrow}{rightArrow}{rightArrow}{rightArrow}{rightArrow}`;
 
-    cy.get('.monaco-editor textarea:first', { timeout: 10000 })
-      .should('be.visible')
-      .click({ force: true })
-      .focused()
-      .type(`${moveToPosition}{shift+rightArrow}5`);
+    cy.get('.monaco-editor textarea:first', { timeout: 10000 }).should('be.visible');
+    cy.get('.monaco-editor textarea:first').click({ force: true });
+    cy.get('.monaco-editor textarea:first').focused();
+    cy.get('.monaco-editor textarea:first').type(`${moveToPosition}{shift+rightArrow}5`);
 
     cy.get('.monaco-editor .view-lines')
       .should('contains.text', '2.5.0')

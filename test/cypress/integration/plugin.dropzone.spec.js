@@ -12,15 +12,14 @@ describe('Dropzone in Layout', () => {
         cy.get('[data-cy="dropzone"]')
           .attachFile(['petstore-oas3.yaml', 'petstore-oas3.yaml'], { subjectType: 'input' })
           .then(() => {
-            cy.get('.modal-title')
-              .should('contains.text', 'Uh oh, an error has occurred')
-              .get('.modal-body > div')
-              .should('contains.text', 'Sorry, there was an error processing your file')
-              // assert on AlertDialog interaction via `x` button'
-              .get('.close')
-              .click()
-              .get('.modal-title')
-              .should('not.exist');
+            cy.get('.modal-title').should('contains.text', 'Uh oh, an error has occurred');
+            cy.get('.modal-body > div').should(
+              'contains.text',
+              'Sorry, there was an error processing your file'
+            );
+            // assert on AlertDialog interaction via `x` button'
+            cy.get('.close').click();
+            cy.get('.modal-title').should('not.exist');
           });
       });
     });

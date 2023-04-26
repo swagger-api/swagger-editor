@@ -9,7 +9,8 @@ describe('Editor Preview Pane: OpenAPI 2.0, 3.0.x, 3.1.x', () => {
   it('should display OpenAPI 2.0', () => {
     cy.contains('File').click();
     cy.contains('Load Example').trigger('mouseover');
-    cy.contains('OpenAPI 2.0 Petstore').trigger('mousemove').click();
+    cy.contains('OpenAPI 2.0 Petstore').trigger('mousemove');
+    cy.contains('OpenAPI 2.0 Petstore').click();
 
     // `.title` and `.version-stamp` are SwaggerUI specific css classes, that should only appear in the preview pane
     cy.get('.title').contains('Swagger Petstore 2.0').should('be.visible');
@@ -19,7 +20,8 @@ describe('Editor Preview Pane: OpenAPI 2.0, 3.0.x, 3.1.x', () => {
   it('should display OpenAPI 3.0.x', () => {
     cy.contains('File').click();
     cy.contains('Load Example').trigger('mouseover');
-    cy.contains('OpenAPI 3.0 Petstore').trigger('mousemove').click();
+    cy.contains('OpenAPI 3.0 Petstore').trigger('mousemove');
+    cy.contains('OpenAPI 3.0 Petstore').click();
 
     // `.title` and `.version-stamp` are SwaggerUI specific css classes, that should only appear in the preview pane
     cy.get('.title').contains('Swagger Petstore - OpenAPI 3.0').should('be.visible');
@@ -32,7 +34,8 @@ describe('Editor Preview Pane: OpenAPI 2.0, 3.0.x, 3.1.x', () => {
   it('should display OpenAPI 3.1.0', () => {
     cy.contains('File').click();
     cy.contains('Load Example').trigger('mouseover');
-    cy.contains('OpenAPI 3.1 Petstore').trigger('mousemove').click();
+    cy.contains('OpenAPI 3.1 Petstore').trigger('mousemove');
+    cy.contains('OpenAPI 3.1 Petstore').click();
 
     // `.title` and `.version-stamp` are SwaggerUI specific css classes, that should only appear in the preview pane
     cy.get('.title').contains('Swagger Petstore - OpenAPI 3.1').should('be.visible');
@@ -45,7 +48,8 @@ describe('Editor Preview Pane: OpenAPI 2.0, 3.0.x, 3.1.x', () => {
   it('should be hidden if not OpenAPI', () => {
     cy.contains('File').click();
     cy.contains('Load Example').trigger('mouseover');
-    cy.contains('AsyncAPI 2.6 Petstore').trigger('mousemove').click();
+    cy.contains('AsyncAPI 2.6 Petstore').trigger('mousemove');
+    cy.contains('AsyncAPI 2.6 Petstore').click();
 
     // `.title` is a SwaggerUI specific css class
     cy.get('.title').should('not.exist');
