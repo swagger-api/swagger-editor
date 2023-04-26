@@ -16,26 +16,22 @@ describe('Dialogs: Confirm', () => {
   });
   it('should close the Confirm Dialog via `x` button', () => {
     cy.contains('File').click(); // File Menu
-    cy.contains('Import URL')
-      .trigger('mousemove')
-      .click()
-      .get('#input-import-url')
-      .should('be.visible')
-      .get('.close')
-      .click()
-      .get('#input-import-url')
-      .should('not.exist');
+
+    cy.contains('Import URL').trigger('mousemove');
+    cy.contains('Import URL').click();
+
+    cy.get('#input-import-url').should('be.visible');
+    cy.get('.close').click();
+    cy.get('#input-import-url').should('not.exist');
   });
   it('should close the Confirm Dialog via `Cancel` button', () => {
     cy.contains('File').click(); // File Menu
-    cy.contains('Import URL')
-      .trigger('mousemove')
-      .click()
-      .get('#input-import-url')
-      .should('be.visible')
-      .get('.btn-secondary')
-      .click()
-      .get('#input-import-url')
-      .should('not.exist');
+
+    cy.contains('Import URL').trigger('mousemove');
+    cy.contains('Import URL').click();
+
+    cy.get('#input-import-url').should('be.visible');
+    cy.get('.btn-secondary').click();
+    cy.get('#input-import-url').should('not.exist');
   });
 });
