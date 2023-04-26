@@ -318,7 +318,7 @@ describe('Topbar', () => {
       cy.get('Generate Client').should('not.exist');
     });
 
-    it('should download a generated OpenAPI 3.0 Server file', () => {
+    it.only('should download a generated OpenAPI 3.0 Server file', () => {
       cy.contains('File').click();
       cy.contains('Load Example').trigger('mouseover');
       cy.contains('OpenAPI 3.0 Petstore').trigger('mousemove');
@@ -329,8 +329,7 @@ describe('Topbar', () => {
       cy.contains('blue').trigger('mousemove');
       cy.contains('blue').click();
       cy.wait('@externalGeneratorOas3Download');
-      cy.contains('blue').readFile(`${downloadsFolder}/blue-server-generated.zip`);
-      cy.contains('blue').should('exist');
+      cy.readFile(`${downloadsFolder}/blue-server-generated.zip`).should('exist');
     });
 
     it('should download a generated OpenAPI 3.0 Client file', () => {
@@ -344,8 +343,9 @@ describe('Topbar', () => {
       cy.contains('apple').trigger('mousemove');
       cy.contains('apple').click();
       cy.wait('@externalGeneratorOas3Download');
-      cy.contains('apple').readFile(`${downloadsFolder}/apple-client-generated.zip`);
-      cy.contains('apple').should('exist');
+      cy.contains('apple')
+        .readFile(`${downloadsFolder}/apple-client-generated.zip`)
+        .should('exist');
     });
 
     it('should download a generated OpenAPI 2.0 Server file', () => {
@@ -360,8 +360,7 @@ describe('Topbar', () => {
       cy.contains('blue').click();
       cy.wait('@externalGeneratorServersOAS2reqDownloadUrl');
       cy.wait('@externalGeneratorOas2Download');
-      cy.contains('blue').readFile(`${downloadsFolder}/blue-server-generated.zip`);
-      cy.contains('blue').should('exist');
+      cy.contains('blue').readFile(`${downloadsFolder}/blue-server-generated.zip`).should('exist');
     });
 
     it('should download a generated OpenAPI 2.0 Client file', () => {
@@ -376,8 +375,9 @@ describe('Topbar', () => {
       cy.contains('apple').click();
       cy.wait('@externalGeneratorClientsOAS2reqDownloadUrl');
       cy.wait('@externalGeneratorOas2Download');
-      cy.contains('apple').readFile(`${downloadsFolder}/apple-client-generated.zip`);
-      cy.contains('apple').should('exist');
+      cy.contains('apple')
+        .readFile(`${downloadsFolder}/apple-client-generated.zip`)
+        .should('exist');
     });
   });
 
