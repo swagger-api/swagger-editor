@@ -13,8 +13,11 @@ class DocumentLinkAdapter extends Adapter {
 
   async provideDocumentLinks(vscodeDocument) {
     const links = await this.#getLinks(vscodeDocument);
+    const linksWithNonEmptyRanges = links.filter(
+      (link) => !this.protocolConverter.asRange(link.range).isEmpty
+    );
 
-    return this.protocolConverter.asDocumentLinks(links);
+    return this.protocolConverter.asDocumentLinks(linksWithNonEmptyRanges);
   }
 
   // eslint-disable-next-line class-methods-use-this
