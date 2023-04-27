@@ -61,6 +61,7 @@ const MonacoEditor = ({
         snippetsPreventQuickSuggestions: false,
       },
       renderWhitespace: true,
+      matchOnWordStartOnly: false,
     });
 
     editorRef.current.getModel().updateOptions({ tabSize: 2 });
