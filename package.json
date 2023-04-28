@@ -50,7 +50,7 @@
   },
   "dependencies": {
     "@asyncapi/avro-schema-parser": "^1.1.0",
-    "@asyncapi/openapi-schema-parser": "^2.0.3",
+    "@asyncapi/openapi-schema-parser": "^3.0.0",
     "@asyncapi/parser": "^1.18.1",
     "@asyncapi/react-component": "^1.0.0-next.44",
     "@babel/runtime": "^7.20.13",
