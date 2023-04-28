@@ -27,6 +27,24 @@ const reducers = {
   [EDITOR_SET_LANGUAGE]: (state, action) => {
     return state.set('language', action.payload);
   },
+  // this action type comes from editor-textarea plugin
+  editor_setup: (state, action) => {
+    if (!action.meta.includes('monaco')) {
+      return state;
+    }
+    return state.set('id', action.payload.getId());
+  },
+  // this action type comes from editor-textarea plugin
+  editor_tear_down: (state, action) => {
+    if (!action.meta.includes('monaco')) {
+      return state;
+    }
+    if (state.get('id') !== action.payload.getId()) {
+      return state;
+    }
+
+    return state.delete('id');
+  },
 };
 
 export default reducers;

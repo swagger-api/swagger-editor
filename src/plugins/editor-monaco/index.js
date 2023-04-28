@@ -18,7 +18,7 @@ import {
 } from './actions/set-position.js';
 import { setTheme } from './actions/set-theme.js';
 import reducers from './reducers.js';
-import { selectTheme, selectMarkers, selectLanguage } from './selectors.js';
+import { selectTheme, selectMarkers, selectLanguage, selectEditor } from './selectors.js';
 import afterLoad from './after-load.js';
 
 const EditorMonacoPlugin = () => ({
@@ -56,6 +56,7 @@ const EditorMonacoPlugin = () => ({
         selectTheme,
         selectMarkers,
         selectLanguage,
+        selectEditor,
       },
     },
   },

@@ -137,9 +137,14 @@ const MonacoEditor = ({
   useEffect(() => {
     if (!isEditorReady) return undefined;
 
-    const disposable = monaco.editor.onDidChangeMarkers(() => {
-      const markers = monaco.editor.getModelMarkers();
-      onEditorMarkersDidChange(markers);
+    const disposable = monaco.editor.onDidChangeMarkers((uris) => {
+      const { uri: currentModelUri } = editorRef.current.getModel();
+      const hasCurrentModelChanged = uris.find((uri) => String(uri) === String(currentModelUri));
+
+      if (hasCurrentModelChanged) {
+        const markers = monaco.editor.getModelMarkers({ resource: currentModelUri });
+        onEditorMarkersDidChange(markers);
+      }
     });
 
     return () => {

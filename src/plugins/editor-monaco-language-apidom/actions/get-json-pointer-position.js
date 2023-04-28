@@ -1,5 +1,3 @@
-import * as monaco from 'monaco-editor';
-
 export const EDITOR_MONACO_LANGUAGE_APIDOM_GET_JSON_POINTER_POSITION_STARTED =
   'editor_monaco_language_apidom_get_json_pointer_position_started';
 
@@ -28,12 +26,12 @@ export const getJsonPointerPositionFailure = ({ error, jsonPointer }) => ({
 });
 
 export const getJsonPointerPosition = (jsonPointer) => async (system) => {
-  const { editorActions, fn } = system;
+  const { editorActions, editorSelectors, fn } = system;
 
   editorActions.getJsonPointerPositionStarted({ jsonPointer });
 
   try {
-    const [editor] = monaco.editor.getEditors();
+    const editor = editorSelectors.selectEditor();
     const model = editor.getModel();
     const worker = await fn.getApiDOMWorker()(model.uri);
     const { line, character } = await worker.getJsonPointerPosition(
