@@ -45,11 +45,12 @@ export default class WorkerManager {
         moduleId: 'ApiDOMWorker',
         label: this.#defaults.getLanguageId(),
         createData: {
-          ...this.#defaults.getWorkerOptions.data,
+          ...this.#defaults.getWorkerOptions().data,
           languageId: this.#defaults.getLanguageId(),
-          customWorkerPath: this.#defaults.getWorkerOptions.customWorkerPath,
+          customWorkerPath: this.#defaults.getWorkerOptions().customWorkerPath,
         },
       });
+
       this.#client = this.#worker.getProxy();
     }
     return this.#client;
