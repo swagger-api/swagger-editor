@@ -1,8 +1,12 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 
+// @TODO(vladimir.gorej@gmail.com): this can be replaced by React.useId in React@18
+import { useId } from '../../hooks.js';
+
 const TextareaEditor = ({ isReadOnly, editorActions, editorSelectors, useEditorLifecycle }) => {
   const content = editorSelectors.selectContent();
+  const id = useId();
   const editorRef = useEditorLifecycle('textarea');
   const [value, setValue] = useState(content);
 
@@ -21,6 +25,7 @@ const TextareaEditor = ({ isReadOnly, editorActions, editorSelectors, useEditorL
 
   return (
     <textarea
+      id={id}
       ref={editorRef}
       readOnly={isReadOnly}
       className="swagger-editor__editor-textarea"

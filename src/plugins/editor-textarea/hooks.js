@@ -1,7 +1,6 @@
-import { useCallback, useEffect, useRef } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { useResizeDetector } from 'react-resize-detector';
 
-// eslint-disable-next-line import/prefer-default-export
 export const makeUseEditorLifecycle = (getSystem) => (implementation) => {
   const { editorActions } = getSystem();
   const editorRef = useRef(null);
@@ -33,4 +32,10 @@ export const useElementResize = ({ eventName }) => {
   });
 
   return ref;
+};
+
+export const useId = () => {
+  const randomNumber = Math.floor(Math.random() * 10000000);
+  const [id] = useState(String(randomNumber));
+  return id;
 };

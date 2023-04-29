@@ -1,3 +1,4 @@
+import * as monaco from 'monaco-editor';
 import { createSelector } from 'reselect';
 import { List } from 'immutable';
 
@@ -9,3 +10,8 @@ export const selectMarkers = createSelector(
 );
 
 export const selectLanguage = (state) => state.get('language', 'plaintext');
+
+export const selectEditor = () => (system) => {
+  const id = system.editorSelectors.selectId();
+  return monaco.editor.getEditors().find((editor) => editor.getId() === id);
+};

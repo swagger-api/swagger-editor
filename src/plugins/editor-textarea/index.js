@@ -5,7 +5,7 @@ import EditorPaneBarRight from './components/EditorPaneBars/EditorPaneBarRight.j
 import EditorPaneBarBottom from './components/EditorPaneBars/EditorPaneBarBottom.jsx';
 import EditorPaneBarLeft from './components/EditorPaneBars/EditorPaneBarLeft.jsx';
 import { editorSetup, editorTearDown, setContent, clearContent } from './actions.js';
-import { selectContent } from './selectors.js';
+import { selectContent, selectId, selectEditor } from './selectors.js';
 import reducers from './reducers.js';
 import {
   editorSetup as editorSetupWrap,
@@ -47,6 +47,8 @@ const EditorTextareaPlugin = ({ getSystem }) => ({
       },
       selectors: {
         selectContent,
+        selectId,
+        selectEditor,
       },
       reducers,
     },
