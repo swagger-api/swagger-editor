@@ -15,6 +15,8 @@ const DownloadResolvedJSONMenuItemHandler = forwardRef(
     useImperativeHandle(ref, () => ({
       async downloadResolvedJSON() {
         const content = editorSelectors.selectContent();
+        let dereferencedContent = content;
+        const isContentJSON = editorSelectors.selectIsContentFormatJSON();
         const fileName = editorSelectors.selectInferFileNameFromContent();
         const fileExtension = '.json';
         const fileNameWithExtension = `${fileName}${fileExtension}`;
@@ -25,16 +27,20 @@ const DownloadResolvedJSONMenuItemHandler = forwardRef(
           setIsAlertDialogOpen(true);
           return;
         }
+        dereferencedContent = dereferenceFSA.payload;
 
-        const convertFSA = await editorActions.convertContentToJSON(dereferenceFSA.payload);
-        if (convertFSA.error) {
-          alertDialogMessage.current = convertFSA.meta.errorMessage;
-          setIsAlertDialogOpen(true);
-          return;
+        if (!isContentJSON) {
+          const convertFSA = await editorActions.convertContentToJSON(dereferenceFSA.payload);
+          if (convertFSA.error) {
+            alertDialogMessage.current = convertFSA.meta.errorMessage;
+            setIsAlertDialogOpen(true);
+            return;
+          }
+          dereferencedContent = convertFSA.payload;
         }
 
         const downloadFSA = await editorActions.downloadContent({
-          content: convertFSA.payload,
+          content: dereferencedContent,
           fileNameWithExtension,
         });
         if (downloadFSA.error) {
@@ -61,6 +67,7 @@ DownloadResolvedJSONMenuItemHandler.propTypes = {
   editorSelectors: PropTypes.shape({
     selectContent: PropTypes.func.isRequired,
     selectInferFileNameFromContent: PropTypes.func.isRequired,
+    selectIsContentFormatJSON: PropTypes.func.isRequired,
   }).isRequired,
   editorActions: PropTypes.shape({
     dereferenceContent: PropTypes.func.isRequired,

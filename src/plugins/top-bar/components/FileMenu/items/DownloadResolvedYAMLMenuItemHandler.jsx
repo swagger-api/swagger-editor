@@ -15,6 +15,8 @@ const DownloadResolvedYAMLMenuItemHandler = forwardRef(
     useImperativeHandle(ref, () => ({
       async downloadResolvedYAML() {
         const content = editorSelectors.selectContent();
+        let dereferencedContent = content;
+        const isContentYAML = editorSelectors.selectIsContentFormatYAML();
         const fileName = editorSelectors.selectInferFileNameFromContent();
         const fileExtension = '.yaml';
         const fileNameWithExtension = `${fileName}${fileExtension}`;
@@ -25,16 +27,20 @@ const DownloadResolvedYAMLMenuItemHandler = forwardRef(
           setIsAlertDialogOpen(true);
           return;
         }
+        dereferencedContent = dereferenceFSA.payload;
 
-        const convertFSA = await editorActions.convertContentToYAML(dereferenceFSA.payload);
-        if (convertFSA.error) {
-          alertDialogMessage.current = convertFSA.meta.errorMessage;
-          setIsAlertDialogOpen(true);
-          return;
+        if (!isContentYAML) {
+          const convertFSA = await editorActions.convertContentToYAML(dereferencedContent);
+          if (convertFSA.error) {
+            alertDialogMessage.current = convertFSA.meta.errorMessage;
+            setIsAlertDialogOpen(true);
+            return;
+          }
+          dereferencedContent = convertFSA.payload;
         }
 
         const downloadFSA = await editorActions.downloadContent({
-          content: convertFSA.payload,
+          content: dereferencedContent,
           fileNameWithExtension,
         });
         if (downloadFSA.error) {
@@ -61,6 +67,7 @@ DownloadResolvedYAMLMenuItemHandler.propTypes = {
   editorSelectors: PropTypes.shape({
     selectContent: PropTypes.func.isRequired,
     selectInferFileNameFromContent: PropTypes.func.isRequired,
+    selectIsContentFormatYAML: PropTypes.func.isRequired,
   }).isRequired,
   editorActions: PropTypes.shape({
     dereferenceContent: PropTypes.func.isRequired,
