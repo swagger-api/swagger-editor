@@ -27,16 +27,6 @@
 import '@testing-library/cypress/add-commands.js';
 import 'cypress-file-upload';
 
-/**
- * This is related to `react-resize-detector` library usage.
- * For more information why this is here follow this link:
- *   https://stackoverflow.com/questions/49384120/resizeobserver-loop-limit-exceeded
- */
-Cypress.on(
-  'uncaught:exception',
-  (err) => !err.message.includes('ResizeObserver loop limit exceeded')
-);
-
 Cypress.on('window:before:load', (win) => {
   cy.stub(win.console, 'error', (msg) => {
     cy.now('task', 'error', msg);
