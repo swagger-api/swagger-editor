@@ -29,6 +29,8 @@ export const useElementResize = ({ eventName }) => {
   );
   const { ref } = useResizeDetector({
     onResize: handleResize,
+    refreshMode: 'debounce',
+    refreshRate: 0,
   });
 
   return ref;
