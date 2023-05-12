@@ -99,7 +99,7 @@
   },
   "devDependencies": {
     "@commitlint/cli": "^17.6.3",
-    "@commitlint/config-conventional": "^17.4.4",
+    "@commitlint/config-conventional": "^17.6.3",
     "@testing-library/cypress": "^9.0.0",
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^12.1.5",
