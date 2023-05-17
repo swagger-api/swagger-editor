@@ -49,7 +49,7 @@
     "link:apidom-ls": "npm link @swagger-api/apidom-ls"
   },
   "dependencies": {
-    "@asyncapi/avro-schema-parser": "^1.1.0",
+    "@asyncapi/avro-schema-parser": "^3.0.0",
     "@asyncapi/openapi-schema-parser": "^2.0.3",
     "@asyncapi/parser": "^1.18.1",
     "@asyncapi/react-component": "^1.0.0-next.44",
