@@ -13,5 +13,3 @@
  * @copyright 2019 Ian Sanders
  * @license MIT
  */
-
-/** @license URI.js v4.4.1 (c) 2011 Gary Court. License: http://github.com/garycourt/uri-js */
