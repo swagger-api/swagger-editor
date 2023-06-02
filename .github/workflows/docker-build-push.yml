@@ -12,7 +12,7 @@ jobs:
 
   build-push:
     if: github.event.workflow_run.conclusion == 'success'
-    name: Build & Push SwaggerEditor@next Docker image
+    name: Build & Push SwaggerEditor@next Docker imageq
     runs-on: ubuntu-latest
 
     steps:
@@ -87,6 +87,7 @@ jobs:
           context: .
           push: true
           platforms: linux/amd64,linux/arm/v6,linux/arm/v7,linux/arm64/v8,linux/386,linux/ppc64le,linux/s390x
+          provenance: false
           tags: swaggerapi/swagger-editor:next-v5,swaggerapi/swagger-editor:v${{ env.RELEASED_VERSION }}
 
       - name: Build unprivileged docker image and push
