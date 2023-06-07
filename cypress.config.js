@@ -12,7 +12,7 @@ export default defineConfig({
   e2e: {
     baseUrl: 'http://localhost:3050/',
     supportFile: 'test/cypress/support/e2e.js',
-    specPattern: 'test/cypress/e2e/**/*spec.js',
+    specPattern: 'test/cypress/e2e/**/*.cy.js',
     setupNodeEvents,
   },
 });
