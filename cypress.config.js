@@ -1,7 +1,7 @@
 /* eslint-disable import/no-extraneous-dependencies */
 import { defineConfig } from 'cypress';
 
-import setupNodeEvents from './test/cypress/plugins/index.js';
+import setupNodeEvents from './test/cypress/support/setup-node-events.js';
 
 export default defineConfig({
   fileServerFolder: 'test/cypress/static',
@@ -12,7 +12,7 @@ export default defineConfig({
   e2e: {
     baseUrl: 'http://localhost:3050/',
     supportFile: 'test/cypress/support/e2e.js',
-    specPattern: 'test/cypress/integration/**/*spec.js',
+    specPattern: 'test/cypress/e2e/**/*spec.js',
     setupNodeEvents,
   },
 });
