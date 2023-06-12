@@ -22,7 +22,7 @@ describe("Menu Definition Loading", () => {
                 cy.wait(50).contains("Load Petstore OAS 3.0").click()
 
                 cy.get(".info", { timeout: 10000 }).should("be.visible")
-                cy.get(".info .title .version-stamp .version").should("have.text", "OAS3")
+                cy.get(".info .title .version-stamp .version").should("have.text", "OAS 3.0")
             })
         })
     })
