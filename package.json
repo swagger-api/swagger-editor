@@ -91,14 +91,14 @@
     "react-table": "^7.8.0",
     "reselect": "^4.1.7",
     "short-unique-id": "^4.4.4",
-    "styled-components": "^5.3.10",
-    "swagger-ui-react": "^5.0.0-alpha.14",
+    "styled-components": "^5.3.11",
+    "swagger-ui-react": "^5.0.0",
     "vscode": "npm:@codingame/monaco-vscode-api@~1.76.7",
     "vscode-languageclient": "^8.1.0",
     "vscode-languageserver-textdocument": "^1.0.8"
   },
   "devDependencies": {
-    "@commitlint/cli": "^17.6.3",
+    "@commitlint/cli": "^17.6.5",
     "@commitlint/config-conventional": "^17.6.3",
     "@testing-library/cypress": "^9.0.0",
     "@testing-library/jest-dom": "^5.16.5",
