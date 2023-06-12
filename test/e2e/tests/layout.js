@@ -47,7 +47,7 @@ describe("EditorLayout", () => {
 
         cy.get(".info", { timeout: 10000 }).should("be.visible")
         cy.get("[data-cy=\"dropzone\"]").attachFile("petstore.openapi.yaml", { subjectType: "input" })
-        cy.get(".info .title .version-stamp .version").should("have.text", "OAS3")
+        cy.get(".info .title .version-stamp .version").should("have.text", "OAS 3.0")
       })
     })
   })
