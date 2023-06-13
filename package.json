@@ -52,7 +52,7 @@
     "@asyncapi/avro-schema-parser": "^1.1.0",
     "@asyncapi/openapi-schema-parser": "^2.0.3",
     "@asyncapi/parser": "^1.18.1",
-    "@asyncapi/react-component": "^1.0.0-next.47",
+    "@asyncapi/react-component": "^1.0.0-next.48",
     "@babel/runtime": "^7.21.5",
     "@braintree/sanitize-url": "^6.0.2",
     "@emotion/react": "^11.11.0",
