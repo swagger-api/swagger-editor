@@ -1,4 +1,4 @@
-FROM nginx:1.25.0-alpine
+FROM nginx:1.25.1-alpine
 
 LABEL maintainer="fehguy"
 
