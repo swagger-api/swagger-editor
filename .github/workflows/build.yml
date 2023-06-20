@@ -18,10 +18,10 @@ jobs:
         with:
           submodules: true
 
-      - name: Use Node.js 16
+      - name: Use Node.js 20
         uses: actions/setup-node@v3
         with:
-          node-version: 16.16
+          node-version: 20
 
       - name: Cache npm cache files
         id: cache-npm-cache-files
