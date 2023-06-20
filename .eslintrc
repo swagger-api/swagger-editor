@@ -11,7 +11,10 @@
   "globals": {
     "File": true,
     "Blob": true,
-    "globalThis": true
+    "globalThis": true,
+    "__webpack_hash__": true,
+    "REACT_APP_APIDOM_WORKER_FILENAME": true,
+    "REACT_APP_EDITOR_WORKER_FILENAME": true
   },
   "parserOptions": {
     "ecmaFeatures": {

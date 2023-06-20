@@ -17,6 +17,7 @@ const afterLoad = () => {
       gitRevision: { value: GIT_COMMIT, enumerable: true },
       gitDirty: { value: GIT_DIRTY, enumerable: true },
       buildTimestamp: { value: BUILD_TIME, enumerable: true },
+      buildHash: { value: __webpack_hash__, enumerable: true }, // eslint-disable-line camelcase
     }
   );
 };
