@@ -40,7 +40,7 @@ export const selectParseMarkers = createSelector(
   (parseErrors, monaco, modelVersionId) => {
     return parseErrors.map((parseError) => ({
       ...parseError,
-      code: `ASNCPRSR${modelVersionId}`,
+      code: `ASNCPRSR`,
       severity: monaco.MarkerSeverity.Error,
       source: '@asyncapi/parser',
       modelVersionId,
