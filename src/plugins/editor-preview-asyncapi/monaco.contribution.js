@@ -1,15 +1,23 @@
+class Disposable extends Array {
+  dispose() {
+    this.forEach((disposable) => disposable.dispose());
+    this.length = 0;
+  }
+}
+
 const lazyMonacoContribution = ({ system }) => {
   const { fn, editorPreviewAsyncAPISelectors, editorSelectors, monaco } = system;
-  const disposables = [];
+  const disposables = new Disposable();
 
   disposables.push(
     fn.registerMarkerDataProvider('apidom', {
       owner: 'asyncapi-parser',
       async provideMarkerData(model) {
-        const content = model.getValue();
+        const modelValue = model.getValue();
+        const modelVersionId = model.getVersionId();
         const conditionFn = () =>
           editorSelectors.selectIsContentTypeAsyncAPI2() &&
-          content === editorSelectors.selectContent() &&
+          modelValue === editorSelectors.selectContent() &&
           !editorPreviewAsyncAPISelectors.selectIsParseInProgress();
 
         try {
@@ -18,14 +26,8 @@ const lazyMonacoContribution = ({ system }) => {
 
           if (editorPreviewAsyncAPISelectors.selectIsParseSuccess()) return [];
 
-          return editorPreviewAsyncAPISelectors.selectParseErrors().map((parseError) => ({
-            ...parseError,
-            code: `ASNCPRSR${model.getVersionId()}`,
-            severity: monaco.MarkerSeverity.Error,
-            source: '@asyncapi/parser',
-            modelVersionId: model.getVersionId(),
-          }));
-        } catch {
+          return editorPreviewAsyncAPISelectors.selectParseMarkers({ monaco, modelVersionId });
+        } catch (e) {
           return [];
         }
       },
@@ -37,12 +39,16 @@ const lazyMonacoContribution = ({ system }) => {
     monaco.editor.onDidCreateEditor((editor) => {
       disposables.push(
         editor.onDidDispose(() => {
-          disposables.forEach((disposable) => disposable.dispose());
+          disposables.forEach((disposable) => {
+            disposable.dispose();
+          });
           disposables.length = 0;
         })
       );
     })
   );
+
+  return disposables;
 };
 
 export default lazyMonacoContribution;

@@ -11,6 +11,7 @@ import {
   selectIsParseFailure,
   selectParseResult,
   selectParseErrors,
+  selectParseMarkers,
 } from './selectors.js';
 import afterLoad from './after-load.js';
 
@@ -44,6 +45,7 @@ const EditorPreviewAsyncAPIPlugin = () => ({
         selectIsParseFailure,
         selectParseResult,
         selectParseErrors,
+        selectParseMarkers,
       },
       reducers,
     },

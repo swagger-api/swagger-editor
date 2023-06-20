@@ -1,13 +1,15 @@
 import lazyMonacoContribution from './monaco.contribution.js';
 
-const afterLoad = (system) => {
+function afterLoad(system) {
   const { monaco, fn } = system;
-  const hasEditorMonacoPlugin = typeof monaco !== 'undefined';
-  const hasEditorMonacoLanguageApiDOMPlugin = typeof fn.getApiDOMWorker !== 'undefined';
+  const usingEditorMonacoPlugin = typeof monaco !== 'undefined';
+  const usingEditorMonacoLanguageApiDOMPlugin = typeof fn.getApiDOMWorker !== 'undefined';
+  const pluginAPI = this.statePlugins.editorPreviewAsyncAPI;
 
-  if (hasEditorMonacoPlugin && hasEditorMonacoLanguageApiDOMPlugin) {
-    lazyMonacoContribution({ system });
+  if (usingEditorMonacoPlugin && usingEditorMonacoLanguageApiDOMPlugin) {
+    if (pluginAPI.disposables) pluginAPI.disposables.dispose();
+    pluginAPI.disposables = lazyMonacoContribution({ system });
   }
-};
+}
 
 export default afterLoad;
