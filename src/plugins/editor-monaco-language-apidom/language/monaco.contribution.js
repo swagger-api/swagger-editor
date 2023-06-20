@@ -120,13 +120,13 @@ const lazyMonacoContribution = ({ createData, system }) => {
 
   // setup monaco environment
   globalThis.MonacoEnvironment = {
-    // expect monaco plugin to have already executed
+    // expect editor-monaco plugin to have already executed
     ...globalThis.MonacoEnvironment,
     getWorkerUrl(moduleId, label) {
       if (label === apidom.languageId) {
-        return new URL('./apidom.worker.js', this.baseUrl).toString();
+        return new URL(process.env.REACT_APP_APIDOM_WORKER_FILENAME, this.baseUrl).toString();
       }
-      return new URL('./editor.worker.js', this.baseUrl).toString();
+      return new URL(process.env.REACT_APP_EDITOR_WORKER_FILENAME, this.baseUrl).toString();
     },
   };
 };

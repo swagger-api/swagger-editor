@@ -17,7 +17,7 @@ const afterLoad = () => {
   globalThis.MonacoEnvironment = {
     baseUrl: document.baseURI || location.href, // eslint-disable-line no-restricted-globals
     getWorkerUrl() {
-      return new URL('./editor.worker.js', this.baseUrl).toString();
+      return new URL(process.env.REACT_APP_APIDOM_WORKER_FILENAME, this.baseUrl).toString();
     },
     ...(globalThis.MonacoEnvironment || {}), // this will allow to override the base uri for loading Web Workers
   };
