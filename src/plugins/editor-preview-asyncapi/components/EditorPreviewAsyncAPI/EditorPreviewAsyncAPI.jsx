@@ -14,7 +14,7 @@ const EditorPreviewAsyncAPI = ({
   editorPreviewAsyncAPIActions,
   editorPreviewAsyncAPISelectors,
 }) => {
-  const ParseErrors = getComponent('EditorPreviewAsyncAPIParseErrors', true);
+  const ParseErrors = getComponent('EditorPreviewAsyncAPIParseErrors');
   const isParseInProgress = editorPreviewAsyncAPISelectors.selectIsParseInProgress();
   const isParseSuccess = editorPreviewAsyncAPISelectors.selectIsParseSuccess();
   const isParseFailure = editorPreviewAsyncAPISelectors.selectIsParseFailure();

@@ -11,10 +11,6 @@ import {
 
 const selectState = (state) => state;
 
-export const selectParserMarkers = createSelector(selectState, (state) => {
-  return state.get('parserMarkers') || [];
-});
-
 export const selectParseStatus = (state) => state.get('parseStatus') || IDLE_STATUS;
 
 export const selectParseResult = createSelector(selectState, (state) => {
