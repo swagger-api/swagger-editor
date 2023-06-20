@@ -1,4 +1,4 @@
-import React, { useMemo, useCallback } from 'react';
+import React, { useCallback } from 'react';
 import PropTypes from 'prop-types';
 
 const ValidationPane = ({
@@ -9,19 +9,6 @@ const ValidationPane = ({
   onValidationClick,
 }) => {
   const markers = editorSelectors.selectMarkers();
-  const columns = useMemo(
-    () => [
-      {
-        Header: 'Line',
-        accessor: 'startLineNumber',
-      },
-      {
-        Header: 'Description',
-        accessor: 'message',
-      },
-    ],
-    []
-  );
   const ValidationTable = getComponent('ValidationTable');
   const showTable = alwaysDisplayHeading || markers.length > 0;
 
@@ -37,9 +24,7 @@ const ValidationPane = ({
 
   return (
     <div className="swagger-editor__validation-pane">
-      {showTable && (
-        <ValidationTable columns={columns} data={markers} onRowClick={handleValidationClick} />
-      )}
+      {showTable && <ValidationTable data={markers} onRowClick={handleValidationClick} />}
     </div>
   );
 };

@@ -1,57 +1,37 @@
-/* eslint-disable react/jsx-props-no-spreading */
 import React from 'react';
 import PropTypes from 'prop-types';
-import { useTable } from 'react-table';
 
-const ValidationTable = ({ columns, data, onRowClick }) => {
-  const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } = useTable({
-    columns,
-    data,
-  });
+import SeverityIcon from './SeverityIcon.jsx';
+
+const ValidationTable = ({ data, onRowClick }) => {
   return (
-    <table {...getTableProps()} className="swagger-editor__validation-table">
+    <table role="table" className="swagger-editor__validation-table">
       <thead>
-        {headerGroups.map((headerGroup) => (
-          <tr {...headerGroup.getHeaderGroupProps()}>
-            {headerGroup.headers.map((column) => (
-              <th {...column.getHeaderProps()}>{column.render('Header')}</th>
-            ))}
+        <tr>
+          <th role="columnheader">Severity</th>
+          <th role="columnheader">Line</th>
+          <th role="columnheader">Code</th>
+          <th role="columnheader">Message</th>
+        </tr>
+      </thead>
+      <tbody>
+        {data.map((marker, index) => (
+          // eslint-disable-next-line react/no-array-index-key
+          <tr key={index} role="row button" onClick={(event) => onRowClick(event, marker)}>
+            <td role="cell">
+              <SeverityIcon severity={marker.severity} />
+            </td>
+            <td role="cell">{marker.startLineNumber}</td>
+            <td role="cell">{marker.code}</td>
+            <td role="cell">{marker.message}</td>
           </tr>
         ))}
-      </thead>
-      <tbody {...getTableBodyProps()}>
-        {rows.map((row) => {
-          prepareRow(row);
-          return (
-            <tr {...row.getRowProps()}>
-              {row.cells.map((cell) => {
-                return (
-                  <td {...cell.getCellProps()}>
-                    <div
-                      role="button"
-                      tabIndex={0}
-                      onClick={(event) => {
-                        onRowClick(event, row.original);
-                      }}
-                      onKeyDown={(event) => {
-                        onRowClick(event, row.original);
-                      }}
-                    >
-                      {cell.render('Cell')}
-                    </div>
-                  </td>
-                );
-              })}
-            </tr>
-          );
-        })}
       </tbody>
     </table>
   );
 };
 
 ValidationTable.propTypes = {
-  columns: PropTypes.oneOfType([PropTypes.array]).isRequired,
   data: PropTypes.oneOfType([PropTypes.array]).isRequired,
   onRowClick: PropTypes.func.isRequired,
 };
