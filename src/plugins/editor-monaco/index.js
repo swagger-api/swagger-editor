@@ -19,6 +19,7 @@ import {
 import { setTheme } from './actions/set-theme.js';
 import reducers from './reducers.js';
 import { selectTheme, selectMarkers, selectLanguage, selectEditor } from './selectors.js';
+import { registerMarkerDataProvider, waitUntil } from './fn.js';
 import afterLoad from './after-load.js';
 
 const EditorMonacoPlugin = () => ({
@@ -59,6 +60,10 @@ const EditorMonacoPlugin = () => ({
         selectEditor,
       },
     },
+  },
+  fn: {
+    registerMarkerDataProvider,
+    waitUntil,
   },
 });
 

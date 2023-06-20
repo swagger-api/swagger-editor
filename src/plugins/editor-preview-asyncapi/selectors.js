@@ -11,11 +11,7 @@ import {
 
 const selectState = (state) => state;
 
-export const selectParserMarkers = createSelector(selectState, (state) => {
-  return state.get('parserMarkers') || [];
-});
-
-export const selectParseStatus = (state) => state.get('parseStatus') || IDLE_STATUS;
+export const selectParseStatus = (state) => state.get('parseStatus', IDLE_STATUS);
 
 export const selectParseResult = createSelector(selectState, (state) => {
   const parseResult = state.get('parseResult', initialState.parseResult);
@@ -36,6 +32,21 @@ export const selectParseErrors = createSelector(selectState, (state) => {
 
   return parseErrorsIm.toJS();
 });
+
+export const selectParseMarkers = createSelector(
+  selectParseErrors,
+  (state, { monaco }) => monaco,
+  (state, { modelVersionId }) => modelVersionId,
+  (parseErrors, monaco, modelVersionId) => {
+    return parseErrors.map((parseError) => ({
+      ...parseError,
+      code: `ASNCPRSR`,
+      severity: monaco.MarkerSeverity.Error,
+      source: '@asyncapi/parser',
+      modelVersionId,
+    }));
+  }
+);
 
 export const selectIsParseInProgress = createSelector(
   selectParseStatus,

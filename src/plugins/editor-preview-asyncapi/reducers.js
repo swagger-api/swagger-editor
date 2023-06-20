@@ -37,7 +37,6 @@ const parseValidationErrorsReducer = (action) => {
     endLineNumber: validationError.location.endLine,
     startColumn: validationError.location.startColumn,
     endColumn: validationError.location.endColumn,
-    jsonPointer: validationError.location.jsonPointer,
   }));
 };
 
@@ -55,7 +54,6 @@ const parseRefErrorsReducer = (action) => {
       endLineNumber: refError.endLine,
       startColumn: refError.startColumn,
       endColumn: refError.endColumn,
-      jsonPointer: refError.jsonPointer,
     };
   });
 };

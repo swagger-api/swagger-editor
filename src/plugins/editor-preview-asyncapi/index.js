@@ -5,16 +5,18 @@ import { previewUnmounted, parse, parseStarted, parseSuccess, parseFailure } fro
 import { detectContentTypeSuccess as detectContentTypeSuccessWrap } from './wrap-actions.js';
 import reducers from './reducers.js';
 import {
-  selectParserMarkers,
   selectParseStatus,
   selectIsParseInProgress,
   selectIsParseSuccess,
   selectIsParseFailure,
   selectParseResult,
   selectParseErrors,
+  selectParseMarkers,
 } from './selectors.js';
+import afterLoad from './after-load.js';
 
 const EditorPreviewAsyncAPIPlugin = () => ({
+  afterLoad,
   components: {
     EditorPreviewAsyncAPI,
     EditorPreviewAsyncAPIParseErrors: ParseErrors,
@@ -37,13 +39,13 @@ const EditorPreviewAsyncAPIPlugin = () => ({
         parseFailure,
       },
       selectors: {
-        selectParserMarkers,
         selectParseStatus,
         selectIsParseInProgress,
         selectIsParseSuccess,
         selectIsParseFailure,
         selectParseResult,
         selectParseErrors,
+        selectParseMarkers,
       },
       reducers,
     },
