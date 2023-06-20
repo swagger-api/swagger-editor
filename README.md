@@ -302,8 +302,8 @@ module.exports = {
 
 ### Prerequisites
 
-Assuming [prerequisites](#prerequisites) are already installed, [Node.js](https://nodejs.org/) `>=16.13.0` and `npm >=8.1.0`
-are the minimum required versions that this repo runs on, but we recommend using the latest version of Node.js@16
+Assuming [prerequisites](#prerequisites) are already installed, [Node.js](https://nodejs.org/) `>=20.3.0` and `npm >=9.6.7`
+are the minimum required versions that this repo runs on, but we recommend using the latest version of Node.js@20.
 
 ### Setting up
 
