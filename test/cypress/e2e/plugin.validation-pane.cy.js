@@ -30,17 +30,23 @@ describe('Monaco Editor with Validation Pane', () => {
       .should('be.visible');
     // some additional assertions just to make sure
     cy.get('.swagger-editor__validation-table > thead > tr > :nth-child(1)')
-      .contains('line', { matchCase: false })
+      .contains('Severity', { matchCase: false })
       .should('be.visible');
     cy.get('.swagger-editor__validation-table > thead > tr > :nth-child(2)')
-      .contains('description', { matchCase: false })
+      .contains('Line', { matchCase: false })
+      .should('be.visible');
+    cy.get('.swagger-editor__validation-table > thead > tr > :nth-child(3)')
+      .contains('Code', { matchCase: false })
+      .should('be.visible');
+    cy.get('.swagger-editor__validation-table > thead > tr > :nth-child(4)')
+      .contains('Message', { matchCase: false })
       .should('be.visible');
     // reflects line number from moveToPosition for validation error
-    cy.get('.swagger-editor__validation-table > tbody > :nth-child(1) > :nth-child(1) > div')
+    cy.get('.swagger-editor__validation-table > tbody td:nth-child(2)')
       .contains('2')
       .should('be.visible');
     // validation error message is parser specific
-    cy.get('.swagger-editor__validation-table > tbody > :nth-child(1) > :nth-child(2) > div')
+    cy.get('.swagger-editor__validation-table > tbody td:nth-child(4)')
       .contains('should NOT have')
       .should('be.visible');
   });
