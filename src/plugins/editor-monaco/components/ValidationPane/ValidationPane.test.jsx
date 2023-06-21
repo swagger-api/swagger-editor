@@ -57,10 +57,14 @@ describe('with empty errorMarkerErrorList', () => {
     });
     const { hasTableItem } = await renderValidationPane(props);
 
-    const elementHeaderExists1 = hasTableItem('Line');
+    const elementHeaderExists1 = hasTableItem('Severity');
     expect(elementHeaderExists1).toBe(true);
-    const elementHeaderExists2 = hasTableItem('Description');
+    const elementHeaderExists2 = hasTableItem('Line');
     expect(elementHeaderExists2).toBe(true);
+    const elementHeaderExists3 = hasTableItem('Code');
+    expect(elementHeaderExists3).toBe(true);
+    const elementHeaderExists4 = hasTableItem('Message');
+    expect(elementHeaderExists4).toBe(true);
     const elementRowExists1 = hasTableItem(columnMessage1);
     expect(elementRowExists1).toBe(false);
   });
@@ -84,10 +88,14 @@ describe('with populated markerErrorList', () => {
         {
           startLineNumber: columnStartLineNumber1,
           message: columnMessage1,
+          severity: 1,
+          code: '1234',
         },
         {
           startLineNumber: columnStartLineNumber2,
           message: columnMessage2,
+          severity: 4,
+          code: '1234',
         },
       ],
     });

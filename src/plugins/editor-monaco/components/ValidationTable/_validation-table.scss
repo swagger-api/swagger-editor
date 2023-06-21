@@ -1,14 +1,12 @@
 .swagger-editor {
   &__validation-table {
-    display: flex;
-    flex-direction: column;
+    width: 100%;
     font-size: 0.8rem;
     font-weight: 300;
     border: none;
+    border-collapse: collapse;
 
     thead {
-      flex: 0 0 auto;
-      flex-direction: row;
       color: #444;
       background: rgb(238, 238, 238);
       border-bottom: 1px solid lightgray;
@@ -21,21 +19,45 @@
 
     thead th {
       min-width: 2.0rem;
-      padding-left: 0.25rem;
+      padding: 2px 2px 2px 0.25rem;
+      text-align: left;
+    }
+
+
+    thead th:nth-of-type(1), thead th:nth-of-type(2) {
+      text-align: center;
+      width: 70px;
     }
 
     tbody {
-      flex: 1 1 auto;
-      flex-direction: row;
       max-height: 100px;
       overflow: auto;
     }
 
+    tbody tr:hover {
+      background-color: #e1e1e1;
+    }
+
     tbody td {
+      cursor: pointer;
       min-width: 2.0rem;
-      padding-left: 0.25rem;
+      padding: 2px 2px 2px 0.25rem;
       overflow: hidden;
       text-overflow: ellipsis;
+    }
+
+    tbody td:nth-of-type(1), tbody td:nth-of-type(2) {
+      text-align: center;
+      width: 70px;
+    }
+
+    tbody td:nth-of-type(3) {
+      width: 90px;
+    }
+
+    tbody td:nth-of-type(3) {
+      font-family: monospace;
+      color: gray;
     }
   }
 }
