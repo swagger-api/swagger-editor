@@ -1,4 +1,4 @@
-FROM nginxinc/nginx-unprivileged:1.25.0-alpine
+FROM nginxinc/nginx-unprivileged:1.25.1-alpine
 COPY ./build /usr/share/nginx/html
 EXPOSE 8080
 # start nginx
