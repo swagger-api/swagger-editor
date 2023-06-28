@@ -1,4 +1,5 @@
 import { languages as vscodeLanguages } from 'vscode';
+import { initialize as initializeExtensions } from 'vscode/extensions';
 import { createConverter as createCodeConverter } from 'vscode-languageclient/lib/common/codeConverter.js';
 import { createConverter as createProtocolConverter } from 'vscode-languageclient/lib/common/protocolConverter.js';
 
@@ -37,25 +38,33 @@ const registerProviders = ({ languageId, providers, dependencies }) => {
   const { worker, codeConverter, protocolConverter } = dependencies;
   const args = [worker, codeConverter, protocolConverter];
 
-  providers.push(new DiagnosticsAdapter(...args));
-  providers.push(vscodeLanguages.registerHoverProvider(languageId, new HoverAdapter(...args)));
-  providers.push(
-    vscodeLanguages.registerDocumentLinkProvider(languageId, new DocumentLinkAdapter(...args))
-  );
-  providers.push(
-    vscodeLanguages.registerCompletionItemProvider(languageId, new CompletionItemsAdapter(...args))
-  );
-  providers.push(
-    vscodeLanguages.registerCodeActionsProvider(languageId, new CodeActionsAdapter(...args))
-  );
-  providers.push(
-    vscodeLanguages.registerDocumentSymbolProvider(languageId, new DocumentSymbolsAdapter(...args))
-  );
-  providers.push(
-    vscodeLanguages.registerDefinitionProvider(languageId, new DefinitionAdapter(...args))
-  );
-
   (async () => {
+    await initializeExtensions();
+
+    providers.push(new DiagnosticsAdapter(...args));
+    providers.push(vscodeLanguages.registerHoverProvider(languageId, new HoverAdapter(...args)));
+    providers.push(
+      vscodeLanguages.registerDocumentLinkProvider(languageId, new DocumentLinkAdapter(...args))
+    );
+    providers.push(
+      vscodeLanguages.registerCompletionItemProvider(
+        languageId,
+        new CompletionItemsAdapter(...args)
+      )
+    );
+    providers.push(
+      vscodeLanguages.registerCodeActionsProvider(languageId, new CodeActionsAdapter(...args))
+    );
+    providers.push(
+      vscodeLanguages.registerDocumentSymbolProvider(
+        languageId,
+        new DocumentSymbolsAdapter(...args)
+      )
+    );
+    providers.push(
+      vscodeLanguages.registerDefinitionProvider(languageId, new DefinitionAdapter(...args))
+    );
+
     const workerService = await worker();
     const semanticTokensLegend = await workerService.getSemanticTokensLegend();
 
