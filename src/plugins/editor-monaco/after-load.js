@@ -1,4 +1,5 @@
 import { StandaloneServices, IStorageService } from 'vscode/services';
+import { initialize as initializeExtensions } from 'vscode/extensions';
 
 const afterLoad = () => {
   /**
@@ -7,8 +8,11 @@ const afterLoad = () => {
    * is inability to dispose of the services via StandaloneServices interface.
    * Individual services can be disposed of separately, but if one decides
    * to do that StandaloneServices will not able to initialize them again.
+   *
+   * Extensions needs to initialized explicitly.
    */
   StandaloneServices.initialize({});
+  initializeExtensions();
 
   // enable showing documentation while autocomplete suggestions are listed
   StandaloneServices.get(IStorageService).store('expandSuggestionDocs', true, 0, 0);

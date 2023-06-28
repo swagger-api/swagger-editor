@@ -88,7 +88,11 @@ export function setupMode(defaults) {
   });
   disposables.push(client);
 
-  // register apidom providers
+  /**
+   * Register ApiDOM providers.
+   * We're already assuming here that extensions have
+   * been successfully initialized.
+   */
   disposables.push(
     asDisposable(
       registerProviders({
