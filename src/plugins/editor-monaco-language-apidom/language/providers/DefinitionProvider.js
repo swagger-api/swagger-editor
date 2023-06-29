@@ -1,6 +1,6 @@
-import Adapter from './Adapter.js';
+import Provider from './Provider.js';
 
-class DefinitionAdapter extends Adapter {
+class DefinitionProvider extends Provider {
   async #getLocation(vscodeDocument, position) {
     const worker = await this.worker(vscodeDocument.uri);
 
@@ -21,4 +21,4 @@ class DefinitionAdapter extends Adapter {
   }
 }
 
-export default DefinitionAdapter;
+export default DefinitionProvider;

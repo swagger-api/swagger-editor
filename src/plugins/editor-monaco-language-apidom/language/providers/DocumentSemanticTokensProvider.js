@@ -1,6 +1,6 @@
-import Adapter from './Adapter.js';
+import Provider from './Provider.js';
 
-class DocumentSemanticTokensAdapter extends Adapter {
+class DocumentSemanticTokensProvider extends Provider {
   async #getSemanticTokens(vscodeDocument) {
     const worker = await this.worker(vscodeDocument.uri);
 
@@ -18,4 +18,4 @@ class DocumentSemanticTokensAdapter extends Adapter {
   }
 }
 
-export default DocumentSemanticTokensAdapter;
+export default DocumentSemanticTokensProvider;

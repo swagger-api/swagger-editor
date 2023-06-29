@@ -1,4 +1,4 @@
-class Adapter {
+class Provider {
   #worker;
 
   #codeConverter;
@@ -30,4 +30,4 @@ class Adapter {
   }
 }
 
-export default Adapter;
+export default Provider;

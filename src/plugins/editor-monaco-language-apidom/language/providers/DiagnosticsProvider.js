@@ -1,10 +1,10 @@
 import * as monaco from 'monaco-editor';
-import { languages } from 'vscode';
+import { languages as vscodeLanguages } from 'vscode';
 
-import Adapter from './Adapter.js';
+import Provider from './Provider.js';
 import * as apidom from '../apidom.js';
 
-class DiagnosticsAdapter extends Adapter {
+class DiagnosticsProvider extends Provider {
   #listener = [];
 
   #disposables = [];
@@ -14,7 +14,7 @@ class DiagnosticsAdapter extends Adapter {
   constructor(...args) {
     super(...args);
 
-    this.#diagnosticCollection = languages.createDiagnosticCollection(apidom.languageId);
+    this.#diagnosticCollection = vscodeLanguages.createDiagnosticCollection(apidom.languageId);
 
     const onModelAdded = (model) => {
       if (model.getLanguageId() !== apidom.languageId) {
@@ -99,4 +99,4 @@ class DiagnosticsAdapter extends Adapter {
   }
 }
 
-export default DiagnosticsAdapter;
+export default DiagnosticsProvider;
