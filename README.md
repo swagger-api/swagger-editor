@@ -38,6 +38,11 @@ You can install SwaggerEditor via [npm CLI](https://docs.npmjs.com/cli) by runni
  $ npm install swagger-editor@>=5
 ````
 
+> NOTE: when using bundler to build your project which is using swagger-editor@5 npm package,
+you might run into following Node.js error: `Reached heap limit Allocation failed - JavaScript heap out of memory`.
+It's caused by significant amount of code that needs to be bundled. This error can be resolved
+by extending the Node.js max heap limit: `export NODE_OPTIONS="--max_old_space_size=4096"`.
+
 ### Usage
 
 Use the package in you application:
