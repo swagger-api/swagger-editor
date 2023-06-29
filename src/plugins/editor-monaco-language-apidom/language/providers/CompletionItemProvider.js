@@ -1,6 +1,6 @@
-import Adapter from './Adapter.js';
+import Provider from './Provider.js';
 
-class CompletionItemsAdapter extends Adapter {
+class CompletionItemProvider extends Provider {
   #completionContext = {
     maxNumberOfItems: 100,
   };
@@ -26,4 +26,4 @@ class CompletionItemsAdapter extends Adapter {
   }
 }
 
-export default CompletionItemsAdapter;
+export default CompletionItemProvider;

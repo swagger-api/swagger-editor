@@ -1,6 +1,6 @@
-import Adapter from './Adapter.js';
+import Provider from './Provider.js';
 
-class DocumentLinkAdapter extends Adapter {
+class DocumentLinkProvider extends Provider {
   async #getLinks(vscodeDocument) {
     const worker = await this.worker(vscodeDocument.uri);
 
@@ -26,4 +26,4 @@ class DocumentLinkAdapter extends Adapter {
   }
 }
 
-export default DocumentLinkAdapter;
+export default DocumentLinkProvider;

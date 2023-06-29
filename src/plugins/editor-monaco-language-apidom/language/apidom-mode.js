@@ -4,14 +4,14 @@ import { createConverter as createCodeConverter } from 'vscode-languageclient/li
 import { createConverter as createProtocolConverter } from 'vscode-languageclient/lib/common/protocolConverter.js';
 
 import WorkerManager from './WorkerManager.js';
-import DiagnosticsAdapter from './adapters/DiagnosticsAdapter.js';
-import HoverAdapter from './adapters/HoverAdapter.js';
-import DocumentLinkAdapter from './adapters/DocumentLinkAdapter.js';
-import CompletionItemsAdapter from './adapters/CompletionItemsAdapter.js';
-import DocumentSemanticTokensAdapter from './adapters/DocumentSemanticTokensAdapter.js';
-import CodeActionsAdapter from './adapters/CodeActionsAdapter.js';
-import DocumentSymbolsAdapter from './adapters/DocumentSymbolsAdapter.js';
-import DefinitionAdapter from './adapters/DefinitionAdapter.js';
+import DiagnosticsProvider from './providers/DiagnosticsProvider.js';
+import HoverProvider from './providers/HoverProvider.js';
+import DocumentLinkProvider from './providers/DocumentLinkProvider.js';
+import CompletionItemProvider from './providers/CompletionItemProvider.js';
+import DocumentSemanticTokensProvider from './providers/DocumentSemanticTokensProvider.js';
+import CodeActionsProvider from './providers/CodeActionsProvider.js';
+import DocumentSymbolProvider from './providers/DocumentSymbolProvider.js';
+import DefinitionProvider from './providers/DefinitionProvider.js';
 
 let apidomWorker;
 
@@ -41,28 +41,28 @@ const registerProviders = ({ languageId, providers, dependencies }) => {
   (async () => {
     await initializeExtensions();
 
-    providers.push(new DiagnosticsAdapter(...args));
-    providers.push(vscodeLanguages.registerHoverProvider(languageId, new HoverAdapter(...args)));
+    providers.push(new DiagnosticsProvider(...args));
+    providers.push(vscodeLanguages.registerHoverProvider(languageId, new HoverProvider(...args)));
     providers.push(
-      vscodeLanguages.registerDocumentLinkProvider(languageId, new DocumentLinkAdapter(...args))
+      vscodeLanguages.registerDocumentLinkProvider(languageId, new DocumentLinkProvider(...args))
     );
     providers.push(
       vscodeLanguages.registerCompletionItemProvider(
         languageId,
-        new CompletionItemsAdapter(...args)
+        new CompletionItemProvider(...args)
       )
     );
     providers.push(
-      vscodeLanguages.registerCodeActionsProvider(languageId, new CodeActionsAdapter(...args))
+      vscodeLanguages.registerCodeActionsProvider(languageId, new CodeActionsProvider(...args))
     );
     providers.push(
       vscodeLanguages.registerDocumentSymbolProvider(
         languageId,
-        new DocumentSymbolsAdapter(...args)
+        new DocumentSymbolProvider(...args)
       )
     );
     providers.push(
-      vscodeLanguages.registerDefinitionProvider(languageId, new DefinitionAdapter(...args))
+      vscodeLanguages.registerDefinitionProvider(languageId, new DefinitionProvider(...args))
     );
 
     const workerService = await worker();
@@ -71,7 +71,7 @@ const registerProviders = ({ languageId, providers, dependencies }) => {
     providers.push(
       vscodeLanguages.registerDocumentSemanticTokensProvider(
         languageId,
-        new DocumentSemanticTokensAdapter(...args),
+        new DocumentSemanticTokensProvider(...args),
         semanticTokensLegend
       )
     );

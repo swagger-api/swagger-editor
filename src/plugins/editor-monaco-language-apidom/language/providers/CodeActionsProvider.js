@@ -1,6 +1,6 @@
-import Adapter from './Adapter.js';
+import Provider from './Provider.js';
 
-class CodeActionsAdapter extends Adapter {
+class CodeActionsProvider extends Provider {
   async #getCodeActionList(vscodeDocument, diagnosticList) {
     const worker = await this.worker(vscodeDocument.uri);
 
@@ -27,4 +27,4 @@ class CodeActionsAdapter extends Adapter {
   }
 }
 
-export default CodeActionsAdapter;
+export default CodeActionsProvider;
