@@ -38,10 +38,15 @@ const registerProviders = ({ languageId, providers, dependencies }) => {
   const { worker, codeConverter, protocolConverter } = dependencies;
   const args = [worker, codeConverter, protocolConverter];
 
+  /**
+   * Customized providers needs to be registered before monaco editor is created
+   * and services are initialized.
+   */
+  providers.push(new DiagnosticsProvider(...args));
+
   (async () => {
     await initializeExtensions();
 
-    providers.push(new DiagnosticsProvider(...args));
     providers.push(vscodeLanguages.registerHoverProvider(languageId, new HoverProvider(...args)));
     providers.push(
       vscodeLanguages.registerDocumentLinkProvider(languageId, new DocumentLinkProvider(...args))
