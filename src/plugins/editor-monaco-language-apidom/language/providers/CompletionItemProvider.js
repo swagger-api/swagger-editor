@@ -21,8 +21,25 @@ class CompletionItemProvider extends Provider {
 
   async provideCompletionItems(vscodeDocument, position) {
     const completionList = await this.#getCompletionList(vscodeDocument, position);
+    const range = vscodeDocument.getWordRangeAtPosition(position, /[a-zA-Z.]+/);
+    const text = vscodeDocument.getText(range);
+    const { items } = completionList;
 
-    return this.protocolConverter.asCompletionResult(completionList);
+    const isSubsequence = (label) => {
+      const counter = label.split('').reduce((acc, el) => {
+        if (text[acc]?.toLowerCase() === el?.toLowerCase()) {
+          const increment = acc + 1;
+          return increment;
+        }
+        return acc;
+      }, 0);
+
+      return counter === text.length;
+    };
+
+    return this.protocolConverter.asCompletionResult(
+      items.filter(({ label }) => isSubsequence(label))
+    );
   }
 }
 
