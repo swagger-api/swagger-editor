@@ -11,6 +11,9 @@ export class ApiDOMWorker {
     defaultLanguageContent: {
       namespace: 'asyncapi',
     },
+    completionContext: {
+      maxNumberOfItems: 100,
+    },
   };
 
   constructor(ctx, createData) {
