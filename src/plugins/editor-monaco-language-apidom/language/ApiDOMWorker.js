@@ -13,6 +13,9 @@ export class ApiDOMWorker {
     },
     completionContext: {
       maxNumberOfItems: 100,
+      // ENABLE to have "strict" word filtering (instead of default Monaco fuzzy matching)
+      // see https://github.com/swagger-api/apidom/pull/2954
+      // enableLSPFilter: true,
     },
   };
 
