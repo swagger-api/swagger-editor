@@ -604,22 +604,22 @@ components:
         id:
           type: integer
           format: int64
-          example: 10
+          examples: [10]
         petId:
           type: integer
           format: int64
-          example: 198772
+          examples: [198772]
         quantity:
           type: integer
           format: int32
-          example: 7
+          examples: [7]
         shipDate:
           type: string
           format: date-time
         status:
           type: string
           description: Order Status
-          example: approved
+          examples: [approved]
           enum:
             - placed
             - approved
@@ -634,10 +634,10 @@ components:
         id:
           type: integer
           format: int64
-          example: 100000
+          examples: [100000]
         username:
           type: string
-          example: fehguy
+          examples: [fehguy]
         address:
           type: array
           xml:
@@ -652,16 +652,16 @@ components:
       properties:
         street:
           type: string
-          example: 437 Lytton
+          examples: [437 Lytton]
         city:
           type: string
-          example: Palo Alto
+          examples: [Palo Alto]
         state:
           type: string
-          example: CA
+          examples: [CA]
         zip:
           type: string
-          example: '94301'
+          examples: ['94301']
       xml:
         name: address
     Category:
@@ -670,10 +670,10 @@ components:
         id:
           type: integer
           format: int64
-          example: 1
+          examples: [1]
         name:
           type: string
-          example: Dogs
+          examples: [Dogs]
       xml:
         name: category
     User:
@@ -682,30 +682,30 @@ components:
         id:
           type: integer
           format: int64
-          example: 10
+          examples: [10]
         username:
           type: string
-          example: theUser
+          examples: [theUser]
         firstName:
           type: string
-          example: John
+          examples: [John]
         lastName:
           type: string
-          example: James
+          examples: [James]
         email:
           type: string
-          example: john@email.com
+          examples: [john@email.com]
         password:
           type: string
-          example: '12345'
+          examples: ['12345']
         phone:
           type: string
-          example: '12345'
+          examples: ['12345']
         userStatus:
           type: integer
           description: User Status
           format: int32
-          example: 1
+          examples: [1]
       xml:
         name: user
     Tag:
@@ -727,10 +727,10 @@ components:
         id:
           type: integer
           format: int64
-          example: 10
+          examples: [10]
         name:
           type: string
-          example: doggie
+          examples: [doggie]
         category:
           $ref: '#/components/schemas/Category'
         photoUrls:
