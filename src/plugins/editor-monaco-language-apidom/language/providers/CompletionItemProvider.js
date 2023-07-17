@@ -1,18 +1,13 @@
 import Provider from './Provider.js';
 
 class CompletionItemProvider extends Provider {
-  #completionContext = {
-    maxNumberOfItems: 100,
-  };
-
   async #getCompletionList(vscodeDocument, position) {
     const worker = await this.worker(vscodeDocument.uri);
 
     try {
       return await worker.doComplete(
         vscodeDocument.uri.toString(),
-        this.codeConverter.asPosition(position),
-        this.#completionContext
+        this.codeConverter.asPosition(position)
       );
     } catch {
       return undefined;
