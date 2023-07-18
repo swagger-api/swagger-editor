@@ -47,6 +47,7 @@ export default class WorkerManager {
         createData: {
           ...this.#defaults.getWorkerOptions().data,
           languageId: this.#defaults.getLanguageId(),
+          apiDOMContext: this.#defaults.getWorkerOptions().apiDOMContext,
           customWorkerPath: this.#defaults.getWorkerOptions().customWorkerPath,
         },
       });

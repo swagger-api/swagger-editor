@@ -1,9 +1,10 @@
 /* eslint-disable no-underscore-dangle */
+import deepExtend from 'deep-extend';
 import * as vscodeLanguageServerTextDocument from 'vscode-languageserver-textdocument';
 import * as apidomLS from '@swagger-api/apidom-ls';
 
 export class ApiDOMWorker {
-  static apiDOMContext = {
+  static defaultApiDOMContext = {
     validatorProviders: [],
     completionProviders: [],
     performanceLogs: false,
@@ -13,16 +14,16 @@ export class ApiDOMWorker {
     },
     completionContext: {
       maxNumberOfItems: 100,
-      // ENABLE to have "strict" word filtering (instead of default Monaco fuzzy matching)
-      // see https://github.com/swagger-api/apidom/pull/2954
-      // enableLSPFilter: true,
+      enableLSPFilter: false, // enables "strict" word filtering (instead of default Monaco fuzzy matching; https://github.com/swagger-api/apidom/pull/2954)
     },
   };
 
   constructor(ctx, createData) {
     this._ctx = ctx;
     this._createData = createData;
-    this._languageService = apidomLS.getLanguageService(this.constructor.apiDOMContext);
+    this._languageService = apidomLS.getLanguageService(
+      deepExtend({}, this.constructor.defaultApiDOMContext, createData.apiDOMContext)
+    );
   }
 
   async doValidation(uri) {
