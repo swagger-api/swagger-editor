@@ -88,8 +88,8 @@ const lazyMonacoContribution = ({ createData, system }) => {
   // setup apidom mode
   disposables.push(
     monaco.editor.onDidCreateEditor(() => {
-      const { customApiDOMWorkerPath: customWorkerPath, ...data } = createData;
-      const defaults = new LanguageServiceDefaultsImpl({ customWorkerPath, data });
+      const { customApiDOMWorkerPath: customWorkerPath, apiDOMContext, ...data } = createData;
+      const defaults = new LanguageServiceDefaultsImpl({ apiDOMContext, customWorkerPath, data });
 
       disposables.push(setupMode(defaults));
     })

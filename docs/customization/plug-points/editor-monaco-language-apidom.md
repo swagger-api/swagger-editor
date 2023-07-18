@@ -1,5 +1,43 @@
 # editor-monaco plug points
 
+## Configuring web worker capabilities
+
+Worker accepts configuration for a language service via ApiDOM Context configuration object.
+By default, this configuration looks like this:
+
+```js
+{
+  validatorProviders: [],
+  completionProviders: [],
+  performanceLogs: false,
+  logLevel: apidomLS.LogLevel.WARN,
+  defaultLanguageContent: {
+    namespace: 'asyncapi',
+  },
+  completionContext: {
+    maxNumberOfItems: 100,
+    enableLSPFilter: false,
+  },
+}
+```
+
+If you want to override the default ApiDOM Context configuration object, you need to pass `apiDOMContext` option to the `EditorMonacoLanguageApiDOM` plugin.
+
+```js
+EditorMonacoLanguageApiDOM({
+  createData: {
+    apiDOMContext: {
+      completionContext: {
+        enableLSPFilter: true, // enables "strict" word filtering (instead of default Monaco fuzzy matching; https://github.com/swagger-api/apidom/pull/2954)
+      },
+    },
+  },
+});
+```
+
+> NOTE: note that the provided ApiDOM Context configuration object is merged with default ApiDOM Context configuration object
+using [deep-extend](https://www.npmjs.com/package/deep-extend) npm package.
+
 ## Extending web worker capabilities
 
 `editor-monaco-language-apidom` comes with implementation of `apidom` language.
@@ -10,14 +48,14 @@ The plugin comes with `apidom.worker` utilizing ApiDOM capabilities.
 
 Dynamic extension happens during runtime, and we recommend to use it only for simple use-cases.
 
-First thing we need to do is to pass a `customApiDOMWorkerPath` option to the `EditorMonaco` plugin.
+First thing we need to do is to pass a `customApiDOMWorkerPath` option to the `EditorMonacoLanguageApiDOM` plugin.
 
 ```js
 EditorMonacoLanguageApiDOM({
   createData: {
     customApiDOMWorkerPath: 'https://example.com/index.js',
   },
-})
+});
 ```
 `customApiDOMWorkerPath` is a URL (absolute or relative) of extending script. When the `apidom.worker`
 is bootstrapping it, it imports this URL using [importScripts](https://developer.mozilla.org/en-US/docs/Web/API/WorkerGlobalScope/importScripts).
@@ -103,7 +141,7 @@ it will be fetching data on demand from authorized REST endpoint.
 
 ### Dynamic extension
 
-`EditorMonaco` plugin configuration.
+`EditorMonacoLanguageApiDOM` plugin configuration.
 
 ```js
 EditorMonacoLanguageApiDOM({
@@ -111,7 +149,7 @@ EditorMonacoLanguageApiDOM({
     authToken: 'c32d8b45-92fe-44f6-8b61-42c2107dfe87',
     customApiDOMWorkerPath: 'https://example.com/index.js',
   },
-})
+});
 ```
 
 **https://example.com/index.js**
