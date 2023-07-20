@@ -21,8 +21,12 @@ export class ApiDOMWorker {
   constructor(ctx, createData) {
     this._ctx = ctx;
     this._createData = createData;
-    this._languageService = apidomLS.getLanguageService(
-      deepExtend({}, this.constructor.defaultApiDOMContext, createData.apiDOMContext)
+    this._languageService = this.createLanguageService();
+  }
+
+  createLanguageService() {
+    return apidomLS.getLanguageService(
+      deepExtend({}, this.constructor.defaultApiDOMContext, this._createData.apiDOMContext)
     );
   }
 
@@ -155,6 +159,7 @@ export const makeCreate = (BaseClass) => (ctx, createData) => {
       ApiDOMWorkerClass = workerFactoryFunc(ApiDOMWorkerClass, {
         apidomLS,
         vscodeLanguageServerTextDocument,
+        deepExtend,
       });
     }
   }
