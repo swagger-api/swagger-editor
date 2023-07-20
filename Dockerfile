@@ -5,6 +5,8 @@ LABEL maintainer="fehguy"
 ENV BASE_URL="/" \
     PORT="8080"
 
+RUN apk update && apk add --no-cache "tiff>=4.4.0-r4"
+
 COPY nginx.conf /etc/nginx/templates/default.conf.template
 
 COPY ./index.html /usr/share/nginx/html/
