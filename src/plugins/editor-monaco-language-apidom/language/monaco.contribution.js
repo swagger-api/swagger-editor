@@ -67,6 +67,7 @@ export const isLanguageRegistered = () => {
 
 const lazyMonacoContribution = ({ createData, system }) => {
   const disposables = [];
+  const extensionsInitialized = initializeExtensions();
 
   // register apidom language
   disposables.push(
@@ -80,9 +81,11 @@ const lazyMonacoContribution = ({ createData, system }) => {
       id: apidom.languageId,
     })
   );
-  initializeExtensions().then(() => {
+
+  extensionsInitialized.then(() => {
     disposables.push(vscodeLanguages.setLanguageConfiguration(apidom.languageId, apidom.conf));
   });
+
   disposables.push(monaco.languages.setMonarchTokensProvider(apidom.languageId, apidom.language));
 
   // setup apidom mode
