@@ -1,6 +1,9 @@
 FROM nginx:1.25.1-alpine
 
-LABEL maintainer="fehguy"
+LABEL maintainer="fehguy" \
+      org.opencontainers.image.authors="fehguy" \
+      org.opencontainers.image.url="https://editor.swagger.io" \
+      org.opencontainers.image.source="https://github.com/swagger-api/swagger-editor"
 
 ENV BASE_URL="/" \
     PORT="8080"
