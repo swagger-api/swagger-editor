@@ -47,7 +47,8 @@
         // https://github.com/import-js/eslint-plugin-import/issues/1810
         "^monaco-languageclient\/monaco-converter$",
         "^vscode\/services$",
-        "^vscode\/extensions$"
+        "^vscode\/extensions$",
+        "^vscode\/ext-hosts\/"
       ]
     }]
   }

@@ -95,7 +95,7 @@
     "short-unique-id": "^4.4.4",
     "styled-components": "^5.3.11",
     "swagger-ui-react": "^5.3.1",
-    "vscode": "npm:@codingame/monaco-vscode-api@~1.79.6",
+    "vscode": "npm:@codingame/monaco-vscode-api@=1.79.7-next.2",
     "vscode-languageclient": "^8.1.0",
     "vscode-languageserver-textdocument": "^1.0.8"
   },

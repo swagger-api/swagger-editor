@@ -1,3 +1,9 @@
+import 'vscode/ext-hosts/commands';
+import 'vscode/ext-hosts/configuration';
+import 'vscode/ext-hosts/documentsAndEditors';
+import 'vscode/ext-hosts/filesystem';
+import 'vscode/ext-hosts/workspace';
+import 'vscode/ext-hosts/languageFeatures';
 import { StandaloneServices, IStorageService } from 'vscode/services';
 import { initialize as initializeExtensions } from 'vscode/extensions';
 
