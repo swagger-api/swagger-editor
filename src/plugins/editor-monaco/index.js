@@ -1,5 +1,3 @@
-import * as monaco from 'monaco-editor';
-
 import MonacoEditorContainer from './components/MonacoEditor/MonacoEditorContainer.jsx';
 import ValidationPane from './components/ValidationPane/ValidationPane.jsx';
 import ValidationTable from './components/ValidationTable/ValidationTable.jsx';
@@ -20,6 +18,7 @@ import { setTheme } from './actions/set-theme.js';
 import reducers from './reducers.js';
 import { selectTheme, selectMarkers, selectLanguage, selectEditor } from './selectors.js';
 import { registerMarkerDataProvider, waitUntil } from './fn.js';
+import { monaco } from './root-injects.js';
 import afterLoad from './after-load.js';
 
 const EditorMonacoPlugin = () => ({

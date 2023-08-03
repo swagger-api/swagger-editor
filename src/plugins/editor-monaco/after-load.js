@@ -1,21 +1,33 @@
-import { StandaloneServices, IStorageService } from 'vscode/services';
-import { initialize as initializeExtensions } from 'vscode/extensions';
+import {
+  initialize as initializeMonacoServices,
+  StandaloneServices,
+  IStorageService,
+} from 'vscode/services';
+import getLanguagesServiceOverride from 'vscode/service-override/languages';
+import { initialize as initializeVscodeExtensions } from 'vscode/extensions';
 
-const afterLoad = () => {
+function afterLoad() {
   /**
-   * StandaloneServices is a singleton and can be initialized only once.
+   * Monaco standalone services is a singleton and can be initialized only once.
    * Subsequent initializations are noops. This has a side effect which
-   * is inability to dispose of the services via StandaloneServices interface.
+   * is inability to dispose of the services when no longer needed.
    * Individual services can be disposed of separately, but if one decides
-   * to do that StandaloneServices will not able to initialize them again.
+   * to do that, `initialize` function will not able to initialize them again.
    *
-   * Extensions needs to initialized explicitly.
+   * Extensions needs to initialized explicitly as well.
    */
-  StandaloneServices.initialize({});
-  initializeExtensions();
-
-  // enable showing documentation while autocomplete suggestions are listed
-  StandaloneServices.get(IStorageService).store('expandSuggestionDocs', true, 0, 0);
+  if (!this.vscodeInitStarted) {
+    (async () => {
+      this.vscodeInitStarted = true;
+      await Promise.all([
+        initializeMonacoServices({
+          ...getLanguagesServiceOverride(),
+        }),
+        initializeVscodeExtensions(),
+      ]);
+      StandaloneServices.get(IStorageService).store('expandSuggestionDocs', true, 0, 0);
+    })();
+  }
 
   // setup monaco environment
   globalThis.MonacoEnvironment = {
@@ -25,6 +37,6 @@ const afterLoad = () => {
     },
     ...(globalThis.MonacoEnvironment || {}), // this will allow to override the base uri for loading Web Workers
   };
-};
+}
 
 export default afterLoad;
