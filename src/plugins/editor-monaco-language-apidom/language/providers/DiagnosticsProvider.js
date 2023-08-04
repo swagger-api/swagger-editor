@@ -1,6 +1,6 @@
 import * as monaco from 'monaco-editor';
 import { languages as vscodeLanguages } from 'vscode';
-import { initialize as initializeExtensions } from 'vscode/extensions';
+import { onExtHostInitialized } from 'vscode/extensions';
 
 import Provider from './Provider.js';
 import * as apidom from '../apidom.js';
@@ -61,7 +61,7 @@ class DiagnosticsProvider extends Provider {
       }
     };
 
-    const onExtensionsInitialized = () => {
+    const onVscodeExtensionsInitialized = () => {
       this.#diagnosticCollection = vscodeLanguages.createDiagnosticCollection(apidom.languageId);
       this.#disposables.push(this.#diagnosticCollection);
     };
@@ -69,7 +69,7 @@ class DiagnosticsProvider extends Provider {
     this.#disposables.push(monaco.editor.onDidCreateModel(onModelAdded));
     this.#disposables.push(monaco.editor.onDidChangeModelLanguage(onModelLanguageChanged));
     this.#disposables.push(monaco.editor.onWillDisposeModel(onModelRemoved));
-    initializeExtensions().then(onExtensionsInitialized);
+    onExtHostInitialized(onVscodeExtensionsInitialized);
   }
 
   async #getDiagnostics(model) {

@@ -1,5 +1,5 @@
 import { languages as vscodeLanguages } from 'vscode';
-import { initialize as initializeExtensions } from 'vscode/extensions';
+import { onExtHostInitialized } from 'vscode/extensions';
 import { createConverter as createCodeConverter } from 'vscode-languageclient/lib/common/codeConverter.js';
 import { createConverter as createProtocolConverter } from 'vscode-languageclient/lib/common/protocolConverter.js';
 
@@ -44,9 +44,7 @@ const registerProviders = ({ languageId, providers, dependencies }) => {
    */
   providers.push(new DiagnosticsProvider(...args));
 
-  (async () => {
-    await initializeExtensions();
-
+  onExtHostInitialized(() => {
     providers.push(vscodeLanguages.registerHoverProvider(languageId, new HoverProvider(...args)));
     providers.push(
       vscodeLanguages.registerDocumentLinkProvider(languageId, new DocumentLinkProvider(...args))
@@ -70,17 +68,19 @@ const registerProviders = ({ languageId, providers, dependencies }) => {
       vscodeLanguages.registerDefinitionProvider(languageId, new DefinitionProvider(...args))
     );
 
-    const workerService = await worker();
-    const semanticTokensLegend = await workerService.getSemanticTokensLegend();
+    (async () => {
+      const workerService = await worker();
+      const semanticTokensLegend = await workerService.getSemanticTokensLegend();
 
-    providers.push(
-      vscodeLanguages.registerDocumentSemanticTokensProvider(
-        languageId,
-        new DocumentSemanticTokensProvider(...args),
-        semanticTokensLegend
-      )
-    );
-  })();
+      providers.push(
+        vscodeLanguages.registerDocumentSemanticTokensProvider(
+          languageId,
+          new DocumentSemanticTokensProvider(...args),
+          semanticTokensLegend
+        )
+      );
+    })();
+  });
 
   return providers;
 };
@@ -91,7 +91,7 @@ export function setupMode(defaults) {
   const codeConverter = createCodeConverter();
   const protocolConverter = createProtocolConverter(undefined, true, true);
 
-  // setup apidom worker
+  // setup ApiDOM worker
   const client = new WorkerManager(defaults);
   const worker = async (...uris) => client.getLanguageServiceWorker(...uris);
   apidomWorker = worker;
