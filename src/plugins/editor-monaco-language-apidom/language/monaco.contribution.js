@@ -1,7 +1,6 @@
 import * as monaco from 'monaco-editor';
 import { languages as vscodeLanguages } from 'vscode';
 import { ModesRegistry } from 'monaco-editor/esm/vs/editor/common/languages/modesRegistry.js';
-import { onExtHostInitialized } from 'vscode/extensions';
 
 import * as apidom from './apidom.js';
 import { setupMode } from './apidom-mode.js';
@@ -81,7 +80,7 @@ const lazyMonacoContribution = ({ createData, system }) => {
     })
   );
 
-  onExtHostInitialized(() => {
+  system.monacoInitializationDeferred().promise.then(() => {
     disposables.push(vscodeLanguages.setLanguageConfiguration(apidom.languageId, apidom.conf));
   });
 
@@ -91,7 +90,10 @@ const lazyMonacoContribution = ({ createData, system }) => {
   disposables.push(
     monaco.editor.onDidCreateEditor(() => {
       const { customApiDOMWorkerPath: customWorkerPath, apiDOMContext, ...data } = createData;
-      const defaults = new LanguageServiceDefaultsImpl({ apiDOMContext, customWorkerPath, data });
+      const defaults = new LanguageServiceDefaultsImpl(
+        { apiDOMContext, customWorkerPath, data },
+        { getSystem: system.getSystem }
+      );
 
       disposables.push(setupMode(defaults));
     })

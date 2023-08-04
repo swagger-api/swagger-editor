@@ -1,5 +1,4 @@
 import { languages as vscodeLanguages } from 'vscode';
-import { onExtHostInitialized } from 'vscode/extensions';
 import { createConverter as createCodeConverter } from 'vscode-languageclient/lib/common/codeConverter.js';
 import { createConverter as createProtocolConverter } from 'vscode-languageclient/lib/common/protocolConverter.js';
 
@@ -35,16 +34,18 @@ export const getWorker = () => {
 const registerProviders = ({ languageId, providers, dependencies }) => {
   disposeAll(providers);
 
-  const { worker, codeConverter, protocolConverter } = dependencies;
+  const { worker, codeConverter, protocolConverter, getSystem } = dependencies;
   const args = [worker, codeConverter, protocolConverter];
+  const system = getSystem();
 
   /**
-   * Customized providers needs to be registered before monaco editor is created
-   * and services are initialized.
+   * Customized providers needs to be registered before monaco editor is created.
    */
-  providers.push(new DiagnosticsProvider(...args));
+  providers.push(new DiagnosticsProvider(...args, getSystem));
 
-  onExtHostInitialized(() => {
+  (async () => {
+    await system.monacoInitializationDeferred().promise;
+
     providers.push(vscodeLanguages.registerHoverProvider(languageId, new HoverProvider(...args)));
     providers.push(
       vscodeLanguages.registerDocumentLinkProvider(languageId, new DocumentLinkProvider(...args))
@@ -68,19 +69,18 @@ const registerProviders = ({ languageId, providers, dependencies }) => {
       vscodeLanguages.registerDefinitionProvider(languageId, new DefinitionProvider(...args))
     );
 
-    (async () => {
-      const workerService = await worker();
-      const semanticTokensLegend = await workerService.getSemanticTokensLegend();
+    const workerService = await worker();
+    const semanticTokensLegend = await workerService.getSemanticTokensLegend();
 
-      providers.push(
-        vscodeLanguages.registerDocumentSemanticTokensProvider(
-          languageId,
-          new DocumentSemanticTokensProvider(...args),
-          semanticTokensLegend
-        )
-      );
-    })();
-  });
+    providers.push(
+      vscodeLanguages.registerDocumentSemanticTokensProvider(
+        languageId,
+        new DocumentSemanticTokensProvider(...args),
+        semanticTokensLegend
+      )
+    );
+  })();
+  system.monacoInitializationDeferred().promise.then(() => {});
 
   return providers;
 };
@@ -112,7 +112,12 @@ export function setupMode(defaults) {
       registerProviders({
         languageId: defaults.getLanguageId(),
         providers,
-        dependencies: { worker, codeConverter, protocolConverter },
+        dependencies: {
+          worker,
+          codeConverter,
+          protocolConverter,
+          getSystem: defaults.getModeConfiguration().getSystem,
+        },
       })
     )
   );
