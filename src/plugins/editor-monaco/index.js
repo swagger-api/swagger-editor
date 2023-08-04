@@ -18,13 +18,14 @@ import { setTheme } from './actions/set-theme.js';
 import reducers from './reducers.js';
 import { selectTheme, selectMarkers, selectLanguage, selectEditor } from './selectors.js';
 import { registerMarkerDataProvider, waitUntil } from './fn.js';
-import { monaco } from './root-injects.js';
+import { monaco, monacoInitializationDeferred } from './root-injects.js';
 import afterLoad from './after-load.js';
 
 const EditorMonacoPlugin = () => ({
   afterLoad,
   rootInjects: {
     monaco,
+    monacoInitializationDeferred: () => monacoInitializationDeferred,
   },
   components: {
     Editor: MonacoEditorContainer,

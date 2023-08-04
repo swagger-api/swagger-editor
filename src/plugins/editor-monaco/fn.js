@@ -32,3 +32,12 @@ export const waitUntil = async (condition, { interval = 100, maxWait = 2500 } = 
     }, maxWait);
   });
 };
+
+export const makeDeferred = () => {
+  const deferred = {};
+  deferred.promise = new Promise((resolve, reject) => {
+    deferred.resolve = resolve;
+    deferred.reject = reject;
+  });
+  return deferred;
+};
