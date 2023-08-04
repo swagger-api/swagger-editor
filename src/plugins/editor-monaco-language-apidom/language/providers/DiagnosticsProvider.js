@@ -104,6 +104,7 @@ class DiagnosticsProvider extends Provider {
     super.dispose();
     this.#disposables.forEach((disposable) => disposable?.dispose());
     this.#disposables = [];
+    this.#system = null;
   }
 }
 
