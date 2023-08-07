@@ -24,25 +24,8 @@ import EditorContentOriginPlugin from './plugins/editor-content-origin/index.js'
 import EditorContentTypePlugin from './plugins/editor-content-type/index.js';
 import EditorContentPersistencePlugin from './plugins/editor-content-persistence/index.js';
 import EditorContentFixturesPlugin from './plugins/editor-content-fixtures/index.js';
+import EditorSafeRenderPlugin from './plugins/editor-safe-render/index.js';
 import SwaggerUIAdapterPlugin from './plugins/swagger-ui-adapter/index.js';
-
-const SafeRenderPlugin = (system) =>
-  SwaggerUI.plugins.SafeRender({
-    componentList: [
-      'TopBar',
-      'SwaggerEditorLayout',
-      'Editor',
-      'EditorTextarea',
-      'EditorMonaco',
-      'EditorPane',
-      'EditorPaneBarTop',
-      'EditorPreviewPane',
-      'ValidationPane',
-      'AlertDialog',
-      'ConfirmDialog',
-      'Dropzone',
-    ],
-  })(system);
 
 const SwaggerEditor = React.memo((props) => {
   const mergedProps = deepmerge(SwaggerEditor.defaultProps, props);
@@ -73,6 +56,7 @@ SwaggerEditor.plugins = {
   EditorPreviewSwaggerUI: EditorPreviewSwaggerUIPlugin,
   EditorPreviewAsyncAPI: EditorPreviewAsyncAPIPlugin,
   EditorPreviewApiDesignSystems: EditorPreviewApiDesignSystemsPlugin,
+  EditorSafeRender: EditorSafeRenderPlugin,
   TopBar: TopBarPlugin,
   SplashScreenPlugin,
   Layout: LayoutPlugin,
@@ -98,7 +82,7 @@ SwaggerEditor.presets = {
     TopBarPlugin,
     SplashScreenPlugin,
     LayoutPlugin,
-    SafeRenderPlugin,
+    EditorSafeRenderPlugin,
   ],
   monaco: () => [
     ModalsPlugin,
@@ -121,7 +105,7 @@ SwaggerEditor.presets = {
     TopBarPlugin,
     SplashScreenPlugin,
     LayoutPlugin,
-    SafeRenderPlugin,
+    EditorSafeRenderPlugin,
   ],
   default: (...args) => SwaggerEditor.presets.monaco(...args),
 };
