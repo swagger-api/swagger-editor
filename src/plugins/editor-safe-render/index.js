@@ -7,11 +7,14 @@ import ErrorBoundaryWrapper from './wrap-components/ErrorBoundaryWrapper.jsx';
  * In editor context, we want to dismiss the error produced
  * in error boundary if editor content has changed.
  */
-const EditorSafeRenderPlugin = () => {
-  const safeRenderPlugin = () =>
-    SwaggerUI.plugins.SafeRender({
-      fullOverride: true,
-      componentList: [
+const EditorSafeRenderPlugin = (opts = {}) => {
+  const isCalledWithGetSystem = typeof opts.getSystem === 'function';
+  const defaultOptions = { componentList: [], fullOverride: false };
+  const options = isCalledWithGetSystem ? defaultOptions : { ...defaultOptions, ...opts };
+
+  const plugin = () => {
+    const safeRenderPlugin = () => {
+      const defaultComponentList = [
         'TopBar',
         'SwaggerEditorLayout',
         'Editor',
@@ -24,16 +27,27 @@ const EditorSafeRenderPlugin = () => {
         'AlertDialog',
         'ConfirmDialog',
         'Dropzone',
-      ],
+      ];
+      const mergedComponentList = options.fullOverride
+        ? options.componentList
+        : [...defaultComponentList, ...options.componentList];
+
+      return SwaggerUI.plugins.SafeRender({
+        fullOverride: true,
+        componentList: mergedComponentList,
+      });
+    };
+
+    const safeRenderPluginOverride = () => ({
+      wrapComponents: {
+        ErrorBoundary: ErrorBoundaryWrapper,
+      },
     });
 
-  const safeRenderPluginOverride = () => ({
-    wrapComponents: {
-      ErrorBoundary: ErrorBoundaryWrapper,
-    },
-  });
+    return [safeRenderPlugin, safeRenderPluginOverride];
+  };
 
-  return [safeRenderPlugin, safeRenderPluginOverride];
+  return isCalledWithGetSystem ? plugin(opts) : plugin;
 };
 
 export default EditorSafeRenderPlugin;
