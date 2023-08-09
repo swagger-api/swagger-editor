@@ -3,7 +3,6 @@ import {
   StandaloneServices,
   IStorageService,
 } from 'vscode/services';
-import getLanguagesServiceOverride from 'vscode/service-override/languages';
 import { initialize as initializeVscodeExtensions } from 'vscode/extensions';
 
 function afterLoad(system) {
@@ -36,12 +35,7 @@ function afterLoad(system) {
 
     (async () => {
       try {
-        await Promise.all([
-          initializeMonacoServices({
-            ...getLanguagesServiceOverride(),
-          }),
-          initializeVscodeExtensions(),
-        ]);
+        await Promise.all([initializeMonacoServices({}), initializeVscodeExtensions()]);
         StandaloneServices.get(IStorageService).store('expandSuggestionDocs', true, 0, 0);
         system.monacoInitializationDeferred().resolve();
       } catch (error) {
