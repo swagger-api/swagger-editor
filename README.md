@@ -1,15 +1,31 @@
 # <img src="https://raw.githubusercontent.com/swagger-api/swagger.io/wordpress/images/assets/SWE-logo-clr.png" height="80">
-[![NPM version](https://badge.fury.io/js/swagger-ui.svg)](http://badge.fury.io/js/swagger-editor)
+[![NPM version](https://badge.fury.io/js/swagger-editor.svg)](http://badge.fury.io/js/swagger-editor)
 [![Build Status](https://jenkins.swagger.io/buildStatus/icon?job=oss-swagger-editor-master)](https://jenkins.swagger.io/job/oss-swagger-editor-master/)
 [![Code Climate](https://codeclimate.com/github/swagger-api/swagger-editor/badges/gpa.svg)](https://codeclimate.com/github/swagger-api/swagger-editor)
 [![Build Status](https://jenkins.swagger.io/view/OSS%20-%20JavaScript/job/oss-swagger-editor-master/badge/icon?subject=jenkins%20build)](https://jenkins.swagger.io/view/OSS%20-%20JavaScript/job/oss-swagger-editor-master/)
 
-**🕰️ Looking for the older version of Swagger Editor?** Refer to the [*2.x* branch](https://github.com/swagger-api/swagger-editor/tree/2.x).
+**⏰️ Looking for the next generation version of Swagger Editor?**
 
-Swagger Editor lets you edit [OpenAPI API definitions](https://github.com/OAI/OpenAPI-Specification/blob/main/versions/3.0.3.md) in YAML inside your browser and to preview documentations in real time.
-Valid Swagger JSON descriptions can then be generated and used with the full Swagger tooling (code generation, documentation, etc).
+SwaggerEditor is now released under two major release channels:
 
-As a brand new version, written from the ground up, there are some known issues and unimplemented features. Check out the [Known Issues](#known-issues) section for more details.
+1. [SwaggerEditor@4](https://github.com/swagger-api/swagger-editor/releases?q=v4&expanded=true) - released from [master](https://github.com/swagger-api/swagger-editor/tree/master) branch and deployed at https://editor.swagger.io/
+2. [SwaggerEditor@5](https://github.com/swagger-api/swagger-editor/releases?q=v5&expanded=true) - released from [next](https://github.com/swagger-api/swagger-editor/tree/next) branch and deployed at https://editor-next.swagger.io/
+
+Only **SwaggerEditor@5** supports [OpenAPI 3.1.0](https://github.com/OAI/OpenAPI-Specification/blob/main/versions/3.1.0.md). 
+SwaggerEditor@4 will not receive OpenAPI 3.1.0 support and is considered legacy at this point.
+The plan is to continually migrate fully to SwaggerEditor@5 and deprecate the SwaggerEditor@4 in the future.
+
+---
+
+**🕰️ Looking for the older version of Swagger Editor?** Refer to the [*2.x*](https://github.com/swagger-api/swagger-editor/tree/2.x) or [*3.x*](https://github.com/swagger-api/swagger-editor/tree/3.x) branches.
+
+---
+
+Swagger Editor lets you edit **OpenAPI API definitions** ([OpenAPI 2.0](https://github.com/OAI/OpenAPI-Specification/blob/main/versions/2.0.md) and [OpenAPI 3.0.3](https://github.com/OAI/OpenAPI-Specification/blob/main/versions/3.0.3.md)) 
+in JSON or YAML format inside your browser and to preview documentations in real time.
+Valid OpenAPI definitions can then be generated and used with the full Swagger tooling (code generation, documentation, etc).
+
+As a brand-new version, written from the ground up, there are some known issues and unimplemented features. Check out the [Known Issues](#known-issues) section for more details.
 
 This repository publishes to two different NPM modules:
 
@@ -17,8 +33,6 @@ This repository publishes to two different NPM modules:
 * [swagger-editor-dist](https://www.npmjs.com/package/swagger-editor-dist) is a dependency-free module that includes everything you need to serve Swagger Editor in a server-side project, or a web project that can't resolve npm module dependencies.
 
 If you're building a single-page application, using `swagger-editor` is strongly recommended, since `swagger-editor-dist` is significantly larger.
-
-For the older version of swagger-editor, refer to the [*2.x branch*](https://github.com/swagger-api/swagger-editor/tree/2.x).
 
 ## Helpful scripts
 
@@ -63,18 +77,9 @@ Script name | Description
 
 ##### Prerequisites
 
-- NPM >=7.x
-
 Generally, we recommend the following guidelines from [Node.js Releases](https://nodejs.org/en/about/releases/) to only use Active LTS or Maintenance LTS releases.
 
-Current Node.js:
-- Node.js 16.x
-- NPM >=7.10.x
-
-Current Node.js Active LTS:
-- Node.js 14.x
-- NPM >=7.x.x
-
+Minimal supported Node.js is `v16.13.2 (npm v8.1.2)`.
 
 If you have Node.js and npm installed, you can run `npm start` to spin up a static server.
 
