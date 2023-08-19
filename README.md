@@ -1,6 +1,6 @@
 # SwaggerEditor
 
-SwaggerEditor is using **forked** Create React App as it's building infrastructure.
+SwaggerEditor is using [**forked** Create React App](https://github.com/swagger-api/swagger-editor-cra/) as it's building infrastructure.
 
 ## Table of Contents
 
