@@ -527,6 +527,38 @@ ReactDOM.render(
 The key here is `SwaggerUIAdapter` plugin which adapts SwaggerEditor plugins to use
 directly with SwaggerUI.
 
+#### Standalone mode
+
+SwaggerUI standalone mode is supported as well. With standalone mode you'll get a `TopBar` with
+an input where URL of the definition can be provided and this definition is subsequently loaded
+by the SwaggerUI.
+
+```js
+import React from 'react';
+import ReactDOM from 'react-dom';
+import SwaggerUI from 'swagger-ui-react';
+import 'swagger-ui-react/swagger-ui.css';
+import SwaggerUIStandalonePreset from 'swagger-ui/dist/swagger-ui-standalone-preset';
+import SwaggerEditor from 'swagger-editor';
+
+const plugins = [
+  SwaggerEditor.plugins.EditorContentType,
+  SwaggerEditor.plugins.EditorPreviewAsyncAPI,
+  SwaggerEditor.plugins.EditorPreviewAPIDesignSystems,
+  ...SwaggerUIStandalonePreset,
+  SwaggerEditor.plugins.SwaggerUIAdapter,
+];
+
+ReactDOM.render(
+  <SwaggerUI
+    plugins={plugins}
+    url="https://raw.githubusercontent.com/asyncapi/spec/v2.4.0/examples/streetlights-kafka.yml"
+    layout="StandaloneLayout"
+  />,
+  document.getElementById('swagger-ui')
+);
+```
+
 ## Docker
 
 ### Pre-built DockerHub image
