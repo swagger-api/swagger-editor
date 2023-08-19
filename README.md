@@ -502,10 +502,9 @@ With a bit of adapting, we can use these plugins with SwaggerUI to provide abili
 to render AsyncAPI or API Design Systems definitions with SwaggerUI.
 
 ```js
-import React from 'react';
-import ReactDOM from 'react-dom';
-import SwaggerUI from 'swagger-ui-react';
-import 'swagger-ui-react/swagger-ui.css';
+import SwaggerUI from 'swagger-ui';
+import SwaggerUIStandalonePreset from 'swagger-ui/dist/swagger-ui-standalone-preset';
+import 'swagger-ui/dist/swagger-ui.css';
 import SwaggerEditor from 'swagger-editor';
 
 const plugins = [
@@ -515,17 +514,56 @@ const plugins = [
   SwaggerEditor.plugins.SwaggerUIAdapter,
 ];
 
-ReactDOM.render(
-  <SwaggerUI
-    plugins={plugins}
-    url="https://raw.githubusercontent.com/asyncapi/spec/v2.4.0/examples/streetlights-kafka.yml"
-  />,
-  document.getElementById('swagger-ui')
-);
+SwaggerUI({
+  url: 'https://petstore.swagger.io/v2/swagger.json',
+  dom_id: '#swagger-ui',
+  presets: [SwaggerUI.presets.apis, SwaggerUIStandalonePreset],
+  plugins: [
+    SwaggerEditor.plugins.EditorContentType,
+    SwaggerEditor.plugins.EditorPreviewAsyncAPI,
+    SwaggerEditor.plugins.EditorPreviewAPIDesignSystems,
+    SwaggerEditor.plugins.SwaggerUIAdapter,
+    SwaggerUI.plugins.DownloadUrl,
+  ],
+});
 ```
 
 The key here is `SwaggerUIAdapter` plugin which adapts SwaggerEditor plugins to use
 directly with SwaggerUI.
+
+#### Standalone mode
+
+SwaggerUI standalone mode is supported as well. With standalone mode you'll get a `TopBar` with
+an input where URL of the definition can be provided and this definition is subsequently loaded
+by the SwaggerUI.
+
+```js
+import SwaggerUI from 'swagger-ui';
+import SwaggerUIStandalonePreset from 'swagger-ui/dist/swagger-ui-standalone-preset';
+import 'swagger-ui/dist/swagger-ui.css';
+import SwaggerEditor from 'swagger-editor';
+
+const plugins = [
+  SwaggerEditor.plugins.EditorContentType,
+  SwaggerEditor.plugins.EditorPreviewAsyncAPI,
+  SwaggerEditor.plugins.EditorPreviewAPIDesignSystems,
+  SwaggerEditor.plugins.SwaggerUIAdapter,
+];
+
+SwaggerUI({
+  url: 'https://petstore.swagger.io/v2/swagger.json',
+  dom_id: '#swagger-ui',
+  presets: [SwaggerUI.presets.apis, SwaggerUIStandalonePreset],
+  plugins: [
+    SwaggerEditor.plugins.EditorContentType,
+    SwaggerEditor.plugins.EditorPreviewAsyncAPI,
+    SwaggerEditor.plugins.EditorPreviewAPIDesignSystems,
+    SwaggerEditor.plugins.SwaggerUIAdapter,
+    SwaggerUI.plugins.DownloadUrl,
+  ],
+  layout: 'StandaloneLayout',
+});
+```
 
 ## Docker
 

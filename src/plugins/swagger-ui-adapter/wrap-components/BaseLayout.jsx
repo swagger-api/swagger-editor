@@ -38,8 +38,6 @@ const BaseLayoutWrapper = (Original, system) => {
       selectIsContentTypeDetectionInProgress: PropTypes.func.isRequired,
       selectIsContentTypeAsyncAPI2: PropTypes.func.isRequired,
       selectIsContentTypeAPIDesignSystems: PropTypes.func.isRequired,
-      selectIsContentTypeOpenAPI: PropTypes.func.isRequired,
-      selectContentType: PropTypes.func.isRequired,
     }).isRequired,
   };
 
