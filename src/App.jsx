@@ -4,6 +4,9 @@ import SwaggerUI from 'swagger-ui-react';
 import 'swagger-ui-react/swagger-ui.css';
 
 import './styles/main.scss';
+/**
+ * Plugins
+ */
 import LayoutPlugin from './plugins/layout/index.js';
 import SplashScreenPlugin from './plugins/splash-screen/index.js';
 import TopBarPlugin from './plugins/top-bar/index.js';
@@ -26,6 +29,11 @@ import EditorContentPersistencePlugin from './plugins/editor-content-persistence
 import EditorContentFixturesPlugin from './plugins/editor-content-fixtures/index.js';
 import EditorSafeRenderPlugin from './plugins/editor-safe-render/index.js';
 import SwaggerUIAdapterPlugin from './plugins/swagger-ui-adapter/index.js';
+/**
+ * Presets
+ */
+import TextareaPreset from './presets/textarea/index.js';
+import MonacoPreset from './presets/monaco/index.js';
 
 const SwaggerEditor = React.memo((props) => {
   const mergedProps = deepmerge(SwaggerEditor.defaultProps, props);
@@ -63,51 +71,9 @@ SwaggerEditor.plugins = {
   SwaggerUIAdapter: SwaggerUIAdapterPlugin,
 };
 SwaggerEditor.presets = {
-  textarea: () => [
-    ModalsPlugin,
-    DialogsPlugin,
-    DropdownMenuPlugin,
-    DropzonePlugin,
-    VersionsPlugin,
-    EditorTextareaPlugin,
-    EditorContentReadOnlyPlugin,
-    EditorContentOriginPlugin,
-    EditorContentTypePlugin,
-    EditorContentPersistencePlugin,
-    EditorContentFixturesPlugin,
-    EditorPreviewPlugin,
-    EditorPreviewSwaggerUIPlugin,
-    EditorPreviewAsyncAPIPlugin,
-    EditorPreviewApiDesignSystemsPlugin,
-    TopBarPlugin,
-    SplashScreenPlugin,
-    LayoutPlugin,
-    EditorSafeRenderPlugin,
-  ],
-  monaco: () => [
-    ModalsPlugin,
-    DialogsPlugin,
-    DropdownMenuPlugin,
-    DropzonePlugin,
-    VersionsPlugin,
-    EditorTextareaPlugin,
-    EditorMonacoPlugin,
-    EditorMonacoLanguageApiDOMPlugin,
-    EditorContentReadOnlyPlugin,
-    EditorContentOriginPlugin,
-    EditorContentTypePlugin,
-    EditorContentPersistencePlugin,
-    EditorContentFixturesPlugin,
-    EditorPreviewPlugin,
-    EditorPreviewSwaggerUIPlugin,
-    EditorPreviewAsyncAPIPlugin,
-    EditorPreviewApiDesignSystemsPlugin,
-    TopBarPlugin,
-    SplashScreenPlugin,
-    LayoutPlugin,
-    EditorSafeRenderPlugin,
-  ],
-  default: (...args) => SwaggerEditor.presets.monaco(...args),
+  textarea: TextareaPreset,
+  monaco: MonacoPreset,
+  default: MonacoPreset,
 };
 
 SwaggerEditor.propTypes = SwaggerUI.propTypes;
