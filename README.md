@@ -451,9 +451,15 @@ SwaggerEditor maps its [build artifacts](#build-artifacts) in `package.json` fil
 "jsnext:main": "./dist/esm/swagger-editor.js",
 "exports": {
   "./package.json": "./package.json",
-  "./swagger-editor.css": "./dist/esm/swagger-editor.css",
+  "./swagger-editor.css": "./dist/swagger-editor.css",
   ".": {
     "browser": "./dist/esm/swagger-editor.js"
+  },
+  "./plugins/*": {
+    "browser": "./dist/esm/plugins/*/index.js"
+  },
+  "./presets/*": {
+    "browser": "./dist/esm/presets/*/index.js"
   },
   "./apidom.worker": {
     "browser": "./dist/esm/apidom.worker.js"
@@ -461,7 +467,7 @@ SwaggerEditor maps its [build artifacts](#build-artifacts) in `package.json` fil
   "./editor.worker": {
     "browser": "./dist/esm/editor.worker.js"
   }
-}
+},
 ```
 
 To learn more about these fields please refer to [webpack mainFields documentation](https://webpack.js.org/configuration/resolve/#resolvemainfields)
@@ -482,8 +488,8 @@ Environment variables currently available:
 
 | Variable name               |                                                Description                                                 |
 |-----------------------------|:----------------------------------------------------------------------------------------------------------:|
- | `REACT_APP_DEFINITION_FILE` | Specifies a local file path, and the specified file must also be present in the `/public/static` directory |
- | `REACT_APP_DEFINITION_URL`  | Specifies a remote URL. This environment variable currently takes precedence over `REACT_APP_SWAGGER_FILE` |
+| `REACT_APP_DEFINITION_FILE` | Specifies a local file path, and the specified file must also be present in the `/public/static` directory |
+| `REACT_APP_DEFINITION_URL`  | Specifies a remote URL. This environment variable currently takes precedence over `REACT_APP_SWAGGER_FILE` |
 | `REACT_APP_VERSION`         |              Specifies the version of this app. The version is read from `package.json` file.              |
 
 Sample environment variable values can be found in `.env` file. For more information about using
