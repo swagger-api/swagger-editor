@@ -467,7 +467,7 @@ SwaggerEditor maps its [build artifacts](#build-artifacts) in `package.json` fil
   "./editor.worker": {
     "browser": "./dist/esm/editor.worker.js"
   }
-},
+}
 ```
 
 To learn more about these fields please refer to [webpack mainFields documentation](https://webpack.js.org/configuration/resolve/#resolvemainfields)
