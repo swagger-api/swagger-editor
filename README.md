@@ -505,24 +505,20 @@ to render AsyncAPI or API Design Systems definitions with SwaggerUI.
 import SwaggerUI from 'swagger-ui';
 import SwaggerUIStandalonePreset from 'swagger-ui/dist/swagger-ui-standalone-preset';
 import 'swagger-ui/dist/swagger-ui.css';
-import SwaggerEditor from 'swagger-editor';
-
-const plugins = [
-  SwaggerEditor.plugins.EditorContentType,
-  SwaggerEditor.plugins.EditorPreviewAsyncAPI,
-  SwaggerEditor.plugins.EditorPreviewAPIDesignSystems,
-  SwaggerEditor.plugins.SwaggerUIAdapter,
-];
+import EditorContentTypePlugin from 'swagger-editor/plugins/editor-content-type';
+import EditorPreviewAsyncAPIPlugin from 'swagger-editor/plugins/editor-preview/asyncapi';
+import EditorPreviewAPIDesignSystemsPlugin from 'swagger-editor/plugins/editor-preview-api-design-systems';
+import SwaggerUIAdapterPlugin from 'swagger-editor/plugins/swagger-ui-adapter';
 
 SwaggerUI({
   url: 'https://petstore.swagger.io/v2/swagger.json',
   dom_id: '#swagger-ui',
   presets: [SwaggerUI.presets.apis, SwaggerUIStandalonePreset],
   plugins: [
-    SwaggerEditor.plugins.EditorContentType,
-    SwaggerEditor.plugins.EditorPreviewAsyncAPI,
-    SwaggerEditor.plugins.EditorPreviewAPIDesignSystems,
-    SwaggerEditor.plugins.SwaggerUIAdapter,
+    EditorContentTypePlugin,
+    EditorPreviewAsyncAPIPlugin,
+    EditorPreviewAPIDesignSystemsPlugin,
+    SwaggerUIAdapterPlugin,
     SwaggerUI.plugins.DownloadUrl,
   ],
 });
@@ -541,24 +537,20 @@ by the SwaggerUI.
 import SwaggerUI from 'swagger-ui';
 import SwaggerUIStandalonePreset from 'swagger-ui/dist/swagger-ui-standalone-preset';
 import 'swagger-ui/dist/swagger-ui.css';
-import SwaggerEditor from 'swagger-editor';
-
-const plugins = [
-  SwaggerEditor.plugins.EditorContentType,
-  SwaggerEditor.plugins.EditorPreviewAsyncAPI,
-  SwaggerEditor.plugins.EditorPreviewAPIDesignSystems,
-  SwaggerEditor.plugins.SwaggerUIAdapter,
-];
+import EditorContentTypePlugin from 'swagger-editor/plugins/editor-content-type';
+import EditorPreviewAsyncAPIPlugin from 'swagger-editor/plugins/editor-preview/asyncapi';
+import EditorPreviewAPIDesignSystemsPlugin from 'swagger-editor/plugins/editor-preview-api-design-systems';
+import SwaggerUIAdapterPlugin from 'swagger-editor/plugins/swagger-ui-adapter';
 
 SwaggerUI({
   url: 'https://petstore.swagger.io/v2/swagger.json',
   dom_id: '#swagger-ui',
   presets: [SwaggerUI.presets.apis, SwaggerUIStandalonePreset],
   plugins: [
-    SwaggerEditor.plugins.EditorContentType,
-    SwaggerEditor.plugins.EditorPreviewAsyncAPI,
-    SwaggerEditor.plugins.EditorPreviewAPIDesignSystems,
-    SwaggerEditor.plugins.SwaggerUIAdapter,
+    EditorContentTypePlugin,
+    EditorPreviewAsyncAPIPlugin,
+    EditorPreviewAPIDesignSystemsPlugin,
+    SwaggerUIAdapterPlugin,
     SwaggerUI.plugins.DownloadUrl,
   ],
   layout: 'StandaloneLayout',
