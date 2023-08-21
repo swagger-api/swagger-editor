@@ -512,7 +512,7 @@ import SwaggerUI from 'swagger-ui';
 import SwaggerUIStandalonePreset from 'swagger-ui/dist/swagger-ui-standalone-preset';
 import 'swagger-ui/dist/swagger-ui.css';
 import EditorContentTypePlugin from 'swagger-editor/plugins/editor-content-type';
-import EditorPreviewAsyncAPIPlugin from 'swagger-editor/plugins/editor-preview/asyncapi';
+import EditorPreviewAsyncAPIPlugin from 'swagger-editor/plugins/editor-preview-asyncapi';
 import EditorPreviewAPIDesignSystemsPlugin from 'swagger-editor/plugins/editor-preview-api-design-systems';
 import SwaggerUIAdapterPlugin from 'swagger-editor/plugins/swagger-ui-adapter';
 
@@ -544,7 +544,7 @@ import SwaggerUI from 'swagger-ui';
 import SwaggerUIStandalonePreset from 'swagger-ui/dist/swagger-ui-standalone-preset';
 import 'swagger-ui/dist/swagger-ui.css';
 import EditorContentTypePlugin from 'swagger-editor/plugins/editor-content-type';
-import EditorPreviewAsyncAPIPlugin from 'swagger-editor/plugins/editor-preview/asyncapi';
+import EditorPreviewAsyncAPIPlugin from 'swagger-editor/plugins/editor-preview-asyncapi';
 import EditorPreviewAPIDesignSystemsPlugin from 'swagger-editor/plugins/editor-preview-api-design-systems';
 import SwaggerUIAdapterPlugin from 'swagger-editor/plugins/swagger-ui-adapter';
 
@@ -562,6 +562,188 @@ SwaggerUI({
   layout: 'StandaloneLayout',
 });
 ```
+
+### Composing customized SwaggerEditor version
+
+SwaggerEditor is just a number of SwaggerUI plugins used with [swagger-ui-react](https://www.npmjs.com/package/swagger-ui-react).
+Customized SwaggerEditor can be created by composing individual plugins with either [swagger-ui](https://www.npmjs.com/package/swagger-ui) and [swagger-ui-react](https://www.npmjs.com/package/swagger-ui-react).
+
+#### Plugins
+
+List of available plugins:
+
+- dialogs
+- dropdown-menu
+- dropzone
+- editor-content-fixtures
+- editor-content-origin
+- editor-content-persistence
+- editor-content-read-only
+- editor-content-type
+- editor-monaco
+- editor-monaco-language-apidom
+- editor-preview
+- editor-preview-api-design-systems
+- editor-preview-asyncapi
+- editor-preview-swagger-ui
+- editor-safe-render
+- editor-textarea
+- layout
+- modals
+- splash-screen
+- swagger-ui-adapter
+- top-bar
+- versions
+
+Individual plugins can be imported in the following way:
+
+```js
+import EditorContentTypePlugin from 'swagger-editor/plugins/editor-content-type';
+import EditorContentReadOnlyPlugin from 'swagger-editor/plugins/editor-content-read-only';
+```
+
+#### Presets
+
+Along with plugins, presets are available as well. Preset is a collection of plugins
+that are design to work together to provide a compound feature.
+
+List of available presets:
+
+- textarea
+- monaco
+
+Individual presets can be imported in the following way:
+
+```js
+import TextareaPreset from 'swagger-editor/presets/textarea';
+import MonacoPreset from 'swagger-editor/presets/monaco';
+```
+
+> NOTE: Please refer to the [Plug points documentation](https://github.com/swagger-api/swagger-ui/blob/master/docs/customization/plug-points.md)
+of SwaggerUI to understand how presets are passed to SwaggerUI.
+
+
+#### Composing with swagger-ui
+
+```js
+import SwaggerUI from 'swagger-ui';
+import 'swagger-ui/dist/swagger-ui.css';
+import ModalsPlugin from 'swagger-editor/plugins/modals';
+import DialogsPlugin from 'swagger-editor/plugins/dialogs';
+import DropdownMenuPlugin from 'swagger-editor/plugins/dropdown-menu';
+import DropzonePlugin from 'swagger-editor/plugins/dropzone';
+import VersionsPlugin from 'swagger-editor/plugins/versions';
+import EditorTextareaPlugin from 'swagger-editor/plugins/editor-textarea';
+import EditorMonacoPlugin from 'swagger-editor/plugins/editor-monaco';
+import EditorMonacoLanguageApiDOMPlugin from 'swagger-editor/plugins/editor-monaco-language-apidom';
+import EditorContentReadOnlyPlugin from 'swagger-editor/plugins/editor-content-read-only';
+import EditorContentOriginPlugin from 'swagger-editor/plugins/editor-content-origin';
+import EditorContentTypePlugin from 'swagger-editor/plugins/editor-content-type';
+import EditorContentPersistencePlugin from 'swagger-editor/plugins/editor-content-persistence';
+import EditorContentFixturesPlugin from 'swagger-editor/plugins/editor-content-fixtures';
+import EditorPreviewPlugin from 'swagger-editor/plugins/editor-preview';
+import EditorPreviewSwaggerUIPlugin from 'swagger-editor/plugins/editor-preview-swagger-ui';
+import EditorPreviewAsyncAPIPlugin from 'swagger-editor/plugins/editor-preview-asyncapi';
+import EditorPreviewApiDesignSystemsPlugin from 'swagger-editor/plugins/editor-preview-api-design-systems';
+import TopBarPlugin from 'swagger-editor/plugins/top-bar';
+import SplashScreenPlugin from 'swagger-editor/plugins/splash-screen';
+import LayoutPlugin from 'swagger-editor/plugins/layout';
+import EditorSafeRenderPlugin from 'swagger-editor/plugins/editor-safe-render';
+
+SwaggerUI({
+  url: 'https://petstore.swagger.io/v2/swagger.json',
+  dom_id: '#swagger-editor',
+  plugins: [
+    ModalsPlugin,
+    DialogsPlugin,
+    DropdownMenuPlugin,
+    DropzonePlugin,
+    VersionsPlugin,
+    EditorTextareaPlugin,
+    EditorMonacoPlugin,
+    EditorMonacoLanguageApiDOMPlugin,
+    EditorContentReadOnlyPlugin,
+    EditorContentOriginPlugin,
+    EditorContentTypePlugin,
+    EditorContentPersistencePlugin,
+    EditorContentFixturesPlugin,
+    EditorPreviewPlugin,
+    EditorPreviewSwaggerUIPlugin,
+    EditorPreviewAsyncAPIPlugin,
+    EditorPreviewApiDesignSystemsPlugin,
+    TopBarPlugin,
+    SplashScreenPlugin,
+    LayoutPlugin,
+    EditorSafeRenderPlugin,
+  ],
+  layout: 'StandaloneLayout',
+});
+```
+
+#### Composing with swagger-ui-react
+
+```js
+import React from 'react';
+import ReactDOM from 'react-dom';
+import SwaggerUI from 'swagger-ui-react';
+import 'swagger-ui-react/swagger-ui.css';
+import ModalsPlugin from 'swagger-editor/plugins/modals';
+import DialogsPlugin from 'swagger-editor/plugins/dialogs';
+import DropdownMenuPlugin from 'swagger-editor/plugins/dropdown-menu';
+import DropzonePlugin from 'swagger-editor/plugins/dropzone';
+import VersionsPlugin from 'swagger-editor/plugins/versions';
+import EditorTextareaPlugin from 'swagger-editor/plugins/editor-textarea';
+import EditorMonacoPlugin from 'swagger-editor/plugins/editor-monaco';
+import EditorMonacoLanguageApiDOMPlugin from 'swagger-editor/plugins/editor-monaco-language-apidom';
+import EditorContentReadOnlyPlugin from 'swagger-editor/plugins/editor-content-read-only';
+import EditorContentOriginPlugin from 'swagger-editor/plugins/editor-content-origin';
+import EditorContentTypePlugin from 'swagger-editor/plugins/editor-content-type';
+import EditorContentPersistencePlugin from 'swagger-editor/plugins/editor-content-persistence';
+import EditorContentFixturesPlugin from 'swagger-editor/plugins/editor-content-fixtures';
+import EditorPreviewPlugin from 'swagger-editor/plugins/editor-preview';
+import EditorPreviewSwaggerUIPlugin from 'swagger-editor/plugins/editor-preview-swagger-ui';
+import EditorPreviewAsyncAPIPlugin from 'swagger-editor/plugins/editor-preview-asyncapi';
+import EditorPreviewApiDesignSystemsPlugin from 'swagger-editor/plugins/editor-preview-api-design-systems';
+import TopBarPlugin from 'swagger-editor/plugins/top-bar';
+import SplashScreenPlugin from 'swagger-editor/plugins/splash-screen';
+import LayoutPlugin from 'swagger-editor/plugins/layout';
+import EditorSafeRenderPlugin from 'swagger-editor/plugins/editor-safe-render';
+
+const SwaggerEditor = () => {
+  return (
+    <SwaggerUI
+      url={url}
+      plugins={[
+        ModalsPlugin,
+        DialogsPlugin,
+        DropdownMenuPlugin,
+        DropzonePlugin,
+        VersionsPlugin,
+        EditorTextareaPlugin,
+        EditorMonacoPlugin,
+        EditorMonacoLanguageApiDOMPlugin,
+        EditorContentReadOnlyPlugin,
+        EditorContentOriginPlugin,
+        EditorContentTypePlugin,
+        EditorContentPersistencePlugin,
+        EditorContentFixturesPlugin,
+        EditorPreviewPlugin,
+        EditorPreviewSwaggerUIPlugin,
+        EditorPreviewAsyncAPIPlugin,
+        EditorPreviewApiDesignSystemsPlugin,
+        TopBarPlugin,
+        SplashScreenPlugin,
+        LayoutPlugin,
+        EditorSafeRenderPlugin,
+      ]}
+      layout="StandaloneLayout"
+    />
+  );
+};
+
+ReactDOM.render(<SwaggerEditor />, document.getElementById('swagger-editor'));
+```
+
 
 ## Docker
 
