@@ -1,6 +1,5 @@
 import React, { Suspense, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import '@asyncapi/react-component/styles/default.min.css';
 
 const AsyncApiReactComponent = React.lazy(() =>
   import('@asyncapi/react-component/lib/esm/without-parser.js')

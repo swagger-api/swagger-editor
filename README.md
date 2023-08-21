@@ -451,9 +451,15 @@ SwaggerEditor maps its [build artifacts](#build-artifacts) in `package.json` fil
 "jsnext:main": "./dist/esm/swagger-editor.js",
 "exports": {
   "./package.json": "./package.json",
-  "./swagger-editor.css": "./dist/esm/swagger-editor.css",
+  "./swagger-editor.css": "./dist/swagger-editor.css",
   ".": {
     "browser": "./dist/esm/swagger-editor.js"
+  },
+  "./plugins/*": {
+    "browser": "./dist/esm/plugins/*/index.js"
+  },
+  "./presets/*": {
+    "browser": "./dist/esm/presets/*/index.js"
   },
   "./apidom.worker": {
     "browser": "./dist/esm/apidom.worker.js"
@@ -482,8 +488,8 @@ Environment variables currently available:
 
 | Variable name               |                                                Description                                                 |
 |-----------------------------|:----------------------------------------------------------------------------------------------------------:|
- | `REACT_APP_DEFINITION_FILE` | Specifies a local file path, and the specified file must also be present in the `/public/static` directory |
- | `REACT_APP_DEFINITION_URL`  | Specifies a remote URL. This environment variable currently takes precedence over `REACT_APP_SWAGGER_FILE` |
+| `REACT_APP_DEFINITION_FILE` | Specifies a local file path, and the specified file must also be present in the `/public/static` directory |
+| `REACT_APP_DEFINITION_URL`  | Specifies a remote URL. This environment variable currently takes precedence over `REACT_APP_SWAGGER_FILE` |
 | `REACT_APP_VERSION`         |              Specifies the version of this app. The version is read from `package.json` file.              |
 
 Sample environment variable values can be found in `.env` file. For more information about using
@@ -505,24 +511,20 @@ to render AsyncAPI or API Design Systems definitions with SwaggerUI.
 import SwaggerUI from 'swagger-ui';
 import SwaggerUIStandalonePreset from 'swagger-ui/dist/swagger-ui-standalone-preset';
 import 'swagger-ui/dist/swagger-ui.css';
-import SwaggerEditor from 'swagger-editor';
-
-const plugins = [
-  SwaggerEditor.plugins.EditorContentType,
-  SwaggerEditor.plugins.EditorPreviewAsyncAPI,
-  SwaggerEditor.plugins.EditorPreviewAPIDesignSystems,
-  SwaggerEditor.plugins.SwaggerUIAdapter,
-];
+import EditorContentTypePlugin from 'swagger-editor/plugins/editor-content-type';
+import EditorPreviewAsyncAPIPlugin from 'swagger-editor/plugins/editor-preview/asyncapi';
+import EditorPreviewAPIDesignSystemsPlugin from 'swagger-editor/plugins/editor-preview-api-design-systems';
+import SwaggerUIAdapterPlugin from 'swagger-editor/plugins/swagger-ui-adapter';
 
 SwaggerUI({
   url: 'https://petstore.swagger.io/v2/swagger.json',
   dom_id: '#swagger-ui',
   presets: [SwaggerUI.presets.apis, SwaggerUIStandalonePreset],
   plugins: [
-    SwaggerEditor.plugins.EditorContentType,
-    SwaggerEditor.plugins.EditorPreviewAsyncAPI,
-    SwaggerEditor.plugins.EditorPreviewAPIDesignSystems,
-    SwaggerEditor.plugins.SwaggerUIAdapter,
+    EditorContentTypePlugin,
+    EditorPreviewAsyncAPIPlugin,
+    EditorPreviewAPIDesignSystemsPlugin,
+    SwaggerUIAdapterPlugin,
     SwaggerUI.plugins.DownloadUrl,
   ],
 });
@@ -541,24 +543,20 @@ by the SwaggerUI.
 import SwaggerUI from 'swagger-ui';
 import SwaggerUIStandalonePreset from 'swagger-ui/dist/swagger-ui-standalone-preset';
 import 'swagger-ui/dist/swagger-ui.css';
-import SwaggerEditor from 'swagger-editor';
-
-const plugins = [
-  SwaggerEditor.plugins.EditorContentType,
-  SwaggerEditor.plugins.EditorPreviewAsyncAPI,
-  SwaggerEditor.plugins.EditorPreviewAPIDesignSystems,
-  SwaggerEditor.plugins.SwaggerUIAdapter,
-];
+import EditorContentTypePlugin from 'swagger-editor/plugins/editor-content-type';
+import EditorPreviewAsyncAPIPlugin from 'swagger-editor/plugins/editor-preview/asyncapi';
+import EditorPreviewAPIDesignSystemsPlugin from 'swagger-editor/plugins/editor-preview-api-design-systems';
+import SwaggerUIAdapterPlugin from 'swagger-editor/plugins/swagger-ui-adapter';
 
 SwaggerUI({
   url: 'https://petstore.swagger.io/v2/swagger.json',
   dom_id: '#swagger-ui',
   presets: [SwaggerUI.presets.apis, SwaggerUIStandalonePreset],
   plugins: [
-    SwaggerEditor.plugins.EditorContentType,
-    SwaggerEditor.plugins.EditorPreviewAsyncAPI,
-    SwaggerEditor.plugins.EditorPreviewAPIDesignSystems,
-    SwaggerEditor.plugins.SwaggerUIAdapter,
+    EditorContentTypePlugin,
+    EditorPreviewAsyncAPIPlugin,
+    EditorPreviewAPIDesignSystemsPlugin,
+    SwaggerUIAdapterPlugin,
     SwaggerUI.plugins.DownloadUrl,
   ],
   layout: 'StandaloneLayout',

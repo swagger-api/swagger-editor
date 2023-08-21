@@ -20,6 +20,12 @@
     ".": {
       "browser": "./dist/esm/swagger-editor.js"
     },
+    "./plugins/*": {
+      "browser": "./dist/esm/plugins/*/index.js"
+    },
+    "./presets/*": {
+      "browser": "./dist/esm/presets/*/index.js"
+    },
     "./apidom.worker": {
       "browser": "./dist/esm/apidom.worker.js"
     },
