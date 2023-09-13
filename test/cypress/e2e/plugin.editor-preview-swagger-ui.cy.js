@@ -14,7 +14,10 @@ describe('Editor Preview Pane: OpenAPI 2.0, 3.0.x, 3.1.x', () => {
 
     // `.title` and `.version-stamp` are SwaggerUI specific css classes, that should only appear in the preview pane
     cy.get('.title').contains('Swagger Petstore 2.0').should('be.visible');
-    cy.get('.version-stamp > .version').should('not.exist');
+    cy.get('.version-stamp > .version')
+      .should('be.visible')
+      .contains('OAS 2.0')
+      .should('be.visible');
   });
 
   it('should display OpenAPI 3.0.x', () => {
