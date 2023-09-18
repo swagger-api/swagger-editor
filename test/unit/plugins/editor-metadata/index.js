@@ -7,11 +7,11 @@ function getSystem(spec) {
       spec,
       domNode: null,
       presets: [
-        SwaggerUI.plugins.SpecIndex,
-        SwaggerUI.plugins.ErrIndex,
+        SwaggerUI.plugins.Spec,
+        SwaggerUI.plugins.Err,
         SwaggerUI.plugins.DownloadUrl,
-        SwaggerUI.plugins.SwaggerJsIndex,
-        SwaggerUI.plugins.RequestSnippetsIndex,
+        SwaggerUI.plugins.SwaggerClient,
+        SwaggerUI.plugins.RequestSnippets,
       ],
       initialState: {
         layout: undefined
