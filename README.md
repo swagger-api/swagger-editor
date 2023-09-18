@@ -75,11 +75,14 @@ Script name | Description
 
 ## Running locally
 
-##### Prerequisites
+### Prerequisites
 
-Generally, we recommend the following guidelines from [Node.js Releases](https://nodejs.org/en/about/releases/) to only use Active LTS or Maintenance LTS releases.
+- git, any version
+- **Node.js >=20.3.0** and **npm >=9.6.7** are the minimum required versions that this repo runs on, but we always recommend using the latest version of Node.js.
 
-Minimal supported Node.js is `v16.13.2 (npm v8.1.2)`.
+```shell
+ $ npm i --legacy-peer-deps
+```
 
 If you have Node.js and npm installed, you can run `npm start` to spin up a static server.
 
