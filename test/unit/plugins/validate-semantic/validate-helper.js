@@ -15,12 +15,12 @@ export default function validateHelper(spec) {
       spec,
       domNode: null,
       presets: [
-        SwaggerUI.plugins.SpecIndex,
-        SwaggerUI.plugins.ErrIndex,
+        SwaggerUI.plugins.Spec,
+        SwaggerUI.plugins.Err,
         SwaggerUI.plugins.DownloadUrl,
-        SwaggerUI.plugins.SwaggerJsIndex,
-        SwaggerUI.plugins.Oas3Index,
-        SwaggerUI.plugins.RequestSnippetsIndex,
+        SwaggerUI.plugins.SwaggerClient,
+        SwaggerUI.plugins.OpenAPI30,
+        SwaggerUI.plugins.RequestSnippets,
       ],
       initialState: {
         layout: undefined
