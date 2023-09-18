@@ -516,7 +516,7 @@ to render AsyncAPI or API Design Systems definitions with SwaggerUI.
 ```js
 import SwaggerUI from 'swagger-ui';
 import SwaggerUIStandalonePreset from 'swagger-ui/dist/swagger-ui-standalone-preset';
-import 'swagger-ui/dist/swagger-ui.css';
+import 'swagger-editor/swagger-editor.css';
 import EditorContentTypePlugin from 'swagger-editor/plugins/editor-content-type';
 import EditorPreviewAsyncAPIPlugin from 'swagger-editor/plugins/editor-preview-asyncapi';
 import EditorPreviewAPIDesignSystemsPlugin from 'swagger-editor/plugins/editor-preview-api-design-systems';
@@ -549,6 +549,7 @@ by the SwaggerUI.
 import SwaggerUI from 'swagger-ui';
 import SwaggerUIStandalonePreset from 'swagger-ui/dist/swagger-ui-standalone-preset';
 import 'swagger-ui/dist/swagger-ui.css';
+import 'swagger-editor/swagger-editor.css';
 import EditorContentTypePlugin from 'swagger-editor/plugins/editor-content-type';
 import EditorPreviewAsyncAPIPlugin from 'swagger-editor/plugins/editor-preview-asyncapi';
 import EditorPreviewAPIDesignSystemsPlugin from 'swagger-editor/plugins/editor-preview-api-design-systems';
