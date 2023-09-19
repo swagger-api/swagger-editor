@@ -16,6 +16,9 @@ export class ApiDOMWorker {
       maxNumberOfItems: 100,
       enableLSPFilter: false, // enables "strict" word filtering (instead of default Monaco fuzzy matching; https://github.com/swagger-api/apidom/pull/2954)
     },
+    validationContext: {
+      referenceValidationMode: apidomLS.ReferenceValidationMode.APIDOM_INDIRECT_EXTERNAL,
+    },
   };
 
   constructor(ctx, createData) {
