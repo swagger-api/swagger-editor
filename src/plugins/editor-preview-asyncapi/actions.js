@@ -1,13 +1,14 @@
 import ShortUniqueId from 'short-unique-id';
-import { parse as parseAsyncAPIDefinition, registerSchemaParser } from '@asyncapi/parser';
-import * as openapiSchemaParser from '@asyncapi/openapi-schema-parser';
-import * as avroSchemaParser from '@asyncapi/avro-schema-parser';
+import { Parser } from '@asyncapi/parser';
+import { OpenAPISchemaParser } from '@asyncapi/openapi-schema-parser';
+import { AvroSchemaParser } from '@asyncapi/avro-schema-parser';
 
-import * as ramlSchemaParser from './util/raml-1-0-parser.js';
+import { Raml10SchemaParser } from './util/raml-1-0-parser.js';
 
-registerSchemaParser(openapiSchemaParser);
-registerSchemaParser(ramlSchemaParser);
-registerSchemaParser(avroSchemaParser);
+const parser = new Parser();
+parser.registerSchemaParser(OpenAPISchemaParser());
+parser.registerSchemaParser(AvroSchemaParser());
+parser.registerSchemaParser(Raml10SchemaParser());
 
 /**
  * Action types.
@@ -42,11 +43,11 @@ export const parseSuccess = ({ parseResult, content, requestId }) => ({
   meta: { content, requestId },
 });
 
-export const parseFailure = ({ error, content, requestId }) => ({
+export const parseFailure = ({ error, parseResult, content, requestId }) => ({
   type: EDITOR_PREVIEW_ASYNCAPI_PARSE_FAILURE,
   payload: error,
   error: true,
-  meta: { content, requestId },
+  meta: { content, requestId, parseResult },
 });
 
 /**
@@ -67,8 +68,18 @@ export const parse = (content, parserOptions = {}) => {
     editorPreviewAsyncAPIActions.parseStarted({ content, requestId });
 
     try {
-      const parseResult = await parseAsyncAPIDefinition(content, parserOptions);
-      editorPreviewAsyncAPIActions.parseSuccess({ parseResult, content, requestId });
+      const parseResult = await parser.parse(content, parserOptions);
+
+      if (parseResult.document) {
+        editorPreviewAsyncAPIActions.parseSuccess({ parseResult, content, requestId });
+      } else {
+        editorPreviewAsyncAPIActions.parseFailure({
+          error: new Error('Document is empty'),
+          parseResult,
+          content,
+          requestId,
+        });
+      }
     } catch (error) {
       editorPreviewAsyncAPIActions.parseFailure({ error, content, requestId });
     }

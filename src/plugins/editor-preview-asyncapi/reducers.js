@@ -1,5 +1,3 @@
-import { AsyncAPIDocument } from '@asyncapi/parser';
-import uniqWith from 'lodash/uniqWith.js';
 import { fromJS } from 'immutable';
 
 import {
@@ -15,47 +13,10 @@ export const SUCCESS_STATUS = 'success';
 export const FAILURE_STATUS = 'failure';
 
 export const initialState = {
-  parserMarkers: [],
   parseStatus: IDLE_STATUS,
   parseRequestId: null,
   parseResult: null,
   parseErrors: null,
-};
-
-/**
- * Reducer utils.
- */
-
-const parseValidationErrorsReducer = (action) => {
-  const { payload: error } = action;
-
-  if (!(Array.isArray(error.validationErrors) && error.validationErrors.length > 0)) return [];
-
-  return error.validationErrors.map((validationError) => ({
-    message: validationError.title,
-    startLineNumber: validationError.location.startLine,
-    endLineNumber: validationError.location.endLine,
-    startColumn: validationError.location.startColumn,
-    endColumn: validationError.location.endColumn,
-  }));
-};
-
-const parseRefErrorsReducer = (action) => {
-  const { payload: error } = action;
-
-  if (!(Array.isArray(error.refs) && error.refs.length > 0)) return [];
-
-  return error.refs.map((refError, index) => {
-    const message = index === 0 ? error.title : 'Invalid JSON Reference';
-
-    return {
-      message,
-      startLineNumber: refError.startLine,
-      endLineNumber: refError.endLine,
-      startColumn: refError.startColumn,
-      endColumn: refError.endColumn,
-    };
-  });
 };
 
 /**
@@ -88,7 +49,7 @@ const parseSuccessReducer = (state, action) => {
     return state.merge({
       parseStatus: SUCCESS_STATUS,
       parseRequestId: null,
-      parseResult: AsyncAPIDocument.stringify(action.payload),
+      parseResult: action.payload.document,
       parseErrors: null,
     });
   }
@@ -101,21 +62,20 @@ const parseFailureReducer = (state, action) => {
   const requestId = state.get('parseRequestId');
 
   if (status === PARSING_STATUS && requestId === action.meta.requestId) {
-    const validationErrors = parseValidationErrorsReducer(action);
-    const refErrors = parseRefErrorsReducer(action);
-    const parseErrors = uniqWith([...validationErrors, ...refErrors], (arrVal, othVal) => {
-      return (
-        arrVal.message === othVal.message &&
-        arrVal.startLineNumber === othVal.startLineNumber &&
-        arrVal.startColumn === othVal.startColumn
-      );
-    });
-
+    /**
+     * Spectral SeverityEnum
+     *   - 0 (error)
+     *   - 1 (warn)
+     *   - 2 (info)
+     *   - 3 (hint)
+     */
     return state.merge({
       parseStatus: FAILURE_STATUS,
       parseRequestId: null,
       parseResult: null,
-      parseErrors: fromJS(parseErrors),
+      parseErrors: fromJS(
+        action.meta.parseResult.diagnostics.filter((diagnostic) => diagnostic.severity === 0)
+      ),
     });
   }
 
