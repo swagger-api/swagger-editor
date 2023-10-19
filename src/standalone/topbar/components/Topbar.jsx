@@ -388,6 +388,7 @@ export default class Topbar extends React.Component {
                 .map((cli, i) => <li key={i}><button type="button" onClick={() => this.downloadGeneratedFile("client", cli)}>{cli}</button></li>)}
             </DropdownMenu> : null}
             {AboutMenu && <AboutMenu {...makeMenuOptions("About")} />}
+            <a className="link" href="https://openapi-validator.apps.lan-dev.ocp.lan.huk-coburg.de/" target="_blank">OpenAPI Payload Validierung</a>
             <SpectralVersion onChange={topbarActions.switchSpectralVersion} currentStateF={topbarSelectors.spectralVersion} />
             {NewEditorButton && <NewEditorButton />}
           </div>
