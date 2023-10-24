@@ -83,7 +83,7 @@
     "deepmerge": "^4.3.1",
     "deep-extend": "=0.6.0",
     "file-dialog": "^0.0.8",
-    "immutable": "^3.8.2",
+    "immutable": "^4.3.4",
     "js-file-download": "^0.4.12",
     "js-yaml": "^4.1.0",
     "lodash": "^4.17.21",
