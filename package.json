@@ -109,7 +109,7 @@
     "@commitlint/cli": "^18.2.0",
     "@commitlint/config-conventional": "^17.6.7",
     "@testing-library/cypress": "^9.0.0",
-    "@testing-library/jest-dom": "^5.17.0",
+    "@testing-library/jest-dom": "^6.1.4",
     "@testing-library/react": "^12.1.5",
     "@testing-library/user-event": "^14.4.3",
     "copyfiles": "^2.4.1",
