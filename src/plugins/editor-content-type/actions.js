@@ -1,6 +1,8 @@
 import ShortUniqueId from 'short-unique-id';
 import { detectionRegExp as detectionRegExpAsyncAPIJSON2 } from '@swagger-api/apidom-parser-adapter-asyncapi-json-2';
 import { detectionRegExp as detectionRegExpAsyncAPIYAML2 } from '@swagger-api/apidom-parser-adapter-asyncapi-yaml-2';
+import { detectionRegExp as detectionRegExpOpenAPIJSON20 } from '@swagger-api/apidom-parser-adapter-openapi-json-2';
+import { detectionRegExp as detectionRegExpOpenAPIYAML20 } from '@swagger-api/apidom-parser-adapter-openapi-yaml-2';
 import { detectionRegExp as detectionRegExpOpenAPIJSON30x } from '@swagger-api/apidom-parser-adapter-openapi-json-3-0';
 import { detectionRegExp as detectionRegExpOpenAPIYAML30x } from '@swagger-api/apidom-parser-adapter-openapi-yaml-3-0';
 import { detectionRegExp as detectionRegExpOpenAPIJSON31x } from '@swagger-api/apidom-parser-adapter-openapi-json-3-1';
@@ -74,24 +76,26 @@ export const detectContentType = (content) => {
       const asyncApi2YAMLMatch = content.match(detectionRegExpAsyncAPIYAML2);
       if (asyncApi2YAMLMatch !== null && fn.isValidYAMLObject(content)) {
         const { groups } = asyncApi2YAMLMatch;
-        const version = groups?.version_json || groups?.version_yaml;
+        const version = groups?.version_json ?? groups?.version_yaml;
         const contentType = `application/vnd.aai.asyncapi+yaml;version=${version}`;
 
         return editorActions.detectContentTypeSuccess({ contentType, content, requestId });
       }
 
-      const openApi20JSONMatch = content.match(/"swagger"\s*:\s*"(?<version_json>2\.0)"/);
+      const openApi20JSONMatch = content.match(detectionRegExpOpenAPIJSON20);
       if (openApi20JSONMatch !== null && fn.isValidJSONObject(content)) {
-        const contentType = 'application/vnd.oai.openapi+json;version=2.0';
+        const { groups } = openApi20JSONMatch;
+        const version = groups?.version_json;
+        const contentType = `application/vnd.oai.openapi+json;version=${version}`;
 
         return editorActions.detectContentTypeSuccess({ contentType, content, requestId });
       }
 
-      const openApi2YAMLMatch = content.match(
-        /(?<YAML>^(["']?)swagger\2\s*:\s*(["']?)(?<version_yaml>2\.0)\3(?:\s+|$))|(?<JSON>"asyncapi"\s*:\s*"(?<version_json>2\.0)")/m
-      );
+      const openApi2YAMLMatch = content.match(detectionRegExpOpenAPIYAML20);
       if (openApi2YAMLMatch !== null && fn.isValidYAMLObject(content)) {
-        const contentType = 'application/vnd.oai.openapi+yaml;version=2.0';
+        const { groups } = openApi2YAMLMatch;
+        const version = groups?.version_json ?? groups?.version_yaml;
+        const contentType = `application/vnd.oai.openapi+yaml;version=${version}`;
 
         return editorActions.detectContentTypeSuccess({ contentType, content, requestId });
       }
@@ -108,7 +112,7 @@ export const detectContentType = (content) => {
       const openApi30xYAMLMatch = content.match(detectionRegExpOpenAPIYAML30x);
       if (openApi30xYAMLMatch !== null && fn.isValidYAMLObject(content)) {
         const { groups } = openApi30xYAMLMatch;
-        const version = groups?.version_json || groups?.version_yaml;
+        const version = groups?.version_json ?? groups?.version_yaml;
         const contentType = `application/vnd.oai.openapi+yaml;version=${version}`;
 
         return editorActions.detectContentTypeSuccess({ contentType, content, requestId });
@@ -126,7 +130,7 @@ export const detectContentType = (content) => {
       const openApi31xYAMLMatch = content.match(detectionRegExpOpenAPIYAML31x);
       if (openApi31xYAMLMatch !== null && fn.isValidYAMLObject(content)) {
         const { groups } = openApi31xYAMLMatch;
-        const version = groups?.version_json || groups?.version_yaml;
+        const version = groups?.version_json ?? groups?.version_yaml;
         const contentType = `application/vnd.oai.openapi+yaml;version=${version}`;
 
         return editorActions.detectContentTypeSuccess({ contentType, content, requestId });
@@ -144,7 +148,7 @@ export const detectContentType = (content) => {
       const apiDesignSystemsYAMLMatch = content.match(detectionRegExpApiDesignSystemsYAML);
       if (apiDesignSystemsYAMLMatch !== null && (await detectAPIDesignSystemsYAML(content))) {
         const { groups } = apiDesignSystemsYAMLMatch;
-        const version = groups?.version_json || groups?.version_yaml;
+        const version = groups?.version_json ?? groups?.version_yaml;
         const contentType = `application/vnd.aai.apidesignsystems+yaml;version=${version}`;
 
         return editorActions.detectContentTypeSuccess({ contentType, content, requestId });
