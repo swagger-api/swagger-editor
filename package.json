@@ -70,7 +70,7 @@
     "@swagger-api/apidom-json-pointer": "^0.82.0",
     "@swagger-api/apidom-ls": "^0.82.0",
     "@swagger-api/apidom-ns-api-design-systems": "^0.82.0",
-    "@swagger-api/apidom-parser-adapter-api-design-systems-json": "^0.82.0",
+    "@swagger-api/apidom-parser-adapter-api-design-systems-json": "^0.82.2",
     "@swagger-api/apidom-parser-adapter-api-design-systems-yaml": "^0.82.0",
     "@swagger-api/apidom-parser-adapter-asyncapi-json-2": "^0.82.0",
     "@swagger-api/apidom-parser-adapter-asyncapi-yaml-2": "^0.82.0",
