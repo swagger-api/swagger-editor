@@ -78,7 +78,7 @@ Script name | Description
 ### Prerequisites
 
 - git, any version
-- **Node.js >=20.3.0** and **npm >=9.6.7** are the minimum required versions that this repo runs on, but we always recommend using the latest version of Node.js.
+- **Node.js >=20.9.0** and **npm >=9.6.7** are the minimum required versions that this repo runs on, but we always recommend using the latest version of Node.js.
 
 ```shell
  $ npm i --legacy-peer-deps
