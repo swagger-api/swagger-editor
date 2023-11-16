@@ -2,12 +2,14 @@ import ShortUniqueId from 'short-unique-id';
 import { parse as parseAsyncAPIDefinition, registerSchemaParser } from '@asyncapi/parser';
 import * as openapiSchemaParser from '@asyncapi/openapi-schema-parser';
 import * as avroSchemaParser from '@asyncapi/avro-schema-parser';
+import * as protobufSchemaParser from '@asyncapi/protobuf-schema-parser';
 
 import * as ramlSchemaParser from './util/raml-1-0-parser.js';
 
 registerSchemaParser(openapiSchemaParser);
-registerSchemaParser(ramlSchemaParser);
 registerSchemaParser(avroSchemaParser);
+registerSchemaParser(protobufSchemaParser);
+registerSchemaParser(ramlSchemaParser);
 
 /**
  * Action types.
