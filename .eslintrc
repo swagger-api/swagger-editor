@@ -34,6 +34,7 @@
       ],
       "newlines-between": "always"
     }],
+    "no-nested-ternary": "off",
     "prettier/prettier": "error",
     "react/react-in-jsx-scope": 0,
     "react/function-component-definition": [1, {
