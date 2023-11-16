@@ -40,15 +40,13 @@ export const generateClientCodeFromOpenAPI3Success = ({
 });
 
 export const generateClientCodeFromOpenAPI3Failure = ({ error, content, language, requestId }) => {
-  /* eslint-disable no-nested-ternary */
   const errorMessage = error.response
     ? 'The request was made and the server responded with a status code that falls out of the range of 2xx'
     : error.request
-    ? 'The request was made but no response was received'
-    : error.message
-    ? error.message
-    : 'Unknown error occurred';
-  /* eslint-enable */
+      ? 'The request was made but no response was received'
+      : error.message
+        ? error.message
+        : 'Unknown error occurred';
 
   return {
     type: EDITOR_TOP_BAR_GENERATE_CLIENT_CODE_FROM_OPENAPI3_FAILURE,

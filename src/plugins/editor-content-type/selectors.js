@@ -91,17 +91,15 @@ export const selectInferFileNameFromContent = createSelector(
   selectIsContentTypeOpenAPI31x,
   selectIsContentTypeAsyncAPI2,
   (isOpenAPI20, isOpenAPI30x, isOpenAPI31x, isAsyncAPI2) => {
-    /* eslint-disable no-nested-ternary */
     return isOpenAPI20
       ? 'openapi2'
       : isOpenAPI30x
-      ? 'openapi3_0'
-      : isOpenAPI31x
-      ? 'openapi3_1'
-      : isAsyncAPI2
-      ? 'asyncapi2'
-      : 'definition';
-    /* eslint-enable */
+        ? 'openapi3_0'
+        : isOpenAPI31x
+          ? 'openapi3_1'
+          : isAsyncAPI2
+            ? 'asyncapi2'
+            : 'definition';
   }
 );
 

@@ -1,8 +1,8 @@
 import React, { Suspense, useEffect } from 'react';
 import PropTypes from 'prop-types';
 
-const AsyncApiReactComponent = React.lazy(() =>
-  import('@asyncapi/react-component/lib/esm/without-parser.js')
+const AsyncApiReactComponent = React.lazy(
+  () => import('@asyncapi/react-component/lib/esm/without-parser.js')
 );
 
 const Loading = () => <div>Loading...</div>;
