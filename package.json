@@ -150,7 +150,7 @@
     "sass": "^1.69.5",
     "serve": "^14.2.1",
     "source-map-explorer": "^2.5.3",
-    "start-server-and-test": "^2.0.2",
+    "start-server-and-test": "^2.0.3",
     "web-vitals": "^3.5.0"
   }
 }
