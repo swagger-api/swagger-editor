@@ -21,7 +21,7 @@ jobs:
           ref: next
 
       - name: Download build artifact
-        uses: actions/github-script@v6
+        uses: actions/github-script@v7
         with:
           script: |
             const allArtifacts = await github.rest.actions.listWorkflowRunArtifacts({
@@ -45,7 +45,7 @@ jobs:
           unzip build.zip -d build
 
       - name: Determine released version
-        uses: actions/github-script@v6
+        uses: actions/github-script@v7
         with:
           script: |
             const allArtifacts = await github.rest.actions.listWorkflowRunArtifacts({
