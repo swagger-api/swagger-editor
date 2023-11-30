@@ -49,6 +49,7 @@
         "^monaco-languageclient\/monaco-converter$",
         "^vscode\/services$",
         "^vscode\/extensions$",
+        "^vscode\/vscode",
         "^vscode\/service-override",
         "^plugins\/.+\/index.js",
         "^presets\/.+\/index.js"
