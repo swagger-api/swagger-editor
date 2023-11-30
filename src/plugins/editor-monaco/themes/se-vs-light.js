@@ -100,6 +100,10 @@ export default {
     { token: 'security', foreground: '#000033', fontStyle: 'bold' },
     { token: 'tags', foreground: '#000033', fontStyle: 'bold' },
     { token: 'externalDocumentation', foreground: '#000033', fontStyle: 'bold' },
+    // additional top-level tokens for OpenAPI 2.0 Object: bold, with light purple-white
+    { token: 'parametersDefinitions', foreground: '#000033', fontStyle: 'bold' },
+    { token: 'responsesDefinitions', foreground: '#000033', fontStyle: 'bold' },
+    { token: 'definitions', foreground: '#000033', fontStyle: 'bold' },
     // additional top-level tokens for AsyncAPI Object: bold dark grey with purple tint
     { token: 'spec-version', foreground: '#000033', fontStyle: 'bold' }, // e.g. asyncapi
     { token: 'channels', foreground: '#000033', fontStyle: 'bold' },
