@@ -89,7 +89,7 @@ export default {
   base: 'vs', // can also be vs-dark or hc-black
   inherit: true, // can also be false to completely replace the builtin rules
   rules: [
-    // top-level tokens for OpenAPI Object: bold dark grey with purple tint
+    // top-level tokens for OpenAPI 3.x.y Object: bold dark grey with purple tint
     { token: 'openapi', foreground: '#000033', fontStyle: 'bold' },
     { token: 'info', foreground: '#000033', fontStyle: 'bold' },
     { token: 'jsonSchemaDialect', foreground: '#000033', fontStyle: 'bold' },
@@ -100,6 +100,10 @@ export default {
     { token: 'security', foreground: '#000033', fontStyle: 'bold' },
     { token: 'tags', foreground: '#000033', fontStyle: 'bold' },
     { token: 'externalDocumentation', foreground: '#000033', fontStyle: 'bold' },
+    // additional top-level tokens for OpenAPI 2.0 Object: bold, with light purple-white
+    { token: 'parametersDefinitions', foreground: '#000033', fontStyle: 'bold' },
+    { token: 'responsesDefinitions', foreground: '#000033', fontStyle: 'bold' },
+    { token: 'definitions', foreground: '#000033', fontStyle: 'bold' },
     // additional top-level tokens for AsyncAPI Object: bold dark grey with purple tint
     { token: 'spec-version', foreground: '#000033', fontStyle: 'bold' }, // e.g. asyncapi
     { token: 'channels', foreground: '#000033', fontStyle: 'bold' },
