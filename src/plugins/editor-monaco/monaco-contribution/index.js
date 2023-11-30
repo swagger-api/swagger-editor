@@ -1,5 +1,12 @@
 import * as monaco from 'monaco-editor';
 import { StandaloneServices, IStorageService } from 'vscode/services';
+/**
+ * This is quick fix for displaying command palette.
+ *
+ * {@link https://github.com/CodinGame/monaco-vscode-api/issues/267}
+ * @TODO(vladimir.gorej@gmail.com): this can be removed with next VSCode API release.
+ */
+import 'vscode/vscode/vs/workbench/browser/workbench.contribution';
 
 import goToSymbolActionDescriptor from './actions/go-to-symbol.js';
 
