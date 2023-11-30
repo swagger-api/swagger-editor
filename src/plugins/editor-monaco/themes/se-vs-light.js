@@ -89,7 +89,7 @@ export default {
   base: 'vs', // can also be vs-dark or hc-black
   inherit: true, // can also be false to completely replace the builtin rules
   rules: [
-    // top-level tokens for OpenAPI Object: bold dark grey with purple tint
+    // top-level tokens for OpenAPI 3.x.y Object: bold dark grey with purple tint
     { token: 'openapi', foreground: '#000033', fontStyle: 'bold' },
     { token: 'info', foreground: '#000033', fontStyle: 'bold' },
     { token: 'jsonSchemaDialect', foreground: '#000033', fontStyle: 'bold' },
