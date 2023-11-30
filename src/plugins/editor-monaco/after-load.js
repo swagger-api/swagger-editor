@@ -1,9 +1,7 @@
-import {
-  initialize as initializeMonacoServices,
-  StandaloneServices,
-  IStorageService,
-} from 'vscode/services';
+import { initialize as initializeMonacoServices } from 'vscode/services';
 import { initialize as initializeVscodeExtensions } from 'vscode/extensions';
+
+import lazyMonacoContribution from './monaco-contribution/index.js';
 
 function afterLoad(system) {
   const InitPhase = {
@@ -36,7 +34,6 @@ function afterLoad(system) {
     (async () => {
       try {
         await Promise.all([initializeMonacoServices({}), initializeVscodeExtensions()]);
-        StandaloneServices.get(IStorageService).store('expandSuggestionDocs', true, 0, 0);
         system.monacoInitializationDeferred().resolve();
       } catch (error) {
         system.monacoInitializationDeferred().reject(error);
@@ -44,6 +41,8 @@ function afterLoad(system) {
         globalThis.MonacoEnvironment.initPhase = InitPhase.INITIALIZED;
       }
     })();
+
+    lazyMonacoContribution();
   }
 }
 
