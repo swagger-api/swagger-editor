@@ -72,7 +72,7 @@ paths:
           description: Invalid ID supplied
         '404':
           description: Pet not found
-        '405':
+        '422':
           description: Validation exception
       security:
         - petstore_auth:
@@ -107,8 +107,10 @@ paths:
             application/xml:
               schema:
                 $ref: '#/components/schemas/Pet'
-        '405':
+        '400':
           description: Invalid input
+        '422':
+          description: Validation exception
       security:
         - petstore_auth:
             - write:pets
@@ -249,7 +251,7 @@ paths:
           schema:
             type: string
       responses:
-        '405':
+        '400':
           description: Invalid input
       security:
         - petstore_auth:
@@ -364,8 +366,10 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Order'
-        '405':
+        '400':
           description: Invalid input
+        '422':
+          description: Validation exception
   /store/order/{orderId}:
     get:
       tags:
@@ -855,8 +859,10 @@ paths:
         schema:
           $ref: "#/definitions/Pet"
       responses:
-        "405":
-          description: "Invalid input"
+        "400":
+          description: Invalid input
+        "422":
+          description: Validation exception
       security:
       - petstore_auth:
         - "write:pets"
@@ -885,7 +891,7 @@ paths:
           description: "Invalid ID supplied"
         "404":
           description: "Pet not found"
-        "405":
+        "422":
           description: "Validation exception"
       security:
       - petstore_auth:
@@ -1019,8 +1025,10 @@ paths:
         required: false
         type: "string"
       responses:
-        "405":
-          description: "Invalid input"
+        "400":
+          description: Invalid input
+        "422":
+          description: Validation exception
       security:
       - petstore_auth:
         - "write:pets"
