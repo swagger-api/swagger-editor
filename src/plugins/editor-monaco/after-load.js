@@ -35,8 +35,10 @@ function afterLoad(system) {
 
     (async () => {
       try {
-        // @TODO(vladimir.gorej@gmail.com): this can go away with next release of vscode >1.83.15
-        // GitHub issue: https://github.com/CodinGame/monaco-vscode-api/issues/283
+        /**
+         * {@link https://github.com/CodinGame/monaco-vscode-api/issues/283}
+         * @TODO(vladimir.gorej@gmail.com): this can go away with next release of vscode >1.83.15
+         */
         registerServiceInitializeParticipant((accessor) => accessor.get(IExtensionService));
         await initializeMonacoServices({});
         system.monacoInitializationDeferred().resolve();
