@@ -89,6 +89,21 @@ export default {
   base: 'vs', // can also be vs-dark or hc-black
   inherit: true, // can also be false to completely replace the builtin rules
   rules: [
+    // tokens for OpenAPI 2.0 Object: bold, with light purple-white
+    { token: 'swagger-host', foreground: '#000033', fontStyle: 'bold' },
+    { token: 'swagger-base-path', foreground: '#000033', fontStyle: 'bold' },
+    { token: 'swagger-schemes', foreground: '#000033', fontStyle: 'bold' },
+    { token: 'swagger-consumes', foreground: '#000033', fontStyle: 'bold' },
+    { token: 'swagger-produces', foreground: '#000033', fontStyle: 'bold' },
+    { token: 'swagger-security', foreground: '#000033', fontStyle: 'bold' },
+    { token: 'swagger-tags', foreground: '#000033', fontStyle: 'bold' },
+    { token: 'definitions', foreground: '#000033', fontStyle: 'bold' },
+    { token: 'parameterDefinitions', foreground: '#000033', fontStyle: 'bold' },
+    { token: 'responseDefinitions', foreground: '#000033', fontStyle: 'bold' },
+    { token: 'securityDefinitions', foreground: '#000033', fontStyle: 'bold' },
+    { token: 'externalDocumentation', foreground: '#000033', fontStyle: 'bold' },
+    { token: 'operation-consumes', foreground: '#000033', fontStyle: 'bold' },
+    { token: 'operation-produces', foreground: '#000033', fontStyle: 'bold' },
     // top-level tokens for OpenAPI 3.x.y Object: bold dark grey with purple tint
     { token: 'openapi', foreground: '#000033', fontStyle: 'bold' },
     { token: 'info', foreground: '#000033', fontStyle: 'bold' },
