@@ -100,7 +100,7 @@
     "react-immutable-proptypes": "^2.2.0",
     "react-modal": "^3.16.1",
     "react-resize-detector": "^9.1.0",
-    "reselect": "^4.1.7",
+    "reselect": "^5.0.1",
     "short-unique-id": "^4.4.4",
     "styled-components": "^6.1.1",
     "swagger-ui-react": "^5.10.3",
