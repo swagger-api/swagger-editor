@@ -1,19 +1,14 @@
 import * as monaco from 'monaco-editor';
 import { StandaloneServices, IStorageService } from 'vscode/services';
-/**
- * This is quick fix for displaying command palette.
- *
- * {@link https://github.com/CodinGame/monaco-vscode-api/issues/267}
- * @TODO(vladimir.gorej@gmail.com): this can be removed with next VSCode API release.
- */
-import 'vscode/vscode/vs/workbench/browser/workbench.contribution';
 
 import goToSymbolActionDescriptor from './actions/go-to-symbol.js';
 
-const lazyMonacoContribution = () => {
+const lazyMonacoContribution = ({ system }) => {
   const disposables = [];
 
-  StandaloneServices.get(IStorageService).store('expandSuggestionDocs', true, 0, 0);
+  system.monacoInitializationDeferred().promise.then(() => {
+    StandaloneServices.get(IStorageService).store('expandSuggestionDocs', true, 0, 0);
+  });
 
   // setup custom actions
   disposables.push(
