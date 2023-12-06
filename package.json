@@ -56,7 +56,7 @@
     "postinstall": "monaco-treemending"
   },
   "dependencies": {
-    "@asyncapi/avro-schema-parser": "^1.1.0",
+    "@asyncapi/avro-schema-parser": "^3.0.7",
     "@asyncapi/openapi-schema-parser": "^2.0.3",
     "@asyncapi/parser": "^1.18.1",
     "@asyncapi/protobuf-schema-parser": "^1.0.0",
