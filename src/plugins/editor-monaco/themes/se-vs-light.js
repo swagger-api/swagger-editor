@@ -190,7 +190,7 @@ export default {
     // tokens exist in apidom-ls, but not working in editor, may be orange-ish to match other reference(s)
     { token: 'openapi-reference', foreground: '#ff9966' },
     { token: 'reference', foreground: '#ff9966' },
-    { token: 'Asyncapi-reference', foreground: '#ff9966' },
+    { token: 'asyncapi-reference', foreground: '#ff9966' },
     { token: 'json-reference', foreground: '#ff9966' },
   ],
   colors: {
