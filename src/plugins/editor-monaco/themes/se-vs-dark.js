@@ -89,6 +89,21 @@ export default {
   base: 'vs-dark',
   inherit: true,
   rules: [
+    // tokens for OpenAPI 2.0 Object: bold, with light purple-white
+    { token: 'swagger-host', foreground: '#d0d0e3', fontStyle: 'bold' },
+    { token: 'swagger-base-path', foreground: '#d0d0e3', fontStyle: 'bold' },
+    { token: 'swagger-schemes', foreground: '#d0d0e3', fontStyle: 'bold' },
+    { token: 'swagger-consumes', foreground: '#d0d0e3', fontStyle: 'bold' },
+    { token: 'swagger-produces', foreground: '#d0d0e3', fontStyle: 'bold' },
+    { token: 'swagger-security', foreground: '#d0d0e3', fontStyle: 'bold' },
+    { token: 'swagger-tags', foreground: '#d0d0e3', fontStyle: 'bold' },
+    { token: 'definitions', foreground: '#d0d0e3', fontStyle: 'bold' },
+    { token: 'parameterDefinitions', foreground: '#d0d0e3', fontStyle: 'bold' },
+    { token: 'responseDefinitions', foreground: '#d0d0e3', fontStyle: 'bold' },
+    { token: 'securityDefinitions', foreground: '#d0d0e3', fontStyle: 'bold' },
+    { token: 'externalDocumentation', foreground: '#d0d0e3', fontStyle: 'bold' },
+    { token: 'operation-consumes', foreground: '#d0d0e3', fontStyle: 'bold' },
+    { token: 'operation-produces', foreground: '#d0d0e3', fontStyle: 'bold' },
     // top-level tokens for OpenAPI 3.x.y Object: bold, with light purple-white
     { token: 'openapi', foreground: '#d0d0e3', fontStyle: 'bold' },
     { token: 'info', foreground: '#d0d0e3', fontStyle: 'bold' },
@@ -100,13 +115,13 @@ export default {
     { token: 'security', foreground: '#d0d0e3', fontStyle: 'bold' },
     { token: 'tags', foreground: '#d0d0e3', fontStyle: 'bold' },
     { token: 'externalDocumentation', foreground: '#d0d0e3', fontStyle: 'bold' },
-    // additional top-level tokens for OpenAPI 2.0 Object: bold, with light purple-white
-    { token: 'parametersDefinitions', foreground: '#d0d0e3', fontStyle: 'bold' },
-    { token: 'responsesDefinitions', foreground: '#d0d0e3', fontStyle: 'bold' },
-    { token: 'definitions', foreground: '#d0d0e3', fontStyle: 'bold' },
     // additional top-level tokens for AsyncAPI Object: bold, with light purple-white
     { token: 'spec-version', foreground: '#d0d0e3', fontStyle: 'bold' }, // e.g. asyncapi
     { token: 'channels', foreground: '#d0d0e3', fontStyle: 'bold' },
+    // messages tokens: purple
+    { token: 'components-messages', foreground: '#C678DD', fontStyle: 'bold' },
+    { token: 'messages', foreground: '#C678DD', fontStyle: 'italic' },
+    { token: 'message', foreground: '#C678DD' },
     // operation tokens: swagger-ui-post=green, swagger-ui-get=blue
     { token: 'operation', foreground: '#66afce', fontStyle: 'bold' }, // light blue
     { token: 'operation.httpMethod-GET', foreground: '#0099ff', fontStyle: 'bold' }, // blue
@@ -115,10 +130,6 @@ export default {
     { token: 'parameters', foreground: '#C678DD', fontStyle: 'italic' },
     { token: 'parameter', foreground: '#C678DD', fontStyle: 'italic' },
     { token: 'components-parameters', foreground: '#C678DD', fontStyle: 'bold' },
-    // messages tokens: purple
-    { token: 'components-messages', foreground: '#C678DD', fontStyle: 'bold' },
-    { token: 'messages', foreground: '#C678DD', fontStyle: 'italic' },
-    { token: 'message', foreground: '#C678DD' },
     // reference & $refs tokens: orange
     { token: 'reference-element', foreground: '#ff5500', fontStyle: 'bold' },
     { token: 'reference-value', foreground: '#ffddcc', fontStyle: 'italic' },
@@ -179,7 +190,7 @@ export default {
     // tokens exist in apidom-ls, but not working in editor, may be orange-ish to match other reference(s)
     { token: 'openapi-reference', foreground: '#ff9966' },
     { token: 'reference', foreground: '#ff9966' },
-    { token: 'Asyncapi-reference', foreground: '#ff9966' },
+    { token: 'asyncapi-reference', foreground: '#ff9966' },
     { token: 'json-reference', foreground: '#ff9966' },
   ],
   colors: {
