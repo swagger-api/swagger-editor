@@ -1,7 +1,5 @@
 import * as monaco from 'monaco-editor';
 import { languages as vscodeLanguages } from 'vscode';
-import { detectionRegExp as detectionRegExpOpenAPIJSON20 } from '@swagger-api/apidom-parser-adapter-openapi-json-2';
-import { detectionRegExp as detectionRegExpOpenAPIYAML20 } from '@swagger-api/apidom-parser-adapter-openapi-yaml-2';
 
 import Provider from './Provider.js';
 import * as apidom from '../apidom.js';
@@ -79,14 +77,6 @@ class DiagnosticsProvider extends Provider {
   }
 
   async #getDiagnostics(model) {
-    // @TODO(vladimir.gorej@gmail.com): this needs to be removed to enable OpenAPI 2.0 linting
-    if (
-      detectionRegExpOpenAPIJSON20.test(model.getValue()) ||
-      detectionRegExpOpenAPIYAML20.test(model.getValue())
-    ) {
-      return [];
-    }
-
     const worker = await this.worker(model.uri);
 
     if (model.isDisposed()) {
