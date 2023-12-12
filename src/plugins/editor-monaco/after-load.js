@@ -1,6 +1,4 @@
 import { initialize as initializeMonacoServices } from 'vscode/services';
-import { IExtensionService } from 'vscode/vscode/vs/workbench/services/extensions/common/extensions';
-import { registerServiceInitializeParticipant } from 'vscode/lifecycle';
 import 'vscode/localExtensionHost';
 
 import lazyMonacoContribution from './monaco-contribution/index.js';
@@ -35,11 +33,6 @@ function afterLoad(system) {
 
     (async () => {
       try {
-        /**
-         * {@link https://github.com/CodinGame/monaco-vscode-api/issues/283}
-         * @TODO(vladimir.gorej@gmail.com): this can go away with next release of vscode >1.83.15
-         */
-        registerServiceInitializeParticipant((accessor) => accessor.get(IExtensionService));
         await initializeMonacoServices({});
         system.monacoInitializationDeferred().resolve();
       } catch (error) {
