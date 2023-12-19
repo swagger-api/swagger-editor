@@ -65,7 +65,7 @@
     "@braintree/sanitize-url": "^6.0.3",
     "@emotion/react": "^11.11.1",
     "@emotion/styled": "^11.11.0",
-    "@mui/material": "^5.14.20",
+    "@mui/material": "^5.15.1",
     "@primer/octicons-react": "^19.8.0",
     "@swagger-api/apidom-core": "^0.89.0",
     "@swagger-api/apidom-json-pointer": "^0.89.0",
