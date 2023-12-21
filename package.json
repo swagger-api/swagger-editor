@@ -85,7 +85,7 @@
     "react-split-pane": "^0.1.82",
     "react-transition-group": "^1.1.1",
     "redux": "=4.2.1",
-    "reselect": "^4.0.0",
+    "reselect": "^5.0.1",
     "swagger-client": "^3.23.0",
     "swagger-ui": "^5.9.0",
     "traverse": "^0.6.6",
