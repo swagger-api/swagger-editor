@@ -1,4 +1,4 @@
-import EditorPreviewSwaggerUI from './components/EditorPreviewSwaggerUI.jsx';
+import EditorPreviewSwaggerUI from './components/EditorPreviewSwaggerUI/EditorPreviewSwaggerUI.jsx';
 import JumpToPath from './components/JumpToPath.jsx';
 import EditorPreviewWrapper from './wrap-components/EditorPreviewWrapper.jsx';
 import { previewUnmounted } from './actions/preview-unmounted.js';
