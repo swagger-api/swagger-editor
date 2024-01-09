@@ -17,6 +17,7 @@ SwaggerEditor is using [**forked** Create React App](https://github.com/swagger-
 - [Documentation](#documentation)
 - [Docker](#docker)
 - [License](#license)
+- [Software Bill Of Materials (SBOM)](#software-bill-of-materials-sbom)
 
 ## Getting started
 
@@ -780,3 +781,8 @@ containing additional legal notifications and information.
 
 This project uses [REUSE specification](https://reuse.software/spec/) that defines a standardized method
 for declaring copyright and licensing for software projects.
+
+## Software Bill Of Materials (SBOM)
+
+Software Bill Of materials is available in this repository [dependency graph](https://github.com/swagger-api/swagger-editor/network/dependencies).
+Click on `Export SBOM` button to download the SBOM in [SPDX format](https://spdx.dev/).
