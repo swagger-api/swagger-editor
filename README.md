@@ -347,8 +347,8 @@ It's bundled with React defined as external. This allows consumer to use his own
 </head>
 <body>
   <div id="swagger-editor"></div>
-  <script src="https://unpkg.com/react@17/umd/react.production.min.js" crossorigin></script>
-  <script src="https://unpkg.com/react-dom@17/umd/react-dom.production.min.js" crossorigin></script>
+  <script src="https://unpkg.com/react@18/umd/react.production.min.js" crossorigin></script>
+  <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js" crossorigin></script>
   <script src="./dist/umd/swagger-editor.js"></script>
   <script>
     const props = {
@@ -408,6 +408,62 @@ To learn more about these fields please refer to [webpack mainFields documentati
 or to [Node.js Modules: Packages documentation](https://nodejs.org/docs/latest-v16.x/api/packages.html).
 
 ## Documentation
+
+### Using older version of React
+
+> [!IMPORTANT]
+> By older versions we specifically refer to `React >=17 <18`.
+
+By default [swagger-editor@5](https://www.npmjs.com/package/swagger-editor) npm package comes with latest version of [React@18](https://react.dev/blog/2022/03/29/react-v18).
+It's possible to use _swagger-editor@5_ npm package with older version of React.
+
+Let's say my application integrates with _swagger-editor@5_ npm package and uses [React@17.0.2](https://www.npmjs.com/package/react/v/17.0.2).
+
+### npm
+
+In order to inform `swagger-editor@5` npm package that I require it to use my React version, I need to use [npm overrides](https://docs.npmjs.com/cli/v9/configuring-npm/package-json#overrides).
+
+```json
+{
+  "dependencies": {
+    "react": "=17.0.2",
+    "react-dom": "=17.0.2"
+  },
+  "overrides": {
+    "swagger-editor": {
+      "react": "$react",
+      "react": "$react-dom",
+      "react-redux": "^8"
+    }
+  }
+}
+```
+
+> [!NOTE]
+> The React and ReactDOM override are defined as a reference to the dependency. Since _react-redux@9_ only supports `React >= 18`, we need to use _react-redux@8_.
+
+
+### yarn
+
+In order to inform `swagger-editor@5` npm package that I require it to use my specific React version, I need to use [yarm resolutions](https://yarnpkg.com/cli/set/resolution).
+
+
+```json
+{
+  "dependencies": {
+    "react": "17.0.2",
+    "react-dom": "17.0.2"
+  },
+  "resolutions": {
+    "swagger-editor/react": "17.0.2",
+    "swagger-editor/react-dom": "17.0.2",
+    "swagger-editor/react-redux": "^8"
+  }
+}
+```
+
+> [!NOTE]
+> The React and ReactDOM resolution cannot be defined as a reference to the dependency. Unfortunately *yarn* does not support aliasing like `$react` or `$react-dom` as *npm* does. You'll need to specify the exact versions.
 
 ### Customization
 
