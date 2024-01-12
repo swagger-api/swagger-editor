@@ -19,7 +19,7 @@ jobs:
           submodules: true
           ref: next
 
-      - name: Use Node.js 16
+      - name: Use Node.js 20
         uses: actions/setup-node@v4
         with:
           node-version: 20
@@ -58,13 +58,13 @@ jobs:
         run: npm run cy:ci
 
       - name: Upload build artifact
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: build
           path: ./build
 
       - name: Upload npm artifact
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: "swagger-editor-next.tgz"
           path: ./swagger-editor-*.tgz
