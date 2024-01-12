@@ -52,8 +52,10 @@ paths:
         schema:
           $ref: "#/definitions/Pet"
       responses:
-        "405":
-          description: "Invalid input"
+        "400":
+          description: Invalid input
+        "422":
+          description: Validation exception
       security:
       - petstore_auth:
         - "write:pets"
@@ -82,7 +84,7 @@ paths:
           description: "Invalid ID supplied"
         "404":
           description: "Pet not found"
-        "405":
+        "422":
           description: "Validation exception"
       security:
       - petstore_auth:
@@ -216,8 +218,10 @@ paths:
         required: false
         type: "string"
       responses:
-        "405":
-          description: "Invalid input"
+        "400":
+          description: Invalid input
+        "422":
+          description: Validation exception
       security:
       - petstore_auth:
         - "write:pets"
