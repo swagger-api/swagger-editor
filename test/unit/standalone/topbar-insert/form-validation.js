@@ -105,7 +105,7 @@ describe('editor topbar insert form validation', () => {
     expect(checkForEmptyValue('')).toBeTruthy();
   });
 
-  it('should correclty detect a non-empty value', () => {
+  it('should correctly detect a non-empty value', () => {
     expect(checkForEmptyValue('value')).toBeFalsy();
     expect(checkForEmptyValue(fromJS({ test: ''}))).toBeFalsy();
     expect(checkForEmptyValue(fromJS(['']))).toBeFalsy();

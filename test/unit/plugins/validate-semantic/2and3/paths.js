@@ -139,7 +139,7 @@ describe('validation plugin - semantic - 2and3 paths', () => {
         );
 
         it(
-          'should not return problems for a valid operation-level definiton/declaration pair',
+          'should not return problems for a valid operation-level definition/declaration pair',
           () => {
             const spec = {
               openapi: '3.0.0',
@@ -267,7 +267,7 @@ describe('validation plugin - semantic - 2and3 paths', () => {
 
       describe('Swagger 2', () => {
         it(
-          'should not return problems for a valid path-level definiton/declaration pair',
+          'should not return problems for a valid path-level definition/declaration pair',
           () => {
             const spec = {
               swagger: '2.0',
@@ -288,7 +288,7 @@ describe('validation plugin - semantic - 2and3 paths', () => {
         );
 
         it(
-          'should not return problems for a valid path-level definiton/declaration pair using a $ref',
+          'should not return problems for a valid path-level definition/declaration pair using a $ref',
           () => {
             const spec = {
               swagger: '2.0',
@@ -314,7 +314,7 @@ describe('validation plugin - semantic - 2and3 paths', () => {
         );
 
         it(
-          'should not return problems for a valid operation-level definiton/declaration pair',
+          'should not return problems for a valid operation-level definition/declaration pair',
           () => {
             const spec = {
               swagger: '2.0',
