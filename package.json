@@ -80,7 +80,7 @@
     "@swagger-api/apidom-parser-adapter-openapi-json-3-1": "^0.92.0",
     "@swagger-api/apidom-parser-adapter-openapi-yaml-2": "^0.92.0",
     "@swagger-api/apidom-parser-adapter-openapi-yaml-3-0": "^0.91.0",
-    "@swagger-api/apidom-parser-adapter-openapi-yaml-3-1": "^0.91.0",
+    "@swagger-api/apidom-parser-adapter-openapi-yaml-3-1": "^0.92.0",
     "axios": "^1.6.5",
     "classnames": "^2.3.2",
     "deep-extend": "=0.6.0",
