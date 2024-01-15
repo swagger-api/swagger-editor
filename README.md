@@ -555,6 +555,54 @@ SwaggerUI({
 });
 ```
 
+#### Utilizing preview plugins via [unpkg.com](https://unpkg.com/)
+
+It's possible to utilize preview plugins in a build-free way via [unpkg.com](https://unpkg.com/) to create a standalone
+multi-spec supporting version of SwaggerUI.
+
+```html
+<!DOCTYPE html>
+<html >
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#000000" />
+    <meta name="description" content="SwaggerUIMultifold" />
+    <link rel="stylesheet" href="//unpkg.com/swagger-editor@5.0.0-alpha.86/dist/swagger-editor.css" />
+  </head>
+  <body style="margin:0; padding:0;">
+    <section id="swagger-ui"></section>
+
+    <script src="//unpkg.com/swagger-ui-dist@5.11.0/swagger-ui-bundle.js"></script>
+    <script src="//unpkg.com/swagger-ui-dist@5.11.0/swagger-ui-standalone-preset.js"></script>
+    <script>
+      ui = SwaggerUIBundle({});
+      // expose SwaggerUI React globally for SwaggerEditor to use
+      window.React = ui.React;
+    </script>
+    <script src="//unpkg.com/swagger-editor@5.0.0-alpha.86/dist/umd/swagger-editor.js"></script>
+    <script>
+      SwaggerUIBundle({
+        url: 'https://petstore3.swagger.io/api/v3/openapi.json',
+        dom_id: '#swagger-ui',
+        presets: [
+          SwaggerUIBundle.presets.apis,
+          SwaggerUIStandalonePreset,
+        ],
+        plugins: [
+          SwaggerEditor.plugins.EditorContentType,
+          SwaggerEditor.plugins.EditorPreviewAsyncAPI,
+          SwaggerEditor.plugins.EditorPreviewApiDesignSystems,
+          SwaggerEditor.plugins.SwaggerUIAdapter,
+          SwaggerUIBundle.plugins.DownloadUrl,
+        ],
+        layout: 'StandaloneLayout',
+      });
+    </script>
+  </body>
+</html>
+```
+
 ### Composing customized SwaggerEditor version
 
 SwaggerEditor is just a number of SwaggerUI plugins used with [swagger-ui-react](https://www.npmjs.com/package/swagger-ui-react).
