@@ -91,9 +91,15 @@ export const validateImmediate = ({ spec, path = [] }) => system => {
   // schemaPath refers to type of schema, and later might refer to sub-schema
   const baseSchemaPath = system.jsonSchemaValidatorSelectors.getSchemaBasePath()
 
-  // No base path? Then we're unable to do anything...
-  if (!baseSchemaPath.length)
+  // Ambiguous schema path
+  if (Array.isArray(baseSchemaPath) && baseSchemaPath.length === 0) {
     throw new Error("Ambiguous schema path, unable to run validation")
+  }
+  // No base path? Then we're unable to do anything...
+  if (typeof baseSchemaPath === "undefined") {
+    system.log.warn("No base schema path found, unable to run validation")
+    return
+  }
 
   return system.jsonSchemaValidatorActions.validateWithBaseSchema({
     spec,
