@@ -42,6 +42,8 @@ export class Session extends EventEmitter {
     this.selection.fromJSON = sinon.stub().returns({ fake: true })
   }
 
+  setScrollTop = sinon.stub()
+
   addMarker = sinon.stub().callsFake((marker) => {
     this._markers.push({ ...marker, id: this.$markerId++ })
   })
