@@ -1,0 +1,15 @@
+diff --git a/node_modules/react-ace/lib/ace.js b/node_modules/react-ace/lib/ace.js
+index 031682a..5c51258 100644
+--- a/node_modules/react-ace/lib/ace.js
++++ b/node_modules/react-ace/lib/ace.js
+@@ -142,8 +142,8 @@ var ReactAce = function (_Component) {
+       }
+     }
+   }, {
+-    key: 'componentWillReceiveProps',
+-    value: function componentWillReceiveProps(nextProps) {
++    key: 'UNSAFE_componentWillReceiveProps',
++    value: function UNSAFE_componentWillReceiveProps(nextProps) {
+       var oldProps = this.props;
+ 
+       for (var i = 0; i < editorOptions.length; i++) {

@@ -1,0 +1,35 @@
+diff --git a/node_modules/react-transition-group/CSSTransitionGroupChild.js b/node_modules/react-transition-group/CSSTransitionGroupChild.js
+index bb1742b..ef14d74 100644
+--- a/node_modules/react-transition-group/CSSTransitionGroupChild.js
++++ b/node_modules/react-transition-group/CSSTransitionGroupChild.js
+@@ -107,7 +107,7 @@ var CSSTransitionGroupChild = function (_React$Component) {
+     }, _temp), _possibleConstructorReturn(_this, _ret);
+   }
+ 
+-  CSSTransitionGroupChild.prototype.componentWillMount = function componentWillMount() {
++  CSSTransitionGroupChild.prototype.UNSAFE_componentWillMount = function UNSAFE_componentWillMount() {
+     this.classNameAndNodeQueue = [];
+     this.transitionTimeouts = [];
+   };
+diff --git a/node_modules/react-transition-group/TransitionGroup.js b/node_modules/react-transition-group/TransitionGroup.js
+index 1950176..1160ebd 100644
+--- a/node_modules/react-transition-group/TransitionGroup.js
++++ b/node_modules/react-transition-group/TransitionGroup.js
+@@ -143,7 +143,7 @@ var TransitionGroup = function (_React$Component) {
+     return _this;
+   }
+ 
+-  TransitionGroup.prototype.componentWillMount = function componentWillMount() {
++  TransitionGroup.prototype.UNSAFE_componentWillMount = function UNSAFE_componentWillMount() {
+     this.currentlyTransitioningKeys = {};
+     this.keysToEnter = [];
+     this.keysToLeave = [];
+@@ -158,7 +158,7 @@ var TransitionGroup = function (_React$Component) {
+     }
+   };
+ 
+-  TransitionGroup.prototype.componentWillReceiveProps = function componentWillReceiveProps(nextProps) {
++  TransitionGroup.prototype.UNSAFE_componentWillReceiveProps = function UNSAFE_componentWillReceiveProps(nextProps) {
+     var nextChildMapping = (0, _ChildMapping.getChildMapping)(nextProps.children);
+     var prevChildMapping = this.state.children;
+ 
