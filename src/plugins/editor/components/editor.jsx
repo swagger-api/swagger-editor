@@ -87,10 +87,10 @@ export default function makeEditor({ editorPluginsToRun }) {
       this.editor = editor
 
       // https://github.com/angular-ui/ui-ace/issues/104
-      editor.$blockScrolling = Infinity;
+      editor.$blockScrolling = Infinity
 
       session.setUseWrapMode(true)
-      session.setScrollTop(0);
+      session.setScrollTop(0)
       session.on("changeScrollLeft", () => {
         session.setScrollLeft(0)
       })
