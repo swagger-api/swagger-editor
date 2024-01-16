@@ -8,11 +8,6 @@ updates:
       prefix: "chore"
       include: "scope"
     open-pull-requests-limit: 3
-    ignore:
-      # node-fetch must be synced manually
-      - dependency-name: "node-fetch"
-      - dependency-name: "release-it"
-      - dependency-name: "@release-it/conventional-changelog"
 
   - package-ecosystem: "docker"
     # Look for a `Dockerfile` in the `root` directory
