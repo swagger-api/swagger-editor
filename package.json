@@ -59,7 +59,7 @@
     "@asyncapi/avro-schema-parser": "^1.1.0",
     "@asyncapi/openapi-schema-parser": "^2.0.3",
     "@asyncapi/parser": "^1.18.1",
-    "@asyncapi/protobuf-schema-parser": "^1.0.0",
+    "@asyncapi/protobuf-schema-parser": "^3.2.2",
     "@asyncapi/react-component": "=1.2.13",
     "@babel/runtime": "^7.23.9",
     "@braintree/sanitize-url": "^7.0.0",
