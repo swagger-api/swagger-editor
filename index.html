@@ -48,9 +48,25 @@
   <script src="./dist/swagger-editor-bundle.js"> </script>
   <script src="./dist/swagger-editor-standalone-preset.js"> </script>
   <script>
+    // Directly use the window's pathname as the Swagger file URL
+    // Assuming your server is set up to serve Swagger files directly from the pathname
+    const swaggerFileUrl = `${window.location.pathname}.yaml`;
   window.onload = function() {
+
+    // Function to parse query parameters
+    function getQueryParam(param) {
+      const urlParams = new URLSearchParams(window.location.search);
+      return urlParams.get(param);
+    }
+
+    // Retrieve 'api' query parameter
+    const apiName = getQueryParam('api') || 'oe-next-gen-site';
+    // Construct the Swagger file URL based on the 'api' query parameter
+    const swaggerFileUrl = `/api-docs/${apiName}.yaml`;
+
     // Build a system
     const editor = SwaggerEditorBundle({
+      url: swaggerFileUrl, // Use the dynamically constructed URL
       dom_id: '#swagger-editor',
       layout: 'StandaloneLayout',
       presets: [
