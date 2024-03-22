@@ -13,7 +13,7 @@ describe('Editor Preview Pane: AsyncAPI 2.x', () => {
     cy.contains('AsyncAPI 2.6 Streetlights').click();
 
     cy.get('#check-out-its-awesome-features').should('be.visible');
-    cy.get('#servers').should('be.visible');
+    cy.get('.aui-root #introduction').should('be.visible');
   });
 
   it('hidden if not AsyncAPI 2.x.x', () => {
@@ -23,6 +23,6 @@ describe('Editor Preview Pane: AsyncAPI 2.x', () => {
     cy.contains('OpenAPI 3.0 Petstore').click();
 
     cy.get('#check-out-its-awesome-features').should('not.exist');
-    cy.get('#servers').should('not.exist');
+    cy.get('.aui-root #introduction').should('not.exist');
   });
 });
