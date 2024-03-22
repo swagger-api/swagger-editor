@@ -106,7 +106,7 @@
     "@babel/register": "^7.13.16",
     "@babel/runtime-corejs3": "^7.11.2",
     "@cfaester/enzyme-adapter-react-18": "^0.7.1",
-    "@commitlint/cli": "^18.0.0",
+    "@commitlint/cli": "^19.2.1",
     "@commitlint/config-conventional": "=18.4.4",
     "@jest/globals": "^29.0.1",
     "@pmmmwh/react-refresh-webpack-plugin": "^0.5.4",
