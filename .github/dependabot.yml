@@ -1,4 +1,4 @@
-# Do not modify this file. 
+# Do not modify this file.
 # Dependabot configuration can only be changed in the default branch
 
 version: 2
@@ -46,6 +46,8 @@ updates:
       prefix: "chore"
       include: "scope"
     open-pull-requests-limit: 3
+    ignore:
+      - dependency-name: "@asyncapi/react-component"
 
   - package-ecosystem: "docker"
     # Look for a `Dockerfile` in the `root` directory
