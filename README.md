@@ -124,7 +124,6 @@ module.exports = {
   },
   plugins: [
     new webpack.ProvidePlugin({
-      process: 'process/browser.js',
       Buffer: ['buffer', 'Buffer'],
     }),
   ],
@@ -154,6 +153,14 @@ module.exports = {
         test: /\.wasm$/,
         loader: 'file-loader',
         type: 'javascript/auto', // this disables webpacks default handling of wasm
+      },
+      {
+        test: /@apidevtools\/json-schema-ref-parser\/lib\/util\/url.js$/,
+        loader: 'imports-loader',
+        options: {
+          type: 'commonjs',
+          imports: ['single process/browser process'],
+        },
       },
     ]
   }
@@ -211,7 +218,6 @@ module.exports = {
   },
   plugins: [
     new webpack.ProvidePlugin({
-      process: 'process/browser.js',
       Buffer: ['buffer', 'Buffer'],
     }),
     new CopyWebpackPlugin({
@@ -232,7 +238,15 @@ module.exports = {
       {
         test: /\.css$/,
         use: ['style-loader', 'css-loader']
-      }
+      },
+      {
+        test: /@apidevtools\/json-schema-ref-parser\/lib\/util\/url.js$/,
+        loader: 'imports-loader',
+        options: {
+          type: 'commonjs',
+          imports: ['single process/browser process'],
+        },
+      },
     ]
   }
 };

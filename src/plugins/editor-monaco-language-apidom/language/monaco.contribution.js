@@ -1,6 +1,6 @@
 import * as monaco from 'monaco-editor';
 import { languages as vscodeLanguages } from 'vscode';
-import { ModesRegistry } from 'monaco-editor/esm/vs/editor/common/languages/modesRegistry.js';
+import { ModesRegistry } from 'vscode/vscode/vs/editor/common/languages/modesRegistry';
 
 import * as apidom from './apidom.js';
 import { setupMode } from './apidom-mode.js';
