@@ -45,6 +45,11 @@ const parseSuccessReducer = (state, action) => {
   const status = state.get('parseStatus') || IDLE_STATUS;
   const requestId = state.get('parseRequestId');
 
+  /**
+   * @TODO(vladimir.gorej@gmail.com): parseResult should be stringified before storing in the state.
+   *
+   * stringify/unstringify isomorphism is broken. More info in https://github.com/asyncapi/asyncapi-react/issues/769.
+   */
   if (status === PARSING_STATUS && requestId === action.meta.requestId) {
     return state.merge({
       parseStatus: SUCCESS_STATUS,

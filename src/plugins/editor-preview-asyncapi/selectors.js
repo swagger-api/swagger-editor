@@ -13,8 +13,7 @@ const selectState = (state) => state;
 export const selectParseStatus = (state) => state.get('parseStatus', IDLE_STATUS);
 
 export const selectParseResult = createSelector(selectState, (state) => {
-  const parseResult = state.get('parseResult', initialState.parseResult);
-  return parseResult;
+  return state.get('parseResult', initialState.parseResult);
 });
 
 export const selectParseErrors = createSelector(selectState, (state) => {
