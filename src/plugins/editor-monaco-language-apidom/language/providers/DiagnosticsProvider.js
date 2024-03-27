@@ -81,13 +81,13 @@ class DiagnosticsProvider extends Provider {
 
     if (model.isDisposed()) {
       // model was disposed in the meantime
-      return undefined;
+      return [];
     }
 
     try {
       return await worker.doValidation(model.uri.toString());
     } catch {
-      return undefined;
+      return [];
     }
   }
 

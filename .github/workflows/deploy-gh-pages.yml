@@ -22,7 +22,7 @@ jobs:
         with:
           ref: next
       - name: 'Download build artifact'
-        uses: actions/github-script@v6
+        uses: actions/github-script@v7
         with:
           script: |
             const allArtifacts = await github.rest.actions.listWorkflowRunArtifacts({
@@ -45,7 +45,7 @@ jobs:
           mkdir deploy-dir
           unzip build.zip -d deploy-dir
       - name: Deploy 🚀
-        uses: JamesIves/github-pages-deploy-action@v4.4.3
+        uses: JamesIves/github-pages-deploy-action@v4.5.0
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           branch: gh-pages # The branch the action should deploy to.

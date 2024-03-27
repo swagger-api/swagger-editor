@@ -30,13 +30,13 @@ jobs:
 
       - name: Nothing to release
         if: ${{ env.NEXT_RELEASE_VERSION == '' }}
-        uses: actions/github-script@v6
+        uses: actions/github-script@v7
         with:
           script: |
             core.setFailed('Nothing to release')
 
       - name: Setup Node.js
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
           node-version: 20
 
@@ -67,7 +67,7 @@ jobs:
 
       - name: Release failed
         if: steps.semantic.outputs.new_release_published == 'false'
-        uses: actions/github-script@v6
+        uses: actions/github-script@v7
         with:
           script: |
             core.setFailed('Release failed')
@@ -80,7 +80,7 @@ jobs:
           echo ${{ steps.semantic.outputs.new_release_patch_version }}
 
       - name: Upload build artifacts
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: build
           path: ./build
@@ -91,7 +91,7 @@ jobs:
         run: |
           echo ${{ steps.semantic.outputs.new_release_version }} > released-version.txt
       - name: Upload released version
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: released-version
           path: ./released-version.txt

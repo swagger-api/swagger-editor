@@ -20,19 +20,19 @@ jobs:
           ref: next
 
       - name: Use Node.js 20
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
           node-version: 20
 
       - name: Cache npm cache files
         id: cache-npm-cache-files
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         with:
           path: ~/.npm
           key: npm-cache-${{ runner.os }}-${{ hashFiles('package-lock.json') }}
       - name: Cache Cypress binary
         id: cache-cypress-binary
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         with:
           path: cypress/cache
           key: cypress-binary-${{ hashFiles('package-lock.json') }}
@@ -58,13 +58,13 @@ jobs:
         run: npm run cy:ci
 
       - name: Upload build artifact
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: build
           path: ./build
 
       - name: Upload npm artifact
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: "swagger-editor-next.tgz"
           path: ./swagger-editor-*.tgz

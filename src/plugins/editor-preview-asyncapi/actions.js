@@ -2,6 +2,7 @@ import ShortUniqueId from 'short-unique-id';
 import { Parser } from '@asyncapi/parser';
 import { OpenAPISchemaParser } from '@asyncapi/openapi-schema-parser';
 import { AvroSchemaParser } from '@asyncapi/avro-schema-parser';
+import { ProtoBuffSchemaParser } from '@asyncapi/protobuf-schema-parser';
 
 import { Raml10SchemaParser } from './util/raml-1-0-parser.js';
 
@@ -9,6 +10,7 @@ const parser = new Parser();
 parser.registerSchemaParser(OpenAPISchemaParser());
 parser.registerSchemaParser(AvroSchemaParser());
 parser.registerSchemaParser(Raml10SchemaParser());
+parser.registerSchemaParser(ProtoBuffSchemaParser());
 
 /**
  * Action types.

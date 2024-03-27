@@ -17,6 +17,7 @@ SwaggerEditor is using [**forked** Create React App](https://github.com/swagger-
 - [Documentation](#documentation)
 - [Docker](#docker)
 - [License](#license)
+- [Software Bill Of Materials (SBOM)](#software-bill-of-materials-sbom)
 
 ## Getting started
 
@@ -117,49 +118,12 @@ module.exports = {
       zlib: false,
     },
     alias: {
-      // This alias doesn't pull any languages into bundles and works as monaco-editor-core was installed
-      'monaco-editor$': 'monaco-editor/esm/vs/editor/edcore.main.js',
       // This alias make sure we don't pull two different versions of monaco-editor
       'monaco-editor': '/node_modules/monaco-editor',
-      // This alias makes sure we don't pull two different versions of ApiDOM.
-      // swagger-client uses ApiDOM as well, and might come with different ApiDOM version.
-      // SwaggerEditor ApiDOM dependency takes precendence in the resolution.
-      '@swagger-api/apidom-ast$': '/node_modules/@swagger-api/apidom-ast/es/index.mjs',
-      '@swagger-api/apidom-core$': '/node_modules/@swagger-api/apidom-core/es/index.mjs',
-      '@swagger-api/apidom-error$': '/node_modules/@swagger-api/apidom-error/es/index.mjs',
-      '@swagger-api/apidom-json-path$': '/node_modules/@swagger-api/apidom-json-path/es/index.mjs',
-      '@swagger-api/apidom-json-pointer$': '/node_modules/@swagger-api/apidom-json-pointer/es/index.mjs',
-      '@swagger-api/apidom-ls$': '/node_modules/@swagger-api/apidom-ls/es/index.mjs',
-      '@swagger-api/apidom-ns-api-design-systems$': '/node_modules/@swagger-api/apidom-ns-api-design-systems/es/index.mjs',
-      '@swagger-api/apidom-ns-asyncapi-2$': '/node_modules/@swagger-api/apidom-ns-asyncapi-2/es/index.mjs',
-      '@swagger-api/apidom-ns-json-schema-draft-4$': '/node_modules/@swagger-api/apidom-ns-json-schema-draft-4/es/index.mjs',
-      '@swagger-api/apidom-ns-json-schema-draft-6$': '/node_modules/@swagger-api/apidom-ns-json-schema-draft-6/es/index.mjs',
-      '@swagger-api/apidom-ns-json-schema-draft-7$': '/node_modules/@swagger-api/apidom-ns-json-schema-draft-7/es/index.mjs',
-      '@swagger-api/apidom-ns-openapi-3-0$': '/node_modules/@swagger-api/apidom-ns-openapi-3-0/es/index.mjs',
-      '@swagger-api/apidom-ns-openapi-3-1$': '/node_modules/@swagger-api/apidom-ns-openapi-3-1/es/index.mjs',
-      '@swagger-api/apidom-parser$': '/node_modules/@swagger-api/apidom-parser/es/parser.mjs',
-      '@swagger-api/apidom-parser-adapter-api-design-systems-json$': '/node_modules/@swagger-api/apidom-parser-adapter-api-design-systems-json/es/adapter.mjs',
-      '@swagger-api/apidom-parser-adapter-api-design-systems-yaml$': '/node_modules/@swagger-api/apidom-parser-adapter-api-design-systems-yaml/es/adapter.mjs',
-      '@swagger-api/apidom-parser-adapter-asyncapi-json-2$': '/node_modules/@swagger-api/apidom-parser-adapter-asyncapi-json-2/es/adapter.mjs',
-      '@swagger-api/apidom-parser-adapter-asyncapi-yaml-2$': '/node_modules/@swagger-api/apidom-parser-adapter-asyncapi-yaml-2/es/adapter.mjs',
-      '@swagger-api/apidom-parser-adapter-json$': '/node_modules/@swagger-api/apidom-parser-adapter-json/es/adapter-browser.mjs',
-      '@swagger-api/apidom-parser-adapter-openapi-json-3-0$': '/node_modules/@swagger-api/apidom-parser-adapter-openapi-json-3-0/es/adapter.mjs',
-      '@swagger-api/apidom-parser-adapter-openapi-json-3-1$': '/node_modules/@swagger-api/apidom-parser-adapter-openapi-json-3-1/es/adapter.mjs',
-      '@swagger-api/apidom-parser-adapter-openapi-yaml-3-0$': '/node_modules/@swagger-api/apidom-parser-adapter-openapi-yaml-3-0/es/adapter.mjs',
-      '@swagger-api/apidom-parser-adapter-openapi-yaml-3-1$': '/node_modules/@swagger-api/apidom-parser-adapter-openapi-yaml-3-1/es/adapter.mjs',
-      '@swagger-api/apidom-parser-adapter-yaml-1-2$': '/node_modules/@swagger-api/apidom-parser-adapter-yaml-1-2/es/adapter-browser.mjs',
-      '@swagger-api/apidom-reference$': '/node_modules/@swagger-api/apidom-reference/es/configuration/saturated.mjs',
-      '@swagger-api/apidom-reference/configuration/empty$': '/node_modules/@swagger-api/apidom-reference/es/configuration/empty.mjs',
-      '@swagger-api/apidom-reference/resolve/strategies/openapi-3-1$': '/node_modules/@swagger-api/apidom-reference/es/resolve/strategies/openapi-3-1/index.mjs',
-      '@swagger-api/apidom-reference/parse/parsers/binary$': '/node_modules/@swagger-api/apidom-reference/es/parse/parsers/binary/index-browser.mjs',
-      '@swagger-api/apidom-reference/dereference/strategies/openapi-3-1/selectors/$anchor$': '/node_modules/@swagger-api/apidom-reference/es/dereference/strategies/openapi-3-1/selectors/$anchor/index.mjs',
-      '@swagger-api/apidom-reference/dereference/strategies/openapi-3-1/selectors/uri$': '/node_modules/@swagger-api/apidom-reference/es/dereference/strategies/openapi-3-1/selectors/uri/index.mjs',
-      '@swagger-api/apidom-reference/dereference/strategies/openapi-3-1$': '/node_modules/@swagger-api/apidom-reference/es/dereference/strategies/openapi-3-1/index.mjs',
     },
   },
   plugins: [
     new webpack.ProvidePlugin({
-      process: 'process/browser.js',
       Buffer: ['buffer', 'Buffer'],
     }),
   ],
@@ -189,6 +153,14 @@ module.exports = {
         test: /\.wasm$/,
         loader: 'file-loader',
         type: 'javascript/auto', // this disables webpacks default handling of wasm
+      },
+      {
+        test: /@apidevtools\/json-schema-ref-parser\/lib\/util\/url.js$/,
+        loader: 'imports-loader',
+        options: {
+          type: 'commonjs',
+          imports: ['single process/browser process'],
+        },
       },
     ]
   }
@@ -240,49 +212,12 @@ module.exports = {
       zlib: false,
     },
     alias: {
-      // This alias doesn't pull any languages into bundles and works as monaco-editor-core was installed
-      'monaco-editor$': 'monaco-editor/esm/vs/editor/edcore.main.js',
       // This alias make sure we don't pull two different versions of monaco-editor
       'monaco-editor': '/node_modules/monaco-editor',
-      // This alias makes sure we don't pull two different versions of ApiDOM.
-      // swagger-client uses ApiDOM as well, and might come with different ApiDOM version.
-      // SwaggerEditor ApiDOM dependency takes precendence in the resolution.
-      '@swagger-api/apidom-ast$': '/node_modules/@swagger-api/apidom-ast/es/index.mjs',
-      '@swagger-api/apidom-core$': '/node_modules/@swagger-api/apidom-core/es/index.mjs',
-      '@swagger-api/apidom-error$': '/node_modules/@swagger-api/apidom-error/es/index.mjs',
-      '@swagger-api/apidom-json-path$': '/node_modules/@swagger-api/apidom-json-path/es/index.mjs',
-      '@swagger-api/apidom-json-pointer$': '/node_modules/@swagger-api/apidom-json-pointer/es/index.mjs',
-      '@swagger-api/apidom-ls$': '/node_modules/@swagger-api/apidom-ls/es/index.mjs',
-      '@swagger-api/apidom-ns-api-design-systems$': '/node_modules/@swagger-api/apidom-ns-api-design-systems/es/index.mjs',
-      '@swagger-api/apidom-ns-asyncapi-2$': '/node_modules/@swagger-api/apidom-ns-asyncapi-2/es/index.mjs',
-      '@swagger-api/apidom-ns-json-schema-draft-4$': '/node_modules/@swagger-api/apidom-ns-json-schema-draft-4/es/index.mjs',
-      '@swagger-api/apidom-ns-json-schema-draft-6$': '/node_modules/@swagger-api/apidom-ns-json-schema-draft-6/es/index.mjs',
-      '@swagger-api/apidom-ns-json-schema-draft-7$': '/node_modules/@swagger-api/apidom-ns-json-schema-draft-7/es/index.mjs',
-      '@swagger-api/apidom-ns-openapi-3-0$': '/node_modules/@swagger-api/apidom-ns-openapi-3-0/es/index.mjs',
-      '@swagger-api/apidom-ns-openapi-3-1$': '/node_modules/@swagger-api/apidom-ns-openapi-3-1/es/index.mjs',
-      '@swagger-api/apidom-parser$': '/node_modules/@swagger-api/apidom-parser/es/parser.mjs',
-      '@swagger-api/apidom-parser-adapter-api-design-systems-json$': '/node_modules/@swagger-api/apidom-parser-adapter-api-design-systems-json/es/adapter.mjs',
-      '@swagger-api/apidom-parser-adapter-api-design-systems-yaml$': '/node_modules/@swagger-api/apidom-parser-adapter-api-design-systems-yaml/es/adapter.mjs',
-      '@swagger-api/apidom-parser-adapter-asyncapi-json-2$': '/node_modules/@swagger-api/apidom-parser-adapter-asyncapi-json-2/es/adapter.mjs',
-      '@swagger-api/apidom-parser-adapter-asyncapi-yaml-2$': '/node_modules/@swagger-api/apidom-parser-adapter-asyncapi-yaml-2/es/adapter.mjs',
-      '@swagger-api/apidom-parser-adapter-json$': '/node_modules/@swagger-api/apidom-parser-adapter-json/es/adapter-browser.mjs',
-      '@swagger-api/apidom-parser-adapter-openapi-json-3-0$': '/node_modules/@swagger-api/apidom-parser-adapter-openapi-json-3-0/es/adapter.mjs',
-      '@swagger-api/apidom-parser-adapter-openapi-json-3-1$': '/node_modules/@swagger-api/apidom-parser-adapter-openapi-json-3-1/es/adapter.mjs',
-      '@swagger-api/apidom-parser-adapter-openapi-yaml-3-0$': '/node_modules/@swagger-api/apidom-parser-adapter-openapi-yaml-3-0/es/adapter.mjs',
-      '@swagger-api/apidom-parser-adapter-openapi-yaml-3-1$': '/node_modules/@swagger-api/apidom-parser-adapter-openapi-yaml-3-1/es/adapter.mjs',
-      '@swagger-api/apidom-parser-adapter-yaml-1-2$': '/node_modules/@swagger-api/apidom-parser-adapter-yaml-1-2/es/adapter-browser.mjs',
-      '@swagger-api/apidom-reference$': '/node_modules/@swagger-api/apidom-reference/es/configuration/saturated.mjs',
-      '@swagger-api/apidom-reference/configuration/empty$': '/node_modules/@swagger-api/apidom-reference/es/configuration/empty.mjs',
-      '@swagger-api/apidom-reference/resolve/strategies/openapi-3-1$': '/node_modules/@swagger-api/apidom-reference/es/resolve/strategies/openapi-3-1/index.mjs',
-      '@swagger-api/apidom-reference/parse/parsers/binary$': '/node_modules/@swagger-api/apidom-reference/es/parse/parsers/binary/index-browser.mjs',
-      '@swagger-api/apidom-reference/dereference/strategies/openapi-3-1/selectors/$anchor$': '/node_modules/@swagger-api/apidom-reference/es/dereference/strategies/openapi-3-1/selectors/$anchor/index.mjs',
-      '@swagger-api/apidom-reference/dereference/strategies/openapi-3-1/selectors/uri$': '/node_modules/@swagger-api/apidom-reference/es/dereference/strategies/openapi-3-1/selectors/uri/index.mjs',
-      '@swagger-api/apidom-reference/dereference/strategies/openapi-3-1$': '/node_modules/@swagger-api/apidom-reference/es/dereference/strategies/openapi-3-1/index.mjs',
     }
   },
   plugins: [
     new webpack.ProvidePlugin({
-      process: 'process/browser.js',
       Buffer: ['buffer', 'Buffer'],
     }),
     new CopyWebpackPlugin({
@@ -303,7 +238,15 @@ module.exports = {
       {
         test: /\.css$/,
         use: ['style-loader', 'css-loader']
-      }
+      },
+      {
+        test: /@apidevtools\/json-schema-ref-parser\/lib\/util\/url.js$/,
+        loader: 'imports-loader',
+        options: {
+          type: 'commonjs',
+          imports: ['single process/browser process'],
+        },
+      },
     ]
   }
 };
@@ -419,8 +362,8 @@ It's bundled with React defined as external. This allows consumer to use his own
 </head>
 <body>
   <div id="swagger-editor"></div>
-  <script src="https://unpkg.com/react@17/umd/react.production.min.js" crossorigin></script>
-  <script src="https://unpkg.com/react-dom@17/umd/react-dom.production.min.js" crossorigin></script>
+  <script src="https://unpkg.com/react@18/umd/react.production.min.js" crossorigin></script>
+  <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js" crossorigin></script>
   <script src="./dist/umd/swagger-editor.js"></script>
   <script>
     const props = {
@@ -480,6 +423,62 @@ To learn more about these fields please refer to [webpack mainFields documentati
 or to [Node.js Modules: Packages documentation](https://nodejs.org/docs/latest-v16.x/api/packages.html).
 
 ## Documentation
+
+### Using older version of React
+
+> [!IMPORTANT]
+> By older versions we specifically refer to `React >=17 <18`.
+
+By default [swagger-editor@5](https://www.npmjs.com/package/swagger-editor) npm package comes with latest version of [React@18](https://react.dev/blog/2022/03/29/react-v18).
+It's possible to use _swagger-editor@5_ npm package with older version of React.
+
+Let's say my application integrates with _swagger-editor@5_ npm package and uses [React@17.0.2](https://www.npmjs.com/package/react/v/17.0.2).
+
+### npm
+
+In order to inform `swagger-editor@5` npm package that I require it to use my React version, I need to use [npm overrides](https://docs.npmjs.com/cli/v9/configuring-npm/package-json#overrides).
+
+```json
+{
+  "dependencies": {
+    "react": "=17.0.2",
+    "react-dom": "=17.0.2"
+  },
+  "overrides": {
+    "swagger-editor": {
+      "react": "$react",
+      "react": "$react-dom",
+      "react-redux": "^8"
+    }
+  }
+}
+```
+
+> [!NOTE]
+> The React and ReactDOM override are defined as a reference to the dependency. Since _react-redux@9_ only supports `React >= 18`, we need to use _react-redux@8_.
+
+
+### yarn
+
+In order to inform `swagger-editor@5` npm package that I require it to use my specific React version, I need to use [yarm resolutions](https://yarnpkg.com/cli/set/resolution).
+
+
+```json
+{
+  "dependencies": {
+    "react": "17.0.2",
+    "react-dom": "17.0.2"
+  },
+  "resolutions": {
+    "swagger-editor/react": "17.0.2",
+    "swagger-editor/react-dom": "17.0.2",
+    "swagger-editor/react-redux": "^8"
+  }
+}
+```
+
+> [!NOTE]
+> The React and ReactDOM resolution cannot be defined as a reference to the dependency. Unfortunately *yarn* does not support aliasing like `$react` or `$react-dom` as *npm* does. You'll need to specify the exact versions.
 
 ### Customization
 
@@ -568,6 +567,54 @@ SwaggerUI({
   ],
   layout: 'StandaloneLayout',
 });
+```
+
+#### Utilizing preview plugins via [unpkg.com](https://unpkg.com/)
+
+It's possible to utilize preview plugins in a build-free way via [unpkg.com](https://unpkg.com/) to create a standalone
+multi-spec supporting version of SwaggerUI.
+
+```html
+<!DOCTYPE html>
+<html >
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#000000" />
+    <meta name="description" content="SwaggerUIMultifold" />
+    <link rel="stylesheet" href="//unpkg.com/swagger-editor@5.0.0-alpha.86/dist/swagger-editor.css" />
+  </head>
+  <body style="margin:0; padding:0;">
+    <section id="swagger-ui"></section>
+
+    <script src="//unpkg.com/swagger-ui-dist@5.11.0/swagger-ui-bundle.js"></script>
+    <script src="//unpkg.com/swagger-ui-dist@5.11.0/swagger-ui-standalone-preset.js"></script>
+    <script>
+      ui = SwaggerUIBundle({});
+      // expose SwaggerUI React globally for SwaggerEditor to use
+      window.React = ui.React;
+    </script>
+    <script src="//unpkg.com/swagger-editor@5.0.0-alpha.86/dist/umd/swagger-editor.js"></script>
+    <script>
+      SwaggerUIBundle({
+        url: 'https://petstore3.swagger.io/api/v3/openapi.json',
+        dom_id: '#swagger-ui',
+        presets: [
+          SwaggerUIBundle.presets.apis,
+          SwaggerUIStandalonePreset,
+        ],
+        plugins: [
+          SwaggerEditor.plugins.EditorContentType,
+          SwaggerEditor.plugins.EditorPreviewAsyncAPI,
+          SwaggerEditor.plugins.EditorPreviewApiDesignSystems,
+          SwaggerEditor.plugins.SwaggerUIAdapter,
+          SwaggerUIBundle.plugins.DownloadUrl,
+        ],
+        layout: 'StandaloneLayout',
+      });
+    </script>
+  </body>
+</html>
 ```
 
 ### Composing customized SwaggerEditor version
@@ -796,3 +843,8 @@ containing additional legal notifications and information.
 
 This project uses [REUSE specification](https://reuse.software/spec/) that defines a standardized method
 for declaring copyright and licensing for software projects.
+
+## Software Bill Of Materials (SBOM)
+
+Software Bill Of materials is available in this repository [dependency graph](https://github.com/swagger-api/swagger-editor/network/dependencies).
+Click on `Export SBOM` button to download the SBOM in [SPDX format](https://spdx.dev/).

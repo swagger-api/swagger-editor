@@ -31,15 +31,13 @@ export const fetchOpenAPI2GeneratorServerListSuccess = ({ serverList, url, reque
 });
 
 export const fetchOpenAPI2GeneratorServerListFailure = ({ error, url, requestId }) => {
-  /* eslint-disable no-nested-ternary */
   const errorMessage = error.response
     ? 'The request was made and the server responded with a status code that falls out of the range of 2xx'
     : error.request
-    ? 'The request was made but no response was received'
-    : error.message
-    ? error.message
-    : 'Unknown error occurred';
-  /* eslint-enable */
+      ? 'The request was made but no response was received'
+      : error.message
+        ? error.message
+        : 'Unknown error occurred';
 
   return {
     type: EDITOR_TOP_BAR_FETCH_OPENAPI2_GENERATOR_SERVER_LIST_FAILURE,

@@ -27,21 +27,6 @@
 import '@testing-library/cypress/add-commands.js';
 import 'cypress-file-upload';
 
-Cypress.on('window:before:load', (win) => {
-  cy.stub(win.console, 'error', (msg) => {
-    cy.now('task', 'error', msg);
-  });
-
-  cy.stub(win.console, 'warn', (msg) => {
-    cy.now('task', 'warn', msg);
-  });
-});
-
-Cypress.on('uncaught:exception', (err) => {
-  cy.now('task', 'uncaught', err);
-  return true; // true = fail the test
-});
-
 Cypress.Commands.add('prepareAsyncAPI', () => {
   cy.intercept(
     'GET',

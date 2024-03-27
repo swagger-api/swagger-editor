@@ -13,6 +13,10 @@ describe('EditorPersistencePlugin', () => {
       .should('contains.text', '2.6.0');
   });
 
+  /**
+   * This test is extremely flaky, it fails randomly.
+   * TODO(vladimir.gorej@gmail.com): fix this test.
+   */
   it.skip('should reload while keeping text change from 2.6.0 to 2.5.0', () => {
     cy.prepareAsyncAPI();
     cy.waitForSplashScreen();

@@ -16,7 +16,7 @@ const createDereferenceActionDescriptor = ({ getSystem }) => ({
     const worker = await getWorker()(model.uri);
     const dereferenced = await worker.doDeref(model.uri.toString(), {
       baseURI: globalThis.document.baseURI || globalThis.location.href,
-      format: isContentJSON ? 0 : isContentYAML ? 1 : 'unknown', // eslint-disable-line no-nested-ternary
+      format: isContentJSON ? 0 : isContentYAML ? 1 : 'unknown',
     });
 
     if (isContentYAML) {

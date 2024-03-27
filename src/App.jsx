@@ -82,6 +82,7 @@ SwaggerEditor.defaultProps = {
   ...SwaggerUI.defaultProps,
   layout: 'SwaggerEditorLayout',
   presets: [SwaggerEditor.presets.default],
+  showExtensions: true,
 };
 
 export default SwaggerEditor;

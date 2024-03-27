@@ -52,8 +52,10 @@ paths:
         schema:
           $ref: "#/definitions/Pet"
       responses:
-        "405":
-          description: "Invalid input"
+        "400":
+          description: Invalid input
+        "422":
+          description: Validation exception
       security:
       - petstore_auth:
         - "write:pets"
@@ -82,7 +84,7 @@ paths:
           description: "Invalid ID supplied"
         "404":
           description: "Pet not found"
-        "405":
+        "422":
           description: "Validation exception"
       security:
       - petstore_auth:
@@ -130,7 +132,7 @@ paths:
       tags:
       - "pet"
       summary: "Finds Pets by tags"
-      description: "Muliple tags can be provided with comma separated strings. Use\
+      description: "Multiple tags can be provided with comma separated strings. Use\
         \\ tag1, tag2, tag3 for testing."
       operationId: "findPetsByTags"
       produces:
@@ -216,8 +218,10 @@ paths:
         required: false
         type: "string"
       responses:
-        "405":
-          description: "Invalid input"
+        "400":
+          description: Invalid input
+        "422":
+          description: Validation exception
       security:
       - petstore_auth:
         - "write:pets"
