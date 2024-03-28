@@ -33,8 +33,8 @@ export const selectParseMarkers = createSelector(
   (parseErrors, monaco, modelVersionId) => {
     return parseErrors.map((diagnostic) => ({
       message: diagnostic.message,
-      startLineNumber: diagnostic.range.start.line + 1,
-      endLineNumber: diagnostic.range.end.line + 1,
+      startLineNumber: diagnostic.range.start.line,
+      endLineNumber: diagnostic.range.end.line,
       startColumn: diagnostic.range.start.character,
       endColumn: diagnostic.range.end.character,
       code: `ASNCPRSR`,

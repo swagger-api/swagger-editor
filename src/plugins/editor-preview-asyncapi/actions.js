@@ -4,7 +4,7 @@ import { OpenAPISchemaParser } from '@asyncapi/openapi-schema-parser';
 import { AvroSchemaParser } from '@asyncapi/avro-schema-parser';
 import { ProtoBuffSchemaParser } from '@asyncapi/protobuf-schema-parser';
 
-import { Raml10SchemaParser } from './util/raml-1-0-parser.js';
+import { Raml10SchemaParser } from './util/parsers/raml-1-0-parser.js';
 
 /**
  * Action types.
