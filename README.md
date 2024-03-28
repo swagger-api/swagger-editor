@@ -84,7 +84,6 @@ Install dependencies needed for webpack@5 to properly build SwaggerEditor.
 
 ```sh
  $ npm i stream-browserify --save-dev
- $ npm i process --save-dev
  $ npm i https-browserify --save-dev
  $ npm i stream-http --save-dev
  $ npm i util --save-dev
@@ -120,6 +119,8 @@ module.exports = {
     alias: {
       // This alias make sure we don't pull two different versions of monaco-editor
       'monaco-editor': '/node_modules/monaco-editor',
+      // This alias makes sure we're avoiding a runtime error related to this package
+      '@stoplight/ordered-object-literal$': '/node_modules/@stoplight/ordered-object-literal/src/index.mjs',
     },
   },
   plugins: [
@@ -154,14 +155,6 @@ module.exports = {
         loader: 'file-loader',
         type: 'javascript/auto', // this disables webpacks default handling of wasm
       },
-      {
-        test: /@apidevtools\/json-schema-ref-parser\/lib\/util\/url.js$/,
-        loader: 'imports-loader',
-        options: {
-          type: 'commonjs',
-          imports: ['single process/browser process'],
-        },
-      },
     ]
   }
 };
@@ -179,7 +172,6 @@ Install `copy-webpack-plugin` and other needed dependencies.
 ```sh
  $ npm i copy-webpack-plugin --save-dev
  $ npm i stream-browserify --save-dev
- $ npm i process --save-dev
  $ npm i https-browserify --save-dev
  $ npm i stream-http --save-dev
  $ npm i util --save-dev
@@ -214,6 +206,8 @@ module.exports = {
     alias: {
       // This alias make sure we don't pull two different versions of monaco-editor
       'monaco-editor': '/node_modules/monaco-editor',
+      // This alias makes sure we're avoiding a runtime error related to this package
+      '@stoplight/ordered-object-literal$': '/node_modules/@stoplight/ordered-object-literal/src/index.mjs',
     }
   },
   plugins: [
@@ -238,14 +232,6 @@ module.exports = {
       {
         test: /\.css$/,
         use: ['style-loader', 'css-loader']
-      },
-      {
-        test: /@apidevtools\/json-schema-ref-parser\/lib\/util\/url.js$/,
-        loader: 'imports-loader',
-        options: {
-          type: 'commonjs',
-          imports: ['single process/browser process'],
-        },
       },
     ]
   }

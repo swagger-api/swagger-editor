@@ -6,12 +6,6 @@ import { ProtoBuffSchemaParser } from '@asyncapi/protobuf-schema-parser';
 
 import { Raml10SchemaParser } from './util/raml-1-0-parser.js';
 
-const parser = new Parser();
-parser.registerSchemaParser(OpenAPISchemaParser());
-parser.registerSchemaParser(AvroSchemaParser());
-parser.registerSchemaParser(Raml10SchemaParser());
-parser.registerSchemaParser(ProtoBuffSchemaParser());
-
 /**
  * Action types.
  */
@@ -56,8 +50,15 @@ export const parseFailure = ({ error, parseResult, content, requestId }) => ({
  * Async thunks.
  */
 
-export const parse = (content, parserOptions = {}) => {
+export const parse = (content, options = {}) => {
   const uid = new ShortUniqueId({ length: 10 });
+
+  const { parserOptions, parseOptions } = options;
+  const parser = new Parser(parserOptions);
+  parser.registerSchemaParser(OpenAPISchemaParser());
+  parser.registerSchemaParser(AvroSchemaParser());
+  parser.registerSchemaParser(Raml10SchemaParser());
+  parser.registerSchemaParser(ProtoBuffSchemaParser());
 
   return async (system) => {
     /**
@@ -70,7 +71,7 @@ export const parse = (content, parserOptions = {}) => {
     editorPreviewAsyncAPIActions.parseStarted({ content, requestId });
 
     try {
-      const parseResult = await parser.parse(content, parserOptions);
+      const parseResult = await parser.parse(content, parseOptions);
 
       if (parseResult.document) {
         editorPreviewAsyncAPIActions.parseSuccess({ parseResult, content, requestId });
