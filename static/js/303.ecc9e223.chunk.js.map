@@ -1,0 +1,1 @@
+{"version":3,"file":"static/js/303.ecc9e223.chunk.js","mappings":"yJAAA,MAAMA,EAASA,KACJ,CACHC,SAAU,OACVC,WAAY,G","sources":["../node_modules/vscode/override/jschardet.js"],"sourcesContent":["const detect = () => {\n    return {\n        encoding: 'utf8',\n        confidence: 1\n    };\n};\nexport { detect };\n"],"names":["detect","encoding","confidence"],"sourceRoot":""}
