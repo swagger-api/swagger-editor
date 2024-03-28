@@ -1,15 +1,10 @@
 import ShortUniqueId from 'short-unique-id';
-import { parse as parseAsyncAPIDefinition, registerSchemaParser } from '@asyncapi/parser';
-import * as openapiSchemaParser from '@asyncapi/openapi-schema-parser';
-import * as avroSchemaParser from '@asyncapi/avro-schema-parser';
-import * as protobufSchemaParser from '@asyncapi/protobuf-schema-parser';
+import { Parser } from '@asyncapi/parser';
+import { OpenAPISchemaParser } from '@asyncapi/openapi-schema-parser';
+import { AvroSchemaParser } from '@asyncapi/avro-schema-parser';
+import { ProtoBuffSchemaParser } from '@asyncapi/protobuf-schema-parser';
 
-import * as ramlSchemaParser from './util/raml-1-0-parser.js';
-
-registerSchemaParser(openapiSchemaParser);
-registerSchemaParser(avroSchemaParser);
-registerSchemaParser(protobufSchemaParser);
-registerSchemaParser(ramlSchemaParser);
+import { Raml10SchemaParser } from './util/parsers/raml-1-0-parser.js';
 
 /**
  * Action types.
@@ -44,19 +39,26 @@ export const parseSuccess = ({ parseResult, content, requestId }) => ({
   meta: { content, requestId },
 });
 
-export const parseFailure = ({ error, content, requestId }) => ({
+export const parseFailure = ({ error, parseResult, content, requestId }) => ({
   type: EDITOR_PREVIEW_ASYNCAPI_PARSE_FAILURE,
   payload: error,
   error: true,
-  meta: { content, requestId },
+  meta: { content, requestId, parseResult },
 });
 
 /**
  * Async thunks.
  */
 
-export const parse = (content, parserOptions = {}) => {
+export const parse = (content, options = {}) => {
   const uid = new ShortUniqueId({ length: 10 });
+
+  const { parserOptions, parseOptions } = options;
+  const parser = new Parser(parserOptions);
+  parser.registerSchemaParser(OpenAPISchemaParser());
+  parser.registerSchemaParser(AvroSchemaParser());
+  parser.registerSchemaParser(Raml10SchemaParser());
+  parser.registerSchemaParser(ProtoBuffSchemaParser());
 
   return async (system) => {
     /**
@@ -69,8 +71,18 @@ export const parse = (content, parserOptions = {}) => {
     editorPreviewAsyncAPIActions.parseStarted({ content, requestId });
 
     try {
-      const parseResult = await parseAsyncAPIDefinition(content, parserOptions);
-      editorPreviewAsyncAPIActions.parseSuccess({ parseResult, content, requestId });
+      const parseResult = await parser.parse(content, parseOptions);
+
+      if (parseResult.document) {
+        editorPreviewAsyncAPIActions.parseSuccess({ parseResult, content, requestId });
+      } else {
+        editorPreviewAsyncAPIActions.parseFailure({
+          error: new Error('Document is empty'),
+          parseResult,
+          content,
+          requestId,
+        });
+      }
     } catch (error) {
       editorPreviewAsyncAPIActions.parseFailure({ error, content, requestId });
     }

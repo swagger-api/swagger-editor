@@ -1,4 +1,3 @@
-import { AsyncAPIDocument } from '@asyncapi/parser';
 import { createSelector } from 'reselect';
 
 import {
@@ -14,17 +13,11 @@ const selectState = (state) => state;
 export const selectParseStatus = (state) => state.get('parseStatus', IDLE_STATUS);
 
 export const selectParseResult = createSelector(selectState, (state) => {
-  const parseResult = state.get('parseResult', initialState.parseResult);
-
-  if (typeof parseResult !== 'string') {
-    return null;
-  }
-
-  return AsyncAPIDocument.parse(state.get('parseResult'));
+  return state.get('parseResult', initialState.parseResult);
 });
 
 export const selectParseErrors = createSelector(selectState, (state) => {
-  const parseErrorsIm = state.get('parseErrors', initialState.parseResult);
+  const parseErrorsIm = state.get('parseErrors', initialState.parseErrors);
 
   if (parseErrorsIm === null) {
     return [];
@@ -38,8 +31,12 @@ export const selectParseMarkers = createSelector(
   (state, { monaco }) => monaco,
   (state, { modelVersionId }) => modelVersionId,
   (parseErrors, monaco, modelVersionId) => {
-    return parseErrors.map((parseError) => ({
-      ...parseError,
+    return parseErrors.map((diagnostic) => ({
+      message: diagnostic.message,
+      startLineNumber: diagnostic.range.start.line,
+      endLineNumber: diagnostic.range.end.line,
+      startColumn: diagnostic.range.start.character,
+      endColumn: diagnostic.range.end.character,
       code: `ASNCPRSR`,
       severity: monaco.MarkerSeverity.Error,
       source: '@asyncapi/parser',

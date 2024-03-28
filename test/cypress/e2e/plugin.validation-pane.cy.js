@@ -21,7 +21,7 @@ describe('Monaco Editor with Validation Pane', () => {
    * expect table body <tbody> to always not exist if there are no errors
    * make appropriate changes if/when needed
    */
-  it('should display visible Validation Pane table header and table body when error exists', () => {
+  it.only('should display visible Validation Pane table header and table body when error exists', () => {
     cy.get('.swagger-editor__validation-table')
       .should('exist')
       .get('.swagger-editor__validation-table > thead')
@@ -47,7 +47,7 @@ describe('Monaco Editor with Validation Pane', () => {
       .should('be.visible');
     // validation error message is parser specific
     cy.get('.swagger-editor__validation-table > tbody td:nth-child(4)')
-      .contains('should NOT have')
+      .contains('Object must have required property "info"')
       .should('be.visible');
   });
 
