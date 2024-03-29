@@ -3,6 +3,7 @@ import selectOpenAPI303PetstoreYAML from './selectors/selectOpenAPI303PetstoreYA
 import selectOpenAPI20PetstoreYAML from './selectors/selectOpenAPI20PetstoreYAML.js';
 import selectAsyncAPI260PetstoreYAML from './selectors/selectAsyncAPI260PetstoreYAML.js';
 import selectAsyncAPI260StreetlightsYAML from './selectors/selectAsyncAPI260StreetlightsYAML.js';
+import selectAsyncAPI300StreetlightsYAML from './selectors/selectAsyncAPI300StreetlightsYAML.js';
 import selectAPIDesignSystemsYAML from './selectors/selectAPIDesignSystemsYAML.js';
 // test
 
@@ -15,6 +16,8 @@ const EditorContentFixturesPlugin = () => ({
         selectOpenAPI20PetstoreYAML,
         selectAsyncAPI260PetstoreYAML,
         selectAsyncAPI260StreetlightsYAML,
+        selectAsyncAPI300StreetlightsYAML,
+
         selectAPIDesignSystemsYAML,
       },
     },

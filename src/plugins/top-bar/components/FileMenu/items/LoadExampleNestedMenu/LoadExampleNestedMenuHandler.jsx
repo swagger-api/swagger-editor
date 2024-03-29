@@ -25,6 +25,10 @@ const LoadExampleNestedMenuHandler = forwardRef((props, ref) => {
       const content = editorContentFixturesSelectors.selectAsyncAPI260StreetlightsYAML();
       editorActions.setContent(content, 'fixture-load');
     },
+    loadAsyncAPI30StreetlightsFixture() {
+      const content = editorContentFixturesSelectors.selectAsyncAPI300StreetlightsYAML();
+      editorActions.setContent(content, 'fixture-load');
+    },
     loadAPIDesignSystemsFixture() {
       const content = editorContentFixturesSelectors.selectAPIDesignSystemsYAML();
       editorActions.setContent(content, 'fixture-load');
@@ -44,6 +48,7 @@ LoadExampleNestedMenuHandler.propTypes = {
     selectOpenAPI20PetstoreYAML: PropTypes.func.isRequired,
     selectAsyncAPI260PetstoreYAML: PropTypes.func.isRequired,
     selectAsyncAPI260StreetlightsYAML: PropTypes.func.isRequired,
+    selectAsyncAPI300StreetlightsYAML: PropTypes.func.isRequired,
     selectAPIDesignSystemsYAML: PropTypes.func.isRequired,
   }).isRequired,
 };

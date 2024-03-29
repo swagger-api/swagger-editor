@@ -28,6 +28,10 @@ const LoadExampleNestedMenu = (props) => {
     'TopBarFileMenuLoadExampleNestedMenuAsyncAPI26StreetlightsMenuItem',
     true
   );
+  const AsyncAPI30StreetlightsMenuItem = getComponent(
+    'TopBarFileMenuLoadExampleNestedMenuAsyncAPI30StreetlightsMenuItem',
+    true
+  );
   const APIDesignSystemsMenuItem = getComponent(
     'TopBarFileMenuLoadExampleNestedMenuAPIDesignSystemsMenuItem',
     true
@@ -48,6 +52,9 @@ const LoadExampleNestedMenu = (props) => {
   const handleAsyncAPI26StreetlightsClick = useCallback(async (event) => {
     await loadExampleNestedMenuHandler.current.loadAsyncAPI26StreetlightsFixture(event);
   }, []);
+  const handleAsyncAPI30StreetlightsClick = useCallback(async (event) => {
+    await loadExampleNestedMenuHandler.current.loadAsyncAPI30StreetlightsFixture(event);
+  }, []);
   const handleAPIDesignSystemsClick = useCallback(async (event) => {
     await loadExampleNestedMenuHandler.current.loadAPIDesignSystemsFixture(event);
   }, []);
@@ -62,6 +69,7 @@ const LoadExampleNestedMenu = (props) => {
         <OpenAPI20PetstoreMenuItem onClick={handleOpenAPI20PetstoreClick} />
         <DropdownMenuItemDivider />
         <AsyncAPI26PetstoreMenuItem onClick={handleAsyncAPI26PetstoreClick} />
+        <AsyncAPI30StreetlightsMenuItem onClick={handleAsyncAPI30StreetlightsClick} />
         <AsyncAPI26StreetlightsMenuItem onClick={handleAsyncAPI26StreetlightsClick} />
         <DropdownMenuItemDivider />
         <APIDesignSystemsMenuItem onClick={handleAPIDesignSystemsClick} />
