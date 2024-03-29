@@ -100,6 +100,28 @@ export const detectContentType = (content) => {
         return editorActions.detectContentTypeSuccess({ contentType, content, requestId });
       }
 
+      const asyncApi3JSONMatch = content.match(
+        /"asyncapi"\s*:\s*"(?<version_json>3\.(?:[1-9]\d*|0)\.(?:[1-9]\d*|0))"/
+      );
+      if (asyncApi3JSONMatch !== null && fn.isValidJSONObject(content)) {
+        const { groups } = asyncApi3JSONMatch;
+        const version = groups?.version_json;
+        const contentType = `application/vnd.aai.asyncapi+json;version=${version}`;
+
+        return editorActions.detectContentTypeSuccess({ contentType, content, requestId });
+      }
+
+      const asyncApi3YAMLMatch = content.match(
+        /(?<YAML>^(["']?)asyncapi\2\s*:\s*(["']?)(?<version_yaml>3\.(?:[1-9]\d*|0)\.(?:[1-9]\d*|0))\3(?:\s+|$))|(?<JSON>"asyncapi"\s*:\s*"(?<version_json>3\.(?:[1-9]\d*|0)\.(?:[1-9]\d*|0))")/m
+      );
+      if (asyncApi3YAMLMatch !== null && fn.isValidYAMLObject(content)) {
+        const { groups } = asyncApi3YAMLMatch;
+        const version = groups?.version_json ?? groups?.version_yaml;
+        const contentType = `application/vnd.aai.asyncapi+yaml;version=${version}`;
+
+        return editorActions.detectContentTypeSuccess({ contentType, content, requestId });
+      }
+
       const openApi30xJSONMatch = content.match(detectionRegExpOpenAPIJSON30x);
       if (openApi30xJSONMatch !== null && fn.isValidJSONObject(content)) {
         const { groups } = openApi30xJSONMatch;

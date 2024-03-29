@@ -4,18 +4,19 @@ import PropTypes from 'prop-types';
 const EditorPreviewWrapper = (Original, system) => {
   const EditorPreview = ({ getComponent, editorSelectors }) => {
     const EditorPreviewAsyncAPI = getComponent('EditorPreviewAsyncAPI', true);
+    const isAsyncAPI = editorSelectors.selectIsContentTypeAsyncAPI();
 
-    return editorSelectors.selectIsContentTypeAsyncAPI2() ? (
-      <EditorPreviewAsyncAPI />
-    ) : (
-      <Original {...system} /> // eslint-disable-line react/jsx-props-no-spreading
-    );
+    if (isAsyncAPI) {
+      return <EditorPreviewAsyncAPI />;
+    }
+
+    return <Original {...system} />; // eslint-disable-line react/jsx-props-no-spreading
   };
 
   EditorPreview.propTypes = {
     getComponent: PropTypes.func.isRequired,
     editorSelectors: PropTypes.shape({
-      selectIsContentTypeAsyncAPI2: PropTypes.func.isRequired,
+      selectIsContentTypeAsyncAPI: PropTypes.func.isRequired,
     }).isRequired,
   };
 
