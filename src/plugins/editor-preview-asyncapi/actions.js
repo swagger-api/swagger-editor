@@ -53,12 +53,18 @@ export const parseFailure = ({ error, parseResult, content, requestId }) => ({
 export const parse = (content, options = {}) => {
   const uid = new ShortUniqueId({ length: 10 });
 
+  /**
+   * We dive ability to fully distinguish between parser and parse options.
+   * If parser or parse options are not provided, we will use the options object as it is.
+   */
   const { parserOptions, parseOptions } = options;
-  const parser = new Parser(parserOptions);
-  parser.registerSchemaParser(OpenAPISchemaParser());
-  parser.registerSchemaParser(AvroSchemaParser());
-  parser.registerSchemaParser(Raml10SchemaParser());
-  parser.registerSchemaParser(ProtoBuffSchemaParser());
+  const schemaParsers = [
+    OpenAPISchemaParser(),
+    AvroSchemaParser(),
+    Raml10SchemaParser(),
+    ProtoBuffSchemaParser(),
+  ];
+  const parser = new Parser({ schemaParsers, ...(parserOptions ?? options) });
 
   return async (system) => {
     /**
@@ -71,7 +77,7 @@ export const parse = (content, options = {}) => {
     editorPreviewAsyncAPIActions.parseStarted({ content, requestId });
 
     try {
-      const parseResult = await parser.parse(content, parseOptions);
+      const parseResult = await parser.parse(content, parseOptions ?? options);
 
       if (parseResult.document) {
         editorPreviewAsyncAPIActions.parseSuccess({ parseResult, content, requestId });
