@@ -54,7 +54,7 @@ export const parse = (content, options = {}) => {
   const uid = new ShortUniqueId({ length: 10 });
 
   /**
-   * We dive ability to fully distinguish between parser and parse options.
+   * We give ability to fully distinguish between parser and parse options.
    * If parser or parse options are not provided, we will use the options object as it is.
    */
   const { parserOptions, parseOptions } = options;
