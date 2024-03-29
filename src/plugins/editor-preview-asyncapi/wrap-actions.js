@@ -6,7 +6,7 @@ export const detectContentTypeSuccess = createSafeActionWrapper(
     ({ content }) => {
       const { editorSelectors, editorPreviewAsyncAPIActions } = system;
 
-      if (editorSelectors.selectIsContentTypeAsyncAPI2()) {
+      if (editorSelectors.selectIsContentTypeAsyncAPI()) {
         editorPreviewAsyncAPIActions.parse(content);
       }
     }

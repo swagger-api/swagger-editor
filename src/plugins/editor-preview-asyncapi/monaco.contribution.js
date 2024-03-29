@@ -16,7 +16,7 @@ const lazyMonacoContribution = ({ system }) => {
         const modelValue = model.getValue();
         const modelVersionId = model.getVersionId();
         const conditionFn = () =>
-          editorSelectors.selectIsContentTypeAsyncAPI2() &&
+          editorSelectors.selectIsContentTypeAsyncAPI() &&
           modelValue === editorSelectors.selectContent() &&
           !editorPreviewAsyncAPISelectors.selectIsParseInProgress();
 
