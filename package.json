@@ -68,7 +68,7 @@
     "@primer/octicons-react": "^19.9.0",
     "@swagger-api/apidom-core": "^0.98.0",
     "@swagger-api/apidom-json-pointer": "^0.98.0",
-    "@swagger-api/apidom-ls": "^0.98.2",
+    "@swagger-api/apidom-ls": "^0.98.3",
     "@swagger-api/apidom-ns-api-design-systems": "^0.98.0",
     "@swagger-api/apidom-parser-adapter-api-design-systems-json": "^0.98.0",
     "@swagger-api/apidom-parser-adapter-api-design-systems-yaml": "^0.98.0",
@@ -102,7 +102,7 @@
     "reselect": "^5.1.0",
     "short-unique-id": "^4.4.4",
     "styled-components": "^6.1.8",
-    "swagger-ui-react": "^5.12.2",
+    "swagger-ui-react": "^5.12.3",
     "vscode": "npm:@codingame/monaco-vscode-api@=3.2.2",
     "vscode-languageclient": "^9.0.1",
     "vscode-languageserver-textdocument": "^1.0.11"
