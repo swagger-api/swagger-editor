@@ -66,7 +66,7 @@
     "@emotion/styled": "^11.11.5",
     "@mui/material": "^5.15.14",
     "@primer/octicons-react": "^19.9.0",
-    "@swagger-api/apidom-core": "^0.98.0",
+    "@swagger-api/apidom-core": "^0.99.1",
     "@swagger-api/apidom-json-pointer": "^0.98.0",
     "@swagger-api/apidom-ls": "^0.98.3",
     "@swagger-api/apidom-ns-api-design-systems": "^0.99.1",
