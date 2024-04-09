@@ -2,11 +2,8 @@
 name: Build & Push SwaggerEditor@next Docker image
 
 on:
-  workflow_run:
-    workflows: ["Release SwaggerEditor@next"]
-    types:
-      - completed
-    branches: [next]
+  pull_request:
+    branches: [billy-test]
 
 jobs:
 
