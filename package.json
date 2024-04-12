@@ -128,7 +128,7 @@
     "@commitlint/config-conventional": "^19.1.0",
     "@testing-library/cypress": "^10.0.1",
     "@testing-library/jest-dom": "^6.4.2",
-    "@testing-library/react": "^14.2.2",
+    "@testing-library/react": "^15.0.1",
     "@testing-library/user-event": "^14.5.2",
     "copyfiles": "^2.4.1",
     "cross-env": "^7.0.3",
