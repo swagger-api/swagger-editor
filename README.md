@@ -213,7 +213,7 @@ In order to inform `swagger-editor@5` npm package that I require it to use my Re
 
 ### yarn
 
-In order to inform `swagger-editor@5` npm package that I require it to use my specific React version, I need to use [yarm resolutions](https://yarnpkg.com/cli/set/resolution).
+In order to inform `swagger-editor@5` npm package that I require it to use my specific React version, I need to use [yarn resolutions](https://yarnpkg.com/cli/set/resolution).
 
 
 ```json
