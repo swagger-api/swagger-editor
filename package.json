@@ -124,7 +124,7 @@
     "@swagger-api/apidom-parser-adapter-openapi-yaml-3-1": "$@swagger-api/apidom-parser-adapter-openapi-yaml-3-1"
   },
   "devDependencies": {
-    "@commitlint/cli": "^19.2.1",
+    "@commitlint/cli": "^19.2.2",
     "@commitlint/config-conventional": "^19.2.2",
     "@testing-library/cypress": "^10.0.1",
     "@testing-library/jest-dom": "^6.4.2",
