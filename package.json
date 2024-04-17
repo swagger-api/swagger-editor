@@ -73,7 +73,7 @@
     "@swagger-api/apidom-parser-adapter-api-design-systems-json": "^0.99.1",
     "@swagger-api/apidom-parser-adapter-api-design-systems-yaml": "^0.99.1",
     "@swagger-api/apidom-parser-adapter-asyncapi-json-2": "^0.98.0",
-    "@swagger-api/apidom-parser-adapter-asyncapi-yaml-2": "^0.98.0",
+    "@swagger-api/apidom-parser-adapter-asyncapi-yaml-2": "^0.99.1",
     "@swagger-api/apidom-parser-adapter-openapi-json-2": "^0.99.1",
     "@swagger-api/apidom-parser-adapter-openapi-json-3-0": "^0.99.1",
     "@swagger-api/apidom-parser-adapter-openapi-json-3-1": "^0.99.1",
