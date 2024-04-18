@@ -1,12 +1,12 @@
 {
   "files": {
     "main.css": "/static/css/main.f9006aae.css",
-    "main.js": "/static/js/main.d5ebbb7a.js",
+    "main.js": "/static/js/main.cf853c3d.js",
     "apidom.worker.js": "/static/js/apidom.worker.3e71063f.js",
     "editor.worker.js": "/static/js/editor.worker.a7ef0705.js",
     "static/js/27.35b7a09f.chunk.js": "/static/js/27.35b7a09f.chunk.js",
     "static/js/303.ecc9e223.chunk.js": "/static/js/303.ecc9e223.chunk.js",
-    "static/js/491.280ea4e6.chunk.js": "/static/js/491.280ea4e6.chunk.js",
+    "static/js/491.82b77f10.chunk.js": "/static/js/491.82b77f10.chunk.js",
     "static/media/tree-sitter-yaml.wasm": "/static/media/tree-sitter-yaml.d396281e11774e0afa7a.wasm",
     "static/media/tree-sitter.wasm": "/static/media/tree-sitter.23aac571c96605dc2521.wasm",
     "static/media/logo-small.svg": "/static/media/logo-small.58f1585435fafd829b8982413648119a.svg",
@@ -19,15 +19,15 @@
     "static/media/info-icon.svg": "/static/media/info-icon.5d94dcb8b5f22d462f0101b8987451ce.svg",
     "static/media/jump-icon.svg": "/static/media/jump-icon.9348db75ba00ced133f000aa8d1e2d83.svg",
     "main.f9006aae.css.map": "/static/css/main.f9006aae.css.map",
-    "main.d5ebbb7a.js.map": "/static/js/main.d5ebbb7a.js.map",
+    "main.cf853c3d.js.map": "/static/js/main.cf853c3d.js.map",
     "apidom.worker.3e71063f.js.map": "/static/js/apidom.worker.3e71063f.js.map",
     "editor.worker.a7ef0705.js.map": "/static/js/editor.worker.a7ef0705.js.map",
     "27.35b7a09f.chunk.js.map": "/static/js/27.35b7a09f.chunk.js.map",
     "303.ecc9e223.chunk.js.map": "/static/js/303.ecc9e223.chunk.js.map",
-    "491.280ea4e6.chunk.js.map": "/static/js/491.280ea4e6.chunk.js.map"
+    "491.82b77f10.chunk.js.map": "/static/js/491.82b77f10.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.f9006aae.css",
-    "static/js/main.d5ebbb7a.js"
+    "static/js/main.cf853c3d.js"
   ]
 }
