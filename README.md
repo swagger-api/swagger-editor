@@ -182,14 +182,14 @@ You can then view the app by navigating to `http://localhost` in your browser.
 > [!IMPORTANT]
 > By older versions we specifically refer to `React >=17 <18`.
 
-By default [swagger-editor@5](https://www.npmjs.com/package/swagger-editor) npm package comes with latest version of [React@18](https://react.dev/blog/2022/03/29/react-v18).
-It's possible to use _swagger-editor@5_ npm package with older version of React.
+By default [swagger-editor@4](https://www.npmjs.com/package/swagger-editor) npm package comes with latest version of [React@18](https://react.dev/blog/2022/03/29/react-v18).
+It's possible to use _swagger-editor@4_ npm package with older version of React.
 
-Let's say my application integrates with _swagger-editor@5_ npm package and uses [React@17.0.2](https://www.npmjs.com/package/react/v/17.0.2).
+Let's say my application integrates with _swagger-editor@4_ npm package and uses [React@17.0.2](https://www.npmjs.com/package/react/v/17.0.2).
 
 ### npm
 
-In order to inform `swagger-editor@5` npm package that I require it to use my React version, I need to use [npm overrides](https://docs.npmjs.com/cli/v9/configuring-npm/package-json#overrides).
+In order to inform `swagger-editor@4` npm package that I require it to use my React version, I need to use [npm overrides](https://docs.npmjs.com/cli/v9/configuring-npm/package-json#overrides).
 
 ```json
 {
@@ -213,7 +213,7 @@ In order to inform `swagger-editor@5` npm package that I require it to use my Re
 
 ### yarn
 
-In order to inform `swagger-editor@5` npm package that I require it to use my specific React version, I need to use [yarn resolutions](https://yarnpkg.com/cli/set/resolution).
+In order to inform `swagger-editor@4` npm package that I require it to use my specific React version, I need to use [yarn resolutions](https://yarnpkg.com/cli/set/resolution).
 
 
 ```json
