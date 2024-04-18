@@ -56,7 +56,7 @@
   },
   "dependencies": {
     "@asyncapi/avro-schema-parser": "^3.0.18",
-    "@asyncapi/openapi-schema-parser": "^3.0.20",
+    "@asyncapi/openapi-schema-parser": "^3.0.22",
     "@asyncapi/parser": "^3.0.13",
     "@asyncapi/protobuf-schema-parser": "^3.2.10",
     "@asyncapi/react-component": "^1.4.5",
