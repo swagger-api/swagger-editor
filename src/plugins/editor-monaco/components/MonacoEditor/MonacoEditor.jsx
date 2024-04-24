@@ -29,9 +29,13 @@ const MonacoEditor = ({
   const editorRef = useRef(null);
   const subscriptionRef = useRef(null);
   const valueRef = useRef(value);
+  const preventCreation = useRef(false);
   const [isEditorReady, setIsEditorReady] = useState(false);
 
   const createEditor = useCallback(() => {
+    if (!containerRef.current) return;
+    if (preventCreation.current) return;
+
     editorRef.current = monaco.editor.create(containerRef.current, {
       value,
       language,
@@ -66,6 +70,7 @@ const MonacoEditor = ({
 
     editorRef.current.getModel().updateOptions({ tabSize: 2 });
     setIsEditorReady(true);
+    preventCreation.current = true;
   }, [value, language, theme, isReadOnly]);
 
   const disposeEditor = useCallback(() => {
