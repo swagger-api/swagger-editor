@@ -1,5 +1,5 @@
 import React from 'react';
-import deepmerge from 'deepmerge';
+import PropTypes from 'prop-types';
 import SwaggerUI from 'swagger-ui-react';
 import 'swagger-ui-react/swagger-ui.css';
 /**
@@ -35,16 +35,107 @@ import MonacoPreset from 'presets/monaco/index.js';
 
 import './styles/main.scss';
 
-const SwaggerEditor = React.memo((props) => {
-  const mergedProps = deepmerge(SwaggerEditor.defaultProps, props);
-
-  return (
+const SwaggerEditor = React.memo(
+  ({
+    spec = SwaggerUI.config.defaults.spec,
+    url = SwaggerUI.config.defaults.url,
+    layout = 'SwaggerEditorLayout',
+    requestInterceptor = SwaggerUI.config.defaults.requestInterceptor,
+    responseInterceptor = SwaggerUI.config.defaults.responseInterceptor,
+    supportedSubmitMethods = SwaggerUI.config.defaults.supportedSubmitMethods,
+    queryConfigEnabled = SwaggerUI.config.defaults.queryConfigEnabled,
+    plugins = SwaggerUI.config.defaults.plugins,
+    displayOperationId = SwaggerUI.config.defaults.displayOperationId,
+    showMutatedRequest = SwaggerUI.config.defaults.showMutatedRequest,
+    docExpansion = SwaggerUI.config.defaults.docExpansion,
+    defaultModelExpandDepth = SwaggerUI.config.defaults.defaultModelExpandDepth,
+    defaultModelsExpandDepth = SwaggerUI.config.defaults.defaultModelsExpandDepth,
+    defaultModelRendering = SwaggerUI.config.defaults.defaultModelRendering,
+    presets = [SwaggerEditor.presets.default], // eslint-disable-line no-use-before-define
+    deepLinking = SwaggerUI.config.defaults.deepLinking,
+    showExtensions = true,
+    showCommonExtensions = SwaggerUI.config.defaults.showCommonExtensions,
+    filter = SwaggerUI.config.defaults.filter,
+    requestSnippetsEnabled = SwaggerUI.config.defaults.requestSnippetsEnabled,
+    requestSnippets = SwaggerUI.config.defaults.requestSnippets,
+    tryItOutEnabled = SwaggerUI.config.defaults.tryItOutEnabled,
+    displayRequestDuration = SwaggerUI.config.defaults.displayRequestDuration,
+    withCredentials = SwaggerUI.config.defaults.withCredentials,
+    persistAuthorization = SwaggerUI.config.defaults.persistAuthorization,
+    oauth2RedirectUrl = SwaggerUI.config.defaults.oauth2RedirectUrl,
+    onComplete = null,
+  }) => (
     <div className="swagger-editor">
-      {/* eslint-disable-next-line react/jsx-props-no-spreading */}
-      <SwaggerUI {...mergedProps} />
+      <SwaggerUI
+        spec={spec}
+        url={url}
+        layout={layout}
+        requestInterceptor={requestInterceptor}
+        responseInterceptor={responseInterceptor}
+        supportedSubmitMethods={supportedSubmitMethods}
+        queryConfigEnabled={queryConfigEnabled}
+        plugins={plugins}
+        displayOperationId={displayOperationId}
+        showMutatedRequest={showMutatedRequest}
+        docExpansion={docExpansion}
+        defaultModelExpandDepth={defaultModelExpandDepth}
+        defaultModelsExpandDepth={defaultModelsExpandDepth}
+        defaultModelRendering={defaultModelRendering}
+        presets={presets}
+        deepLinking={deepLinking}
+        showExtensions={showExtensions}
+        showCommonExtensions={showCommonExtensions}
+        filter={filter}
+        requestSnippetsEnabled={requestSnippetsEnabled}
+        requestSnippets={requestSnippets}
+        tryItOutEnabled={tryItOutEnabled}
+        displayRequestDuration={displayRequestDuration}
+        withCredentials={withCredentials}
+        persistAuthorization={persistAuthorization}
+        oauth2RedirectUrl={oauth2RedirectUrl}
+        onComplete={onComplete}
+      />
     </div>
-  );
-});
+  )
+);
+
+/* eslint-disable react/require-default-props */
+SwaggerEditor.propTypes = {
+  spec: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
+  url: PropTypes.string,
+  layout: PropTypes.string,
+  requestInterceptor: PropTypes.func,
+  responseInterceptor: PropTypes.func,
+  onComplete: PropTypes.func,
+  docExpansion: PropTypes.oneOf(['list', 'full', 'none']),
+  supportedSubmitMethods: PropTypes.arrayOf(
+    PropTypes.oneOf(['get', 'put', 'post', 'delete', 'options', 'head', 'patch', 'trace'])
+  ),
+  queryConfigEnabled: PropTypes.bool,
+  plugins: PropTypes.oneOfType([
+    PropTypes.arrayOf(PropTypes.object),
+    PropTypes.arrayOf(PropTypes.func),
+    PropTypes.func,
+  ]),
+  displayOperationId: PropTypes.bool,
+  showMutatedRequest: PropTypes.bool,
+  defaultModelExpandDepth: PropTypes.number,
+  defaultModelsExpandDepth: PropTypes.number,
+  defaultModelRendering: PropTypes.oneOf(['example', 'model']),
+  presets: PropTypes.arrayOf(PropTypes.func),
+  deepLinking: PropTypes.bool,
+  showExtensions: PropTypes.bool,
+  showCommonExtensions: PropTypes.bool,
+  filter: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+  requestSnippetsEnabled: PropTypes.bool,
+  requestSnippets: PropTypes.shape(),
+  tryItOutEnabled: PropTypes.bool,
+  displayRequestDuration: PropTypes.bool,
+  persistAuthorization: PropTypes.bool,
+  withCredentials: PropTypes.bool,
+  oauth2RedirectUrl: PropTypes.string,
+};
+/* eslint-enable */
 
 SwaggerEditor.plugins = {
   Modals: ModalsPlugin,
@@ -70,19 +161,11 @@ SwaggerEditor.plugins = {
   Layout: LayoutPlugin,
   SwaggerUIAdapter: SwaggerUIAdapterPlugin,
 };
+
 SwaggerEditor.presets = {
   textarea: TextareaPreset,
   monaco: MonacoPreset,
   default: MonacoPreset,
-};
-
-SwaggerEditor.propTypes = SwaggerUI.propTypes;
-
-SwaggerEditor.defaultProps = {
-  ...SwaggerUI.defaultProps,
-  layout: 'SwaggerEditorLayout',
-  presets: [SwaggerEditor.presets.default],
-  showExtensions: true,
 };
 
 export default SwaggerEditor;
