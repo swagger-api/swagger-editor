@@ -36,7 +36,7 @@ Assuming [prerequisites](#prerequisites) are already installed, SwaggerEditor np
 You can install SwaggerEditor via [npm CLI](https://docs.npmjs.com/cli) by running the following command:
 
 ```sh
- $ npm install swagger-editor@>=5
+ $ npm install swagger-editor@alpha
 ````
 
 > NOTE: when using bundler to build your project which is using swagger-editor@5 npm package,
