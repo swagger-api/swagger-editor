@@ -15,7 +15,7 @@ const EditorWrapper = (Original, system) => {
         if (isReadOnlyFromProp) system.editorActions.setContentReadOnly();
         if (!isReadOnlyFromProp) system.editorActions.setContentReadWrite();
       }
-    }, [isReadOnlyFromProp]);
+    }, [isReadOnlyFromProp, isReadOnlyFromState]);
 
     // eslint-disable-next-line react/jsx-props-no-spreading
     return <Original {...props} isReadOnly={isReadOnly} />;
