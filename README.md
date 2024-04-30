@@ -1,3 +1,5 @@
+TEST
+
 # <img src="https://raw.githubusercontent.com/swagger-api/swagger.io/wordpress/images/assets/SWE-logo-clr.png" height="80">
 [![NPM version](https://badge.fury.io/js/swagger-editor.svg)](http://badge.fury.io/js/swagger-editor)
 [![Build Status](https://jenkins.swagger.io/buildStatus/icon?job=oss-swagger-editor-master)](https://jenkins.swagger.io/job/oss-swagger-editor-master/)
