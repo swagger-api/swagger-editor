@@ -1,4 +1,5 @@
 import EditorPreviewAsyncAPI from './components/EditorPreviewAsyncAPI/EditorPreviewAsyncAPI.jsx';
+import AsyncAPIReactComponent from './components/AsyncAPIReactComponent.jsx';
 import ParseErrors from './components/ParseErrors/ParseErrors.jsx';
 import EditorPreviewWrapper from './wrap-components/EditorPreviewWrapper.jsx';
 import { previewUnmounted, parse, parseStarted, parseSuccess, parseFailure } from './actions.js';
@@ -20,6 +21,7 @@ const EditorPreviewAsyncAPIPlugin = () => ({
   components: {
     EditorPreviewAsyncAPI,
     EditorPreviewAsyncAPIParseErrors: ParseErrors,
+    EditorPreviewAsyncAPIReactComponent: AsyncAPIReactComponent,
   },
   wrapComponents: {
     EditorPreview: EditorPreviewWrapper,

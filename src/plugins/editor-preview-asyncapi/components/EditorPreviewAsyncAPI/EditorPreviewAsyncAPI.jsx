@@ -1,9 +1,5 @@
-import React, { Suspense, useEffect } from 'react';
+import React, { Suspense, useMemo, useEffect } from 'react';
 import PropTypes from 'prop-types';
-
-const AsyncApiReactComponent = React.lazy(
-  () => import('@asyncapi/react-component/lib/esm/without-parser.js')
-);
 
 const Loading = () => <div>Loading...</div>;
 const Parsing = () => <div>Parsing...</div>;
@@ -14,12 +10,14 @@ const EditorPreviewAsyncAPI = ({
   editorPreviewAsyncAPISelectors,
 }) => {
   const ParseErrors = getComponent('EditorPreviewAsyncAPIParseErrors');
+  const AsyncAPIReactComponent = getComponent('EditorPreviewAsyncAPIReactComponent');
+
   const isParseInProgress = editorPreviewAsyncAPISelectors.selectIsParseInProgress();
   const isParseSuccess = editorPreviewAsyncAPISelectors.selectIsParseSuccess();
   const isParseFailure = editorPreviewAsyncAPISelectors.selectIsParseFailure();
   const parseResult = editorPreviewAsyncAPISelectors.selectParseResult();
   const parseErrors = editorPreviewAsyncAPISelectors.selectParseErrors();
-  const config = { show: { errors: true } };
+  const config = useMemo(() => ({ show: { errors: true } }), []);
 
   useEffect(() => {
     return () => {
@@ -31,7 +29,7 @@ const EditorPreviewAsyncAPI = ({
     <div className="swagger-editor__editor-preview-asyncapi">
       <Suspense fallback={<Loading />}>
         {isParseInProgress && <Parsing />}
-        {isParseSuccess && <AsyncApiReactComponent schema={parseResult} config={config} />}
+        {isParseSuccess && <AsyncAPIReactComponent schema={parseResult} config={config} />}
         {isParseFailure && <ParseErrors errors={parseErrors} />}
       </Suspense>
     </div>
