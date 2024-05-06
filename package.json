@@ -89,7 +89,7 @@
     "js-yaml": "^4.1.0",
     "lodash": "^4.17.21",
     "monaco-editor": "npm:@codingame/monaco-vscode-editor-api@=3.2.2",
-    "monaco-marker-data-provider": "^1.1.1",
+    "monaco-marker-data-provider": "^1.2.2",
     "prop-types": "^15.8.1",
     "react": ">=17 <19",
     "react-collapse-pane": "^3.0.1",
