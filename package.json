@@ -118,7 +118,7 @@
     "babel-plugin-transform-react-remove-prop-types": "^0.4.24",
     "cross-env": "^7.0.3",
     "css-loader": "^7.1.1",
-    "cssnano": "^6.0.0",
+    "cssnano": "^7.0.1",
     "cypress": "=13.7.1",
     "cypress-file-upload": "^5.0.8",
     "dedent": "^1.0.1",
