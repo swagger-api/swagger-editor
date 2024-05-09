@@ -99,7 +99,7 @@
     "react-modal": "^3.16.1",
     "react-resize-detector": "^9.1.1",
     "reselect": "^5.1.0",
-    "short-unique-id": "^4.4.4",
+    "short-unique-id": "^5.2.0",
     "styled-components": "^6.1.10",
     "swagger-ui-react": "^5.17.7",
     "vscode": "npm:@codingame/monaco-vscode-api@=3.2.2",
