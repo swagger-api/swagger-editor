@@ -41,18 +41,18 @@ jobs:
           node-version: 20
 
       - name: Install dependencies
-        run: npm ci
+        run: yarn install --frozen-lockfile
 
       - name: Prepare for the Release
         env:
           REACT_APP_VERSION: ${{ env.NEXT_RELEASE_VERSION }}
         run: |
-          npm run lint
-          npm run test
-          npm run build:app
-          npm run cy:ci
-          npm run build:bundle:esm
-          npm run build:bundle:umd
+          yarn lint
+          yarn test
+          yarn build:app
+          yarn cy:ci
+          yarn build:bundle:esm
+          yarn build:bundle:umd
 
       - name: Semantic Release
         id: semantic

@@ -38,24 +38,24 @@ jobs:
           key: cypress-binary-${{ hashFiles('package-lock.json') }}
 
       - name: Install dependencies
-        run: npm ci
+        run: yarn install --frozen-lockfile
 
       - name: Lint code
-        run: npm run lint
+        run: yarn lint
 
       - name: unit tests
-        run: npm test
+        run: yarn test
         env:
           CI: true
 
       - name: Produce build artifacts
-        run: npm run build
+        run: yarn build
 
       - name: Produce npm artifact
-        run: npm pack
+        run: yarn pack
 
       - name: E2E Tests
-        run: npm run cy:ci
+        run: yarn cy:ci
 
       - name: Upload build artifact
         uses: actions/upload-artifact@v4
