@@ -90,7 +90,7 @@
     "redux": "^5.0.1",
     "reselect": "^5.1.0",
     "swagger-client": "^3.25.0",
-    "swagger-ui": "^5.17.5",
+    "swagger-ui": "../swagger-ui",
     "traverse": "^0.6.6",
     "validator": "=13.11.0",
     "yaml-js": "^0.3.1"
