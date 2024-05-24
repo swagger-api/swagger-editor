@@ -37,18 +37,18 @@ jobs:
 
     - name: Install dependencies
       if: steps.cache-primes.outputs.cache-hit != 'true'
-      run: npm ci --legacy-peer-deps
+      run: yarn install --frozen-lockfile
 
     - name: Lint code
-      run: npm run lint
+      run: yarn lint
 
     - name: Build SwaggerEditor
-      run: npm run build
+      run: yarn build
 
     - name: Run all tests
-      run: npm test
+      run: yarn test
       env:
         CI: true
 
     - name:  Test build artifacts
-      run: npm run test:artifact
+      run: yarn test:artifact

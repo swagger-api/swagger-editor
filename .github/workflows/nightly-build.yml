@@ -41,7 +41,7 @@ jobs:
         run: npm ci
 
       - name: Lint code
-        run: npm run lint
+        run: yarn lint
 
       - name: unit tests
         run: npm test
@@ -49,13 +49,13 @@ jobs:
           CI: true
 
       - name: Produce build artifacts
-        run: npm run build
+        run: yarn build
 
       - name: Produce npm artifact
         run: npm pack
 
       - name: E2E Tests
-        run: npm run cy:ci
+        run: yarn cy:ci
 
       - name: Upload build artifact
         uses: actions/upload-artifact@v4

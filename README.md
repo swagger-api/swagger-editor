@@ -36,7 +36,7 @@ If you're building a single-page application, using `swagger-editor` is strongly
 
 ## Helpful scripts
 
-Any of the scripts below can be run by typing `npm run <script name>` in the project's root directory.
+Any of the scripts below can be run by typing `yarn <script name>` in the project's root directory.
 
 ### Developing
 Script name | Description
@@ -79,16 +79,17 @@ Script name | Description
 
 - git, any version
 - **Node.js >=20.3.0** and **npm >=9.6.7** are the minimum required versions that this repo runs on, but we always recommend using the latest version of Node.js.
+- **yarn >=1.22.21**
 
 ```shell
- $ npm i --legacy-peer-deps
+ $ yarn
 ```
 
-If you have Node.js and npm installed, you can run `npm start` to spin up a static server.
+If you have Node.js and yarn installed, you can run `yarn start` to spin up a static server.
 
 Otherwise, you can open `index.html` directly from your filesystem in your browser.
 
-If you'd like to make code changes to Swagger Editor, you can start up a Webpack hot-reloading dev server via `npm run dev`.
+If you'd like to make code changes to Swagger Editor, you can start up a Webpack hot-reloading dev server via `yarn dev`.
 
 ##### Browser support
 
@@ -156,11 +157,11 @@ If you want to run the Swagger Editor locally without the Codegen features (Gene
 To build and run a docker image with the code checked out on your machine, run the following from the root directory of the project:
 
 ```
-# Install npm packages (if needed)
-npm install
+# Install packages (if needed)
+yarn install
 
 # Build the app
-npm run build
+yarn build
 
 # Build an image
 docker build -t swagger-editor .
