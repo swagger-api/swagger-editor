@@ -38,13 +38,13 @@ jobs:
           key: cypress-binary-${{ hashFiles('package-lock.json') }}
 
       - name: Install dependencies
-        run: npm ci
+        run: yarn install --frozen-lockfile
 
       - name: Lint code
         run: yarn lint
 
       - name: unit tests
-        run: npm test
+        run: yarn test
         env:
           CI: true
 
