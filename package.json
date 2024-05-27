@@ -131,7 +131,7 @@
     "@testing-library/user-event": "^14.5.2",
     "copyfiles": "^2.4.1",
     "cross-env": "^7.0.3",
-    "cypress": "^13.9.0",
+    "cypress": "^13.10.0",
     "cypress-file-upload": "^5.0.8",
     "eslint-config-airbnb": "^19.0.4",
     "eslint-config-prettier": "^9.1.0",
