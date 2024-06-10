@@ -98,7 +98,7 @@
     "react-immutable-proptypes": "^2.2.0",
     "react-modal": "^3.16.1",
     "react-resize-detector": "^9.1.1",
-    "reselect": "^5.1.0",
+    "reselect": "^5.1.1",
     "short-unique-id": "^4.4.4",
     "styled-components": "^6.1.11",
     "swagger-ui-react": "^5.17.14",
