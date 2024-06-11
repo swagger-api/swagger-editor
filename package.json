@@ -97,7 +97,7 @@
     "react-dropzone": "^14.2.3",
     "react-immutable-proptypes": "^2.2.0",
     "react-modal": "^3.16.1",
-    "react-resize-detector": "^9.1.1",
+    "react-resize-detector": "^11.0.1",
     "reselect": "^5.1.1",
     "short-unique-id": "^4.4.4",
     "styled-components": "^6.1.11",
