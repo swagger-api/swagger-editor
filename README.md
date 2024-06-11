@@ -141,6 +141,12 @@ docker run -d -p 80:8080 -e BASE_URL=/swagger-editor swaggerapi/swagger-editor
 docker run -d -p 80:80 -e PORT=80 swaggerapi/swagger-editor
 ```
 
+* You can specify Google Tag Manager ID via `GTM` variable for tracking the usage of the swagger-editor.
+
+```
+docker run -d -p 80:8080 -e GTM=GTM-XXXXXX swaggerapi/swagger-editor
+```
+
 You can also customize the different endpoints used by the Swagger Editor with the following environment variables. For instance, this can be useful if you have your own Swagger generator server:
 
 Environment variable | Default value
