@@ -55,7 +55,7 @@
     "link:apidom-ls": "npm link @swagger-api/apidom-ls"
   },
   "dependencies": {
-    "@asyncapi/avro-schema-parser": "^3.0.23",
+    "@asyncapi/avro-schema-parser": "^3.0.24",
     "@asyncapi/openapi-schema-parser": "^3.0.20",
     "@asyncapi/parser": "^3.0.16",
     "@asyncapi/protobuf-schema-parser": "^3.2.10",
