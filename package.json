@@ -141,7 +141,7 @@
     "husky": "^9.0.11",
     "jest-canvas-mock": "^2.5.2",
     "jest-watch-typeahead": "^2.2.2",
-    "lint-staged": "^15.2.5",
+    "lint-staged": "^15.2.7",
     "prettier": "^3.2.5",
     "react-scripts": "file:./create-react-app/packages/react-scripts",
     "rimraf": "^5.0.7",
