@@ -142,7 +142,7 @@
     "jest-canvas-mock": "^2.5.2",
     "jest-watch-typeahead": "^2.2.2",
     "lint-staged": "^15.2.7",
-    "prettier": "^3.2.5",
+    "prettier": "^3.3.2",
     "react-scripts": "file:./create-react-app/packages/react-scripts",
     "rimraf": "^5.0.7",
     "sass": "^1.77.6",
