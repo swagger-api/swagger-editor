@@ -1,6 +1,6 @@
 import * as selectors from "./selectors"
 import * as actions from "./actions"
-import traverse from "traverse"
+import traverse from "neotraverse"
 import {createSelector} from "reselect"
 import debounce from "lodash/debounce"
 import memoize from "lodash/memoize"
