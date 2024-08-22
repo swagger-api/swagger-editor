@@ -59,7 +59,7 @@
     "@asyncapi/openapi-schema-parser": "^3.0.24",
     "@asyncapi/parser": "^3.0.16",
     "@asyncapi/protobuf-schema-parser": "^3.2.14",
-    "@asyncapi/react-component": "^1.4.10",
+    "@asyncapi/react-component": "^2.2.1",
     "@babel/runtime": "^7.24.7",
     "@braintree/sanitize-url": "^7.0.4",
     "@emotion/react": "^11.11.4",
