@@ -30,6 +30,10 @@ const SOURCE = "spectral"
 let controller = null
 const ABORT_SIGNAL = "new validation request; aborting the current one";
 //eslint-disable-next-line no-unused-vars
+export const validateMySpec = (jsSpec) => (arg) => {
+    console.log('in the mySpec')
+
+}
 export const validateSpec = (jsSpec) => (arg) => {
     // This not being null means a request is going on, cancel that
     if (controller != null) {
@@ -46,6 +50,8 @@ export const validateSpec = (jsSpec) => (arg) => {
         4: "info",
     }
     const ruleSet = arg.topbarSelectors.spectralVersion()
+    const errorsOnly = arg.topbarSelectors.errorsOnly()
+    const environment = arg.topbarSelectors.spectralEnvironment()
 
     // Create a new AbortController specific to this run of validateSpec
     // Has to be stored in the global scope as future calls to validateSpec have to access it
@@ -53,7 +59,8 @@ export const validateSpec = (jsSpec) => (arg) => {
     const { signal } = controller;
     // NOTE: This assumes that the REST API is available under the same host
     // TODO: This might need to use a different ruleset depending on input
-    fetch(SPECTRAL_HOST + "/valigator/api/validate?ruleset=" + ruleSet, {
+    // arg.errActions.newSpecWarning({message: 'hier kommt fehler'})
+    fetch(`${SPECTRAL_HOST}/valigator/api/validate?environment=${environment}&errors-only=${errorsOnly}&ruleset=${ruleSet}`, {
         method: "POST",
         headers: {
             "Accept": "application/json"

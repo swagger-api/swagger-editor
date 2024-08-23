@@ -10,6 +10,8 @@ import { petStoreOas2Def, petStoreOas3Def } from "../../../plugins/default-defin
 import SpectralVersion from "./SpectralVersion"
 
 import Logo from "../assets/logo_small.svg"
+import SpectralErrorsOnly from "./SpectralErrorsOnly"
+import SpectralEnvironment from "./SpectralEnvironment"
 
 export default class Topbar extends React.Component {
   constructor(props, context) {
@@ -389,8 +391,9 @@ export default class Topbar extends React.Component {
             </DropdownMenu> : null}
             {AboutMenu && <AboutMenu {...makeMenuOptions("About")} />}
             <a className="link" href="https://openapi-validator.apps.lan-dev.ocp.lan.huk-coburg.de/" target="_blank">OpenAPI Payload Validierung</a>
+            <SpectralErrorsOnly onChange={topbarActions.setErrorsOnly} currentStateF={topbarSelectors.errorsOnly}/>
             <SpectralVersion onChange={topbarActions.switchSpectralVersion} currentStateF={topbarSelectors.spectralVersion} />
-            {NewEditorButton && <NewEditorButton />}
+            <SpectralEnvironment onChange={topbarActions.switchSpectralEnvironment} currentStateF={topbarSelectors.spectralEnvironment} />
           </div>
         </div>
       </div>
