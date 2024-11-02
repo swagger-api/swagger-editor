@@ -59,6 +59,20 @@ if [[ "${URL_OAS3_GENERATOR}" ]]; then
   fi
 fi
 
+## Adding Google Tag Manager if GTM is set
+if [[ "${GTM}" ]]; then
+  GTM_SCRIPT="<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);})(window,document,'script','dataLayer','${GTM}');</script>"
+  GTM_NOSCRIPT="<noscript><iframe src=\"https://www.googletagmanager.com/ns.html?id=${GTM}\" height=\"0\" width=\"0\" style=\"display:none;visibility:hidden\"></iframe></noscript>"
+
+  # Escape the strings for sed inline
+  GTM_SCRIPT_ESCAPED=$(echo "$GTM_SCRIPT" | sed -e 's/[\/&]/\\&/g')
+  GTM_NOSCRIPT_ESCAPED=$(echo "$GTM_NOSCRIPT" | sed -e 's/[\/&]/\\&/g')
+
+  # Perform the replacements
+  sed -i "s~<!-- Google Tag Manager -->~$GTM_SCRIPT_ESCAPED~" $INDEX_FILE
+  sed -i "s~<!-- Google Tag Manager (noscript) -->~$GTM_NOSCRIPT_ESCAPED~" $INDEX_FILE
+fi
+
 ## Gzip after replacements
 #find /usr/share/nginx/html/ -type f -regex ".*\.\(html\|js\|css\)" -exec sh -c "gzip < {} > {}.gz" \;
 #
