@@ -105,7 +105,7 @@
     "swagger-ui-react": "^5.17.14",
     "vscode": "npm:@codingame/monaco-vscode-api@=5.2.0",
     "vscode-languageclient": "^10.0.0-next.8",
-    "vscode-languageserver-textdocument": "^1.0.11"
+    "vscode-languageserver-textdocument": "^1.0.12"
   },
   "overrides": {
     "@swagger-api/apidom-core": "$@swagger-api/apidom-core",
