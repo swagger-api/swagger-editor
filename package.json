@@ -150,6 +150,6 @@
     "serve": "^14.2.3",
     "source-map-explorer": "^2.5.3",
     "start-server-and-test": "^2.0.8",
-    "web-vitals": "^4.2.1"
+    "web-vitals": "^4.2.4"
   }
 }
