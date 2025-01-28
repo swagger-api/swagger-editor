@@ -101,7 +101,7 @@
     "react-resize-detector": "^9.1.1",
     "reselect": "^5.1.1",
     "short-unique-id": "^4.4.4",
-    "styled-components": "^6.1.13",
+    "styled-components": "^6.1.14",
     "swagger-ui-react": "^5.18.2",
     "vscode": "npm:@codingame/monaco-vscode-api@=5.2.0",
     "vscode-languageclient": "^10.0.0-next.8",
