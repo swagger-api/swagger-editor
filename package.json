@@ -78,7 +78,7 @@
     "@swagger-api/apidom-parser-adapter-openapi-json-2": ">=1.0.0-alpha.3 <1.0.0-beta.0",
     "@swagger-api/apidom-parser-adapter-openapi-json-3-0": ">=1.0.0-alpha.3 <1.0.0-beta.0",
     "@swagger-api/apidom-parser-adapter-openapi-json-3-1": ">=1.0.0-alpha.3 <1.0.0-beta.0",
-    "@swagger-api/apidom-parser-adapter-openapi-yaml-2": ">=1.0.0-alpha.3 <1.0.0-beta.0",
+    "@swagger-api/apidom-parser-adapter-openapi-yaml-2": ">=1.0.0-alpha.3 <2.0.0",
     "@swagger-api/apidom-parser-adapter-openapi-yaml-3-0": ">=1.0.0-alpha.3 <1.0.0-beta.0",
     "@swagger-api/apidom-parser-adapter-openapi-yaml-3-1": ">=1.0.0-alpha.3 <1.0.0-beta.0",
     "axios": "^1.7.7",
