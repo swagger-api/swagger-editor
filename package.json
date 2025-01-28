@@ -59,7 +59,7 @@
   },
   "dependencies": {
     "@scarf/scarf": "=1.4.0",
-    "ajv": "^6.12.3",
+    "ajv": "^8.17.1",
     "ajv-errors": "^1.0.1",
     "ajv-keywords": "^3.5.2",
     "boron": "^0.2.3",
