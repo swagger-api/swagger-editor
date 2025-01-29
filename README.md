@@ -807,11 +807,11 @@ ReactDOM.render(<SwaggerEditor />, document.getElementById('swagger-editor'));
 
 ### Pre-built DockerHub image
 
-SwaggerEditor is available as a pre-built docker image hosted on [DockerHub](https://hub.docker.com/r/swaggerapi/swagger-editor/tags?page=1&name=next-v5).
+SwaggerEditor is available as a pre-built docker image hosted on **docker.swagger.io**.
 
 ```sh
-$ docker pull swaggerapi/swagger-editor:next-v5
-$ docker run -d -p 8080:80 swaggerapi/swagger-editor:next-v5
+$ docker pull docker.swagger.io/swaggerapi/swagger-editor:next-v5
+$ docker run -d -p 8080:80 docker.swagger.io/swaggerapi/swagger-editor:next-v5
 ```
 
 ### Building locally
