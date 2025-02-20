@@ -117,6 +117,7 @@
     "babel-plugin-module-resolver": "^5.0.0",
     "babel-plugin-transform-es2015-constants": "^6.1.4",
     "babel-plugin-transform-react-remove-prop-types": "^0.4.24",
+    "cheerio": "=1.0.0-rc.2",
     "cross-env": "^7.0.3",
     "css-loader": "^7.1.1",
     "cssnano": "^7.0.1",
