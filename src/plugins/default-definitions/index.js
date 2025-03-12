@@ -73,14 +73,11 @@ paths:
         '422':
           description: Validation exception
         default:
-          description: Successful operation
+          description: Unexpected error
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Pet'
-            application/xml:
-              schema:
-                $ref: '#/components/schemas/Pet'
+                $ref: "#/components/schemas/Error"
       security:
         - petstore_auth:
             - write:pets
@@ -119,14 +116,11 @@ paths:
         '422':
           description: Validation exception
         default:
-          description: Successful operation
+          description: Unexpected error
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Pet'
-            application/xml:
-              schema:
-                $ref: '#/components/schemas/Pet'
+                $ref: "#/components/schemas/Error"
       security:
         - petstore_auth:
             - write:pets
@@ -168,18 +162,11 @@ paths:
         '400':
           description: Invalid status value
         default:
-          description: successful operation
+          description: Unexpected error
           content:
             application/json:
               schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/Pet'
-            application/xml:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/Pet'
+                $ref: "#/components/schemas/Error"
       security:
         - petstore_auth:
             - write:pets
@@ -218,18 +205,11 @@ paths:
         '400':
           description: Invalid tag value
         default:
-          description: successful operation
+          description: Unexpected error
           content:
             application/json:
               schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/Pet'
-            application/xml:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/Pet'
+                $ref: "#/components/schemas/Error"
       security:
         - petstore_auth:
             - write:pets
@@ -264,14 +244,11 @@ paths:
         '404':
           description: Pet not found
         default:
-          description: successful operation
+          description: Unexpected error
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Pet'
-            application/xml:
-              schema:
-                $ref: '#/components/schemas/Pet'
+                $ref: "#/components/schemas/Error"
       security:
         - api_key: []
         - petstore_auth:
@@ -314,14 +291,11 @@ paths:
         '400':
           description: Invalid input
         default:
-          description: successful operation
+          description: Unexpected error
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Pet'
-            application/xml:
-              schema:
-                $ref: '#/components/schemas/Pet'
+                $ref: "#/components/schemas/Error"
       security:
         - petstore_auth:
             - write:pets
@@ -352,7 +326,11 @@ paths:
         '400':
           description: Invalid pet value
         default:
-          description: Pet deleted
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
       security:
         - petstore_auth:
             - write:pets
@@ -396,11 +374,11 @@ paths:
         '404':
           description: Pet not found
         default:
-          description: successful operation
+          description: Unexpected error
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ApiResponse'
+                $ref: "#/components/schemas/Error"
       security:
         - petstore_auth:
             - write:pets
@@ -423,14 +401,11 @@ paths:
                   type: integer
                   format: int32
         default:
-          description: successful operation
+          description: Unexpected error
           content:
             application/json:
               schema:
-                type: object
-                additionalProperties:
-                  type: integer
-                  format: int32
+                $ref: "#/components/schemas/Error"
       security:
         - api_key: []
   /store/order:
@@ -463,11 +438,11 @@ paths:
         '422':
           description: Validation exception
         default:
-          description: successful operation
+          description: Unexpected error
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Order'
+                $ref: "#/components/schemas/Error"
   /store/order/{orderId}:
     get:
       tags:
@@ -498,14 +473,11 @@ paths:
         '404':
           description: Order not found
         default:
-          description: successful operation
+          description: Unexpected error
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Order'
-            application/xml:
-              schema:
-                $ref: '#/components/schemas/Order'
+                $ref: "#/components/schemas/Error"
     delete:
       tags:
         - store
@@ -528,7 +500,11 @@ paths:
         '404':
           description: Order not found
         default:
-          description: order deleted
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
   /user:
     post:
       tags:
@@ -559,14 +535,11 @@ paths:
               schema:
                 $ref: '#/components/schemas/User'
         default:
-          description: successful operation
+          description: Unexpected error
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/User'
-            application/xml:
-              schema:
-                $ref: '#/components/schemas/User'
+                $ref: "#/components/schemas/Error"
   /user/createWithList:
     post:
       tags:
@@ -592,7 +565,11 @@ paths:
               schema:
                 $ref: '#/components/schemas/User'
         default:
-          description: successful operation
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
   /user/login:
     get:
       tags:
@@ -637,25 +614,11 @@ paths:
         '400':
           description: Invalid username/password supplied
         default:
-          description: successful operation
-          headers:
-            X-Rate-Limit:
-              description: calls per hour allowed by the user
-              schema:
-                type: integer
-                format: int32
-            X-Expires-After:
-              description: date in UTC when token expires
-              schema:
-                type: string
-                format: date-time
+          description: Unexpected error
           content:
-            application/xml:
-              schema:
-                type: string
             application/json:
               schema:
-                type: string
+                $ref: "#/components/schemas/Error"
   /user/logout:
     get:
       tags:
@@ -668,7 +631,11 @@ paths:
         '200':
           description: successful operation
         default:
-          description: successful operation
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
   /user/{username}:
     get:
       tags:
@@ -698,14 +665,11 @@ paths:
         '404':
           description: User not found
         default:
-          description: successful operation
+          description: Unexpected error
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/User'
-            application/xml:
-              schema:
-                $ref: '#/components/schemas/User'
+                $ref: "#/components/schemas/Error"
     put:
       tags:
         - user
@@ -739,7 +703,11 @@ paths:
         '404':
           description: user not found
         default:
-          description: successful operation
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
     delete:
       tags:
         - user
@@ -761,7 +729,11 @@ paths:
         '404':
           description: User not found
         default:
-          description: User deleted
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
 components:
   schemas:
     Order:
@@ -898,6 +870,16 @@ components:
           type: string
       xml:
         name: '##default'
+    Error:
+      type: object
+      properties:
+        code:
+          type: string
+        message:
+          type: string
+      required:
+        - code
+        - message
   requestBodies:
     Pet:
       description: Pet object that needs to be added to the store
@@ -923,8 +905,8 @@ components:
         implicit:
           authorizationUrl: https://petstore3.swagger.io/oauth/authorize
           scopes:
-            write:pets: modify pets in your account
-            read:pets: read your pets
+            "write:pets": modify pets in your account
+            "read:pets": read your pets
     api_key:
       type: apiKey
       name: api_key
