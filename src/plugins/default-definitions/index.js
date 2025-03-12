@@ -15,8 +15,8 @@ info:
     email: apiteam@swagger.io
   license:
     name: Apache 2.0
-    url: http://www.apache.org/licenses/LICENSE-2.0.html
-  version: 1.0.12
+    url: https://www.apache.org/licenses/LICENSE-2.0.html
+  version: 1.0.1
 externalDocs:
   description: Find out more about Swagger
   url: https://swagger.io
@@ -41,7 +41,7 @@ paths:
       tags:
         - pet
       summary: Update an existing pet.
-      description: Update an existing pet by Id
+      description: Update an existing pet by Id.
       operationId: updatePet
       requestBody:
         description: Update an existent pet in the store
@@ -86,7 +86,7 @@ paths:
       tags:
         - pet
       summary: Add a new pet to the store.
-      description: Add a new pet to the store
+      description: Add a new pet to the store.
       operationId: addPet
       requestBody:
         description: Create a new pet in the store
@@ -130,7 +130,7 @@ paths:
       tags:
         - pet
       summary: Finds Pets by status.
-      description: Multiple status values can be provided with comma separated strings
+      description: Multiple status values can be provided with comma separated strings.
       operationId: findPetsByStatus
       parameters:
         - name: status
@@ -219,7 +219,7 @@ paths:
       tags:
         - pet
       summary: Find pet by ID.
-      description: Returns a single pet
+      description: Returns a single pet.
       operationId: getPetById
       parameters:
         - name: petId
@@ -304,7 +304,7 @@ paths:
       tags:
         - pet
       summary: Deletes a pet.
-      description: delete a pet
+      description: Delete a pet.
       operationId: deletePet
       parameters:
         - name: api_key
@@ -340,7 +340,7 @@ paths:
       tags:
         - pet
       summary: Uploads an image.
-      description: upload image of the pet
+      description: Upload image of the pet.
       operationId: uploadFile
       parameters:
         - name: petId
@@ -388,7 +388,7 @@ paths:
       tags:
         - store
       summary: Returns pet inventories by status.
-      description: Returns a map of status codes to quantities
+      description: Returns a map of status codes to quantities.
       operationId: getInventory
       responses:
         '200':
@@ -413,7 +413,7 @@ paths:
       tags:
         - store
       summary: Place an order for a pet.
-      description: Place a new order in the store
+      description: Place a new order in the store.
       operationId: placeOrder
       requestBody:
         content:
@@ -482,7 +482,7 @@ paths:
       tags:
         - store
       summary: Delete purchase order by identifier.
-      description: For valid response try integer IDs with value < 1000. Anything above 1000 or nonintegers will generate API errors
+      description: For valid response try integer IDs with value < 1000. Anything above 1000 or nonintegers will generate API errors.
       operationId: deleteOrder
       parameters:
         - name: orderId
@@ -545,7 +545,7 @@ paths:
       tags:
         - user
       summary: Creates list of users with given input array.
-      description: Creates list of users with given input array
+      description: Creates list of users with given input array.
       operationId: createUsersWithListInput
       requestBody:
         content:
@@ -575,7 +575,7 @@ paths:
       tags:
         - user
       summary: Logs user into the system.
-      description: log into the system
+      description: Log into the system.
       operationId: loginUser
       parameters:
         - name: username
@@ -624,7 +624,7 @@ paths:
       tags:
         - user
       summary: Logs out current logged in user session.
-      description: log user out of the system
+      description: Log user out of the system.
       operationId: logoutUser
       parameters: []
       responses:
@@ -646,7 +646,7 @@ paths:
       parameters:
         - name: username
           in: path
-          description: 'The name that needs to be fetched. Use user1 for testing. '
+          description: The name that needs to be fetched. Use user1 for testing
           required: true
           schema:
             type: string
