@@ -147,7 +147,7 @@
     "react-scripts": "file:./create-react-app/packages/react-scripts",
     "rimraf": "^6.0.1",
     "sass": "^1.77.6",
-    "serve": "^14.2.3",
+    "serve": "^14.2.4",
     "source-map-explorer": "^2.5.3",
     "start-server-and-test": "^2.0.8",
     "web-vitals": "^4.2.4"
