@@ -79,7 +79,7 @@
     "prop-types": "15.8.1",
     "querystring-browser": "^1.0.4",
     "react": ">=17 <19",
-    "react-ace": "^4.1.6",
+    "react-ace": "^14.0.1",
     "react-addons-css-transition-group": "^15.4.2",
     "react-dom": ">=17 <19",
     "react-dropzone": "^12.0.4",
