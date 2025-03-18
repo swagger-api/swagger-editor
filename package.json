@@ -64,7 +64,7 @@
     "@braintree/sanitize-url": "^7.1.1",
     "@emotion/react": "^11.13.3",
     "@emotion/styled": "^11.13.0",
-    "@mui/material": "^5.15.21",
+    "@mui/material": "^6.4.8",
     "@primer/octicons-react": "^19.12.0",
     "@scarf/scarf": "=1.4.0",
     "@swagger-api/apidom-core": ">=1.0.0-beta.28 <2.0.0",
