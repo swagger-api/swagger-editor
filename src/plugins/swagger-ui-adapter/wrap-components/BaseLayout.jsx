@@ -20,7 +20,7 @@ const BaseLayoutWrapper = (Original, system) => {
       );
     }
 
-    if (editorSelectors.selectIsContentTypeAsyncAPI2()) {
+    if (editorSelectors.selectIsContentTypeAsyncAPI()) {
       return <EditorPreviewAsyncAPI />;
     }
 
@@ -36,7 +36,7 @@ const BaseLayoutWrapper = (Original, system) => {
     getComponent: PropTypes.func.isRequired,
     editorSelectors: PropTypes.shape({
       selectIsContentTypeDetectionInProgress: PropTypes.func.isRequired,
-      selectIsContentTypeAsyncAPI2: PropTypes.func.isRequired,
+      selectIsContentTypeAsyncAPI: PropTypes.func.isRequired,
       selectIsContentTypeAPIDesignSystems: PropTypes.func.isRequired,
     }).isRequired,
   };
