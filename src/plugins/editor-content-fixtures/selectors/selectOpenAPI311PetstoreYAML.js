@@ -1,8 +1,8 @@
-const selectOpenAPI310PetstoreYAML = () => `openapi: 3.0.3
+const selectOpenAPI311PetstoreYAML = () => `openapi: 3.1.1
 info:
-  title: Swagger Petstore - OpenAPI 3.0
+  title: Swagger Petstore - OpenAPI 3.1
   description: |-
-    This is a sample Pet Store Server based on the OpenAPI 3.0 specification.  You can find out more about
+    This is a sample Pet Store Server based on the OpenAPI 3.1 specification.  You can find out more about
     Swagger at [https://swagger.io](https://swagger.io). In the third iteration of the pet store, we've switched to the design first approach!
     You can now help us improve the API whether it's by making changes to the definition itself or to the code.
     That way, with time, we can improve the API in general, and expose some of the new features in OAS3.
@@ -11,18 +11,18 @@ info:
     - [The Pet Store repository](https://github.com/swagger-api/swagger-petstore)
     - [The source API definition for the Pet Store](https://github.com/swagger-api/swagger-petstore/blob/master/src/main/resources/openapi.yaml)
 
-  termsOfService: http://swagger.io/terms/
+  termsOfService: https://swagger.io/terms/
   contact:
     email: apiteam@swagger.io
   license:
     name: Apache 2.0
-    url: http://www.apache.org/licenses/LICENSE-2.0.html
-  version: 1.0.11
+    url: https://www.apache.org/licenses/LICENSE-2.0.html
+  version: 1.0.12
 externalDocs:
   description: Find out more about Swagger
-  url: http://swagger.io
+  url: https://swagger.io
 servers:
-  - url: https://petstore3.swagger.io/api/v3
+  - url: https://petstore31.swagger.io/api/v3
 tags:
   - name: pet
     description: Everything about your Pets
@@ -41,8 +41,8 @@ paths:
     put:
       tags:
         - pet
-      summary: Update an existing pet
-      description: Update an existing pet by Id
+      summary: Update an existing pet.
+      description: Update an existing pet by Id.
       operationId: updatePet
       requestBody:
         description: Update an existent pet in the store
@@ -73,6 +73,12 @@ paths:
           description: Pet not found
         '422':
           description: Validation exception
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
       security:
         - petstore_auth:
             - write:pets
@@ -80,8 +86,8 @@ paths:
     post:
       tags:
         - pet
-      summary: Add a new pet to the store
-      description: Add a new pet to the store
+      summary: Add a new pet to the store.
+      description: Add a new pet to the store.
       operationId: addPet
       requestBody:
         description: Create a new pet in the store
@@ -110,6 +116,12 @@ paths:
           description: Invalid input
         '422':
           description: Validation exception
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
       security:
         - petstore_auth:
             - write:pets
@@ -118,8 +130,8 @@ paths:
     get:
       tags:
         - pet
-      summary: Finds Pets by status
-      description: Multiple status values can be provided with comma separated strings
+      summary: Finds Pets by status.
+      description: Multiple status values can be provided with comma separated strings.
       operationId: findPetsByStatus
       parameters:
         - name: status
@@ -150,6 +162,12 @@ paths:
                   $ref: '#/components/schemas/Pet'
         '400':
           description: Invalid status value
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
       security:
         - petstore_auth:
             - write:pets
@@ -158,7 +176,7 @@ paths:
     get:
       tags:
         - pet
-      summary: Finds Pets by tags
+      summary: Finds Pets by tags.
       description: Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
       operationId: findPetsByTags
       parameters:
@@ -187,6 +205,12 @@ paths:
                   $ref: '#/components/schemas/Pet'
         '400':
           description: Invalid tag value
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
       security:
         - petstore_auth:
             - write:pets
@@ -195,8 +219,8 @@ paths:
     get:
       tags:
         - pet
-      summary: Find pet by ID
-      description: Returns a single pet
+      summary: Find pet by identifier.
+      description: Returns a single pet.
       operationId: getPetById
       parameters:
         - name: petId
@@ -220,6 +244,12 @@ paths:
           description: Invalid ID supplied
         '404':
           description: Pet not found
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
       security:
         - api_key: []
         - petstore_auth:
@@ -228,8 +258,8 @@ paths:
     post:
       tags:
         - pet
-      summary: Updates a pet in the store with form data
-      description: ''
+      summary: Updates a pet in the store with form data.
+      description: update a pet via the form data.
       operationId: updatePetWithForm
       parameters:
         - name: petId
@@ -250,8 +280,16 @@ paths:
           schema:
             type: string
       responses:
+        '200':
+          description: successfully updated
         '400':
           description: Invalid input
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
       security:
         - petstore_auth:
             - write:pets
@@ -259,8 +297,8 @@ paths:
     delete:
       tags:
         - pet
-      summary: Deletes a pet
-      description: delete a pet
+      summary: Deletes a pet.
+      description: delete a pet.
       operationId: deletePet
       parameters:
         - name: api_key
@@ -277,8 +315,16 @@ paths:
             type: integer
             format: int64
       responses:
+        '200':
+          description: successful operation
         '400':
           description: Invalid pet value
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
       security:
         - petstore_auth:
             - write:pets
@@ -287,8 +333,8 @@ paths:
     post:
       tags:
         - pet
-      summary: uploads an image
-      description: ''
+      summary: Uploads an image.
+      description: Upload an image of pet.
       operationId: uploadFile
       parameters:
         - name: petId
@@ -317,6 +363,12 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ApiResponse'
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
       security:
         - petstore_auth:
             - write:pets
@@ -325,8 +377,8 @@ paths:
     get:
       tags:
         - store
-      summary: Returns pet inventories by status
-      description: Returns a map of status codes to quantities
+      summary: Returns pet inventories by status.
+      description: Returns a map of status codes to quantities.
       operationId: getInventory
       responses:
         '200':
@@ -338,14 +390,20 @@ paths:
                 additionalProperties:
                   type: integer
                   format: int32
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
       security:
         - api_key: []
   /store/order:
     post:
       tags:
         - store
-      summary: Place an order for a pet
-      description: Place a new order in the store
+      summary: Place an order for a pet.
+      description: Place a new order in the store.
       operationId: placeOrder
       requestBody:
         content:
@@ -369,11 +427,17 @@ paths:
           description: Invalid input
         '422':
           description: Validation exception
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
   /store/order/{orderId}:
     get:
       tags:
         - store
-      summary: Find purchase order by ID
+      summary: Find purchase order by identifier.
       description: For valid response try integer IDs with value <= 5 or > 10. Other values will generate exceptions.
       operationId: getOrderById
       parameters:
@@ -398,11 +462,17 @@ paths:
           description: Invalid ID supplied
         '404':
           description: Order not found
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
     delete:
       tags:
         - store
-      summary: Delete purchase order by ID
-      description: For valid response try integer IDs with value < 1000. Anything above 1000 or nonintegers will generate API errors
+      summary: Delete purchase order by identifier.
+      description: For valid response try integer IDs with value < 1000. Anything above 1000 or non-integers will generate API errors.
       operationId: deleteOrder
       parameters:
         - name: orderId
@@ -413,15 +483,23 @@ paths:
             type: integer
             format: int64
       responses:
+        '200':
+          description: successful operation
         '400':
           description: Invalid ID supplied
         '404':
           description: Order not found
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
   /user:
     post:
       tags:
         - user
-      summary: Create user
+      summary: Create user.
       description: This can only be done by the logged in user.
       operationId: createUser
       requestBody:
@@ -437,7 +515,7 @@ paths:
             schema:
               $ref: '#/components/schemas/User'
       responses:
-        default:
+        '200':
           description: successful operation
           content:
             application/json:
@@ -446,12 +524,18 @@ paths:
             application/xml:
               schema:
                 $ref: '#/components/schemas/User'
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
   /user/createWithList:
     post:
       tags:
         - user
-      summary: Creates list of users with given input array
-      description: Creates list of users with given input array
+      summary: Creates list of users with given input array.
+      description: Creates list of users with given input array.
       operationId: createUsersWithListInput
       requestBody:
         content:
@@ -471,13 +555,17 @@ paths:
               schema:
                 $ref: '#/components/schemas/User'
         default:
-          description: successful operation
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
   /user/login:
     get:
       tags:
         - user
-      summary: Logs user into the system
-      description: ''
+      summary: Logs user into the system.
+      description: log user into the system.
       operationId: loginUser
       parameters:
         - name: username
@@ -515,28 +603,36 @@ paths:
                 type: string
         '400':
           description: Invalid username/password supplied
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
   /user/logout:
     get:
       tags:
         - user
-      summary: Logs out current logged in user session
-      description: ''
+      summary: Logs out current logged in user session.
+      description: Log user out of system.
       operationId: logoutUser
       parameters: []
       responses:
+        '200':
+          description: successful operation
         default:
           description: successful operation
   /user/{username}:
     get:
       tags:
         - user
-      summary: Get user by user name
-      description: ''
+      summary: Get user by user name.
+      description: Get user details based on username.
       operationId: getUserByName
       parameters:
         - name: username
           in: path
-          description: 'The name that needs to be fetched. Use user1 for testing. '
+          description: The name that needs to be fetched. Use user1 for testing
           required: true
           schema:
             type: string
@@ -554,10 +650,16 @@ paths:
           description: Invalid username supplied
         '404':
           description: User not found
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
     put:
       tags:
         - user
-      summary: Update user
+      summary: Update user.
       description: This can only be done by the logged in user.
       operationId: updateUser
       parameters:
@@ -580,12 +682,18 @@ paths:
             schema:
               $ref: '#/components/schemas/User'
       responses:
-        default:
+        '200':
           description: successful operation
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
     delete:
       tags:
         - user
-      summary: Delete user
+      summary: Delete user.
       description: This can only be done by the logged in user.
       operationId: deleteUser
       parameters:
@@ -596,10 +704,18 @@ paths:
           schema:
             type: string
       responses:
+        '200':
+          description: successful operation
         '400':
           description: Invalid username supplied
         '404':
           description: User not found
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
 components:
   schemas:
     Order:
@@ -608,22 +724,22 @@ components:
         id:
           type: integer
           format: int64
-          example: 10
+          examples: [10]
         petId:
           type: integer
           format: int64
-          example: 198772
+          examples: [198772]
         quantity:
           type: integer
           format: int32
-          example: 7
+          examples: [7]
         shipDate:
           type: string
           format: date-time
         status:
           type: string
           description: Order Status
-          example: approved
+          examples: [approved]
           enum:
             - placed
             - approved
@@ -638,10 +754,10 @@ components:
         id:
           type: integer
           format: int64
-          example: 100000
+          examples: [100000]
         username:
           type: string
-          example: fehguy
+          examples: [fehguy]
         address:
           type: array
           xml:
@@ -656,16 +772,16 @@ components:
       properties:
         street:
           type: string
-          example: 437 Lytton
+          examples: [437 Lytton]
         city:
           type: string
-          example: Palo Alto
+          examples: [Palo Alto]
         state:
           type: string
-          example: CA
+          examples: [CA]
         zip:
           type: string
-          example: '94301'
+          examples: ['94301']
       xml:
         name: address
     Category:
@@ -674,10 +790,10 @@ components:
         id:
           type: integer
           format: int64
-          example: 1
+          examples: [1]
         name:
           type: string
-          example: Dogs
+          examples: [Dogs]
       xml:
         name: category
     User:
@@ -686,30 +802,30 @@ components:
         id:
           type: integer
           format: int64
-          example: 10
+          examples: [10]
         username:
           type: string
-          example: theUser
+          examples: [theUser]
         firstName:
           type: string
-          example: John
+          examples: [John]
         lastName:
           type: string
-          example: James
+          examples: [James]
         email:
           type: string
-          example: john@email.com
+          examples: [john@email.com]
         password:
           type: string
-          example: '12345'
+          examples: ['12345']
         phone:
           type: string
-          example: '12345'
+          examples: ['12345']
         userStatus:
           type: integer
           description: User Status
           format: int32
-          example: 1
+          examples: [1]
       xml:
         name: user
     Tag:
@@ -731,10 +847,10 @@ components:
         id:
           type: integer
           format: int64
-          example: 10
+          examples: [10]
         name:
           type: string
-          example: doggie
+          examples: [doggie]
         category:
           $ref: '#/components/schemas/Category'
         photoUrls:
@@ -772,6 +888,16 @@ components:
           type: string
       xml:
         name: '##default'
+    Error:
+      type: object
+      properties:
+        code:
+          type: string
+        message:
+          type: string
+      required:
+        - code
+        - message
   requestBodies:
     Pet:
       description: Pet object that needs to be added to the store
@@ -797,12 +923,12 @@ components:
         implicit:
           authorizationUrl: https://petstore3.swagger.io/oauth/authorize
           scopes:
-            write:pets: modify pets in your account
-            read:pets: read your pets
+            "write:pets": modify pets in your account
+            "read:pets": read your pets
     api_key:
       type: apiKey
       name: api_key
       in: header
 `;
 
-export default selectOpenAPI310PetstoreYAML;
+export default selectOpenAPI311PetstoreYAML;
