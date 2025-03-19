@@ -6,11 +6,11 @@ const LoadExampleNestedMenuHandler = forwardRef((props, ref) => {
 
   useImperativeHandle(ref, () => ({
     loadOpenAP31PetstoreFixture() {
-      const content = editorContentFixturesSelectors.selectOpenAPI310PetstoreYAML();
+      const content = editorContentFixturesSelectors.selectOpenAPI311PetstoreYAML();
       editorActions.setContent(content, 'fixture-load');
     },
     loadOpenAP30PetstoreFixture() {
-      const content = editorContentFixturesSelectors.selectOpenAPI303PetstoreYAML();
+      const content = editorContentFixturesSelectors.selectOpenAPI304PetstoreYAML();
       editorActions.setContent(content, 'fixture-load');
     },
     loadOpenAP20PetstoreFixture() {
@@ -47,8 +47,8 @@ LoadExampleNestedMenuHandler.propTypes = {
     setContent: PropTypes.func.isRequired,
   }).isRequired,
   editorContentFixturesSelectors: PropTypes.shape({
-    selectOpenAPI310PetstoreYAML: PropTypes.func.isRequired,
-    selectOpenAPI303PetstoreYAML: PropTypes.func.isRequired,
+    selectOpenAPI311PetstoreYAML: PropTypes.func.isRequired,
+    selectOpenAPI304PetstoreYAML: PropTypes.func.isRequired,
     selectOpenAPI20PetstoreYAML: PropTypes.func.isRequired,
     selectAsyncAPI260PetstoreYAML: PropTypes.func.isRequired,
     selectAsyncAPI300PetstoreYAML: PropTypes.func.isRequired,
