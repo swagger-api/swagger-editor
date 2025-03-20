@@ -97,7 +97,7 @@
     "react-dom": ">=17 <19",
     "react-dropzone": "^14.3.8",
     "react-immutable-proptypes": "^2.2.0",
-    "react-modal": "^3.16.1",
+    "react-modal": "^3.16.3",
     "react-resize-detector": "^9.1.1",
     "reselect": "^5.1.1",
     "short-unique-id": "^4.4.4",
