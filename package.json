@@ -146,7 +146,7 @@
     "prettier": "^3.5.3",
     "react-scripts": "file:./create-react-app/packages/react-scripts",
     "rimraf": "^6.0.1",
-    "sass": "^1.77.6",
+    "sass": "^1.86.0",
     "serve": "^14.2.4",
     "source-map-explorer": "^2.5.3",
     "start-server-and-test": "^2.0.8",
