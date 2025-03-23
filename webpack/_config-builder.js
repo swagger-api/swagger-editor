@@ -133,6 +133,7 @@ export default function buildConfig(
           "react-dom": path.resolve(projectBasePath, "node_modules", "react-dom"),
           "react-is": path.resolve(projectBasePath, "node_modules", "react-is"),
           brace: path.resolve(projectBasePath, "node_modules", "brace"),
+          querystring: path.resolve(projectBasePath, "node_modules", "querystring-browser"),
         },
         fallback: {
           path: require.resolve("path-browserify"),

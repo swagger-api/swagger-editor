@@ -34,6 +34,23 @@ This repository publishes to two different NPM modules:
 
 If you're building a single-page application, using `swagger-editor` is strongly recommended, since `swagger-editor-dist` is significantly larger.
 
+## Anonymized analytics
+
+Swagger Editor uses [Scarf](https://scarf.sh/) to collect [anonymized installation analytics](https://github.com/scarf-sh/scarf-js?tab=readme-ov-file#as-a-user-of-a-package-using-scarf-js-what-information-does-scarf-js-send-about-me). These analytics help support the maintainers of this library and ONLY run during installation. To [opt out](https://github.com/scarf-sh/scarf-js?tab=readme-ov-file#as-a-user-of-a-package-using-scarf-js-how-can-i-opt-out-of-analytics), you can set the `scarfSettings.enabled` field to `false` in your project's `package.json`:
+
+```
+// package.json
+{
+  // ...
+  "scarfSettings": {
+    "enabled": false
+  }
+  // ...
+}
+```
+
+Alternatively, you can set the environment variable `SCARF_ANALYTICS` to `false` as part of the environment that installs your npm packages, e.g., `SCARF_ANALYTICS=false npm install`.
+
 ## Helpful scripts
 
 Any of the scripts below can be run by typing `npm run <script name>` in the project's root directory.
@@ -104,13 +121,14 @@ To help with the migration, here are the currently known issues with 3.X. This l
 ## Docker
 
 ### Running the image from DockerHub
-There is a docker image published in [DockerHub](https://hub.docker.com/r/swaggerapi/swagger-editor/).
+
+There is a docker image published in **docker.swagger.io** registry.
 
 To use this, run the following:
 
 ```
-docker pull swaggerapi/swagger-editor
-docker run -d -p 80:8080 swaggerapi/swagger-editor
+docker pull docker.swagger.io/swaggerapi/swagger-editor
+docker run -d -p 80:8080 docker.swagger.io/swaggerapi/swagger-editor
 ```
 
 This will run Swagger Editor (in detached mode) on port 80 on your machine, so you can open it by navigating to `http://localhost` in your browser.  
@@ -118,13 +136,13 @@ This will run Swagger Editor (in detached mode) on port 80 on your machine, so y
 * You can provide a URL pointing to an API definition (may not be available if some security policies such as CSP or CORS are enforced):
 
 ```
-docker run -d -p 80:8080 -e URL="https://petstore3.swagger.io/api/v3/openapi.json" swaggerapi/swagger-editor
+docker run -d -p 80:8080 -e URL="https://petstore3.swagger.io/api/v3/openapi.json" docker.swagger.io/swaggerapi/swagger-editor
 ```
 
 * You can provide your own `json` or `yaml` definition file from your local host:
 
 ```
-docker run -d -p 80:8080 -v $(pwd):/tmp -e SWAGGER_FILE=/tmp/swagger.json swaggerapi/swagger-editor
+docker run -d -p 80:8080 -v $(pwd):/tmp -e SWAGGER_FILE=/tmp/swagger.json docker.swagger.io/swaggerapi/swagger-editor
 ```
 
 **Note:** When both `URL` and `SWAGGER_FILE` environment variables are set, `URL` has priority and `SWAGGER_FILE` is ignored.
@@ -132,19 +150,19 @@ docker run -d -p 80:8080 -v $(pwd):/tmp -e SWAGGER_FILE=/tmp/swagger.json swagge
 * You can specify a different base url via `BASE_URL` variable for accessing the application - for example if you want the application to be available at `http://localhost/swagger-editor/`:
 
 ```
-docker run -d -p 80:8080 -e BASE_URL=/swagger-editor swaggerapi/swagger-editor
+docker run -d -p 80:8080 -e BASE_URL=/swagger-editor docker.swagger.io/swaggerapi/swagger-editor
 ```
 
 * You can specify a different port via `PORT` variable for accessing the application, default is `8080`.
 
 ```
-docker run -d -p 80:80 -e PORT=80 swaggerapi/swagger-editor
+docker run -d -p 80:80 -e PORT=80 docker.swagger.io/swaggerapi/swagger-editor
 ```
 
 * You can specify Google Tag Manager ID via `GTM` variable for tracking the usage of the swagger-editor.
 
 ```
-docker run -d -p 80:8080 -e GTM=GTM-XXXXXX swaggerapi/swagger-editor
+docker run -d -p 80:8080 -e GTM=GTM-XXXXXX docker.swagger.io/swaggerapi/swagger-editor
 ```
 
 You can also customize the different endpoints used by the Swagger Editor with the following environment variables. For instance, this can be useful if you have your own Swagger generator server:
