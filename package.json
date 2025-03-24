@@ -104,7 +104,7 @@
     "styled-components": "^6.1.14",
     "swagger-ui-react": "^5.20.1",
     "vscode": "npm:@codingame/monaco-vscode-api@=5.2.0",
-    "vscode-languageclient": "^10.0.0-next.8",
+    "vscode-languageclient": "^10.0.0-next.14",
     "vscode-languageserver-textdocument": "^1.0.12"
   },
   "overrides": {
