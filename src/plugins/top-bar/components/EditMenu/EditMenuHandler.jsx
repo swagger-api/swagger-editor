@@ -23,8 +23,8 @@ const EditMenuHandler = forwardRef((props, ref) => {
     async convertToYAML() {
       await convertToYAMLMenuItemHandler.current.convertToYAML();
     },
-    async convertOpenAPI20ToOpenAPI30xClick() {
-      await convertToOpenAPI30xMenuItemHandler.current.convert();
+    convertOpenAPI20ToOpenAPI30xClick() {
+      convertToOpenAPI30xMenuItemHandler.current.openModal();
     },
   }));
 

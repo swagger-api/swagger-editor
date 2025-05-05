@@ -1,7 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import identity from 'lodash/identity.js';
 
-const EditorPaneBarRight = ({ renderChildren, renderControls }) => {
+const EditorPaneBarRight = ({ renderChildren = identity, renderControls = identity }) => {
   return (
     <div className="swagger-editor__editor-pane-bar swagger-editor__editor-pane-bar--right">
       <div className="swagger-editor__toolbar-vertical">{renderControls(null)}</div>
@@ -13,11 +14,6 @@ const EditorPaneBarRight = ({ renderChildren, renderControls }) => {
 EditorPaneBarRight.propTypes = {
   renderChildren: PropTypes.func,
   renderControls: PropTypes.func,
-};
-
-EditorPaneBarRight.defaultProps = {
-  renderChildren: (children) => children,
-  renderControls: (controls) => controls,
 };
 
 export default EditorPaneBarRight;

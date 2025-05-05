@@ -1,0 +1,15 @@
+{
+  "short_name": "SwaggerEditor",
+  "name": "SwaggerEditor",
+  "icons": [
+    {
+      "src": "favicon-32x32.ico",
+      "sizes": "32x32",
+      "type": "image/x-icon"
+    }
+  ],
+  "start_url": ".",
+  "display": "standalone",
+  "theme_color": "#000000",
+  "background_color": "#ffffff"
+}

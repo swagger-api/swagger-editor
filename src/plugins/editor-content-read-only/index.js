@@ -2,8 +2,8 @@ import reducers from './reducers.js';
 import { setContentReadOnly, setContentReadWrite } from './actions.js';
 import { selectContentIsReadOnly, selectContentIsReadWrite } from './selectors.js';
 import ReadOnlySelectionIcon from './components/ReadOnlySelectionIcon.jsx';
-import EditorPaneBarTopWrapper from './wrap-components/EditorPaneBarTopWrapper.jsx';
-import EditorWrapper from './wrap-components/EditorWrapper.jsx';
+import EditorPaneBarTopWrapper from './extensions/editor-textarea/wrap-components/EditorPaneBarTopWrapper.jsx';
+import EditorWrapper from './extensions/editor-textarea/wrap-components/EditorWrapper.jsx';
 
 const EditorContentReadOnlyPlugin = () => {
   return {

@@ -5,8 +5,8 @@ const ValidationPane = ({
   editorSelectors,
   editorActions,
   getComponent,
-  alwaysDisplayHeading,
-  onValidationClick,
+  alwaysDisplayHeading = false,
+  onValidationClick = () => {},
 }) => {
   const markers = editorSelectors.selectMarkers();
   const ValidationTable = getComponent('ValidationTable');
@@ -39,11 +39,6 @@ ValidationPane.propTypes = {
   }).isRequired,
   getComponent: PropTypes.func.isRequired,
   onValidationClick: PropTypes.func,
-};
-
-ValidationPane.defaultProps = {
-  alwaysDisplayHeading: false,
-  onValidationClick: () => {},
 };
 
 export default ValidationPane;

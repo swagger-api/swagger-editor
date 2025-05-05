@@ -27,13 +27,12 @@ const Dropzone = ({ getComponent, useDropzone, children }) => {
         {errorMessage}
       </AlertDialog>
       <input data-cy="dropzone" {...getInputProps()} />
-      {isDragActive ? (
+      {isDragActive && (
         <div className="dropzone__overlay">
           Please drop an OpenAPI 2.0/3.0/3.1 or AsyncApi 2.x definition in .yaml or .json format.
         </div>
-      ) : (
-        children
       )}
+      {children}
     </div>
   );
 };

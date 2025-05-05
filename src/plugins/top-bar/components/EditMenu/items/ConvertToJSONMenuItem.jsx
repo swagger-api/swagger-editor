@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 
-const ConvertToJSONMenuItem = ({ getComponent, editorSelectors, onClick, children }) => {
+const ConvertToJSONMenuItem = ({ getComponent, editorSelectors, onClick, children = null }) => {
   const DropdownMenuItem = getComponent('DropdownMenuItem');
   const DropdownMenuItemDivider = getComponent('DropdownMenuItemDivider');
   const isContentFormatYAML = editorSelectors.selectIsContentFormatYAML();
@@ -20,10 +20,6 @@ ConvertToJSONMenuItem.propTypes = {
   }).isRequired,
   children: PropTypes.node,
   onClick: PropTypes.func.isRequired,
-};
-
-ConvertToJSONMenuItem.defaultProps = {
-  children: null,
 };
 
 export default ConvertToJSONMenuItem;

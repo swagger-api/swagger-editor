@@ -15,3 +15,13 @@ export const selectEditor = () => (system) => {
   const id = system.editorSelectors.selectId();
   return monaco.editor.getEditors().find((editor) => editor.getId() === id);
 };
+
+export const selectEditorWidth = () => (system) => {
+  const editor = system.editorSelectors.selectEditor();
+  const { width } = editor.getLayoutInfo();
+  return width;
+};
+
+export const selectModelVersionId = (state) => state.get('versionId', null);
+
+export const selectModelAlternativeVersionId = (state) => state.get('alternativeVersionId', null);

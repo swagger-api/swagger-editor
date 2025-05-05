@@ -1,4 +1,4 @@
-import { initialize as initializeMonacoServices } from 'vscode/services';
+import { initialize as initializeMonacoServices } from '@codingame/monaco-vscode-api';
 import 'vscode/localExtensionHost';
 
 import lazyMonacoContribution from './monaco-contribution/index.js';
@@ -14,8 +14,11 @@ function afterLoad(system) {
   globalThis.MonacoEnvironment = {
     initPhase: InitPhase.UNINITIALIZED,
     baseUrl: document.baseURI || location.href, // eslint-disable-line no-restricted-globals
-    getWorkerUrl() {
-      return new URL(process.env.REACT_APP_APIDOM_WORKER_FILENAME, this.baseUrl).toString();
+    getWorker() {
+      return new Worker(
+        new URL(process.env.REACT_APP_APIDOM_WORKER_FILENAME, this.baseUrl),
+        { type: 'classic' } // ensures importScripts() works
+      );
     },
     ...globalThis.MonacoEnvironment, // this will allow to override the base uri for loading Web Workers
   };

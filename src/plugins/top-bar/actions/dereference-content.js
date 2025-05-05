@@ -1,4 +1,3 @@
-import ShortUniqueId from 'short-unique-id';
 import * as monaco from 'monaco-editor';
 
 /**
@@ -48,12 +47,11 @@ export const dereferenceContentFailure = ({ error, content, baseURI, requestId }
  * Async thunks.
  */
 
-export const dereferenceContent = ({ content, baseURI }) => {
-  const uid = new ShortUniqueId({ length: 10 });
-
-  return async (system) => {
+export const dereferenceContent =
+  ({ content, baseURI }) =>
+  async (system) => {
     const { editorActions, fn } = system;
-    const requestId = uid();
+    const requestId = fn.generateRequestId();
 
     editorActions.dereferenceContentStarted({ content, baseURI, requestId });
 
@@ -74,4 +72,3 @@ export const dereferenceContent = ({ content, baseURI }) => {
       return editorActions.dereferenceContentFailure({ error, content, baseURI, requestId });
     }
   };
-};

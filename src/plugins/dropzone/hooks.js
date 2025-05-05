@@ -3,7 +3,7 @@ import { useDropzone as useVendorDropzone } from 'react-dropzone';
 
 // eslint-disable-next-line import/prefer-default-export
 export const makeUseDropzone = (getSystem) => () => {
-  const { editorActions } = getSystem();
+  const { editorDropzoneActions } = getSystem();
   const [isAlertDialogOpen, setIsAlertDialogOpen] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
 
@@ -12,24 +12,21 @@ export const makeUseDropzone = (getSystem) => () => {
       const someFilesWereRejected = rejectedFiles && rejectedFiles.length > 0;
       const thereIsExactlyOneAcceptedFile = acceptedFiles && acceptedFiles.length === 1;
 
-      try {
-        if (someFilesWereRejected || !thereIsExactlyOneAcceptedFile) {
-          const dropFileErrMessage = `Sorry, there was an error processing your file.\nPlease drag and drop exactly one file.`;
-          setErrorMessage(dropFileErrMessage);
-          setIsAlertDialogOpen(true);
-        } else {
-          const file = acceptedFiles[0];
-          const content = await file.text();
-
-          editorActions.setContent(content, 'file-drop');
-        }
-      } catch (error) {
-        const importedFileErrMessage = `Sorry, there was an error processing your file. Unable to process as valid YAML or JSON `;
-        setErrorMessage(importedFileErrMessage);
+      if (someFilesWereRejected || !thereIsExactlyOneAcceptedFile) {
+        const dropFileErrMessage = `Sorry, there was an error processing your file.\nPlease drag and drop exactly one file.`;
+        setErrorMessage(dropFileErrMessage);
         setIsAlertDialogOpen(true);
+      } else {
+        const fsa = await editorDropzoneActions.dropFile({ file: acceptedFiles[0] });
+
+        if (fsa.error) {
+          const importedFileErrMessage = `Sorry, there was an error processing your file. Unable to process as valid YAML or JSON `;
+          setErrorMessage(importedFileErrMessage);
+          setIsAlertDialogOpen(true);
+        }
       }
     },
-    [editorActions, setErrorMessage, setIsAlertDialogOpen]
+    [setErrorMessage, setIsAlertDialogOpen, editorDropzoneActions]
   );
   const { getRootProps, getInputProps, isDragActive } = useVendorDropzone({
     onDrop: handleFileDrop,

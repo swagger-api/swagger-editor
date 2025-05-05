@@ -1,5 +1,7 @@
 import Dropzone from './components/Dropzone.jsx';
 import { makeUseDropzone } from './hooks.js';
+import { dropFile, dropFileStarted, dropFileSuccess, dropFileFailure } from './actions.js';
+import { dropFileSuccess as dropFileSuccessWrap } from './wrap-actions.js';
 
 const DropzonePlugin = ({ getSystem }) => ({
   rootInjects: {
@@ -7,6 +9,19 @@ const DropzonePlugin = ({ getSystem }) => ({
   },
   components: {
     Dropzone,
+  },
+  statePlugins: {
+    editorDropzone: {
+      actions: {
+        dropFile,
+        dropFileStarted,
+        dropFileSuccess,
+        dropFileFailure,
+      },
+      wrapActions: {
+        dropFileSuccess: dropFileSuccessWrap,
+      },
+    },
   },
 });
 

@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 
-const SaveAsMenuItem = ({ getComponent, editorSelectors, onClick, children }) => {
+const SaveAsMenuItem = ({ getComponent, editorSelectors, onClick, children = null }) => {
   const DropdownMenuItem = getComponent('DropdownMenuItem');
   const itemName = editorSelectors.selectIsContentFormatJSON()
     ? 'Save (as JSON)'
@@ -19,10 +19,6 @@ SaveAsMenuItem.propTypes = {
   }).isRequired,
   children: PropTypes.node,
   onClick: PropTypes.func.isRequired,
-};
-
-SaveAsMenuItem.defaultProps = {
-  children: null,
 };
 
 export default SaveAsMenuItem;

@@ -4,7 +4,13 @@ import PropTypes from 'prop-types';
 // @TODO(vladimir.gorej@gmail.com): this can be replaced by React.useId in React@18
 import { useId } from '../../hooks.js';
 
-const TextareaEditor = ({ isReadOnly, editorActions, editorSelectors, useEditorLifecycle }) => {
+const TextareaEditor = ({
+  isReadOnly = false,
+  editorActions,
+  editorSelectors,
+  useEditorLifecycle,
+  EditorContentOrigin,
+}) => {
   const content = editorSelectors.selectContent();
   const id = useId();
   const editorRef = useEditorLifecycle('textarea');
@@ -14,9 +20,9 @@ const TextareaEditor = ({ isReadOnly, editorActions, editorSelectors, useEditorL
     (e) => {
       e.preventDefault();
       setValue(e.target.value);
-      editorActions.setContentDebounced(e.target.value, 'editor');
+      editorActions.setContentDebounced(e.target.value, EditorContentOrigin.Editor);
     },
-    [editorActions]
+    [editorActions, EditorContentOrigin]
   );
 
   useEffect(() => {
@@ -45,10 +51,9 @@ TextareaEditor.propTypes = {
     selectContent: PropTypes.func.isRequired,
   }).isRequired,
   useEditorLifecycle: PropTypes.func.isRequired,
-};
-
-TextareaEditor.defaultProps = {
-  isReadOnly: false,
+  EditorContentOrigin: PropTypes.shape({
+    Editor: PropTypes.string.isRequired,
+  }).isRequired,
 };
 
 export default TextareaEditor;

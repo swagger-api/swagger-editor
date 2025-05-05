@@ -3,7 +3,12 @@ import PropTypes from 'prop-types';
 
 import MonacoEditor from './MonacoEditor.jsx';
 
-const MonacoEditorContainer = ({ editorActions, editorSelectors, isReadOnly }) => {
+const MonacoEditorContainer = ({
+  editorActions,
+  editorSelectors,
+  isReadOnly = false,
+  EditorContentOrigin,
+}) => {
   const theme = editorSelectors.selectTheme();
   const value = editorSelectors.selectContent();
   const language = editorSelectors.selectLanguage();
@@ -25,9 +30,9 @@ const MonacoEditorContainer = ({ editorActions, editorSelectors, isReadOnly }) =
 
   const handleChangeEditorValue = useCallback(
     (newValue) => {
-      editorActions.setContentDebounced(newValue, 'editor');
+      editorActions.setContentDebounced(newValue, EditorContentOrigin.Editor);
     },
-    [editorActions]
+    [editorActions, EditorContentOrigin]
   );
 
   const handleEditorMarkersDidChange = useCallback(
@@ -64,10 +69,9 @@ MonacoEditorContainer.propTypes = {
     selectContent: PropTypes.func.isRequired,
     selectTheme: PropTypes.func.isRequired,
   }).isRequired,
-};
-
-MonacoEditorContainer.defaultProps = {
-  isReadOnly: false,
+  EditorContentOrigin: PropTypes.shape({
+    Editor: PropTypes.string.isRequired,
+  }).isRequired,
 };
 
 export default MonacoEditorContainer;

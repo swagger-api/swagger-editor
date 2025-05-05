@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 
-const ModalTitle = ({ id, children }) => (
+const ModalTitle = ({ id = null, children = null }) => (
   <div id={id} className="modal-title">
     {children}
   </div>
@@ -9,11 +9,6 @@ const ModalTitle = ({ id, children }) => (
 ModalTitle.propTypes = {
   id: PropTypes.string,
   children: PropTypes.node,
-};
-
-ModalTitle.defaultProps = {
-  id: null,
-  children: null,
 };
 
 export default ModalTitle;

@@ -5,21 +5,26 @@ import ImmutablePropTypes from 'react-immutable-proptypes';
 
 import JumpIcon from '../assets/jump-icon.svg';
 
-const JumpToPath = ({ path, content, showButton, editorPreviewSwaggerUIActions }) => {
+const JumpToPath = ({
+  path = List(),
+  content = null,
+  showButton = false,
+  editorPreviewSwaggerUIActions,
+}) => {
   const handleJumpToPath = (e) => {
     e.stopPropagation();
     editorPreviewSwaggerUIActions.jumpToPath(path.toJS());
   };
 
   const jumpToPathButton = (
-    <div role="button" tabIndex={0} onClick={handleJumpToPath} onKeyDown={handleJumpToPath}>
+    <span role="button" tabIndex={0} onClick={handleJumpToPath} onKeyDown={handleJumpToPath}>
       <img
         src={JumpIcon}
         className="view-line-link"
         title="Jump to definition"
         alt="Jump to path"
       />
-    </div>
+    </span>
   );
 
   if (content) {
@@ -31,7 +36,7 @@ const JumpToPath = ({ path, content, showButton, editorPreviewSwaggerUIActions }
       </span>
     );
   }
-  return <div>{jumpToPathButton}</div>;
+  return jumpToPathButton;
 };
 
 JumpToPath.propTypes = {
@@ -41,12 +46,6 @@ JumpToPath.propTypes = {
   editorPreviewSwaggerUIActions: PropTypes.shape({
     jumpToPath: PropTypes.func.isRequired,
   }).isRequired,
-};
-
-JumpToPath.defaultProps = {
-  path: List(),
-  content: null,
-  showButton: false,
 };
 
 export default JumpToPath;

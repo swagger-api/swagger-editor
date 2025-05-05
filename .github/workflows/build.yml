@@ -18,23 +18,12 @@ jobs:
         with:
           submodules: true
 
-      - name: Use Node.js 20
+      - name: Use Node.js 22
         uses: actions/setup-node@v4
         with:
-          node-version: 20
-
-      - name: Cache npm cache files
-        id: cache-npm-cache-files
-        uses: actions/cache@v4
-        with:
-          path: ~/.npm
-          key: npm-cache-${{ runner.os }}-${{ hashFiles('package-lock.json') }}
-      - name: Cache Cypress binary
-        id: cache-cypress-binary
-        uses: actions/cache@v4
-        with:
-          path: cypress/cache
-          key: cypress-binary-${{ hashFiles('package-lock.json') }}
+          node-version: 22
+          cache: npm
+          cache-dependency-path: package-lock.json
 
       - name: Install dependencies
         run: npm ci
@@ -54,12 +43,12 @@ jobs:
       - name: Build App artifacts
         run: npm run build:app
 
-      - name: E2E Tests
-        run: npm run cy:ci
-
       - name: Upload build artifacts
         if: github.ref == 'refs/heads/next'
         uses: actions/upload-artifact@v4
         with:
           name: build
           path: ./build
+
+      - name: E2E Tests
+        run: npm run cy:ci

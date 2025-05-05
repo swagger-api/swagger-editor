@@ -4,7 +4,7 @@ import classNames from 'classnames';
 
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 
-const DropdownMenu = ({ children, label, isLong }) => {
+const DropdownMenu = ({ children = [], label, isLong = false }) => {
   const ref = useRef(null);
   const [isOpen, setIsOpen] = useState(false);
 
@@ -57,11 +57,6 @@ DropdownMenu.propTypes = {
   label: PropTypes.string.isRequired,
   children: PropTypes.oneOfType([PropTypes.array, PropTypes.element]),
   isLong: PropTypes.bool,
-};
-
-DropdownMenu.defaultProps = {
-  children: [],
-  isLong: false,
 };
 
 export default DropdownMenu;

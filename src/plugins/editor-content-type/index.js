@@ -4,7 +4,7 @@ import {
   detectContentTypeSuccess,
   detectContentTypeFailure,
 } from './actions.js';
-import { setContent as setContentWrap } from './wrap-actions.js';
+import { setContent as setContentWrap } from './extensions/editor-textarea/wrap-actions.js';
 import {
   selectIsContentFormatYAML,
   selectIsContentFormatJSON,
@@ -18,12 +18,20 @@ import {
   selectIsContentTypeOpenAPI30x,
   selectIsContentTypeOpenAPI31x,
   selectIsContentTypeAPIDesignSystems,
+  selectIsContentTypeJSONSchema,
+  selectIsContentTypeJSONSchema202012,
   selectInferFileExtensionFromContent,
   selectInferFileNameFromContent,
   selectInferFileNameWithExtensionFromContent,
 } from './selectors.js';
 import reducers from './reducers.js';
-import { isValidJSON, isValidJSONObject, isValidYAML, isValidYAMLObject } from './fn.js';
+import {
+  isValidJSON,
+  isValidJSONObject,
+  isValidJSONArray,
+  isValidYAML,
+  isValidYAMLObject,
+} from './fn.js';
 
 const EditorContentTypePlugin = () => {
   return {
@@ -51,6 +59,8 @@ const EditorContentTypePlugin = () => {
           selectIsContentTypeOpenAPI30x,
           selectIsContentTypeOpenAPI31x,
           selectIsContentTypeAPIDesignSystems,
+          selectIsContentTypeJSONSchema,
+          selectIsContentTypeJSONSchema202012,
           selectInferFileExtensionFromContent,
           selectInferFileNameFromContent,
           selectInferFileNameWithExtensionFromContent,
@@ -61,6 +71,7 @@ const EditorContentTypePlugin = () => {
     fn: {
       isValidJSON,
       isValidJSONObject,
+      isValidJSONArray,
       isValidYAML,
       isValidYAMLObject,
     },

@@ -19,11 +19,11 @@ const MonacoEditor = ({
   value,
   theme,
   language,
-  isReadOnly,
-  onMount,
-  onWillUnmount,
-  onChange,
-  onEditorMarkersDidChange,
+  isReadOnly = false,
+  onMount = noop,
+  onWillUnmount = noop,
+  onChange = noop,
+  onEditorMarkersDidChange = noop,
 }) => {
   const containerRef = useRef(null);
   const editorRef = useRef(null);
@@ -109,15 +109,11 @@ const MonacoEditor = ({
       if (editorRef.current.getOption(monaco.editor.EditorOption.readOnly)) {
         editorRef.current.setValue(value);
       } else if (value !== editorRef.current.getValue()) {
-        editorRef.current.executeEdits('', [
-          {
-            range: editorRef.current.getModel().getFullModelRange(),
-            text: value,
-            forceMoveMarkers: true,
-          },
-        ]);
+        const model = editorRef.current.getModel();
+        const languageId = model.getLanguageId();
 
-        editorRef.current.pushUndoStop();
+        model.dispose();
+        editorRef.current.setModel(monaco.editor.createModel(value, languageId));
       }
     },
     [value],
@@ -212,14 +208,6 @@ MonacoEditor.propTypes = {
   onWillUnmount: PropTypes.func,
   onChange: PropTypes.func,
   onEditorMarkersDidChange: PropTypes.func,
-};
-
-MonacoEditor.defaultProps = {
-  isReadOnly: false,
-  onMount: noop,
-  onWillUnmount: noop,
-  onChange: noop,
-  onEditorMarkersDidChange: noop,
 };
 
 export default MonacoEditor;

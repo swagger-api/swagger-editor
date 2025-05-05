@@ -1,5 +1,5 @@
 import { previewUnmounted, parse, parseStarted, parseSuccess, parseFailure } from './actions.js';
-import { detectContentTypeSuccess as detectContentTypeSuccessWrap } from './wrap-actions.js';
+import { detectContentTypeSuccess as detectContentTypeSuccessWrap } from './extensions/editor-content-type/wrap-actions.js';
 import {
   selectParseStatus,
   selectIsParseInProgress,
@@ -34,7 +34,7 @@ import Scenario from './components/Scenario.jsx';
 import Requirement from './components/Requirement.jsx';
 import EditorPreviewAPIDesignSystems from './components/EditorPreviewAPIDesignSystems.jsx';
 import ParseErrors from './components/ParseErrors.jsx';
-import EditorPreviewWrapper from './wrap-components/EditorPreviewWrapper.jsx';
+import EditorPreviewWrapper from './extensions/editor-preview/wrap-components/EditorPreviewWrapper.jsx';
 
 const EditorPreviewApiDesignSystemsPlugin = () => {
   return {

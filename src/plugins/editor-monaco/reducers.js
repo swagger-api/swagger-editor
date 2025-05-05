@@ -5,6 +5,7 @@ import { EDITOR_SET_MARKERS } from './actions/set-markers.js';
 import { EDITOR_CLEAR_MARKERS } from './actions/clear-markers.js';
 import { EDITOR_APPEND_MARKERS } from './actions/append-markers.js';
 import { EDITOR_SET_LANGUAGE } from './actions/set-language.js';
+import { EDITOR_SET_MODEL_VERSION_ID } from './actions/set-model-version-id.js';
 
 const reducers = {
   [EDITOR_SET_THEME]: (state, action) => {
@@ -26,6 +27,12 @@ const reducers = {
   },
   [EDITOR_SET_LANGUAGE]: (state, action) => {
     return state.set('language', action.payload);
+  },
+  [EDITOR_SET_MODEL_VERSION_ID]: (state, action) => {
+    return state.merge({
+      versionId: action.payload,
+      alternativeVersionId: action.meta.alternativeVersionId,
+    });
   },
   // this action type comes from editor-textarea plugin
   editor_setup: (state, action) => {

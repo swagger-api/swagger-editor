@@ -1,5 +1,5 @@
 import * as monaco from 'monaco-editor';
-import { StandaloneServices, IQuickInputService } from 'vscode/services';
+import { StandaloneServices, IQuickInputService } from '@codingame/monaco-vscode-api/services';
 
 const goToSymbolActionDescriptor = {
   id: 'editor.action.quickOutline',

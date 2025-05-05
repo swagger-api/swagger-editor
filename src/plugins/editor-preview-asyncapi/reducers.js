@@ -78,9 +78,10 @@ const parseFailureReducer = (state, action) => {
       parseStatus: FAILURE_STATUS,
       parseRequestId: null,
       parseResult: null,
-      parseErrors: fromJS(
-        action.meta.parseResult.diagnostics.filter((diagnostic) => diagnostic.severity === 0)
-      ),
+      parseErrors:
+        fromJS(
+          action.meta.parseResult?.diagnostics.filter((diagnostic) => diagnostic.severity === 0)
+        ) ?? initialState.parseResult,
     });
   }
 

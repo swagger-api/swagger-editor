@@ -10,24 +10,18 @@ describe('read only', () => {
     cy.get(':nth-child(1) > .swagger-editor__editor-pane-bar-control > .octicon-unlock').should(
       'be.visible'
     );
-    cy.get('.monaco-editor textarea:first', { timeout: 10000 })
-      .should('be.visible')
-      .should('not.have.attr', 'readonly');
+    cy.selectIsEditorReadOnly().should('equal', false);
     // toggle to read-only
     cy.get(':nth-child(1) > .swagger-editor__editor-pane-bar-control').click();
     cy.get(':nth-child(1) > .swagger-editor__editor-pane-bar-control > .octicon-lock').should(
       'be.visible'
     );
-    cy.get('.monaco-editor textarea:first', { timeout: 10000 })
-      .should('be.visible')
-      .should('have.attr', 'readonly');
+    cy.selectIsEditorReadOnly().should('equal', true);
     // toggle back to allow-write
     cy.get(':nth-child(1) > .swagger-editor__editor-pane-bar-control').click();
     cy.get(':nth-child(1) > .swagger-editor__editor-pane-bar-control > .octicon-unlock').should(
       'be.visible'
     );
-    cy.get('.monaco-editor textarea:first', { timeout: 10000 })
-      .should('be.visible')
-      .should('not.have.attr', 'readonly');
+    cy.selectIsEditorReadOnly().should('equal', false);
   });
 });

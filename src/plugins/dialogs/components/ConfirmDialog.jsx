@@ -1,7 +1,13 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
-const ConfirmDialog = ({ isOpen, title, getComponent, children, onClose }) => {
+const ConfirmDialog = ({
+  isOpen = false,
+  title = '',
+  getComponent,
+  children = null,
+  onClose = () => {},
+}) => {
   const Modal = getComponent('Modal');
   const ModalHeader = getComponent('ModalHeader');
   const ModalTitle = getComponent('ModalTitle');
@@ -45,13 +51,6 @@ ConfirmDialog.propTypes = {
   getComponent: PropTypes.func.isRequired,
   children: PropTypes.node,
   onClose: PropTypes.func,
-};
-
-ConfirmDialog.defaultProps = {
-  isOpen: false,
-  title: '',
-  children: null,
-  onClose: () => {},
 };
 
 export default ConfirmDialog;

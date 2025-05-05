@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import ReactModal from 'react-modal';
 
-const Modal = ({ isOpen, contentLabel, aria, children }) => {
+const Modal = ({ isOpen = false, contentLabel = null, aria = {}, children = null }) => {
   return (
     <ReactModal
       isOpen={isOpen}
@@ -22,13 +22,6 @@ Modal.propTypes = {
   contentLabel: PropTypes.string,
   aria: PropTypes.shape({ labelledby: PropTypes.string, describedby: PropTypes.string }),
   children: PropTypes.node,
-};
-
-Modal.defaultProps = {
-  isOpen: false,
-  contentLabel: null,
-  aria: {},
-  children: null,
 };
 
 export default Modal;

@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 
-const ModalBody = ({ children }) => {
+const ModalBody = ({ children = null }) => {
   return (
     <div className="modal-body">
       <div>{children}</div>
@@ -10,10 +10,6 @@ const ModalBody = ({ children }) => {
 
 ModalBody.propTypes = {
   children: PropTypes.node,
-};
-
-ModalBody.defaultProps = {
-  children: null,
 };
 
 export default ModalBody;

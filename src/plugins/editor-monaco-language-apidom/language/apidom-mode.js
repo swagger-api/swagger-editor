@@ -80,7 +80,6 @@ const registerProviders = ({ languageId, providers, dependencies }) => {
       )
     );
   })();
-  system.monacoInitializationDeferred().promise.then(() => {});
 
   return providers;
 };

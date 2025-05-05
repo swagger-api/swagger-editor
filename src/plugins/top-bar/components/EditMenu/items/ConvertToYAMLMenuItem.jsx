@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 
-const ConvertToYAMLMenuItem = ({ getComponent, editorSelectors, onClick, children }) => {
+const ConvertToYAMLMenuItem = ({ getComponent, editorSelectors, onClick, children = null }) => {
   const DropdownMenuItem = getComponent('DropdownMenuItem');
   const DropdownMenuItemDivider = getComponent('DropdownMenuItemDivider');
   const isContentFormatJSON = editorSelectors.selectIsContentFormatJSON();
@@ -20,10 +20,6 @@ ConvertToYAMLMenuItem.propTypes = {
   }).isRequired,
   children: PropTypes.node,
   onClick: PropTypes.func.isRequired,
-};
-
-ConvertToYAMLMenuItem.defaultProps = {
-  children: null,
 };
 
 export default ConvertToYAMLMenuItem;

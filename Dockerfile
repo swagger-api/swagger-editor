@@ -3,7 +3,10 @@ FROM nginx:1.27.5-alpine
 LABEL maintainer="vladimir.gorej@smartbear.com" \
       org.opencontainers.image.authors="vladimir.gorej@smartbear.com" \
       org.opencontainers.image.url="https://editor-next.swagger.io" \
-      org.opencontainers.image.source="https://github.com/swagger-api/swagger-editor/tree/next"
+      org.opencontainers.image.source="https://github.com/swagger-api/swagger-editor/tree/next" \
+      org.opencontainers.image.description="SwaggerEditor@5 Docker image"  \
+      org.opencontainers.image.licenses="Apache-2.0"
+
 
 RUN apk update && apk add --no-cache "tiff>=4.4.0-r4"
 

@@ -1,4 +1,3 @@
-import ShortUniqueId from 'short-unique-id';
 import { parse as parseJSON } from '@swagger-api/apidom-parser-adapter-api-design-systems-json';
 import { parse as parseYAML } from '@swagger-api/apidom-parser-adapter-api-design-systems-yaml';
 
@@ -47,12 +46,11 @@ export const parseFailure = ({ error, content, contentType, requestId }) => ({
  * Async thunks.
  */
 
-export const parse = ({ content, contentType, parserOptions = {} }) => {
-  const uid = new ShortUniqueId({ length: 10 });
-
-  return async (system) => {
-    const { editorPreviewADSActions } = system;
-    const requestId = uid();
+export const parse =
+  ({ content, contentType, parserOptions = {} }) =>
+  async (system) => {
+    const { editorPreviewADSActions, fn } = system;
+    const requestId = fn.generateRequestId();
 
     editorPreviewADSActions.parseStarted({ content, contentType, requestId });
 
@@ -65,4 +63,3 @@ export const parse = ({ content, contentType, parserOptions = {} }) => {
       editorPreviewADSActions.parseFailure({ error, content, contentType, requestId });
     }
   };
-};

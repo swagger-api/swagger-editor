@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 import logo from '../../assets/logo-small.svg';
 
-const Logo = ({ link }) => {
+const Logo = ({ link = 'https://swagger.io/tools/swagger-editor/' }) => {
   const img = <img className="swagger-editor__top-bar-logo-img" src={logo} alt="Swagger Editor" />;
 
   return (
@@ -21,10 +21,6 @@ const Logo = ({ link }) => {
 
 Logo.propTypes = {
   link: PropTypes.string,
-};
-
-Logo.defaultProps = {
-  link: 'https://swagger.io/tools/swagger-editor/',
 };
 
 export default Logo;

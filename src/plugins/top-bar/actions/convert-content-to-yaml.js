@@ -1,5 +1,4 @@
 import YAML from 'js-yaml';
-import ShortUniqueId from 'short-unique-id';
 
 /**
  * Action types.
@@ -42,26 +41,22 @@ export const convertContentToYAMLFailure = ({ error, content, requestId }) => {
  * Async thunks.
  */
 
-export const convertContentToYAML = (content) => {
-  const uid = new ShortUniqueId({ length: 10 });
+export const convertContentToYAML = (content) => async (system) => {
+  const { editorActions, fn } = system;
+  const requestId = fn.generateRequestId();
 
-  return async (system) => {
-    const { editorActions } = system;
-    const requestId = uid();
+  editorActions.convertContentToYAMLStarted({ content, requestId });
 
-    editorActions.convertContentToYAMLStarted({ content, requestId });
+  try {
+    const contentObject = JSON.parse(content);
+    const contentYAMLString = YAML.dump(contentObject);
 
-    try {
-      const contentObject = JSON.parse(content);
-      const contentYAMLString = YAML.dump(contentObject);
-
-      return editorActions.convertContentToYAMLSuccess({
-        contentYAML: contentYAMLString,
-        content,
-        requestId,
-      });
-    } catch (error) {
-      return editorActions.convertContentToYAMLFailure({ error, content, requestId });
-    }
-  };
+    return editorActions.convertContentToYAMLSuccess({
+      contentYAML: contentYAMLString,
+      content,
+      requestId,
+    });
+  } catch (error) {
+    return editorActions.convertContentToYAMLFailure({ error, content, requestId });
+  }
 };

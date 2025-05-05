@@ -274,7 +274,7 @@
 /* line 15, ../src/scss/_dd-menu.scss */
 .dd-menu .dd-menu-items {
   position: absolute;
-  z-index: 12;
+  z-index: 10001;
   margin: 0.5em 0 0 0;
 }
 /* line 20, ../src/scss/_dd-menu.scss */
@@ -403,12 +403,13 @@
       border-radius:0 0 4px 4px;
 
       li {
+        font-size: 0.9rem;
+
         &:last-of-type {
           &:hover {
             border-radius:0 0 4px 4px;
           }
         }
-        font-size: 0.9rem;
       }
     }
   }
