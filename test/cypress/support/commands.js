@@ -124,12 +124,6 @@ Cypress.Commands.add('visitBlankPage', () => {
   });
 });
 
-Cypress.Commands.add('openEditorContextMenu', () => {
-  cy.window().then((win) => {
-    win.monaco.trigger('keyboard', 'editor.action.showContextMenu', null); // Open the Monaco context menu
-  });
-});
-
 Cypress.Commands.add('focusEditorText', (position = { lineNumber: 1, column: 1 }) => {
   cy.window().then((win) => {
     win.monaco.setPosition(position, 'mouse');
@@ -169,26 +163,6 @@ Cypress.Commands.add('typeBackspaceInEditor', () => {
   });
 });
 
-Cypress.Commands.add('typeDeleteInEditor', () => {
-  cy.window().then((win) => {
-    win.monaco.trigger('keyboard', 'deleteRight', null);
-  });
-});
-
-Cypress.Commands.add('typeUndoInEditor', () => {
-  const isMac = Cypress.platform === 'darwin';
-  const text = isMac ? '{cmd}z' : '{ctrl}z';
-
-  cy.get('.monaco-editor').type(text);
-});
-
-Cypress.Commands.add('typeRedoInEditor', () => {
-  const isMac = Cypress.platform === 'darwin';
-  const text = isMac ? '{cmd}{shift}z' : '{ctrl}{shift}z';
-
-  cy.get('.monaco-editor').type(text);
-});
-
 Cypress.Commands.add('selectAllEditorText', () => {
   const isMac = Cypress.platform === 'darwin';
   const text = isMac ? '{meta}a' : '{ctrl}a';
@@ -200,18 +174,6 @@ Cypress.Commands.add('selectAllEditorText', () => {
 Cypress.Commands.add('getAllEditorText', () => {
   return cy.window().then((win) => {
     return win.monaco.getModel().getValue();
-  });
-});
-
-Cypress.Commands.add('resolveEditorDocument', () => {
-  cy.window().then((win) => {
-    win.monaco.trigger('keyboard', 'swagger.editor.apidomDereference', null);
-  });
-});
-
-Cypress.Commands.add('scrollToEditorLine', (lineNumber) => {
-  cy.window().then((win) => {
-    win.monaco.revealLine(lineNumber);
   });
 });
 
