@@ -17,6 +17,11 @@ jobs:
           submodules: true
           ref: next
 
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
       - name: Determine the next release version
         uses: cycjimmy/semantic-release-action@v4
         with:
@@ -35,11 +40,6 @@ jobs:
           script: |
             core.setFailed('Nothing to release')
 
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: 20
-
       - name: Install dependencies
         run: npm ci
 
@@ -49,7 +49,6 @@ jobs:
         run: |
           npm run lint
           npm run test
-          npm run build:app
           npm run cy:ci
           npm run build:bundle:esm
           npm run build:bundle:umd
@@ -78,13 +77,6 @@ jobs:
           echo ${{ steps.semantic.outputs.new_release_major_version }}
           echo ${{ steps.semantic.outputs.new_release_minor_version }}
           echo ${{ steps.semantic.outputs.new_release_patch_version }}
-
-      - name: Upload build artifacts
-        uses: actions/upload-artifact@v4
-        with:
-          name: build
-          path: ./build
-
 
       - name: Prepare released version for uploading
         shell: bash
