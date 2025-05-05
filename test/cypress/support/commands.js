@@ -28,24 +28,24 @@ import '@testing-library/cypress/add-commands.js';
 import 'cypress-file-upload';
 
 Cypress.Commands.add('prepareAsyncAPI', () => {
-  cy.intercept(
-    'GET',
-    'https://raw.githubusercontent.com/asyncapi/spec/v2.6.0/examples/streetlights-kafka.yml',
-    {
-      fixture: 'streetlights-kafka.yml',
-    }
-  ).as('streetlightsKafka');
-
   cy.visit('/');
-  cy.wait('@streetlightsKafka');
 });
 
 Cypress.Commands.add('prepareOpenAPI30x', () => {
   cy.intercept('GET', 'https://petstore3.swagger.io/api/v3/openapi.json', {
-    fixture: 'petstore-oas3.yaml',
+    fixture: 'petstore-oas3.json',
   }).as('externalPetstore');
 
-  cy.visit('/');
+  cy.visit('/?url=https://petstore3.swagger.io/api/v3/openapi.json');
+  cy.wait(['@externalPetstore']);
+});
+
+Cypress.Commands.add('prepareOpenAPI20', () => {
+  cy.intercept('GET', 'https://petstore.swagger.io/v2/swagger.yaml', {
+    fixture: 'petstore-oas2.yaml',
+  }).as('externalPetstore');
+
+  cy.visit('/?url=https://petstore.swagger.io/v2/swagger.yaml');
   cy.wait(['@externalPetstore']);
 });
 
@@ -106,7 +106,7 @@ Cypress.Commands.add('clearDownloadsFolder', () => {
 });
 
 Cypress.Commands.add('waitForSplashScreen', () => {
-  cy.get('.swagger-editor__splash-screen', { timeout: 10000 }).should('not.be.visible');
+  cy.get('.swagger-editor__splash-screen', { timeout: 15000 }).should('not.be.visible');
 });
 
 Cypress.Commands.add('waitForContentPropagation', () => {
@@ -122,4 +122,118 @@ Cypress.Commands.add('visitBlankPage', () => {
     // eslint-disable-next-line no-param-reassign
     win.location.href = 'about:blank';
   });
+});
+
+Cypress.Commands.add('openEditorContextMenu', () => {
+  cy.window().then((win) => {
+    win.monaco.trigger('keyboard', 'editor.action.showContextMenu', null); // Open the Monaco context menu
+  });
+});
+
+Cypress.Commands.add('focusEditorText', (position = { lineNumber: 1, column: 1 }) => {
+  cy.window().then((win) => {
+    win.monaco.setPosition(position, 'mouse');
+    win.monaco.focus();
+  });
+});
+
+Cypress.Commands.add(
+  'selectEditorText',
+  (selection = { startLineNumber: 1, startColumn: 1, endLineNumber: 1, endColumn: 1 }) => {
+    cy.window().then((win) => {
+      win.monaco.setSelection(selection);
+      win.monaco.focus();
+    });
+  }
+);
+
+Cypress.Commands.add('typeInEditor', (text, { range } = {}) => {
+  cy.window().then((win) => {
+    if (range) {
+      win.monaco.executeEdits('', [
+        {
+          range,
+          text,
+          forceMoveMarkers: true,
+        },
+      ]);
+    } else {
+      win.monaco.trigger('keyboard', 'type', { text });
+    }
+  });
+});
+
+Cypress.Commands.add('typeBackspaceInEditor', () => {
+  cy.window().then((win) => {
+    win.monaco.trigger('keyboard', 'deleteLeft', null);
+  });
+});
+
+Cypress.Commands.add('typeDeleteInEditor', () => {
+  cy.window().then((win) => {
+    win.monaco.trigger('keyboard', 'deleteRight', null);
+  });
+});
+
+Cypress.Commands.add('typeUndoInEditor', () => {
+  const isMac = Cypress.platform === 'darwin';
+  const text = isMac ? '{cmd}z' : '{ctrl}z';
+
+  cy.get('.monaco-editor').type(text);
+});
+
+Cypress.Commands.add('typeRedoInEditor', () => {
+  const isMac = Cypress.platform === 'darwin';
+  const text = isMac ? '{cmd}{shift}z' : '{ctrl}{shift}z';
+
+  cy.get('.monaco-editor').type(text);
+});
+
+Cypress.Commands.add('selectAllEditorText', () => {
+  const isMac = Cypress.platform === 'darwin';
+  const text = isMac ? '{meta}a' : '{ctrl}a';
+
+  cy.focusEditorText();
+  cy.get('.monaco-editor').type(text);
+});
+
+Cypress.Commands.add('getAllEditorText', () => {
+  return cy.window().then((win) => {
+    return win.monaco.getModel().getValue();
+  });
+});
+
+Cypress.Commands.add('resolveEditorDocument', () => {
+  cy.window().then((win) => {
+    win.monaco.trigger('keyboard', 'swagger.editor.apidomDereference', null);
+  });
+});
+
+Cypress.Commands.add('scrollToEditorLine', (lineNumber) => {
+  cy.window().then((win) => {
+    win.monaco.revealLine(lineNumber);
+  });
+});
+
+Cypress.Commands.add('selectIsEditorReadOnly', () => {
+  cy.window().then((win) => {
+    return win.monaco.getRawOptions().readOnly;
+  });
+});
+
+Cypress.Commands.add('pasteToEditor', (text) => {
+  cy.get('.monaco-editor').paste(text);
+});
+
+Cypress.Commands.add('paste', { prevSubject: true, element: true }, ($element, data) => {
+  const clipboardData = new DataTransfer();
+  clipboardData.setData('text', data);
+  const pasteEvent = new ClipboardEvent('paste', {
+    bubbles: true,
+    cancelable: true,
+    data,
+    clipboardData,
+  });
+
+  $element[0].dispatchEvent(pasteEvent);
 });

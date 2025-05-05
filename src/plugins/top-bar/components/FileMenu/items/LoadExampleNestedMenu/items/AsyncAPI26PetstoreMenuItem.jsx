@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 
-const AsyncAPI26PetstoreMenuItem = ({ getComponent, onClick, children }) => {
+const AsyncAPI26PetstoreMenuItem = ({ getComponent, onClick, children = null }) => {
   const DropdownMenuItem = getComponent('DropdownMenuItem');
 
   return (
@@ -12,10 +12,6 @@ AsyncAPI26PetstoreMenuItem.propTypes = {
   getComponent: PropTypes.func.isRequired,
   children: PropTypes.node,
   onClick: PropTypes.func.isRequired,
-};
-
-AsyncAPI26PetstoreMenuItem.defaultProps = {
-  children: null,
 };
 
 export default AsyncAPI26PetstoreMenuItem;

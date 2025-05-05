@@ -1,6 +1,6 @@
 import * as monaco from 'monaco-editor';
 import { languages as vscodeLanguages } from 'vscode';
-import { ModesRegistry } from 'vscode/vscode/vs/editor/common/languages/modesRegistry';
+import { ModesRegistry } from '@codingame/monaco-vscode-api/vscode/vs/editor/common/languages/modesRegistry';
 
 import * as apidom from './apidom.js';
 import { setupMode } from './apidom-mode.js';
@@ -84,7 +84,9 @@ const lazyMonacoContribution = ({ createData, system }) => {
     disposables.push(vscodeLanguages.setLanguageConfiguration(apidom.languageId, apidom.conf));
   });
 
-  disposables.push(monaco.languages.setMonarchTokensProvider(apidom.languageId, apidom.language));
+  disposables.push(
+    monaco.languages.setMonarchTokensProvider(apidom.languageId, apidom.monarchLanguageDef)
+  );
 
   // setup apidom mode
   disposables.push(

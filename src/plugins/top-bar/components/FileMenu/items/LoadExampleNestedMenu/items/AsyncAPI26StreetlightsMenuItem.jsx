@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 
-const AsyncAPI26StreetlightsMenuItem = ({ getComponent, onClick, children }) => {
+const AsyncAPI26StreetlightsMenuItem = ({ getComponent, onClick, children = null }) => {
   const DropdownMenuItem = getComponent('DropdownMenuItem');
 
   return (
@@ -12,10 +12,6 @@ AsyncAPI26StreetlightsMenuItem.propTypes = {
   getComponent: PropTypes.func.isRequired,
   children: PropTypes.node,
   onClick: PropTypes.func.isRequired,
-};
-
-AsyncAPI26StreetlightsMenuItem.defaultProps = {
-  children: null,
 };
 
 export default AsyncAPI26StreetlightsMenuItem;

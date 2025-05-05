@@ -25,21 +25,7 @@ export const setContentDebounced = (oriAction, system) => (content, contentOrigi
 };
 
 export const clearContent = createSafeActionWrapper((oriAction, system) => () => {
-  system.editorActions.setContent('', 'clear');
+  const { EditorContentOrigin } = system;
+
+  system.editorActions.setContent('', EditorContentOrigin.Clear);
 });
-
-/**
- * This wrapped action makes sure that setting initial definition
- * via `spec` or `url` SwaggerUI option is propagated to editor content.
- */
-export const updateSpec = (oriAction, system) => (spec, origin) => {
-  const { editorActions, editorSelectors } = system;
-
-  const fsa = oriAction(spec, origin); // Flux Standard Action(FSA): action objects emitted through redux
-
-  if (origin !== 'swagger-editor' && editorSelectors.selectContent() !== spec) {
-    editorActions.setContent(spec);
-  }
-
-  return fsa;
-};

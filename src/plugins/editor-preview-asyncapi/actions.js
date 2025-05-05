@@ -1,4 +1,3 @@
-import ShortUniqueId from 'short-unique-id';
 import { Parser } from '@asyncapi/parser';
 import { OpenAPISchemaParser } from '@asyncapi/openapi-schema-parser';
 import { AvroSchemaParser } from '@asyncapi/avro-schema-parser';
@@ -51,8 +50,6 @@ export const parseFailure = ({ error, parseResult, content, requestId }) => ({
  */
 
 export const parse = (content, options = {}) => {
-  const uid = new ShortUniqueId({ length: 10 });
-
   /**
    * We give ability to fully distinguish between parser and parse options.
    * If parser or parse options are not provided, we will use the options object as it is.
@@ -71,26 +68,38 @@ export const parse = (content, options = {}) => {
      * This code can easily be offloaded to a web worker and allow MRT
      * not to be blocked by the detection.
      */
-    const { editorPreviewAsyncAPIActions } = system;
-    const requestId = uid();
+    const { editorPreviewAsyncAPIActions, fn } = system;
+    const requestId = fn.generateRequestId();
 
     editorPreviewAsyncAPIActions.parseStarted({ content, requestId });
 
     try {
       const parseResult = await parser.parse(content, parseOptions ?? options);
 
+      if (process.env.NODE_ENV === 'development') {
+        parseResult.extras = null;
+      }
+
       if (parseResult.document) {
-        editorPreviewAsyncAPIActions.parseSuccess({ parseResult, content, requestId });
-      } else {
-        editorPreviewAsyncAPIActions.parseFailure({
-          error: new Error('Document is empty'),
+        return editorPreviewAsyncAPIActions.parseSuccess({
           parseResult,
           content,
           requestId,
         });
       }
+
+      return editorPreviewAsyncAPIActions.parseFailure({
+        error: new Error('Document is empty'),
+        parseResult,
+        content,
+        requestId,
+      });
     } catch (error) {
-      editorPreviewAsyncAPIActions.parseFailure({ error, content, requestId });
+      return editorPreviewAsyncAPIActions.parseFailure({
+        error,
+        content,
+        requestId,
+      });
     }
   };
 };

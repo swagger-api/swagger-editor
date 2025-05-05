@@ -11,3 +11,7 @@ export const loadFromLocalStorage = () => {
 export const hasLocalStorage = () => {
   return loadFromLocalStorage() !== null;
 };
+
+export const removeFromLocalStorage = () => {
+  localStorage.removeItem(STORAGE_KEY);
+};

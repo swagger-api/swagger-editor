@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>SwaggerEditor e2e</title>
+    <!-- Google Tag Manager -->
+    <link rel="preload" href="%PUBLIC_URL%/static/media/splash-screen/loader.gif" as="image" type="image/gif" />
+    <link rel="preload" href="%PUBLIC_URL%/static/media/splash-screen/logo.svg" as="image" type="image/svg+xml" />
+    <link rel="preload" href="%PUBLIC_URL%/static/media/splash-screen/styles.css" as="style" type="text/css" />
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#000000" />
+    <meta name="description" content="SwaggerEditor" />
+    <meta http-equiv="Cache-control" content="no-cache, no-store, must-revalidate" />
+    <link rel="icon" href="%PUBLIC_URL%/favicon-32x32.png" />
+    <link rel="apple-touch-icon" href="%PUBLIC_URL%/favicon-32x32.png" />
+    <link rel="stylesheet" href="%PUBLIC_URL%/static/media/splash-screen/styles.css" />
+    <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
+    <script>
+      window.MonacoEnvironment = {
+        baseUrl: new URL('/static/js/', document.baseURI || location.href).toString(),
+      };
+    </script>
+  </head>
+  <body>
+    <!-- Google Tag Manager (noscript) -->
+    <noscript>You need to enable JavaScript to run this app.</noscript>
+    <div id="swagger-editor">
+      <div class="swagger-editor">
+        <div class="swagger-editor__splash-screen">
+          <figure class="swagger-editor__splash-screen-figure">
+            <img width="100%" src="%PUBLIC_URL%/static/media/splash-screen/logo.svg" alt="Swagger Editor" />
+            <figcaption>%REACT_APP_VERSION%</figcaption>
+            <img
+              width="25"
+              height="25"
+              class="swagger-editor__splash-screen-spinner"
+              src="%PUBLIC_URL%/static/media/splash-screen/loader.gif"
+              alt="Loading..."
+            />
+          </figure>
+        </div>
+      </div>
+    </div>
+    <script src="%PUBLIC_URL%/static/js/main.js"></script>
+    <script>
+      const props = { queryConfigEnabled: true };
+      const element = React.createElement(SwaggerEditor, props);
+      root.render(element);
+    </script>
+  </body>
+</html>

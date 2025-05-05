@@ -2,5 +2,9 @@
   "rules": {
     "testing-library/await-async-utils": 0,
     "testing-library/await-async-query": 0,
-  }
+    "no-only-tests/no-only-tests": "error"
+  },
+  "plugins": [
+    "no-only-tests"
+  ]
 }

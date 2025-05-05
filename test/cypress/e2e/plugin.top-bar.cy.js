@@ -62,7 +62,7 @@ describe('Topbar', () => {
         cy.contains('OpenAPI 3.0 Petstore').click();
 
         cy.get('.view-lines > :nth-child(1)')
-          .should('contains.text', '3.0.3')
+          .should('contains.text', '3.0.4')
           .should('not.have.text', '{')
           .should('not.have.text', '"');
       });
@@ -99,6 +99,18 @@ describe('Topbar', () => {
 
         cy.get('.view-lines > :nth-child(3)')
           .should('contains.text', 'Streetlights')
+          .should('not.have.text', '{')
+          .should('not.have.text', '"');
+      });
+
+      it('should load JSON Schema 2020-12 example as YAML', () => {
+        cy.contains('File').click();
+        cy.contains('Load Example').trigger('mouseover');
+        cy.contains('JSON Schema 2020-12').trigger('mousemove');
+        cy.contains('JSON Schema 2020-12').click();
+
+        cy.get('.view-lines > :nth-child(1)')
+          .should('contains.text', '2020-12')
           .should('not.have.text', '{')
           .should('not.have.text', '"');
       });
@@ -246,6 +258,18 @@ describe('Topbar', () => {
         cy.get('Convert to OpenAPI 3.0.x').should('not.exist');
       });
 
+      it('should open a confirm dialog for "Convert to OpenAPI 3.0.x" after loading OpenAPI 2.0 fixture', () => {
+        cy.contains('File').click();
+        cy.contains('Load Example').trigger('mouseover');
+        cy.contains('OpenAPI 2.0 Petstore').trigger('mousemove');
+        cy.contains('OpenAPI 2.0 Petstore').click();
+        cy.contains('Edit').click();
+        cy.contains('Convert to OpenAPI 3.0.x').should('be.visible');
+        cy.contains('Convert to OpenAPI 3.0.x').trigger('mousemove');
+        cy.contains('Convert to OpenAPI 3.0.x').click();
+        cy.get('.modal-title').should('have.text', 'Convert to OpenAPI 3.0.x');
+      });
+
       it('should call external http service to "Convert to OpenAPI 3.0.x" after loading OpenAPI 2.0 fixture', () => {
         cy.contains('File').click();
         cy.contains('Load Example').trigger('mouseover');
@@ -255,8 +279,24 @@ describe('Topbar', () => {
         cy.contains('Convert to OpenAPI 3.0.x').should('be.visible');
         cy.contains('Convert to OpenAPI 3.0.x').trigger('mousemove');
         cy.contains('Convert to OpenAPI 3.0.x').click();
+        cy.get('.modal-footer > .btn-primary').click();
         cy.wait('@externalConverterToOas3');
         cy.get('.version-stamp > .version').should('have.text', 'OAS 3.0');
+      });
+
+      it('should close the confirm dialog for "Convert to OpenAPI 3.0.x" after conversion', () => {
+        cy.contains('File').click();
+        cy.contains('Load Example').trigger('mouseover');
+        cy.contains('OpenAPI 2.0 Petstore').trigger('mousemove');
+        cy.contains('OpenAPI 2.0 Petstore').click();
+        cy.contains('Edit').click();
+        cy.contains('Convert to OpenAPI 3.0.x').should('be.visible');
+        cy.contains('Convert to OpenAPI 3.0.x').trigger('mousemove');
+        cy.contains('Convert to OpenAPI 3.0.x').click();
+        cy.get('.modal-content').should('exist');
+        cy.get('.modal-footer > .btn-primary').click();
+        cy.wait('@externalConverterToOas3');
+        cy.get('.modal-content').should('not.exist');
       });
     });
   });
@@ -318,7 +358,7 @@ describe('Topbar', () => {
       cy.get('Generate Client').should('not.exist');
     });
 
-    it.only('should download a generated OpenAPI 3.0 Server file', () => {
+    it('should download a generated OpenAPI 3.0 Server file', () => {
       cy.contains('File').click();
       cy.contains('Load Example').trigger('mouseover');
       cy.contains('OpenAPI 3.0 Petstore').trigger('mousemove');
@@ -338,14 +378,11 @@ describe('Topbar', () => {
       cy.contains('OpenAPI 3.0 Petstore').trigger('mousemove');
       cy.contains('OpenAPI 3.0 Petstore').click();
       cy.contains('Generate Client').should('be.visible').click();
-      cy.contains('apple') // mocked response value
-        .should('be.visible');
+      cy.contains('apple').should('be.visible');
       cy.contains('apple').trigger('mousemove');
       cy.contains('apple').click();
       cy.wait('@externalGeneratorOas3Download');
-      cy.contains('apple')
-        .readFile(`${downloadsFolder}/apple-client-generated.zip`)
-        .should('exist');
+      cy.readFile(`${downloadsFolder}/apple-client-generated.zip`).should('exist');
     });
 
     it('should download a generated OpenAPI 2.0 Server file', () => {
@@ -360,7 +397,7 @@ describe('Topbar', () => {
       cy.contains('blue').click();
       cy.wait('@externalGeneratorServersOAS2reqDownloadUrl');
       cy.wait('@externalGeneratorOas2Download');
-      cy.contains('blue').readFile(`${downloadsFolder}/blue-server-generated.zip`).should('exist');
+      cy.readFile(`${downloadsFolder}/blue-server-generated.zip`).should('exist');
     });
 
     it('should download a generated OpenAPI 2.0 Client file', () => {
@@ -375,9 +412,7 @@ describe('Topbar', () => {
       cy.contains('apple').click();
       cy.wait('@externalGeneratorClientsOAS2reqDownloadUrl');
       cy.wait('@externalGeneratorOas2Download');
-      cy.contains('apple')
-        .readFile(`${downloadsFolder}/apple-client-generated.zip`)
-        .should('exist');
+      cy.readFile(`${downloadsFolder}/apple-client-generated.zip`).should('exist');
     });
   });
 

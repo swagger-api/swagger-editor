@@ -1,6 +1,11 @@
 import PropTypes from 'prop-types';
 
-const DownloadResolvedJSONMenuItem = ({ getComponent, editorSelectors, onClick, children }) => {
+const DownloadResolvedJSONMenuItem = ({
+  getComponent,
+  editorSelectors,
+  onClick,
+  children = null,
+}) => {
   const DropdownMenuItem = getComponent('DropdownMenuItem');
   const isContentTypeOpenAPI = editorSelectors.selectIsContentTypeOpenAPI();
   const isContentTypeAsyncAPI = editorSelectors.selectIsContentTypeAsyncAPI();
@@ -23,10 +28,6 @@ DownloadResolvedJSONMenuItem.propTypes = {
   }).isRequired,
   children: PropTypes.node,
   onClick: PropTypes.func.isRequired,
-};
-
-DownloadResolvedJSONMenuItem.defaultProps = {
-  children: null,
 };
 
 export default DownloadResolvedJSONMenuItem;

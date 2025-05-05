@@ -37,6 +37,7 @@
     "no-nested-ternary": "off",
     "prettier/prettier": "error",
     "react/react-in-jsx-scope": 0,
+    "react/require-default-props": "off",
     "react/function-component-definition": [1, {
       "namedComponents": ["arrow-function"]
     }],
@@ -47,13 +48,9 @@
       "ignore": [
         // https://github.com/import-js/eslint-plugin-import/issues/1810
         "^monaco-marker-data-provider$",
-        "^monaco-languageclient\/monaco-converter$",
-        "^vscode\/services$",
-        "^vscode\/extensions$",
-        "^vscode\/vscode",
-        "^vscode\/service-override",
         "^plugins\/.+\/index.js",
-        "^presets\/.+\/index.js"
+        "^presets\/.+\/index.js",
+        "^@codingame\/monaco-vscode-api"
       ]
     }]
   }

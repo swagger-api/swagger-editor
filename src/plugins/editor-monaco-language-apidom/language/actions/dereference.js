@@ -21,9 +21,9 @@ const createDereferenceActionDescriptor = ({ getSystem }) => ({
 
     if (isContentYAML) {
       const nicelyFormattedYAML = YAML.dump(YAML.load(dereferenced));
-      system.editorActions.setContent(nicelyFormattedYAML);
+      system.editorActions.setContent(nicelyFormattedYAML, system.EditorContentOrigin.Resolve);
     } else if (isContentJSON) {
-      system.editorActions.setContent(dereferenced);
+      system.editorActions.setContent(dereferenced, system.EditorContentOrigin.Resolve);
     }
   },
 });

@@ -1,38 +1,13 @@
 import createSafeActionWrapper from '../../utils/create-safe-action-wrapper.js';
-import { IDLE_STATUS, FAILURE_STATUS } from './reducers.js';
 
-// eslint-disable-next-line import/prefer-default-export
-export const detectContentTypeSuccess = createSafeActionWrapper((oriAction, system) => () => {
-  const { editorSelectors, editorTopBarSelectors, editorTopBarActions } = system;
-  const triggerStatuses = [IDLE_STATUS, FAILURE_STATUS];
+export const importUrlSuccess = createSafeActionWrapper((oriAction, system) => ({ definition }) => {
+  const { editorActions, EditorContentOrigin } = system;
 
-  if (
-    triggerStatuses.includes(editorTopBarSelectors.selectOpenAPI3GeneratorServerListStatus()) &&
-    (editorSelectors.selectIsContentTypeOpenAPI30x() ||
-      editorSelectors.selectIsContentTypeOpenAPI31x())
-  ) {
-    editorTopBarActions.fetchOpenAPI3GeneratorServerList();
-  }
+  editorActions.setContent(definition, EditorContentOrigin.ImportUrl);
+});
 
-  if (
-    triggerStatuses.includes(editorTopBarSelectors.selectOpenAPI3GeneratorClientListStatus()) &&
-    (editorSelectors.selectIsContentTypeOpenAPI30x() ||
-      editorSelectors.selectIsContentTypeOpenAPI31x())
-  ) {
-    editorTopBarActions.fetchOpenAPI3GeneratorClientList();
-  }
+export const uploadFileSuccess = createSafeActionWrapper((oriAction, system) => ({ content }) => {
+  const { editorActions, EditorContentOrigin } = system;
 
-  if (
-    triggerStatuses.includes(editorTopBarSelectors.selectOpenAPI2GeneratorServerListStatus()) &&
-    editorSelectors.selectIsContentTypeOpenAPI20()
-  ) {
-    editorTopBarActions.fetchOpenAPI2GeneratorServerList();
-  }
-
-  if (
-    triggerStatuses.includes(editorTopBarSelectors.selectOpenAPI2GeneratorClientListStatus()) &&
-    editorSelectors.selectIsContentTypeOpenAPI20()
-  ) {
-    editorTopBarActions.fetchOpenAPI2GeneratorClientList();
-  }
+  editorActions.setContent(content, EditorContentOrigin.ImportFile);
 });

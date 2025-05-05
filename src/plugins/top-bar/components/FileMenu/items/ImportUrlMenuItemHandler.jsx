@@ -18,7 +18,6 @@ const ImportUrlMenuItemHandler = forwardRef(({ getComponent, editorActions }, re
         setIsConfirmDialogOpen(false);
         setIsAlertDialogOpen(true);
       } else {
-        editorActions.setContent(fsa.payload, 'import-url');
         setUrl('');
         alertDialogMessage.current = '';
         setIsConfirmDialogOpen(false);
@@ -80,7 +79,6 @@ ImportUrlMenuItemHandler.propTypes = {
   getComponent: PropTypes.func.isRequired,
   editorActions: PropTypes.shape({
     importUrl: PropTypes.func.isRequired,
-    setContent: PropTypes.func.isRequired,
   }).isRequired,
 };
 

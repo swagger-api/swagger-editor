@@ -1,4 +1,3 @@
-import ShortUniqueId from 'short-unique-id';
 import axios from 'axios';
 
 /**
@@ -51,25 +50,21 @@ export const fetchOpenAPI3GeneratorServerListFailure = ({ error, url, requestId 
  * Async thunks.
  */
 
-export const fetchOpenAPI3GeneratorServerList = () => {
-  const uid = new ShortUniqueId({ length: 10 });
+export const fetchOpenAPI3GeneratorServerList = () => async (system) => {
+  const { editorTopBarActions, editorTopBarSelectors, fn } = system;
+  const requestId = fn.generateRequestId();
+  const url = editorTopBarSelectors.selectOpenAPI3GeneratorServerListURL();
 
-  return async (system) => {
-    const { editorTopBarActions, editorTopBarSelectors } = system;
-    const requestId = uid();
-    const url = editorTopBarSelectors.selectOpenAPI3GeneratorServerListURL();
+  editorTopBarActions.fetchOpenAPI3GeneratorServerListStarted({ url, requestId });
 
-    editorTopBarActions.fetchOpenAPI3GeneratorServerListStarted({ url, requestId });
-
-    try {
-      const response = await axios.get(url);
-      return editorTopBarActions.fetchOpenAPI3GeneratorServerListSuccess({
-        serverList: response.data,
-        url,
-        requestId,
-      });
-    } catch (error) {
-      return editorTopBarActions.fetchOpenAPI3GeneratorServerListFailure({ error, url, requestId });
-    }
-  };
+  try {
+    const response = await axios.get(url);
+    return editorTopBarActions.fetchOpenAPI3GeneratorServerListSuccess({
+      serverList: response.data,
+      url,
+      requestId,
+    });
+  } catch (error) {
+    return editorTopBarActions.fetchOpenAPI3GeneratorServerListFailure({ error, url, requestId });
+  }
 };

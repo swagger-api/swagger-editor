@@ -1,12 +1,13 @@
 import * as monaco from 'monaco-editor';
-import { StandaloneServices, IStorageService } from 'vscode/services';
+import { StandaloneServices, IStorageService } from '@codingame/monaco-vscode-api/services';
 
 import goToSymbolActionDescriptor from './actions/go-to-symbol.js';
 
 const lazyMonacoContribution = ({ system }) => {
+  const { monacoInitializationDeferred, editorActions } = system;
   const disposables = [];
 
-  system.monacoInitializationDeferred().promise.then(() => {
+  monacoInitializationDeferred().promise.then(() => {
     StandaloneServices.get(IStorageService).store('expandSuggestionDocs', true, 0, 0);
   });
 
@@ -18,6 +19,30 @@ const lazyMonacoContribution = ({ system }) => {
           if (!editor.getAction(goToSymbolActionDescriptor.id)) {
             disposables.push(editor.addAction(goToSymbolActionDescriptor));
           }
+        })
+      );
+    })
+  );
+
+  // store current version ID of the model
+  disposables.push(
+    monaco.editor.onDidCreateEditor((editor) => {
+      disposables.push(
+        monaco.editor.onDidCreateModel((model) => {
+          const versionId = model.getVersionId();
+          const alternativeVersionId = model.getAlternativeVersionId();
+
+          editorActions.setModelVersionId(versionId, { alternativeVersionId });
+        })
+      );
+
+      disposables.push(
+        editor.onDidChangeModelContent(() => {
+          const model = editor.getModel();
+          const versionId = model.getVersionId();
+          const alternativeVersionId = model.getAlternativeVersionId();
+
+          editorActions.setModelVersionId(versionId, { alternativeVersionId });
         })
       );
     })

@@ -1,5 +1,4 @@
 import fileDownload from 'js-file-download';
-import ShortUniqueId from 'short-unique-id';
 
 /**
  * Action types.
@@ -43,12 +42,11 @@ export const downloadContentFailure = ({ error, content, fileNameWithExtension, 
  * Async thunks.
  */
 
-export const downloadContent = ({ content, fileNameWithExtension }) => {
-  const uid = new ShortUniqueId({ length: 10 });
-
-  return async (system) => {
-    const { editorActions } = system;
-    const requestId = uid();
+export const downloadContent =
+  ({ content, fileNameWithExtension }) =>
+  async (system) => {
+    const { editorActions, fn } = system;
+    const requestId = fn.generateRequestId();
 
     editorActions.downloadContentStarted({ content, fileNameWithExtension, requestId });
 
@@ -68,4 +66,3 @@ export const downloadContent = ({ content, fileNameWithExtension }) => {
       });
     }
   };
-};

@@ -1,6 +1,6 @@
 import SwaggerUI from 'swagger-ui-react';
 
-import ErrorBoundaryWrapper from './wrap-components/ErrorBoundaryWrapper.jsx';
+import ErrorBoundaryWrapper from './extensions/safe-render/wrap-components/ErrorBoundaryWrapper.jsx';
 
 /**
  * This is special version of SwaggerUI.plugins.SafeRender.

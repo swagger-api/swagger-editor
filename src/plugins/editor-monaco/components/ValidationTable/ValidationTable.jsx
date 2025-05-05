@@ -18,12 +18,12 @@ const ValidationTable = ({ data, onRowClick }) => {
         {data.map((marker, index) => (
           // eslint-disable-next-line react/no-array-index-key
           <tr key={index} role="row button" onClick={(event) => onRowClick(event, marker)}>
-            <td role="cell">
+            <td>
               <SeverityIcon severity={marker.severity} />
             </td>
-            <td role="cell">{marker.startLineNumber}</td>
-            <td role="cell">{marker.code}</td>
-            <td role="cell">{marker.message}</td>
+            <td>{marker.startLineNumber}</td>
+            <td>{marker.code}</td>
+            <td>{marker.message}</td>
           </tr>
         ))}
       </tbody>

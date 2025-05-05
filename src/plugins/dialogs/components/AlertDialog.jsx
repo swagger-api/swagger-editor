@@ -1,7 +1,13 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
-const AlertDialog = ({ isOpen, title, getComponent, children, onClose }) => {
+const AlertDialog = ({
+  isOpen = false,
+  title = '',
+  getComponent,
+  children = null,
+  onClose = () => {},
+}) => {
   const Modal = getComponent('Modal');
   const ModalHeader = getComponent('ModalHeader');
   const ModalTitle = getComponent('ModalTitle');
@@ -32,13 +38,6 @@ AlertDialog.propTypes = {
   getComponent: PropTypes.func.isRequired,
   children: PropTypes.node,
   onClose: PropTypes.func,
-};
-
-AlertDialog.defaultProps = {
-  isOpen: false,
-  title: '',
-  children: null,
-  onClose: () => {},
 };
 
 export default AlertDialog;

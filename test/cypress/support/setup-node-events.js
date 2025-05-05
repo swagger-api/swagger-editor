@@ -1,5 +1,6 @@
 /* eslint-disable no-console */
 /* eslint-disable no-unused-vars */
+/* eslint-disable no-param-reassign */
 // ***********************************************************
 // This example plugins/index.js can be used to load plugins
 //
@@ -33,6 +34,16 @@ const setupNodeEvents = (on, config) => {
       return null;
     },
   });
+
+  if (config.isTextTerminal) {
+    // running in headless mode
+    return {
+      viewportWidth: 1280,
+      viewportHeight: 1024,
+    };
+  }
+
+  return {};
 };
 
 export default setupNodeEvents;

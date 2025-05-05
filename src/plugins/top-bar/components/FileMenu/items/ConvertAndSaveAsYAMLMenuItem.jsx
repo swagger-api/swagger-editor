@@ -1,6 +1,11 @@
 import PropTypes from 'prop-types';
 
-const ConvertAndSaveAsJSONMenuItem = ({ getComponent, editorSelectors, children, onClick }) => {
+const ConvertAndSaveAsJSONMenuItem = ({
+  getComponent,
+  editorSelectors,
+  children = null,
+  onClick,
+}) => {
   const DropdownMenuItem = getComponent('DropdownMenuItem');
   const isContentFormatJSON = editorSelectors.selectIsContentFormatJSON();
 
@@ -16,10 +21,6 @@ ConvertAndSaveAsJSONMenuItem.propTypes = {
   }).isRequired,
   children: PropTypes.node,
   onClick: PropTypes.func.isRequired,
-};
-
-ConvertAndSaveAsJSONMenuItem.defaultProps = {
-  children: null,
 };
 
 export default ConvertAndSaveAsJSONMenuItem;

@@ -64,7 +64,7 @@ by extending the Node.js max heap limit: `export NODE_OPTIONS="--max_old_space_s
 
 ### Usage
 
-Use the package in you application:
+Use the package in your application:
 
 **index.js**:
 
@@ -105,6 +105,8 @@ Install dependencies needed for webpack@5 to properly build SwaggerEditor.
  $ npm i https-browserify --save-dev
  $ npm i stream-http --save-dev
  $ npm i util --save-dev
+ $ npm i buffer --save-dev
+ $ npm i process --save-dev
 ```
 
 ```js
@@ -132,6 +134,7 @@ module.exports = {
       stream: require.resolve('stream-browserify'),
       util: require.resolve('util'),
       url: require.resolve('url'),
+      buffer: require.resolve('buffer'),
       zlib: false,
     },
     alias: {
@@ -139,11 +142,13 @@ module.exports = {
       'monaco-editor': '/node_modules/monaco-editor',
       // This alias makes sure we're avoiding a runtime error related to this package
       '@stoplight/ordered-object-literal$': '/node_modules/@stoplight/ordered-object-literal/src/index.mjs',
+      'react/jsx-runtime.js': 'react/jsx-runtime',
     },
   },
   plugins: [
     new webpack.ProvidePlugin({
       Buffer: ['buffer', 'Buffer'],
+      process: ['process'],
     }),
   ],
   module: {
@@ -180,9 +185,9 @@ module.exports = {
 
 Alternative **webpack.config.js** (webpack@5)
 
-We've already built Web Workers fragments for you, and they're located inside our npm distribution
-package in `dist/umd/` directory. In order to avoid complexity of building the Web Worker fragments you can
-use those fragments directly. This setup will work both for **production** and **development** (webpack-dev-server)
+We've already built Web Workers artifacts for you, and they're located inside our npm distribution
+package in `dist/umd/` directory. To avoid the complexity of building the Web Worker artifacts, you can
+use those artifacts directly. This setup will work both for **production** and **development** (webpack-dev-server)
 and will significantly shorten your build process.
 
 Install `copy-webpack-plugin` and other needed dependencies.
@@ -193,6 +198,8 @@ Install `copy-webpack-plugin` and other needed dependencies.
  $ npm i https-browserify --save-dev
  $ npm i stream-http --save-dev
  $ npm i util --save-dev
+ $ npm i buffer --save-dev
+ $ npm i process --save-dev
 ```
 
 ```js
@@ -219,6 +226,7 @@ module.exports = {
       stream: require.resolve('stream-browserify'),
       util: require.resolve('util'),
       url: require.resolve('url'),
+      buffer: require.resolve('buffer'),
       zlib: false,
     },
     alias: {
@@ -226,11 +234,13 @@ module.exports = {
       'monaco-editor': '/node_modules/monaco-editor',
       // This alias makes sure we're avoiding a runtime error related to this package
       '@stoplight/ordered-object-literal$': '/node_modules/@stoplight/ordered-object-literal/src/index.mjs',
+      'react/jsx-runtime.js': 'react/jsx-runtime',
     }
   },
   plugins: [
     new webpack.ProvidePlugin({
       Buffer: ['buffer', 'Buffer'],
+      process: ['process'],
     }),
     new CopyWebpackPlugin({
       patterns: [
@@ -251,6 +261,27 @@ module.exports = {
         test: /\.css$/,
         use: ['style-loader', 'css-loader']
       },
+      /**
+       * The default way in which webpack loads wasm files won’t work in a worker,
+       * so we will have to disable webpack’s default handling of wasm files and
+       * then fetch the wasm file by using the file path that we get using file-loader.
+       *
+       * Resource: https://pspdfkit.com/blog/2020/webassembly-in-a-web-worker/
+       *
+       * Alternatively, WASM file can be bundled directly into JavaScript bundle as data URLs.
+       * This configuration reduces the complexity of WASM file loading
+       * but increases the overal bundle size:
+       *
+       * {
+       *   test: /\.wasm$/,
+       *   type: 'asset/inline',
+       * }
+       */
+      {
+        test: /\.wasm$/,
+        loader: 'file-loader',
+        type: 'javascript/auto', // this disables webpacks default handling of wasm
+      },
     ]
   }
 };
@@ -260,7 +291,7 @@ module.exports = {
 
 ### Prerequisites
 
-Assuming [prerequisites](#prerequisites) are already installed, [Node.js](https://nodejs.org/) `>=20.3.0` and `npm >=9.6.7`
+Assuming [prerequisites](#prerequisites) are already installed, [Node.js](https://nodejs.org/) `>=22.11.0` and `npm >=10.9.0`
 are the minimum required versions that this repo runs on, but we recommend using the latest version of Node.js@20.
 
 ### Setting up
@@ -348,8 +379,8 @@ which want to use SwaggerEditor as a library in their own applications and have 
 $ npm run build:bundle:umd
 ```
 
-SwaggerEditor UMD bundle exports SwaggerEditor symbol on global object.
-It's bundled with React defined as external. This allows consumer to use his own version of React + ReactDOM and mount SwaggerEditor lazily.
+SwaggerEditor UMD bundle exports SwaggerEditor symbol on a global object.
+It's bundled with React defined as external. This allows the consumer to use his own version of React + ReactDOM and mount SwaggerEditor lazily.
 
 ```html
 <!DOCTYPE html>
@@ -385,7 +416,7 @@ It's bundled with React defined as external. This allows consumer to use his own
 **npm**
 
 SwaggerEditor is released as `swagger-editor@5` npm package on [npmjs.com](https://npmjs.com).
-Package can also be produced manually by running following commands (assuming you're already followed [setting up](#setting-up) steps):
+Package can also be produced manually by running the following commands (assuming you're already followed [setting up](#setting-up) steps):
 
 ```sh
  $ npm run build:bundle:esm
@@ -395,7 +426,7 @@ Package can also be produced manually by running following commands (assuming yo
 
 ### Package mapping
 
-SwaggerEditor maps its [build artifacts](#build-artifacts) in `package.json` file in following way:
+SwaggerEditor maps its [build artifacts](#build-artifacts) in `package.json` file in the following way:
 
 ```json
 "unpkg": "./dist/umd/swagger-editor.js",
@@ -409,7 +440,8 @@ SwaggerEditor maps its [build artifacts](#build-artifacts) in `package.json` fil
     "browser": "./dist/esm/swagger-editor.js"
   },
   "./plugins/*": {
-    "browser": "./dist/esm/plugins/*/index.js"
+    "browser": "./dist/esm/plugins/*/index.js",
+    "node": "./dist/esm/plugins/*/index.js"
   },
   "./presets/*": {
     "browser": "./dist/esm/presets/*/index.js"
@@ -513,13 +545,14 @@ the definition that's being created in the editor. These plugins include:
 - **EditorPreviewAsyncAPIPlugin** - AsyncAPI specification rendering support
 - **EditorPreviewAPIDesignSystemsPlugin** - API Design Systems rendering support
 
-With a bit of adapting, we can use these plugins with SwaggerUI to provide ability
+With a bit of adapting, we can use these plugins with SwaggerUI to provide an ability
 to render AsyncAPI or API Design Systems definitions with SwaggerUI.
 
 ```js
 import SwaggerUI from 'swagger-ui';
 import SwaggerUIStandalonePreset from 'swagger-ui/dist/swagger-ui-standalone-preset';
 import 'swagger-editor/swagger-editor.css';
+import EditorContentOriginPlugin from 'swagger-editor/plugins/editor-content-origin';
 import EditorContentTypePlugin from 'swagger-editor/plugins/editor-content-type';
 import EditorPreviewAsyncAPIPlugin from 'swagger-editor/plugins/editor-preview-asyncapi';
 import EditorPreviewAPIDesignSystemsPlugin from 'swagger-editor/plugins/editor-preview-api-design-systems';
@@ -530,6 +563,7 @@ SwaggerUI({
   dom_id: '#swagger-ui',
   presets: [SwaggerUI.presets.apis, SwaggerUIStandalonePreset],
   plugins: [
+    EditorContentOriginPlugin,
     EditorContentTypePlugin,
     EditorPreviewAsyncAPIPlugin,
     EditorPreviewAPIDesignSystemsPlugin,
@@ -553,6 +587,7 @@ import SwaggerUI from 'swagger-ui';
 import SwaggerUIStandalonePreset from 'swagger-ui/dist/swagger-ui-standalone-preset';
 import 'swagger-ui/dist/swagger-ui.css';
 import 'swagger-editor/swagger-editor.css';
+import EditorContentOriginPlugin from 'swagger-editor/plugins/editor-content-origin';
 import EditorContentTypePlugin from 'swagger-editor/plugins/editor-content-type';
 import EditorPreviewAsyncAPIPlugin from 'swagger-editor/plugins/editor-preview-asyncapi';
 import EditorPreviewAPIDesignSystemsPlugin from 'swagger-editor/plugins/editor-preview-api-design-systems';
@@ -563,6 +598,7 @@ SwaggerUI({
   dom_id: '#swagger-ui',
   presets: [SwaggerUI.presets.apis, SwaggerUIStandalonePreset],
   plugins: [
+    EditorContentOriginPlugin,
     EditorContentTypePlugin,
     EditorPreviewAsyncAPIPlugin,
     EditorPreviewAPIDesignSystemsPlugin,
@@ -586,19 +622,19 @@ multi-spec supporting version of SwaggerUI.
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="theme-color" content="#000000" />
     <meta name="description" content="SwaggerUIMultifold" />
-    <link rel="stylesheet" href="//unpkg.com/swagger-editor@5.0.0-alpha.86/dist/swagger-editor.css" />
+    <link rel="stylesheet" href="//unpkg.com/swagger-editor@5.0.0-alpha.102/dist/swagger-editor.css" />
   </head>
   <body style="margin:0; padding:0;">
     <section id="swagger-ui"></section>
 
-    <script src="//unpkg.com/swagger-ui-dist@5.11.0/swagger-ui-bundle.js"></script>
-    <script src="//unpkg.com/swagger-ui-dist@5.11.0/swagger-ui-standalone-preset.js"></script>
+    <script src="//unpkg.com/swagger-ui-dist@5.21.0/swagger-ui-bundle.js"></script>
+    <script src="//unpkg.com/swagger-ui-dist@5.21.0/swagger-ui-standalone-preset.js"></script>
     <script>
       ui = SwaggerUIBundle({});
       // expose SwaggerUI React globally for SwaggerEditor to use
       window.React = ui.React;
     </script>
-    <script src="//unpkg.com/swagger-editor@5.0.0-alpha.86/dist/umd/swagger-editor.js"></script>
+    <script src="//unpkg.com/swagger-editor@5.0.0-alpha.102/dist/umd/swagger-editor.js"></script>
     <script>
       SwaggerUIBundle({
         url: 'https://petstore3.swagger.io/api/v3/openapi.json',
@@ -608,6 +644,7 @@ multi-spec supporting version of SwaggerUI.
           SwaggerUIStandalonePreset,
         ],
         plugins: [
+          SwaggerEditor.plugins.EditorContentOrigin,
           SwaggerEditor.plugins.EditorContentType,
           SwaggerEditor.plugins.EditorPreviewAsyncAPI,
           SwaggerEditor.plugins.EditorPreviewApiDesignSystems,
@@ -634,12 +671,14 @@ List of available plugins:
 - dropdown-menu
 - dropzone
 - editor-content-fixtures
+- editor-content-from-file
 - editor-content-origin
 - editor-content-persistence
 - editor-content-read-only
 - editor-content-type
 - editor-monaco
 - editor-monaco-language-apidom
+- editor-monaco-yaml-paste
 - editor-preview
 - editor-preview-api-design-systems
 - editor-preview-asyncapi
@@ -648,6 +687,7 @@ List of available plugins:
 - editor-textarea
 - layout
 - modals
+- props-change-watcher
 - splash-screen
 - swagger-ui-adapter
 - top-bar
@@ -686,6 +726,8 @@ of SwaggerUI to understand how presets are passed to SwaggerUI.
 ```js
 import SwaggerUI from 'swagger-ui';
 import 'swagger-ui/dist/swagger-ui.css';
+import UtilPlugin from 'swagger-editor/plugins/util';
+import VersionsPlugin from 'swaggereditor/plugins/versions';
 import ModalsPlugin from 'swagger-editor/plugins/modals';
 import DialogsPlugin from 'swagger-editor/plugins/dialogs';
 import DropdownMenuPlugin from 'swagger-editor/plugins/dropdown-menu';
@@ -693,12 +735,14 @@ import DropzonePlugin from 'swagger-editor/plugins/dropzone';
 import VersionsPlugin from 'swagger-editor/plugins/versions';
 import EditorTextareaPlugin from 'swagger-editor/plugins/editor-textarea';
 import EditorMonacoPlugin from 'swagger-editor/plugins/editor-monaco';
+import EditorMonacoYamlPastePlugin from 'swagger-editor/plugins/editor-monaco-yaml-paste';
 import EditorMonacoLanguageApiDOMPlugin from 'swagger-editor/plugins/editor-monaco-language-apidom';
 import EditorContentReadOnlyPlugin from 'swagger-editor/plugins/editor-content-read-only';
 import EditorContentOriginPlugin from 'swagger-editor/plugins/editor-content-origin';
 import EditorContentTypePlugin from 'swagger-editor/plugins/editor-content-type';
 import EditorContentPersistencePlugin from 'swagger-editor/plugins/editor-content-persistence';
 import EditorContentFixturesPlugin from 'swagger-editor/plugins/editor-content-fixtures';
+import EditorContentFromFilePlugin from 'swagger-editor/plugins/editor-content-from-file';
 import EditorPreviewPlugin from 'swagger-editor/plugins/editor-preview';
 import EditorPreviewSwaggerUIPlugin from 'swagger-editor/plugins/editor-preview-swagger-ui';
 import EditorPreviewAsyncAPIPlugin from 'swagger-editor/plugins/editor-preview-asyncapi';
@@ -712,6 +756,8 @@ SwaggerUI({
   url: 'https://petstore.swagger.io/v2/swagger.json',
   dom_id: '#swagger-editor',
   plugins: [
+    UtilPlugin,
+    VersionsPlugin,
     ModalsPlugin,
     DialogsPlugin,
     DropdownMenuPlugin,
@@ -719,12 +765,14 @@ SwaggerUI({
     VersionsPlugin,
     EditorTextareaPlugin,
     EditorMonacoPlugin,
+    EditorMonacoYamlPastePlugin,
     EditorMonacoLanguageApiDOMPlugin,
     EditorContentReadOnlyPlugin,
     EditorContentOriginPlugin,
     EditorContentTypePlugin,
     EditorContentPersistencePlugin,
     EditorContentFixturesPlugin,
+    EditorContentFromFilePlugin,
     EditorPreviewPlugin,
     EditorPreviewSwaggerUIPlugin,
     EditorPreviewAsyncAPIPlugin,
@@ -745,6 +793,8 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import SwaggerUI from 'swagger-ui-react';
 import 'swagger-ui-react/swagger-ui.css';
+import UtilPlugin from 'swagger-editor/plugins/util';
+import VersionsPlugin from 'swaggereditor/plugins/versions';
 import ModalsPlugin from 'swagger-editor/plugins/modals';
 import DialogsPlugin from 'swagger-editor/plugins/dialogs';
 import DropdownMenuPlugin from 'swagger-editor/plugins/dropdown-menu';
@@ -752,12 +802,14 @@ import DropzonePlugin from 'swagger-editor/plugins/dropzone';
 import VersionsPlugin from 'swagger-editor/plugins/versions';
 import EditorTextareaPlugin from 'swagger-editor/plugins/editor-textarea';
 import EditorMonacoPlugin from 'swagger-editor/plugins/editor-monaco';
+import EditorMonacoYamlPastePlugin from 'swagger-editor/plugins/editor-monaco-yaml-paste';
 import EditorMonacoLanguageApiDOMPlugin from 'swagger-editor/plugins/editor-monaco-language-apidom';
 import EditorContentReadOnlyPlugin from 'swagger-editor/plugins/editor-content-read-only';
 import EditorContentOriginPlugin from 'swagger-editor/plugins/editor-content-origin';
 import EditorContentTypePlugin from 'swagger-editor/plugins/editor-content-type';
 import EditorContentPersistencePlugin from 'swagger-editor/plugins/editor-content-persistence';
 import EditorContentFixturesPlugin from 'swagger-editor/plugins/editor-content-fixtures';
+import EditorContentFromFilePlugin from 'swagger-editor/plugins/editor-content-from-file';
 import EditorPreviewPlugin from 'swagger-editor/plugins/editor-preview';
 import EditorPreviewSwaggerUIPlugin from 'swagger-editor/plugins/editor-preview-swagger-ui';
 import EditorPreviewAsyncAPIPlugin from 'swagger-editor/plugins/editor-preview-asyncapi';
@@ -772,6 +824,8 @@ const SwaggerEditor = () => {
     <SwaggerUI
       url={url}
       plugins={[
+        UtilPlugin,
+        VersionsPlugin,
         ModalsPlugin,
         DialogsPlugin,
         DropdownMenuPlugin,
@@ -779,12 +833,14 @@ const SwaggerEditor = () => {
         VersionsPlugin,
         EditorTextareaPlugin,
         EditorMonacoPlugin,
+        EditorMonacoYamlPastePlugin,
         EditorMonacoLanguageApiDOMPlugin,
         EditorContentReadOnlyPlugin,
         EditorContentOriginPlugin,
         EditorContentTypePlugin,
         EditorContentPersistencePlugin,
         EditorContentFixturesPlugin,
+        EditorContentFromFilePlugin,
         EditorPreviewPlugin,
         EditorPreviewSwaggerUIPlugin,
         EditorPreviewAsyncAPIPlugin,

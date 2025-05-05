@@ -1,6 +1,4 @@
-import ShortUniqueId from 'short-unique-id';
 import axios from 'axios';
-import { sanitizeUrl } from '@braintree/sanitize-url';
 
 /**
  * Action types.
@@ -22,10 +20,10 @@ export const importUrlStarted = ({ url, requestId }) => ({
   },
 });
 
-export const importUrlSuccess = ({ definition, requestId }) => ({
+export const importUrlSuccess = ({ definition, requestId, url }) => ({
   type: EDITOR_IMPORT_URL_SUCCESS,
   payload: definition,
-  meta: { requestId },
+  meta: { requestId, url },
 });
 
 export const importUrlFailure = ({ error, url, requestId }) => {
@@ -48,32 +46,29 @@ export const importUrlFailure = ({ error, url, requestId }) => {
 /**
  * Async thunks.
  */
-export const importUrl = (url) => {
-  const uid = new ShortUniqueId({ length: 10 });
+export const importUrl = (url) => async (system) => {
+  const { editorActions, fn } = system;
+  const requestId = fn.generateRequestId();
+  const sanitizedUrl = fn.sanitizeUrl(url);
 
-  return async (system) => {
-    const { editorActions } = system;
-    const requestId = uid();
-    const sanitizedUrl = sanitizeUrl(url);
+  editorActions.importUrlStarted({ url: sanitizedUrl, requestId });
 
-    editorActions.importUrlStarted({ url: sanitizedUrl, requestId });
+  if (sanitizedUrl === 'about:blank') {
+    return editorActions.importUrlFailure({
+      error: new Error('Invalid url provided'),
+      url: sanitizedUrl,
+      requestId,
+    });
+  }
 
-    if (sanitizedUrl === 'about:blank') {
-      return editorActions.importUrlFailure({
-        error: new Error('Invalid url provided'),
-        url: sanitizedUrl,
-        requestId,
-      });
-    }
-
-    try {
-      const response = await axios.get(sanitizedUrl);
-      return editorActions.importUrlSuccess({
-        definition: response.request.responseText,
-        requestId,
-      });
-    } catch (error) {
-      return editorActions.importUrlFailure({ error, url: sanitizedUrl, requestId });
-    }
-  };
+  try {
+    const response = await axios.get(sanitizedUrl);
+    return editorActions.importUrlSuccess({
+      definition: response.request.responseText,
+      requestId,
+      url: sanitizedUrl,
+    });
+  } catch (error) {
+    return editorActions.importUrlFailure({ error, url: sanitizedUrl, requestId });
+  }
 };

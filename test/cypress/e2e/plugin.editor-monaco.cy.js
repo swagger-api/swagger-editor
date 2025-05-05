@@ -1,6 +1,4 @@
 describe('Monaco Editor with Parser', () => {
-  const selectAllKeys = ['darwin'].includes(Cypress.platform) ? '{cmd}a' : '{ctrl}a';
-
   beforeEach(() => {
     cy.visitBlankPage();
     cy.window().then((contentWindow) => {
@@ -13,11 +11,8 @@ describe('Monaco Editor with Parser', () => {
   });
 
   it('should not throw console.error when parsing empty string', () => {
-    cy.get('.monaco-editor textarea:first', { timeout: 10000 }).should('be.visible');
-    cy.get('.monaco-editor textarea:first').click({ force: true });
-    cy.get('.monaco-editor textarea:first').focused();
-    cy.get('.monaco-editor textarea:first').type(selectAllKeys);
-    cy.get('.monaco-editor textarea:first').clear();
+    cy.selectAllEditorText();
+    cy.typeBackspaceInEditor();
 
     cy.waitForContentPropagation();
 
@@ -26,11 +21,8 @@ describe('Monaco Editor with Parser', () => {
   });
 
   it('should not throw console.error when parsing unsupported definition', () => {
-    cy.get('.monaco-editor textarea:first', { timeout: 10000 }).should('be.visible');
-    cy.get('.monaco-editor textarea:first').click({ force: true });
-    cy.get('.monaco-editor textarea:first').focused();
-    cy.get('.monaco-editor textarea:first').type(selectAllKeys);
-    cy.get('.monaco-editor textarea:first').type('randomapi: 1.0.0\n');
+    cy.selectAllEditorText();
+    cy.typeInEditor('randomapi: 1.0.0\n');
 
     cy.waitForContentPropagation();
 

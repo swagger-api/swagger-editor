@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 
-const Principle = ({ name, iri, level }) => {
+const Principle = ({ name = '', iri, level }) => {
   return (
     <tr>
       <td>
@@ -18,10 +18,6 @@ Principle.propTypes = {
   name: PropTypes.string,
   iri: PropTypes.string.isRequired,
   level: PropTypes.string.isRequired,
-};
-
-Principle.defaultProps = {
-  name: '',
 };
 
 export default Principle;

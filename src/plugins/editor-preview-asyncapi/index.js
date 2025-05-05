@@ -1,9 +1,9 @@
 import EditorPreviewAsyncAPI from './components/EditorPreviewAsyncAPI/EditorPreviewAsyncAPI.jsx';
 import AsyncAPIReactComponent from './components/AsyncAPIReactComponent.jsx';
 import ParseErrors from './components/ParseErrors/ParseErrors.jsx';
-import EditorPreviewWrapper from './wrap-components/EditorPreviewWrapper.jsx';
+import EditorPreviewWrapper from './extensions/editor-preview/wrap-components/EditorPreviewWrapper.jsx';
 import { previewUnmounted, parse, parseStarted, parseSuccess, parseFailure } from './actions.js';
-import { detectContentTypeSuccess as detectContentTypeSuccessWrap } from './wrap-actions.js';
+import { detectContentTypeSuccess as detectContentTypeSuccessWrap } from './extensions/editor-content-type/wrap-actions.js';
 import reducers from './reducers.js';
 import {
   selectParseStatus,

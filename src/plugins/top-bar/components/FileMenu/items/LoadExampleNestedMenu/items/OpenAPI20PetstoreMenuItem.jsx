@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 
-const OpenAPI20PetstoreMenuItem = ({ getComponent, onClick, children }) => {
+const OpenAPI20PetstoreMenuItem = ({ getComponent, onClick, children = null }) => {
   const DropdownMenuItem = getComponent('DropdownMenuItem');
 
   return (
@@ -12,10 +12,6 @@ OpenAPI20PetstoreMenuItem.propTypes = {
   getComponent: PropTypes.func.isRequired,
   children: PropTypes.node,
   onClick: PropTypes.func.isRequired,
-};
-
-OpenAPI20PetstoreMenuItem.defaultProps = {
-  children: null,
 };
 
 export default OpenAPI20PetstoreMenuItem;

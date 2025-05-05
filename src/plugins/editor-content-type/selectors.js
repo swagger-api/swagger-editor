@@ -60,6 +60,21 @@ export const selectIsContentTypeAPIDesignSystems = createSelector(
   }
 );
 
+export const selectIsContentTypeJSONSchema = createSelector(selectContentType, (contentType) => {
+  return contentType !== null && contentType.startsWith('application/schema');
+});
+
+export const selectIsContentTypeJSONSchema202012 = createSelector(
+  selectIsContentTypeJSONSchema,
+  selectContentType,
+  (isContentTypeJSONSchema, contentType) => {
+    return (
+      isContentTypeJSONSchema &&
+      contentType.endsWith('https://json-schema.org/draft/2020-12/schema')
+    );
+  }
+);
+
 export const selectIsContentFormatJSON = createSelector(selectContentType, (contentType) => {
   return (
     contentType !== null && (contentType === 'application/json' || contentType.includes('+json'))

@@ -194,12 +194,12 @@ export default {
     { token: 'json-reference', foreground: '#ff9966' },
   ],
   colors: {
-    'editor.background': '#fdf6e3',
+    'editor.background': '#F9F9F9',
     'editor.foreground': '#383a42',
     'editorLineNumber.foreground': '#9D9D9F',
     'editorLineNumber.activeForeground': '#383A42',
-    'editorHoverWidget.background': '#fdf6e3',
+    'editorHoverWidget.background': '#F9F9F9',
     'editorHoverWidget.border': '#9D9D9F',
-    'minimap.background': '#fdf6e3',
+    'minimap.background': '#F9F9F9',
   },
 };

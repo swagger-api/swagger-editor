@@ -1,16 +1,17 @@
 import createSafeActionWrapper from '../../utils/create-safe-action-wrapper.js';
 
-export const detectContentTypeSuccess = createSafeActionWrapper(
-  (oriAction, system) =>
-    ({ content }) => {
-      const { specActions, editorSelectors } = system;
-
-      if (editorSelectors.selectIsContentTypeOpenAPI()) {
-        specActions.updateSpec(content, 'swagger-editor');
-      }
-    }
-);
-
 export const previewUnmounted = createSafeActionWrapper((oriAction, system) => () => {
-  system.specActions.updateSpec('', 'swagger-editor');
+  system.specActions.updateUrl('');
+  system.specActions.updateSpec('', system.EditorContentOrigin.Editor);
+});
+
+export const jumpToPathSuccess = createSafeActionWrapper((oriAction, system) => ({ path }) => {
+  const { authActions } = system;
+  const isAuthPath =
+    path[0] === 'securityDefinitions' ||
+    (path[0] === 'components' && path[1] === 'securitySchemes');
+
+  if (isAuthPath) {
+    authActions.showDefinitions(false);
+  }
 });

@@ -11,6 +11,7 @@ import AsyncAPI26PetstoreMenuItem from './components/FileMenu/items/LoadExampleN
 import AsyncAPI30PetstoreMenuItem from './components/FileMenu/items/LoadExampleNestedMenu/items/AsyncAPI30PetstoreMenuItem.jsx';
 import AsyncAPI26StreetlightsMenuItem from './components/FileMenu/items/LoadExampleNestedMenu/items/AsyncAPI26StreetlightsMenuItem.jsx';
 import AsyncAPI30StreetlightsMenuItem from './components/FileMenu/items/LoadExampleNestedMenu/items/AsyncAPI30StreetlightsMenuItem.jsx';
+import JSONSchema202012MenuItem from './components/FileMenu/items/LoadExampleNestedMenu/items/JSONSchema202012MenuItem.jsx';
 import APIDesignSystemsMenuItem from './components/FileMenu/items/LoadExampleNestedMenu/items/APIDesignSystemsMenuItem.jsx';
 import SaveAsMenuItem from './components/FileMenu/items/SaveAsMenuItem.jsx';
 import ConvertAndSaveAsJSONMenuItem from './components/FileMenu/items/ConvertAndSaveAsJSONMenuItem.jsx';
@@ -33,6 +34,12 @@ import {
   importUrlFailure,
   importUrl,
 } from './actions/import-url.js';
+import {
+  uploadFile,
+  uploadFileStarted,
+  uploadFileSuccess,
+  uploadFileFailure,
+} from './actions/upload-file.js';
 import {
   downloadContent,
   downloadContentStarted,
@@ -111,7 +118,11 @@ import {
   generateClientCodeFromOpenAPI20Success,
   generateClientCodeFromOpenAPI20Failure,
 } from './actions/generate-client-code-from-openapi-20.js';
-import { detectContentTypeSuccess as detectContentTypeSuccessWrap } from './wrap-actions.js';
+import {
+  importUrlSuccess as importUrlSuccessWrap,
+  uploadFileSuccess as uploadFileSuccessWrap,
+} from './wrap-actions.js';
+import { detectContentTypeSuccess as detectContentTypeSuccessWrap } from './extensions/editor-content-type/wrap-actions.js';
 import {
   selectOpenAPI20ConverterURL,
   selectOpenAPI3GeneratorServerListURL,
@@ -151,6 +162,7 @@ const TopBarPlugin = () => ({
       AsyncAPI26StreetlightsMenuItem,
     TopBarFileMenuLoadExampleNestedMenuAsyncAPI30StreetlightsMenuItem:
       AsyncAPI30StreetlightsMenuItem,
+    TopBarFileMenuLoadExampleNestedMenuJSONSchema202012MenuItem: JSONSchema202012MenuItem,
     TopBarFileMenuLoadExampleNestedMenuAPIDesignSystemsMenuItem: APIDesignSystemsMenuItem,
     TopBarFileMenuSaveAsMenuItem: SaveAsMenuItem,
     TopBarFileMenuConvertAndSaveAsJSONMenuItem: ConvertAndSaveAsJSONMenuItem,
@@ -180,6 +192,11 @@ const TopBarPlugin = () => ({
         importUrlSuccess,
         importUrlFailure,
 
+        uploadFile,
+        uploadFileStarted,
+        uploadFileSuccess,
+        uploadFileFailure,
+
         downloadContent,
         downloadContentStarted,
         downloadContentSuccess,
@@ -207,6 +224,8 @@ const TopBarPlugin = () => ({
       },
       wrapActions: {
         detectContentTypeSuccess: detectContentTypeSuccessWrap,
+        importUrlSuccess: importUrlSuccessWrap,
+        uploadFileSuccess: uploadFileSuccessWrap,
       },
       selectors: {
         selectOpenAPI20ConverterURL,

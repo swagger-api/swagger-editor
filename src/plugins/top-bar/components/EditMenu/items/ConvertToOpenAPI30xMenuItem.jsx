@@ -1,6 +1,11 @@
 import PropTypes from 'prop-types';
 
-const ConvertToOpenAPI30xMenuItem = ({ getComponent, editorSelectors, onClick, children }) => {
+const ConvertToOpenAPI30xMenuItem = ({
+  getComponent,
+  editorSelectors,
+  onClick,
+  children = null,
+}) => {
   const DropdownMenuItem = getComponent('DropdownMenuItem');
   const isContentTypeOpenAPI20 = editorSelectors.selectIsContentTypeOpenAPI20();
 
@@ -16,10 +21,6 @@ ConvertToOpenAPI30xMenuItem.propTypes = {
   }).isRequired,
   children: PropTypes.node,
   onClick: PropTypes.func.isRequired,
-};
-
-ConvertToOpenAPI30xMenuItem.defaultProps = {
-  children: null,
 };
 
 export default ConvertToOpenAPI30xMenuItem;

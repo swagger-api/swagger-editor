@@ -2,7 +2,7 @@ import { useState } from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 
-const DropdownMenuNested = ({ children, label, isLong }) => {
+const DropdownMenuNested = ({ children = [], label, isLong = false }) => {
   const [isOpen, setIsOpen] = useState(false);
 
   const handleOpen = () => {
@@ -30,11 +30,6 @@ DropdownMenuNested.propTypes = {
   label: PropTypes.string.isRequired,
   children: PropTypes.oneOfType([PropTypes.array, PropTypes.element]),
   isLong: PropTypes.bool,
-};
-
-DropdownMenuNested.defaultProps = {
-  children: [],
-  isLong: false,
 };
 
 export default DropdownMenuNested;

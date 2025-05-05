@@ -30,6 +30,21 @@ export const isValidJSONObject = (content) => {
 };
 
 /**
+ * Checks if `content` is valid JSON string containing array.
+ *
+ * @param content string
+ * @returns {boolean}
+ */
+export const isValidJSONArray = (content) => {
+  try {
+    const obj = JSON.parse(content);
+    return Array.isArray(obj);
+  } catch {
+    return false;
+  }
+};
+
+/**
  * Checks if `content` is valid YAML string.
  *
  * @param content string

@@ -1,5 +1,4 @@
 import Layout from './components/Layout/Layout.jsx';
-import { requestIdleCallback, cancelIdleCallback } from './fn.js';
 import { makeUseSplashScreen } from './hooks.js';
 
 const LayoutPlugin = ({ getSystem }) => ({
@@ -8,10 +7,6 @@ const LayoutPlugin = ({ getSystem }) => ({
   },
   components: {
     SwaggerEditorLayout: Layout,
-  },
-  fn: {
-    requestIdleCallback,
-    cancelIdleCallback,
   },
 });
 

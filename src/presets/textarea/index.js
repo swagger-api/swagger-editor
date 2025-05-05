@@ -16,9 +16,12 @@ import EditorContentOriginPlugin from 'plugins/editor-content-origin/index.js';
 import EditorContentTypePlugin from 'plugins/editor-content-type/index.js';
 import EditorContentPersistencePlugin from 'plugins/editor-content-persistence/index.js';
 import EditorContentFixturesPlugin from 'plugins/editor-content-fixtures/index.js';
+import EditorContentFromFilePlugin from 'plugins/editor-content-from-file/index.js';
 import EditorSafeRenderPlugin from 'plugins/editor-safe-render/index.js';
+import UtilPlugin from 'plugins/util/index.js';
 
 const TextareaPreset = () => [
+  UtilPlugin,
   ModalsPlugin,
   DialogsPlugin,
   DropdownMenuPlugin,
@@ -30,6 +33,7 @@ const TextareaPreset = () => [
   EditorContentTypePlugin,
   EditorContentPersistencePlugin,
   EditorContentFixturesPlugin,
+  EditorContentFromFilePlugin,
   EditorPreviewPlugin,
   EditorPreviewSwaggerUIPlugin,
   EditorPreviewAsyncAPIPlugin,

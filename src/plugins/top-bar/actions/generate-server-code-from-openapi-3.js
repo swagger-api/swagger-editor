@@ -1,4 +1,3 @@
-import ShortUniqueId from 'short-unique-id';
 import axios from 'axios';
 import YAML from 'js-yaml';
 import fileDownload from 'js-file-download';
@@ -60,12 +59,11 @@ export const generateServerCodeFromOpenAPI3Failure = ({ error, content, framewor
  * Async thunks.
  */
 
-export const generateServerCodeFromOpenAPI3 = ({ content, framework }) => {
-  const uid = new ShortUniqueId({ length: 10 });
-
-  return async (system) => {
-    const { editorTopBarActions, editorTopBarSelectors } = system;
-    const requestId = uid();
+export const generateServerCodeFromOpenAPI3 =
+  ({ content, framework }) =>
+  async (system) => {
+    const { editorTopBarActions, editorTopBarSelectors, fn } = system;
+    const requestId = fn.generateRequestId();
     const url = editorTopBarSelectors.selectOpenAPI3GenerateServerURL();
     const fileNameWithExtension = `${framework}-server-generated.zip`;
 
@@ -95,4 +93,3 @@ export const generateServerCodeFromOpenAPI3 = ({ content, framework }) => {
       });
     }
   };
-};

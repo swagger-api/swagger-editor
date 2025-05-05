@@ -2,8 +2,8 @@ import MonacoEditorContainer from './components/MonacoEditor/MonacoEditorContain
 import ValidationPane from './components/ValidationPane/ValidationPane.jsx';
 import ValidationTable from './components/ValidationTable/ValidationTable.jsx';
 import ThemeSelectionIcon from './components/ThemeSelectionIcon.jsx';
-import EditorPaneBarTopWrapper from './wrap-components/EditorPaneBarTopWrapper.jsx';
-import EditorPaneBarBottomWrapper from './wrap-components/EditorPaneBarBottomWrapper.jsx';
+import EditorPaneBarTopWrapper from './extensions/editor-textarea/wrap-components/EditorPaneBarTopWrapper.jsx';
+import EditorPaneBarBottomWrapper from './extensions/editor-textarea/wrap-components/EditorPaneBarBottomWrapper.jsx';
 import { appendMarkers } from './actions/append-markers.js';
 import { clearMarkers } from './actions/clear-markers.js';
 import { setLanguage } from './actions/set-language.js';
@@ -15,9 +15,18 @@ import {
   setPositionFailure,
 } from './actions/set-position.js';
 import { setTheme } from './actions/set-theme.js';
+import { setModelVersionId } from './actions/set-model-version-id.js';
 import reducers from './reducers.js';
-import { selectTheme, selectMarkers, selectLanguage, selectEditor } from './selectors.js';
-import { registerMarkerDataProvider, waitUntil } from './fn.js';
+import {
+  selectTheme,
+  selectMarkers,
+  selectLanguage,
+  selectEditor,
+  selectEditorWidth,
+  selectModelVersionId,
+  selectModelAlternativeVersionId,
+} from './selectors.js';
+import { registerMarkerDataProvider } from './fn.js';
 import { monaco, monacoInitializationDeferred } from './root-injects.js';
 import afterLoad from './after-load.js';
 
@@ -46,6 +55,7 @@ const EditorMonacoPlugin = () => ({
         appendMarkers,
         clearMarkers,
         setLanguage,
+        setModelVersionId,
 
         setPosition,
         setPositionStarted,
@@ -58,12 +68,14 @@ const EditorMonacoPlugin = () => ({
         selectMarkers,
         selectLanguage,
         selectEditor,
+        selectEditorWidth,
+        selectModelVersionId,
+        selectModelAlternativeVersionId,
       },
     },
   },
   fn: {
     registerMarkerDataProvider,
-    waitUntil,
   },
 });
 

@@ -42,7 +42,7 @@ export const conf = {
   ],
 };
 
-export const language = {
+export const monarchLanguageDef = {
   // set defaultToken to invalid to see what you do not tokenize yet
   defaultToken: 'invalid',
   keywords: ['swagger', 'info', 'host', 'basePath', 'tags', 'schemes', 'paths', 'externalDocs'],

@@ -1,4 +1,3 @@
-import ShortUniqueId from 'short-unique-id';
 import axios from 'axios';
 
 /**
@@ -55,14 +54,13 @@ export const convertOpenAPI20ToOpenAPI30xFailure = ({ error, openAPI2Content, re
  * Async thunks.
  */
 
-export const convertOpenAPI20ToOpenAPI30x = ({ openAPI2Content, contentType }) => {
-  const uid = new ShortUniqueId({ length: 10 });
-
-  return async (system) => {
-    const { editorActions, editorSelectors } = system;
+export const convertOpenAPI20ToOpenAPI30x =
+  ({ openAPI2Content, contentType }) =>
+  async (system) => {
+    const { editorActions, editorSelectors, fn } = system;
     const { swagger2ConverterUrl: openAPI20ConverterURL } = system.getConfigs();
     const converterURL = openAPI20ConverterURL ?? editorSelectors.selectOpenAPI20ConverterURL();
-    const requestId = uid();
+    const requestId = fn.generateRequestId();
 
     editorActions.convertOpenAPI20ToOpenAPI30xStarted({ openAPI2Content, requestId });
 
@@ -92,4 +90,3 @@ export const convertOpenAPI20ToOpenAPI30x = ({ openAPI2Content, contentType }) =
       });
     }
   };
-};

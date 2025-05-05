@@ -1,6 +1,7 @@
-import { updateSpec as updateSpecWrap } from './wrap-actions.js';
-import BaseLayoutWrapper from './wrap-components/BaseLayout.jsx';
-import OnlineValidatorBadgeWrapper from './wrap-components/OnlineValidatorBadge.jsx';
+import { updateSpec as updateSpecWrap } from './extensions/spec/wrap-actions.js';
+import BaseLayoutWrapper from './extensions/core/wrap-components/BaseLayout.jsx';
+import OnlineValidatorBadgeWrapper from './extensions/core/wrap-components/OnlineValidatorBadge.jsx';
+import UtilPlugin from '../util/index.js';
 
 /**
  * This plugin adapts plugins from this codebase to SwaggerUI.
@@ -9,7 +10,7 @@ import OnlineValidatorBadgeWrapper from './wrap-components/OnlineValidatorBadge.
  */
 
 const SwaggerUIAdapterPlugin = () => {
-  return {
+  const plugin = {
     wrapComponents: {
       BaseLayout: BaseLayoutWrapper,
       onlineValidatorBadge: OnlineValidatorBadgeWrapper,
@@ -22,6 +23,8 @@ const SwaggerUIAdapterPlugin = () => {
       },
     },
   };
+
+  return [plugin, UtilPlugin];
 };
 
 export default SwaggerUIAdapterPlugin;

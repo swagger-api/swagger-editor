@@ -1,4 +1,3 @@
-import ShortUniqueId from 'short-unique-id';
 import axios from 'axios';
 
 /**
@@ -51,25 +50,21 @@ export const fetchOpenAPI3GeneratorClientListFailure = ({ error, url, requestId 
  * Async thunks.
  */
 
-export const fetchOpenAPI3GeneratorClientList = () => {
-  const uid = new ShortUniqueId({ length: 10 });
+export const fetchOpenAPI3GeneratorClientList = () => async (system) => {
+  const { editorTopBarActions, editorTopBarSelectors, fn } = system;
+  const requestId = fn.generateRequestId();
+  const url = editorTopBarSelectors.selectOpenAPI3GeneratorClientListURL();
 
-  return async (system) => {
-    const { editorTopBarActions, editorTopBarSelectors } = system;
-    const requestId = uid();
-    const url = editorTopBarSelectors.selectOpenAPI3GeneratorClientListURL();
+  editorTopBarActions.fetchOpenAPI3GeneratorClientListStarted({ url, requestId });
 
-    editorTopBarActions.fetchOpenAPI3GeneratorClientListStarted({ url, requestId });
-
-    try {
-      const response = await axios.get(url);
-      return editorTopBarActions.fetchOpenAPI3GeneratorClientListSuccess({
-        clientList: response.data,
-        url,
-        requestId,
-      });
-    } catch (error) {
-      return editorTopBarActions.fetchOpenAPI3GeneratorClientListFailure({ error, url, requestId });
-    }
-  };
+  try {
+    const response = await axios.get(url);
+    return editorTopBarActions.fetchOpenAPI3GeneratorClientListSuccess({
+      clientList: response.data,
+      url,
+      requestId,
+    });
+  } catch (error) {
+    return editorTopBarActions.fetchOpenAPI3GeneratorClientListFailure({ error, url, requestId });
+  }
 };

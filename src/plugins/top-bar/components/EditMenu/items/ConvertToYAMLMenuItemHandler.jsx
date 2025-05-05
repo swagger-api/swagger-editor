@@ -2,7 +2,7 @@ import React, { useState, useRef, useImperativeHandle, forwardRef } from 'react'
 import PropTypes from 'prop-types';
 
 const CovertToYAMLMenuItemHandler = forwardRef(
-  ({ getComponent, editorSelectors, editorActions }, ref) => {
+  ({ getComponent, editorSelectors, editorActions, EditorContentOrigin }, ref) => {
     const [isAlertDialogOpen, setIsAlertDialogOpen] = useState(false);
     const alertDialogMessage = useRef('');
     const AlertDialog = getComponent('AlertDialog', true);
@@ -23,7 +23,7 @@ const CovertToYAMLMenuItemHandler = forwardRef(
           return;
         }
 
-        editorActions.setContent(fsa.payload, 'conversion');
+        editorActions.setContent(fsa.payload, EditorContentOrigin.Conversion);
       },
     }));
 
@@ -48,6 +48,9 @@ CovertToYAMLMenuItemHandler.propTypes = {
   editorActions: PropTypes.shape({
     convertContentToYAML: PropTypes.func.isRequired,
     setContent: PropTypes.func.isRequired,
+  }).isRequired,
+  EditorContentOrigin: PropTypes.shape({
+    Conversion: PropTypes.string.isRequired,
   }).isRequired,
 };
 

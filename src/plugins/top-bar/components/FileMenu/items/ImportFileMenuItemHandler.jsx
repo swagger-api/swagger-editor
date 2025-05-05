@@ -1,4 +1,3 @@
-import fileDialog from 'file-dialog';
 import React, { useState, useRef, useImperativeHandle, forwardRef } from 'react';
 import PropTypes from 'prop-types';
 
@@ -14,13 +13,11 @@ const ImportFileMenuItemHandler = forwardRef(({ getComponent, editorActions }, r
 
   useImperativeHandle(ref, () => ({
     async openFileDialog() {
-      try {
-        const [file] = await fileDialog({ multiple: false });
-        const content = await file.text();
+      const fsa = await editorActions.uploadFile();
 
-        editorActions.setContent(content, 'import-file');
-      } catch (error) {
-        alertDialogMessage.current = error.message || 'Unknown error while reading uploaded file.';
+      if (fsa.error) {
+        alertDialogMessage.current =
+          fsa.error.message || 'Unknown error while reading uploaded file.';
         setIsAlertDialogOpen(true);
       }
     },
@@ -40,7 +37,7 @@ const ImportFileMenuItemHandler = forwardRef(({ getComponent, editorActions }, r
 ImportFileMenuItemHandler.propTypes = {
   getComponent: PropTypes.func.isRequired,
   editorActions: PropTypes.shape({
-    setContent: PropTypes.func.isRequired,
+    uploadFile: PropTypes.func.isRequired,
   }).isRequired,
 };
 

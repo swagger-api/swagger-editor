@@ -1,6 +1,11 @@
 import PropTypes from 'prop-types';
 
-const DownloadResolvedYAMLMenuItem = ({ getComponent, editorSelectors, onClick, children }) => {
+const DownloadResolvedYAMLMenuItem = ({
+  getComponent,
+  editorSelectors,
+  onClick,
+  children = null,
+}) => {
   const DropdownMenuItem = getComponent('DropdownMenuItem');
   const isContentTypeOpenAPI = editorSelectors.selectIsContentTypeOpenAPI();
   const isContentTypeAsyncAPI = editorSelectors.selectIsContentTypeAsyncAPI();
@@ -23,10 +28,6 @@ DownloadResolvedYAMLMenuItem.propTypes = {
   }).isRequired,
   children: PropTypes.node,
   onClick: PropTypes.func.isRequired,
-};
-
-DownloadResolvedYAMLMenuItem.defaultProps = {
-  children: null,
 };
 
 export default DownloadResolvedYAMLMenuItem;

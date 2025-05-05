@@ -11,12 +11,14 @@ import {
   editorSetup as editorSetupWrap,
   editorTearDown as editorTearDownWrap,
   setContentDebounced as setContentDebouncedWrap,
-  updateSpec as updateSpecWrap,
   clearContent as clearContentWrap,
 } from './wrap-actions.js';
+import { updateSpec as updateSpecWrap } from './extensions/spec/wrap-actions.js';
 import { makeUseEditorLifecycle, useElementResize } from './hooks.js';
+import afterLoad from './after-load.js';
 
 const EditorTextareaPlugin = ({ getSystem }) => ({
+  afterLoad,
   rootInjects: {
     useEditorLifecycle: makeUseEditorLifecycle(getSystem),
     useElementResize,

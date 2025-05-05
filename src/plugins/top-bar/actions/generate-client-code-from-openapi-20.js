@@ -1,4 +1,3 @@
-import ShortUniqueId from 'short-unique-id';
 import axios from 'axios';
 import YAML from 'js-yaml';
 import fileDownload from 'js-file-download';
@@ -60,12 +59,11 @@ export const generateClientCodeFromOpenAPI20Failure = ({ error, content, languag
  * Async thunks.
  */
 
-export const generateClientCodeFromOpenAPI20 = ({ content, language }) => {
-  const uid = new ShortUniqueId({ length: 10 });
-
-  return async (system) => {
-    const { editorTopBarActions, editorTopBarSelectors } = system;
-    const requestId = uid();
+export const generateClientCodeFromOpenAPI20 =
+  ({ content, language }) =>
+  async (system) => {
+    const { editorTopBarActions, editorTopBarSelectors, fn } = system;
+    const requestId = fn.generateRequestId();
     const url = `${editorTopBarSelectors.selectOpenAPI2GenerateClientURL()}/${language}`;
     const fileNameWithExtension = `${language}-client-generated.zip`;
 
@@ -98,4 +96,3 @@ export const generateClientCodeFromOpenAPI20 = ({ content, language }) => {
       });
     }
   };
-};

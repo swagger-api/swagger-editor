@@ -1,4 +1,3 @@
-import ShortUniqueId from 'short-unique-id';
 import axios from 'axios';
 
 /**
@@ -51,25 +50,21 @@ export const fetchOpenAPI2GeneratorClientListFailure = ({ error, url, requestId 
  * Async thunks.
  */
 
-export const fetchOpenAPI2GeneratorClientList = () => {
-  const uid = new ShortUniqueId({ length: 10 });
+export const fetchOpenAPI2GeneratorClientList = () => async (system) => {
+  const { editorTopBarActions, editorTopBarSelectors, fn } = system;
+  const requestId = fn.generateRequestId();
+  const url = editorTopBarSelectors.selectOpenAPI2GeneratorClientListURL();
 
-  return async (system) => {
-    const { editorTopBarActions, editorTopBarSelectors } = system;
-    const requestId = uid();
-    const url = editorTopBarSelectors.selectOpenAPI2GeneratorClientListURL();
+  editorTopBarActions.fetchOpenAPI2GeneratorClientListStarted({ url, requestId });
 
-    editorTopBarActions.fetchOpenAPI2GeneratorClientListStarted({ url, requestId });
-
-    try {
-      const response = await axios.get(url);
-      return editorTopBarActions.fetchOpenAPI2GeneratorClientListSuccess({
-        clientList: response.data,
-        url,
-        requestId,
-      });
-    } catch (error) {
-      return editorTopBarActions.fetchOpenAPI2GeneratorClientListFailure({ error, url, requestId });
-    }
-  };
+  try {
+    const response = await axios.get(url);
+    return editorTopBarActions.fetchOpenAPI2GeneratorClientListSuccess({
+      clientList: response.data,
+      url,
+      requestId,
+    });
+  } catch (error) {
+    return editorTopBarActions.fetchOpenAPI2GeneratorClientListFailure({ error, url, requestId });
+  }
 };
