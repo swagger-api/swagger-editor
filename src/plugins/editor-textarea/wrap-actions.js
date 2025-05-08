@@ -1,6 +1,6 @@
 import debounce from 'lodash/debounce.js';
 
-import createSafeActionWrapper from '../../utils/create-safe-action-wrapper.js';
+import { createSafeActionWrapper } from '../util/fn.js';
 
 export const setContentDebouncedImpl = debounce((content, contentOrigin, system) => {
   system.editorActions.setContent(content, contentOrigin);

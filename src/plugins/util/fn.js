@@ -55,3 +55,29 @@ export const requestIdleCallback = globalThis.requestIdleCallback
 export const cancelIdleCallback = globalThis.cancelIdleCallback
   ? (...args) => globalThis.cancelIdleCallback(...args)
   : cancelIdleCallbackPolyfill;
+
+/**
+ * Creates action wrapper that avoids double dispatch.
+ * It is meant to be used via static import and not via a plugin system.
+ *
+ * @param wrapper
+ * @returns {function(*, *): function(...[*]): (*)}
+ */
+export const createSafeActionWrapper = (wrapper) => {
+  let lastFSA = null; // Flux Standard Action(FSA): action objects emitted through redux
+
+  return (origAction, system) =>
+    (...args) => {
+      const fsa = origAction(...args);
+
+      if (fsa === lastFSA) {
+        return fsa;
+      }
+
+      wrapper(origAction, system)(...args);
+
+      lastFSA = fsa;
+
+      return fsa;
+    };
+};

@@ -1,4 +1,4 @@
-import createSafeActionWrapper from '../../utils/create-safe-action-wrapper.js';
+import { createSafeActionWrapper } from '../util/fn.js';
 
 export const importUrlSuccess = createSafeActionWrapper((oriAction, system) => ({ definition }) => {
   const { editorActions, EditorContentOrigin } = system;

@@ -1,4 +1,4 @@
-import createSafeActionWrapper from '../../../../utils/create-safe-action-wrapper.js';
+import { createSafeActionWrapper } from '../../../util/fn.js';
 import { IDLE_STATUS, FAILURE_STATUS } from '../../reducers.js';
 
 // eslint-disable-next-line import/prefer-default-export

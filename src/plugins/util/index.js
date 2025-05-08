@@ -1,4 +1,10 @@
-import { generateRequestId, waitUntil, requestIdleCallback, cancelIdleCallback } from './fn.js';
+import {
+  generateRequestId,
+  waitUntil,
+  requestIdleCallback,
+  cancelIdleCallback,
+  createSafeActionWrapper,
+} from './fn.js';
 
 const UtilPlugin = () => ({
   fn: {
@@ -9,4 +15,5 @@ const UtilPlugin = () => ({
   },
 });
 
+export { createSafeActionWrapper };
 export default UtilPlugin;
