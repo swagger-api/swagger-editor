@@ -1,4 +1,4 @@
-import createSafeActionWrapper from '../../utils/create-safe-action-wrapper.js';
+import { createSafeActionWrapper } from '../util/fn.js';
 
 export const previewUnmounted = createSafeActionWrapper((oriAction, system) => () => {
   system.specActions.updateUrl('');
