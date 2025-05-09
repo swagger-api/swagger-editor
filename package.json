@@ -61,7 +61,7 @@
     "@asyncapi/openapi-schema-parser": "^3.0.23",
     "@asyncapi/parser": "^3.4.0",
     "@asyncapi/protobuf-schema-parser": "^3.5.1",
-    "@asyncapi/react-component": "^1.4.10",
+    "@asyncapi/react-component": "^2.6.3",
     "@codingame/monaco-vscode-api": "=15.0.3",
     "@babel/runtime": "^7.27.1",
     "@emotion/react": "^11.14.0",
