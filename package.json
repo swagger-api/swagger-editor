@@ -69,7 +69,7 @@
     "@mui/material": "^5.16.9",
     "@primer/octicons-react": "^19.15.1",
     "@swagger-api/apidom-core": "^1.0.0-beta.31",
-    "@swagger-api/apidom-json-pointer": "^1.0.0-beta.31",
+    "@swagger-api/apidom-json-pointer": "^1.0.0-beta.36",
     "@swagger-api/apidom-ls": "^1.0.0-beta.36",
     "@swagger-api/apidom-ns-api-design-systems": "^1.0.0-beta.36",
     "@swagger-api/apidom-ns-openapi-3-1": "^1.0.0-beta.31",
