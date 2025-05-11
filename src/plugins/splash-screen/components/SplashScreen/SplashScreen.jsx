@@ -5,7 +5,8 @@ import classNames from 'classnames';
 // eslint-disable-next-line import/no-unresolved
 import logo from '../../assets/logo.svg?raw';
 
-const SplashScreen = ({ isOpen = true, version = 'unknown', getComponent }) => {
+const SplashScreen = ({ isOpen = true, version, getComponent }) => {
+  const { PACKAGE_VERSION } = buildInfo; // eslint-disable-line no-undef
   const SplashScreenSpinner = getComponent('SplashScreenSpinner');
   const [isHidden, setHidden] = useState(!isOpen);
 
@@ -23,7 +24,7 @@ const SplashScreen = ({ isOpen = true, version = 'unknown', getComponent }) => {
     >
       <figure className="swagger-editor__splash-screen-figure">
         <img width="100%" src={logo} alt="Swagger Editor" />
-        <figcaption>{version}</figcaption>
+        <figcaption>{version ?? PACKAGE_VERSION}</figcaption>
         <SplashScreenSpinner />
       </figure>
     </div>

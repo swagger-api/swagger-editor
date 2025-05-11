@@ -10,11 +10,10 @@ const Layout = ({ getComponent, useSwaggerEditorReactModal, useSplashScreen }) =
   const SplashScreen = getComponent('SplashScreen', true);
   const ref = useSwaggerEditorReactModal();
   const [canDisplaySplashScreen, canDisplayLayout] = useSplashScreen();
-  const { PACKAGE_VERSION } = buildInfo; // eslint-disable-line no-undef
 
   return (
     <div className="swagger-editor__layout" ref={ref}>
-      <SplashScreen isOpen={canDisplaySplashScreen} version={PACKAGE_VERSION} />
+      <SplashScreen isOpen={canDisplaySplashScreen} />
       {canDisplayLayout && (
         <>
           <TopBar />
