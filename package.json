@@ -62,7 +62,7 @@
     "@asyncapi/parser": "^3.4.0",
     "@asyncapi/protobuf-schema-parser": "^3.5.1",
     "@asyncapi/react-component": "^1.4.10",
-    "@codingame/monaco-vscode-api": "=15.0.3",
+    "@codingame/monaco-vscode-api": "=17.0.0",
     "@babel/runtime": "^7.27.1",
     "@emotion/react": "^11.14.0",
     "@emotion/styled": "^11.14.0",
