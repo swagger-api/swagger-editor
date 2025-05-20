@@ -59,7 +59,11 @@ export default class WorkerManager {
 
   async getLanguageServiceWorker(...resources) {
     const client = await this.#getClient();
-    await this.#worker.withSyncedResources(resources);
+
+    if (this.#worker) {
+      await this.#worker.withSyncedResources(resources);
+    }
+
     return client;
   }
 

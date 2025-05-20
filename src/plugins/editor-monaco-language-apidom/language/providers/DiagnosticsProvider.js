@@ -43,7 +43,7 @@ class DiagnosticsProvider extends Provider {
     };
 
     const onModelRemoved = (model) => {
-      this.#diagnosticCollection.set(model.uri, []);
+      this.#diagnosticCollection?.set(model.uri, []);
       const key = model.uri.toString();
       if (this.#listener[key]) {
         this.#listener[key].dispose();
@@ -94,10 +94,12 @@ class DiagnosticsProvider extends Provider {
   async #validate(model) {
     const diagnostics = await this.#getDiagnostics(model);
 
-    this.#diagnosticCollection?.set(
-      model.uri,
-      await this.protocolConverter.asDiagnostics(diagnostics)
-    );
+    if (this.protocolConverter && this.#diagnosticCollection) {
+      this.#diagnosticCollection.set(
+        model.uri,
+        await this.protocolConverter.asDiagnostics(diagnostics)
+      );
+    }
   }
 
   dispose() {
