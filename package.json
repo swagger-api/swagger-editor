@@ -88,7 +88,7 @@
     "axios": "^1.9.0",
     "classnames": "^2.3.2",
     "deep-extend": "=0.6.0",
-    "diff": "^7.0.0",
+    "diff": "^8.0.1",
     "eslint-plugin-no-only-tests": "^3.3.0",
     "file-dialog": "^0.0.8",
     "immutable": "^3.8.2",
