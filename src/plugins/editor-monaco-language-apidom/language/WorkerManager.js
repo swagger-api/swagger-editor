@@ -52,7 +52,7 @@ export default class WorkerManager {
         },
       });
 
-      this.#client = await this.#worker.getProxy();
+      this.#client = this.#worker.getProxy();
       await this.#worker.withSyncedResources(resources);
     }
 
