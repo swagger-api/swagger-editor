@@ -95,7 +95,7 @@ class DiagnosticsProvider extends Provider {
     const diagnostics = await this.#getDiagnostics(model);
 
     if (this.protocolConverter && this.#diagnosticCollection) {
-      this.#diagnosticCollection?.set(
+      this.#diagnosticCollection.set(
         model.uri,
         await this.protocolConverter.asDiagnostics(diagnostics)
       );
