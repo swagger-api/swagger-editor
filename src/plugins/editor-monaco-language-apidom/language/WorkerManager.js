@@ -37,7 +37,7 @@ export default class WorkerManager {
     }
   }
 
-  async #getClient() {
+  async getLanguageServiceWorker(...resources) {
     this.#lastUsedTime = Date.now();
 
     if (!this.#client) {
@@ -52,15 +52,11 @@ export default class WorkerManager {
         },
       });
 
-      this.#client = this.#worker.getProxy();
+      this.#client = await this.#worker.getProxy();
+      await this.#worker.withSyncedResources(resources);
     }
-    return this.#client;
-  }
 
-  async getLanguageServiceWorker(...resources) {
-    const client = await this.#getClient();
-    await this.#worker.withSyncedResources(resources);
-    return client;
+    return this.#client;
   }
 
   dispose() {
