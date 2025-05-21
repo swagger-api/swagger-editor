@@ -1,4 +1,4 @@
-import { compile } from '@swagger-api/apidom-json-pointer';
+import { compile } from '@swagger-api/apidom-json-pointer/modern';
 
 export const EDITOR_PREVIEW_SWAGGER_UI_JUMP_TO_PATH_STARTED =
   'editor_preview_swagger_ui_jump_to_path_started';
