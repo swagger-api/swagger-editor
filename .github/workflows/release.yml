@@ -25,6 +25,7 @@ jobs:
       - name: Determine the next release version
         uses: cycjimmy/semantic-release-action@v4
         with:
+          semantic_version: v24.2.3
           dry_run: true
           extra_plugins: |
             @semantic-release/git
