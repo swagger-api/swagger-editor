@@ -67,7 +67,7 @@
     "@emotion/react": "^11.14.0",
     "@emotion/styled": "^11.14.0",
     "@mui/material": "^5.16.9",
-    "@primer/octicons-react": "^19.15.1",
+    "@primer/octicons-react": "^19.15.2",
     "@swagger-api/apidom-core": "^1.0.0-beta.39",
     "@swagger-api/apidom-json-pointer": "^1.0.0-beta.39",
     "@swagger-api/apidom-ls": "^1.0.0-beta.39",
