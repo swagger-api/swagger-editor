@@ -50,7 +50,8 @@
         "^monaco-marker-data-provider$",
         "^plugins\/.+\/index.js",
         "^presets\/.+\/index.js",
-        "^@codingame\/monaco-vscode-api"
+        "^@codingame\/monaco-vscode-api",
+        "^@swagger-api\/apidom-json-pointer"
       ]
     }]
   }
