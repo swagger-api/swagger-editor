@@ -8,7 +8,7 @@ LABEL maintainer="vladimir.gorej@smartbear.com" \
       org.opencontainers.image.licenses="Apache-2.0"
 
 
-RUN apk update && apk add --no-cache "tiff>=4.4.0-r4"
+RUN apk add --update-cache --no-cache "libxml2>=2.13.4-r6"
 
 COPY ./build /usr/share/nginx/html
 
