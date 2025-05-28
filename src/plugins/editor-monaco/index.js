@@ -29,12 +29,18 @@ import {
 import { registerMarkerDataProvider } from './fn.js';
 import { monaco, monacoInitializationDeferred } from './root-injects.js';
 import afterLoad from './after-load.js';
+import seVsDarkTheme from './themes/se-vs-dark.js';
+import seVsLightTheme from './themes/se-vs-light.js';
 
 const EditorMonacoPlugin = () => ({
   afterLoad,
   rootInjects: {
     monaco,
     monacoInitializationDeferred: () => monacoInitializationDeferred,
+    monacoThemes: {
+      seVsDarkTheme,
+      seVsLightTheme,
+    },
   },
   components: {
     Editor: MonacoEditorContainer,
