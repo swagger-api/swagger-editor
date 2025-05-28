@@ -38,8 +38,8 @@ const EditorMonacoPlugin = () => ({
     monaco,
     monacoInitializationDeferred: () => monacoInitializationDeferred,
     monacoThemes: {
-      seVsDarkTheme,
-      seVsLightTheme,
+      'se-vs-dark': seVsDarkTheme,
+      'se-vs-light': seVsLightTheme,
     },
   },
   components: {
