@@ -121,7 +121,7 @@
     "cross-env": "^7.0.3",
     "css-loader": "^7.1.1",
     "cssnano": "^7.0.1",
-    "cypress": "=14.2.0",
+    "cypress": "=14.4.1",
     "cypress-file-upload": "^5.0.8",
     "dedent": "^1.0.1",
     "deep-extend": "^0.6.0",
