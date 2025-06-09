@@ -3,6 +3,7 @@
     "react-app",
     "react-app/jest",
     "airbnb",
+    "airbnb-typescript",
     "plugin:cypress/recommended",
     "plugin:jsx-a11y/recommended",
     "prettier",
@@ -19,7 +20,8 @@
   "parserOptions": {
     "ecmaFeatures": {
       "jsx": true
-    }
+    },
+    "project": "tsconfig.json"
   },
   "plugins": [
     "jsx-a11y",
@@ -54,5 +56,27 @@
         "^@swagger-api\/apidom-json-pointer"
       ]
     }]
-  }
+  },
+  "overrides": [
+    {
+      "files": ["*.ts", "*.tsx"],
+      "rules": {
+        "import/extensions": "off",
+        "import/no-unresolved": "off"
+      }
+    },
+    {
+      "files": ["*.js"],
+      "rules": {
+        "@typescript-eslint/return-await": "off"
+      }
+    },
+    {
+      "files": ["globals.d.ts"],
+      "rules": {
+        "vars-on-top": "off",
+        "no-var": "off"
+      }
+    }
+  ]
 }
