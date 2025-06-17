@@ -1,5 +1,5 @@
-import pluginImpl from './plugin-impl.ts';
-import { usePropChange, useMountPlugin } from './hooks/index.ts';
+import pluginImpl from './plugin-impl';
+import { usePropChange, useMountPlugin } from './hooks/index';
 
 /**
  * This plugin is meant to be utilized via the `useMountPlugin` hook.

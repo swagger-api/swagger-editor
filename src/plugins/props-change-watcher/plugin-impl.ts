@@ -1,4 +1,4 @@
-import { propChanged } from './actions.ts';
+import { propChanged } from './actions';
 
 export default {
   statePlugins: {

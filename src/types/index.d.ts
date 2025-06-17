@@ -1,11 +1,11 @@
 declare module 'swagger-ui-react' {
   interface Request {
-    [k: string]: any;
+    [k: string]: unknown;
   }
   interface Response {
-    [k: string]: any;
+    [k: string]: unknown;
   }
-  type System = any;
+  type System = unknown;
 
   type PluginGenerator = (system: System) => object;
 
@@ -53,7 +53,7 @@ declare module 'swagger-ui-react' {
       };
     };
 
-    static presets: any;
+    static presets: unknown;
   }
 
   export default SwaggerUI;

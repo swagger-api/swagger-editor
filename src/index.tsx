@@ -2,7 +2,7 @@ import React from 'react';
 import { createRoot } from 'react-dom/client';
 import 'swagger-ui-react/swagger-ui.css';
 
-import SwaggerEditor from './App.tsx';
+import SwaggerEditor from './App';
 
 const root = createRoot(document.getElementById('swagger-editor') as HTMLElement);
 

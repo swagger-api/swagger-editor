@@ -1,6 +1,6 @@
-import { Root } from 'react-dom/client.ts';
+import { Root } from 'react-dom/client';
 
-import { SwaggerEditorType } from './swagger-editor.ts';
+import { SwaggerEditorType } from './swagger-editor';
 
 declare global {
   var root: Root;

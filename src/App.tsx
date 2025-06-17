@@ -30,7 +30,7 @@ import EditorContentFixturesPlugin from 'plugins/editor-content-fixtures/index.j
 import EditorContentFromFilePlugin from 'plugins/editor-content-from-file/index.js';
 import EditorSafeRenderPlugin from 'plugins/editor-safe-render/index.js';
 import SwaggerUIAdapterPlugin from 'plugins/swagger-ui-adapter/index.js';
-import PropsChangeWatcherPlugin from 'plugins/props-change-watcher/index.ts';
+import PropsChangeWatcherPlugin from 'plugins/props-change-watcher/index';
 import UtilPlugin from 'plugins/util/index.js';
 /**
  * Presets
@@ -40,7 +40,7 @@ import MonacoPreset from 'presets/monaco/index.js';
 /**
  * Types
  */
-import { SwaggerEditorType } from 'types/swagger-editor.ts';
+import { SwaggerEditorType } from 'types/swagger-editor';
 
 import './styles/main.scss';
 

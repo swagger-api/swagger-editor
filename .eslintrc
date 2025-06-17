@@ -1,13 +1,14 @@
 {
+  "parser": "@typescript-eslint/parser",
   "extends": [
     "react-app",
     "react-app/jest",
     "airbnb",
-    "airbnb-typescript",
     "plugin:cypress/recommended",
     "plugin:jsx-a11y/recommended",
     "prettier",
-    "plugin:prettier/recommended"
+    "plugin:prettier/recommended",
+    "plugin:@typescript-eslint/recommended"
   ],
   "globals": {
     "File": true,
@@ -20,8 +21,7 @@
   "parserOptions": {
     "ecmaFeatures": {
       "jsx": true
-    },
-    "project": "tsconfig.json"
+    }
   },
   "plugins": [
     "jsx-a11y",
@@ -38,8 +38,10 @@
     }],
     "no-nested-ternary": "off",
     "prettier/prettier": "error",
+    "no-shadow": "off",
     "react/react-in-jsx-scope": 0,
     "react/require-default-props": "off",
+    "@typescript-eslint/no-empty-function": "off",
     "react/function-component-definition": [1, {
       "namedComponents": ["arrow-function"]
     }],
@@ -55,7 +57,15 @@
         "^@codingame\/monaco-vscode-api",
         "^@swagger-api\/apidom-json-pointer"
       ]
-    }]
+    }],
+    "react/jsx-filename-extension": [2,
+      {
+        "extensions": [
+          ".tsx",
+          ".jsx"
+        ]
+      }
+    ]
   },
   "overrides": [
     {
@@ -72,7 +82,7 @@
       }
     },
     {
-      "files": ["globals.d.ts"],
+      "files": ["*.d.ts"],
       "rules": {
         "vars-on-top": "off",
         "no-var": "off"

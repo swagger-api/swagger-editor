@@ -1,9 +1,8 @@
 {
   "compilerOptions": {
     "target": "esnext",
-    "module": "nodenext",
-    "moduleResolution": "nodenext",
-    "allowImportingTsExtensions": true,
+    "module": "esnext",
+    "moduleResolution": "node",
     "baseUrl": "./",
     "allowJs": false,
     "declaration": true,
@@ -13,7 +12,7 @@
     "isolatedModules": true,
     "outDir": "dist/types",
     "sourceMap": true,
-    "composite": true,
+    "incremental": false,
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
     "paths": {
@@ -26,12 +25,8 @@
         "name": "typescript-strict-plugin"
       }
     ],
-    "typeRoots": ["./node_modules/@types"],
-    "types": [
-      "node"
-    ],
     "jsx": "react"
   },
-  "exclude": ["node_modules", "**/*.js", "**/*.jsx"],
-  "include": ["src/plugins/**/*.ts", "src/plugins/**/*.tsx", "src/index.tsx", "src/App.tsx", "src/index.d.ts", "src/types"]
+  "exclude": ["node_modules", "src/reportWebVitals.ts"],
+  "include": ["src/**/*.ts", "src/**/*.tsx", "src/*.ts", "src/*.tsx"]
 }
