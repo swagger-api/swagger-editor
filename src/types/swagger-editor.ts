@@ -1,10 +1,5 @@
 import React from 'react';
-import { Preset, SwaggerUIProps } from 'swagger-ui-react';
-import { System } from 'types/system';
-
-type PluginGenerator = (system: System) => object;
-
-type Plugin = object | PluginGenerator;
+import { Preset, SwaggerUIProps, Plugin } from 'swagger-ui-react';
 
 enum presetNames {
   textarea = 'textarea',

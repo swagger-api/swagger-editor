@@ -1,19 +1,22 @@
-export interface GetSystemValues {
+import { PropChangedAction } from 'plugins/props-change-watcher/actions';
+import { Action } from 'types/actions';
+
+export interface SystemValues {
   getComponent: () => void;
   editorSelectors: {
-    selectContent: () => unknown;
-    selectInferFileNameWithExtensionFromContent: () => unknown;
+    selectContent: () => string;
+    selectInferFileNameWithExtensionFromContent: () => string;
   };
   editorActions: {
-    convertContentToJSON: () => void;
-    setContent: (content: unknown) => void;
-    propChanged: (spec: string, oldValue: unknown, newValue: unknown) => void;
+    convertContentToJSON: (content: string) => Action<string>;
+    setContent: (content: string) => Action<string>;
+    propChanged: PropChangedAction;
   };
   EditorContentOrigin: {
-    Conversion: string;
+    Conversion: 'conversion';
   };
 }
 
-export interface System {
-  getSystem: () => GetSystemValues;
+export interface System extends SystemValues {
+  getSystem: () => SystemValues;
 }

@@ -2,7 +2,7 @@ import { useEffect, useRef } from 'react';
 
 type UsePropChangeCallback = (newValue: unknown, oldValue: unknown) => void;
 
-const usePropChange = (prop: string | object | undefined, callback: UsePropChangeCallback) => {
+const usePropChange = (prop: unknown, callback: UsePropChangeCallback) => {
   const isInitialMount = useRef(true);
   const previousProp = useRef(prop);
 

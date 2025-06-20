@@ -7,9 +7,9 @@ declare module 'swagger-ui-react' {
   }
   type System = unknown;
 
-  type PluginGenerator = (system: System) => object;
+  export type PluginGenerator = (system: System) => object;
 
-  type Plugin = object | PluginGenerator;
+  export type Plugin = object | PluginGenerator;
 
   export type Preset = () => unknown;
 
