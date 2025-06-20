@@ -1,4 +1,5 @@
 {
+  "parser": "@typescript-eslint/parser",
   "extends": [
     "react-app",
     "react-app/jest",
@@ -6,7 +7,8 @@
     "plugin:cypress/recommended",
     "plugin:jsx-a11y/recommended",
     "prettier",
-    "plugin:prettier/recommended"
+    "plugin:prettier/recommended",
+    "plugin:@typescript-eslint/recommended"
   ],
   "globals": {
     "File": true,
@@ -36,8 +38,10 @@
     }],
     "no-nested-ternary": "off",
     "prettier/prettier": "error",
+    "no-shadow": "off",
     "react/react-in-jsx-scope": 0,
     "react/require-default-props": "off",
+    "@typescript-eslint/no-empty-function": "off",
     "react/function-component-definition": [1, {
       "namedComponents": ["arrow-function"]
     }],
@@ -53,6 +57,36 @@
         "^@codingame\/monaco-vscode-api",
         "^@swagger-api\/apidom-json-pointer"
       ]
-    }]
-  }
+    }],
+    "react/jsx-filename-extension": [2,
+      {
+        "extensions": [
+          ".tsx",
+          ".jsx"
+        ]
+      }
+    ]
+  },
+  "overrides": [
+    {
+      "files": ["*.ts", "*.tsx"],
+      "rules": {
+        "import/extensions": "off",
+        "import/no-unresolved": "off"
+      }
+    },
+    {
+      "files": ["*.js"],
+      "rules": {
+        "@typescript-eslint/return-await": "off"
+      }
+    },
+    {
+      "files": ["*.d.ts"],
+      "rules": {
+        "vars-on-top": "off",
+        "no-var": "off"
+      }
+    }
+  ]
 }

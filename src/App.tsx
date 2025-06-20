@@ -1,7 +1,7 @@
+// @ts-strict-ignore
 import React, { useMemo } from 'react';
-import PropTypes from 'prop-types';
 import isPlainObject from 'lodash/isPlainObject.js';
-import SwaggerUI from 'swagger-ui-react';
+import SwaggerUI, { SwaggerUIProps } from 'swagger-ui-react';
 import 'swagger-ui-react/swagger-ui.css';
 /**
  * Plugins
@@ -30,17 +30,21 @@ import EditorContentFixturesPlugin from 'plugins/editor-content-fixtures/index.j
 import EditorContentFromFilePlugin from 'plugins/editor-content-from-file/index.js';
 import EditorSafeRenderPlugin from 'plugins/editor-safe-render/index.js';
 import SwaggerUIAdapterPlugin from 'plugins/swagger-ui-adapter/index.js';
-import PropsChangeWatcherPlugin from 'plugins/props-change-watcher/index.js';
+import PropsChangeWatcherPlugin from 'plugins/props-change-watcher/index';
 import UtilPlugin from 'plugins/util/index.js';
 /**
  * Presets
  */
 import TextareaPreset from 'presets/textarea/index.js';
 import MonacoPreset from 'presets/monaco/index.js';
+/**
+ * Types
+ */
+import { SwaggerEditorType } from 'types/swagger-editor';
 
 import './styles/main.scss';
 
-const SwaggerEditor = React.memo(
+const SwaggerEditor: SwaggerEditorType = React.memo(
   ({
     spec = SwaggerUI.config.defaults.spec,
     url = SwaggerUI.config.defaults.url,
@@ -56,7 +60,7 @@ const SwaggerEditor = React.memo(
     defaultModelExpandDepth = SwaggerUI.config.defaults.defaultModelExpandDepth,
     defaultModelsExpandDepth = SwaggerUI.config.defaults.defaultModelsExpandDepth,
     defaultModelRendering = SwaggerUI.config.defaults.defaultModelRendering,
-    presets = [SwaggerEditor.presets.default],
+    presets = SwaggerEditor.presets?.default ? [SwaggerEditor.presets.default] : [],
     deepLinking = SwaggerUI.config.defaults.deepLinking,
     showExtensions = true,
     showCommonExtensions = SwaggerUI.config.defaults.showCommonExtensions,
@@ -70,7 +74,7 @@ const SwaggerEditor = React.memo(
     oauth2RedirectUrl = SwaggerUI.config.defaults.oauth2RedirectUrl,
     initialState = SwaggerUI.config.defaults.initialState,
     onComplete = null,
-  }) => {
+  }: SwaggerUIProps) => {
     const { plugin: propsChangeWatcherPlugin, getSystem } =
       PropsChangeWatcherPlugin.useMountPlugin();
     const specStr = useMemo(() => {
@@ -123,45 +127,6 @@ const SwaggerEditor = React.memo(
     );
   }
 );
-
-/* eslint-disable react/require-default-props */
-SwaggerEditor.propTypes = {
-  spec: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
-  url: PropTypes.string,
-  layout: PropTypes.string,
-  requestInterceptor: PropTypes.func,
-  responseInterceptor: PropTypes.func,
-  onComplete: PropTypes.func,
-  docExpansion: PropTypes.oneOf(['list', 'full', 'none']),
-  supportedSubmitMethods: PropTypes.arrayOf(
-    PropTypes.oneOf(['get', 'put', 'post', 'delete', 'options', 'head', 'patch', 'trace'])
-  ),
-  queryConfigEnabled: PropTypes.bool,
-  plugins: PropTypes.oneOfType([
-    PropTypes.arrayOf(PropTypes.object),
-    PropTypes.arrayOf(PropTypes.func),
-    PropTypes.func,
-  ]),
-  displayOperationId: PropTypes.bool,
-  showMutatedRequest: PropTypes.bool,
-  defaultModelExpandDepth: PropTypes.number,
-  defaultModelsExpandDepth: PropTypes.number,
-  defaultModelRendering: PropTypes.oneOf(['example', 'model']),
-  presets: PropTypes.arrayOf(PropTypes.func),
-  deepLinking: PropTypes.bool,
-  showExtensions: PropTypes.bool,
-  showCommonExtensions: PropTypes.bool,
-  filter: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-  requestSnippetsEnabled: PropTypes.bool,
-  requestSnippets: PropTypes.shape(),
-  tryItOutEnabled: PropTypes.bool,
-  displayRequestDuration: PropTypes.bool,
-  persistAuthorization: PropTypes.bool,
-  withCredentials: PropTypes.bool,
-  oauth2RedirectUrl: PropTypes.string,
-  initialState: PropTypes.shape(),
-};
-/* eslint-enable */
 
 SwaggerEditor.plugins = {
   Util: UtilPlugin,

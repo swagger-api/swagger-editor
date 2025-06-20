@@ -24,6 +24,7 @@ const setupNodeEvents = (on, config) => {
       console.error('\x1b[31m', 'ERROR:', message, '\x1b[0m');
       return null;
     },
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     warn(message) {
       // default: disabling warnings to reduce ci pollution
       // console.warn('\x1b[33m', 'WARNING:', message, '\x1b[0m');

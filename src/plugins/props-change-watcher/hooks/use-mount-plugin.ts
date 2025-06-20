@@ -1,12 +1,13 @@
 import { useRef } from 'react';
+import { SystemValues, System } from 'types/system';
 
-import pluginImpl from '../plugin-impl.js';
+import pluginImpl from '../plugin-impl';
 
 const useMountPlugin = () => {
-  const system = useRef(null);
+  const system = useRef<null | SystemValues>(null);
 
   return {
-    plugin(sys) {
+    plugin(sys: System) {
       system.current = sys.getSystem();
       return pluginImpl;
     },
