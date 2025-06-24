@@ -14,14 +14,17 @@
   "module": "./dist/esm/swagger-editor.js",
   "browser": "./dist/esm/swagger-editor.js",
   "jsnext:main": "./dist/esm/swagger-editor.js",
+  "types": "./dist/types/App.d.ts",
   "exports": {
     "./package.json": "./package.json",
     "./swagger-editor.css": "./dist/swagger-editor.css",
     ".": {
-      "browser": "./dist/esm/swagger-editor.js"
+      "browser": "./dist/esm/swagger-editor.js",
+      "types": "./dist/types/App.d.ts"
     },
     "./plugins/*": {
-      "browser": "./dist/esm/plugins/*/index.js"
+      "browser": "./dist/esm/plugins/*/index.js",
+      "types": "./dist/types/plugins/*/index.d.ts"
     },
     "./presets/*": {
       "browser": "./dist/esm/presets/*/index.js"
@@ -33,13 +36,21 @@
       "browser": "./dist/esm/editor.worker.js"
     }
   },
+  "typesVersions": {
+    "*": {
+      "plugins/*": [
+        "./dist/types/plugins/*/index.d.ts"
+      ]
+    }
+  },
   "scripts": {
     "start": "cross-env DISABLE_ESLINT_PLUGIN=false ENABLE_PROGRESS_PLUGIN=true react-scripts start",
-    "build": "npm run build:app && npm run build:bundle:esm && npm run build:bundle:umd",
+    "build": "npm run build:app && npm run build:bundle:esm && npm run build:bundle:umd && npm run build:definitions",
     "build:app": "cross-env NODE_OPTIONS=--max_old_space_size=4096 ENABLE_PROGRESS_PLUGIN=false DISABLE_ESLINT_PLUGIN=false react-scripts build",
     "build:app:serve": "serve -s build -l 3050 -L",
     "build:bundle:esm": "rimraf ./dist/esm && cross-env DISABLE_ESLINT_PLUGIN=false ENABLE_PROGRESS_PLUGIN=false GENERATE_SOURCEMAP=true BUILD_ESM_BUNDLE=true DIST_PATH=dist/esm react-scripts build-bundle && rimraf ./dist/esm/swagger-editor.css*",
     "build:bundle:umd": "rimraf ./dist/umd ./dist/swagger-editor.css && cross-env NODE_OPTIONS=--max_old_space_size=4096 DISABLE_ESLINT_PLUGIN=false ENABLE_PROGRESS_PLUGIN=false GENERATE_SOURCEMAP=false BUILD_UMD_BUNDLE=true DIST_PATH=dist/umd react-scripts build-bundle && copyfiles -u 2 ./dist/umd/swagger-editor.css ./dist && rimraf ./dist/umd/swagger-editor.css",
+    "build:definitions": "tsc -p tsconfig.json",
     "analyze": "source-map-explorer 'build/static/js/main.6d62e780.js'",
     "test": "react-scripts test",
     "cy:dev": "start-server-and-test cy:dev:server http://localhost:3003 cy:dev:open",
@@ -50,8 +61,8 @@
     "cy:run:chrome": "cross-env BROWSERSLIST_ENV=production cypress run --browser chrome",
     "cy:run:firefox": "cross-env BROWSERSLIST_ENV=production cypress run --browser firefox",
     "cy:run:electron": "cross-env BROWSERSLIST_ENV=production cypress run --browser electron",
-    "lint": "eslint . --ext .jsx,.js",
-    "lint:fix": "eslint . --ext .jsx,.js --fix",
+    "lint": "eslint . --ext .jsx,.js,.tsx,.ts",
+    "lint:fix": "eslint . --ext .jsx,.js,.tsx,.ts --fix",
     "clean": "rimraf ./build ./dist",
     "link:apidom": "npm link @swagger-api/apidom-ast @swagger-api/apidom-core @swagger-api/apidom-error @swagger-api/apidom-json-path @swagger-api/apidom-json-pointer @swagger-api/apidom-ls @swagger-api/apidom-ns-api-design-systems @swagger-api/apidom-ns-asyncapi-2 @swagger-api/apidom-ns-json-schema-draft-4 @swagger-api/apidom-ns-json-schema-draft-6 @swagger-api/apidom-ns-json-schema-draft-7 @swagger-api/apidom-ns-openapi-2 @swagger-api/apidom-ns-openapi-3-0 @swagger-api/apidom-ns-openapi-3-1 @swagger-api/apidom-parser-adapter-api-design-systems-json @swagger-api/apidom-parser-adapter-api-design-systems-yaml @swagger-api/apidom-parser-adapter-asyncapi-json-2 @swagger-api/apidom-parser-adapter-asyncapi-yaml-2 @swagger-api/apidom-parser-adapter-json @swagger-api/apidom-parser-adapter-openapi-json-2 @swagger-api/apidom-parser-adapter-openapi-json-3-0 @swagger-api/apidom-parser-adapter-openapi-json-3-1 @swagger-api/apidom-parser-adapter-openapi-yaml-2 @swagger-api/apidom-parser-adapter-openapi-yaml-3-0 @swagger-api/apidom-parser-adapter-openapi-yaml-3-1 @swagger-api/apidom-parser-adapter-yaml-1-2 @swagger-api/apidom-parser @swagger-api/apidom-reference",
     "link:apidom-ls": "npm link @swagger-api/apidom-ls"
@@ -135,6 +146,8 @@
     "@testing-library/jest-dom": "^6.6.3",
     "@testing-library/react": "^16.3.0",
     "@testing-library/user-event": "^14.6.1",
+    "@typescript-eslint/eslint-plugin": "^5.62.0",
+    "@typescript-eslint/parser": "^5.62.0",
     "copyfiles": "^2.4.1",
     "cross-env": "^7.0.3",
     "cypress": "^13.15.2",
@@ -155,6 +168,7 @@
     "serve": "^14.2.4",
     "source-map-explorer": "^2.5.3",
     "start-server-and-test": "^2.0.11",
+    "typescript-strict-plugin": "^2.4.4",
     "web-vitals": "^4.2.4"
   }
 }
