@@ -52,6 +52,7 @@ jobs:
           npm run cy:ci
           npm run build:bundle:esm
           npm run build:bundle:umd
+          npm run build:definitions
 
       - name: Semantic Release
         id: semantic
