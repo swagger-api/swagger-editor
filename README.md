@@ -306,7 +306,7 @@ Usage in **development** environment:
  $ npm run cy:dev
 ```
 
-Usage in **Continuos Integration (CI)** environment:
+Usage in **Continuous Integration (CI)** environment:
 
 ```sh
  $ npm run cy:ci
@@ -461,11 +461,9 @@ In order to inform `swagger-editor@5` npm package that I require it to use my Re
 > [!NOTE]
 > The React and ReactDOM override are defined as a reference to the dependency. Since _react-redux@9_ only supports `React >= 18`, we need to use _react-redux@8_.
 
-
 ### yarn
 
 In order to inform `swagger-editor@5` npm package that I require it to use my specific React version, I need to use [yarn resolutions](https://yarnpkg.com/cli/set/resolution).
-
 
 ```json
 {
@@ -680,7 +678,6 @@ import MonacoPreset from 'swagger-editor/presets/monaco';
 > NOTE: Please refer to the [Plug points documentation](https://github.com/swagger-api/swagger-ui/blob/master/docs/customization/plug-points.md)
 of SwaggerUI to understand how presets are passed to SwaggerUI.
 
-
 #### Composing with swagger-ui
 
 ```js
@@ -802,7 +799,6 @@ const SwaggerEditor = () => {
 ReactDOM.render(<SwaggerEditor />, document.getElementById('swagger-editor'));
 ```
 
-
 ## Docker
 
 ### Pre-built DockerHub image
@@ -835,7 +831,6 @@ Now open your browser at `http://localhost:8080/`.
 ```
 
 Now open your browser at `http://localhost:8080/`.
-
 
 > **No** custom environment variables are currently supported by SwaggerEditor.
 
