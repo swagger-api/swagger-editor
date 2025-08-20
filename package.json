@@ -14,17 +14,14 @@
   "module": "./dist/esm/swagger-editor.js",
   "browser": "./dist/esm/swagger-editor.js",
   "jsnext:main": "./dist/esm/swagger-editor.js",
-  "types": "./dist/types/App.d.ts",
   "exports": {
     "./package.json": "./package.json",
     "./swagger-editor.css": "./dist/swagger-editor.css",
     ".": {
-      "browser": "./dist/esm/swagger-editor.js",
-      "types": "./dist/types/App.d.ts"
+      "browser": "./dist/esm/swagger-editor.js"
     },
     "./plugins/*": {
-      "browser": "./dist/esm/plugins/*/index.js",
-      "types": "./dist/types/plugins/*/index.d.ts"
+      "browser": "./dist/esm/plugins/*/index.js"
     },
     "./presets/*": {
       "browser": "./dist/esm/presets/*/index.js"
@@ -36,33 +33,25 @@
       "browser": "./dist/esm/editor.worker.js"
     }
   },
-  "typesVersions": {
-    "*": {
-      "plugins/*": [
-        "./dist/types/plugins/*/index.d.ts"
-      ]
-    }
-  },
   "scripts": {
-    "start": "cross-env DISABLE_ESLINT_PLUGIN=false ENABLE_PROGRESS_PLUGIN=true react-scripts start",
-    "build": "npm run build:app && npm run build:bundle:esm && npm run build:bundle:umd && npm run build:definitions",
+    "start": "cross-env DISABLE_ESLINT_PLUGIN=false ENABLE_PROGRESS_PLUGIN=true vite",
+    "build": "npm run build:app && npm run build:bundle:esm && npm run build:bundle:umd",
     "build:app": "cross-env NODE_OPTIONS=--max_old_space_size=4096 ENABLE_PROGRESS_PLUGIN=false DISABLE_ESLINT_PLUGIN=false react-scripts build",
     "build:app:serve": "serve -s build -l 3050 -L",
     "build:bundle:esm": "rimraf ./dist/esm && cross-env DISABLE_ESLINT_PLUGIN=false ENABLE_PROGRESS_PLUGIN=false GENERATE_SOURCEMAP=true BUILD_ESM_BUNDLE=true DIST_PATH=dist/esm react-scripts build-bundle && rimraf ./dist/esm/swagger-editor.css*",
     "build:bundle:umd": "rimraf ./dist/umd ./dist/swagger-editor.css && cross-env NODE_OPTIONS=--max_old_space_size=4096 DISABLE_ESLINT_PLUGIN=false ENABLE_PROGRESS_PLUGIN=false GENERATE_SOURCEMAP=false BUILD_UMD_BUNDLE=true DIST_PATH=dist/umd react-scripts build-bundle && copyfiles -u 2 ./dist/umd/swagger-editor.css ./dist && rimraf ./dist/umd/swagger-editor.css",
-    "build:definitions": "tsc -p tsconfig.json",
     "analyze": "source-map-explorer 'build/static/js/main.6d62e780.js'",
     "test": "react-scripts test",
     "cy:dev": "start-server-and-test cy:dev:server http://localhost:3003 cy:dev:open",
     "cy:dev:open": "cross-env CYPRESS_BASE_URL=http://localhost:3003 cypress open --e2e",
-    "cy:dev:server": "cross-env PORT=3003 BROWSER=none ENABLE_PROGRESS_PLUGIN=false REACT_APP_E2E_TESTS=true E2E_TESTS=true react-scripts start",
-    "cy:ci": "cross-env REACT_APP_E2E_TESTS=true E2E_TESTS=true FAST_REFRESH=false BROWSER=none start-server-and-test start http://localhost:3000 cy:run:chrome",
+    "cy:dev:server": "cross-env PORT=3003 BROWSER=none ENABLE_PROGRESS_PLUGIN=false VITE_E2E_TESTS=true E2E_TESTS=true react-scripts start",
+    "cy:ci": "cross-env VITE_E2E_TESTS=true E2E_TESTS=true FAST_REFRESH=false BROWSER=none start-server-and-test start http://localhost:3000 cy:run:chrome",
     "cy:run": "cross-env BROWSERSLIST_ENV=production cypress run",
     "cy:run:chrome": "cross-env BROWSERSLIST_ENV=production cypress run --browser chrome",
     "cy:run:firefox": "cross-env BROWSERSLIST_ENV=production cypress run --browser firefox",
     "cy:run:electron": "cross-env BROWSERSLIST_ENV=production cypress run --browser electron",
-    "lint": "eslint . --ext .jsx,.js,.tsx,.ts",
-    "lint:fix": "eslint . --ext .jsx,.js,.tsx,.ts --fix",
+    "lint": "eslint . --ext .jsx,.js",
+    "lint:fix": "eslint . --ext .jsx,.js --fix",
     "clean": "rimraf ./build ./dist",
     "link:apidom": "npm link @swagger-api/apidom-ast @swagger-api/apidom-core @swagger-api/apidom-error @swagger-api/apidom-json-path @swagger-api/apidom-json-pointer @swagger-api/apidom-ls @swagger-api/apidom-ns-api-design-systems @swagger-api/apidom-ns-asyncapi-2 @swagger-api/apidom-ns-json-schema-draft-4 @swagger-api/apidom-ns-json-schema-draft-6 @swagger-api/apidom-ns-json-schema-draft-7 @swagger-api/apidom-ns-openapi-2 @swagger-api/apidom-ns-openapi-3-0 @swagger-api/apidom-ns-openapi-3-1 @swagger-api/apidom-parser-adapter-api-design-systems-json @swagger-api/apidom-parser-adapter-api-design-systems-yaml @swagger-api/apidom-parser-adapter-asyncapi-json-2 @swagger-api/apidom-parser-adapter-asyncapi-yaml-2 @swagger-api/apidom-parser-adapter-json @swagger-api/apidom-parser-adapter-openapi-json-2 @swagger-api/apidom-parser-adapter-openapi-json-3-0 @swagger-api/apidom-parser-adapter-openapi-json-3-1 @swagger-api/apidom-parser-adapter-openapi-yaml-2 @swagger-api/apidom-parser-adapter-openapi-yaml-3-0 @swagger-api/apidom-parser-adapter-openapi-yaml-3-1 @swagger-api/apidom-parser-adapter-yaml-1-2 @swagger-api/apidom-parser @swagger-api/apidom-reference",
     "link:apidom-ls": "npm link @swagger-api/apidom-ls"
@@ -73,8 +62,8 @@
     "@asyncapi/parser": "^3.4.0",
     "@asyncapi/protobuf-schema-parser": "^3.5.1",
     "@asyncapi/react-component": "^1.4.10",
-    "@codingame/monaco-vscode-api": "=15.0.3",
     "@babel/runtime": "^7.27.1",
+    "@codingame/monaco-vscode-api": "=15.0.3",
     "@emotion/react": "^11.14.0",
     "@emotion/styled": "^11.14.0",
     "@mui/material": "^5.16.9",
@@ -119,6 +108,9 @@
     "short-unique-id": "=5.2.0",
     "styled-components": "^6.1.17",
     "swagger-ui-react": "^5.24.0",
+    "vite": "^6.3.5",
+    "vite-plugin-svgr": "^4.3.0",
+    "vite-tsconfig-paths": "^5.1.4",
     "vscode": "npm:@codingame/monaco-vscode-extension-api@=15.0.3",
     "vscode-languageclient": "=10.0.0-next.7",
     "vscode-languageserver-textdocument": "^1.0.12"
@@ -146,8 +138,7 @@
     "@testing-library/jest-dom": "^6.6.3",
     "@testing-library/react": "^16.3.0",
     "@testing-library/user-event": "^14.6.1",
-    "@typescript-eslint/eslint-plugin": "^5.62.0",
-    "@typescript-eslint/parser": "^5.62.0",
+    "@vitejs/plugin-react": "^4.5.1",
     "copyfiles": "^2.4.1",
     "cross-env": "^7.0.3",
     "cypress": "^13.15.2",
@@ -162,13 +153,16 @@
     "jest-watch-typeahead": "^2.2.2",
     "lint-staged": "^16.1.2",
     "prettier": "^3.6.2",
-    "react-scripts": "file:./create-react-app/packages/react-scripts",
     "rimraf": "^6.0.1",
     "sass": "^1.89.0",
     "serve": "^14.2.4",
     "source-map-explorer": "^2.5.3",
     "start-server-and-test": "^2.0.11",
-    "typescript-strict-plugin": "^2.4.4",
+    "vite-plugin-eslint": "^1.8.1",
+    "vite-plugin-node-polyfills": "^0.23.0",
+    "vite-plugin-static-copy": "^3.0.0",
+    "vite-plugin-top-level-await": "^1.5.0",
+    "vite-plugin-wasm": "^3.4.1",
     "web-vitals": "^4.2.4"
   }
 }

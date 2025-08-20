@@ -133,9 +133,9 @@ const lazyMonacoContribution = ({ createData, system }) => {
     ...globalThis.MonacoEnvironment,
     getWorkerUrl(moduleId, label) {
       if (label === apidom.languageId) {
-        return new URL(process.env.REACT_APP_APIDOM_WORKER_FILENAME, this.baseUrl).toString();
+        return new URL(process.env.VITE_APIDOM_WORKER_FILENAME, this.baseUrl).toString();
       }
-      return new URL(process.env.REACT_APP_EDITOR_WORKER_FILENAME, this.baseUrl).toString();
+      return new URL(process.env.VITE_EDITOR_WORKER_FILENAME, this.baseUrl).toString();
     },
   };
 };

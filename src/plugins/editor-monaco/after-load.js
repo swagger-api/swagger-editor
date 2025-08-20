@@ -16,7 +16,7 @@ function afterLoad(system) {
     baseUrl: document.baseURI || location.href, // eslint-disable-line no-restricted-globals
     getWorker() {
       return new Worker(
-        new URL(process.env.REACT_APP_APIDOM_WORKER_FILENAME, this.baseUrl),
+        new URL(process.env.VITE_APIDOM_WORKER_FILENAME, this.baseUrl),
         { type: 'classic' } // ensures importScripts() works
       );
     },

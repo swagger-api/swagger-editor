@@ -6,7 +6,7 @@ import classNames from 'classnames';
 import logo from '../../assets/logo.svg?raw';
 
 const SplashScreen = ({ isOpen = true, version, getComponent }) => {
-  const { PACKAGE_VERSION } = buildInfo; // eslint-disable-line no-undef
+  const { PACKAGE_VERSION } =  {}// eslint-disable-line no-undef
   const SplashScreenSpinner = getComponent('SplashScreenSpinner');
   const [isHidden, setHidden] = useState(!isOpen);
 
