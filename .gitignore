@@ -32,4 +32,8 @@ test/cypress/downloads
 *.iml
 .idea
 
+# workers
+/public/static/js/*.wasm
+/public/static/js/*.worker.js
+
 /swagger-api-swagger-editor*.tgz

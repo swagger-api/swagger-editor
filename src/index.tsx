@@ -6,7 +6,7 @@ import SwaggerEditor from './App';
 
 const root = createRoot(document.getElementById('swagger-editor') as HTMLElement);
 
-if (process.env.REACT_APP_E2E_TESTS) {
+if (process.env.VITE_E2E_TESTS) {
   globalThis.React = React;
   globalThis.root = root;
   globalThis.SwaggerEditor = SwaggerEditor;

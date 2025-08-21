@@ -76,7 +76,7 @@ export const parse = (content, options = {}) => {
     try {
       const parseResult = await parser.parse(content, parseOptions ?? options);
 
-      if (process.env.NODE_ENV === 'development') {
+      if (import.meta.env.NODE_ENV === 'development') {
         parseResult.extras = null;
       }
 

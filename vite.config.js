@@ -1,37 +1,46 @@
-import { defineConfig, loadEnv } from "vite"
+import { defineConfig, loadEnv } from 'vite';
 import react from '@vitejs/plugin-react';
-import { viteStaticCopy } from "vite-plugin-static-copy"
+import { viteStaticCopy } from 'vite-plugin-static-copy';
 import { nodePolyfills } from 'vite-plugin-node-polyfills';
+import path from 'path';
 
 // https://vitejs.dev/config/
 export default defineConfig(({ command, mode }) => {
-  process.env = {...process.env, ...loadEnv(mode, process.cwd())};
+  process.env = { ...process.env, ...loadEnv(mode, process.cwd()) };
 
+  // const apidomWorkerPath = process.env.VITE_APIDOM_WORKER_PATH;
+  // const editorWorkerPath = process.env.VITE_EDITOR_WORKER_PATH;
 
   return {
     base: '/',
-    plugins: [ react(), nodePolyfills({
-      include: ['path', 'stream', 'util', 'buffer', 'cwd'],
-      exclude: ['http'],
-      globals: {
-        Buffer: true,
-        global: true,
-        process: true,
-        cwd: true,
-      },
-      overrides: {
-        fs: 'memfs',
-      },
-      protocolImports: true,
-    }),
-      viteStaticCopy({
-        targets: [
-          {
-            src: 'node_modules/monaco-editor/esm/vs/editor/editor.worker.js',
-            dest: 'public',
-          },
-        ],
+    plugins: [
+      react(),
+      nodePolyfills({
+        include: ['path', 'stream', 'util', 'buffer', 'cwd'],
+        exclude: ['http'],
+        globals: {
+          Buffer: true,
+          global: true,
+          process: true,
+          cwd: true,
+        },
+        overrides: {
+          fs: 'memfs',
+        },
+        protocolImports: true,
       }),
+      // viteStaticCopy({
+      //   targets: [
+      //     {
+      //       src: path.resolve(__dirname, editorWorkerPath),
+      //       dest: 'static/js',
+      //     },
+      //     {
+      //       src: path.resolve(__dirname, apidomWorkerPath),
+      //       dest: 'static/js',
+      //     },
+      //   ],
+      // }),
     ],
     assetsInclude: ['**/*.wasm'],
     resolve: {
@@ -73,5 +82,5 @@ export default defineConfig(({ command, mode }) => {
         },
       },
     },
-  }
-})
+  };
+});
