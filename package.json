@@ -44,18 +44,18 @@
     }
   },
   "scripts": {
-    "start": "cross-env DISABLE_ESLINT_PLUGIN=false ENABLE_PROGRESS_PLUGIN=true react-scripts start",
+    "start": "cross-env DISABLE_ESLINT_PLUGIN=false ENABLE_PROGRESS_PLUGIN=true node scripts/start.cjs",
     "build": "npm run build:app && npm run build:bundle:esm && npm run build:bundle:umd && npm run build:definitions",
-    "build:app": "cross-env NODE_OPTIONS=--max_old_space_size=4096 ENABLE_PROGRESS_PLUGIN=false DISABLE_ESLINT_PLUGIN=false react-scripts build",
+    "build:app": "cross-env NODE_OPTIONS=--max_old_space_size=4096 ENABLE_PROGRESS_PLUGIN=false DISABLE_ESLINT_PLUGIN=false node scripts/build.cjs",
     "build:app:serve": "serve -s build -l 3050 -L",
-    "build:bundle:esm": "rimraf ./dist/esm && cross-env DISABLE_ESLINT_PLUGIN=false ENABLE_PROGRESS_PLUGIN=false GENERATE_SOURCEMAP=true BUILD_ESM_BUNDLE=true DIST_PATH=dist/esm react-scripts build-bundle && rimraf ./dist/esm/swagger-editor.css*",
-    "build:bundle:umd": "rimraf ./dist/umd ./dist/swagger-editor.css && cross-env NODE_OPTIONS=--max_old_space_size=4096 DISABLE_ESLINT_PLUGIN=false ENABLE_PROGRESS_PLUGIN=false GENERATE_SOURCEMAP=false BUILD_UMD_BUNDLE=true DIST_PATH=dist/umd react-scripts build-bundle && copyfiles -u 2 ./dist/umd/swagger-editor.css ./dist && rimraf ./dist/umd/swagger-editor.css",
+    "build:bundle:esm": "rimraf ./dist/esm && cross-env DISABLE_ESLINT_PLUGIN=false ENABLE_PROGRESS_PLUGIN=false GENERATE_SOURCEMAP=true BUILD_ESM_BUNDLE=true DIST_PATH=dist/esm node scripts/build.js-bundle && rimraf ./dist/esm/swagger-editor.css*",
+    "build:bundle:umd": "rimraf ./dist/umd ./dist/swagger-editor.css && cross-env NODE_OPTIONS=--max_old_space_size=4096 DISABLE_ESLINT_PLUGIN=false ENABLE_PROGRESS_PLUGIN=false GENERATE_SOURCEMAP=false BUILD_UMD_BUNDLE=true DIST_PATH=dist/umd node scripts/build.js-bundle && copyfiles -u 2 ./dist/umd/swagger-editor.css ./dist && rimraf ./dist/umd/swagger-editor.css",
     "build:definitions": "tsc -p tsconfig.json",
     "analyze": "source-map-explorer 'build/static/js/main.6d62e780.js'",
-    "test": "react-scripts test",
+    "test": "node scripts/test.js",
     "cy:dev": "start-server-and-test cy:dev:server http://localhost:3003 cy:dev:open",
     "cy:dev:open": "cross-env CYPRESS_BASE_URL=http://localhost:3003 cypress open --e2e",
-    "cy:dev:server": "cross-env PORT=3003 BROWSER=none ENABLE_PROGRESS_PLUGIN=false REACT_APP_E2E_TESTS=true E2E_TESTS=true react-scripts start",
+    "cy:dev:server": "cross-env PORT=3003 BROWSER=none ENABLE_PROGRESS_PLUGIN=false REACT_APP_E2E_TESTS=true E2E_TESTS=true node scripts/start.js",
     "cy:ci": "cross-env REACT_APP_E2E_TESTS=true E2E_TESTS=true FAST_REFRESH=false BROWSER=none start-server-and-test start http://localhost:3000 cy:run:chrome",
     "cy:run": "cross-env BROWSERSLIST_ENV=production cypress run",
     "cy:run:chrome": "cross-env BROWSERSLIST_ENV=production cypress run --browser chrome",
@@ -73,12 +73,16 @@
     "@asyncapi/parser": "^3.4.0",
     "@asyncapi/protobuf-schema-parser": "^3.5.1",
     "@asyncapi/react-component": "^1.4.10",
-    "@codingame/monaco-vscode-api": "=15.0.3",
+    "@babel/core": "^7.16.0",
+    "@babel/plugin-proposal-private-property-in-object": "^7.21.11",
     "@babel/runtime": "^7.27.1",
+    "@codingame/monaco-vscode-api": "=15.0.3",
     "@emotion/react": "^11.14.0",
     "@emotion/styled": "^11.14.0",
     "@mui/material": "^5.16.9",
+    "@pmmmwh/react-refresh-webpack-plugin": "^0.5.3",
     "@primer/octicons-react": "^19.15.2",
+    "@svgr/webpack": "^5.5.0",
     "@swagger-api/apidom-core": "^1.0.0-beta.46",
     "@swagger-api/apidom-json-pointer": "^1.0.0-beta.46",
     "@swagger-api/apidom-ls": "^1.0.0-beta.46",
@@ -97,31 +101,79 @@
     "@swagger-api/apidom-parser-adapter-openapi-yaml-3-1": "^1.0.0-beta.46",
     "@swagger-api/apidom-parser-adapter-yaml-1-2": "^1.0.0-beta.46",
     "axios": "^1.9.0",
+    "babel-jest": "^27.4.2",
+    "babel-loader": "^8.2.3",
+    "babel-plugin-named-asset-import": "^0.3.8",
+    "babel-preset-react-app": "^10.0.1",
+    "bfj": "^7.0.2",
+    "browserslist": "^4.18.1",
+    "camelcase": "^6.2.1",
+    "case-sensitive-paths-webpack-plugin": "^2.4.0",
     "classnames": "^2.3.2",
+    "css-loader": "^6.5.1",
+    "css-minimizer-webpack-plugin": "^3.2.0",
     "deep-extend": "=0.6.0",
+    "dotenv": "^10.0.0",
+    "dotenv-expand": "^5.1.0",
+    "eslint": "^8.3.0",
+    "eslint-config-react-app": "^7.0.1",
     "eslint-plugin-no-only-tests": "^3.3.0",
+    "eslint-webpack-plugin": "^3.1.1",
     "file-dialog": "^0.0.8",
+    "file-loader": "^6.2.0",
+    "fs-extra": "^10.0.0",
+    "git-describe": "^4.1.1",
+    "html-webpack-plugin": "^5.5.0",
+    "identity-obj-proxy": "^3.0.0",
     "immutable": "^3.8.2",
+    "inspectpack": "^4.7.1",
+    "jest": "^27.4.3",
+    "jest-resolve": "^27.4.2",
+    "jest-watch-typeahead": "^1.0.0",
     "js-file-download": "^0.4.12",
     "js-yaml": "^4.1.0",
     "lodash": "^4.17.21",
+    "mini-css-extract-plugin": "^2.4.5",
     "monaco-editor": "npm:@codingame/monaco-vscode-editor-api@=15.0.3",
     "monaco-marker-data-provider": "^1.2.4",
+    "postcss": "^8.4.4",
+    "postcss-flexbugs-fixes": "^5.0.2",
+    "postcss-loader": "^6.2.1",
+    "postcss-normalize": "^10.0.1",
+    "postcss-preset-env": "^7.0.1",
+    "prompts": "^2.4.2",
     "prop-types": "^15.8.1",
     "react": ">=17 <19",
+    "react-app-polyfill": "^3.0.0",
     "react-collapse-pane": "^3.0.1",
+    "react-dev-utils": "^12.0.1",
     "react-dom": ">=17 <19",
     "react-dropzone": "^14.3.8",
     "react-immutable-proptypes": "^2.2.0",
     "react-modal": "^3.16.3",
+    "react-refresh": "^0.11.0",
     "react-resize-detector": "^9.1.1",
+    "replace-asset-name-webpack-plugin": "^1.1.1",
     "reselect": "^5.1.1",
+    "resolve": "^1.20.0",
+    "resolve-url-loader": "^4.0.0",
+    "sass-loader": "^12.3.0",
+    "semver": "^7.3.5",
     "short-unique-id": "=5.2.0",
+    "source-map-loader": "^3.0.0",
+    "style-loader": "^3.3.1",
     "styled-components": "^6.1.17",
     "swagger-ui-react": "^5.24.0",
+    "tailwindcss": "^3.0.2",
+    "terser-webpack-plugin": "^5.2.5",
     "vscode": "npm:@codingame/monaco-vscode-extension-api@=15.0.3",
     "vscode-languageclient": "=10.0.0-next.7",
-    "vscode-languageserver-textdocument": "^1.0.12"
+    "vscode-languageserver-textdocument": "^1.0.12",
+    "webpack": "^5.64.4",
+    "webpack-dev-server": "^4.6.0",
+    "webpack-manifest-plugin": "^4.0.2",
+    "webpack-node-externals": "^3.0.0",
+    "workbox-webpack-plugin": "^6.4.1"
   },
   "overrides": {
     "@swagger-api/apidom-core": "$@swagger-api/apidom-core",
@@ -162,7 +214,6 @@
     "jest-watch-typeahead": "^2.2.2",
     "lint-staged": "^16.1.2",
     "prettier": "^3.6.2",
-    "react-scripts": "file:./create-react-app/packages/react-scripts",
     "rimraf": "^6.0.1",
     "sass": "^1.89.0",
     "serve": "^14.2.4",
@@ -170,5 +221,67 @@
     "start-server-and-test": "^2.0.11",
     "typescript-strict-plugin": "^2.4.4",
     "web-vitals": "^4.2.4"
+  },
+  "jest": {
+    "roots": [
+      "<rootDir>/src"
+    ],
+    "collectCoverageFrom": [
+      "src/**/*.{js,jsx,ts,tsx}",
+      "!src/**/*.d.ts"
+    ],
+    "setupFiles": [
+      "react-app-polyfill/jsdom"
+    ],
+    "setupFilesAfterEnv": [
+      "<rootDir>/test/setupTests.js"
+    ],
+    "testMatch": [
+      "<rootDir>/src/**/__tests__/**/*.{js,jsx,ts,tsx}",
+      "<rootDir>/src/**/*.{spec,test}.{js,jsx,ts,tsx}"
+    ],
+    "testEnvironment": "jsdom",
+    "transform": {
+      "^.+\\.(js|jsx|mjs|cjs|ts|tsx)$": "<rootDir>/config/jest/babelTransform.js",
+      "^.+\\.css$": "<rootDir>/config/jest/cssTransform.js",
+      "^(?!.*\\.(js|jsx|mjs|cjs|ts|tsx|css|json)$)": "<rootDir>/config/jest/fileTransform.js"
+    },
+    "transformIgnorePatterns": [
+      "[/\\\\]node_modules[/\\\\](?!@codingame/monaco-vscode-api[/\\\\]).+\\.(js|jsx|mjs|cjs|ts|tsx)$",
+      "^.+\\.module\\.(css|sass|scss)$"
+    ],
+    "modulePaths": [],
+    "moduleNameMapper": {
+      "^react-native$": "react-native-web",
+      "^.+\\.module\\.(css|sass|scss)$": "identity-obj-proxy",
+      "@codingame/monaco-vscode-api/vscode/vs/base/common/strings": "@codingame/monaco-vscode-api/vscode/src/vs/base/common/strings.js",
+      "@codingame/monaco-vscode-api/vscode/vs/editor/common/diff/defaultLinesDiffComputer/defaultLinesDiffComputer": "@codingame/monaco-vscode-api/vscode/src/vs/editor/common/diff/defaultLinesDiffComputer/defaultLinesDiffComputer.js",
+      "^src/(.*)$": "<rootDir>/src/$1"
+    },
+    "moduleFileExtensions": [
+      "web.js",
+      "js",
+      "web.ts",
+      "ts",
+      "web.tsx",
+      "tsx",
+      "json",
+      "web.jsx",
+      "jsx",
+      "node"
+    ],
+    "watchPlugins": [
+      "jest-watch-typeahead/filename",
+      "jest-watch-typeahead/testname"
+    ],
+    "resetMocks": true
+  },
+  "babel": {
+    "presets": [
+      "react-app"
+    ]
+  },
+  "eslintConfig": {
+    "extends": "react-app"
   }
 }
