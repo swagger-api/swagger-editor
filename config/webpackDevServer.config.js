@@ -1,21 +1,19 @@
-'use strict';
+import fs from 'fs';
+import evalSourceMapMiddleware from 'react-dev-utils/evalSourceMapMiddleware.js';
+import noopServiceWorkerMiddleware from 'react-dev-utils/noopServiceWorkerMiddleware.js';
+import ignoredFiles from 'react-dev-utils/ignoredFiles.js';
+import redirectServedPath from 'react-dev-utils/redirectServedPathMiddleware.js';
 
-const fs = require('fs');
-const evalSourceMapMiddleware = require('react-dev-utils/evalSourceMapMiddleware');
-const noopServiceWorkerMiddleware = require('react-dev-utils/noopServiceWorkerMiddleware');
-const ignoredFiles = require('react-dev-utils/ignoredFiles');
-const redirectServedPath = require('react-dev-utils/redirectServedPathMiddleware');
-const paths = require('./paths');
-const getHttpsConfig = require('./getHttpsConfig');
+import paths from './paths.js';
+import getHttpsConfig from './getHttpsConfig.js';
 
 const host = process.env.HOST || '0.0.0.0';
 const sockHost = process.env.WDS_SOCKET_HOST;
 const sockPath = process.env.WDS_SOCKET_PATH; // default: '/ws'
 const sockPort = process.env.WDS_SOCKET_PORT;
 
-module.exports = function (proxy, allowedHost) {
-  const disableFirewall =
-    !proxy || process.env.DANGEROUSLY_DISABLE_HOST_CHECK === 'true';
+export default function (proxy, allowedHost) {
+  const disableFirewall = !proxy || process.env.DANGEROUSLY_DISABLE_HOST_CHECK === 'true';
   return {
     // WebpackDevServer 2.4.3 introduced a security fix that prevents remote
     // websites from potentially accessing local content through DNS rebinding:
@@ -46,7 +44,7 @@ module.exports = function (proxy, allowedHost) {
     static: {
       // By default WebpackDevServer serves physical files from current directory
       // in addition to all the virtual build products that it serves from memory.
-      // This is confusing because those files won’t automatically be available in
+      // This is confusing because those files won't automatically be available in
       // production build folder unless we copy them. However, copying the whole
       // project directory is dangerous because we may expose sensitive files.
       // Instead, we establish a convention that only files in `public` directory
@@ -109,7 +107,7 @@ module.exports = function (proxy, allowedHost) {
 
       if (fs.existsSync(paths.proxySetup)) {
         // This registers user provided middleware for proxy reasons
-        require(paths.proxySetup)(devServer.app);
+        import(paths.proxySetup).then((proxySetup) => proxySetup.default(devServer.app));
       }
     },
     onAfterSetupMiddleware(devServer) {
@@ -124,4 +122,4 @@ module.exports = function (proxy, allowedHost) {
       devServer.app.use(noopServiceWorkerMiddleware(paths.publicUrlOrPath));
     },
   };
-};
+}

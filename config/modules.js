@@ -1,10 +1,10 @@
-'use strict';
+import fs from 'fs';
+import path from 'path';
+import chalk from 'chalk';
+import resolve from 'resolve';
+import typescript from 'typescript';
 
-const fs = require('fs');
-const path = require('path');
-const paths = require('./paths');
-const chalk = require('react-dev-utils/chalk');
-const resolve = require('resolve');
+import paths from './paths.js';
 
 /**
  * Get additional module paths based on the baseUrl of a compilerOptions object.
@@ -12,7 +12,7 @@ const resolve = require('resolve');
  * @param {Object} options
  */
 function getAdditionalModulePaths(options = {}) {
-  const baseUrl = options.baseUrl;
+  const { baseUrl } = options;
 
   if (!baseUrl) {
     return '';
@@ -55,7 +55,7 @@ function getAdditionalModulePaths(options = {}) {
  * @param {*} options
  */
 function getWebpackAliases(options = {}) {
-  const baseUrl = options.baseUrl;
+  const { baseUrl } = options;
 
   if (!baseUrl) {
     return {};
@@ -76,7 +76,7 @@ function getWebpackAliases(options = {}) {
  * @param {*} options
  */
 function getJestAliases(options = {}) {
-  const baseUrl = options.baseUrl;
+  const { baseUrl } = options;
 
   if (!baseUrl) {
     return {};
@@ -108,14 +108,11 @@ function getModules() {
   // TypeScript project and set up the config
   // based on tsconfig.json
   if (hasTsConfig) {
-    const ts = require(resolve.sync('typescript', {
-      basedir: paths.appNodeModules,
-    }));
-    config = ts.readConfigFile(paths.appTsConfig, ts.sys.readFile).config;
+    config = typescript.readConfigFile(paths.appTsConfig, fs.readFileSync).config;
     // Otherwise we'll check if there is jsconfig.json
     // for non TS projects.
   } else if (hasJsConfig) {
-    config = require(paths.appJsConfig);
+    config = paths.appJsConfig;
   }
 
   config = config || {};
@@ -124,11 +121,11 @@ function getModules() {
   const additionalModulePaths = getAdditionalModulePaths(options);
 
   return {
-    additionalModulePaths: additionalModulePaths,
+    additionalModulePaths,
     webpackAliases: getWebpackAliases(options),
     jestAliases: getJestAliases(options),
     hasTsConfig,
   };
 }
 
-module.exports = getModules();
+export default getModules();
