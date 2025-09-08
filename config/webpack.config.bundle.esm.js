@@ -1,19 +1,18 @@
-'use strict';
+import path from 'path';
+import { globbySync } from 'globby';
+import nodeExternals from 'webpack-node-externals';
 
-const path = require('path');
-const globby = require('globby');
-const paths = require('./paths');
-const configFactory = require('./webpack.config');
-const nodeExternals = require('webpack-node-externals');
+import paths from './paths.js';
+import configFactory from './webpack.config.js';
 
-const pluginFiles = globby.sync(['plugins/*/index.{js,ts}'], {
+const pluginFiles = globbySync(['plugins/*/index.{js,ts}'], {
   cwd: paths.appSrc,
 });
 const pluginEntries = pluginFiles.reduce((acc, plugin) => {
   acc[plugin.replace(/\.(js|ts)$/, '')] = path.join(paths.appSrc, plugin);
   return acc;
 }, {});
-const presetFiles = globby.sync(['presets/*/index.{js,ts}'], {
+const presetFiles = globbySync(['presets/*/index.{js,ts}'], {
   cwd: paths.appSrc,
 });
 const presetEntries = presetFiles.reduce((acc, preset) => {
@@ -21,10 +20,9 @@ const presetEntries = presetFiles.reduce((acc, preset) => {
   return acc;
 }, {});
 
-module.exports = function (webpackEnv) {
+export default (webpackEnv) => {
   const config = configFactory(webpackEnv);
-  const shouldProduceCompactBundle =
-    process.env.REACT_APP_COMPACT_BUNDLE !== 'false';
+  const shouldProduceCompactBundle = process.env.REACT_APP_COMPACT_BUNDLE !== 'false';
   const shouldUseSourceMap = process.env.GENERATE_SOURCEMAP !== 'false';
   const oneOfRuleIndex = shouldUseSourceMap ? 1 : 0;
 
@@ -32,14 +30,8 @@ module.exports = function (webpackEnv) {
     'swagger-editor': paths.appIndexJs,
     ...pluginEntries,
     ...presetEntries,
-    'apidom.worker': path.join(
-      paths.appPath,
-      process.env.REACT_APP_APIDOM_WORKER_PATH
-    ),
-    'editor.worker': path.join(
-      paths.appPath,
-      process.env.REACT_APP_EDITOR_WORKER_PATH
-    ),
+    'apidom.worker': path.join(paths.appPath, process.env.REACT_APP_APIDOM_WORKER_PATH),
+    'editor.worker': path.join(paths.appPath, process.env.REACT_APP_EDITOR_WORKER_PATH),
   };
   config.output.path = paths.appDist;
   config.output.filename = '[name].js';
@@ -63,7 +55,7 @@ module.exports = function (webpackEnv) {
   config.externals = [
     config.externals,
     nodeExternals({
-      importType: moduleName => {
+      importType: (moduleName) => {
         if (moduleName === '@asyncapi/react-component') {
           /**
            * ideal state: return `import ${moduleName}`;
@@ -71,7 +63,8 @@ module.exports = function (webpackEnv) {
            * Need to find route cause and this will allow to code split the AsyncAPI UI React component.
            */
           return `module ${moduleName}`;
-        } else if (moduleName === 'react/jsx-runtime') {
+        }
+        if (moduleName === 'react/jsx-runtime') {
           return `module ${moduleName}.js`;
         }
         return `module ${moduleName}`;
@@ -89,7 +82,7 @@ module.exports = function (webpackEnv) {
 
         return callback(null, pluginRelativePath, 'module');
       }
-      callback();
+      return callback();
     },
     // Handle presets as externals
     ({ context, request }, callback) => {
@@ -102,7 +95,7 @@ module.exports = function (webpackEnv) {
 
         return callback(null, presetRelativePath, 'module');
       }
-      callback();
+      return callback();
     },
   ];
 
@@ -139,7 +132,7 @@ module.exports = function (webpackEnv) {
   }
 
   const svgRule = config.module.rules[oneOfRuleIndex].oneOf.find(
-    rule => String(rule.test) === '/\\.svg$/'
+    (rule) => String(rule.test) === '/\\.svg$/'
   );
 
   if (shouldProduceCompactBundle) {
@@ -165,12 +158,12 @@ module.exports = function (webpackEnv) {
    * We want to have deterministic name for our CSS bundle.
    */
   const miniCssExtractPlugin = config.plugins.find(
-    plugin => plugin.constructor.name === 'MiniCssExtractPlugin'
+    (plugin) => plugin.constructor.name === 'MiniCssExtractPlugin'
   );
   miniCssExtractPlugin.options.filename = 'swagger-editor.css';
 
   config.plugins = config.plugins.filter(
-    plugin =>
+    (plugin) =>
       ![
         'HtmlWebpackPlugin',
         'InlineChunkHtmlPlugin',

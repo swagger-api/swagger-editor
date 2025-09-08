@@ -4,9 +4,10 @@ import dotenv from 'dotenv';
 import dotenvExpand from 'dotenv-expand';
 
 import paths from './paths.js';
+import { require } from './util.js';
 
 // Make sure that including paths.js after env.js will read .env variables.
-// delete require.cache[require.resolve('./paths')];
+delete require.cache[require.resolve('./paths')];
 
 const { NODE_ENV } = process.env;
 if (!NODE_ENV) {
@@ -64,8 +65,10 @@ function getClientEnvironment(publicUrl) {
     .filter((key) => REACT_APP.test(key))
     .reduce(
       (env, key) => {
-        env[key] = process.env[key];
-        return env;
+        return {
+          ...env,
+          [key]: process.env[key],
+        };
       },
       {
         // Useful for determining whether we're running in production mode.
@@ -92,8 +95,7 @@ function getClientEnvironment(publicUrl) {
   // Stringify all values so we can feed into webpack DefinePlugin
   const stringified = {
     'process.env': Object.keys(raw).reduce((env, key) => {
-      env[key] = JSON.stringify(raw[key]);
-      return env;
+      return { ...env, [key]: JSON.stringify(raw[key]) };
     }, {}),
   };
 

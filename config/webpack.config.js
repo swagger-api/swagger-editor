@@ -24,34 +24,33 @@ import modules from './modules.js';
 import getClientEnvironment from './env.js';
 import createEnvironmentHash from './webpack/persistentCache/createEnvironmentHash.js';
 import getBuildInfo from './webpack/buildInfo/createBuildInfo.js';
+import { require } from './util.js';
 
+// eslint-disable-next-line no-underscore-dangle
 const __filename = fileURLToPath(import.meta.url);
+// eslint-disable-next-line no-underscore-dangle
 const __dirname = path.dirname(__filename);
 
-let ForkTsCheckerWebpackPlugin;
-if (process.env.TSC_COMPILE_ON_ERROR === 'true') {
-  ForkTsCheckerWebpackPlugin = (
-    await import('react-dev-utils/ForkTsCheckerWarningWebpackPlugin.js')
-  ).default;
-} else {
-  ForkTsCheckerWebpackPlugin = (await import('react-dev-utils/ForkTsCheckerWebpackPlugin.js'))
-    .default;
-}
-// Source maps are resource heavy and can cause out of memory issue for large source files.
-const shouldUseSourceMap = process.env.GENERATE_SOURCEMAP !== 'false';
+const ForkTsCheckerWebpackPlugin =
+  process.env.TSC_COMPILE_ON_ERROR === 'true'
+    ? (await import('react-dev-utils/ForkTsCheckerWarningWebpackPlugin.js')).default
+    : (await import('react-dev-utils/ForkTsCheckerWebpackPlugin.js')).default;
 
-const reactRefreshRuntimeEntry = await import.meta.resolve('react-refresh/runtime');
-const reactRefreshWebpackPluginRuntimeEntry = await import.meta.resolve(
+const reactRefreshRuntimeEntry = require.resolve('react-refresh/runtime');
+const reactRefreshWebpackPluginRuntimeEntry = require.resolve(
   '@pmmmwh/react-refresh-webpack-plugin'
 );
-const babelRuntimeEntry = await import.meta.resolve('babel-preset-react-app');
-const babelRuntimeEntryHelpers = await import.meta.resolve(
+const babelRuntimeEntry = require.resolve('babel-preset-react-app');
+const babelRuntimeEntryHelpers = require.resolve(
   '@babel/runtime/helpers/esm/assertThisInitialized',
   { paths: [babelRuntimeEntry] }
 );
-const babelRuntimeRegenerator = await import.meta.resolve('@babel/runtime/regenerator', {
+const babelRuntimeRegenerator = require.resolve('@babel/runtime/regenerator', {
   paths: [babelRuntimeEntry],
 });
+
+// Source maps are resource heavy and can cause out of memory issue for large source files.
+const shouldUseSourceMap = process.env.GENERATE_SOURCEMAP !== 'false';
 
 // Some apps do not need the benefits of saving a web request, so not inlining the chunk
 // makes for a smoother build process.
@@ -63,7 +62,7 @@ const enableProgressPlugin = process.env.ENABLE_PROGRESS_PLUGIN === 'true';
 const isBuildingBundle =
   process.env.BUILD_ESM_BUNDLE === 'true' || process.env.BUILD_UMD_BUNDLE === 'true';
 
-const imageInlineSizeLimit = parseInt(process.env.IMAGE_INLINE_SIZE_LIMIT || '10000');
+const imageInlineSizeLimit = parseInt(process.env.IMAGE_INLINE_SIZE_LIMIT || '10000', 10);
 
 // Check if TypeScript is setup
 const useTypeScript = fs.existsSync(paths.appTsConfig);
@@ -86,7 +85,7 @@ const hasJsxRuntime = (() => {
   }
 
   try {
-    import.meta.resolve('react/jsx-runtime');
+    require.resolve('react/jsx-runtime');
     return true;
   } catch (e) {
     return false;
@@ -98,7 +97,7 @@ const buildInfo = getBuildInfo();
 
 // This is the production and development configuration.
 // It is focused on developer experience, fast rebuilds, and a minimal bundle.
-export default function (webpackEnv) {
+export default (webpackEnv) => {
   const isEnvDevelopment = webpackEnv === 'development';
   const isEnvProduction = webpackEnv === 'production';
 
@@ -117,7 +116,7 @@ export default function (webpackEnv) {
   // common function to get style loaders
   const getStyleLoaders = (cssOptions, preProcessor) => {
     const loaders = [
-      isEnvDevelopment && import.meta.resolve('style-loader'),
+      isEnvDevelopment && require.resolve('style-loader'),
       isEnvProduction && {
         loader: MiniCssExtractPlugin.loader,
         // css is located in `static/css`, use '../../' to locate index.html folder
@@ -125,14 +124,14 @@ export default function (webpackEnv) {
         options: paths.publicUrlOrPath.startsWith('.') ? { publicPath: '../../' } : {},
       },
       {
-        loader: import.meta.resolve('css-loader'),
+        loader: require.resolve('css-loader'),
         options: cssOptions,
       },
       {
         // Options for PostCSS as we reference these options twice
         // Adds vendor prefixing based on your specified browser support in
         // package.json
-        loader: import.meta.resolve('postcss-loader'),
+        loader: require.resolve('postcss-loader'),
         options: {
           postcssOptions: {
             // Necessary for external CSS imports to work
@@ -174,17 +173,18 @@ export default function (webpackEnv) {
         },
       },
     ].filter(Boolean);
+
     if (preProcessor) {
       loaders.push(
         {
-          loader: import.meta.resolve('resolve-url-loader'),
+          loader: require.resolve('resolve-url-loader'),
           options: {
             sourceMap: isEnvProduction ? shouldUseSourceMap : isEnvDevelopment,
             root: paths.appSrc,
           },
         },
         {
-          loader: import.meta.resolve(preProcessor),
+          loader: require.resolve(preProcessor),
           options: {
             sourceMap: true,
           },
@@ -358,11 +358,12 @@ export default function (webpackEnv) {
       fallback: {
         path: false,
         fs: false,
-        http: import.meta.resolve('stream-http'), // required for asyncapi parser
-        https: import.meta.resolve('https-browserify'), // required for asyncapi parser
-        stream: import.meta.resolve('stream-browserify'),
-        util: import.meta.resolve('util'),
-        url: import.meta.resolve('url'),
+        http: require.resolve('stream-http'), // required for asyncapi parser
+        https: require.resolve('https-browserify'), // required for asyncapi parser
+        stream: require.resolve('stream-browserify'),
+        util: require.resolve('util'),
+        url: require.resolve('url'),
+        buffer: require.resolve('buffer'),
         zlib: false,
       },
     },
@@ -374,7 +375,7 @@ export default function (webpackEnv) {
           enforce: 'pre',
           exclude: [/autolinker/, /@jsdevtools\/ono/, /@stoplight/],
           test: /\.(js|mjs|jsx|ts|tsx|css)$/,
-          loader: import.meta.resolve('source-map-loader'),
+          loader: require.resolve('source-map-loader'),
         },
         {
           // "oneOf" will traverse all following loaders until one will
@@ -418,7 +419,7 @@ export default function (webpackEnv) {
                   issuer: { and: [/\.(ts|tsx|js|jsx|md|mdx)$/] },
                   use: [
                     {
-                      loader: import.meta.resolve('@svgr/webpack'),
+                      loader: require.resolve('@svgr/webpack'),
                       options: {
                         prettier: false,
                         svgo: false,
@@ -430,7 +431,7 @@ export default function (webpackEnv) {
                       },
                     },
                     {
-                      loader: import.meta.resolve('file-loader'),
+                      loader: require.resolve('file-loader'),
                       options: {
                         name: 'static/media/[name].[hash].[ext]',
                       },
@@ -453,12 +454,12 @@ export default function (webpackEnv) {
             {
               test: /\.(js|mjs|jsx|ts|tsx)$/,
               include: paths.appSrc,
-              loader: import.meta.resolve('babel-loader'),
+              loader: require.resolve('babel-loader'),
               options: {
-                customize: import.meta.resolve('babel-preset-react-app/webpack-overrides'),
+                customize: require.resolve('babel-preset-react-app/webpack-overrides'),
                 presets: [
                   [
-                    import.meta.resolve('babel-preset-react-app'),
+                    require.resolve('babel-preset-react-app'),
                     {
                       runtime: hasJsxRuntime ? 'automatic' : 'classic',
                     },
@@ -468,7 +469,7 @@ export default function (webpackEnv) {
                 plugins: [
                   isEnvDevelopment &&
                     shouldUseReactRefresh &&
-                    import.meta.resolve('react-refresh/babel'),
+                    require.resolve('react-refresh/babel'),
                 ].filter(Boolean),
                 // This is a feature of `babel-loader` for webpack (not Babel itself).
                 // It enables caching results in ./node_modules/.cache/babel-loader/
@@ -484,13 +485,13 @@ export default function (webpackEnv) {
             {
               test: /\.(js|mjs)$/,
               exclude: /@babel(?:\/|\\{1,2})runtime/,
-              loader: import.meta.resolve('babel-loader'),
+              loader: require.resolve('babel-loader'),
               options: {
                 babelrc: false,
                 configFile: false,
                 compact: false,
                 presets: [
-                  [import.meta.resolve('babel-preset-react-app/dependencies'), { helpers: true }],
+                  [require.resolve('babel-preset-react-app/dependencies'), { helpers: true }],
                 ],
                 cacheDirectory: true,
                 // See #6846 for context on why cacheCompression is disabled
@@ -688,8 +689,10 @@ export default function (webpackEnv) {
         publicPath: paths.publicUrlOrPath,
         generate: (seed, files, entrypoints) => {
           const manifestFiles = files.reduce((manifest, file) => {
-            manifest[file.name] = file.path;
-            return manifest;
+            return {
+              ...manifest,
+              [file.name]: file.path,
+            };
           }, seed);
           const entrypointFiles = entrypoints.main.filter((fileName) => !fileName.endsWith('.map'));
 
@@ -698,15 +701,6 @@ export default function (webpackEnv) {
             entrypoints: entrypointFiles,
           };
         },
-      }),
-      // Moment.js is an extremely popular library that bundles large locale files
-      // by default due to how webpack interprets its code. This is a practical
-      // solution that requires the user to opt into importing specific locales.
-      // https://github.com/jmblog/how-to-optimize-momentjs-with-webpack
-      // You can remove this if you don't use Moment.js:
-      new webpack.IgnorePlugin({
-        resourceRegExp: /^\.\/locale$/,
-        contextRegExp: /moment$/,
       }),
       // Generate a service worker script that will precache, and keep up to date,
       // the HTML & assets that are part of the webpack build.
@@ -768,8 +762,8 @@ export default function (webpackEnv) {
         new ESLintPlugin({
           // Plugin options
           extensions: ['js', 'mjs', 'jsx', 'ts', 'tsx'],
-          formatter: import.meta.resolve('react-dev-utils/eslintFormatter'),
-          eslintPath: import.meta.resolve('eslint'),
+          formatter: require.resolve('react-dev-utils/eslintFormatter'),
+          eslintPath: require.resolve('eslint'),
           failOnError: !(isEnvDevelopment && emitErrorsAsWarnings),
           context: paths.appSrc,
           cache: true,
@@ -778,7 +772,7 @@ export default function (webpackEnv) {
           cwd: paths.appPath,
           resolvePluginsRelativeTo: __dirname,
           baseConfig: {
-            extends: [import.meta.resolve('eslint-config-react-app/base')],
+            extends: [require.resolve('eslint-config-react-app/base')],
             rules: {
               ...(!hasJsxRuntime && {
                 'react/react-in-jsx-scope': 'error',
@@ -808,4 +802,4 @@ export default function (webpackEnv) {
     // our own hints via the FileSizeReporter
     performance: false,
   };
-}
+};

@@ -1,16 +1,13 @@
-'use strict';
+import path from 'path';
+import webpack from 'webpack';
+import { DuplicatesPlugin } from 'inspectpack/plugin/index.js';
 
-const path = require('path');
-const webpack = require('webpack');
-const { DuplicatesPlugin } = require('inspectpack/plugin');
+import paths from './paths.js';
+import configFactory from './webpack.config.js';
 
-const paths = require('./paths');
-const configFactory = require('./webpack.config');
-
-const commonConfig = webpackEnv => {
+const commonConfig = (webpackEnv) => {
   const config = configFactory(webpackEnv);
-  const shouldProduceCompactBundle =
-    process.env.REACT_APP_COMPACT_BUNDLE !== 'false';
+  const shouldProduceCompactBundle = process.env.REACT_APP_COMPACT_BUNDLE !== 'false';
   const shouldUseSourceMap = process.env.GENERATE_SOURCEMAP !== 'false';
   const oneOfRuleIndex = shouldUseSourceMap ? 1 : 0;
 
@@ -58,7 +55,7 @@ const commonConfig = webpackEnv => {
   }
 
   const svgRule = config.module.rules[oneOfRuleIndex].oneOf.find(
-    rule => String(rule.test) === '/\\.svg$/'
+    (rule) => String(rule.test) === '/\\.svg$/'
   );
   if (shouldProduceCompactBundle) {
     /**
@@ -94,12 +91,12 @@ const commonConfig = webpackEnv => {
    * We want to have deterministic name for our CSS bundle.
    */
   const miniCssExtractPlugin = config.plugins.find(
-    plugin => plugin.constructor.name === 'MiniCssExtractPlugin'
+    (plugin) => plugin.constructor.name === 'MiniCssExtractPlugin'
   );
   miniCssExtractPlugin.options.filename = 'swagger-editor.css';
 
   config.plugins = config.plugins.filter(
-    plugin =>
+    (plugin) =>
       ![
         'HtmlWebpackPlugin',
         'InlineChunkHtmlPlugin',
@@ -120,7 +117,7 @@ const commonConfig = webpackEnv => {
   return config;
 };
 
-const swaggerEditorConfig = webpackEnv => {
+const swaggerEditorConfig = (webpackEnv) => {
   const config = commonConfig(webpackEnv);
 
   config.output.libraryTarget = 'umd';
@@ -159,14 +156,11 @@ const swaggerEditorConfig = webpackEnv => {
   return config;
 };
 
-const apidomWorkerConfig = webpackEnv => {
+const apidomWorkerConfig = (webpackEnv) => {
   const config = commonConfig(webpackEnv);
 
   config.entry = {
-    'apidom.worker': path.join(
-      paths.appPath,
-      process.env.REACT_APP_APIDOM_WORKER_PATH
-    ),
+    'apidom.worker': path.join(paths.appPath, process.env.REACT_APP_APIDOM_WORKER_PATH),
   };
 
   config.resolve.alias = {
@@ -178,13 +172,7 @@ const apidomWorkerConfig = webpackEnv => {
       'node_modules',
       'json-schema-traverse'
     ),
-    ajv: path.join(
-      paths.appNodeModules,
-      '@swagger-api',
-      'apidom-ls',
-      'node_modules',
-      'ajv'
-    ),
+    ajv: path.join(paths.appNodeModules, '@swagger-api', 'apidom-ls', 'node_modules', 'ajv'),
   };
 
   config.plugins = [
@@ -198,14 +186,11 @@ const apidomWorkerConfig = webpackEnv => {
   return config;
 };
 
-const editorWorkerConfig = webpackEnv => {
+const editorWorkerConfig = (webpackEnv) => {
   const config = commonConfig(webpackEnv);
 
   config.entry = {
-    'editor.worker': path.join(
-      paths.appPath,
-      process.env.REACT_APP_EDITOR_WORKER_PATH
-    ),
+    'editor.worker': path.join(paths.appPath, process.env.REACT_APP_EDITOR_WORKER_PATH),
   };
 
   config.plugins = [
@@ -219,7 +204,7 @@ const editorWorkerConfig = webpackEnv => {
   return config;
 };
 
-module.exports = function (webpackEnv) {
+export default (webpackEnv) => {
   return [
     swaggerEditorConfig(webpackEnv),
     apidomWorkerConfig(webpackEnv),

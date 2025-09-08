@@ -1,7 +1,7 @@
 import fs from 'fs';
 import path from 'path';
 import chalk from 'chalk';
-import resolve from 'resolve';
+// eslint-disable-next-line import/no-extraneous-dependencies
 import typescript from 'typescript';
 
 import paths from './paths.js';
@@ -68,6 +68,8 @@ function getWebpackAliases(options = {}) {
       src: paths.appSrc,
     };
   }
+
+  return {};
 }
 
 /**
@@ -89,6 +91,8 @@ function getJestAliases(options = {}) {
       '^src/(.*)$': '<rootDir>/src/$1',
     };
   }
+
+  return {};
 }
 
 function getModules() {

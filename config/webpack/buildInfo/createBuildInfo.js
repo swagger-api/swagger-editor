@@ -11,8 +11,7 @@ export default () => {
   // Stringify all values so we can feed into webpack DefinePlugin
   const stringified = {
     buildInfo: Object.keys(raw).reduce((buildInfo, key) => {
-      buildInfo[key] = JSON.stringify(raw[key]);
-      return buildInfo;
+      return { ...buildInfo, [key]: JSON.stringify(raw[key]) };
     }, {}),
   };
 

@@ -1,7 +1,7 @@
 import fs from 'fs';
 import path from 'path';
 import crypto from 'crypto';
-import chalk from 'react-dev-utils/chalk.js';
+import chalk from 'chalk';
 
 import paths from './paths.js';
 
