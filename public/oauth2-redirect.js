@@ -21,7 +21,6 @@ function run() {
 
     isValid = qp.state === sentState
 
-    console.log(oauth2.auth)
     if ((
         oauth2.auth.schema.get("flow") === "accessCode" ||
         oauth2.auth.schema.get("flow") === "authorizationCode" ||
