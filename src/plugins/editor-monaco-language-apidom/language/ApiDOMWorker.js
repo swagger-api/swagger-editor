@@ -2,6 +2,8 @@
 import deepExtend from 'deep-extend';
 import * as vscodeLanguageServerTextDocument from 'vscode-languageserver-textdocument';
 import * as apidomLS from '@swagger-api/apidom-ls';
+import * as apidomNSOpenAPI2 from '@swagger-api/apidom-ns-openapi-2';
+import * as apidomNSOpenAPI30 from '@swagger-api/apidom-ns-openapi-3-0';
 
 export class ApiDOMWorker {
   static defaultApiDOMContext = {
@@ -161,6 +163,8 @@ export const makeCreate = (BaseClass) => (ctx, createData) => {
 
       ApiDOMWorkerClass = workerFactoryFunc(ApiDOMWorkerClass, {
         apidomLS,
+        apidomNSOpenAPI2,
+        apidomNSOpenAPI30,
         vscodeLanguageServerTextDocument,
         deepExtend,
       });
