@@ -29,6 +29,7 @@
     "@typescript-eslint"
   ],
   "rules": {
+    "import/no-extraneous-dependencies": ["error", {"devDependencies": true}],
     "import/order": ["error", {
       "groups": [
         ["builtin", "external", "internal"],
