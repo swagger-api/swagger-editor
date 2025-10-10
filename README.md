@@ -1,7 +1,5 @@
 # SwaggerEditor
 
-SwaggerEditor is using [**forked** Create React App](https://github.com/swagger-api/swagger-editor-cra/) as it's building infrastructure.
-
 ## Table of Contents
 
 - [Anonymized analytics](#anonymized-analytics)
@@ -309,8 +307,6 @@ Run the following commands to set up the repository for local development:
  $ git clone https://github.com/swagger-api/swagger-editor.git
  $ cd swagger-editor
  $ git checkout next
- $ git submodule init
- $ git submodule update
  $ npm i
  $ npm start
 ```
