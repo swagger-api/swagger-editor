@@ -3,8 +3,10 @@
 /.husky/
 /build/
 /public/
+/config/
 /docs/
 /node_modules/
+/scripts/
 /test/
 /src/
 /create-react-app/
