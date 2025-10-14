@@ -47,16 +47,13 @@
     flex-wrap: wrap;
     max-width: 800px;
     .dd-menu-items {
-      width: 700px;
+      width: max-content;
       .dd-items-left {
         display: flex;
         flex-direction: column;
         max-height: 500px;
         flex-wrap: wrap;
         margin: 1.7em 0 0!important;
-        li {
-          flex:22%;
-        }
       }
     }
 
@@ -107,7 +104,7 @@
     vertical-align: text-top;
   }
 }
-  
+
 
 .modal {
   font-family: sans-serif;
@@ -133,7 +130,7 @@
 .modal-message {
   margin: 1.75em 2em;
   font-size: 1.1em;
-  
+
   p {
     line-height: 1.3;
   }
