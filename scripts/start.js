@@ -39,13 +39,12 @@ checkBrowsers(paths.appPath, isInteractive)
     const appPackageJson = JSON.parse(fs.readFileSync(paths.appPackageJson, 'utf8'));
     const appName = appPackageJson.name;
 
-    const useTypeScript = fs.existsSync(paths.appTsConfig);
     const urls = prepareUrls('http', HOST, port, paths.publicUrlOrPath.slice(0, -1));
     const compiler = createCompiler({
       appName,
       config,
       urls,
-      useTypeScript,
+      useTypescript: true,
       webpack,
     });
     const serverConfig = {
