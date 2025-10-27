@@ -44,12 +44,12 @@
     }
   },
   "scripts": {
-    "start": "cross-env DISABLE_ESLINT_PLUGIN=false ENABLE_PROGRESS_PLUGIN=true NODE_ENV=development BABEL_ENV=development node scripts/start.js",
+    "start": "cross-env ENABLE_PROGRESS_PLUGIN=true NODE_ENV=development BABEL_ENV=development node scripts/start.js",
     "build": "npm run build:app && npm run build:bundle:esm && npm run build:bundle:umd && npm run build:definitions",
-    "build:app": "cross-env NODE_OPTIONS=--max_old_space_size=4096 ENABLE_PROGRESS_PLUGIN=false DISABLE_ESLINT_PLUGIN=false NODE_ENV=production BABEL_ENV=production node scripts/build.js",
+    "build:app": "cross-env NODE_OPTIONS=--max_old_space_size=4096 ENABLE_PROGRESS_PLUGIN=false NODE_ENV=production BABEL_ENV=production node scripts/build.js",
     "build:app:serve": "serve -s build -l 3050 -L",
-    "build:bundle:esm": "rimraf ./dist/esm && cross-env DISABLE_ESLINT_PLUGIN=false ENABLE_PROGRESS_PLUGIN=false GENERATE_SOURCEMAP=true BUILD_ESM_BUNDLE=true DIST_PATH=dist/esm NODE_ENV=production BABEL_ENV=production node scripts/build-bundle.js && rimraf ./dist/esm/swagger-editor.css*",
-    "build:bundle:umd": "rimraf ./dist/umd ./dist/swagger-editor.css && cross-env NODE_OPTIONS=--max_old_space_size=4096 DISABLE_ESLINT_PLUGIN=false ENABLE_PROGRESS_PLUGIN=false GENERATE_SOURCEMAP=false BUILD_UMD_BUNDLE=true DIST_PATH=dist/umd NODE_ENV=production BABEL_ENV=production node scripts/build-bundle.js && copyfiles -u 2 ./dist/umd/swagger-editor.css ./dist && rimraf ./dist/umd/swagger-editor.css",
+    "build:bundle:esm": "rimraf ./dist/esm && cross-env ENABLE_PROGRESS_PLUGIN=false GENERATE_SOURCEMAP=true BUILD_ESM_BUNDLE=true DIST_PATH=dist/esm NODE_ENV=production BABEL_ENV=production node scripts/build-bundle.js && rimraf ./dist/esm/swagger-editor.css*",
+    "build:bundle:umd": "rimraf ./dist/umd ./dist/swagger-editor.css && cross-env NODE_OPTIONS=--max_old_space_size=4096 ENABLE_PROGRESS_PLUGIN=false GENERATE_SOURCEMAP=false BUILD_UMD_BUNDLE=true DIST_PATH=dist/umd NODE_ENV=production BABEL_ENV=production node scripts/build-bundle.js && copyfiles -u 2 ./dist/umd/swagger-editor.css ./dist && rimraf ./dist/umd/swagger-editor.css",
     "build:definitions": "tsc -p tsconfig.json",
     "analyze": "source-map-explorer 'build/static/js/main.6d62e780.js'",
     "test": "cross-env NODE_ENV=test BABEL_ENV=test PUBLIC_URL= node scripts/test.js",
@@ -161,7 +161,6 @@
     "babel-loader": "^8.2.3",
     "babel-plugin-named-asset-import": "^0.3.8",
     "babel-preset-react-app": "^10.0.1",
-    "bfj": "^7.0.2",
     "browserslist": "^4.18.1",
     "camelcase": "^6.2.1",
     "case-sensitive-paths-webpack-plugin": "^2.4.0",
@@ -230,8 +229,7 @@
     "webpack": "~5.100.2",
     "webpack-dev-server": "^5.2.2",
     "webpack-manifest-plugin": "^5.0.1",
-    "webpack-node-externals": "^3.0.0",
-    "workbox-webpack-plugin": "^7.3.0"
+    "webpack-node-externals": "^3.0.0"
   },
   "jest": {
     "roots": [
@@ -263,7 +261,6 @@
     ],
     "modulePaths": [],
     "moduleNameMapper": {
-      "^react-native$": "react-native-web",
       "^.+\\.module\\.(css|sass|scss)$": "identity-obj-proxy",
       "@codingame/monaco-vscode-api/vscode/vs/base/common/strings": "@codingame/monaco-vscode-api/vscode/src/vs/base/common/strings.js",
       "@codingame/monaco-vscode-api/vscode/vs/editor/common/diff/defaultLinesDiffComputer/defaultLinesDiffComputer": "@codingame/monaco-vscode-api/vscode/src/vs/editor/common/diff/defaultLinesDiffComputer/defaultLinesDiffComputer.js",
