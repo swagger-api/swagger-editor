@@ -43,7 +43,6 @@ const babelRuntimeRegenerator = require.resolve('@babel/runtime/regenerator', {
 });
 
 const shouldUseSourceMap = process.env.GENERATE_SOURCEMAP !== 'false';
-
 const enableProgressPlugin = process.env.ENABLE_PROGRESS_PLUGIN === 'true';
 const isBuildingBundle =
   process.env.BUILD_ESM_BUNDLE === 'true' || process.env.BUILD_UMD_BUNDLE === 'true';
