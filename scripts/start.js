@@ -44,7 +44,7 @@ checkBrowsers(paths.appPath, isInteractive)
       appName,
       config,
       urls,
-      useTypescript: true,
+      useTypeScript: true,
       webpack,
     });
     const serverConfig = {
