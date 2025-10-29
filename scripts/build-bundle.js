@@ -1,21 +1,16 @@
 import webpack from 'webpack';
 import chalk from 'chalk';
-import bfj from 'bfj';
 import checkRequiredFiles from 'react-dev-utils/checkRequiredFiles.js';
 import { checkBrowsers } from 'react-dev-utils/browsersHelper.js';
 import formatWebpackMessages from 'react-dev-utils/formatWebpackMessages.js';
 import FileSizeReporter from 'react-dev-utils/FileSizeReporter.js';
 import printBuildError from 'react-dev-utils/printBuildError.js';
 
-// Ensure environment variables are read.
 import '../config/env.js';
 import paths from '../config/paths.js';
 import esmConfigFactory from '../config/webpack.config.bundle.esm.js';
 import umdConfigFactory from '../config/webpack.config.bundle.umd.js';
 
-// Makes the script crash on unhandled rejections instead of silently
-// ignoring them. In the future, promise rejections that are not handled will
-// terminate the Node.js process with a non-zero exit code.
 process.on('unhandledRejection', (err) => {
   throw err;
 });
@@ -24,24 +19,17 @@ const configFactory = process.env.BUILD_UMD_BUNDLE === 'true' ? umdConfigFactory
 
 const { measureFileSizesBeforeBuild, printFileSizesAfterBuild } = FileSizeReporter;
 
-// These sizes are pretty large. We'll warn for bundles exceeding them.
 const WARN_AFTER_BUNDLE_GZIP_SIZE = 512 * 1024;
 const WARN_AFTER_CHUNK_GZIP_SIZE = 1024 * 1024;
 
 const isInteractive = process.stdout.isTTY;
 
-// Warn and crash if required files are missing
 if (!checkRequiredFiles([paths.appIndexJs])) {
   process.exit(1);
 }
 
-const argv = process.argv.slice(2);
-const writeStatsJson = argv.indexOf('--stats') !== -1;
-
-// Generate configuration
 const config = configFactory('production');
 
-// Create the production dist fragment
 function build(previousFileSizes) {
   console.log('Creating an optimized production dist fragment...');
 
@@ -56,7 +44,6 @@ function build(previousFileSizes) {
 
         let errMessage = err.message;
 
-        // Add additional information for postcss errors
         if (Object.prototype.hasOwnProperty.call(err, 'postcssNode')) {
           errMessage += `\nCompileError: Begins at CSS selector ${err.postcssNode.selector}`;
         }
@@ -71,8 +58,6 @@ function build(previousFileSizes) {
         );
       }
       if (messages.errors.length) {
-        // Only keep the first error. Others are often indicative
-        // of the same problem, but confuse the reader with noise.
         if (messages.errors.length > 1) {
           messages.errors.length = 1;
         }
@@ -83,7 +68,6 @@ function build(previousFileSizes) {
         (typeof process.env.CI !== 'string' || process.env.CI.toLowerCase() !== 'false') &&
         messages.warnings.length
       ) {
-        // Ignore sourcemap warnings in CI builds. See #8227 for more info.
         const filteredWarnings = messages.warnings.filter(
           (w) => !/Failed to parse source map/.test(w)
         );
@@ -104,24 +88,13 @@ function build(previousFileSizes) {
         warnings: messages.warnings,
       };
 
-      if (writeStatsJson) {
-        return bfj
-          .write(`${paths.appDist}/bundle-stats.json`, stats.toJson())
-          .then(() => resolve(resolveArgs))
-          .catch((error) => reject(new Error(error)));
-      }
-
       return resolve(resolveArgs);
     });
   });
 }
 
-// We require that you explicitly set browsers and do not fall back to
-// browserslist defaults.
 checkBrowsers(paths.appPath, isInteractive)
   .then(() => {
-    // First, read the current file sizes in build directory.
-    // This lets us display how much they changed later.
     return measureFileSizesBeforeBuild(paths.appDist);
   })
   .then((previousFileSizes) => {
@@ -155,19 +128,9 @@ checkBrowsers(paths.appPath, isInteractive)
       console.log();
     },
     (err) => {
-      const tscCompileOnError = process.env.TSC_COMPILE_ON_ERROR === 'true';
-      if (tscCompileOnError) {
-        console.log(
-          chalk.yellow(
-            'Compiled with the following type errors (you may want to check these before deploying your app):\n'
-          )
-        );
-        printBuildError(err);
-      } else {
-        console.log(chalk.red('Failed to compile.\n'));
-        printBuildError(err);
-        process.exit(1);
-      }
+      console.log(chalk.red('Failed to compile.\n'));
+      printBuildError(err);
+      process.exit(1);
     }
   )
   .catch((err) => {

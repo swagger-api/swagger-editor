@@ -22,7 +22,6 @@ const presetEntries = presetFiles.reduce((acc, preset) => {
 
 export default (webpackEnv) => {
   const config = configFactory(webpackEnv);
-  const shouldProduceCompactBundle = process.env.REACT_APP_COMPACT_BUNDLE !== 'false';
   const shouldUseSourceMap = process.env.GENERATE_SOURCEMAP !== 'false';
   const oneOfRuleIndex = shouldUseSourceMap ? 1 : 0;
 
@@ -106,53 +105,32 @@ export default (webpackEnv) => {
   };
   config.optimization.runtimeChunk = false;
 
-  if (shouldProduceCompactBundle) {
-    /**
-     * Bundle WASM file directly into JavaScript bundle as data URLs.
-     * This configuration reduces the complexity of WASM file loading
-     * but increases the overal bundle size.
-     */
-    config.module.rules[oneOfRuleIndex].oneOf.unshift({
-      test: /\.wasm$/,
-      type: 'asset/inline',
-    });
-  } else {
-    /**
-     * The default way in which webpack loads wasm files won’t work in a worker,
-     * so we will have to disable webpack’s default handling of wasm files and
-     * then fetch the wasm file by using the file path that we get using file-loader.
-     *
-     * Resource: https://pspdfkit.com/blog/2020/webassembly-in-a-web-worker/
-     */
-    config.module.rules[oneOfRuleIndex].oneOf.unshift({
-      test: /\.wasm$/,
-      loader: 'file-loader',
-      type: 'javascript/auto', // this disables webpacks default handling of wasm
-    });
-  }
+  /**
+   * Bundle WASM file directly into JavaScript bundle as data URLs.
+   * This configuration reduces the complexity of WASM file loading
+   * but increases the overal bundle size.
+   */
+  config.module.rules[oneOfRuleIndex].oneOf.unshift({
+    test: /\.wasm$/,
+    type: 'asset/inline',
+  });
 
   const svgRule = config.module.rules[oneOfRuleIndex].oneOf.find(
     (rule) => String(rule.test) === '/\\.svg$/'
   );
 
-  if (shouldProduceCompactBundle) {
-    /**
-     * We want all SVG files become part of the bundle.
-     */
-    delete svgRule.oneOf.splice(0, 1);
-  } else {
-    svgRule.oneOf[0].use[1].options.name = '[name].[hash].[ext]';
-  }
+  /**
+   * We want all SVG files become part of the bundle.
+   */
+  delete svgRule.oneOf.splice(0, 1);
 
-  if (shouldProduceCompactBundle) {
-    /**
-     * We want TTF font from Monaco editor become part of the bundle.
-     */
-    config.module.rules[oneOfRuleIndex].oneOf.unshift({
-      test: /\.ttf$/,
-      type: 'asset/inline',
-    });
-  }
+  /**
+   * We want TTF font from Monaco editor become part of the bundle.
+   */
+  config.module.rules[oneOfRuleIndex].oneOf.unshift({
+    test: /\.ttf$/,
+    type: 'asset/inline',
+  });
 
   /**
    * We want to have deterministic name for our CSS bundle.

@@ -8,7 +8,6 @@ export default () => {
     GIT_DIRTY: gitInfo.dirty,
     BUILD_TIME: new Date().toUTCString(),
   };
-  // Stringify all values so we can feed into webpack DefinePlugin
   const stringified = {
     buildInfo: Object.keys(raw).reduce((buildInfo, key) => {
       return { ...buildInfo, [key]: JSON.stringify(raw[key]) };
