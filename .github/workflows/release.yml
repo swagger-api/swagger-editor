@@ -85,7 +85,7 @@ jobs:
         run: |
           echo ${{ steps.semantic.outputs.new_release_version }} > released-version.txt
       - name: Upload released version
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v5
         with:
           name: released-version
           path: ./released-version.txt
