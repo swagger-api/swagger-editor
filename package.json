@@ -165,7 +165,7 @@
     "rimraf": "^5.0.0",
     "sinon": "=19.0.2",
     "source-map-explorer": "^2.5.2",
-    "start-server-and-test": "=2.0.8",
+    "start-server-and-test": "=2.1.2",
     "terser-webpack-plugin": "^5.3.1",
     "url-loader": "^4.1.1",
     "webpack": "^5.70.0",
