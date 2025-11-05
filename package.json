@@ -76,7 +76,7 @@
     "@codingame/monaco-vscode-api": "=15.0.3",
     "@emotion/react": "^11.14.0",
     "@emotion/styled": "^11.14.0",
-    "@mui/material": "^5.16.9",
+    "@mui/material": "^7.3.5",
     "@primer/octicons-react": "^19.15.2",
     "@swagger-api/apidom-core": "^1.0.0-rc.1",
     "@swagger-api/apidom-json-pointer": "^1.0.0-rc.1",
