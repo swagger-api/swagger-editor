@@ -11,7 +11,7 @@ export class ApiDOMWorker {
     completionProviders: [],
     performanceLogs: false,
     logLevel: apidomLS.LogLevel.WARN,
-    defaultLanguageContent: {
+    defaultContentLanguage: {
       namespace: 'asyncapi',
     },
     completionContext: {
