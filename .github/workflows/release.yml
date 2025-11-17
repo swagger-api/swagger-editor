@@ -23,7 +23,7 @@ jobs:
           node-version: 20
 
       - name: Determine the next release version
-        uses: cycjimmy/semantic-release-action@v5
+        uses: cycjimmy/semantic-release-action@v6
         with:
           semantic_version: v24.2.3
           dry_run: true
@@ -57,7 +57,7 @@ jobs:
 
       - name: Semantic Release
         id: semantic
-        uses: cycjimmy/semantic-release-action@v5
+        uses: cycjimmy/semantic-release-action@v6
         with:
           dry_run: false
           extra_plugins: |
