@@ -1,8 +1,8 @@
-name: Release SwaggerEditor@next
+name: Release SwaggerEditor
 on:
   workflow_dispatch:
     branches:
-      - next
+      - main
 
 jobs:
   release:
@@ -15,7 +15,7 @@ jobs:
           fetch-depth: 0
           persist-credentials: false
           submodules: true
-          ref: next
+          ref: main
 
       - name: Setup Node.js
         uses: actions/setup-node@v6

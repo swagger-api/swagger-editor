@@ -16,7 +16,7 @@ const AboutMenu = ({ getComponent }) => {
       <div>
         <li className="dropdown-item">
           <Link
-            href="https://swagger.io/docs/open-source-tools/swagger-editor-next/"
+            href="https://swagger.io/docs/open-source-tools/swagger-editor/"
             target="_blank"
           >
             View Docs
@@ -25,7 +25,7 @@ const AboutMenu = ({ getComponent }) => {
       </div>
       <div>
         <li className="dropdown-item">
-          <Link href="https://github.com/swagger-api/swagger-editor/tree/next" target="_blank">
+          <Link href="https://github.com/swagger-api/swagger-editor/tree/main" target="_blank">
             View on GitHub
           </Link>
         </li>

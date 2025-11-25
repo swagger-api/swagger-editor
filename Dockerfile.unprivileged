@@ -2,8 +2,8 @@ FROM nginxinc/nginx-unprivileged:1.29.2-alpine
 
 LABEL maintainer="vladimir.gorej@smartbear.com" \
       org.opencontainers.image.authors="vladimir.gorej@smartbear.com" \
-      org.opencontainers.image.url="https://editor-next.swagger.io" \
-      org.opencontainers.image.source="https://github.com/swagger-api/swagger-editor/tree/next"
+      org.opencontainers.image.url="https://editor.swagger.io" \
+      org.opencontainers.image.source="https://github.com/swagger-api/swagger-editor/tree/main"
 
 COPY ./build /usr/share/nginx/html
 
