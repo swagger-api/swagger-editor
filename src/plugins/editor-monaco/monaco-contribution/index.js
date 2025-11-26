@@ -1,5 +1,10 @@
 import * as monaco from 'monaco-editor';
-import { StandaloneServices, IStorageService } from '@codingame/monaco-vscode-api/services';
+import {
+  StandaloneServices,
+  IStorageService,
+  ILogService,
+  LogLevel,
+} from '@codingame/monaco-vscode-api/services';
 
 import goToSymbolActionDescriptor from './actions/go-to-symbol.js';
 
@@ -8,6 +13,7 @@ const lazyMonacoContribution = ({ system }) => {
   const disposables = [];
 
   monacoInitializationDeferred().promise.then(() => {
+    StandaloneServices.get(ILogService).setLevel(LogLevel.Warning);
     StandaloneServices.get(IStorageService).store('expandSuggestionDocs', true, 0, 0);
   });
 

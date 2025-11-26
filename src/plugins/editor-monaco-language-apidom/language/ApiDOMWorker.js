@@ -11,9 +11,6 @@ export class ApiDOMWorker {
     completionProviders: [],
     performanceLogs: false,
     logLevel: apidomLS.LogLevel.WARN,
-    defaultContentLanguage: {
-      namespace: 'asyncapi',
-    },
     completionContext: {
       maxNumberOfItems: 100,
       enableLSPFilter: false, // enables "strict" word filtering (instead of default Monaco fuzzy matching; https://github.com/swagger-api/apidom/pull/2954)
@@ -26,6 +23,9 @@ export class ApiDOMWorker {
   constructor(ctx, createData) {
     this._ctx = ctx;
     this._createData = createData;
+  }
+
+  $initialize() {
     this._languageService = this.createLanguageService();
   }
 

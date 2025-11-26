@@ -1,13 +1,13 @@
-import { initialize } from 'monaco-editor/esm/vs/editor/editor.worker.js';
+import { start } from 'monaco-editor/esm/vs/editor/editor.worker.start.js';
 
 import { makeCreate, ApiDOMWorker } from './ApiDOMWorker.js';
 
 const create = makeCreate(ApiDOMWorker);
 
-globalThis.onmessage = () => {
-  initialize((ctx, createData) => {
+globalThis.onmessage = (createData) => {
+  start((ctx) => {
     return create(ctx, createData);
   });
 };
 
-export { initialize, create, makeCreate, ApiDOMWorker };
+export { create, makeCreate, ApiDOMWorker };
