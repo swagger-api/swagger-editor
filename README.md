@@ -306,7 +306,6 @@ Run the following commands to set up the repository for local development:
 ```sh
  $ git clone https://github.com/swagger-api/swagger-editor.git
  $ cd swagger-editor
- $ git checkout next
  $ npm i
  $ npm start
 ```
@@ -858,8 +857,8 @@ ReactDOM.render(<SwaggerEditor />, document.getElementById('swagger-editor'));
 SwaggerEditor is available as a pre-built docker image hosted on **docker.swagger.io**.
 
 ```sh
-$ docker pull docker.swagger.io/swaggerapi/swagger-editor:next-v5
-$ docker run -d -p 8080:80 docker.swagger.io/swaggerapi/swagger-editor:next-v5
+$ docker pull docker.swagger.io/swaggerapi/swagger-editor:latest
+$ docker run -d -p 8080:80 docker.swagger.io/swaggerapi/swagger-editor:latest
 ```
 
 ### Building locally
@@ -868,8 +867,8 @@ $ docker run -d -p 8080:80 docker.swagger.io/swaggerapi/swagger-editor:next-v5
 
 ```sh
  $ npm run build:app
- $ docker build . -t swaggerapi/swagger-editor:next-v5
- $ docker run -d -p 8080:80 swaggerapi/swagger-editor:next-v5
+ $ docker build . -t swaggerapi/swagger-editor:latest
+ $ docker run -d -p 8080:80 swaggerapi/swagger-editor:latest
 ```
 
 Now open your browser at `http://localhost:8080/`.
@@ -878,8 +877,8 @@ Now open your browser at `http://localhost:8080/`.
 
 ```sh
  $ npm run build:app
- $ docker build . -f Dockerfile.unprivileged -t swaggerapi/swagger-editor:next-v5-unprivileged
- $ docker run -d -p 8080:8080 swaggerapi/swagger-editor:next-v5-unprivileged
+ $ docker build . -f Dockerfile.unprivileged -t swaggerapi/swagger-editor:latest-unprivileged
+ $ docker run -d -p 8080:8080 swaggerapi/swagger-editor:latest-unprivileged
 ```
 
 Now open your browser at `http://localhost:8080/`.
