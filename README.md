@@ -6,14 +6,8 @@
 
 **⏰️ Looking for the next generation version of Swagger Editor?**
 
-SwaggerEditor is now released under two major release channels:
-
-1. [SwaggerEditor@4](https://github.com/swagger-api/swagger-editor/releases?q=v4&expanded=true) - released from [master](https://github.com/swagger-api/swagger-editor/tree/master) branch and deployed at https://editor.swagger.io/
-2. [SwaggerEditor@5](https://github.com/swagger-api/swagger-editor/releases?q=v5&expanded=true) - released from [next](https://github.com/swagger-api/swagger-editor/tree/next) branch and deployed at https://editor-next.swagger.io/
-
 Only **SwaggerEditor@5** supports [OpenAPI 3.1.0](https://github.com/OAI/OpenAPI-Specification/blob/main/versions/3.1.0.md). 
-SwaggerEditor@4 will not receive OpenAPI 3.1.0 support and is considered legacy at this point.
-The plan is to continually migrate fully to SwaggerEditor@5 and deprecate the SwaggerEditor@4 in the future.
+SwaggerEditor@4 will not receive OpenAPI 3.1.0 support and is considered deprecated at this point.
 
 ---
 
