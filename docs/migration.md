@@ -17,16 +17,16 @@
 
 
 ### Introduction
-SwaggerEditor@5 is a ground-up rewrite of SwaggerEditor@4. However, SwaggerEditor@4 is still fundamentally based on the SwaggerUI plugin system, and continues to be developed within the React ecosystem. For users without custom plugins or other forked customizations, SwaggerEditor@5 is intended to be mostly drop-in compatible with the existing SwaggerEditor@4.
+SwaggerEditor@5 is a ground-up rewrite of SwaggerEditor@4. However, SwaggerEditor@5 is still fundamentally based on the SwaggerUI plugin system, and continues to be developed within the React ecosystem. For users without custom plugins or other forked customizations, SwaggerEditor@5 is intended to be mostly drop-in compatible with the existing SwaggerEditor@4.
 
-SwaggerEditor@4 introduces integration with ApiDOM and Microsoft's Monaco Editor. ApiDOM replaces the parser from SwaggerClient, as well as existing custom validation from SwaggerEditor@4. Monaco Editor replaces Ace Editor. Additional documentation on features and usage of [ApiDOM](https://github.com/swagger-api/apidom) and [Monaco Editor](https://github.com/microsoft/monaco-editor) can be found within their respective documention. Also available are the [ApiDOM Playground](https://swagger-api.github.io/apidom/) and [Monaco Editor Playground](https://microsoft.github.io/monaco-editor/playground.html)
+SwaggerEditor@5 introduces integration with ApiDOM and Microsoft's Monaco Editor. ApiDOM replaces the parser from SwaggerClient, as well as existing custom validation from SwaggerEditor@4. Monaco Editor replaces Ace Editor. Additional documentation on features and usage of [ApiDOM](https://github.com/swagger-api/apidom) and [Monaco Editor](https://github.com/microsoft/monaco-editor) can be found within their respective documention. Also available are the [ApiDOM Playground](https://swagger-api.github.io/apidom/) and [Monaco Editor Playground](https://microsoft.github.io/monaco-editor/playground.html)
 
 This migration guide is intended to highlight setup changes and key customization features for SwaggerEditor@5.
 
 
 ### Development
-SwaggerEditor@5 is using **forked** Create React App as it's building infrastructure. Therefore there are a few minor differences to develop SwaggerEditor@5
-
+SwaggerEditor@5 is using Create React App as it's building infrastructure. Therefore there are a few minor differences
+to develop SwaggerEditor@5
 #### Start script with hot-reloading
 new:
 ```
@@ -73,10 +73,7 @@ const editor = SwaggerEditorBundle({
 
 
 #### Linting
-Automatic linting checks remain part of the commit process. SwaggerEditor@4 now generally follows the eslint recommendations from the AirBnb and React teams.
-
-There is currently a known issue between compatibility of `eslint-config-airbnb` and `eslint-config-react-app`. The workaround is to set `DISABLE_ESLINT_PLUGIN=false` in the npm script.
-
+Automatic linting checks remain part of the commit process. SwaggerEditor@5 now generally follows the eslint recommendations from the AirBnb and React teams.
 
 #### Dependencies
 
