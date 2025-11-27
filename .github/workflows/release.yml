@@ -48,6 +48,7 @@ jobs:
             core.setFailed('Nothing to release')
 
       - name: Install dependencies
+        if: ${{ github.event.inputs.dryRun == false }}
         run: npm ci
 
       - name: Prepare for the Release
