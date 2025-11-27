@@ -2,7 +2,7 @@ name: Dependabot Merge Me!
 
 on:
   pull_request_target:
-    branches: [ master, next ]
+    branches: [main]
 
 jobs:
   merge-me:
