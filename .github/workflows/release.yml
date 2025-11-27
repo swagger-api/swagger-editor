@@ -3,6 +3,12 @@ on:
   workflow_dispatch:
     branches:
       - main
+    inputs:
+      dryRun:
+        description: 'run in dry-run mode'
+        default: false
+        required: true
+        type: boolean
 
 jobs:
   release:
@@ -35,7 +41,7 @@ jobs:
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
 
       - name: Nothing to release
-        if: ${{ env.NEXT_RELEASE_VERSION == '' }}
+        if: ${{ env.NEXT_RELEASE_VERSION == '' && github.event.inputs.dryRun == false  }}
         uses: actions/github-script@v8
         with:
           script: |
@@ -45,6 +51,7 @@ jobs:
         run: npm ci
 
       - name: Prepare for the Release
+        if: ${{ github.event.inputs.dryRun == false }}
         env:
           REACT_APP_VERSION: ${{ env.NEXT_RELEASE_VERSION }}
         run: |
@@ -56,6 +63,7 @@ jobs:
           npm run build:definitions
 
       - name: Semantic Release
+        if: ${{ github.event.inputs.dryRun == false }}
         id: semantic
         uses: cycjimmy/semantic-release-action@v6
         with:
@@ -67,13 +75,14 @@ jobs:
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
 
       - name: Release failed
-        if: steps.semantic.outputs.new_release_published == 'false'
+        if: ${{ steps.semantic.outputs.new_release_published == 'false' && github.event.inputs.dryRun == false }}
         uses: actions/github-script@v8
         with:
           script: |
             core.setFailed('Release failed')
 
       - name: Release published
+        if: ${{ github.event.inputs.dryRun == false }}
         run: |
           echo ${{ steps.semantic.outputs.new_release_version }}
           echo ${{ steps.semantic.outputs.new_release_major_version }}
@@ -81,10 +90,13 @@ jobs:
           echo ${{ steps.semantic.outputs.new_release_patch_version }}
 
       - name: Prepare released version for uploading
+        if: ${{ github.event.inputs.dryRun == false }}
         shell: bash
         run: |
           echo ${{ steps.semantic.outputs.new_release_version }} > released-version.txt
+
       - name: Upload released version
+        if: ${{ github.event.inputs.dryRun == false }}
         uses: actions/upload-artifact@v5
         with:
           name: released-version
