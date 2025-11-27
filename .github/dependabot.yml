@@ -30,47 +30,40 @@ updates:
       interval: "weekly"
 
   ######################
-  # SwaggerEditor@next #
+  # SwaggerEditor #
   ######################
 
   - package-ecosystem: npm
     directory: "/"
     schedule:
       interval: daily
-    target-branch: "next"
+    target-branch: "main"
     labels:
-      - "swagger-editor@next"
       - "cat: dependencies"
       - "javascript"
     commit-message:
       prefix: "chore"
       include: "scope"
     open-pull-requests-limit: 3
-    ignore:
-      # do not update react-scripts as we use forked version of Create React App via git submodule
-      - dependency-name: "create-react-app/packages/react-scripts"
-      - dependency-name: "react-scripts"
 
 
   - package-ecosystem: "docker"
     # Look for a `Dockerfile` in the `root` directory
-    target-branch: "next"
+    target-branch: "main"
     directory: "/"
     # Check for updates once a week
     schedule:
       interval: "weekly"
     labels:
-      - "swagger-editor@next"
       - "cat: dependencies"
       - "cat: docker"
       - "docker"
 
   - package-ecosystem: "github-actions"
-    target-branch: "next"
+    target-branch: "main"
     directory: "/"
     schedule:
       interval: "weekly"
     labels:
-      - "swagger-editor@next"
       - "cat: dependencies"
       - "github_actions"
