@@ -8,7 +8,7 @@ on:
         description: 'run in dry-run mode'
         default: false
         required: true
-        type: boolean
+        type: 'boolean'
 
 jobs:
   release:
