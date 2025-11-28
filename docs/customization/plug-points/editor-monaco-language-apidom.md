@@ -96,7 +96,7 @@ Static extension involves need to use a build system like webpack.
 **my-custom-apidom.worker.js**
 
 ```js
-import { start, makeCreate, ApiDOMWorker } from 'swagger-editor/apidom.worker';
+import { initialize, makeCreate, ApiDOMWorker } from 'swagger-editor/apidom.worker';
 
 class ApiDOMWorkerExtended extends ApiDOMWorker {
   // implementation of extensions
@@ -104,13 +104,13 @@ class ApiDOMWorkerExtended extends ApiDOMWorker {
 
 const create = makeCreate(ApiDOMWorkerExtended);
 
-globalThis.onmessage = (createData) => {
-  start((ctx) => {
+globalThis.onmessage = () => {
+  initialize((ctx, createData) => {
     return create(ctx, createData);
   });
 };
 
-export { start, create, makeCreate, ApiDOMWorkerExtended as ApiDOMWorker };
+export { initialize, create, makeCreate, ApiDOMWorkerExtended as ApiDOMWorker };
 ```
 
 Next please have a look at the [usage section](../../../README.md#usage) of the documentation
@@ -180,7 +180,7 @@ Whenever you extend the `ApiDOMWorker` class you will have `_createData` public 
 **my-custom-apidom.worker.js**
 
 ```js
-import { start, makeCreate, ApiDOMWorker } from 'swagger-editor/apidom.worker';
+import { initialize, makeCreate, ApiDOMWorker } from 'swagger-editor/apidom.worker';
 
 class ApiDOMWorkerExtended extends ApiDOMWorker {
   async loadData() {
@@ -193,11 +193,11 @@ class ApiDOMWorkerExtended extends ApiDOMWorker {
 
 const create = makeCreate(ApiDOMWorkerExtended);
 
-globalThis.onmessage = (createData) => {
-  start((ctx) => {
+globalThis.onmessage = () => {
+  initialize((ctx, createData) => {
     return create(ctx, createData);
   });
 };
 
-export { start, create, makeCreate, ApiDOMWorkerExtended as ApiDOMWorker };
+export { initialize, create, makeCreate, ApiDOMWorkerExtended as ApiDOMWorker };
 ```
