@@ -1,7 +1,8 @@
-import { initialize as initializeMonacoServices } from '@codingame/monaco-vscode-api';
+import { initialize as initializeMonacoServices, ILogService } from '@codingame/monaco-vscode-api';
 import 'vscode/localExtensionHost';
 
 import lazyMonacoContribution from './monaco-contribution/index.js';
+import CustomLogger from './monaco-contribution/CustomLogger.js';
 
 function afterLoad(system) {
   const InitPhase = {
@@ -36,7 +37,9 @@ function afterLoad(system) {
 
     (async () => {
       try {
-        await initializeMonacoServices({});
+        await initializeMonacoServices({
+          [ILogService.toString()]: new CustomLogger(),
+        });
         system.monacoInitializationDeferred().resolve();
       } catch (error) {
         system.monacoInitializationDeferred().reject(error);

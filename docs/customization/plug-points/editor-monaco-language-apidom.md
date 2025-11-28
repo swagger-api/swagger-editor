@@ -11,9 +11,6 @@ By default, this configuration looks like this:
   completionProviders: [],
   performanceLogs: false,
   logLevel: apidomLS.LogLevel.WARN,
-  defaultContentLanguage: {
-    namespace: 'asyncapi',
-  },
   completionContext: {
     maxNumberOfItems: 100,
     enableLSPFilter: false,
