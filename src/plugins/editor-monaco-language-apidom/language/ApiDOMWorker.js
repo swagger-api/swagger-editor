@@ -23,9 +23,6 @@ export class ApiDOMWorker {
   constructor(ctx, createData) {
     this._ctx = ctx;
     this._createData = createData;
-  }
-
-  $initialize() {
     this._languageService = this.createLanguageService();
   }
 
