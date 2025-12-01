@@ -4,7 +4,11 @@ import { makeCreate, ApiDOMWorker } from './ApiDOMWorker.js';
 
 const create = makeCreate(ApiDOMWorker);
 
-/**
+/*
+ * SPDX-SnippetBegin
+ * SPDX-License-Identifier: MIT
+ * SPDX-SnippetCopyrightText: Copyright (c) 2022 CodinGame
+ *
  * Copy of previous workaround removed in
  * https://github.com/CodinGame/monaco-vscode-api/commit/d3fcbe903edf7151d4ca67467465a4fbb305747c
  * TODO: Investigate and remove if possible during the next @codingame/monaco-vscode-api dependency update
@@ -34,6 +38,7 @@ const initialize = () => {
     );
   });
 };
+// SPDX-SnippetEnd
 
 globalThis.onmessage = () => {
   initialize((ctx, createData) => {
