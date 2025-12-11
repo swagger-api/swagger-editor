@@ -1,9 +1,9 @@
 import { createRulesetFunction } from '@stoplight/spectral-core';
 
 /**
- * Copy of @asyncapi/parser function which causes issues with resolved definitions.
- * Replacing the original function with this copy fixes the issue.
+ * Copy of @asyncapi/parser function with an unreleased fix for resolved definitions.
  * https://github.com/asyncapi/parser-js/blob/master/packages/parser/src/ruleset/v3/functions/operationMessagesUnambiguity.ts
+ * TODO: Remove during @asyncapi/parser update when the fix is released.
  */
 
 const referenceSchema = {

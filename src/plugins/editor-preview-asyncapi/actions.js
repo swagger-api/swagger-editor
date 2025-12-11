@@ -63,7 +63,7 @@ export const parse = (content, options = {}) => {
     ProtoBuffSchemaParser(),
   ];
   const parser = new Parser({ schemaParsers, ...(parserOptions ?? options) });
-  // Fixes an error with parsing resolved AsyncAPI 3.0 definitions
+  // Fixes an issue with parsing resolved AsyncAPI 3.0 definitions
   parser.spectral.ruleset.rules['asyncapi3-operation-messages-from-referred-channel'].then = {
     function: operationMessagesUnambiguity,
   };
