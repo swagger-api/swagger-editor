@@ -4,6 +4,7 @@ import { AvroSchemaParser } from '@asyncapi/avro-schema-parser';
 import { ProtoBuffSchemaParser } from '@asyncapi/protobuf-schema-parser';
 
 import { Raml10SchemaParser } from './util/parsers/raml-1-0-parser.js';
+import { operationMessagesUnambiguity } from './util/ruleset/async-3/functions.js';
 
 /**
  * Action types.
@@ -62,6 +63,10 @@ export const parse = (content, options = {}) => {
     ProtoBuffSchemaParser(),
   ];
   const parser = new Parser({ schemaParsers, ...(parserOptions ?? options) });
+  // Fixes an issue with parsing resolved AsyncAPI 3.0 definitions
+  parser.spectral.ruleset.rules['asyncapi3-operation-messages-from-referred-channel'].then = {
+    function: operationMessagesUnambiguity,
+  };
 
   return async (system) => {
     /**
