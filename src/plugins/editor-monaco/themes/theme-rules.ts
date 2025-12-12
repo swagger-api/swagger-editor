@@ -107,9 +107,6 @@ const themeRules = (colors: ThemeColors) => {
     { token: '$ref', foreground: colors.keyword },
     { token: 'keyword', foreground: colors.keyword }, // orange and bold for keywords
     { token: '', foreground: colors.value },
-    // { token: 'invalid', foreground: '#FF0000' },
-    // { token: 'invalid.apidom', foreground: '#FF0000' },
-    // { token: 'identifier', foreground: '#FF0000' },
   ];
 };
 
