@@ -8,7 +8,7 @@ const themeRules = (colors: ThemeColors) => {
   const plainValue = colors.value;
 
   return [
-    // tokens for OpenAPI 2.0 Object: bold
+    // tokens for OpenAPI 2.0 Object
     { token: 'swagger-host', foreground: colors.keyword },
     { token: 'swagger-base-path', foreground: colors.keyword },
     { token: 'swagger-schemes', foreground: colors.keyword },
@@ -23,7 +23,7 @@ const themeRules = (colors: ThemeColors) => {
     { token: 'externalDocumentation', foreground: colors.keyword },
     { token: 'operation-consumes', foreground: colors.keyword },
     { token: 'operation-produces', foreground: colors.keyword },
-    // top-level tokens for OpenAPI 3.x.y Object: bold
+    // top-level tokens for OpenAPI 3.x.y Object
     { token: 'openapi', foreground: colors.keyword },
     { token: 'info', foreground: colors.keyword },
     { token: 'jsonSchemaDialect', foreground: colors.keyword },
@@ -34,7 +34,7 @@ const themeRules = (colors: ThemeColors) => {
     { token: 'security', foreground: colors.keyword },
     { token: 'tags', foreground: colors.keyword },
     { token: 'tag', foreground: colors.keyword },
-    // additional top-level tokens for AsyncAPI Object: bold
+    // additional top-level tokens for AsyncAPI Object
     { token: 'spec-version', foreground: colors.keyword }, // e.g. asyncapi
     { token: 'channels', foreground: colors.keyword },
     { token: 'components-messages', foreground: colors.keyword },
@@ -103,7 +103,7 @@ const themeRules = (colors: ThemeColors) => {
     { token: 'reference', foreground: colors.keyword },
     { token: 'asyncapi-reference', foreground: colors.keyword },
     { token: 'json-reference', foreground: colors.keyword },
-    { token: 'keyword', foreground: colors.keyword }, // orange and bold for keywords
+    { token: 'keyword', foreground: colors.keyword },
     { token: '', foreground: colors.value },
     { token: 'type', foreground: colors.keyword },
     { token: 'invalid', foreground: colors.keyword },
