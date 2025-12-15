@@ -103,10 +103,10 @@ const themeRules = (colors: ThemeColors) => {
     { token: 'reference', foreground: colors.keyword },
     { token: 'asyncapi-reference', foreground: colors.keyword },
     { token: 'json-reference', foreground: colors.keyword },
-    { token: 'xml', foreground: colors.keyword },
-    { token: '$ref', foreground: colors.keyword },
     { token: 'keyword', foreground: colors.keyword }, // orange and bold for keywords
     { token: '', foreground: colors.value },
+    { token: 'type', foreground: colors.keyword },
+    { token: 'invalid', foreground: colors.keyword },
   ];
 };
 
