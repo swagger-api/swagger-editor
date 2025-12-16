@@ -12,7 +12,7 @@ class DocumentLinkProvider extends Provider {
   }
 
   async provideDocumentLinks(vscodeDocument) {
-    const links = this.#getLinks(vscodeDocument);
+    const links = await this.#getLinks(vscodeDocument);
     const linksWithNonEmptyRanges = links.filter(
       (link) => !this.protocolConverter.asRange(link.range).isEmpty
     );
