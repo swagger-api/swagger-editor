@@ -7,7 +7,7 @@ class DocumentLinkProvider extends Provider {
     try {
       return await worker.doLinks(vscodeDocument.uri.toString());
     } catch {
-      return undefined;
+      return [];
     }
   }
 
