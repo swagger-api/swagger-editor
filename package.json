@@ -120,7 +120,7 @@
     "reselect": "^5.1.1",
     "short-unique-id": "=5.2.0",
     "styled-components": "^6.1.17",
-    "swagger-ui-react": "^5.30.3",
+    "swagger-ui-react": "^5.31.0",
     "util": "^0.12.5",
     "vscode": "npm:@codingame/monaco-vscode-extension-api@=23.2.2",
     "vscode-languageclient": "=10.0.0-next.7",
