@@ -6,7 +6,13 @@ import { SUCCESS_STATUS, IDLE_STATUS } from './reducers.js';
  * editor state plugin selectors.
  */
 
-export const selectOpenAPI20ConverterURL = () => 'https://converter.swagger.io/api/convert';
+export const selectOpenAPI20ConverterURL = () => {
+  const converterUrl = process.env.REACT_APP_SWAGGER2_CONVERTER_URL;
+  if (converterUrl === 'null') {
+    return null;
+  }
+  return converterUrl || 'https://converter.swagger.io/api/convert';
+};
 
 /**
  * editorTopBar state plugin selectors.
