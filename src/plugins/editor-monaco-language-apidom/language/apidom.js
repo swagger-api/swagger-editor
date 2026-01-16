@@ -45,7 +45,19 @@ export const conf = {
 export const monarchLanguageDef = {
   // set defaultToken to invalid to see what you do not tokenize yet
   defaultToken: 'invalid',
-  keywords: ['swagger', 'info', 'host', 'basePath', 'tags', 'schemes', 'paths', 'externalDocs'],
+  keywords: [
+    'swagger',
+    'info',
+    'host',
+    'basePath',
+    'tags',
+    'schemes',
+    'paths',
+    'externalDocs',
+    'description',
+    'content',
+    'default',
+  ],
   typeKeywords: ['description', 'title', 'termsOfService'],
   escapes: /\\(?:[abfnrtv\\"']|x[0-9A-Fa-f]{1,4}|u[0-9A-Fa-f]{4}|U[0-9A-Fa-f]{8})/,
   // the main tokenizer for our languages
