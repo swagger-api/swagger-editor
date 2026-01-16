@@ -520,11 +520,12 @@ These environment variables will get baked in during build time into build artif
 
 Environment variables currently available:
 
-| Variable name               |                                                Description                                                 |
-|-----------------------------|:----------------------------------------------------------------------------------------------------------:|
-| `REACT_APP_DEFINITION_FILE` | Specifies a local file path, and the specified file must also be present in the `/public/static` directory |
-| `REACT_APP_DEFINITION_URL`  | Specifies a remote URL. This environment variable currently takes precedence over `REACT_APP_SWAGGER_FILE` |
-| `REACT_APP_VERSION`         |              Specifies the version of this app. The version is read from `package.json` file.              |
+| Variable name                        |                                                Description                                                                         |
+|--------------------------------------|:----------------------------------------------------------------------------------------------------------------------------------:|
+| `REACT_APP_DEFINITION_FILE`          | Specifies a local file path, and the specified file must also be present in the `/public/static` directory                         |
+| `REACT_APP_DEFINITION_URL`           | Specifies a remote URL. This environment variable currently takes precedence over `REACT_APP_SWAGGER_FILE`                         |
+| `REACT_APP_SWAGGER2_CONVERTER_URL`   | Endpoint to use for converting OpenAPI 2.x specifications to OpenAPI 3.x. Default is `https://converter.swagger.io/api/convert`.   |
+| `REACT_APP_VERSION`                  | Specifies the version of this app. The version is read from `package.json` file.                                                   |
 
 Sample environment variable values can be found in `.env` file. For more information about using
 environment variables, please refer to [adding Custom Environment Variables](https://create-react-app.dev/docs/adding-custom-environment-variables/)
