@@ -157,9 +157,10 @@ export default {
     { token: 'components-pathItems', foreground: '#ceca84', fontStyle: 'bold' },
     { token: 'components-path-items', foreground: '#ceca84', fontStyle: 'bold' },
     // plain value: green
-    { token: 'value', foreground: '#98C379' },
-    { token: 'value.string', foreground: '#98C379' },
-    { token: 'value.number', foreground: '#98C379' },
+    { token: 'value', foreground: '#EAEBEB' },
+    { token: 'value.string', foreground: '#A6E0FE' },
+    { token: 'value.number', foreground: '#B18AFF' },
+    { token: 'value.boolean', foreground: '#47AA4A' },
     // plain key: pinkish-orange, which appears light orange
     { token: 'key.string', foreground: '#e8b9bb' },
     { token: 'key.number', foreground: '#e8b9bb' },
@@ -192,6 +193,8 @@ export default {
     { token: 'reference', foreground: '#ff9966' },
     { token: 'asyncapi-reference', foreground: '#ff9966' },
     { token: 'json-reference', foreground: '#ff9966' },
+    // keywords
+    { token: 'keyword', foreground: '#CB973C' },
   ],
   colors: {
     'editor.background': '#282c34',

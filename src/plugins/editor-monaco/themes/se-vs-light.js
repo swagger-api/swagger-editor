@@ -157,10 +157,10 @@ export default {
     { token: 'components-pathItems', foreground: '#666633', fontStyle: 'bold' },
     { token: 'components-path-items', foreground: '#666633', fontStyle: 'bold' },
     // plain value: green
-    { token: 'value', foreground: '#339933' },
-    { token: 'value.string', foreground: '#339933' },
-    { token: 'value.number', foreground: '#339933' },
-    // plain key: pumpkin
+    { token: 'value', foreground: '#434B4F' },
+    { token: 'value.string', foreground: '#0077C4' },
+    { token: 'value.number', foreground: '#803EC2' },
+    { token: 'value.boolean', foreground: '#177E1B' },
     { token: 'key.string', foreground: '#cc6600' },
     { token: 'key.number', foreground: '#cc6600' },
     // misc token key/value pair: sky blue
@@ -192,6 +192,8 @@ export default {
     { token: 'reference', foreground: '#ff9966' },
     { token: 'asyncapi-reference', foreground: '#ff9966' },
     { token: 'json-reference', foreground: '#ff9966' },
+    // keywords
+    { token: 'keyword', foreground: '#9A6200' },
   ],
   colors: {
     'editor.background': '#F9F9F9',

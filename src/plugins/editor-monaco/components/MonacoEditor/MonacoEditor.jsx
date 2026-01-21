@@ -60,7 +60,7 @@ const MonacoEditor = ({
       quickSuggestions: true,
       quickSuggestionsDelay: 300,
       fixedOverflowWidgets: true,
-      'bracketPairColorization.enabled': true,
+      'bracketPairColorization.enabled': false,
       suggest: {
         snippetsPreventQuickSuggestions: false,
       },
