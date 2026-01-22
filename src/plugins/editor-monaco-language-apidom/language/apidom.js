@@ -50,29 +50,22 @@ export const monarchLanguageDefJSON = {
   tokenizer: {
     root: [
       // single-quoted keywords
-      [/^\s*'([^']*)'(?=:)/, 'keyword'],
+      [
+        /^(\s*')([^']*)(')(\s*:)(?=\s*\S)/,
+        ['keyword', 'keyword', 'keyword', { token: 'value', next: '@values' }],
+      ],
+      [/^(\s*')([^']*)(')(\s*:\s*)$/, ['keyword', 'keyword', 'keyword', 'value']],
 
       // double-quoted keywords
-      [/^\s*"([^"]*)"(?=:)/, 'keyword'],
+      [
+        /^(\s*")([^"]*)(")(\s*:)(?=\s*\S)/,
+        ['keyword', 'keyword', 'keyword', { token: 'value', next: '@values' }],
+      ],
+      [/^(\s*")([^"]*)(")(\s*:\s*)$/, ['keyword', 'keyword', 'keyword', 'value']],
 
       // nested keywords
       [/^\s{1,}/, '', '@nestedKeywords'],
 
-      // numbers
-      [/(:)( )([0-9]+)(\s*,?)$/, ['value', '', 'value.number', 'value']],
-      [/(:)( )([0-9]+\.[0-9]+)\s*(\s*,?)$/, ['value', '', 'value.number', 'value']],
-
-      // booleans
-      [/(:)( )(true|false)(\s*,?)$/, ['value', '', 'value.boolean', 'value']],
-
-      // unquoted values - catch-all
-      [/(:)( )([^\n'"]+)\s*$/, ['value', '', 'value']],
-
-      // quoted values
-      [/(:)( )(")/, ['value', '', { token: 'value.string', next: '@stringDoubleQuoted' }]],
-      [/(:)( )(')/, ['value', '', { token: 'value.string', next: '@stringSingleQuoted' }]],
-
-      [/:/, 'value'],
       [/,/, 'value'],
 
       // whitespace
@@ -87,20 +80,43 @@ export const monarchLanguageDefJSON = {
       [/[()\[\]{}]/, 'value'],
     ],
 
+    values: [
+      // numbers
+      [/(\s*)([0-9]+)(\s*,?\s*)$/, ['value', 'value.number', 'value']],
+      [/(\s*)([0-9]+\.[0-9]+)(\s*,?\s*)$/, ['value', 'value.number', 'value']],
+
+      // booleans
+      [/(\s*)(true|false)(\s*,?\s*)$/, ['value', 'value.boolean', 'value']],
+
+      // pop state when getting to a new line
+      [/^/, '', '@pop'],
+
+      // quoted values
+      [/\s*"/, { token: 'value.string', next: '@stringDoubleQuoted' }],
+      [/\s*'/, { token: 'value.string', next: '@stringSingleQuoted' }],
+
+      // unquoted values - catch-all
+      [/[^\n]+$/, 'value'],
+
+      // pop state when getting to a new line
+      [/^/, '', '@pop'],
+
+      [/:/, 'value', '@pop'],
+
+      [/.+$/, '', '@pop'],
+      [/.*$/, '', '@pop'],
+    ],
+
     whitespace: [[/[ \t\r\n]+/, '']],
 
     stringDoubleQuoted: [
-      [/x-[^:\s]+/, 'value.string'],
-      [/[a-zA-Z_$][\w$]*/, 'value.string'],
       [/[^\\"]+/, 'value.string'],
-      [(/@escapes/, 'string.escape')],
+      [/@escapes/, 'string.escape'],
       [/\\./, 'string.escape.invalid'],
       [/"/, 'value.string', '@pop'],
     ],
 
     stringSingleQuoted: [
-      [/x-[^:\s]+/, 'value.string'],
-      [/[a-zA-Z_$][\w$]*/, 'value.string'],
       [/[^\\']+/, 'value.string'],
       [(/@escapes/, 'string.escape')],
       [/\\./, 'string.escape.invalid'],
@@ -109,14 +125,24 @@ export const monarchLanguageDefJSON = {
 
     nestedKeywords: [
       // single-quoted keywords
-      [/^\s*'([^']*)'(?=: )/, 'keyword'],
+      [
+        /^(\s*')([^']*)(')(: )/,
+        ['keyword', 'keyword', 'keyword', { token: 'value', next: '@values' }],
+        '@pop',
+      ],
+      [/^(\s*')([^']*)(')(:)$/, ['keyword', 'keyword', 'keyword', 'value']],
 
       // double-quoted keywords
-      [/^\s*"([^"]*)"(?=: )/, 'keyword'],
+      [
+        /^(\s*")([^"]*)(")(: )/,
+        ['keyword', 'keyword', 'keyword', { token: 'value', next: '@values' }],
+        '@pop',
+      ],
+      [/^(\s*")([^"]*)(")(:)$/, ['keyword', 'keyword', 'keyword', 'value']],
 
       // numbers
       [/([0-9]+)(\s*,?)$/, ['value.number', 'value'], '@pop'],
-      [/([0-9]+\.[0-9]+)\s*(\s*,?)$/, ['value.number', 'value'], '@pop'],
+      [/([0-9]+\.[0-9]+)(\s*,?)$/, ['value.number', 'value'], '@pop'],
 
       // booleans
       [/(true|false)(\s*,?)$/, ['value.boolean', 'value'], '@pop'],
