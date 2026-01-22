@@ -6,6 +6,8 @@ import { detectionRegExp as detectionRegExpOpenAPIJSON30x } from '@swagger-api/a
 import { detectionRegExp as detectionRegExpOpenAPIYAML30x } from '@swagger-api/apidom-parser-adapter-openapi-yaml-3-0';
 import { detectionRegExp as detectionRegExpOpenAPIJSON31x } from '@swagger-api/apidom-parser-adapter-openapi-json-3-1';
 import { detectionRegExp as detectionRegExpOpenAPIYAML31x } from '@swagger-api/apidom-parser-adapter-openapi-yaml-3-1';
+import { detectionRegExp as detectionRegExpOpenAPIJSON32x } from '@swagger-api/apidom-parser-adapter-openapi-json-3-2';
+import { detectionRegExp as detectionRegExpOpenAPIYAML32x } from '@swagger-api/apidom-parser-adapter-openapi-yaml-3-2';
 import {
   detectionRegExp as detectionRegExpApiDesignSystemsJSON,
   detect as detectAPIDesignSystemsJSON,
@@ -150,6 +152,28 @@ export const detectContentType = (content) => async (system) => {
       const { groups } = openApi31xYAMLMatch;
       const version = groups?.version_json ?? groups?.version_yaml;
       const contentType = `application/vnd.oai.openapi+yaml;version=${version}`;
+
+      return editorActions.detectContentTypeSuccess({ contentType, content, requestId });
+    }
+
+    const openApi32xJSONMatch = content.match(detectionRegExpOpenAPIJSON32x);
+
+    if (openApi32xJSONMatch !== null && fn.isValidJSONObject(content)) {
+      const { groups } = openApi32xJSONMatch;
+      const version = groups?.version_json;
+      const contentType = `application/vnd.oai.openapi+json;version=${version}`;
+
+      return editorActions.detectContentTypeSuccess({ contentType, content, requestId });
+    }
+
+    const openApi32xYAMLMatch = content.match(detectionRegExpOpenAPIYAML32x);
+
+    if (openApi32xYAMLMatch !== null && fn.isValidYAMLObject(content)) {
+      const { groups } = openApi32xYAMLMatch;
+      const version = groups?.version_json ?? groups?.version_yaml;
+      const contentType = `application/vnd.oai.openapi+yaml;version=${version}`;
+
+      console.log('openApi32xYAMLMatch', { contentType, content, requestId });
 
       return editorActions.detectContentTypeSuccess({ contentType, content, requestId });
     }
