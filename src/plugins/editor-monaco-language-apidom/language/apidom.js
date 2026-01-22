@@ -143,20 +143,29 @@ export const monarchLanguageDefYAML = {
   // the main tokenizer for our languages
   tokenizer: {
     root: [
+      [/^#.*$/, 'value'],
+
       // specification extensions
-      [/x-[^:\s]+(?=:)/, 'keyword'],
+      [/^(x-[^:\s]+)(: )/, ['keyword', { token: 'value', next: '@values' }]],
+      [/^(x-[^:\s]+)(:)$/, ['keyword', 'value']],
 
       // keywords
-      [/^[a-zA-Z_$][\w$]*/, 'keyword'],
+      [/^([a-zA-Z_$][\w$]*)(: )/, ['keyword', { token: 'value', next: '@values' }]],
+      [/^([a-zA-Z_$][\w$]*)(:)$/, ['keyword', 'value']],
 
       // single-quoted keywords
-      [/^\s*'([^']*)'(?=:)/, 'keyword'],
+      [
+        /^(\s*')([^']*)(')(: )/,
+        ['keyword', 'keyword', 'keyword', { token: 'value', next: '@values' }],
+      ],
+      [/^(\s*')([^']*)(')(:)$/, ['keyword', 'keyword', 'keyword', 'value']],
 
       // double-quoted keywords
-      [/^\s*"([^"]*)"(?=:)/, 'keyword'],
-
-      // keywords catch-all
-      [/^\s*([^\s:]+)(?=:)/, 'keyword'],
+      [
+        /^(\s*")([^"]*)(")(: )/,
+        ['keyword', 'keyword', 'keyword', { token: 'value', next: '@values' }],
+      ],
+      [/^(\s*")([^"]*)(")(:)$/, ['keyword', 'keyword', 'keyword', 'value']],
 
       // arrays
       [/^\s*-\s/, 'value', '@arrays'],
@@ -164,21 +173,9 @@ export const monarchLanguageDefYAML = {
       // nested keywords
       [/^\s{1,}/, '', '@nestedKeywords'],
 
-      // numbers
-      [/(:)( )([0-9]+)\b$/, ['value', '', 'value.number']],
-      [/(:)( )([0-9]+\.[0-9]+)\s*$/, ['value', '', 'value.number']],
-
-      // booleans
-      [/(:)( )(true|false)\b$/, ['value', '', 'value.boolean']],
-
-      // unquoted values - catch-all
-      [/(:)( )([^\n'"]+)\s*$/, ['value', '', 'value']],
-
-      // quoted values
-      [/(:)( )(")/, ['value', '', { token: 'value.string', next: '@stringDoubleQuoted' }]],
-      [/(:)( )(')/, ['value', '', { token: 'value.string', next: '@stringSingleQuoted' }]],
-
-      [/:/, 'value'],
+      // keywords catch-all
+      [/^(\s*[^\s]+)(: )/, ['keyword', { token: 'value', next: '@values' }]],
+      [/^(\s*[^\s]+)(:)$/, ['keyword', 'value']],
 
       // whitespace
       { include: '@whitespace' },
@@ -187,6 +184,33 @@ export const monarchLanguageDefYAML = {
       [/"([^"\\]|\\.)*$/, 'string.invalid'], // non-terminated string
       [/"/, 'value.string', '@stringDoubleQuoted'],
       [/'/, 'value.string', '@stringSingleQuoted'],
+    ],
+
+    values: [
+      // numbers
+      [/\s*[0-9]+\s*$/, 'value.number'],
+      [/\s*[0-9]+(\.[0-9]+)?\s*$/, 'value.number'],
+
+      // booleans
+      [/\s*(true|false)\s*$/, 'value.boolean'],
+
+      // pop state when getting to a new line
+      [/^/, '', '@pop'],
+
+      // quoted values
+      [/\s*"/, { token: 'value.string', next: '@stringDoubleQuoted' }],
+      [/\s*'/, { token: 'value.string', next: '@stringSingleQuoted' }],
+
+      // unquoted values - catch-all
+      [/[^\n]+$/, 'value'],
+
+      // pop state when getting to a new line
+      [/^/, '', '@pop'],
+
+      [/:/, 'value', '@pop'],
+
+      [/.+$/, '', '@pop'],
+      [/.*$/, '', '@pop'],
     ],
 
     whitespace: [[/[ \t\r\n]+/, '']],
@@ -211,75 +235,81 @@ export const monarchLanguageDefYAML = {
 
     nestedKeywords: [
       // specification extensions
-      [/(x-[^:\s]+)(?=: )/, 'keyword'],
+      [/(x-[^:\s]+)(: )/, ['keyword', { token: 'value', next: '@values' }]],
+      [/(x-[^:\s]+)(:)$/, ['keyword', 'value']],
 
       // keywords
-      [/([a-zA-Z_$][\w$]*)\s*(?=: )/, 'keyword'],
+      [/([a-zA-Z_$][\w$]*)(: )/, ['keyword', { token: 'value', next: '@values' }]],
+      [/([a-zA-Z_$][\w$]*)(:)$/, ['keyword', 'value']],
 
       // single-quoted keywords
-      [/^\s*'([^']*)'(?=: )/, 'keyword'],
+      [
+        /(\s*')([^']*)(')(: )/,
+        ['keyword', 'keyword', 'keyword', { token: 'value', next: '@values' }],
+      ],
+      [/(\s*')([^']*)(')(:)$/, ['keyword', 'keyword', 'keyword', 'value']],
 
       // double-quoted keywords
-      [/^\s*"([^"]*)"(?=: )/, 'keyword'],
+      [
+        /(\s*")([^"]*)(")(: )/,
+        ['keyword', 'keyword', 'keyword', { token: 'value', next: '@values' }],
+      ],
+      [/(\s*")([^"]*)(")(:)$/, ['keyword', 'keyword', 'keyword', 'value']],
 
-      // numbers
-      [/(:)( )([0-9]+)\b$/, ['value', '', 'value.number'], '@pop'],
-      [/(:)( )([0-9]+\.[0-9]+)\s*\b$/, ['value', '', 'value.number'], '@pop'],
-
-      // booleans
-      [/(:)( )(true|false)\b$/, ['value', '', 'value.boolean'], '@pop'],
-
-      // unquoted values - catch-all
-      [/(:)( )([^\n'"]+)\s*$/, ['value', '', 'value'], '@pop'],
-
-      // quoted values
-      [/"/, 'value.string', '@stringDoubleQuoted'],
-      [/'/, 'value.string', '@stringSingleQuoted'],
+      // keywords catch-all
+      [/(\s*[^\s]+)(: )/, ['keyword', { token: 'value', next: '@values' }]],
+      [/(\s*[^\s]+)(:)$/, ['keyword', 'value']],
 
       // pop state when getting to a new line
       [/^/, '', '@pop'],
-
-      [/:/, 'value', '@pop'],
-
       [/.+$/, 'value', '@pop'],
     ],
 
     arrays: [
-      /**
-       * TODO: handle cases where element of an array is a string with colon, e.g. - write:pets
-       * currently `write:` will be tokenized as keyword, which is not correct
-       * note that we still need to handle objects in arrays,
-       * so we cannot change (?=:) to (?=: ), e.g.
-       * - some_keyword:
-       *    another_keyword: value
-       */
-
       // specification extensions
-      [/x-[^:\s]+(?=:)/, 'keyword'],
+      [/(x-[^:\s]+)(: )/, ['keyword', { token: 'value', next: '@values' }]],
+      [/(x-[^:\s]+)(:)$/, ['keyword', 'value']],
 
       // keywords
-      [/([a-zA-Z_$][\w$]*)\s*(?=:)/, 'keyword'],
+      [/([a-zA-Z_$][\w$]*)(: )/, ['keyword', { token: 'value', next: '@values' }]],
+      [/([a-zA-Z_$][\w$]*)(:)$/, ['keyword', 'value']],
+
+      // single-quoted keywords
+      [
+        /(\s*')([^']*)(')(: )/,
+        ['keyword', 'keyword', 'keyword', { token: 'value', next: '@values' }],
+      ],
+      [/(\s*')([^']*)(')(:)$/, ['keyword', 'keyword', 'keyword', 'value']],
+
+      // double-quoted keywords
+      [
+        /(\s*")([^"]*)(")(: )/,
+        ['keyword', 'keyword', 'keyword', { token: 'value', next: '@values' }],
+      ],
+      [/(\s*")([^"]*)(")(:)$/, ['keyword', 'keyword', 'keyword', 'value']],
+
+      // keywords catch-all
+      [/(\s*[^\s]+)(: )/, ['keyword', { token: 'value', next: '@values' }]],
+      [/(\s*[^\s]+)(:)$/, ['keyword', 'value']],
+
+      [/^/, '', '@pop'],
 
       // numbers
-      [/(:)( )([0-9]+)\b$/, ['value', '', 'value.number']],
-      [/(:)( )([0-9]+\.[0-9]+)\s*\b$/, ['value', '', 'value.number']],
-      [/([0-9]+)\b$/, 'value.number'],
-      [/([0-9]+\.[0-9]+)\s*\b$/, 'value.number'],
+      [/\s*([0-9]+)\s*$/, 'value.number'],
+      [/\s*([0-9]+\.[0-9]+)\s*$/, 'value.number'],
 
       // booleans
-      [/(:)( )(true|false)\b$/, ['value', '', 'value.boolean']],
-      [/(true|false)\b$/, 'value.boolean'],
+      [/\s*(true|false)\s*$/, 'value.boolean'],
 
       // pop state when getting to a new line
       [/^/, '', '@pop'],
 
       // unquoted values - catch-all
-      [/(:)( )([^\n'"]+)\s*\b$/, ['value', '', 'value']],
       [/([^\n'"]+)\s*$/, 'value'],
 
       // quoted values
-      [/"/, 'value.string', '@stringDoubleQuoted'],
-      [/'/, 'value.string', '@stringSingleQuoted'],
+      [/\s*"/, 'value.string', '@stringDoubleQuoted'],
+      [/\s*'/, 'value.string', '@stringSingleQuoted'],
 
       // pop state when getting to a new line
       [/^/, '', '@pop'],
