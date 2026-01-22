@@ -242,17 +242,13 @@ export const monarchLanguageDefYAML = {
     whitespace: [[/[ \t\r\n]+/, '']],
 
     stringDoubleQuoted: [
-      [/x-[^:\s]+/, 'value.string'],
-      [/[a-zA-Z_$][\w$]*/, 'value.string'],
       [/[^\\"]+/, 'value.string'],
-      [(/@escapes/, 'string.escape')],
+      [/@escapes/, 'string.escape'],
       [/\\./, 'string.escape.invalid'],
       [/"/, 'value.string', '@pop'],
     ],
 
     stringSingleQuoted: [
-      [/x-[^:\s]+/, 'value.string'],
-      [/[a-zA-Z_$][\w$]*/, 'value.string'],
       [/[^\\']+/, 'value.string'],
       [(/@escapes/, 'string.escape')],
       [/\\./, 'string.escape.invalid'],
