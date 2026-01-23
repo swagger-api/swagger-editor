@@ -6,8 +6,7 @@ import {
   getJsonPointerPositionFailure,
 } from './actions/get-json-pointer-position.js';
 import { getWorker } from './language/monaco.contribution.js';
-import { monarchLanguageDefYAML, monarchLanguageDefJSON, languageId } from './language/apidom.js';
-import { detectContentTypeSuccess as detectContentTypeSuccessWrap } from './wrap-actions.js';
+import { monarchLanguageDef, languageId } from './language/apidom.js';
 
 const EditorMonacoLanguageApiDOMPlugin = (opts = {}) => {
   const isCalledWithGetSystem = typeof opts.getSystem === 'function';
@@ -15,8 +14,7 @@ const EditorMonacoLanguageApiDOMPlugin = (opts = {}) => {
   const plugin = () => ({
     afterLoad: makeAfterLoad(options),
     rootInjects: {
-      apiDOMMonarchLanguageDefYAML: monarchLanguageDefYAML,
-      apiDOMMonarchLanguageDefJSON: monarchLanguageDefJSON,
+      apiDOMMonarchLanguageDef: monarchLanguageDef,
       apiDOMLanguageId: languageId,
     },
     fn: {
@@ -29,9 +27,6 @@ const EditorMonacoLanguageApiDOMPlugin = (opts = {}) => {
           getJsonPointerPositionStarted,
           getJsonPointerPositionSuccess,
           getJsonPointerPositionFailure,
-        },
-        wrapActions: {
-          detectContentTypeSuccess: detectContentTypeSuccessWrap,
         },
       },
     },

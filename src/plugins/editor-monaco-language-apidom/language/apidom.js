@@ -42,292 +42,94 @@ export const conf = {
   ],
 };
 
-export const monarchLanguageDefJSON = {
+export const monarchLanguageDef = {
   // set defaultToken to invalid to see what you do not tokenize yet
   defaultToken: 'invalid',
   escapes: /\\(?:[abfnrtv\\"']|x[0-9A-Fa-f]{1,4}|u[0-9A-Fa-f]{4}|U[0-9A-Fa-f]{8})/,
   // the main tokenizer for our languages
   tokenizer: {
     root: [
-      // single-quoted keywords
-      [
-        /^(\s*')([^']*)(')(\s*:)(?=\s*\S)/,
-        ['keyword', 'keyword', 'keyword', { token: 'value', next: '@values' }],
-      ],
-      [/^(\s*')([^']*)(')(\s*:\s*)$/, ['keyword', 'keyword', 'keyword', 'value']],
-
-      // double-quoted keywords
-      [
-        /^(\s*")([^"]*)(")(\s*:)(?=\s*\S)/,
-        ['keyword', 'keyword', 'keyword', { token: 'value', next: '@values' }],
-      ],
-      [/^(\s*")([^"]*)(")(\s*:\s*)$/, ['keyword', 'keyword', 'keyword', 'value']],
-
-      // nested keywords
-      [/^\s{1,}/, '', '@nestedKeywords'],
-
-      [/,/, 'value'],
-
-      // whitespace
-      { include: '@whitespace' },
-
-      // strings for todos
-      [/"([^"\\]|\\.)*$/, 'string.invalid'], // non-terminated string
-      [/"/, 'value.string', '@stringDoubleQuoted'],
-      [/'/, 'value.string', '@stringSingleQuoted'],
-      // brackets
-      // eslint-disable-next-line no-useless-escape
-      [/[()\[\]{}]/, 'value'],
-    ],
-
-    values: [
-      // objects
-      [/\s*{/, { token: 'value', next: '@objects' }],
-      // arrays
-      [/\s*\[/, { token: 'value', next: '@jsonArrays' }],
-
-      // numbers
-      [/(\s*)([0-9]+)(\s*,?\s*)$/, ['value', 'value.number', 'value']],
-      [/(\s*)([0-9]+\.[0-9]+)(\s*,?\s*)$/, ['value', 'value.number', 'value']],
-
-      // booleans
-      [/(\s*)(true|false)(\s*,?\s*)$/, ['value', 'value.boolean', 'value']],
-
-      // pop state when getting to a new line
-      [/^/, '', '@pop'],
-
-      // quoted values
-      [/\s*"/, { token: 'value.string', next: '@stringDoubleQuoted' }],
-      [/\s*'/, { token: 'value.string', next: '@stringSingleQuoted' }],
-
-      // unquoted values - catch-all
-      [/[^\n]+$/, 'value'],
-
-      // pop state when getting to a new line
-      [/^/, '', '@pop'],
-
-      [/:/, 'value', '@pop'],
-
-      [/.+$/, '', '@pop'],
-      [/.*$/, '', '@pop'],
-    ],
-
-    whitespace: [[/[ \t\r\n]+/, '']],
-
-    stringDoubleQuoted: [
-      [/[^\\"]+/, 'value.string'],
-      [/@escapes/, 'string.escape'],
-      [/\\./, 'string.escape.invalid'],
-      [/"/, 'value.string', '@pop'],
-    ],
-
-    stringSingleQuoted: [
-      [/[^\\']+/, 'value.string'],
-      [(/@escapes/, 'string.escape')],
-      [/\\./, 'string.escape.invalid'],
-      [/'/, 'value.string', '@pop'],
-    ],
-
-    nestedKeywords: [
-      // single-quoted keywords
-      [
-        /^(\s*')([^']*)(')(: )/,
-        ['keyword', 'keyword', 'keyword', { token: 'value', next: '@values' }],
-        '@pop',
-      ],
-      [/^(\s*')([^']*)(')(:)$/, ['keyword', 'keyword', 'keyword', 'value']],
-
-      // double-quoted keywords
-      [
-        /^(\s*")([^"]*)(")(: )/,
-        ['keyword', 'keyword', 'keyword', { token: 'value', next: '@values' }],
-        '@pop',
-      ],
-      [/^(\s*")([^"]*)(")(:)$/, ['keyword', 'keyword', 'keyword', 'value']],
-
-      // numbers
-      [/([0-9]+)(\s*,?)$/, ['value.number', 'value'], '@pop'],
-      [/([0-9]+\.[0-9]+)(\s*,?)$/, ['value.number', 'value'], '@pop'],
-
-      // booleans
-      [/(true|false)(\s*,?)$/, ['value.boolean', 'value'], '@pop'],
-
-      // quoted values
-      [/"/, 'value.string', '@stringDoubleQuoted'],
-      [/'/, 'value.string', '@stringSingleQuoted'],
-
-      // pop state when getting to a new line
-      [/^/, '', '@pop'],
-
-      // invalid or value ?
-      [/:/, 'value', '@pop'],
-
-      [/.+$/, 'value', '@pop'],
-    ],
-
-    objectValues: [
-      // objects
-      [/\s*{/, { token: 'value', next: '@objects' }],
-      // arrays
-      [/\s*\[/, { token: 'value', next: '@jsonArrays' }],
-
-      // numbers
-      [
-        /(\s*)([0-9]+\.[0-9]+)(\s*,?\s*)/,
-        ['value', 'value.number', { token: 'value', next: '@pop' }],
-      ],
-      [/(\s*)([0-9]+)(\s*,?\s*)/, ['value', 'value.number', { token: 'value', next: '@pop' }]],
-
-      // booleans
-      [/(\s*)(true|false)(\s*,?\s*)/, ['value', 'value.boolean', { token: 'value', next: '@pop' }]],
-
-      // quoted values
-      [/\s*"/, { token: 'value.string', next: '@stringDoubleQuoted' }],
-      [/\s*'/, { token: 'value.string', next: '@stringSingleQuoted' }],
-
-      // unquoted values - catch-all
-      [/[^,}\n]+/, 'value'],
-
-      [/,/, 'value', '@pop'],
-
-      [/(?=})/, 'value', '@pop'],
-    ],
-
-    objects: [
-      // single-quoted keywords
-      [
-        /(\s*')([^']*)(')(\s*:)(?=\s*\S)/,
-        ['keyword', 'keyword', 'keyword', { token: 'value', next: '@objectValues' }],
-      ],
-      [
-        /(\s*')([^']*)(')(\s*:\s*)$/,
-        ['keyword', 'keyword', 'keyword', { token: 'value', next: '@objectValues' }],
-      ],
-
-      // double-quoted keywords
-      [
-        /(\s*")([^"]*)(")(\s*:)(?=\s*\S)/,
-        ['keyword', 'keyword', 'keyword', { token: 'value', next: '@objectValues' }],
-      ],
-      [
-        /(\s*")([^"]*)(")(\s*:\s*)$/,
-        ['keyword', 'keyword', 'keyword', { token: 'value', next: '@objectValues' }],
-      ],
+      [/^#.*$/, 'plain.value'],
 
       // objects
-      [/\s*{/, { token: 'value', next: '@objects' }],
-      // arrays
-      [/\s*\[/, { token: 'value', next: '@jsonArrays' }],
-
-      // unquoted values - catch-all
-      [/[^,}\n]+/, 'value'],
-
-      [/,/, 'value'],
-
-      [/}/, 'value', '@pop'],
-    ],
-
-    // JSON arrays
-    jsonArrays: [
-      [/\s*{/, { token: 'value', next: '@objects' }],
-      [/\s*\[/, { token: 'value', next: '@jsonArrays' }],
-
-      // numbers
-      [/(\s*)([0-9]+)(\s*,?\s*)/, ['value', 'value.number', 'value']],
-      [/(\s*)([0-9]+\.[0-9]+)(\s*,?\s*)/, ['value', 'value.number', 'value']],
-
-      // booleans
-      [/(\s*)(true|false)(\s*,?\s*)/, ['value', 'value.boolean', 'value']],
-
-      // quoted values
-      [/\s*"/, { token: 'value.string', next: '@stringDoubleQuoted' }],
-      [/\s*'/, { token: 'value.string', next: '@stringSingleQuoted' }],
-
-      // unquoted values - catch-all
-      [/[^,\]\n]+/, 'value'],
-
-      [/,/, 'value'],
-
-      [/\]/, 'value', '@pop'],
-    ],
-  },
-};
-
-export const monarchLanguageDefYAML = {
-  // set defaultToken to invalid to see what you do not tokenize yet
-  defaultToken: 'invalid',
-  escapes: /\\(?:[abfnrtv\\"']|x[0-9A-Fa-f]{1,4}|u[0-9A-Fa-f]{4}|U[0-9A-Fa-f]{8})/,
-  // the main tokenizer for our languages
-  tokenizer: {
-    root: [
-      [/^#.*$/, 'value'],
+      [/\s*{/, { token: 'plain.value', next: '@objects' }],
 
       // specification extensions
-      [/^(x-[^:\s]+)(: )/, ['keyword', { token: 'value', next: '@values' }]],
-      [/^(x-[^:\s]+)(:)$/, ['keyword', 'value']],
+      [/^(x-[^:\s]+)(: )/, ['plain.keyword', { token: 'plain.value', next: '@values' }]],
+      [/^(x-[^:\s]+)(:)$/, ['plain.keyword', 'plain.value']],
 
       // keywords
-      [/^([a-zA-Z_$][\w$]*)(: )/, ['keyword', { token: 'value', next: '@values' }]],
-      [/^([a-zA-Z_$][\w$]*)(:)$/, ['keyword', 'value']],
+      [/^([a-zA-Z_$][\w$]*)(: )/, ['plain.keyword', { token: 'plain.value', next: '@values' }]],
+      [/^([a-zA-Z_$][\w$]*)(:)$/, ['plain.keyword', 'plain.value']],
 
       // single-quoted keywords
       [
         /^(\s*')([^']*)(')(: )/,
-        ['keyword', 'keyword', 'keyword', { token: 'value', next: '@values' }],
+        [
+          'plain.keyword',
+          'plain.keyword',
+          'plain.keyword',
+          { token: 'plain.value', next: '@values' },
+        ],
       ],
-      [/^(\s*')([^']*)(')(:)$/, ['keyword', 'keyword', 'keyword', 'value']],
+      [/^(\s*')([^']*)(')(:)$/, ['plain.keyword', 'plain.keyword', 'plain.keyword', 'plain.value']],
 
       // double-quoted keywords
       [
         /^(\s*")([^"]*)(")(: )/,
-        ['keyword', 'keyword', 'keyword', { token: 'value', next: '@values' }],
+        [
+          'plain.keyword',
+          'plain.keyword',
+          'plain.keyword',
+          { token: 'plain.value', next: '@values' },
+        ],
       ],
-      [/^(\s*")([^"]*)(")(:)$/, ['keyword', 'keyword', 'keyword', 'value']],
+      [/^(\s*")([^"]*)(")(:)$/, ['plain.keyword', 'plain.keyword', 'plain.keyword', 'plain.value']],
 
       // arrays
-      [/^\s*-\s/, 'value', '@arrays'],
+      [/^\s*-\s/, 'plain.value', '@arrays'],
 
       // nested keywords
       [/^\s{1,}/, '', '@nestedKeywords'],
 
       // keywords catch-all
-      [/^(\s*[^\s]+)(: )/, ['keyword', { token: 'value', next: '@values' }]],
-      [/^(\s*[^\s]+)(:)$/, ['keyword', 'value']],
+      [/^(\s*[^\s]+)(: )/, ['plain.keyword', { token: 'plain.value', next: '@values' }]],
+      [/^(\s*[^\s]+)(:)$/, ['plain.keyword', 'plain.value']],
 
       // whitespace
       { include: '@whitespace' },
 
       // strings for todos
       [/"([^"\\]|\\.)*$/, 'string.invalid'], // non-terminated string
-      [/"/, 'value.string', '@stringDoubleQuoted'],
-      [/'/, 'value.string', '@stringSingleQuoted'],
+      [/"/, 'plain.value.string', '@stringDoubleQuoted'],
+      [/'/, 'plain.value.string', '@stringSingleQuoted'],
     ],
 
     values: [
-      [/\s*{/, { token: 'value', next: '@objects' }],
-      [/\s*\[/, { token: 'value', next: '@jsonArrays' }],
+      [/\s*{/, { token: 'plain.value', next: '@objects' }],
+      [/\s*\[/, { token: 'plain.value', next: '@jsonArrays' }],
 
       // numbers
-      [/\s*[0-9]+\s*$/, 'value.number'],
-      [/\s*[0-9]+(\.[0-9]+)?\s*$/, 'value.number'],
+      [/\s*[0-9]+\s*$/, 'plain.value.number'],
+      [/\s*[0-9]+(\.[0-9]+)?\s*$/, 'plain.value.number'],
 
       // booleans
-      [/\s*(true|false)\s*$/, 'value.boolean'],
+      [/\s*(true|false)\s*$/, 'plain.value.boolean'],
 
       // pop state when getting to a new line
       [/^/, '', '@pop'],
 
       // quoted values
-      [/\s*"/, { token: 'value.string', next: '@stringDoubleQuoted' }],
-      [/\s*'/, { token: 'value.string', next: '@stringSingleQuoted' }],
+      [/\s*"/, { token: 'plain.value.string', next: '@stringDoubleQuoted' }],
+      [/\s*'/, { token: 'plain.value.string', next: '@stringSingleQuoted' }],
 
       // unquoted values - catch-all
-      [/[^\n]+$/, 'value'],
+      [/[^\n]+$/, 'plain.value'],
 
       // pop state when getting to a new line
       [/^/, '', '@pop'],
 
-      [/:/, 'value', '@pop'],
+      [/:/, 'plain.value', '@pop'],
 
       [/.+$/, '', '@pop'],
       [/.*$/, '', '@pop'],
@@ -336,101 +138,121 @@ export const monarchLanguageDefYAML = {
     whitespace: [[/[ \t\r\n]+/, '']],
 
     stringDoubleQuoted: [
-      [/[^\\"]+/, 'value.string'],
+      [/[^\\"]+/, 'plain.value.string'],
       [/@escapes/, 'string.escape'],
       [/\\./, 'string.escape.invalid'],
-      [/"/, 'value.string', '@pop'],
+      [/"/, 'plain.value.string', '@pop'],
     ],
 
     stringSingleQuoted: [
-      [/[^\\']+/, 'value.string'],
+      [/[^\\']+/, 'plain.value.string'],
       [(/@escapes/, 'string.escape')],
       [/\\./, 'string.escape.invalid'],
-      [/'/, 'value.string', '@pop'],
+      [/'/, 'plain.value.string', '@pop'],
     ],
 
     nestedKeywords: [
       // specification extensions
-      [/(x-[^:\s]+)(: )/, ['keyword', { token: 'value', next: '@values' }]],
-      [/(x-[^:\s]+)(:)$/, ['keyword', 'value']],
+      [/(x-[^:\s]+)(: )/, ['plain.keyword', { token: 'plain.value', next: '@values' }]],
+      [/(x-[^:\s]+)(:)$/, ['plain.keyword', 'plain.value']],
 
       // keywords
-      [/([a-zA-Z_$][\w$]*)(: )/, ['keyword', { token: 'value', next: '@values' }]],
-      [/([a-zA-Z_$][\w$]*)(:)$/, ['keyword', 'value']],
+      [/([a-zA-Z_$][\w$]*)(: )/, ['plain.keyword', { token: 'plain.value', next: '@values' }]],
+      [/([a-zA-Z_$][\w$]*)(:)$/, ['plain.keyword', 'plain.value']],
 
       // single-quoted keywords
       [
         /(\s*')([^']*)(')(: )/,
-        ['keyword', 'keyword', 'keyword', { token: 'value', next: '@values' }],
+        [
+          'plain.keyword',
+          'plain.keyword',
+          'plain.keyword',
+          { token: 'plain.value', next: '@values' },
+        ],
       ],
-      [/(\s*')([^']*)(')(:)$/, ['keyword', 'keyword', 'keyword', 'value']],
+      [/(\s*')([^']*)(')(:)$/, ['plain.keyword', 'plain.keyword', 'plain.keyword', 'plain.value']],
 
       // double-quoted keywords
       [
         /(\s*")([^"]*)(")(: )/,
-        ['keyword', 'keyword', 'keyword', { token: 'value', next: '@values' }],
+        [
+          'plain.keyword',
+          'plain.keyword',
+          'plain.keyword',
+          { token: 'plain.value', next: '@values' },
+        ],
       ],
-      [/(\s*")([^"]*)(")(:)$/, ['keyword', 'keyword', 'keyword', 'value']],
+      [/(\s*")([^"]*)(")(:)$/, ['plain.keyword', 'plain.keyword', 'plain.keyword', 'plain.value']],
 
       // keywords catch-all
-      [/(\s*[^\s]+)(: )/, ['keyword', { token: 'value', next: '@values' }]],
-      [/(\s*[^\s]+)(:)$/, ['keyword', 'value']],
+      [/(\s*[^\s]+)(: )/, ['plain.keyword', { token: 'plain.value', next: '@values' }]],
+      [/(\s*[^\s]+)(:)$/, ['plain.keyword', 'plain.value']],
 
       // pop state when getting to a new line
       [/^/, '', '@pop'],
-      [/.+$/, 'value', '@pop'],
+      [/.+$/, 'plain.value', '@pop'],
     ],
 
     arrays: [
       // specification extensions
-      [/(x-[^:\s]+)(: )/, ['keyword', { token: 'value', next: '@values' }]],
-      [/(x-[^:\s]+)(:)$/, ['keyword', 'value']],
+      [/(x-[^:\s]+)(: )/, ['plain.keyword', { token: 'plain.value', next: '@values' }]],
+      [/(x-[^:\s]+)(:)$/, ['plain.keyword', 'plain.value']],
 
       // keywords
-      [/([a-zA-Z_$][\w$]*)(: )/, ['keyword', { token: 'value', next: '@values' }]],
-      [/([a-zA-Z_$][\w$]*)(:)$/, ['keyword', 'value']],
+      [/([a-zA-Z_$][\w$]*)(: )/, ['plain.keyword', { token: 'plain.value', next: '@values' }]],
+      [/([a-zA-Z_$][\w$]*)(:)$/, ['plain.keyword', 'plain.value']],
 
       // single-quoted keywords
       [
         /(\s*')([^']*)(')(: )/,
-        ['keyword', 'keyword', 'keyword', { token: 'value', next: '@values' }],
+        [
+          'plain.keyword',
+          'plain.keyword',
+          'plain.keyword',
+          { token: 'plain.value', next: '@values' },
+        ],
       ],
-      [/(\s*')([^']*)(')(:)$/, ['keyword', 'keyword', 'keyword', 'value']],
+      [/(\s*')([^']*)(')(:)$/, ['plain.keyword', 'plain.keyword', 'plain.keyword', 'plain.value']],
 
       // double-quoted keywords
       [
         /(\s*")([^"]*)(")(: )/,
-        ['keyword', 'keyword', 'keyword', { token: 'value', next: '@values' }],
+        [
+          'plain.keyword',
+          'plain.keyword',
+          'plain.keyword',
+          { token: 'plain.value', next: '@values' },
+        ],
       ],
-      [/(\s*")([^"]*)(")(:)$/, ['keyword', 'keyword', 'keyword', 'value']],
+      [/(\s*")([^"]*)(")(:)$/, ['plain.keyword', 'plain.keyword', 'plain.keyword', 'plain.value']],
 
       // keywords catch-all
-      [/(\s*[^\s]+)(: )/, ['keyword', { token: 'value', next: '@values' }]],
-      [/(\s*[^\s]+)(:)$/, ['keyword', 'value']],
+      [/(\s*[^\s]+)(: )/, ['plain.keyword', { token: 'plain.value', next: '@values' }]],
+      [/(\s*[^\s]+)(:)$/, ['plain.keyword', 'plain.value']],
 
       [/^/, '', '@pop'],
 
       // numbers
-      [/\s*([0-9]+)\s*$/, 'value.number'],
-      [/\s*([0-9]+\.[0-9]+)\s*$/, 'value.number'],
+      [/\s*([0-9]+)\s*$/, 'plain.value.number'],
+      [/\s*([0-9]+\.[0-9]+)\s*$/, 'plain.value.number'],
 
       // booleans
-      [/\s*(true|false)\s*$/, 'value.boolean'],
+      [/\s*(true|false)\s*$/, 'plain.value.boolean'],
 
       // pop state when getting to a new line
       [/^/, '', '@pop'],
 
       // unquoted values - catch-all
-      [/([^\n'"]+)\s*$/, 'value'],
+      [/([^\n'"]+)\s*$/, 'plain.value'],
 
       // quoted values
-      [/\s*"/, 'value.string', '@stringDoubleQuoted'],
-      [/\s*'/, 'value.string', '@stringSingleQuoted'],
+      [/\s*"/, 'plain.value.string', '@stringDoubleQuoted'],
+      [/\s*'/, 'plain.value.string', '@stringSingleQuoted'],
 
       // pop state when getting to a new line
       [/^/, '', '@pop'],
 
-      [/:/, 'value', '@pop'],
+      [/:/, 'plain.value', '@pop'],
 
       [/.+$/, '', '@pop'],
       [/.*$/, '', '@pop'],
@@ -438,88 +260,114 @@ export const monarchLanguageDefYAML = {
 
     objectValues: [
       // objects
-      [/\s*{/, { token: 'value', next: '@objects' }],
+      [/\s*{/, { token: 'plain.value', next: '@objects' }],
       // arrays
-      [/\s*\[/, { token: 'value', next: '@jsonArrays' }],
+      [/\s*\[/, { token: 'plain.value', next: '@jsonArrays' }],
 
       // numbers
       [
         /(\s*)([0-9]+\.[0-9]+)(\s*,?\s*)/,
-        ['value', 'value.number', { token: 'value', next: '@pop' }],
+        ['plain.value', 'plain.value.number', { token: 'plain.value', next: '@pop' }],
       ],
-      [/(\s*)([0-9]+)(\s*,?\s*)/, ['value', 'value.number', { token: 'value', next: '@pop' }]],
+      [
+        /(\s*)([0-9]+)(\s*,?\s*)/,
+        ['plain.value', 'plain.value.number', { token: 'plain.value', next: '@pop' }],
+      ],
 
       // booleans
-      [/(\s*)(true|false)(\s*,?\s*)/, ['value', 'value.boolean', { token: 'value', next: '@pop' }]],
+      [
+        /(\s*)(true|false)(\s*,?\s*)/,
+        ['plain.value', 'plain.value.boolean', { token: 'plain.value', next: '@pop' }],
+      ],
 
       // quoted values
-      [/\s*"/, { token: 'value.string', next: '@stringDoubleQuoted' }],
-      [/\s*'/, { token: 'value.string', next: '@stringSingleQuoted' }],
+      [/\s*"/, { token: 'plain.value.string', next: '@stringDoubleQuoted' }],
+      [/\s*'/, { token: 'plain.value.string', next: '@stringSingleQuoted' }],
 
       // unquoted values - catch-all
-      [/[^,}\n]+/, 'value'],
+      [/[^,}\n]+/, 'plain.value'],
 
-      [/,/, 'value', '@pop'],
+      [/,/, 'plain.value', '@pop'],
 
-      [/(?=})/, 'value', '@pop'],
+      [/(?=})/, 'plain.value', '@pop'],
     ],
 
     objects: [
       // single-quoted keywords
       [
         /(\s*')([^']*)(')(\s*:)(?=\s*\S)/,
-        ['keyword', 'keyword', 'keyword', { token: 'value', next: '@objectValues' }],
+        [
+          'plain.keyword',
+          'plain.keyword',
+          'plain.keyword',
+          { token: 'plain.value', next: '@objectValues' },
+        ],
       ],
       [
         /(\s*')([^']*)(')(\s*:\s*)$/,
-        ['keyword', 'keyword', 'keyword', { token: 'value', next: '@objectValues' }],
+        [
+          'plain.keyword',
+          'plain.keyword',
+          'plain.keyword',
+          { token: 'plain.value', next: '@objectValues' },
+        ],
       ],
 
       // double-quoted keywords
       [
         /(\s*")([^"]*)(")(\s*:)(?=\s*\S)/,
-        ['keyword', 'keyword', 'keyword', { token: 'value', next: '@objectValues' }],
+        [
+          'plain.keyword',
+          'plain.keyword',
+          'plain.keyword',
+          { token: 'plain.value', next: '@objectValues' },
+        ],
       ],
       [
         /(\s*")([^"]*)(")(\s*:\s*)$/,
-        ['keyword', 'keyword', 'keyword', { token: 'value', next: '@objectValues' }],
+        [
+          'plain.keyword',
+          'plain.keyword',
+          'plain.keyword',
+          { token: 'plain.value', next: '@objectValues' },
+        ],
       ],
 
       // objects
-      [/\s*{/, { token: 'value', next: '@objects' }],
+      [/\s*{/, { token: 'plain.value', next: '@objects' }],
       // arrays
-      [/\s*\[/, { token: 'value', next: '@jsonArrays' }],
+      [/\s*\[/, { token: 'plain.value', next: '@jsonArrays' }],
 
       // unquoted values - catch-all
-      [/[^,}\n]+/, 'value'],
+      [/[^,}\n]+/, 'plain.value'],
 
-      [/,/, 'value'],
+      [/,/, 'plain.value'],
 
-      [/}/, 'value', '@pop'],
+      [/}/, 'plain.value', '@pop'],
     ],
 
     // JSON arrays
     jsonArrays: [
-      [/\s*{/, { token: 'value', next: '@objects' }],
-      [/\s*\[/, { token: 'value', next: '@jsonArrays' }],
+      [/\s*{/, { token: 'plain.value', next: '@objects' }],
+      [/\s*\[/, { token: 'plain.value', next: '@jsonArrays' }],
 
       // numbers
-      [/(\s*)([0-9]+)(\s*,?\s*)/, ['value', 'value.number', 'value']],
-      [/(\s*)([0-9]+\.[0-9]+)(\s*,?\s*)/, ['value', 'value.number', 'value']],
+      [/(\s*)([0-9]+)(\s*,?\s*)/, ['plain.value', 'plain.value.number', 'plain.value']],
+      [/(\s*)([0-9]+\.[0-9]+)(\s*,?\s*)/, ['plain.value', 'plain.value.number', 'plain.value']],
 
       // booleans
-      [/(\s*)(true|false)(\s*,?\s*)/, ['value', 'value.boolean', 'value']],
+      [/(\s*)(true|false)(\s*,?\s*)/, ['plain.value', 'plain.value.boolean', 'plain.value']],
 
       // quoted values
-      [/\s*"/, { token: 'value.string', next: '@stringDoubleQuoted' }],
-      [/\s*'/, { token: 'value.string', next: '@stringSingleQuoted' }],
+      [/\s*"/, { token: 'plain.value.string', next: '@stringDoubleQuoted' }],
+      [/\s*'/, { token: 'plain.value.string', next: '@stringSingleQuoted' }],
 
       // unquoted values - catch-all
-      [/[^,\]\n]+/, 'value'],
+      [/[^,\]\n]+/, 'plain.value'],
 
-      [/,/, 'value'],
+      [/,/, 'plain.value'],
 
-      [/\]/, 'value', '@pop'],
+      [/\]/, 'plain.value', '@pop'],
     ],
   },
 };

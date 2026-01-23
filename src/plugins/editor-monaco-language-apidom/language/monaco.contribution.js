@@ -85,7 +85,7 @@ const lazyMonacoContribution = ({ createData, system }) => {
   });
 
   disposables.push(
-    monaco.languages.setMonarchTokensProvider(apidom.languageId, apidom.monarchLanguageDefYAML)
+    monaco.languages.setMonarchTokensProvider(apidom.languageId, apidom.monarchLanguageDef)
   );
 
   // setup apidom mode
