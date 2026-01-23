@@ -81,6 +81,11 @@ export const monarchLanguageDefJSON = {
     ],
 
     values: [
+      // objects
+      [/\s*{/, { token: 'value', next: '@objects' }],
+      // arrays
+      [/\s*\[/, { token: 'value', next: '@jsonArrays' }],
+
       // numbers
       [/(\s*)([0-9]+)(\s*,?\s*)$/, ['value', 'value.number', 'value']],
       [/(\s*)([0-9]+\.[0-9]+)(\s*,?\s*)$/, ['value', 'value.number', 'value']],
@@ -159,6 +164,92 @@ export const monarchLanguageDefJSON = {
 
       [/.+$/, 'value', '@pop'],
     ],
+
+    objectValues: [
+      // objects
+      [/\s*{/, { token: 'value', next: '@objects' }],
+      // arrays
+      [/\s*\[/, { token: 'value', next: '@jsonArrays' }],
+
+      // numbers
+      [
+        /(\s*)([0-9]+\.[0-9]+)(\s*,?\s*)/,
+        ['value', 'value.number', { token: 'value', next: '@pop' }],
+      ],
+      [/(\s*)([0-9]+)(\s*,?\s*)/, ['value', 'value.number', { token: 'value', next: '@pop' }]],
+
+      // booleans
+      [/(\s*)(true|false)(\s*,?\s*)/, ['value', 'value.boolean', { token: 'value', next: '@pop' }]],
+
+      // quoted values
+      [/\s*"/, { token: 'value.string', next: '@stringDoubleQuoted' }],
+      [/\s*'/, { token: 'value.string', next: '@stringSingleQuoted' }],
+
+      // unquoted values - catch-all
+      [/[^,}\n]+/, 'value'],
+
+      [/,/, 'value', '@pop'],
+
+      [/(?=})/, 'value', '@pop'],
+    ],
+
+    objects: [
+      // single-quoted keywords
+      [
+        /(\s*')([^']*)(')(\s*:)(?=\s*\S)/,
+        ['keyword', 'keyword', 'keyword', { token: 'value', next: '@objectValues' }],
+      ],
+      [
+        /(\s*')([^']*)(')(\s*:\s*)$/,
+        ['keyword', 'keyword', 'keyword', { token: 'value', next: '@objectValues' }],
+      ],
+
+      // double-quoted keywords
+      [
+        /(\s*")([^"]*)(")(\s*:)(?=\s*\S)/,
+        ['keyword', 'keyword', 'keyword', { token: 'value', next: '@objectValues' }],
+      ],
+      [
+        /(\s*")([^"]*)(")(\s*:\s*)$/,
+        ['keyword', 'keyword', 'keyword', { token: 'value', next: '@objectValues' }],
+      ],
+
+      // objects
+      [/\s*{/, { token: 'value', next: '@objects' }],
+      // arrays
+      [/\s*\[/, { token: 'value', next: '@jsonArrays' }],
+
+      // unquoted values - catch-all
+      [/[^,}\n]+/, 'value'],
+
+      [/,/, 'value'],
+
+      [/}/, 'value', '@pop'],
+    ],
+
+    // JSON arrays
+    jsonArrays: [
+      [/\s*{/, { token: 'value', next: '@objects' }],
+      [/\s*\[/, { token: 'value', next: '@jsonArrays' }],
+
+      // numbers
+      [/(\s*)([0-9]+)(\s*,?\s*)/, ['value', 'value.number', 'value']],
+      [/(\s*)([0-9]+\.[0-9]+)(\s*,?\s*)/, ['value', 'value.number', 'value']],
+
+      // booleans
+      [/(\s*)(true|false)(\s*,?\s*)/, ['value', 'value.boolean', 'value']],
+
+      // quoted values
+      [/\s*"/, { token: 'value.string', next: '@stringDoubleQuoted' }],
+      [/\s*'/, { token: 'value.string', next: '@stringSingleQuoted' }],
+
+      // unquoted values - catch-all
+      [/[^,\]\n]+/, 'value'],
+
+      [/,/, 'value'],
+
+      [/\]/, 'value', '@pop'],
+    ],
   },
 };
 
@@ -213,6 +304,9 @@ export const monarchLanguageDefYAML = {
     ],
 
     values: [
+      [/\s*{/, { token: 'value', next: '@objects' }],
+      [/\s*\[/, { token: 'value', next: '@jsonArrays' }],
+
       // numbers
       [/\s*[0-9]+\s*$/, 'value.number'],
       [/\s*[0-9]+(\.[0-9]+)?\s*$/, 'value.number'],
@@ -340,6 +434,92 @@ export const monarchLanguageDefYAML = {
 
       [/.+$/, '', '@pop'],
       [/.*$/, '', '@pop'],
+    ],
+
+    objectValues: [
+      // objects
+      [/\s*{/, { token: 'value', next: '@objects' }],
+      // arrays
+      [/\s*\[/, { token: 'value', next: '@jsonArrays' }],
+
+      // numbers
+      [
+        /(\s*)([0-9]+\.[0-9]+)(\s*,?\s*)/,
+        ['value', 'value.number', { token: 'value', next: '@pop' }],
+      ],
+      [/(\s*)([0-9]+)(\s*,?\s*)/, ['value', 'value.number', { token: 'value', next: '@pop' }]],
+
+      // booleans
+      [/(\s*)(true|false)(\s*,?\s*)/, ['value', 'value.boolean', { token: 'value', next: '@pop' }]],
+
+      // quoted values
+      [/\s*"/, { token: 'value.string', next: '@stringDoubleQuoted' }],
+      [/\s*'/, { token: 'value.string', next: '@stringSingleQuoted' }],
+
+      // unquoted values - catch-all
+      [/[^,}\n]+/, 'value'],
+
+      [/,/, 'value', '@pop'],
+
+      [/(?=})/, 'value', '@pop'],
+    ],
+
+    objects: [
+      // single-quoted keywords
+      [
+        /(\s*')([^']*)(')(\s*:)(?=\s*\S)/,
+        ['keyword', 'keyword', 'keyword', { token: 'value', next: '@objectValues' }],
+      ],
+      [
+        /(\s*')([^']*)(')(\s*:\s*)$/,
+        ['keyword', 'keyword', 'keyword', { token: 'value', next: '@objectValues' }],
+      ],
+
+      // double-quoted keywords
+      [
+        /(\s*")([^"]*)(")(\s*:)(?=\s*\S)/,
+        ['keyword', 'keyword', 'keyword', { token: 'value', next: '@objectValues' }],
+      ],
+      [
+        /(\s*")([^"]*)(")(\s*:\s*)$/,
+        ['keyword', 'keyword', 'keyword', { token: 'value', next: '@objectValues' }],
+      ],
+
+      // objects
+      [/\s*{/, { token: 'value', next: '@objects' }],
+      // arrays
+      [/\s*\[/, { token: 'value', next: '@jsonArrays' }],
+
+      // unquoted values - catch-all
+      [/[^,}\n]+/, 'value'],
+
+      [/,/, 'value'],
+
+      [/}/, 'value', '@pop'],
+    ],
+
+    // JSON arrays
+    jsonArrays: [
+      [/\s*{/, { token: 'value', next: '@objects' }],
+      [/\s*\[/, { token: 'value', next: '@jsonArrays' }],
+
+      // numbers
+      [/(\s*)([0-9]+)(\s*,?\s*)/, ['value', 'value.number', 'value']],
+      [/(\s*)([0-9]+\.[0-9]+)(\s*,?\s*)/, ['value', 'value.number', 'value']],
+
+      // booleans
+      [/(\s*)(true|false)(\s*,?\s*)/, ['value', 'value.boolean', 'value']],
+
+      // quoted values
+      [/\s*"/, { token: 'value.string', next: '@stringDoubleQuoted' }],
+      [/\s*'/, { token: 'value.string', next: '@stringSingleQuoted' }],
+
+      // unquoted values - catch-all
+      [/[^,\]\n]+/, 'value'],
+
+      [/,/, 'value'],
+
+      [/\]/, 'value', '@pop'],
     ],
   },
 };
