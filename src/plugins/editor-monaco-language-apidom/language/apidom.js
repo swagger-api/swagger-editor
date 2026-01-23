@@ -99,28 +99,12 @@ export const monarchLanguageDef = {
       [/^([a-zA-Z_$][\w$]*)(:)$/, ['plain.keyword', 'plain.value']],
 
       // single-quoted keywords
-      [
-        /^(\s*')([^']*)(')(: )/,
-        [
-          'plain.keyword',
-          'plain.keyword',
-          'plain.keyword',
-          { token: 'plain.value', next: '@values' },
-        ],
-      ],
-      [/^(\s*')([^']*)(')(:)$/, ['plain.keyword', 'plain.keyword', 'plain.keyword', 'plain.value']],
+      [/^(\s*'[^']*')(: )/, ['plain.keyword', { token: 'plain.value', next: '@values' }]],
+      [/^(\s*'[^']*':)$/, ['plain.keyword', 'plain.value']],
 
       // double-quoted keywords
-      [
-        /^(\s*")([^"]*)(")(: )/,
-        [
-          'plain.keyword',
-          'plain.keyword',
-          'plain.keyword',
-          { token: 'plain.value', next: '@values' },
-        ],
-      ],
-      [/^(\s*")([^"]*)(")(:)$/, ['plain.keyword', 'plain.keyword', 'plain.keyword', 'plain.value']],
+      [/^(\s*"[^"]*")(: )/, ['plain.keyword', { token: 'plain.value', next: '@values' }]],
+      [/^(\s*"[^"]*")(:)$/, ['plain.keyword', 'plain.value']],
 
       // arrays
       [/^\s*-\s/, 'plain.value', '@arrays'],
@@ -197,28 +181,12 @@ export const monarchLanguageDef = {
       [/([a-zA-Z_$][\w$]*)(:)$/, ['plain.keyword', 'plain.value']],
 
       // single-quoted keywords
-      [
-        /(\s*')([^']*)(')(: )/,
-        [
-          'plain.keyword',
-          'plain.keyword',
-          'plain.keyword',
-          { token: 'plain.value', next: '@values' },
-        ],
-      ],
-      [/(\s*')([^']*)(')(:)$/, ['plain.keyword', 'plain.keyword', 'plain.keyword', 'plain.value']],
+      [/(\s*'[^']*')(: )/, ['plain.keyword', { token: 'plain.value', next: '@values' }]],
+      [/(\s*'[^']*')(:)$/, ['plain.keyword', 'plain.value']],
 
       // double-quoted keywords
-      [
-        /(\s*")([^"]*)(")(: )/,
-        [
-          'plain.keyword',
-          'plain.keyword',
-          'plain.keyword',
-          { token: 'plain.value', next: '@values' },
-        ],
-      ],
-      [/(\s*")([^"]*)(")(:)$/, ['plain.keyword', 'plain.keyword', 'plain.keyword', 'plain.value']],
+      [/(\s*"[^"]*")(: )/, ['plain.keyword', { token: 'plain.value', next: '@values' }]],
+      [/(\s*"[^"]*")(:)$/, ['plain.keyword', 'plain.value']],
 
       // keywords catch-all
       [/(\s*[^\s]+)(: )/, ['plain.keyword', { token: 'plain.value', next: '@values' }]],
@@ -239,28 +207,12 @@ export const monarchLanguageDef = {
       [/([a-zA-Z_$][\w$]*)(:)$/, ['plain.keyword', 'plain.value']],
 
       // single-quoted keywords
-      [
-        /(\s*')([^']*)(')(: )/,
-        [
-          'plain.keyword',
-          'plain.keyword',
-          'plain.keyword',
-          { token: 'plain.value', next: '@values' },
-        ],
-      ],
-      [/(\s*')([^']*)(')(:)$/, ['plain.keyword', 'plain.keyword', 'plain.keyword', 'plain.value']],
+      [/(\s*'[^']*')(: )/, ['plain.keyword', { token: 'plain.value', next: '@values' }]],
+      [/(\s*'[^']*')(:)$/, ['plain.keyword', 'plain.value']],
 
       // double-quoted keywords
-      [
-        /(\s*")([^"]*)(")(: )/,
-        [
-          'plain.keyword',
-          'plain.keyword',
-          'plain.keyword',
-          { token: 'plain.value', next: '@values' },
-        ],
-      ],
-      [/(\s*")([^"]*)(")(:)$/, ['plain.keyword', 'plain.keyword', 'plain.keyword', 'plain.value']],
+      [/(\s*"[^"]*")(: )/, ['plain.keyword', { token: 'plain.value', next: '@values' }]],
+      [/(\s*"[^"]*")(:)$/, ['plain.keyword', 'plain.value']],
 
       // keywords catch-all
       [/(\s*[^\s]+)(: )/, ['plain.keyword', { token: 'plain.value', next: '@values' }]],
@@ -331,42 +283,22 @@ export const monarchLanguageDef = {
     objects: [
       // single-quoted keywords
       [
-        /(\s*')([^']*)(')(\s*:)(?=\s*\S)/,
-        [
-          'plain.keyword',
-          'plain.keyword',
-          'plain.keyword',
-          { token: 'plain.value', next: '@objectValues' },
-        ],
+        /(\s*'[^']*'\s*:)(?=\s*\S)/,
+        ['plain.keyword', { token: 'plain.value', next: '@objectValues' }],
       ],
       [
-        /(\s*')([^']*)(')(\s*:\s*)$/,
-        [
-          'plain.keyword',
-          'plain.keyword',
-          'plain.keyword',
-          { token: 'plain.value', next: '@objectValues' },
-        ],
+        /(\s*'[^']*')(\s*:\s*)$/,
+        ['plain.keyword', { token: 'plain.value', next: '@objectValues' }],
       ],
 
       // double-quoted keywords
       [
-        /(\s*")([^"]*)(")(\s*:)(?=\s*\S)/,
-        [
-          'plain.keyword',
-          'plain.keyword',
-          'plain.keyword',
-          { token: 'plain.value', next: '@objectValues' },
-        ],
+        /(\s*"[^"]*")(\s*:)(?=\s*\S)/,
+        ['plain.keyword', { token: 'plain.value', next: '@objectValues' }],
       ],
       [
-        /(\s*")([^"]*)(")(\s*:\s*)$/,
-        [
-          'plain.keyword',
-          'plain.keyword',
-          'plain.keyword',
-          { token: 'plain.value', next: '@objectValues' },
-        ],
+        /(\s*"[^"]*")(\s*:\s*)$/,
+        ['plain.keyword', { token: 'plain.value', next: '@objectValues' }],
       ],
 
       // objects
