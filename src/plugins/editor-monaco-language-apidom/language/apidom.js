@@ -100,7 +100,7 @@ export const monarchLanguageDef = {
 
       // single-quoted keywords
       [/^(\s*'[^']*')(: )/, ['plain.keyword', { token: 'plain.value', next: '@values' }]],
-      [/^(\s*'[^']*':)$/, ['plain.keyword', 'plain.value']],
+      [/^(\s*'[^']*')(:)$/, ['plain.keyword', 'plain.value']],
 
       // double-quoted keywords
       [/^(\s*"[^"]*")(: )/, ['plain.keyword', { token: 'plain.value', next: '@values' }]],
@@ -283,7 +283,7 @@ export const monarchLanguageDef = {
     objects: [
       // single-quoted keywords
       [
-        /(\s*'[^']*'\s*:)(?=\s*\S)/,
+        /(\s*'[^']*'\s*)(:)(?=\s*\S)/,
         ['plain.keyword', { token: 'plain.value', next: '@objectValues' }],
       ],
       [
