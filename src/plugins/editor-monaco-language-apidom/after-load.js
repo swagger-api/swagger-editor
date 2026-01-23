@@ -4,11 +4,11 @@ import lazyMonacoContribution, {
 } from './language/monaco.contribution.js';
 
 const makeAfterLoad =
-  ({ createData = {} } = {}) =>
+  ({ createData = {}, useApiDOMSyntaxHighlighting = false } = {}) =>
   (system) => {
     if (isLanguageRegistered()) return;
 
-    lazyMonacoContribution({ createData, system });
+    lazyMonacoContribution({ createData, system, useApiDOMSyntaxHighlighting });
     system.editorActions.setLanguage(apidomDefaults.getLanguageId());
   };
 
