@@ -173,8 +173,6 @@ export const detectContentType = (content) => async (system) => {
       const version = groups?.version_json ?? groups?.version_yaml;
       const contentType = `application/vnd.oai.openapi+yaml;version=${version}`;
 
-      console.log('openApi32xYAMLMatch', { contentType, content, requestId });
-
       return editorActions.detectContentTypeSuccess({ contentType, content, requestId });
     }
 
