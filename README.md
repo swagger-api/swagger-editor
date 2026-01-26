@@ -513,6 +513,56 @@ In order to inform `swagger-editor@5` npm package that I require it to use my sp
 
 - [Plug points](./docs/customization/plug-points/README.md)
 
+#### Syntax Highlighting Modes
+
+SwaggerEditor supports two syntax highlighting modes for the Monaco editor:
+
+1. **Simplified Mode (default)** - Fast, regex-based syntax highlighting using Monaco's Monarch tokenizer
+2. **ApiDOM Mode** - Rich semantic token highlighting provided by ApiDOM Language Service
+
+The simplified mode is enabled by default and provides excellent performance, especially for large specifications. If you need more sophisticated semantic highlighting and don't mind a potential performance impact, you can enable ApiDOM mode.
+
+**Using Simplified Mode (default):**
+
+```js
+import EditorMonacoLanguageApiDOMPlugin from 'swagger-editor/plugins/editor-monaco-language-apidom';
+
+// Default behavior - uses simplified syntax highlighting
+const plugins = [
+  EditorMonacoLanguageApiDOMPlugin(),
+  // ... other plugins
+];
+```
+
+**Enabling ApiDOM Mode:**
+
+```js
+import EditorMonacoLanguageApiDOMPlugin from 'swagger-editor/plugins/editor-monaco-language-apidom';
+
+// Enable ApiDOM semantic token highlighting
+const plugins = [
+  EditorMonacoLanguageApiDOMPlugin({ useApiDOMSyntaxHighlighting: true }),
+  // ... other plugins
+];
+```
+
+**Performance Considerations:**
+
+- **Simplified mode**: Minimal overhead, instant highlighting, no typing lag even with large files
+- **ApiDOM mode**: Provides richer semantic tokens but may cause typing lag on large specifications (>1000 lines)
+
+**Visual Differences:**
+
+- **Simplified mode**: Does not colorize bracket pairs (handled by Monarch tokens)
+- **ApiDOM mode**: Enables bracket pair colorization (semantic tokens don't include bracket information)
+
+Both modes support:
+- OpenAPI 2.0, 3.0, 3.1
+- AsyncAPI 2.x, 3.x
+- JSON and YAML syntax
+- Specification extensions (x- prefixed fields)
+- Inline JSON objects and arrays
+
 ### Environment Variables
 
 It is possible to use an environment variable to specify a local JSON/YAML file or a remote URL for SwaggerEditor to load on startup.
