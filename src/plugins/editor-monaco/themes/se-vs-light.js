@@ -133,6 +133,9 @@ export default {
     { token: 'operation', foreground: '#66afce', fontStyle: 'bold' }, // light blue
     { token: 'operationTraits', foreground: '#66afce', fontStyle: 'italic' },
     { token: 'operationBindings', foreground: '#66afce' },
+    { token: 'channelBindings', foreground: '#66afce' },
+    { token: 'messageBindings', foreground: '#66afce' },
+    { token: 'serverBindings', foreground: '#66afce' },
     { token: 'operation.httpMethod-GET', foreground: '#006699', fontStyle: 'bold' }, // blue-grey
     { token: 'operation.httpMethod-POST', foreground: '#339966', fontStyle: 'bold' }, // dark teal
     // parameters tokens: purple
@@ -171,6 +174,8 @@ export default {
     // AsyncAPI 3 specific components: bold olive green
     { token: 'components-replies', foreground: '#666633', fontStyle: 'bold' },
     { token: 'components-replyAddresses', foreground: '#666633', fontStyle: 'bold' },
+    { token: 'operationReply', foreground: '#666633', fontStyle: 'bold' },
+    { token: 'operationReplyAddress', foreground: '#666633', fontStyle: 'bold' },
     { token: 'components-tags', foreground: '#666633', fontStyle: 'bold' },
     { token: 'components-externalDocs', foreground: '#666633', fontStyle: 'bold' },
     // plain value: green
@@ -202,9 +207,9 @@ export default {
     { token: 'operationTrait', foreground: '#0099cc' },
     // bindings: sky blue
     { token: 'channel-binding', foreground: '#0099cc' },
-    // AsyncAPI 3 specific: sky blue
-    { token: 'operationReply', foreground: '#0099cc' },
-    { token: 'operationReplyAddress', foreground: '#0099cc' },
+    { token: 'message-binding', foreground: '#0099cc' },
+    { token: 'operation-binding', foreground: '#0099cc' },
+    { token: 'server-binding', foreground: '#0099cc' },
     // tokens exist in apidom-ls, but not working in editor, sky blue
     { token: 'version', foreground: '#0099cc' },
     { token: 'title', foreground: '#0099cc' },
