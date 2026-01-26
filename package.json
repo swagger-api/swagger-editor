@@ -1,6 +1,6 @@
 {
   "name": "swagger-editor",
-  "version": "5.0.6",
+  "version": "5.1.0",
   "contributors": [
     "(in alphabetical order)",
     "Francesco Tumanischvili",
@@ -106,7 +106,7 @@
     "immutable": "^3.8.2",
     "js-file-download": "^0.4.12",
     "js-yaml": "4.1.1",
-    "lodash": "^4.17.21",
+    "lodash": "^4.17.23",
     "monaco-editor": "npm:@codingame/monaco-vscode-editor-api@=23.2.2",
     "monaco-marker-data-provider": "^1.2.4",
     "prop-types": "^15.8.1",
