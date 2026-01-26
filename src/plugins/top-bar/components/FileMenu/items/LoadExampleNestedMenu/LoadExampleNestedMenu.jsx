@@ -8,6 +8,10 @@ const LoadExampleNestedMenu = (props) => {
   const loadExampleNestedMenuHandler = useRef(null);
   const DropDownMenuNested = getComponent('DropdownMenuNested');
   const DropdownMenuItemDivider = getComponent('DropdownMenuItemDivider');
+  const OpenAPI32PetstoreMenuItem = getComponent(
+    'TopBarFileMenuLoadExampleNestedMenuOpenAPI32PetstoreMenuItem',
+    true
+  );
   const OpenAPI31PetstoreMenuItem = getComponent(
     'TopBarFileMenuLoadExampleNestedMenuOpenAPI31PetstoreMenuItem',
     true
@@ -45,6 +49,9 @@ const LoadExampleNestedMenu = (props) => {
     true
   );
 
+  const handleOpenAPI32PetstoreClick = useCallback(async (event) => {
+    await loadExampleNestedMenuHandler.current.loadOpenAP32PetstoreFixture(event);
+  }, []);
   const handleOpenAPI31PetstoreClick = useCallback(async (event) => {
     await loadExampleNestedMenuHandler.current.loadOpenAP31PetstoreFixture(event);
   }, []);
@@ -78,6 +85,7 @@ const LoadExampleNestedMenu = (props) => {
       {/* eslint-disable-next-line react/jsx-props-no-spreading */}
       <LoadExampleNestedMenuHandler {...props} ref={loadExampleNestedMenuHandler} />
       <DropDownMenuNested label="Load Example">
+        <OpenAPI32PetstoreMenuItem onClick={handleOpenAPI32PetstoreClick} />
         <OpenAPI31PetstoreMenuItem onClick={handleOpenAPI31PetstoreClick} />
         <OpenAPI30PetstoreMenuItem onClick={handleOpenAPI30PetstoreClick} />
         <OpenAPI20PetstoreMenuItem onClick={handleOpenAPI20PetstoreClick} />
