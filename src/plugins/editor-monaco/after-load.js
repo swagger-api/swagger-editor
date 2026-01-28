@@ -18,7 +18,7 @@ function afterLoad(system) {
     getWorker() {
       return new Worker(
         new URL(process.env.REACT_APP_APIDOM_WORKER_FILENAME, this.baseUrl),
-        { type: 'classic' } // ensures importScripts() works
+        { type: 'module' } // Changed to 'module' to support ES6 imports in workers
       );
     },
     ...globalThis.MonacoEnvironment, // this will allow to override the base uri for loading Web Workers

@@ -1,0 +1,206 @@
+# package.json Changes for Vite Migration
+
+## Scripts Section
+
+Replace these scripts in package.json:
+
+```json
+{
+  "scripts": {
+    "start": "node scripts/vite-start.js",
+    "build": "npm run build:app && npm run build:bundle:esm && npm run build:bundle:umd && npm run build:definitions",
+    "build:app": "node scripts/vite-build.js",
+    "build:app:serve": "vite preview --config vite.config.app.ts --port 3050",
+    "build:bundle": "npm run build:bundle:esm && npm run build:bundle:umd",
+    "build:bundle:esm": "cross-env GENERATE_SOURCEMAP=true BUILD_ESM_BUNDLE=true DIST_PATH=dist/esm node scripts/vite-build-bundle.js",
+    "build:bundle:umd": "cross-env NODE_OPTIONS=--max_old_space_size=4096 GENERATE_SOURCEMAP=false BUILD_UMD_BUNDLE=true DIST_PATH=dist/umd node scripts/vite-build-bundle.js",
+    "build:definitions": "tsc --project tsconfig.json",
+    "clean": "rimraf build dist"
+  }
+}
+```
+
+## DevDependencies to Add
+
+```bash
+npm install --save-dev \
+  vite@^5.0.0 \
+  @vitejs/plugin-react@^4.2.0 \
+  vite-plugin-html@^3.2.0 \
+  vite-plugin-node-polyfills@^0.19.0 \
+  vite-plugin-dts@^3.7.0 \
+  glob@^10.3.10
+```
+
+Or add to package.json:
+
+```json
+{
+  "devDependencies": {
+    "vite": "^5.0.0",
+    "@vitejs/plugin-react": "^4.2.0",
+    "vite-plugin-html": "^3.2.0",
+    "vite-plugin-node-polyfills": "^0.19.0",
+    "vite-plugin-dts": "^3.7.0",
+    "glob": "^10.3.10"
+  }
+}
+```
+
+## DevDependencies to Remove
+
+```bash
+npm uninstall \
+  webpack \
+  webpack-dev-server \
+  webpack-manifest-plugin \
+  html-webpack-plugin \
+  mini-css-extract-plugin \
+  css-minimizer-webpack-plugin \
+  terser-webpack-plugin \
+  react-dev-utils \
+  case-sensitive-paths-webpack-plugin \
+  dotenv-webpack \
+  eslint-webpack-plugin \
+  fork-ts-checker-webpack-plugin \
+  react-refresh-webpack-plugin \
+  webpack-node-externals \
+  duplicate-package-checker-webpack-plugin
+```
+
+Or remove from package.json:
+
+```json
+{
+  "devDependencies": {
+    // REMOVE these:
+    "webpack": "...",
+    "webpack-dev-server": "...",
+    "webpack-manifest-plugin": "...",
+    "html-webpack-plugin": "...",
+    "mini-css-extract-plugin": "...",
+    "css-minimizer-webpack-plugin": "...",
+    "terser-webpack-plugin": "...",
+    "react-dev-utils": "...",
+    "case-sensitive-paths-webpack-plugin": "...",
+    "dotenv-webpack": "...",
+    "eslint-webpack-plugin": "...",
+    "fork-ts-checker-webpack-plugin": "...",
+    "react-refresh-webpack-plugin": "...",
+    "webpack-node-externals": "...",
+    "duplicate-package-checker-webpack-plugin": "..."
+  }
+}
+```
+
+## Dependencies to Keep
+
+Keep all these (no changes needed):
+
+```json
+{
+  "dependencies": {
+    // All runtime dependencies stay the same
+    "react": "...",
+    "react-dom": "...",
+    "swagger-ui-react": "...",
+    // ... etc
+  },
+  "devDependencies": {
+    // Keep these:
+    "@babel/core": "...",
+    "@babel/plugin-transform-class-static-block": "...",
+    "babel-jest": "...",
+    "babel-loader": "...",
+    "babel-preset-react-app": "...",
+    "postcss": "...",
+    "postcss-normalize": "...",
+    "postcss-preset-env": "...",
+    "sass": "...",
+    "sass-loader": "...",
+    // ... other non-webpack tools
+  }
+}
+```
+
+## Quick Install Commands
+
+### Option 1: Clean Install (Recommended)
+
+```bash
+# Remove node_modules and package-lock.json
+rm -rf node_modules package-lock.json
+
+# Remove webpack dependencies from package.json manually
+# Add vite dependencies to package.json manually
+
+# Fresh install
+npm install
+```
+
+### Option 2: Incremental Install
+
+```bash
+# Remove old dependencies
+npm uninstall webpack webpack-dev-server webpack-manifest-plugin \
+  html-webpack-plugin mini-css-extract-plugin css-minimizer-webpack-plugin \
+  terser-webpack-plugin react-dev-utils case-sensitive-paths-webpack-plugin \
+  dotenv-webpack eslint-webpack-plugin fork-ts-checker-webpack-plugin \
+  react-refresh-webpack-plugin webpack-node-externals \
+  duplicate-package-checker-webpack-plugin
+
+# Install new dependencies
+npm install --save-dev vite @vitejs/plugin-react vite-plugin-html \
+  vite-plugin-node-polyfills vite-plugin-dts glob
+
+# Update scripts in package.json manually
+```
+
+## Verification
+
+After installation, verify:
+
+```bash
+# Check versions
+npm list vite
+npm list @vitejs/plugin-react
+
+# Verify scripts exist
+npm run start --help
+npm run build:app --help
+
+# Check for peer dependency warnings
+npm ls
+```
+
+## Expected package.json Size Change
+
+- **Before**: ~150 devDependencies
+- **After**: ~140 devDependencies
+- **Net change**: -10 packages (but ~370MB disk space saved)
+
+## Complete Example package.json (Scripts Section Only)
+
+```json
+{
+  "name": "swagger-editor",
+  "version": "5.0.6",
+  "scripts": {
+    "start": "node scripts/vite-start.js",
+    "build": "npm run build:app && npm run build:bundle:esm && npm run build:bundle:umd && npm run build:definitions",
+    "build:app": "node scripts/vite-build.js",
+    "build:app:serve": "vite preview --config vite.config.app.ts --port 3050",
+    "build:bundle": "npm run build:bundle:esm && npm run build:bundle:umd",
+    "build:bundle:esm": "cross-env GENERATE_SOURCEMAP=true BUILD_ESM_BUNDLE=true DIST_PATH=dist/esm node scripts/vite-build-bundle.js",
+    "build:bundle:umd": "cross-env NODE_OPTIONS=--max_old_space_size=4096 GENERATE_SOURCEMAP=false BUILD_UMD_BUNDLE=true DIST_PATH=dist/umd node scripts/vite-build-bundle.js",
+    "build:definitions": "tsc --project tsconfig.json",
+    "clean": "rimraf build dist",
+    "test": "jest --watch",
+    "test:ci": "jest --ci --coverage",
+    "lint": "eslint src/",
+    "lint:fix": "eslint src/ --fix",
+    "cy:dev": "cypress open",
+    "cy:ci": "start-server-and-test build:app:serve http://localhost:3050 'cypress run'"
+  }
+}
+```

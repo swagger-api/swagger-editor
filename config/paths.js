@@ -1,13 +1,37 @@
 import path from 'path';
 import fs from 'fs';
-import getPublicUrlOrPath from 'react-dev-utils/getPublicUrlOrPath.js';
+import { readFileSync } from 'fs';
 
 const appDirectory = fs.realpathSync(process.cwd());
 const resolveApp = (relativePath) => path.resolve(appDirectory, relativePath);
 
+// Simple replacement for react-dev-utils/getPublicUrlOrPath
+const getPublicUrlOrPath = (isDevelopment, homepage, envPublicUrl) => {
+  // PUBLIC_URL env var takes precedence
+  if (envPublicUrl) {
+    return envPublicUrl.endsWith('/') ? envPublicUrl : envPublicUrl + '/';
+  }
+
+  // In development, always use root
+  if (isDevelopment) {
+    return '/';
+  }
+
+  // In production, use homepage from package.json if available
+  if (homepage) {
+    const packageJson = JSON.parse(readFileSync(resolveApp('package.json'), 'utf-8'));
+    if (packageJson.homepage) {
+      return packageJson.homepage.endsWith('/') ? packageJson.homepage : packageJson.homepage + '/';
+    }
+  }
+
+  // Default to root
+  return '/';
+};
+
 const publicUrlOrPath = getPublicUrlOrPath(
   process.env.NODE_ENV === 'development',
-  resolveApp('package.json').homepage,
+  true, // Check package.json for homepage
   process.env.PUBLIC_URL
 );
 

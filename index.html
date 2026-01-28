@@ -26,6 +26,13 @@
         };
       }
     </script>
+    <script type="module">
+      // Set up Buffer global before app loads
+      import { Buffer } from 'buffer';
+      window.Buffer = Buffer;
+      globalThis.Buffer = Buffer;
+    </script>
+    <script type="module" src="/src/index.tsx"></script>
     <script>
       // Monaco worker configuration
       // In development, Vite serves from root '/'
@@ -64,7 +71,7 @@
         <div class="swagger-editor__splash-screen">
           <figure class="swagger-editor__splash-screen-figure">
             <img width="100%" src="/static/media/splash-screen/logo.svg" alt="Swagger Editor" />
-            <figcaption><%- REACT_APP_VERSION %></figcaption>
+            <figcaption>5.1.0</figcaption>
             <img
               width="25"
               height="25"
