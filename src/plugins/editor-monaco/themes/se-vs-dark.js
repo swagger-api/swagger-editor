@@ -192,6 +192,12 @@ export default {
     { token: 'reference', foreground: '#ff9966' },
     { token: 'asyncapi-reference', foreground: '#ff9966' },
     { token: 'json-reference', foreground: '#ff9966' },
+    // plain theme - tokens not provided by ApiDOM
+    { token: 'plain.value', foreground: '#EAEBEB' },
+    { token: 'plain.value.string', foreground: '#A6E0FE' },
+    { token: 'plain.value.number', foreground: '#B18AFF' },
+    { token: 'plain.value.boolean', foreground: '#47AA4A' },
+    { token: 'plain.keyword', foreground: '#CB973C' },
   ],
   colors: {
     'editor.background': '#282c34',

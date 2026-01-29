@@ -513,6 +513,62 @@ In order to inform `swagger-editor@5` npm package that I require it to use my sp
 
 - [Plug points](./docs/customization/plug-points/README.md)
 
+#### Syntax Highlighting Modes
+
+SwaggerEditor supports two syntax highlighting modes for the Monaco editor:
+
+1. **Simplified Mode (default)** - Regex-based syntax highlighting using Monaco's Monarch tokenizer
+2. **ApiDOM Mode** - Semantic token highlighting provided by ApiDOM Language Service
+
+The simplified mode is enabled by default. If you need more sophisticated semantic highlighting, you can enable ApiDOM mode.
+
+**Using Simplified Mode (default):**
+
+```js
+import EditorMonacoLanguageApiDOMPlugin from 'swagger-editor/plugins/editor-monaco-language-apidom';
+
+// Default behavior - uses simplified syntax highlighting
+const plugins = [
+  EditorMonacoLanguageApiDOMPlugin,
+  // ... other plugins
+];
+```
+
+**Enabling ApiDOM Mode:**
+
+```js
+import EditorMonacoLanguageApiDOMPlugin from 'swagger-editor/plugins/editor-monaco-language-apidom';
+
+// Enable ApiDOM semantic token highlighting
+const plugins = [
+  EditorMonacoLanguageApiDOMPlugin({ useApiDOMSyntaxHighlighting: true }),
+  // ... other plugins
+];
+```
+
+**Visual Differences:**
+
+The two modes produce different syntax highlighting appearances:
+
+- **Simplified mode**:
+  - Uses regex-based Monarch tokenizer for syntax coloring
+  - Keywords, strings, numbers, and booleans each have distinct colors
+  - Does not colorize bracket pairs (brackets are styled as part of the overall token)
+  - Color scheme defined by theme token rules: `plain.keyword`, `plain.value.string`, `plain.value.number`, `plain.value.boolean`
+
+- **ApiDOM mode**:
+  - Uses semantic token analysis from ApiDOM Language Service
+  - Provides context-aware token coloring based on specification structure
+  - Enables bracket pair colorization (semantic tokens don't include bracket information, so editor's bracket colorization feature is enabled)
+  - Color scheme uses ApiDOM-specific token types with more granular semantic categories
+
+Both modes support:
+- OpenAPI 2.0, 3.0, 3.1
+- AsyncAPI 2.x, 3.x
+- JSON and YAML syntax
+- Specification extensions (x- prefixed fields)
+- Inline JSON objects and arrays
+
 ### Environment Variables
 
 It is possible to use an environment variable to specify a local JSON/YAML file or a remote URL for SwaggerEditor to load on startup.

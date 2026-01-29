@@ -31,7 +31,12 @@ export const getWorker = () => {
   return apidomWorker;
 };
 
-const registerProviders = ({ languageId, providers, dependencies }) => {
+const registerProviders = ({
+  languageId,
+  providers,
+  dependencies,
+  opts: { useApiDOMSyntaxHighlighting } = {},
+}) => {
   disposeAll(providers);
 
   const { worker, codeConverter, protocolConverter, getSystem } = dependencies;
@@ -69,22 +74,23 @@ const registerProviders = ({ languageId, providers, dependencies }) => {
       vscodeLanguages.registerDefinitionProvider(languageId, new DefinitionProvider(...args))
     );
 
-    const workerService = await worker();
-    const semanticTokensLegend = await workerService.getSemanticTokensLegend();
-
-    providers.push(
-      vscodeLanguages.registerDocumentSemanticTokensProvider(
-        languageId,
-        new DocumentSemanticTokensProvider(...args),
-        semanticTokensLegend
-      )
-    );
+    if (useApiDOMSyntaxHighlighting) {
+      const workerService = await worker();
+      const semanticTokensLegend = await workerService.getSemanticTokensLegend();
+      providers.push(
+        vscodeLanguages.registerDocumentSemanticTokensProvider(
+          languageId,
+          new DocumentSemanticTokensProvider(...args),
+          semanticTokensLegend
+        )
+      );
+    }
   })();
 
   return providers;
 };
 
-export function setupMode(defaults) {
+export function setupMode(defaults, { useApiDOMSyntaxHighlighting } = {}) {
   const disposables = [];
   const providers = [];
   const codeConverter = createCodeConverter();
@@ -117,6 +123,7 @@ export function setupMode(defaults) {
           protocolConverter,
           getSystem: defaults.getModeConfiguration().getSystem,
         },
+        opts: { useApiDOMSyntaxHighlighting },
       })
     )
   );
