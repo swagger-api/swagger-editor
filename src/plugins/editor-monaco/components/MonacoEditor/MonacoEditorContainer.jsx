@@ -7,6 +7,7 @@ const MonacoEditorContainer = ({
   editorActions,
   editorSelectors,
   isReadOnly = false,
+  bracketPairColorizationEnabled = false,
   EditorContentOrigin,
 }) => {
   const theme = editorSelectors.selectTheme();
@@ -48,6 +49,7 @@ const MonacoEditorContainer = ({
       theme={theme}
       value={value}
       isReadOnly={isReadOnly}
+      bracketPairColorizationEnabled={bracketPairColorizationEnabled}
       onChange={handleChangeEditorValue}
       onMount={handleEditorDidMount}
       onWillUnmount={handleEditorWillUnmount}
@@ -58,6 +60,7 @@ const MonacoEditorContainer = ({
 
 MonacoEditorContainer.propTypes = {
   isReadOnly: PropTypes.bool,
+  bracketPairColorizationEnabled: PropTypes.bool,
   editorActions: PropTypes.shape({
     editorSetup: PropTypes.func.isRequired,
     editorTearDown: PropTypes.func.isRequired,

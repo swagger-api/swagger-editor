@@ -64,7 +64,7 @@ export const isLanguageRegistered = () => {
   return languages.includes(apidom.languageId);
 };
 
-const lazyMonacoContribution = ({ createData, system }) => {
+const lazyMonacoContribution = ({ createData, system, useApiDOMSyntaxHighlighting }) => {
   const disposables = [];
 
   // register apidom language
@@ -84,9 +84,15 @@ const lazyMonacoContribution = ({ createData, system }) => {
     disposables.push(vscodeLanguages.setLanguageConfiguration(apidom.languageId, apidom.conf));
   });
 
-  disposables.push(
-    monaco.languages.setMonarchTokensProvider(apidom.languageId, apidom.monarchLanguageDef)
-  );
+  if (useApiDOMSyntaxHighlighting) {
+    disposables.push(
+      monaco.languages.setMonarchTokensProvider(apidom.languageId, apidom.apiDOMMonarchLanguageDef)
+    );
+  } else {
+    disposables.push(
+      monaco.languages.setMonarchTokensProvider(apidom.languageId, apidom.monarchLanguageDef)
+    );
+  }
 
   // setup apidom mode
   disposables.push(
@@ -97,7 +103,7 @@ const lazyMonacoContribution = ({ createData, system }) => {
         { getSystem: system.getSystem }
       );
 
-      disposables.push(setupMode(defaults));
+      disposables.push(setupMode(defaults, { useApiDOMSyntaxHighlighting }));
     })
   );
 
