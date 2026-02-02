@@ -173,11 +173,11 @@ export default {
     { token: 'components-path-items', foreground: '#666633', fontStyle: 'bold' },
     // AsyncAPI 3 specific components: bold olive green
     { token: 'components-replies', foreground: '#666633', fontStyle: 'bold' },
-    { token: 'components-replyAddresses', foreground: '#666633', fontStyle: 'bold' },
+    { token: 'components-reply-addresses', foreground: '#666633', fontStyle: 'bold' },
     { token: 'operationReply', foreground: '#666633', fontStyle: 'bold' },
     { token: 'operationReplyAddress', foreground: '#666633', fontStyle: 'bold' },
     { token: 'components-tags', foreground: '#666633', fontStyle: 'bold' },
-    { token: 'components-externalDocs', foreground: '#666633', fontStyle: 'bold' },
+    { token: 'components-external-documentation', foreground: '#666633', fontStyle: 'bold' },
     // plain value: green
     { token: 'value', foreground: '#339933' },
     { token: 'value.string', foreground: '#339933' },
