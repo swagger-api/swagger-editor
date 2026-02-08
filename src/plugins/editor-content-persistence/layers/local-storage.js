@@ -1,4 +1,4 @@
-const STORAGE_KEY = 'swagger-editor-next-content';
+const STORAGE_KEY = 'swagger-editor-content';
 
 export const saveToLocalStorage = (value) => {
   return localStorage.setItem(STORAGE_KEY, value);

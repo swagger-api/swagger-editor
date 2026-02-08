@@ -2,7 +2,7 @@
 # Github Actions only recognizes `workflow_run` and `workflow_dispatch`
 # events that are located in the default branch
 
-name: SwaggerEditor@next nightly build
+name: SwaggerEditor nightly build
 
 on:
   workflow_dispatch:
@@ -14,13 +14,13 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
         with:
           submodules: true
-          ref: next
+          ref: main
 
       - name: Use Node.js 22
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v6
         with:
           node-version: 22
           cache: npm
@@ -47,13 +47,13 @@ jobs:
         run: npm run cy:ci
 
       - name: Upload build artifact
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v6
         with:
           name: build
           path: ./build
 
       - name: Upload npm artifact
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v6
         with:
-          name: "swagger-editor-next.tgz"
+          name: "swagger-editor.tgz"
           path: ./swagger-editor-*.tgz

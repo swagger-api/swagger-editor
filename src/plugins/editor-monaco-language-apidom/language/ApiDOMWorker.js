@@ -2,6 +2,8 @@
 import deepExtend from 'deep-extend';
 import * as vscodeLanguageServerTextDocument from 'vscode-languageserver-textdocument';
 import * as apidomLS from '@swagger-api/apidom-ls';
+import * as apidomNSOpenAPI2 from '@swagger-api/apidom-ns-openapi-2';
+import * as apidomNSOpenAPI30 from '@swagger-api/apidom-ns-openapi-3-0';
 
 export class ApiDOMWorker {
   static defaultApiDOMContext = {
@@ -9,15 +11,20 @@ export class ApiDOMWorker {
     completionProviders: [],
     performanceLogs: false,
     logLevel: apidomLS.LogLevel.WARN,
-    defaultLanguageContent: {
-      namespace: 'asyncapi',
-    },
     completionContext: {
       maxNumberOfItems: 100,
       enableLSPFilter: false, // enables "strict" word filtering (instead of default Monaco fuzzy matching; https://github.com/swagger-api/apidom/pull/2954)
     },
     validationContext: {
+      referenceValidationContinueOnError: true,
       referenceValidationMode: apidomLS.ReferenceValidationMode.APIDOM_INDIRECT_EXTERNAL,
+    },
+    referenceOptions: {
+      resolve: {
+        resolverOpts: {
+          cacheTTL: 60 * 1000, // store the result in a cache for 60 seconds
+        },
+      },
     },
   };
 
@@ -161,6 +168,8 @@ export const makeCreate = (BaseClass) => (ctx, createData) => {
 
       ApiDOMWorkerClass = workerFactoryFunc(ApiDOMWorkerClass, {
         apidomLS,
+        apidomNSOpenAPI2,
+        apidomNSOpenAPI30,
         vscodeLanguageServerTextDocument,
         deepExtend,
       });

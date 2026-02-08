@@ -1,12 +1,12 @@
 # inspired by https://securitylab.github.com/research/github-actions-preventing-pwn-requests/
-name: Deploy SwaggerEditor@next to GitHub Pages
+name: Deploy SwaggerEditor to GitHub Pages
 
 on:
   workflow_run:
-    workflows: ["SwaggerEditor@next build", "SwaggerEditor@next nightly build"]
+    workflows: ["SwaggerEditor build", "SwaggerEditor nightly build"]
     types:
       - completed
-    branches: [next]
+    branches: [main]
 
 jobs:
 
@@ -14,15 +14,15 @@ jobs:
     if: >
       github.event.workflow_run.event == 'push' &&
       github.event.workflow_run.conclusion == 'success'
-    name: Deploy SwaggerEditor@next to GitHub Pages
+    name: Deploy SwaggerEditor to GitHub Pages
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
         with:
-          ref: next
+          ref: main
       - name: 'Download build artifact'
-        uses: actions/github-script@v7
+        uses: actions/github-script@v8
         with:
           script: |
             const allArtifacts = await github.rest.actions.listWorkflowRunArtifacts({
@@ -45,7 +45,7 @@ jobs:
           mkdir deploy-dir
           unzip build.zip -d deploy-dir
       - name: Deploy 🚀
-        uses: JamesIves/github-pages-deploy-action@v4.7.3
+        uses: JamesIves/github-pages-deploy-action@v4.8.0
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           branch: gh-pages # The branch the action should deploy to.

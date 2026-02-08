@@ -1,7 +1,5 @@
 # SwaggerEditor
 
-SwaggerEditor is using [**forked** Create React App](https://github.com/swagger-api/swagger-editor-cra/) as it's building infrastructure.
-
 ## Table of Contents
 
 - [Anonymized analytics](#anonymized-analytics)
@@ -308,9 +306,6 @@ Run the following commands to set up the repository for local development:
 ```sh
  $ git clone https://github.com/swagger-api/swagger-editor.git
  $ cd swagger-editor
- $ git checkout next
- $ git submodule init
- $ git submodule update
  $ npm i
  $ npm start
 ```
@@ -337,7 +332,7 @@ Usage in **development** environment:
  $ npm run cy:dev
 ```
 
-Usage in **Continuos Integration (CI)** environment:
+Usage in **Continuous Integration (CI)** environment:
 
 ```sh
  $ npm run cy:ci
@@ -493,11 +488,9 @@ In order to inform `swagger-editor@5` npm package that I require it to use my Re
 > [!NOTE]
 > The React and ReactDOM override are defined as a reference to the dependency. Since _react-redux@9_ only supports `React >= 18`, we need to use _react-redux@8_.
 
-
 ### yarn
 
 In order to inform `swagger-editor@5` npm package that I require it to use my specific React version, I need to use [yarn resolutions](https://yarnpkg.com/cli/set/resolution).
-
 
 ```json
 {
@@ -519,6 +512,62 @@ In order to inform `swagger-editor@5` npm package that I require it to use my sp
 ### Customization
 
 - [Plug points](./docs/customization/plug-points/README.md)
+
+#### Syntax Highlighting Modes
+
+SwaggerEditor supports two syntax highlighting modes for the Monaco editor:
+
+1. **Simplified Mode (default)** - Regex-based syntax highlighting using Monaco's Monarch tokenizer
+2. **ApiDOM Mode** - Semantic token highlighting provided by ApiDOM Language Service
+
+The simplified mode is enabled by default. If you need more sophisticated semantic highlighting, you can enable ApiDOM mode.
+
+**Using Simplified Mode (default):**
+
+```js
+import EditorMonacoLanguageApiDOMPlugin from 'swagger-editor/plugins/editor-monaco-language-apidom';
+
+// Default behavior - uses simplified syntax highlighting
+const plugins = [
+  EditorMonacoLanguageApiDOMPlugin,
+  // ... other plugins
+];
+```
+
+**Enabling ApiDOM Mode:**
+
+```js
+import EditorMonacoLanguageApiDOMPlugin from 'swagger-editor/plugins/editor-monaco-language-apidom';
+
+// Enable ApiDOM semantic token highlighting
+const plugins = [
+  EditorMonacoLanguageApiDOMPlugin({ useApiDOMSyntaxHighlighting: true }),
+  // ... other plugins
+];
+```
+
+**Visual Differences:**
+
+The two modes produce different syntax highlighting appearances:
+
+- **Simplified mode**:
+  - Uses regex-based Monarch tokenizer for syntax coloring
+  - Keywords, strings, numbers, and booleans each have distinct colors
+  - Does not colorize bracket pairs (brackets are styled as part of the overall token)
+  - Color scheme defined by theme token rules: `plain.keyword`, `plain.value.string`, `plain.value.number`, `plain.value.boolean`
+
+- **ApiDOM mode**:
+  - Uses semantic token analysis from ApiDOM Language Service
+  - Provides context-aware token coloring based on specification structure
+  - Enables bracket pair colorization (semantic tokens don't include bracket information, so editor's bracket colorization feature is enabled)
+  - Color scheme uses ApiDOM-specific token types with more granular semantic categories
+
+Both modes support:
+- OpenAPI 2.0, 3.0, 3.1
+- AsyncAPI 2.x, 3.x
+- JSON and YAML syntax
+- Specification extensions (x- prefixed fields)
+- Inline JSON objects and arrays
 
 ### Environment Variables
 
@@ -720,7 +769,6 @@ import MonacoPreset from 'swagger-editor/presets/monaco';
 > NOTE: Please refer to the [Plug points documentation](https://github.com/swagger-api/swagger-ui/blob/master/docs/customization/plug-points.md)
 of SwaggerUI to understand how presets are passed to SwaggerUI.
 
-
 #### Composing with swagger-ui
 
 ```js
@@ -858,7 +906,6 @@ const SwaggerEditor = () => {
 ReactDOM.render(<SwaggerEditor />, document.getElementById('swagger-editor'));
 ```
 
-
 ## Docker
 
 ### Pre-built DockerHub image
@@ -866,8 +913,8 @@ ReactDOM.render(<SwaggerEditor />, document.getElementById('swagger-editor'));
 SwaggerEditor is available as a pre-built docker image hosted on **docker.swagger.io**.
 
 ```sh
-$ docker pull docker.swagger.io/swaggerapi/swagger-editor:next-v5
-$ docker run -d -p 8080:80 docker.swagger.io/swaggerapi/swagger-editor:next-v5
+$ docker pull docker.swagger.io/swaggerapi/swagger-editor:latest
+$ docker run -d -p 8080:80 docker.swagger.io/swaggerapi/swagger-editor:latest
 ```
 
 ### Building locally
@@ -876,8 +923,8 @@ $ docker run -d -p 8080:80 docker.swagger.io/swaggerapi/swagger-editor:next-v5
 
 ```sh
  $ npm run build:app
- $ docker build . -t swaggerapi/swagger-editor:next-v5
- $ docker run -d -p 8080:80 swaggerapi/swagger-editor:next-v5
+ $ docker build . -t swaggerapi/swagger-editor:latest
+ $ docker run -d -p 8080:80 swaggerapi/swagger-editor:latest
 ```
 
 Now open your browser at `http://localhost:8080/`.
@@ -886,12 +933,11 @@ Now open your browser at `http://localhost:8080/`.
 
 ```sh
  $ npm run build:app
- $ docker build . -f Dockerfile.unprivileged -t swaggerapi/swagger-editor:next-v5-unprivileged
- $ docker run -d -p 8080:8080 swaggerapi/swagger-editor:next-v5-unprivileged
+ $ docker build . -f Dockerfile.unprivileged -t swaggerapi/swagger-editor:latest-unprivileged
+ $ docker run -d -p 8080:8080 swaggerapi/swagger-editor:latest-unprivileged
 ```
 
 Now open your browser at `http://localhost:8080/`.
-
 
 > **No** custom environment variables are currently supported by SwaggerEditor.
 
