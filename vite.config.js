@@ -10,25 +10,40 @@ export default defineConfig(({ command, mode }) => {
 
   return {
     base: '/',
-    plugins: [ react(), nodePolyfills({
-      include: ['path', 'stream', 'util', 'buffer', 'cwd'],
-      exclude: ['http'],
-      globals: {
-        Buffer: true,
-        global: true,
-        process: true,
-        cwd: true,
+    server: {
+      // Ensure workers are served with correct MIME type
+      fs: {
+        strict: false,
       },
-      overrides: {
-        fs: 'memfs',
-      },
-      protocolImports: true,
-    }),
+    },
+    plugins: [
+      react(),
+      nodePolyfills({
+        include: ['path', 'stream', 'util', 'buffer', 'cwd'],
+        exclude: ['http'],
+        globals: {
+          Buffer: true,
+          global: true,
+          process: true,
+          cwd: true,
+        },
+        overrides: {
+          fs: 'memfs',
+        },
+        protocolImports: true,
+      }),
+      // Copy worker files for production build
       viteStaticCopy({
         targets: [
           {
+            src: 'src/plugins/editor-monaco-language-apidom/language/apidom.worker.js',
+            dest: '',
+            rename: 'apidom.worker.js',
+          },
+          {
             src: 'node_modules/monaco-editor/esm/vs/editor/editor.worker.js',
-            dest: 'public',
+            dest: '',
+            rename: 'editor.worker.js',
           },
         ],
       }),
@@ -38,6 +53,19 @@ export default defineConfig(({ command, mode }) => {
       alias: [
         { find: 'plugins', replacement: '/src/plugins' },
         { find: 'presets', replacement: '/src/presets' },
+      ],
+    },
+    worker: {
+      format: 'es',
+      plugins: () => [
+        nodePolyfills({
+          include: ['path', 'stream', 'util', 'buffer'],
+          globals: {
+            Buffer: true,
+            global: true,
+            process: true,
+          },
+        }),
       ],
     },
     build: {

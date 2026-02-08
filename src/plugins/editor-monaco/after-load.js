@@ -15,10 +15,12 @@ function afterLoad(system) {
     initPhase: InitPhase.UNINITIALIZED,
     baseUrl: document.baseURI || location.href, // eslint-disable-line no-restricted-globals
     getWorker() {
-      return new Worker(
-        new URL(process.env.VITE_APIDOM_WORKER_FILENAME, this.baseUrl),
-        { type: 'classic' } // ensures importScripts() works
-      );
+      // In dev mode, use source file path; in production, use bundled file
+      const workerPath = import.meta.env.DEV
+        ? import.meta.env.VITE_APIDOM_WORKER_PATH
+        : import.meta.env.VITE_APIDOM_WORKER_FILENAME;
+      const workerUrl = new URL(workerPath, this.baseUrl).href;
+      return new Worker(workerUrl, { type: 'module' });
     },
     ...globalThis.MonacoEnvironment, // this will allow to override the base uri for loading Web Workers
   };

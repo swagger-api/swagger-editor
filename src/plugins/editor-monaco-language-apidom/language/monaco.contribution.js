@@ -132,10 +132,17 @@ const lazyMonacoContribution = ({ createData, system }) => {
     // expect editor-monaco plugin to have already executed
     ...globalThis.MonacoEnvironment,
     getWorkerUrl(moduleId, label) {
+      // In dev mode, use source file paths; in production, use bundled files
       if (label === apidom.languageId) {
-        return new URL(process.env.VITE_APIDOM_WORKER_FILENAME, this.baseUrl).toString();
+        const workerPath = import.meta.env.DEV
+          ? import.meta.env.VITE_APIDOM_WORKER_PATH
+          : import.meta.env.VITE_APIDOM_WORKER_FILENAME;
+        return new URL(workerPath, this.baseUrl).toString();
       }
-      return new URL(process.env.VITE_EDITOR_WORKER_FILENAME, this.baseUrl).toString();
+      const editorWorkerPath = import.meta.env.DEV
+        ? import.meta.env.VITE_EDITOR_WORKER_PATH
+        : import.meta.env.VITE_EDITOR_WORKER_FILENAME;
+      return new URL(editorWorkerPath, this.baseUrl).toString();
     },
   };
 };
