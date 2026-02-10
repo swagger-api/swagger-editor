@@ -88,6 +88,15 @@
         "vars-on-top": "off",
         "no-var": "off"
       }
+    },
+    {
+      "files": ["test/playwright/**/*.ts"],
+      "rules": {
+        "testing-library/prefer-screen-queries": "off",
+        "no-underscore-dangle": "off",
+        "no-await-in-loop": "off",
+        "no-plusplus": "off"
+      }
     }
   ]
 }
