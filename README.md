@@ -324,7 +324,31 @@ Run the following commands to set up the repository for local development:
  $ npm test
 ```
 
-**Runs E2E Cypress tests**
+**Runs E2E tests**
+
+**Playwright tests** (recommended):
+
+Usage in **development** environment:
+
+```sh
+ $ npx playwright test --headed    # Run with browser visible
+ $ npx playwright test --ui        # Run with Playwright UI
+ $ npx playwright test --debug     # Run in debug mode
+```
+
+Usage in **Continuous Integration (CI)** environment:
+
+```sh
+ $ npx playwright test              # Run all tests headless
+```
+
+View test report:
+
+```sh
+ $ npx playwright show-report test/playwright/report
+```
+
+**Cypress tests** (legacy):
 
 Usage in **development** environment:
 

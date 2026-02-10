@@ -45,13 +45,13 @@ It's built as a React application on top of SwaggerUI's plugin architecture, fea
 | **Monaco Editor** | Advanced code editor (via @codingame/monaco-vscode-api) |
 | **ApiDOM** | API specification parsing & validation |
 | **Webpack 5** | Module bundling |
-| **Jest + Cypress** | Testing (unit + e2e) |
+| **Jest + Playwright** | Testing (unit + e2e) |
 
 ### Project Philosophy
 
 - **Plugin-based architecture**: Everything is a plugin
 - **Minimal over-engineering**: Only implement what's needed
-- **Heavy E2E testing**: Comprehensive Cypress tests per feature
+- **Heavy E2E testing**: Comprehensive Playwright tests per feature
 - **Gradual TypeScript adoption**: Using `@ts-strict-ignore` for incremental migration
 - **Build artifacts**: Supports app, ESM, and UMD bundles
 
@@ -80,7 +80,12 @@ swagger-editor/
 │   ├── styles/           # Global SCSS styles
 │   └── types/            # TypeScript type definitions
 ├── test/
-│   ├── cypress/          # E2E tests (13 test files)
+│   ├── playwright/       # E2E tests (Playwright)
+│   │   ├── e2e/          # Test specs (*.spec.ts)
+│   │   ├── fixtures/     # Test data
+│   │   ├── helpers/      # Test helper functions
+│   │   └── tsconfig.json # TypeScript config for tests
+│   ├── cypress/          # E2E tests (Cypress - legacy)
 │   │   ├── e2e/          # Test specs
 │   │   ├── fixtures/     # Test data
 │   │   └── support/      # Cypress commands
@@ -384,8 +389,13 @@ npm start
 | `npm run build:bundle:esm` | Build ES module bundle to `/dist/esm` |
 | `npm run build:bundle:umd` | Build UMD bundle to `/dist/umd` |
 | `npm run build:definitions` | Generate TypeScript definitions |
-| `npm run cy:dev` | Run Cypress E2E tests (interactive) |
-| `npm run cy:ci` | Run Cypress in CI mode |
+| `npx playwright test` | Run Playwright E2E tests (headless) |
+| `npx playwright test --headed` | Run Playwright tests with browser visible |
+| `npx playwright test --ui` | Run Playwright tests with interactive UI |
+| `npx playwright test --debug` | Run Playwright tests in debug mode |
+| `npx playwright show-report` | View Playwright test report |
+| `npm run cy:dev` | Run Cypress E2E tests (interactive - legacy) |
+| `npm run cy:ci` | Run Cypress in CI mode (legacy) |
 | `npm run clean` | Remove `/build` and `/dist` |
 
 ### Build Artifacts
@@ -514,6 +524,72 @@ describe('Feature Name', () => {
 - ✅ Test real user workflows
 - ⚠️ Minimal unit tests (consider expanding for complex logic)
 
+### E2E Testing (Playwright) - **Recommended**
+
+**Configuration:** `playwright.config.ts`
+
+- **Location:** `test/playwright/e2e/**/*.spec.ts`
+- **Base URL:** http://localhost:3000
+- **Run All Tests:** `npx playwright test`
+- **Run with UI:** `npx playwright test --ui`
+- **Run Headed:** `npx playwright test --headed`
+- **Run Specific Test:** `npx playwright test <test-file>.spec.ts`
+- **Debug Mode:** `npx playwright test --debug`
+- **View Report:** `npx playwright show-report test/playwright/report`
+
+**Existing Test Files:**
+- `app.spec.ts` - General app functionality
+- `plugin.top-bar.spec.ts` - Top bar menu tests
+- `plugin.editor-monaco.spec.ts` - Monaco editor tests
+- `plugin.editor-monaco-yaml-paste.spec.ts` - YAML paste conversion tests
+- `plugin.dropzone.spec.ts` - File upload tests
+- `plugin.validation-pane.spec.ts` - Validation display tests
+- `plugin.editor-content-from-file.spec.ts` - File import tests
+- `plugin.editor-persistence.spec.ts` - LocalStorage persistence tests
+- `plugin.editor-preview-*.spec.ts` - Preview rendering tests
+- And more...
+
+**Writing E2E Tests:**
+
+```typescript
+import { test, expect } from '@playwright/test';
+import { visitBlankPage, waitForSplashScreen } from '../helpers';
+
+test.describe('Feature Name', () => {
+  test.beforeEach(async ({ page }) => {
+    await visitBlankPage(page);
+    await waitForSplashScreen(page);
+  });
+
+  test('should do something', async ({ page }) => {
+    await page.locator('[data-testid="some-element"]').click();
+    await expect(page.locator('text=Expected Text')).toBeVisible();
+  });
+});
+```
+
+**Helper Functions:**
+
+Playwright tests use helper functions located in `test/playwright/helpers/`:
+- **Setup helpers:** `visitBlankPage()`, `waitForSplashScreen()`, `prepareAsyncAPI()`, etc.
+- **Editor helpers:** `typeInEditor()`, `getAllEditorText()`, `selectAllEditorText()`, etc.
+- **Menu helpers:** `clickMenu()`, `loadExample()`, `generateServer()`, etc.
+
+**TypeScript Support:**
+
+All Playwright tests are written in TypeScript with proper type definitions:
+- Test configuration: `test/playwright/tsconfig.json`
+- Type definitions for Monaco API: `MonacoWindow` interface in `helpers/editor-helpers.ts`
+- Full type safety with `@playwright/test` types
+
+**Advantages over Cypress:**
+- ✅ Better TypeScript support out of the box
+- ✅ Faster test execution with parallel workers
+- ✅ More reliable with better auto-waiting
+- ✅ Built-in test report with screenshots/videos
+- ✅ Better debugging with `--debug` and `--ui` modes
+- ✅ No need for custom commands - use helper functions
+
 ---
 
 ## Code Style & Conventions
@@ -641,8 +717,9 @@ import { SystemType } from 'types/system';               // ✅
 | Utilities | kebab-case.js | `import-url.js` |
 | Types | kebab-case.d.ts | `system.d.ts` |
 | Styles | kebab-case.scss | `_monaco-editor.scss` |
-| Tests | ComponentName.test.jsx | `ValidationPane.test.jsx` |
-| Cypress | feature.cy.js | `plugin.editor-monaco.cy.js` |
+| Tests (Unit) | ComponentName.test.jsx | `ValidationPane.test.jsx` |
+| Tests (Playwright) | feature.spec.ts | `plugin.editor-monaco.spec.ts` |
+| Tests (Cypress) | feature.cy.js | `plugin.editor-monaco.cy.js` |
 
 ### Import Conventions
 
@@ -1003,7 +1080,34 @@ export default MyPlugin;
 
 ### 4. Adding E2E Tests
 
-**Create test file:**
+**Create Playwright test file (Recommended):**
+```typescript
+// test/playwright/e2e/my-feature.spec.ts
+import { test, expect } from '@playwright/test';
+import { visitBlankPage, waitForSplashScreen } from '../helpers';
+
+test.describe('My Feature', () => {
+  test.beforeEach(async ({ page }) => {
+    await visitBlankPage(page);
+    await waitForSplashScreen(page);
+  });
+
+  test('should perform action', async ({ page }) => {
+    await page.locator('[data-testid="my-button"]').click();
+    await expect(page.locator('text=Expected Result')).toBeVisible();
+  });
+});
+```
+
+**Run Playwright tests:**
+```bash
+npx playwright test test/playwright/e2e/my-feature.spec.ts  # Run specific test
+npx playwright test --ui                                     # Interactive UI mode
+npx playwright test --debug                                  # Debug mode
+npx playwright show-report test/playwright/report           # View report
+```
+
+**Create Cypress test file (Legacy):**
 ```javascript
 // test/cypress/e2e/my-feature.cy.js
 describe('My Feature', () => {
@@ -1019,7 +1123,7 @@ describe('My Feature', () => {
 });
 ```
 
-**Run tests:**
+**Run Cypress tests:**
 ```bash
 npm run cy:dev  # Interactive
 npm run cy:ci   # Headless

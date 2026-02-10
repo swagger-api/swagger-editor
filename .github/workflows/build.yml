@@ -51,4 +51,4 @@ jobs:
           path: ./build
 
       - name: E2E Tests
-        run: npm run cy:ci
+        run: npm run pw:ci
