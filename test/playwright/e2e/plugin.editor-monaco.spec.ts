@@ -6,6 +6,9 @@ import {
   prepareOasGenerator,
   waitForSplashScreen,
   waitForContentPropagation,
+  selectAllEditorText,
+  typeInEditor,
+  type MonacoWindow,
 } from '../helpers';
 
 /**
@@ -31,8 +34,7 @@ test.describe('Monaco Editor with Parser', () => {
 
     // Clear editor content by directly setting model value to empty string
     await page.evaluate(() => {
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      const model = (window as any).monaco.getModel();
+      const model = (window as unknown as MonacoWindow).monaco.getModel();
       model.setValue('');
     });
 
@@ -43,8 +45,7 @@ test.describe('Monaco Editor with Parser', () => {
 
     // Verify editor is empty
     const editorContent = await page.evaluate(() => {
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      return (window as any).monaco.getModel().getValue();
+      return (window as unknown as MonacoWindow).monaco.getModel().getValue();
     });
     expect(editorContent).toBe('');
   });

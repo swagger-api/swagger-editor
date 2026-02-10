@@ -9,7 +9,7 @@ import { Page, Locator } from '@playwright/test';
 /**
  * Type definitions for Monaco window API
  */
-interface MonacoWindow extends Window {
+export interface MonacoWindow extends Window {
   monaco: {
     setPosition(position: { lineNumber: number; column: number }, source: string): void;
     focus(): void;
@@ -35,6 +35,7 @@ interface MonacoWindow extends Window {
     trigger(source: string, action: string, data: any): void;
     getModel(): {
       getValue(): string;
+      setValue(value: string): void;
     };
     getRawOptions(): {
       readOnly: boolean;

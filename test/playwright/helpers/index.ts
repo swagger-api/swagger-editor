@@ -29,6 +29,7 @@ export {
   isEditorReadOnly,
   pasteToEditor,
   getEditorLocator,
+  type MonacoWindow,
 } from './editor-helpers';
 
 // Menu helpers

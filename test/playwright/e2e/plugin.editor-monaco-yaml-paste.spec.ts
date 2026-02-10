@@ -5,7 +5,6 @@ import {
   prepareOpenAPI20,
   prepareOasGenerator,
   waitForSplashScreen,
-  selectAllEditorText,
   waitForContentPropagation,
   getAllEditorText,
 } from '../helpers';
@@ -14,12 +13,11 @@ import {
  * EditorMonacoYamlPastePlugin
  * Tests for JSON to YAML conversion when pasting
  *
- * NOTE: These tests are skipped because the Monaco YAML paste plugin's conversion dialog
- * does not trigger reliably in automated testing environments (Playwright, Cypress headless).
- * The plugin requires genuine clipboard interaction which is difficult to simulate programmatically.
+ * These tests verify that pasting JSON into a YAML editor triggers a conversion dialog
+ * and properly converts the JSON to YAML format with appropriate indentation.
  *
- * The feature works correctly in manual testing but cannot be reliably tested in automation.
- * This is the same limitation that existed in the original Cypress tests.
+ * The tests use Monaco's API directly to dispatch paste events to the editor's textarea,
+ * which reliably triggers the paste event handler in automated testing.
  *
  * Migrated from: test/cypress/e2e/plugin.editor-monaco-yaml-paste.cy.js
  */
@@ -34,9 +32,7 @@ test.describe('EditorMonacoYamlPastePlugin', () => {
   });
 
   test.describe('when I replace the text in editor by pasting a new JSON text', () => {
-    test.skip('should convert JSON to YAML', async ({ page }) => {
-      await selectAllEditorText(page);
-
+    test('should convert JSON to YAML', async ({ page }) => {
       const jsonText = `{
             "openapi": "3.1.0",
             "info": {
@@ -49,16 +45,34 @@ test.describe('EditorMonacoYamlPastePlugin', () => {
             }
           }`;
 
-      // Write to clipboard and paste using keyboard
-      await page.evaluate(async (text) => {
-        await navigator.clipboard.writeText(text);
+      // Select all text using Monaco API and then paste
+      await page.evaluate((text) => {
+        const editor = (window as any).monaco;
+        const model = editor.getModel();
+        const fullRange = model.getFullModelRange();
+
+        // Select all text
+        editor.setSelection(fullRange);
+        editor.focus();
+
+        // Create and dispatch paste event with the selection range
+        const clipboardData = new DataTransfer();
+        clipboardData.setData('text', text);
+        const pasteEvent = new ClipboardEvent('paste', {
+          bubbles: true,
+          cancelable: true,
+          clipboardData,
+        });
+
+        const editorDomNode = editor.getDomNode();
+        const textArea = editorDomNode.querySelector('textarea');
+        if (textArea) {
+          textArea.dispatchEvent(pasteEvent);
+        }
       }, jsonText);
 
-      // Focus editor and paste with keyboard
-      await page.locator('.monaco-editor').click();
-      const isMac = process.platform === 'darwin';
-      const modifier = isMac ? 'Meta' : 'Control';
-      await page.keyboard.press(`${modifier}+KeyV`);
+      // Wait for paste event to be processed
+      await page.waitForTimeout(500);
 
       await waitForContentPropagation(page);
 
@@ -77,34 +91,53 @@ test.describe('EditorMonacoYamlPastePlugin', () => {
       );
     });
 
-    test.skip('should add padding', async ({ page }) => {
-      await selectAllEditorText(page);
-
-      // First paste YAML
+    test('should add padding', async ({ page }) => {
+      // First paste YAML to replace all content
       const yamlText =
         'openapi: 3.1.0\ninfo:\n  title: Swagger Petstore - OpenAPI 3.1\n  version: 1.0.11\n  ';
 
-      await page.evaluate(async (text) => {
-        await navigator.clipboard.writeText(text);
-      }, yamlText);
+      await page.evaluate((text) => {
+        const editor = (window as any).monaco;
+        const model = editor.getModel();
+        const fullRange = model.getFullModelRange();
 
-      await page.locator('.monaco-editor').click();
-      const isMac = process.platform === 'darwin';
-      const modifier = isMac ? 'Meta' : 'Control';
-      await page.keyboard.press(`${modifier}+KeyV`);
+        // Replace all content with YAML
+        editor.executeEdits('', [{ range: fullRange, text, forceMoveMarkers: true }]);
+      }, yamlText);
 
       await waitForContentPropagation(page);
 
-      // Then paste JSON (should be converted and padded)
+      // Position cursor at end and paste JSON (should be converted and padded)
       const jsonText =
         '{"termsOfService":"http://swagger.io/terms/","contact":{"email": "apiteam@swagger.io"}}';
 
-      await page.evaluate(async (text) => {
-        await navigator.clipboard.writeText(text);
+      await page.evaluate((text) => {
+        const editor = (window as any).monaco;
+        const model = editor.getModel();
+        const lastLine = model.getLineCount();
+        const lastColumn = model.getLineMaxColumn(lastLine);
+
+        // Position cursor at the end
+        editor.setPosition({ lineNumber: lastLine, column: lastColumn });
+        editor.focus();
+
+        // Dispatch paste event
+        const clipboardData = new DataTransfer();
+        clipboardData.setData('text', text);
+        const pasteEvent = new ClipboardEvent('paste', {
+          bubbles: true,
+          cancelable: true,
+          clipboardData,
+        });
+
+        const editorDomNode = editor.getDomNode();
+        const textArea = editorDomNode.querySelector('textarea');
+        if (textArea) {
+          textArea.dispatchEvent(pasteEvent);
+        }
       }, jsonText);
 
-      await page.keyboard.press(`${modifier}+KeyV`);
-      await waitForContentPropagation(page);
+      await page.waitForTimeout(500);
 
       // Wait for and click OK button in conversion dialog (use more flexible selector)
       const okButton = page.locator('button:has-text("OK")').first();
