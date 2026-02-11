@@ -26,11 +26,13 @@ export default defineConfig({
   retries: process.env.CI ? 2 : 0,
 
   // Reporter to use
-  reporters: [
-    ['html', { outputFolder: 'test/playwright/report' }],
-    ['list'],
-    ...(process.env.CI ? [['github' as const]] : []),
-  ],
+  reporter: process.env.CI
+    ? [
+        ['list'], // Shows each test name and status as it runs
+        ['github'], // GitHub Actions annotations for failures
+        ['html', { outputFolder: 'test/playwright/report' }],
+      ]
+    : [['html', { outputFolder: 'test/playwright/report' }], ['list']],
 
   // Shared settings for all the projects below
   use: {
