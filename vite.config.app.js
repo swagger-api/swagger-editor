@@ -5,6 +5,7 @@ import { createHtmlPlugin } from 'vite-plugin-html';
 import wasmPlugin from '@rollup/plugin-wasm';
 import topLevelAwait from 'vite-plugin-top-level-await';
 import importMetaUrlPlugin from '@codingame/esbuild-import-meta-url-plugin';
+import { viteStaticCopy } from 'vite-plugin-static-copy';
 import path from 'path';
 import { fileURLToPath } from 'url';
 
@@ -21,9 +22,27 @@ export default defineConfig(({ mode }) => {
     plugins: [
       react(),
       topLevelAwait(),
+      // Copy tree-sitter WASM files to root for worker access
+      viteStaticCopy({
+        targets: [
+          {
+            src: 'node_modules/@swagger-api/apidom-parser-adapter-json/wasm/tree-sitter-json.wasm',
+            dest: '.',
+          },
+          {
+            src: 'node_modules/@swagger-api/apidom-parser-adapter-yaml-1-2/wasm/tree-sitter-yaml.wasm',
+            dest: '.',
+          },
+          {
+            src: 'node_modules/@swagger-api/apidom-parser-adapter-yaml-1-2/node_modules/@tree-sitter-grammars/tree-sitter-yaml/tree-sitter-yaml.wasm',
+            dest: '.',
+            rename: 'tree-sitter.wasm',
+          },
+        ],
+      }),
       nodePolyfills({
-        include: ['path', 'stream', 'util', 'buffer', 'cwd', 'fs'],
-        exclude: ['http'],
+        include: ['path', 'stream', 'util', 'buffer', 'cwd'],
+        exclude: ['http', 'fs'], // Exclude fs - not needed in browser
         globals: {
           Buffer: true,
           global: true,
@@ -31,9 +50,6 @@ export default defineConfig(({ mode }) => {
           cwd: true,
         },
         protocolImports: true,
-        overrides: {
-          fs: 'memfs',
-        },
       }),
       createHtmlPlugin({
         minify: true,
@@ -49,7 +65,17 @@ export default defineConfig(({ mode }) => {
       esbuildOptions: {
         plugins: [importMetaUrlPlugin],
       },
-      include: ['vscode-textmate', 'vscode-oniguruma', '@vscode/vscode-languagedetection'],
+      include: [
+        'vscode-textmate',
+        'vscode-oniguruma',
+        '@vscode/vscode-languagedetection',
+        '@babel/runtime-corejs3/core-js/aggregate-error',
+        'ramda',
+        'ramda-adjunct',
+        '@stoplight/spectral-core',
+        '@stoplight/spectral-functions',
+        '@stoplight/spectral-runtime',
+      ],
     },
 
     assetsInclude: ['**/*.wasm'],
@@ -59,16 +85,36 @@ export default defineConfig(({ mode }) => {
       sourcemap: true,
       emptyOutDir: true,
       target: 'esnext',
-      commonjsOptions: { transformMixedEsModules: true },
+      commonjsOptions: {
+        transformMixedEsModules: true,
+        include: [/node_modules\/@stoplight\/spectral/, /node_modules\/minim/, /node_modules/],
+      },
       chunkSizeWarningLimit: 1000,
 
       rollupOptions: {
         input: {
           main: path.resolve(__dirname, 'index.html'),
+          // Build workers as separate entry points
+          'apidom.worker': path.resolve(
+            __dirname,
+            'src/plugins/editor-monaco-language-apidom/language/apidom.worker.js'
+          ),
+          'editor.worker': path.resolve(
+            __dirname,
+            'node_modules/monaco-editor/esm/vs/editor/editor.worker.start.js'
+          ),
         },
 
         output: {
-          entryFileNames: 'static/js/[name].[hash].js',
+          hoistTransitiveImports: false,
+          entryFileNames: (chunkInfo) => {
+            // Place worker files at root without hash
+            if (chunkInfo.name.includes('worker')) {
+              return '[name].js';
+            }
+            // Regular entry files go in static/js with hash
+            return 'static/js/[name].[hash].js';
+          },
           chunkFileNames: 'static/js/[name].[hash].chunk.js',
           assetFileNames: (assetInfo) => {
             if (assetInfo.name && assetInfo.name.endsWith('.css')) {
@@ -76,31 +122,13 @@ export default defineConfig(({ mode }) => {
             }
             return 'static/media/[name].[hash][extname]';
           },
-          manualChunks: (id) => {
-            // Split vendor chunks to reduce memory pressure
-            if (id.includes('node_modules')) {
-              if (id.includes('monaco-editor') || id.includes('monaco-vscode')) {
-                return 'vendor-monaco';
-              }
-              if (id.includes('swagger-ui') || id.includes('@swagger-api')) {
-                return 'vendor-swagger';
-              }
-              if (id.includes('react') || id.includes('react-dom')) {
-                return 'vendor-react';
-              }
-              if (id.includes('@asyncapi')) {
-                return 'vendor-asyncapi';
-              }
-              return 'vendor';
-            }
-          },
         },
 
         external: ['esprima'],
 
         plugins: [
           wasmPlugin({
-            targetEnv: 'auto-inline',
+            targetEnv: 'browser',
           }),
         ],
 
@@ -120,6 +148,7 @@ export default defineConfig(({ mode }) => {
       alias: [
         { find: 'plugins', replacement: path.resolve(__dirname, 'src/plugins') },
         { find: 'presets', replacement: path.resolve(__dirname, 'src/presets') },
+        { find: 'fs', replacement: path.resolve(__dirname, 'src/polyfills/fs-shim.js') },
       ],
     },
 
@@ -129,6 +158,11 @@ export default defineConfig(({ mode }) => {
         output: {
           entryFileNames: 'static/js/[name].js',
         },
+        plugins: [
+          wasmPlugin({
+            targetEnv: 'browser',
+          }),
+        ],
       },
       plugins: () => [
         nodePolyfills({
