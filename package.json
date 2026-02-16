@@ -70,7 +70,7 @@
   "dependencies": {
     "@asyncapi/avro-schema-parser": "3.0.24",
     "@asyncapi/openapi-schema-parser": "3.0.24",
-    "@asyncapi/parser": "3.4.0",
+    "@asyncapi/parser": "3.6.0",
     "@asyncapi/protobuf-schema-parser": "3.6.0",
     "@asyncapi/react-component": "2.6.5",
     "@codingame/monaco-vscode-api": "=23.2.2",
@@ -78,7 +78,6 @@
     "@emotion/styled": "^11.14.0",
     "@mui/material": "^5.16.9",
     "@primer/octicons-react": "^19.15.2",
-    "@stoplight/spectral-core": "^1.20.0",
     "@swagger-api/apidom-core": "1.4.0",
     "@swagger-api/apidom-json-pointer": "1.4.0",
     "@swagger-api/apidom-ls": "1.4.0",
