@@ -50,7 +50,7 @@ jobs:
         run: |
           npm run lint
           npm run test
-          npm run cy:ci
+          npm run pw:ci
           npm run build:bundle:esm
           npm run build:bundle:umd
           npm run build:definitions

@@ -50,5 +50,10 @@ jobs:
           name: build
           path: ./build
 
+      - name: Install Playwright browsers
+        run: npm run pw:install
+
       - name: E2E Tests
-        run: npm run cy:ci
+        run: npm run pw:ci
+        env:
+          CI: true
