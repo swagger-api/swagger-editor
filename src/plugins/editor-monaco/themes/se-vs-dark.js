@@ -117,13 +117,25 @@ export default {
     { token: 'externalDocumentation', foreground: '#d0d0e3', fontStyle: 'bold' },
     // additional top-level tokens for AsyncAPI Object: bold, with light purple-white
     { token: 'spec-version', foreground: '#d0d0e3', fontStyle: 'bold' }, // e.g. asyncapi
+    { token: 'defaultContentType', foreground: '#d0d0e3', fontStyle: 'bold' },
     { token: 'channels', foreground: '#d0d0e3', fontStyle: 'bold' },
+    { token: 'operations', foreground: '#d0d0e3', fontStyle: 'bold' },
     // messages tokens: purple
     { token: 'components-messages', foreground: '#C678DD', fontStyle: 'bold' },
+    { token: 'components-messageTraits', foreground: '#C678DD', fontStyle: 'bold' },
     { token: 'messages', foreground: '#C678DD', fontStyle: 'italic' },
     { token: 'message', foreground: '#C678DD' },
+    { token: 'messageTraits', foreground: '#C678DD', fontStyle: 'italic' },
+    { token: 'messageExample', foreground: '#C678DD' },
     // operation tokens: swagger-ui-post=green, swagger-ui-get=blue
+    { token: 'components-operations', foreground: '#66afce', fontStyle: 'bold' },
+    { token: 'components-operationTraits', foreground: '#66afce', fontStyle: 'bold' },
     { token: 'operation', foreground: '#66afce', fontStyle: 'bold' }, // light blue
+    { token: 'operationTraits', foreground: '#66afce', fontStyle: 'italic' },
+    { token: 'operationBindings', foreground: '#66afce' },
+    { token: 'channelBindings', foreground: '#66afce' },
+    { token: 'messageBindings', foreground: '#66afce' },
+    { token: 'serverBindings', foreground: '#66afce' },
     { token: 'operation.httpMethod-GET', foreground: '#0099ff', fontStyle: 'bold' }, // blue
     { token: 'operation.httpMethod-POST', foreground: '#00cc99', fontStyle: 'bold' }, // teal
     // parameters tokens: purple
@@ -136,9 +148,12 @@ export default {
     // components/{schemas}/schema: bold olive green
     { token: 'components-schemas', foreground: '#ceca84', fontStyle: 'bold' },
     { token: 'schema', foreground: '#ceca84', fontStyle: 'bold' },
-    // pathItem & channelItem: bold olive green
+    { token: 'multiFormatSchema', foreground: '#ceca84', fontStyle: 'bold' },
+    // pathItem, channel & channelItem: bold olive green
     { token: 'pathItem', foreground: '#ceca84', fontStyle: 'bold' },
     { token: 'channelItem', foreground: '#ceca84', fontStyle: 'bold' },
+    { token: 'channel', foreground: '#ceca84', fontStyle: 'bold' },
+    { token: 'components-channels', foreground: '#ceca84', fontStyle: 'bold' },
     // request & response: olive green
     { token: 'requestBody', foreground: '#ceca84', fontStyle: 'italic' },
     { token: 'responses', foreground: '#ceca84', fontStyle: 'italic' },
@@ -156,6 +171,13 @@ export default {
     { token: 'components-callbacks', foreground: '#ceca84', fontStyle: 'bold' },
     { token: 'components-pathItems', foreground: '#ceca84', fontStyle: 'bold' },
     { token: 'components-path-items', foreground: '#ceca84', fontStyle: 'bold' },
+    // AsyncAPI 3 specific components: bold olive green
+    { token: 'components-replies', foreground: '#ceca84', fontStyle: 'bold' },
+    { token: 'components-reply-addresses', foreground: '#ceca84', fontStyle: 'bold' },
+    { token: 'operationReply', foreground: '#ceca84', fontStyle: 'bold' },
+    { token: 'operationReplyAddress', foreground: '#ceca84', fontStyle: 'bold' },
+    { token: 'components-tags', foreground: '#ceca84', fontStyle: 'bold' },
+    { token: 'components-external-documentation', foreground: '#ceca84', fontStyle: 'bold' },
     // plain value: green
     { token: 'value', foreground: '#98C379' },
     { token: 'value.string', foreground: '#98C379' },
@@ -179,9 +201,15 @@ export default {
     { token: 'operation-example', foreground: '#1de2fa' },
     { token: 'operation-callbacks', foreground: '#1de2fa' },
     { token: 'securityScheme', foreground: '#1de2fa' },
+    { token: 'securityRequirement', foreground: '#1de2fa' },
     { token: 'server-variables', foreground: '#1de2fa' },
     { token: 'messageTrait', foreground: '#1de2fa' },
     { token: 'operationTrait', foreground: '#1de2fa' },
+    // bindings: sky blue
+    { token: 'channel-binding', foreground: '#1de2fa' },
+    { token: 'message-binding', foreground: '#1de2fa' },
+    { token: 'operation-binding', foreground: '#1de2fa' },
+    { token: 'server-binding', foreground: '#1de2fa' },
     // tokens exist in apidom-ls, but not working in editor, sky blue
     { token: 'version', foreground: '#1de2fa' },
     { token: 'title', foreground: '#1de2fa' },
