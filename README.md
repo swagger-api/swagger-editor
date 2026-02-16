@@ -326,8 +326,6 @@ Run the following commands to set up the repository for local development:
 
 **Runs E2E tests**
 
-**Playwright tests** (recommended):
-
 Usage in **development** environment:
 
 ```sh
@@ -346,20 +344,6 @@ View test report:
 
 ```sh
  $ npx playwright show-report test/playwright/report
-```
-
-**Cypress tests** (legacy):
-
-Usage in **development** environment:
-
-```sh
- $ npm run cy:dev
-```
-
-Usage in **Continuous Integration (CI)** environment:
-
-```sh
- $ npm run cy:ci
 ```
 
 **Build**

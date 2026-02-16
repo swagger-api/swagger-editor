@@ -84,7 +84,7 @@ SwaggerEditor@5 is now based on `swagger-ui-react` instead of `swagger-ui`. In a
 
 Unit tests are now covered by `jest` and `@testing-library`. Unit tests are now co-located next to their component. Component tests follow the `@testing-library` philosophy to avoid including implementation details, so that changes to implementation but not functionality doesn't break existing tests.
 
-E2E Cypress tests remain in the `test/cypress` directory.
+E2E tests are now covered by Playwright and are located in the `test/playwright` directory.
 
 
 ### Design

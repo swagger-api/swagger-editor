@@ -89,8 +89,6 @@ export default defineConfig({
       PORT: '3000',
       BROWSER: 'none',
       ENABLE_PROGRESS_PLUGIN: 'false',
-      REACT_APP_E2E_TESTS: 'true',
-      E2E_TESTS: 'true',
       FAST_REFRESH: 'false',
     },
   },
