@@ -1,9 +1,6 @@
 /**
  * Playwright Test Helpers
  * Central export point for all helper modules
- *
- * Usage in tests:
- * import { waitForSplashScreen, getAllEditorText, clickMenu } from '../helpers';
  */
 
 // Setup helpers

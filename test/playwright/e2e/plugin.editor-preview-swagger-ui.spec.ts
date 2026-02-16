@@ -13,6 +13,9 @@ import {
  * Editor Preview Pane: OpenAPI 2.0, 3.0.x, 3.1.x
  * Tests for SwaggerUI preview rendering of OpenAPI specifications
  *
+ * Note: `.title` and `.version-stamp` are SwaggerUI-specific CSS classes
+ * that should only appear in the preview pane, not in the editor.
+ *
  * Migrated from: test/cypress/e2e/plugin.editor-preview-swagger-ui.cy.js
  */
 test.describe('Editor Preview Pane: OpenAPI 2.0, 3.0.x, 3.1.x', () => {
@@ -28,7 +31,6 @@ test.describe('Editor Preview Pane: OpenAPI 2.0, 3.0.x, 3.1.x', () => {
     await clickNestedMenuItem(page, 'File', 'Load Example', 'OpenAPI 2.0 Petstore');
     await waitForContentPropagation(page);
 
-    // `.title` and `.version-stamp` are SwaggerUI specific css classes, that should only appear in the preview pane
     await expect(page.locator('.title').filter({ hasText: 'Swagger Petstore 2.0' })).toBeVisible();
     await expect(page.locator('.version-stamp > .version')).toBeVisible();
     await expect(page.locator('.version-stamp > .version')).toContainText('OAS 2.0');
@@ -39,7 +41,6 @@ test.describe('Editor Preview Pane: OpenAPI 2.0, 3.0.x, 3.1.x', () => {
     await clickNestedMenuItem(page, 'File', 'Load Example', 'OpenAPI 3.0 Petstore');
     await waitForContentPropagation(page);
 
-    // `.title` and `.version-stamp` are SwaggerUI specific css classes, that should only appear in the preview pane
     await expect(
       page.locator('.title').filter({ hasText: 'Swagger Petstore - OpenAPI 3.0' })
     ).toBeVisible();
@@ -52,7 +53,6 @@ test.describe('Editor Preview Pane: OpenAPI 2.0, 3.0.x, 3.1.x', () => {
     await clickNestedMenuItem(page, 'File', 'Load Example', 'OpenAPI 3.1 Petstore');
     await waitForContentPropagation(page);
 
-    // `.title` and `.version-stamp` are SwaggerUI specific css classes, that should only appear in the preview pane
     await expect(
       page.locator('.title').filter({ hasText: 'Swagger Petstore - OpenAPI 3.1' })
     ).toBeVisible();
@@ -65,7 +65,6 @@ test.describe('Editor Preview Pane: OpenAPI 2.0, 3.0.x, 3.1.x', () => {
     await clickNestedMenuItem(page, 'File', 'Load Example', 'AsyncAPI 2.6 Petstore');
     await waitForContentPropagation(page);
 
-    // `.title` is a SwaggerUI specific css class
     await expect(page.locator('.title')).not.toBeAttached();
     await expect(page.locator('text=Swagger Petstore')).not.toBeAttached();
   });
