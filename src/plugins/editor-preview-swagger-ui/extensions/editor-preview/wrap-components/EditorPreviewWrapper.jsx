@@ -20,6 +20,7 @@ const EditorPreviewWrapper = (Original, system) => {
     editorSelectors: PropTypes.shape({
       selectIsContentTypeOpenAPI: PropTypes.func.isRequired,
       selectIsContentTypeOpenAPI31x: PropTypes.func.isRequired,
+      selectIsContentTypeOpenAPI32x: PropTypes.func.isRequired,
     }).isRequired,
   };
 

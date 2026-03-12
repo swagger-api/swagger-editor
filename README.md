@@ -571,7 +571,7 @@ The two modes produce different syntax highlighting appearances:
   - Color scheme uses ApiDOM-specific token types with more granular semantic categories
 
 Both modes support:
-- OpenAPI 2.0, 3.0, 3.1
+- OpenAPI 2.0, 3.0, 3.1, 3.2
 - AsyncAPI 2.x, 3.x
 - JSON and YAML syntax
 - Specification extensions (x- prefixed fields)
