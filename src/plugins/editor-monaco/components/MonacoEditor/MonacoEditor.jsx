@@ -20,6 +20,7 @@ const MonacoEditor = ({
   theme,
   language,
   isReadOnly = false,
+  bracketPairColorizationEnabled = false,
   onMount = noop,
   onWillUnmount = noop,
   onChange = noop,
@@ -60,7 +61,7 @@ const MonacoEditor = ({
       quickSuggestions: true,
       quickSuggestionsDelay: 300,
       fixedOverflowWidgets: true,
-      'bracketPairColorization.enabled': true,
+      'bracketPairColorization.enabled': bracketPairColorizationEnabled,
       suggest: {
         snippetsPreventQuickSuggestions: false,
       },
@@ -71,7 +72,7 @@ const MonacoEditor = ({
     editorRef.current.getModel().updateOptions({ tabSize: 2 });
     setIsEditorReady(true);
     preventCreation.current = true;
-  }, [value, language, theme, isReadOnly]);
+  }, [value, language, theme, isReadOnly, bracketPairColorizationEnabled]);
 
   const disposeEditor = useCallback(() => {
     onWillUnmount(editorRef.current, monaco);
@@ -204,6 +205,7 @@ MonacoEditor.propTypes = {
   language: PropTypes.string.isRequired,
   theme: PropTypes.string.isRequired,
   isReadOnly: PropTypes.bool,
+  bracketPairColorizationEnabled: PropTypes.bool,
   onMount: PropTypes.func,
   onWillUnmount: PropTypes.func,
   onChange: PropTypes.func,

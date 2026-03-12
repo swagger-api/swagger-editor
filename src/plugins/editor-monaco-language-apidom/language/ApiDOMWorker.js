@@ -16,7 +16,15 @@ export class ApiDOMWorker {
       enableLSPFilter: false, // enables "strict" word filtering (instead of default Monaco fuzzy matching; https://github.com/swagger-api/apidom/pull/2954)
     },
     validationContext: {
+      referenceValidationContinueOnError: true,
       referenceValidationMode: apidomLS.ReferenceValidationMode.APIDOM_INDIRECT_EXTERNAL,
+    },
+    referenceOptions: {
+      resolve: {
+        resolverOpts: {
+          cacheTTL: 60 * 1000, // store the result in a cache for 60 seconds
+        },
+      },
     },
   };
 

@@ -202,16 +202,19 @@ export default (webpackEnv) => {
         // This alias allows us to import presets as absolute path
         presets: path.resolve(paths.appSrc, 'presets/'),
         // This alias makes sure we don't pull two different versions of monaco-editor
-        'monaco-editor': '/node_modules/monaco-editor',
+        // Use path.resolve to ensure cross-platform compatibility (fixes Windows path issues)
+        'monaco-editor': path.resolve(paths.appNodeModules, 'monaco-editor'),
         // This alias makes sure we're avoiding a runtime error related to this package
-        '@stoplight/ordered-object-literal$':
-          '/node_modules/@stoplight/ordered-object-literal/src/index.mjs',
+        '@stoplight/ordered-object-literal$': path.resolve(
+          paths.appNodeModules,
+          '@stoplight/ordered-object-literal/src/index.mjs'
+        ),
         src: paths.appSrc,
       },
       plugins: [
         new ModuleScopePlugin(paths.appSrc, [
           paths.appPackageJson,
-          '/node_modules/monaco-editor',
+          path.resolve(paths.appNodeModules, 'monaco-editor'),
           reactRefreshRuntimeEntry,
           reactRefreshWebpackPluginRuntimeEntry,
           babelRuntimeEntry,
