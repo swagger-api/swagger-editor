@@ -44,7 +44,7 @@ jobs:
 
       - name: Upload build artifacts
         if: github.ref == 'refs/heads/main'
-        uses: actions/upload-artifact@v6
+        uses: actions/upload-artifact@v7
         with:
           name: build
           path: ./build
