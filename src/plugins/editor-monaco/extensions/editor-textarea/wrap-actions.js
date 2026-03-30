@@ -3,12 +3,10 @@ export const editorSetup = (oriAction) => (editorInstance, implementation) => {
     return oriAction(editorInstance, implementation);
   }
 
-  const fsa = oriAction({ id: editorInstance.getId() }, implementation);
-
   globalThis.editor = editorInstance;
   globalThis[implementation] = editorInstance;
 
-  return fsa;
+  return oriAction({ id: editorInstance.getId() }, implementation);
 };
 
 export const editorTearDown = (oriAction) => (editorInstance, implementation) => {
@@ -16,10 +14,8 @@ export const editorTearDown = (oriAction) => (editorInstance, implementation) =>
     return oriAction(editorInstance, implementation);
   }
 
-  const fsa = oriAction({ id: editorInstance.getId() }, implementation);
-
   delete globalThis.editor;
   delete globalThis[implementation];
 
-  return fsa;
+  return oriAction({ id: editorInstance.getId() }, implementation);
 };
