@@ -7,21 +7,21 @@ export const setContentDebouncedImpl = debounce((content, contentOrigin, system)
 }, 500);
 
 export const editorSetup = (oriAction) => (editorInstance, implementation) => {
-  oriAction(editorInstance, implementation);
-
   if (implementation !== 'monaco') {
     globalThis.editor = editorInstance;
     globalThis[implementation] = editorInstance;
   }
+
+  return oriAction(editorInstance, implementation);
 };
 
 export const editorTearDown = (oriAction) => (editorInstance, implementation) => {
-  oriAction(editorInstance, implementation);
-
   if (implementation !== 'monaco') {
     delete globalThis.editor;
     delete globalThis[implementation];
   }
+
+  return oriAction(editorInstance, implementation);
 };
 
 export const setContentDebounced = (oriAction, system) => (content, contentOrigin) => {
