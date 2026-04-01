@@ -191,7 +191,7 @@
     "husky": "^9.1.7",
     "identity-obj-proxy": "^3.0.0",
     "inspectpack": "^4.7.1",
-    "jest": "^27.4.3",
+    "jest": "^30.3.0",
     "jest-canvas-mock": "^2.5.2",
     "jest-resolve": "^27.4.2",
     "jest-watch-typeahead": "^2.2.2",
