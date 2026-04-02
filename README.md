@@ -942,7 +942,7 @@ Now open your browser at `http://localhost:8080/`.
 ```sh
  $ npm run build:app
  $ docker build . -f Dockerfile.unprivileged -t swaggerapi/swagger-editor:latest-unprivileged
- $ docker run -d -p 8080:8080 swaggerapi/swagger-editor:latest-unprivileged
+ $ docker run -d -p 8080:80 swaggerapi/swagger-editor:latest-unprivileged
 ```
 
 Now open your browser at `http://localhost:8080/`.
