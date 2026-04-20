@@ -584,11 +584,14 @@ These environment variables will get baked in during build time into build artif
 
 Environment variables currently available:
 
-| Variable name               |                                                Description                                                 |
-|-----------------------------|:----------------------------------------------------------------------------------------------------------:|
-| `REACT_APP_DEFINITION_FILE` | Specifies a local file path, and the specified file must also be present in the `/public/static` directory |
-| `REACT_APP_DEFINITION_URL`  | Specifies a remote URL. This environment variable currently takes precedence over `REACT_APP_SWAGGER_FILE` |
-| `REACT_APP_VERSION`         |              Specifies the version of this app. The version is read from `package.json` file.              |
+| Variable name                           |                                                                                          Description                                                                                          |
+|-----------------------------------------|:---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------:|
+| `REACT_APP_DEFINITION_FILE`             | Specifies a local file path, and the specified file must also be present in the `/public/static` directory                                                                                    |
+| `REACT_APP_DEFINITION_URL`              | Specifies a remote URL. This environment variable currently takes precedence over `REACT_APP_SWAGGER_FILE`                                                                                    |
+| `REACT_APP_VERSION`                     | Specifies the version of this app. The version is read from `package.json` file.                                                                                                              |
+| `REACT_APP_SWAGGER2_CONVERTER_URL`      | Specifies the URL for the OpenAPI 2.0 to OpenAPI 3.0 converter service. Defaults to `https://converter.swagger.io/api/convert`. Set to `null` to disable conversion.                          |
+| `REACT_APP_OPENAPI3_GENERATOR_BASE_URL` | Specifies the base URL for the OpenAPI 3.0 code generator service. Defaults to `https://generator3.swagger.io/api`. Set to `null` to disable the generator.                                   |
+| `REACT_APP_OPENAPI2_GENERATOR_BASE_URL` | Specifies the base URL for the OpenAPI 2.0 code generator service. Defaults to `https://generator.swagger.io/api/gen`. Set to `null` to disable the generator.                                |
 
 Sample environment variable values can be found in `.env` file. For more information about using
 environment variables, please refer to [adding Custom Environment Variables](https://create-react-app.dev/docs/adding-custom-environment-variables/)

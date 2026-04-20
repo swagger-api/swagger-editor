@@ -6,7 +6,13 @@ import { SUCCESS_STATUS, IDLE_STATUS } from './reducers.js';
  * editor state plugin selectors.
  */
 
-export const selectOpenAPI20ConverterURL = () => 'https://converter.swagger.io/api/convert';
+export const selectOpenAPI20ConverterURL = () => {
+  const converterUrl = process.env.REACT_APP_SWAGGER2_CONVERTER_URL;
+  if (converterUrl === 'null') {
+    return null;
+  }
+  return converterUrl || 'https://converter.swagger.io/api/convert';
+};
 
 /**
  * editorTopBar state plugin selectors.
@@ -14,10 +20,25 @@ export const selectOpenAPI20ConverterURL = () => 'https://converter.swagger.io/a
 
 export const selectEditorTopBarState = (state) => state;
 
-export const selectOpenAPI3GeneratorServerListURL = () =>
-  'https://generator3.swagger.io/api/servers';
+export const selectOpenAPI3GeneratorBaseURL = () => {
+  return process.env.REACT_APP_OPENAPI3_GENERATOR_BASE_URL || 'https://generator3.swagger.io/api';
+};
 
-export const selectOpenAPI3GenerateServerURL = () => 'https://generator3.swagger.io/api/generate';
+export const selectOpenAPI2GeneratorBaseURL = () => {
+  return (
+    process.env.REACT_APP_OPENAPI2_GENERATOR_BASE_URL || 'https://generator.swagger.io/api/gen'
+  );
+};
+
+export const selectOpenAPI3GeneratorServerListURL = () => {
+  const baseUrl = selectOpenAPI3GeneratorBaseURL();
+  return baseUrl ? `${baseUrl}/servers` : 'https://generator3.swagger.io/api/servers';
+};
+
+export const selectOpenAPI3GenerateServerURL = () => {
+  const baseUrl = selectOpenAPI3GeneratorBaseURL();
+  return baseUrl ? `${baseUrl}/generate` : 'https://generator3.swagger.io/api/generate';
+};
 
 export const selectOpenAPI3GeneratorServerListStatus = (state) =>
   state.get('openAPI3GeneratorServerListStatus') || IDLE_STATUS;
@@ -34,10 +55,15 @@ export const selectOpenAPI3GeneratorServerList = createSelector(
   }
 );
 
-export const selectOpenAPI3GeneratorClientListURL = () =>
-  'https://generator3.swagger.io/api/clients';
+export const selectOpenAPI3GeneratorClientListURL = () => {
+  const baseUrl = selectOpenAPI3GeneratorBaseURL();
+  return baseUrl ? `${baseUrl}/clients` : 'https://generator3.swagger.io/api/clients';
+};
 
-export const selectOpenAPI3GenerateClientURL = () => 'https://generator3.swagger.io/api/generate';
+export const selectOpenAPI3GenerateClientURL = () => {
+  const baseUrl = selectOpenAPI3GeneratorBaseURL();
+  return baseUrl ? `${baseUrl}/generate` : 'https://generator3.swagger.io/api/generate';
+};
 
 export const selectOpenAPI3GeneratorClientListStatus = (state) =>
   state.get('openAPI3GeneratorClientListStatus') || IDLE_STATUS;
@@ -54,10 +80,15 @@ export const selectOpenAPI3GeneratorClientList = createSelector(
   }
 );
 
-export const selectOpenAPI2GeneratorServerListURL = () =>
-  'https://generator.swagger.io/api/gen/servers';
+export const selectOpenAPI2GeneratorServerListURL = () => {
+  const baseUrl = selectOpenAPI2GeneratorBaseURL();
+  return baseUrl ? `${baseUrl}/servers` : 'https://generator.swagger.io/api/gen/servers';
+};
 
-export const selectOpenAPI2GenerateServerURL = () => 'https://generator.swagger.io/api/gen/servers';
+export const selectOpenAPI2GenerateServerURL = () => {
+  const baseUrl = selectOpenAPI2GeneratorBaseURL();
+  return baseUrl ? `${baseUrl}/servers` : 'https://generator.swagger.io/api/gen/servers';
+};
 
 export const selectOpenAPI2GeneratorServerListStatus = (state) =>
   state.get('openAPI2GeneratorServerListStatus') || IDLE_STATUS;
@@ -74,10 +105,15 @@ export const selectOpenAPI2GeneratorServerList = createSelector(
   }
 );
 
-export const selectOpenAPI2GeneratorClientListURL = () =>
-  'https://generator.swagger.io/api/gen/clients';
+export const selectOpenAPI2GeneratorClientListURL = () => {
+  const baseUrl = selectOpenAPI2GeneratorBaseURL();
+  return baseUrl ? `${baseUrl}/clients` : 'https://generator.swagger.io/api/gen/clients';
+};
 
-export const selectOpenAPI2GenerateClientURL = () => 'https://generator.swagger.io/api/gen/clients';
+export const selectOpenAPI2GenerateClientURL = () => {
+  const baseUrl = selectOpenAPI2GeneratorBaseURL();
+  return baseUrl ? `${baseUrl}/clients` : 'https://generator.swagger.io/api/gen/clients';
+};
 
 export const selectOpenAPI2GeneratorClientListStatus = (state) =>
   state.get('openAPI2GeneratorClientListStatus') || IDLE_STATUS;
