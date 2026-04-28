@@ -7,7 +7,7 @@ LABEL maintainer="vladimir.gorej@smartbear.com" \
 
 COPY ./build /usr/share/nginx/html
 
-EXPOSE 8080
+EXPOSE 80
 
 # start nginx
 CMD ["nginx", "-g", "daemon off;"]
