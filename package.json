@@ -72,7 +72,7 @@
     "@asyncapi/openapi-schema-parser": "3.0.24",
     "@asyncapi/parser": "3.6.0",
     "@asyncapi/protobuf-schema-parser": "3.6.0",
-    "@asyncapi/react-component": "2.6.5",
+    "@asyncapi/react-component": "3.1.1",
     "@codingame/monaco-vscode-api": "=23.2.2",
     "@emotion/react": "^11.14.0",
     "@emotion/styled": "^11.14.0",
