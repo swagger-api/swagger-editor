@@ -100,7 +100,7 @@
     "@swagger-api/apidom-parser-adapter-openapi-yaml-3-1": "1.11.0",
     "@swagger-api/apidom-parser-adapter-openapi-yaml-3-2": "1.11.0",
     "@swagger-api/apidom-parser-adapter-yaml-1-2": "1.11.0",
-    "axios": "1.15.0",
+    "axios": "1.16.0",
     "buffer": "^6.0.3",
     "classnames": "^2.3.2",
     "deep-extend": "=0.6.0",
