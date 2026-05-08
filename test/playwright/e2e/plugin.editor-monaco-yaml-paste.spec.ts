@@ -65,9 +65,9 @@ test.describe('EditorMonacoYamlPastePlugin', () => {
         });
 
         const editorDomNode = editor.getDomNode();
-        const textArea = editorDomNode.querySelector('textarea');
-        if (textArea) {
-          textArea.dispatchEvent(pasteEvent);
+        const target = editorDomNode.querySelector('.native-edit-context');
+        if (target) {
+          target.dispatchEvent(pasteEvent);
         }
       }, jsonText);
 
@@ -131,9 +131,9 @@ test.describe('EditorMonacoYamlPastePlugin', () => {
         });
 
         const editorDomNode = editor.getDomNode();
-        const textArea = editorDomNode.querySelector('textarea');
-        if (textArea) {
-          textArea.dispatchEvent(pasteEvent);
+        const target = editorDomNode.querySelector('.native-edit-context');
+        if (target) {
+          target.dispatchEvent(pasteEvent);
         }
       }, jsonText);
 
