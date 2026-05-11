@@ -41,15 +41,19 @@ export default class WorkerManager {
     this.#lastUsedTime = Date.now();
 
     if (!this.#client) {
+      const languageId = this.#defaults.getLanguageId();
+      const worker = globalThis.MonacoEnvironment.getWorker('ApiDOMWorker', languageId);
+      const createData = {
+        ...this.#defaults.getWorkerOptions().data,
+        languageId,
+        apiDOMContext: this.#defaults.getWorkerOptions().apiDOMContext,
+        customWorkerPath: this.#defaults.getWorkerOptions().customWorkerPath,
+      };
+      worker.postMessage(createData);
+
       this.#worker = monaco.editor.createWebWorker({
-        moduleId: 'ApiDOMWorker',
-        label: this.#defaults.getLanguageId(),
-        createData: {
-          ...this.#defaults.getWorkerOptions().data,
-          languageId: this.#defaults.getLanguageId(),
-          apiDOMContext: this.#defaults.getWorkerOptions().apiDOMContext,
-          customWorkerPath: this.#defaults.getWorkerOptions().customWorkerPath,
-        },
+        worker,
+        keepIdleModels: true,
       });
 
       this.#client = this.#worker.getProxy();
