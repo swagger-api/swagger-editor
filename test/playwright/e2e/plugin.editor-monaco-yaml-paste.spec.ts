@@ -16,7 +16,7 @@ import {
  * These tests verify that pasting JSON into a YAML editor triggers a conversion dialog
  * and properly converts the JSON to YAML format with appropriate indentation.
  *
- * The tests use Monaco's API directly to dispatch paste events to the editor's textarea,
+ * The tests use Monaco's API directly to dispatch paste events to the editor's native edit context,
  * which reliably triggers the paste event handler in automated testing.
  *
  * Migrated from: test/cypress/e2e/plugin.editor-monaco-yaml-paste.cy.js
