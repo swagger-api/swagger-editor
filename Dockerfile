@@ -1,4 +1,4 @@
-FROM nginx:1.29.7-alpine
+FROM nginx:1.29.8-alpine
 
 LABEL maintainer="vladimir.gorej@smartbear.com" \
       org.opencontainers.image.authors="vladimir.gorej@smartbear.com" \
