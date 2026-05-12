@@ -1,4 +1,4 @@
-import jest from 'jest';
+import { run } from 'jest';
 
 import '../config/env.js';
 
@@ -16,4 +16,4 @@ if (
   argv.push('--watch');
 }
 
-jest.run(argv);
+run(argv);

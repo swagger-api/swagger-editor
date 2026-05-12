@@ -239,7 +239,7 @@ export default (webpackEnv) => {
       rules: [
         shouldUseSourceMap && {
           enforce: 'pre',
-          exclude: [/autolinker/, /@jsdevtools\/ono/, /@stoplight/],
+          exclude: [/autolinker/, /@jsdevtools\/ono/, /@stoplight/, /dompurify/],
           test: /\.(js|mjs|jsx|ts|tsx|css)$/,
           loader: require.resolve('source-map-loader'),
         },
@@ -544,6 +544,7 @@ export default (webpackEnv) => {
           percentBy: null,
         }),
     ].filter(Boolean),
+    ignoreWarnings: [{ module: /protobufjs/, message: /Critical dependency/ }],
     performance: false,
   };
 };

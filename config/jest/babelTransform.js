@@ -1,8 +1,8 @@
-import babelJest from 'babel-jest';
+import { createTransformer } from 'babel-jest';
 
 import { require } from '../util.js';
 
-export default babelJest.default.createTransformer({
+export default createTransformer({
   presets: [
     [
       require.resolve('babel-preset-react-app'),
