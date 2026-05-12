@@ -113,7 +113,6 @@ const swaggerEditorConfig = (webpackEnv) => {
 
   config.resolve.alias = {
     ...config.resolve.alias,
-    'react-is': path.resolve(paths.appNodeModules, 'react-is'),
     dompurify: path.resolve(paths.appNodeModules, 'dompurify'),
     '@babel/runtime': path.resolve(paths.appNodeModules, '@babel', 'runtime'),
   };
