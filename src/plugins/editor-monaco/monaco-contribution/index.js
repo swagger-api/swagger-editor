@@ -26,23 +26,19 @@ const lazyMonacoContribution = ({ system }) => {
 
   // store current version ID of the model
   disposables.push(
-    monaco.editor.onDidCreateEditor((editor) => {
+    monaco.editor.onDidCreateModel((model) => {
+      const setModelVersions = () => {
+        const versionId = model.getVersionId();
+        const alternativeVersionId = model.getAlternativeVersionId();
+
+        editorActions.setModelVersionId(versionId, { alternativeVersionId });
+      };
+
+      setModelVersions();
+
       disposables.push(
-        monaco.editor.onDidCreateModel((model) => {
-          const versionId = model.getVersionId();
-          const alternativeVersionId = model.getAlternativeVersionId();
-
-          editorActions.setModelVersionId(versionId, { alternativeVersionId });
-        })
-      );
-
-      disposables.push(
-        editor.onDidChangeModelContent(() => {
-          const model = editor.getModel();
-          const versionId = model.getVersionId();
-          const alternativeVersionId = model.getAlternativeVersionId();
-
-          editorActions.setModelVersionId(versionId, { alternativeVersionId });
+        model.onDidChangeContent(() => {
+          setModelVersions();
         })
       );
     })
