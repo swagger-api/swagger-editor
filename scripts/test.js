@@ -1,7 +1,5 @@
 import { run } from 'jest';
 
-import '../config/env.js';
-
 process.on('unhandledRejection', (err) => {
   throw err;
 });

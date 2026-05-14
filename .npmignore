@@ -9,7 +9,6 @@
 /scripts/
 /test/
 /src/
-/create-react-app/
 /.nvmrc
 /.lintstagedrc
 /.eslintignore

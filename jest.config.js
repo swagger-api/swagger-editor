@@ -8,18 +8,7 @@ export default {
   ],
   testEnvironment: 'jsdom',
   transform: {
-    '^.+\\.(js|jsx|mjs|cjs|ts|tsx)$': [
-      'babel-jest',
-      {
-        presets: [
-          ['@babel/preset-env', { targets: { node: 'current' } }],
-          ['@babel/preset-react', { runtime: 'automatic' }],
-          '@babel/preset-typescript',
-        ],
-        babelrc: false,
-        configFile: false,
-      },
-    ],
+    '^.+\\.(js|jsx|mjs|cjs|ts|tsx)$': 'babel-jest',
   },
   transformIgnorePatterns: [
     '[/\\\\]node_modules[/\\\\](?!@codingame/monaco-vscode-api[/\\\\]).+\\.(js|jsx|mjs|cjs|ts|tsx)$',
