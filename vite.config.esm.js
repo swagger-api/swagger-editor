@@ -1,7 +1,6 @@
 import { defineConfig } from 'vite';
 import { resolve, dirname } from 'path';
 import glob from 'glob';
-import { nodePolyfills } from 'vite-plugin-node-polyfills';
 import wasmPlugin from '@rollup/plugin-wasm';
 import { fileURLToPath } from 'url';
 
@@ -36,16 +35,7 @@ presetFiles.forEach((file) => {
 export default defineConfig({
   mode: 'production',
 
-  plugins: [
-    nodePolyfills({
-      include: ['path', 'stream', 'util', 'buffer'],
-      globals: {
-        Buffer: true,
-        global: true,
-        process: true,
-      },
-    }),
-  ],
+  plugins: [],
 
   assetsInclude: ['**/*.wasm'],
 

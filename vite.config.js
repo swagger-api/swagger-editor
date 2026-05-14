@@ -1,8 +1,8 @@
 import { defineConfig, loadEnv } from 'vite';
 import react from '@vitejs/plugin-react';
 import { viteStaticCopy } from 'vite-plugin-static-copy';
-import { nodePolyfills } from 'vite-plugin-node-polyfills';
 import importMetaUrlPlugin from '@codingame/esbuild-import-meta-url-plugin';
+import nodePolyfills from 'rollup-plugin-polyfill-node';
 
 // https://vitejs.dev/config/
 export default defineConfig(({ command, mode }) => {
@@ -18,20 +18,6 @@ export default defineConfig(({ command, mode }) => {
     },
     plugins: [
       react(),
-      nodePolyfills({
-        include: ['path', 'stream', 'util', 'buffer', 'cwd'],
-        exclude: ['http'],
-        globals: {
-          Buffer: true,
-          global: true,
-          process: true,
-          cwd: true,
-        },
-        overrides: {
-          fs: 'memfs',
-        },
-        protocolImports: true,
-      }),
       // Copy worker files for production build
       viteStaticCopy({
         targets: [
@@ -63,16 +49,7 @@ export default defineConfig(({ command, mode }) => {
     },
     worker: {
       format: 'es',
-      plugins: () => [
-        nodePolyfills({
-          include: ['path', 'stream', 'util', 'buffer'],
-          globals: {
-            Buffer: true,
-            global: true,
-            process: true,
-          },
-        }),
-      ],
+      plugins: () => [],
     },
     build: {
       commonjsOptions: { transformMixedEsModules: true },
@@ -82,27 +59,9 @@ export default defineConfig(({ command, mode }) => {
       outDir: 'build',
       chunkSizeWarningLimit: 1000,
       rollupOptions: {
-        // preserveEntrySignatures: "exports-only",
-        // output: [
-        //   {
-        //     dir: './dist/umd',
-        //     format: 'umd'
-        //   },
-        //   {
-        //     dir: './dist/esm',
-        //     format: 'es',
-        //     preserveModules: true,
-        //     preserveModulesRoot: 'src'
-        //   }
-        // ],
-        external: ['fs', 'path', 'http', 'zlib', 'https'],
+        plugins: [nodePolyfills()],
         onwarn(warning, warn) {
           if (warning.message.includes('Use of eval')) return;
-          if (warning.message.includes('Module "fs" has been externalized')) return;
-          if (warning.message.includes('Module "path" has been externalized')) return;
-          if (warning.message.includes('Module "zlib" has been externalized')) return;
-          if (warning.message.includes('Module "http" has been externalized')) return;
-          if (warning.message.includes('Module "https" has been externalized')) return;
           warn(warning);
         },
       },

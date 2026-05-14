@@ -1,9 +1,9 @@
 import { defineConfig, loadEnv } from 'vite';
 import react from '@vitejs/plugin-react';
-import { nodePolyfills } from 'vite-plugin-node-polyfills';
 import { createHtmlPlugin } from 'vite-plugin-html';
 import importMetaUrlPlugin from '@codingame/esbuild-import-meta-url-plugin';
 import { viteStaticCopy } from 'vite-plugin-static-copy';
+import nodePolyfills from 'rollup-plugin-polyfill-node';
 import path from 'path';
 import { fileURLToPath } from 'url';
 
@@ -31,17 +31,6 @@ export default defineConfig(({ mode }) => {
             dest: '.',
           },
         ],
-      }),
-      nodePolyfills({
-        include: ['path', 'stream', 'util', 'buffer', 'cwd'],
-        exclude: ['http', 'fs'], // Exclude fs - not needed in browser
-        globals: {
-          Buffer: true,
-          global: true,
-          process: true,
-          cwd: true,
-        },
-        protocolImports: true,
       }),
       createHtmlPlugin({
         minify: true,
@@ -118,13 +107,10 @@ export default defineConfig(({ mode }) => {
 
         external: ['esprima'],
 
+        plugins: [nodePolyfills()],
+
         onwarn(warning, warn) {
           if (warning.message.includes('Use of eval')) return;
-          if (warning.message.includes('Module "fs" has been externalized')) return;
-          if (warning.message.includes('Module "path" has been externalized')) return;
-          if (warning.message.includes('Module "zlib" has been externalized')) return;
-          if (warning.message.includes('Module "http" has been externalized')) return;
-          if (warning.message.includes('Module "https" has been externalized')) return;
           warn(warning);
         },
       },
@@ -134,7 +120,6 @@ export default defineConfig(({ mode }) => {
       alias: [
         { find: 'plugins', replacement: path.resolve(__dirname, 'src/plugins') },
         { find: 'presets', replacement: path.resolve(__dirname, 'src/presets') },
-        { find: 'fs', replacement: path.resolve(__dirname, 'src/polyfills/fs-shim.js') },
       ],
     },
 
@@ -145,16 +130,7 @@ export default defineConfig(({ mode }) => {
           entryFileNames: 'static/js/[name].js',
         },
       },
-      plugins: () => [
-        nodePolyfills({
-          include: ['path', 'stream', 'util', 'buffer'],
-          globals: {
-            Buffer: true,
-            global: true,
-            process: true,
-          },
-        }),
-      ],
+      plugins: () => [],
     },
   };
 });

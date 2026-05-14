@@ -1,8 +1,8 @@
 import { defineConfig } from 'vite';
 import { resolve, dirname } from 'path';
 import react from '@vitejs/plugin-react';
-import { nodePolyfills } from 'vite-plugin-node-polyfills';
 import wasmPlugin from '@rollup/plugin-wasm';
+import nodePolyfills from 'rollup-plugin-polyfill-node';
 import { fileURLToPath } from 'url';
 
 const __filename = fileURLToPath(import.meta.url);
@@ -12,17 +12,7 @@ const __dirname = dirname(__filename);
 export const mainConfig = defineConfig({
   configFile: false,
   mode: 'production',
-  plugins: [
-    react(),
-    nodePolyfills({
-      include: ['path', 'stream', 'util', 'buffer'],
-      globals: {
-        Buffer: true,
-        global: true,
-        process: true,
-      },
-    }),
-  ],
+  plugins: [react()],
   assetsInclude: ['**/*.wasm'],
   resolve: {
     alias: {
@@ -43,7 +33,7 @@ export const mainConfig = defineConfig({
     cssCodeSplit: false,
 
     rollupOptions: {
-      external: ['react', 'react-dom', 'fs', 'path', 'util', 'http', 'https', 'zlib'],
+      external: ['react', 'react-dom'],
       output: {
         globals: {
           react: 'React',
@@ -52,6 +42,7 @@ export const mainConfig = defineConfig({
         assetFileNames: 'swagger-editor.css',
       },
       plugins: [
+        nodePolyfills(),
         wasmPlugin({
           // Inline WASM as base64 for UMD compatibility
           targetEnv: 'auto-inline',
@@ -65,16 +56,7 @@ export const mainConfig = defineConfig({
 export const apidomWorkerConfig = defineConfig({
   configFile: false,
   mode: 'production',
-  plugins: [
-    nodePolyfills({
-      include: ['path', 'stream', 'util', 'buffer'],
-      globals: {
-        Buffer: true,
-        global: true,
-        process: true,
-      },
-    }),
-  ],
+  plugins: [],
   assetsInclude: ['**/*.wasm'],
   build: {
     lib: {
@@ -106,16 +88,7 @@ export const apidomWorkerConfig = defineConfig({
 export const editorWorkerConfig = defineConfig({
   configFile: false,
   mode: 'production',
-  plugins: [
-    nodePolyfills({
-      include: ['path', 'stream', 'util', 'buffer'],
-      globals: {
-        Buffer: true,
-        global: true,
-        process: true,
-      },
-    }),
-  ],
+  plugins: [],
   assetsInclude: ['**/*.wasm'],
   build: {
     lib: {
