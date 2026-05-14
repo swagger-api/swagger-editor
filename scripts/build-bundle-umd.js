@@ -1,4 +1,5 @@
 import { build } from 'vite';
+
 import { mainConfig, apidomWorkerConfig, editorWorkerConfig } from '../vite.config.umd.js';
 
 async function buildAll() {

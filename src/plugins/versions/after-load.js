@@ -1,6 +1,6 @@
 const afterLoad = () => {
   // eslint-disable-next-line no-undef
-  const { PACKAGE_VERSION, GIT_COMMIT, GIT_DIRTY, BUILD_TIME } = {}
+  const { PACKAGE_VERSION, GIT_COMMIT, GIT_DIRTY, BUILD_TIME } = {};
 
   globalThis.versions = globalThis.versions || {};
   globalThis.versions.swaggerEditor = Object.create(

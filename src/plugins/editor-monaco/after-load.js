@@ -1,6 +1,5 @@
 import { initialize as initializeMonacoServices, ILogService } from '@codingame/monaco-vscode-api';
 import 'vscode/localExtensionHost';
-
 import EditorWorkerConstructor from '@codingame/monaco-vscode-api/workers/editor.worker?worker';
 
 import lazyMonacoContribution from './monaco-contribution/index.js';
