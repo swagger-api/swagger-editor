@@ -120,6 +120,7 @@ export default defineConfig(({ mode }) => {
       alias: [
         { find: 'plugins', replacement: path.resolve(__dirname, 'src/plugins') },
         { find: 'presets', replacement: path.resolve(__dirname, 'src/presets') },
+        { find: 'fs', replacement: path.resolve(__dirname, 'src/polyfills/fs-shim.js') },
       ],
     },
 

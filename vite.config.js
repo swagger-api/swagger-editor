@@ -1,8 +1,12 @@
 import { defineConfig, loadEnv } from 'vite';
 import react from '@vitejs/plugin-react';
 import { viteStaticCopy } from 'vite-plugin-static-copy';
-import importMetaUrlPlugin from '@codingame/esbuild-import-meta-url-plugin';
 import nodePolyfills from 'rollup-plugin-polyfill-node';
+import path from 'path';
+import { fileURLToPath } from 'url';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 // https://vitejs.dev/config/
 export default defineConfig(({ command, mode }) => {
@@ -34,9 +38,23 @@ export default defineConfig(({ command, mode }) => {
         ],
       }),
     ],
+    define: {
+      global: 'globalThis',
+    },
     optimizeDeps: {
-      esbuildOptions: {
-        plugins: [importMetaUrlPlugin],
+      rolldownOptions: {
+        plugins: [
+          // Must run before nodePolyfills so it resolves 'fs' to our shim
+          // instead of the rollup-plugin-polyfill-node stub that lacks readFile
+          {
+            name: 'fs-shim',
+            resolveId(id) {
+              if (id === 'fs') return path.resolve(__dirname, 'src/polyfills/fs-shim.js');
+              return null;
+            },
+          },
+          nodePolyfills(),
+        ],
       },
       include: ['vscode-textmate', 'vscode-oniguruma', '@vscode/vscode-languagedetection'],
     },
@@ -45,6 +63,7 @@ export default defineConfig(({ command, mode }) => {
       alias: [
         { find: 'plugins', replacement: '/src/plugins' },
         { find: 'presets', replacement: '/src/presets' },
+        { find: 'fs', replacement: '/src/polyfills/fs-shim.js' },
       ],
     },
     worker: {
