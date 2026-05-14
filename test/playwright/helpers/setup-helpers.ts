@@ -172,7 +172,7 @@ export async function clearDownloadsFolder(): Promise<void> {
   try {
     const files = await fs.readdir(downloadsPath);
     await Promise.all(files.map((file) => fs.unlink(path.join(downloadsPath, file))));
-  } catch (error) {
+  } catch {
     // Ignore errors if directory doesn't exist
   }
 }

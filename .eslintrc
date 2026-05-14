@@ -1,14 +1,17 @@
 {
   "parser": "@typescript-eslint/parser",
   "extends": [
-    "react-app",
-    "react-app/jest",
     "airbnb",
     "plugin:jsx-a11y/recommended",
     "prettier",
     "plugin:prettier/recommended",
     "plugin:@typescript-eslint/recommended"
   ],
+  "env": {
+    "browser": true,
+    "node": true,
+    "es2021": true
+  },
   "globals": {
     "File": true,
     "Blob": true,
@@ -25,7 +28,8 @@
   "plugins": [
     "jsx-a11y",
     "prettier",
-    "@typescript-eslint"
+    "@typescript-eslint",
+    "react-hooks"
   ],
   "rules": {
     "import/no-extraneous-dependencies": ["error", {"devDependencies": true}],
@@ -65,7 +69,9 @@
           ".jsx"
         ]
       }
-    ]
+    ],
+    "react-hooks/rules-of-hooks": "error",
+    "react-hooks/exhaustive-deps": "warn"
   },
   "overrides": [
     {
@@ -89,12 +95,19 @@
       }
     },
     {
+      "files": ["**/*.test.{js,jsx,ts,tsx}", "**/*.spec.{js,jsx,ts,tsx}", "test/setupTests.js"],
+      "env": {
+        "jest": true
+      }
+    },
+    {
       "files": ["test/playwright/**/*.ts"],
       "rules": {
         "testing-library/prefer-screen-queries": "off",
         "no-underscore-dangle": "off",
         "no-await-in-loop": "off",
-        "no-plusplus": "off"
+        "no-plusplus": "off",
+        "@typescript-eslint/no-explicit-any": "off"
       }
     },
     {
