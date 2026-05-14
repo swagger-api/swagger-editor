@@ -39,14 +39,14 @@ const reducers = {
     if (!action.meta.includes('monaco')) {
       return state;
     }
-    return state.set('id', action.payload.getId());
+    return state.set('id', action.payload.id);
   },
   // this action type comes from editor-textarea plugin
   editor_tear_down: (state, action) => {
     if (!action.meta.includes('monaco')) {
       return state;
     }
-    if (state.get('id') !== action.payload.getId()) {
+    if (state.get('id') !== action.payload.id) {
       return state;
     }
 

@@ -4,6 +4,10 @@ import ValidationTable from './components/ValidationTable/ValidationTable.jsx';
 import ThemeSelectionIcon from './components/ThemeSelectionIcon.jsx';
 import EditorPaneBarTopWrapper from './extensions/editor-textarea/wrap-components/EditorPaneBarTopWrapper.jsx';
 import EditorPaneBarBottomWrapper from './extensions/editor-textarea/wrap-components/EditorPaneBarBottomWrapper.jsx';
+import {
+  editorSetup as editorSetupWrap,
+  editorTearDown as editorTearDownWrap,
+} from './extensions/editor-textarea/wrap-actions.js';
 import { appendMarkers } from './actions/append-markers.js';
 import { clearMarkers } from './actions/clear-markers.js';
 import { setLanguage } from './actions/set-language.js';
@@ -67,6 +71,10 @@ const EditorMonacoPlugin = () => ({
         setPositionStarted,
         setPositionSuccess,
         setPositionFailure,
+      },
+      wrapActions: {
+        editorSetup: editorSetupWrap,
+        editorTearDown: editorTearDownWrap,
       },
       reducers,
       selectors: {

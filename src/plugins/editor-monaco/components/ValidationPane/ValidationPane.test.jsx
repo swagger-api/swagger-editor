@@ -35,7 +35,7 @@ const renderValidationPane = async ({
     />
   );
 
-  await waitFor(() => expect(editorSelectors.selectMarkers).toBeCalled());
+  await waitFor(() => expect(editorSelectors.selectMarkers).toHaveBeenCalled());
   return {
     hasTableItem: (selector) => {
       const item = screen.queryByText(selector, { exact: false });
@@ -113,12 +113,12 @@ describe('with populated markerErrorList', () => {
     expect(elementRowExists2).toBe(true);
 
     clickTableItem(columnMessage1);
-    expect(onValidationClick).toBeCalled();
-    expect(onValidationClick).toBeCalledTimes(1);
+    expect(onValidationClick).toHaveBeenCalled();
+    expect(onValidationClick).toHaveBeenCalledTimes(1);
 
     clickTableItem(columnStartLineNumber2);
-    expect(onValidationClick).toBeCalled();
-    expect(onValidationClick).toBeCalledTimes(2);
+    expect(onValidationClick).toHaveBeenCalled();
+    expect(onValidationClick).toHaveBeenCalledTimes(2);
 
     expect(onValidationClick.mock.calls[0][0].message).toBe(columnMessage1);
     expect(onValidationClick.mock.calls[1][0].startLineNumber).toBe(columnStartLineNumber2);

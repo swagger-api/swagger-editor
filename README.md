@@ -289,8 +289,8 @@ module.exports = {
 
 ### Prerequisites
 
-Assuming [prerequisites](#prerequisites) are already installed, [Node.js](https://nodejs.org/) `>=22.11.0` and `npm >=10.9.0`
-are the minimum required versions that this repo runs on, but we recommend using the latest version of Node.js@20.
+Assuming [prerequisites](#prerequisites) are already installed, [Node.js](https://nodejs.org/) `>=24.14.0` and `npm >=11.9.0`
+are the minimum required versions that this repo runs on, but we recommend using the latest version of Node.js@24.
 
 ### Setting up
 
@@ -324,18 +324,26 @@ Run the following commands to set up the repository for local development:
  $ npm test
 ```
 
-**Runs E2E Cypress tests**
+**Runs E2E tests**
 
 Usage in **development** environment:
 
 ```sh
- $ npm run cy:dev
+ $ npx playwright test --headed    # Run with browser visible
+ $ npx playwright test --ui        # Run with Playwright UI
+ $ npx playwright test --debug     # Run in debug mode
 ```
 
 Usage in **Continuous Integration (CI)** environment:
 
 ```sh
- $ npm run cy:ci
+ $ npx playwright test              # Run all tests headless
+```
+
+View test report:
+
+```sh
+ $ npx playwright show-report test/playwright/report
 ```
 
 **Build**
@@ -563,7 +571,7 @@ The two modes produce different syntax highlighting appearances:
   - Color scheme uses ApiDOM-specific token types with more granular semantic categories
 
 Both modes support:
-- OpenAPI 2.0, 3.0, 3.1
+- OpenAPI 2.0, 3.0, 3.1, 3.2
 - AsyncAPI 2.x, 3.x
 - JSON and YAML syntax
 - Specification extensions (x- prefixed fields)

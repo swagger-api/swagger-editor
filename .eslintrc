@@ -4,7 +4,6 @@
     "react-app",
     "react-app/jest",
     "airbnb",
-    "plugin:cypress/recommended",
     "plugin:jsx-a11y/recommended",
     "prettier",
     "plugin:prettier/recommended",
@@ -87,6 +86,15 @@
       "rules": {
         "vars-on-top": "off",
         "no-var": "off"
+      }
+    },
+    {
+      "files": ["test/playwright/**/*.ts"],
+      "rules": {
+        "testing-library/prefer-screen-queries": "off",
+        "no-underscore-dangle": "off",
+        "no-await-in-loop": "off",
+        "no-plusplus": "off"
       }
     }
   ]

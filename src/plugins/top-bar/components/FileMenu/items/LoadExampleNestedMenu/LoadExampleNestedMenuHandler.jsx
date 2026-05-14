@@ -5,6 +5,10 @@ const LoadExampleNestedMenuHandler = forwardRef((props, ref) => {
   const { EditorContentOrigin, editorActions, editorContentFixturesSelectors } = props;
 
   useImperativeHandle(ref, () => ({
+    loadOpenAP32PetstoreFixture() {
+      const content = editorContentFixturesSelectors.selectOpenAPI320PetstoreYAML();
+      editorActions.setContent(content, EditorContentOrigin.FixtureLoad);
+    },
     loadOpenAP31PetstoreFixture() {
       const content = editorContentFixturesSelectors.selectOpenAPI310PetstoreYAML();
       editorActions.setContent(content, EditorContentOrigin.FixtureLoad);
@@ -54,6 +58,7 @@ LoadExampleNestedMenuHandler.propTypes = {
     setContent: PropTypes.func.isRequired,
   }).isRequired,
   editorContentFixturesSelectors: PropTypes.shape({
+    selectOpenAPI320PetstoreYAML: PropTypes.func.isRequired,
     selectOpenAPI310PetstoreYAML: PropTypes.func.isRequired,
     selectOpenAPI304PetstoreYAML: PropTypes.func.isRequired,
     selectOpenAPI20PetstoreYAML: PropTypes.func.isRequired,

@@ -1,3 +1,4 @@
+import selectOpenAPI320PetstoreYAML from './selectors/selectOpenAPI320PetstoreYAML.js';
 import selectOpenAPI310PetstoreYAML from './selectors/selectOpenAPI310PetstoreYAML.js';
 import selectOpenAPI304PetstoreYAML from './selectors/selectOpenAPI304PetstoreYAML.js';
 import selectOpenAPI20PetstoreYAML from './selectors/selectOpenAPI20PetstoreYAML.js';
@@ -13,6 +14,7 @@ const EditorContentFixturesPlugin = () => ({
   statePlugins: {
     editorContentFixtures: {
       selectors: {
+        selectOpenAPI320PetstoreYAML,
         selectOpenAPI310PetstoreYAML,
         selectOpenAPI304PetstoreYAML,
         selectOpenAPI20PetstoreYAML,

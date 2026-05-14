@@ -41,6 +41,14 @@ export const selectIsContentTypeOpenAPI31x = createSelector(
   }
 );
 
+export const selectIsContentTypeOpenAPI32x = createSelector(
+  selectIsContentTypeOpenAPI,
+  selectContentType,
+  (isContentOpenAPI, contentType) => {
+    return isContentOpenAPI && /version=3\.2\.\d+$/.test(contentType);
+  }
+);
+
 export const selectIsContentTypeAsyncAPI = createSelector(selectContentType, (contentType) => {
   return contentType !== null && contentType.startsWith('application/vnd.aai.asyncapi');
 });
@@ -104,17 +112,20 @@ export const selectInferFileNameFromContent = createSelector(
   selectIsContentTypeOpenAPI20,
   selectIsContentTypeOpenAPI30x,
   selectIsContentTypeOpenAPI31x,
+  selectIsContentTypeOpenAPI32x,
   selectIsContentTypeAsyncAPI2,
-  (isOpenAPI20, isOpenAPI30x, isOpenAPI31x, isAsyncAPI2) => {
+  (isOpenAPI20, isOpenAPI30x, isOpenAPI31x, isOpenAPI32x, isAsyncAPI2) => {
     return isOpenAPI20
       ? 'openapi2'
       : isOpenAPI30x
         ? 'openapi3_0'
         : isOpenAPI31x
           ? 'openapi3_1'
-          : isAsyncAPI2
-            ? 'asyncapi2'
-            : 'definition';
+          : isOpenAPI32x
+            ? 'openapi3_2'
+            : isAsyncAPI2
+              ? 'asyncapi2'
+              : 'definition';
   }
 );
 

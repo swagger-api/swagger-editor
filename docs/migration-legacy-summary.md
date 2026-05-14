@@ -46,7 +46,7 @@
 [x] Removed: unnecessary state where possible  
 [x] Removed: window.alert and window.confirm popups
 [x] Removed: swagger-client library dependency  
-[x] Tests: testing-library + jest (unit), cypress (e2e)  
+[x] Tests: testing-library + jest (unit), playwright (e2e)  
 
 
 ### Possible additional/expanded docs/contributing topics  

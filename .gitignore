@@ -28,6 +28,11 @@ test/cypress/screenshots
 test/cypress/videos
 test/cypress/downloads
 
+# Playwright
+test-results/
+test/playwright/report/
+playwright-report/
+
 # idea
 *.iml
 .idea
