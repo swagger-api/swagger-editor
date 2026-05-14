@@ -1,12 +1,12 @@
 import { defineConfig } from 'vite';
-import { resolve } from 'path';
+import { resolve, dirname } from 'path';
 import glob from 'glob';
 import { nodePolyfills } from 'vite-plugin-node-polyfills';
 import wasmPlugin from '@rollup/plugin-wasm';
 import { fileURLToPath } from 'url';
 
 const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
+const __dirname = dirname(__filename);
 
 // Dynamically discover all plugins and presets (using glob v7 API)
 const pluginFiles = glob.sync('src/plugins/*/index.{js,ts}');
@@ -14,18 +14,21 @@ const presetFiles = glob.sync('src/presets/*/index.{js,ts}');
 
 const entries = {
   'swagger-editor': resolve(__dirname, 'src/App.tsx'),
-  'apidom.worker': resolve(__dirname, 'src/plugins/editor-monaco-language-apidom/language/apidom.worker.js'),
+  'apidom.worker': resolve(
+    __dirname,
+    'src/plugins/editor-monaco-language-apidom/language/apidom.worker.js'
+  ),
   'editor.worker': resolve(__dirname, 'node_modules/monaco-editor/esm/vs/editor/editor.worker.js'),
 };
 
 // Add plugin entries
-pluginFiles.forEach(file => {
+pluginFiles.forEach((file) => {
   const key = file.replace(/^src\//, '').replace(/\.(js|ts)$/, '');
   entries[key] = resolve(__dirname, file);
 });
 
 // Add preset entries
-presetFiles.forEach(file => {
+presetFiles.forEach((file) => {
   const key = file.replace(/^src\//, '').replace(/\.(js|ts)$/, '');
   entries[key] = resolve(__dirname, file);
 });

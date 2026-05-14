@@ -41,7 +41,7 @@ export default defineConfig(({ command, mode }) => {
             rename: 'apidom.worker.js',
           },
           {
-            src: 'node_modules/monaco-editor/esm/vs/editor/editor.worker.start.js',
+            src: 'node_modules/monaco-editor/esm/vs/editor/editor.worker.js',
             dest: '',
             rename: 'editor.worker.js',
           },

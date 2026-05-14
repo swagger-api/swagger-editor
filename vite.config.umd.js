@@ -1,12 +1,12 @@
 import { defineConfig } from 'vite';
-import { resolve } from 'path';
+import { resolve, dirname } from 'path';
 import react from '@vitejs/plugin-react';
 import { nodePolyfills } from 'vite-plugin-node-polyfills';
 import wasmPlugin from '@rollup/plugin-wasm';
 import { fileURLToPath } from 'url';
 
 const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
+const __dirname = dirname(__filename);
 
 // Configuration for main bundle
 export const mainConfig = defineConfig({
@@ -78,7 +78,10 @@ export const apidomWorkerConfig = defineConfig({
   assetsInclude: ['**/*.wasm'],
   build: {
     lib: {
-      entry: resolve(__dirname, 'src/plugins/editor-monaco-language-apidom/language/apidom.worker.js'),
+      entry: resolve(
+        __dirname,
+        'src/plugins/editor-monaco-language-apidom/language/apidom.worker.js'
+      ),
       formats: ['iife'],
       fileName: () => 'apidom.worker.js',
       name: 'apidomWorker',
