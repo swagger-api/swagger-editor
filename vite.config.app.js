@@ -2,8 +2,6 @@ import { defineConfig, loadEnv } from 'vite';
 import react from '@vitejs/plugin-react';
 import { nodePolyfills } from 'vite-plugin-node-polyfills';
 import { createHtmlPlugin } from 'vite-plugin-html';
-import wasmPlugin from '@rollup/plugin-wasm';
-import topLevelAwait from 'vite-plugin-top-level-await';
 import importMetaUrlPlugin from '@codingame/esbuild-import-meta-url-plugin';
 import { viteStaticCopy } from 'vite-plugin-static-copy';
 import path from 'path';
@@ -21,7 +19,6 @@ export default defineConfig(({ mode }) => {
 
     plugins: [
       react(),
-      topLevelAwait(),
       // Copy tree-sitter WASM files to root for worker access
       viteStaticCopy({
         targets: [
@@ -32,11 +29,6 @@ export default defineConfig(({ mode }) => {
           {
             src: 'node_modules/@swagger-api/apidom-parser-adapter-yaml-1-2/wasm/tree-sitter-yaml.wasm',
             dest: '.',
-          },
-          {
-            src: 'node_modules/@swagger-api/apidom-parser-adapter-yaml-1-2/node_modules/@tree-sitter-grammars/tree-sitter-yaml/tree-sitter-yaml.wasm',
-            dest: '.',
-            rename: 'tree-sitter.wasm',
           },
         ],
       }),
@@ -101,7 +93,7 @@ export default defineConfig(({ mode }) => {
           ),
           'editor.worker': path.resolve(
             __dirname,
-            'node_modules/monaco-editor/esm/vs/editor/editor.worker.start.js'
+            'node_modules/monaco-editor/esm/vs/editor/editor.worker.js'
           ),
         },
 
@@ -125,12 +117,6 @@ export default defineConfig(({ mode }) => {
         },
 
         external: ['esprima'],
-
-        plugins: [
-          wasmPlugin({
-            targetEnv: 'browser',
-          }),
-        ],
 
         onwarn(warning, warn) {
           if (warning.message.includes('Use of eval')) return;
@@ -158,11 +144,6 @@ export default defineConfig(({ mode }) => {
         output: {
           entryFileNames: 'static/js/[name].js',
         },
-        plugins: [
-          wasmPlugin({
-            targetEnv: 'browser',
-          }),
-        ],
       },
       plugins: () => [
         nodePolyfills({

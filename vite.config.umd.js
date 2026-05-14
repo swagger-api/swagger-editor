@@ -3,9 +3,7 @@ import { resolve } from 'path';
 import react from '@vitejs/plugin-react';
 import { nodePolyfills } from 'vite-plugin-node-polyfills';
 import wasmPlugin from '@rollup/plugin-wasm';
-import topLevelAwait from 'vite-plugin-top-level-await';
 import { fileURLToPath } from 'url';
-import path from 'path';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -16,7 +14,6 @@ export const mainConfig = defineConfig({
   mode: 'production',
   plugins: [
     react(),
-    topLevelAwait(),
     nodePolyfills({
       include: ['path', 'stream', 'util', 'buffer'],
       globals: {
@@ -69,7 +66,6 @@ export const apidomWorkerConfig = defineConfig({
   configFile: false,
   mode: 'production',
   plugins: [
-    topLevelAwait(),
     nodePolyfills({
       include: ['path', 'stream', 'util', 'buffer'],
       globals: {
@@ -108,7 +104,6 @@ export const editorWorkerConfig = defineConfig({
   configFile: false,
   mode: 'production',
   plugins: [
-    topLevelAwait(),
     nodePolyfills({
       include: ['path', 'stream', 'util', 'buffer'],
       globals: {
@@ -121,7 +116,7 @@ export const editorWorkerConfig = defineConfig({
   assetsInclude: ['**/*.wasm'],
   build: {
     lib: {
-      entry: resolve(__dirname, 'node_modules/monaco-editor/esm/vs/editor/editor.worker.start.js'),
+      entry: resolve(__dirname, 'node_modules/monaco-editor/esm/vs/editor/editor.worker.js'),
       formats: ['iife'],
       fileName: () => 'editor.worker.js',
       name: 'editorWorker',

@@ -3,9 +3,7 @@ import { resolve } from 'path';
 import glob from 'glob';
 import { nodePolyfills } from 'vite-plugin-node-polyfills';
 import wasmPlugin from '@rollup/plugin-wasm';
-import topLevelAwait from 'vite-plugin-top-level-await';
 import { fileURLToPath } from 'url';
-import path from 'path';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -17,7 +15,7 @@ const presetFiles = glob.sync('src/presets/*/index.{js,ts}');
 const entries = {
   'swagger-editor': resolve(__dirname, 'src/App.tsx'),
   'apidom.worker': resolve(__dirname, 'src/plugins/editor-monaco-language-apidom/language/apidom.worker.js'),
-  'editor.worker': resolve(__dirname, 'node_modules/monaco-editor/esm/vs/editor/editor.worker.start.js'),
+  'editor.worker': resolve(__dirname, 'node_modules/monaco-editor/esm/vs/editor/editor.worker.js'),
 };
 
 // Add plugin entries
@@ -36,7 +34,6 @@ export default defineConfig({
   mode: 'production',
 
   plugins: [
-    topLevelAwait(),
     nodePolyfills({
       include: ['path', 'stream', 'util', 'buffer'],
       globals: {
@@ -63,7 +60,7 @@ export default defineConfig({
     rollupOptions: {
       external: (id) => {
         // Don't externalize worker entry points
-        if (id.includes('editor.worker.start.js')) return false;
+        if (id.includes('editor.worker.js')) return false;
         if (id.includes('apidom.worker.js')) return false;
 
         // Keep swagger-ui CSS bundled
