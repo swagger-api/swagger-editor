@@ -1,14 +1,10 @@
 import { initialize as initializeMonacoServices, ILogService } from '@codingame/monaco-vscode-api';
 import 'vscode/localExtensionHost';
 import EditorWorkerConstructor from '@codingame/monaco-vscode-api/workers/editor.worker?worker';
+import ApidomWorkerConstructor from '../editor-monaco-language-apidom/language/apidom.worker.js?worker';
 
 import lazyMonacoContribution from './monaco-contribution/index.js';
 import CustomLogger from './monaco-contribution/CustomLogger.js';
-
-// The editor worker uses Vite's ?worker import so that Vite correctly handles
-// individual node_modules source files with import rewriting in both dev and
-// prod app builds. The apidom worker lives in src/ and is loaded via URL
-// because Vite already rewrites its bare specifiers during normal module serving.
 
 function afterLoad(system) {
   const InitPhase = {
@@ -20,17 +16,8 @@ function afterLoad(system) {
   // setup monaco environment
   globalThis.MonacoEnvironment = {
     initPhase: InitPhase.UNINITIALIZED,
-    baseUrl: document.baseURI || location.href, // eslint-disable-line no-restricted-globals
     getWorker(workerId, label) {
-      const isApidom = label === 'apidom';
-      if (isApidom) {
-        const workerPath = import.meta.env.DEV
-          ? import.meta.env.VITE_APIDOM_WORKER_PATH
-          : import.meta.env.VITE_APIDOM_WORKER_FILENAME;
-        return new Worker(new URL(workerPath, this.baseUrl), { type: 'module' });
-      }
-      // For editor worker, use ?worker constructor so Vite handles dev-server
-      // module transforms for the @codingame source files correctly.
+      if (label === 'apidom') return new ApidomWorkerConstructor();
       return new EditorWorkerConstructor();
     },
     ...globalThis.MonacoEnvironment, // this will allow to override the base uri for loading Web Workers
