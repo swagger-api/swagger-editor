@@ -3,8 +3,8 @@ import { resolve, dirname } from 'path';
 import { fileURLToPath } from 'url';
 import react from '@vitejs/plugin-react';
 import nodePolyfills from 'rollup-plugin-polyfill-node';
+
 import { logger, sharedOnwarn } from './vite/shared.js';
-import { inlineAllWasms } from './vite/plugins/inline-all-wasms.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -50,53 +50,3 @@ export const mainConfig = defineConfig({
   },
 });
 
-// Configuration for apidom worker
-export const apidomWorkerConfig = defineConfig({
-  configFile: false,
-  customLogger: logger,
-  mode: 'production',
-  plugins: [inlineAllWasms()],
-
-  build: {
-    lib: {
-      entry: resolve(
-        __dirname,
-        'src/plugins/editor-monaco-language-apidom/language/apidom.worker.js'
-      ),
-      formats: ['iife'],
-      fileName: () => 'apidom.worker.js',
-      name: 'apidomWorker',
-    },
-    outDir: 'dist/umd',
-    sourcemap: false,
-    emptyOutDir: false,
-    codeSplitting: false,
-    rollupOptions: {
-      onwarn: sharedOnwarn,
-    },
-  },
-});
-
-// Configuration for editor worker
-export const editorWorkerConfig = defineConfig({
-  configFile: false,
-  customLogger: logger,
-  mode: 'production',
-  plugins: [],
-
-  build: {
-    lib: {
-      entry: resolve(__dirname, 'node_modules/monaco-editor/esm/vs/editor/editor.worker.js'),
-      formats: ['iife'],
-      fileName: () => 'editor.worker.js',
-      name: 'editorWorker',
-    },
-    outDir: 'dist/umd',
-    sourcemap: false,
-    emptyOutDir: false,
-    codeSplitting: false,
-    rollupOptions: {
-      onwarn: sharedOnwarn,
-    },
-  },
-});

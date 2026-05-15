@@ -1,6 +1,7 @@
 import { build } from 'vite';
 
-import { mainConfig, apidomWorkerConfig, editorWorkerConfig } from '../vite.config.esm.js';
+import { mainConfig } from '../vite.config.esm.js';
+import { apidomWorkerConfig, editorWorkerConfig } from '../vite/worker-configs.esm.js';
 
 async function buildAll() {
   try {

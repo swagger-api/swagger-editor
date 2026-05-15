@@ -4,7 +4,6 @@ import glob from 'glob';
 import { fileURLToPath } from 'url';
 
 import { logger, sharedOnwarn } from './vite/shared.js';
-import { inlineAllWasms } from './vite/plugins/inline-all-wasms.js';
 import { rewriteEditorWorkerImport } from './vite/plugins/rewrite-editor-worker-import.js';
 import { fixCrossChunkPaths } from './vite/plugins/fix-cross-chunk-paths.js';
 
@@ -95,56 +94,6 @@ export const mainConfig = defineConfig({
     alias: {
       plugins: resolve(__dirname, 'src/plugins'),
       presets: resolve(__dirname, 'src/presets'),
-    },
-  },
-});
-
-// Self-contained ESM workers — spawned with { type: 'module' } by the virtual
-// constructor modules above. codeSplitting:false flattens the bundle to a
-// single file with no external imports.
-export const apidomWorkerConfig = defineConfig({
-  configFile: false,
-  customLogger: logger,
-  mode: 'production',
-  plugins: [inlineAllWasms()],
-
-  build: {
-    lib: {
-      entry: resolve(
-        __dirname,
-        'src/plugins/editor-monaco-language-apidom/language/apidom.worker.js'
-      ),
-      formats: ['es'],
-      fileName: () => 'apidom.worker.js',
-    },
-    outDir: 'dist/esm',
-    sourcemap: false,
-    emptyOutDir: false,
-    codeSplitting: false,
-    rollupOptions: {
-      onwarn: sharedOnwarn,
-    },
-  },
-});
-
-export const editorWorkerConfig = defineConfig({
-  configFile: false,
-  customLogger: logger,
-  mode: 'production',
-  plugins: [],
-
-  build: {
-    lib: {
-      entry: resolve(__dirname, 'node_modules/monaco-editor/esm/vs/editor/editor.worker.js'),
-      formats: ['es'],
-      fileName: () => 'editor.worker.js',
-    },
-    outDir: 'dist/esm',
-    sourcemap: false,
-    emptyOutDir: false,
-    codeSplitting: false,
-    rollupOptions: {
-      onwarn: sharedOnwarn,
     },
   },
 });
