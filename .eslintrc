@@ -59,7 +59,8 @@
         "^plugins\/.+\/index.js",
         "^presets\/.+\/index.js",
         "^@codingame\/monaco-vscode-api",
-        "^@swagger-api\/apidom-json-pointer"
+        "^@swagger-api\/apidom-json-pointer",
+        "\\?worker$"
       ]
     }],
     "react/jsx-filename-extension": [2,
@@ -111,10 +112,11 @@
       }
     },
     {
-      "files": ["vite.config*.js", "scripts/*.js"],
+      "files": ["vite.config*.js", "vite/**/*.js", "scripts/*.js"],
       "rules": {
         "import/no-unresolved": "off",
         "import/no-extraneous-dependencies": "off",
+        "import/prefer-default-export": "off",
         "no-underscore-dangle": "off",
         "no-console": "off"
       }

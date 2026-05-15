@@ -15,7 +15,10 @@ export const apidomWorkerConfig = defineConfig({
 
   build: {
     lib: {
-      entry: resolve(__dirname, '../../src/plugins/editor-monaco-language-apidom/language/apidom.worker.js'),
+      entry: resolve(
+        __dirname,
+        '../../src/plugins/editor-monaco-language-apidom/language/apidom.worker.js'
+      ),
       formats: ['iife'],
       fileName: () => 'apidom.worker.js',
       name: 'apidomWorker',

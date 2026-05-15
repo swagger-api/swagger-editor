@@ -12,6 +12,7 @@ export const rewriteEditorWorkerImport = () => ({
       if (id.includes('editor.worker')) return '\0virtual:editor-worker-constructor';
       if (id.includes('apidom.worker')) return '\0virtual:apidom-worker-constructor';
     }
+    return null;
   },
   load(id) {
     // import.meta.url resolves to the chunk that inlines this virtual module
@@ -48,5 +49,6 @@ export const rewriteEditorWorkerImport = () => ({
   }
 }`;
     }
+    return null;
   },
 });

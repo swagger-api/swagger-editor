@@ -17,7 +17,10 @@ const WASM_INLINE_PREFIX = '\0wasm-inline:';
 //   immediately after emscripten's module init line. emscripten's getBinaryPromise()
 //   checks wasmBinary first and short-circuits before any fetch() call.
 export const inlineAllWasms = () => {
-  const treeSitterWasmPath = resolve(__dirname, '../../node_modules/web-tree-sitter/tree-sitter.wasm');
+  const treeSitterWasmPath = resolve(
+    __dirname,
+    '../../node_modules/web-tree-sitter/tree-sitter.wasm'
+  );
   const treeSitterBase64 = readFileSync(treeSitterWasmPath).toString('base64');
 
   return {
@@ -29,7 +32,7 @@ export const inlineAllWasms = () => {
       const resolved = await this.resolve(id, importer, { skipSelf: true });
       if (!resolved) return null;
       // ':inline' suffix ensures the virtual id does NOT end with '.wasm'.
-      return WASM_INLINE_PREFIX + resolved.id + ':inline';
+      return `${WASM_INLINE_PREFIX + resolved.id}:inline`;
     },
 
     load(id) {

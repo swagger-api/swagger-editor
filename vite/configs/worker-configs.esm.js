@@ -1,6 +1,6 @@
 import { defineConfig } from 'vite';
-import { resolve, dirname } from 'path';
-import { fileURLToPath } from 'url';
+import { resolve, dirname } from 'node:path';
+import { fileURLToPath } from 'node:url';
 
 import { logger, sharedOnwarn } from '../shared.js';
 import { inlineAllWasms } from '../plugins/inline-all-wasms.js';
@@ -18,7 +18,10 @@ export const apidomWorkerConfig = defineConfig({
 
   build: {
     lib: {
-      entry: resolve(__dirname, '../../src/plugins/editor-monaco-language-apidom/language/apidom.worker.js'),
+      entry: resolve(
+        __dirname,
+        '../../src/plugins/editor-monaco-language-apidom/language/apidom.worker.js'
+      ),
       formats: ['es'],
       fileName: () => 'apidom.worker.js',
     },

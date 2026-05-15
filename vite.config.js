@@ -3,6 +3,7 @@ import react from '@vitejs/plugin-react';
 import nodePolyfills from 'rollup-plugin-polyfill-node';
 import path from 'path';
 import { fileURLToPath } from 'url';
+
 import { logger } from './vite/shared.js';
 
 const __filename = fileURLToPath(import.meta.url);

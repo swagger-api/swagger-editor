@@ -6,6 +6,7 @@ import { viteStaticCopy } from 'vite-plugin-static-copy';
 import nodePolyfills from 'rollup-plugin-polyfill-node';
 import path from 'path';
 import { fileURLToPath } from 'url';
+
 import { logger } from './vite/shared.js';
 
 const __filename = fileURLToPath(import.meta.url);
