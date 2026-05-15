@@ -1,13 +1,13 @@
 import { build } from 'vite';
 
-import { mainConfig } from '../vite.config.esm.js';
-import { apidomWorkerConfig, editorWorkerConfig } from '../vite/worker-configs.esm.js';
+import { mainConfig } from '../vite.config.umd.js';
+import { apidomWorkerConfig, editorWorkerConfig } from './worker-configs.umd.js';
 
 async function buildAll() {
   try {
-    console.log('Building main ESM bundle...');
+    console.log('Building main UMD bundle...');
     await build(mainConfig);
-    console.log('✓ Main ESM bundle complete');
+    console.log('✓ Main UMD bundle complete');
 
     console.log('\nBuilding apidom worker...');
     await build(apidomWorkerConfig);
@@ -17,7 +17,7 @@ async function buildAll() {
     await build(editorWorkerConfig);
     console.log('✓ Editor worker complete');
 
-    console.log('\n✅ ESM build complete!');
+    console.log('\n✅ UMD build complete!');
   } catch (err) {
     console.error('❌ Build failed:', err);
     process.exit(1);
