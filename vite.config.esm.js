@@ -2,6 +2,7 @@ import { defineConfig } from 'vite';
 import { resolve, dirname, relative } from 'path';
 import glob from 'glob';
 import { fileURLToPath } from 'url';
+
 import { logger, sharedOnwarn, inlineAllWasms } from './vite.config.shared.js';
 
 const __filename = fileURLToPath(import.meta.url);
@@ -106,8 +107,6 @@ export const mainConfig = defineConfig({
 
   plugins: [rewriteEditorWorkerImport()],
 
-  assetsInclude: ['**/*.wasm'],
-
   build: {
     lib: {
       entry: entries,
@@ -177,7 +176,7 @@ export const apidomWorkerConfig = defineConfig({
   customLogger: logger,
   mode: 'production',
   plugins: [inlineAllWasms()],
-  assetsInclude: ['**/*.wasm'],
+
   build: {
     lib: {
       entry: resolve(
@@ -202,7 +201,7 @@ export const editorWorkerConfig = defineConfig({
   customLogger: logger,
   mode: 'production',
   plugins: [],
-  assetsInclude: ['**/*.wasm'],
+
   build: {
     lib: {
       entry: resolve(__dirname, 'node_modules/monaco-editor/esm/vs/editor/editor.worker.js'),

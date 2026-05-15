@@ -73,6 +73,7 @@ export const mainConfig = defineConfig({
   mode: 'production',
   plugins: [react()],
   assetsInclude: ['**/*.wasm'],
+
   resolve: {
     alias: {
       plugins: resolve(__dirname, 'src/plugins'),
@@ -112,7 +113,7 @@ export const apidomWorkerConfig = defineConfig({
   customLogger: logger,
   mode: 'production',
   plugins: [inlineTreeSitterWasm(), inlineAllWasms()],
-  assetsInclude: ['**/*.wasm'],
+
   build: {
     lib: {
       entry: resolve(
@@ -139,7 +140,7 @@ export const editorWorkerConfig = defineConfig({
   customLogger: logger,
   mode: 'production',
   plugins: [],
-  assetsInclude: ['**/*.wasm'],
+
   build: {
     lib: {
       entry: resolve(__dirname, 'node_modules/monaco-editor/esm/vs/editor/editor.worker.js'),

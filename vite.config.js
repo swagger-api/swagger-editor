@@ -52,6 +52,7 @@ export default defineConfig(({ mode }) => {
       ],
     },
     assetsInclude: ['**/*.wasm'],
+
     resolve: {
       alias: [
         { find: 'plugins', replacement: '/src/plugins' },
