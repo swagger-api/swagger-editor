@@ -1,4 +1,4 @@
-import { defineConfig } from 'vite';
+import { defineConfig, createLogger } from 'vite';
 import { resolve, dirname } from 'path';
 import react from '@vitejs/plugin-react';
 import wasmPlugin from '@rollup/plugin-wasm';
@@ -8,9 +8,25 @@ import { fileURLToPath } from 'url';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
+const logger = createLogger();
+const loggerWarn = logger.warn.bind(logger);
+logger.warn = (msg, options) => {
+  if (msg.includes('has been externalized for browser compatibility')) return;
+  loggerWarn(msg, options);
+};
+
+const sharedOnwarn = (warning, warn) => {
+  // Monaco VSCode API uses import.meta.url guarded by globalThis.location?.href — safe to ignore.
+  if (warning.code === 'EMPTY_IMPORT_META') return;
+  // web-tree-sitter uses direct eval internally — cannot be changed.
+  if (warning.code === 'EVAL') return;
+  warn(warning);
+};
+
 // Configuration for main bundle
 export const mainConfig = defineConfig({
   configFile: false,
+  customLogger: logger,
   mode: 'production',
   plugins: [react()],
   assetsInclude: ['**/*.wasm'],
@@ -48,6 +64,7 @@ export const mainConfig = defineConfig({
           targetEnv: 'auto-inline',
         }),
       ],
+      onwarn: sharedOnwarn,
     },
   },
 });
@@ -55,6 +72,7 @@ export const mainConfig = defineConfig({
 // Configuration for apidom worker
 export const apidomWorkerConfig = defineConfig({
   configFile: false,
+  customLogger: logger,
   mode: 'production',
   plugins: [],
   assetsInclude: ['**/*.wasm'],
@@ -80,6 +98,7 @@ export const apidomWorkerConfig = defineConfig({
           targetEnv: 'auto-inline',
         }),
       ],
+      onwarn: sharedOnwarn,
     },
   },
 });
@@ -87,6 +106,7 @@ export const apidomWorkerConfig = defineConfig({
 // Configuration for editor worker
 export const editorWorkerConfig = defineConfig({
   configFile: false,
+  customLogger: logger,
   mode: 'production',
   plugins: [],
   assetsInclude: ['**/*.wasm'],
@@ -109,6 +129,7 @@ export const editorWorkerConfig = defineConfig({
           targetEnv: 'auto-inline',
         }),
       ],
+      onwarn: sharedOnwarn,
     },
   },
 });

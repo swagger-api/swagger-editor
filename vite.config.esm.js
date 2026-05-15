@@ -1,4 +1,4 @@
-import { defineConfig } from 'vite';
+import { defineConfig, createLogger } from 'vite';
 import { resolve, dirname } from 'path';
 import glob from 'glob';
 import wasmPlugin from '@rollup/plugin-wasm';
@@ -6,6 +6,13 @@ import { fileURLToPath } from 'url';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
+
+const logger = createLogger();
+const loggerWarn = logger.warn.bind(logger);
+logger.warn = (msg, options) => {
+  if (msg.includes('has been externalized for browser compatibility')) return;
+  loggerWarn(msg, options);
+};
 
 // Dynamically discover all plugins and presets (using glob v7 API)
 const pluginFiles = glob.sync('src/plugins/*/index.{js,ts}');
@@ -33,6 +40,7 @@ presetFiles.forEach((file) => {
 });
 
 export default defineConfig({
+  customLogger: logger,
   mode: 'production',
 
   plugins: [],
@@ -83,6 +91,11 @@ export default defineConfig({
           targetEnv: 'auto-inline',
         }),
       ],
+      onwarn(warning, warn) {
+        if (warning.code === 'EVAL') return;
+        if (warning.code === 'EMPTY_IMPORT_META') return;
+        warn(warning);
+      },
     },
   },
 

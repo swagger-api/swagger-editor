@@ -1,4 +1,4 @@
-import { defineConfig, loadEnv } from 'vite';
+import { defineConfig, loadEnv, createLogger } from 'vite';
 import react from '@vitejs/plugin-react';
 import { createHtmlPlugin } from 'vite-plugin-html';
 import importMetaUrlPlugin from '@codingame/esbuild-import-meta-url-plugin';
@@ -10,10 +10,18 @@ import { fileURLToPath } from 'url';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
+const logger = createLogger();
+const loggerWarn = logger.warn.bind(logger);
+logger.warn = (msg, options) => {
+  if (msg.includes('has been externalized for browser compatibility')) return;
+  loggerWarn(msg, options);
+};
+
 export default defineConfig(({ mode }) => {
   const env = loadEnv(mode, process.cwd(), 'VITE_');
 
   return {
+    customLogger: logger,
     mode: 'production',
     base: '/',
 
@@ -110,7 +118,7 @@ export default defineConfig(({ mode }) => {
         plugins: [nodePolyfills()],
 
         onwarn(warning, warn) {
-          if (warning.message.includes('Use of eval')) return;
+          if (warning.code === 'EVAL') return;
           warn(warning);
         },
       },

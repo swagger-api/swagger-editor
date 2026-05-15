@@ -1,4 +1,4 @@
-import { defineConfig, loadEnv } from 'vite';
+import { defineConfig, loadEnv, createLogger } from 'vite';
 import react from '@vitejs/plugin-react';
 import nodePolyfills from 'rollup-plugin-polyfill-node';
 import path from 'path';
@@ -7,11 +7,19 @@ import { fileURLToPath } from 'url';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
+const logger = createLogger();
+const loggerWarn = logger.warn.bind(logger);
+logger.warn = (msg, options) => {
+  if (msg.includes('has been externalized for browser compatibility')) return;
+  loggerWarn(msg, options);
+};
+
 // https://vitejs.dev/config/
 export default defineConfig(({ mode }) => {
   process.env = { ...process.env, ...loadEnv(mode, process.cwd()) };
 
   return {
+    customLogger: logger,
     base: '/',
     server: {
       // Ensure workers are served with correct MIME type
@@ -66,6 +74,9 @@ export default defineConfig(({ mode }) => {
         plugins: [nodePolyfills()],
         onwarn(warning, warn) {
           if (warning.message.includes('Use of eval')) return;
+          // Third-party packages (web-tree-sitter, avsc, spectral) reference Node
+          // built-ins that Vite externalizes; they fall back gracefully at runtime.
+          if (warning.message.includes('has been externalized for browser compatibility')) return;
           warn(warning);
         },
       },
