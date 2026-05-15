@@ -1,18 +1,12 @@
-import { defineConfig, loadEnv, createLogger } from 'vite';
+import { defineConfig, loadEnv } from 'vite';
 import react from '@vitejs/plugin-react';
 import nodePolyfills from 'rollup-plugin-polyfill-node';
 import path from 'path';
 import { fileURLToPath } from 'url';
+import { logger } from './vite/shared.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
-
-const logger = createLogger();
-const loggerWarn = logger.warn.bind(logger);
-logger.warn = (msg, options) => {
-  if (msg.includes('has been externalized for browser compatibility')) return;
-  loggerWarn(msg, options);
-};
 
 // https://vitejs.dev/config/
 export default defineConfig(({ mode }) => {

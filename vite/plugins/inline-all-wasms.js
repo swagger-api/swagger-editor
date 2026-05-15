@@ -1,25 +1,9 @@
-import { createLogger } from 'vite';
 import { resolve, dirname } from 'path';
 import { readFileSync } from 'fs';
 import { fileURLToPath } from 'url';
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = dirname(__filename);
-
-export const logger = createLogger();
-const loggerWarn = logger.warn.bind(logger);
-logger.warn = (msg, options) => {
-  if (msg.includes('has been externalized for browser compatibility')) return;
-  loggerWarn(msg, options);
-};
-
-export const sharedOnwarn = (warning, warn) => {
-  // Monaco VSCode API uses import.meta.url guarded by globalThis.location?.href — safe to ignore.
-  if (warning.code === 'EMPTY_IMPORT_META') return;
-  // web-tree-sitter uses direct eval internally — cannot be changed.
-  if (warning.code === 'EVAL') return;
-  warn(warning);
-};
+const __dirname = dirname(fileURLToPath(import.meta.url));
+const WASM_INLINE_PREFIX = '\0wasm-inline:';
 
 // Handles all three WASMs in two phases:
 //
@@ -29,13 +13,11 @@ export const sharedOnwarn = (warning, warn) => {
 //   Grammar WASMs (yaml/json) are consumed by Language.load(bytes) directly.
 //   tree-sitter.wasm's exported value is unused; emscripten reads Module.wasmBinary.
 //
-// renderChunk — patches the final IIFE to inject Module['wasmBinary'] immediately
-//   after emscripten's module init line. emscripten's getBinaryPromise() checks
-//   wasmBinary first and short-circuits before any fetch() call.
-const WASM_INLINE_PREFIX = '\0wasm-inline:';
-
+// renderChunk — patches the final IIFE/ESM bundle to inject Module['wasmBinary']
+//   immediately after emscripten's module init line. emscripten's getBinaryPromise()
+//   checks wasmBinary first and short-circuits before any fetch() call.
 export const inlineAllWasms = () => {
-  const treeSitterWasmPath = resolve(__dirname, 'node_modules/web-tree-sitter/tree-sitter.wasm');
+  const treeSitterWasmPath = resolve(__dirname, '../../node_modules/web-tree-sitter/tree-sitter.wasm');
   const treeSitterBase64 = readFileSync(treeSitterWasmPath).toString('base64');
 
   return {
