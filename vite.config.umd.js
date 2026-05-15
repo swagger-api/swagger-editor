@@ -126,10 +126,8 @@ export const apidomWorkerConfig = defineConfig({
     outDir: 'dist/umd',
     sourcemap: false,
     emptyOutDir: false,
+    codeSplitting: false,
     rollupOptions: {
-      output: {
-        inlineDynamicImports: true,
-      },
       onwarn: sharedOnwarn,
     },
   },
@@ -152,10 +150,8 @@ export const editorWorkerConfig = defineConfig({
     outDir: 'dist/umd',
     sourcemap: false,
     emptyOutDir: false,
+    codeSplitting: false,
     rollupOptions: {
-      output: {
-        inlineDynamicImports: true,
-      },
       onwarn: sharedOnwarn,
     },
   },

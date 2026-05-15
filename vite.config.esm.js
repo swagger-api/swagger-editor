@@ -170,7 +170,7 @@ export const mainConfig = defineConfig({
 });
 
 // Self-contained ESM workers — spawned with { type: 'module' } by the virtual
-// constructor modules above. inlineDynamicImports flattens the bundle to a
+// constructor modules above. codeSplitting:false flattens the bundle to a
 // single file with no external imports.
 export const apidomWorkerConfig = defineConfig({
   configFile: false,
@@ -190,8 +190,8 @@ export const apidomWorkerConfig = defineConfig({
     outDir: 'dist/esm',
     sourcemap: false,
     emptyOutDir: false,
+    codeSplitting: false,
     rollupOptions: {
-      output: { inlineDynamicImports: true },
       onwarn: sharedOnwarn,
     },
   },
@@ -212,8 +212,8 @@ export const editorWorkerConfig = defineConfig({
     outDir: 'dist/esm',
     sourcemap: false,
     emptyOutDir: false,
+    codeSplitting: false,
     rollupOptions: {
-      output: { inlineDynamicImports: true },
       onwarn: sharedOnwarn,
     },
   },
