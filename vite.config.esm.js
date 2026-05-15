@@ -1,80 +1,11 @@
-import { defineConfig, createLogger } from 'vite';
+import { defineConfig } from 'vite';
 import { resolve, dirname, relative } from 'path';
-import { readFileSync } from 'fs';
 import glob from 'glob';
-import wasmPlugin from '@rollup/plugin-wasm';
 import { fileURLToPath } from 'url';
+import { logger, sharedOnwarn, inlineAllWasms } from './vite.config.shared.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
-
-const logger = createLogger();
-const loggerWarn = logger.warn.bind(logger);
-logger.warn = (msg, options) => {
-  if (msg.includes('has been externalized for browser compatibility')) return;
-  loggerWarn(msg, options);
-};
-
-// web-tree-sitter's emscripten runtime fetches 'tree-sitter.wasm' via URL at
-// runtime using its own locateFile mechanism, bypassing @rollup/plugin-wasm.
-// This plugin patches the final IIFE output to replace every occurrence of the
-// `tree-sitter.wasm` filename literal (any quote style) with a base64 data URI
-// so emscripten's isDataURI() check short-circuits and no HTTP fetch is needed.
-const inlineTreeSitterWasm = () => {
-  const wasmPath = resolve(__dirname, 'node_modules/web-tree-sitter/tree-sitter.wasm');
-  const wasmBase64 = readFileSync(wasmPath).toString('base64');
-  return {
-    name: 'inline-tree-sitter-wasm',
-    renderChunk(code) {
-      // Inject Module['wasmBinary'] at emscripten's module init so getBinaryPromise()
-      // returns the binary directly without calling fetch() — this bypasses the broken
-      // @rollup/plugin-wasm fetch interceptor whose endsWith() condition would otherwise
-      // match the data URI against itself (a string always ends with itself).
-      // Two forms: pre-minification (typeof != "undefined") and post-minification (void 0).
-      const updated = code.replace(
-        /var Module\s*=\s*typeof Module\s*!=\s*["']undefined["']\s*\?\s*Module\s*:\s*\{\}/,
-        (match) =>
-          `${match};Module['wasmBinary']=new Uint8Array(atob("${wasmBase64}").split("").map(function(c){return c.charCodeAt(0)}))`
-      );
-      return updated !== code ? { code: updated } : null;
-    },
-  };
-};
-
-// Grammar WASMs (tree-sitter-yaml.wasm, tree-sitter-json.wasm) are imported as
-// ES modules in apidom's browser.mjs via `import treeSitterYaml from '*.wasm'`.
-// @rollup/plugin-wasm converts these to async loader functions, but Language.load()
-// only accepts URL strings or Uint8Arrays — not functions.
-//
-// This plugin intercepts grammar WASM imports by redirecting them to virtual module
-// IDs that do NOT end with '.wasm', preventing @rollup/plugin-wasm's transform hook
-// from firing (it checks id.endsWith('.wasm')). The virtual module exports a Uint8Array
-// that Language.load() accepts directly.
-const GRAMMAR_WASM_PREFIX = '\0grammar-wasm:';
-const inlineGrammarWasms = () => ({
-  name: 'inline-grammar-wasms',
-  enforce: 'pre',
-  async resolveId(id, importer) {
-    if (!id.endsWith('.wasm') || id.includes('tree-sitter.wasm')) return null;
-    const resolved = await this.resolve(id, importer, { skipSelf: true });
-    if (!resolved) return null;
-    // Append ':inline' so the virtual id does NOT end with '.wasm' —
-    // @rollup/plugin-wasm checks id.endsWith('.wasm') in its transform hook.
-    return GRAMMAR_WASM_PREFIX + resolved.id + ':inline';
-  },
-  load(id) {
-    if (!id.startsWith(GRAMMAR_WASM_PREFIX)) return null;
-    const filePath = id.slice(GRAMMAR_WASM_PREFIX.length, -':inline'.length);
-    const wasmBase64 = readFileSync(filePath).toString('base64');
-    return `const bytes=new Uint8Array(atob("${wasmBase64}").split("").map(function(c){return c.charCodeAt(0)}));export default bytes;`;
-  },
-});
-
-const sharedOnwarn = (warning, warn) => {
-  if (warning.code === 'EVAL') return;
-  if (warning.code === 'EMPTY_IMPORT_META') return;
-  warn(warning);
-};
 
 // ?worker is a Vite-only transform. Without enforce:'pre', Vite's built-in
 // resolution runs first and externalizes the import with the absolute path +
@@ -113,7 +44,7 @@ const rewriteEditorWorkerImport = () => ({
   constructor() {
     const _meta = new URL('../../editor.worker.js', import.meta.url);
     const _url = _meta.protocol === 'file:' ? new URL('editor.worker.js', globalThis.MonacoEnvironment?.baseUrl ?? location.origin) : _meta;
-    return new Worker(_url);
+    return new Worker(_url, { type: 'module' });
   }
 }`;
     }
@@ -122,7 +53,7 @@ const rewriteEditorWorkerImport = () => ({
   constructor() {
     const _meta = new URL('../../apidom.worker.js', import.meta.url);
     const _url = _meta.protocol === 'file:' ? new URL('apidom.worker.js', globalThis.MonacoEnvironment?.baseUrl ?? location.origin) : _meta;
-    return new Worker(_url);
+    return new Worker(_url, { type: 'module' });
   }
 }`;
     }
@@ -167,7 +98,7 @@ presetFiles.forEach((file) => {
 });
 
 // Main ESM lib — plugins and presets as separate entry points, workers excluded.
-// Workers are built separately as self-contained IIFE bundles (see below).
+// Workers are built separately as self-contained ESM bundles (see below).
 export const mainConfig = defineConfig({
   configFile: false,
   customLogger: logger,
@@ -225,7 +156,7 @@ export const mainConfig = defineConfig({
         },
       },
 
-      plugins: [wasmPlugin({ targetEnv: 'auto-inline' }), fixCrossChunkPaths()],
+      plugins: [fixCrossChunkPaths()],
       onwarn: sharedOnwarn,
     },
   },
@@ -238,13 +169,14 @@ export const mainConfig = defineConfig({
   },
 });
 
-// Self-contained IIFE workers — must be usable as Web Workers without any
-// external imports, which is why they cannot be built as ESM entry points.
+// Self-contained ESM workers — spawned with { type: 'module' } by the virtual
+// constructor modules above. inlineDynamicImports flattens the bundle to a
+// single file with no external imports.
 export const apidomWorkerConfig = defineConfig({
   configFile: false,
   customLogger: logger,
   mode: 'production',
-  plugins: [inlineTreeSitterWasm(), inlineGrammarWasms()],
+  plugins: [inlineAllWasms()],
   assetsInclude: ['**/*.wasm'],
   build: {
     lib: {
@@ -252,16 +184,14 @@ export const apidomWorkerConfig = defineConfig({
         __dirname,
         'src/plugins/editor-monaco-language-apidom/language/apidom.worker.js'
       ),
-      formats: ['iife'],
+      formats: ['es'],
       fileName: () => 'apidom.worker.js',
-      name: 'apidomWorker',
     },
     outDir: 'dist/esm',
     sourcemap: false,
     emptyOutDir: false,
     rollupOptions: {
       output: { inlineDynamicImports: true },
-      plugins: [wasmPlugin({ targetEnv: 'auto-inline' })],
       onwarn: sharedOnwarn,
     },
   },
@@ -276,16 +206,14 @@ export const editorWorkerConfig = defineConfig({
   build: {
     lib: {
       entry: resolve(__dirname, 'node_modules/monaco-editor/esm/vs/editor/editor.worker.js'),
-      formats: ['iife'],
+      formats: ['es'],
       fileName: () => 'editor.worker.js',
-      name: 'editorWorker',
     },
     outDir: 'dist/esm',
     sourcemap: false,
     emptyOutDir: false,
     rollupOptions: {
       output: { inlineDynamicImports: true },
-      plugins: [wasmPlugin({ targetEnv: 'auto-inline' })],
       onwarn: sharedOnwarn,
     },
   },

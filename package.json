@@ -158,7 +158,6 @@
     "@commitlint/config-conventional": "^19.8.0",
     "@esbuild-plugins/node-globals-polyfill": "^0.2.3",
     "@playwright/test": "^1.58.2",
-    "@rollup/plugin-wasm": "^6.2.2",
     "@testing-library/jest-dom": "^6.6.3",
     "@testing-library/react": "^16.3.0",
     "@testing-library/user-event": "^14.6.1",
@@ -201,7 +200,6 @@
     "vite-plugin-eslint": "^1.8.1",
     "vite-plugin-html": "^3.2.2",
     "vite-plugin-static-copy": "^4.1.0",
-    "vite-plugin-wasm": "^3.4.1",
     "web-vitals": "^4.2.4"
   }
 }

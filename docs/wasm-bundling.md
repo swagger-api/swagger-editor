@@ -1,8 +1,12 @@
 # WASM Bundling in ESM/UMD Library Builds
 
-The `apidom.worker.js` IIFE bundle contains three WASM binaries that must be fully
+The `apidom.worker.js` bundle contains three WASM binaries that must be fully
 self-contained — no runtime HTTP fetches — for the worker to function inside a
 Webpack-bundled consumer (swagger-editor-plus and similar).
+
+All three WASMs are handled by the `inlineAllWasms` Vite plugin defined in
+`vite.config.shared.js` and used by both `vite.config.esm.js` and `vite.config.umd.js`.
+See the [Plugin ordering](#plugin-ordering) section for how the three hooks work together.
 
 ## The three binaries
 
@@ -18,15 +22,11 @@ Webpack-bundled consumer (swagger-editor-plus and similar).
 
 ### The problem
 
-`@rollup/plugin-wasm` (with `targetEnv: 'auto-inline'`) intercepts the
-`import treeSitterWasm from 'web-tree-sitter/tree-sitter.wasm'` statement and
-generates two things:
+Naively inlining `tree-sitter.wasm` as a data URI (e.g. by replacing the
+`'tree-sitter.wasm'` string literal in the bundle) breaks emscripten's fetch
+interception. Tools like `@rollup/plugin-wasm` patch `globalThis.fetch` with an
+`endsWith('tree-sitter.wasm')` guard:
 
-1. A loader function `tree_sitter_default(imports){ return _loadWasmModule(...) }`
-2. A `globalThis.fetch` patch that intercepts `fetch('tree-sitter.wasm')` and
-   routes it through the loader function instead.
-
-The fetch patch checks:
 ```js
 globalThis.fetch = (...args) =>
   isString(args[0]) && args[0].endsWith('tree-sitter.wasm')
@@ -34,18 +34,13 @@ globalThis.fetch = (...args) =>
     : realFetch(...args);
 ```
 
-Emscripten's runtime calls `fetch(wasmBinaryFile)` where `wasmBinaryFile` is
-initially the string `'tree-sitter.wasm'`. The patch intercepts this call and
-the loader runs — so far so good.
-
-However, if any other plugin also inlines `tree-sitter.wasm` as a data URI
-(e.g., by replacing the `'tree-sitter.wasm'` literal), the `endsWith` condition
+If the literal is replaced with a ~250 KB data URI, the `endsWith` condition
 becomes `url.endsWith('<250KB data URI>')`. A string always ends with itself, so
 when emscripten then calls `fetch(dataUri)`, the broken branch fires and passes
 the loader *function* as the URL argument to `realFetch`, producing a request to
 `http://…/function%20tree_sitter_default(Sn)%20{…}`.
 
-### The fix — `inlineTreeSitterWasm` in `vite.config.esm.js` / `vite.config.umd.js`
+### The fix — `renderChunk` hook in `inlineAllWasms`
 
 Instead of replacing the `'tree-sitter.wasm'` literal, inject the binary into
 emscripten's `Module` object **before** any fetch is attempted. Emscripten reads
@@ -60,7 +55,7 @@ function getBinaryPromise(path) {
 }
 ```
 
-The `renderChunk` hook in `inlineTreeSitterWasm` matches the emscripten module
+The `renderChunk` hook in `inlineAllWasms` matches the emscripten module
 init line (present in Rollup's output before esbuild minifies it):
 
 ```
@@ -86,8 +81,8 @@ import treeSitterYaml from '../../wasm/tree-sitter-yaml.wasm';
 await Language.load(treeSitterYaml);
 ```
 
-`@rollup/plugin-wasm` converts each `.wasm` import into an async loader
-function:
+Without intervention, a WASM plugin such as `@rollup/plugin-wasm` would convert
+each `.wasm` import into an async loader function:
 
 ```js
 function tree_sitter_yaml_default(imports) {
@@ -103,7 +98,7 @@ function tree_sitter_yaml_default(imports) {
 http://…/function%20tree_sitter_yaml_default(Sn)%20{…}
 ```
 
-### Why a plain `load` hook does not work
+### Why a plain `load` hook does not work (historical context)
 
 `@rollup/plugin-wasm` has both a `load` hook and a `transform` hook:
 
@@ -125,73 +120,69 @@ If a preceding plugin's `load` hook returns valid JavaScript for a `.wasm` id,
 `.wasm`) and overwrites the JS with the loader function. The fix must prevent
 the `transform` hook from seeing the `.wasm` id at all.
 
-### The fix — `inlineGrammarWasms` in `vite.config.esm.js` / `vite.config.umd.js`
+<a id="plugin-ordering"></a>
+### The fix — `inlineAllWasms` in `vite.config.shared.js`
 
-Use `resolveId` to redirect every grammar `.wasm` import to a virtual module ID
-that does **not** end with `.wasm`. Because `@rollup/plugin-wasm`'s hooks check
-`id.endsWith('.wasm')`, they are completely skipped.
+All three WASMs are handled by a single `inlineAllWasms` Vite plugin (shared
+between `vite.config.esm.js` and `vite.config.umd.js` via `vite.config.shared.js`).
+It combines three hooks:
 
 ```js
-const GRAMMAR_WASM_PREFIX = '\0grammar-wasm:';
+const inlineAllWasms = () => {
+  const treeSitterBase64 = readFileSync('node_modules/web-tree-sitter/tree-sitter.wasm').toString('base64');
+  return {
+    name: 'inline-all-wasms',
+    enforce: 'pre',
 
-const inlineGrammarWasms = () => ({
-  name: 'inline-grammar-wasms',
-  enforce: 'pre',
-  async resolveId(id, importer) {
-    if (!id.endsWith('.wasm') || id.includes('tree-sitter.wasm')) return null;
-    const resolved = await this.resolve(id, importer, { skipSelf: true });
-    if (!resolved) return null;
-    // ':inline' suffix ensures the virtual id does NOT end with '.wasm'
-    return GRAMMAR_WASM_PREFIX + resolved.id + ':inline';
-  },
-  load(id) {
-    if (!id.startsWith(GRAMMAR_WASM_PREFIX)) return null;
-    const filePath = id.slice(GRAMMAR_WASM_PREFIX.length, -':inline'.length);
-    const wasmBase64 = readFileSync(filePath).toString('base64');
-    return `const bytes=new Uint8Array(atob("${wasmBase64}").split("").map(function(c){return c.charCodeAt(0)}));export default bytes;`;
-  },
-});
+    // Redirect every .wasm import to a virtual id that does NOT end with '.wasm',
+    // bypassing any downstream plugin that checks id.endsWith('.wasm').
+    async resolveId(id, importer) {
+      if (!id.endsWith('.wasm')) return null;
+      const resolved = await this.resolve(id, importer, { skipSelf: true });
+      if (!resolved) return null;
+      return '\0wasm-inline:' + resolved.id + ':inline';
+    },
+
+    // Export the raw bytes as a Uint8Array. Language.load(bytes) accepts this directly.
+    // For tree-sitter.wasm the exported value is unused — emscripten reads Module.wasmBinary.
+    load(id) {
+      if (!id.startsWith('\0wasm-inline:')) return null;
+      const filePath = id.slice('\0wasm-inline:'.length, -':inline'.length);
+      const base64 = readFileSync(filePath).toString('base64');
+      return `const bytes=new Uint8Array(atob("${base64}").split("").map(function(c){return c.charCodeAt(0)}));export default bytes;`;
+    },
+
+    // Inject Module['wasmBinary'] into the final bundle at emscripten's module
+    // init line so getBinaryPromise() short-circuits before fetch() is called.
+    renderChunk(code) {
+      const updated = code.replace(
+        /var Module\s*=\s*typeof Module\s*!=\s*["']undefined["']\s*\?\s*Module\s*:\s*\{\}/,
+        (match) => `${match};Module['wasmBinary']=new Uint8Array(atob("${treeSitterBase64}").split("").map(function(c){return c.charCodeAt(0)}))`
+      );
+      return updated !== code ? { code: updated } : null;
+    },
+  };
+};
 ```
 
-The virtual module exports a `Uint8Array` of the raw WASM bytes. When
-`Language.load(bytes)` is called, it detects a `Uint8Array` input and
-instantiates it directly — no fetch needed.
-
-**Note:** `tree-sitter.wasm` is explicitly excluded from this plugin
-(`id.includes('tree-sitter.wasm')` check) because the emscripten runtime
-handles it separately via the `Module.wasmBinary` injection above.
-
----
-
-## Plugin ordering in the apidom worker configs
-
-```
-vite plugins (plugins: []):
-  1. inlineTreeSitterWasm  — renderChunk: injects Module.wasmBinary after emscripten init
-  2. inlineGrammarWasms    — resolveId/load: redirects grammar WASMs to Uint8Array modules
-
-rollupOptions.plugins: []:
-  3. wasmPlugin({ targetEnv: 'auto-inline' })  — handles tree-sitter.wasm only
-                                                  (grammar WASMs already consumed)
-```
-
-`inlineGrammarWasms` must be a **Vite plugin** (in the `plugins` array), not a
+`inlineAllWasms` must be a **Vite plugin** (in the `plugins` array), not a
 Rollup plugin (in `rollupOptions.plugins`). Rollup plugins run after Vite's
-transform pipeline and after `@rollup/plugin-wasm`, so placing
-`inlineGrammarWasms` in `rollupOptions.plugins` alongside `wasmPlugin` does not
-give it priority.
+transform pipeline, so placing it in `rollupOptions.plugins` would not give it
+priority over other WASM-handling plugins.
 
 ---
 
 ## Verification after a build
 
-```js
-// Check tree-sitter.wasm is inlined (Module.wasmBinary injection present)
-grep -c "Module.wasmBinary=new Uint8Array" dist/esm/apidom.worker.js  // → 1
+```sh
+# Check tree-sitter.wasm is inlined (Module.wasmBinary injection present)
+grep -c "wasmBinary" dist/esm/apidom.worker.js   # → ≥1
+grep -c "wasmBinary" dist/umd/apidom.worker.js   # → ≥1
 
-// Check grammar WASMs are Uint8Arrays, not loader functions
-grep -c "tree_sitter_yaml_default\|tree_sitter_json_default" dist/esm/apidom.worker.js  // → 0
+# Check grammar WASMs are Uint8Arrays, not loader functions
+grep -c "tree_sitter_yaml_default\|tree_sitter_json_default" dist/esm/apidom.worker.js  # → 0
+grep -c "tree_sitter_yaml_default\|tree_sitter_json_default" dist/umd/apidom.worker.js  # → 0
 
-// Language.load should receive bytes$N (Uint8Array), not a function
-grep "Language.load(" dist/esm/apidom.worker.js  // → Language.load(bytes$1)
+# Language.load should receive bytes$N (Uint8Array), not a function
+grep "Language.load(" dist/esm/apidom.worker.js  # → Language.load(bytes$1)
 ```

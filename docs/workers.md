@@ -188,14 +188,18 @@ Pre-declaring these avoids a cold-start dep-optimization reload on the first pag
 ```
 dist/
   esm/
-    apidom.worker.js   ← standalone worker bundle
-    editor.worker.js   ← standalone worker bundle
+    apidom.worker.js   ← self-contained ESM worker bundle
+    editor.worker.js   ← self-contained ESM worker bundle
     index.js           ← library entry
   umd/
-    apidom.worker.js
-    editor.worker.js
+    apidom.worker.js   ← self-contained IIFE worker bundle
+    editor.worker.js   ← self-contained IIFE worker bundle
     index.js
 ```
+
+**`dist/esm/` workers** are ES modules and are spawned with `{ type: 'module' }` by the virtual constructor modules injected into `after-load.js`. Native-ESM and Vite consumers use these directly.
+
+**`dist/umd/` workers** are IIFE bundles (classic scripts) for compatibility with Webpack-bundled consumers that may not reliably support `{ type: 'module' }` workers.
 
 Library consumers are responsible for hosting these worker files and pointing `MonacoEnvironment.getWorker` (or `getWorkerUrl`) at the hosted URLs. The workers are **not bundled into** the library entry — they must be accessible at runtime via a separate URL.
 

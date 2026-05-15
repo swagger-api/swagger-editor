@@ -2,7 +2,6 @@ import { defineConfig, createLogger } from 'vite';
 import { resolve, dirname } from 'path';
 import { readFileSync } from 'fs';
 import react from '@vitejs/plugin-react';
-import wasmPlugin from '@rollup/plugin-wasm';
 import nodePolyfills from 'rollup-plugin-polyfill-node';
 import { fileURLToPath } from 'url';
 
@@ -23,9 +22,7 @@ const inlineTreeSitterWasm = () => {
     name: 'inline-tree-sitter-wasm',
     renderChunk(code) {
       // Inject Module['wasmBinary'] at emscripten's module init so getBinaryPromise()
-      // returns the binary directly without calling fetch() — this bypasses the broken
-      // @rollup/plugin-wasm fetch interceptor whose endsWith() condition would otherwise
-      // match the data URI against itself (a string always ends with itself).
+      // returns the binary directly without calling fetch().
       // Two forms: pre-minification (typeof != "undefined") and post-minification (void 0).
       const updated = code.replace(
         /var Module\s*=\s*typeof Module\s*!=\s*["']undefined["']\s*\?\s*Module\s*:\s*\{\}/,
@@ -37,30 +34,25 @@ const inlineTreeSitterWasm = () => {
   };
 };
 
-// Grammar WASMs (tree-sitter-yaml.wasm, tree-sitter-json.wasm) are imported as
-// ES modules in apidom's browser.mjs via `import treeSitterYaml from '*.wasm'`.
-// @rollup/plugin-wasm converts these to async loader functions, but Language.load()
-// only accepts URL strings or Uint8Arrays — not functions.
-//
-// This plugin intercepts grammar WASM imports by redirecting them to virtual module
-// IDs that do NOT end with '.wasm', preventing @rollup/plugin-wasm's transform hook
-// from firing (it checks id.endsWith('.wasm')). The virtual module exports a Uint8Array
-// that Language.load() accepts directly.
-const GRAMMAR_WASM_PREFIX = '\0grammar-wasm:';
-const inlineGrammarWasms = () => ({
-  name: 'inline-grammar-wasms',
+// All WASM imports (tree-sitter.wasm, tree-sitter-yaml.wasm, tree-sitter-json.wasm)
+// are redirected to virtual module IDs that do NOT end with '.wasm' and export the
+// binary as a Uint8Array. For grammar WASMs, Language.load() accepts Uint8Array
+// directly. For tree-sitter.wasm, the imported value is unused — emscripten reads
+// Module.wasmBinary (injected by inlineTreeSitterWasm) before any fetch occurs.
+const WASM_INLINE_PREFIX = '\0wasm-inline:';
+const inlineAllWasms = () => ({
+  name: 'inline-all-wasms',
   enforce: 'pre',
   async resolveId(id, importer) {
-    if (!id.endsWith('.wasm') || id.includes('tree-sitter.wasm')) return null;
+    if (!id.endsWith('.wasm')) return null;
     const resolved = await this.resolve(id, importer, { skipSelf: true });
     if (!resolved) return null;
-    // Append ':inline' so the virtual id does NOT end with '.wasm' —
-    // @rollup/plugin-wasm checks id.endsWith('.wasm') in its transform hook.
-    return GRAMMAR_WASM_PREFIX + resolved.id + ':inline';
+    // ':inline' suffix ensures the virtual id does NOT end with '.wasm'.
+    return WASM_INLINE_PREFIX + resolved.id + ':inline';
   },
   load(id) {
-    if (!id.startsWith(GRAMMAR_WASM_PREFIX)) return null;
-    const filePath = id.slice(GRAMMAR_WASM_PREFIX.length, -':inline'.length);
+    if (!id.startsWith(WASM_INLINE_PREFIX)) return null;
+    const filePath = id.slice(WASM_INLINE_PREFIX.length, -':inline'.length);
     const wasmBase64 = readFileSync(filePath).toString('base64');
     return `const bytes=new Uint8Array(atob("${wasmBase64}").split("").map(function(c){return c.charCodeAt(0)}));export default bytes;`;
   },
@@ -108,13 +100,7 @@ export const mainConfig = defineConfig({
         },
         assetFileNames: 'swagger-editor.css',
       },
-      plugins: [
-        nodePolyfills(),
-        wasmPlugin({
-          // Inline WASM as base64 for UMD compatibility
-          targetEnv: 'auto-inline',
-        }),
-      ],
+      plugins: [nodePolyfills()],
       onwarn: sharedOnwarn,
     },
   },
@@ -125,7 +111,7 @@ export const apidomWorkerConfig = defineConfig({
   configFile: false,
   customLogger: logger,
   mode: 'production',
-  plugins: [inlineTreeSitterWasm(), inlineGrammarWasms()],
+  plugins: [inlineTreeSitterWasm(), inlineAllWasms()],
   assetsInclude: ['**/*.wasm'],
   build: {
     lib: {
@@ -144,11 +130,6 @@ export const apidomWorkerConfig = defineConfig({
       output: {
         inlineDynamicImports: true,
       },
-      plugins: [
-        wasmPlugin({
-          targetEnv: 'auto-inline',
-        }),
-      ],
       onwarn: sharedOnwarn,
     },
   },
@@ -175,11 +156,6 @@ export const editorWorkerConfig = defineConfig({
       output: {
         inlineDynamicImports: true,
       },
-      plugins: [
-        wasmPlugin({
-          targetEnv: 'auto-inline',
-        }),
-      ],
       onwarn: sharedOnwarn,
     },
   },
