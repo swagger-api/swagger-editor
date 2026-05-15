@@ -2,11 +2,10 @@ import { useState } from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 
-// eslint-disable-next-line import/no-unresolved
-import logo from '../../assets/logo.svg?raw';
+import logo from '../../assets/logo.svg';
+import { version } from '../../../../../package.json';
 
-const SplashScreen = ({ isOpen = true, version, getComponent }) => {
-  const { PACKAGE_VERSION } = {}; // eslint-disable-line no-undef
+const SplashScreen = ({ isOpen = true, getComponent }) => {
   const SplashScreenSpinner = getComponent('SplashScreenSpinner');
   const [isHidden, setHidden] = useState(!isOpen);
 
@@ -24,7 +23,7 @@ const SplashScreen = ({ isOpen = true, version, getComponent }) => {
     >
       <figure className="swagger-editor__splash-screen-figure">
         <img width="100%" src={logo} alt="Swagger Editor" />
-        <figcaption>{version ?? PACKAGE_VERSION}</figcaption>
+        <figcaption>{version}</figcaption>
         <SplashScreenSpinner />
       </figure>
     </div>
@@ -33,7 +32,6 @@ const SplashScreen = ({ isOpen = true, version, getComponent }) => {
 
 SplashScreen.propTypes = {
   isOpen: PropTypes.bool,
-  version: PropTypes.string,
   getComponent: PropTypes.func.isRequired,
 };
 
