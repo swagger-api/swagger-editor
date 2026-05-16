@@ -31,7 +31,7 @@ export default defineConfig(({ mode }) => {
       rolldownOptions: {
         plugins: [
           // Must run before nodePolyfills so it resolves 'fs' to our shim
-          // instead of the rollup-plugin-polyfill-node stub that lacks readFile
+          // instead of the empty stub that nodePolyfills provides for 'fs'.
           {
             name: 'fs-shim',
             resolveId(id) {

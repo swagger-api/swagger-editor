@@ -23,6 +23,20 @@ export default defineConfig(({ mode }) => {
     define: buildDefines(),
 
     plugins: [
+      // Redirect `fs` to our shim before nodePolyfills() maps it to an empty module.
+      // Must be listed first so its resolveId hook wins the enforce:'pre' ordering.
+      {
+        name: 'fs-shim',
+        enforce: 'pre',
+        resolveId(id) {
+          if (id === 'fs') return path.resolve(__dirname, 'src/polyfills/fs-shim.js');
+          return null;
+        },
+      },
+      // Polyfill remaining Node built-ins (util, events, stream, buffer, etc.) before
+      // Vite externalizes them. Must be 'pre' so resolveId runs ahead of Vite's own
+      // browser-externalization logic, which otherwise wins the module-resolution race.
+      { ...nodePolyfills(), enforce: 'pre' },
       react(),
       // Copy tree-sitter WASM files to root for worker access
       viteStaticCopy({
@@ -111,8 +125,6 @@ export default defineConfig(({ mode }) => {
         },
 
         external: ['esprima'],
-
-        plugins: [nodePolyfills()],
 
         onwarn(warning, warn) {
           if (warning.code === 'EVAL') return;
