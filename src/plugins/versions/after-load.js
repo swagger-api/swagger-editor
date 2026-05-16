@@ -1,6 +1,9 @@
 /* global PACKAGE_VERSION, GIT_COMMIT, GIT_DIRTY, BUILD_TIME */
 const afterLoad = () => {
+  if (typeof PACKAGE_VERSION === 'undefined') return;
+
   globalThis.versions = globalThis.versions || {};
+  /* eslint-disable no-undef */
   globalThis.versions.swaggerEditor = Object.create(
     {
       toString() {
@@ -17,6 +20,7 @@ const afterLoad = () => {
       buildTimestamp: { value: BUILD_TIME, enumerable: true },
     }
   );
+  /* eslint-enable no-undef */
 };
 
 export default afterLoad;
