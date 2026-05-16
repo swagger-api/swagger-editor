@@ -203,9 +203,37 @@ dist/
 
 Library consumers are responsible for hosting these worker files and pointing `MonacoEnvironment.getWorker` (or `getWorkerUrl`) at the hosted URLs. The workers are **not bundled into** the library entry — they must be accessible at runtime via a separate URL.
 
+### Node.js global polyfills in the UMD worker build
+
+The UMD worker build (`vite/configs/worker-configs.umd.js`) must include `nodePolyfills()` in its `rollupOptions.plugins`. `@swagger-api/apidom-ls` and its transitive dependencies (notably `deep-extend`) reference Node.js globals such as `Buffer` directly in code paths that execute at runtime inside the worker. Without the polyfill, the worker throws `ReferenceError: Buffer is not defined` the first time a language-service method is called.
+
+Webpack-bundled consumers avoid this automatically via `ProvidePlugin({ Buffer: ['buffer', 'Buffer'] })`. Vite's worker build does **not** inherit polyfills from the parent `vite.config.js` — the UMD config is fully isolated and must declare them explicitly:
+
+```js
+// vite/configs/worker-configs.umd.js
+rollupOptions: {
+  plugins: [nodePolyfills()],
+  onwarn: sharedOnwarn,
+},
+```
+
+The ESM worker build (`vite/configs/worker-configs.esm.js`) is consumed by Vite-native apps that provide their own polyfill layer, so it does not need `nodePolyfills()` itself.
+
 ---
 
 ## Common Failure Modes
+
+### `ReferenceError: Buffer is not defined` + `Error: WebWorker already initialized!`
+
+These two errors appear together and have a single root cause: the `dist/umd/apidom.worker.js` was built without Node.js global polyfills (see [Node.js global polyfills in the UMD worker build](#nodejs-global-polyfills-in-the-umd-worker-build) above).
+
+The sequence:
+1. The worker IIFE completes; `initialize(factory)` runs and sets `self.onmessage` to the start-handler.
+2. `WorkerManager.postMessage(createData)` arrives → start-handler calls `start()` → `initialize$1()` succeeds (`initialized$1 = true`), protocol handler set.
+3. Monaco routes the first "create" command through the protocol → factory called → `new ApiDOMWorker(ctx, createData)` → `createLanguageService()` → `deepExtend()` evaluates `value instanceof Buffer` → **`Buffer is not defined`** thrown.
+4. The factory throw propagates through `@codingame/monaco-vscode-api`'s `WebWorkerServer` error path, which calls `start()` again on the same worker → `initialize$1()` with `initialized$1 = true` → **"WebWorker already initialized!"**
+
+Fix: add `nodePolyfills()` to the UMD worker build (see above). Once the factory succeeds on the first call, Monaco has no reason to retry and `initialize$1` is only ever called once.
 
 ### Worker fails with `Event {type: 'error', message: undefined}`
 

@@ -1,6 +1,7 @@
 import { defineConfig } from 'vite';
 import { resolve, dirname } from 'path';
 import { fileURLToPath } from 'url';
+import nodePolyfills from 'rollup-plugin-polyfill-node';
 
 import { logger, sharedOnwarn } from '../shared.js';
 import { inlineAllWasms } from '../plugins/inline-all-wasms.js';
@@ -28,6 +29,7 @@ export const apidomWorkerConfig = defineConfig({
     emptyOutDir: false,
     codeSplitting: false,
     rollupOptions: {
+      plugins: [nodePolyfills()],
       onwarn: sharedOnwarn,
     },
   },
