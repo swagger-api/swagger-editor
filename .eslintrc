@@ -29,7 +29,8 @@
     "jsx-a11y",
     "prettier",
     "@typescript-eslint",
-    "react-hooks"
+    "react-hooks",
+    "@vitest"
   ],
   "rules": {
     "import/no-extraneous-dependencies": ["error", {"devDependencies": true}],
@@ -97,8 +98,12 @@
     },
     {
       "files": ["**/*.test.{js,jsx,ts,tsx}", "**/*.spec.{js,jsx,ts,tsx}", "test/setupTests.js"],
+      "extends": ["plugin:@vitest/legacy-recommended"],
       "env": {
-        "jest": true
+        "@vitest/env": true
+      },
+      "rules": {
+        "@vitest/consistent-test-it": "off"
       }
     },
     {

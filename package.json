@@ -51,7 +51,9 @@
     "build:bundle:esm": "rimraf ./dist/esm && cross-env NODE_OPTIONS=--max_old_space_size=4096 node vite/scripts/build-bundle-esm.js && rimraf ./dist/esm/swagger-editor.css*",
     "build:bundle:umd": "rimraf ./dist/umd ./dist/swagger-editor.css && cross-env NODE_OPTIONS=--max_old_space_size=4096 node vite/scripts/build-bundle-umd.js && copyfiles -u 2 ./dist/umd/swagger-editor.css ./dist && rimraf ./dist/umd/swagger-editor.css",
     "build:definitions": "tsc -p tsconfig.json",
-    "test": "cross-env NODE_ENV=test BABEL_ENV=test PUBLIC_URL= node scripts/test.js",
+    "test": "vitest",
+    "test:run": "vitest run",
+    "test:coverage": "vitest run --coverage",
     "pw:install": "playwright install --with-deps chromium",
     "pw:test": "playwright test",
     "pw:test:headed": "playwright test --headed",
@@ -150,9 +152,6 @@
     "@swagger-api/apidom-parser-adapter-openapi-yaml-3-2": "$@swagger-api/apidom-parser-adapter-openapi-yaml-3-2"
   },
   "devDependencies": {
-    "@babel/preset-env": "^7.29.5",
-    "@babel/preset-react": "^7.28.5",
-    "@babel/preset-typescript": "^7.28.5",
     "@codingame/esbuild-import-meta-url-plugin": "^1.0.3",
     "@commitlint/cli": "^19.8.1",
     "@commitlint/config-conventional": "^19.8.0",
@@ -164,7 +163,8 @@
     "@typescript-eslint/eslint-plugin": "^8.59.3",
     "@typescript-eslint/parser": "^8.59.3",
     "@vitejs/plugin-react": "^6.0.1",
-    "babel-jest": "^30.4.1",
+    "@vitest/coverage-v8": "^4.1.6",
+    "@vitest/eslint-plugin": "^1.6.17",
     "browserslist": "^4.18.1",
     "chalk": "^5.6.0",
     "copyfiles": "^2.4.1",
@@ -175,12 +175,7 @@
     "eslint-plugin-no-only-tests": "^3.3.0",
     "eslint-plugin-prettier": "^5.4.0",
     "husky": "^9.1.7",
-    "identity-obj-proxy": "^3.0.0",
-    "jest": "^30.4.2",
-    "jest-canvas-mock": "^2.5.2",
-    "jest-environment-jsdom": "^30.4.1",
-    "jest-resolve": "^30.4.1",
-    "jest-watch-typeahead": "^3.0.1",
+    "jsdom": "^29.1.1",
     "lint-staged": "^16.1.2",
     "postcss": "^8.5.14",
     "postcss-normalize": "^13.0.1",
@@ -197,6 +192,8 @@
     "vite-plugin-eslint": "^1.8.1",
     "vite-plugin-html": "^3.2.2",
     "vite-plugin-static-copy": "^4.1.0",
+    "vitest": "^4.1.6",
+    "vitest-canvas-mock": "^1.1.4",
     "web-vitals": "^4.2.4"
   }
 }
