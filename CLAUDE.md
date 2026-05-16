@@ -6,7 +6,7 @@
 
 ## Project Overview
 
-SwaggerEditor is a browser-based editor for API specifications supporting **OpenAPI 2.0/3.0/3.1**, **AsyncAPI 2.x**, **API Design Systems**, and **JSON Schema**. Built as a React app on SwaggerUI's plugin architecture with a split-pane Monaco Editor interface.
+SwaggerEditor is a browser-based editor for API specifications supporting **OpenAPI 2.0/3.0/3.1/3.2**, **AsyncAPI 2.x/3.0**, **API Design Systems**, and **JSON Schema**. Built as a React app on SwaggerUI's plugin architecture with a split-pane Monaco Editor interface.
 
 **Core Technologies:** React 17+/18, SwaggerUI React, TypeScript (gradual), Immutable.js, Monaco Editor, ApiDOM, Vite 8, Vitest + Playwright
 
