@@ -124,7 +124,6 @@
     "short-unique-id": "=5.2.0",
     "styled-components": "^6.4.1",
     "swagger-ui-react": "^5.32.6",
-    "util": "^0.12.5",
     "vite": "^8.0.13",
     "vite-plugin-svgr": "^4.3.0",
     "vite-tsconfig-paths": "^5.1.4",
@@ -187,12 +186,10 @@
     "source-map-explorer": "^2.5.3",
     "start-server-and-test": "^2.0.11",
     "typescript": "^6.0.3",
-    "util": "^0.12.5",
     "vite-plugin-eslint": "^1.8.1",
     "vite-plugin-html": "^3.2.2",
     "vite-plugin-static-copy": "^4.1.0",
     "vitest": "^4.1.6",
-    "vitest-canvas-mock": "^1.1.4",
-    "web-vitals": "^4.2.4"
+    "vitest-canvas-mock": "^1.1.4"
   }
 }
