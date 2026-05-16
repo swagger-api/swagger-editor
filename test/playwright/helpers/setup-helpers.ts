@@ -168,7 +168,7 @@ export async function prepareOasGenerator(page: Page): Promise<void> {
  * Cypress equivalent: cy.clearDownloadsFolder()
  */
 export async function clearDownloadsFolder(): Promise<void> {
-  const downloadsPath = path.join(__dirname, '../../../cypress/downloads');
+  const downloadsPath = path.join(__dirname, '../../../playwright/downloads');
   try {
     const files = await fs.readdir(downloadsPath);
     await Promise.all(files.map((file) => fs.unlink(path.join(downloadsPath, file))));
