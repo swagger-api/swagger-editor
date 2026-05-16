@@ -4,7 +4,7 @@ import nodePolyfills from 'rollup-plugin-polyfill-node';
 import path from 'path';
 import { fileURLToPath } from 'url';
 
-import { logger } from './vite/shared.js';
+import { buildDefines, logger } from './vite/shared.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -25,6 +25,7 @@ export default defineConfig(({ mode }) => {
     plugins: [react()],
     define: {
       global: 'globalThis',
+      ...buildDefines(),
     },
     optimizeDeps: {
       rolldownOptions: {
