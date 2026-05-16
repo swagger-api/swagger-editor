@@ -318,10 +318,12 @@ Run the following commands to set up the repository for local development:
  $ npm run lint
 ```
 
-**Runs unit and integration tests**
+**Runs unit tests**
 
 ```sh
- $ npm test
+ $ npm test              # watch mode
+ $ npm run test:run      # single run (CI)
+ $ npm run test:coverage # with coverage report
 ```
 
 **Runs E2E tests**
@@ -579,20 +581,13 @@ Both modes support:
 
 ### Environment Variables
 
-It is possible to use an environment variable to specify a local JSON/YAML file or a remote URL for SwaggerEditor to load on startup.
-These environment variables will get baked in during build time into build artifacts.
+Environment variables are baked in at build time via Vite's `define` mechanism. The only currently active variable is:
 
-Environment variables currently available:
+| Variable name   | Description                                                                 |
+|-----------------|-----------------------------------------------------------------------------|
+| `VITE_VERSION`  | Version displayed in the splash screen. Defaults to `$npm_package_version`. |
 
-| Variable name               |                                                Description                                                 |
-|-----------------------------|:----------------------------------------------------------------------------------------------------------:|
-| `REACT_APP_DEFINITION_FILE` | Specifies a local file path, and the specified file must also be present in the `/public/static` directory |
-| `REACT_APP_DEFINITION_URL`  | Specifies a remote URL. This environment variable currently takes precedence over `REACT_APP_SWAGGER_FILE` |
-| `REACT_APP_VERSION`         |              Specifies the version of this app. The version is read from `package.json` file.              |
-
-Sample environment variable values can be found in `.env` file. For more information about using
-environment variables, please refer to [adding Custom Environment Variables](https://create-react-app.dev/docs/adding-custom-environment-variables/)
-section of Create React App documentation.
+Sample values can be found in the `.env` file at the root of the repository.
 
 ### Using preview plugins in SwaggerUI
 
