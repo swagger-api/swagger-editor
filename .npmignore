@@ -12,6 +12,7 @@
 /test-results/
 /vite/
 /coverage/
+/.claude
 /.nvmrc
 /.lintstagedrc
 /.eslintignore
@@ -31,7 +32,6 @@
 /swagger-api-swagger-editor-*.tgz
 /tsconfig.json
 /CLAUDE.md
-/.claude
 /vite.config.app.js
 /vite.config.esm.js
 /vite.config.js
