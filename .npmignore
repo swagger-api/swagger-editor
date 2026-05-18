@@ -9,6 +9,9 @@
 /scripts/
 /test/
 /src/
+/test-results/
+/vite/
+/coverage/
 /.nvmrc
 /.lintstagedrc
 /.eslintignore
@@ -19,10 +22,12 @@
 /.dockerignore
 /.browserslistrc
 /.commitlintrc.json
-/cypress.config.js
+/playwright.config.ts
 /Dockerfile
 /Dockerfile.unprivileged
 /.eslintrc
 /.gitattributes
 /.editorconfig
 /swagger-api-swagger-editor-*.tgz
+/tsconfig.json
+/CLAUDE.md
