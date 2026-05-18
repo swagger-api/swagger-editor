@@ -31,3 +31,8 @@
 /swagger-api-swagger-editor-*.tgz
 /tsconfig.json
 /CLAUDE.md
+/vite.config.app.js
+/vite.config.esm.js
+/vite.config.js
+/vite.config.umd.js
+/vitest.config.ts
