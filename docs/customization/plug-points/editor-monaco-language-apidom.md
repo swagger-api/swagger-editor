@@ -54,28 +54,29 @@ EditorMonacoLanguageApiDOM({
   },
 });
 ```
-`customApiDOMWorkerPath` is a URL (absolute or relative) of extending script. When the `apidom.worker`
-is bootstrapping it, it imports this URL using [importScripts](https://developer.mozilla.org/en-US/docs/Web/API/WorkerGlobalScope/importScripts).
-The `apidom.worker` then expects the script to have the following signature:
+
+`customApiDOMWorkerPath` is a URL (absolute or relative) of the extending module. The `apidom.worker`
+loads it via dynamic `import()` (ES module workers) or `importScripts` (classic workers).
+
+The module must export a `customApiDOMWorkerFactory` function:
 
 **https://example.com/index.js**
 
 ```js
-globalThis.customApiDOMWorkerFactory = (ApiDOMWorkerClass, toolbelt) => {
+export const customApiDOMWorkerFactory = (ApiDOMWorkerClass, toolbelt) => {
   return ApiDOMWorkerClass;
 };
 ```
 
-The script must expose `customApiDOMWorkerFactory` function on global object. This function will
-receive two arguments:
+The function receives two arguments:
 
-- ApiDOMWorkerClass - the class that implements the editor capabilities
-- toolbelt - an object containing various library exports
+- `ApiDOMWorkerClass` - the class that implements the editor capabilities
+- `toolbelt` - an object containing various library exports
 
 Here is a simple **example** demonstrating changing the log level of language service:
 
 ```js
-globalThis.customApiDOMWorkerFactory = (ApiDOMWorkerClass, toolbelt) => {
+export const customApiDOMWorkerFactory = (ApiDOMWorkerClass, toolbelt) => {
   const { apidomLS } = toolbelt;
 
   class ApiDOMWorkerLogLevelErrorClass extends ApiDOMWorkerClass {
@@ -88,6 +89,9 @@ globalThis.customApiDOMWorkerFactory = (ApiDOMWorkerClass, toolbelt) => {
   return ApiDOMWorkerLogLevelErrorClass;
 };
 ```
+
+> **Note:** Classic (non-module) worker consumers may still use the `globalThis.customApiDOMWorkerFactory`
+> assignment pattern — it is supported as a fallback when a named export is absent.
 
 ### Static extension
 
@@ -152,7 +156,7 @@ EditorMonacoLanguageApiDOM({
 **https://example.com/index.js**
 
 ```js
-globalThis.customApiDOMWorkerFactory = (ApiDOMWorkerClass, toolbelt) => {
+export const customApiDOMWorkerFactory = (ApiDOMWorkerClass, toolbelt) => {
   const { apidomLS } = toolbelt;
 
   class ApiDOMWorkerLogLevelErrorClass extends ApiDOMWorkerClass {

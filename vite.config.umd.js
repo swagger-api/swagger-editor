@@ -1,6 +1,6 @@
 import { defineConfig } from 'vite';
-import { resolve, dirname } from 'path';
-import { fileURLToPath } from 'url';
+import { resolve, dirname } from 'node:path';
+import { fileURLToPath } from 'node:url';
 import react from '@vitejs/plugin-react';
 import nodePolyfills from 'rollup-plugin-polyfill-node';
 

@@ -21,21 +21,35 @@ Set in `src/plugins/editor-monaco/after-load.js`:
 
 ```js
 import EditorWorkerConstructor from '@codingame/monaco-vscode-api/workers/editor.worker?worker';
+import ApidomWorkerConstructor from '../editor-monaco-language-apidom/language/apidom.worker.js?worker';
 
 globalThis.MonacoEnvironment = {
   baseUrl: document.baseURI || location.href,
   getWorker(workerId, label) {
-    if (label === 'apidom') {
-      const workerPath = import.meta.env.DEV
-        ? import.meta.env.VITE_APIDOM_WORKER_PATH       // '/src/plugins/.../apidom.worker.js'
-        : import.meta.env.VITE_APIDOM_WORKER_FILENAME;  // '/apidom.worker.js'
-      return new Worker(new URL(workerPath, this.baseUrl), { type: 'module' });
-    }
+    if (label === 'apidom') return new ApidomWorkerConstructor();
     return new EditorWorkerConstructor();
   },
   ...globalThis.MonacoEnvironment,
 };
 ```
+
+Both `?worker` imports are intercepted by `vite/plugins/rewrite-editor-worker-import.js`, which replaces them with virtual constructor modules. Each constructor resolves the worker URL at spawn time:
+
+```js
+// Generated virtual module (simplified)
+export default class ApidomWorkerConstructor {
+  constructor() {
+    const _meta = new URL('../../apidom.worker.js', import.meta.url);
+    const _url = _meta.protocol === 'file:'
+      ? new URL('./apidom.worker.js', globalThis.MonacoEnvironment?.baseUrl ?? location.origin)
+      : _meta;
+    return new Worker(_url, { type: 'module' });
+  }
+}
+```
+
+- **Vite / native-ESM consumers**: `import.meta.url` is an `https:` URL, so `_meta` resolves relative to the inlined chunk in `dist/esm/`. No `MonacoEnvironment.baseUrl` needed.
+- **Webpack consumers**: `import.meta.url` is a `file:` URL, so the fallback uses `MonacoEnvironment.baseUrl`. The filename is prefixed with `./` so that Webpack consumer tooling (e.g. `ReplaceAssetNamePlugin`) can locate and replace it with the hashed output filename.
 
 Monaco calls `getWorker` and wraps the returned `Worker` in `Promise.resolve()`, bypassing the blob-URL fallback path entirely.
 
@@ -65,20 +79,22 @@ The `?worker` import syntax is required for `node_modules/` worker files because
 
 ### Production (app build)
 
-Built as a rollup entry point in `vite.config.app.js`:
+Built by Vite's worker builder via the same `?worker` import. Output path is controlled by
+`worker.rollupOptions.output.entryFileNames` in `vite.config.app.js`:
 
 ```js
-rollupOptions: {
-  input: {
-    'editor.worker': 'node_modules/monaco-editor/esm/vs/editor/editor.worker.js',
-  },
-  output: {
-    entryFileNames: (chunk) => chunk.name.includes('worker') ? '[name].js' : 'static/js/[name].[hash].js',
+worker: {
+  format: 'es',
+  rollupOptions: {
+    output: {
+      entryFileNames: 'static/js/[name].[hash].js',
+    },
   },
 }
 ```
 
-Output: `build/editor.worker.js`, served at `/editor.worker.js`.
+Output: `build/static/js/editor.worker.[hash].js`. The hashed URL is injected automatically into
+`new EditorWorkerConstructor()` by Vite at build time.
 
 ---
 
@@ -86,13 +102,13 @@ Output: `build/editor.worker.js`, served at `/editor.worker.js`.
 
 ### Dev mode
 
-Loaded via a direct URL using the `VITE_APIDOM_WORKER_PATH` env var:
+Loaded via Vite's `?worker` import query in `after-load.js`:
 
 ```js
-new Worker(new URL('/src/plugins/editor-monaco-language-apidom/language/apidom.worker.js', baseUrl), { type: 'module' })
+import ApidomWorkerConstructor from '../editor-monaco-language-apidom/language/apidom.worker.js?worker';
 ```
 
-Vite's **transform middleware** intercepts this request and rewrites the bare specifier inside `apidom.worker.js`:
+Vite's **transform middleware** intercepts the worker file request and rewrites bare specifiers inside `apidom.worker.js`:
 
 ```js
 // Source (src/plugins/.../apidom.worker.js)
@@ -108,17 +124,11 @@ The pre-bundled dep (`optimizeDeps.include` declares `monaco-editor/esm/vs/edito
 
 ### Production (app build)
 
-Built as a rollup entry point in `vite.config.app.js`:
+Built by Vite's worker builder via the same `?worker` import. Shares the same
+`worker.rollupOptions.output.entryFileNames` config as the editor worker (see above).
 
-```js
-rollupOptions: {
-  input: {
-    'apidom.worker': 'src/plugins/editor-monaco-language-apidom/language/apidom.worker.js',
-  },
-}
-```
-
-Output: `build/apidom.worker.js`, served at `/apidom.worker.js`.
+Output: `build/static/js/apidom.worker.[hash].js`. The hashed URL is injected automatically into
+`new ApidomWorkerConstructor()` by Vite at build time.
 
 ---
 
@@ -157,10 +167,11 @@ The `initPhase` guard (`UNINITIALIZED → IN_PROGRESS → INITIALIZED`) prevents
 
 Defined in `.env`, baked into the bundle at build time:
 
-| Variable | Dev value | Prod value | Used by |
-|----------|-----------|------------|---------|
-| `VITE_APIDOM_WORKER_PATH` | `/src/plugins/editor-monaco-language-apidom/language/apidom.worker.js` | — | `after-load.js` dev path |
-| `VITE_APIDOM_WORKER_FILENAME` | — | `/apidom.worker.js` | `after-load.js` prod path |
+| Variable | Value | Used by |
+|----------|-------|---------|
+| `VITE_VERSION` | `$npm_package_version` | Splash screen version display |
+
+Worker URLs are resolved automatically by Vite's `?worker` import transform — no env vars required.
 
 ---
 

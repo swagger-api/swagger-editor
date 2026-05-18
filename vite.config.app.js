@@ -4,8 +4,8 @@ import { createHtmlPlugin } from 'vite-plugin-html';
 import importMetaUrlPlugin from '@codingame/esbuild-import-meta-url-plugin';
 import { viteStaticCopy } from 'vite-plugin-static-copy';
 import nodePolyfills from 'rollup-plugin-polyfill-node';
-import path from 'path';
-import { fileURLToPath } from 'url';
+import path from 'node:path';
+import { fileURLToPath } from 'node:url';
 
 import { buildDefines, logger } from './vite/shared.js';
 
@@ -94,27 +94,11 @@ export default defineConfig(({ mode }) => {
       rollupOptions: {
         input: {
           main: path.resolve(__dirname, 'index.html'),
-          // Build workers as separate entry points
-          'apidom.worker': path.resolve(
-            __dirname,
-            'src/plugins/editor-monaco-language-apidom/language/apidom.worker.js'
-          ),
-          'editor.worker': path.resolve(
-            __dirname,
-            'node_modules/monaco-editor/esm/vs/editor/editor.worker.js'
-          ),
         },
 
         output: {
           hoistTransitiveImports: false,
-          entryFileNames: (chunkInfo) => {
-            // Place worker files at root without hash
-            if (chunkInfo.name.includes('worker')) {
-              return '[name].js';
-            }
-            // Regular entry files go in static/js with hash
-            return 'static/js/[name].[hash].js';
-          },
+          entryFileNames: 'static/js/[name].[hash].js',
           chunkFileNames: 'static/js/[name].[hash].chunk.js',
           assetFileNames: (assetInfo) => {
             if (assetInfo.name && assetInfo.name.endsWith('.css')) {
@@ -145,7 +129,7 @@ export default defineConfig(({ mode }) => {
       format: 'es',
       rollupOptions: {
         output: {
-          entryFileNames: 'static/js/[name].js',
+          entryFileNames: 'static/js/[name].[hash].js',
         },
       },
       plugins: () => [],

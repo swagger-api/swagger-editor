@@ -24,7 +24,7 @@ export default class ${className} {
   constructor() {
     const _meta = new URL('../../${filename}', import.meta.url);
     const _url = _meta.protocol === 'file:'
-      ? new URL('${filename}', globalThis.MonacoEnvironment?.baseUrl ?? location.origin)
+      ? new URL('./${filename}', globalThis.MonacoEnvironment?.baseUrl ?? location.origin)
       : _meta;
     return new Worker(_url, { type: 'module' });
   }
