@@ -34,6 +34,7 @@ export const mainConfig = defineConfig({
   configFile: false,
   customLogger: logger,
   mode: 'production',
+  publicDir: false,
 
   plugins: [rewriteEditorWorkerImport()],
 

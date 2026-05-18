@@ -14,6 +14,7 @@ export const apidomWorkerConfig = defineConfig({
   configFile: false,
   customLogger: logger,
   mode: 'production',
+  publicDir: false,
   plugins: [inlineAllWasms()],
 
   build: {
@@ -26,7 +27,7 @@ export const apidomWorkerConfig = defineConfig({
       fileName: () => 'apidom.worker.js',
     },
     outDir: 'dist/esm',
-    sourcemap: false,
+    sourcemap: true,
     emptyOutDir: false,
     codeSplitting: false,
     rollupOptions: {
@@ -39,6 +40,7 @@ export const editorWorkerConfig = defineConfig({
   configFile: false,
   customLogger: logger,
   mode: 'production',
+  publicDir: false,
   plugins: [],
 
   build: {
@@ -48,7 +50,7 @@ export const editorWorkerConfig = defineConfig({
       fileName: () => 'editor.worker.js',
     },
     outDir: 'dist/esm',
-    sourcemap: false,
+    sourcemap: true,
     emptyOutDir: false,
     codeSplitting: false,
     rollupOptions: {

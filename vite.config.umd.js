@@ -5,6 +5,7 @@ import react from '@vitejs/plugin-react';
 import nodePolyfills from 'rollup-plugin-polyfill-node';
 
 import { logger, sharedOnwarn } from './vite/shared.js';
+import { rewriteEditorWorkerImport } from './vite/plugins/rewrite-editor-worker-import.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -14,7 +15,8 @@ export const mainConfig = defineConfig({
   configFile: false,
   customLogger: logger,
   mode: 'production',
-  plugins: [react()],
+  publicDir: false,
+  plugins: [rewriteEditorWorkerImport(), react()],
   assetsInclude: ['**/*.wasm'],
 
   resolve: {

@@ -12,6 +12,7 @@ export const apidomWorkerConfig = defineConfig({
   configFile: false,
   customLogger: logger,
   mode: 'production',
+  publicDir: false,
   plugins: [inlineAllWasms()],
 
   build: {
@@ -39,6 +40,7 @@ export const editorWorkerConfig = defineConfig({
   configFile: false,
   customLogger: logger,
   mode: 'production',
+  publicDir: false,
   plugins: [],
 
   build: {
