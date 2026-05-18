@@ -3,10 +3,8 @@
 /.husky/
 /build/
 /public/
-/config/
 /docs/
 /node_modules/
-/scripts/
 /test/
 /src/
 /test-results/
