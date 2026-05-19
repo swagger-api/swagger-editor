@@ -54,8 +54,12 @@ export const mainConfig = defineConfig({
       // isResolved — true only after Vite has resolved the path; bare specifiers
       //              arrive here with isResolved:false and their original form.
       external: (id, _importer, isResolved) => {
-        // Keep swagger-ui CSS bundled (side-effect import)
+        // Keep swagger-ui CSS bundled — guard both the bare specifier and the resolved
+        // absolute path, otherwise the node_modules safety net below externalizes it
+        // causing the CI runner's absolute path to be baked into the built ESM file
         if (id === 'swagger-ui-react/swagger-ui.css') return false;
+        if (isResolved && id.includes('swagger-ui-react') && id.endsWith('swagger-ui.css'))
+          return false;
         // Rollup checks external() BEFORE calling resolveId hooks for bare specifiers.
         // Allow ?worker imports through so rewriteEditorWorkerImport can intercept them.
         if (id.endsWith('?worker')) return false;
