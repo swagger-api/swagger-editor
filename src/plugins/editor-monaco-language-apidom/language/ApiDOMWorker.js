@@ -165,7 +165,7 @@ export const makeCreate = (BaseClass) => (ctx, createData) => {
           continue;
         }
         // eslint-disable-next-line no-await-in-loop
-        const mod = await import(/* @vite-ignore */ path);
+        const mod = await import(/* webpackIgnore: true */ /* @vite-ignore */ path);
         const factory = mod.customApiDOMWorkerFactory ?? globalThis.customApiDOMWorkerFactory;
         if (typeof factory !== 'function') {
           throw new TypeError(`The module at ${path} does not export customApiDOMWorkerFactory`);
