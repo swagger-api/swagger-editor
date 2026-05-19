@@ -132,18 +132,6 @@ const lazyMonacoContribution = ({ createData, system, useApiDOMSyntaxHighlightin
       );
     })
   );
-
-  // setup monaco environment
-  globalThis.MonacoEnvironment = {
-    // expect editor-monaco plugin to have already executed
-    ...globalThis.MonacoEnvironment,
-    getWorkerUrl(moduleId, label) {
-      if (label === apidom.languageId) {
-        return new URL(process.env.REACT_APP_APIDOM_WORKER_FILENAME, this.baseUrl).toString();
-      }
-      return new URL(process.env.REACT_APP_EDITOR_WORKER_FILENAME, this.baseUrl).toString();
-    },
-  };
 };
 
 export default lazyMonacoContribution;

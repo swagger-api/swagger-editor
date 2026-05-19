@@ -1,14 +1,14 @@
 # CLAUDE.md - SwaggerEditor Codebase Guide for AI Assistants
 
-**Version:** 5.0.6 | **Last Updated:** 2026-02-27
+**Version:** 5.0.6 | **Last Updated:** 2026-05-16
 
 ---
 
 ## Project Overview
 
-SwaggerEditor is a browser-based editor for API specifications supporting **OpenAPI 2.0/3.0/3.1**, **AsyncAPI 2.x**, **API Design Systems**, and **JSON Schema**. Built as a React app on SwaggerUI's plugin architecture with a split-pane Monaco Editor interface.
+SwaggerEditor is a browser-based editor for API specifications supporting **OpenAPI 2.0/3.0/3.1/3.2**, **AsyncAPI 2.x/3.0**, **API Design Systems**, and **JSON Schema**. Built as a React app on SwaggerUI's plugin architecture with a split-pane Monaco Editor interface.
 
-**Core Technologies:** React 17+/18, SwaggerUI React, TypeScript (gradual), Immutable.js, Monaco Editor, ApiDOM, Webpack 5, Jest + Playwright
+**Core Technologies:** React 17+/18, SwaggerUI React, TypeScript (gradual), Immutable.js, Monaco Editor, ApiDOM, Vite 8, Vitest + Playwright
 
 **Philosophy:** Plugin-based architecture, minimal over-engineering, heavy E2E testing, gradual TypeScript adoption, app/ESM/UMD build artifacts.
 
@@ -18,10 +18,9 @@ SwaggerEditor is a browser-based editor for API specifications supporting **Open
 
 ```
 swagger-editor/
-├── config/               # Webpack configs (dev, prod, bundle), Jest transforms
+├── vite/                 # Vite plugins, configs, and build scripts
 ├── docs/                 # architecture.md, customization guides, migration guides
 ├── public/               # Static assets, HTML template
-├── scripts/              # Build scripts (start, build, test)
 ├── src/
 │   ├── App.tsx           # Main app component & plugin composition
 │   ├── index.tsx         # Browser entry point
@@ -37,7 +36,7 @@ swagger-editor/
 │   │   ├── fixtures/     # Test data
 │   │   ├── helpers/      # Helper functions
 │   │   └── tsconfig.json
-│   └── setupTests.js     # Jest setup (jest-dom, canvas-mock)
+│   └── setupTests.js     # Vitest setup (jest-dom/vitest, canvas-mock)
 ├── build/                # Standalone app (generated)
 └── dist/esm|umd|types/   # Library bundles (generated)
 ```
@@ -182,7 +181,9 @@ const MyPlugin = (system) => {
 | Script | Description |
 |--------|-------------|
 | `npm start` | Dev server on port 3000 (hot reload) |
-| `npm test` | Jest unit tests (watch mode) |
+| `npm test` | Vitest unit tests (watch mode) |
+| `npm run test:run` | Vitest unit tests (single run, no watch) |
+| `npm run test:coverage` | Vitest unit tests with coverage report |
 | `npm run lint` | ESLint on all files |
 | `npm run lint:fix` | Auto-fix ESLint errors |
 | `npm run build` | Build all artifacts (app + bundles + types) |
@@ -191,22 +192,18 @@ const MyPlugin = (system) => {
 | `npm run build:bundle:esm` | ESM bundle → `/dist/esm` |
 | `npm run build:bundle:umd` | UMD bundle → `/dist/umd` |
 | `npm run build:definitions` | TypeScript definitions → `/dist/types` |
-| `npx playwright test` | E2E tests (headless) |
-| `npx playwright test --headed` | E2E with browser visible |
-| `npx playwright test --ui` | Interactive UI mode |
-| `npx playwright test --debug` | Debug mode |
-| `npx playwright show-report` | View test report |
+| `npm run pw:test` | E2E tests (headless) |
+| `npm run pw:test:headed` | E2E with browser visible |
+| `npm run pw:test:ui` | Interactive Playwright UI mode |
+| `npm run pw:test:debug` | Playwright debug mode |
+| `npm run pw:report` | View test report |
 | `npm run clean` | Remove `/build` and `/dist` |
 
 ### Environment Variables (`.env`, baked into build)
 
 | Variable | Description |
 |----------|-------------|
-| `REACT_APP_DEFINITION_FILE` | Local file path (must be in `/public/static`) |
-| `REACT_APP_DEFINITION_URL` | Remote URL (takes precedence over file) |
-| `REACT_APP_VERSION` | App version (from package.json) |
-| `REACT_APP_APIDOM_WORKER_FILENAME` | ApiDOM worker filename |
-| `REACT_APP_EDITOR_WORKER_FILENAME` | Monaco editor worker filename |
+| `VITE_VERSION` | App version displayed in the splash screen (defaults to `$npm_package_version`) |
 
 ### Web Workers
 
@@ -229,8 +226,10 @@ npm run build
 
 ## Testing Strategy
 
-### Unit Testing (Jest)
-- **Location:** `src/**/*.{spec,test}.{js,jsx,ts,tsx}`, run with `npm test`
+### Unit Testing (Vitest)
+- **Location:** `src/**/*.{spec,test}.{js,jsx,ts,tsx}`, run with `npm test` (watch) or `npm run test:run` (CI)
+- Config: `vitest.config.ts` — jsdom environment, globals enabled, `@codingame/monaco-vscode-api` inlined
+- Use `vi.fn()` for mocks; `@testing-library/jest-dom/vitest` for DOM matchers
 - ⚠️ Only 1 unit test exists: `ValidationPane.test.jsx` — heavy reliance on E2E
 
 ### E2E Testing (Playwright)
@@ -564,13 +563,15 @@ Off globally. Use `typescript-strict-plugin` per file. New files should aim for 
 **Config:**
 | File | Purpose |
 |------|---------|
-| `/package.json` | Dependencies, scripts, Jest config |
+| `/package.json` | Dependencies and scripts |
 | `/tsconfig.json` | TypeScript compiler options |
-| `/.eslintrc` | ESLint rules (Airbnb + Prettier) |
+| `/.eslintrc` | ESLint rules (Airbnb + Prettier + @vitest) |
 | `/.prettierrc` | Formatting rules |
 | `/.commitlintrc.json` | Commit message linting |
-| `/config/webpack.config.js` | Webpack configuration |
-| `/playwright.config.ts` | Playwright configuration |
+| `/vite.config.js` | Vite dev server config |
+| `/vite.config.app.js` | Vite app production build config |
+| `/vitest.config.ts` | Vitest unit test config |
+| `/playwright.config.ts` | Playwright E2E config |
 
 **Docs:**
 | File | Purpose |
@@ -582,7 +583,7 @@ Off globally. Use `typescript-strict-plugin` per file. New files should aim for 
 **Testing:**
 | File | Purpose |
 |------|---------|
-| `/test/setupTests.js` | Jest test setup |
+| `/test/setupTests.js` | Vitest setup (jest-dom/vitest, vitest-canvas-mock) |
 | `/test/playwright/e2e/*.spec.ts` | E2E test specs |
 | `/test/playwright/helpers/` | Playwright helper functions |
 
@@ -629,4 +630,4 @@ Off globally. Use `typescript-strict-plugin` per file. New files should aim for 
 
 ---
 
-**Last Updated:** 2026-02-27 | **Version:** 5.0.6 | Update this file when architecture changes significantly
+**Last Updated:** 2026-05-16 | **Version:** 5.0.6 | Update this file when architecture changes significantly

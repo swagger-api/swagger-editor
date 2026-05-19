@@ -144,37 +144,49 @@ export class ApiDOMWorker {
 }
 
 export const makeCreate = (BaseClass) => (ctx, createData) => {
-  let ApiDOMWorkerClass = BaseClass;
+  const toolbelt = {
+    apidomLS,
+    apidomNSOpenAPI2,
+    apidomNSOpenAPI30,
+    vscodeLanguageServerTextDocument,
+    deepExtend,
+  };
 
-  if (createData.customWorkerPath) {
-    if (typeof globalThis.importScripts === 'undefined') {
-      // eslint-disable-next-line no-console
-      console.warn(
-        'Monaco is not using webworkers for background tasks, and that is needed to support the customWorkerPath flag'
-      );
-    } else {
-      if (Array.isArray(createData.customWorkerPath)) {
-        globalThis.importScripts(...createData.customWorkerPath);
-      } else {
-        globalThis.importScripts(createData.customWorkerPath);
+  const instancePromise = (async () => {
+    let ApiDOMWorkerClass = BaseClass;
+
+    if (createData.customWorkerPath) {
+      // eslint-disable-next-line no-restricted-syntax
+      for (const path of [].concat(createData.customWorkerPath)) {
+        if (typeof path !== 'string' || !path) {
+          // eslint-disable-next-line no-console
+          console.warn('customWorkerPath contains an invalid entry (skipped):', path);
+          // eslint-disable-next-line no-continue
+          continue;
+        }
+        // eslint-disable-next-line no-await-in-loop
+        const mod = await import(/* @vite-ignore */ path);
+        const factory = mod.customApiDOMWorkerFactory ?? globalThis.customApiDOMWorkerFactory;
+        if (typeof factory !== 'function') {
+          throw new TypeError(`The module at ${path} does not export customApiDOMWorkerFactory`);
+        }
+        ApiDOMWorkerClass = factory(ApiDOMWorkerClass, toolbelt);
       }
-
-      const { customApiDOMWorkerFactory: workerFactoryFunc } = globalThis;
-      if (typeof workerFactoryFunc !== 'function') {
-        throw new Error(
-          `The script at ${createData.customWorkerPath} does not add customApiDOMWorkerFactory to globalThis`
-        );
-      }
-
-      ApiDOMWorkerClass = workerFactoryFunc(ApiDOMWorkerClass, {
-        apidomLS,
-        apidomNSOpenAPI2,
-        apidomNSOpenAPI30,
-        vscodeLanguageServerTextDocument,
-        deepExtend,
-      });
     }
-  }
 
-  return new ApiDOMWorkerClass(ctx, createData);
+    return new ApiDOMWorkerClass(ctx, createData);
+  })();
+
+  const callOnInstance = (prop, args) =>
+    instancePromise.then((instance) => instance[prop](...args));
+
+  return new Proxy(
+    {},
+    {
+      get(_, prop) {
+        if (typeof prop !== 'string') return undefined;
+        return (...args) => callOnInstance(prop, args);
+      },
+    }
+  );
 };

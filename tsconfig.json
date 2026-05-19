@@ -2,8 +2,7 @@
   "compilerOptions": {
     "target": "esnext",
     "module": "esnext",
-    "moduleResolution": "node",
-    "baseUrl": "./",
+    "moduleResolution": "bundler",
     "allowJs": false,
     "declaration": true,
     "emitDeclarationOnly": true,
@@ -16,16 +15,17 @@
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
     "paths": {
-      "plugins/*": ["src/plugins/*"],
-      "presets/*": ["src/presets/*"],
-      "types/*": ["src/types/*"]
+      "plugins/*": ["./src/plugins/*"],
+      "presets/*": ["./src/presets/*"],
+      "types/*": ["./src/types/*"]
     },
     "plugins": [
       {
         "name": "typescript-strict-plugin"
       }
     ],
-    "jsx": "react"
+    "jsx": "react",
+    "skipLibCheck": true
   },
   "exclude": ["node_modules", "src/reportWebVitals.ts"],
   "include": ["src/**/*.ts", "src/**/*.tsx", "src/*.ts", "src/*.tsx"]

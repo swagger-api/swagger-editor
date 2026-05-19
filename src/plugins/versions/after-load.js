@@ -1,8 +1,9 @@
+/* global PACKAGE_VERSION, GIT_COMMIT, GIT_DIRTY, BUILD_TIME */
 const afterLoad = () => {
-  // eslint-disable-next-line no-undef
-  const { PACKAGE_VERSION, GIT_COMMIT, GIT_DIRTY, BUILD_TIME } = buildInfo;
+  if (typeof PACKAGE_VERSION === 'undefined') return;
 
   globalThis.versions = globalThis.versions || {};
+  /* eslint-disable no-undef */
   globalThis.versions.swaggerEditor = Object.create(
     {
       toString() {
@@ -17,9 +18,9 @@ const afterLoad = () => {
       gitRevision: { value: GIT_COMMIT, enumerable: true },
       gitDirty: { value: GIT_DIRTY, enumerable: true },
       buildTimestamp: { value: BUILD_TIME, enumerable: true },
-      buildHash: { value: __webpack_hash__, enumerable: true }, // eslint-disable-line camelcase
     }
   );
+  /* eslint-enable no-undef */
 };
 
 export default afterLoad;

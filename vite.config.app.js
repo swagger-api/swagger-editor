@@ -1,0 +1,138 @@
+import { defineConfig, loadEnv } from 'vite';
+import react from '@vitejs/plugin-react';
+import { createHtmlPlugin } from 'vite-plugin-html';
+import importMetaUrlPlugin from '@codingame/esbuild-import-meta-url-plugin';
+import { viteStaticCopy } from 'vite-plugin-static-copy';
+import nodePolyfills from 'rollup-plugin-polyfill-node';
+import path from 'node:path';
+import { fileURLToPath } from 'node:url';
+
+import { buildDefines, logger } from './vite/shared.js';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+export default defineConfig(({ mode }) => {
+  const env = loadEnv(mode, process.cwd(), 'VITE_');
+
+  return {
+    customLogger: logger,
+    mode: 'production',
+    base: '/',
+
+    define: buildDefines(),
+
+    plugins: [
+      // Redirect `fs` to our shim before nodePolyfills() maps it to an empty module.
+      // Must be listed first so its resolveId hook wins the enforce:'pre' ordering.
+      {
+        name: 'fs-shim',
+        enforce: 'pre',
+        resolveId(id) {
+          if (id === 'fs') return path.resolve(__dirname, 'src/polyfills/fs-shim.js');
+          return null;
+        },
+      },
+      // Polyfill remaining Node built-ins (util, events, stream, buffer, etc.) before
+      // Vite externalizes them. Must be 'pre' so resolveId runs ahead of Vite's own
+      // browser-externalization logic, which otherwise wins the module-resolution race.
+      { ...nodePolyfills(), enforce: 'pre' },
+      react(),
+      // Copy tree-sitter WASM files to root for worker access
+      viteStaticCopy({
+        targets: [
+          {
+            src: 'node_modules/@swagger-api/apidom-parser-adapter-json/wasm/tree-sitter-json.wasm',
+            dest: '.',
+          },
+          {
+            src: 'node_modules/@swagger-api/apidom-parser-adapter-yaml-1-2/wasm/tree-sitter-yaml.wasm',
+            dest: '.',
+          },
+        ],
+      }),
+      createHtmlPlugin({
+        minify: true,
+        inject: {
+          data: {
+            VITE_VERSION: env.VITE_VERSION || '5.2.0',
+          },
+        },
+      }),
+    ],
+
+    optimizeDeps: {
+      esbuildOptions: {
+        plugins: [importMetaUrlPlugin],
+      },
+      include: [
+        'vscode-textmate',
+        'vscode-oniguruma',
+        '@vscode/vscode-languagedetection',
+        '@babel/runtime-corejs3/core-js/aggregate-error',
+        'ramda',
+        'ramda-adjunct',
+        '@stoplight/spectral-core',
+        '@stoplight/spectral-functions',
+        '@stoplight/spectral-runtime',
+      ],
+    },
+
+    assetsInclude: ['**/*.wasm'],
+
+    build: {
+      outDir: 'build',
+      sourcemap: true,
+      emptyOutDir: true,
+      target: 'esnext',
+      commonjsOptions: {
+        transformMixedEsModules: true,
+        include: [/node_modules\/@stoplight\/spectral/, /node_modules\/minim/, /node_modules/],
+      },
+      chunkSizeWarningLimit: 1000,
+
+      rollupOptions: {
+        input: {
+          main: path.resolve(__dirname, 'index.html'),
+        },
+
+        output: {
+          hoistTransitiveImports: false,
+          entryFileNames: 'static/js/[name].[hash].js',
+          chunkFileNames: 'static/js/[name].[hash].chunk.js',
+          assetFileNames: (assetInfo) => {
+            if (assetInfo.name && assetInfo.name.endsWith('.css')) {
+              return 'static/css/[name].[hash].css';
+            }
+            return 'static/media/[name].[hash][extname]';
+          },
+        },
+
+        external: ['esprima'],
+
+        onwarn(warning, warn) {
+          if (warning.code === 'EVAL') return;
+          warn(warning);
+        },
+      },
+    },
+
+    resolve: {
+      alias: [
+        { find: 'plugins', replacement: path.resolve(__dirname, 'src/plugins') },
+        { find: 'presets', replacement: path.resolve(__dirname, 'src/presets') },
+        { find: 'fs', replacement: path.resolve(__dirname, 'src/polyfills/fs-shim.js') },
+      ],
+    },
+
+    worker: {
+      format: 'es',
+      rollupOptions: {
+        output: {
+          entryFileNames: 'static/js/[name].[hash].js',
+        },
+      },
+      plugins: () => [],
+    },
+  };
+});
