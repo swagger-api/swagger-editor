@@ -1,3 +1,5 @@
+/* eslint-disable no-underscore-dangle */
+
 import { Parser } from '@asyncapi/parser';
 import type { ParserOptions } from '@asyncapi/parser/esm/parser';
 import { OpenAPISchemaParser } from '@asyncapi/openapi-schema-parser';
