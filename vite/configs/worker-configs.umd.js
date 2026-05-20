@@ -5,17 +5,9 @@ import nodePolyfills from 'rollup-plugin-polyfill-node';
 
 import { logger, sharedOnwarn } from '../shared.js';
 import { inlineAllWasms } from '../plugins/inline-all-wasms.js';
+import { fsShim } from '../plugins/fs-shim.js';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
-
-const fsShimPlugin = {
-  name: 'fs-shim',
-  enforce: 'pre',
-  resolveId(id) {
-    if (id === 'fs') return resolve(__dirname, '../../src/polyfills/fs-shim.js');
-    return null;
-  },
-};
 
 export const apidomWorkerConfig = defineConfig({
   configFile: false,
@@ -50,7 +42,7 @@ export const asyncapiParserWorkerConfig = defineConfig({
   customLogger: logger,
   mode: 'production',
   publicDir: false,
-  plugins: [fsShimPlugin, { ...nodePolyfills(), enforce: 'pre' }],
+  plugins: [fsShim(), { ...nodePolyfills(), enforce: 'pre' }],
 
   build: {
     lib: {

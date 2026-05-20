@@ -5,20 +5,9 @@ import nodePolyfills from 'rollup-plugin-polyfill-node';
 
 import { logger, sharedOnwarn } from '../shared.js';
 import { inlineAllWasms } from '../plugins/inline-all-wasms.js';
+import { fsShim } from '../plugins/fs-shim.js';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
-
-// Redirect 'fs' to the browser shim before nodePolyfills() stubs it to an empty
-// module. @asyncapi/parser imports readFile from 'fs' (guarded by Node.js checks
-// at runtime, but the named export must exist for the bundle to link correctly).
-const fsShimPlugin = {
-  name: 'fs-shim',
-  enforce: 'pre',
-  resolveId(id) {
-    if (id === 'fs') return resolve(__dirname, '../../src/polyfills/fs-shim.js');
-    return null;
-  },
-};
 
 // Self-contained ESM workers — spawned with { type: 'module' } by the virtual
 // constructor modules in rewrite-editor-worker-import.js. codeSplitting:false
@@ -54,7 +43,7 @@ export const asyncapiParserWorkerConfig = defineConfig({
   customLogger: logger,
   mode: 'production',
   publicDir: false,
-  plugins: [fsShimPlugin, { ...nodePolyfills(), enforce: 'pre' }],
+  plugins: [fsShim(), { ...nodePolyfills(), enforce: 'pre' }],
 
   build: {
     lib: {

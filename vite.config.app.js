@@ -8,6 +8,7 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 import { buildDefines, logger } from './vite/shared.js';
+import { fsShim } from './vite/plugins/fs-shim.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -23,16 +24,7 @@ export default defineConfig(({ mode }) => {
     define: buildDefines(),
 
     plugins: [
-      // Redirect `fs` to our shim before nodePolyfills() maps it to an empty module.
-      // Must be listed first so its resolveId hook wins the enforce:'pre' ordering.
-      {
-        name: 'fs-shim',
-        enforce: 'pre',
-        resolveId(id) {
-          if (id === 'fs') return path.resolve(__dirname, 'src/polyfills/fs-shim.js');
-          return null;
-        },
-      },
+      fsShim(),
       // Polyfill remaining Node built-ins (util, events, stream, buffer, etc.) before
       // Vite externalizes them. Must be 'pre' so resolveId runs ahead of Vite's own
       // browser-externalization logic, which otherwise wins the module-resolution race.
@@ -132,17 +124,7 @@ export default defineConfig(({ mode }) => {
           entryFileNames: 'static/js/[name].[hash].js',
         },
       },
-      plugins: () => [
-        {
-          name: 'fs-shim',
-          enforce: 'pre',
-          resolveId(id) {
-            if (id === 'fs') return path.resolve(__dirname, 'src/polyfills/fs-shim.js');
-            return null;
-          },
-        },
-        { ...nodePolyfills(), enforce: 'pre' },
-      ],
+      plugins: () => [fsShim(), { ...nodePolyfills(), enforce: 'pre' }],
     },
   };
 });
