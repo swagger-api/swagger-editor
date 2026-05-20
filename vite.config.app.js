@@ -132,7 +132,17 @@ export default defineConfig(({ mode }) => {
           entryFileNames: 'static/js/[name].[hash].js',
         },
       },
-      plugins: () => [],
+      plugins: () => [
+        {
+          name: 'fs-shim',
+          enforce: 'pre',
+          resolveId(id) {
+            if (id === 'fs') return path.resolve(__dirname, 'src/polyfills/fs-shim.js');
+            return null;
+          },
+        },
+        { ...nodePolyfills(), enforce: 'pre' },
+      ],
     },
   };
 });

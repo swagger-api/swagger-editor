@@ -1,9 +1,6 @@
-import { Parser } from '@asyncapi/parser';
-import { OpenAPISchemaParser } from '@asyncapi/openapi-schema-parser';
-import { AvroSchemaParser } from '@asyncapi/avro-schema-parser';
-import { ProtoBuffSchemaParser } from '@asyncapi/protobuf-schema-parser';
+import { toAsyncAPIDocument } from '@asyncapi/parser';
 
-import { Raml10SchemaParser } from './util/parsers/raml-1-0-parser.js';
+import getParserProxy from './worker/parser-worker-proxy.ts';
 
 /**
  * Action types.
@@ -49,38 +46,21 @@ export const parseFailure = ({ error, parseResult, content, requestId }) => ({
  * Async thunks.
  */
 
-export const parse = (content, options = {}) => {
-  /**
-   * We give ability to fully distinguish between parser and parse options.
-   * If parser or parse options are not provided, we will use the options object as it is.
-   */
-  const { parserOptions, parseOptions } = options;
-  const schemaParsers = [
-    OpenAPISchemaParser(),
-    AvroSchemaParser(),
-    Raml10SchemaParser(),
-    ProtoBuffSchemaParser(),
-  ];
-  const parser = new Parser({ schemaParsers, ...(parserOptions ?? options) });
-
-  return async (system) => {
-    /**
-     * This code can easily be offloaded to a web worker and allow MRT
-     * not to be blocked by the detection.
-     */
+export const parse =
+  (content, options = {}) =>
+  async (system) => {
     const { editorPreviewAsyncAPIActions, fn } = system;
     const requestId = fn.generateRequestId();
 
     editorPreviewAsyncAPIActions.parseStarted({ content, requestId });
 
     try {
-      const parseResult = await parser.parse(content, parseOptions ?? options);
+      const { schema, diagnostics } = await getParserProxy().parse(content, options);
+      const document = schema ? toAsyncAPIDocument(schema) : null;
 
-      parseResult.extras = null;
-
-      if (parseResult.document) {
+      if (document) {
         return editorPreviewAsyncAPIActions.parseSuccess({
-          parseResult,
+          parseResult: { document, diagnostics },
           content,
           requestId,
         });
@@ -88,7 +68,7 @@ export const parse = (content, options = {}) => {
 
       return editorPreviewAsyncAPIActions.parseFailure({
         error: new Error('Document is empty'),
-        parseResult,
+        parseResult: { diagnostics },
         content,
         requestId,
       });
@@ -100,4 +80,3 @@ export const parse = (content, options = {}) => {
       });
     }
   };
-};

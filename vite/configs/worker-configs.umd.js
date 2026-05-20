@@ -8,6 +8,15 @@ import { inlineAllWasms } from '../plugins/inline-all-wasms.js';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
+const fsShimPlugin = {
+  name: 'fs-shim',
+  enforce: 'pre',
+  resolveId(id) {
+    if (id === 'fs') return resolve(__dirname, '../../src/polyfills/fs-shim.js');
+    return null;
+  },
+};
+
 export const apidomWorkerConfig = defineConfig({
   configFile: false,
   customLogger: logger,
@@ -31,6 +40,33 @@ export const apidomWorkerConfig = defineConfig({
     codeSplitting: false,
     rollupOptions: {
       plugins: [nodePolyfills()],
+      onwarn: sharedOnwarn,
+    },
+  },
+});
+
+export const asyncapiParserWorkerConfig = defineConfig({
+  configFile: false,
+  customLogger: logger,
+  mode: 'production',
+  publicDir: false,
+  plugins: [fsShimPlugin, { ...nodePolyfills(), enforce: 'pre' }],
+
+  build: {
+    lib: {
+      entry: resolve(
+        __dirname,
+        '../../src/plugins/editor-preview-asyncapi/worker/asyncapi-parser.worker.ts'
+      ),
+      formats: ['iife'],
+      fileName: () => 'asyncapi-parser.worker.js',
+      name: 'asyncapiParserWorker',
+    },
+    outDir: 'dist/umd',
+    sourcemap: false,
+    emptyOutDir: false,
+    codeSplitting: false,
+    rollupOptions: {
       onwarn: sharedOnwarn,
     },
   },

@@ -1,7 +1,11 @@
 import { build } from 'vite';
 
 import { mainConfig } from '../../vite.config.esm.js';
-import { apidomWorkerConfig, editorWorkerConfig } from '../configs/worker-configs.esm.js';
+import {
+  apidomWorkerConfig,
+  asyncapiParserWorkerConfig,
+  editorWorkerConfig,
+} from '../configs/worker-configs.esm.js';
 
 async function buildAll() {
   try {
@@ -12,6 +16,10 @@ async function buildAll() {
     console.log('\nBuilding apidom worker...');
     await build(apidomWorkerConfig);
     console.log('✓ ApiDOM worker complete');
+
+    console.log('\nBuilding AsyncAPI parser worker...');
+    await build(asyncapiParserWorkerConfig);
+    console.log('✓ AsyncAPI parser worker complete');
 
     console.log('\nBuilding editor worker...');
     await build(editorWorkerConfig);
