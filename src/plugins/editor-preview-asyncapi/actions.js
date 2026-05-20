@@ -55,7 +55,9 @@ export const parse =
     editorPreviewAsyncAPIActions.parseStarted({ content, requestId });
 
     try {
-      const { schema, diagnostics } = await getParserProxy().parse(content, options);
+      const { parserOptions, parseOptions } = options;
+      const proxy = await getParserProxy(parserOptions);
+      const { schema, diagnostics } = await proxy.parse(content, parseOptions ?? options);
       const document = schema ? toAsyncAPIDocument(schema) : null;
 
       if (document) {
