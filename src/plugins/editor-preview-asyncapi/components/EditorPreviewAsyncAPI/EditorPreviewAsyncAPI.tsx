@@ -13,7 +13,7 @@ interface EditorPreviewAsyncAPISelectors {
   selectIsParseSuccess: () => boolean;
   selectIsParseFailure: () => boolean;
   selectParseResult: () => AsyncAPIDocumentInterface | null;
-  selectParseErrors: () => Diagnostic[] | null;
+  selectParseErrors: () => Diagnostic[];
 }
 
 interface Props {
@@ -46,10 +46,10 @@ const EditorPreviewAsyncAPI: FC<Props> = ({
   }, [editorPreviewAsyncAPIActions]);
 
   // During re-parse, parseStatus=PARSING but parseResult/parseErrors retain their previous
-  // values (parseStartedReducer does not clear them), so all three boolean selectors are false.
-  // Use the state values directly to keep the previous render visible during re-parse.
+  // values (parseStartedReducer does not clear them). Use the state values directly to keep
+  // the previous render visible during re-parse without flashing blank content.
   const showSuccess = isParseSuccess || parseResult !== null;
-  const showFailure = !showSuccess && (isParseFailure || parseErrors !== null);
+  const showFailure = !showSuccess && (isParseFailure || parseErrors.length > 0);
 
   return (
     <div className="swagger-editor__editor-preview-asyncapi">
