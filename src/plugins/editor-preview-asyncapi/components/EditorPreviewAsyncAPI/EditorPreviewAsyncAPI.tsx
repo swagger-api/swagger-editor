@@ -1,8 +1,7 @@
 import React, { Suspense, useMemo, useEffect, FC } from 'react';
 import type { AsyncAPIDocumentInterface } from '@asyncapi/parser/esm/models';
 import type { Diagnostic } from '@asyncapi/parser';
-
-type GetComponent = (name: string) => FC<Record<string, unknown>>;
+import type { SystemValues } from 'types/system';
 
 interface EditorPreviewAsyncAPIActions {
   previewUnmounted: () => void;
@@ -17,7 +16,7 @@ interface EditorPreviewAsyncAPISelectors {
 }
 
 interface Props {
-  getComponent: GetComponent;
+  getComponent: SystemValues['getComponent'];
   editorPreviewAsyncAPIActions: EditorPreviewAsyncAPIActions;
   editorPreviewAsyncAPISelectors: EditorPreviewAsyncAPISelectors;
 }
@@ -56,7 +55,7 @@ const EditorPreviewAsyncAPI: FC<Props> = ({
       <Suspense fallback={<Loading />}>
         {isParseInProgress && !showSuccess && !showFailure && <Loading />}
         {showSuccess && <AsyncAPIReactComponent schema={parseResult as unknown} config={config} />}
-        {showFailure && <ParseErrors errors={parseErrors as unknown} />}
+        {showFailure && <ParseErrors errors={parseErrors} />}
       </Suspense>
     </div>
   );
