@@ -5,7 +5,7 @@ import {
 
 class CustomLogger extends ConsoleLogger {
   constructor() {
-    super(process.env.NODE_ENV === 'development' ? LogLevel.Info : LogLevel.Warning);
+    super(import.meta.env.DEV ? LogLevel.Info : LogLevel.Warning);
   }
 }
 

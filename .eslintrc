@@ -1,14 +1,17 @@
 {
   "parser": "@typescript-eslint/parser",
   "extends": [
-    "react-app",
-    "react-app/jest",
     "airbnb",
     "plugin:jsx-a11y/recommended",
     "prettier",
     "plugin:prettier/recommended",
     "plugin:@typescript-eslint/recommended"
   ],
+  "env": {
+    "browser": true,
+    "node": true,
+    "es2021": true
+  },
   "globals": {
     "File": true,
     "Blob": true,
@@ -25,7 +28,9 @@
   "plugins": [
     "jsx-a11y",
     "prettier",
-    "@typescript-eslint"
+    "@typescript-eslint",
+    "react-hooks",
+    "@vitest"
   ],
   "rules": {
     "import/no-extraneous-dependencies": ["error", {"devDependencies": true}],
@@ -55,7 +60,8 @@
         "^plugins\/.+\/index.js",
         "^presets\/.+\/index.js",
         "^@codingame\/monaco-vscode-api",
-        "^@swagger-api\/apidom-json-pointer"
+        "^@swagger-api\/apidom-json-pointer",
+        "\\?worker$"
       ]
     }],
     "react/jsx-filename-extension": [2,
@@ -65,7 +71,9 @@
           ".jsx"
         ]
       }
-    ]
+    ],
+    "react-hooks/rules-of-hooks": "error",
+    "react-hooks/exhaustive-deps": "warn"
   },
   "overrides": [
     {
@@ -89,12 +97,33 @@
       }
     },
     {
+      "files": ["**/*.test.{js,jsx,ts,tsx}", "**/*.spec.{js,jsx,ts,tsx}", "test/setupTests.js"],
+      "extends": ["plugin:@vitest/legacy-recommended"],
+      "env": {
+        "@vitest/env": true
+      },
+      "rules": {
+        "@vitest/consistent-test-it": "off"
+      }
+    },
+    {
       "files": ["test/playwright/**/*.ts"],
       "rules": {
         "testing-library/prefer-screen-queries": "off",
         "no-underscore-dangle": "off",
         "no-await-in-loop": "off",
-        "no-plusplus": "off"
+        "no-plusplus": "off",
+        "@typescript-eslint/no-explicit-any": "off"
+      }
+    },
+    {
+      "files": ["vite.config*.js", "vite/**/*.js", "scripts/*.js"],
+      "rules": {
+        "import/no-unresolved": "off",
+        "import/no-extraneous-dependencies": "off",
+        "import/prefer-default-export": "off",
+        "no-underscore-dangle": "off",
+        "no-console": "off"
       }
     }
   ]

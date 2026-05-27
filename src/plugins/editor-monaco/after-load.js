@@ -1,6 +1,8 @@
 import { initialize as initializeMonacoServices, ILogService } from '@codingame/monaco-vscode-api';
 import 'vscode/localExtensionHost';
+import EditorWorkerConstructor from '@codingame/monaco-vscode-api/workers/editor.worker?worker';
 
+import ApidomWorkerConstructor from '../editor-monaco-language-apidom/language/apidom.worker.js?worker';
 import lazyMonacoContribution from './monaco-contribution/index.js';
 import CustomLogger from './monaco-contribution/CustomLogger.js';
 
@@ -14,12 +16,9 @@ function afterLoad(system) {
   // setup monaco environment
   globalThis.MonacoEnvironment = {
     initPhase: InitPhase.UNINITIALIZED,
-    baseUrl: document.baseURI || location.href, // eslint-disable-line no-restricted-globals
-    getWorker() {
-      return new Worker(
-        new URL(process.env.REACT_APP_APIDOM_WORKER_FILENAME, this.baseUrl),
-        { type: 'classic' } // ensures importScripts() works
-      );
+    getWorker(workerId, label) {
+      if (label === 'apidom') return new ApidomWorkerConstructor();
+      return new EditorWorkerConstructor();
     },
     ...globalThis.MonacoEnvironment, // this will allow to override the base uri for loading Web Workers
   };

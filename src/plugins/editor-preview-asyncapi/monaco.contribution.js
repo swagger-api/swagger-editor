@@ -27,7 +27,7 @@ const lazyMonacoContribution = ({ system }) => {
           if (editorPreviewAsyncAPISelectors.selectIsParseSuccess()) return [];
 
           return editorPreviewAsyncAPISelectors.selectParseMarkers({ monaco, modelVersionId });
-        } catch (e) {
+        } catch {
           return [];
         }
       },

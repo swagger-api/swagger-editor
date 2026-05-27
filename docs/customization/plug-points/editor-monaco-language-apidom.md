@@ -54,28 +54,29 @@ EditorMonacoLanguageApiDOM({
   },
 });
 ```
-`customApiDOMWorkerPath` is a URL (absolute or relative) of extending script. When the `apidom.worker`
-is bootstrapping it, it imports this URL using [importScripts](https://developer.mozilla.org/en-US/docs/Web/API/WorkerGlobalScope/importScripts).
-The `apidom.worker` then expects the script to have the following signature:
+
+`customApiDOMWorkerPath` is a URL (absolute or relative) of the extending module. The `apidom.worker`
+loads it via dynamic `import()` at runtime.
+
+The module must export a `customApiDOMWorkerFactory` function:
 
 **https://example.com/index.js**
 
 ```js
-globalThis.customApiDOMWorkerFactory = (ApiDOMWorkerClass, toolbelt) => {
+export const customApiDOMWorkerFactory = (ApiDOMWorkerClass, toolbelt) => {
   return ApiDOMWorkerClass;
 };
 ```
 
-The script must expose `customApiDOMWorkerFactory` function on global object. This function will
-receive two arguments:
+The function receives two arguments:
 
-- ApiDOMWorkerClass - the class that implements the editor capabilities
-- toolbelt - an object containing various library exports
+- `ApiDOMWorkerClass` - the class that implements the editor capabilities
+- `toolbelt` - an object containing various library exports
 
 Here is a simple **example** demonstrating changing the log level of language service:
 
 ```js
-globalThis.customApiDOMWorkerFactory = (ApiDOMWorkerClass, toolbelt) => {
+export const customApiDOMWorkerFactory = (ApiDOMWorkerClass, toolbelt) => {
   const { apidomLS } = toolbelt;
 
   class ApiDOMWorkerLogLevelErrorClass extends ApiDOMWorkerClass {
@@ -89,9 +90,12 @@ globalThis.customApiDOMWorkerFactory = (ApiDOMWorkerClass, toolbelt) => {
 };
 ```
 
+> **Note:** Classic (non-module) worker consumers may still use the `globalThis.customApiDOMWorkerFactory`
+> assignment pattern — it is supported as a fallback when a named export is absent.
+
 ### Static extension
 
-Static extension involves need to use a build system like webpack.
+Static extension requires a bundler (Vite, webpack, etc.) to build a custom worker entry point.
 
 **my-custom-apidom.worker.js**
 
@@ -104,20 +108,13 @@ class ApiDOMWorkerExtended extends ApiDOMWorker {
 
 const create = makeCreate(ApiDOMWorkerExtended);
 
-globalThis.onmessage = () => {
-  initialize((ctx, createData) => {
-    return create(ctx, createData);
-  });
-};
+initialize((ctx, createData) => create(ctx, createData));
 
 export { initialize, create, makeCreate, ApiDOMWorkerExtended as ApiDOMWorker };
 ```
 
-Next please have a look at the [usage section](../../../README.md#usage) of the documentation
-specifically the **webpack.config.js** part. Given that we now extended the default worker,
-we need to reconfigure the webpack and provide it with the path to the extended worker.
-
-This is the part of the configuration that will change.
+Point your bundler at `my-custom-apidom.worker.js` as the `apidom.worker` entry and configure
+`MonacoEnvironment.getWorker` to serve the built file. For example, with webpack:
 
 ```js
   entry: {
@@ -152,7 +149,7 @@ EditorMonacoLanguageApiDOM({
 **https://example.com/index.js**
 
 ```js
-globalThis.customApiDOMWorkerFactory = (ApiDOMWorkerClass, toolbelt) => {
+export const customApiDOMWorkerFactory = (ApiDOMWorkerClass, toolbelt) => {
   const { apidomLS } = toolbelt;
 
   class ApiDOMWorkerLogLevelErrorClass extends ApiDOMWorkerClass {
@@ -193,11 +190,7 @@ class ApiDOMWorkerExtended extends ApiDOMWorker {
 
 const create = makeCreate(ApiDOMWorkerExtended);
 
-globalThis.onmessage = () => {
-  initialize((ctx, createData) => {
-    return create(ctx, createData);
-  });
-};
+initialize((ctx, createData) => create(ctx, createData));
 
 export { initialize, create, makeCreate, ApiDOMWorkerExtended as ApiDOMWorker };
 ```

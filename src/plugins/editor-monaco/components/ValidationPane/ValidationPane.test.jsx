@@ -6,13 +6,13 @@ import ValidationTable from '../ValidationTable/ValidationTable.jsx';
 
 const setup = ({ markerErrorList } = {}) => {
   const editorSelectors = {
-    selectMarkers: jest.fn().mockReturnValue(markerErrorList),
+    selectMarkers: vi.fn().mockReturnValue(markerErrorList),
   };
   const editorActions = {
-    setPosition: jest.fn(),
+    setPosition: vi.fn(),
   };
-  const getComponent = jest.fn().mockReturnValue(ValidationTable);
-  const onValidationClick = jest.fn();
+  const getComponent = vi.fn().mockReturnValue(ValidationTable);
+  const onValidationClick = vi.fn();
   const alwaysDisplayHeading = true;
 
   return { editorSelectors, editorActions, getComponent, onValidationClick, alwaysDisplayHeading };

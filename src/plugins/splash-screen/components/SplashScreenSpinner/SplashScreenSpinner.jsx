@@ -1,5 +1,4 @@
-// eslint-disable-next-line import/no-unresolved
-import loader from '../../assets/loader.gif?raw';
+import loader from '../../assets/loader.gif';
 
 const SplashScreenSpinner = () => (
   <img
