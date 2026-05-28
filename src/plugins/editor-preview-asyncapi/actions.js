@@ -1,6 +1,6 @@
 import { toAsyncAPIDocument } from '@asyncapi/parser';
 
-import getParserProxy from './worker/parser-worker-proxy.ts';
+import getParserProxy, { reinitParserProxy } from './worker/parser-worker-proxy.ts';
 
 /**
  * Action types.
@@ -56,7 +56,8 @@ export const parse =
 
     try {
       const { parserOptions, parseOptions } = options;
-      const proxy = await getParserProxy(parserOptions);
+      await reinitParserProxy(parserOptions);
+      const proxy = await getParserProxy();
       const { schema, diagnostics } = await proxy.parse(content, parseOptions ?? options);
       const document = schema ? toAsyncAPIDocument(schema) : null;
 

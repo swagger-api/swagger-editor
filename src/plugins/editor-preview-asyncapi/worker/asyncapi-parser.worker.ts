@@ -1,5 +1,3 @@
-/* eslint-disable no-underscore-dangle */
-
 import { Parser } from '@asyncapi/parser';
 import type { ParserOptions } from '@asyncapi/parser/esm/parser';
 import { OpenAPISchemaParser } from '@asyncapi/openapi-schema-parser';
@@ -10,15 +8,20 @@ import Uri from 'urijs';
 
 import { Raml10SchemaParser } from '../util/parsers/raml-1-0-parser.js';
 
-// Uri class instances don't survive structured clone. Register a transfer handler so
-// Comlink automatically converts Uri → string when the parser calls a proxied resolver
-// function with a Uri argument. The main thread read/canRead functions receive the string
-// and their uri.toString() calls work as expected.
+// Uri instances don't survive structured clone. Convert to string before crossing
+// the boundary so proxied read/canRead functions receive a plain string instead.
 Comlink.transferHandlers.set('URI', {
   canHandle: (obj: unknown): obj is Uri => obj instanceof Uri,
   serialize: (uri: Uri): [string, Transferable[]] => [uri.toString(), []],
   deserialize: (str: string): string => str,
 });
+
+export type ResolverMeta = {
+  index: number;
+  schema: string;
+  order: number;
+  canRead: boolean | ((uri: URI, ctx: unknown) => boolean);
+};
 
 type WorkerParserOptions = Omit<ParserOptions, 'schemaParsers' | '__unstable'> & {
   __unstable?: ParserOptions['__unstable'];
@@ -27,7 +30,14 @@ type WorkerParserOptions = Omit<ParserOptions, 'schemaParsers' | '__unstable'> &
 let parser: Parser | null = null;
 
 const worker = {
-  async init(options: WorkerParserOptions = {}) {
+  // resolverMeta and readDispatcher are separate arguments because Comlink only applies
+  // proxy transfer handlers to top-level call arguments — functions nested inside a
+  // plain object would hit structured clone and throw DataCloneError.
+  async init(
+    options?: WorkerParserOptions,
+    resolverMeta?: ResolverMeta[],
+    readDispatcher?: (index: number, uri: string) => Promise<string>
+  ) {
     const schemaParsers = [
       OpenAPISchemaParser(),
       AvroSchemaParser(),
@@ -35,12 +45,19 @@ const worker = {
       ProtoBuffSchemaParser(),
     ];
 
+    const resolvers = resolverMeta?.map((meta) => ({
+      schema: meta.schema,
+      order: meta.order,
+      canRead: meta.canRead,
+      read: (uri: Uri) => readDispatcher(meta.index, uri.toString()),
+    }));
+
     const { __unstable, ...rest } = options;
 
     const restOptions: ParserOptions = {
       ...rest,
       schemaParsers,
-      __unstable,
+      __unstable: resolvers?.length ? { ...__unstable, resolver: { resolvers } } : __unstable,
     };
 
     parser = new Parser(restOptions);
