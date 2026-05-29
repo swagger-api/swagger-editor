@@ -9,6 +9,7 @@
 const WORKER_VIRTUAL_IDS = {
   'editor.worker': '\0virtual:editor-worker-constructor',
   'apidom.worker': '\0virtual:apidom-worker-constructor',
+  'asyncapi-parser.worker': '\0virtual:asyncapi-parser-worker-constructor',
 };
 
 // Generates the virtual module code for a given worker filename and class name.
@@ -38,6 +39,10 @@ const WORKER_VIRTUAL_MODULES = {
   '\0virtual:apidom-worker-constructor': workerConstructorCode(
     'ApidomWorkerConstructor',
     'apidom.worker.js'
+  ),
+  '\0virtual:asyncapi-parser-worker-constructor': workerConstructorCode(
+    'AsyncAPIParserWorkerConstructor',
+    'asyncapi-parser.worker.js'
   ),
 };
 

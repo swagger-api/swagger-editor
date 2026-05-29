@@ -1,4 +1,4 @@
-import EditorPreviewAsyncAPI from './components/EditorPreviewAsyncAPI/EditorPreviewAsyncAPI.jsx';
+import EditorPreviewAsyncAPI from './components/EditorPreviewAsyncAPI/EditorPreviewAsyncAPI.tsx';
 import AsyncAPIReactComponent from './components/AsyncAPIReactComponent.jsx';
 import ParseErrors from './components/ParseErrors/ParseErrors.jsx';
 import EditorPreviewWrapper from './extensions/editor-preview/wrap-components/EditorPreviewWrapper.jsx';

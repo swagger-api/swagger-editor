@@ -1,9 +1,11 @@
 import { defineConfig } from 'vite';
 import { resolve, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
+import nodePolyfills from 'rollup-plugin-polyfill-node';
 
 import { logger, sharedOnwarn } from '../shared.js';
 import { inlineAllWasms } from '../plugins/inline-all-wasms.js';
+import { fsShim } from '../plugins/fs-shim.js';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
@@ -25,6 +27,32 @@ export const apidomWorkerConfig = defineConfig({
       ),
       formats: ['es'],
       fileName: () => 'apidom.worker.js',
+    },
+    outDir: 'dist/esm',
+    sourcemap: true,
+    emptyOutDir: false,
+    codeSplitting: false,
+    rollupOptions: {
+      onwarn: sharedOnwarn,
+    },
+  },
+});
+
+export const asyncapiParserWorkerConfig = defineConfig({
+  configFile: false,
+  customLogger: logger,
+  mode: 'production',
+  publicDir: false,
+  plugins: [fsShim(), { ...nodePolyfills(), enforce: 'pre' }],
+
+  build: {
+    lib: {
+      entry: resolve(
+        __dirname,
+        '../../src/plugins/editor-preview-asyncapi/worker/asyncapi-parser.worker.ts'
+      ),
+      formats: ['es'],
+      fileName: () => 'asyncapi-parser.worker.js',
     },
     outDir: 'dist/esm',
     sourcemap: true,

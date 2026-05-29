@@ -85,8 +85,9 @@ self.MonacoEnvironment = {
   /**
    * We're building into the dist/ folder. When application starts on
    * URL=https://example.com then SwaggerEditor will look for
-   * `apidom.worker.js` on https://example.com/dist/apidom.worker.js and
-   * `editor.worker` on https://example.com/dist/editor.worker.js.
+   * `apidom.worker.js` on https://example.com/dist/apidom.worker.js,
+   * `editor.worker` on https://example.com/dist/editor.worker.js and
+   * `asyncapi-parser.worker.js` on https://example.com/dist/asyncapi-parser.worker.js.
    */
   baseUrl: `${document.baseURI || location.href}dist/`,
 }
@@ -117,6 +118,7 @@ module.exports = {
     app: './index.js',
     'apidom.worker': 'swagger-editor/apidom.worker',
     'editor.worker': 'swagger-editor/editor.worker',
+    'asyncapi-parser.worker': 'swagger-editor/asyncapi-parser.worker',
   },
   output: {
     globalObject: 'self',
@@ -248,6 +250,10 @@ module.exports = {
         },
         {
           from: 'node_modules/swagger-editor/dist/umd/editor.worker.js',
+          to: 'static/js',
+        },
+        {
+          from: 'node_modules/swagger-editor/dist/umd/asyncapi-parser.worker.js',
           to: 'static/js',
         }
       ]
@@ -456,6 +462,9 @@ SwaggerEditor maps its [build artifacts](#build-artifacts) in `package.json` fil
   },
   "./editor.worker": {
     "browser": "./dist/esm/editor.worker.js"
+  },
+  "./asyncapi-parser.worker": {
+    "browser": "./dist/esm/asyncapi-parser.worker.js"
   }
 }
 ```

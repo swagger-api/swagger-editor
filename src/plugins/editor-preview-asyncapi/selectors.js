@@ -47,11 +47,7 @@ export const selectParseMarkers = createSelector(
 
 export const selectIsParseInProgress = createSelector(
   selectParseStatus,
-  selectParseResult,
-  selectParseErrors,
-  (parseStatus, parseResult, parseErrors) => {
-    return parseStatus === PARSING_STATUS && parseResult === null && parseErrors === null;
-  }
+  (parseStatus) => parseStatus === PARSING_STATUS
 );
 
 export const selectIsParseSuccess = createSelector(
