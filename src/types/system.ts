@@ -7,7 +7,7 @@ export interface SystemValues {
     componentName: string,
     container?: boolean,
     config?: object
-  ) => ComponentType | null;
+  ) => ComponentType<Record<string, unknown>> | null;
   editorSelectors: {
     selectContent: () => string;
     selectInferFileNameWithExtensionFromContent: () => string;

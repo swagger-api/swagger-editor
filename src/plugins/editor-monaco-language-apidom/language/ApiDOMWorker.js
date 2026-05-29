@@ -28,6 +28,10 @@ export class ApiDOMWorker {
     },
   };
 
+  #abortController = null;
+
+  #previousDiagnostics = [];
+
   constructor(ctx, createData) {
     this._ctx = ctx;
     this._createData = createData;
@@ -41,11 +45,28 @@ export class ApiDOMWorker {
   }
 
   async doValidation(uri) {
+    this.#abortController?.abort();
+    this.#abortController = new AbortController();
+    const { signal } = this.#abortController;
+
     const document = this._getTextDocument(uri);
     if (!document) {
       return [];
     }
-    return this._languageService.doValidation(document);
+
+    const validationContext = {
+      ...this.constructor.defaultApiDOMContext.validationContext,
+      signal,
+    };
+    const result = await this._languageService.doValidation(document, validationContext);
+
+    if (signal.aborted) {
+      return this.#previousDiagnostics;
+    }
+
+    this.#previousDiagnostics = result;
+
+    return result;
   }
 
   async doComplete(uri, position) {
