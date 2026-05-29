@@ -2,14 +2,15 @@
 
 ## Overview
 
-SwaggerEditor uses two Web Workers:
+SwaggerEditor uses three Web Workers:
 
 | Worker | Label | Purpose |
 |--------|-------|---------|
 | `editor.worker` | `editorWorkerService` | Monaco core text-model operations (diffing, link detection, bracket matching) |
 | `apidom.worker` | `apidom` | ApiDOM language server (validation, hover, completion, semantic tokens) |
+| `asyncapi-parser.worker` | — | AsyncAPI spec parsing off the main thread (Comlink-based, not Monaco-managed) |
 
-Monaco's `StandaloneWebWorkerService` dispatches to whichever worker matches a given label via `MonacoEnvironment.getWorker`.
+Monaco's `StandaloneWebWorkerService` dispatches to whichever worker matches a given label via `MonacoEnvironment.getWorker`. The AsyncAPI parser worker is not Monaco-managed and is spawned directly by the `editor-preview-asyncapi` plugin.
 
 ---
 
@@ -132,6 +133,86 @@ Output: `build/static/js/apidom.worker.[hash].js`. The hashed URL is injected au
 
 ---
 
+## AsyncAPI Parser Worker
+
+### Purpose
+
+Offloads `@asyncapi/parser` parsing off the main thread so large or complex AsyncAPI specs don't block the UI. Managed by the `editor-preview-asyncapi` plugin via [Comlink](https://github.com/GoogleChromeLabs/comlink), not by Monaco.
+
+### How it is loaded
+
+`src/plugins/editor-preview-asyncapi/worker/parser-worker-proxy.ts` holds a lazy singleton:
+
+```ts
+import * as Comlink from 'comlink';
+import AsyncAPIParserWorkerConstructor from './asyncapi-parser.worker.ts?worker';
+
+let proxy = null;
+
+const getParserProxy = async (parserOptions) => {
+  if (!proxy) {
+    proxy = Comlink.wrap(new AsyncAPIParserWorkerConstructor());
+    await proxy.init(wrapResolvers(parserOptions));
+  }
+  return proxy;
+};
+```
+
+The `?worker` import is intercepted by `vite/plugins/rewrite-editor-worker-import.js` — the same virtual-constructor mechanism used by the Monaco workers — so the worker URL resolves correctly in both dev and production.
+
+### Passing custom `parserOptions`
+
+`getParserProxy(parserOptions)` accepts a subset of `@asyncapi/parser`'s `ParserOptions`. Fields that contain functions (e.g. custom `__unstable.resolver.resolvers`) must be wrapped with `Comlink.proxy()` **before** being passed to the worker, so they execute on the main thread and retain access to the Redux store, `document`, etc.:
+
+```js
+import * as Comlink from 'comlink';
+
+const parserOptions = {
+  __unstable: {
+    resolver: {
+      resolvers: [httpsFetchResolver, httpFetchResolver].map((r) => ({
+        schema: r.schema,
+        order: r.order,
+        canRead: r.canRead,
+        read: Comlink.proxy(r.read.bind(r)),
+      })),
+    },
+  },
+};
+```
+
+`parser-worker-proxy.ts` applies this wrapping automatically via its `wrapResolvers` helper — consumers pass plain resolver objects and the proxy handles the `Comlink.proxy()` calls.
+
+`parserOptions` are applied once when the proxy is first created. Changing them after the first `parse()` call requires re-creating the proxy (not currently supported).
+
+### `Uri` transfer handler
+
+`@asyncapi/parser` passes `urijs` `Uri` objects to resolver `read()` and `canRead()` functions. `Uri` class instances don't survive structured clone, so the worker registers a Comlink transfer handler at module load that converts `Uri → string` transparently before the argument crosses the boundary:
+
+```ts
+Comlink.transferHandlers.set('URI', {
+  canHandle: (obj) => obj instanceof Uri,
+  serialize: (uri) => [uri.toString(), []],
+  deserialize: (str) => str,
+});
+```
+
+The main thread `read(uri)` functions receive the string. `uri.toString()` on a string is a no-op, so existing resolver implementations work without modification.
+
+### Dev mode
+
+Loaded via the virtual constructor module (same as Monaco workers). Vite's transform middleware rewrites bare specifiers inside the worker source.
+
+### Production (app build)
+
+Built by Vite's worker builder via the `?worker` import. Output: `build/static/js/asyncapi-parser.worker.[hash].js`.
+
+### ESM / UMD library builds
+
+Built as a separate self-contained bundle by `vite/scripts/build-bundle-esm.js` and `build-bundle-umd.js` using `asyncapiParserWorkerConfig`. Both configs include `fsShimPlugin` and `nodePolyfills()` to satisfy `@asyncapi/parser`'s Node.js `fs` references in the browser bundle.
+
+---
+
 ## `MonacoEnvironment` Setup Order
 
 `after-load.js` runs first and sets `getWorker`. It spreads any existing `MonacoEnvironment` at the end, allowing a consuming app to pre-set overrides (e.g. `baseUrl`):
@@ -199,12 +280,14 @@ Pre-declaring these avoids a cold-start dep-optimization reload on the first pag
 ```
 dist/
   esm/
-    apidom.worker.js   ← self-contained ESM worker bundle
-    editor.worker.js   ← self-contained ESM worker bundle
-    index.js           ← library entry
+    apidom.worker.js            ← self-contained ESM worker bundle
+    editor.worker.js            ← self-contained ESM worker bundle
+    asyncapi-parser.worker.js   ← self-contained ESM worker bundle
+    index.js                    ← library entry
   umd/
-    apidom.worker.js   ← self-contained IIFE worker bundle
-    editor.worker.js   ← self-contained IIFE worker bundle
+    apidom.worker.js            ← self-contained IIFE worker bundle
+    editor.worker.js            ← self-contained IIFE worker bundle
+    asyncapi-parser.worker.js   ← self-contained IIFE worker bundle
     index.js
 ```
 

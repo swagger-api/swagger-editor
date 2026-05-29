@@ -5,6 +5,7 @@ import nodePolyfills from 'rollup-plugin-polyfill-node';
 
 import { logger, sharedOnwarn } from '../shared.js';
 import { inlineAllWasms } from '../plugins/inline-all-wasms.js';
+import { fsShim } from '../plugins/fs-shim.js';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
@@ -31,6 +32,33 @@ export const apidomWorkerConfig = defineConfig({
     codeSplitting: false,
     rollupOptions: {
       plugins: [nodePolyfills()],
+      onwarn: sharedOnwarn,
+    },
+  },
+});
+
+export const asyncapiParserWorkerConfig = defineConfig({
+  configFile: false,
+  customLogger: logger,
+  mode: 'production',
+  publicDir: false,
+  plugins: [fsShim(), { ...nodePolyfills(), enforce: 'pre' }],
+
+  build: {
+    lib: {
+      entry: resolve(
+        __dirname,
+        '../../src/plugins/editor-preview-asyncapi/worker/asyncapi-parser.worker.ts'
+      ),
+      formats: ['iife'],
+      fileName: () => 'asyncapi-parser.worker.js',
+      name: 'asyncapiParserWorker',
+    },
+    outDir: 'dist/umd',
+    sourcemap: false,
+    emptyOutDir: false,
+    codeSplitting: false,
+    rollupOptions: {
       onwarn: sharedOnwarn,
     },
   },
