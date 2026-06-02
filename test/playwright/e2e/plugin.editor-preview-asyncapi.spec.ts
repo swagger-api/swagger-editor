@@ -1,4 +1,7 @@
 import { test, expect } from '@playwright/test';
+import * as fs from 'fs/promises';
+import * as path from 'path';
+import { fileURLToPath } from 'url';
 
 import {
   visitBlankPage,
@@ -8,6 +11,10 @@ import {
   waitForContentPropagation,
   clickNestedMenuItem,
 } from '../helpers';
+
+// Get __dirname equivalent in ES modules
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 /**
  * Editor Preview Pane: AsyncAPI 2.x
@@ -41,5 +48,41 @@ test.describe('Editor Preview Pane: AsyncAPI 2.x', () => {
     // Verify AsyncAPI preview elements are not present
     await expect(page.locator('#check-out-its-awesome-features')).not.toBeAttached();
     await expect(page.locator('.aui-root #introduction')).not.toBeAttached();
+  });
+});
+
+test.describe('Editor Preview Pane: AsyncAPI 3.x', () => {
+  test('displays expandable message payload for resolved definition', async ({ page }) => {
+    // Mock the import URL
+    await page.route('https://example.com/async-3-messages-resolved.yaml', async (route) => {
+      const fixturePath = path.join(__dirname, '../fixtures/async-3-messages-resolved.yaml');
+      const fixture = await fs.readFile(fixturePath, 'utf-8');
+      await route.fulfill({
+        status: 200,
+        contentType: 'application/yaml',
+        body: fixture,
+      });
+    });
+
+    // Load the page with the AsyncAPI document
+    await prepareOasGenerator(page);
+    await Promise.all([
+      page.waitForResponse('https://example.com/async-3-messages-resolved.yaml'),
+      page.goto('/?url=https://example.com/async-3-messages-resolved.yaml'),
+    ]);
+    await waitForSplashScreen(page);
+
+    // Verify that the message elements are visible
+    const messageContainer = page.locator('#operation-send-test\\.channel-message');
+    await expect(messageContainer).toBeVisible();
+
+    const payloadButton = messageContainer.getByRole('button', { name: /payload/i }).first();
+    await expect(payloadButton).toBeVisible();
+
+    // Verify that the message payload can be expanded
+    await payloadButton.click();
+
+    await expect(messageContainer.getByText(/testField1/)).toBeVisible();
+    await expect(messageContainer.getByText(/testField2/)).toBeVisible();
   });
 });
