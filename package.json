@@ -1,6 +1,6 @@
 {
   "name": "swagger-editor",
-  "version": "5.5.2",
+  "version": "5.6.0",
   "contributors": [
     "(in alphabetical order)",
     "Francesco Tumanischvili",
@@ -66,7 +66,8 @@
     "lint:fix": "eslint . --ext .jsx,.js,.tsx,.ts --fix",
     "clean": "rimraf ./build ./dist",
     "link:apidom": "npm link @swagger-api/apidom-ast @swagger-api/apidom-core @swagger-api/apidom-error @swagger-api/apidom-json-path @swagger-api/apidom-json-pointer @swagger-api/apidom-ls @swagger-api/apidom-ns-api-design-systems @swagger-api/apidom-ns-asyncapi-2 @swagger-api/apidom-ns-json-schema-draft-4 @swagger-api/apidom-ns-json-schema-draft-6 @swagger-api/apidom-ns-json-schema-draft-7 @swagger-api/apidom-ns-openapi-2 @swagger-api/apidom-ns-openapi-3-0 @swagger-api/apidom-ns-openapi-3-1 @swagger-api/apidom-ns-openapi-3-2 @swagger-api/apidom-ns-openapi-3-2 @swagger-api/apidom-parser-adapter-api-design-systems-json @swagger-api/apidom-parser-adapter-api-design-systems-yaml @swagger-api/apidom-parser-adapter-asyncapi-json-2 @swagger-api/apidom-parser-adapter-asyncapi-yaml-2 @swagger-api/apidom-parser-adapter-json @swagger-api/apidom-parser-adapter-openapi-json-2 @swagger-api/apidom-parser-adapter-openapi-json-3-0 @swagger-api/apidom-parser-adapter-openapi-json-3-1 @swagger-api/apidom-parser-adapter-openapi-json-3-2 @swagger-api/apidom-parser-adapter-openapi-yaml-2 @swagger-api/apidom-parser-adapter-openapi-yaml-3-0 @swagger-api/apidom-parser-adapter-openapi-yaml-3-1 @swagger-api/apidom-parser-adapter-openapi-yaml-3-2 @swagger-api/apidom-parser-adapter-yaml-1-2 @swagger-api/apidom-parser @swagger-api/apidom-reference",
-    "link:apidom-ls": "npm link @swagger-api/apidom-ls"
+    "link:apidom-ls": "npm link @swagger-api/apidom-ls",
+    "postinstall": "patch-package"
   },
   "dependencies": {
     "@asyncapi/avro-schema-parser": "3.0.24",
@@ -113,6 +114,7 @@
     "lodash": "^4.18.1",
     "monaco-editor": "npm:@codingame/monaco-vscode-editor-api@=31.0.1",
     "monaco-marker-data-provider": "^1.2.4",
+    "patch-package": "^8.0.1",
     "prop-types": "^15.8.1",
     "react": ">=17 <19",
     "react-collapse-pane": "^3.0.1",

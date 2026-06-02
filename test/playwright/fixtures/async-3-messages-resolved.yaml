@@ -1,0 +1,53 @@
+asyncapi: 3.0.0
+info:
+  title: patch test
+  version: 1.0.0
+operations:
+  testOperation:
+    action: send
+    title: Test Operation
+    channel:
+      address: test.channel
+      messages:
+        testMessage:
+          title: Test Message
+          payload:
+            schemaFormat: application/vnd.apache.avro;version=1.9.0
+            schema:
+              type: record
+              name: TestMessage
+              fields:
+                - name: testField1
+                  type: string
+                - name: testField2
+                  type: long
+channels:
+  testChannel:
+    address: test.channel
+    messages:
+      testMessage:
+        title: Test Message
+        payload:
+          schemaFormat: application/vnd.apache.avro;version=1.9.0
+          schema:
+            type: record
+            name: TestMessage
+            fields:
+              - name: testField1
+                type: string
+              - name: testField2
+                type: long
+components:
+  messages:
+    testMessage:
+      title: Test Message
+      payload:
+        schemaFormat: application/vnd.apache.avro;version=1.9.0
+        schema:
+          type: record
+          name: TestMessage
+          fields:
+            - name: testField1
+              type: string
+            - name: testField2
+              type: long

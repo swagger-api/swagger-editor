@@ -1,0 +1,26 @@
+diff --git a/node_modules/@asyncapi/parser/cjs/custom-operations/parse-schema.js b/node_modules/@asyncapi/parser/cjs/custom-operations/parse-schema.js
+index 3e71810..f627c1c 100644
+--- a/node_modules/@asyncapi/parser/cjs/custom-operations/parse-schema.js
++++ b/node_modules/@asyncapi/parser/cjs/custom-operations/parse-schema.js
+@@ -26,6 +26,8 @@ const customSchemasPathsV3 = [
+     // channels
+     '$.channels.*.messages.*.payload',
+     '$.channels.*.messages.*.headers',
++    '$.operations.*.channel.messages.*.payload',
++    '$.operations.*.channel.messages.*.headers',
+     '$.components.channels.*.messages.*.payload',
+     '$.components.channels.*.messages.*.headers',
+     // operations
+diff --git a/node_modules/@asyncapi/parser/esm/custom-operations/parse-schema.js b/node_modules/@asyncapi/parser/esm/custom-operations/parse-schema.js
+index a00ebab..3b6a1cb 100644
+--- a/node_modules/@asyncapi/parser/esm/custom-operations/parse-schema.js
++++ b/node_modules/@asyncapi/parser/esm/custom-operations/parse-schema.js
+@@ -23,6 +23,8 @@ const customSchemasPathsV3 = [
+     // channels
+     '$.channels.*.messages.*.payload',
+     '$.channels.*.messages.*.headers',
++    '$.operations.*.channel.messages.*.payload',
++    '$.operations.*.channel.messages.*.headers',
+     '$.components.channels.*.messages.*.payload',
+     '$.components.channels.*.messages.*.headers',
+     // operations
