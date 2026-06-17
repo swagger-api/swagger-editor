@@ -110,7 +110,7 @@
     "file-dialog": "^0.0.8",
     "immutable": "^3.8.3",
     "js-file-download": "^0.4.12",
-    "js-yaml": "4.1.1",
+    "js-yaml": "4.2.0",
     "lodash": "^4.18.1",
     "monaco-editor": "npm:@codingame/monaco-vscode-editor-api@=34.0.1",
     "monaco-marker-data-provider": "^1.2.4",
