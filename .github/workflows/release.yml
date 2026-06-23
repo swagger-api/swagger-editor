@@ -81,6 +81,27 @@ jobs:
           echo ${{ steps.semantic.outputs.new_release_minor_version }}
           echo ${{ steps.semantic.outputs.new_release_patch_version }}
 
+      - name: Rename GitHub release
+        if: steps.semantic.outputs.new_release_published == 'true'
+        uses: actions/github-script@v8
+        with:
+          script: |
+            const version = '${{ steps.semantic.outputs.new_release_version }}';
+            const tag = `v${version}`;
+            const releaseName = `Release - Swagger Editor ${tag}`;
+            const { data: release } = await github.rest.repos.getReleaseByTag({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              tag
+            });
+            await github.rest.repos.updateRelease({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              release_id: release.id,
+              name: releaseName
+            });
+            core.info(`Renamed release ${tag} -> "${releaseName}"`);
+
       - name: Prepare released version for uploading
         shell: bash
         run: |
