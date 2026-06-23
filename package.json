@@ -108,7 +108,7 @@
     "comlink": "^4.4.2",
     "deep-extend": "=0.6.0",
     "file-dialog": "^0.0.8",
-    "immutable": "^3.8.3",
+    "immutable": "^5.1.6",
     "js-file-download": "^0.4.12",
     "js-yaml": "4.2.0",
     "lodash": "^4.18.1",
