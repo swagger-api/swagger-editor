@@ -102,7 +102,7 @@
     "@swagger-api/apidom-parser-adapter-openapi-yaml-3-1": "1.11.3",
     "@swagger-api/apidom-parser-adapter-openapi-yaml-3-2": "1.11.3",
     "@swagger-api/apidom-parser-adapter-yaml-1-2": "1.11.3",
-    "axios": "1.18.1",
+    "axios": "^1.18.1",
     "buffer": "^6.0.3",
     "classnames": "^2.3.2",
     "comlink": "^4.4.2",
