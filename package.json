@@ -178,7 +178,7 @@
     "husky": "^9.1.7",
     "jsdom": "^29.1.1",
     "lint-staged": "^16.1.2",
-    "postcss": "^8.5.14",
+    "postcss": "^8.5.25",
     "postcss-normalize": "^13.0.1",
     "postcss-preset-env": "^10.3.1",
     "prettier": "^3.6.2",
