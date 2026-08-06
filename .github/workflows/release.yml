@@ -23,7 +23,7 @@ jobs:
           node-version-file: .nvmrc
 
       - name: Determine the next release version
-        uses: cycjimmy/semantic-release-action@v6
+        uses: cycjimmy/semantic-release-action@71b2ac36ece276d61489147b9d5de3cf0d13fad8
         with:
           semantic_version: v24.2.3
           dry_run: true
@@ -58,7 +58,7 @@ jobs:
 
       - name: Semantic Release
         id: semantic
-        uses: cycjimmy/semantic-release-action@v6
+        uses: cycjimmy/semantic-release-action@71b2ac36ece276d61489147b9d5de3cf0d13fad8
         with:
           dry_run: false
           extra_plugins: |
