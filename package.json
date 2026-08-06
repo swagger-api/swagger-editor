@@ -195,5 +195,17 @@
     "vite-plugin-static-copy": "^4.1.0",
     "vitest": "^4.1.6",
     "vitest-canvas-mock": "^1.1.4"
+  },
+  "allowScripts": {
+    "esbuild@0.28.1": true,
+    "tree-sitter@0.21.1": true,
+    "tree-sitter-json@0.24.8": true,
+    "tree-sitter@0.22.4": true,
+    "@tree-sitter-grammars/tree-sitter-yaml@0.7.1": true,
+    "@parcel/watcher": false,
+    "@scarf/scarf": false,
+    "core-js-pure": false,
+    "protobufjs": false,
+    "fsevents": false
   }
 }
