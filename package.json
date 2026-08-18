@@ -128,7 +128,7 @@
     "styled-components": "^6.4.1",
     "swagger-ui-react": "^5.32.14",
     "vite": "^8.0.13",
-    "vite-plugin-svgr": "^4.3.0",
+    "vite-plugin-svgr": "^5.2.0",
     "vite-tsconfig-paths": "^5.1.4",
     "vscode": "npm:@codingame/monaco-vscode-extension-api@=36.0.0",
     "vscode-languageclient": "=10.0.0-next.7",
