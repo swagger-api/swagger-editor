@@ -173,7 +173,7 @@ const MyPlugin = (system) => {
 ## Development Workflows
 
 ### Prerequisites
-- **Node.js** `>=22.11.0`, **npm** `>=10.9.0`, **Python 3.x** (node-gyp), **GLIBC** `>=2.29`
+- **Node.js** `>=24.19.0`, **npm** `>=11.7.0`, **Python 3.x** (node-gyp), **GLIBC** `>=2.29`
 - Optional: Docker or emscripten (for WASM builds)
 
 ### npm Scripts
