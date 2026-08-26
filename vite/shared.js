@@ -1,4 +1,4 @@
-import { execSync } from 'child_process';
+import { spawnSync } from 'child_process';
 import { readFileSync } from 'fs';
 import { createLogger } from 'vite';
 
@@ -11,20 +11,16 @@ logger.warn = (msg, options) => {
 
 const pkg = JSON.parse(readFileSync(new URL('../package.json', import.meta.url), 'utf-8'));
 
-const gitExec = (cmd) => {
-  try {
-    return execSync(cmd, { stdio: ['pipe', 'pipe', 'ignore'] })
-      .toString()
-      .trim();
-  } catch {
-    return null;
-  }
+const gitExec = (args) => {
+  const result = spawnSync('git', args, { stdio: ['pipe', 'pipe', 'ignore'] });
+  if (result.error || result.status !== 0) return null;
+  return result.stdout.toString().trim();
 };
 
 export const buildDefines = () => ({
   PACKAGE_VERSION: JSON.stringify(pkg.version),
-  GIT_COMMIT: JSON.stringify(gitExec('git rev-parse --short HEAD') ?? 'unknown'),
-  GIT_DIRTY: String((gitExec('git status --porcelain') ?? '').length > 0),
+  GIT_COMMIT: JSON.stringify(gitExec(['rev-parse', '--short', 'HEAD']) ?? 'unknown'),
+  GIT_DIRTY: String((gitExec(['status', '--porcelain']) ?? '').length > 0),
   BUILD_TIME: JSON.stringify(new Date().toISOString()),
 });
 
