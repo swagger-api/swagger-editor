@@ -12,7 +12,7 @@ RUN apk add --update-cache --no-cache "libxml2>=2.13.9-r0"
 
 COPY ./build /usr/share/nginx/html
 
-EXPOSE 8080
+EXPOSE 80
 
 # start nginx
 CMD ["nginx", "-g", "daemon off;"]
