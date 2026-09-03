@@ -49,7 +49,7 @@ jobs:
 
       - name: Prepare for the Release
         env:
-          REACT_APP_VERSION: ${{ env.NEXT_RELEASE_VERSION }}
+          VITE_VERSION: ${{ env.NEXT_RELEASE_VERSION }}
         run: |
           npm run lint
           npm run test

@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import classNames from 'classnames';
 
 import logo from '../../assets/logo.svg';
-import { version } from '../../../../../package.json';
 
 const SplashScreen = ({ isOpen = true, getComponent }) => {
   const SplashScreenSpinner = getComponent('SplashScreenSpinner');
@@ -23,7 +22,8 @@ const SplashScreen = ({ isOpen = true, getComponent }) => {
     >
       <figure className="swagger-editor__splash-screen-figure">
         <img width="100%" src={logo} alt="Swagger Editor" />
-        <figcaption>{version}</figcaption>
+        {/* eslint-disable-next-line no-undef */}
+        <figcaption>{PACKAGE_VERSION}</figcaption>
         <SplashScreenSpinner />
       </figure>
     </div>

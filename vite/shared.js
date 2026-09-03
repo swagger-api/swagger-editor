@@ -18,7 +18,7 @@ const gitExec = (args) => {
 };
 
 export const buildDefines = () => ({
-  PACKAGE_VERSION: JSON.stringify(pkg.version),
+  PACKAGE_VERSION: JSON.stringify(process.env.VITE_VERSION ?? pkg.version),
   GIT_COMMIT: JSON.stringify(gitExec(['rev-parse', '--short', 'HEAD']) ?? 'unknown'),
   GIT_DIRTY: String((gitExec(['status', '--porcelain']) ?? '').length > 0),
   BUILD_TIME: JSON.stringify(new Date().toISOString()),
