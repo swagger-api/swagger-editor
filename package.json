@@ -127,7 +127,7 @@
     "short-unique-id": "=5.2.0",
     "styled-components": "^6.4.1",
     "swagger-ui-react": "^5.32.15",
-    "vite": "^8.0.13",
+    "vite": "^8.2.2",
     "vite-plugin-svgr": "^5.2.0",
     "vite-tsconfig-paths": "^5.1.4",
     "vscode": "npm:@codingame/monaco-vscode-extension-api@=36.2.2",
