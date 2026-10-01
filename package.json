@@ -106,7 +106,7 @@
     "monaco-editor": "npm:@codingame/monaco-vscode-editor-api@=36.2.7",
     "monaco-marker-data-provider": "^1.2.4",
     "prop-types": "^15.8.1",
-    "react": ">=17 <19",
+    "react": ">=17 <20",
     "react-collapse-pane": "^3.0.1",
     "react-dom": ">=17 <19",
     "react-dropzone": "^15.0.0",
