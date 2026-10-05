@@ -2,21 +2,39 @@
 
 ## Table of Contents
 
-- [Anonymized analytics](#anonymized-analytics)
-- [Getting started](#getting-started)
-  - [Prerequisites](#prerequisites)
-  - [Installation](#installation)
-  - [Usage](#usage)
-- [Development](#development)
-  - [Prerequisites](#prerequisites)
-  - [Setting up](#setting-up)
-  - [npm scripts](#npm-scripts)
-  - [Build artifacts](#build-artifacts)
-  - [Package mapping](#package-mapping)
-- [Documentation](#documentation)
-- [Docker](#docker)
-- [License](#license)
-- [Software Bill Of Materials (SBOM)](#software-bill-of-materials-sbom)
+- [SwaggerEditor](#swaggereditor)
+  - [Table of Contents](#table-of-contents)
+  - [Anonymized analytics](#anonymized-analytics)
+  - [Getting started](#getting-started)
+    - [Prerequisites](#prerequisites)
+    - [Installation](#installation)
+    - [Usage](#usage)
+  - [Development](#development)
+    - [Prerequisites](#prerequisites-1)
+    - [Setting up](#setting-up)
+    - [npm scripts](#npm-scripts)
+    - [Build artifacts](#build-artifacts)
+    - [Package mapping](#package-mapping)
+  - [Documentation](#documentation)
+    - [Using older version of React](#using-older-version-of-react)
+    - [npm](#npm)
+    - [yarn](#yarn)
+    - [Customization](#customization)
+      - [Syntax Highlighting Modes](#syntax-highlighting-modes)
+    - [Environment Variables](#environment-variables)
+    - [Using preview plugins in SwaggerUI](#using-preview-plugins-in-swaggerui)
+      - [Standalone mode](#standalone-mode)
+      - [Utilizing preview plugins via unpkg.com](#utilizing-preview-plugins-via-unpkgcom)
+    - [Composing customized SwaggerEditor version](#composing-customized-swaggereditor-version)
+      - [Plugins](#plugins)
+      - [Presets](#presets)
+      - [Composing with swagger-ui](#composing-with-swagger-ui)
+      - [Composing with swagger-ui-react](#composing-with-swagger-ui-react)
+  - [Docker](#docker)
+    - [Pre-built DockerHub image](#pre-built-dockerhub-image)
+    - [Building locally](#building-locally)
+  - [License](#license)
+  - [Software Bill Of Materials (SBOM)](#software-bill-of-materials-sbom)
 
 ## Anonymized analytics
 
@@ -592,9 +610,12 @@ Both modes support:
 
 Environment variables are baked in at build time via Vite's `define` mechanism. The only currently active variable is:
 
-| Variable name   | Description                                                                 |
-|-----------------|-----------------------------------------------------------------------------|
-| `VITE_VERSION`  | Version displayed in the splash screen. Defaults to `$npm_package_version`. |
+| Variable name                      | Description                                                                                                                                                          |
+| ---------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `VITE_VERSION`                     | Version displayed in the splash screen. Defaults to `$npm_package_version`.                                                                                          |
+| `VITE_SWAGGER2_CONVERTER_URL`      | Specifies the URL for the OpenAPI 2.0 to OpenAPI 3.0 converter service. Defaults to `https://converter.swagger.io/api/convert`. Set to `null` to disable conversion. |
+| `VITE_OPENAPI3_GENERATOR_BASE_URL` | Specifies the base URL for the OpenAPI 3.0 code generator service. Defaults to `https://generator3.swagger.io/api`. Set to `null` to disable the generator.          |
+| `VITE_OPENAPI2_GENERATOR_BASE_URL` | Specifies the base URL for the OpenAPI 2.0 code generator service. Defaults to `https://generator.swagger.io/api/gen`. Set to `null` to disable the generator.       |
 
 Sample values can be found in the `.env` file at the root of the repository.
 
