@@ -75,15 +75,19 @@ const registerProviders = ({
     );
 
     if (useApiDOMSyntaxHighlighting) {
-      const workerService = await worker();
-      const semanticTokensLegend = await workerService.getSemanticTokensLegend();
-      providers.push(
-        vscodeLanguages.registerDocumentSemanticTokensProvider(
-          languageId,
-          new DocumentSemanticTokensProvider(...args),
-          semanticTokensLegend
-        )
-      );
+      try {
+        const workerService = await worker();
+        const semanticTokensLegend = await workerService.getSemanticTokensLegend();
+        providers.push(
+          vscodeLanguages.registerDocumentSemanticTokensProvider(
+            languageId,
+            new DocumentSemanticTokensProvider(...args),
+            semanticTokensLegend
+          )
+        );
+      } catch {
+        // skip semantic tokens if worker is unavailable
+      }
     }
   })();
 

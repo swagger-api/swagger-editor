@@ -2,9 +2,9 @@ import Provider from './Provider.js';
 
 class CompletionItemProvider extends Provider {
   async #getCompletionList(vscodeDocument, position) {
-    const worker = await this.worker(vscodeDocument.uri);
-
     try {
+      const worker = await this.worker(vscodeDocument.uri);
+
       return await worker.doComplete(
         vscodeDocument.uri.toString(),
         this.codeConverter.asPosition(position)
