@@ -2,9 +2,9 @@ import Provider from './Provider.js';
 
 class DefinitionProvider extends Provider {
   async #getLocation(vscodeDocument, position) {
-    const worker = await this.worker(vscodeDocument.uri);
-
     try {
+      const worker = await this.worker(vscodeDocument.uri);
+
       return await worker.provideDefinition(
         vscodeDocument.uri.toString(),
         this.codeConverter.asPosition(position)

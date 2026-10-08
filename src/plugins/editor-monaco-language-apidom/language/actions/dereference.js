@@ -13,7 +13,10 @@ const createDereferenceActionDescriptor = ({ getSystem }) => ({
     if (!isContentJSON && !isContentYAML) return; // nothing to do here
 
     const model = editor.getModel();
-    const worker = await getWorker()(model.uri);
+    const worker = await getWorker()(model.uri).catch(() => undefined);
+
+    if (!worker) return;
+
     const dereferenced = await worker.doDeref(model.uri.toString(), {
       baseURI: globalThis.document.baseURI || globalThis.location.href,
       format: isContentJSON ? 0 : isContentYAML ? 1 : 'unknown',

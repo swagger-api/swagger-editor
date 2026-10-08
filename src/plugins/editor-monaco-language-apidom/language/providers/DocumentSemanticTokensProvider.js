@@ -2,9 +2,9 @@ import Provider from './Provider.js';
 
 class DocumentSemanticTokensProvider extends Provider {
   async #getSemanticTokens(vscodeDocument) {
-    const worker = await this.worker(vscodeDocument.uri);
-
     try {
+      const worker = await this.worker(vscodeDocument.uri);
+
       return await worker.findSemanticTokens(vscodeDocument.uri.toString());
     } catch {
       return undefined;

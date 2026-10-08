@@ -2,9 +2,9 @@ import Provider from './Provider.js';
 
 class DocumentSymbolProvider extends Provider {
   async #getSymbolInformationList(vscodeDocument) {
-    const worker = await this.worker(vscodeDocument.uri);
-
     try {
+      const worker = await this.worker(vscodeDocument.uri);
+
       return await worker.findDocumentSymbols(vscodeDocument.uri.toString());
     } catch {
       return undefined;
