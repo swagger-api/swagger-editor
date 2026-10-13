@@ -2,9 +2,9 @@ import Provider from './Provider.js';
 
 class CodeActionsProvider extends Provider {
   async #getCodeActionList(vscodeDocument, diagnosticList) {
-    const worker = await this.worker(vscodeDocument.uri);
-
     try {
+      const worker = await this.worker(vscodeDocument.uri);
+
       return await worker.doCodeActions(vscodeDocument.uri.toString(), diagnosticList);
     } catch {
       return undefined;

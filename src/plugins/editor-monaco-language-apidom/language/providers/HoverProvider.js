@@ -2,9 +2,9 @@ import Provider from './Provider.js';
 
 class HoverProvider extends Provider {
   async #getHover(vscodeDocument, position) {
-    const worker = await this.worker(vscodeDocument.uri);
-
     try {
+      const worker = await this.worker(vscodeDocument.uri);
+
       return await worker.doHover(
         vscodeDocument.uri.toString(),
         this.codeConverter.asPosition(position)

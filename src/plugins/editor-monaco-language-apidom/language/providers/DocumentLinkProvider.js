@@ -2,9 +2,9 @@ import Provider from './Provider.js';
 
 class DocumentLinkProvider extends Provider {
   async #getLinks(vscodeDocument) {
-    const worker = await this.worker(vscodeDocument.uri);
-
     try {
+      const worker = await this.worker(vscodeDocument.uri);
+
       return await worker.doLinks(vscodeDocument.uri.toString());
     } catch {
       return [];

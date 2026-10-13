@@ -77,14 +77,14 @@ class DiagnosticsProvider extends Provider {
   }
 
   async #getDiagnostics(model) {
-    const worker = await this.worker(model.uri);
-
-    if (model.isDisposed()) {
-      // model was disposed in the meantime
-      return [];
-    }
-
     try {
+      const worker = await this.worker(model.uri);
+
+      if (model.isDisposed()) {
+        // model was disposed in the meantime
+        return [];
+      }
+
       return await worker.doValidation(model.uri.toString());
     } catch {
       return [];

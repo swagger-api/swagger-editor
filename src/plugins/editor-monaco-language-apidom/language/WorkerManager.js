@@ -9,6 +9,8 @@ export default class WorkerManager {
 
   #client = null;
 
+  #clientPromise = null;
+
   #idleCheckInterval;
 
   #lastUsedTime = 0;
@@ -24,6 +26,7 @@ export default class WorkerManager {
       this.#worker = null;
     }
     this.#client = null;
+    this.#clientPromise = null;
   }
 
   #checkIfIdle() {
@@ -37,28 +40,30 @@ export default class WorkerManager {
     }
   }
 
+  async #initClient() {
+    const languageId = this.#defaults.getLanguageId();
+    const worker = await globalThis.MonacoEnvironment.getWorker('ApiDOMWorker', languageId);
+    const createData = {
+      ...this.#defaults.getWorkerOptions().data,
+      languageId,
+      apiDOMContext: this.#defaults.getWorkerOptions().apiDOMContext,
+      customWorkerPath: this.#defaults.getWorkerOptions().customWorkerPath,
+    };
+    worker.postMessage(createData);
+
+    this.#worker = monaco.editor.createWebWorker({
+      worker,
+      keepIdleModels: true,
+    });
+
+    this.#client = this.#worker.getProxy();
+    return this.#client;
+  }
+
   async #getClient() {
     this.#lastUsedTime = Date.now();
-
-    if (!this.#client) {
-      const languageId = this.#defaults.getLanguageId();
-      const worker = globalThis.MonacoEnvironment.getWorker('ApiDOMWorker', languageId);
-      const createData = {
-        ...this.#defaults.getWorkerOptions().data,
-        languageId,
-        apiDOMContext: this.#defaults.getWorkerOptions().apiDOMContext,
-        customWorkerPath: this.#defaults.getWorkerOptions().customWorkerPath,
-      };
-      worker.postMessage(createData);
-
-      this.#worker = monaco.editor.createWebWorker({
-        worker,
-        keepIdleModels: true,
-      });
-
-      this.#client = this.#worker.getProxy();
-    }
-    return this.#client;
+    this.#clientPromise ??= this.#initClient();
+    return this.#clientPromise;
   }
 
   async getLanguageServiceWorker(...resources) {
