@@ -1,4 +1,4 @@
-const selectAsyncAPI300StreetlightsYAML = () => `asyncapi: 3.0.0
+const selectAsyncAPI310StreetlightsYAML = () => `asyncapi: 3.1.0
 info:
   title: Streetlights Kafka API
   version: 1.0.0
@@ -199,4 +199,4 @@ components:
               - my-app-id
 `;
 
-export default selectAsyncAPI300StreetlightsYAML;
+export default selectAsyncAPI310StreetlightsYAML;
