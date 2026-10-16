@@ -3,7 +3,7 @@ import { resolve, dirname } from 'node:path';
 import glob from 'glob';
 import { fileURLToPath } from 'node:url';
 
-import { logger, sharedOnwarn } from './vite/shared.js';
+import { buildDefines, logger, sharedOnwarn } from './vite/shared.js';
 import { rewriteEditorWorkerImport } from './vite/plugins/rewrite-editor-worker-import.js';
 import { fixCrossChunkPaths } from './vite/plugins/fix-cross-chunk-paths.js';
 
@@ -35,6 +35,7 @@ export const mainConfig = defineConfig({
   customLogger: logger,
   mode: 'production',
   publicDir: false,
+  define: buildDefines(),
 
   plugins: [rewriteEditorWorkerImport()],
 
