@@ -28,7 +28,7 @@ swagger-editor/
 │   ├── presets/
 │   │   ├── monaco/       # Full-featured preset (default)
 │   │   └── textarea/     # Lightweight fallback
-│   ├── styles/           # Global SCSS (index.scss)
+│   ├── styles/           # Global SCSS (main.scss imports each plugin's components/_all.scss)
 │   └── types/            # TypeScript declarations (*.d.ts)
 ├── test/
 │   ├── playwright/
@@ -304,7 +304,7 @@ Enforced by commitlint via Husky pre-commit hook.
 
 ### Styling
 - **SCSS** for all component styles; BEM-like naming (`.editor-pane__title`)
-- Partial files prefixed with `_`; global styles in `/src/styles/index.scss`
+- Partial files prefixed with `_`; global styles in `/src/styles/main.scss`, which imports each plugin's `components/_all.scss`
 
 ### TypeScript
 - Strict mode **off** globally; gradual adoption via `typescript-strict-plugin`
@@ -436,19 +436,15 @@ const TopBarWrapper = (Original, system) => {
 
 ### Adding a New Content Type
 
-```javascript
-// Extend detection in editor-content-type plugin (order matters — specific first)
-const detectContentType = (content) => {
-  if (/^openapi:\s*["']?3\.1/.test(content)) return 'openapi-3-1';
-  if (/^openapi:\s*["']?3\.0/.test(content)) return 'openapi-3-0';
-  if (/^swagger:\s*["']?2\.0/.test(content)) return 'openapi-2-0';
-  if (/^asyncapi:\s*["']?2\./.test(content)) return 'asyncapi-2';
-  if (/^myspec:\s*["']?1\.0/.test(content)) return 'myspec-1-0'; // custom
-  return 'unknown';
-};
-```
+Detection lives in `editor-content-type/actions.js` (`detectContentType`): one JSON and one YAML
+branch per spec version, built from the ApiDOM parser adapter's `detectionRegExp`, producing
+media types such as `application/vnd.oai.openapi+yaml;version=3.2.0`. Each version gets a
+`selectIsContentType*` selector registered in the plugin's `index.js`; preview plugins wrap
+`EditorPreview` and render on those selectors (see `editor-preview-asyncapi`).
 
-Then create a preview plugin that wraps `EditorPreview` and conditionally renders based on `editorSelectors.selectEditorContentType()`.
+For OpenAPI versions and standalone JSON Schema use the skills in `.claude/skills/`
+(`/add-oas-support`, `/add-json-schema-support`, `/review-spec-support`); they list every
+integration point and bundle checks (`spec-status.mjs`, `check-detection.mjs`).
 
 ### Adding E2E Tests
 
@@ -472,10 +468,9 @@ test.describe('My Feature', () => {
 ### Debugging Validation
 
 ```javascript
-const { editorSelectors } = useSystem();
-console.log('markers:', editorSelectors.selectEditorMarkers());
-console.log('diagnostics:', editorSelectors.selectDiagnostics());
-console.log('content type:', editorSelectors.selectEditorContentType());
+// inside a component or plugin with access to the system
+console.log('markers:', editorSelectors.selectMarkers());
+console.log('content type:', editorSelectors.selectContentType());
 console.log('is OpenAPI:', editorSelectors.selectIsContentTypeOpenAPI());
 ```
 
@@ -533,7 +528,7 @@ export NODE_OPTIONS="--max_old_space_size=4096"
 
 ### 8. Content Type Detection Order
 
-More specific patterns must come first — detect `3.1` before `3.0`, `3.0` before `2.0`.
+Branches run in order and the first match wins. The ApiDOM adapter regexes are version-exclusive, so OpenAPI lines don't shadow each other; what matters is that spec branches (OpenAPI, AsyncAPI, ADS) run before the JSON Schema `$schema` branches and the generic JSON/YAML fallbacks. Check with `node .claude/skills/add-oas-support/scripts/check-detection.mjs`.
 
 ### 9. Selector Memoization
 
@@ -620,6 +615,12 @@ Off globally. Use `typescript-strict-plugin` per file. New files should aim for 
 2. Check `docs/architecture.md` for high-level overview
 3. Look at similar plugins for patterns to copy
 4. Check Playwright tests to see how features are exercised
+
+### Adding OpenAPI or JSON Schema Support
+Use the skills in `.claude/skills/` (overview in `.claude/skills/README.md`): `/add-oas-support`
+for a new OpenAPI version, `/add-json-schema-support` for standalone JSON Schema (design doc:
+Confluence SHUB "Standalone JSON Schema"), `/review-spec-support` to review either in a fresh
+context. They start by checking the upstream packages (ApiDOM, swagger-client, swagger-ui-react).
 
 ### Before Committing
 - [ ] `npm run lint:fix`
