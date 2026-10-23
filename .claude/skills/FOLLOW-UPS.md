@@ -67,22 +67,6 @@ to re-check it. Status legend: ⏳ open, ✅ done (add commit/PR reference).
 modifiers). Check with `spec-status.mjs --oas 3.2` (`NOTE theme`); decide and either map them or
 document the default.
 
-### 1.8 ✅ Remaining CLAUDE.md inaccuracies (2026-10-23)
-
-The content-type, styles-path and debugging sections were corrected with the skills. Fixed
-afterwards: the "State Access in Components" snippet used `useSystem()`, which doesn't exist in
-`src`; it now shows the real pattern (system injected as props into containers resolved with
-`getComponent(name, true)`, from `ThemeSelectionIcon.jsx`). Header and footer say version 5.10.0;
-the overview lists AsyncAPI 3.1.
-
-The Actions, Reducers, Selectors, System Access, Creating a New Plugin, Component Wrapping and
-gotchas 4/9 snippets used names that don't exist in `src` (`loadDefinition`,
-`SET_EDITOR_CONTENT`, `selectEditorContent`, `setEditorContent`, `selectValidationErrors`, a
-per-plugin `initialState: Map(...)`, `action.payload.requestId`). They are now condensed from
-`editor-preview-asyncapi` (actions, reducers, selectors) and `editor-preview-swagger-ui` (wrapper),
-and say that reducers and selectors receive the plugin's own state slice and that request IDs
-travel in `meta`.
-
 ### 1.9 ⏳ No Playwright test loads an AsyncAPI 3.1 example
 
 - **Check:** `spec-status.mjs --spec asyncapi --version 3.1` (`MISSING tests`; the same run
