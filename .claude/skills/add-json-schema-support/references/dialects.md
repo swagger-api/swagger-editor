@@ -43,13 +43,17 @@ Build the keyword map from the meta-schemas, never from memory:
 - 2019-09: `https://json-schema.org/draft/2019-09/meta/{core,applicator,validation,meta-data,format,content}`.
 - Draft 7, 6, 4: the single meta-schema at the `$schema` URI.
 
-## Crossing Dialect Boundaries (design doc)
+## Crossing Dialect Boundaries (design doc, out of scope)
+
+References that cross dialects are out of scope (decision of 2026-10-23) in ApiDOM, Swagger UI
+and SwaggerEditor alike. The doc's examples stay here only as fixtures for root-`$schema`
+detection.
 
 `$schema` SHOULD be in the document root, MAY be in the root of embedded schema resources
 (subschemas with their own `$id`), and MUST NOT be in non-resource subschemas (2020-12 Core,
-section 8.1.1). The doc's examples, to use as test fixtures (its "valid" example treats
-`definitions/legacySchema` as a resource although it has no `$id`; check the dialect's spec
-before asserting validity in a test):
+section 8.1.1). The doc's examples (its "valid" example treats `definitions/legacySchema` as a
+resource although it has no `$id`; check the dialect's spec before asserting validity in a
+test):
 
 Valid (embedded resource in another dialect):
 
@@ -92,8 +96,8 @@ text in fixtures that test acceptance of the `https` variant, the official form 
 What the editor does with them:
 
 - Detection uses the root `$schema` only. A document whose only `$schema` is nested must not be
-  routed to the schema preview; an OpenAPI 3.1+ document with schemas carrying `$schema` stays
-  OpenAPI (detection order already guarantees this; keep a test).
-- The preview renders with the root dialect's renderer; dialect switching per embedded resource
-  is Swagger UI's work (ApiDOM handles it in parsing and apidom-ls). Record how embedded
-  resources of another dialect look in the preview.
+  routed to the Swagger UI preview as JSON Schema; an OpenAPI 3.1+ document with schemas
+  carrying `$schema` stays OpenAPI (detection order already guarantees this; keep a test).
+- Embedded resources of another dialect get no special handling: Swagger UI renders the whole
+  document with the root dialect, and neither ApiDOM nor Swagger UI switches dialect per
+  embedded resource.

@@ -32,7 +32,7 @@ for the doc's content, the open decisions and how they map to the PRs below.
 | `node .claude/skills/add-oas-support/scripts/verify-urls.mjs <paths>` / `--diff main` | URL and anchor check (meta-schema URIs, docs links). |
 | `references/design-and-delivery.md` | Design doc digest, open decisions, plan-to-PR mapping. Read at Step 0. |
 | `references/preview-routing.md` | What the Swagger UI preview does with JSON Schema today, the two files to change, the upstream gate, the tests. Read at Step 3. |
-| `references/dialects.md` | `$schema` URIs, ApiDOM packages and renderer per dialect; cross-dialect references. Read at Step 1. |
+| `references/dialects.md` | `$schema` URIs, ApiDOM packages and renderer per dialect; the design doc's cross-dialect examples (out of scope, kept as root-detection fixtures). Read at Step 1. |
 | `references/keyword-map-template.md` | Per-keyword coverage table for the tracking doc. Read at Step 1. |
 | `../add-oas-support/references/testing.md` | Playwright and Vitest patterns. Read at Step 5. |
 | `../add-oas-support/references/review-lessons.md` | General wiring lessons (registration, cross-plugin imports, dependencies). Read before Step 2. |
