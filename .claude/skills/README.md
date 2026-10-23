@@ -1,8 +1,9 @@
 # Claude Code Skills for SwaggerEditor
 
-Skills for adding specification support to SwaggerEditor (swagger-editor@5). They cover two
-areas only: new OpenAPI versions, and standalone JSON Schema as described in the SwaggerHub
-design doc "Standalone JSON Schema" (Confluence, SHUB space, page 4687691955).
+Skills for adding specification support to SwaggerEditor (swagger-editor@5): new OpenAPI
+versions, standalone JSON Schema as described in the SwaggerHub design doc "Standalone JSON
+Schema" (Confluence, SHUB space, page 4687691955), and other spec families ApiDOM supports
+(AsyncAPI, A2A, Arazzo).
 
 SwaggerEditor is the last link of a chain. Each skill checks the links before it and points to
 the skill that builds a missing one:
@@ -14,13 +15,16 @@ the skill that builds a missing one:
 | 3 | `swagger-api/swagger-ui` | `/add-oas-support`, `/add-json-schema-support` (`.claude/skills/` on `main`, swagger-api/swagger-ui#11106) | `isOAS3X` preview plugin, JSON Schema renderers |
 | 4 | `swagger-api/swagger-editor` | the skills below | detection, routing, previews, examples, menus, themes, docs, tests |
 
+Other spec families need only link 1: swagger-client and Swagger UI render OpenAPI and JSON
+Schema, not AsyncAPI or A2A.
+
 ## Skill Layout
 
 ```
 {skill}/
 ├── SKILL.md        # workflow, gates, hand-off (loaded on invocation)
 ├── references/     # templates and detail, read at the step that names them
-├── scripts/        # deterministic checks (add-oas-support only; shared by all three)
+├── scripts/        # deterministic checks (add-oas-support only; shared by all skills)
 └── evals/          # skill-creator test cases: {case}/prompt.md, case.yaml, graders/, fixture.md
 ```
 
@@ -41,9 +45,17 @@ dependencies and detection; PR 2 the `editor-preview-json-schema` plugin (ApiDOM
 UI's `JSONSchema202012` renderer, BaseLayout bypass, exports); PR 3 language features from
 apidom-ls and theme tokens. Also covers further dialects.
 
+### `/add-spec-support`
+
+Adds a spec family other than OpenAPI and JSON Schema (A2A, Arazzo) or a version line of one
+(AsyncAPI 3.1, 4.0). Step 0 stops when ApiDOM or apidom-ls lacks the family. Then: family
+profile (`references/families/`), preview decision (no-preview placeholder by default),
+dependencies, detection (version-keyed, or structural through the adapter's `detect()`),
+selectors, examples, family-enumerating menus, swagger-ui-adapter bypass, docs, tests.
+
 ### `/review-spec-support`
 
-Read-only review of a branch made with either skill, run in a fresh subagent that knows only the
+Read-only review of a branch made with any of the skills above, run in a fresh subagent that knows only the
 target and the branch. Produces `REVIEW-{target}-{branch}.md` with severity, file:line, evidence
 and fix per finding.
 
@@ -53,8 +65,8 @@ In `add-oas-support/scripts/`, run from the repository root:
 
 | Script | Checks |
 |--------|--------|
-| `spec-status.mjs --oas X.Y [--parent X.Y]` / `--json-schema <dialect>` | Upstream packages (`UPSTREAM`, exit 3), every editor integration point (`MISSING`, exit 1), version-gated consumers and files naming only the parent version (`DECIDE`), Monaco theme coverage of apidom-ls token types (`NOTE`). `--root` for another checkout. |
-| `check-detection.mjs [--oas X.Y.Z] [--json-schema <URI>] [--sample file=type]` | Runs the editor's real `detectContentType` over built-in samples (all supported specs, nested-`$schema` traps) and checks that no two version selectors of a family match one content type. |
+| `spec-status.mjs --oas X.Y [--parent X.Y]` / `--json-schema <dialect>` / `--spec <family> --version X.Y` | Upstream packages (`UPSTREAM`, exit 3), every editor integration point (`MISSING`, exit 1), version-gated consumers, files naming only the parent version, menus enumerating spec families, structural detection (`DECIDE`), Monaco theme coverage of apidom-ls token types (`NOTE`). Spec families are rows of `SPEC_FAMILIES`. `--root` for another checkout. |
+| `check-detection.mjs [--oas X.Y.Z] [--json-schema <URI>] [--sample file=type]` | Runs the editor's real `detectContentType` over built-in samples (all supported specs, nested-`$schema` traps, documents with A2A-like keys) and checks that no two version selectors of a family match one content type. Other families pass their examples with `--sample`. |
 | `verify-urls.mjs <paths>` / `--diff main` | HTTP status and `#anchor` of URLs (ported from ApiDOM via Swagger UI). |
 | `test/smoke.sh` | Exit-code smoke test of the scripts; run after changing one. |
 
@@ -71,6 +83,9 @@ Each case's `fixture.md` says which commit to check out.
 | add-oas-support | `oas-3-3-upstream-gate` | `main` | generalization: a version no skill mentions; must stop at the upstream gate |
 | add-json-schema-support | `json-schema-2020-12-plan` | `main` | regression: the design doc's editor part against today's code |
 | add-json-schema-support | `json-schema-draft-07-plan` | `main` | partial generalization: a dialect the skill only tabulates |
+| add-spec-support | `a2a-1-plan` | `main` | regression: the family profile's decisions for a family the editor lacks |
+| add-spec-support | `asyncapi-3-1-replay` | `624a00e7^` | regression: replays #5909 (a minor line) plus the gaps found after it |
+| add-spec-support | `arazzo-1-upstream-gate` | `main` | generalization: a family with ApiDOM adapters but no apidom-ls support; must stop |
 | review-spec-support | `planted-defects-oas-3-2` | `a7e7a960` + `evals/planted-defects.patch` | 7 planted defects; 6 visible to the scripts, 1 only to reading |
 
 Run them with skill-creator (one run with the skill and one without per case, read-only in the

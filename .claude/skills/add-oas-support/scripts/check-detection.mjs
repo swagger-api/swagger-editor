@@ -24,7 +24,10 @@ Usage:
   -h, --help     show this help
 
 Built-in samples cover OpenAPI 2.0/3.0/3.1/3.2, AsyncAPI 2/3, API Design Systems, JSON Schema
-2020-12 and documents whose only $schema is nested (must not be detected as JSON Schema).
+2020-12, documents whose only $schema is nested (must not be detected as JSON Schema), and
+OpenAPI and JSON Schema documents with A2A-like "capabilities"/"skills" keys (must keep their
+type). For another spec family (/add-spec-support) pass its JSON and YAML examples with
+--sample.
 
 Also evaluates every version-specific selector (selectIsContentTypeOpenAPI31x, ...) on the
 detected content type: two true selectors of one family are a MISMATCH.
@@ -59,7 +62,7 @@ const { Map } = await import('immutable');
 
 // Version-specific selectors per family, e.g. selectIsContentTypeOpenAPI31x. For any content
 // type at most one selector of a family may be true.
-const FAMILIES = ['OpenAPI', 'AsyncAPI', 'JSONSchema'];
+const FAMILIES = ['OpenAPI', 'AsyncAPI', 'JSONSchema', 'A2A', 'Arazzo'];
 const versionSelectors = Object.entries(selectors).filter(([name]) =>
   FAMILIES.some((family) => new RegExp(`^selectIsContentType${family}\\d`).test(name))
 );
@@ -95,6 +98,26 @@ const samples = [
     'OpenAPI 3.1.1 YAML with nested $schema',
     `openapi: 3.1.1\ninfo:\n  title: t\n  version: '1'\ncomponents:\n  schemas:\n    A:\n      $schema: ${schema202012}\n      type: object\n`,
     oasType('3.1.1', 'yaml'),
+  ],
+  [
+    'OpenAPI 3.1.1 JSON with A2A-like keys',
+    JSON.stringify({
+      openapi: '3.1.1',
+      info: { title: 't', version: '1' },
+      paths: {},
+      'x-agent': { capabilities: {}, skills: [] },
+    }),
+    oasType('3.1.1', 'json'),
+  ],
+  [
+    'JSON Schema 2020-12 JSON with A2A-like keys',
+    JSON.stringify({
+      $schema: schema202012,
+      type: 'object',
+      properties: { capabilities: { type: 'object' } },
+      examples: [{ capabilities: {}, skills: [] }],
+    }),
+    `application/schema+json;version=${schema202012}`,
   ],
   [
     'AsyncAPI 2.6.0 YAML',

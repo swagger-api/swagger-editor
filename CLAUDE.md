@@ -489,9 +489,10 @@ media types such as `application/vnd.oai.openapi+yaml;version=3.2.0`. Each versi
 `selectIsContentType*` selector registered in the plugin's `index.js`; preview plugins wrap
 `EditorPreview` and render on those selectors (see `editor-preview-asyncapi`).
 
-For OpenAPI versions and standalone JSON Schema use the skills in `.claude/skills/`
-(`/add-oas-support`, `/add-json-schema-support`, `/review-spec-support`); they list every
-integration point and bundle checks (`spec-status.mjs`, `check-detection.mjs`).
+Use the skills in `.claude/skills/`: `/add-oas-support` (OpenAPI versions),
+`/add-json-schema-support` (standalone JSON Schema), `/add-spec-support` (AsyncAPI, A2A, Arazzo
+and other ApiDOM-supported families), `/review-spec-support`; they list every integration point
+and bundle checks (`spec-status.mjs`, `check-detection.mjs`).
 
 ### Adding E2E Tests
 
@@ -667,11 +668,13 @@ Off globally. Use `typescript-strict-plugin` per file. New files should aim for 
 3. Look at similar plugins for patterns to copy
 4. Check Playwright tests to see how features are exercised
 
-### Adding OpenAPI or JSON Schema Support
+### Adding Spec Support (OpenAPI, JSON Schema, AsyncAPI, A2A, ...)
 Use the skills in `.claude/skills/` (overview in `.claude/skills/README.md`): `/add-oas-support`
 for a new OpenAPI version, `/add-json-schema-support` for standalone JSON Schema (design doc:
-Confluence SHUB "Standalone JSON Schema"), `/review-spec-support` to review either in a fresh
-context. They start by checking the upstream packages (ApiDOM, swagger-client, swagger-ui-react).
+Confluence SHUB "Standalone JSON Schema"), `/add-spec-support` for any other spec family or its
+version lines, `/review-spec-support` to review any of them in a fresh context. They start by
+checking the upstream packages (ApiDOM, apidom-ls, and for OpenAPI swagger-client and
+swagger-ui-react).
 
 ### Before Committing
 - [ ] `npm run lint:fix`

@@ -56,8 +56,9 @@ to re-check it. Status legend: ⏳ open, ✅ done (add commit/PR reference).
 - **Where:** `editor-content-type/actions.js`, the two `asyncApi3*Match` branches. The AsyncAPI 3
   adapters exist (apidom-ls depends on them) and export `detectionRegExp`.
 - **Fix:** add `@swagger-api/apidom-parser-adapter-asyncapi-{json,yaml}-3` as dependencies (with
-  overrides) and use their regexes; `check-detection.mjs` must stay green. Out of these skills'
-  scope (AsyncAPI); listed because the skills tell agents not to copy this pattern.
+  overrides) and use their regexes; `check-detection.mjs` must stay green. In scope of
+  `/add-spec-support`; `spec-status.mjs --spec asyncapi --version 3.1` reports it (`MISSING deps`
+  and `detection`).
 
 ### 1.7 ⏳ Monaco themes have no entry for 8 apidom-ls OpenAPI token types
 
@@ -81,6 +82,13 @@ per-plugin `initialState: Map(...)`, `action.payload.requestId`). They are now c
 `editor-preview-asyncapi` (actions, reducers, selectors) and `editor-preview-swagger-ui` (wrapper),
 and say that reducers and selectors receive the plugin's own state slice and that request IDs
 travel in `meta`.
+
+### 1.9 ⏳ No Playwright test loads an AsyncAPI 3.1 example
+
+- **Check:** `spec-status.mjs --spec asyncapi --version 3.1` (`MISSING tests`; the same run
+  also reports 1.4 and 1.6). `plugin.top-bar.spec.ts` loads only the AsyncAPI 2.6 examples.
+- **Fix:** add "should load AsyncAPI 3.1 Petstore example as YAML" next to the 2.6 tests.
+- **Commit:** `test: cover AsyncAPI 3.1 examples`
 
 ## 2. Cross-Repository Work Found
 

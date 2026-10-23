@@ -15,7 +15,8 @@ and the editor wires it in:
 | Preview | `swagger-ui-react` (`isOAS3X` plugin) + `swagger-client` resolve strategy | routing (generic for OpenAPI), version bump |
 | Examples, menus, file names | the editor | fixture, Load Example item, generator/convert menus, `Save as` name |
 
-So a version is supported only when every upstream release exists. The OAS 3.2 work
+So a version is supported only when every upstream release exists. Other spec families
+(AsyncAPI, A2A, Arazzo) use `/add-spec-support`; standalone JSON Schema `/add-json-schema-support`. The OAS 3.2 work
 (`a7e7a960`, #5720) is the reference implementation; read its diff when a step below is unclear:
 `git show a7e7a960 -- src package.json README.md`.
 

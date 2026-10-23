@@ -29,6 +29,14 @@ for dialect in 2020-12 2019-09 draft-07 draft-06 draft-04; do
   expect "0 1 3" node "$DIR/spec-status.mjs" --json-schema "$dialect"
 done
 expect "3" node "$DIR/spec-status.mjs" --oas 9.9
+expect "2" node "$DIR/spec-status.mjs" --spec a2a
+expect "2" node "$DIR/spec-status.mjs" --spec raml --version 1.0
+expect "2" node "$DIR/spec-status.mjs" --oas 3.2 --version 3.2
+for family in "asyncapi 3.1" "asyncapi 2.6" "a2a 1.0" "arazzo 1.0"; do
+  set -- $family
+  expect "0 1 3" node "$DIR/spec-status.mjs" --spec "$1" --version "$2"
+done
+expect "3" node "$DIR/spec-status.mjs" --spec asyncapi --version 9.0
 expect "0" node "$DIR/check-detection.mjs" --help
 expect "2" node "$DIR/check-detection.mjs" --oas 3.2
 expect "2" node "$DIR/check-detection.mjs" --sample missing.yaml=text/yaml

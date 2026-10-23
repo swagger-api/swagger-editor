@@ -1,7 +1,8 @@
 #!/usr/bin/env node
 /**
- * Reports which pieces of OpenAPI or standalone JSON Schema support exist in SwaggerEditor and in
- * the upstream packages it consumes (ApiDOM, apidom-ls, swagger-client, swagger-ui-react).
+ * Reports which pieces of OpenAPI, standalone JSON Schema or other spec family (AsyncAPI, A2A,
+ * Arazzo) support exist in SwaggerEditor and in the upstream packages it consumes (ApiDOM,
+ * apidom-ls, swagger-client, swagger-ui-react).
  * Every check reads files in this repository or its node_modules; nothing is fetched.
  */
 import { existsSync, readFileSync, readdirSync, statSync } from 'node:fs';
@@ -49,14 +50,31 @@ const DIALECTS = {
   },
 };
 
+// Spec families other than OpenAPI and JSON Schema (/add-spec-support). Package names follow
+// ApiDOM's pattern: apidom-ns-{id}-{major}, apidom-parser-adapter-{id}-{json,yaml}-{major}.
+// `prefix` names editor code: selectIsContentType{prefix}, select{prefix}...JSON/YAML fixtures,
+// {prefix}...MenuItem. `versionedNames` adds the version digits to fixture and menu-item names
+// (AsyncAPI31PetstoreMenuItem); families with one version line leave them out.
+const SPEC_FAMILIES = {
+  asyncapi: { title: 'AsyncAPI', prefix: 'AsyncAPI', versionedNames: true },
+  a2a: { title: 'A2A', prefix: 'A2A', versionedNames: false },
+  arazzo: { title: 'Arazzo', prefix: 'Arazzo', versionedNames: true },
+};
+// Family selectors in editor-content-type; a consumer naming two of them enumerates families.
+const FAMILY_SELECTOR =
+  /selectIsContentType(OpenAPI|AsyncAPI|APIDesignSystems|JSONSchema|A2A|Arazzo)\(/g;
+
 const USAGE = `
 Usage:
   node spec-status.mjs --oas <major.minor> [--parent <major.minor>]
   node spec-status.mjs --json-schema <2020-12|2019-09|draft-07|draft-06|draft-04>
+  node spec-status.mjs --spec <${Object.keys(SPEC_FAMILIES).join('|')}> --version <major.minor>
 
   --oas          OpenAPI version line, e.g. 3.2
   --parent       previous OpenAPI line (default: minor - 1); enables the unwired-file scan
   --json-schema  JSON Schema dialect for standalone support
+  --spec         other spec family (/add-spec-support); add a row to SPEC_FAMILIES for a new one
+  --version      version line of --spec, e.g. 3.1 for AsyncAPI, 1.0 for A2A
   --root         repository root (default: current directory)
   -h, --help     show this help
 
@@ -76,10 +94,18 @@ const { values } = parseCli(USAGE, {
     oas: { type: 'string' },
     parent: { type: 'string' },
     'json-schema': { type: 'string' },
+    spec: { type: 'string' },
+    version: { type: 'string' },
     root: { type: 'string', default: '.' },
   },
   validate: ({ values: v }) => {
-    if (!v.oas === !v['json-schema']) return 'exactly one of --oas or --json-schema is required';
+    if ([v.oas, v['json-schema'], v.spec].filter(Boolean).length !== 1)
+      return 'exactly one of --oas, --json-schema or --spec is required';
+    if (v.spec && !SPEC_FAMILIES[v.spec])
+      return `unknown spec family ${v.spec}: add it to SPEC_FAMILIES in spec-status.mjs`;
+    if (v.spec && !/^\d+\.\d+$/.test(v.version ?? ''))
+      return '--spec needs --version <major.minor>, e.g. 1.0';
+    if (v.version && !v.spec) return '--version goes with --spec (use --oas X.Y for OpenAPI)';
     if (v.oas && !/^\d+\.\d+$/.test(v.oas)) return '--oas takes <major.minor>, e.g. 3.2';
     if (v.parent && !/^\d+\.\d+$/.test(v.parent)) return '--parent takes <major.minor>';
     if (v['json-schema'] && !DIALECTS[v['json-schema']])
@@ -153,6 +179,111 @@ const checkApiDOMVersions = () => {
     report('NOTE', 'deps', `link:apidom lists ${[...new Set(duplicates)].join(', ')} twice`);
 };
 
+/**
+ * ApiDOM packages of one spec version. Runtime imports (detection uses the adapters) belong in
+ * dependencies and overrides; packages used only by the pre-bundled apidom.worker (apidom-ls,
+ * namespaces) belong in devDependencies (#5891). All of them go in the link:apidom script.
+ */
+const checkApiDOMPackages = (namespace, adapters) => {
+  const deps = pkg.dependencies ?? {};
+  const overrides = pkg.overrides ?? {};
+  const link = pkg.scripts?.['link:apidom'] ?? '';
+  adapters.forEach((name) =>
+    check(name in deps, 'deps', `${name} in dependencies`, `${name} not in dependencies`)
+  );
+  const runtimeImportsNamespace = sourceFiles('src').some((file) =>
+    readFileSync(file, 'utf8').includes(`from '${namespace}'`)
+  );
+  if (runtimeImportsNamespace)
+    check(
+      namespace in deps || namespace in (pkg.devDependencies ?? {}),
+      'deps',
+      `${namespace} declared (imported in src)`,
+      `${namespace} is imported in src but not declared in package.json`
+    );
+  [namespace, ...adapters].forEach((name) =>
+    check(
+      new RegExp(`(^|\\s)${name}(\\s|$)`).test(link),
+      'deps',
+      `${name} in the link:apidom script`,
+      `${name} missing from the link:apidom script (npm run link:apidom)`,
+      name === namespace ? 'DECIDE' : 'MISSING'
+    )
+  );
+  adapters.forEach((name) =>
+    check(name in overrides, 'deps', `${name} in overrides`, `${name} not in overrides`)
+  );
+  checkApiDOMVersions();
+};
+
+/**
+ * Example fixture selectors (editor-content-fixtures/selectors/select{name}*.js) and Load Example
+ * menu items ({name}*MenuItem.jsx), each registered and wired into the menu. `name` is e.g.
+ * OpenAPI32, AsyncAPI31 or A2A.
+ */
+const checkExamples = (name) => {
+  const fixtureSelectors = walk(path('src/plugins/editor-content-fixtures/selectors'), (file) =>
+    new RegExp(`/select${name}\\w*\\.js$`).test(file)
+  );
+  const fixtureIndex = read('src/plugins/editor-content-fixtures/index.js');
+  check(
+    fixtureSelectors.length > 0,
+    'examples',
+    `fixture ${fixtureSelectors.map(rel).join(', ')}`,
+    `no src/plugins/editor-content-fixtures/selectors/select${name}*.js fixture`
+  );
+  fixtureSelectors.forEach((file) => {
+    const fixture = file.split('/').pop().replace(/\.js$/, '');
+    check(
+      isRegistered(fixtureIndex, fixture),
+      'examples',
+      `${fixture} registered in editor-content-fixtures/index.js`,
+      `${fixture} not registered in editor-content-fixtures/index.js`
+    );
+    check(
+      read(
+        'src/plugins/top-bar/components/FileMenu/items/LoadExampleNestedMenu/LoadExampleNestedMenuHandler.jsx'
+      ).includes(fixture),
+      'examples',
+      `LoadExampleNestedMenuHandler loads ${fixture}`,
+      `LoadExampleNestedMenuHandler doesn't load ${fixture}`
+    );
+  });
+  const menuDir = 'src/plugins/top-bar/components/FileMenu/items/LoadExampleNestedMenu/items';
+  const menuItems = walk(path(menuDir), (file) =>
+    new RegExp(`/${name}\\w*MenuItem\\.jsx?$`).test(file)
+  );
+  check(
+    menuItems.length > 0,
+    'examples',
+    `Load Example menu item ${menuItems.map(rel).join(', ')}`,
+    `no ${menuDir}/${name}*MenuItem.jsx`
+  );
+  const topBarIndex = read('src/plugins/top-bar/index.js');
+  const nestedMenu = read(
+    'src/plugins/top-bar/components/FileMenu/items/LoadExampleNestedMenu/LoadExampleNestedMenu.jsx'
+  );
+  menuItems.forEach((file) => {
+    const component = file
+      .split('/')
+      .pop()
+      .replace(/\.jsx?$/, '');
+    const systemName = `TopBarFileMenuLoadExampleNestedMenu${component}`;
+    check(
+      topBarIndex.includes(`${systemName}:`),
+      'examples',
+      `${systemName} registered in top-bar/index.js`,
+      `${systemName} not registered in top-bar/index.js`
+    );
+    check(
+      nestedMenu.includes(`'${systemName}'`),
+      'examples',
+      `LoadExampleNestedMenu renders ${systemName}`,
+      `LoadExampleNestedMenu doesn't render ${systemName}`
+    );
+  });
+};
+
 const swaggerUIBundle = () => read('node_modules/swagger-ui-react/swagger-ui-es-bundle-core.js');
 
 /* ------------------------------------------------------------------------------------------ */
@@ -222,37 +353,7 @@ const checkOpenAPIUpstream = (n) => {
 };
 
 const checkOpenAPIEditor = (n) => {
-  const deps = pkg.dependencies ?? {};
-  const overrides = pkg.overrides ?? {};
-  const link = pkg.scripts?.['link:apidom'] ?? '';
-  // Runtime imports (detection uses the adapters) belong in dependencies. Packages used only by
-  // the pre-bundled apidom.worker (apidom-ls, namespaces) belong in devDependencies (#5891).
-  n.adapters.forEach((name) =>
-    check(name in deps, 'deps', `${name} in dependencies`, `${name} not in dependencies`)
-  );
-  const runtimeImportsNamespace = sourceFiles('src').some((file) =>
-    readFileSync(file, 'utf8').includes(`from '${n.namespace}'`)
-  );
-  if (runtimeImportsNamespace)
-    check(
-      n.namespace in deps || n.namespace in (pkg.devDependencies ?? {}),
-      'deps',
-      `${n.namespace} declared (imported in src)`,
-      `${n.namespace} is imported in src but not declared in package.json`
-    );
-  [n.namespace, ...n.adapters].forEach((name) =>
-    check(
-      new RegExp(`(^|\\s)${name}(\\s|$)`).test(link),
-      'deps',
-      `${name} in the link:apidom script`,
-      `${name} missing from the link:apidom script (npm run link:apidom)`,
-      name === n.namespace ? 'DECIDE' : 'MISSING'
-    )
-  );
-  n.adapters.forEach((name) =>
-    check(name in overrides, 'deps', `${name} in overrides`, `${name} not in overrides`)
-  );
-  checkApiDOMVersions();
+  checkApiDOMPackages(n.namespace, n.adapters);
 
   const actions = read('src/plugins/editor-content-type/actions.js');
   n.adapters.forEach((adapter) =>
@@ -286,66 +387,7 @@ const checkOpenAPIEditor = (n) => {
     `selectInferFileNameFromContent doesn't map ${n.selector} to 'openapi${n.underscored}': "Save as" proposes the wrong file name`
   );
 
-  const fixtureSelectors = walk(path('src/plugins/editor-content-fixtures/selectors'), (file) =>
-    new RegExp(`selectOpenAPI${n.compact}\\d*\\w*\\.js$`).test(file)
-  );
-  const fixtureIndex = read('src/plugins/editor-content-fixtures/index.js');
-  check(
-    fixtureSelectors.length > 0,
-    'examples',
-    `fixture ${fixtureSelectors.map(rel).join(', ')}`,
-    `no src/plugins/editor-content-fixtures/selectors/selectOpenAPI${n.compact}*.js fixture`
-  );
-  fixtureSelectors.forEach((file) => {
-    const name = file.split('/').pop().replace(/\.js$/, '');
-    check(
-      isRegistered(fixtureIndex, name),
-      'examples',
-      `${name} registered in editor-content-fixtures/index.js`,
-      `${name} not registered in editor-content-fixtures/index.js`
-    );
-    check(
-      read(
-        'src/plugins/top-bar/components/FileMenu/items/LoadExampleNestedMenu/LoadExampleNestedMenuHandler.jsx'
-      ).includes(name),
-      'examples',
-      `LoadExampleNestedMenuHandler loads ${name}`,
-      `LoadExampleNestedMenuHandler doesn't load ${name}`
-    );
-  });
-  const menuDir = 'src/plugins/top-bar/components/FileMenu/items/LoadExampleNestedMenu/items';
-  const menuItems = walk(path(menuDir), (file) =>
-    new RegExp(`/OpenAPI${n.compact}\\w*MenuItem\\.jsx?$`).test(file)
-  );
-  check(
-    menuItems.length > 0,
-    'examples',
-    `Load Example menu item ${menuItems.map(rel).join(', ')}`,
-    `no ${menuDir}/OpenAPI${n.compact}*MenuItem.jsx`
-  );
-  const topBarIndex = read('src/plugins/top-bar/index.js');
-  const nestedMenu = read(
-    'src/plugins/top-bar/components/FileMenu/items/LoadExampleNestedMenu/LoadExampleNestedMenu.jsx'
-  );
-  menuItems.forEach((file) => {
-    const component = file
-      .split('/')
-      .pop()
-      .replace(/\.jsx?$/, '');
-    const systemName = `TopBarFileMenuLoadExampleNestedMenu${component}`;
-    check(
-      topBarIndex.includes(`${systemName}:`),
-      'examples',
-      `${systemName} registered in top-bar/index.js`,
-      `${systemName} not registered in top-bar/index.js`
-    );
-    check(
-      nestedMenu.includes(`'${systemName}'`),
-      'examples',
-      `LoadExampleNestedMenu renders ${systemName}`,
-      `LoadExampleNestedMenu doesn't render ${systemName}`
-    );
-  });
+  checkExamples(`OpenAPI${n.compact}`);
 
   // Consumers that switch on concrete OpenAPI 3.x versions. A version they don't name is either
   // deliberately unsupported (record why) or forgotten.
@@ -393,10 +435,14 @@ const checkOpenAPIEditor = (n) => {
  * Semantic token types apidom-ls emits for OpenAPI that neither Monaco theme maps. Unmapped
  * types render in the default foreground; new spec objects usually bring new token types.
  */
-const checkThemeTokens = async () => {
-  const tokensFile = path('node_modules/@swagger-api/apidom-ls/src/config/openapi/tokens.mjs');
+const checkThemeTokens = async (config = 'openapi', title = 'OpenAPI') => {
+  const tokensFile = path(`node_modules/@swagger-api/apidom-ls/src/config/${config}/tokens.mjs`);
   if (!existsSync(tokensFile)) {
-    report('NOTE', 'theme', 'apidom-ls OpenAPI token list not found; compare themes by hand');
+    report(
+      'NOTE',
+      'theme',
+      `apidom-ls has no ${title} token list (src/config/${config}/tokens.mjs): no ${title}-specific semantic highlighting, nothing to map in the themes`
+    );
     return;
   }
   const { default: tokens } = await import(pathToFileURL(resolve(tokensFile)).href);
@@ -409,8 +455,8 @@ const checkThemeTokens = async () => {
       unmapped.length === 0 ? 'OK' : 'NOTE',
       'theme',
       unmapped.length === 0
-        ? `${file} maps every apidom-ls OpenAPI token type`
-        : `${file} has no entry for ${unmapped.length} apidom-ls OpenAPI token type(s): ${unmapped.join(', ')} (check the new version's types are among the intended defaults)`
+        ? `${file} maps every apidom-ls ${title} token type`
+        : `${file} has no entry for ${unmapped.length} apidom-ls ${title} token type(s): ${unmapped.join(', ')} (check the new version's types are among the intended defaults)`
     );
   });
 };
@@ -642,6 +688,253 @@ const checkJSONSchemaEditor = (id, d) => {
 };
 
 /* ------------------------------------------------------------------------------------------ */
+/* Other spec families (AsyncAPI, A2A, Arazzo)                                                */
+/* ------------------------------------------------------------------------------------------ */
+
+const familyNames = (id, version) => {
+  const family = SPEC_FAMILIES[id];
+  const [major, minor] = version.split('.');
+  const suffix = `-${major}`;
+  return {
+    ...family,
+    id,
+    version,
+    major,
+    namespace: `@swagger-api/apidom-ns-${id}${suffix}`,
+    adapters: ['json', 'yaml'].map(
+      (format) => `@swagger-api/apidom-parser-adapter-${id}-${format}${suffix}`
+    ),
+    familySelector: `selectIsContentType${family.prefix}`,
+    versionSelector: `selectIsContentType${family.prefix}${major}`,
+    exampleName: family.versionedNames ? `${family.prefix}${major}${minor}` : family.prefix,
+  };
+};
+
+/** The media type prefix the namespace declares, e.g. application/vnd.aai.asyncapi. */
+const familyMediaType = (f) => {
+  const source =
+    read('node_modules', f.namespace, 'src/media-types.mjs') ||
+    read('node_modules', f.namespace, 'src/media-types.ts');
+  const match = source.match(/'(application\/[^;+']+)[^']*;version=/);
+  return match ? match[1] : null;
+};
+
+const checkFamilyUpstream = (f) => {
+  const area = 'upstream';
+  check(
+    existsSync(nodeModule(f.namespace)),
+    area,
+    `${f.namespace}@${installedVersion(f.namespace)} installed`,
+    `${f.namespace} not installed: needs an ApiDOM release with the namespace (/add-spec-version in swagger-api/apidom)`,
+    'UPSTREAM'
+  );
+  f.adapters.forEach((adapter) =>
+    check(
+      existsSync(nodeModule(adapter)),
+      area,
+      `${adapter}@${installedVersion(adapter)} installed`,
+      `${adapter} not installed: needs an ApiDOM release with the parser adapters`,
+      'UPSTREAM'
+    )
+  );
+  const ls = installedVersion('@swagger-api/apidom-ls');
+  check(
+    read('node_modules/@swagger-api/apidom-ls/src/parser-factory.mjs').includes(f.adapters[0]),
+    area,
+    `apidom-ls ${ls} parses ${f.title} (parser-factory imports ${f.adapters[0]})`,
+    `installed apidom-ls (${ls}) doesn't parse ${f.title}: no validation, completion or hover in the editor`,
+    'UPSTREAM'
+  );
+  check(
+    existsSync(path('node_modules/@swagger-api/apidom-ls/src/config', f.id)),
+    area,
+    `apidom-ls ${ls} has src/config/${f.id} (lint rules, completion, documentation)`,
+    `installed apidom-ls (${ls}) has no src/config/${f.id}: documents parse but get no ${f.title} lint rules, completion or hover`,
+    'UPSTREAM'
+  );
+
+  // Adapters whose detectionRegExp has no version group (A2A) identify documents structurally:
+  // the editor has to call the adapter's async detect() and choose the version it reports.
+  f.adapters.forEach((adapter) => {
+    const source = read('node_modules', adapter, 'src/adapter.mjs');
+    if (!source) return;
+    const regex = source.match(/export const detectionRegExp = (.*);/)?.[1] ?? '';
+    if (!/version_(json|yaml)/.test(regex))
+      report(
+        'DECIDE',
+        'detection',
+        `${adapter}: detectionRegExp has no version group, so the document doesn't carry the ${f.title} version; call the adapter's detect() after the regex (as for API Design Systems) and record which version the content type names (the adapter's mediaTypes.latest())`
+      );
+  });
+};
+
+const checkFamilyEditor = async (f) => {
+  checkApiDOMPackages(f.namespace, f.adapters);
+
+  const actions = read('src/plugins/editor-content-type/actions.js');
+  f.adapters.forEach((adapter) =>
+    check(
+      actions.includes(`from '${adapter}'`),
+      'detection',
+      `actions.js imports detection from ${adapter}`,
+      `actions.js doesn't import detectionRegExp/detect from ${adapter} (hand-written regexes drift from what apidom-ls parses)`
+    )
+  );
+  const mediaType = familyMediaType(f);
+  if (mediaType)
+    check(
+      actions.includes(`${mediaType}+json`) && actions.includes(`${mediaType}+yaml`),
+      'detection',
+      `actions.js produces ${mediaType}+json and +yaml content types`,
+      `actions.js has no ${mediaType}+json / +yaml content type (the media type ${f.namespace} declares)`
+    );
+  else report('NOTE', 'detection', `no media type found in ${f.namespace}/src/media-types.mjs`);
+
+  const selectors = read('src/plugins/editor-content-type/selectors.js');
+  const contentTypeIndex = read('src/plugins/editor-content-type/index.js');
+  check(
+    selectors.includes(`export const ${f.familySelector} `) ||
+      selectors.includes(`export const ${f.familySelector}=`),
+    'detection',
+    `${f.familySelector} defined`,
+    `${f.familySelector} not defined in editor-content-type/selectors.js`
+  );
+  check(
+    isRegistered(contentTypeIndex, f.familySelector),
+    'detection',
+    `${f.familySelector} registered in editor-content-type/index.js`,
+    `${f.familySelector} not registered in editor-content-type/index.js`
+  );
+  const hasVersionSelector = selectors.includes(`export const ${f.versionSelector}`);
+  if (hasVersionSelector)
+    check(
+      isRegistered(contentTypeIndex, f.versionSelector),
+      'detection',
+      `${f.versionSelector} registered in editor-content-type/index.js`,
+      `${f.versionSelector} not registered in editor-content-type/index.js`
+    );
+  else
+    report(
+      'DECIDE',
+      'detection',
+      `no ${f.versionSelector}: add it when the family has another version line or a consumer depends on the version, or record why the family selector is enough`
+    );
+  const inferFileName = exportedBlock(selectors, 'selectInferFileNameFromContent');
+  check(
+    [f.familySelector, f.versionSelector].some((name) =>
+      new RegExp(`\\b${name}\\b`).test(inferFileName)
+    ),
+    'detection',
+    `selectInferFileNameFromContent names ${f.title} ${f.major} files`,
+    `selectInferFileNameFromContent doesn't name ${f.title} ${f.major} files: "Save as" proposes "definition"`
+  );
+
+  checkExamples(f.exampleName);
+
+  // Preview routing: an EditorPreview/EditorPreviewPane wrapper that renders on the family
+  // selector, and the swagger-ui-adapter BaseLayout bypass for SwaggerUI-hosted previews.
+  const callsFamily = (file) => readFileSync(file, 'utf8').includes(`${f.familySelector}(`);
+  const routes = sourceFiles('src/plugins')
+    .filter((file) => /\/extensions\/editor-preview\/wrap-components\//.test(file))
+    .filter(callsFamily);
+  check(
+    routes.length > 0,
+    'preview',
+    `EditorPreview routes ${f.title}: ${routes.map(rel).join(', ')}`,
+    `nothing routes ${f.title} in EditorPreview: the fallback says "Content was not recognized as supported language" (add a preview or a no-preview placeholder, references/preview-decision.md)`
+  );
+  check(
+    read('src/plugins/swagger-ui-adapter/extensions/core/wrap-components/BaseLayout.jsx').includes(
+      `${f.familySelector}(`
+    ),
+    'preview',
+    `swagger-ui-adapter BaseLayout short-circuits ${f.title}`,
+    `swagger-ui-adapter BaseLayout doesn't short-circuit ${f.title}: SwaggerUI-hosted previews show "Unable to render this definition"`
+  );
+  const pluginDirs = [
+    ...new Set(routes.map((file) => rel(file).split('/').slice(0, 3).join('/'))),
+  ].filter((dir) => !dir.endsWith('/editor-preview'));
+  pluginDirs.forEach((dir) => {
+    const plugin = dir.split('/').pop();
+    const importPath = `'plugins/${plugin}/index`;
+    check(
+      read('src/App.tsx').includes(importPath),
+      'exports',
+      `src/App.tsx exports ${plugin} in SwaggerEditor.plugins`,
+      `src/App.tsx doesn't import ${plugin} into SwaggerEditor.plugins`
+    );
+    ['monaco', 'textarea'].forEach((preset) =>
+      check(
+        read('src/presets', preset, 'index.js').includes(importPath),
+        'exports',
+        `${preset} preset includes ${plugin}`,
+        `src/presets/${preset}/index.js doesn't include ${plugin}`
+      )
+    );
+    check(
+      read('README.md').includes(plugin),
+      'docs',
+      `README lists ${plugin}`,
+      `README.md plugin list has no ${plugin}`
+    );
+  });
+
+  // Consumers that enumerate spec families (Download Resolved, ...) and don't name this one.
+  sourceFiles('src/plugins')
+    .filter((file) => !file.includes('/editor-content-type/'))
+    .filter((file) => !/\/extensions\/editor-preview\/|\/swagger-ui-adapter\//.test(file))
+    .forEach((file) => {
+      const families = new Set(
+        [...readFileSync(file, 'utf8').matchAll(FAMILY_SELECTOR)].map((m) => m[1])
+      );
+      if (families.size >= 2 && !families.has(f.prefix))
+        report(
+          'DECIDE',
+          'consumers',
+          `${rel(file)} enables ${[...families].join(', ')} but not ${f.title} (support it, or record why not)`
+        );
+    });
+  // Consumers that switch on concrete versions of this family.
+  sourceFiles('src/plugins')
+    .filter((file) => !file.includes('/editor-content-type/'))
+    .forEach((file) => {
+      const source = readFileSync(file, 'utf8');
+      if (
+        new RegExp(`${f.familySelector}\\d+\\(`).test(source) &&
+        !source.includes(`${f.versionSelector}(`)
+      )
+        report(
+          'DECIDE',
+          'consumers',
+          `${rel(file)} switches on ${f.title} versions but not on ${f.versionSelector}`
+        );
+    });
+
+  await checkThemeTokens(f.id, f.title);
+
+  const docsPattern = new RegExp(`${f.title}[^\\n]*\\b${f.major}(\\.|\\b)`);
+  ['README.md', 'CLAUDE.md'].forEach((file) =>
+    check(
+      docsPattern.test(read(file)),
+      'docs',
+      `${file} lists ${f.title} ${f.major}.x`,
+      `${file} doesn't list ${f.title} ${f.major}.x in its supported-specs line`
+    )
+  );
+
+  const testLabel = f.versionedNames ? `${f.title} ${f.version}` : f.title;
+  const e2eHits = walk(path('test/playwright/e2e'), (file) => file.endsWith('.ts')).filter((file) =>
+    readFileSync(file, 'utf8').includes(testLabel)
+  );
+  check(
+    e2eHits.length > 0,
+    'tests',
+    `Playwright specs mention "${testLabel}": ${e2eHits.map(rel).join(', ')}`,
+    `no Playwright spec mentions "${testLabel}" (Load Example, detection, preview or placeholder)`
+  );
+};
+
+/* ------------------------------------------------------------------------------------------ */
 
 if (values.oas) {
   const n = oasNames(values.oas);
@@ -652,6 +945,10 @@ if (values.oas) {
   await checkThemeTokens();
   if (parentVersion) checkOpenAPIUnwired(n, oasNames(parentVersion));
   else report('NOTE', 'unwired', 'no parent version: pass --parent for the unwired-file scan');
+} else if (values.spec) {
+  const f = familyNames(values.spec, values.version);
+  checkFamilyUpstream(f);
+  await checkFamilyEditor(f);
 } else {
   const id = values['json-schema'];
   checkJSONSchemaUpstream(id, DIALECTS[id]);

@@ -1,6 +1,6 @@
 ---
 name: review-spec-support
-description: Reviews a SwaggerEditor branch or PR that adds OpenAPI version support or standalone JSON Schema support, from a fresh context, against the official specification, the upstream packages actually installed and the editor's integration points - detection exclusivity and order, selector registration, version-gated consumers, dependency placement, Load Example wiring, preview routing and the swagger-ui-adapter bypass, validation markers, theme tokens, docs and Playwright coverage - and produces a findings report with file:line evidence and spec citations. Use after /add-oas-support or /add-json-schema-support, or whenever someone asks to review, audit or double-check spec-support changes in swagger-editor ("review my OAS 3.3 branch", "check the JSON Schema preview PR"), even if they don't name this skill.
+description: Reviews a SwaggerEditor branch or PR that adds OpenAPI version support, standalone JSON Schema support or another spec family (AsyncAPI, A2A, Arazzo), from a fresh context, against the official specification, the upstream packages actually installed and the editor's integration points - detection exclusivity and order, selector registration, version-gated consumers, dependency placement, Load Example wiring, preview routing and the swagger-ui-adapter bypass, validation markers, theme tokens, docs and Playwright coverage - and produces a findings report with file:line evidence and spec citations. Use after /add-oas-support, /add-json-schema-support or /add-spec-support, or whenever someone asks to review, audit or double-check spec-support changes in swagger-editor ("review my OAS 3.3 branch", "check the JSON Schema preview PR", "review the A2A branch"), even if they don't name this skill.
 ---
 
 # Review Spec Support Changes in SwaggerEditor
@@ -8,10 +8,10 @@ description: Reviews a SwaggerEditor branch or PR that adds OpenAPI version supp
 The author of a change reviews what they meant to write; this skill reviews what the branch
 does. Run it in a **fresh subagent** that gets only:
 
-- the target: `OpenAPI X.Y` or `JSON Schema <dialect>`,
+- the target: `OpenAPI X.Y`, `JSON Schema <dialect>` or `<Family> X.Y` (`A2A 1.0`),
 - the branch or PR number,
-- optionally the tracking doc path (`ADD-OAS-X.Y.md` / `ADD-JSON-SCHEMA-<dialect>.md`) for the
-  author's recorded decisions.
+- optionally the tracking doc path (`ADD-OAS-X.Y.md` / `ADD-JSON-SCHEMA-<dialect>.md` /
+  `ADD-SPEC-<FAMILY>-X.Y.md`) for the author's recorded decisions.
 
 Don't give it the author's summary or conclusions. It is read-only: it reports, it doesn't fix.
 
@@ -23,11 +23,13 @@ Don't give it the author's summary or conclusions. It is read-only: it reports, 
 2. `git diff --stat main...HEAD` and the full diff of `src`, `test`, `package.json`, `README.md`,
    `CLAUDE.md`.
 3. Status: `node .claude/skills/add-oas-support/scripts/spec-status.mjs --oas X.Y --parent X.Y-1`
-   or `--json-schema <dialect>`; `node .claude/skills/add-oas-support/scripts/verify-urls.mjs --diff main`.
+   or `--json-schema <dialect>` or `--spec <family> --version X.Y`;
+   `node .claude/skills/add-oas-support/scripts/verify-urls.mjs --diff main`.
 4. The spec: OpenAPI raw markdown of the pinned patch
    (`https://raw.githubusercontent.com/OAI/OpenAPI-Specification/main/versions/{X.Y.Z}.md`) and the
    parent; for JSON Schema the meta-schemas in
-   `.claude/skills/add-json-schema-support/references/dialects.md`.
+   `.claude/skills/add-json-schema-support/references/dialects.md`; for other families the
+   release named in `.claude/skills/add-spec-support/references/families/<family>.md`.
 
 ## Checks
 

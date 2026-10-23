@@ -1,8 +1,9 @@
 # Review Checklist
 
 Each item says what to check and how to get evidence. Scripts live in
-`.claude/skills/add-oas-support/scripts/`. "Parent" is the previous OpenAPI line, or for JSON
-Schema the 2020-12 code already on `main`.
+`.claude/skills/add-oas-support/scripts/`. "Parent" is the previous OpenAPI line, for JSON
+Schema the 2020-12 code already on `main`, for another spec family its previous line (or, for a
+new family, the neighbouring specs that must keep their behaviour).
 
 ## 1. Upstream and Dependencies
 
@@ -18,7 +19,8 @@ Schema the 2020-12 code already on `main`.
 
 ## 2. Detection
 
-- [ ] `check-detection.mjs --oas X.Y.Z` / `--json-schema <URI>`: compare with the same run on
+- [ ] `check-detection.mjs --oas X.Y.Z` / `--json-schema <URI>` / `--sample <file>=<type>`
+      (spec families: the branch's own JSON and YAML fixtures): compare with the same run on
       `main` (`git stash` is not needed: `--root` a `main` worktree). New `MISMATCH` lines are
       blockers.
 - [ ] Branches use the adapter's `detectionRegExp` when the adapter exports one.
@@ -26,6 +28,10 @@ Schema the 2020-12 code already on `main`.
       `isValidYAMLObject` guards, version from `version_json` / `version_json ?? version_yaml`.
 - [ ] JSON Schema: root `$schema` only; spec documents with nested schemas keep their spec
       content type (the script's built-in samples cover this).
+- [ ] Spec families with structural detection (no `version_*` group in the adapter regex, e.g.
+      A2A): the branch also awaits the adapter's `detect()`, sits after the version-keyed and
+      JSON Schema branches, and the tracking doc says which version the content type names.
+      Content types use the namespace's media type (`apidom-ns-*/src/media-types.mjs`).
 
 ## 3. Selectors and Registration
 
@@ -52,9 +58,12 @@ Schema the 2020-12 code already on `main`.
       `JSON Schema 2020-12`); names of new methods and components match the parent's pattern
       letter for letter.
 
-## 6. Preview (JSON Schema, or any new preview)
+## 6. Preview (JSON Schema, spec families, or any new preview)
 
 - [ ] `EditorPreview` wrap returns a new component and falls back to `<Original {...system} />`.
+- [ ] Spec families: a detected document never shows `EditorPreviewFallback` ("Content was not
+      recognized"); the preview option (placeholder, renderer, custom) matches the tracking doc
+      (`.claude/skills/add-spec-support/references/preview-decision.md`).
 - [ ] `swagger-ui-adapter` `BaseLayout` bypass exists for the new content type.
 - [ ] Render states: loading, parse failure, unsupported dialect, success.
 - [ ] The `withJSONSchema202012SystemContext` HOC is not recreated on every render.
@@ -73,8 +82,9 @@ Schema the 2020-12 code already on `main`.
 
 ## 8. Exports and Docs
 
-- [ ] New plugins: `src/presets/monaco/index.js`, `SwaggerEditor.plugins` in `src/App.tsx`,
-      README plugin list and "Using preview plugins in SwaggerUI".
+- [ ] New plugins: `src/presets/monaco/index.js` and `src/presets/textarea/index.js`,
+      `SwaggerEditor.plugins` in `src/App.tsx`, README plugin list and "Using preview plugins in
+      SwaggerUI", CLAUDE.md plugin list.
 - [ ] README and CLAUDE.md supported-version lists.
 - [ ] `verify-urls.mjs --diff main`: 0 `BROKEN`; every `UNVERIFIED` looked at.
 
