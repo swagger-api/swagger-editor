@@ -1,6 +1,6 @@
 ---
 name: add-json-schema-support
-description: Delivers standalone JSON Schema (a document that is only a schema, identified by its root `$schema`, starting with 2020-12) in SwaggerEditor, following the SwaggerHub "Standalone JSON Schema" design (Confluence SHUB 4687691955) - detection, an `editor-preview-json-schema` plugin rendering through Swagger UI's JSONSchema202012 renderer, the swagger-ui-adapter BaseLayout bypass, validation markers (ajv for the MVP plan, apidom-ls for the full plan), syntax highlighting, Load Example, exports, docs and Playwright tests, gated by `spec-status.mjs --json-schema`. Also covers adding further dialects (2019-09, Draft 7/6/4). Use whenever someone wants SwaggerEditor to edit, preview, validate or highlight a plain JSON Schema file, asks why a `$schema` document shows "Unable to render this definition" or the Swagger UI preview, or plans the editor part of standalone JSON Schema, even if they don't name this skill.
+description: Delivers standalone JSON Schema (a document that is only a schema, identified by its root `$schema`, starting with 2020-12) in SwaggerEditor, following the SwaggerHub "Standalone JSON Schema" design (Confluence SHUB 4687691955), with the ApiDOM part taken as done - ApiDOM JSON Schema parser adapters for detection and parsing, apidom-ls for validation, completion, hover and semantic highlighting, an `editor-preview-json-schema` plugin rendering through Swagger UI's JSONSchema202012 renderer, the swagger-ui-adapter BaseLayout bypass, theme tokens, Load Example, exports, docs and Playwright tests, gated by `spec-status.mjs --json-schema`. Also covers adding further dialects (2019-09, Draft 7/6/4). Use whenever someone wants SwaggerEditor to edit, preview, validate or highlight a plain JSON Schema file, asks why a `$schema` document shows "Unable to render this definition" or the Swagger UI preview, or plans the editor part of standalone JSON Schema, even if they don't name this skill.
 ---
 
 # Add Standalone JSON Schema Support to SwaggerEditor
@@ -10,73 +10,76 @@ The design doc splits the work across three repositories:
 
 | Layer | Repository | Provides |
 |-------|------------|----------|
-| Parse, refract, language service | ApiDOM | `apidom-ns-json-schema-*`, `apidom-parser-adapter-json-schema-{json,yaml}-2020-12`, apidom-ls rules |
+| Parse, refract, language service | ApiDOM | `apidom-ns-json-schema-*`, `apidom-parser-adapter-json-schema-{json,yaml}-<dialect>`, apidom-ls validation, completion, hover and semantic tokens |
 | Render | Swagger UI | `JSONSchema202012` renderer and `withJSONSchema202012SystemContext` (2020-12, also for 2019-09/Draft 7); legacy `JSONSchema5` plugin's `ModelWrapper`/`Model` (Draft 4/5, Draft 6 undecided) |
-| Edit and display | SwaggerEditor (this skill) | detection, `editor-preview-json-schema`, validation markers, highlighting, examples |
+| Edit and display | SwaggerEditor (this skill) | dependencies, detection, `editor-preview-json-schema`, theme tokens, examples |
 
-and offers two delivery plans: **full** (ApiDOM first, then Swagger UI, then the editor, with
-apidom-ls validation, completion and hover) and **MVP** (Swagger UI and the editor only; ajv
-validation translated to Monaco markers, basic highlighting, no completion or hover). Read
-`references/design-and-delivery.md` for the doc's content, the open decisions and how they map
-to the PRs below.
+**This skill takes the ApiDOM layer as done.** It implements the SwaggerEditor part of the
+doc's complete delivery plan: the editor consumes ApiDOM's JSON Schema adapters and apidom-ls
+the same way it consumes them for OpenAPI. Don't build a separate validator, Monarch grammar or
+completion source in the editor, and don't re-verify ApiDOM's JSON Schema support; bump to the
+latest ApiDOM release and use it. Read `references/design-and-delivery.md` for the doc's
+content, the open decisions and how they map to the PRs below.
 
 ## Bundled Tools
 
 | Tool | Use |
 |------|-----|
-| `node .claude/skills/add-oas-support/scripts/spec-status.mjs --json-schema <dialect>` | Upstream state (ApiDOM namespace and adapters, apidom-ls parsing and rule coverage, swagger-ui-react renderer and HOC, ajv) and every editor integration point. `UPSTREAM` blocks; `NOTE` lines tell which plan an absence blocks. |
+| `node .claude/skills/add-oas-support/scripts/spec-status.mjs --json-schema <dialect>` | Swagger UI renderer and HOC in swagger-ui-react (`UPSTREAM` blocks), ApiDOM packages declared as dependencies, and every editor integration point. |
 | `node .claude/skills/add-oas-support/scripts/check-detection.mjs --json-schema <$schema URI>` | Runs the editor's real detection over samples, including documents whose only `$schema` is nested (must stay plain JSON/YAML) and OpenAPI documents with nested `$schema`. |
 | `node .claude/skills/add-oas-support/scripts/verify-urls.mjs <paths>` / `--diff main` | URL and anchor check (meta-schema URIs, docs links). |
 | `references/design-and-delivery.md` | Design doc digest, open decisions, plan-to-PR mapping. Read at Step 0. |
-| `references/preview-plugin.md` | Plugin anatomy with the real files to copy, rendering, parsing, validation, highlighting. Read at Step 3. |
-| `references/dialects.md` | `$schema` URIs, ApiDOM packages, renderer and ajv class per dialect; cross-dialect references. Read at Step 1. |
+| `references/preview-plugin.md` | Plugin anatomy with the real files to copy, parsing, rendering, language features. Read at Step 3. |
+| `references/dialects.md` | `$schema` URIs, ApiDOM packages and renderer per dialect; cross-dialect references. Read at Step 1. |
 | `references/keyword-map-template.md` | Per-keyword coverage table for the tracking doc. Read at Step 1. |
 | `../add-oas-support/references/testing.md` | Playwright and Vitest patterns. Read at Step 5. |
 | `../add-oas-support/references/review-lessons.md` | General wiring lessons (registration, cross-plugin imports, dependencies). Read before Step 2. |
 
-## Step 0: Plan, Dialect and Status (every invocation)
+## Step 0: Dialect and Status (every invocation)
 
 1. **Dialect.** The doc starts with 2020-12 only; other dialects are later increments. Use the
    one the user names, else 2020-12.
 2. Run `spec-status.mjs --json-schema <dialect>` and read `references/design-and-delivery.md`.
-3. **Plan.** Ask the user: MVP or full. Present the facts from the status output that decide it:
-   whether apidom-ls parses standalone JSON Schema (parser-factory line), how many keywords its
-   rules cover, whether the JSON Schema parser adapters are installed. Fallback when you can't
-   ask (subagent): MVP when apidom-ls doesn't parse standalone JSON Schema, otherwise full;
-   record the choice in the tracking doc.
-4. **Stop on `UPSTREAM`.** A missing renderer or HOC in swagger-ui-react blocks the preview;
+3. **Stop on `UPSTREAM`.** A missing renderer or HOC in swagger-ui-react blocks the preview;
    report it as Swagger UI work (`swagger-api/swagger-ui`; its `/add-json-schema-support` skill is
-   in progress on branch `docs/claude-skills-oas-json-schema`), and
-   the full plan's ApiDOM gaps as ApiDOM work (`/add-spec-version` or `/update-ls-config` in
-   `swagger-api/apidom`). Pieces that don't depend on the missing package (detection, fixture)
-   may proceed only if the user agrees.
+   in progress on branch `docs/claude-skills-oas-json-schema`). Pieces that don't depend on the
+   renderer (dependencies, detection, fixture) may proceed only if the user agrees.
 
 ## Step 1: Tracking Doc and Keyword Map
 
-1. Create `ADD-JSON-SCHEMA-{DIALECT}.md` at the repo root (uncommitted): plan, dialect, status
-   output, decisions, and the keyword map from `references/keyword-map-template.md`.
+1. Create `ADD-JSON-SCHEMA-{DIALECT}.md` at the repo root (uncommitted): dialect, ApiDOM and
+   swagger-ui-react versions, status output, decisions, and the keyword map from
+   `references/keyword-map-template.md`.
 2. Build the keyword map from the dialect's meta-schema vocabularies
    (`references/dialects.md` gives the URIs; fetch them, don't list keywords from memory). For
    each keyword: rendered by the Swagger UI renderer (component name, or "extension keywords"
-   catch-all), validated (ajv / apidom-ls), completion and hover (apidom-ls config directory),
-   in the example fixture. Mark each row MVP / full / out.
-3. **Checkpoint:** show the plan, the PR split below and the keyword rows that are out of scope;
-   confirm before code. As a subagent, record assumptions and continue.
+   catch-all), in the example fixture, and in scope or out. Validation, completion and hover
+   come from apidom-ls and need no per-keyword editor work.
+3. **Checkpoint:** show the PR split below and the keyword rows that are out of scope; confirm
+   before code. As a subagent, record assumptions and continue.
 
-## Step 2: PR 1, Detection and Routing Foundations
+## Step 2: PR 1, Dependencies and Detection
 
 Only what's missing per `spec-status.mjs` (2020-12 detection, selectors, fixture and menu item
 already exist on `main`):
 
-1. Detection branch(es) in `editor-content-type/actions.js` for the dialect's `$schema` URI(s):
-   JSON then YAML, content type `application/schema+json;version=<uri>` / `+yaml`, after the
-   OpenAPI/AsyncAPI/ADS branches so a spec document with a nested `$schema` is never taken for a
-   schema. Detection should key on the **root** `$schema` (design doc: "the root schema always
-   contains `$schema`"); check it with `check-detection.mjs --json-schema <URI>` and test it with
-   the doc's nested-`$schema` examples (`references/dialects.md`).
-2. Selector `selectIsContentTypeJSONSchema<Suffix>` (registered), and
+1. **Dependencies.** Bump every `@swagger-api/apidom-*` package to the latest release (one
+   version for all). Add `@swagger-api/apidom-parser-adapter-json-schema-json-<dialect>` and
+   `-yaml-<dialect>` to `dependencies` (runtime imports: detection and the preview's parsing),
+   `overrides` and `link:apidom`, like the OpenAPI adapters
+   (`../add-oas-support/references/integration-points.md` section 1). apidom-ls stays in
+   `devDependencies` (worker-only).
+2. **Detection** in `editor-content-type/actions.js`: JSON then YAML branches using the
+   adapters' `detectionRegExp` (its version group is the dialect id, e.g. `2020-12`; keep the
+   editor's content-type format `application/schema+json;version=<$schema URI>` so the existing
+   selectors keep working), after the OpenAPI/AsyncAPI/ADS branches. Detection keys on the
+   **root** `$schema` (design doc: "the root schema always contains `$schema`"); the adapter
+   regexes alone also match a nested `$schema`, so confirm the match is at the root. Check with
+   `check-detection.mjs --json-schema <URI>` and test with the doc's nested-`$schema` examples
+   (`references/dialects.md`).
+3. Selector `selectIsContentTypeJSONSchema<Suffix>` (registered), and
    `selectInferFileNameFromContent` naming schema files (e.g. `schema.json`/`.yaml`).
-3. Fixture and Load Example item if missing; the fixture shows the dialect's keywords that the
+4. Fixture and Load Example item if missing; the fixture shows the dialect's keywords that the
    renderer displays.
 
 May merge with PR 2 when small.
@@ -86,8 +89,9 @@ May merge with PR 2 when small.
 Follow `references/preview-plugin.md`:
 
 1. Plugin with its own state (`editorPreviewJSONSchema`: parse status, parse result, errors),
-   parsing the content with the generic ApiDOM JSON/YAML adapters and refracting it with the
-   dialect's namespace element, on a `detectContentTypeSuccess` wrap-action.
+   parsing the content with the dialect's ApiDOM JSON Schema adapter (`parse` returns a parse
+   result whose element is the dialect's JSON Schema element), on a `detectContentTypeSuccess`
+   wrap-action.
 2. `EditorPreview` wrap that renders the preview for `selectIsContentTypeJSONSchema()` and the
    dialect's renderer through `getComponent` (`JSONSchema202012` inside
    `withJSONSchema202012SystemContext`), plus parse-error and unknown-dialect states.
@@ -97,17 +101,20 @@ Follow `references/preview-plugin.md`:
 4. Register in `src/presets/monaco/index.js`, export in `SwaggerEditor.plugins` (`src/App.tsx`),
    list in README's plugin list and the "Using preview plugins in SwaggerUI" examples.
 
-## Step 4: PR 3, Validation and Highlighting
+## Step 4: PR 3, Language Features and Highlighting
 
-- **MVP:** ajv (`references/dialects.md` for the class per dialect) validating the parsed
-  schema against the dialect's meta-schema, errors mapped to Monaco markers with source
-  positions through `fn.registerMarkerDataProvider` (pattern:
-  `editor-preview-asyncapi/monaco.contribution.js`). Add `ajv` as a direct dependency.
-  Highlighting: decide between the generic ApiDOM tokens and a Monarch definition for the
-  dialect's keywords; record it.
-- **Full:** nothing to build here until apidom-ls parses the dialect; then bump apidom, check
-  semantic tokens against both themes (`se-vs-light.js`, `se-vs-dark.js`), and remove any MVP
-  ajv provider so diagnostics aren't reported twice.
+apidom-ls in the ApiDOM worker provides validation markers, completion, hover and semantic
+tokens for the dialect once the dependencies are bumped; the editor's part is:
+
+1. Load the example and an invalid schema in the running editor (`npm start`): markers in the
+   Validation Pane, completion of keywords, hover documentation on a keyword. Record what you saw
+   in the tracking doc.
+2. Theme tokens: list the JSON Schema token types apidom-ls emits
+   (`node_modules/@swagger-api/apidom-ls/src/config/` token lists, or `getSemanticTokensLegend()`
+   in the worker) and give each an entry in both `se-vs-light.js` and `se-vs-dark.js` (the
+   design doc: "coloring of semantic highlighting needs to be tinkered with").
+3. Don't add an editor-side validator, completion provider or Monarch grammar for JSON Schema;
+   gaps in what apidom-ls provides are ApiDOM issues.
 
 ## Step 5: Tests
 
@@ -115,7 +122,7 @@ Follow `references/preview-plugin.md`:
 `test/playwright/e2e/plugin.editor-preview-json-schema.spec.ts`:
 
 - Load Example renders the schema preview (title, a property, a constraint), not Swagger UI.
-- An invalid keyword value produces a marker (MVP or full).
+- An invalid keyword value produces a Validation Pane entry.
 - Detection: OpenAPI 3.1/3.2 documents with nested schemas still render in Swagger UI; a
   document without root `$schema` is not routed to the schema preview.
 - Switching content from JSON Schema to OpenAPI and back swaps the preview.
@@ -137,5 +144,6 @@ need the user's confirmation. Commit format: CLAUDE.md.
 
 ## Hand-off
 
-Report the plan, PRs, `spec-status.mjs` summary before/after, keyword rows out of scope, and the
-upstream work left for ApiDOM or Swagger UI with the skill that does it there.
+Report the PRs, `spec-status.mjs` summary before/after, keyword rows out of scope, what the
+language features showed in Step 4, and any Swagger UI work left with the skill that does it
+there.

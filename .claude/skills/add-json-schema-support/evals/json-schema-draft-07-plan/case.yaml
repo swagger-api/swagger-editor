@@ -6,5 +6,5 @@ expected_outcome: |
   the existing (or planned) editor-preview-json-schema plugin rather than a second plugin, the
   modern JSONSchema202012 renderer per the design doc, the Draft 7 keywords that renderer doesn't
   display (definitions, dependencies, additionalItems, array-form items) as Swagger UI work,
-  ajv's default (draft-07) class for MVP validation, and that ApiDOM has a Draft 7 namespace but no
-  Draft 7 parser adapters or apidom-ls support.
+  and the Draft 7 ApiDOM adapters as new dependencies (names looked up, not derived), with
+  validation, completion and hover taken from apidom-ls rather than an editor-side validator.

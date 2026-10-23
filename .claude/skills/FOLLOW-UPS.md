@@ -74,9 +74,11 @@ system through props / `getComponent`); the header says version 5.0.6 (package i
 
 ## 2. Cross-Repository Work Found
 
-- **ApiDOM:** apidom-ls `parser-factory.ts` doesn't import the JSON Schema 2020-12 adapters, so
-  standalone schemas aren't parsed as JSON Schema; its 2020-12 config covers 4 keywords. Needed
-  for the full plan. Not yet in `apidom/.claude/skills/FOLLOW-UPS.md`.
+- **ApiDOM:** the skills take ApiDOM's standalone JSON Schema support (adapters, apidom-ls) as
+  given and don't check it. In a quick test on 2026-10-23, the apidom-ls then installed in
+  swagger-editor returned no diagnostics, hover or completion for a standalone 2020-12 schema
+  (its `parser-factory` had no JSON Schema adapters). If the editor shows no language features
+  for JSON Schema after the ApiDOM bump, look there first.
 - **Swagger UI:** the Swagger UI skills are paused (`swagger-ui/.claude/skills/HANDOFF.md`,
   branch `docs/claude-skills-oas-json-schema`). Their `/add-json-schema-support` is the upstream
   half of this repository's; keep the two consistent (dialect table, renderer choices, design
@@ -86,7 +88,7 @@ system through props / `getComponent`); the header says version 5.0.6 (package i
 
 Not run when the skills were written. Prepared:
 
-- Case folders under each skill's `evals/` (5 cases, 36 graders), fixtures in each
+- Case folders under each skill's `evals/` (5 cases, 37 graders), fixtures in each
   `fixture.md`.
 - Worktrees in `~/WebstormProjects/swagger-editor-skills-workspace/` (outside the repo):
   `wt-pre-oas32` (`a7e7a960^`), `wt-oas32-planted` (branch `eval/oas32-planted-defects`, the

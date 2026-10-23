@@ -8,7 +8,6 @@ before writing the new one.
 | Plugin shape, state plugin, parse FSM | `src/plugins/editor-preview-api-design-systems/` (`index.js`, `actions.js`, `reducers.js`, `selectors.js`) - parses with ApiDOM adapters like this plugin will |
 | `EditorPreview` wrap | `src/plugins/editor-preview-asyncapi/extensions/editor-preview/wrap-components/EditorPreviewWrapper.jsx` |
 | Parse on detection | `src/plugins/editor-preview-asyncapi/extensions/editor-content-type/wrap-actions.js` (`createSafeActionWrapper`) |
-| Marker provider (validation) | `src/plugins/editor-preview-asyncapi/monaco.contribution.js` and `after-load.js` |
 | Preview lifecycle (`previewUnmounted`) | `src/plugins/editor-preview-swagger-ui/components/EditorPreviewSwaggerUI/EditorPreviewSwaggerUI.jsx` |
 | SwaggerUI-hosted rendering | `src/plugins/swagger-ui-adapter/extensions/core/wrap-components/BaseLayout.jsx` |
 
@@ -20,8 +19,6 @@ src/plugins/editor-preview-json-schema/
 ├── actions.js                   # previewUnmounted, parse, parseStarted/Success/Failure
 ├── reducers.js                  # parse status, result, error; requestId guard
 ├── selectors.js                 # selectParseStatus, selectIsParse*, selectParseResult, selectSchema, ...
-├── after-load.js                # registers the marker provider when Monaco is present (PR 3)
-├── monaco.contribution.js       # marker provider (PR 3)
 ├── components/
 │   ├── EditorPreviewJSONSchema/EditorPreviewJSONSchema.jsx   # switches on parse status and dialect
 │   ├── ParseErrors/ParseErrors.jsx
@@ -38,25 +35,22 @@ siblings are `.jsx` and the plugin's style stays consistent.
 
 ## Parsing
 
-Parse with the generic adapters the editor already depends on, then refract with the dialect's
-namespace (verified with apidom 1.13.3):
+Parse with the dialect's ApiDOM JSON Schema adapter; its `parse` returns a parse result whose
+`result` is already the dialect's JSON Schema element (for 2020-12 `JSONSchemaElement`, element
+name `JSONSchema202012`), the same shape the ADS preview gets from its adapters:
 
 ```javascript
-import { parse as parseJSON } from '@swagger-api/apidom-parser-adapter-json';
-import { parse as parseYAML } from '@swagger-api/apidom-parser-adapter-yaml-1-2';
-import { JSONSchemaElement } from '@swagger-api/apidom-ns-json-schema-2020-12';
+import { parse as parseJSON } from '@swagger-api/apidom-parser-adapter-json-schema-json-2020-12';
+import { parse as parseYAML } from '@swagger-api/apidom-parser-adapter-json-schema-yaml-2020-12';
 
 const parser = contentType.includes('+json') ? parseJSON : parseYAML;
 const parseResult = await parser(content, { sourceMap: true });
-const schemaElement = JSONSchemaElement.refract(parseResult.result); // element 'JSONSchema202012'
+const schemaElement = parseResult.result;
 ```
 
-Declare `@swagger-api/apidom-ns-json-schema-2020-12` in `dependencies` (runtime import) at the
-same version as the other apidom packages, with an `overrides` entry. Once apidom-ls parses
-standalone JSON Schema (full plan), the dialect's parser adapters
-(`apidom-parser-adapter-json-schema-{json,yaml}-2020-12`) can replace parse + refract.
+Check the installed adapter's exports before writing the import
+(`node_modules/@swagger-api/apidom-parser-adapter-json-schema-json-<dialect>/src/adapter.mjs`).
 
-`sourceMap: true` keeps element positions, which the marker provider needs to place markers.
 The renderer needs plain JSON: `toValue(schemaElement)` from `@swagger-api/apidom-core`, memoised
 in a selector (`createSelector`) so the renderer doesn't re-render on every unrelated state
 change.
@@ -120,23 +114,10 @@ SwaggerUI"). Extend the PropTypes there with the selector you call.
   `dist/esm/plugins/editor-preview-json-schema/index.js` after `npm run build`.
 - README: plugin list, "Using preview plugins in SwaggerUI" examples, supported dialects.
 
-## Validation (PR 3)
+## Language Features (PR 3)
 
-MVP with ajv, registered like the AsyncAPI parser markers:
-
-- `after-load.js`: when `system.monaco` exists, (re)create the disposables from
-  `monaco.contribution.js` and keep them on the state plugin (copy the AsyncAPI `after-load.js`).
-- `fn.registerMarkerDataProvider('apidom', { owner: 'editor-preview-json-schema', provideMarkerData })`:
-  wait with `fn.waitUntil` until the content type is a JSON Schema dialect, the model value equals
-  the editor content and parsing is done; return `[]` when the model version moved on or parsing
-  failed (the ApiDOM worker already reports syntax errors).
-- Validate the parsed value with the dialect's ajv class against its meta-schema
-  (`ajv.validateSchema`), `allErrors: true`, `strict: false`. Map each error's `instancePath`
-  (JSON Pointer) to a range with the source map of the parsed element (find the element by
-  pointer with `@swagger-api/apidom-json-pointer`'s `evaluate`, already a dependency, then read
-  its start/end position); fall back to the document start only if the pointer doesn't resolve.
-- Severity Error, `source`/`owner` that makes the marker distinguishable from apidom-ls in the
-  Validation Pane.
-
-Full plan: once apidom-ls validates the dialect, remove the ajv provider (or gate it off) so the
-same problem isn't reported twice.
+Validation markers, completion, hover and semantic tokens come from apidom-ls in the ApiDOM
+worker (`editor-monaco-language-apidom`), exactly as for OpenAPI; the preview plugin adds none.
+After the ApiDOM bump, check them in the running editor and give the JSON Schema token types
+entries in `src/plugins/editor-monaco/themes/se-vs-light.js` and `se-vs-dark.js`. A missing
+diagnostic, completion item or hover text is an ApiDOM issue, not an editor workaround.

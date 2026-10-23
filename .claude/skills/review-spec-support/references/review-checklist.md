@@ -8,7 +8,8 @@ Schema the 2020-12 code already on `main`.
 
 - [ ] `spec-status.mjs` shows 0 `UPSTREAM`. If not, every other finding is secondary: report it
       as a blocker first.
-- [ ] All `@swagger-api/apidom-*` entries in `package.json` share one version;
+- [ ] All `@swagger-api/apidom-*` entries in `package.json` share one version (whatever the
+      latest release is; don't expect a particular number);
       `npm ls @swagger-api/apidom-core` shows one version.
 - [ ] Runtime imports (`grep -rhn "from '@swagger-api/" src | sort -u`) are in `dependencies`;
       packages only the ApiDOM worker uses are not added to `dependencies` (#5891).
@@ -63,11 +64,10 @@ Schema the 2020-12 code already on `main`.
 
 ## 7. Validation and Highlighting
 
-- [ ] Marker provider (if any) is registered in `afterLoad` only when Monaco exists, disposed and
-      recreated on reload, waits for detection and parsing, drops stale model versions.
-- [ ] Marker ranges come from source positions, not line 1; check one by loading an invalid
-      document.
-- [ ] No duplicate diagnostics between an ajv provider and apidom-ls for the same problem.
+- [ ] Validation, completion, hover and semantic tokens come from apidom-ls; the branch adds no
+      editor-side validator, completion provider or Monarch grammar for the spec.
+- [ ] An invalid document shows a Validation Pane entry at the right position (load one in the
+      running editor or check the Playwright test).
 - [ ] Theme: new token types (`NOTE theme`) have entries in both `se-vs-light.js` and
       `se-vs-dark.js`, or a recorded reason.
 

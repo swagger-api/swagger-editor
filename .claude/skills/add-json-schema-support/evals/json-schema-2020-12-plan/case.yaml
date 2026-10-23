@@ -1,0 +1,12 @@
+schema_version: "1.1"
+name: json-schema-2020-12-plan
+expected_outcome: |
+  PLAN.md recognises what main already has (2020-12 detection, selectors, fixture, Load Example
+  item) and plans: bumping ApiDOM and adding the apidom-parser-adapter-json-schema-{json,yaml}-2020-12
+  adapters as dependencies (with overrides and link:apidom), detection through the adapters'
+  detectionRegExp with a root-only $schema check, an editor-preview-json-schema plugin
+  (EditorPreview wrap, detectContentTypeSuccess wrap-action, parsing with the ApiDOM adapter,
+  rendering through Swagger UI's JSONSchema202012 inside withJSONSchema202012SystemContext), the
+  swagger-ui-adapter BaseLayout bypass, exports (monaco preset, SwaggerEditor.plugins, README),
+  validation/completion/hover from apidom-ls without an editor-side validator, theme tokens for
+  JSON Schema token types, Playwright tests, and the open decisions.

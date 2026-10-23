@@ -5,13 +5,19 @@ change it, and never derive a URL from a pattern.
 
 ## Identification and Packages
 
-| Dialect | Root `$schema` value | ApiDOM namespace | ApiDOM adapters (full plan) | Swagger UI renderer | ajv (MVP) |
-|---------|----------------------|------------------|-----------------------------|---------------------|-----------|
-| 2020-12 | `https://json-schema.org/draft/2020-12/schema` | `apidom-ns-json-schema-2020-12` | `apidom-parser-adapter-json-schema-{json,yaml}-2020-12` | `JSONSchema202012` | `ajv/dist/2020` (`Ajv2020`) |
-| 2019-09 | `https://json-schema.org/draft/2019-09/schema` | `apidom-ns-json-schema-2019-09` | none yet | `JSONSchema202012` (keywords such as `$recursiveRef` fall into extension keywords) | `ajv/dist/2019` (`Ajv2019`) |
-| Draft 7 | `http://json-schema.org/draft-07/schema#` | `apidom-ns-json-schema-draft-7` | none yet | `JSONSchema202012` per the design doc (`definitions`, `dependencies`, `additionalItems` fall into extension keywords) | `ajv` default class |
-| Draft 6 | `http://json-schema.org/draft-06/schema#` | `apidom-ns-json-schema-draft-6` | none yet | open decision: legacy `ModelWrapper` (doc) or modern | `ajv` + `ajv/dist/refs/json-schema-draft-06.json` meta-schema |
-| Draft 4 | `http://json-schema.org/draft-04/schema#` | `apidom-ns-json-schema-draft-4` | none yet | legacy `ModelWrapper` (`JSONSchema5` plugin) | separate `ajv-draft-04` package |
+| Dialect | Root `$schema` value | ApiDOM namespace | Swagger UI renderer |
+|---------|----------------------|------------------|---------------------|
+| 2020-12 | `https://json-schema.org/draft/2020-12/schema` | `apidom-ns-json-schema-2020-12` | `JSONSchema202012` |
+| 2019-09 | `https://json-schema.org/draft/2019-09/schema` | `apidom-ns-json-schema-2019-09` | `JSONSchema202012` (keywords such as `$recursiveRef` fall into extension keywords) |
+| Draft 7 | `http://json-schema.org/draft-07/schema#` | `apidom-ns-json-schema-draft-7` | `JSONSchema202012` per the design doc (`definitions`, `dependencies`, `additionalItems` fall into extension keywords) |
+| Draft 6 | `http://json-schema.org/draft-06/schema#` | `apidom-ns-json-schema-draft-6` | open decision: legacy `ModelWrapper` (doc) or modern |
+| Draft 4 | `http://json-schema.org/draft-04/schema#` | `apidom-ns-json-schema-draft-4` | legacy `ModelWrapper` (`JSONSchema5` plugin) |
+
+ApiDOM parser adapters: for 2020-12 they are
+`@swagger-api/apidom-parser-adapter-json-schema-json-2020-12` and `-yaml-2020-12`. For other
+dialects the skill assumes ApiDOM provides them too; take the exact package names from the
+registry (`npm search @swagger-api/apidom-parser-adapter-json-schema`), don't derive them from
+the 2020-12 names.
 
 Notes:
 
@@ -88,7 +94,6 @@ What the editor does with them:
 - Detection uses the root `$schema` only. A document whose only `$schema` is nested must not be
   routed to the schema preview; an OpenAPI 3.1+ document with schemas carrying `$schema` stays
   OpenAPI (detection order already guarantees this; keep a test).
-- MVP: render and validate with the root dialect; record that embedded resources of another
-  dialect are rendered with the root dialect's renderer.
-- Full plan: dialect switching per resource is ApiDOM's and Swagger UI's work; the editor routes
-  only on the root.
+- The preview renders with the root dialect's renderer; dialect switching per embedded resource
+  is Swagger UI's work (ApiDOM handles it in parsing and apidom-ls). Record how embedded
+  resources of another dialect look in the preview.

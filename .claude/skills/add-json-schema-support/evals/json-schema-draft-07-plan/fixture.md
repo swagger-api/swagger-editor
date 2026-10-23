@@ -3,7 +3,7 @@
 Not read by `claude plugin eval`; used when running this case with skill-creator.
 
 Current `main` of swagger-editor. Partly unseen: `references/dialects.md` lists Draft 7 facts
-(URI, ajv class, renderer), so this case measures applying them to a new dialect, not
+(URI, renderer), so this case measures applying them to a new dialect, not
 discovering them.
 
 Runs are read-only in the fixture: they write `PLAN.md` (and any other output) to the run's

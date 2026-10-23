@@ -34,32 +34,28 @@ current truth.
 | 1, complete | ApiDOM, then Swagger UI, then SwaggerEditor | 3.5-4 sprints | preview, apidom-ls validation, completion, hover, semantic highlighting, reference validation |
 | 2, MVP | Swagger UI and SwaggerEditor, ApiDOM later | 2 sprints | preview, basic highlighting, ajv validation as Monaco markers; no completion or hover |
 
-The MVP is explicitly a stepping stone: "We can then return to ApiDOM, to provide true language
-server capabilities." Build the MVP so the full plan replaces pieces (validation provider,
-highlighting) without restructuring the plugin.
+This skill implements the SwaggerEditor part of **plan 1** and takes its ApiDOM part as done:
+namespaces, JSON and YAML parser adapters, apidom-ls rules (validation, completion, hover,
+semantic tokens) and apidom-reference strategies. Use the latest ApiDOM release; don't pin a
+version from this file and don't re-verify ApiDOM's JSON Schema support. Plan 2's editor-side
+substitutes (ajv validation, a Monarch grammar) are not part of this skill.
 
-## Plan to PR Mapping (this skill)
+## PR Mapping (this skill)
 
-| PR | Content | MVP | Full |
-|----|---------|-----|------|
-| 1 | detection, selectors, file name, fixture, menu | yes | yes |
-| 2 | `editor-preview-json-schema`, BaseLayout bypass, exports, docs | yes | yes |
-| 3 | validation and highlighting | ajv markers, Monarch or generic tokens | apidom-ls (after ApiDOM work), theme tokens |
-| later | more dialects | detection + renderer routing per dialect | plus ApiDOM namespaces/adapters/rules |
+| PR | Content |
+|----|---------|
+| 1 | ApiDOM bump and JSON Schema adapter dependencies, detection, selectors, file name, fixture, menu |
+| 2 | `editor-preview-json-schema` (parsing with the ApiDOM adapter), BaseLayout bypass, exports, docs |
+| 3 | language features check (apidom-ls markers, completion, hover) and theme tokens |
+| later | more dialects: adapters, detection, renderer routing per dialect |
 
-## State Since the Doc (verified 2026-10-23)
+## State of SwaggerEditor and Swagger UI
 
-ApiDOM:
+Facts below were checked on 2026-10-23 against the then-installed packages. They describe
+behaviour that changes slowly, but re-check any you rely on (`spec-status.mjs`, the bundle grep
+in `keyword-map-template.md`).
 
-- Done: `apidom-ns-json-schema-2020-12` (#4670) and OpenAPI 3.1 using it (#4691, #4716);
-  `apidom-parser-adapter-json-schema-json-2020-12` / `-yaml-2020-12` (#4677, #4676); apidom-ls
-  config for standalone 2020-12 (#4838).
-- Not done: apidom-ls `parser-factory` doesn't import the JSON Schema adapters, so the language
-  service doesn't parse a standalone schema as JSON Schema; its 2020-12 config covers 4 keywords
-  (`$comment`, `$id`, `$ref`, `$schema`). The editor doesn't depend on the JSON Schema adapters.
-  Result: the full plan's validation, completion and hover still need ApiDOM work.
-
-Swagger UI (`swagger-ui-react` 5.34.0, from the Swagger UI skills' research):
+Swagger UI (from the Swagger UI skills' research):
 
 - `JSONSchema202012` and `withJSONSchema202012SystemContext` (apis preset) and the legacy
   renderer's `ModelWrapper`/`Model` (`JSONSchema5` plugin, base preset) are available through
@@ -81,18 +77,18 @@ SwaggerEditor (`main`):
   `selectIsContentTypeJSONSchema` / `selectIsContentTypeJSONSchema202012`, fixture
   `selectJSONSchema202012YAML`, Load Example item "JSON Schema 2020-12" and its Playwright load
   test.
-- Missing: the preview plugin, BaseLayout bypass, exports, docs, validation, a JSON Schema file
-  name for `Save as`. Today a 2020-12 document falls through to the Swagger UI preview.
-- The JSON detection regex matches `"$schema"` anywhere in the document, not only at the root.
+- Missing: the JSON Schema adapter dependencies, the preview plugin, BaseLayout bypass, exports,
+  docs, theme tokens, a JSON Schema file name for `Save as`. Today a 2020-12 document falls
+  through to the Swagger UI preview.
+- The JSON detection regex matches `"$schema"` anywhere in the document, not only at the root
+  (so do the ApiDOM adapters' `detectionRegExp`; the root check is the editor's job).
 
 ## Open Decisions (record each answer in the tracking doc)
 
-1. MVP or full plan (Step 0).
-2. Draft 6 renderer: legacy (doc) or modern (closer to Draft 7) - Swagger UI's call; the editor
+1. Draft 6 renderer: legacy (doc) or modern (closer to Draft 7) - Swagger UI's call; the editor
    follows.
-3. Highlighting for the MVP: generic ApiDOM tokens, or a dialect Monarch definition that the
-   full plan later deletes.
-4. Embedded `$schema` of another dialect: render with the root dialect's renderer (MVP) or
-   switch renderer per embedded resource (needs Swagger UI support).
-5. `$ref` display in the preview: as text (today) or resolved (needs apidom-reference
-   strategies, full plan).
+2. Embedded `$schema` of another dialect: render with the root dialect's renderer, or switch
+   renderer per embedded resource (needs Swagger UI support).
+3. `$ref` display in the preview: as text (today's renderer) or resolved through
+   apidom-reference.
+4. Colours for the JSON Schema semantic token types in both Monaco themes.

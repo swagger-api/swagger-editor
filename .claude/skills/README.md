@@ -35,10 +35,11 @@ tests, gates, one PR. The OAS 3.2 commit `a7e7a960` (#5720) is the reference imp
 
 ### `/add-json-schema-support`
 
-Delivers standalone JSON Schema, 2020-12 first, in the MVP or the full plan of the design doc:
-PR 1 detection foundations, PR 2 the `editor-preview-json-schema` plugin (Swagger UI's
-`JSONSchema202012` renderer, BaseLayout bypass, exports), PR 3 validation (ajv markers, or
-apidom-ls once ApiDOM parses standalone schemas) and highlighting. Also covers further dialects.
+Delivers standalone JSON Schema, 2020-12 first: the SwaggerEditor part of the design doc's
+complete plan, taking the ApiDOM part (adapters, apidom-ls) as done. PR 1 ApiDOM bump, adapter
+dependencies and detection; PR 2 the `editor-preview-json-schema` plugin (ApiDOM parsing, Swagger
+UI's `JSONSchema202012` renderer, BaseLayout bypass, exports); PR 3 language features from
+apidom-ls and theme tokens. Also covers further dialects.
 
 ### `/review-spec-support`
 
@@ -68,7 +69,7 @@ Each case's `fixture.md` says which commit to check out.
 |-------|------|---------|----------|
 | add-oas-support | `oas-3-2-wiring-plan` | `a7e7a960^` | regression: replays #5720 plus the gaps found after it |
 | add-oas-support | `oas-3-3-upstream-gate` | `main` | generalization: a version no skill mentions; must stop at the upstream gate |
-| add-json-schema-support | `json-schema-2020-12-mvp-plan` | `main` | regression: the design doc's MVP against today's code |
+| add-json-schema-support | `json-schema-2020-12-plan` | `main` | regression: the design doc's editor part against today's code |
 | add-json-schema-support | `json-schema-draft-07-plan` | `main` | partial generalization: a dialect the skill only tabulates |
 | review-spec-support | `planted-defects-oas-3-2` | `a7e7a960` + `evals/planted-defects.patch` | 7 planted defects; 6 visible to the scripts, 1 only to reading |
 

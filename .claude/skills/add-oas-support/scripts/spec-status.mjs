@@ -16,6 +16,10 @@ const DIALECTS = {
   '2020-12': {
     uri: 'https://json-schema.org/draft/2020-12/schema',
     namespace: '@swagger-api/apidom-ns-json-schema-2020-12',
+    adapters: [
+      '@swagger-api/apidom-parser-adapter-json-schema-json-2020-12',
+      '@swagger-api/apidom-parser-adapter-json-schema-yaml-2020-12',
+    ],
     suffix: '202012',
     renderer: 'JSONSchema202012',
   },
@@ -59,8 +63,8 @@ Usage:
 Statuses:
   OK        present
   MISSING   required and absent
-  UPSTREAM  absent in an upstream package: SwaggerEditor work can't start (or, for JSON Schema,
-            only the plan named in the line is blocked)
+  UPSTREAM  absent in an upstream package: SwaggerEditor work can't start. For JSON Schema only
+            the Swagger UI renderer is checked; ApiDOM support is taken as given
   DECIDE    present for older versions only, or a choice the tracking doc must record
   NOTE      information
 
@@ -451,55 +455,10 @@ const checkOpenAPIUnwired = (n, p) => {
 /* JSON Schema                                                                                */
 /* ------------------------------------------------------------------------------------------ */
 
+// ApiDOM's JSON Schema support (namespaces, adapters, apidom-ls) is taken as given; only the
+// Swagger UI renderer is an upstream check.
 const checkJSONSchemaUpstream = (id, d) => {
   const area = 'upstream';
-  check(
-    existsSync(nodeModule(d.namespace)),
-    area,
-    `${d.namespace}@${installedVersion(d.namespace)} installed (refract the preview's parse result)`,
-    `${d.namespace} not installed (add it as a dependency; the ApiDOM namespace exists for this dialect)`
-  );
-  if (existsSync(nodeModule(d.namespace)) && !(d.namespace in (pkg.dependencies ?? {})))
-    report(
-      'DECIDE',
-      area,
-      `${d.namespace} is only installed transitively: declare it in dependencies once the preview imports it`
-    );
-  const adapters = ['json', 'yaml'].map(
-    (format) =>
-      `@swagger-api/apidom-parser-adapter-json-schema-${format}-${id.replace('draft-0', 'draft-')}`
-  );
-  adapters.forEach((adapter) =>
-    check(
-      existsSync(nodeModule(adapter)),
-      area,
-      `${adapter}@${installedVersion(adapter)} installed`,
-      `${adapter} not installed (exists in ApiDOM only for 2020-12): blocks the full plan, not the MVP`,
-      'NOTE'
-    )
-  );
-  const parserFactory = read('node_modules/@swagger-api/apidom-ls/src/parser-factory.mjs');
-  const lsParses = parserFactory.includes('parser-adapter-json-schema-');
-  report(
-    lsParses ? 'OK' : 'NOTE',
-    area,
-    lsParses
-      ? 'apidom-ls parser-factory wires JSON Schema adapters'
-      : `apidom-ls ${installedVersion('@swagger-api/apidom-ls')} parser-factory doesn't wire JSON Schema adapters: standalone schemas get generic JSON/YAML language features only (full plan needs ApiDOM work first)`
-  );
-  const lsConfig = path('node_modules/@swagger-api/apidom-ls/src/config/json-schema', id);
-  const keywordDirs = existsSync(path(lsConfig, 'json-schema'))
-    ? readdirSync(path(lsConfig, 'json-schema')).filter((name) =>
-        statSync(path(lsConfig, 'json-schema', name)).isDirectory()
-      )
-    : [];
-  report(
-    'NOTE',
-    area,
-    existsSync(lsConfig)
-      ? `apidom-ls config for ${id} covers ${keywordDirs.length} keyword(s): ${keywordDirs.join(', ')}`
-      : `apidom-ls has no config/json-schema/${id}`
-  );
   const bundle = swaggerUIBundle();
   const renderer = d.renderer.split(' ')[0];
   check(
@@ -517,14 +476,36 @@ const checkJSONSchemaUpstream = (id, d) => {
       'swagger-ui-react has no withJSONSchema202012SystemContext',
       'UPSTREAM'
     );
-  const ajv = pkg.dependencies?.ajv;
-  report(
-    ajv ? 'OK' : 'DECIDE',
-    area,
-    ajv
-      ? `ajv ${ajv} is a direct dependency (MVP validation)`
-      : `ajv is not a direct dependency (installed transitively: ${installedVersion('ajv') ?? 'no'}); the MVP validation plan adds it`
-  );
+};
+
+/**
+ * The dialect's ApiDOM parser adapters are runtime imports (detection, preview parsing), so they
+ * are declared like the OpenAPI adapters. Names are known for 2020-12 only; for other dialects
+ * take them from the registry.
+ */
+const checkJSONSchemaDependencies = (id, d) => {
+  if (!d.adapters) {
+    report(
+      'NOTE',
+      'deps',
+      `adapter package names for ${id} aren't recorded here: find them with npm search @swagger-api/apidom-parser-adapter-json-schema and check dependencies, overrides and link:apidom by hand`
+    );
+    return;
+  }
+  const deps = pkg.dependencies ?? {};
+  const overrides = pkg.overrides ?? {};
+  const link = pkg.scripts?.['link:apidom'] ?? '';
+  d.adapters.forEach((name) => {
+    check(name in deps, 'deps', `${name} in dependencies`, `${name} not in dependencies`);
+    check(name in overrides, 'deps', `${name} in overrides`, `${name} not in overrides`);
+    check(
+      new RegExp(`(^|\\s)${name}(\\s|$)`).test(link),
+      'deps',
+      `${name} in the link:apidom script`,
+      `${name} missing from the link:apidom script (npm run link:apidom)`
+    );
+  });
+  checkApiDOMVersions();
 };
 
 const checkJSONSchemaEditor = (id, d) => {
@@ -617,13 +598,6 @@ const checkJSONSchemaEditor = (id, d) => {
       `preview plugin renders through ${d.renderer.split(' ')[0]}`,
       `preview plugin doesn't use ${d.renderer.split(' ')[0]} (renderer for ${id})`
     );
-    report(
-      pluginSources.includes('registerMarkerDataProvider') ? 'OK' : 'DECIDE',
-      'validation',
-      pluginSources.includes('registerMarkerDataProvider')
-        ? 'preview plugin registers a marker data provider (validation)'
-        : 'no validation markers for JSON Schema: choose ajv (MVP) or apidom-ls (full plan)'
-    );
   }
   check(
     read('src/plugins/swagger-ui-adapter/extensions/core/wrap-components/BaseLayout.jsx').includes(
@@ -681,6 +655,7 @@ if (values.oas) {
 } else {
   const id = values['json-schema'];
   checkJSONSchemaUpstream(id, DIALECTS[id]);
+  checkJSONSchemaDependencies(id, DIALECTS[id]);
   checkJSONSchemaEditor(id, DIALECTS[id]);
 }
 
