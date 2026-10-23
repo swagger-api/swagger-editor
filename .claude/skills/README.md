@@ -11,7 +11,7 @@ the skill that builds a missing one:
 |-------|------------|-------------|------------------------|
 | 1 | `swagger-api/apidom` | `/add-spec-version` (namespace, parser adapters, apidom-reference, apidom-ls) | detection regexes, validation, completion, hover, semantic tokens |
 | 2 | `swagger-api/swagger-js` (swagger-client) | none | `openapi-X-Y-apidom` resolve strategy for the preview |
-| 3 | `swagger-api/swagger-ui` | `/add-oas-support`, `/add-json-schema-support` (in progress on branch `docs/claude-skills-oas-json-schema`) | `isOAS3X` preview plugin, JSON Schema renderers |
+| 3 | `swagger-api/swagger-ui` | `/add-oas-support`, `/add-json-schema-support` (`.claude/skills/` on `main`, swagger-api/swagger-ui#11106) | `isOAS3X` preview plugin, JSON Schema renderers |
 | 4 | `swagger-api/swagger-editor` | the skills below | detection, routing, previews, examples, menus, themes, docs, tests |
 
 ## Skill Layout
@@ -74,8 +74,8 @@ Each case's `fixture.md` says which commit to check out.
 | review-spec-support | `planted-defects-oas-3-2` | `a7e7a960` + `evals/planted-defects.patch` | 7 planted defects; 6 visible to the scripts, 1 only to reading |
 
 Run them with skill-creator (one run with the skill and one without per case, read-only in the
-fixture worktree, outputs outside the repository). They haven't been run yet: see
-`FOLLOW-UPS.md` for the prepared run plan and its cost.
+fixture worktree, outputs outside the repository). They haven't been run yet
+(`FOLLOW-UPS.md` section 3).
 
 The regression cases share answers with the skills (the skills were written from the same
 history), so they measure regressions more than ability. Keep the generalization cases honest:

@@ -66,11 +66,21 @@ to re-check it. Status legend: ⏳ open, ✅ done (add commit/PR reference).
 modifiers). Check with `spec-status.mjs --oas 3.2` (`NOTE theme`); decide and either map them or
 document the default.
 
-### 1.8 ⏳ Remaining CLAUDE.md inaccuracies
+### 1.8 ✅ Remaining CLAUDE.md inaccuracies (2026-10-23)
 
-The content-type, styles-path and debugging sections were corrected with the skills. Still
-wrong: several snippets use `useSystem()`, which doesn't exist in `src` (components receive the
-system through props / `getComponent`); the header says version 5.0.6 (package is 5.10.0).
+The content-type, styles-path and debugging sections were corrected with the skills. Fixed
+afterwards: the "State Access in Components" snippet used `useSystem()`, which doesn't exist in
+`src`; it now shows the real pattern (system injected as props into containers resolved with
+`getComponent(name, true)`, from `ThemeSelectionIcon.jsx`). Header and footer say version 5.10.0;
+the overview lists AsyncAPI 3.1.
+
+The Actions, Reducers, Selectors, System Access, Creating a New Plugin, Component Wrapping and
+gotchas 4/9 snippets used names that don't exist in `src` (`loadDefinition`,
+`SET_EDITOR_CONTENT`, `selectEditorContent`, `setEditorContent`, `selectValidationErrors`, a
+per-plugin `initialState: Map(...)`, `action.payload.requestId`). They are now condensed from
+`editor-preview-asyncapi` (actions, reducers, selectors) and `editor-preview-swagger-ui` (wrapper),
+and say that reducers and selectors receive the plugin's own state slice and that request IDs
+travel in `meta`.
 
 ## 2. Cross-Repository Work Found
 
@@ -79,43 +89,8 @@ system through props / `getComponent`); the header says version 5.0.6 (package i
   swagger-editor returned no diagnostics, hover or completion for a standalone 2020-12 schema
   (its `parser-factory` had no JSON Schema adapters). If the editor shows no language features
   for JSON Schema after the ApiDOM bump, look there first.
-- **Swagger UI:** the Swagger UI skills are paused (`swagger-ui/.claude/skills/HANDOFF.md`,
-  branch `docs/claude-skills-oas-json-schema`). Their `/add-json-schema-support` is the upstream
-  half of this repository's; keep the two consistent (dialect table, renderer choices, design
-  doc digest). `verify-urls.mjs` here is a copy of theirs (formatted for this repo's prettier).
 
-## 3. Eval Run (deferred: token-heavy)
+## 3. ⏳ Eval Run
 
-Not run when the skills were written. Prepared:
-
-- Case folders under each skill's `evals/` (5 cases, 37 graders), fixtures in each
-  `fixture.md`.
-- Worktrees in `~/WebstormProjects/swagger-editor-skills-workspace/` (outside the repo):
-  `wt-pre-oas32` (`a7e7a960^`), `wt-oas32-planted` (branch `eval/oas32-planted-defects`, the
-  patch applied and committed). Both have a `node_modules` symlink to the main checkout.
-
-Cost: 5 cases x 2 configurations (with skill / without) = 10 agent runs, plus grading. Each run
-explores the repository and writes a plan or report; the review case also runs Playwright only
-if the agent chooses to.
-
-Cheapest useful subset (4 runs): `oas-3-3-upstream-gate` and `json-schema-draft-07-plan`, with
-and without the skill. They are the generalization cases.
-
-How to run (skill-creator): one subagent per case and configuration, told to read the skill
-files from the main checkout and not to use the Skill tool (it would load the current skills
-into the baseline too), working read-only in the fixture worktree, writing `PLAN.md` /
-`REVIEW-*.md` and an `actions.md` log (commands run, assumed answers) to
-`swagger-editor-skills-workspace/iteration-1/<case>/{with_skill,without_skill}/outputs/`. Then
-grade with skill-creator `agents/grader.md` (fields `text`/`passed`/`evidence`), aggregate with
-`scripts/aggregate_benchmark`, and open `eval-viewer/generate_review.py`.
-
-Description optimization (`scripts/run_loop`, `claude -p` x 3 per query per iteration) is
-deferred for the same reason. Start with `add-oas-support` vs `add-json-schema-support`: both
-mention detection and previews.
-
-## 4. Session Leftovers
-
-| Item | Location | Cleanup |
-|------|----------|---------|
-| Worktrees | `../swagger-editor-skills-workspace/wt-pre-oas32`, `wt-oas32-planted` | `git worktree remove --force <path>` after section 3 |
-| Branch | `eval/oas32-planted-defects` | `git branch -D eval/oas32-planted-defects`; recreate from `a7e7a960` + the patch |
+The eval cases under each skill's `evals/` have not been run yet. Each case's `fixture.md`
+says how to recreate its worktree.

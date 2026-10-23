@@ -41,8 +41,8 @@ content, the open decisions and how they map to the PRs below.
    one the user names, else 2020-12.
 2. Run `spec-status.mjs --json-schema <dialect>` and read `references/design-and-delivery.md`.
 3. **Stop on `UPSTREAM`.** A missing renderer or HOC in swagger-ui-react blocks the preview;
-   report it as Swagger UI work (`swagger-api/swagger-ui`; its `/add-json-schema-support` skill is
-   in progress on branch `docs/claude-skills-oas-json-schema`). Pieces that don't depend on the
+   report it as Swagger UI work (`swagger-api/swagger-ui`; its `/add-json-schema-support` skill,
+   on `main` since swagger-api/swagger-ui#11106). Pieces that don't depend on the
    renderer (dependencies, detection, fixture) may proceed only if the user agrees.
 
 ## Step 1: Tracking Doc and Keyword Map

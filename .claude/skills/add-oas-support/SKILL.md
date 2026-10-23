@@ -50,8 +50,8 @@ Run from the repository root.
    - ApiDOM namespace, parser adapters, apidom-ls: `/add-spec-version` in `swagger-api/apidom`.
    - swagger-client resolve strategy (`src/resolver/strategies/openapi-X-Y-apidom`): a
      `swagger-api/swagger-js` release, then a swagger-ui release that depends on it.
-   - swagger-ui-react `isOAS3X`: `swagger-api/swagger-ui` (its `/add-oas-support` skill is in
-     progress on branch `docs/claude-skills-oas-json-schema`).
+   - swagger-ui-react `isOAS3X`: `swagger-api/swagger-ui` (its `/add-oas-support` skill, on
+     `main` since swagger-api/swagger-ui#11106).
 
    As a subagent without a user, stop with the report; don't guess versions.
 5. Major versions (4.0 "Moonwalk") don't share the 3.x document shape, so detection, preview
