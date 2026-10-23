@@ -1,0 +1,8 @@
+schema_version: "1.1"
+name: asyncapi-3-1-replay
+expected_outcome: |
+  The run classifies AsyncAPI 3.1 as a minor line of a family the editor supports: ApiDOM's
+  AsyncAPI 3 adapters and the current detection already accept 3.1.0, so the work is examples
+  (3.1 Petstore/Streetlights fixtures, menu items, handler, registration), docs and tests, plus a
+  check that the AsyncAPI renderer handles 3.1. It notes the hand-written AsyncAPI 3 detection and
+  the missing AsyncAPI 3 Save as name as existing gaps. No source changes.

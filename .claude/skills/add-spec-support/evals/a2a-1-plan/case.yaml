@@ -1,0 +1,12 @@
+schema_version: "1.1"
+name: a2a-1-plan
+expected_outcome: |
+  PLAN.md first confirms the upstream pieces (ApiDOM A2A namespace and JSON/YAML parser adapters,
+  apidom-ls parsing A2A and its src/config/a2a), then plans the editor work: adapters in
+  dependencies/overrides/link:apidom; structural detection that calls the adapter's detect()
+  after its pre-filter regex, placed after the version-keyed and JSON Schema branches, with the
+  content-type version decided (the document carries none); selectIsContentTypeA2A defined and
+  registered; a Save as file name; an Agent Card fixture and a new Load Example group; a preview
+  decision (no-preview placeholder unless the user wants more) plus the swagger-ui-adapter
+  BaseLayout branch; decisions for Download Resolved; README/CLAUDE.md; Playwright tests including
+  a neighbouring-spec regression. No source changes.

@@ -1,0 +1,9 @@
+schema_version: "1.1"
+name: oas-3-3-upstream-gate
+expected_outcome: |
+  The run checks the upstream packages, finds that OpenAPI 3.3 is not available upstream (no
+  ApiDOM 3.3 namespace or parser adapters, apidom-ls doesn't parse it, swagger-ui-react has no
+  isOAS33, swagger-client has no openapi-3-3-apidom strategy), checks the npm registry for
+  unreleased-but-published versions, makes no source changes, and reports what has to be built
+  where (ApiDOM /add-spec-version, swagger-client, Swagger UI /add-oas-support) before the editor
+  work can start. It may also note whether OpenAPI 3.3 exists as a published specification.
