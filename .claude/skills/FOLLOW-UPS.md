@@ -76,11 +76,12 @@ document the default.
 
 ## 2. Cross-Repository Work Found
 
-- **ApiDOM:** the skills take ApiDOM's standalone JSON Schema support (adapters, apidom-ls) as
-  given and don't check it. In a quick test on 2026-10-23, the apidom-ls then installed in
-  swagger-editor returned no diagnostics, hover or completion for a standalone 2020-12 schema
-  (its `parser-factory` had no JSON Schema adapters). If the editor shows no language features
-  for JSON Schema after the ApiDOM bump, look there first.
+- **ApiDOM:** the skills take ApiDOM's standalone JSON Schema support as given for detection and
+  routing. In a quick test on 2026-10-23, the apidom-ls then installed in swagger-editor returned
+  no diagnostics, hover or completion for a standalone 2020-12 schema (its `parser-factory` had
+  no JSON Schema adapters). `spec-status.mjs --json-schema` now checks that before the
+  language-features PR (area `language`): it stays `MISSING` until an ApiDOM release wires the
+  adapters into `parser-factory` (apidom's `/add-spec-version` phase 4).
 
 ## 3. ⏳ Eval Run
 

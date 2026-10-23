@@ -19,14 +19,15 @@ the SwaggerEditor part of the doc's complete delivery plan: the editor consumes 
 Schema adapters and apidom-ls the same way it consumes them for OpenAPI, and shows the document in
 the Swagger UI preview it already has. Don't build a preview plugin, a separate validator, a
 Monarch grammar or a completion source in the editor, and don't re-verify ApiDOM's JSON Schema
-support; bump to the latest ApiDOM release and use it. Read `references/design-and-delivery.md`
+support beyond `spec-status.mjs`'s `language` row before PR 3; bump to the latest ApiDOM release
+and use it. Read `references/design-and-delivery.md`
 for the doc's content, the open decisions and how they map to the PRs below.
 
 ## Bundled Tools
 
 | Tool | Use |
 |------|-----|
-| `node .claude/skills/add-oas-support/scripts/spec-status.mjs --json-schema <dialect> [--swagger-ui-plugin <name>]` | Native JSON Schema rendering in swagger-ui-react (`UPSTREAM` blocks), ApiDOM packages declared as dependencies, and every editor integration point. |
+| `node .claude/skills/add-oas-support/scripts/spec-status.mjs --json-schema <dialect> [--swagger-ui-plugin <name>]` | Native JSON Schema rendering in swagger-ui-react (`UPSTREAM` blocks), ApiDOM packages declared as dependencies, apidom-ls parsing the dialect (area `language`, blocks PR 3 only), and every editor integration point. |
 | `node .claude/skills/add-oas-support/scripts/check-detection.mjs --json-schema <$schema URI>` | Runs the editor's real detection over samples, including documents whose only `$schema` is nested (must stay plain JSON/YAML) and OpenAPI documents with nested `$schema`. |
 | `node .claude/skills/add-oas-support/scripts/verify-urls.mjs <paths>` / `--diff main` | URL and anchor check (meta-schema URIs, docs links). |
 | `references/design-and-delivery.md` | Design doc digest, open decisions, plan-to-PR mapping. Read at Step 0. |
@@ -109,6 +110,10 @@ handles OpenAPI only.
 apidom-ls in the ApiDOM worker provides validation markers, completion, hover and semantic
 tokens for the dialect once the dependencies are bumped; the editor's part is:
 
+0. **Start only when `spec-status.mjs` reports the `language` row `OK`** (the installed
+   apidom-ls `parser-factory` imports the dialect's adapters). While it is `MISSING`, the ApiDOM
+   release isn't there yet: stop and report it as ApiDOM work (apidom's `/add-spec-version`,
+   phase 4) instead of debugging the editor.
 1. Load the example and an invalid schema in the running editor (`npm start`): markers in the
    Validation Pane, completion of keywords, hover documentation on a keyword. Record what you saw
    in the tracking doc.

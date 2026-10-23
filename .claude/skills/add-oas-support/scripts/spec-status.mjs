@@ -86,8 +86,9 @@ Usage:
 Statuses:
   OK        present
   MISSING   required and absent
-  UPSTREAM  absent in an upstream package: SwaggerEditor work can't start. For JSON Schema only
-            Swagger UI's native rendering is checked; ApiDOM support is taken as given
+  UPSTREAM  absent in an upstream package: SwaggerEditor work can't start. For JSON Schema this
+            is Swagger UI's native rendering; apidom-ls parsing the dialect is MISSING in area
+            "language" instead, because only the language-features PR needs it
   DECIDE    present for older versions only, or a choice the tracking doc must record
   NOTE      information
 
@@ -509,9 +510,10 @@ const checkOpenAPIUnwired = (n, p) => {
 /* JSON Schema                                                                                */
 /* ------------------------------------------------------------------------------------------ */
 
-// ApiDOM's JSON Schema support (namespaces, adapters, apidom-ls) is taken as given. Swagger UI
-// renders standalone JSON Schema natively and the editor only routes content to its Swagger UI
-// preview, so the upstream check is that swagger-ui-react ships the plugin doing the rendering.
+// ApiDOM's JSON Schema support is taken as given for detection and routing (apidom-ls is checked
+// for the language-features PR only, in checkJSONSchemaLanguageService). Swagger UI renders
+// standalone JSON Schema natively and the editor only routes content to its Swagger UI preview,
+// so the upstream check is that swagger-ui-react ships the plugin doing the rendering.
 const checkJSONSchemaUpstream = (id) => {
   const plugin = values['swagger-ui-plugin'];
   const version = installedVersion('swagger-ui-react') ?? '(not installed)';
@@ -555,6 +557,30 @@ const checkJSONSchemaDependencies = (id, d) => {
     );
   });
   checkApiDOMVersions();
+};
+
+/**
+ * apidom-ls gives a JSON Schema document validation, completion, hover and semantic tokens only
+ * once its parser-factory uses the dialect's adapters. Detection and routing don't need that, so
+ * a gap is MISSING in area `language` (it blocks the language-features PR) rather than UPSTREAM.
+ */
+const checkJSONSchemaLanguageService = (id, d) => {
+  const ls = `apidom-ls ${installedVersion('@swagger-api/apidom-ls') ?? '(not installed)'}`;
+  if (!d.adapters) {
+    report(
+      'NOTE',
+      'language',
+      `adapter package names for ${id} aren't recorded here: before the language-features PR, check that node_modules/@swagger-api/apidom-ls/src/parser-factory.mjs imports them`
+    );
+    return;
+  }
+  const parserFactory = read('node_modules/@swagger-api/apidom-ls/src/parser-factory.mjs');
+  check(
+    d.adapters.every((adapter) => parserFactory.includes(adapter)),
+    'language',
+    `${ls} parses JSON Schema ${id} (parser-factory imports ${d.adapters.join(', ')})`,
+    `${ls} doesn't parse JSON Schema ${id}: no validation, completion, hover or semantic tokens until an ApiDOM release wires the adapters into parser-factory (blocks the language-features PR only)`
+  );
 };
 
 const checkJSONSchemaEditor = (id, d) => {
@@ -915,6 +941,7 @@ if (values.oas) {
   const id = values['json-schema'];
   checkJSONSchemaUpstream(id, DIALECTS[id]);
   checkJSONSchemaDependencies(id, DIALECTS[id]);
+  checkJSONSchemaLanguageService(id, DIALECTS[id]);
   checkJSONSchemaEditor(id, DIALECTS[id]);
 }
 
