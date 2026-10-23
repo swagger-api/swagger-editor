@@ -22,6 +22,9 @@ expect "2" node "$DIR/spec-status.mjs"
 expect "2" node "$DIR/spec-status.mjs" --oas 3
 expect "2" node "$DIR/spec-status.mjs" --oas 3.2 --json-schema 2020-12
 expect "2" node "$DIR/spec-status.mjs" --json-schema draft-99
+expect "2" node "$DIR/spec-status.mjs" --oas 3.2 --swagger-ui-plugin X
+# no --swagger-ui-plugin: native JSON Schema rendering is unconfirmed, always UPSTREAM
+expect "3" node "$DIR/spec-status.mjs" --json-schema 2020-12
 expect "0 1 3" node "$DIR/spec-status.mjs" --oas 3.2
 expect "0 1 3" node "$DIR/spec-status.mjs" --oas 3.1 --parent 3.0
 expect "0 1 3" node "$DIR/spec-status.mjs" --oas 2.0

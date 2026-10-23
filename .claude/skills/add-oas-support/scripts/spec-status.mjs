@@ -68,21 +68,26 @@ const USAGE = `
 Usage:
   node spec-status.mjs --oas <major.minor> [--parent <major.minor>]
   node spec-status.mjs --json-schema <2020-12|2019-09|draft-07|draft-06|draft-04>
+    [--swagger-ui-plugin <name>]
   node spec-status.mjs --spec <${Object.keys(SPEC_FAMILIES).join('|')}> --version <major.minor>
 
-  --oas          OpenAPI version line, e.g. 3.2
-  --parent       previous OpenAPI line (default: minor - 1); enables the unwired-file scan
-  --json-schema  JSON Schema dialect for standalone support
-  --spec         other spec family (/add-spec-support); add a row to SPEC_FAMILIES for a new one
-  --version      version line of --spec, e.g. 3.1 for AsyncAPI, 1.0 for A2A
-  --root         repository root (default: current directory)
-  -h, --help     show this help
+  --oas                OpenAPI version line, e.g. 3.2
+  --parent             previous OpenAPI line (default: minor - 1); enables the unwired-file scan
+  --json-schema        JSON Schema dialect for standalone support
+  --swagger-ui-plugin  with --json-schema: the Swagger UI plugin that renders standalone JSON
+                       Schema natively, as named by swagger-ui's /add-json-schema-support
+                       (decision 7); without it the upstream check reports UPSTREAM
+  --spec               other spec family (/add-spec-support); add a row to SPEC_FAMILIES for a
+                       new one
+  --version            version line of --spec, e.g. 3.1 for AsyncAPI, 1.0 for A2A
+  --root               repository root (default: current directory)
+  -h, --help           show this help
 
 Statuses:
   OK        present
   MISSING   required and absent
   UPSTREAM  absent in an upstream package: SwaggerEditor work can't start. For JSON Schema only
-            the Swagger UI renderer is checked; ApiDOM support is taken as given
+            Swagger UI's native rendering is checked; ApiDOM support is taken as given
   DECIDE    present for older versions only, or a choice the tracking doc must record
   NOTE      information
 
@@ -94,6 +99,7 @@ const { values } = parseCli(USAGE, {
     oas: { type: 'string' },
     parent: { type: 'string' },
     'json-schema': { type: 'string' },
+    'swagger-ui-plugin': { type: 'string' },
     spec: { type: 'string' },
     version: { type: 'string' },
     root: { type: 'string', default: '.' },
@@ -101,6 +107,8 @@ const { values } = parseCli(USAGE, {
   validate: ({ values: v }) => {
     if ([v.oas, v['json-schema'], v.spec].filter(Boolean).length !== 1)
       return 'exactly one of --oas, --json-schema or --spec is required';
+    if (v['swagger-ui-plugin'] && !v['json-schema'])
+      return '--swagger-ui-plugin goes with --json-schema';
     if (v.spec && !SPEC_FAMILIES[v.spec])
       return `unknown spec family ${v.spec}: add it to SPEC_FAMILIES in spec-status.mjs`;
     if (v.spec && !/^\d+\.\d+$/.test(v.version ?? ''))
@@ -501,32 +509,27 @@ const checkOpenAPIUnwired = (n, p) => {
 /* JSON Schema                                                                                */
 /* ------------------------------------------------------------------------------------------ */
 
-// ApiDOM's JSON Schema support (namespaces, adapters, apidom-ls) is taken as given; only the
-// Swagger UI renderer is an upstream check.
-const checkJSONSchemaUpstream = (id, d) => {
-  const area = 'upstream';
-  const bundle = swaggerUIBundle();
-  const renderer = d.renderer.split(' ')[0];
+// ApiDOM's JSON Schema support (namespaces, adapters, apidom-ls) is taken as given. Swagger UI
+// renders standalone JSON Schema natively and the editor only routes content to its Swagger UI
+// preview, so the upstream check is that swagger-ui-react ships the plugin doing the rendering.
+const checkJSONSchemaUpstream = (id) => {
+  const plugin = values['swagger-ui-plugin'];
+  const version = installedVersion('swagger-ui-react') ?? '(not installed)';
+  const missing = plugin
+    ? `swagger-ui-react ${version} has no ${plugin}: it doesn't render standalone JSON Schema yet`
+    : `native rendering of standalone JSON Schema ${id} in swagger-ui-react ${version} unconfirmed: pass --swagger-ui-plugin <name> (swagger-ui /add-json-schema-support, decision 7)`;
   check(
-    bundle.includes(renderer),
-    area,
-    `swagger-ui-react ${installedVersion('swagger-ui-react')} bundles the ${renderer} renderer`,
-    `swagger-ui-react ${installedVersion('swagger-ui-react')} has no ${renderer} renderer`,
+    Boolean(plugin) && swaggerUIBundle().includes(plugin),
+    'upstream',
+    `swagger-ui-react ${version} bundles ${plugin} (native standalone JSON Schema rendering)`,
+    missing,
     'UPSTREAM'
   );
-  if (renderer === 'JSONSchema202012')
-    check(
-      bundle.includes('withJSONSchema202012SystemContext'),
-      area,
-      'swagger-ui-react exposes withJSONSchema202012SystemContext (standalone rendering HOC)',
-      'swagger-ui-react has no withJSONSchema202012SystemContext',
-      'UPSTREAM'
-    );
 };
 
 /**
- * The dialect's ApiDOM parser adapters are runtime imports (detection, preview parsing), so they
- * are declared like the OpenAPI adapters. Names are known for 2020-12 only; for other dialects
+ * The dialect's ApiDOM parser adapters are runtime imports for detection, so they are declared
+ * like the OpenAPI adapters. Names are known for 2020-12 only; for other dialects
  * take them from the registry.
  */
 const checkJSONSchemaDependencies = (id, d) => {
@@ -614,76 +617,35 @@ const checkJSONSchemaEditor = (id, d) => {
     `no TopBarFileMenuLoadExampleNestedMenu${component} in top-bar/index.js`
   );
 
-  const plugin = 'src/plugins/editor-preview-json-schema';
-  const pluginIndex = read(plugin, 'index.js') || read(plugin, 'index.ts');
+  // Swagger UI renders the schema natively: the editor routes JSON Schema content to its Swagger
+  // UI preview (add-json-schema-support/references/preview-routing.md), no preview plugin
+  const preview = 'src/plugins/editor-preview-swagger-ui/extensions';
+  const routes = new RegExp(`selectIsContentTypeJSONSchema(${d.suffix})?\\(`);
   check(
-    pluginIndex !== '',
+    routes.test(read(preview, 'editor-preview/wrap-components/EditorPreviewWrapper.jsx')),
     'preview',
-    `${plugin} exists`,
-    `${plugin} doesn't exist: JSON Schema content falls through to the Swagger UI preview`
+    `the Swagger UI preview shows JSON Schema ${id} content (EditorPreviewWrapper)`,
+    'EditorPreviewWrapper shows the Swagger UI preview for OpenAPI only: JSON Schema content gets EditorPreviewFallback ("Unable to render editor content")'
   );
-  if (pluginIndex) {
-    check(
-      /EditorPreview(Pane)?:\s*\w+/.test(pluginIndex),
-      'preview',
-      'preview plugin wraps EditorPreview',
-      "preview plugin doesn't wrap EditorPreview (or EditorPreviewPane)"
-    );
-    check(
-      pluginIndex.includes('detectContentTypeSuccess'),
-      'preview',
-      'preview plugin wraps detectContentTypeSuccess (parses on detection)',
-      "preview plugin doesn't wrap detectContentTypeSuccess"
-    );
-    const pluginSources = sourceFiles(plugin)
-      .map((file) => readFileSync(file, 'utf8'))
-      .join('\n');
-    check(
-      pluginSources.includes(d.renderer.split(' ')[0]),
-      'preview',
-      `preview plugin renders through ${d.renderer.split(' ')[0]}`,
-      `preview plugin doesn't use ${d.renderer.split(' ')[0]} (renderer for ${id})`
-    );
-  }
   check(
-    read('src/plugins/swagger-ui-adapter/extensions/core/wrap-components/BaseLayout.jsx').includes(
-      'selectIsContentTypeJSONSchema'
-    ),
+    routes.test(read(preview, 'editor-content-type/wrap-actions.js')),
     'preview',
-    'swagger-ui-adapter BaseLayout short-circuits JSON Schema',
-    "swagger-ui-adapter BaseLayout doesn't short-circuit JSON Schema (SwaggerUI-hosted previews)"
-  );
-  check(
-    /EditorPreviewJSONSchema\w*:/.test(read('src/App.tsx')),
-    'exports',
-    'SwaggerEditor.plugins exports the JSON Schema preview plugin',
-    "src/App.tsx doesn't export the JSON Schema preview plugin in SwaggerEditor.plugins"
-  );
-  check(
-    read('src/presets/monaco/index.js').includes('EditorPreviewJSONSchema'),
-    'exports',
-    'monaco preset includes the JSON Schema preview plugin',
-    "src/presets/monaco/index.js doesn't include the JSON Schema preview plugin"
+    `detectContentTypeSuccess passes JSON Schema ${id} content to Swagger UI (updateSpec)`,
+    'detectContentTypeSuccess passes only OpenAPI content to Swagger UI (specActions.updateSpec)'
   );
   const readme = read('README.md');
-  check(
-    readme.includes('editor-preview-json-schema'),
-    'docs',
-    'README lists editor-preview-json-schema',
-    'README.md plugin list has no editor-preview-json-schema'
-  );
   check(
     /JSON Schema[^\n]*\d{4}-\d{2}|JSON Schema[^\n]*[Dd]raft/.test(readme),
     'docs',
     'README states the supported JSON Schema dialects',
     "README.md doesn't state which JSON Schema dialects are supported"
   );
-  const e2e = walk(path('test/playwright/e2e'), (file) => /json-schema/i.test(file));
+  const e2e = 'test/playwright/e2e/plugin.editor-preview-swagger-ui.spec.ts';
   check(
-    e2e.length > 0,
+    /JSON Schema/.test(read(e2e)),
     'tests',
-    `Playwright spec ${e2e.map(rel).join(', ')}`,
-    'no Playwright spec for the JSON Schema preview (plugin.editor-preview-json-schema.spec.ts)'
+    `${e2e} covers the JSON Schema preview`,
+    `${e2e} has no JSON Schema case (Load Example renders the schema in the Swagger UI preview)`
   );
 };
 

@@ -27,6 +27,11 @@ current truth.
   editor's "Using preview plugins in SwaggerUI" architecture (README), i.e. the plugin must also
   work inside a plain Swagger UI through the `swagger-ui-adapter` BaseLayout wrap.
 
+**Scope decisions since the doc (2026-10-23):** Swagger UI renders standalone JSON Schema
+natively, so the editor routes JSON Schema content to its existing Swagger UI preview instead of
+building `editor-preview-json-schema` (`preview-routing.md`). References that cross dialects are
+out of scope.
+
 ## Delivery Plans
 
 | Plan | Order | Estimate | Editor result |
@@ -45,9 +50,9 @@ substitutes (ajv validation, a Monarch grammar) are not part of this skill.
 | PR | Content |
 |----|---------|
 | 1 | ApiDOM bump and JSON Schema adapter dependencies, detection, selectors, file name, fixture, menu |
-| 2 | `editor-preview-json-schema` (parsing with the ApiDOM adapter), BaseLayout bypass, exports, docs |
+| 2 | routing to the Swagger UI preview (`EditorPreviewWrapper`, `detectContentTypeSuccess` wrap-action), swagger-ui-react bump, docs |
 | 3 | language features check (apidom-ls markers, completion, hover) and theme tokens |
-| later | more dialects: adapters, detection, renderer routing per dialect |
+| later | more dialects: adapters, detection, routing once Swagger UI renders them |
 
 ## State of SwaggerEditor and Swagger UI
 
@@ -67,9 +72,11 @@ Swagger UI (from the Swagger UI skills' research):
   `dependencies`, `additionalItems`, `$recursiveRef`) fall into the extension catch-all.
 - The legacy renderer is coupled to OpenAPI selectors (`specSelectors.findDefinition`, `isOAS3`
   for `allOf`/`anyOf`/`oneOf`/`not`, `specPath`), so the Draft 6 proposal is an open decision.
-- `oas31/after-load.js` replaces `fn.jsonSchema202012.isExpandable` and `getProperties` globally;
-  a standalone preview must render correctly with that override in place (the editor always
-  loads the OpenAPI plugins).
+- `oas31/after-load.js` replaces `fn.jsonSchema202012.isExpandable` and `getProperties` globally.
+  Native rendering must work with that override in place (the editor always loads the OpenAPI
+  plugins); that is Swagger UI's work, and the editor's Playwright tests catch a regression.
+- Native standalone rendering is planned in swagger-ui's `/add-json-schema-support` (added by
+  swagger-api/swagger-ui#11106); the editor's upstream gate waits for the release that ships it.
 
 SwaggerEditor (`main`):
 
@@ -77,9 +84,10 @@ SwaggerEditor (`main`):
   `selectIsContentTypeJSONSchema` / `selectIsContentTypeJSONSchema202012`, fixture
   `selectJSONSchema202012YAML`, Load Example item "JSON Schema 2020-12" and its Playwright load
   test.
-- Missing: the JSON Schema adapter dependencies, the preview plugin, BaseLayout bypass, exports,
-  docs, theme tokens, a JSON Schema file name for `Save as`. Today a 2020-12 document falls
-  through to the Swagger UI preview.
+- Missing: the JSON Schema adapter dependencies, routing to the Swagger UI preview, docs, theme
+  tokens, a JSON Schema file name for `Save as`. Today a 2020-12 document gets
+  `EditorPreviewFallback` ("Unable to render editor content"): the Swagger UI preview and its
+  `updateSpec` run for OpenAPI content only.
 - The JSON detection regex matches `"$schema"` anywhere in the document, not only at the root
   (so do the ApiDOM adapters' `detectionRegExp`; the root check is the editor's job).
 
@@ -87,8 +95,10 @@ SwaggerEditor (`main`):
 
 1. Draft 6 renderer: legacy (doc) or modern (closer to Draft 7) - Swagger UI's call; the editor
    follows.
-2. Embedded `$schema` of another dialect: render with the root dialect's renderer, or switch
-   renderer per embedded resource (needs Swagger UI support).
-3. `$ref` display in the preview: as text (today's renderer) or resolved through
-   apidom-reference.
+2. `$ref` display in the preview: Swagger UI's call (its `$ref` resolution decision); the editor
+   follows.
+3. Download Resolved JSON/YAML for JSON Schema: stays OpenAPI-only until Swagger UI resolves
+   standalone `$ref`s or ApiDOM bundles JSON Schema (deferred).
 4. Colours for the JSON Schema semantic token types in both Monaco themes.
+
+Embedded `$schema` of another dialect is out of scope with references that cross dialects.

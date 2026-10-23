@@ -40,10 +40,10 @@ tests, gates, one PR. The OAS 3.2 commit `a7e7a960` (#5720) is the reference imp
 ### `/add-json-schema-support`
 
 Delivers standalone JSON Schema, 2020-12 first: the SwaggerEditor part of the design doc's
-complete plan, taking the ApiDOM part (adapters, apidom-ls) as done. PR 1 ApiDOM bump, adapter
-dependencies and detection; PR 2 the `editor-preview-json-schema` plugin (ApiDOM parsing, Swagger
-UI's `JSONSchema202012` renderer, BaseLayout bypass, exports); PR 3 language features from
-apidom-ls and theme tokens. Also covers further dialects.
+complete plan, taking the ApiDOM part (adapters, apidom-ls) as done and Swagger UI's native
+rendering as given. PR 1 ApiDOM bump, adapter dependencies and detection; PR 2 routing JSON Schema
+content to the existing Swagger UI preview and the swagger-ui-react bump (no editor preview
+plugin); PR 3 language features from apidom-ls and theme tokens. Also covers further dialects.
 
 ### `/add-spec-support`
 

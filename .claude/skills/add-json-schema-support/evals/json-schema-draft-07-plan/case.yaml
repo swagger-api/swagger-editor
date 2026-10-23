@@ -2,9 +2,10 @@ schema_version: "1.1"
 name: json-schema-draft-07-plan
 expected_outcome: |
   PLAN.md adds Draft 7 detection (JSON and YAML, the http URI with and without the trailing #,
-  content type application/schema+json|yaml;version=<uri>), a Draft 7 selector, routing Draft 7 in
-  the existing (or planned) editor-preview-json-schema plugin rather than a second plugin, the
-  modern JSONSchema202012 renderer per the design doc, the Draft 7 keywords that renderer doesn't
-  display (definitions, dependencies, additionalItems, array-form items) as Swagger UI work,
+  content type application/schema+json|yaml;version=<uri>), a Draft 7 selector, routing Draft 7 to
+  the Swagger UI preview like 2020-12 once Swagger UI renders Draft 7 natively (its renderer
+  choice, the modern one per the design doc), no preview plugin, the Draft 7 keywords that
+  renderer doesn't display (definitions, dependencies, additionalItems, array-form items) as
+  Swagger UI work,
   and the Draft 7 ApiDOM adapters as new dependencies (names looked up, not derived), with
   validation, completion and hover taken from apidom-ls rather than an editor-side validator.

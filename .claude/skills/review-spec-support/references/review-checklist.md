@@ -60,13 +60,16 @@ new family, the neighbouring specs that must keep their behaviour).
 
 ## 6. Preview (JSON Schema, spec families, or any new preview)
 
+- [ ] JSON Schema: no preview plugin and no `BaseLayout` bypass. `editor-preview-swagger-ui`'s
+      `EditorPreviewWrapper` and `detectContentTypeSuccess` wrap-action route the dialect with
+      its dialect selector (one shared condition), and the bumped swagger-ui-react renders it
+      natively (`.claude/skills/add-json-schema-support/references/preview-routing.md`).
 - [ ] `EditorPreview` wrap returns a new component and falls back to `<Original {...system} />`.
 - [ ] Spec families: a detected document never shows `EditorPreviewFallback` ("Content was not
       recognized"); the preview option (placeholder, renderer, custom) matches the tracking doc
       (`.claude/skills/add-spec-support/references/preview-decision.md`).
-- [ ] `swagger-ui-adapter` `BaseLayout` bypass exists for the new content type.
-- [ ] Render states: loading, parse failure, unsupported dialect, success.
-- [ ] The `withJSONSchema202012SystemContext` HOC is not recreated on every render.
+- [ ] Spec families: `swagger-ui-adapter` `BaseLayout` bypass exists for the new content type.
+- [ ] Render states: loading, parse failure, unsupported version, success.
 - [ ] Reducers guard on `requestId`; `previewUnmounted` resets state.
 - [ ] Styles are scoped partials imported via the plugin's `components/_all.scss` from
       `src/styles/main.scss`.
