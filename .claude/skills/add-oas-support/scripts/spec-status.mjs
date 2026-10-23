@@ -570,7 +570,7 @@ const checkJSONSchemaLanguageService = (id, d) => {
     report(
       'NOTE',
       'language',
-      `adapter package names for ${id} aren't recorded here: before the language-features PR, check that node_modules/@swagger-api/apidom-ls/src/parser-factory.mjs imports them`
+      `adapter package names for ${id} aren't recorded here: before the language-features PR, check that node_modules/@swagger-api/apidom-ls/src/parser-factory.mjs imports them and that apidom-reference has the dialect's dereference strategy`
     );
     return;
   }
@@ -580,6 +580,15 @@ const checkJSONSchemaLanguageService = (id, d) => {
     'language',
     `${ls} parses JSON Schema ${id} (parser-factory imports ${d.adapters.join(', ')})`,
     `${ls} doesn't parse JSON Schema ${id}: no validation, completion, hover or semantic tokens until an ApiDOM release wires the adapters into parser-factory (blocks the language-features PR only)`
+  );
+  // Download Resolved: apidom-ls doDeref -> apidom-reference dereferenceApiDOM, as for OpenAPI
+  const reference = `apidom-reference ${installedVersion('@swagger-api/apidom-reference') ?? '(not installed)'}`;
+  const strategy = `json-schema-${id}`;
+  check(
+    existsSync(path('node_modules/@swagger-api/apidom-reference/src/dereference/strategies', strategy)),
+    'language',
+    `${reference} has the ${strategy} dereference strategy (Download Resolved)`,
+    `${reference} has no ${strategy} dereference strategy: Download Resolved can't dereference JSON Schema ${id} (blocks the language-features PR only)`
   );
 };
 
@@ -658,6 +667,16 @@ const checkJSONSchemaEditor = (id, d) => {
     'preview',
     `detectContentTypeSuccess passes JSON Schema ${id} content to Swagger UI (updateSpec)`,
     'detectContentTypeSuccess passes only OpenAPI content to Swagger UI (specActions.updateSpec)'
+  );
+  // Download Resolved works as for OpenAPI once the menu items accept the dialect
+  const items = 'src/plugins/top-bar/components/FileMenu/items';
+  ['JSON', 'YAML'].forEach((format) =>
+    check(
+      routes.test(read(items, `DownloadResolved${format}MenuItem.jsx`)),
+      'download',
+      `Download Resolved ${format} is offered for JSON Schema ${id}`,
+      `Download Resolved ${format} is offered for OpenAPI and AsyncAPI only (DownloadResolved${format}MenuItem.jsx; language-features PR)`
+    )
   );
   const readme = read('README.md');
   check(

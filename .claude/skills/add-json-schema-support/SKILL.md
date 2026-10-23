@@ -103,15 +103,17 @@ handles OpenAPI only.
 3. Bump `swagger-ui-react` to the release that passed the upstream gate.
 4. No new plugin, no `swagger-ui-adapter` `BaseLayout` change, no new exports: Swagger UI's own
    `BaseLayout` renders the document, in the editor and in SwaggerUI-hosted previews. Download
-   Resolved and the online validator badge stay OpenAPI-only (record the decision).
+   Resolved comes in PR 3, because it needs the ApiDOM release; the online validator badge stays
+   OpenAPI-only.
 
 ## Step 4: PR 3, Language Features and Highlighting
 
 apidom-ls in the ApiDOM worker provides validation markers, completion, hover and semantic
 tokens for the dialect once the dependencies are bumped; the editor's part is:
 
-0. **Start only when `spec-status.mjs` reports the `language` row `OK`** (the installed
-   apidom-ls `parser-factory` imports the dialect's adapters). While it is `MISSING`, the ApiDOM
+0. **Start only when `spec-status.mjs` reports both `language` rows `OK`** (the installed
+   apidom-ls `parser-factory` imports the dialect's adapters, and the installed apidom-reference
+   has the dialect's dereference strategy). While one is `MISSING`, the ApiDOM
    release isn't there yet: stop and report it as ApiDOM work (apidom's `/add-spec-version`,
    phase 4) instead of debugging the editor.
 1. Load the example and an invalid schema in the running editor (`npm start`): markers in the
@@ -121,7 +123,17 @@ tokens for the dialect once the dependencies are bumped; the editor's part is:
    (`node_modules/@swagger-api/apidom-ls/src/config/` token lists, or `getSemanticTokensLegend()`
    in the worker) and give each an entry in both `se-vs-light.js` and `se-vs-dark.js` (the
    design doc: "coloring of semantic highlighting needs to be tinkered with").
-3. Don't add an editor-side validator, completion provider or Monarch grammar for JSON Schema;
+3. **Download Resolved JSON/YAML**, the same way as for OpenAPI: add the dialect selector
+   (`selectIsContentTypeJSONSchema<Suffix>()`) to the conditions of
+   `top-bar/components/FileMenu/items/DownloadResolvedJSONMenuItem.jsx` and
+   `DownloadResolvedYAMLMenuItem.jsx`, which offer the items for OpenAPI and AsyncAPI only.
+   Nothing else changes: the handlers call `editorActions.dereferenceContent`, which calls the
+   ApiDOM worker's `doDeref`, and apidom-ls's `doDeref` parses with its `parser-factory` and
+   dereferences with apidom-reference's `dereferenceApiDOM`. It works once both `language` rows
+   of `spec-status.mjs` are `OK` (apidom-ls parses the dialect, apidom-reference has its
+   dereference strategy). The editor calls apidom-reference's `bundle()` for no spec, so bundling
+   isn't on this path.
+4. Don't add an editor-side validator, completion provider or Monarch grammar for JSON Schema;
    gaps in what apidom-ls provides are ApiDOM issues.
 
 ## Step 5: Tests
@@ -136,6 +148,9 @@ tokens for the dialect once the dependencies are bumped; the editor's part is:
 - Detection: OpenAPI 3.1/3.2 documents with nested schemas still render as OpenAPI; a document
   without a root `$schema` is not routed.
 - Switching content from JSON Schema to OpenAPI and back swaps the rendered document.
+- Download Resolved JSON and YAML are offered for the dialect, and the downloaded file
+  (Playwright's `download` event) has its external `$ref`s resolved. No Playwright spec covers
+  Download Resolved yet, for OpenAPI either; this is the first.
 
 ## Step 6: Gates (each PR)
 

@@ -78,6 +78,8 @@ new family, the neighbouring specs that must keep their behaviour).
 
 - [ ] Validation, completion, hover and semantic tokens come from apidom-ls; the branch adds no
       editor-side validator, completion provider or Monarch grammar for the spec.
+- [ ] JSON Schema: the Download Resolved JSON/YAML menu items accept the dialect's selector and
+      reuse the `dereferenceContent` / `doDeref` path; no bundle-based download.
 - [ ] An invalid document shows a Validation Pane entry at the right position (load one in the
       running editor or check the Playwright test).
 - [ ] Theme: new token types (`NOTE theme`) have entries in both `se-vs-light.js` and

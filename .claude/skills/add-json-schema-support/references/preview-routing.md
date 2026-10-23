@@ -34,10 +34,9 @@ Read these files before changing them; line-level details drift.
      `BaseLayout`, which renders it. This also covers SwaggerUI-hosted previews (README "Using
      preview plugins in SwaggerUI").
    - `EditorPreviewSwaggerUI` and `previewUnmounted`.
-   - OpenAPI-only features: `OnlineValidatorBadge` (validator.swagger.io validates OpenAPI only)
-     and the Download Resolved JSON/YAML menu items. Resolving a standalone schema depends on how
-     Swagger UI handles `$ref` and on ApiDOM's JSON Schema bundling, which the plan defers; record
-     the decision in the tracking doc.
+   - `OnlineValidatorBadge` stays OpenAPI-only (validator.swagger.io validates OpenAPI only).
+   - Download Resolved JSON/YAML comes with PR 3 (`SKILL.md` Step 4): it dereferences through
+     apidom-ls, so it needs the ApiDOM release.
 
 ## Upstream Gate
 

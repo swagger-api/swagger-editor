@@ -51,7 +51,7 @@ substitutes (ajv validation, a Monarch grammar) are not part of this skill.
 |----|---------|
 | 1 | ApiDOM bump and JSON Schema adapter dependencies, detection, selectors, file name, fixture, menu |
 | 2 | routing to the Swagger UI preview (`EditorPreviewWrapper`, `detectContentTypeSuccess` wrap-action), swagger-ui-react bump, docs |
-| 3 | language features check (apidom-ls markers, completion, hover) and theme tokens |
+| 3 | language features check (apidom-ls markers, completion, hover), theme tokens, Download Resolved JSON/YAML |
 | later | more dialects: adapters, detection, routing once Swagger UI renders them |
 
 ## State of SwaggerEditor and Swagger UI
@@ -85,7 +85,7 @@ SwaggerEditor (`main`):
   `selectJSONSchema202012YAML`, Load Example item "JSON Schema 2020-12" and its Playwright load
   test.
 - Missing: the JSON Schema adapter dependencies, routing to the Swagger UI preview, docs, theme
-  tokens, a JSON Schema file name for `Save as`. Today a 2020-12 document gets
+  tokens, Download Resolved for JSON Schema, a JSON Schema file name for `Save as`. Today a 2020-12 document gets
   `EditorPreviewFallback` ("Unable to render editor content"): the Swagger UI preview and its
   `updateSpec` run for OpenAPI content only.
 - The JSON detection regex matches `"$schema"` anywhere in the document, not only at the root
@@ -97,8 +97,10 @@ SwaggerEditor (`main`):
    follows.
 2. `$ref` display in the preview: Swagger UI's call (its `$ref` resolution decision); the editor
    follows.
-3. Download Resolved JSON/YAML for JSON Schema: stays OpenAPI-only until Swagger UI resolves
-   standalone `$ref`s or ApiDOM bundles JSON Schema (deferred).
+3. Download Resolved JSON/YAML for JSON Schema: answered (2026-10-23): the same as for OpenAPI.
+   The existing menu items dereference through the ApiDOM worker's `doDeref` (apidom-ls `doDeref`,
+   apidom-reference `dereferenceApiDOM`); PR 3 adds the dialect to their conditions. No
+   bundle-based download: the editor calls apidom-reference's `bundle()` for no spec.
 4. Colours for the JSON Schema semantic token types in both Monaco themes.
 
 Embedded `$schema` of another dialect is out of scope with references that cross dialects.
