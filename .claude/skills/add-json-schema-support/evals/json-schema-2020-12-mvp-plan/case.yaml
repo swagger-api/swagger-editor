@@ -1,0 +1,10 @@
+schema_version: "1.1"
+name: json-schema-2020-12-mvp-plan
+expected_outcome: |
+  PLAN.md recognises what main already has (2020-12 detection, selectors, fixture, Load Example
+  item) and plans: an editor-preview-json-schema plugin (EditorPreview wrap, detectContentTypeSuccess
+  wrap-action, parse with ApiDOM adapters plus the 2020-12 namespace, render through Swagger UI's
+  JSONSchema202012 inside withJSONSchema202012SystemContext), the swagger-ui-adapter BaseLayout
+  bypass, exports (monaco preset, SwaggerEditor.plugins, README), ajv validation as Monaco markers
+  via fn.registerMarkerDataProvider with source-map positions and ajv as a direct dependency,
+  Playwright tests, root-only $schema detection, and the open decisions (highlighting, Draft 6).

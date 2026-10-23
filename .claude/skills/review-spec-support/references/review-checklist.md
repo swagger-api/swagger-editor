@@ -1,0 +1,97 @@
+# Review Checklist
+
+Each item says what to check and how to get evidence. Scripts live in
+`.claude/skills/add-oas-support/scripts/`. "Parent" is the previous OpenAPI line, or for JSON
+Schema the 2020-12 code already on `main`.
+
+## 1. Upstream and Dependencies
+
+- [ ] `spec-status.mjs` shows 0 `UPSTREAM`. If not, every other finding is secondary: report it
+      as a blocker first.
+- [ ] All `@swagger-api/apidom-*` entries in `package.json` share one version;
+      `npm ls @swagger-api/apidom-core` shows one version.
+- [ ] Runtime imports (`grep -rhn "from '@swagger-api/" src | sort -u`) are in `dependencies`;
+      packages only the ApiDOM worker uses are not added to `dependencies` (#5891).
+- [ ] Each new adapter has an `overrides` entry; `link:apidom` lists new packages once.
+- [ ] `package-lock.json` changed consistently with `package.json` (`npm ci` succeeds).
+
+## 2. Detection
+
+- [ ] `check-detection.mjs --oas X.Y.Z` / `--json-schema <URI>`: compare with the same run on
+      `main` (`git stash` is not needed: `--root` a `main` worktree). New `MISMATCH` lines are
+      blockers.
+- [ ] Branches use the adapter's `detectionRegExp` when the adapter exports one.
+- [ ] JSON and YAML branches both exist, JSON first, with `isValidJSONObject` /
+      `isValidYAMLObject` guards, version from `version_json` / `version_json ?? version_yaml`.
+- [ ] JSON Schema: root `$schema` only; spec documents with nested schemas keep their spec
+      content type (the script's built-in samples cover this).
+
+## 3. Selectors and Registration
+
+- [ ] Every new selector is exported from `selectors.js` and registered in the plugin's
+      `index.js`; every new action, component and wrap is registered in its plugin.
+- [ ] Derived selectors use `createSelector`; regexes in selectors are anchored
+      (`/version=3\.2\.\d+$/`).
+- [ ] `selectInferFileNameFromContent` handles the new content type.
+
+## 4. Consumers and Older Versions
+
+- [ ] Each `DECIDE consumers` / `DECIDE unwired` line of `spec-status.mjs` is wired or has a
+      reason in the tracking doc. Missing reason: major.
+- [ ] No behaviour change for older versions: diff every edited branch that isn't new; a shared
+      condition that was widened needs a test for the old version.
+- [ ] Components don't gain PropTypes for selectors they don't call.
+
+## 5. Examples
+
+- [ ] The fixture parses and validates with 0 errors (load it in the running editor, or check
+      the Playwright test that loads it), uses the version's new fields (compare with the spec's
+      new/changed sections), and doesn't use removed ones.
+- [ ] Menu item label follows the existing pattern (`OpenAPI X.Y Petstore`,
+      `JSON Schema 2020-12`); names of new methods and components match the parent's pattern
+      letter for letter.
+
+## 6. Preview (JSON Schema, or any new preview)
+
+- [ ] `EditorPreview` wrap returns a new component and falls back to `<Original {...system} />`.
+- [ ] `swagger-ui-adapter` `BaseLayout` bypass exists for the new content type.
+- [ ] Render states: loading, parse failure, unsupported dialect, success.
+- [ ] The `withJSONSchema202012SystemContext` HOC is not recreated on every render.
+- [ ] Reducers guard on `requestId`; `previewUnmounted` resets state.
+- [ ] Styles are scoped partials imported via the plugin's `components/_all.scss` from
+      `src/styles/main.scss`.
+
+## 7. Validation and Highlighting
+
+- [ ] Marker provider (if any) is registered in `afterLoad` only when Monaco exists, disposed and
+      recreated on reload, waits for detection and parsing, drops stale model versions.
+- [ ] Marker ranges come from source positions, not line 1; check one by loading an invalid
+      document.
+- [ ] No duplicate diagnostics between an ajv provider and apidom-ls for the same problem.
+- [ ] Theme: new token types (`NOTE theme`) have entries in both `se-vs-light.js` and
+      `se-vs-dark.js`, or a recorded reason.
+
+## 8. Exports and Docs
+
+- [ ] New plugins: `src/presets/monaco/index.js`, `SwaggerEditor.plugins` in `src/App.tsx`,
+      README plugin list and "Using preview plugins in SwaggerUI".
+- [ ] README and CLAUDE.md supported-version lists.
+- [ ] `verify-urls.mjs --diff main`: 0 `BROKEN`; every `UNVERIFIED` looked at.
+
+## 9. Tests
+
+- [ ] Playwright covers: Load Example, preview of the new version/dialect, the parent still
+      rendering as the parent, each `DECIDE` that changed behaviour (e.g. generator menus).
+- [ ] Tests assert content (titles, version stamp, rendered property), not only visibility of a
+      container.
+- [ ] New test files are TypeScript; no `.only`; helpers from `test/playwright/helpers`.
+- [ ] Run the changed specs: `npx playwright test <files>`; report failures with the first
+      failing assertion.
+
+## 10. Conventions
+
+- [ ] CLAUDE.md: arrow-function components, `.js`/`.jsx` extensions on JS imports, JSX only in
+      `.jsx`/`.tsx`, Immutable updates, no cross-plugin module imports.
+- [ ] `npm run lint` clean on changed files (`npx eslint <files>`).
+- [ ] Commit messages: Conventional Commits, header at most 69 characters (`.commitlintrc.json`).
+- [ ] Each lesson in `.claude/skills/add-oas-support/references/review-lessons.md` that applies.

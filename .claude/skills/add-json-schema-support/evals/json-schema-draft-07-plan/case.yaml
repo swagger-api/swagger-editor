@@ -1,0 +1,10 @@
+schema_version: "1.1"
+name: json-schema-draft-07-plan
+expected_outcome: |
+  PLAN.md adds Draft 7 detection (JSON and YAML, the http URI with and without the trailing #,
+  content type application/schema+json|yaml;version=<uri>), a Draft 7 selector, routing Draft 7 in
+  the existing (or planned) editor-preview-json-schema plugin rather than a second plugin, the
+  modern JSONSchema202012 renderer per the design doc, the Draft 7 keywords that renderer doesn't
+  display (definitions, dependencies, additionalItems, array-form items) as Swagger UI work,
+  ajv's default (draft-07) class for MVP validation, and that ApiDOM has a Draft 7 namespace but no
+  Draft 7 parser adapters or apidom-ls support.
