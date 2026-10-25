@@ -11,7 +11,7 @@ the skill that builds a missing one:
 | Order | Repository | Skill there | Provides to the editor |
 |-------|------------|-------------|------------------------|
 | 1 | `swagger-api/apidom` | `/add-spec-version` (namespace, parser adapters, apidom-reference, apidom-ls) | detection regexes, validation, completion, hover, semantic tokens |
-| 2 | `swagger-api/swagger-js` (swagger-client) | none | `openapi-X-Y-apidom` resolve strategy for the preview |
+| 2 | `swagger-api/swagger-client` | `/add-oas-support`, `/add-json-schema-support` | `openapi-X-Y-apidom` and `json-schema-<dialect>-apidom` resolve strategies for the preview |
 | 3 | `swagger-api/swagger-ui` | `/add-oas-support`, `/add-json-schema-support` (`.claude/skills/` on `main`, swagger-api/swagger-ui#11106) | `isOAS3X` preview plugin, JSON Schema renderers |
 | 4 | `swagger-api/swagger-editor` | the skills below | detection, routing, previews, examples, menus, themes, docs, tests |
 

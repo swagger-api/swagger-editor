@@ -99,8 +99,9 @@ SwaggerEditor (`main`):
 
 1. Renderer per draft: answered (2026-10-25) by Swagger UI (its decision 3): the 2020-12
    renderer with per-dialect overrides for every draft. The editor builds no renderer either way.
-2. `$ref` display in the preview: Swagger UI's call (its `$ref` resolution decision); the editor
-   follows.
+2. `$ref` resolution in the preview: answered (2026-10-25): swagger-client's
+   `json-schema-<dialect>-apidom` strategy (its `/add-json-schema-support`), which Swagger UI
+   registers (its decision 5). The editor gets it through swagger-ui-react and builds nothing.
 3. Download Resolved JSON/YAML for JSON Schema: answered (2026-10-23): the same as for OpenAPI.
    The existing menu items dereference through the ApiDOM worker's `doDeref` (apidom-ls `doDeref`,
    apidom-reference `dereferenceApiDOM`); PR 3 adds the dialect to their conditions. No

@@ -50,7 +50,8 @@ Run from the repository root.
    and where it is built:
    - ApiDOM namespace, parser adapters, apidom-ls: `/add-spec-version` in `swagger-api/apidom`.
    - swagger-client resolve strategy (`src/resolver/strategies/openapi-X-Y-apidom`): a
-     `swagger-api/swagger-js` release, then a swagger-ui release that depends on it.
+     `swagger-api/swagger-client` release (its `/add-oas-support`), then a swagger-ui release
+     that depends on it.
    - swagger-ui-react `isOAS3X`: `swagger-api/swagger-ui` (its `/add-oas-support` skill, on
      `main` since swagger-api/swagger-ui#11106).
 
