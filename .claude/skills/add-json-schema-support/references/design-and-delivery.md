@@ -20,7 +20,8 @@ current truth.
   two examples are in `dialects.md`.
 - **Swagger UI** (est. 1 sprint): the modern renderer (2020-12) was designed for standalone use
   but lacks "arbitrary keyword" support; the legacy renderer (Draft 4/5) has unknown standalone
-  ability. Proposal: legacy renderer for Draft 6, modern for Draft 7 and later.
+  ability. Proposal: legacy renderer for Draft 6, modern for Draft 7 and later. Superseded on
+  2026-10-25 by Swagger UI's decision 3: the modern renderer for every draft.
 - **SwaggerEditor@5** (est. 1 sprint): an `editor-preview-json-schema` plugin built on the
   modern renderer, the ApiDOM JSON Schema adapters integrated, semantic highlighting colours
   tuned, a Load Example item, the new ApiDOM version integrated. The display mechanism is the
@@ -95,8 +96,8 @@ SwaggerEditor (`main`):
 
 ## Open Decisions (record each answer in the tracking doc)
 
-1. Draft 6 renderer: legacy (doc) or modern (closer to Draft 7) - Swagger UI's call; the editor
-   follows.
+1. Renderer per draft: answered (2026-10-25) by Swagger UI (its decision 3): the 2020-12
+   renderer with per-dialect overrides for every draft. The editor builds no renderer either way.
 2. `$ref` display in the preview: Swagger UI's call (its `$ref` resolution decision); the editor
    follows.
 3. Download Resolved JSON/YAML for JSON Schema: answered (2026-10-23): the same as for OpenAPI.

@@ -8,10 +8,13 @@ change it, and never derive a URL from a pattern.
 | Dialect | Root `$schema` value | ApiDOM namespace | Swagger UI renderer |
 |---------|----------------------|------------------|---------------------|
 | 2020-12 | `https://json-schema.org/draft/2020-12/schema` | `apidom-ns-json-schema-2020-12` | `JSONSchema202012` |
-| 2019-09 | `https://json-schema.org/draft/2019-09/schema` | `apidom-ns-json-schema-2019-09` | `JSONSchema202012` (keywords such as `$recursiveRef` fall into extension keywords) |
-| Draft 7 | `http://json-schema.org/draft-07/schema#` | `apidom-ns-json-schema-draft-7` | `JSONSchema202012` per the design doc (`definitions`, `dependencies`, `additionalItems` fall into extension keywords) |
-| Draft 6 | `http://json-schema.org/draft-06/schema#` | `apidom-ns-json-schema-draft-6` | open decision: legacy `ModelWrapper` (doc) or modern |
-| Draft 4 | `http://json-schema.org/draft-04/schema#` | `apidom-ns-json-schema-draft-4` | legacy `ModelWrapper` (`JSONSchema5` plugin) |
+| 2019-09 | `https://json-schema.org/draft/2019-09/schema` | `apidom-ns-json-schema-2019-09` | `JSONSchema202012` with 2019-09 overrides (until they exist, `$recursiveRef` falls into extension keywords) |
+| Draft 7 | `http://json-schema.org/draft-07/schema#` | `apidom-ns-json-schema-draft-7` | `JSONSchema202012` with Draft 7 overrides (until they exist, `definitions`, `dependencies`, `additionalItems` fall into extension keywords) |
+| Draft 6 | `http://json-schema.org/draft-06/schema#` | `apidom-ns-json-schema-draft-6` | `JSONSchema202012` with Draft 6 overrides |
+| Draft 4 | `http://json-schema.org/draft-04/schema#` | `apidom-ns-json-schema-draft-4` | `JSONSchema202012` with Draft 4 overrides |
+
+Swagger UI renders every dialect with its 2020-12 renderer and per-dialect overrides (its
+decision 3, 2026-10-25); the legacy `JSONSchema5` renderer stays with OpenAPI 2.0 and 3.0.
 
 ApiDOM parser adapters: for 2020-12 they are
 `@swagger-api/apidom-parser-adapter-json-schema-json-2020-12` and `-yaml-2020-12`. For other
