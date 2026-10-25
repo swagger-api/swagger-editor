@@ -23,8 +23,26 @@ expect "2" node "$DIR/spec-status.mjs" --oas 3
 expect "2" node "$DIR/spec-status.mjs" --oas 3.2 --json-schema 2020-12
 expect "2" node "$DIR/spec-status.mjs" --json-schema draft-99
 expect "2" node "$DIR/spec-status.mjs" --oas 3.2 --swagger-ui-plugin X
-# no --swagger-ui-plugin: native JSON Schema rendering is unconfirmed, always UPSTREAM
+expect "2" node "$DIR/spec-status.mjs" --oas 3.2 --swagger-ui-version 5.0.0
+expect "2" node "$DIR/spec-status.mjs" --json-schema 2020-12 --swagger-ui-version 5.0
+# no --swagger-ui-plugin/--swagger-ui-version: native JSON Schema rendering is unconfirmed, UPSTREAM
 expect "3" node "$DIR/spec-status.mjs" --json-schema 2020-12
+# the key alone doesn't tell dialects apart: still UPSTREAM
+expect "3" node "$DIR/spec-status.mjs" --json-schema 2020-12 --swagger-ui-plugin JSONSchemaDocument
+# minimal checkout with swagger-ui-react 5.31.0 bundling the key: the upstream check passes for an
+# older or equal release (numerically: 5.4.0 < 5.31.0), so only MISSING remains; a newer one is
+# UPSTREAM
+root="$(mktemp -d)"
+trap 'rm -rf "$root"' EXIT
+mkdir -p "$root/src/plugins/editor-content-type" "$root/node_modules/swagger-ui-react"
+echo '{"version":"5.31.0"}' >"$root/node_modules/swagger-ui-react/package.json"
+echo 'c("JSONSchemaDocument")' >"$root/node_modules/swagger-ui-react/swagger-ui-es-bundle-core.js"
+for release in 5.4.0 5.31.0; do
+  expect "1" node "$DIR/spec-status.mjs" --root "$root" --json-schema 2020-12 \
+    --swagger-ui-plugin JSONSchemaDocument --swagger-ui-version "$release"
+done
+expect "3" node "$DIR/spec-status.mjs" --root "$root" --json-schema 2020-12 \
+  --swagger-ui-plugin JSONSchemaDocument --swagger-ui-version 5.32.0
 expect "0 1 3" node "$DIR/spec-status.mjs" --oas 3.2
 expect "0 1 3" node "$DIR/spec-status.mjs" --oas 3.1 --parent 3.0
 expect "0 1 3" node "$DIR/spec-status.mjs" --oas 2.0

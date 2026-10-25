@@ -76,7 +76,9 @@ Swagger UI (from the Swagger UI skills' research):
   Native rendering must work with that override in place (the editor always loads the OpenAPI
   plugins); that is Swagger UI's work, and the editor's Playwright tests catch a regression.
 - Native standalone rendering is planned in swagger-ui's `/add-json-schema-support` (added by
-  swagger-api/swagger-ui#11106); the editor's upstream gate waits for the release that ships it.
+  swagger-api/swagger-ui#11106) as one `json-schema-document` plugin for every dialect
+  (registration key `JSONSchemaDocument`); the editor's upstream gate waits for the release that
+  first renders the dialect.
 
 SwaggerEditor (`main`):
 

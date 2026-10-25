@@ -40,11 +40,15 @@ Read these files before changing them; line-level details drift.
 
 ## Upstream Gate
 
-`spec-status.mjs --json-schema <dialect> --swagger-ui-plugin <name>` passes when the installed
-`swagger-ui-react` bundle contains `<name>`, the Swagger UI plugin that renders standalone JSON
-Schema. Swagger UI's `/add-json-schema-support` names it (its decision 7); record the name in the
-tracking doc. Without the flag, or while the installed release lacks the plugin, the check reports
-`UPSTREAM`: routing would show Swagger UI's "Unable to render this definition".
+`spec-status.mjs --json-schema <dialect> --swagger-ui-plugin JSONSchemaDocument
+--swagger-ui-version <release>` passes when the installed `swagger-ui-react` bundle contains
+`JSONSchemaDocument`, the registration key of Swagger UI's `json-schema-document` plugin, and the
+installed version is at least `<release>`, the first swagger-ui release that renders this
+dialect. Swagger UI's `/add-json-schema-support` gives both (decision 7 and its hand-off); record
+them in the tracking doc. Every dialect shares the key, so only the release proves the dialect:
+the key alone would let a Draft 7 gate pass on a release that renders only 2020-12. Without both
+flags, or while the installed release falls short, the check reports `UPSTREAM`: routing would
+show Swagger UI's "Unable to render this definition".
 
 ## Tests
 

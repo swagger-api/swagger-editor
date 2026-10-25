@@ -68,15 +68,18 @@ const USAGE = `
 Usage:
   node spec-status.mjs --oas <major.minor> [--parent <major.minor>]
   node spec-status.mjs --json-schema <2020-12|2019-09|draft-07|draft-06|draft-04>
-    [--swagger-ui-plugin <name>]
+    [--swagger-ui-plugin <key> --swagger-ui-version <major.minor.patch>]
   node spec-status.mjs --spec <${Object.keys(SPEC_FAMILIES).join('|')}> --version <major.minor>
 
   --oas                OpenAPI version line, e.g. 3.2
   --parent             previous OpenAPI line (default: minor - 1); enables the unwired-file scan
   --json-schema        JSON Schema dialect for standalone support
-  --swagger-ui-plugin  with --json-schema: the Swagger UI plugin that renders standalone JSON
-                       Schema natively, as named by swagger-ui's /add-json-schema-support
-                       (decision 7); without it the upstream check reports UPSTREAM
+  --swagger-ui-plugin  with --json-schema: registration key of the Swagger UI plugin that renders
+                       standalone JSON Schema natively (JSONSchemaDocument, decision 7 of
+                       swagger-ui's /add-json-schema-support)
+  --swagger-ui-version with --json-schema: the first swagger-ui release that renders the dialect
+                       (from the same skill's hand-off); without both flags the upstream check
+                       reports UPSTREAM
   --spec               other spec family (/add-spec-support); add a row to SPEC_FAMILIES for a
                        new one
   --version            version line of --spec, e.g. 3.1 for AsyncAPI, 1.0 for A2A
@@ -101,6 +104,7 @@ const { values } = parseCli(USAGE, {
     parent: { type: 'string' },
     'json-schema': { type: 'string' },
     'swagger-ui-plugin': { type: 'string' },
+    'swagger-ui-version': { type: 'string' },
     spec: { type: 'string' },
     version: { type: 'string' },
     root: { type: 'string', default: '.' },
@@ -108,8 +112,10 @@ const { values } = parseCli(USAGE, {
   validate: ({ values: v }) => {
     if ([v.oas, v['json-schema'], v.spec].filter(Boolean).length !== 1)
       return 'exactly one of --oas, --json-schema or --spec is required';
-    if (v['swagger-ui-plugin'] && !v['json-schema'])
-      return '--swagger-ui-plugin goes with --json-schema';
+    if ((v['swagger-ui-plugin'] || v['swagger-ui-version']) && !v['json-schema'])
+      return '--swagger-ui-plugin and --swagger-ui-version go with --json-schema';
+    if (v['swagger-ui-version'] && !/^\d+\.\d+\.\d+$/.test(v['swagger-ui-version']))
+      return '--swagger-ui-version takes <major.minor.patch>, e.g. 5.31.0';
     if (v.spec && !SPEC_FAMILIES[v.spec])
       return `unknown spec family ${v.spec}: add it to SPEC_FAMILIES in spec-status.mjs`;
     if (v.spec && !/^\d+\.\d+$/.test(v.version ?? ''))
@@ -513,17 +519,30 @@ const checkOpenAPIUnwired = (n, p) => {
 // ApiDOM's JSON Schema support is taken as given for detection and routing (apidom-ls is checked
 // for the language-features PR only, in checkJSONSchemaLanguageService). Swagger UI renders
 // standalone JSON Schema natively and the editor only routes content to its Swagger UI preview,
-// so the upstream check is that swagger-ui-react ships the plugin doing the rendering.
+// so the upstream check is that swagger-ui-react ships the plugin doing the rendering. Every
+// dialect shares that plugin's registration key, so the key proves the plugin and the release
+// proves the dialect (a dialect's `$schema` id can't: the 2020-12 one is the renderer's default).
+const atLeast = (version, min) => {
+  const [a, b] = [version, min].map((v) => v.split('.', 3).map((n) => parseInt(n, 10)));
+  const i = a.findIndex((n, j) => n !== b[j]);
+  return i === -1 || a[i] > b[i];
+};
 const checkJSONSchemaUpstream = (id) => {
   const plugin = values['swagger-ui-plugin'];
-  const version = installedVersion('swagger-ui-react') ?? '(not installed)';
-  const missing = plugin
-    ? `swagger-ui-react ${version} has no ${plugin}: it doesn't render standalone JSON Schema yet`
-    : `native rendering of standalone JSON Schema ${id} in swagger-ui-react ${version} unconfirmed: pass --swagger-ui-plugin <name> (swagger-ui /add-json-schema-support, decision 7)`;
+  const release = values['swagger-ui-version'];
+  const installed = installedVersion('swagger-ui-react');
+  const version = installed ?? '(not installed)';
+  let missing;
+  if (!plugin || !release)
+    missing = `native rendering of standalone JSON Schema ${id} in swagger-ui-react ${version} unconfirmed: pass --swagger-ui-plugin <key> --swagger-ui-version <release> (swagger-ui /add-json-schema-support, decision 7)`;
+  else if (!swaggerUIBundle().includes(plugin))
+    missing = `swagger-ui-react ${version} has no ${plugin}: it doesn't render standalone JSON Schema yet`;
+  else if (!installed || !atLeast(installed, release))
+    missing = `swagger-ui-react ${version} predates ${release}, the first release that renders JSON Schema ${id}`;
   check(
-    Boolean(plugin) && swaggerUIBundle().includes(plugin),
+    !missing,
     'upstream',
-    `swagger-ui-react ${version} bundles ${plugin} (native standalone JSON Schema rendering)`,
+    `swagger-ui-react ${version} bundles ${plugin} and is ${release} or later (native JSON Schema ${id} rendering)`,
     missing,
     'UPSTREAM'
   );

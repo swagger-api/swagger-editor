@@ -27,7 +27,7 @@ for the doc's content, the open decisions and how they map to the PRs below.
 
 | Tool | Use |
 |------|-----|
-| `node .claude/skills/add-oas-support/scripts/spec-status.mjs --json-schema <dialect> [--swagger-ui-plugin <name>]` | Native JSON Schema rendering in swagger-ui-react (`UPSTREAM` blocks), ApiDOM packages declared as dependencies, apidom-ls parsing the dialect (area `language`, blocks PR 3 only), and every editor integration point. |
+| `node .claude/skills/add-oas-support/scripts/spec-status.mjs --json-schema <dialect> [--swagger-ui-plugin <key> --swagger-ui-version <release>]` | Native rendering of the dialect in swagger-ui-react (`UPSTREAM` blocks), ApiDOM packages declared as dependencies, apidom-ls parsing the dialect (area `language`, blocks PR 3 only), and every editor integration point. |
 | `node .claude/skills/add-oas-support/scripts/check-detection.mjs --json-schema <$schema URI>` | Runs the editor's real detection over samples, including documents whose only `$schema` is nested (must stay plain JSON/YAML) and OpenAPI documents with nested `$schema`. |
 | `node .claude/skills/add-oas-support/scripts/verify-urls.mjs <paths>` / `--diff main` | URL and anchor check (meta-schema URIs, docs links). |
 | `references/design-and-delivery.md` | Design doc digest, open decisions, plan-to-PR mapping. Read at Step 0. |
@@ -41,9 +41,11 @@ for the doc's content, the open decisions and how they map to the PRs below.
 
 1. **Dialect.** The doc starts with 2020-12 only; other dialects are later increments. Use the
    one the user names, else 2020-12.
-2. Run `spec-status.mjs --json-schema <dialect> --swagger-ui-plugin <name>` (the plugin name
-   comes from Swagger UI's skill, decision 7; without it the gate reports `UPSTREAM`) and read
-   `references/design-and-delivery.md`.
+2. Run `spec-status.mjs --json-schema <dialect> --swagger-ui-plugin JSONSchemaDocument
+   --swagger-ui-version <release>` and read `references/design-and-delivery.md`. Both values come
+   from Swagger UI's skill: the registration key (decision 7) is the same for every dialect, and
+   `<release>` is the first swagger-ui release that renders this dialect (its hand-off). Without
+   both the gate reports `UPSTREAM`.
 3. **Stop on `UPSTREAM`.** A swagger-ui-react release without native standalone JSON Schema
    rendering blocks PR 2; report it as Swagger UI work (`swagger-api/swagger-ui`, its
    `/add-json-schema-support` skill, added by swagger-api/swagger-ui#11106; check whether that
@@ -53,7 +55,7 @@ for the doc's content, the open decisions and how they map to the PRs below.
 ## Step 1: Tracking Doc and Keyword Map
 
 1. Create `ADD-JSON-SCHEMA-{DIALECT}.md` at the repo root (uncommitted): dialect, ApiDOM and
-   swagger-ui-react versions, the Swagger UI plugin name, status output, decisions, and the
+   swagger-ui-react versions, the Swagger UI key and release, status output, decisions, and the
    keyword map from `references/keyword-map-template.md`.
 2. Build the keyword map from the dialect's meta-schema vocabularies
    (`references/dialects.md` gives the URIs; fetch them, don't list keywords from memory). For
@@ -155,9 +157,9 @@ tokens for the dialect once the dependencies are bumped; the editor's part is:
 ## Step 6: Gates (each PR)
 
 - `npm run lint`, `npm run test:run`, `npm run build`, targeted then full `npm run pw:test`.
-- `spec-status.mjs --json-schema <dialect> --swagger-ui-plugin <name>`: 0 `UPSTREAM` (PR 1 may
-  run before it with the user's agreement); `MISSING` only for items of later PRs (listed in the
-  tracking doc).
+- `spec-status.mjs --json-schema <dialect> --swagger-ui-plugin JSONSchemaDocument
+  --swagger-ui-version <release>`: 0 `UPSTREAM` (PR 1 may run before it with the user's
+  agreement); `MISSING` only for items of later PRs (listed in the tracking doc).
 - `check-detection.mjs --json-schema <URI>`: 0 `MISMATCH` (from PR 1 on).
 - `verify-urls.mjs --diff main`: 0 `BROKEN`.
 - `/review-spec-support` in a fresh subagent with "JSON Schema <dialect>" and the branch.
