@@ -1,16 +1,18 @@
 ---
 name: add-json-schema-support
-description: Delivers standalone JSON Schema (a document that is only a schema, identified by its root `$schema`, starting with 2020-12) in SwaggerEditor, following the SwaggerHub "Standalone JSON Schema" design (Confluence SHUB 4687691955), with the ApiDOM part taken as done and Swagger UI rendering the document natively - ApiDOM JSON Schema parser adapters for detection, apidom-ls for validation, completion, hover and semantic highlighting, routing JSON Schema content to the existing Swagger UI preview (no editor preview plugin), the swagger-ui-react upgrade, the highlighting check, Load Example, docs and Playwright tests, gated by `spec-status.mjs --json-schema`. Also covers adding further dialects (2019-09, Draft 7/6/4). Use whenever someone wants SwaggerEditor to edit, preview, validate or highlight a plain JSON Schema file, asks why a `$schema` document shows "Unable to render editor content" or "Unable to render this definition", or plans the editor part of standalone JSON Schema, even if they don't name this skill.
+description: Delivers standalone JSON Schema (a document that is only a schema, identified by its root `$schema`, starting with 2020-12) in SwaggerEditor, following the "Standalone JSON Schema" design doc, with the ApiDOM part taken as done and Swagger UI rendering the document natively - ApiDOM JSON Schema parser adapters for detection, apidom-ls for validation, completion, hover and semantic highlighting, routing JSON Schema content to the existing Swagger UI preview (no editor preview plugin), the swagger-ui-react upgrade, the highlighting check, Load Example, docs and Playwright tests, gated by `spec-status.mjs --json-schema`. Also covers adding further dialects (2019-09, Draft 7/6/4). Use whenever someone wants SwaggerEditor to edit, preview, validate or highlight a plain JSON Schema file, asks why a `$schema` document shows "Unable to render editor content" or "Unable to render this definition", or plans the editor part of standalone JSON Schema, even if they don't name this skill.
 ---
 
 # Add Standalone JSON Schema Support to SwaggerEditor
 
 "Standalone" means a document that is a JSON Schema, not one embedded in OpenAPI or AsyncAPI.
-The design doc splits the work across three repositories:
+The work splits across four repositories (the design doc names three; `$ref` resolution moved to
+swagger-client on 2026-10-25):
 
 | Layer | Repository | Provides |
 |-------|------------|----------|
 | Parse, refract, language service | ApiDOM | `apidom-ns-json-schema-*`, `apidom-parser-adapter-json-schema-{json,yaml}-<dialect>`, apidom-ls validation, completion, hover and semantic tokens |
+| Resolve `$ref` for the preview | swagger-client | the `json-schema-<dialect>-apidom` strategy (swagger-client's `/add-json-schema-support`), reaching the editor through swagger-ui-react |
 | Render | Swagger UI | native standalone JSON Schema rendering: detection of the root `$schema`, a layout branch, the plugin in the `apis` preset (swagger-ui's `/add-json-schema-support`) |
 | Edit and display | SwaggerEditor (this skill) | dependencies, detection, routing to the Swagger UI preview, highlighting check, examples |
 

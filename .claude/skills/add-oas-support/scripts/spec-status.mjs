@@ -22,31 +22,26 @@ const DIALECTS = {
       '@swagger-api/apidom-parser-adapter-json-schema-yaml-2020-12',
     ],
     suffix: '202012',
-    renderer: 'JSONSchema202012',
   },
   '2019-09': {
     uri: 'https://json-schema.org/draft/2019-09/schema',
     namespace: '@swagger-api/apidom-ns-json-schema-2019-09',
     suffix: '201909',
-    renderer: 'JSONSchema202012',
   },
   'draft-07': {
     uri: 'http://json-schema.org/draft-07/schema#',
     namespace: '@swagger-api/apidom-ns-json-schema-draft-7',
     suffix: 'Draft7',
-    renderer: 'JSONSchema202012',
   },
   'draft-06': {
     uri: 'http://json-schema.org/draft-06/schema#',
     namespace: '@swagger-api/apidom-ns-json-schema-draft-6',
     suffix: 'Draft6',
-    renderer: 'ModelWrapper (legacy JSONSchema5 plugin; Draft 6 renderer is an open decision)',
   },
   'draft-04': {
     uri: 'http://json-schema.org/draft-04/schema#',
     namespace: '@swagger-api/apidom-ns-json-schema-draft-4',
     suffix: 'Draft4',
-    renderer: 'ModelWrapper (legacy JSONSchema5 plugin)',
   },
 };
 
