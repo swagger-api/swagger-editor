@@ -1,6 +1,6 @@
 ---
 name: add-json-schema-support
-description: Delivers standalone JSON Schema (a document that is only a schema, identified by its root `$schema`, starting with 2020-12) in SwaggerEditor, following the SwaggerHub "Standalone JSON Schema" design (Confluence SHUB 4687691955), with the ApiDOM part taken as done and Swagger UI rendering the document natively - ApiDOM JSON Schema parser adapters for detection, apidom-ls for validation, completion, hover and semantic highlighting, routing JSON Schema content to the existing Swagger UI preview (no editor preview plugin), the swagger-ui-react upgrade, theme tokens, Load Example, docs and Playwright tests, gated by `spec-status.mjs --json-schema`. Also covers adding further dialects (2019-09, Draft 7/6/4). Use whenever someone wants SwaggerEditor to edit, preview, validate or highlight a plain JSON Schema file, asks why a `$schema` document shows "Unable to render editor content" or "Unable to render this definition", or plans the editor part of standalone JSON Schema, even if they don't name this skill.
+description: Delivers standalone JSON Schema (a document that is only a schema, identified by its root `$schema`, starting with 2020-12) in SwaggerEditor, following the SwaggerHub "Standalone JSON Schema" design (Confluence SHUB 4687691955), with the ApiDOM part taken as done and Swagger UI rendering the document natively - ApiDOM JSON Schema parser adapters for detection, apidom-ls for validation, completion, hover and semantic highlighting, routing JSON Schema content to the existing Swagger UI preview (no editor preview plugin), the swagger-ui-react upgrade, the highlighting check, Load Example, docs and Playwright tests, gated by `spec-status.mjs --json-schema`. Also covers adding further dialects (2019-09, Draft 7/6/4). Use whenever someone wants SwaggerEditor to edit, preview, validate or highlight a plain JSON Schema file, asks why a `$schema` document shows "Unable to render editor content" or "Unable to render this definition", or plans the editor part of standalone JSON Schema, even if they don't name this skill.
 ---
 
 # Add Standalone JSON Schema Support to SwaggerEditor
@@ -12,7 +12,7 @@ The design doc splits the work across three repositories:
 |-------|------------|----------|
 | Parse, refract, language service | ApiDOM | `apidom-ns-json-schema-*`, `apidom-parser-adapter-json-schema-{json,yaml}-<dialect>`, apidom-ls validation, completion, hover and semantic tokens |
 | Render | Swagger UI | native standalone JSON Schema rendering: detection of the root `$schema`, a layout branch, the plugin in the `apis` preset (swagger-ui's `/add-json-schema-support`) |
-| Edit and display | SwaggerEditor (this skill) | dependencies, detection, routing to the Swagger UI preview, theme tokens, examples |
+| Edit and display | SwaggerEditor (this skill) | dependencies, detection, routing to the Swagger UI preview, highlighting check, examples |
 
 **This skill takes the ApiDOM layer as done and Swagger UI's rendering as given.** It implements
 the SwaggerEditor part of the doc's complete delivery plan: the editor consumes ApiDOM's JSON
@@ -121,10 +121,14 @@ tokens for the dialect once the dependencies are bumped; the editor's part is:
 1. Load the example and an invalid schema in the running editor (`npm start`): markers in the
    Validation Pane, completion of keywords, hover documentation on a keyword. Record what you saw
    in the tracking doc.
-2. Theme tokens: list the JSON Schema token types apidom-ls emits
-   (`node_modules/@swagger-api/apidom-ls/src/config/` token lists, or `getSemanticTokensLegend()`
-   in the worker) and give each an entry in both `se-vs-light.js` and `se-vs-dark.js` (the
-   design doc: "coloring of semantic highlighting needs to be tinkered with").
+2. Highlighting follows the OpenAPI pattern (decision 4 in `references/design-and-delivery.md`):
+   all keys share one colour and all values another. apidom-ls emits `key` and `value` tokens
+   for JSON Schema and no JSON Schema token types; both themes already colour `key.string`,
+   `key.number`, `value`, `value.string` and `value.number`, and `$ref` gets
+   `reference-element`/`reference-value` as in OpenAPI 3.1. So change neither `se-vs-light.js`
+   nor `se-vs-dark.js`: check in both themes that keywords, nested schema keys and values get
+   those colours. A JSON Schema token type in the worker's `getSemanticTokensLegend()` is an
+   apidom-ls deviation to report, not a theme entry to add.
 3. **Download Resolved JSON/YAML**, the same way as for OpenAPI: add the dialect selector
    (`selectIsContentTypeJSONSchema<Suffix>()`) to the conditions of
    `top-bar/components/FileMenu/items/DownloadResolvedJSONMenuItem.jsx` and

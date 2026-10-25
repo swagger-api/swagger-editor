@@ -84,6 +84,8 @@ new family, the neighbouring specs that must keep their behaviour).
       running editor or check the Playwright test).
 - [ ] Theme: new token types (`NOTE theme`) have entries in both `se-vs-light.js` and
       `se-vs-dark.js`, or a recorded reason.
+- [ ] JSON Schema: no theme entries and no JSON Schema token types; keys and values use the
+      existing `key` and `value` rules, as in OpenAPI (`/add-json-schema-support` decision 4).
 
 ## 8. Exports and Docs
 

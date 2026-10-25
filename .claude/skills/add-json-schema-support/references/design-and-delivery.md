@@ -52,7 +52,7 @@ substitutes (ajv validation, a Monarch grammar) are not part of this skill.
 |----|---------|
 | 1 | ApiDOM bump and JSON Schema adapter dependencies, detection, selectors, file name, fixture, menu |
 | 2 | routing to the Swagger UI preview (`EditorPreviewWrapper`, `detectContentTypeSuccess` wrap-action), swagger-ui-react bump, docs |
-| 3 | language features check (apidom-ls markers, completion, hover), theme tokens, Download Resolved JSON/YAML |
+| 3 | language features check (apidom-ls markers, completion, hover), highlighting check (no theme change), Download Resolved JSON/YAML |
 | later | more dialects: adapters, detection, routing once Swagger UI renders them |
 
 ## State of SwaggerEditor and Swagger UI
@@ -72,7 +72,8 @@ Swagger UI (from the Swagger UI skills' research):
   array-form `items` probably mishandled, Draft 7 / 2019-09 keywords (`definitions`,
   `dependencies`, `additionalItems`, `$recursiveRef`) fall into the extension catch-all.
 - The legacy renderer is coupled to OpenAPI selectors (`specSelectors.findDefinition`, `isOAS3`
-  for `allOf`/`anyOf`/`oneOf`/`not`, `specPath`), so the Draft 6 proposal is an open decision.
+  for `allOf`/`anyOf`/`oneOf`/`not`, `specPath`), so Swagger UI renders every draft with the
+  2020-12 renderer instead (its decision 3).
 - `oas31/after-load.js` replaces `fn.jsonSchema202012.isExpandable` and `getProperties` globally.
   Native rendering must work with that override in place (the editor always loads the OpenAPI
   plugins); that is Swagger UI's work, and the editor's Playwright tests catch a regression.
@@ -87,9 +88,9 @@ SwaggerEditor (`main`):
   `selectIsContentTypeJSONSchema` / `selectIsContentTypeJSONSchema202012`, fixture
   `selectJSONSchema202012YAML`, Load Example item "JSON Schema 2020-12" and its Playwright load
   test.
-- Missing: the JSON Schema adapter dependencies, routing to the Swagger UI preview, docs, theme
-  tokens, Download Resolved for JSON Schema, a JSON Schema file name for `Save as`. Today a 2020-12 document gets
-  `EditorPreviewFallback` ("Unable to render editor content"): the Swagger UI preview and its
+- Missing: the JSON Schema adapter dependencies, routing to the Swagger UI preview, docs,
+  Download Resolved for JSON Schema, a JSON Schema file name for `Save as`. Today a 2020-12
+  document gets `EditorPreviewFallback` ("Unable to render editor content"): the Swagger UI preview and its
   `updateSpec` run for OpenAPI content only.
 - The JSON detection regex matches `"$schema"` anywhere in the document, not only at the root
   (so do the ApiDOM adapters' `detectionRegExp`; the root check is the editor's job).
@@ -104,6 +105,8 @@ SwaggerEditor (`main`):
    The existing menu items dereference through the ApiDOM worker's `doDeref` (apidom-ls `doDeref`,
    apidom-reference `dereferenceApiDOM`); PR 3 adds the dialect to their conditions. No
    bundle-based download: the editor calls apidom-reference's `bundle()` for no spec.
-4. Colours for the JSON Schema semantic token types in both Monaco themes.
+4. Colours for JSON Schema highlighting: answered (2026-10-25): the OpenAPI pattern, all keys
+   one colour and all values another, through the `key` and `value` tokens apidom-ls already
+   emits and both themes already colour. No JSON Schema token types, no theme entries.
 
 Embedded `$schema` of another dialect is out of scope with references that cross dialects.

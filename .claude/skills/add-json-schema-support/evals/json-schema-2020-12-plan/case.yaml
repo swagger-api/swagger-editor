@@ -8,6 +8,6 @@ expected_outcome: |
   Swagger UI preview (EditorPreviewWrapper and the detectContentTypeSuccess wrap-action of
   editor-preview-swagger-ui) once swagger-ui-react renders standalone JSON Schema natively, no
   editor preview plugin, BaseLayout change or new exports, README stating 2020-12 support,
-  validation/completion/hover from apidom-ls without an editor-side validator, theme tokens for
-  JSON Schema token types, Download Resolved JSON/YAML enabled for 2020-12 through the existing
-  apidom-ls doDeref path, Playwright tests, and the open decisions.
+  validation/completion/hover from apidom-ls without an editor-side validator, highlighting with
+  the existing key and value theme colours, Download Resolved JSON/YAML enabled for 2020-12
+  through the existing apidom-ls doDeref path, Playwright tests, and the open decisions.
