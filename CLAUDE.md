@@ -1,12 +1,12 @@
 # CLAUDE.md - SwaggerEditor Codebase Guide for AI Assistants
 
-**Version:** 5.0.6 | **Last Updated:** 2026-05-16
+**Version:** 5.10.0 | **Last Updated:** 2026-10-23
 
 ---
 
 ## Project Overview
 
-SwaggerEditor is a browser-based editor for API specifications supporting **OpenAPI 2.0/3.0/3.1/3.2**, **AsyncAPI 2.x/3.0**, **API Design Systems**, and **JSON Schema**. Built as a React app on SwaggerUI's plugin architecture with a split-pane Monaco Editor interface.
+SwaggerEditor is a browser-based editor for API specifications supporting **OpenAPI 2.0/3.0/3.1/3.2**, **AsyncAPI 2.x/3.0/3.1**, **API Design Systems**, and **JSON Schema**. Built as a React app on SwaggerUI's plugin architecture with a split-pane Monaco Editor interface.
 
 **Core Technologies:** React 17+/18, SwaggerUI React, TypeScript (gradual), Immutable.js, Monaco Editor, ApiDOM, Vite 8, Vitest + Playwright
 
@@ -28,7 +28,7 @@ swagger-editor/
 │   ├── presets/
 │   │   ├── monaco/       # Full-featured preset (default)
 │   │   └── textarea/     # Lightweight fallback
-│   ├── styles/           # Global SCSS (index.scss)
+│   ├── styles/           # Global SCSS (main.scss imports each plugin's components/_all.scss)
 │   └── types/            # TypeScript declarations (*.d.ts)
 ├── test/
 │   ├── playwright/
@@ -132,7 +132,7 @@ export default PluginName;
 ```
 plugin-name/
 ├── index.js
-├── actions/index.js
+├── actions.js                 # or actions/ in larger plugins (editor-monaco, top-bar)
 ├── reducers.js
 ├── selectors.js
 ├── components/ComponentName.jsx
@@ -146,26 +146,32 @@ plugin-name/
 
 ```javascript
 // extensions/editor-preview/wrap-components/EditorPreviewWrapper.jsx
+// (editor-preview-swagger-ui, simplified)
 const EditorPreviewWrapper = (Original, system) => {
-  const EnhancedComponent = (props) => {
-    const isOpenAPI = system.editorSelectors.selectIsContentTypeOpenAPI();
+  const EditorPreview = ({ getComponent, editorSelectors }) => {
+    const EditorPreviewSwaggerUI = getComponent('EditorPreviewSwaggerUI', true);
+    const isOpenAPI = editorSelectors.selectIsContentTypeOpenAPI();
+
     if (isOpenAPI) return <EditorPreviewSwaggerUI />;
-    return <Original {...props} />;
+    return <Original {...system} />;
   };
-  return EnhancedComponent; // must return new component, not Original directly
+  return EditorPreview; // must return new component, not Original directly
 };
 export default EditorPreviewWrapper;
 ```
 
 ### System Access in Plugins
 
+The plugin factory receives `{ getSystem }`; thunks, `afterLoad`, wrapper functions and container
+props receive the system itself. Action and selector namespaces are `<statePluginKey>Actions` /
+`<statePluginKey>Selectors` (`editorPreviewAsyncAPI` → `editorPreviewAsyncAPISelectors`).
+
 ```javascript
-const MyPlugin = (system) => {
-  const { getComponent, editorActions, editorSelectors, fn } = system;
-  const content = editorSelectors.selectEditorContent();
-  editorActions.setEditorContent('new content');
-  const MonacoEditor = getComponent('MonacoEditor');
-};
+const { getComponent, editorActions, editorSelectors, fn } = system;
+const content = editorSelectors.selectContent();
+editorActions.setContent('new content');
+const MonacoEditor = getComponent('MonacoEditor');
+const requestId = fn.generateRequestId();
 ```
 
 ---
@@ -304,7 +310,7 @@ Enforced by commitlint via Husky pre-commit hook.
 
 ### Styling
 - **SCSS** for all component styles; BEM-like naming (`.editor-pane__title`)
-- Partial files prefixed with `_`; global styles in `/src/styles/index.scss`
+- Partial files prefixed with `_`; global styles in `/src/styles/main.scss`, which imports each plugin's `components/_all.scss`
 
 ### TypeScript
 - Strict mode **off** globally; gradual adoption via `typescript-strict-plugin`
@@ -318,70 +324,107 @@ Enforced by commitlint via Husky pre-commit hook.
 
 SwaggerUI's plugin-based Redux-like system with Immutable.js.
 
+The snippets below are condensed from `editor-preview-asyncapi` (`actions.js`, `reducers.js`,
+`selectors.js`), the reference for the async FSM pattern.
+
 ### Actions
 
-```javascript
-export const SET_EDITOR_CONTENT = 'editor_set_content';
-export const setEditorContent = (content) => ({ type: SET_EDITOR_CONTENT, payload: content });
+Action types are `<plugin>_<event>` strings; request IDs travel in `meta`.
 
-// Async thunk
-export const loadDefinition = (url) => async (system) => {
-  const { editorActions, fn } = system;
-  const requestId = generateRequestId();
-  editorActions.loadDefinitionRequest({ url, requestId });
+```javascript
+export const EDITOR_PREVIEW_ASYNCAPI_PARSE_STARTED = 'editor_preview_asyncapi_parse_started';
+export const EDITOR_PREVIEW_ASYNCAPI_PARSE_SUCCESS = 'editor_preview_asyncapi_parse_success';
+export const EDITOR_PREVIEW_ASYNCAPI_PARSE_FAILURE = 'editor_preview_asyncapi_parse_failure';
+
+export const parseStarted = ({ content, requestId }) => ({
+  type: EDITOR_PREVIEW_ASYNCAPI_PARSE_STARTED,
+  payload: content,
+  meta: { requestId },
+});
+// parseSuccess / parseFailure follow the same shape (failure adds `error: true`)
+
+// Async thunk: returns a function that receives the system
+export const parse = (content) => async (system) => {
+  const { editorPreviewAsyncAPIActions, fn } = system;
+  const requestId = fn.generateRequestId();
+
+  editorPreviewAsyncAPIActions.parseStarted({ content, requestId });
   try {
-    const content = await fn.fetchUrl(url);
-    editorActions.loadDefinitionSuccess({ content, requestId });
+    const parseResult = await parseInWorker(content); // simplified: real code calls a worker proxy
+    return editorPreviewAsyncAPIActions.parseSuccess({ parseResult, content, requestId });
   } catch (error) {
-    editorActions.loadDefinitionFailure({ error, requestId });
+    return editorPreviewAsyncAPIActions.parseFailure({ error, content, requestId });
   }
 };
 ```
 
 ### Reducers (Immutable.js)
 
+Reducers receive the plugin's own state slice (an Immutable `Map`). `initialState` is a plain
+object used as defaults in reducers and selectors; it is not registered with the plugin.
+
 ```javascript
-import { Map } from 'immutable';
+export const IDLE_STATUS = 'idle';
+export const PARSING_STATUS = 'parsing';
+export const SUCCESS_STATUS = 'success';
 
-export const initialState = Map({ content: '', status: 'idle', error: null, requestId: null });
+export const initialState = { parseStatus: IDLE_STATUS, parseRequestId: null, parseResult: null };
 
-const loadSuccessReducer = (state, action) => {
-  if (state.get('requestId') !== action.payload.requestId) return state; // ignore stale
-  return state.merge({ status: 'success', content: action.payload.content, error: null });
+const parseStartedReducer = (state, action) =>
+  state.merge({ parseStatus: PARSING_STATUS, parseRequestId: action.meta.requestId });
+
+const parseSuccessReducer = (state, action) => {
+  const status = state.get('parseStatus') || IDLE_STATUS;
+  const requestId = state.get('parseRequestId');
+
+  if (status === PARSING_STATUS && requestId === action.meta.requestId) {
+    return state.merge({
+      parseStatus: SUCCESS_STATUS,
+      parseRequestId: null,
+      parseResult: action.payload.document,
+    });
+  }
+  return state; // stale response, ignore
 };
 
 export default {
-  [SET_EDITOR_CONTENT]: (state, action) => state.set('content', action.payload),
-  [LOAD_DEFINITION_SUCCESS]: loadSuccessReducer,
+  [EDITOR_PREVIEW_ASYNCAPI_PARSE_STARTED]: parseStartedReducer,
+  [EDITOR_PREVIEW_ASYNCAPI_PARSE_SUCCESS]: parseSuccessReducer,
 };
 ```
 
 ### Selectors (Reselect)
 
+Selectors also receive the plugin's state slice as first argument; the system binds them, so
+callers use `editorPreviewAsyncAPISelectors.selectParseStatus()` without arguments.
+
 ```javascript
 import { createSelector } from 'reselect';
 
-export const selectEditorState = (state) => state.get('editor');
-export const selectEditorContent = (state) => selectEditorState(state).get('content');
-export const selectStatus = (state) => selectEditorState(state).get('status');
+export const selectParseStatus = (state) => state.get('parseStatus', IDLE_STATUS);
 
-// Always memoize derived state
-export const selectValidationErrors = createSelector(
-  selectValidationResults,
-  (results) => results.filter((r) => r.severity === 'error')
+// Memoize derived state
+export const selectIsParseInProgress = createSelector(
+  selectParseStatus,
+  (parseStatus) => parseStatus === PARSING_STATUS
 );
 ```
 
 ### State Access in Components
 
-```javascript
-const MyComponent = () => {
-  const { editorSelectors, editorActions } = useSystem();
-  const content = editorSelectors.selectEditorContent();
-  const isLoading = editorSelectors.selectIsLoading();
+There is no `useSystem()` hook. Components resolved as containers receive the system
+(`editorSelectors`, `editorActions`, `getComponent`, ...) as props; wrappers get it as the
+second argument of the wrapper function (see `editor-monaco/components/ThemeSelectionIcon.jsx`).
 
-  return <div>{isLoading ? 'Loading...' : content}</div>;
+```javascript
+const ThemeSelectionIcon = ({ editorSelectors, editorActions }) => {
+  const theme = editorSelectors.selectTheme();
+
+  return <button onClick={() => editorActions.setTheme('se-vs-dark')}>{theme}</button>;
 };
+
+// rendered elsewhere as a container, so system props are injected:
+const ThemeSelection = system.getComponent('ThemeSelection', true);
 ```
 
 ### Known Issue: Editor Content Storage
@@ -399,18 +442,22 @@ const MyComponent = () => {
 
 ```javascript
 // src/plugins/my-plugin/index.js
+import MyComponent from './components/MyComponent.jsx';
+
+const MY_PLUGIN_SET_DATA = 'my_plugin_set_data';
+
 const MyPlugin = () => ({
-  components: { MyComponent: () => <div>Hello from MyPlugin</div> },
+  components: { MyComponent },
   statePlugins: {
     myPlugin: {
-      initialState: Map({ data: null }),
-      actions: { myAction: (payload) => ({ type: 'MY_ACTION', payload }) },
-      reducers: { MY_ACTION: (state, action) => state.set('data', action.payload) },
-      selectors: { selectData: createSelector((s) => s.get('myPlugin'), (s) => s.get('data')) },
+      actions: { setData: (data) => ({ type: MY_PLUGIN_SET_DATA, payload: data }) },
+      reducers: { [MY_PLUGIN_SET_DATA]: (state, action) => state.set('data', action.payload) },
+      selectors: { selectData: (state) => state.get('data', null) }, // state = myPlugin slice
     },
   },
 });
 export default MyPlugin;
+// usage: system.myPluginActions.setData(1); system.myPluginSelectors.selectData();
 ```
 
 Then import and add to `App.tsx` or your preset's plugin array.
@@ -436,19 +483,16 @@ const TopBarWrapper = (Original, system) => {
 
 ### Adding a New Content Type
 
-```javascript
-// Extend detection in editor-content-type plugin (order matters — specific first)
-const detectContentType = (content) => {
-  if (/^openapi:\s*["']?3\.1/.test(content)) return 'openapi-3-1';
-  if (/^openapi:\s*["']?3\.0/.test(content)) return 'openapi-3-0';
-  if (/^swagger:\s*["']?2\.0/.test(content)) return 'openapi-2-0';
-  if (/^asyncapi:\s*["']?2\./.test(content)) return 'asyncapi-2';
-  if (/^myspec:\s*["']?1\.0/.test(content)) return 'myspec-1-0'; // custom
-  return 'unknown';
-};
-```
+Detection lives in `editor-content-type/actions.js` (`detectContentType`): one JSON and one YAML
+branch per spec version, built from the ApiDOM parser adapter's `detectionRegExp`, producing
+media types such as `application/vnd.oai.openapi+yaml;version=3.2.0`. Each version gets a
+`selectIsContentType*` selector registered in the plugin's `index.js`; preview plugins wrap
+`EditorPreview` and render on those selectors (see `editor-preview-asyncapi`).
 
-Then create a preview plugin that wraps `EditorPreview` and conditionally renders based on `editorSelectors.selectEditorContentType()`.
+Use the skills in `.claude/skills/`: `/add-oas-support` (OpenAPI versions),
+`/add-json-schema-support` (standalone JSON Schema), `/add-spec-support` (AsyncAPI, A2A, Arazzo
+and other ApiDOM-supported families), `/review-spec-support`; they list every integration point
+and bundle checks (`spec-status.mjs`, `check-detection.mjs`).
 
 ### Adding E2E Tests
 
@@ -472,10 +516,9 @@ test.describe('My Feature', () => {
 ### Debugging Validation
 
 ```javascript
-const { editorSelectors } = useSystem();
-console.log('markers:', editorSelectors.selectEditorMarkers());
-console.log('diagnostics:', editorSelectors.selectDiagnostics());
-console.log('content type:', editorSelectors.selectEditorContentType());
+// inside a component or plugin with access to the system
+console.log('markers:', editorSelectors.selectMarkers());
+console.log('content type:', editorSelectors.selectContentType());
 console.log('is OpenAPI:', editorSelectors.selectIsContentTypeOpenAPI());
 ```
 
@@ -508,9 +551,9 @@ const Wrapper = (Original, system) => (props) => <Original {...props} />; // ✅
 
 ### 4. Request ID Race Conditions
 
-Always include `requestId` in async actions and guard in reducers:
+Always include `requestId` in async actions (in `meta`) and guard in reducers:
 ```javascript
-if (state.get('requestId') !== action.payload.requestId) return state;
+if (state.get('parseRequestId') !== action.meta.requestId) return state;
 ```
 
 ### 5. Monaco Environment Configuration
@@ -533,16 +576,20 @@ export NODE_OPTIONS="--max_old_space_size=4096"
 
 ### 8. Content Type Detection Order
 
-More specific patterns must come first — detect `3.1` before `3.0`, `3.0` before `2.0`.
+Branches run in order and the first match wins. The ApiDOM adapter regexes are version-exclusive, so OpenAPI lines don't shadow each other; what matters is that spec branches (OpenAPI, AsyncAPI, ADS) run before the JSON Schema `$schema` branches and the generic JSON/YAML fallbacks. Check with `node .claude/skills/add-oas-support/scripts/check-detection.mjs`.
 
 ### 9. Selector Memoization
 
 ```javascript
-// ❌ recalculates every render
-export const selectErrors = (state) => selectResults(state).filter(r => r.severity === 'error');
+// ❌ new array on every call, re-renders every consumer
+export const selectParseErrors = (state) => state.get('parseErrors')?.toJS() ?? [];
 
-// ✅ memoized with createSelector
-export const selectErrors = createSelector(selectResults, (r) => r.filter(...));
+// ✅ memoized with createSelector (editor-preview-asyncapi/selectors.js)
+const selectState = (state) => state;
+export const selectParseErrors = createSelector(
+  selectState,
+  (state) => state.get('parseErrors')?.toJS() ?? []
+);
 ```
 
 ### 10. TypeScript Strict Mode
@@ -621,6 +668,14 @@ Off globally. Use `typescript-strict-plugin` per file. New files should aim for 
 3. Look at similar plugins for patterns to copy
 4. Check Playwright tests to see how features are exercised
 
+### Adding Spec Support (OpenAPI, JSON Schema, AsyncAPI, A2A, ...)
+Use the skills in `.claude/skills/` (overview in `.claude/skills/README.md`): `/add-oas-support`
+for a new OpenAPI version, `/add-json-schema-support` for standalone JSON Schema (design doc:
+Confluence SHUB "Standalone JSON Schema"), `/add-spec-support` for any other spec family or its
+version lines, `/review-spec-support` to review any of them in a fresh context. They start by
+checking the upstream packages (ApiDOM, apidom-ls, and for OpenAPI swagger-client and
+swagger-ui-react).
+
 ### Before Committing
 - [ ] `npm run lint:fix`
 - [ ] `npm test`
@@ -630,4 +685,4 @@ Off globally. Use `typescript-strict-plugin` per file. New files should aim for 
 
 ---
 
-**Last Updated:** 2026-05-16 | **Version:** 5.0.6 | Update this file when architecture changes significantly
+**Last Updated:** 2026-10-23 | **Version:** 5.10.0 | Update this file when architecture changes significantly
