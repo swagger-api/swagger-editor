@@ -29,13 +29,14 @@ for the doc's content, the open decisions and how they map to the PRs below.
 
 | Tool | Use |
 |------|-----|
-| `node .claude/skills/add-oas-support/scripts/spec-status.mjs --json-schema <dialect> [--swagger-ui-plugin <key> --swagger-ui-version <release>]` | Native rendering of the dialect in swagger-ui-react (`UPSTREAM` blocks), ApiDOM packages declared as dependencies, apidom-ls parsing the dialect (area `language`, blocks PR 3 only), and every editor integration point. |
+| `node .claude/skills/add-oas-support/scripts/spec-status.mjs --json-schema <dialect> [--swagger-ui-plugin <key> --swagger-ui-version <release>]` | Native rendering of the dialect in swagger-ui-react (`UPSTREAM` blocks), ApiDOM packages declared as dependencies, apidom-ls parsing the dialect (area `language`, blocks PR 3 only), every editor integration point, and dependencies from tarballs of an unreleased upstream PR (`UNRELEASED`). |
 | `node .claude/skills/add-oas-support/scripts/check-detection.mjs --json-schema <$schema URI>` | Runs the editor's real detection over samples, including documents whose only `$schema` is nested (must stay plain JSON/YAML) and OpenAPI documents with nested `$schema`. |
 | `node .claude/skills/add-oas-support/scripts/verify-urls.mjs <paths>` / `--diff main` | URL and anchor check (meta-schema URIs, docs links). |
 | `references/design-and-delivery.md` | Design doc digest, open decisions, plan-to-PR mapping. Read at Step 0. |
 | `references/preview-routing.md` | What the Swagger UI preview does with JSON Schema today, the two files to change, the upstream gate, the tests. Read at Step 3. |
 | `references/dialects.md` | `$schema` URIs, ApiDOM packages and renderer per dialect; the design doc's cross-dialect examples (out of scope, kept as root-detection fixtures). Read at Step 1. |
 | `references/keyword-map-template.md` | Per-keyword coverage table for the tracking doc. Read at Step 1. |
+| `../add-oas-support/references/unreleased-upstream.md` | Starting a PR on a ready but unreleased Swagger UI or ApiDOM PR: pack its branch, wire the tarballs, replace them with the release before merging. Read at Step 0 when an upstream isn't released yet. |
 | `../add-oas-support/references/testing.md` | Playwright and Vitest patterns. Read at Step 5. |
 | `../add-oas-support/references/review-lessons.md` | General wiring lessons (registration, cross-plugin imports, dependencies). Read before Step 2. |
 
@@ -48,11 +49,14 @@ for the doc's content, the open decisions and how they map to the PRs below.
    from Swagger UI's skill: the registration key (decision 7) is the same for every dialect, and
    `<release>` is the first swagger-ui release that renders this dialect (its hand-off). Without
    both the gate reports `UPSTREAM`.
-3. **Stop on `UPSTREAM`.** A swagger-ui-react release without native standalone JSON Schema
-   rendering blocks PR 2; report it as Swagger UI work (`swagger-api/swagger-ui`, its
-   `/add-json-schema-support` skill, added by swagger-api/swagger-ui#11106; check whether that
-   PR is merged). Pieces that don't depend on the rendering (dependencies, detection, fixture)
-   may proceed only if the user agrees.
+3. **`UPSTREAM`.** A swagger-ui-react release without native standalone JSON Schema rendering
+   blocks PR 2. If the Swagger UI PR that adds it is ready (its exit gate passes, its review is
+   clean), install a swagger-ui-react tarball of its branch
+   (`../add-oas-support/references/unreleased-upstream.md`) and re-run with the tarball's version
+   as `--swagger-ui-version`; PR 2 then merges only after the Swagger UI release. Otherwise stop
+   and report it as Swagger UI work (`swagger-api/swagger-ui`, its `/add-json-schema-support`
+   skill, on `main` since swagger-api/swagger-ui#11106). Pieces that don't depend on the
+   rendering (dependencies, detection, fixture) may proceed only if the user agrees.
 
 ## Step 1: Tracking Doc and Keyword Map
 
@@ -73,8 +77,10 @@ Only what's missing per `spec-status.mjs` (2020-12 detection, selectors, fixture
 already exist on `main`):
 
 1. **Dependencies.** Bump every `@swagger-api/apidom-*` package to the latest release (one
-   version for all). Add `@swagger-api/apidom-parser-adapter-json-schema-json-<dialect>` and
-   `-yaml-<dialect>` to `dependencies` (runtime imports for detection, like the OpenAPI adapters
+   version for all; before the ApiDOM release, tarballs of its ready PR,
+   `../add-oas-support/references/unreleased-upstream.md`). Add
+   `@swagger-api/apidom-parser-adapter-json-schema-json-<dialect>` and `-yaml-<dialect>` to
+   `dependencies` (runtime imports for detection, like the OpenAPI adapters
    in `editor-content-type/actions.js`), `overrides` and `link:apidom`
    (`../add-oas-support/references/integration-points.md` section 1). apidom-ls stays in
    `devDependencies` (worker-only).
@@ -104,7 +110,8 @@ handles OpenAPI only.
    `selectIsContentTypeJSONSchema()`).
 2. Its `detectContentTypeSuccess` wrap-action passes those dialects to Swagger UI
    (`specActions.updateSpec`) like OpenAPI content, using one shared condition.
-3. Bump `swagger-ui-react` to the release that passed the upstream gate.
+3. Bump `swagger-ui-react` to the release that passed the upstream gate (before the Swagger UI
+   release, the tarball that passed it; the release replaces it before merging).
 4. No new plugin, no `swagger-ui-adapter` `BaseLayout` change, no new exports: Swagger UI's own
    `BaseLayout` renders the document, in the editor and in SwaggerUI-hosted previews. Download
    Resolved comes in PR 3, because it needs the ApiDOM release; the online validator badge stays
@@ -118,8 +125,9 @@ tokens for the dialect once the dependencies are bumped; the editor's part is:
 0. **Start only when `spec-status.mjs` reports both `language` rows `OK`** (the installed
    apidom-ls `parser-factory` imports the dialect's adapters, and the installed apidom-reference
    has the dialect's dereference strategy). While one is `MISSING`, the ApiDOM
-   release isn't there yet: stop and report it as ApiDOM work (apidom's `/add-spec-version`,
-   phase 4) instead of debugging the editor.
+   release isn't there yet: if apidom's phase 4 PR is ready, install tarballs of its branch
+   (`../add-oas-support/references/unreleased-upstream.md`); otherwise stop and report it as
+   ApiDOM work (apidom's `/add-spec-version`, phase 4) instead of debugging the editor.
 1. Load the example and an invalid schema in the running editor (`npm start`): markers in the
    Validation Pane, completion of keywords, hover documentation on a keyword. Record what you saw
    in the tracking doc.
@@ -165,7 +173,9 @@ tokens for the dialect once the dependencies are bumped; the editor's part is:
 - `npm run lint`, `npm run test:run`, `npm run build`, targeted then full `npm run pw:test`.
 - `spec-status.mjs --json-schema <dialect> --swagger-ui-plugin JSONSchemaDocument
   --swagger-ui-version <release>`: 0 `UPSTREAM` (PR 1 may run before it with the user's
-  agreement); `MISSING` only for items of later PRs (listed in the tracking doc).
+  agreement); `MISSING` only for items of later PRs (listed in the tracking doc). Before merging:
+  0 `UNRELEASED`, with the real Swagger UI release as `--swagger-ui-version`
+  (`../add-oas-support/references/unreleased-upstream.md` section 4).
 - `check-detection.mjs --json-schema <URI>`: 0 `MISMATCH` (from PR 1 on).
 - `verify-urls.mjs --diff main`: 0 `BROKEN`.
 - `/review-spec-support` in a fresh subagent with "JSON Schema <dialect>" and the branch.

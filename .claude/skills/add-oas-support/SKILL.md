@@ -26,7 +26,7 @@ Run from the repository root.
 
 | Tool | Use |
 |------|-----|
-| `node .claude/skills/add-oas-support/scripts/spec-status.mjs --oas X.Y [--parent X.Y]` | Upstream prerequisites (`UPSTREAM`), every editor integration point (`OK` / `MISSING`), consumers that switch on concrete versions but not the new one (`DECIDE`), files naming the parent version but not the new one (`DECIDE unwired`), theme token coverage (`NOTE`). Exit 3 = upstream missing, 1 = editor wiring missing. |
+| `node .claude/skills/add-oas-support/scripts/spec-status.mjs --oas X.Y [--parent X.Y]` | Upstream prerequisites (`UPSTREAM`), every editor integration point (`OK` / `MISSING`), consumers that switch on concrete versions but not the new one (`DECIDE`), files naming the parent version but not the new one (`DECIDE unwired`), theme token coverage (`NOTE`), dependencies from tarballs of an unreleased upstream PR (`UNRELEASED`, `references/unreleased-upstream.md`). Exit 3 = upstream missing, 1 = editor wiring missing, 4 = only `UNRELEASED` left (ready, not mergeable). |
 | `node .claude/skills/add-oas-support/scripts/check-detection.mjs --oas X.Y.Z` | Runs the editor's real `detectContentType` over built-in samples (every supported spec, nested-`$schema` traps) plus JSON and YAML samples of the new version. `MISMATCH` = wrong content type; exit 1. |
 | `node .claude/skills/add-oas-support/scripts/verify-urls.mjs <paths>` or `--diff main` | HTTP status and `#anchor` of every URL in the given files or the branch diff. |
 | `bash .claude/skills/add-oas-support/scripts/test/smoke.sh` | Exit-code smoke test; run after changing a script. |

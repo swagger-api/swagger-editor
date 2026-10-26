@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # Smoke test for the skill scripts. Run from the repository root after changing a script:
 #   bash .claude/skills/add-oas-support/scripts/test/smoke.sh
-# Usage errors must exit 2. Real runs must exit 0, 1 or 3 and print their completion summary:
+# Usage errors must exit 2. Real runs must exit 0, 1, 3 or 4 and print their completion summary:
 # exit 1 is also Node's status for an uncaught error, so the exit code alone can't tell them apart.
 set -u
 DIR="$(cd "$(dirname "$0")/.." && pwd)"
@@ -32,8 +32,27 @@ expect() {
   check "$@" || failures=$((failures + 1))
 }
 
+# expect_line PATTERN COMMAND...: some output line must match PATTERN (expect_no_line: none may)
+expect_line() {
+  local pattern="$1"
+  shift
+  if ! "$@" 2>&1 | grep -Eq "$pattern"; then
+    echo "FAIL (no line matching /$pattern/): $*"
+    failures=$((failures + 1))
+  fi
+}
+
+expect_no_line() {
+  local pattern="$1"
+  shift
+  if "$@" 2>&1 | grep -Eq "$pattern"; then
+    echo "FAIL (unexpected line matching /$pattern/): $*"
+    failures=$((failures + 1))
+  fi
+}
+
 # a crashing command exits 1 and prints no summary: the harness must reject it
-if check "0 1 3" "$SPEC_STATUS_SUMMARY" node -e 'throw new Error("boom")' >/dev/null; then
+if check "0 1 3 4" "$SPEC_STATUS_SUMMARY" node -e 'throw new Error("boom")' >/dev/null; then
   echo "FAIL (harness accepted a crashing command)"
   failures=$((failures + 1))
 fi
@@ -64,11 +83,33 @@ for release in 5.4.0 5.31.0; do
 done
 expect "3" "$SPEC_STATUS_SUMMARY" node "$DIR/spec-status.mjs" --root "$root" --json-schema 2020-12 \
   --swagger-ui-plugin JSONSchemaDocument --swagger-ui-version 5.32.0
-expect "0 1 3" "$SPEC_STATUS_SUMMARY" node "$DIR/spec-status.mjs" --oas 3.2
-expect "0 1 3" "$SPEC_STATUS_SUMMARY" node "$DIR/spec-status.mjs" --oas 3.1 --parent 3.0
-expect "0 1 3" "$SPEC_STATUS_SUMMARY" node "$DIR/spec-status.mjs" --oas 2.0
+# unreleased upstream tarballs: file: and git specs are UNRELEASED, nested overrides included; a
+# $name override isn't, and a tarball doesn't count as a differing ApiDOM version
+cat >"$root/package.json" <<'EOF'
+{
+  "dependencies": {
+    "@swagger-api/apidom-core": "^1.13.3",
+    "@swagger-api/apidom-ls": "file:../upstream-tarballs/apidom-ls-abc1234.tgz",
+    "swagger-ui-react": "file:../upstream-tarballs/swagger-ui-react-def5678.tgz"
+  },
+  "overrides": {
+    "@swagger-api/apidom-ls": "$@swagger-api/apidom-ls",
+    "some-package": { "swagger-client": "github:swagger-api/swagger-client#feat" }
+  }
+}
+EOF
+status_with_tarballs=(node "$DIR/spec-status.mjs" --root "$root" --json-schema 2020-12
+  --swagger-ui-plugin JSONSchemaDocument --swagger-ui-version 5.31.0)
+expect_line 'UNRELEASED +deps +dependencies swagger-ui-react is file:' "${status_with_tarballs[@]}"
+expect_line 'UNRELEASED +deps +overrides some-package > swagger-client is github:' \
+  "${status_with_tarballs[@]}"
+expect_no_line 'UNRELEASED .*is \$@swagger-api' "${status_with_tarballs[@]}"
+expect_no_line 'apidom-\* dependencies differ' "${status_with_tarballs[@]}"
+expect "0 1 3 4" "$SPEC_STATUS_SUMMARY" node "$DIR/spec-status.mjs" --oas 3.2
+expect "0 1 3 4" "$SPEC_STATUS_SUMMARY" node "$DIR/spec-status.mjs" --oas 3.1 --parent 3.0
+expect "0 1 3 4" "$SPEC_STATUS_SUMMARY" node "$DIR/spec-status.mjs" --oas 2.0
 for dialect in 2020-12 2019-09 draft-07 draft-06 draft-04; do
-  expect "0 1 3" "$SPEC_STATUS_SUMMARY" node "$DIR/spec-status.mjs" --json-schema "$dialect"
+  expect "0 1 3 4" "$SPEC_STATUS_SUMMARY" node "$DIR/spec-status.mjs" --json-schema "$dialect"
 done
 expect "3" "$SPEC_STATUS_SUMMARY" node "$DIR/spec-status.mjs" --oas 9.9
 expect "2" "" node "$DIR/spec-status.mjs" --spec a2a
@@ -76,7 +117,7 @@ expect "2" "" node "$DIR/spec-status.mjs" --spec raml --version 1.0
 expect "2" "" node "$DIR/spec-status.mjs" --oas 3.2 --version 3.2
 for family in "asyncapi 3.1" "asyncapi 2.6" "a2a 1.0" "arazzo 1.0"; do
   set -- $family
-  expect "0 1 3" "$SPEC_STATUS_SUMMARY" node "$DIR/spec-status.mjs" --spec "$1" --version "$2"
+  expect "0 1 3 4" "$SPEC_STATUS_SUMMARY" node "$DIR/spec-status.mjs" --spec "$1" --version "$2"
 done
 expect "3" "$SPEC_STATUS_SUMMARY" node "$DIR/spec-status.mjs" --spec asyncapi --version 9.0
 expect "0" "" node "$DIR/check-detection.mjs" --help
