@@ -176,10 +176,23 @@ const hasAnchor = ({ text, markdown }, anchor) => {
   const escaped = anchor.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
   if (new RegExp(`(id|name)=["']${escaped}["']`).test(text)) return true;
   if (!markdown) return false;
+  // GitHub suffixes repeated slugs: `example`, `example-1`, `example-2`, skipping taken slugs
+  const taken = new Set();
+  const counts = new Map();
   return text
     .split('\n')
     .filter((line) => /^#{1,6}\s/.test(line))
-    .some((line) => githubSlug(line.replace(/^#+\s*/, '')) === anchor);
+    .some((line) => {
+      const base = githubSlug(line.replace(/^#+\s*/, ''));
+      let slug = base;
+      for (let n = counts.get(base) ?? 0; taken.has(slug); ) {
+        n += 1;
+        slug = `${base}-${n}`;
+        counts.set(base, n);
+      }
+      taken.add(slug);
+      return slug === anchor;
+    });
 };
 
 // enough heading ids in the HTML to trust that anchors are rendered server-side
