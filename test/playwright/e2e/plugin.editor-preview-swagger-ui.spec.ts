@@ -7,6 +7,7 @@ import {
   waitForSplashScreen,
   waitForContentPropagation,
   clickNestedMenuItem,
+  setEditorText,
 } from '../helpers';
 
 /**
@@ -67,6 +68,45 @@ test.describe('Editor Preview Pane: OpenAPI 2.0, 3.0.x, 3.1.x', () => {
 
     await expect(page.locator('.title')).not.toBeAttached();
     await expect(page.locator('text=Swagger Petstore')).not.toBeAttached();
+  });
+
+  // Schema Objects of OpenAPI 3.1+ may carry $schema: the document stays OpenAPI
+  ['3.1.1', '3.2.0'].forEach((version) => {
+    test(`should display OpenAPI ${version} whose Schema Objects carry $schema`, async ({
+      page,
+    }) => {
+      await setEditorText(
+        page,
+        `openapi: ${version}\ninfo:\n  title: Pets with $schema\n  version: 1.0.0\npaths: {}\ncomponents:\n  schemas:\n    Pet:\n      $schema: https://json-schema.org/draft/2020-12/schema\n      type: object\n`
+      );
+      await waitForContentPropagation(page);
+
+      await expect(page.locator('.title').filter({ hasText: 'Pets with $schema' })).toBeVisible();
+      await expect(page.locator('.version-stamp > .version')).toContainText(
+        `OAS ${version.slice(0, 3)}`
+      );
+    });
+  });
+
+  test('should be hidden for a JSON document whose only $schema is nested', async ({ page }) => {
+    await setEditorText(
+      page,
+      JSON.stringify(
+        {
+          title: 'Nested only',
+          type: 'object',
+          properties: {
+            a: { $schema: 'https://json-schema.org/draft/2020-12/schema', type: 'string' },
+          },
+        },
+        null,
+        2
+      )
+    );
+    await waitForContentPropagation(page);
+
+    await expect(page.locator('.title')).not.toBeAttached();
+    await expect(page.getByText('Unable to render editor content')).toBeVisible();
   });
 });
 
