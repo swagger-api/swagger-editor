@@ -94,6 +94,10 @@ SwaggerEditor (`main`):
   `updateSpec` run for OpenAPI content only.
 - The JSON detection regex matches `"$schema"` anywhere in the document, not only at the root
   (so do the ApiDOM adapters' `detectionRegExp`; the root check is the editor's job).
+- PR 1 (branch `feat/json-schema-2020-12`, 2026-10-27) adds the adapter dependencies, detection
+  through the adapters' `detectionRegExp` plus a root check (`fn.isJSONSchemaDocumentJSON` /
+  `YAML` in `editor-content-type/fn.js`, which also applies decision 5) and the `schema` file
+  name.
 
 ## Open Decisions (record each answer in the tracking doc)
 
@@ -109,5 +113,26 @@ SwaggerEditor (`main`):
 4. Colours for JSON Schema highlighting: answered (2026-10-25): the OpenAPI pattern, all keys
    one colour and all values another, through the `key` and `value` tokens apidom-ls already
    emits and both themes already colour. No JSON Schema token types, no theme entries.
+5. What counts as a standalone JSON Schema document: answered (2026-10-27): a root with the
+   dialect's `$schema` and none of `openapi`, `swagger`, `asyncapi`, `arazzo` (whatever their
+   value). swagger-client, Swagger UI and apidom-ls apply the same rule, so an Arazzo document,
+   or an OpenAPI/AsyncAPI version no adapter detects, with a root `$schema` is plain JSON/YAML
+   in the editor too. PR 1.
+
+Answered with the delivery plan (2026-10-27), recorded here for the editor:
+
+- Plan 1 (complete), no MVP; the editor routes JSON Schema to its existing Swagger UI preview
+  (no editor preview plugin); references that cross dialects are out of scope; inferring the
+  dialect without `$schema` and other dialects are out of scope for 2020-12.
+- `$dynamicRef` is left in place when the preview or Download Resolved dereferences; bundling
+  is deferred (the editor calls `bundle()` for no spec either way).
+- Swagger UI refuses a root `$schema` it doesn't recognise with a message instead of rendering
+  it; the editor routes only the dialects it detects (dialect selectors, `preview-routing.md`).
+- Work starts on tarballs of ready upstream branches and merges only after the upstream
+  releases, with the tarballs replaced and every gate re-run; no prerelease on npm
+  (`../add-oas-support/references/unreleased-upstream.md`).
+- apidom-ls detects standalone JSON Schema as namespace `json-schema`, version `2020-12`, media
+  types `application/schema+{json,yaml};version=2020-12`; the editor keeps its own content-type
+  format (`version=<$schema URI>`), which only its selectors read.
 
 Embedded `$schema` of another dialect is out of scope with references that cross dialects.
