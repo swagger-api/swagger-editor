@@ -11,7 +11,7 @@ import {
 } from '../helpers';
 
 /**
- * Editor Preview Pane: OpenAPI 2.0, 3.0.x, 3.1.x
+ * Editor Preview Pane: OpenAPI 2.0, 3.0.x, 3.1.x, 3.2.x
  * Tests for SwaggerUI preview rendering of OpenAPI specifications
  *
  * Note: `.title` and `.version-stamp` are SwaggerUI-specific CSS classes
@@ -19,7 +19,7 @@ import {
  *
  * Migrated from: test/cypress/e2e/plugin.editor-preview-swagger-ui.cy.js
  */
-test.describe('Editor Preview Pane: OpenAPI 2.0, 3.0.x, 3.1.x', () => {
+test.describe('Editor Preview Pane: OpenAPI 2.0, 3.0.x, 3.1.x, 3.2.x', () => {
   test.beforeEach(async ({ page }) => {
     await visitBlankPage(page);
     await prepareAsyncAPI(page);
