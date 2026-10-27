@@ -236,7 +236,7 @@ npm run build
 - **Location:** `src/**/*.{spec,test}.{js,jsx,ts,tsx}`, run with `npm test` (watch) or `npm run test:run` (CI)
 - Config: `vitest.config.ts` — jsdom environment, globals enabled, `@codingame/monaco-vscode-api` inlined
 - Use `vi.fn()` for mocks; `@testing-library/jest-dom/vitest` for DOM matchers
-- ⚠️ Only 1 unit test exists: `ValidationPane.test.jsx` — heavy reliance on E2E
+- ⚠️ Few unit tests: `ValidationPane.test.jsx` and `editor-content-type/{actions,selectors}.test.js` (content-type detection, selectors) — heavy reliance on E2E
 
 ### E2E Testing (Playwright)
 - **Location:** `test/playwright/e2e/*.spec.ts`, base URL `http://localhost:3000`
@@ -305,7 +305,7 @@ Enforced by commitlint via Husky pre-commit hook.
 | Utilities | `kebab-case.js` | `import-url.js` |
 | Types | `kebab-case.d.ts` | `system.d.ts` |
 | Styles (partials) | `_kebab-case.scss` | `_monaco-editor.scss` |
-| Unit Tests | `ComponentName.test.jsx` | `ValidationPane.test.jsx` |
+| Unit Tests | `ComponentName.test.jsx`, `module.test.js` | `ValidationPane.test.jsx`, `selectors.test.js` |
 | E2E Tests | `feature.spec.ts` | `plugin.editor-monaco.spec.ts` |
 
 ### Styling
