@@ -32,6 +32,8 @@ import {
   isValidJSONArray,
   isValidYAML,
   isValidYAMLObject,
+  isJSONSchemaDocumentJSON,
+  isJSONSchemaDocumentYAML,
 } from './fn.js';
 
 const EditorContentTypePlugin = () => {
@@ -76,6 +78,8 @@ const EditorContentTypePlugin = () => {
       isValidJSONArray,
       isValidYAML,
       isValidYAMLObject,
+      isJSONSchemaDocumentJSON,
+      isJSONSchemaDocumentYAML,
     },
   };
 };
