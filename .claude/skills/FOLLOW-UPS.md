@@ -81,6 +81,51 @@ document the default.
 - **Fix:** add "should load AsyncAPI 3.1 Petstore example as YAML" next to the 2.6 tests.
 - **Commit:** `test: cover AsyncAPI 3.1 examples`
 
+### 1.10 ⏳ A JSON Schema whose examples contain an `openapi`/`swagger`/`asyncapi` string is detected as that spec
+
+Found by the `/review-spec-support` review of `feat/json-schema-2020-12` (2026-10-27); the same
+on `main`.
+
+- **Where:** `editor-content-type/actions.js`. The OpenAPI and AsyncAPI JSON branches run before
+  the JSON Schema branches, and their adapters' `detectionRegExp` (and the JSON alternative of
+  the YAML ones) match `"openapi": "<version>"` anywhere in the text; the only guard is
+  `isValidJSONObject`/`isValidYAMLObject`.
+- **Effect:** with `S` = `https://json-schema.org/draft/2020-12/schema`:
+
+  | Document | Detected |
+  |----------|----------|
+  | `{"$schema": S, "type": "object", "examples": [{"openapi": "3.1.0"}]}` | `application/vnd.oai.openapi+json;version=3.1.0` |
+  | `{"$schema": S, "properties": {"spec": {"type": "object", "default": {"swagger": "2.0"}}}}` | `application/vnd.oai.openapi+json;version=2.0` |
+  | `{"$schema": S, "properties": {"doc": {"const": {"openapi": "3.0.4"}}}}` | `application/vnd.oai.openapi+json;version=3.0.4` |
+  | `{"$schema": S, "examples": [{"asyncapi": "2.6.0"}]}` | `application/vnd.aai.asyncapi+json;version=2.6.0` |
+  | YAML `$schema: S` with `examples:` / `- {"openapi": "3.1.0"}` (flow style) | `application/vnd.oai.openapi+yaml;version=3.1.0` |
+
+  The same YAML in block style (`- openapi: 3.1.0`) is detected as JSON Schema: the YAML
+  alternative of the regexes only matches root keys (column 0).
+- **Check:** run `detectContentType` on the documents above (e.g. a `--sample` file for
+  `check-detection.mjs` with the expected JSON Schema content type).
+- **Fix:** confirm the version field is a root member, as the JSON Schema branches confirm the
+  root `$schema` (`fn.isJSONSchemaDocumentJSON`); check whether ApiDOM's adapters and apidom-ls
+  detect these documents the same way first, so the editor keeps agreeing with them.
+
+### 1.11 ⏳ Vitest test files: TypeScript or JavaScript
+
+- **Conflict:** `review-spec-support/references/review-checklist.md` section 9 says new test
+  files are TypeScript; CLAUDE.md's file-naming table shows unit tests as `ComponentName.test.jsx`,
+  and the existing ones are JavaScript.
+- **Why `editor-content-type/{actions,selectors}.test.js` stayed JavaScript** (2026-10-27): as
+  `.test.ts` (with `import { describe, expect, test, vi } from 'vitest'`) they pass
+  `tsc -p tsconfig.json` and lint, but
+  - under `typescript-strict-plugin`, which checks every file without `// @ts-strict-ignore`
+    (CLAUDE.md: new files aim for strictness), importing the untyped plugin modules
+    (`./actions.js`, `./fn.js`, `./selectors.js`) is TS7016, fixable only by that suppression
+    or by declarations for the modules;
+  - `tsconfig.json` includes `src/**/*.ts`, so `build:definitions` emits
+    `dist/types/**/*.test.d.ts`, and `.npmignore` publishes `dist/`.
+- **Fix:** exclude `src/**/*.{test,spec}.{ts,tsx}` from `tsconfig.json` and type-check tests
+  with their own config (vitest types), then convert; or state in CLAUDE.md and the checklist
+  that Vitest tests in `src` are JavaScript.
+
 ## 2. Cross-Repository Work Found
 
 - **ApiDOM:** the skills take ApiDOM's standalone JSON Schema support as given for detection and
