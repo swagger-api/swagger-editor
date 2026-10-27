@@ -93,10 +93,14 @@ already exist on `main`):
    with any of `openapi`, `swagger`, `asyncapi`, `arazzo`, whatever its value, is an API
    description and never JSON Schema (decision of 2026-10-27, the rule swagger-client, Swagger
    UI and apidom-ls apply): an Arazzo document, or an OpenAPI/AsyncAPI version no branch
-   detects, reaches the JSON Schema branches and must fall through to plain JSON/YAML. The
-   editor's `fn.isJSONSchemaDocumentJSON`/`YAML` (`editor-content-type/fn.js`) do both checks;
-   pass them the dialect's URI. Check with `check-detection.mjs --json-schema <URI>` and test
-   with the doc's nested-`$schema` examples (`references/dialects.md`).
+   detects, reaches the JSON Schema branches and must fall through to plain JSON/YAML. An
+   empty fragment (`.../schema#`) names the same dialect and is accepted (decision of
+   2026-10-27, JSON Schema Core 2020-12 section 8.2.1); any other fragment, a trailing slash or
+   another scheme is not. The editor's `fn.isJSONSchemaDocumentJSON`/`YAML`
+   (`editor-content-type/fn.js`) do these checks; pass them the dialect's URI, and keep the
+   content type's version without the fragment. The adapters' regexes must accept the `#` too.
+   Check with `check-detection.mjs --json-schema <URI>` and test with the doc's nested-`$schema`
+   examples (`references/dialects.md`).
 3. Selector `selectIsContentTypeJSONSchema<Suffix>` (registered), and
    `selectInferFileNameFromContent` naming schema files (e.g. `schema.json`/`.yaml`).
 4. Fixture and Load Example item if missing; the fixture shows the dialect's keywords that

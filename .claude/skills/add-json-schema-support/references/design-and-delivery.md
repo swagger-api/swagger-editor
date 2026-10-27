@@ -96,8 +96,8 @@ SwaggerEditor (`main`):
   (so do the ApiDOM adapters' `detectionRegExp`; the root check is the editor's job).
 - PR 1 (branch `feat/json-schema-2020-12`, 2026-10-27) adds the adapter dependencies, detection
   through the adapters' `detectionRegExp` plus a root check (`fn.isJSONSchemaDocumentJSON` /
-  `YAML` in `editor-content-type/fn.js`, which also applies decision 5) and the `schema` file
-  name.
+  `YAML` in `editor-content-type/fn.js`, which also applies decisions 5 and 6) and the `schema`
+  file name.
 
 ## Open Decisions (record each answer in the tracking doc)
 
@@ -118,6 +118,14 @@ SwaggerEditor (`main`):
    value). swagger-client, Swagger UI and apidom-ls apply the same rule, so an Arazzo document,
    or an OpenAPI/AsyncAPI version no adapter detects, with a root `$schema` is plain JSON/YAML
    in the editor too. PR 1.
+6. A root `$schema` with an empty fragment (`https://json-schema.org/draft/2020-12/schema#`):
+   answered (2026-10-27): it is that dialect, everywhere (JSON Schema Core 2020-12, section
+   8.2.1: the absolute-URI form is canonical "regardless of the presence or absence of an empty
+   fragment"). swagger-client and Swagger UI normalise it, the ApiDOM 2020-12 adapters'
+   `detectionRegExp` accept it and apidom-ls's root check normalises it (apidom
+   `feat/json-schema-2020-12/phase-4`), and so does the editor's root check. Other fragments, a
+   trailing slash or the `http` scheme are refused. The editor's content type carries the
+   identifier without the fragment. PR 1.
 
 Answered with the delivery plan (2026-10-27), recorded here for the editor:
 
