@@ -101,6 +101,10 @@ What the editor does with them:
 - Detection uses the root `$schema` only. A document whose only `$schema` is nested must not be
   routed to the Swagger UI preview as JSON Schema; an OpenAPI 3.1+ document with schemas
   carrying `$schema` stays OpenAPI (detection order already guarantees this; keep a test).
+- A root with any of `openapi`, `swagger`, `asyncapi`, `arazzo`, whatever its value, is never
+  JSON Schema, even with the dialect's root `$schema` (decision of 2026-10-27; swagger-client,
+  Swagger UI and apidom-ls apply the same rule). Detection order doesn't cover this: Arazzo and
+  OpenAPI/AsyncAPI versions no branch detects reach the JSON Schema branches; keep a test.
 - Embedded resources of another dialect get no special handling: Swagger UI renders the whole
   document with the root dialect, and neither ApiDOM nor Swagger UI switches dialect per
   embedded resource.

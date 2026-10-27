@@ -5,7 +5,7 @@ to re-check it. Status legend: ⏳ open, ✅ done (add commit/PR reference).
 
 ## 1. Probable Bugs and Gaps on `main`
 
-### 1.1 ⏳ JSON documents with a nested `$schema` are detected as JSON Schema 2020-12
+### 1.1 ✅ JSON documents with a nested `$schema` are detected as JSON Schema 2020-12
 
 - **Where:** `src/plugins/editor-content-type/actions.js`, the 2020-12 JSON branch: the regex
   matches `"$schema": "https://json-schema.org/draft/2020-12/schema"` anywhere in the document.
@@ -18,6 +18,9 @@ to re-check it. Status legend: ⏳ open, ✅ done (add commit/PR reference).
 - **Fix:** after the regex match, parse the JSON (it is parsed anyway by `isValidJSONObject`) and
   compare the root `$schema`. Belongs in PR 1 of `/add-json-schema-support`.
 - **Commit:** `fix(editor-content-type): detect JSON Schema by root $schema only`
+- **Done:** that commit on branch `feat/json-schema-2020-12` (PR 1 of `/add-json-schema-support`,
+  2026-10-27). It also excludes roots with `openapi`, `swagger`, `asyncapi` or `arazzo`
+  (decision of 2026-10-27); `check-detection.mjs` gained samples for both.
 
 ### 1.2 ⏳ No Playwright test mentions OpenAPI 3.2
 
@@ -41,6 +44,10 @@ to re-check it. Status legend: ⏳ open, ✅ done (add commit/PR reference).
 - **Where:** `selectInferFileNameFromContent` in `editor-content-type/selectors.js` knows
   OpenAPI 2.0-3.2 and AsyncAPI 2 only.
 - **Fix:** add `asyncapi3` and a JSON Schema name (e.g. `schema`); unit test the selector.
+- **Partly done:** JSON Schema is named `schema` on branch `feat/json-schema-2020-12`
+  (`feat(editor-content-type): save JSON Schema as schema.json/.yaml`, 2026-10-27, with
+  `selectors.test.js`). AsyncAPI 3 is still `definition`: there is no
+  `selectIsContentTypeAsyncAPI3` yet (`/add-spec-support`, with 1.6).
 
 ### 1.5 ⏳ Small OAS 3.2 leftovers
 
