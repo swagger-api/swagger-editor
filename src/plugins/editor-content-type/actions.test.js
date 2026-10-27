@@ -53,6 +53,39 @@ describe('detectContentType: standalone JSON Schema 2020-12', () => {
       expect(await detect(content)).toBe(JSON_SCHEMA_JSON);
     });
 
+    describe('with an empty fragment', () => {
+      const withEmptyFragment = `${JSON_SCHEMA_2020_12}#`;
+
+      test('detects a JSON document', async () => {
+        const content = toJSON({ $schema: withEmptyFragment, type: 'object' });
+
+        expect(await detect(content)).toBe(JSON_SCHEMA_JSON);
+      });
+
+      test.each([
+        ['unquoted', `$schema: ${withEmptyFragment}\ntype: object\n`],
+        ['single-quoted', `'$schema': '${withEmptyFragment}'\ntype: object\n`],
+        ['double-quoted', `"$schema": "${withEmptyFragment}"\ntype: object\n`],
+      ])('detects a YAML document (%s)', async (_, content) => {
+        expect(await detect(content)).toBe(JSON_SCHEMA_YAML);
+      });
+    });
+
+    describe('other identifiers', () => {
+      test.each([
+        ['a non-empty fragment', `${JSON_SCHEMA_2020_12}#meta`],
+        ['a JSON Pointer fragment', `${JSON_SCHEMA_2020_12}#/$defs/a`],
+        ['two fragment delimiters', `${JSON_SCHEMA_2020_12}##`],
+        ['a trailing slash', `${JSON_SCHEMA_2020_12}/`],
+        ['the http scheme', 'http://json-schema.org/draft/2020-12/schema'],
+        ['the http scheme and an empty fragment', 'http://json-schema.org/draft/2020-12/schema#'],
+      ])('keeps documents whose root $schema has %s plain JSON/YAML', async (_, $schema) => {
+        expect(await detect(toJSON({ $schema, type: 'object' }))).toBe('application/json');
+        expect(await detect(`$schema: '${$schema}'\ntype: object\n`)).toBe('text/yaml');
+        expect(await detect(`$schema: ${$schema}\ntype: object\n`)).toBe('text/yaml');
+      });
+    });
+
     test('detects a document with properties named like API description fields', async () => {
       const content = toJSON({
         $schema: JSON_SCHEMA_2020_12,
@@ -160,6 +193,15 @@ describe('detectContentType: standalone JSON Schema 2020-12', () => {
       expect(await detect(content)).toBe('text/yaml');
     });
 
+    test('keeps API descriptions with an empty-fragment root $schema plain JSON/YAML', async () => {
+      const $schema = `${JSON_SCHEMA_2020_12}#`;
+
+      expect(await detect(toJSON({ arazzo: '1.0.1', $schema }))).toBe('application/json');
+      expect(await detect(toJSON({ openapi: '4.0.0', $schema }))).toBe('application/json');
+      expect(await detect(`openapi: 4.0.0\n$schema: ${$schema}\n`)).toBe('text/yaml');
+      expect(await detect(`arazzo: 1.0.1\n'$schema': '${$schema}'\n`)).toBe('text/yaml');
+    });
+
     test('detects AsyncAPI 3.1.0 with a root $schema as AsyncAPI', async () => {
       const content = `asyncapi: 3.1.0\n$schema: ${JSON_SCHEMA_2020_12}\ninfo:\n  title: Events\n  version: 1.0.0\n`;
 
@@ -183,5 +225,24 @@ describe('isJSONSchemaDocumentJSON / isJSONSchemaDocumentYAML', () => {
 
     expect(fn.isJSONSchemaDocumentJSON(content, JSON_SCHEMA_2020_12)).toBe(false);
     expect(fn.isJSONSchemaDocumentYAML(content, JSON_SCHEMA_2020_12)).toBe(false);
+  });
+
+  test('reject a root $schema that is not a string', () => {
+    const content = toJSON({ $schema: { $id: JSON_SCHEMA_2020_12 } });
+
+    expect(fn.isJSONSchemaDocumentJSON(content, JSON_SCHEMA_2020_12)).toBe(false);
+    expect(fn.isJSONSchemaDocumentYAML(content, JSON_SCHEMA_2020_12)).toBe(false);
+  });
+
+  test.each([
+    ['the document adds', toJSON({ $schema: `${JSON_SCHEMA_2020_12}#` }), JSON_SCHEMA_2020_12],
+    [
+      'the dialect URI has',
+      toJSON({ $schema: 'http://json-schema.org/draft-07/schema' }),
+      'http://json-schema.org/draft-07/schema#',
+    ],
+  ])('accept an empty fragment %s', (_, content, dialect) => {
+    expect(fn.isJSONSchemaDocumentJSON(content, dialect)).toBe(true);
+    expect(fn.isJSONSchemaDocumentYAML(content, dialect)).toBe(true);
   });
 });
