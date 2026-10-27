@@ -20,8 +20,9 @@ import { detectionRegExp as detectionRegExpJSONSchemaJSON202012 } from '@swagger
 import { detectionRegExp as detectionRegExpJSONSchemaYAML202012 } from '@swagger-api/apidom-parser-adapter-json-schema-yaml-2020-12';
 
 /**
- * Root `$schema` of JSON Schema 2020-12 documents. JSON Schema content types carry it as their
- * version: `application/schema+json;version=https://json-schema.org/draft/2020-12/schema`.
+ * Root `$schema` of JSON Schema 2020-12 documents (which may add an empty fragment, `#`). JSON
+ * Schema content types carry it, without the fragment, as their version:
+ * `application/schema+json;version=https://json-schema.org/draft/2020-12/schema`.
  */
 const JSON_SCHEMA_2020_12 = 'https://json-schema.org/draft/2020-12/schema';
 
