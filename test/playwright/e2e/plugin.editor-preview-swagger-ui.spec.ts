@@ -110,6 +110,24 @@ test.describe('Editor Preview Pane: OpenAPI 2.0, 3.0.x, 3.1.x, 3.2.x', () => {
   });
 });
 
+test.describe('Editor Preview Pane: JSON Schema 2020-12', () => {
+  test.beforeEach(async ({ page }) => {
+    await visitBlankPage(page);
+    await prepareAsyncAPI(page);
+    await prepareOasGenerator(page);
+    await waitForSplashScreen(page);
+  });
+
+  test('should render the schema in the Swagger UI preview', async ({ page }) => {
+    await clickNestedMenuItem(page, 'File', 'Load Example', 'JSON Schema 2020-12');
+    await waitForContentPropagation(page);
+
+    await expect(page.getByText('JSON Schema 2020-12 Example').first()).toBeVisible();
+    await expect(page.getByText('No API definition provided')).not.toBeAttached();
+    await expect(page.getByText('Unable to render editor content')).not.toBeAttached();
+  });
+});
+
 /**
  * Editor Preview Pane: JumpToPath for Schemas
  * Tests for clicking schema links in SwaggerUI to jump to editor location
