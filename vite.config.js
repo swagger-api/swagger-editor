@@ -5,6 +5,7 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 import { buildDefines, logger } from './vite/shared.js';
+import { wasmAsUrl } from './vite/plugins/wasm-as-url.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -22,7 +23,7 @@ export default defineConfig(({ mode }) => {
         strict: false,
       },
     },
-    plugins: [react()],
+    plugins: [wasmAsUrl(), react()],
     define: {
       global: 'globalThis',
       ...buildDefines(),
@@ -58,7 +59,7 @@ export default defineConfig(({ mode }) => {
     },
     worker: {
       format: 'es',
-      plugins: () => [],
+      plugins: () => [wasmAsUrl()],
     },
     build: {
       commonjsOptions: { transformMixedEsModules: true },
