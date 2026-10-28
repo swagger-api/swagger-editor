@@ -136,7 +136,8 @@
     "@swagger-api/apidom-parser-adapter-openapi-json-3-2": "$@swagger-api/apidom-parser-adapter-openapi-json-3-2",
     "@swagger-api/apidom-parser-adapter-openapi-yaml-3-0": "$@swagger-api/apidom-parser-adapter-openapi-yaml-3-0",
     "@swagger-api/apidom-parser-adapter-openapi-yaml-3-1": "$@swagger-api/apidom-parser-adapter-openapi-yaml-3-1",
-    "@swagger-api/apidom-parser-adapter-openapi-yaml-3-2": "$@swagger-api/apidom-parser-adapter-openapi-yaml-3-2"
+    "@swagger-api/apidom-parser-adapter-openapi-yaml-3-2": "$@swagger-api/apidom-parser-adapter-openapi-yaml-3-2",
+    "dompurify": "^3.4.17"
   },
   "devDependencies": {
     "@asyncapi/openapi-schema-parser": "3.0.24",
