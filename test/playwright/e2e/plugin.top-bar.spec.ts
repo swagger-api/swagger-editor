@@ -1,4 +1,4 @@
-import { test, expect } from '@playwright/test';
+import { test, expect, Page } from '@playwright/test';
 import * as path from 'path';
 import { fileURLToPath } from 'url';
 
@@ -9,6 +9,7 @@ import {
   waitForSplashScreen,
   waitForContentPropagation,
   clickNestedMenuItem,
+  setEditorText,
 } from '../helpers';
 
 // Get __dirname equivalent in ES modules
@@ -197,6 +198,90 @@ test.describe('Topbar', () => {
 
         await page.getByText('File', { exact: true }).click();
         await expect(page.getByText('Convert and Save as JSON', { exact: true })).toBeVisible();
+      });
+    });
+
+    /**
+     * The file name follows the detected content type, so these tests also check detection:
+     * standalone JSON Schema needs a root `$schema` and a root without API description fields.
+     */
+    test.describe('Save file name', () => {
+      const schema202012 = 'https://json-schema.org/draft/2020-12/schema';
+
+      const saveAs = async (page: Page, format: 'JSON' | 'YAML'): Promise<string> => {
+        const downloadPromise = page.waitForEvent('download');
+        await clickNestedMenuItem(page, 'File', `Save (as ${format})`);
+        const download = await downloadPromise;
+
+        return download.suggestedFilename();
+      };
+
+      test('should save the JSON Schema 2020-12 example as schema.yaml', async ({ page }) => {
+        await clickNestedMenuItem(page, 'File', 'Load Example', 'JSON Schema 2020-12');
+        await waitForContentPropagation(page);
+
+        expect(await saveAs(page, 'YAML')).toBe('schema.yaml');
+      });
+
+      const cases: {
+        name: string;
+        content: string;
+        format: 'JSON' | 'YAML';
+        fileName: string;
+      }[] = [
+        {
+          name: 'a JSON document with a root JSON Schema 2020-12 $schema',
+          content: JSON.stringify({ $schema: schema202012, type: 'object' }, null, 2),
+          format: 'JSON',
+          fileName: 'schema.json',
+        },
+        {
+          name: 'a JSON document whose only $schema is nested',
+          content: JSON.stringify(
+            { type: 'object', properties: { a: { $schema: schema202012, type: 'string' } } },
+            null,
+            2
+          ),
+          format: 'JSON',
+          fileName: 'definition.json',
+        },
+        {
+          name: 'an OpenAPI 3.1.1 document whose Schema Objects carry $schema',
+          content: `openapi: 3.1.1\ninfo:\n  title: Pets\n  version: 1.0.0\npaths: {}\ncomponents:\n  schemas:\n    Pet:\n      $schema: ${schema202012}\n      type: object\n`,
+          format: 'YAML',
+          fileName: 'openapi3_1.yaml',
+        },
+        {
+          name: 'an OpenAPI 3.2.0 document whose Schema Objects carry $schema',
+          content: `openapi: 3.2.0\ninfo:\n  title: Pets\n  version: 1.0.0\npaths: {}\ncomponents:\n  schemas:\n    Pet:\n      $schema: ${schema202012}\n      type: object\n`,
+          format: 'YAML',
+          fileName: 'openapi3_2.yaml',
+        },
+        {
+          name: 'an Arazzo 1.0.1 document with a root $schema',
+          content: `arazzo: 1.0.1\n$schema: ${schema202012}\ninfo:\n  title: Flows\n  version: 1.0.0\n`,
+          format: 'YAML',
+          fileName: 'definition.yaml',
+        },
+        {
+          name: 'an OpenAPI 4.0.0 document with a root $schema',
+          content: JSON.stringify(
+            { openapi: '4.0.0', $schema: schema202012, info: { title: 'Pets', version: '1.0.0' } },
+            null,
+            2
+          ),
+          format: 'JSON',
+          fileName: 'definition.json',
+        },
+      ];
+
+      cases.forEach(({ name, content, format, fileName }) => {
+        test(`should save ${name} as ${fileName}`, async ({ page }) => {
+          await setEditorText(page, content);
+          await waitForContentPropagation(page);
+
+          expect(await saveAs(page, format)).toBe(fileName);
+        });
       });
     });
   });

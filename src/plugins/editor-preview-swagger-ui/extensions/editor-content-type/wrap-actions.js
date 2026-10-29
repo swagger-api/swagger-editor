@@ -1,4 +1,5 @@
 import { createSafeActionWrapper } from '../../../util/fn.js';
+import { isContentTypeRenderedBySwaggerUI } from '../../fn.js';
 
 // eslint-disable-next-line import/prefer-default-export
 export const detectContentTypeSuccess = createSafeActionWrapper(
@@ -14,7 +15,7 @@ export const detectContentTypeSuccess = createSafeActionWrapper(
         specActions.updateUrl('');
       }
 
-      if (editorSelectors.selectIsContentTypeOpenAPI()) {
+      if (isContentTypeRenderedBySwaggerUI(editorSelectors)) {
         if (contentOrigin === EditorContentOrigin.ImportUrl) {
           specActions.updateUrl(editorPreviewSwaggerUISelectors.selectURL());
         } else if (contentOrigin !== EditorContentOrigin.Editor) {

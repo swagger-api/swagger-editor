@@ -24,10 +24,11 @@ Usage:
   -h, --help     show this help
 
 Built-in samples cover OpenAPI 2.0/3.0/3.1/3.2, AsyncAPI 2/3, API Design Systems, JSON Schema
-2020-12, documents whose only $schema is nested (must not be detected as JSON Schema), and
-OpenAPI and JSON Schema documents with A2A-like "capabilities"/"skills" keys (must keep their
-type). For another spec family (/add-spec-support) pass its JSON and YAML examples with
---sample.
+2020-12 (also with an empty fragment: $schema ending in #), documents whose only $schema is
+nested and documents with a root $schema and a root openapi, swagger, asyncapi or arazzo field
+in a version no branch detects (neither may be detected as JSON Schema), and OpenAPI and JSON
+Schema documents with A2A-like "capabilities"/"skills" keys (must keep their type). For another
+spec family (/add-spec-support) pass its JSON and YAML examples with --sample.
 
 Also evaluates every version-specific selector (selectIsContentTypeOpenAPI31x, ...) on the
 detected content type: two true selectors of one family are a MISMATCH.
@@ -134,6 +135,18 @@ const samples = [
     JSON.stringify({ $schema: schema202012, type: 'object' }),
     `application/schema+json;version=${schema202012}`,
   ],
+  // An empty fragment names the same dialect (JSON Schema Core 2020-12, section 8.2.1); the
+  // content type carries the identifier without it.
+  [
+    'JSON Schema 2020-12 JSON (root $schema with empty fragment)',
+    JSON.stringify({ $schema: `${schema202012}#`, type: 'object' }),
+    `application/schema+json;version=${schema202012}`,
+  ],
+  [
+    'JSON Schema 2020-12 YAML (quoted root $schema with empty fragment)',
+    `'$schema': '${schema202012}#'\ntype: object\n`,
+    `application/schema+yaml;version=${schema202012}`,
+  ],
   [
     'JSON Schema 2020-12 YAML (root $schema)',
     `$schema: ${schema202012}\ntype: object\n`,
@@ -147,6 +160,33 @@ const samples = [
   [
     'YAML with nested $schema only',
     `type: object\nproperties:\n  a:\n    $schema: ${schema202012}\n`,
+    'text/yaml',
+  ],
+  // A root with openapi, swagger, asyncapi or arazzo (whatever its value) is an API description,
+  // never JSON Schema. Versions no branch detects, so these reach the JSON Schema branches.
+  [
+    'JSON with root $schema and openapi 9.9.9',
+    JSON.stringify({ openapi: '9.9.9', $schema: schema202012, type: 'object' }),
+    'application/json',
+  ],
+  [
+    'YAML with root $schema and swagger 9.9',
+    `swagger: '9.9'\n$schema: ${schema202012}\n`,
+    'text/yaml',
+  ],
+  [
+    'YAML with root $schema and asyncapi 9.9.9',
+    `asyncapi: 9.9.9\n$schema: ${schema202012}\n`,
+    'text/yaml',
+  ],
+  [
+    'JSON with root $schema and arazzo 9.9.9',
+    JSON.stringify({ arazzo: '9.9.9', $schema: schema202012 }),
+    'application/json',
+  ],
+  [
+    'YAML with root $schema and arazzo 9.9.9',
+    `arazzo: 9.9.9\n$schema: ${schema202012}\n`,
     'text/yaml',
   ],
 ];
@@ -169,6 +209,11 @@ if (values['json-schema']) {
     `JSON Schema ${uri} YAML (root $schema)`,
     `$schema: '${uri}'\ntype: object\n`,
     `application/schema+yaml;version=${uri}`,
+  ]);
+  samples.push([
+    `JSON with root $schema ${uri} and arazzo 9.9.9`,
+    JSON.stringify({ arazzo: '9.9.9', $schema: uri, type: 'object' }),
+    'application/json',
   ]);
 }
 values.sample.forEach((spec) => {

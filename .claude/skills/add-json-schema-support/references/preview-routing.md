@@ -62,3 +62,6 @@ the schema, a `test.describe` for JSON Schema with the existing helpers (`clickN
 - Switching from JSON Schema to OpenAPI and back swaps the rendered document.
 - OpenAPI 3.1/3.2 documents whose Schema Objects carry `$schema` still render as OpenAPI.
 - A JSON document whose only `$schema` is nested isn't routed (detection, PR 1).
+- An Arazzo document, or an OpenAPI version no adapter detects, with a root `$schema` of the
+  dialect isn't routed (detection, PR 1: a root with `openapi`, `swagger`, `asyncapi` or
+  `arazzo` is never JSON Schema).
