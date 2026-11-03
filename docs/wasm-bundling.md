@@ -2,7 +2,7 @@
 
 The `apidom.worker.js` bundle contains three WASM binaries that must be fully
 self-contained — no runtime HTTP fetches — for the worker to function inside a
-Webpack-bundled consumer (swagger-editor-plus and similar).
+Webpack-bundled consumer application.
 
 All three WASMs are handled by the `inlineAllWasms` Vite plugin defined in
 `vite.config.shared.js` and used by both `vite.config.esm.js` and `vite.config.umd.js`.
