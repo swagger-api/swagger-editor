@@ -39,6 +39,7 @@ function afterLoad(system) {
         await initializeMonacoServices({
           [ILogService.toString()]: new CustomLogger(),
         });
+        lazyMonacoContribution({ system });
         system.monacoInitializationDeferred().resolve();
       } catch (error) {
         system.monacoInitializationDeferred().reject(error);
@@ -46,8 +47,6 @@ function afterLoad(system) {
         globalThis.MonacoEnvironment.initPhase = InitPhase.INITIALIZED;
       }
     })();
-
-    lazyMonacoContribution({ system });
   }
 }
 
