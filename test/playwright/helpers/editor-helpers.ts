@@ -70,6 +70,15 @@ export async function selectEditorText(
     endColumn: number;
   } = { startLineNumber: 1, startColumn: 1, endLineNumber: 1, endColumn: 1 }
 ): Promise<void> {
+  await page.waitForFunction(
+    () => {
+      const editor = (window as unknown as MonacoWindow).monaco;
+      return typeof editor?.setSelection === 'function' && editor.getModel() !== null;
+    },
+    undefined,
+    { timeout: 15000 }
+  );
+
   await page.evaluate((sel) => {
     (window as unknown as MonacoWindow).monaco.setSelection(sel);
     (window as unknown as MonacoWindow).monaco.focus();

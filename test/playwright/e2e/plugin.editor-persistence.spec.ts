@@ -56,6 +56,7 @@ test.describe('EditorPersistencePlugin', () => {
         const content = localStorage.getItem('swagger-editor-content');
         return content !== null && content.includes('2.5.0') && !content.includes('2.6.0');
       },
+      undefined,
       { timeout: 5000 }
     );
 

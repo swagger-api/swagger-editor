@@ -7,8 +7,10 @@ function afterLoad(system) {
   const pluginAPI = this.statePlugins.editorMonacoYAMLPaste;
 
   if (usingEditorMonacoPlugin) {
-    if (pluginAPI.disposables) pluginAPI.disposables.dispose();
-    pluginAPI.disposables = lazyMonacoContribution({ system });
+    system.monacoInitializationDeferred().promise.then(() => {
+      if (pluginAPI.disposables) pluginAPI.disposables.dispose();
+      pluginAPI.disposables = lazyMonacoContribution({ system });
+    });
 
     if (typeof fn.createSystemSelector === 'function') {
       pluginAPI.selectors.selectClipboardRange = fn.createSystemSelector(selectClipboardRange);

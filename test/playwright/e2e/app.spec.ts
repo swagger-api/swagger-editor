@@ -25,6 +25,18 @@ test.describe('App', () => {
   });
 });
 
+test('should initialize Monaco without browser errors', async ({ page }) => {
+  const errors: string[] = [];
+  page.on('pageerror', (error) => errors.push(error.message));
+
+  await page.goto('/');
+  await waitForSplashScreen(page);
+
+  await expect(page.locator('.monaco-editor').first()).toBeVisible();
+  await expect(page.getByText('File', { exact: true })).toBeVisible();
+  expect(errors).toEqual([]);
+});
+
 test.describe('App: queryConfigEnabled', () => {
   test.beforeEach(async ({ page }) => {
     await visitBlankPage(page);
