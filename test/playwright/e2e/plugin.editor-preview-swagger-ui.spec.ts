@@ -122,7 +122,10 @@ test.describe('Editor Preview Pane: JSON Schema 2020-12', () => {
     await clickNestedMenuItem(page, 'File', 'Load Example', 'JSON Schema 2020-12');
     await waitForContentPropagation(page);
 
-    await expect(page.getByText('JSON Schema 2020-12 Example').first()).toBeVisible();
+    // scoped to the preview pane: the editor source also contains the title text
+    const preview = page.locator('.swagger-editor__editor-preview-pane');
+    await expect(preview.getByText('JSON Schema 2020-12 Example').first()).toBeVisible();
+    await expect(preview.getByText('Unable to render this definition')).not.toBeAttached();
     await expect(page.getByText('No API definition provided')).not.toBeAttached();
     await expect(page.getByText('Unable to render editor content')).not.toBeAttached();
   });
