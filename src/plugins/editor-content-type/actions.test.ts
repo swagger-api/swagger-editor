@@ -1,3 +1,5 @@
+import { describe, expect, test, vi } from 'vitest';
+
 import { detectContentType } from './actions.js';
 import * as fn from './fn.js';
 
@@ -8,7 +10,7 @@ const JSON_SCHEMA_YAML = `application/schema+yaml;version=${JSON_SCHEMA_2020_12}
 /**
  * Runs the real detection thunk against a minimal system and returns the detected content type.
  */
-const detect = async (content) => {
+const detect = async (content: string) => {
   const editorActions = {
     detectContentTypeStarted: vi.fn(),
     detectContentTypeSuccess: vi.fn(({ contentType }) => contentType),
@@ -19,7 +21,7 @@ const detect = async (content) => {
   return detectContentType(content)(system);
 };
 
-const toJSON = (document) => JSON.stringify(document, null, 2);
+const toJSON = (document: unknown) => JSON.stringify(document, null, 2);
 
 describe('detectContentType: standalone JSON Schema 2020-12', () => {
   describe('root $schema', () => {

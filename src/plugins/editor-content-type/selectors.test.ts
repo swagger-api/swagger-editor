@@ -1,4 +1,5 @@
 import { Map } from 'immutable';
+import { describe, expect, test } from 'vitest';
 
 import {
   selectIsContentTypeJSONSchema,
@@ -8,7 +9,7 @@ import {
 } from './selectors.js';
 
 const JSON_SCHEMA_2020_12 = 'https://json-schema.org/draft/2020-12/schema';
-const state = (contentType) => Map({ contentType });
+const state = (contentType: string) => Map({ contentType });
 
 describe('JSON Schema content type selectors', () => {
   test.each(['json', 'yaml'])('match JSON Schema 2020-12 %s', (format) => {

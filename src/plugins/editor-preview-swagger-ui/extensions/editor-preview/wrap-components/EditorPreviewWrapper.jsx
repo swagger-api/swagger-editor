@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { isContentTypeRenderedBySwaggerUI } from '../../../fn.js';
+import { isContentTypeRenderedBySwaggerUI } from '../../../fn.ts';
 
 const EditorPreviewWrapper = (Original, system) => {
   const EditorPreview = ({ getComponent, editorSelectors }) => {

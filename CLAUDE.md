@@ -14,6 +14,19 @@ SwaggerEditor is a browser-based editor for API specifications supporting **Open
 
 ---
 
+## Fundamental Rule: New Code Is TypeScript
+
+**All new source and test files MUST be `.ts` or `.tsx`. Never create new `.js` or `.jsx` files** (plugins, utilities, actions, reducers, selectors, components, unit tests, scripts under `src/`).
+
+- JSX goes in `.tsx`; everything else in `.ts`. Unit tests are `*.test.ts` / `*.test.tsx` and import `describe`, `expect`, `test`, `vi` from `vitest` explicitly.
+- Existing `.js`/`.jsx` files may be edited in place. Convert a file to TS only when the task touches it substantially; do not mass-convert unrelated files.
+- When a legacy `.js`/`.jsx` file imports a TS file, use the explicit extension: `import x from './fn.ts'`. TS files importing other TS files omit it.
+- Type new code reasonably (no `// @ts-strict-ignore` in new files); declare minimal interfaces for the system/selectors you use (see `src/types/system.ts`).
+- Before finishing a branch, check no JS was added: `git diff --name-status --diff-filter=AR main...HEAD | grep -E '\.(js|jsx|mjs|cjs)$'` must print nothing.
+- Examples below that show `.js`/`.jsx` paths illustrate the legacy layout; write the TS equivalent.
+
+---
+
 ## Codebase Structure
 
 ```
@@ -276,8 +289,8 @@ test.describe('Feature Name', () => {
 
 Key rules:
 - **Arrow functions** for named components — not `function` declarations
-- **File extensions required** on all JS/JSX imports: `./Component.jsx` ✅ `./Component` ❌ (`.ts`/`.tsx` exempt)
-- **JSX only in `.jsx`/`.tsx` files**
+- **File extensions required** on all JS/JSX imports: `./Component.jsx` ✅ `./Component` ❌ (`.ts`/`.tsx` exempt); JS importing TS uses `.ts`/`.tsx`
+- **JSX only in `.jsx`/`.tsx` files** (new code: `.tsx` only)
 - **Import groups:** external/builtin first (blank line), then internal
 
 Fix violations: `npm run lint:fix`
@@ -305,7 +318,7 @@ Enforced by commitlint via Husky pre-commit hook.
 | Utilities | `kebab-case.js` | `import-url.js` |
 | Types | `kebab-case.d.ts` | `system.d.ts` |
 | Styles (partials) | `_kebab-case.scss` | `_monaco-editor.scss` |
-| Unit Tests | `ComponentName.test.jsx`, `module.test.js` | `ValidationPane.test.jsx`, `selectors.test.js` |
+| Unit Tests | `ComponentName.test.tsx`, `module.test.ts` (legacy: `.jsx`/`.js`) | `selectors.test.ts` |
 | E2E Tests | `feature.spec.ts` | `plugin.editor-monaco.spec.ts` |
 
 ### Styling

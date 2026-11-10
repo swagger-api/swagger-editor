@@ -1,5 +1,5 @@
 import { createSafeActionWrapper } from '../../../util/fn.js';
-import { isContentTypeRenderedBySwaggerUI } from '../../fn.js';
+import { isContentTypeRenderedBySwaggerUI } from '../../fn.ts';
 
 // eslint-disable-next-line import/prefer-default-export
 export const detectContentTypeSuccess = createSafeActionWrapper(
