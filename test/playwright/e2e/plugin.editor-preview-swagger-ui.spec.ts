@@ -129,6 +129,53 @@ test.describe('Editor Preview Pane: JSON Schema 2020-12', () => {
     await expect(page.getByText('No API definition provided')).not.toBeAttached();
     await expect(page.getByText('Unable to render editor content')).not.toBeAttached();
   });
+
+  // needs a swagger-ui-react release with JSONSchemaDocument, like the test above
+  test('should swap the preview when switching between JSON Schema and OpenAPI', async ({
+    page,
+  }) => {
+    const preview = page.locator('.swagger-editor__editor-preview-pane');
+    const schemaTitle = preview.getByText('JSON Schema 2020-12 Example').first();
+    const petstoreTitle = preview.locator('.title').filter({ hasText: 'Swagger Petstore' });
+
+    await clickNestedMenuItem(page, 'File', 'Load Example', 'JSON Schema 2020-12');
+    await waitForContentPropagation(page);
+    await expect(schemaTitle).toBeVisible();
+    await expect(petstoreTitle).not.toBeAttached();
+
+    await clickNestedMenuItem(page, 'File', 'Load Example', 'OpenAPI 3.0 Petstore');
+    await waitForContentPropagation(page);
+    await expect(petstoreTitle).toBeVisible();
+    await expect(schemaTitle).not.toBeAttached();
+
+    await clickNestedMenuItem(page, 'File', 'Load Example', 'JSON Schema 2020-12');
+    await waitForContentPropagation(page);
+    await expect(schemaTitle).toBeVisible();
+    await expect(petstoreTitle).not.toBeAttached();
+  });
+
+  test('should not preview an Arazzo document with a root $schema', async ({ page }) => {
+    await setEditorText(
+      page,
+      `$schema: https://json-schema.org/draft/2020-12/schema
+arazzo: 1.0.1
+info:
+  title: Arazzo with a root schema
+  version: 1.0.0
+sourceDescriptions:
+  - name: petstore
+    url: https://example.com/openapi.yaml
+    type: openapi
+workflows: []
+`
+    );
+    await waitForContentPropagation(page);
+
+    const preview = page.locator('.swagger-editor__editor-preview-pane');
+    await expect(preview.getByText('Unable to render editor content')).toBeVisible();
+    await expect(preview.locator('.title')).not.toBeAttached();
+    await expect(preview.getByText('Unable to render this definition')).not.toBeAttached();
+  });
 });
 
 /**
