@@ -1,6 +1,6 @@
 {
   "name": "swagger-editor",
-  "version": "5.10.0",
+  "version": "5.10.1",
   "contributors": [
     "(in alphabetical order)",
     "Francesco Tumanischvili",
@@ -192,7 +192,7 @@
     "swagger-client": "^3.39.0",
     "typescript": "^6.0.3",
     "urijs": "^1.19.11",
-    "vite": "^8.0.13",
+    "vite": "^8.3.5",
     "vite-plugin-eslint": "^1.8.1",
     "vite-plugin-html": "^3.2.2",
     "vite-plugin-static-copy": "^4.1.0",
