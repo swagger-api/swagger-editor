@@ -249,7 +249,7 @@ npm run build
 - **Location:** `src/**/*.{spec,test}.{js,jsx,ts,tsx}`, run with `npm test` (watch) or `npm run test:run` (CI)
 - Config: `vitest.config.ts` — jsdom environment, globals enabled, `@codingame/monaco-vscode-api` inlined
 - Use `vi.fn()` for mocks; `@testing-library/jest-dom/vitest` for DOM matchers
-- ⚠️ Few unit tests: `ValidationPane.test.jsx` and `editor-content-type/{actions,selectors}.test.js` (content-type detection, selectors) — heavy reliance on E2E
+- ⚠️ Few unit tests: `ValidationPane.test.jsx` and `editor-content-type/{actions,selectors}.test.ts` (content-type detection, selectors) — heavy reliance on E2E
 
 ### E2E Testing (Playwright)
 - **Location:** `test/playwright/e2e/*.spec.ts`, base URL `http://localhost:3000`

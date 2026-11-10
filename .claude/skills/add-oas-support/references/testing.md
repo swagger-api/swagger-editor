@@ -2,8 +2,8 @@
 
 SwaggerEditor relies on Playwright end-to-end tests; Vitest unit tests are few
 (`src/plugins/editor-monaco/components/ValidationPane/ValidationPane.test.jsx`,
-`src/plugins/editor-content-type/{actions,selectors}.test.js`). New Playwright tests are
-TypeScript (`*.spec.ts`); Vitest tests in `src` stay JavaScript for now (`FOLLOW-UPS.md` 1.11).
+`src/plugins/editor-content-type/{actions,selectors}.test.ts`). All new tests are TypeScript:
+Playwright specs are `*.spec.ts`, Vitest tests `*.test.ts` / `*.test.tsx` (CLAUDE.md).
 
 ## Playwright
 
@@ -58,8 +58,9 @@ npm run pw:test
 `npm run test:run`. jsdom, globals enabled, setup in `test/setupTests.js`. Selector functions
 are plain functions over Immutable state, so a selector test needs no system:
 
-```javascript
+```typescript
 import { Map } from 'immutable';
+import { expect, test } from 'vitest';
 
 import { selectIsContentTypeOpenAPI32x } from './selectors.js';
 
@@ -70,5 +71,5 @@ test('detects OpenAPI 3.2 content type', () => {
 ```
 
 Add one when selector logic is more than a copy of the parent's (new content-type shapes,
-JSON Schema dialect selectors). Detection cases go in `editor-content-type/actions.test.js`,
+JSON Schema dialect selectors). Detection cases go in `editor-content-type/actions.test.ts`,
 which runs the real `detectContentType` thunk against a minimal system.

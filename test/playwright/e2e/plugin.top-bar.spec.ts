@@ -1,4 +1,5 @@
 import { test, expect, Page } from '@playwright/test';
+import * as fs from 'fs/promises';
 import * as path from 'path';
 import { fileURLToPath } from 'url';
 
@@ -539,5 +540,66 @@ test.describe('Topbar', () => {
       await expect(page.getByText('View Docs', { exact: true })).toBeVisible();
       await expect(page.getByText('View on GitHub', { exact: true })).toBeVisible();
     });
+  });
+});
+
+/**
+ * Download Resolved for standalone JSON Schema 2020-12: an external `$ref` is resolved against the
+ * root `$id` and the referenced schema is inlined into the downloaded file.
+ */
+test.describe('File menu: Download Resolved for JSON Schema 2020-12', () => {
+  const definitionsUrl = 'https://example.com/json-schema-2020-12/definitions';
+  const schema = `$schema: https://json-schema.org/draft/2020-12/schema
+$id: https://example.com/json-schema-2020-12/pet
+type: object
+properties:
+  category:
+    $ref: 'definitions#/$defs/Category'
+`;
+
+  const downloadResolved = async (page: Page, format: 'JSON' | 'YAML'): Promise<string> => {
+    const downloadPromise = page.waitForEvent('download');
+    await clickNestedMenuItem(page, 'File', `Download Resolved ${format}`);
+    const download = await downloadPromise;
+    const downloadPath = await download.path();
+
+    expect(download.suggestedFilename()).toBe(`schema.${format.toLowerCase()}`);
+    return fs.readFile(downloadPath, 'utf-8');
+  };
+
+  test.beforeEach(async ({ page }) => {
+    await page.route(definitionsUrl, async (route) => {
+      const fixturePath = path.join(__dirname, '../fixtures/json-schema-definitions.yaml');
+      await route.fulfill({
+        status: 200,
+        contentType: 'application/yaml',
+        body: await fs.readFile(fixturePath, 'utf-8'),
+      });
+    });
+
+    await visitBlankPage(page);
+    await prepareAsyncAPI(page);
+    await prepareOasGenerator(page);
+    await waitForSplashScreen(page);
+    await setEditorText(page, schema);
+    await waitForContentPropagation(page);
+  });
+
+  test('should download the schema with the external $ref resolved as JSON', async ({ page }) => {
+    const content = await downloadResolved(page, 'JSON');
+    const resolved = JSON.parse(content);
+
+    expect(content).not.toContain('definitions#');
+    expect(resolved.properties.category.xml).toEqual({ name: 'category' });
+    expect(resolved.properties.category.properties.name.examples).toEqual(['Dogs']);
+  });
+
+  test('should download the schema with the external $ref resolved as YAML', async ({ page }) => {
+    const content = await downloadResolved(page, 'YAML');
+
+    expect(content).not.toContain('definitions#');
+    // the resolved YAML may quote keys and strings
+    expect(content).toMatch(/"?name"?: "?category"?/);
+    expect(content).toMatch(/- "?Dogs"?/);
   });
 });

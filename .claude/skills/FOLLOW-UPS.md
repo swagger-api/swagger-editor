@@ -46,7 +46,7 @@ to re-check it. Status legend: ⏳ open, ✅ done (add commit/PR reference).
 - **Fix:** add `asyncapi3` and a JSON Schema name (e.g. `schema`); unit test the selector.
 - **Partly done:** JSON Schema is named `schema` on branch `feat/json-schema-2020-12`
   (`feat(editor-content-type): save JSON Schema as schema.json/.yaml`, 2026-10-27, with
-  `selectors.test.js`). AsyncAPI 3 is still `definition`: there is no
+  `selectors.test.ts`). AsyncAPI 3 is still `definition`: there is no
   `selectIsContentTypeAsyncAPI3` yet (`/add-spec-support`, with 1.6).
 
 ### 1.5 ⏳ Small OAS 3.2 leftovers
@@ -108,23 +108,14 @@ on `main`.
   root `$schema` (`fn.isJSONSchemaDocumentJSON`); check whether ApiDOM's adapters and apidom-ls
   detect these documents the same way first, so the editor keeps agreeing with them.
 
-### 1.11 ⏳ Vitest test files: TypeScript or JavaScript
+### 1.11 ✅ Vitest test files: TypeScript or JavaScript
 
-- **Conflict:** `review-spec-support/references/review-checklist.md` section 9 says new test
-  files are TypeScript; CLAUDE.md's file-naming table shows unit tests as `ComponentName.test.jsx`,
-  and the existing ones are JavaScript.
-- **Why `editor-content-type/{actions,selectors}.test.js` stayed JavaScript** (2026-10-27): as
-  `.test.ts` (with `import { describe, expect, test, vi } from 'vitest'`) they pass
-  `tsc -p tsconfig.json` and lint, but
-  - under `typescript-strict-plugin`, which checks every file without `// @ts-strict-ignore`
-    (CLAUDE.md: new files aim for strictness), importing the untyped plugin modules
-    (`./actions.js`, `./fn.js`, `./selectors.js`) is TS7016, fixable only by that suppression
-    or by declarations for the modules;
-  - `tsconfig.json` includes `src/**/*.ts`, so `build:definitions` emits
-    `dist/types/**/*.test.d.ts`, and `.npmignore` publishes `dist/`.
-- **Fix:** exclude `src/**/*.{test,spec}.{ts,tsx}` from `tsconfig.json` and type-check tests
-  with their own config (vitest types), then convert; or state in CLAUDE.md and the checklist
-  that Vitest tests in `src` are JavaScript.
+- **Resolved:** new unit tests are TypeScript (CLAUDE.md "New Code Is TypeScript"). The
+  `editor-content-type/{actions,selectors}.test.ts` files import `describe`, `expect`, `test`, `vi`
+  from `vitest`, and `tsconfig.json` excludes `src/**/*.test.ts` so `build:definitions` emits no
+  `*.test.d.ts`.
+- **History:** the files first stayed JavaScript because importing the untyped plugin modules
+  failed under `typescript-strict-plugin` and the tests leaked into `dist/types`.
 
 ## 2. Cross-Repository Work Found
 
