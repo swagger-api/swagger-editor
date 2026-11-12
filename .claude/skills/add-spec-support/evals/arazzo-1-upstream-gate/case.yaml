@@ -1,0 +1,7 @@
+schema_version: "1.1"
+name: arazzo-1-upstream-gate
+expected_outcome: |
+  The run checks the upstream packages, finds that the ApiDOM Arazzo namespace and parser
+  adapters exist but apidom-ls (installed and latest published, 1.13.3 on 2026-10-23) neither
+  parses Arazzo nor has an Arazzo config, makes no source changes, and reports that the language
+  service support has to be built in swagger-api/apidom first.

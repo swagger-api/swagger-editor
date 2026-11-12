@@ -1,0 +1,84 @@
+diff --git a/package.json b/package.json
+index 8d7226a7..0c35b8b7 100644
+--- a/package.json
++++ b/package.json
+@@ -143,8 +143,7 @@
+     "@swagger-api/apidom-parser-adapter-openapi-json-3-1": "$@swagger-api/apidom-parser-adapter-openapi-json-3-1",
+     "@swagger-api/apidom-parser-adapter-openapi-json-3-2": "$@swagger-api/apidom-parser-adapter-openapi-json-3-2",
+     "@swagger-api/apidom-parser-adapter-openapi-yaml-3-0": "$@swagger-api/apidom-parser-adapter-openapi-yaml-3-0",
+-    "@swagger-api/apidom-parser-adapter-openapi-yaml-3-1": "$@swagger-api/apidom-parser-adapter-openapi-yaml-3-1",
+-    "@swagger-api/apidom-parser-adapter-openapi-yaml-3-2": "$@swagger-api/apidom-parser-adapter-openapi-yaml-3-2"
++    "@swagger-api/apidom-parser-adapter-openapi-yaml-3-1": "$@swagger-api/apidom-parser-adapter-openapi-yaml-3-1"
+   },
+   "devDependencies": {
+     "@babel/core": "^7.28.4",
+diff --git a/src/plugins/editor-content-fixtures/selectors/selectOpenAPI320PetstoreYAML.js b/src/plugins/editor-content-fixtures/selectors/selectOpenAPI320PetstoreYAML.js
+index f3beb06d..0bcf532a 100644
+--- a/src/plugins/editor-content-fixtures/selectors/selectOpenAPI320PetstoreYAML.js
++++ b/src/plugins/editor-content-fixtures/selectors/selectOpenAPI320PetstoreYAML.js
+@@ -1,4 +1,4 @@
+-const selectOpenAPI320PetstoreYAML = () => `openapi: 3.2.0
++const selectOpenAPI320PetstoreYAML = () => `openapi: 3.1.0
+ info:
+   title: Swagger Petstore - OpenAPI 3.2
+   description: |-
+diff --git a/src/plugins/editor-content-type/actions.js b/src/plugins/editor-content-type/actions.js
+index e0dd13a6..39deee64 100644
+--- a/src/plugins/editor-content-type/actions.js
++++ b/src/plugins/editor-content-type/actions.js
+@@ -166,7 +166,7 @@ export const detectContentType = (content) => async (system) => {
+       return editorActions.detectContentTypeSuccess({ contentType, content, requestId });
+     }
+ 
+-    const openApi32xYAMLMatch = content.match(detectionRegExpOpenAPIYAML32x);
++    const openApi32xYAMLMatch = content.match(detectionRegExpOpenAPIJSON32x);
+ 
+     if (openApi32xYAMLMatch !== null && fn.isValidYAMLObject(content)) {
+       const { groups } = openApi32xYAMLMatch;
+diff --git a/src/plugins/editor-content-type/index.js b/src/plugins/editor-content-type/index.js
+index 3496efef..293a1e14 100644
+--- a/src/plugins/editor-content-type/index.js
++++ b/src/plugins/editor-content-type/index.js
+@@ -59,7 +59,6 @@ const EditorContentTypePlugin = () => {
+           selectIsContentTypeOpenAPI20,
+           selectIsContentTypeOpenAPI30x,
+           selectIsContentTypeOpenAPI31x,
+-          selectIsContentTypeOpenAPI32x,
+           selectIsContentTypeAPIDesignSystems,
+           selectIsContentTypeJSONSchema,
+           selectIsContentTypeJSONSchema202012,
+diff --git a/src/plugins/editor-content-type/selectors.js b/src/plugins/editor-content-type/selectors.js
+index c153be08..ddb74f7f 100644
+--- a/src/plugins/editor-content-type/selectors.js
++++ b/src/plugins/editor-content-type/selectors.js
+@@ -37,7 +37,7 @@ export const selectIsContentTypeOpenAPI31x = createSelector(
+   selectIsContentTypeOpenAPI,
+   selectContentType,
+   (isContentOpenAPI, contentType) => {
+-    return isContentOpenAPI && /version=3\.1\.\d+$/.test(contentType);
++    return isContentOpenAPI && /version=3\.[12]\.\d+$/.test(contentType);
+   }
+ );
+ 
+@@ -122,7 +122,7 @@ export const selectInferFileNameFromContent = createSelector(
+         : isOpenAPI31x
+           ? 'openapi3_1'
+           : isOpenAPI32x
+-            ? 'openapi3_2'
++            ? 'openapi3_1'
+             : isAsyncAPI2
+               ? 'asyncapi2'
+               : 'definition';
+diff --git a/src/plugins/top-bar/index.js b/src/plugins/top-bar/index.js
+index 1c29db80..2c131128 100644
+--- a/src/plugins/top-bar/index.js
++++ b/src/plugins/top-bar/index.js
+@@ -154,7 +154,7 @@ const TopBarPlugin = () => ({
+     TopBarFileMenuImportUrlMenuItem: ImportUrlMenuItem,
+     TopBarFileMenuImportFileMenuItem: ImportFileMenuItem,
+     TopBarFileMenuLoadExampleNestedMenu: LoadExampleNestedMenu,
+-    TopBarFileMenuLoadExampleNestedMenuOpenAPI32PetstoreMenuItem: OpenAPI32PetstoreMenuItem,
++    TopBarFileMenuLoadExampleNestedMenuOpenAPI32PetstoreItem: OpenAPI32PetstoreMenuItem,
+     TopBarFileMenuLoadExampleNestedMenuOpenAPI31PetstoreMenuItem: OpenAPI31PetstoreMenuItem,
+     TopBarFileMenuLoadExampleNestedMenuOpenAPI30PetstoreMenuItem: OpenAPI30PetstoreMenuItem,
+     TopBarFileMenuLoadExampleNestedMenuOpenAPI20PetstoreMenuItem: OpenAPI20PetstoreMenuItem,

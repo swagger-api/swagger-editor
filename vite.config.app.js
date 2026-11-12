@@ -9,6 +9,7 @@ import { fileURLToPath } from 'node:url';
 
 import { buildDefines, logger } from './vite/shared.js';
 import { fsShim } from './vite/plugins/fs-shim.js';
+import { wasmAsUrl } from './vite/plugins/wasm-as-url.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -24,6 +25,7 @@ export default defineConfig(({ mode }) => {
     define: buildDefines(),
 
     plugins: [
+      wasmAsUrl(),
       fsShim(),
       // Polyfill remaining Node built-ins (util, events, stream, buffer, etc.) before
       // Vite externalizes them. Must be 'pre' so resolveId runs ahead of Vite's own
@@ -124,7 +126,7 @@ export default defineConfig(({ mode }) => {
           entryFileNames: 'static/js/[name].[hash].js',
         },
       },
-      plugins: () => [fsShim(), { ...nodePolyfills(), enforce: 'pre' }],
+      plugins: () => [wasmAsUrl(), fsShim(), { ...nodePolyfills(), enforce: 'pre' }],
     },
   };
 });

@@ -1,0 +1,11 @@
+schema_version: "1.1"
+name: planted-defects-oas-3-2
+expected_outcome: |
+  The report finds the seven planted defects, each with file:line and evidence: (1)
+  selectIsContentTypeOpenAPI32x imported but not registered in editor-content-type/index.js;
+  (2) the YAML 3.2 detection branch uses the JSON adapter's regex, so YAML 3.2 documents are
+  detected as text/yaml; (3) the overrides entry for the 3.2 YAML adapter is missing; (4) the menu
+  item is registered under TopBarFileMenuLoadExampleNestedMenuOpenAPI32PetstoreItem while the menu
+  asks for ...OpenAPI32PetstoreMenuItem; (5) selectInferFileNameFromContent maps 3.2 to
+  'openapi3_1'; (6) the 3.2 fixture declares openapi: 3.1.0; (7) selectIsContentTypeOpenAPI31x was
+  widened to also match 3.2 (older-version behaviour change). Defects 2 and 7 are blockers.

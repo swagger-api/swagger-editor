@@ -6,6 +6,7 @@ import { fileURLToPath } from 'node:url';
 import { buildDefines, logger, sharedOnwarn } from './vite/shared.js';
 import { rewriteEditorWorkerImport } from './vite/plugins/rewrite-editor-worker-import.js';
 import { fixCrossChunkPaths } from './vite/plugins/fix-cross-chunk-paths.js';
+import { wasmAsUrl } from './vite/plugins/wasm-as-url.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -37,7 +38,7 @@ export const mainConfig = defineConfig({
   publicDir: false,
   define: buildDefines(),
 
-  plugins: [rewriteEditorWorkerImport()],
+  plugins: [wasmAsUrl(), rewriteEditorWorkerImport()],
 
   build: {
     lib: {

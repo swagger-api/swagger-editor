@@ -1,0 +1,12 @@
+schema_version: "1.1"
+name: oas-3-2-wiring-plan
+expected_outcome: |
+  PLAN.md starts with the upstream prerequisites (ApiDOM 3.2 namespace and parser adapters,
+  apidom-ls parsing 3.2, swagger-client openapi-3-2-apidom strategy, swagger-ui-react isOAS32),
+  then lists the editor's integration points: adapter detectionRegExp imports and JSON/YAML
+  branches in editor-content-type/actions.js, selectIsContentTypeOpenAPI32x defined, registered
+  and used for the Save-as file name, a 3.2 fixture using new 3.2 fields with its registration,
+  Load Example menu item, handler and top-bar registration, dependency/overrides/link:apidom
+  changes, an explicit decision for the version-gated generator menus, theme tokens, README and
+  CLAUDE.md, and Playwright tests including a 3.1 regression. It states that Swagger UI preview
+  routing needs no new code.
