@@ -7,10 +7,11 @@ import {
   waitForSplashScreen,
   waitForContentPropagation,
   clickNestedMenuItem,
+  setEditorText,
 } from '../helpers';
 
 /**
- * Editor Preview Pane: OpenAPI 2.0, 3.0.x, 3.1.x
+ * Editor Preview Pane: OpenAPI 2.0, 3.0.x, 3.1.x, 3.2.x
  * Tests for SwaggerUI preview rendering of OpenAPI specifications
  *
  * Note: `.title` and `.version-stamp` are SwaggerUI-specific CSS classes
@@ -18,7 +19,7 @@ import {
  *
  * Migrated from: test/cypress/e2e/plugin.editor-preview-swagger-ui.cy.js
  */
-test.describe('Editor Preview Pane: OpenAPI 2.0, 3.0.x, 3.1.x', () => {
+test.describe('Editor Preview Pane: OpenAPI 2.0, 3.0.x, 3.1.x, 3.2.x', () => {
   test.beforeEach(async ({ page }) => {
     await visitBlankPage(page);
     await prepareAsyncAPI(page);
@@ -67,6 +68,113 @@ test.describe('Editor Preview Pane: OpenAPI 2.0, 3.0.x, 3.1.x', () => {
 
     await expect(page.locator('.title')).not.toBeAttached();
     await expect(page.locator('text=Swagger Petstore')).not.toBeAttached();
+  });
+
+  // Schema Objects of OpenAPI 3.1+ may carry $schema: the document stays OpenAPI
+  ['3.1.1', '3.2.0'].forEach((version) => {
+    test(`should display OpenAPI ${version} whose Schema Objects carry $schema`, async ({
+      page,
+    }) => {
+      await setEditorText(
+        page,
+        `openapi: ${version}\ninfo:\n  title: Pets with $schema\n  version: 1.0.0\npaths: {}\ncomponents:\n  schemas:\n    Pet:\n      $schema: https://json-schema.org/draft/2020-12/schema\n      type: object\n`
+      );
+      await waitForContentPropagation(page);
+
+      await expect(page.locator('.title').filter({ hasText: 'Pets with $schema' })).toBeVisible();
+      await expect(page.locator('.version-stamp > .version')).toContainText(
+        `OAS ${version.slice(0, 3)}`
+      );
+    });
+  });
+
+  test('should be hidden for a JSON document whose only $schema is nested', async ({ page }) => {
+    await setEditorText(
+      page,
+      JSON.stringify(
+        {
+          title: 'Nested only',
+          type: 'object',
+          properties: {
+            a: { $schema: 'https://json-schema.org/draft/2020-12/schema', type: 'string' },
+          },
+        },
+        null,
+        2
+      )
+    );
+    await waitForContentPropagation(page);
+
+    await expect(page.locator('.title')).not.toBeAttached();
+    await expect(page.getByText('Unable to render editor content')).toBeVisible();
+  });
+});
+
+test.describe('Editor Preview Pane: JSON Schema 2020-12', () => {
+  test.beforeEach(async ({ page }) => {
+    await visitBlankPage(page);
+    await prepareAsyncAPI(page);
+    await prepareOasGenerator(page);
+    await waitForSplashScreen(page);
+  });
+
+  test('should render the schema in the Swagger UI preview', async ({ page }) => {
+    await clickNestedMenuItem(page, 'File', 'Load Example', 'JSON Schema 2020-12');
+    await waitForContentPropagation(page);
+
+    // scoped to the preview pane: the editor source also contains the title text
+    const preview = page.locator('.swagger-editor__editor-preview-pane');
+    await expect(preview.getByText('JSON Schema 2020-12 Example').first()).toBeVisible();
+    await expect(preview.getByText('Unable to render this definition')).not.toBeAttached();
+    await expect(page.getByText('No API definition provided')).not.toBeAttached();
+    await expect(page.getByText('Unable to render editor content')).not.toBeAttached();
+  });
+
+  // needs a swagger-ui-react release with JSONSchemaDocument, like the test above
+  test('should swap the preview when switching between JSON Schema and OpenAPI', async ({
+    page,
+  }) => {
+    const preview = page.locator('.swagger-editor__editor-preview-pane');
+    const schemaTitle = preview.getByText('JSON Schema 2020-12 Example').first();
+    const petstoreTitle = preview.locator('.title').filter({ hasText: 'Swagger Petstore' });
+
+    await clickNestedMenuItem(page, 'File', 'Load Example', 'JSON Schema 2020-12');
+    await waitForContentPropagation(page);
+    await expect(schemaTitle).toBeVisible();
+    await expect(petstoreTitle).not.toBeAttached();
+
+    await clickNestedMenuItem(page, 'File', 'Load Example', 'OpenAPI 3.0 Petstore');
+    await waitForContentPropagation(page);
+    await expect(petstoreTitle).toBeVisible();
+    await expect(schemaTitle).not.toBeAttached();
+
+    await clickNestedMenuItem(page, 'File', 'Load Example', 'JSON Schema 2020-12');
+    await waitForContentPropagation(page);
+    await expect(schemaTitle).toBeVisible();
+    await expect(petstoreTitle).not.toBeAttached();
+  });
+
+  test('should not preview an Arazzo document with a root $schema', async ({ page }) => {
+    await setEditorText(
+      page,
+      `$schema: https://json-schema.org/draft/2020-12/schema
+arazzo: 1.0.1
+info:
+  title: Arazzo with a root schema
+  version: 1.0.0
+sourceDescriptions:
+  - name: petstore
+    url: https://example.com/openapi.yaml
+    type: openapi
+workflows: []
+`
+    );
+    await waitForContentPropagation(page);
+
+    const preview = page.locator('.swagger-editor__editor-preview-pane');
+    await expect(preview.getByText('Unable to render editor content')).toBeVisible();
+    await expect(preview.locator('.title')).not.toBeAttached();
+    await expect(preview.getByText('Unable to render this definition')).not.toBeAttached();
   });
 });
 

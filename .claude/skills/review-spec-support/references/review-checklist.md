@@ -26,8 +26,14 @@ new family, the neighbouring specs that must keep their behaviour).
 - [ ] Branches use the adapter's `detectionRegExp` when the adapter exports one.
 - [ ] JSON and YAML branches both exist, JSON first, with `isValidJSONObject` /
       `isValidYAMLObject` guards, version from `version_json` / `version_json ?? version_yaml`.
-- [ ] JSON Schema: root `$schema` only; spec documents with nested schemas keep their spec
-      content type (the script's built-in samples cover this).
+- [ ] JSON Schema: root `$schema` only, and no root `openapi`, `swagger`, `asyncapi` or
+      `arazzo` field (whatever its value); spec documents with nested schemas keep their spec
+      content type, and API descriptions with a root `$schema` that no branch detects stay
+      plain JSON/YAML (the script's built-in samples cover both). A root `$schema` with an
+      empty fragment (`#`) is the same dialect; other fragments, a trailing slash or another
+      scheme are not. The guards are `fn.isJSONSchemaDocumentJSON`/`YAML` with the dialect's
+      URI, which also replace `isValidJSONObject`/`isValidYAMLObject`; the content type carries
+      the URI without a fragment, not the adapter's `version_*` group (the dialect id).
 - [ ] Spec families with structural detection (no `version_*` group in the adapter regex, e.g.
       A2A): the branch also awaits the adapter's `detect()`, sits after the version-keyed and
       JSON Schema branches, and the tracking doc says which version the content type names.

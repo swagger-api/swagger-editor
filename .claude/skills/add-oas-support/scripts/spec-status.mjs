@@ -627,7 +627,9 @@ const checkJSONSchemaLanguageService = (id, d) => {
   const reference = `apidom-reference ${installedVersion('@swagger-api/apidom-reference') ?? '(not installed)'}`;
   const strategy = `json-schema-${id}`;
   check(
-    existsSync(path('node_modules/@swagger-api/apidom-reference/src/dereference/strategies', strategy)),
+    existsSync(
+      path('node_modules/@swagger-api/apidom-reference/src/dereference/strategies', strategy)
+    ),
     'language',
     `${reference} has the ${strategy} dereference strategy (Download Resolved)`,
     `${reference} has no ${strategy} dereference strategy: Download Resolved can't dereference JSON Schema ${id} (blocks the language-features PR only)`
@@ -698,14 +700,22 @@ const checkJSONSchemaEditor = (id, d) => {
   // UI preview (add-json-schema-support/references/preview-routing.md), no preview plugin
   const preview = 'src/plugins/editor-preview-swagger-ui/extensions';
   const routes = new RegExp(`selectIsContentTypeJSONSchema(${d.suffix})?\\(`);
+  // the routing files either call the dialect selector or use the shared helper
+  // (isContentTypeRenderedBySwaggerUI, preview fn.ts), which then has to call it
+  const helperName = 'isContentTypeRenderedBySwaggerUI';
+  const helperSource = read('src/plugins/editor-preview-swagger-ui/fn.ts');
+  const helperRoutes =
+    routes.test(helperSource) && helperSource.includes(`export const ${helperName}`);
+  const routesViaHelper = (source) =>
+    routes.test(source) || (helperRoutes && new RegExp(`\\b${helperName}\\(`).test(source));
   check(
-    routes.test(read(preview, 'editor-preview/wrap-components/EditorPreviewWrapper.jsx')),
+    routesViaHelper(read(preview, 'editor-preview/wrap-components/EditorPreviewWrapper.jsx')),
     'preview',
     `the Swagger UI preview shows JSON Schema ${id} content (EditorPreviewWrapper)`,
     'EditorPreviewWrapper shows the Swagger UI preview for OpenAPI only: JSON Schema content gets EditorPreviewFallback ("Unable to render editor content")'
   );
   check(
-    routes.test(read(preview, 'editor-content-type/wrap-actions.js')),
+    routesViaHelper(read(preview, 'editor-content-type/wrap-actions.js')),
     'preview',
     `detectContentTypeSuccess passes JSON Schema ${id} content to Swagger UI (updateSpec)`,
     'detectContentTypeSuccess passes only OpenAPI content to Swagger UI (specActions.updateSpec)'

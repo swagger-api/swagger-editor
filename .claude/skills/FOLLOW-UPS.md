@@ -5,7 +5,7 @@ to re-check it. Status legend: ⏳ open, ✅ done (add commit/PR reference).
 
 ## 1. Probable Bugs and Gaps on `main`
 
-### 1.1 ⏳ JSON documents with a nested `$schema` are detected as JSON Schema 2020-12
+### 1.1 ✅ JSON documents with a nested `$schema` are detected as JSON Schema 2020-12
 
 - **Where:** `src/plugins/editor-content-type/actions.js`, the 2020-12 JSON branch: the regex
   matches `"$schema": "https://json-schema.org/draft/2020-12/schema"` anywhere in the document.
@@ -18,6 +18,9 @@ to re-check it. Status legend: ⏳ open, ✅ done (add commit/PR reference).
 - **Fix:** after the regex match, parse the JSON (it is parsed anyway by `isValidJSONObject`) and
   compare the root `$schema`. Belongs in PR 1 of `/add-json-schema-support`.
 - **Commit:** `fix(editor-content-type): detect JSON Schema by root $schema only`
+- **Done:** that commit on branch `feat/json-schema-2020-12` (PR 1 of `/add-json-schema-support`,
+  2026-10-27). It also excludes roots with `openapi`, `swagger`, `asyncapi` or `arazzo`
+  (decision of 2026-10-27); `check-detection.mjs` gained samples for both.
 
 ### 1.2 ⏳ No Playwright test mentions OpenAPI 3.2
 
@@ -41,6 +44,10 @@ to re-check it. Status legend: ⏳ open, ✅ done (add commit/PR reference).
 - **Where:** `selectInferFileNameFromContent` in `editor-content-type/selectors.js` knows
   OpenAPI 2.0-3.2 and AsyncAPI 2 only.
 - **Fix:** add `asyncapi3` and a JSON Schema name (e.g. `schema`); unit test the selector.
+- **Partly done:** JSON Schema is named `schema` on branch `feat/json-schema-2020-12`
+  (`feat(editor-content-type): save JSON Schema as schema.json/.yaml`, 2026-10-27, with
+  `selectors.test.ts`). AsyncAPI 3 is still `definition`: there is no
+  `selectIsContentTypeAsyncAPI3` yet (`/add-spec-support`, with 1.6).
 
 ### 1.5 ⏳ Small OAS 3.2 leftovers
 
@@ -73,6 +80,42 @@ document the default.
   also reports 1.4 and 1.6). `plugin.top-bar.spec.ts` loads only the AsyncAPI 2.6 examples.
 - **Fix:** add "should load AsyncAPI 3.1 Petstore example as YAML" next to the 2.6 tests.
 - **Commit:** `test: cover AsyncAPI 3.1 examples`
+
+### 1.10 ⏳ A JSON Schema whose examples contain an `openapi`/`swagger`/`asyncapi` string is detected as that spec
+
+Found by the `/review-spec-support` review of `feat/json-schema-2020-12` (2026-10-27); the same
+on `main`.
+
+- **Where:** `editor-content-type/actions.js`. The OpenAPI and AsyncAPI JSON branches run before
+  the JSON Schema branches, and their adapters' `detectionRegExp` (and the JSON alternative of
+  the YAML ones) match `"openapi": "<version>"` anywhere in the text; the only guard is
+  `isValidJSONObject`/`isValidYAMLObject`.
+- **Effect:** with `S` = `https://json-schema.org/draft/2020-12/schema`:
+
+  | Document | Detected |
+  |----------|----------|
+  | `{"$schema": S, "type": "object", "examples": [{"openapi": "3.1.0"}]}` | `application/vnd.oai.openapi+json;version=3.1.0` |
+  | `{"$schema": S, "properties": {"spec": {"type": "object", "default": {"swagger": "2.0"}}}}` | `application/vnd.oai.openapi+json;version=2.0` |
+  | `{"$schema": S, "properties": {"doc": {"const": {"openapi": "3.0.4"}}}}` | `application/vnd.oai.openapi+json;version=3.0.4` |
+  | `{"$schema": S, "examples": [{"asyncapi": "2.6.0"}]}` | `application/vnd.aai.asyncapi+json;version=2.6.0` |
+  | YAML `$schema: S` with `examples:` / `- {"openapi": "3.1.0"}` (flow style) | `application/vnd.oai.openapi+yaml;version=3.1.0` |
+
+  The same YAML in block style (`- openapi: 3.1.0`) is detected as JSON Schema: the YAML
+  alternative of the regexes only matches root keys (column 0).
+- **Check:** run `detectContentType` on the documents above (e.g. a `--sample` file for
+  `check-detection.mjs` with the expected JSON Schema content type).
+- **Fix:** confirm the version field is a root member, as the JSON Schema branches confirm the
+  root `$schema` (`fn.isJSONSchemaDocumentJSON`); check whether ApiDOM's adapters and apidom-ls
+  detect these documents the same way first, so the editor keeps agreeing with them.
+
+### 1.11 ✅ Vitest test files: TypeScript or JavaScript
+
+- **Resolved:** new unit tests are TypeScript (CLAUDE.md "New Code Is TypeScript"). The
+  `editor-content-type/{actions,selectors}.test.ts` files import `describe`, `expect`, `test`, `vi`
+  from `vitest`, and `tsconfig.json` excludes `src/**/*.test.ts` so `build:definitions` emits no
+  `*.test.d.ts`.
+- **History:** the files first stayed JavaScript because importing the untyped plugin modules
+  failed under `typescript-strict-plugin` and the tests leaked into `dist/types`.
 
 ## 2. Cross-Repository Work Found
 

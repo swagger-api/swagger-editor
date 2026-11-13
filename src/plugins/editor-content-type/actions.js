@@ -16,6 +16,15 @@ import {
   detectionRegExp as detectionRegExpApiDesignSystemsYAML,
   detect as detectAPIDesignSystemsYAML,
 } from '@swagger-api/apidom-parser-adapter-api-design-systems-yaml';
+import { detectionRegExp as detectionRegExpJSONSchemaJSON202012 } from '@swagger-api/apidom-parser-adapter-json-schema-json-2020-12';
+import { detectionRegExp as detectionRegExpJSONSchemaYAML202012 } from '@swagger-api/apidom-parser-adapter-json-schema-yaml-2020-12';
+
+/**
+ * Root `$schema` of JSON Schema 2020-12 documents (which may add an empty fragment, `#`). JSON
+ * Schema content types carry it, without the fragment, as their version:
+ * `application/schema+json;version=https://json-schema.org/draft/2020-12/schema`.
+ */
+const JSON_SCHEMA_2020_12 = 'https://json-schema.org/draft/2020-12/schema';
 
 /**
  * Action types.
@@ -194,24 +203,26 @@ export const detectContentType = (content) => async (system) => {
       return editorActions.detectContentTypeSuccess({ contentType, content, requestId });
     }
 
-    const jsonSchema202012JSONMatch = content.match(
-      /"\$schema"\s*:\s*"(?<version_json>https:\/\/json-schema.org\/draft\/2020-12\/schema)"/
-    );
-    if (jsonSchema202012JSONMatch !== null && fn.isValidJSONObject(content)) {
-      const { groups } = jsonSchema202012JSONMatch;
-      const version = groups?.version_json;
-      const contentType = `application/schema+json;version=${version}`;
+    /**
+     * Standalone JSON Schema. The adapters' detectionRegExp also matches a nested `$schema`
+     * (OpenAPI 3.1+ Schema Objects, embedded schema resources), so the root must carry it, and
+     * a root with `openapi`, `swagger`, `asyncapi` or `arazzo` is an API description, not a
+     * JSON Schema document, even in a version none of the branches above detects.
+     */
+    if (
+      detectionRegExpJSONSchemaJSON202012.test(content) &&
+      fn.isJSONSchemaDocumentJSON(content, JSON_SCHEMA_2020_12)
+    ) {
+      const contentType = `application/schema+json;version=${JSON_SCHEMA_2020_12}`;
 
       return editorActions.detectContentTypeSuccess({ contentType, content, requestId });
     }
 
-    const jsonSchema202012YAMLMatch = content.match(
-      /(?<YAML>^(["']?)\$schema\2\s*:\s*(["']?)(?<version_yaml>https:\/\/json-schema.org\/draft\/2020-12\/schema)|(?<JSON>"\$schema"\s*:\s*"(?<version_json>https:\/\/json-schema.org\/draft\/2020-12\/schema)"))/m
-    );
-    if (jsonSchema202012YAMLMatch !== null && fn.isValidYAMLObject(content)) {
-      const { groups } = jsonSchema202012YAMLMatch;
-      const version = groups?.version_json ?? groups?.version_yaml;
-      const contentType = `application/schema+yaml;version=${version}`;
+    if (
+      detectionRegExpJSONSchemaYAML202012.test(content) &&
+      fn.isJSONSchemaDocumentYAML(content, JSON_SCHEMA_2020_12)
+    ) {
+      const contentType = `application/schema+yaml;version=${JSON_SCHEMA_2020_12}`;
 
       return editorActions.detectContentTypeSuccess({ contentType, content, requestId });
     }
