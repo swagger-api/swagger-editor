@@ -179,7 +179,7 @@ const requestId = fn.generateRequestId();
 ## Development Workflows
 
 ### Prerequisites
-- **Node.js** `>=24.22`, **npm** `>=11.19.1`, **Python 3.x** (node-gyp), **GLIBC** `>=2.29`
+- **Node.js** `>=26.13`, **npm** `>=11.20.0`, **Python 3.x** (node-gyp), **GLIBC** `>=2.29`
 - Optional: Docker or emscripten (for WASM builds)
 
 ### npm Scripts
