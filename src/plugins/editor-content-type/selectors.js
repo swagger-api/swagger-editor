@@ -114,7 +114,8 @@ export const selectInferFileNameFromContent = createSelector(
   selectIsContentTypeOpenAPI31x,
   selectIsContentTypeOpenAPI32x,
   selectIsContentTypeAsyncAPI2,
-  (isOpenAPI20, isOpenAPI30x, isOpenAPI31x, isOpenAPI32x, isAsyncAPI2) => {
+  selectIsContentTypeJSONSchema,
+  (isOpenAPI20, isOpenAPI30x, isOpenAPI31x, isOpenAPI32x, isAsyncAPI2, isJSONSchema) => {
     return isOpenAPI20
       ? 'openapi2'
       : isOpenAPI30x
@@ -125,7 +126,9 @@ export const selectInferFileNameFromContent = createSelector(
             ? 'openapi3_2'
             : isAsyncAPI2
               ? 'asyncapi2'
-              : 'definition';
+              : isJSONSchema
+                ? 'schema'
+                : 'definition';
   }
 );
 

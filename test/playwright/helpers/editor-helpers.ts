@@ -145,6 +145,16 @@ export async function getAllEditorText(page: Page): Promise<string> {
 }
 
 /**
+ * Replace all editor text; fires Monaco's content change like typing does,
+ * so detection, preview and validation follow (wait with waitForContentPropagation)
+ */
+export async function setEditorText(page: Page, text: string): Promise<void> {
+  await page.evaluate((t) => {
+    (window as unknown as MonacoWindow).monaco.getModel().setValue(t);
+  }, text);
+}
+
+/**
  * Check if editor is in read-only mode
  * Cypress equivalent: cy.selectIsEditorReadOnly()
  */
