@@ -151,7 +151,7 @@
     "@commitlint/cli": "^19.8.1",
     "@commitlint/config-conventional": "^19.8.0",
     "@esbuild-plugins/node-globals-polyfill": "^0.2.3",
-    "@playwright/test": "^1.58.2",
+    "@playwright/test": "^1.65.1",
     "@swagger-api/apidom-ls": "^1.14.0",
     "@swagger-api/apidom-ns-json-schema-2020-12": "^1.14.0",
     "@swagger-api/apidom-ns-openapi-2": "^1.14.0",
