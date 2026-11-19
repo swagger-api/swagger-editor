@@ -23,6 +23,7 @@ export {
   typeBackspaceInEditor,
   selectAllEditorText,
   getAllEditorText,
+  setEditorText,
   isEditorReadOnly,
   pasteToEditor,
   getEditorLocator,

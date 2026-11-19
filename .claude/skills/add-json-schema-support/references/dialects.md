@@ -26,7 +26,11 @@ Notes:
 
 - Draft 4-7 URIs are `http`, end with `#`, and are commonly written without the `#` too. Detect
   both forms; a `https` variant is wrong but common, so decide (and test) whether to accept it.
-- 2019-09 and 2020-12 URIs are `https` without `#`.
+- 2019-09 and 2020-12 URIs are `https` without `#`. Documents may add an empty fragment
+  (`https://json-schema.org/draft/2020-12/schema#`): it names the same dialect (JSON Schema Core
+  2020-12, section 8.2.1) and is accepted everywhere (decision of 2026-10-27): the editor,
+  the ApiDOM adapters and apidom-ls, swagger-client and Swagger UI. Any other fragment, a
+  trailing slash or the `http` scheme is another identifier.
 - The content type the editor uses is `application/schema+json;version=<$schema value>` (or
   `+yaml`); `selectIsContentTypeJSONSchema` matches the `application/schema` prefix for all
   dialects, the dialect selectors match the URI.
@@ -101,6 +105,10 @@ What the editor does with them:
 - Detection uses the root `$schema` only. A document whose only `$schema` is nested must not be
   routed to the Swagger UI preview as JSON Schema; an OpenAPI 3.1+ document with schemas
   carrying `$schema` stays OpenAPI (detection order already guarantees this; keep a test).
+- A root with any of `openapi`, `swagger`, `asyncapi`, `arazzo`, whatever its value, is never
+  JSON Schema, even with the dialect's root `$schema` (decision of 2026-10-27; swagger-client,
+  Swagger UI and apidom-ls apply the same rule). Detection order doesn't cover this: Arazzo and
+  OpenAPI/AsyncAPI versions no branch detects reach the JSON Schema branches; keep a test.
 - Embedded resources of another dialect get no special handling: Swagger UI renders the whole
   document with the root dialect, and neither ApiDOM nor Swagger UI switches dialect per
   embedded resource.

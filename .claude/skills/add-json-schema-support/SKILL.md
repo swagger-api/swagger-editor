@@ -30,7 +30,7 @@ for the doc's content, the open decisions and how they map to the PRs below.
 | Tool | Use |
 |------|-----|
 | `node .claude/skills/add-oas-support/scripts/spec-status.mjs --json-schema <dialect> [--swagger-ui-plugin <key> --swagger-ui-version <release>]` | Native rendering of the dialect in swagger-ui-react (`UPSTREAM` blocks), ApiDOM packages declared as dependencies, apidom-ls parsing the dialect (area `language`, blocks PR 3 only), every editor integration point, and dependencies from tarballs of an unreleased upstream PR (`UNRELEASED`). |
-| `node .claude/skills/add-oas-support/scripts/check-detection.mjs --json-schema <$schema URI>` | Runs the editor's real detection over samples, including documents whose only `$schema` is nested (must stay plain JSON/YAML) and OpenAPI documents with nested `$schema`. |
+| `node .claude/skills/add-oas-support/scripts/check-detection.mjs --json-schema <$schema URI>` | Runs the editor's real detection over samples, including documents whose only `$schema` is nested and API descriptions (Arazzo, undetected OpenAPI/AsyncAPI versions) with a root `$schema` (both must stay plain JSON/YAML), and OpenAPI documents with nested `$schema`. |
 | `node .claude/skills/add-oas-support/scripts/verify-urls.mjs <paths>` / `--diff main` | URL and anchor check (meta-schema URIs, docs links). |
 | `references/design-and-delivery.md` | Design doc digest, open decisions, plan-to-PR mapping. Read at Step 0. |
 | `references/preview-routing.md` | What the Swagger UI preview does with JSON Schema today, the two files to change, the upstream gate, the tests. Read at Step 3. |
@@ -89,9 +89,18 @@ already exist on `main`):
    editor's content-type format `application/schema+json;version=<$schema URI>` so the existing
    selectors keep working), after the OpenAPI/AsyncAPI/ADS branches. Detection keys on the
    **root** `$schema` (design doc: "the root schema always contains `$schema`"); the adapter
-   regexes alone also match a nested `$schema`, so confirm the match is at the root. Check with
-   `check-detection.mjs --json-schema <URI>` and test with the doc's nested-`$schema` examples
-   (`references/dialects.md`).
+   regexes alone also match a nested `$schema`, so confirm the match is at the root. A root
+   with any of `openapi`, `swagger`, `asyncapi`, `arazzo`, whatever its value, is an API
+   description and never JSON Schema (decision of 2026-10-27, the rule swagger-client, Swagger
+   UI and apidom-ls apply): an Arazzo document, or an OpenAPI/AsyncAPI version no branch
+   detects, reaches the JSON Schema branches and must fall through to plain JSON/YAML. An
+   empty fragment (`.../schema#`) names the same dialect and is accepted (decision of
+   2026-10-27, JSON Schema Core 2020-12 section 8.2.1); any other fragment, a trailing slash or
+   another scheme is not. The editor's `fn.isJSONSchemaDocumentJSON`/`YAML`
+   (`editor-content-type/fn.js`) do these checks; pass them the dialect's URI, and keep the
+   content type's version without the fragment. The adapters' regexes must accept the `#` too.
+   Check with `check-detection.mjs --json-schema <URI>` and test with the doc's nested-`$schema`
+   examples (`references/dialects.md`).
 3. Selector `selectIsContentTypeJSONSchema<Suffix>` (registered), and
    `selectInferFileNameFromContent` naming schema files (e.g. `schema.json`/`.yaml`).
 4. Fixture and Load Example item if missing; the fixture shows the dialect's keywords that

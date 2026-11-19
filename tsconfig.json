@@ -27,6 +27,6 @@
     "jsx": "react",
     "skipLibCheck": true
   },
-  "exclude": ["node_modules", "src/reportWebVitals.ts"],
+  "exclude": ["node_modules", "src/reportWebVitals.ts", "src/**/*.test.ts", "src/**/*.test.tsx"],
   "include": ["src/**/*.ts", "src/**/*.tsx", "src/*.ts", "src/*.tsx"]
 }
