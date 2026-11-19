@@ -80,58 +80,63 @@ const lazyMonacoContribution = ({ createData, system, useApiDOMSyntaxHighlightin
     })
   );
 
+  // monaco.* APIs implicitly initialize standalone services with defaults when called first,
+  // so everything below must wait for the explicit initialization
   system.monacoInitializationDeferred().promise.then(() => {
     disposables.push(vscodeLanguages.setLanguageConfiguration(apidom.languageId, apidom.conf));
+
+    if (useApiDOMSyntaxHighlighting) {
+      disposables.push(
+        monaco.languages.setMonarchTokensProvider(
+          apidom.languageId,
+          apidom.apiDOMMonarchLanguageDef
+        )
+      );
+    } else {
+      disposables.push(
+        monaco.languages.setMonarchTokensProvider(apidom.languageId, apidom.monarchLanguageDef)
+      );
+    }
+
+    // setup apidom mode
+    disposables.push(
+      monaco.editor.onDidCreateEditor(() => {
+        const { customApiDOMWorkerPath: customWorkerPath, apiDOMContext, ...data } = createData;
+        const defaults = new LanguageServiceDefaultsImpl(
+          { apiDOMContext, customWorkerPath, data },
+          { getSystem: system.getSystem }
+        );
+
+        disposables.push(setupMode(defaults, { useApiDOMSyntaxHighlighting }));
+      })
+    );
+
+    // setup custom actions
+    disposables.push(
+      monaco.editor.onDidCreateEditor((editor) => {
+        disposables.push(
+          monaco.editor.onDidCreateModel(() => {
+            const dereferenceActionDescriptor = createDereferenceActionDescriptor(system);
+            if (!editor.getAction(dereferenceActionDescriptor.id)) {
+              disposables.push(editor.addAction(dereferenceActionDescriptor));
+            }
+          })
+        );
+      })
+    );
+
+    // disposing of all allocated disposables
+    disposables.push(
+      monaco.editor.onDidCreateEditor((editor) => {
+        disposables.push(
+          editor.onDidDispose(() => {
+            disposables.forEach((disposable) => disposable.dispose());
+            disposables.length = 0;
+          })
+        );
+      })
+    );
   });
-
-  if (useApiDOMSyntaxHighlighting) {
-    disposables.push(
-      monaco.languages.setMonarchTokensProvider(apidom.languageId, apidom.apiDOMMonarchLanguageDef)
-    );
-  } else {
-    disposables.push(
-      monaco.languages.setMonarchTokensProvider(apidom.languageId, apidom.monarchLanguageDef)
-    );
-  }
-
-  // setup apidom mode
-  disposables.push(
-    monaco.editor.onDidCreateEditor(() => {
-      const { customApiDOMWorkerPath: customWorkerPath, apiDOMContext, ...data } = createData;
-      const defaults = new LanguageServiceDefaultsImpl(
-        { apiDOMContext, customWorkerPath, data },
-        { getSystem: system.getSystem }
-      );
-
-      disposables.push(setupMode(defaults, { useApiDOMSyntaxHighlighting }));
-    })
-  );
-
-  // setup custom actions
-  disposables.push(
-    monaco.editor.onDidCreateEditor((editor) => {
-      disposables.push(
-        monaco.editor.onDidCreateModel(() => {
-          const dereferenceActionDescriptor = createDereferenceActionDescriptor(system);
-          if (!editor.getAction(dereferenceActionDescriptor.id)) {
-            disposables.push(editor.addAction(dereferenceActionDescriptor));
-          }
-        })
-      );
-    })
-  );
-
-  // disposing of all allocated disposables
-  disposables.push(
-    monaco.editor.onDidCreateEditor((editor) => {
-      disposables.push(
-        editor.onDidDispose(() => {
-          disposables.forEach((disposable) => disposable.dispose());
-          disposables.length = 0;
-        })
-      );
-    })
-  );
 };
 
 export default lazyMonacoContribution;

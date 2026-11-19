@@ -8,7 +8,10 @@ function afterLoad(system) {
 
   if (usingEditorMonacoPlugin && usingEditorMonacoLanguageApiDOMPlugin) {
     if (pluginAPI.disposables) pluginAPI.disposables.dispose();
-    pluginAPI.disposables = lazyMonacoContribution({ system });
+    // monaco.* APIs implicitly initialize standalone services when called before explicit initialization
+    system.monacoInitializationDeferred().promise.then(() => {
+      pluginAPI.disposables = lazyMonacoContribution({ system });
+    });
   }
 }
 

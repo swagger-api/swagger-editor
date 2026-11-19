@@ -1,4 +1,5 @@
 import { initialize as initializeMonacoServices, ILogService } from '@codingame/monaco-vscode-api';
+import getBaseServiceOverride from '@codingame/monaco-vscode-base-service-override';
 import 'vscode/localExtensionHost';
 import EditorWorkerConstructor from '@codingame/monaco-vscode-api/workers/editor.worker?worker';
 
@@ -39,6 +40,9 @@ function afterLoad(system) {
         await initializeMonacoServices({
           [ILogService.toString()]: new CustomLogger(),
         });
+        // monaco.editor.* APIs implicitly initialize standalone services with defaults
+        // when called first, so contributions are registered only after explicit initialization
+        lazyMonacoContribution({ system });
         system.monacoInitializationDeferred().resolve();
       } catch (error) {
         system.monacoInitializationDeferred().reject(error);
@@ -46,8 +50,6 @@ function afterLoad(system) {
         globalThis.MonacoEnvironment.initPhase = InitPhase.INITIALIZED;
       }
     })();
-
-    lazyMonacoContribution({ system });
   }
 }
 
