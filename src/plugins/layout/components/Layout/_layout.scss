@@ -6,8 +6,15 @@
     }
 
     .Pane {
-      overflow: visible;
       background-color: #FFFFFF;
+    }
+
+    .Pane:first-child {
+      overflow: visible;
+    }
+
+    .Pane:last-child {
+      overflow: auto;
     }
 
     .dropzone {
@@ -43,6 +50,7 @@
     .swagger-ui {
       // ensure Swagger-UI uses its entire container
       height: 100%;
+      overflow: auto;
 
       .version-pragma {
         // make the version pragma message look nicer in the context
