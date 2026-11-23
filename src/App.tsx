@@ -73,6 +73,7 @@ const SwaggerEditor: SwaggerEditorType = React.memo(
     persistAuthorization = SwaggerUI.config.defaults.persistAuthorization,
     oauth2RedirectUrl = SwaggerUI.config.defaults.oauth2RedirectUrl,
     initialState = SwaggerUI.config.defaults.initialState,
+    unifiedJSONSchemaEnabled = SwaggerUI.config.defaults.unifiedJSONSchemaEnabled,
     onComplete = null,
   }: SwaggerUIProps) => {
     const { plugin: propsChangeWatcherPlugin, getSystem } =
@@ -121,6 +122,7 @@ const SwaggerEditor: SwaggerEditorType = React.memo(
           persistAuthorization={persistAuthorization}
           oauth2RedirectUrl={oauth2RedirectUrl}
           initialState={initialState}
+          unifiedJSONSchemaEnabled={unifiedJSONSchemaEnabled}
           onComplete={onComplete}
         />
       </div>
