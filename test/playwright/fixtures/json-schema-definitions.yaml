@@ -1,0 +1,27 @@
+$schema: https://json-schema.org/draft/2020-12/schema
+$id: https://example.com/json-schema-2020-12/definitions
+$defs:
+  Category:
+    type: object
+    properties:
+      id:
+        type: integer
+        format: int64
+        examples:
+          - 1
+      name:
+        type: string
+        examples:
+          - Dogs
+    xml:
+      name: category
+  Tag:
+    type: object
+    properties:
+      id:
+        type: integer
+        format: int64
+      name:
+        type: string
+    xml:
+      name: tag
