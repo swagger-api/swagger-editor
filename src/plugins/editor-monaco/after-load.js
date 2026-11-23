@@ -1,5 +1,4 @@
 import { initialize as initializeMonacoServices, ILogService } from '@codingame/monaco-vscode-api';
-import getBaseServiceOverride from '@codingame/monaco-vscode-base-service-override';
 import 'vscode/localExtensionHost';
 import EditorWorkerConstructor from '@codingame/monaco-vscode-api/workers/editor.worker?worker';
 
