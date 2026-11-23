@@ -44,6 +44,7 @@ declare module 'swagger-ui-react' {
     persistAuthorization?: boolean;
     withCredentials?: boolean;
     oauth2RedirectUrl?: string;
+    unifiedJSONSchemaEnabled?: boolean;
   }
 
   class SwaggerUI extends React.Component<SwaggerUIProps> {
