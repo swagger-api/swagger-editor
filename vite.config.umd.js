@@ -4,7 +4,7 @@ import { fileURLToPath } from 'node:url';
 import react from '@vitejs/plugin-react';
 import nodePolyfills from 'rollup-plugin-polyfill-node';
 
-import { logger, sharedOnwarn } from './vite/shared.js';
+import { buildDefines, logger, sharedOnwarn } from './vite/shared.js';
 import { rewriteEditorWorkerImport } from './vite/plugins/rewrite-editor-worker-import.js';
 import { wasmAsUrl } from './vite/plugins/wasm-as-url.js';
 
@@ -17,6 +17,7 @@ export const mainConfig = defineConfig({
   customLogger: logger,
   mode: 'production',
   publicDir: false,
+  define: buildDefines(),
   plugins: [wasmAsUrl(), rewriteEditorWorkerImport(), react()],
   assetsInclude: ['**/*.wasm'],
 
